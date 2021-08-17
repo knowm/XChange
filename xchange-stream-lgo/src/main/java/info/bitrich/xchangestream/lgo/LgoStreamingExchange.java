@@ -3,14 +3,14 @@ package info.bitrich.xchangestream.lgo;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.lgo.LgoEnv;
 import org.knowm.xchange.lgo.LgoExchange;
 import org.knowm.xchange.lgo.service.LgoKeyService;
 import org.knowm.xchange.lgo.service.LgoSignatureService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class LgoStreamingExchange extends LgoExchange implements StreamingExchange {
 
@@ -18,7 +18,6 @@ public class LgoStreamingExchange extends LgoExchange implements StreamingExchan
   private LgoStreamingMarketDataService marketDataService;
   private LgoStreamingAccountService accountService;
   private LgoStreamingTradeService tradeService;
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -31,7 +30,7 @@ public class LgoStreamingExchange extends LgoExchange implements StreamingExchan
             streamingService,
             new LgoKeyService(getExchangeSpecification()),
             LgoSignatureService.createInstance(getExchangeSpecification()),
-            nonceFactory);
+            getNonceFactory());
   }
 
   private LgoStreamingService createStreamingService() {
@@ -74,6 +73,11 @@ public class LgoStreamingExchange extends LgoExchange implements StreamingExchan
   @Override
   public LgoStreamingTradeService getStreamingTradeService() {
     return tradeService;
+  }
+
+  @Override
+  public Observable<State> connectionStateObservable() {
+    return streamingService.subscribeConnectionState();
   }
 
   @Override

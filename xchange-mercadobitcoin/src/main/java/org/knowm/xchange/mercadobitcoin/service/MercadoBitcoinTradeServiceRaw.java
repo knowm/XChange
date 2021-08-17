@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAuthenticated;
 import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinCancelOrderResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author Felipe Micaroni Lalli */
 public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBaseService {
@@ -31,10 +31,9 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBaseService {
 
     super(exchange);
     this.mercadoBitcoinAuthenticated =
-        RestProxyFactory.createProxy(
-            MercadoBitcoinAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                MercadoBitcoinAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> getMercadoBitcoinUserOrders(

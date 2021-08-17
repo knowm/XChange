@@ -26,7 +26,7 @@ public class TickerFetchIntegration {
 
   @BeforeClass
   public static void setup() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(CexIOExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(CexIOExchange.class);
   }
 
   @Test

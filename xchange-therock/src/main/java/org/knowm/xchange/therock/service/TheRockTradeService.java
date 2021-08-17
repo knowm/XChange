@@ -137,8 +137,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     if (!(params instanceof TradeHistoryParamCurrencyPair)) {
-      throw new ExchangeException(
-          "TheRock API recquires " + TradeHistoryParamCurrencyPair.class.getName());
+      throw new ExchangeException("TheRock API recquires " + TradeHistoryParamCurrencyPair.class);
     }
 
     TradeHistoryParamCurrencyPair pairParams = (TradeHistoryParamCurrencyPair) params;

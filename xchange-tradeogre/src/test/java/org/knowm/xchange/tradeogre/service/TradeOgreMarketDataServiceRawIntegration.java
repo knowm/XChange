@@ -9,6 +9,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.tradeogre.TradeOgreExchange;
 
@@ -36,5 +37,24 @@ public class TradeOgreMarketDataServiceRawIntegration {
     List<Ticker> tickers = tradeOgreExchange.getMarketDataService().getTickers(null);
     Assert.assertNotNull(tickers);
     Assert.assertFalse(tickers.isEmpty());
+  }
+
+  @Test
+  public void testGetOrderBook() throws IOException {
+    OrderBook orderBook =
+        tradeOgreExchange.getMarketDataService().getOrderBook(CurrencyPair.ETH_BTC);
+    Assert.assertNotNull(orderBook);
+    Assert.assertFalse(orderBook.getAsks().isEmpty());
+    Assert.assertFalse(orderBook.getBids().isEmpty());
+    orderBook
+        .getAsks()
+        .forEach(
+            ask ->
+                orderBook
+                    .getBids()
+                    .forEach(
+                        bid ->
+                            Assert.assertTrue(
+                                bid.getLimitPrice().compareTo(ask.getLimitPrice()) < 0)));
   }
 }

@@ -12,7 +12,7 @@ public class GeminiManualExample {
 
   public static void main(String[] args) {
     StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(GeminiStreamingExchange.class.getName());
+        StreamingExchangeFactory.INSTANCE.createExchange(GeminiStreamingExchange.class);
     exchange.connect().blockingAwait();
 
     exchange

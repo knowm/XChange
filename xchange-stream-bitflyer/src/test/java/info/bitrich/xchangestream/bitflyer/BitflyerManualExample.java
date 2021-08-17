@@ -12,7 +12,7 @@ public class BitflyerManualExample {
 
   public static void main(String[] args) {
     StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(BitflyerStreamingExchange.class.getName());
+        StreamingExchangeFactory.INSTANCE.createExchange(BitflyerStreamingExchange.class);
     exchange.connect().blockingAwait();
 
     // Note that, the receiving first order book snapshot takes several seconds or minutes!

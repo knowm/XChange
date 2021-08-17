@@ -8,10 +8,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,8 +44,11 @@ public class HitbtcStreamingMarketDataServiceTest {
 
     // Read order book in JSON
     String orderBook =
-        IOUtils.toString(
-            getClass().getResource("/example/notificationSnapshotOrderBook.json"), "UTF8");
+        new String(
+            Files.readAllBytes(
+                Paths.get(
+                    getClass().getResource("/example/notificationSnapshotOrderBook.json").toURI())),
+            StandardCharsets.UTF_8);
 
     when(streamingService.subscribeChannel(eq("orderbook-BTCEUR")))
         .thenReturn(Observable.just(objectMapper.readTree(orderBook)));
@@ -108,8 +113,11 @@ public class HitbtcStreamingMarketDataServiceTest {
   public void testGetTrades() throws Exception {
     // Read trades in JSON
     String trades =
-        IOUtils.toString(
-            getClass().getResource("/example/notificationSnapshotTrades.json"), "UTF8");
+        new String(
+            Files.readAllBytes(
+                Paths.get(
+                    getClass().getResource("/example/notificationSnapshotTrades.json").toURI())),
+            StandardCharsets.UTF_8);
 
     when(streamingService.subscribeChannel(eq("trades-BTCUSD")))
         .thenReturn(Observable.just(objectMapper.readTree(trades)));
@@ -170,7 +178,10 @@ public class HitbtcStreamingMarketDataServiceTest {
   public void testGetTicker() throws Exception {
     // Read ticker in JSON
     String tickerString =
-        IOUtils.toString(getClass().getResource("/example/notificationTicker.json"), "UTF8");
+        new String(
+            Files.readAllBytes(
+                Paths.get(getClass().getResource("/example/notificationTicker.json").toURI())),
+            StandardCharsets.UTF_8);
 
     when(streamingService.subscribeChannel(eq("ticker-BTCUSD")))
         .thenReturn(Observable.just(objectMapper.readTree(tickerString)));

@@ -30,6 +30,6 @@ public interface StreamingAccountService {
    * @return {@link Observable} that emits {@link Balance} when exchange sends the update.
    */
   default Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getBalanceChanges");
   }
 }

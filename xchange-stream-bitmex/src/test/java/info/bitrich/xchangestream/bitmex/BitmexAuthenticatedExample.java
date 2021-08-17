@@ -16,7 +16,7 @@ public class BitmexAuthenticatedExample {
   public static void main(String[] args) throws Exception {
     CertHelper.trustAllCerts();
     StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
+        StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class);
     ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
     //
     // defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.SOCKS_PROXY_HOST, "localhost");

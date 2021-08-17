@@ -30,6 +30,16 @@ public class CoinjarAdaptersTest {
   }
 
   @Test
+  public void testProductToCurrencyPairFourChars() {
+    assertThat(CoinjarAdapters.productToCurrencyPair("BTC-USDT")).isEqualTo(CurrencyPair.BTC_USDT);
+  }
+
+  @Test
+  public void testCurrencyPairToProductFourChars() {
+    assertThat(CoinjarAdapters.currencyPairToProduct(CurrencyPair.BTC_USDT)).isEqualTo("BTC-USDT");
+  }
+
+  @Test
   public void testAdaptStatus() {
     assertThat(CoinjarAdapters.adaptStatus("filled")).isEqualTo(Order.OrderStatus.FILLED);
     assertThat(CoinjarAdapters.adaptStatus("booked")).isEqualTo(Order.OrderStatus.PENDING_NEW);

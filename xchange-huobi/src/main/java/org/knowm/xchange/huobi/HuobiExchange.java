@@ -7,16 +7,13 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAsset;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAssetPair;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiCurrencyWrapper;
 import org.knowm.xchange.huobi.service.HuobiAccountService;
 import org.knowm.xchange.huobi.service.HuobiMarketDataService;
 import org.knowm.xchange.huobi.service.HuobiMarketDataServiceRaw;
 import org.knowm.xchange.huobi.service.HuobiTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class HuobiExchange extends BaseExchange implements Exchange {
-
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -27,8 +24,7 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.huobi.pro");
     exchangeSpecification.setHost("api.huobi.pro");
     exchangeSpecification.setPort(80);
@@ -39,16 +35,11 @@ public class HuobiExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
-  }
-
-  @Override
   public void remoteInit() throws IOException, ExchangeException {
     HuobiAssetPair[] assetPairs =
         ((HuobiMarketDataServiceRaw) marketDataService).getHuobiAssetPairs();
     HuobiAsset[] assets = ((HuobiMarketDataServiceRaw) marketDataService).getHuobiAssets();
-
-    exchangeMetaData = HuobiAdapters.adaptToExchangeMetaData(assetPairs, assets, exchangeMetaData);
+    HuobiCurrencyWrapper[] huobiCurrencies = ((HuobiMarketDataServiceRaw) marketDataService).getHuobiCurrencies("");
+    exchangeMetaData = HuobiAdapters.adaptToExchangeMetaData(assetPairs, assets, exchangeMetaData, huobiCurrencies);
   }
 }

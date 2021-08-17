@@ -17,7 +17,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 /** @author Zach Holmes */
 public class PoloniexExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new TimestampIncrementingNonceFactory();
 
   @Override
   protected void initServices() {
@@ -30,8 +31,7 @@ public class PoloniexExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://poloniex.com/");
     exchangeSpecification.setHost("poloniex.com");
     exchangeSpecification.setPort(80);

@@ -11,8 +11,7 @@ public class BlockchainExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://blockchain.info");
     exchangeSpecification.setHost("www.blockchain.com");
     exchangeSpecification.setPort(80);

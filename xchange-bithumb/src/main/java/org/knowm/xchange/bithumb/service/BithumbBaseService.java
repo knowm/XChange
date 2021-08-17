@@ -3,10 +3,10 @@ package org.knowm.xchange.bithumb.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.Bithumb;
 import org.knowm.xchange.bithumb.BithumbAuthenticated;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class BithumbBaseService extends BaseExchangeService implements BaseService {
 
@@ -25,14 +25,15 @@ public class BithumbBaseService extends BaseExchangeService implements BaseServi
     super(exchange);
 
     this.bithumbAuthenticated =
-        RestProxyFactory.createProxy(
-            BithumbAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+        ExchangeRestProxyBuilder.forInterface(
+                BithumbAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         BithumbDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.bithumb =
-        RestProxyFactory.createProxy(
-            Bithumb.class, exchange.getExchangeSpecification().getSslUri());
+        ExchangeRestProxyBuilder.forInterface(Bithumb.class, exchange.getExchangeSpecification())
+            .build();
     this.endpointGenerator = new BithumbEndpointGenerator();
   }
 }

@@ -26,12 +26,12 @@ package org.knowm.xchange.coinmate.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinmate.CoinmateAuthenticated;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author Martin Stachon */
 public class CoinmateAccountServiceRaw extends CoinmateBaseService {
@@ -43,10 +43,9 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
     super(exchange);
 
     this.coinmateAuthenticated =
-        RestProxyFactory.createProxy(
-            CoinmateAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinmateAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.signatureCreator =
         CoinmateDigest.createInstance(
             exchange.getExchangeSpecification().getSecretKey(),
@@ -243,7 +242,8 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateTransactionHistory getCoinmateTransactionHistory(
-      int offset, Integer limit, String sort) throws IOException {
+      int offset, Integer limit, String sort, Long timestampFrom, Long timestampTo, String orderId)
+      throws IOException {
     CoinmateTransactionHistory tradeHistory =
         coinmateAuthenticated.getTransactionHistory(
             exchange.getExchangeSpecification().getApiKey(),
@@ -252,7 +252,10 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
             exchange.getNonceFactory(),
             offset,
             limit,
-            sort);
+            sort,
+            timestampFrom,
+            timestampTo,
+            orderId);
 
     throwExceptionIfError(tradeHistory);
 

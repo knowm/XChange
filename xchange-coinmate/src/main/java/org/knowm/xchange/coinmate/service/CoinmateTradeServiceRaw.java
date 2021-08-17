@@ -26,9 +26,18 @@ package org.knowm.xchange.coinmate.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinmate.CoinmateAuthenticated;
-import org.knowm.xchange.coinmate.dto.trade.*;
-import si.mazi.rescu.RestProxyFactory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderWithInfoResponse;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrderHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrders;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateReplaceResponse;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistory;
 
 /** @author Martin Stachon */
 public class CoinmateTradeServiceRaw extends CoinmateBaseService {
@@ -40,10 +49,9 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     super(exchange);
 
     this.coinmateAuthenticated =
-        RestProxyFactory.createProxy(
-            CoinmateAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinmateAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.signatureCreator =
         CoinmateDigest.createInstance(
             exchange.getExchangeSpecification().getSecretKey(),
@@ -52,7 +60,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateTransactionHistory getCoinmateTransactionHistory(
-      int offset, Integer limit, String sort) throws IOException {
+      int offset, Integer limit, String sort, Long timestampFrom, Long timestampTo, String orderId)
+      throws IOException {
     CoinmateTransactionHistory transactionHistory =
         coinmateAuthenticated.getTransactionHistory(
             exchange.getExchangeSpecification().getApiKey(),
@@ -61,15 +70,18 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             exchange.getNonceFactory(),
             offset,
             limit,
-            sort);
+            sort,
+            timestampFrom,
+            timestampTo,
+            orderId);
 
     throwExceptionIfError(transactionHistory);
 
     return transactionHistory;
   }
 
-  public CoinmateTradeHistory getCoinmateTradeHistory(String currencyPair, int limit, String order)
-      throws IOException {
+  public CoinmateTradeHistory getCoinmateTradeHistory(
+      String currencyPair, int limit, String order, String startId) throws IOException {
     CoinmateTradeHistory tradeHistory =
         coinmateAuthenticated.getTradeHistory(
             exchange.getExchangeSpecification().getApiKey(),
@@ -77,7 +89,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             signatureCreator,
             exchange.getNonceFactory(),
             limit,
-            null,
+            startId,
             order,
             null,
             null,
@@ -152,6 +164,20 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
+  public CoinmateOrders getCoinmateOrderById(String orderId) throws IOException {
+    CoinmateOrders response =
+        coinmateAuthenticated.getOrderById(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            orderId);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
   public CoinmateCancelOrderWithInfoResponse cancelCoinmateOrderWithInfo(String orderId)
       throws IOException {
     CoinmateCancelOrderWithInfoResponse response =
@@ -173,6 +199,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
       Integer trailing)
       throws IOException {
@@ -187,6 +214,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             currencyPair,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
             trailing);
 
@@ -201,6 +229,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
       Integer trailing)
       throws IOException {
@@ -215,6 +244,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             currencyPair,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
             trailing);
 
@@ -230,6 +260,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
       Integer trailing)
       throws IOException {
@@ -245,6 +276,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             orderId,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
             trailing);
 
@@ -260,6 +292,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
       Integer trailing)
       throws IOException {
@@ -275,6 +308,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             orderId,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
             trailing);
 

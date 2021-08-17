@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>5.0.3-SNAPSHOT</version>
+		<version>5.0.11-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
@@ -78,12 +78,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-bittrex</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- XChange CampBX exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-campbx</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange BitcoinCharts support -->
@@ -182,13 +176,7 @@
 			<artifactId>xchange-coingi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange ANX exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-anx</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- XChange ItBit exchange support -->
+		<!-- XChange Huobi exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-huobi</artifactId>
@@ -229,12 +217,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-btctrade</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- XChange Cryptonit exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-cryptonit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange Poloniex exchange support -->
@@ -404,6 +386,11 @@
 			<artifactId>xchange-lgo</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-    </dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-deribit</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 
 </project>

@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.account.OpenPositions;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.service.trade.TradeService;
@@ -44,6 +42,11 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   }
 
   @Override
+  public OpenPositions getOpenPositions() throws IOException {
+    return KrakenAdapters.adaptOpenPositions(super.getKrakenOpenPositions());
+  }
+
+  @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     return KrakenAdapters.adaptOrderId(super.placeKrakenLimitOrder(limitOrder));
@@ -68,32 +71,38 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
 
   /**
    * @param params Can optionally implement {@link TradeHistoryParamOffset} and {@link
-   *     TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
+   *     TradeHistoryParamsTimeSpan} and {@link TradeHistoryParamsIdSpan} All other
+   *     TradeHistoryParams types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params)
       throws ExchangeException, IOException {
 
-    final Long startTime;
-    final Long endTime;
-    if (params instanceof TradeHistoryParamsTimeSpan) {
-      TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
-      startTime = DateUtils.toUnixTimeNullSafe(timeSpan.getStartTime());
-      endTime = DateUtils.toUnixTimeNullSafe(timeSpan.getEndTime());
-    } else {
-      startTime = null;
-      endTime = null;
-    }
+    String start = null;
+    String end = null;
 
-    final Long offset;
+    Long offset = null;
+
     if (params instanceof TradeHistoryParamOffset) {
       offset = ((TradeHistoryParamOffset) params).getOffset();
-    } else {
-      offset = null;
+    }
+
+    if (params instanceof TradeHistoryParamsIdSpan) {
+      TradeHistoryParamsIdSpan idSpan = (TradeHistoryParamsIdSpan) params;
+      start = idSpan.getStartId();
+      end = idSpan.getEndId();
+    }
+
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
+      start =
+          DateUtils.toUnixTimeOptional(timeSpan.getStartTime()).map(Object::toString).orElse(start);
+
+      end = DateUtils.toUnixTimeOptional(timeSpan.getEndTime()).map(Object::toString).orElse(end);
     }
 
     return KrakenAdapters.adaptTradesHistory(
-        getKrakenTradeHistory(null, false, startTime, endTime, offset).getTrades());
+        getKrakenTradeHistory(null, false, start, end, offset).getTrades());
   }
 
   @Override
@@ -114,9 +123,11 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   }
 
   public static class KrakenTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan
-      implements TradeHistoryParamOffset {
+      implements TradeHistoryParamOffset, TradeHistoryParamsIdSpan {
 
     private Long offset;
+    private String startId;
+    private String endId;
 
     @Override
     public Long getOffset() {
@@ -126,6 +137,26 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
     @Override
     public void setOffset(Long offset) {
       this.offset = offset;
+    }
+
+    @Override
+    public String getStartId() {
+      return startId;
+    }
+
+    @Override
+    public String getEndId() {
+      return endId;
+    }
+
+    @Override
+    public void setStartId(String startId) {
+      this.startId = startId;
+    }
+
+    @Override
+    public void setEndId(String endId) {
+      this.endId = endId;
     }
   }
 }

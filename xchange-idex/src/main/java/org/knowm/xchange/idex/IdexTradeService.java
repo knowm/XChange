@@ -10,21 +10,40 @@ import static org.knowm.xchange.idex.IdexSignature.generateSignature;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.bouncycastle.util.encoders.Hex;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.LimitOrder.Builder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.idex.IdexExchange.Companion.IdexCurrencyMeta;
-import org.knowm.xchange.idex.dto.*;
-import org.knowm.xchange.idex.service.*;
+import org.knowm.xchange.idex.dto.IdexBuySell;
+import org.knowm.xchange.idex.dto.OpenOrdersReq;
+import org.knowm.xchange.idex.dto.OrderReq;
+import org.knowm.xchange.idex.dto.ReturnContractAddressResponse;
+import org.knowm.xchange.idex.dto.ReturnOpenOrdersResponse;
+import org.knowm.xchange.idex.dto.TradeHistoryReq;
+import org.knowm.xchange.idex.service.CancelApi;
+import org.knowm.xchange.idex.service.OrderApi;
+import org.knowm.xchange.idex.service.ReturnContractAddressApi;
+import org.knowm.xchange.idex.service.ReturnOpenOrdersApi;
+import org.knowm.xchange.idex.service.ReturnTradeHistoryApi;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -32,7 +51,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.web3j.crypto.Sign.SignatureData;
-import si.mazi.rescu.RestProxyFactory;
 
 public class IdexTradeService extends BaseExchangeService implements TradeService {
 
@@ -52,30 +70,27 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
     super(idexExchange);
 
     returnOpenOrdersApi =
-        RestProxyFactory.createProxy(
-            ReturnOpenOrdersApi.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                ReturnOpenOrdersApi.class, exchange.getExchangeSpecification())
+            .build();
 
     cancelApi =
-        RestProxyFactory.createProxy(
-            CancelApi.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(CancelApi.class, exchange.getExchangeSpecification())
+            .build();
 
     returnTradeHistoryApi =
-        RestProxyFactory.createProxy(
-            ReturnTradeHistoryApi.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                ReturnTradeHistoryApi.class, exchange.getExchangeSpecification())
+            .build();
 
     orderApi =
-        RestProxyFactory.createProxy(
-            OrderApi.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(OrderApi.class, exchange.getExchangeSpecification())
+            .build();
 
     returnContractAddressApi =
-        RestProxyFactory.createProxy(
-            ReturnContractAddressApi.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                ReturnContractAddressApi.class, exchange.getExchangeSpecification())
+            .build();
 
     apiKey = exchange.getExchangeSpecification().getApiKey();
   }

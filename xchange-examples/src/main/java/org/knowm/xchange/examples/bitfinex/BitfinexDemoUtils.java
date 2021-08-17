@@ -10,7 +10,7 @@ public class BitfinexDemoUtils {
   public static Exchange createExchange() {
 
     // Use the factory to get BFX exchange API using default settings
-    Exchange bfx = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
+    Exchange bfx = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class);
 
     ExchangeSpecification bfxSpec = bfx.getDefaultExchangeSpecification();
 

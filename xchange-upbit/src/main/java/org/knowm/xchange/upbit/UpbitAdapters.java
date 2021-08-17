@@ -3,6 +3,8 @@ package org.knowm.xchange.upbit;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -13,6 +15,8 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.upbit.dto.account.UpbitBalances;
 import org.knowm.xchange.upbit.dto.marketdata.*;
@@ -25,10 +29,7 @@ public final class UpbitAdapters {
 
   public static OrderBook adaptOrderBook(UpbitOrderBooks upbitOrderBooks) {
     UpbitOrderBook upbitOrderBook = upbitOrderBooks.getUpbitOrderBooks()[0];
-    String market = upbitOrderBook.getMarket();
-    CurrencyPair currencyPair =
-        new CurrencyPair(
-            Currency.getInstance(market.split("-")[0]), Currency.getInstance(market.split("-")[1]));
+    CurrencyPair currencyPair = UpbitUtils.toCurrencyPair(upbitOrderBook.getMarket());
     Map<OrderType, List<LimitOrder>> orderbookMap =
         adaptMarketOrderToLimitOrder(upbitOrderBook.getOrderbookUnits(), currencyPair);
     return new OrderBook(
@@ -45,17 +46,16 @@ public final class UpbitAdapters {
     Arrays.stream(upbitOrders)
         .forEach(
             upbitOrder -> {
-              OrderType orderType = OrderType.ASK;
-              BigDecimal price = upbitOrder.getAskPrice();
-              BigDecimal amount = upbitOrder.getAskSize();
-              LimitOrder limitOrder =
-                  new LimitOrder(orderType, amount, currencyPair, null, null, price);
-              asks.add(limitOrder);
-              orderType = OrderType.BID;
-              price = upbitOrder.getBidPrice();
-              amount = upbitOrder.getBidSize();
-              limitOrder = new LimitOrder(orderType, amount, currencyPair, null, null, price);
-              bids.add(limitOrder);
+              asks.add(
+                  new LimitOrder.Builder(OrderType.ASK, currencyPair)
+                      .originalAmount(upbitOrder.getAskSize())
+                      .limitPrice(upbitOrder.getAskPrice())
+                      .build());
+              bids.add(
+                  new LimitOrder.Builder(OrderType.BID, currencyPair)
+                      .originalAmount(upbitOrder.getBidSize())
+                      .limitPrice(upbitOrder.getBidPrice())
+                      .build());
             });
     Map<OrderType, List<LimitOrder>> map = new HashMap<>();
     map.put(OrderType.ASK, asks);
@@ -65,15 +65,21 @@ public final class UpbitAdapters {
 
   public static Ticker adaptTicker(UpbitTickers tickers) {
     UpbitTicker ticker = tickers.getTickers()[0];
-    String market = ticker.getMarket();
 
-    CurrencyPair currencyPair =
-        new CurrencyPair(
-            Currency.getInstance(market.split("-")[0]), Currency.getInstance(market.split("-")[1]));
-    final Date date =
-        DateUtils.fromMillisUtc(Long.valueOf(ticker.getTimestamp().longValue()) * 1000);
+    return adaptTicker(ticker);
+  }
+
+  public static List<Ticker> adaptTickers(UpbitTickers tickers) {
+    return Arrays.stream(tickers.getTickers())
+        .map(UpbitAdapters::adaptTicker)
+        .collect(Collectors.toList());
+  }
+
+  private static Ticker adaptTicker(UpbitTicker ticker) {
+    final CurrencyPair currencyPair = UpbitUtils.toCurrencyPair(ticker.getMarket());
+    final Date date = DateUtils.fromMillisUtc(ticker.getTimestamp().longValue() * 1000);
     return new Ticker.Builder()
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .high(ticker.getHigh_price())
         .low(ticker.getLow_price())
         .last(ticker.getTrade_price())
@@ -99,7 +105,7 @@ public final class UpbitAdapters {
     return new Trade.Builder()
         .type(orderType)
         .originalAmount(trade.getTradeVolume())
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(trade.getTradePrice())
         .timestamp(DateUtils.fromMillisUtc(trade.getTimestamp().longValue()))
         .id("")
@@ -121,7 +127,7 @@ public final class UpbitAdapters {
   }
 
   public static Order adaptOrderInfo(UpbitOrderResponse upbitOrderResponse) {
-    Order.OrderStatus status = Order.OrderStatus.NEW;
+    Order.OrderStatus status;
     if (upbitOrderResponse.getState().equalsIgnoreCase("cancel")) {
       status = Order.OrderStatus.CANCELED;
     } else if (upbitOrderResponse.getExecutedVolume().compareTo(BigDecimal.ZERO) == 0) {
@@ -130,28 +136,32 @@ public final class UpbitAdapters {
       status = Order.OrderStatus.PARTIALLY_FILLED;
     } else if (upbitOrderResponse.getState().equalsIgnoreCase("done")) {
       status = Order.OrderStatus.FILLED;
+    } else {
+      status = Order.OrderStatus.NEW;
     }
-    OrderType type = upbitOrderResponse.getSide().equals("ask") ? OrderType.ASK : OrderType.BID;
-    BigDecimal originalAmount = upbitOrderResponse.getVolume();
-    String[] markets = upbitOrderResponse.getMarket().split("-");
-    CurrencyPair currencyPair =
-        new CurrencyPair(new Currency(markets[1]), new Currency(markets[0]));
-    String orderId = upbitOrderResponse.getUuid();
-    BigDecimal cumulativeAmount = upbitOrderResponse.getExecutedVolume();
-    BigDecimal price = upbitOrderResponse.getAvgPrice();
-    ZonedDateTime dateTime = ZonedDateTime.parse(upbitOrderResponse.getCreatedAt());
-    LimitOrder order =
-        new LimitOrder(
-            type,
-            originalAmount,
-            currencyPair,
-            orderId,
-            Date.from(dateTime.toInstant()),
-            price,
-            price,
-            cumulativeAmount,
-            upbitOrderResponse.getPaidFee(),
-            status);
-    return order;
+
+    final OrderType orderType = UpbitUtils.fromSide(upbitOrderResponse.getSide());
+    final CurrencyPair currencyPair = UpbitUtils.toCurrencyPair(upbitOrderResponse.getMarket());
+    return new LimitOrder.Builder(orderType, currencyPair)
+        .originalAmount(upbitOrderResponse.getVolume())
+        .id(upbitOrderResponse.getUuid())
+        .timestamp(Date.from(ZonedDateTime.parse(upbitOrderResponse.getCreatedAt()).toInstant()))
+        .limitPrice(upbitOrderResponse.getAvgPrice())
+        .averagePrice(upbitOrderResponse.getAvgPrice())
+        .cumulativeAmount(upbitOrderResponse.getExecutedVolume())
+        .fee(upbitOrderResponse.getPaidFee())
+        .orderStatus(status)
+        .build();
+  }
+
+  public static ExchangeMetaData adaptMetadata(List<UpbitMarket> markets) {
+    Map<CurrencyPair, CurrencyPairMetaData> pairMeta =
+        markets.stream()
+            .map(UpbitMarket::getMarket)
+            .map(UpbitUtils::toCurrencyPair)
+            .collect(
+                Collectors.toMap(
+                    Function.identity(), cp -> new CurrencyPairMetaData.Builder().build()));
+    return new ExchangeMetaData(pairMeta, null, null, null, null);
   }
 }

@@ -193,8 +193,8 @@ public interface KrakenAuthenticated extends Kraken {
   KrakenTradeHistoryResult tradeHistory(
       @FormParam("type") String type,
       @FormParam("trades") boolean includeTrades,
-      @FormParam("start") Long start,
-      @FormParam("end") Long end,
+      @FormParam("start") String start,
+      @FormParam("end") String end,
       @FormParam("ofs") Long offset,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,

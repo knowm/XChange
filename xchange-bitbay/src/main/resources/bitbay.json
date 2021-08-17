@@ -6,12 +6,14 @@
     "BTC/PLN": {"min_amount": 0.00000001, "price_scale": 2},
     "BTC/USD": {"min_amount": 0.00000001, "price_scale": 2},
     "BTC/USDC": {"min_amount": 0.00000001, "price_scale": 2},
+    "BTC/USDT": {"min_amount": 0.00000001, "price_scale": 2},
 
     "ETH/EUR": {"min_amount": 0.00000001, "price_scale": 2},
     "ETH/GBP": {"min_amount": 0.00000001, "price_scale": 2},
     "ETH/PLN": {"min_amount": 0.00000001, "price_scale": 2},
     "ETH/USD": {"min_amount": 0.00000001, "price_scale": 2},
     "ETH/USDC": {"min_amount": 0.00000001, "price_scale": 2},
+    "ETH/USDT": {"min_amount": 0.00000001, "price_scale": 2},
     "ETH/BTC": {"min_amount": 0.00000001, "price_scale": 8},
 
     "LSK/EUR": {"min_amount": 0.00000001, "price_scale": 2},
@@ -41,6 +43,7 @@
     "LTC/PLN": {"min_amount": 0.00000001, "price_scale": 2},
     "LTC/USD": {"min_amount": 0.00000001, "price_scale": 2},
     "LTC/BTC": {"min_amount": 0.00000001, "price_scale": 8},
+    "LTC/USDT": {"min_amount": 0.00000001, "price_scale": 2},
 
     "DASH/EUR": {"min_amount": 0.00000001, "price_scale": 2},
     "DASH/PLN": {"min_amount": 0.00000001, "price_scale": 2},
@@ -54,7 +57,11 @@
     "XRP/BTC": {"min_amount": 0.00000001, "price_scale": 8},
 
     "KZC/BTC": {"min_amount": 0.00000001, "price_scale": 8},
-    "XIN/BTC": {"min_amount": 0.00000001, "price_scale": 8}
+    "XIN/BTC": {"min_amount": 0.00000001, "price_scale": 8},
+
+    "LINK/PLN": {"min_amount": 0.00000001, "price_scale": 2},
+    "LINK/BTC": {"min_amount": 0.00000001, "price_scale": 2},
+    "LINK/USDT": {"min_amount": 0.00000001, "price_scale": 2}
   },
   "currencies": {
     "BTC": {
@@ -78,6 +85,9 @@
     "LTC": {
       "scale": 8
     },
+    "LINK": {
+      "scale": 8
+    },
     "DASH": {
       "scale": 8
     },
@@ -88,6 +98,9 @@
       "scale": 8
     },
     "USDC": {
+      "scale": 8
+    },
+    "USDT": {
       "scale": 8
     },
     "XIN": {

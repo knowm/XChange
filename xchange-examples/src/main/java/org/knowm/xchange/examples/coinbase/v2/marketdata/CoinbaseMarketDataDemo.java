@@ -18,8 +18,7 @@ public class CoinbaseMarketDataDemo {
 
   public static void main(String[] args) throws IOException, ParseException {
 
-    Exchange coinbaseExchange =
-        ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
+    Exchange coinbaseExchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class);
     CoinbaseMarketDataService marketDataService =
         (CoinbaseMarketDataService) coinbaseExchange.getMarketDataService();
 

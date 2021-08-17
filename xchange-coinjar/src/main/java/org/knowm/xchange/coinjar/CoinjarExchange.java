@@ -7,12 +7,8 @@ import org.knowm.xchange.coinjar.service.CoinjarAccountService;
 import org.knowm.xchange.coinjar.service.CoinjarBaseService;
 import org.knowm.xchange.coinjar.service.CoinjarMarketDataService;
 import org.knowm.xchange.coinjar.service.CoinjarTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinjarExchange extends BaseExchange implements Exchange {
-
-  private static SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -22,14 +18,8 @@ public class CoinjarExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
-  }
-
-  @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri(CoinjarBaseService.LIVE_URL);
     exchangeSpecification.setExchangeName("Coinjar");
     exchangeSpecification.setExchangeDescription("Coinjar");

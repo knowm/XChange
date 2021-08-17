@@ -14,8 +14,7 @@ public class BaseMockedIntegrationTest {
 
   public Exchange createExchange() {
     Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(
-            LivecoinExchange.class.getName());
+        ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(LivecoinExchange.class);
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
     specification.setHost("localhost");
     specification.setSslUri("http://localhost:" + wireMockRule.port());

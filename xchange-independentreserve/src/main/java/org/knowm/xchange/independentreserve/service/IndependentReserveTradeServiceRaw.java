@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
@@ -25,7 +26,6 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransact
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsResponse;
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
 import org.knowm.xchange.instrument.Instrument;
-import si.mazi.rescu.RestProxyFactory;
 
 /** Author: Kamil Zbikowski Date: 4/13/15 */
 public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseService {
@@ -43,10 +43,9 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
     super(exchange);
 
     this.independentReserveAuthenticated =
-        RestProxyFactory.createProxy(
-            IndependentReserveAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                IndependentReserveAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.signatureCreator =
         IndependentReserveDigest.createInstance(
             exchange.getExchangeSpecification().getSecretKey(),

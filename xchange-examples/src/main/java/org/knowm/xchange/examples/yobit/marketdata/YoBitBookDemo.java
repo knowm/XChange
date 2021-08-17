@@ -14,7 +14,7 @@ public class YoBitBookDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange yoBitExchange = ExchangeFactory.INSTANCE.createExchange(YoBitExchange.class.getName());
+    Exchange yoBitExchange = ExchangeFactory.INSTANCE.createExchange(YoBitExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = yoBitExchange.getMarketDataService();

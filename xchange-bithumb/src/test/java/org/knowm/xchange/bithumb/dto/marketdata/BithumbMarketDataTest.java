@@ -36,6 +36,7 @@ public class BithumbMarketDataTest {
     assertThat(bithumbTicker.getMaxPrice()).isEqualTo("171600");
     assertThat(bithumbTicker.getAveragePrice()).isEqualTo("161373.9643");
     assertThat(bithumbTicker.getUnitsTraded()).isEqualTo("294028.02849871");
+    assertThat(bithumbTicker.getAccTradeValue()).isEqualTo("16878100");
     assertThat(bithumbTicker.getVolume1day()).isEqualTo("294028.02849871");
     assertThat(bithumbTicker.getVolume7day()).isEqualTo("1276650.256763659925784183");
     assertThat(bithumbTicker.getBuyPrice()).isEqualTo("168800");
@@ -67,6 +68,7 @@ public class BithumbMarketDataTest {
     assertThat(btc.getMaxPrice()).isEqualTo(BigDecimal.valueOf(4328000L));
     assertThat(btc.getAveragePrice()).isEqualTo(BigDecimal.valueOf(4252435.9159));
     assertThat(btc.getUnitsTraded()).isEqualTo(BigDecimal.valueOf(3815.4174696));
+    assertThat(btc.getAccTradeValue()).isEqualTo(BigDecimal.valueOf(16878100));
     assertThat(btc.getVolume1day()).isEqualTo(BigDecimal.valueOf(3815.4174696));
     assertThat(btc.getVolume7day()).isEqualTo(BigDecimal.valueOf(31223.31245306));
     assertThat(btc.getBuyPrice()).isEqualTo(BigDecimal.valueOf(4296000));
@@ -139,6 +141,6 @@ public class BithumbMarketDataTest {
     assertThat(trade.getCurrencyPair()).isEqualTo(new CurrencyPair(Currency.BTC, Currency.KRW));
     assertThat(trade.getPrice()).isEqualTo(BigDecimal.valueOf(6779000));
     assertThat(trade.getTimestamp()).isNotNull();
-    assertThat(trade.getId()).isNull();
+    assertThat(trade.getId()).isNotNull();
   }
 }

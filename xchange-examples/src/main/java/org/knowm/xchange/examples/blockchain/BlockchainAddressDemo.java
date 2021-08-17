@@ -7,7 +7,7 @@ import org.knowm.xchange.blockchain.Blockchain;
 import org.knowm.xchange.blockchain.BlockchainExchange;
 import org.knowm.xchange.blockchain.dto.BitcoinAddress;
 import org.knowm.xchange.blockchain.dto.BitcoinAddresses;
-import si.mazi.rescu.RestProxyFactory;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 
 /** @author timmolter */
 public class BlockchainAddressDemo {
@@ -15,11 +15,11 @@ public class BlockchainAddressDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange blockchainExchangexchange =
-        ExchangeFactory.INSTANCE.createExchange(BlockchainExchange.class.getName());
+        ExchangeFactory.INSTANCE.createExchange(BlockchainExchange.class);
     Blockchain blockchain =
-        RestProxyFactory.createProxy(
-            Blockchain.class,
-            blockchainExchangexchange.getExchangeSpecification().getPlainTextUri());
+        ExchangeRestProxyBuilder.forInterface(
+                Blockchain.class, blockchainExchangexchange.getExchangeSpecification())
+            .build();
 
     BitcoinAddress bitcoinAddress = blockchain.getBitcoinAddress("XXX");
     System.out.println(bitcoinAddress.toString());

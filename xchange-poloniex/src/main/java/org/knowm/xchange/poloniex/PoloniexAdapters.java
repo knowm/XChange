@@ -3,6 +3,7 @@ package org.knowm.xchange.poloniex;
 import static org.knowm.xchange.dto.account.FundingRecord.Type.*;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +26,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -65,6 +67,7 @@ public class PoloniexAdapters {
     BigDecimal high = marketData.getHigh24hr();
     BigDecimal low = marketData.getLow24hr();
     BigDecimal volume = marketData.getQuoteVolume();
+    BigDecimal percentageChange = marketData.getPercentChange();
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
@@ -74,6 +77,7 @@ public class PoloniexAdapters {
         .high(high)
         .low(low)
         .volume(volume)
+        .percentageChange(percentageChange.multiply(new BigDecimal("100"), new MathContext(8)))
         .build();
   }
 
@@ -249,7 +253,21 @@ public class PoloniexAdapters {
 
       Currency ccy = Currency.getInstance(entry.getKey());
 
-      if (!currencyMetaDataMap.containsKey(ccy)) currencyMetaDataMap.put(ccy, currencyArchetype);
+      if (!currencyMetaDataMap.containsKey(ccy)) {
+        currencyMetaDataMap.put(ccy, currencyArchetype);
+      }
+      CurrencyMetaData currencyMetaData = currencyMetaDataMap.get(ccy);
+      WalletHealth walletHealth = WalletHealth.ONLINE;
+      if (entry.getValue().isDelisted() || entry.getValue().isDisabled()) {
+        walletHealth = WalletHealth.OFFLINE;
+      }
+      CurrencyMetaData currencyMetaDataUpdated =
+          new CurrencyMetaData(
+              currencyMetaData.getScale(),
+              entry.getValue().getTxFee(),
+              currencyMetaData.getMinWithdrawalAmount(),
+              walletHealth);
+      currencyMetaDataMap.put(ccy, currencyMetaDataUpdated);
     }
 
     Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();

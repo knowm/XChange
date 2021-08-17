@@ -10,8 +10,7 @@ public class BTCMarketsExampleUtils {
   private BTCMarketsExampleUtils() {}
 
   public static Exchange createTestExchange() {
-    Exchange btcMarketsExchange =
-        ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getName());
+    Exchange btcMarketsExchange = ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class);
     ExchangeSpecification spec = btcMarketsExchange.getExchangeSpecification();
 
     // Set your actual credentials here for the demos to work.

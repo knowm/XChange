@@ -32,7 +32,7 @@ public class TradeServiceIntegrationTransactionsCreateOrder {
     String apiKey = "00af0b38-11fb-4aab-bf19-45edd44a4adc";
     String secretKey = "fa3f0510-155f-4567-a3b3-3f386080efa3";
 
-    Exchange coinsuper = ExchangeFactory.INSTANCE.createExchange(CoinsuperExchange.class.getName());
+    Exchange coinsuper = ExchangeFactory.INSTANCE.createExchange(CoinsuperExchange.class);
 
     ExchangeSpecification exchangeSpecification = coinsuper.getExchangeSpecification();
     exchangeSpecification.setApiKey(apiKey);
@@ -64,7 +64,7 @@ public class TradeServiceIntegrationTransactionsCreateOrder {
     String apiKey = "00af0b38-11fb-4aab-bf19-45edd44a4adc";
     String secretKey = "fa3f0510-155f-4567-a3b3-3f386080efa3";
 
-    Exchange coinsuper = ExchangeFactory.INSTANCE.createExchange(CoinsuperExchange.class.getName());
+    Exchange coinsuper = ExchangeFactory.INSTANCE.createExchange(CoinsuperExchange.class);
 
     ExchangeSpecification exchangeSpecification = coinsuper.getExchangeSpecification();
     exchangeSpecification.setApiKey(apiKey);
@@ -99,7 +99,7 @@ public class TradeServiceIntegrationTransactionsCreateOrder {
     String apiKey = "00af0b38-11fb-4aab-bf19-45edd44a4adc";
     String secretKey = "fa3f0510-155f-4567-a3b3-3f386080efa3";
 
-    Exchange coinsuper = ExchangeFactory.INSTANCE.createExchange(CoinsuperExchange.class.getName());
+    Exchange coinsuper = ExchangeFactory.INSTANCE.createExchange(CoinsuperExchange.class);
 
     ExchangeSpecification exchangeSpecification = coinsuper.getExchangeSpecification();
     exchangeSpecification.setApiKey(apiKey);
@@ -123,7 +123,7 @@ public class TradeServiceIntegrationTransactionsCreateOrder {
     String apiKey = "00af0b38-11fb-4aab-bf19-45edd44a4adc";
     String secretKey = "fa3f0510-155f-4567-a3b3-3f386080efa3";
 
-    Exchange coinsuper = ExchangeFactory.INSTANCE.createExchange(CoinsuperExchange.class.getName());
+    Exchange coinsuper = ExchangeFactory.INSTANCE.createExchange(CoinsuperExchange.class);
 
     ExchangeSpecification exchangeSpecification = coinsuper.getExchangeSpecification();
     exchangeSpecification.setApiKey(apiKey);
@@ -164,7 +164,7 @@ public class TradeServiceIntegrationTransactionsCreateOrder {
     String apiKey = "00af0b38-11fb-4aab-bf19-45edd44a4adc";
     String secretKey = "fa3f0510-155f-4567-a3b3-3f386080efa3";
 
-    Exchange coinsuper = ExchangeFactory.INSTANCE.createExchange(CoinsuperExchange.class.getName());
+    Exchange coinsuper = ExchangeFactory.INSTANCE.createExchange(CoinsuperExchange.class);
 
     ExchangeSpecification exchangeSpecification = coinsuper.getExchangeSpecification();
     exchangeSpecification.setApiKey(apiKey);
@@ -188,7 +188,7 @@ public class TradeServiceIntegrationTransactionsCreateOrder {
     String apiKey = "00af0b38-11fb-4aab-bf19-45edd44a4adc";
     String secretKey = "fa3f0510-155f-4567-a3b3-3f386080efa3";
 
-    Exchange coinsuper = ExchangeFactory.INSTANCE.createExchange(CoinsuperExchange.class.getName());
+    Exchange coinsuper = ExchangeFactory.INSTANCE.createExchange(CoinsuperExchange.class);
 
     ExchangeSpecification exchangeSpecification = coinsuper.getExchangeSpecification();
     exchangeSpecification.setApiKey(apiKey);

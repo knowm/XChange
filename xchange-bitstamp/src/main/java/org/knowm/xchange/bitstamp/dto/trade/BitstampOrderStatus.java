@@ -13,6 +13,7 @@ import java.util.Map;
 public enum BitstampOrderStatus {
   Queue,
   Open,
+  Canceled,
   Finished;
 
   private static final Map<String, BitstampOrderStatus> fromString =

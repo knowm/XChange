@@ -14,8 +14,7 @@ public class BitmexManualExample {
   public static void main(String[] args) {
     BitmexStreamingExchange exchange =
         (BitmexStreamingExchange)
-            StreamingExchangeFactory.INSTANCE.createExchange(
-                BitmexStreamingExchange.class.getName());
+            StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class);
     exchange.connect().blockingAwait();
 
     exchange.messageDelay().subscribe(delay -> LOG.info("Message delay: " + delay));

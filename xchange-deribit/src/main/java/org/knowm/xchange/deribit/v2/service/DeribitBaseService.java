@@ -7,6 +7,7 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.Getter;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.deribit.v2.Deribit;
 import org.knowm.xchange.deribit.v2.DeribitAuthenticated;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
@@ -20,7 +21,6 @@ import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class DeribitBaseService extends BaseExchangeService<DeribitExchange>
     implements BaseService {
@@ -39,14 +39,13 @@ public class DeribitBaseService extends BaseExchangeService<DeribitExchange>
 
     super(exchange);
     deribit =
-        RestProxyFactory.createProxy(
-            Deribit.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(Deribit.class, exchange.getExchangeSpecification())
+            .build();
 
     deribitAuthenticated =
-        RestProxyFactory.createProxy(
-            DeribitAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                DeribitAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
 
     deribitAuth =
         DeribitAuth.createDeribitAuth(

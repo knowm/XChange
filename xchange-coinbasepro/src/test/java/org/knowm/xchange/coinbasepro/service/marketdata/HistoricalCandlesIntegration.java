@@ -16,8 +16,7 @@ public class HistoricalCandlesIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
     CoinbaseProMarketDataService mds =
         (CoinbaseProMarketDataService) exchange.getMarketDataService();
     CoinbaseProCandle[] candles =

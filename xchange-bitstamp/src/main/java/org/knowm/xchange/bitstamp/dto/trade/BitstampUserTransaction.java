@@ -97,6 +97,10 @@ public final class BitstampUserTransaction {
     return type == TransactionType.trade;
   }
 
+  public boolean isSubAccountTransfer() {
+    return type == TransactionType.subAccountTransfer;
+  }
+
   public BigDecimal getCounterAmount() {
     return amounts.get(counter);
   }

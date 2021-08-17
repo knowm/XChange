@@ -19,7 +19,7 @@ public class BitcoinChartsRawDataDemo {
 
     // Use the factory to get BitcoinCharts exchange API using default settings
     Exchange bitcoinChartsExchange =
-        ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName());
+        ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class);
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = bitcoinChartsExchange.getMarketDataService();
 

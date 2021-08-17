@@ -73,7 +73,11 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
       case ORDERBOOK:
         {
           CurrencyPair currencyPair = (CurrencyPair) args[0];
-          return new CexioWebSocketOrderBookSubscriptionData(currencyPair, isSubscribe);
+          int depth = 0;
+          if (args.length > 1 && args[1] instanceof Integer) {
+            depth = (int) args[1];
+          }
+          return new CexioWebSocketOrderBookSubscriptionData(currencyPair, isSubscribe, depth);
         }
       default:
         {
@@ -100,7 +104,7 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     String eventName = getEventNameFromChannel(channelName);
 
     CurrencyPair currencyPairForChannel = null;

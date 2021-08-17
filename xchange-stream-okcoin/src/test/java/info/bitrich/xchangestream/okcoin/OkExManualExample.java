@@ -13,7 +13,7 @@ public class OkExManualExample {
 
   public static void main(String[] args) {
     StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(OkExStreamingExchange.class.getName());
+        StreamingExchangeFactory.INSTANCE.createExchange(OkExStreamingExchange.class);
     exchange.connect().blockingAwait();
 
     CurrencyPair btcUsdt = new CurrencyPair(new Currency("BTC"), new Currency("USDT"));

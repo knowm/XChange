@@ -14,13 +14,10 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author allenday */
 public class CoinMarketCapExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
   private CoinMarketCapMarketDataService marketDataService;
   private ExchangeSpecification exchangeSpecification;
 
@@ -31,7 +28,7 @@ public class CoinMarketCapExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     final ExchangeSpecification defaultExchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+        new ExchangeSpecification(this.getClass());
     defaultExchangeSpecification.setSslUri("https://api.coinmarketcap.com");
     defaultExchangeSpecification.setHost("coinmarketcap.com");
     defaultExchangeSpecification.setExchangeName("CoinMarketCap");
@@ -66,11 +63,6 @@ public class CoinMarketCapExchange extends BaseExchange implements Exchange {
     if (this.marketDataService == null) {
       this.marketDataService = new CoinMarketCapMarketDataService(this);
     }
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   @Override

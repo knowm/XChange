@@ -3,8 +3,10 @@ package info.bitrich.xchangestream.gemini;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
+import io.reactivex.Observable;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiExchange;
 
@@ -38,6 +40,11 @@ public class GeminiStreamingExchange extends GeminiExchange implements Streaming
   @Override
   public StreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
+  }
+
+  @Override
+  public Observable<State> connectionStateObservable() {
+    return streamingService.connectionStateObservable();
   }
 
   @Override

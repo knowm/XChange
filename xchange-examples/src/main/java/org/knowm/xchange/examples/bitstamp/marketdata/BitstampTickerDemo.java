@@ -19,7 +19,7 @@ public class BitstampTickerDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Bitstamp exchange API using default settings
-    Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
+    Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = bitstamp.getMarketDataService();

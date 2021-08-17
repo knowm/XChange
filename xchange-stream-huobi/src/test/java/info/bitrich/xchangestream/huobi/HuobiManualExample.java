@@ -16,7 +16,7 @@ public class HuobiManualExample {
 
   public static void main(String[] args) {
     StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(HuobiStreamingExchange.class.getName());
+        StreamingExchangeFactory.INSTANCE.createExchange(HuobiStreamingExchange.class);
 
     exchange.connect().blockingAwait();
 

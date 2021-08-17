@@ -63,7 +63,10 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("offset") int offset,
       @FormParam("limit") Integer limit,
-      @FormParam("sort") String sort)
+      @FormParam("sort") String sort,
+      @FormParam("timestampFrom") Long timestampFrom,
+      @FormParam("timestampTo") Long timestampTo,
+      @FormParam("orderId") String orderId)
       throws IOException;
 
   @POST
@@ -74,6 +77,16 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("currencyPair") String currencyPair)
+      throws IOException;
+
+  @POST
+  @Path("orderById")
+  CoinmateOrders getOrderById(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("orderId") String orderId)
       throws IOException;
 
   @POST
@@ -109,6 +122,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("currencyPair") String currencyPair,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
+      @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
       @FormParam("trailing") Integer trailing)
       throws IOException;
@@ -125,6 +139,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("currencyPair") String currencyPair,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
+      @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
       @FormParam("trailing") Integer trailing)
       throws IOException;
@@ -303,7 +318,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("limit") Integer limit,
-      @FormParam("lastId") Integer lastId,
+      @FormParam("lastId") String lastId,
       @FormParam("sort") String sort,
       @FormParam("timestampFrom") Long timestampFrom,
       @FormParam("timestampTo") Long timestampTo,
@@ -339,6 +354,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("orderIdToBeReplaced") String orderIdToBeReplaced,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
+      @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
       @FormParam("trailing") Integer trailing)
       throws IOException;
@@ -356,6 +372,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("orderIdToBeReplaced") String orderIdToBeReplaced,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
+      @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
       @FormParam("trailing") Integer trailing)
       throws IOException;

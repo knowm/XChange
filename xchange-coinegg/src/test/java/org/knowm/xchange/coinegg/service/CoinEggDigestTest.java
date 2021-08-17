@@ -4,11 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
-import java.util.Map;
 import javax.ws.rs.FormParam;
 import org.junit.Test;
-import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
+import si.mazi.rescu.RestMethodMetadata;
 
 public class CoinEggDigestTest {
 
@@ -29,18 +28,42 @@ public class CoinEggDigestTest {
   }
 
   protected RestInvocation testRestInvocation() {
-    Params formParams =
-        Params.of("key", publicKey)
-            .add("type", "all")
-            .add("nonce", "1515959060")
-            .add("since", "0")
-            .add("coin", "eth")
-            .add("signature", "");
+    return RestInvocation.create(
+        null,
+        new RestMethodMetadata(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            new HashMap<>(),
+            new Annotation[][] {
+              {formParam("key")},
+              {formParam("type")},
+              {formParam("nonce")},
+              {formParam("since")},
+              {formParam("coin")},
+              {formParam("signature")},
+            }),
+        new Object[] {publicKey, "all", "1515959060", "0", "eth", ""},
+        null);
+  }
 
-    Map<Class<? extends Annotation>, Params> params =
-        new HashMap<Class<? extends Annotation>, Params>();
-    params.put(FormParam.class, formParams);
+  private FormParam formParam(String value) {
+    return new FormParam() {
+      @Override
+      public String value() {
+        return value;
+      }
 
-    return new RestInvocation(params, null, null, "", "", "", "", null);
+      @Override
+      public Class<? extends Annotation> annotationType() {
+        return FormParam.class;
+      }
+    };
   }
 }

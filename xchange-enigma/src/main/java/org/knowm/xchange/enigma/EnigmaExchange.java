@@ -5,8 +5,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.enigma.service.EnigmaAccountService;
 import org.knowm.xchange.enigma.service.EnigmaMarketDataService;
 import org.knowm.xchange.enigma.service.EnigmaTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class EnigmaExchange extends BaseExchange {
 
@@ -15,8 +13,6 @@ public class EnigmaExchange extends BaseExchange {
 
   private static final String SSL_URI = "https://api.enigma-securities.io/";
   private static final String HOST = "api.enigma-securities.io";
-
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -28,8 +24,7 @@ public class EnigmaExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri(SSL_URI);
     exchangeSpecification.setHost(HOST);
     exchangeSpecification.setPort(443);
@@ -38,10 +33,5 @@ public class EnigmaExchange extends BaseExchange {
     exchangeSpecification.setShouldLoadRemoteMetaData(false);
 
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 }

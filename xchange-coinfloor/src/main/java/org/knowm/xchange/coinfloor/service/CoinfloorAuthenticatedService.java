@@ -2,12 +2,12 @@ package org.knowm.xchange.coinfloor.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ClientConfigCustomizer;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinfloor.CoinfloorAuthenticated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.ClientConfigUtil;
-import si.mazi.rescu.RestProxyFactory;
 
 public class CoinfloorAuthenticatedService extends CoinfloorService {
   private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -26,12 +26,14 @@ public class CoinfloorAuthenticatedService extends CoinfloorService {
       return;
     }
 
-    ClientConfig config = getClientConfig();
-    ClientConfigUtil.addBasicAuthCredentials(
-        config, specification.getUserName(), specification.getPassword());
-
+    ClientConfigCustomizer clientConfigCustomizer =
+        config ->
+            ClientConfigUtil.addBasicAuthCredentials(
+                config, specification.getUserName(), specification.getPassword());
     coinfloor =
-        RestProxyFactory.createProxy(
-            CoinfloorAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), config);
+        ExchangeRestProxyBuilder.forInterface(
+                CoinfloorAuthenticated.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(clientConfigCustomizer)
+            .build();
   }
 }

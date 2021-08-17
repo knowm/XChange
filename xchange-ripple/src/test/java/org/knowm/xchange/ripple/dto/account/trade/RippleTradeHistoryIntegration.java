@@ -24,8 +24,7 @@ public class RippleTradeHistoryIntegration {
 
   @Test
   public void getTradeHistoryTest() throws Exception {
-    final Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
+    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);
     final TradeService tradeService = exchange.getTradeService();
 
     final RippleTradeHistoryParams params =

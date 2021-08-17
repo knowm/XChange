@@ -2,13 +2,11 @@ package org.knowm.xchange.service;
 
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import si.mazi.rescu.ClientConfig;
 
 /** Top of the hierarchy abstract class for an "exchange service" */
 public abstract class BaseExchangeService<E extends Exchange> {
@@ -40,12 +38,6 @@ public abstract class BaseExchangeService<E extends Exchange> {
   public void verifyOrder(MarketOrder marketOrder) {
 
     verifyOrder(marketOrder, exchange.getExchangeMetaData());
-  }
-
-  /** @deprecated use {@link ExchangeRestProxyBuilder} */
-  @Deprecated
-  public ClientConfig getClientConfig() {
-    return ExchangeRestProxyBuilder.createClientConfig(exchange.getExchangeSpecification());
   }
 
   protected final void verifyOrder(Order order, ExchangeMetaData exchangeMetaData) {

@@ -15,8 +15,7 @@ public class BTCMarketsMarketDataDemo {
 
   public static void main(String[] args) throws IOException {
     // Use the factory to get BTCMarkets exchange API using default settings
-    Exchange btcMarketsExchange =
-        ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getName());
+    Exchange btcMarketsExchange = ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class);
     generic(btcMarketsExchange);
     raw(btcMarketsExchange);
   }

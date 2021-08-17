@@ -12,7 +12,7 @@ public class IdexExchangeIntegration {
 
   @Test
   public void shouldRunWithoutExceptionWhenCallGetMetadata() {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(IdexExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(IdexExchange.class);
 
     ExchangeMetaData metaData = exchange.getExchangeMetaData();
     Assert.assertNotNull(metaData);
@@ -20,7 +20,7 @@ public class IdexExchangeIntegration {
 
   @Test
   public void shouldRunWithoutExceptionWhenCallGetExchangeSymbols() {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(IdexExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(IdexExchange.class);
 
     List<CurrencyPair> marketCurrencyPairs = exchange.getExchangeSymbols();
     Assert.assertNotNull(marketCurrencyPairs);

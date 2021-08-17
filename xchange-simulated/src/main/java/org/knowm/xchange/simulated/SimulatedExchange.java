@@ -71,8 +71,7 @@ public class SimulatedExchange extends BaseExchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setExchangeName("Simulated");
     exchangeSpecification.setExchangeDescription(
         "A simulated exchange for integration testing purposes.");

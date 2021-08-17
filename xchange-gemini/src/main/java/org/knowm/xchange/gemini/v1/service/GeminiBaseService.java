@@ -1,6 +1,7 @@
 package org.knowm.xchange.gemini.v1.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.gemini.v1.GeminiAuthenticated;
@@ -9,7 +10,6 @@ import org.knowm.xchange.gemini.v2.Gemini2;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class GeminiBaseService extends BaseExchangeService implements BaseService {
 
@@ -29,14 +29,13 @@ public class GeminiBaseService extends BaseExchangeService implements BaseServic
     super(exchange);
 
     this.gemini =
-        RestProxyFactory.createProxy(
-            GeminiAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                GeminiAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
 
     this.gemini2 =
-        RestProxyFactory.createProxy(
-            Gemini2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(Gemini2.class, exchange.getExchangeSpecification())
+            .build();
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =

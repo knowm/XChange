@@ -153,7 +153,7 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
         endpointGenerator,
         null,
         50,
-        null,
+        0,
         BithumbUtils.getBaseCurrency(currencyPair),
         BithumbUtils.getCounterCurrency());
   }

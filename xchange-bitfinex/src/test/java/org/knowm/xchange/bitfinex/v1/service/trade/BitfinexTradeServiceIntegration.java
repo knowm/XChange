@@ -32,7 +32,7 @@ public class BitfinexTradeServiceIntegration {
 
     exchange =
         ExchangeFactory.INSTANCE.createExchange(
-            BitfinexExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
+            BitfinexExchange.class, properties.getApiKey(), properties.getSecretKey());
   }
 
   @After

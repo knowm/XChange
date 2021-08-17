@@ -57,6 +57,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency BND = createCurrency("BND", "Brunei Dollar", null);
   public static final Currency BOB = createCurrency("BOB", "Bolivian Boliviano", null);
   public static final Currency BRL = createCurrency("BRL", "Brazilian Real", "R$");
+  public static final Currency BRZ = createCurrency("BRZ", "Brazilian Digital Token", null);
   public static final Currency BSD = createCurrency("BSD", "Bahamian Dollar", null);
   public static final Currency BTC = createCurrency("BTC", "Bitcoin", null, "XBT");
   public static final Currency BTG = createCurrency("BTG", "Bitcoin Gold", null);
@@ -82,9 +83,9 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency DGB = createCurrency("DGB", "DigiByte", null);
   public static final Currency DJF = createCurrency("DJF", "Djiboutian Franc", null);
   public static final Currency DKK = createCurrency("DKK", "Danish Krone", null);
-  public static final Currency DOGE = createCurrency("DOGE", "Dogecoin", null, "XDC", "XDG");
-  public static final Currency XDC = getInstance("XDC");
+  public static final Currency DOGE = createCurrency("DOGE", "Dogecoin", null, "XDG");
   public static final Currency XDG = getInstance("XDG");
+  public static final Currency XDC = createCurrency("XDC", "XinFin Network", null);
   public static final Currency DOP = createCurrency("DOP", "Dominican Peso", null);
   public static final Currency DGC = createCurrency("DGC", "Digitalcoin", null);
   public static final Currency DVC = createCurrency("DVC", "Devcoin", null);
@@ -187,7 +188,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency OMG = createCurrency("OMG", "OmiseGO", null);
   public static final Currency OMR = createCurrency("OMR", "Omani Rial", null);
   public static final Currency PAB = createCurrency("PAB", "Panamanian Balboa", null);
-  public static final Currency PEN = createCurrency("PEN", "Peruvian Nuevo Sol", null);
+  public static final Currency PEN = createCurrency("PEN", "Peruvian Sol", null);
   public static final Currency PGK = createCurrency("PGK", "Papua New Guinean Kina", null);
   public static final Currency PHP = createCurrency("PHP", "Philippine Peso", null);
   public static final Currency PKR = createCurrency("PKR", "Pakistani Rupee", null);
@@ -238,7 +239,6 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency UAH = createCurrency("UAH", "Ukrainian Hryvnia", null);
   public static final Currency UGX = createCurrency("UGX", "Ugandan Shilling", null);
   public static final Currency USD = createCurrency("USD", "United States Dollar", null);
-  public static final Currency USDC = createCurrency("USDC", "USD Coin", null, "UDC");
   public static final Currency USDT = createCurrency("USDT", "Tether USD Anchor", null);
   public static final Currency USDE = createCurrency("USDE", "Unitary Status Dollar eCoin", null);
   public static final Currency UTC = createCurrency("UTC", "Ultracoin", null);
@@ -306,6 +306,15 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency STORJ = createCurrency("STORJ", "Storj", null);
   public static final Currency MOD = createCurrency("MOD", "Modum", null);
 
+  // Ethereum ERC20 Tokens
+  public static final Currency DAI = createCurrency("DAI", "Dai", null);
+  public static final Currency WETH = createCurrency("WETH", "Wrapped Ether", null);
+  public static final Currency USDC = createCurrency("USDC", "USD Coin", null, "UDC");
+  public static final Currency PBTC = createCurrency("PBTC", "dydx BTC Perpetual (Linear)", null);
+  public static final Currency PLINK =
+      createCurrency("PLINK", "dydx Link Perpetual (Linear)", null);
+  public static final Currency PUSD = createCurrency("PUSD", "dydx USD Perpetual (Inverse)", null);
+
   // Coinmarketcap top 200
   public static final Currency AE = createCurrency("AE", "Aeternity", null);
   public static final Currency FET = createCurrency("FET", "Fetch.ai", null);
@@ -366,7 +375,6 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency MX = createCurrency("MX", "MX Token", null);
   public static final Currency IRIS = createCurrency("IRIS", "IRISnet", null);
   public static final Currency ANKR = createCurrency("ANKR", "Ankr", null);
-  public static final Currency DAI = createCurrency("DAI", "Dai", null);
   public static final Currency SEELE = createCurrency("SEELE", "Seele-N", null);
   public static final Currency WXT = createCurrency("WXT", "Wirex Token", null);
   public static final Currency RVN = createCurrency("RVN", "Ravencoin", null);

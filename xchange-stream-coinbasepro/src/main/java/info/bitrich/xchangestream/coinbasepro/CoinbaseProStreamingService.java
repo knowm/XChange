@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
-import info.bitrich.xchangestream.coinbasepro.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
@@ -17,8 +17,8 @@ import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensio
 import io.reactivex.Observable;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -30,7 +30,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   private static final String SUBSCRIBE = "subscribe";
   private static final String UNSUBSCRIBE = "unsubscribe";
   private static final String SHARE_CHANNEL_NAME = "ALL";
-  private final Map<String, Observable<JsonNode>> subscriptions = new HashMap<>();
+  private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
   private ProductSubscription product = null;
   private final Supplier<CoinbaseProWebsocketAuthData> authData;
   private final boolean subscribeL3Orderbook;
@@ -41,7 +41,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
       String apiUrl,
       Supplier<CoinbaseProWebsocketAuthData> authData,
       boolean subscribeL3Orderbook) {
-    super(apiUrl, Integer.MAX_VALUE);
+    super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 60);
     this.authData = authData;
     this.subscribeL3Orderbook = subscribeL3Orderbook;
   }
@@ -120,16 +120,11 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     CoinbaseProWebSocketSubscriptionMessage subscribeMessage =
         new CoinbaseProWebSocketSubscriptionMessage(
             UNSUBSCRIBE, new String[] {"level2", "matches", "ticker", "full"}, authData.get());
     return objectMapper.writeValueAsString(subscribeMessage);
-  }
-
-  @Override
-  protected void handleMessage(JsonNode message) {
-    super.handleMessage(message);
   }
 
   @Override
@@ -152,6 +147,16 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
 
   public void subscribeMultipleCurrencyPairs(ProductSubscription... products) {
     this.product = products[0];
+  }
+
+  @Override
+  protected void handleChannelMessage(String channel, JsonNode message) {
+    if (SHARE_CHANNEL_NAME.equals(channel)) {
+      channels.forEach((k, v) -> v.getEmitter().onNext(message));
+
+    } else {
+      super.handleChannelMessage(channel, message);
+    }
   }
 
   /**

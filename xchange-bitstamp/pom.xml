@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>5.0.3-SNAPSHOT</version>
+        <version>5.0.11-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-bitstamp</artifactId>
@@ -28,13 +28,6 @@
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <!-- because the pusher jar has its own fork of Java-Websocket -->
-                <exclusion>
-                    <groupId>org.java-websocket</groupId>
-                    <artifactId>Java-WebSocket</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
     </dependencies>

@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +26,7 @@ public class ObjectMapperHelper {
 
   public static <T> T readValue(URL src, Class<T> valueType) throws IOException {
     try (InputStream inputStream = src.openStream()) {
-      Reader reader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+      Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
       return objectMapperWithoutIndentation.readValue(reader, valueType);
     }
   }

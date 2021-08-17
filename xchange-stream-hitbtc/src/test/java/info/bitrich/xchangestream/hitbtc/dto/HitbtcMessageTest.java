@@ -13,13 +13,15 @@ import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.TimeZone;
-import org.apache.commons.io.IOUtils;
 import org.hamcrest.Matcher;
 import org.junit.Assert;
 import org.junit.Test;
@@ -55,11 +57,14 @@ public class HitbtcMessageTest {
   }
 
   @Test
-  public void test() throws IOException {
+  public void test() throws IOException, URISyntaxException {
     LOG.info("Testing {} message...", testResource);
 
     String message =
-        IOUtils.toString(getClass().getResource(testResource).openStream(), StandardCharsets.UTF_8);
+        new String(
+            Files.readAllBytes(Paths.get(getClass().getResource(testResource).toURI())),
+            StandardCharsets.UTF_8);
+
     Object object = objectMapper.readValue(message, clazz);
 
     Assert.assertNotNull(object);

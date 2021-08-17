@@ -6,7 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.BitsoAuthenticated;
 import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
 import org.knowm.xchange.bitso.dto.trade.BitsoUserTransaction;
-import si.mazi.rescu.RestProxyFactory;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 
 /** @author Piotr Ładyżyński */
 public class BitsoTradeServiceRaw extends BitsoBaseService {
@@ -19,10 +19,9 @@ public class BitsoTradeServiceRaw extends BitsoBaseService {
 
     super(exchange);
     this.bitsoAuthenticated =
-        RestProxyFactory.createProxy(
-            BitsoAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BitsoAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.signatureCreator =
         BitsoDigest.createInstance(
             exchange.getExchangeSpecification().getSecretKey(),

@@ -85,6 +85,11 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
         .getResult();
   }
 
+  public OrderPlacement edit(String orderID, BigDecimal amount, BigDecimal price)
+      throws IOException {
+    return deribitAuthenticated.edit(orderID, amount, price, deribitAuth).getResult();
+  }
+
   public Order cancel(String orderId) throws IOException {
     return deribitAuthenticated.cancel(orderId, deribitAuth).getResult();
   }
@@ -131,9 +136,23 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
   }
 
   public UserSettlements getUserSettlementsByInstrument(
-      String instrumentName, SettlementType type, Integer count) throws IOException {
+      String instrumentName, SettlementType type, Integer count, String continuation)
+      throws IOException {
     return deribitAuthenticated
-        .getSettlementHistoryByInstrument(instrumentName, type, count, deribitAuth)
+        .getSettlementHistoryByInstrument(instrumentName, type, count, continuation, deribitAuth)
+        .getResult();
+  }
+
+  public List<Order> getOrderHistoryByInstrument(
+      String instrumentName,
+      Integer count,
+      Integer offset,
+      Boolean includeOld,
+      Boolean includeUnfilled)
+      throws IOException {
+    return deribitAuthenticated
+        .getOrderHistoryByInstrument(
+            instrumentName, count, offset, includeOld, includeUnfilled, deribitAuth)
         .getResult();
   }
 }

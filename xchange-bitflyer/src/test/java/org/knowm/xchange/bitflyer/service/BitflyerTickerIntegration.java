@@ -16,7 +16,7 @@ public class BitflyerTickerIntegration {
 
   @Test
   public void fetchTickerTest() throws IOException {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitflyerExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitflyerExchange.class);
     MarketDataService service = exchange.getMarketDataService();
 
     Ticker ticker = service.getTicker(CurrencyPair.BTC_JPY);

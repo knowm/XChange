@@ -18,9 +18,9 @@ import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -132,8 +132,38 @@ public class BitstampStreamingMarketDataServiceV2Test
     validateTrades(expected, test);
   }
 
-  @Test(expected = NotAvailableFromExchangeException.class)
+  @Test
   public void testGetTicker() throws Exception {
-    marketDataService.getTicker(CurrencyPair.BTC_EUR).test();
+    // Given order book in JSON
+    JsonNode orderBook = mapper.readTree(this.getClass().getResource("/order-book-v2.json"));
+
+    when(streamingService.subscribeChannel(eq("order_book_btceur"), eq("data")))
+        .thenReturn(Observable.just(orderBook));
+
+    List<Ticker> tickerList = new ArrayList<>();
+    tickerList.add(
+        new Ticker.Builder()
+            .bidSize(new BigDecimal("0.922"))
+            .instrument(CurrencyPair.BTC_EUR)
+            .bid(new BigDecimal("819.9"))
+            .ask(new BigDecimal("821.7"))
+            .askSize(new BigDecimal("2.89"))
+            .timestamp(new Date(1553720851000L))
+            .build());
+    tickerList.add(
+        new Ticker.Builder()
+            .bidSize(new BigDecimal("0.085"))
+            .instrument(CurrencyPair.BTC_EUR)
+            .bid(new BigDecimal("818.63"))
+            .ask(new BigDecimal("821.65"))
+            .askSize(new BigDecimal("5.18"))
+            .timestamp(new Date(1553720851000L))
+            .build());
+
+    // Call get ticker observable
+    TestObserver<Ticker> test = marketDataService.getTicker(CurrencyPair.BTC_EUR).test();
+
+    // We get order book object in correct order
+    validateTicker(tickerList, test);
   }
 }

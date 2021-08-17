@@ -13,7 +13,7 @@ public class HitbtcManualExample {
 
   public static void main(String[] args) {
     StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(HitbtcStreamingExchange.class.getName());
+        StreamingExchangeFactory.INSTANCE.createExchange(HitbtcStreamingExchange.class);
 
     exchange.connect().blockingAwait();
     Disposable orderBookObserver =

@@ -31,7 +31,7 @@ public class TradeServiceIntegration {
       return;
     }
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CexIOExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CexIOExchange.class);
 
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
     specification.setApiKey(properties.getApiKey());

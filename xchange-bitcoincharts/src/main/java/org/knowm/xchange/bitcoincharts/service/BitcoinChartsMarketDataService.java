@@ -5,13 +5,13 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcoincharts.BitcoinCharts;
 import org.knowm.xchange.bitcoincharts.BitcoinChartsAdapters;
 import org.knowm.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author timmolter */
 public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService
@@ -25,13 +25,11 @@ public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService
    * @param exchange
    */
   public BitcoinChartsMarketDataService(Exchange exchange) {
-
     super(exchange);
     this.bitcoinCharts =
-        RestProxyFactory.createProxy(
-            BitcoinCharts.class,
-            exchange.getExchangeSpecification().getPlainTextUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BitcoinCharts.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   @Override

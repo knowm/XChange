@@ -1,6 +1,6 @@
 package org.knowm.xchange.livecoin.service;
 
-import static org.knowm.xchange.client.ResilienceRegistries.NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME;
+import static org.knowm.xchange.client.ResilienceRegistries.NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME;
 
 import java.io.IOException;
 import java.util.Date;
@@ -38,7 +38,7 @@ public class LivecoinAccountServiceRaw extends LivecoinBaseService {
                         params.getCurrency().getCurrencyCode(),
                         params.getAmount(),
                         params.getAddress()))
-            .withRetry(retry("paymentOutCoin", NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME))
+            .withRetry(retry("paymentOutCoin", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
             .call();
     return response.getData().get("id").toString();
   }

@@ -22,7 +22,7 @@ public class BitfinexManualAuthExample {
 
     ExchangeSpecification spec =
         StreamingExchangeFactory.INSTANCE
-            .createExchange(BitfinexStreamingExchange.class.getName())
+            .createExchange(BitfinexStreamingExchange.class)
             .getDefaultExchangeSpecification();
     spec.setApiKey(apiKey);
     spec.setSecretKey(apiSecret);

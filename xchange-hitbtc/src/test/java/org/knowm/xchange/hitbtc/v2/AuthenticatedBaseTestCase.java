@@ -23,9 +23,7 @@ public class AuthenticatedBaseTestCase {
     String apiKey = System.getProperty(API_KEY_LOOKUP);
     String secretValue = System.getProperty(SECRET_KEY_LOOKUP);
 
-    EXCHANGE =
-        ExchangeFactory.INSTANCE.createExchange(
-            HitbtcExchange.class.getName(), apiKey, secretValue);
+    EXCHANGE = ExchangeFactory.INSTANCE.createExchange(HitbtcExchange.class, apiKey, secretValue);
     EXCHANGE.remoteInit();
   }
 }
