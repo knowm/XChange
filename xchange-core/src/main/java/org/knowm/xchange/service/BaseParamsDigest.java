@@ -42,20 +42,22 @@ public abstract class BaseParamsDigest implements ParamsDigest {
       throws IllegalArgumentException {
 
     final SecretKey secretKey = new SecretKeySpec(secretKeyBase64, hmacString);
-    threadLocalMac =
-        ThreadLocal.withInitial(
-            () -> {
-              try {
-                Mac mac = Mac.getInstance(hmacString);
-                mac.init(secretKey);
-                return mac;
-              } catch (InvalidKeyException e) {
-                throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-              } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(
-                    "Illegal algorithm for post body digest. Check the implementation.");
-              }
-            });
+    threadLocalMac = threadLocalWithInitial(secretKey, hmacString);
+  }
+  
+  private ThreadLocal<Mac> threadLocalWithInitial(SecretKey secretKey, String hmacString) {
+    ThreadLocal<Mac> result = new ThreadLocal<>();
+    try {
+      Mac mac = Mac.getInstance(hmacString);
+      mac.init(secretKey);
+      result.set(mac);
+      return result;
+    } catch (InvalidKeyException e) {
+      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(
+              "Illegal algorithm for post body digest. Check the implementation.");
+    }
   }
 
   protected static byte[] decodeBase64(String secretKey) {
