@@ -1,4 +1,4 @@
-package org.knowm.xchange.kraken.service;
+package org.knowm.xchange.kraken;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
