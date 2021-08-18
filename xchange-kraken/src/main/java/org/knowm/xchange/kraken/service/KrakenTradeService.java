@@ -1,13 +1,21 @@
 package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
+import org.knowm.xchange.kraken.KrakenUtils;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrderDescription;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
@@ -34,11 +42,14 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    Map<String, KrakenOrder> krakenOrders = super.getKrakenOpenOrders();
     if (params != null && params instanceof OpenOrdersParamCurrencyPair) {
       OpenOrdersParamCurrencyPair openOrdersParamCurrencyPair = (OpenOrdersParamCurrencyPair) params;
-      return KrakenAdapters.adaptOpenOrders(super.getKrakenOpenOrders(), openOrdersParamCurrencyPair.getCurrencyPair());
+      Map<String, KrakenOrder> filteredKrakenOrders = KrakenUtils.filterOpenOrdersByCurrencyPair(
+              krakenOrders, openOrdersParamCurrencyPair.getCurrencyPair());
+      return KrakenAdapters.adaptOpenOrders(filteredKrakenOrders);
     }
-    return KrakenAdapters.adaptOpenOrders(super.getKrakenOpenOrders());
+    return KrakenAdapters.adaptOpenOrders(krakenOrders);
   }
 
   @Override

@@ -220,32 +220,6 @@ public class KrakenAdaptersTest {
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
   }
 
-
-  @Test
-  public void testAdaptOpenOrdersByCurrencyPair() throws IOException {
-
-    // Read in the JSON from the example resources
-    InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream(
-            "/org/knowm/xchange/kraken/dto/trading/example-openorders-data.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    KrakenOpenOrdersResult krakenResult = mapper.readValue(is, KrakenOpenOrdersResult.class);
-
-    OpenOrders orders = KrakenAdapters.adaptOpenOrders(krakenResult.getResult().getOrders(),
-            CurrencyPair.BTC_EUR);
-
-    // Verify that the example data was unmarshalled correctly
-    assertThat(orders.getOpenOrders()).hasSize(1);
-    assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OU5JPQ-OIDTK-QIGIGI");
-    assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("1000.000");
-    assertThat(orders.getOpenOrders().get(0).getOriginalAmount()).isEqualTo("0.01000000");
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().base).isEqualTo(Currency.XBT);
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counter).isEqualTo(Currency.EUR);
-    assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
-  }
-
   @Test
   public void testAdaptOpenOrdersInTransactionCurrency() throws IOException {
 
