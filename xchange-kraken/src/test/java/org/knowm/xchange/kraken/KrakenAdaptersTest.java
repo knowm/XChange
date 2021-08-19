@@ -249,10 +249,10 @@ public class KrakenAdaptersTest {
     List<UserTrade> tradeList =
         loadUserTrades("/org/knowm/xchange/kraken/dto/trading/example-tradehistory-data.json");
 
-    assertThat(tradeList.size()).isEqualTo(1);
+    assertThat(tradeList.size()).isEqualTo(3);
     UserTrade trade = tradeList.get(0);
     assertThat(trade).isInstanceOf(KrakenUserTrade.class);
-    assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD");
+    assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD-1");
     assertThat(trade.getPrice()).isEqualTo("32.07562");
     assertThat(trade.getOriginalAmount()).isEqualTo("0.50000000");
     assertThat(trade.getCurrencyPair().base).isEqualTo(Currency.LTC);
