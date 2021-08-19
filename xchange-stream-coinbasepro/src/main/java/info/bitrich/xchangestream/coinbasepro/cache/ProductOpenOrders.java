@@ -38,11 +38,11 @@ public class ProductOpenOrders {
         inited = false;
     }
 
-    public synchronized OpenOrders getOpenOrders() {
+    public OpenOrders getOpenOrders() {
         return CoinbaseProAdapters.adaptOpenOrders(openOrders.toArray(new CoinbaseProOrder[0]));
     }
 
-    public synchronized List<CoinbaseProOrder> getCoinbaseProOpenOrders() {
+    public List<CoinbaseProOrder> getCoinbaseProOpenOrders() {
         return new ArrayList<>(openOrders);
     }
 
@@ -51,14 +51,14 @@ public class ProductOpenOrders {
                 .findFirst().orElse(null);
     }
 
-    public synchronized Order getOrder(String orderId) {
+    public Order getOrder(String orderId) {
         return Stream.concat(openOrders.stream(), doneOrders.stream())
                 .filter(o -> o.getId().equals(orderId))
                 .findFirst()
                 .map(CoinbaseProAdapters::adaptOrder).orElse(null);
     }
 
-    public synchronized void processWebSocketTransaction(CoinbaseProWebSocketTransaction transaction) throws IOException {
+    public void processWebSocketTransaction(CoinbaseProWebSocketTransaction transaction) throws IOException {
         if (!inited) {
             if (transaction.getSequence() <= initializer.getSequence()) {
                 initializer.processWebSocketTransaction(transaction);
@@ -101,7 +101,7 @@ public class ProductOpenOrders {
         }
     }
 
-    public synchronized boolean isInited() {
+    public boolean isInited() {
         return inited;
     }
 }

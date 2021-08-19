@@ -42,9 +42,10 @@ public class OpenOrdersCache {
         inited = true;
     }
 
-    public void processWebSocketTransaction(CoinbaseProWebSocketTransaction transaction) {
+    public synchronized void processWebSocketTransaction(CoinbaseProWebSocketTransaction transaction) {
         try {
             if ("subscriptions".equals(transaction.getType()) ||
+                    "heartbeat".equals(transaction.getType()) ||
                     "received".equals(transaction.getType()) ||
                     "open".equals(transaction.getType()) ||
                     "done".equals(transaction.getType()) ||
@@ -64,7 +65,7 @@ public class OpenOrdersCache {
         }
     }
 
-    public boolean isInited() {
+    public synchronized boolean isInited() {
         if (!inited) {
             return false;
         }
@@ -76,14 +77,14 @@ public class OpenOrdersCache {
         return true;
     }
 
-    public OpenOrders getOpenOrders() {
+    public synchronized OpenOrders getOpenOrders() {
         return CoinbaseProAdapters.adaptOpenOrders(
                 products.values().stream()
                         .map(ProductOpenOrders::getCoinbaseProOpenOrders)
                         .toArray(CoinbaseProOrder[]::new));
     }
 
-    public Order getOrder(String orderId) {
+    public synchronized Order getOrder(String orderId) {
         return products.values().stream()
                 .map(p -> p.getOrder(orderId))
                 .filter(Objects::nonNull)
