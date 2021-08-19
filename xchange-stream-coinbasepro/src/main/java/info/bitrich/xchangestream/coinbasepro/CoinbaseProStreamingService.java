@@ -4,6 +4,7 @@ import static io.netty.util.internal.StringUtil.isNullOrEmpty;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import info.bitrich.xchangestream.coinbasepro.cache.OpenOrdersCache;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
@@ -14,13 +15,19 @@ import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
+
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Action;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
+import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataService;
+import org.knowm.xchange.coinbasepro.service.CoinbaseProTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,16 +44,24 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
 
   private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
+  private OpenOrdersCache openOrdersCache;
+  private Disposable disposable;
+
   public CoinbaseProStreamingService(
+      CoinbaseProMarketDataService marketDataService,
+      CoinbaseProTradeService tradeService,
       String apiUrl,
-      Supplier<CoinbaseProWebsocketAuthData> authData,
-      boolean subscribeL3Orderbook) {
+          Supplier<CoinbaseProWebsocketAuthData> authData,
+          boolean subscribeL3Orderbook) {
     super(apiUrl, Integer.MAX_VALUE);
     this.authData = authData;
     this.subscribeL3Orderbook = subscribeL3Orderbook;
+    openOrdersCache = new OpenOrdersCache(marketDataService, tradeService);
   }
 
   public CoinbaseProStreamingService(
+      CoinbaseProMarketDataService marketDataService,
+      CoinbaseProTradeService tradeService,
       String apiUrl,
       int maxFramePayloadLength,
       Duration connectionTimeout,
@@ -57,6 +72,11 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
     super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.authData = authData;
     this.subscribeL3Orderbook = subscribeL3Orderbook;
+    openOrdersCache = new OpenOrdersCache(marketDataService, tradeService);
+  }
+
+  public OpenOrdersCache getCache() {
+    return openOrdersCache;
   }
 
   public ProductSubscription getProduct() {
@@ -86,6 +106,11 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
     return subscriptions.get(channelName);
   }
 
+  @Override
+  public Completable connect() {
+    return super.connect().doOnComplete(this::initCache);
+  }
+
   /**
    * Subscribes to web socket transactions related to the specified currency, in their raw format.
    *
@@ -100,6 +125,29 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
         .map(s -> mapper.readValue(s.toString(), CoinbaseProWebSocketTransaction.class))
         .filter(t -> channelName.equals(t.getProductId()))
         .filter(t -> !isNullOrEmpty(t.getType()));
+  }
+
+  public void initCache() {
+    final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+    disposable = subscribeChannel("")
+            .map(s -> mapper.readValue(s.toString(), CoinbaseProWebSocketTransaction.class))
+            .doOnError(e -> LOG.error("Error on Coinbase Pro websocket", e))
+            .retry()
+            .subscribe(t -> openOrdersCache.processWebSocketTransaction(t),
+                    e -> LOG.error("Error caught on orders cache subscriber:\n", e));
+  }
+
+  @Override
+  public Completable disconnect() {
+    if (disposable != null) {
+      disposable.dispose();
+    }
+    return super.disconnect();
+  }
+
+  @Override
+  protected Completable openConnection() {
+    return super.openConnection();
   }
 
   boolean isAuthenticated() {
