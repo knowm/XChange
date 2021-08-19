@@ -18,7 +18,7 @@ public class CoinbaseProOrderBuilder {
     private boolean settled;
     private String type;
     private String doneReason;
-    private BigDecimal executedvalue;
+    private BigDecimal executedValue;
     private String stop;
     private BigDecimal stopPrice;
 
@@ -73,7 +73,7 @@ public class CoinbaseProOrderBuilder {
                 return CoinbaseProOrderBuilder.from(order)
                         .fillFees(order.getFillFees().add(t.getFee()))
                         .filledSize(order.getFilledSize().add(t.getSize()))
-                        .executedvalue(order.getExecutedValue().add(t.getSize().multiply(t.getPrice())));
+                        .executedValue(order.getExecutedValue().add(t.getSize().multiply(t.getPrice())));
             }
             case "done":
                 return CoinbaseProOrderBuilder.from(order)
@@ -100,7 +100,7 @@ public class CoinbaseProOrderBuilder {
                 .settled(order.isSettled())
                 .type(order.getType())
                 .doneReason(order.getDoneReason())
-                .executedvalue(order.getExecutedValue())
+                .executedValue(order.getExecutedValue())
                 .stop(order.getStop())
                 .stopPrice(order.getStopPrice());
     }
@@ -170,8 +170,8 @@ public class CoinbaseProOrderBuilder {
         return this;
     }
 
-    public CoinbaseProOrderBuilder executedvalue(BigDecimal executedvalue) {
-        this.executedvalue = executedvalue;
+    public CoinbaseProOrderBuilder executedValue(BigDecimal executedValue) {
+        this.executedValue = executedValue;
         return this;
     }
 
@@ -200,7 +200,7 @@ public class CoinbaseProOrderBuilder {
                 settled,
                 type,
                 doneReason,
-                executedvalue,
+                executedValue,
                 stop,
                 stopPrice);
     }
