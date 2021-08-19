@@ -277,18 +277,9 @@ public class KrakenAdapters {
   }
 
   public static UserTrades adaptTradesHistory(Map<String, KrakenTrade> krakenTrades) {
-    return adaptTradesHistory(krakenTrades, null);
-  }
-
-  public static UserTrades adaptTradesHistory(Map<String, KrakenTrade> krakenTrades,
-                                              CurrencyPair currencyPair) {
 
     List<UserTrade> trades = new ArrayList<>();
     for (Entry<String, KrakenTrade> krakenTradeEntry : krakenTrades.entrySet()) {
-      if(currencyPair != null && !currencyPair.equals(adaptCurrencyPair(krakenTradeEntry.getValue().getAssetPair()))){
-        continue;
-      }
-
       trades.add(adaptTrade(krakenTradeEntry.getValue(), krakenTradeEntry.getKey()));
     }
 

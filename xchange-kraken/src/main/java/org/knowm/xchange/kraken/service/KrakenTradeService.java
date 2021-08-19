@@ -2,6 +2,8 @@ package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -9,6 +11,8 @@ import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
+import org.knowm.xchange.kraken.KrakenUtils;
+import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -104,12 +108,17 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
       end = DateUtils.toUnixTimeOptional(timeSpan.getEndTime()).map(Object::toString).orElse(end);
     }
 
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    Map<String, KrakenTrade> krakenTradeHistory =
+            getKrakenTradeHistory(null, false, start, end, offset).getTrades();
+
+    if (params instanceof TradeHistoryParamCurrencyPair &&
+            ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
+      krakenTradeHistory = KrakenUtils.filterTradeHistoryByCurrencyPair(
+              krakenTradeHistory,
+              ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
     }
 
-    return KrakenAdapters.adaptTradesHistory(
-        getKrakenTradeHistory(null, false, start, end, offset).getTrades(), currencyPair);
+    return KrakenAdapters.adaptTradesHistory(krakenTradeHistory);
   }
 
   @Override
