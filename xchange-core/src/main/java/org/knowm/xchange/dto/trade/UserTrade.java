@@ -9,6 +9,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
@@ -36,7 +37,7 @@ public class UserTrade extends Trade {
    *
    * @param type The trade type (BID side or ASK side)
    * @param originalAmount The depth of this trade
-   * @param currencyPair The exchange identifier (e.g. "BTC/USD")
+   * @param instrument The exchange identifier (e.g. "BTC/USD")
    * @param price The price (either the bid or the ask)
    * @param timestamp The timestamp of the trade
    * @param id The id of the trade
@@ -48,7 +49,7 @@ public class UserTrade extends Trade {
   public UserTrade(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       BigDecimal price,
       Date timestamp,
       String id,
@@ -57,12 +58,16 @@ public class UserTrade extends Trade {
       Currency feeCurrency,
       String orderUserReference) {
 
-    super(type, originalAmount, currencyPair, price, timestamp, id, null, null);
+    super(type, originalAmount, instrument, price, timestamp, id, null, null);
 
     this.orderId = orderId;
     this.feeAmount = feeAmount;
     this.feeCurrency = feeCurrency;
     this.orderUserReference = orderUserReference;
+  }
+
+  public static UserTrade.Builder builder() {
+    return new UserTrade.Builder();
   }
 
   public String getOrderId() {
@@ -90,8 +95,8 @@ public class UserTrade extends Trade {
         + type
         + ", originalAmount="
         + originalAmount
-        + ", currencyPair="
-        + currencyPair
+        + ", instrument="
+        + instrument
         + ", price="
         + price
         + ", timestamp="
@@ -140,7 +145,7 @@ public class UserTrade extends Trade {
       return new Builder()
           .type(trade.getType())
           .originalAmount(trade.getOriginalAmount())
-          .currencyPair(trade.getCurrencyPair())
+          .instrument(trade.getInstrument())
           .price(trade.getPrice())
           .timestamp(trade.getTimestamp())
           .id(trade.getId())
@@ -157,6 +162,11 @@ public class UserTrade extends Trade {
     @Override
     public Builder originalAmount(BigDecimal originalAmount) {
       return (Builder) super.originalAmount(originalAmount);
+    }
+
+    @Override
+    public Builder instrument(Instrument instrument) {
+      return (Builder) super.instrument(instrument);
     }
 
     @Override
@@ -204,7 +214,7 @@ public class UserTrade extends Trade {
       return new UserTrade(
           type,
           originalAmount,
-          currencyPair,
+          instrument,
           price,
           timestamp,
           id,

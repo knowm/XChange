@@ -32,8 +32,7 @@ public class TheRockExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.therocktrading.com");
     exchangeSpecification.setHost("api.therocktrading.com");
     exchangeSpecification.setPort(80);

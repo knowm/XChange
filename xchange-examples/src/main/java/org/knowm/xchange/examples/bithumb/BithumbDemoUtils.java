@@ -8,7 +8,7 @@ import org.knowm.xchange.bithumb.BithumbExchange;
 public class BithumbDemoUtils {
   public static Exchange createExchange() {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BithumbExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BithumbExchange.class);
 
     ExchangeSpecification bithumbSpec = exchange.getDefaultExchangeSpecification();
 

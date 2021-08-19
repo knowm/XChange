@@ -1,23 +1,20 @@
-{
-	"success" : true,
-	"message" : "",
-	"result" : [{
-			"Currency" : "DOGE",
-			"Balance" : 0.00000000,
-			"Available" : 0.00000000,
-			"Pending" : 0.00000000,
-			"CryptoAddress" : "DLxcEt3AatMyr2NTatzjsfHNoB9NT62HiF",
-			"Requested" : false,
-			"Uuid" : null
-
-		}, {
-			"Currency" : "BTC",
-			"Balance" : 14.21549076,
-			"Available" : 14.21549076,
-			"Pending" : 0.00000000,
-			"CryptoAddress" : "1Mrcdr6715hjda34pdXuLqXcju6qgwHA31",
-			"Requested" : false,
-			"Uuid" : null
-		}
-	]
-}
+[
+  {
+    "currencySymbol": "BTC",
+    "total": "5265.89272032",
+    "available": "626.54401024",
+    "updatedAt": "2020-06-25T14:38:46.06Z"
+  },
+  {
+    "currencySymbol": "ETH",
+    "total": "0.00000000",
+    "available": "0.00000000",
+    "updatedAt": "2020-06-25T13:40:26.5Z"
+  },
+  {
+    "currencySymbol": "USDT",
+    "total": "3.49239942",
+    "available": "3.49239942",
+    "updatedAt": "2019-09-03T16:11:47.38Z"
+  }
+]

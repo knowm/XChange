@@ -2,7 +2,13 @@ package org.knowm.xchange.bitmex;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -17,14 +23,24 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.nonce.ExpirationTimeFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitmexExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
-
   protected RateLimitUpdateListener rateLimitUpdateListener;
+
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new SynchronizedValueFactory<Long>() {
+
+        private final SynchronizedValueFactory<Long> secondsNonce =
+            new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
+
+        @Override
+        public Long createValue() {
+          return secondsNonce.createValue() + 30;
+        }
+      };
 
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
@@ -58,8 +74,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://www.bitmex.com");
     exchangeSpecification.setHost("bitmex.com");
     exchangeSpecification.setPort(80);
@@ -129,7 +144,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
     String bitmexSymbol = ticker.getSymbol();
     String baseSymbol =
-        (ticker.getRootSymbol().equals("XBK") || ticker.getRootSymbol().equals("XBJ"))
+        ("XBK".equals(ticker.getRootSymbol()) || "XBJ".equals(ticker.getRootSymbol()))
             ? "XBT"
             : ticker.getRootSymbol();
     String counterSymbol;
@@ -147,20 +162,23 @@ public class BitmexExchange extends BaseExchange implements Exchange {
   }
 
   private Integer getPriceScale(List<BitmexTicker> tickers, CurrencyPair cp) {
+
     return tickers.stream()
         .filter(ticker -> ticker.getSymbol().equals(BitmexAdapters.adaptCurrencyPairToSymbol(cp)))
         .findFirst()
-        .map(ticker -> ticker.getLastPrice().scale())
-        .get();
+        .map(BitmexTicker::getLastPrice)
+        .filter(Objects::nonNull)
+        .map(BigDecimal::scale)
+        .orElse(null);
   }
 
   public CurrencyPair determineActiveContract(
       String baseSymbol, String counterSymbol, BitmexPrompt contractTimeframe) {
 
-    if (baseSymbol.equals("BTC")) {
+    if ("BTC".equals(baseSymbol)) {
       baseSymbol = "XBT";
     }
-    if (counterSymbol.equals("BTC")) {
+    if ("BTC".equals(counterSymbol)) {
       counterSymbol = "XBT";
     }
 

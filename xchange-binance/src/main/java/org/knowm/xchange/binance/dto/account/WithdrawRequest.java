@@ -2,7 +2,7 @@ package org.knowm.xchange.binance.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public final class WithdrawRequest extends WapiResponse<String> {
+public final class WithdrawRequest extends ApiResponse<String> {
   public final String id;
 
   public WithdrawRequest(

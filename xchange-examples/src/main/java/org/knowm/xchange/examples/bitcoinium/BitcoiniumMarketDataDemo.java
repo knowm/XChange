@@ -13,13 +13,13 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** Demonstrate requesting Market Data from CampBX */
+/** Demonstrate requesting Market Data from Bitstamp */
 public class BitcoiniumMarketDataDemo {
 
   public static void main(String[] args) throws Exception {
 
     ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(BitcoiniumExchange.class.getName());
+        new ExchangeSpecification(BitcoiniumExchange.class);
     exchangeSpecification.setApiKey("42djci5kmbtyzrvglfdw3e2dgmh5mr37");
     System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);

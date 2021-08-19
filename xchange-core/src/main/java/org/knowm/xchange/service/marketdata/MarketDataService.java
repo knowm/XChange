@@ -38,7 +38,7 @@ public interface MarketDataService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getTicker");
   }
 
   /**
@@ -54,7 +54,7 @@ public interface MarketDataService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default List<Ticker> getTickers(Params params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getTickers");
   }
 
   /**
@@ -71,7 +71,24 @@ public interface MarketDataService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getOrderBook");
+  }
+
+  /**
+   * Get an order book representing the current offered exchange rates (market depth)
+   *
+   * @param params Exchange-specific
+   * @return The OrderBook, null if some sort of error occurred. Implementers should log the error.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default OrderBook getOrderBook(Params params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getOrderBook");
   }
 
   /**
@@ -88,6 +105,23 @@ public interface MarketDataService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getTrades");
+  }
+
+  /**
+   * Get the trades recently performed by the exchange
+   *
+   * @param params Exchange-specific
+   * @return The Trades, null if some sort of error occurred. Implementers should log the error.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default Trades getTrades(Params params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getTrades");
   }
 }

@@ -109,6 +109,28 @@ public interface DeribitAuthenticated {
       throws DeribitException, IOException;
 
   /**
+   * https://docs.deribit.com/v2/#private-edit Edit an existing order, specified by order id
+   *
+   * @param orderID, amount, price
+   */
+  @GET
+  @Path("edit")
+  DeribitResponse<OrderPlacement> edit(
+      @QueryParam("order_id") String orderID,
+      @QueryParam("amount") BigDecimal amount,
+      @QueryParam("price") BigDecimal price,
+      // @QueryParam("post_only") Boolean postOnly,
+      // @QueryParam("reduce_only") Boolean reduceOnly,
+      // @QueryParam("reject_post_only") Boolean reducePostOnly,
+      // @QueryParam("advanced") AdvancedOptions advanced,
+      // @QueryParam("stop_price") BigDecimal stopPrice,
+      // @QueryParam("mp") Boolean mp,
+      // here is a bug! on the website it says mmp, but if you tipe in mmp, you get a
+      // bad request 400.
+      @HeaderParam("Authorization") ParamsDigest auth)
+      throws DeribitException, IOException;
+
+  /**
    * Cancel an order, specified by order id
    *
    * @param orderId required, The order id
@@ -200,6 +222,7 @@ public interface DeribitAuthenticated {
    * @param instrumentName required - Instrument name
    * @param count optional - Number of requested items, default - 20
    * @param type optional - Settlement type
+   * @param continuation optional - Continuation string for pagination
    */
   @GET
   @Path("get_settlement_history_by_instrument")
@@ -207,6 +230,27 @@ public interface DeribitAuthenticated {
       @QueryParam("instrument_name") String instrumentName,
       @QueryParam("type") SettlementType type,
       @QueryParam("count") Integer count,
+      @QueryParam("continuation") String continuation,
+      @HeaderParam("Authorization") ParamsDigest auth)
+      throws DeribitException, IOException;
+
+  /**
+   * https://docs.deribit.com/#private-get_order_history_by_instrument
+   *
+   * @param instrumentName required - Instrument name
+   * @param count optional - Number of requested items, default - 20
+   * @param offset optional - The offset for pagination, default - 0
+   * @param includeOld optional - Include orders older than 2 days, default - false
+   * @param includeUnfilled optional - Include fully unfilled closed orders, default - false
+   */
+  @GET
+  @Path("get_order_history_by_instrument")
+  DeribitResponse<List<Order>> getOrderHistoryByInstrument(
+      @QueryParam("instrument_name") String instrumentName,
+      @QueryParam("count") Integer count,
+      @QueryParam("offset") Integer offset,
+      @QueryParam("include_old") Boolean includeOld,
+      @QueryParam("include_unfilled") Boolean includeUnfilled,
       @HeaderParam("Authorization") ParamsDigest auth)
       throws DeribitException, IOException;
 }

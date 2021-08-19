@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -16,14 +17,10 @@ import org.knowm.xchange.latoken.service.LatokenAccountService;
 import org.knowm.xchange.latoken.service.LatokenMarketDataService;
 import org.knowm.xchange.latoken.service.LatokenTradeService;
 import org.knowm.xchange.utils.AuthUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class LatokenExchange extends BaseExchange {
 
-  private static final Logger LOG = LoggerFactory.getLogger(LatokenExchange.class);
   private static final int PRECISION = 8;
 
   private LatokenAuthenticated latoken;
@@ -31,8 +28,9 @@ public class LatokenExchange extends BaseExchange {
   @Override
   protected void initServices() {
     this.latoken =
-        RestProxyFactory.createProxy(
-            LatokenAuthenticated.class, getExchangeSpecification().getSslUri());
+        ExchangeRestProxyBuilder.forInterface(
+                LatokenAuthenticated.class, getExchangeSpecification())
+            .build();
     this.marketDataService = new LatokenMarketDataService(this);
     this.tradeService = new LatokenTradeService(this);
     this.accountService = new LatokenAccountService(this);
@@ -49,7 +47,7 @@ public class LatokenExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification spec = new ExchangeSpecification(this.getClass());
     spec.setSslUri("https://api.latoken.com");
     spec.setHost("www.latoken.com");
     spec.setPort(80);

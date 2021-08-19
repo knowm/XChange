@@ -13,9 +13,7 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.binance.BinanceExchange;
+import org.knowm.xchange.binance.BinanceExchangeIntegration;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -23,14 +21,13 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 
-public class TradeServiceIntegration {
+public class TradeServiceIntegration extends BinanceExchangeIntegration {
 
-  static Exchange exchange;
   static BinanceTradeService tradeService;
 
   @BeforeClass
-  public static void beforeClass() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class.getName());
+  public static void beforeClass() throws Exception {
+    createExchange();
     tradeService = (BinanceTradeService) exchange.getTradeService();
   }
 

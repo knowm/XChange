@@ -1,0 +1,72 @@
+{
+  "table": "execution",
+  "action": "partial",
+  "keys": [
+    "execID"
+  ],
+  "types": {
+    "execID": "guid",
+    "orderID": "guid",
+    "clOrdID": "symbol",
+    "clOrdLinkID": "symbol",
+    "account": "long",
+    "symbol": "symbol",
+    "side": "symbol",
+    "lastQty": "long",
+    "lastPx": "float",
+    "underlyingLastPx": "float",
+    "lastMkt": "symbol",
+    "lastLiquidityInd": "symbol",
+    "simpleOrderQty": "float",
+    "orderQty": "long",
+    "price": "float",
+    "displayQty": "long",
+    "stopPx": "float",
+    "pegOffsetValue": "float",
+    "pegPriceType": "symbol",
+    "currency": "symbol",
+    "settlCurrency": "symbol",
+    "execType": "symbol",
+    "ordType": "symbol",
+    "timeInForce": "symbol",
+    "execInst": "symbol",
+    "contingencyType": "symbol",
+    "exDestination": "symbol",
+    "ordStatus": "symbol",
+    "triggered": "symbol",
+    "workingIndicator": "boolean",
+    "ordRejReason": "symbol",
+    "simpleLeavesQty": "float",
+    "leavesQty": "long",
+    "simpleCumQty": "float",
+    "cumQty": "long",
+    "avgPx": "float",
+    "commission": "float",
+    "tradePublishIndicator": "symbol",
+    "multiLegReportingType": "symbol",
+    "text": "symbol",
+    "trdMatchID": "guid",
+    "execCost": "long",
+    "execComm": "long",
+    "homeNotional": "float",
+    "foreignNotional": "float",
+    "transactTime": "timestamp",
+    "timestamp": "timestamp"
+  },
+  "foreignKeys": {
+    "symbol": "instrument",
+    "side": "side",
+    "ordStatus": "ordStatus"
+  },
+  "attributes": {
+    "execID": "grouped",
+    "account": "grouped",
+    "execType": "grouped",
+    "transactTime": "sorted"
+  },
+  "filter": {
+    "account": 75430,
+    "symbol": "XBTUSD"
+  },
+  "data": []
+}

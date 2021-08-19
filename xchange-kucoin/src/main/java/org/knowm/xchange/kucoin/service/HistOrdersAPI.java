@@ -1,7 +1,11 @@
 package org.knowm.xchange.kucoin.service;
 
 import java.io.IOException;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.kucoin.dto.response.HistOrdersResponse;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
@@ -36,7 +40,7 @@ public interface HistOrdersAPI {
       @QueryParam("side") String side,
       @QueryParam("startAt") Long startAt,
       @QueryParam("endAt") Long endAt,
-      @QueryParam("pageSize") int pageSize,
-      @QueryParam("currentPage") int currentPage)
+      @QueryParam("pageSize") Integer pageSize,
+      @QueryParam("currentPage") Integer currentPage)
       throws IOException;
 }

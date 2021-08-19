@@ -2,10 +2,10 @@ package org.knowm.xchange.exx.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.exx.EXXAuthenticated;
 import org.knowm.xchange.exx.dto.account.EXXAccountInformation;
 import org.knowm.xchange.exx.utils.CommonUtil;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class EXXAccountServiceRaw extends EXXBaseService {
@@ -17,10 +17,9 @@ public class EXXAccountServiceRaw extends EXXBaseService {
   public EXXAccountServiceRaw(Exchange exchange) {
     super(exchange);
     this.exxAuthenticated =
-        RestProxyFactory.createProxy(
-            EXXAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                EXXAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
 
     this.apiKey = super.apiKey;
     this.secretKey = super.secretKey;

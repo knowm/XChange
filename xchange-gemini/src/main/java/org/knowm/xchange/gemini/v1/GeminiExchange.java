@@ -10,13 +10,8 @@ import org.knowm.xchange.gemini.v1.service.GeminiAccountService;
 import org.knowm.xchange.gemini.v1.service.GeminiMarketDataService;
 import org.knowm.xchange.gemini.v1.service.GeminiMarketDataServiceRaw;
 import org.knowm.xchange.gemini.v1.service.GeminiTradeService;
-import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class GeminiExchange extends BaseExchange {
-
-  private SynchronizedValueFactory<Long> nonceFactory =
-      new AtomicLongCurrentTimeIncrementalNonceFactory();
 
   @Override
   protected void initServices() {
@@ -46,8 +41,7 @@ public class GeminiExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.Gemini.com/");
     exchangeSpecification.setHost("api.Gemini.com");
     exchangeSpecification.setPort(80);
@@ -60,16 +54,15 @@ public class GeminiExchange extends BaseExchange {
   }
 
   @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-
-    return nonceFactory;
-  }
-
-  @Override
   public void remoteInit() throws IOException, ExchangeException {
 
     GeminiMarketDataServiceRaw dataService = (GeminiMarketDataServiceRaw) this.marketDataService;
     List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
     exchangeMetaData = GeminiAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
+  }
+
+  @Override
+  public ExchangeSpecification getExchangeSpecification() {
+    return super.getExchangeSpecification();
   }
 }

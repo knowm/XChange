@@ -13,7 +13,12 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
 import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.LedgerEntry;
+import org.knowm.xchange.bitfinex.v2.dto.account.LedgerRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
+import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsRequest;
+import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsResponse;
+import org.knowm.xchange.bitfinex.v2.dto.account.UpdateCollateralDerivativePositionRequest;
+import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
 import org.knowm.xchange.bitfinex.v2.dto.trade.ActiveOrder;
 import org.knowm.xchange.bitfinex.v2.dto.trade.OrderTrade;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Position;
@@ -34,6 +39,16 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @POST
   @Path("auth/r/positions")
   List<Position> activePositions(
+      @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(BFX_APIKEY) String apiKey,
+      @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
+      EmptyRequest empty)
+      throws IOException, BitfinexExceptionV2;
+
+  /** https://docs.bitfinex.com/reference#rest-auth-wallets */
+  @POST
+  @Path("auth/r/wallets")
+  List<Wallet> getWallets(
       @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(BFX_APIKEY) String apiKey,
       @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
@@ -96,7 +111,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @QueryParam("start") Long startTimeMillis,
       @QueryParam("end") Long endTimeMillis,
       @QueryParam("limit") Long limit,
-      EmptyRequest empty)
+      LedgerRequest req)
       throws IOException, BitfinexExceptionV2;
 
   @POST
@@ -109,7 +124,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @QueryParam("start") Long startTimeMillis,
       @QueryParam("end") Long endTimeMillis,
       @QueryParam("limit") Long limit,
-      EmptyRequest empty)
+      LedgerRequest req)
       throws IOException, BitfinexExceptionV2;
 
   /** https://docs.bitfinex.com/reference#rest-auth-order-trades * */
@@ -147,5 +162,23 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @QueryParam("end") Long endTimeMillis,
       @QueryParam("limit") Integer limit,
       EmptyRequest empty)
+      throws IOException, BitfinexExceptionV2;
+
+  @POST
+  @Path("/auth/w/transfer")
+  TransferBetweenWalletsResponse transferBetweenWallets(
+      @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(BFX_APIKEY) String apiKey,
+      @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
+      TransferBetweenWalletsRequest req)
+      throws IOException, BitfinexExceptionV2;
+  
+  @POST
+  @Path("/auth/w/deriv/collateral/set")
+  List<List<Integer>> updateCollateralDerivativePosition(
+      @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(BFX_APIKEY) String apiKey,
+      @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
+      UpdateCollateralDerivativePositionRequest req)
       throws IOException, BitfinexExceptionV2;
 }

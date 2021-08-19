@@ -14,7 +14,7 @@ public class CoindirectTickerFetchIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoindirectExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoindirectExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("ETH", "BTC"));
     System.out.println(ticker.toString());

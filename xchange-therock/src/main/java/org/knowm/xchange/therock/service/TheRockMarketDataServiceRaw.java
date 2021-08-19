@@ -3,12 +3,12 @@ package org.knowm.xchange.therock.service;
 import java.io.IOException;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.therock.TheRock;
 import org.knowm.xchange.therock.dto.TheRockException;
 import org.knowm.xchange.therock.dto.marketdata.TheRockOrderBook;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTicker;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTrades;
-import si.mazi.rescu.RestProxyFactory;
 
 public class TheRockMarketDataServiceRaw extends TheRockBaseService {
 
@@ -17,8 +17,8 @@ public class TheRockMarketDataServiceRaw extends TheRockBaseService {
   public TheRockMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
     this.theRock =
-        RestProxyFactory.createProxy(
-            TheRock.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(TheRock.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   public TheRockTicker getTheRockTicker(TheRock.Pair currencyPair)

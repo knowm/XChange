@@ -3,6 +3,8 @@ package org.knowm.xchange.okcoin.v3.service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.okcoin.OkexAdaptersV3;
 import org.knowm.xchange.okcoin.OkexExchangeV3;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesLeverageResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.FuturesMultipleOrderCancellationResponse;
@@ -62,6 +64,10 @@ public class OkexTradeServiceRaw extends OkexBaseService {
       String instrumentId, String from, String to, Integer limit, String state) throws IOException {
     return okex.getSpotOrderList(
         apikey, digest, timestamp(), passphrase, instrumentId, from, to, limit, state);
+  }
+
+  public OkexOpenOrder getSpotOrderDetails(String orderId, String instrumentId) throws IOException {
+    return okex.getSpotOrderDetails(apikey, digest, timestamp(), passphrase, orderId, instrumentId);
   }
 
   public List<OkexTransaction> getSpotTransactionDetails(
@@ -195,5 +201,10 @@ public class OkexTradeServiceRaw extends OkexBaseService {
       throws IOException {
     return okex.getMarginTransactionDetails(
         apikey, digest, timestamp(), passphrase, orderId, instrumentId, from, to, limit);
+  }
+
+  public OkexOpenOrder getOrderDetails(String orderId, CurrencyPair pair) throws IOException {
+    final String instrument = OkexAdaptersV3.toSpotInstrument(pair);
+    return getSpotOrderDetails(orderId, instrument);
   }
 }

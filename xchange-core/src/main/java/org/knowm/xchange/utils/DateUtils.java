@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.TimeZone;
 
 /**
@@ -41,6 +42,17 @@ public class DateUtils {
     SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
     sd.setTimeZone(TimeZone.getTimeZone("GMT"));
     return sd.format(date);
+  }
+
+  public static String toUTCISODateString(Date date) {
+    SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    isoDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+    return isoDateFormat.format(date);
+  }
+
+  public static String toISODateString(Date date) {
+    SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    return isoDateFormat.format(date);
   }
 
   /**
@@ -140,6 +152,11 @@ public class DateUtils {
   public static Long toUnixTimeNullSafe(Date time) {
 
     return time == null ? null : time.getTime() / 1000;
+  }
+
+  public static Optional<Long> toUnixTimeOptional(Date time) {
+
+    return Optional.ofNullable(time).map(it -> it.getTime() / 1000);
   }
 
   public static Long toMillisNullSafe(Date time) {

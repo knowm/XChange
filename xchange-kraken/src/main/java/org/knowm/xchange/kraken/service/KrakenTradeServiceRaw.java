@@ -123,12 +123,12 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
   }
 
   public KrakenTradeHistory getKrakenTradeHistory() throws IOException {
-
     return getKrakenTradeHistory(null, false, null, null, null);
   }
 
   public KrakenTradeHistory getKrakenTradeHistory(
-      String type, boolean includeTrades, Long start, Long end, Long offset) throws IOException {
+      String type, boolean includeTrades, String start, String end, Long offset)
+      throws IOException {
 
     KrakenTradeHistoryResult result =
         kraken.tradeHistory(
@@ -163,13 +163,13 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
     return checkResult(result);
   }
 
-  public Map<String, KrakenOpenPosition> getOpenPositions() throws IOException {
+  public Map<String, KrakenOpenPosition> getKrakenOpenPositions() throws IOException {
 
-    return getOpenPositions(false);
+    return getKrakenOpenPositions(false);
   }
 
-  public Map<String, KrakenOpenPosition> getOpenPositions(boolean doCalcs, String... transactionIds)
-      throws IOException {
+  public Map<String, KrakenOpenPosition> getKrakenOpenPositions(
+      boolean doCalcs, String... transactionIds) throws IOException {
 
     KrakenOpenPositionsResult result =
         kraken.openPositions(
@@ -208,7 +208,6 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
   }
 
   public KrakenOrderResponse placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
-
     KrakenType type = KrakenType.fromOrderType(limitOrder.getType());
     KrakenOrderBuilder krakenOrderBuilder =
         KrakenStandardOrder.getLimitOrderBuilder(

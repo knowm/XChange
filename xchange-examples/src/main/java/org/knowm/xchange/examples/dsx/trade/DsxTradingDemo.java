@@ -38,12 +38,11 @@ public class DsxTradingDemo {
 
     trades =
         tradeService.getTradeHistoryRaw(
-            "LTCBTC", DsxSort.SORT_ASCENDING, new Date(0), null, Integer.MAX_VALUE, 0L);
+            "LTCBTC", DsxSort.ASC, new Date(0), null, Integer.MAX_VALUE, 0L);
     System.out.println(Arrays.toString(trades.toArray()));
 
     trades =
-        tradeService.getTradeHistoryRaw(
-            "LTCBTC", DsxSort.SORT_DESCENDING, 0L, null, Integer.MAX_VALUE, 0L);
+        tradeService.getTradeHistoryRaw("LTCBTC", DsxSort.DESC, 0L, null, Integer.MAX_VALUE, 0L);
     System.out.println(Arrays.toString(trades.toArray()));
   }
 }

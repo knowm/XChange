@@ -127,7 +127,7 @@ public interface OrderAPI {
       @QueryParam("status") String status,
       @QueryParam("startAt") Long startAt,
       @QueryParam("endAt") Long endAt,
-      @QueryParam("pageSize") int pageSize,
-      @QueryParam("currentPage") int currentPage)
+      @QueryParam("pageSize") Integer pageSize,
+      @QueryParam("currentPage") Integer currentPage)
       throws IOException;
 }

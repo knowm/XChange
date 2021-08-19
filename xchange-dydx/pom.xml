@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xchange-parent</artifactId>
+        <groupId>org.knowm.xchange</groupId>
+        <version>5.0.11-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>XChange dydx</name>
+    <description>XChange implementation for dydx</description>
+    <artifactId>xchange-dydx</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-core</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion> 
+                    <groupId>com.google.j2objc</groupId>  
+                    <artifactId>j2objc-annotations</artifactId> 
+                </exclusion>  
+                <exclusion> 
+                    <groupId>jakarta.ws.rs</groupId>  
+                    <artifactId>jakarta.ws.rs-api</artifactId> 
+                </exclusion>
+                <exclusion> 
+                    <groupId>io.vavr</groupId>  
+                    <artifactId>vavr-match</artifactId> 
+                </exclusion>  
+                <exclusion> 
+                    <groupId>javax.cache</groupId>  
+                    <artifactId>cache-api</artifactId> 
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+</project>

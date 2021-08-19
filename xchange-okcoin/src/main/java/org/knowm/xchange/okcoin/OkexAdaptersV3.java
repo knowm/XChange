@@ -1,5 +1,7 @@
 package org.knowm.xchange.okcoin;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -7,6 +9,7 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -14,6 +17,8 @@ import org.knowm.xchange.okcoin.v3.dto.account.OkexDepositRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexFundingAccountRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexSpotAccountRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRecord;
+import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexOrderBook;
+import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexOrderBookEntry;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotTicker;
 import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsResponse.FuturesAccount;
 import org.knowm.xchange.okcoin.v3.dto.trade.OkexOpenOrder;
@@ -158,5 +163,30 @@ public class OkexAdaptersV3 {
       default:
         throw new ExchangeException("Unknown deposit status: " + status);
     }
+  }
+
+  public static OrderBook convertOrderBook(OkexOrderBook book, CurrencyPair currencyPair) {
+
+    List<LimitOrder> asks = toLimitOrderList(book.getAsks(), OrderType.ASK, currencyPair);
+    List<LimitOrder> bids = toLimitOrderList(book.getBids(), OrderType.BID, currencyPair);
+
+    return new OrderBook(null, asks, bids);
+  }
+
+  private static List<LimitOrder> toLimitOrderList(
+      OkexOrderBookEntry[] levels, OrderType orderType, CurrencyPair currencyPair) {
+
+    List<LimitOrder> allLevels = new ArrayList<>();
+
+    if (levels != null) {
+      for (int i = 0; i < levels.length; i++) {
+        OkexOrderBookEntry ask = levels[i];
+
+        allLevels.add(
+            new LimitOrder(orderType, ask.getVolume(), currencyPair, "0", null, ask.getPrice()));
+      }
+    }
+
+    return allLevels;
   }
 }

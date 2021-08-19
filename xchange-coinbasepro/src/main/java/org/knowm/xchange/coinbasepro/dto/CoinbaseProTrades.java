@@ -39,8 +39,8 @@ public class CoinbaseProTrades extends ArrayList<CoinbaseProTrade> implements Ht
   @Override
   public void setResponseHeaders(Map<String, List<String>> headers) {
     this.headers = headers;
-    earliestTradeId = getHeaderAsLong("cb-after");
-    latestTradeId = getHeaderAsLong("cb-before");
+    earliestTradeId = getHeaderAsLong("Cb-After");
+    latestTradeId = getHeaderAsLong("Cb-Before");
   }
 
   @Override

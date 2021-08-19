@@ -9,7 +9,7 @@ public class LivecoinExchangeDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class);
 
     System.out.println("ExchangeMetaData toString(): " + exchange.getExchangeMetaData().toString());
     System.out.println(

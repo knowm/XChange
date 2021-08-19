@@ -15,7 +15,7 @@ public class BitzKlineFetchIntegration {
   public void ordersFetchTest() throws Exception {
     // Get Specific Exchange
     BitZExchange exchange =
-        (BitZExchange) ExchangeFactory.INSTANCE.createExchange(BitZExchange.class.getName());
+        (BitZExchange) ExchangeFactory.INSTANCE.createExchange(BitZExchange.class);
     BitZMarketDataService marketDataService =
         (BitZMarketDataService) exchange.getMarketDataService();
 

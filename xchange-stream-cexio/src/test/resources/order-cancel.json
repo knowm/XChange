@@ -1,0 +1,13 @@
+{
+  "e": "order",
+  "data": {
+    "id": "5891717811",
+    "remains": "200000",
+    "fremains": "0.00200000",
+    "cancel": true,
+    "pair": {
+      "symbol1": "BTC",
+      "symbol2": "USD"
+    }
+  }
+}

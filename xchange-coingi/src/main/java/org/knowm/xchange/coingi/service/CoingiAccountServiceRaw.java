@@ -2,23 +2,26 @@ package org.knowm.xchange.coingi.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coingi.CoingiAuthenticated;
-import org.knowm.xchange.coingi.dto.account.*;
+import org.knowm.xchange.coingi.dto.account.CoingiBalanceRequest;
+import org.knowm.xchange.coingi.dto.account.CoingiBalances;
+import org.knowm.xchange.coingi.dto.account.CoingiDepositWalletRequest;
+import org.knowm.xchange.coingi.dto.account.CoingiDepositWalletResponse;
+import org.knowm.xchange.coingi.dto.account.CoingiUserTransactionList;
+import org.knowm.xchange.coingi.dto.account.CoingiWithdrawalRequest;
+import org.knowm.xchange.coingi.dto.account.CoingiWithdrawalResponse;
 import org.knowm.xchange.coingi.dto.trade.CoingiTransactionHistoryRequest;
-import si.mazi.rescu.ClientConfig;
-import si.mazi.rescu.RestProxyFactory;
 
 public class CoingiAccountServiceRaw extends CoingiBaseService {
   private final CoingiAuthenticated coingiAuthenticated;
 
   protected CoingiAccountServiceRaw(Exchange exchange) {
     super(exchange);
-    ClientConfig clientConfig = getClientConfig();
     this.coingiAuthenticated =
-        RestProxyFactory.createProxy(
-            CoingiAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            clientConfig);
+        ExchangeRestProxyBuilder.forInterface(
+                CoingiAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     String apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         CoingiDigest.createInstance(

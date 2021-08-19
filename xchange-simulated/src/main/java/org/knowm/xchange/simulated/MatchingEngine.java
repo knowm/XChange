@@ -335,31 +335,31 @@ final class MatchingEngine {
         .collect(toList());
   }
 
-  public synchronized OrderBook level2() {
-    return new OrderBook(new Date(), accumulateBookSide(asks), accumulateBookSide(bids));
+  public synchronized OrderBook getLevel2OrderBook() {
+    return new OrderBook(new Date(), accumulateBookSide(ASK, asks), accumulateBookSide(BID, bids));
   }
 
-  private List<LimitOrder> accumulateBookSide(List<BookLevel> book) {
+  private List<LimitOrder> accumulateBookSide(OrderType orderType, List<BookLevel> book) {
     BigDecimal price = null;
     BigDecimal amount = ZERO;
     List<LimitOrder> result = new ArrayList<>();
     Iterator<BookOrder> iter = book.stream().flatMap(v -> v.getOrders().stream()).iterator();
     while (iter.hasNext()) {
       BookOrder bookOrder = iter.next();
-      amount = amount.add(bookOrder.getRemainingAmount());
       if (price != null && bookOrder.getLimitPrice().compareTo(price) != 0) {
         result.add(
-            new LimitOrder.Builder(ASK, currencyPair)
+            new LimitOrder.Builder(orderType, currencyPair)
                 .originalAmount(amount)
                 .limitPrice(price)
                 .build());
         amount = ZERO;
       }
+      amount = amount.add(bookOrder.getRemainingAmount());
       price = bookOrder.getLimitPrice();
     }
     if (price != null) {
       result.add(
-          new LimitOrder.Builder(ASK, currencyPair)
+          new LimitOrder.Builder(orderType, currencyPair)
               .originalAmount(amount)
               .limitPrice(price)
               .build());
@@ -380,24 +380,35 @@ final class MatchingEngine {
     onFill.accept(fill);
   }
 
-  public void cancelOrder(String orderId, Order.OrderType type) {
+  public void cancelOrder(String apiKey, String orderId) {
+    cancelOrder(apiKey, orderId, BID);
+    cancelOrder(apiKey, orderId, ASK);
+  }
 
+  public void cancelOrder(String apiKey, String orderId, OrderType type) {
+    Account account = accountFactory.get(apiKey);
+    Stream<BookLevel> bookLevelStream;
     switch (type) {
       case ASK:
-        asks.stream()
-            .forEach(
-                bookLevel ->
-                    bookLevel.getOrders().removeIf(bookOrder -> bookOrder.getId().equals(orderId)));
+        bookLevelStream = asks.stream();
         break;
       case BID:
-        bids.stream()
-            .forEach(
-                bookLevel ->
-                    bookLevel.getOrders().removeIf(bookOrder -> bookOrder.getId().equals(orderId)));
-
+        bookLevelStream = bids.stream();
         break;
       default:
         throw new ExchangeException("Unsupported order type: " + type);
     }
+    bookLevelStream.forEach(
+        bookLevel ->
+            bookLevel
+                .getOrders()
+                .removeIf(
+                    bookOrder -> {
+                      final boolean remove = bookOrder.getId().equals(orderId);
+                      if (remove) {
+                        account.release(bookOrder.toOrder(currencyPair));
+                      }
+                      return remove;
+                    }));
   }
 }

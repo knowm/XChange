@@ -34,5 +34,8 @@ public class BitfinexStatusJSONTest {
     assertThat(s0.getPlaceHolder1()).isNull();
     assertThat(s0.getInsuranceFundBalance()).isEqualByComparingTo("402688.36164408");
     assertThat(s0.getPlaceHolder2()).isNull();
+    assertThat(s0.getMarkPrice()).isEqualByComparingTo("8413.376666666667");
+    assertThat(s0.getOpenInterest()).isEqualByComparingTo("862.33402476");
+    assertThat(s0.getNextFundingEvtTimestampMillis()).isEqualTo(1579795200000L);
   }
 }

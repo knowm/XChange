@@ -1,6 +1,7 @@
 package org.knowm.xchange.simulated;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
@@ -35,5 +36,9 @@ public class MatchingEngineFactory {
   MatchingEngine create(CurrencyPair currencyPair, int priceScale, BigDecimal minimumAmount) {
     return engines.computeIfAbsent(
         currencyPair, pair -> new MatchingEngine(accountFactory, pair, priceScale, minimumAmount));
+  }
+
+  Collection<MatchingEngine> engines() {
+    return engines.values();
   }
 }

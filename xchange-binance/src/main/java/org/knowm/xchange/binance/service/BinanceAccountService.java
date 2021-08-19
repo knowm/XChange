@@ -9,12 +9,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.knowm.xchange.Exchange;
+import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
+import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.DepositAddress;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -30,8 +33,28 @@ import org.knowm.xchange.service.trade.params.*;
 
 public class BinanceAccountService extends BinanceAccountServiceRaw implements AccountService {
 
-  public BinanceAccountService(Exchange exchange) {
-    super(exchange);
+  public BinanceAccountService(
+      BinanceExchange exchange,
+      BinanceAuthenticated binance,
+      ResilienceRegistries resilienceRegistries) {
+    super(exchange, binance, resilienceRegistries);
+  }
+
+  private static FundingRecord.Status transferHistoryStatus(String historyStatus) {
+    Status status;
+    switch (historyStatus) {
+      case "SUCCESS":
+        status = Status.COMPLETE;
+        break;
+      default:
+        status =
+            Status.resolveStatus(
+                historyStatus); // FIXME not documented yet in Binance spot api docs
+        if (status == null) {
+          status = Status.FAILED;
+        }
+    }
+    return status;
   }
 
   /** (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed) */
@@ -66,14 +89,10 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     }
   }
 
-  private BinanceAccountInformation getBinanceAccountInformation() throws IOException {
-    return super.account(getRecvWindow(), getTimestamp());
-  }
-
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     try {
-      BinanceAccountInformation acc = getBinanceAccountInformation();
+      BinanceAccountInformation acc = account();
       List<Balance> balances =
           acc.balances.stream()
               .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
@@ -86,18 +105,22 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   @Override
   public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
-    BinanceAccountInformation acc = getBinanceAccountInformation();
-    BigDecimal makerFee =
-        acc.makerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
-    BigDecimal takerFee =
-        acc.takerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
+    try {
+      BinanceAccountInformation acc = account();
+      BigDecimal makerFee =
+          acc.makerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
+      BigDecimal takerFee =
+          acc.takerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
 
-    Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
-    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
+      Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
+      List<CurrencyPair> pairs = exchange.getExchangeSymbols();
 
-    pairs.forEach(pair -> tradingFees.put(pair, new Fee(makerFee, takerFee)));
+      pairs.forEach(pair -> tradingFees.put(pair, new Fee(makerFee, takerFee)));
 
-    return tradingFees;
+      return tradingFees;
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
   }
 
   @Override
@@ -169,7 +192,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   public Map<String, AssetDetail> getAssetDetails() throws IOException {
     try {
-      return super.requestAssetDetail().getAssetDetail();
+      return super.requestAssetDetail();
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -242,15 +265,15 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
       List<FundingRecord> result = new ArrayList<>();
       if (withdrawals) {
-        super.withdrawHistory(asset, startTime, endTime, getRecvWindow(), getTimestamp())
+        super.withdrawHistory(asset, startTime, endTime)
             .forEach(
                 w -> {
                   result.add(
                       new FundingRecord(
                           w.getAddress(),
                           w.getAddressTag(),
-                          new Date(w.getApplyTime()),
-                          Currency.getInstance(w.getAsset()),
+                          BinanceAdapters.toDate(w.getApplyTime()),
+                          Currency.getInstance(w.getCoin()),
                           w.getAmount(),
                           w.getId(),
                           w.getTxId(),
@@ -263,7 +286,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
       }
 
       if (deposits) {
-        super.depositHistory(asset, startTime, endTime, getRecvWindow(), getTimestamp())
+        super.depositHistory(asset, startTime, endTime)
             .forEach(
                 d -> {
                   result.add(
@@ -271,7 +294,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           d.getAddress(),
                           d.getAddressTag(),
                           new Date(d.getInsertTime()),
-                          Currency.getInstance(d.getAsset()),
+                          Currency.getInstance(d.getCoin()),
                           d.getAmount(),
                           null,
                           d.getTxId(),
@@ -317,7 +340,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           .setCurrency(Currency.getInstance(a.getAsset()))
                           .setAmount(a.getQty())
                           .setType(Type.INTERNAL_WITHDRAWAL)
-                          .setStatus(Status.COMPLETE)
+                          .setStatus(transferHistoryStatus(a.getStatus()))
                           .build());
                 });
       }

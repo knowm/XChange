@@ -15,7 +15,7 @@ public class DepthDemo {
 
   public static void main(String[] args) throws IOException {
     // Use the factory to get Cryptopia exchange API using default settings
-    Exchange cryptopia = ExchangeFactory.INSTANCE.createExchange(CryptopiaExchange.class.getName());
+    Exchange cryptopia = ExchangeFactory.INSTANCE.createExchange(CryptopiaExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = cryptopia.getMarketDataService();

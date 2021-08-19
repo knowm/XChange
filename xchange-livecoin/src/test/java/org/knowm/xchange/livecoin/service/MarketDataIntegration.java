@@ -22,7 +22,7 @@ public class MarketDataIntegration {
 
   @BeforeClass
   public static void setUp() {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class);
     marketDataService = (LivecoinMarketDataService) exchange.getMarketDataService();
   }
 

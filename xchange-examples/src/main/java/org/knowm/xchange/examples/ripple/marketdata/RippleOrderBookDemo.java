@@ -19,7 +19,7 @@ public class RippleOrderBookDemo {
 
   public static void main(final String[] args) throws IOException {
     // Use the factory to get Riiple exchange API using default settings
-    final Exchange ripple = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
+    final Exchange ripple = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);
 
     // Interested in the public market data feed (no authentication)
     final MarketDataService marketDataService = ripple.getMarketDataService();

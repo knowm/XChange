@@ -22,6 +22,7 @@ public class WithdrawalsJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+
     List<WithdrawalRequest> withdrawals =
         mapper.readValue(
             is,

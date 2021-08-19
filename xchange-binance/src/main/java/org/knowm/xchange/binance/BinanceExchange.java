@@ -1,12 +1,8 @@
 package org.knowm.xchange.binance;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
@@ -16,31 +12,41 @@ import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange {
+  public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
 
-  private static final Logger LOG = LoggerFactory.getLogger(BinanceExchange.class);
+  private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
   private BinanceExchangeInfo exchangeInfo;
-  private Long deltaServerTimeExpire;
-  private Long deltaServerTime;
+  private BinanceAuthenticated binance;
+  private SynchronizedValueFactory<Long> timestampFactory;
 
   @Override
   protected void initServices() {
+    this.binance =
+        ExchangeRestProxyBuilder.forInterface(
+            BinanceAuthenticated.class, getExchangeSpecification())
+                                .build();
+    this.timestampFactory =
+        new BinanceTimestampFactory(
+            binance, getExchangeSpecification().getResilience(), getResilienceRegistries());
+    this.marketDataService = new BinanceMarketDataService(this, binance, getResilienceRegistries());
+    this.tradeService = new BinanceTradeService(this, binance, getResilienceRegistries());
+    this.accountService = new BinanceAccountService(this, binance, getResilienceRegistries());
+  }
 
-    this.marketDataService = new BinanceMarketDataService(this);
-    this.tradeService = new BinanceTradeService(this);
-    this.accountService = new BinanceAccountService(this);
+  public SynchronizedValueFactory<Long> getTimestampFactory() {
+    return timestampFactory;
   }
 
   @Override
@@ -49,10 +55,22 @@ public class BinanceExchange extends BaseExchange {
         "Binance uses timestamp/recvwindow rather than a nonce");
   }
 
+  public static void resetResilienceRegistries() {
+    RESILIENCE_REGISTRIES = null;
+  }
+
+  @Override
+  public ResilienceRegistries getResilienceRegistries() {
+    if (RESILIENCE_REGISTRIES == null) {
+      RESILIENCE_REGISTRIES = BinanceResilience.createRegistries();
+    }
+    return RESILIENCE_REGISTRIES;
+  }
+
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification spec = new ExchangeSpecification(this.getClass());
     spec.setSslUri("https://api.binance.com");
     spec.setHost("www.binance.com");
     spec.setPort(80);
@@ -62,9 +80,18 @@ public class BinanceExchange extends BaseExchange {
     return spec;
   }
 
-  public BinanceExchangeInfo getExchangeInfo() {
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+    concludeHostParams(exchangeSpecification);
+    super.applySpecification(exchangeSpecification);
+  }
 
+  public BinanceExchangeInfo getExchangeInfo() {
     return exchangeInfo;
+  }
+
+  public boolean usingSandbox() {
+    return enabledSandbox(exchangeSpecification);
   }
 
   @Override
@@ -81,7 +108,10 @@ public class BinanceExchange extends BaseExchange {
       Symbol[] symbols = exchangeInfo.getSymbols();
 
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
-      Map<String, AssetDetail> assetDetailMap = accountService.getAssetDetails();
+      Map<String, AssetDetail> assetDetailMap = null;
+      if (!usingSandbox() && isAuthenticated()) {
+        assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
+      }
       // Clear all hardcoded currencies when loading dynamically from exchange.
       if (assetDetailMap != null) {
         currencies.clear();
@@ -130,6 +160,7 @@ public class BinanceExchange extends BaseExchange {
                   counterMaxQty,
                   amountPrecision, // base precision
                   pairPrecision, // counter precision
+                  null,
                   null, /* TODO get fee tiers, although this is not necessary now
                         because their API returns current fee directly */
                   stepSize,
@@ -154,40 +185,28 @@ public class BinanceExchange extends BaseExchange {
     }
   }
 
-  private int numberOfDecimals(String value) {
+  private boolean isAuthenticated() {
+    return exchangeSpecification != null
+        && exchangeSpecification.getApiKey() != null
+        && exchangeSpecification.getSecretKey() != null;
+  }
 
+  private int numberOfDecimals(String value) {
     return new BigDecimal(value).stripTrailingZeros().scale();
   }
 
-  public void clearDeltaServerTime() {
-
-    deltaServerTime = null;
+  /** Adjust host parameters depending on exchange specific parameters */
+  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+    if (exchangeSpecification.getExchangeSpecificParameters() != null) {
+      if (enabledSandbox(exchangeSpecification)) {
+        exchangeSpecification.setSslUri("https://testnet.binance.vision");
+        exchangeSpecification.setHost("testnet.binance.vision");
+      }
+    }
   }
 
-  public long deltaServerTime() throws IOException {
-
-    if (deltaServerTime == null || deltaServerTimeExpire <= System.currentTimeMillis()) {
-
-      // Do a little warm up
-      Binance binance =
-          RestProxyFactory.createProxy(Binance.class, getExchangeSpecification().getSslUri());
-      Date serverTime = new Date(binance.time().getServerTime().getTime());
-
-      // Assume that we are closer to the server time when we get the repose
-      Date systemTime = new Date(System.currentTimeMillis());
-
-      // Expire every 10min
-      deltaServerTimeExpire = systemTime.getTime() + TimeUnit.MINUTES.toMillis(10);
-      deltaServerTime = serverTime.getTime() - systemTime.getTime();
-
-      SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-      LOG.trace(
-          "deltaServerTime: {} - {} => {}",
-          df.format(serverTime),
-          df.format(systemTime),
-          deltaServerTime);
-    }
-
-    return deltaServerTime;
+  private static boolean enabledSandbox(ExchangeSpecification exchangeSpecification) {
+    return Boolean.TRUE.equals(
+        exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX));
   }
 }

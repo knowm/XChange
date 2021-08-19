@@ -22,8 +22,7 @@ public class CoinbaseMarketDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange coinbaseExchange =
-        ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
+    Exchange coinbaseExchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class);
     MarketDataService marketDataService = coinbaseExchange.getMarketDataService();
 
     generic(marketDataService);

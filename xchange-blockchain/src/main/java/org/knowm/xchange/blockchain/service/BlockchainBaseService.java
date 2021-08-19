@@ -2,9 +2,9 @@ package org.knowm.xchange.blockchain.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.blockchain.Blockchain;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class BlockchainBaseService extends BaseExchangeService implements BaseService {
 
@@ -14,8 +14,8 @@ public class BlockchainBaseService extends BaseExchangeService implements BaseSe
   protected BlockchainBaseService(Exchange exchange) {
     super(exchange);
     this.blockchain =
-        RestProxyFactory.createProxy(
-            Blockchain.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(Blockchain.class, exchange.getExchangeSpecification())
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
   }
 }

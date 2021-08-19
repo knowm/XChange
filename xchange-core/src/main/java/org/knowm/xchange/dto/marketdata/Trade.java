@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.util.Date;
 import java.util.Objects;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** Data object representing a Trade */
@@ -22,8 +24,8 @@ public class Trade implements Serializable {
   /** Amount that was traded */
   protected final BigDecimal originalAmount;
 
-  /** The currency pair */
-  protected final CurrencyPair currencyPair;
+  /** The instrument */
+  protected final Instrument instrument;
 
   /** The price */
   protected final BigDecimal price;
@@ -55,7 +57,7 @@ public class Trade implements Serializable {
   public Trade(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       BigDecimal price,
       Date timestamp,
       String id,
@@ -64,7 +66,7 @@ public class Trade implements Serializable {
 
     this.type = type;
     this.originalAmount = originalAmount;
-    this.currencyPair = currencyPair;
+    this.instrument = instrument;
     this.price = price;
     this.timestamp = timestamp;
     this.id = id;
@@ -82,9 +84,27 @@ public class Trade implements Serializable {
     return originalAmount;
   }
 
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
 
-    return currencyPair;
+    return instrument;
+  }
+
+  /**
+   * @deprecated CurrencyPair is a subtype of Instrument - this method will throw an exception if
+   *     the order was for a derivative
+   *     <p>use {@link #getInstrument()} instead
+   */
+  @Deprecated
+  @JsonIgnore
+  public CurrencyPair getCurrencyPair() {
+    if (instrument == null) {
+      return null;
+    }
+    if (!(instrument instanceof CurrencyPair)) {
+      throw new IllegalStateException(
+          "The instrument of this order is not a currency pair: " + instrument);
+    }
+    return (CurrencyPair) instrument;
   }
 
   public BigDecimal getPrice() {
@@ -135,8 +155,8 @@ public class Trade implements Serializable {
         + type
         + ", originalAmount="
         + originalAmount
-        + ", currencyPair="
-        + currencyPair
+        + ", instrument="
+        + instrument
         + ", price="
         + price
         + ", timestamp="
@@ -158,7 +178,7 @@ public class Trade implements Serializable {
 
     protected OrderType type;
     protected BigDecimal originalAmount;
-    protected CurrencyPair currencyPair;
+    protected Instrument instrument;
     protected BigDecimal price;
     protected Date timestamp;
     protected String id;
@@ -169,7 +189,7 @@ public class Trade implements Serializable {
       return new Builder()
           .type(trade.getType())
           .originalAmount(trade.getOriginalAmount())
-          .currencyPair(trade.getCurrencyPair())
+          .instrument(trade.getInstrument())
           .price(trade.getPrice())
           .timestamp(trade.getTimestamp())
           .id(trade.getId());
@@ -187,10 +207,21 @@ public class Trade implements Serializable {
       return this;
     }
 
+    public Builder instrument(Instrument instrument) {
+
+      this.instrument = instrument;
+      return this;
+    }
+
+    /**
+     * @deprecated CurrencyPair is a subtype of Instrument - this method will throw an exception if
+     *     the order was for a derivative
+     *     <p>use {@link #instrument(Instrument)} instead
+     */
+    @Deprecated
     public Builder currencyPair(CurrencyPair currencyPair) {
 
-      this.currencyPair = currencyPair;
-      return this;
+      return instrument(currencyPair);
     }
 
     public Builder price(BigDecimal price) {
@@ -226,7 +257,7 @@ public class Trade implements Serializable {
     public Trade build() {
 
       return new Trade(
-          type, originalAmount, currencyPair, price, timestamp, id, makerOrderId, takerOrderId);
+          type, originalAmount, instrument, price, timestamp, id, makerOrderId, takerOrderId);
     }
   }
 }

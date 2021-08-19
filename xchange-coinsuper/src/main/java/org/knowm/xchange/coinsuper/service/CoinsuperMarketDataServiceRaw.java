@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinsuper.CoinsuperAuthenticated;
 import org.knowm.xchange.coinsuper.dto.CoinsuperResponse;
 import org.knowm.xchange.coinsuper.dto.marketdata.CoinsuperOrderbook;
@@ -13,25 +14,23 @@ import org.knowm.xchange.coinsuper.dto.marketdata.CoinsuperTicker;
 import org.knowm.xchange.coinsuper.utils.RestApiRequestHandler;
 import org.knowm.xchange.coinsuper.utils.RestRequestParam;
 import org.knowm.xchange.currency.CurrencyPair;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinsuperMarketDataServiceRaw extends CoinsuperBaseService {
   private final CoinsuperAuthenticated coinsuper;
 
-  private String apiKey;
-  private String secretKey;
-  private SynchronizedValueFactory<Long> nonceFactory;
+  private final String apiKey;
+  private final String secretKey;
+  private final SynchronizedValueFactory<Long> nonceFactory;
 
   public CoinsuperMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
 
     this.coinsuper =
-        RestProxyFactory.createProxy(
-            CoinsuperAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinsuperAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
 
     this.apiKey = super.apiKey;
     this.secretKey = super.secretKey;
@@ -88,7 +87,7 @@ public class CoinsuperMarketDataServiceRaw extends CoinsuperBaseService {
   public CoinsuperResponse<List<CoinsuperTicker>> getCoinsuperTicker(CurrencyPair currencyPair)
       throws IOException {
 
-    Map<String, String> data = new HashMap<String, String>();
+    Map<String, String> data = new HashMap<>();
     data.put("symbol", currencyPair.toString());
 
     RestRequestParam parameters =
@@ -105,7 +104,7 @@ public class CoinsuperMarketDataServiceRaw extends CoinsuperBaseService {
    */
   public Object getKlines(CurrencyPair currencyPair) throws IOException {
 
-    Map<String, String> data = new HashMap<String, String>();
+    Map<String, String> data = new HashMap<>();
     data.put("symbol", currencyPair.toString());
 
     RestRequestParam parameters =

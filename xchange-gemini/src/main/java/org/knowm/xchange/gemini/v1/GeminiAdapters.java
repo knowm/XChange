@@ -64,10 +64,10 @@ public final class GeminiAdapters {
     return currencyPairs;
   }
 
-  public static CurrencyPair adaptCurrencyPair(String GeminiSymbol) {
+  public static CurrencyPair adaptCurrencyPair(String symbol) {
 
-    String tradableIdentifier = GeminiSymbol.substring(0, 3).toUpperCase();
-    String transactionCurrency = GeminiSymbol.substring(3).toUpperCase();
+    String tradableIdentifier = symbol.substring(0, symbol.length() - 3).toUpperCase();
+    String transactionCurrency = symbol.substring(symbol.length() - 3).toUpperCase();
     return new CurrencyPair(tradableIdentifier, transactionCurrency);
   }
 
@@ -158,6 +158,9 @@ public final class GeminiAdapters {
   private static OrderStatus adaptOrderstatus(GeminiOrderStatusResponse geminiOrderStatusResponse) {
 
     if (geminiOrderStatusResponse.isCancelled()) return OrderStatus.CANCELED;
+
+    if (geminiOrderStatusResponse.getExecutedAmount().equals(new BigDecimal(0.0)))
+      return OrderStatus.OPEN;
 
     if (geminiOrderStatusResponse.getRemainingAmount().equals(new BigDecimal(0.0)))
       return OrderStatus.FILLED;
@@ -338,12 +341,21 @@ public final class GeminiAdapters {
   }
 
   public static OpenOrders adaptOrders(GeminiOrderStatusResponse[] activeOrders) {
+    return adaptOrders(activeOrders, null);
+  }
+
+  public static OpenOrders adaptOrders(GeminiOrderStatusResponse[] activeOrders, CurrencyPair currencyPair) {
 
     List<LimitOrder> limitOrders = new ArrayList<>(activeOrders.length);
 
     for (GeminiOrderStatusResponse order : activeOrders) {
+      CurrencyPair currentCurrencyPair = adaptCurrencyPair(order.getSymbol());
+
+      if(currencyPair != null && !currentCurrencyPair.equals(currencyPair)){
+        continue;
+      }
+
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
-      CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(new BigDecimal(order.getTimestamp()));
 
       OrderStatus status = OrderStatus.NEW;
@@ -361,7 +373,7 @@ public final class GeminiAdapters {
           new LimitOrder(
               orderType,
               order.getOriginalAmount(),
-              currencyPair,
+              currentCurrencyPair,
               String.valueOf(order.getId()),
               timestamp,
               order.getPrice(),

@@ -15,7 +15,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 public class CobinhoodMarketDataServiceIntegration {
 
   private static final Exchange COBINHOOD =
-      ExchangeFactory.INSTANCE.createExchange(CobinhoodExchange.class.getName());
+      ExchangeFactory.INSTANCE.createExchange(CobinhoodExchange.class);
 
   @Test
   public void testGetTicker() throws Exception {

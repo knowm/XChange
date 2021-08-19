@@ -1,5 +1,7 @@
 package org.knowm.xchange;
 
+import static org.knowm.xchange.ExchangeClassUtils.exchangeClassForName;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +15,7 @@ import java.util.Map;
  */
 public class ExchangeSpecification {
 
-  private final String exchangeClassName;
+  private final Class<? extends Exchange> exchangeClass;
   private String exchangeName;
   private String exchangeDescription;
   private String userName;
@@ -22,12 +24,14 @@ public class ExchangeSpecification {
   private String apiKey;
   private String sslUri;
   private String plainTextUri;
+  private String overrideWebsocketApiUri;
   private String host;
   private int port = 80;
   private String proxyHost;
   private Integer proxyPort;
   private int httpConnTimeout = 0; // default rescu configuration will be used if value not changed
   private int httpReadTimeout = 0; // default rescu configuration will be used if value not changed
+  private ResilienceSpecification resilience = new ResilienceSpecification();
   private String metaDataJsonFileOverride = null;
   private boolean shouldLoadRemoteMetaData = true; // default value
   /** arbitrary exchange params that can be set for unique cases */
@@ -38,10 +42,11 @@ public class ExchangeSpecification {
    *
    * @param exchangeClassName The exchange class name (e.g.
    *     "org.knowm.xchange.mtgox.v1.MtGoxExchange")
+   * @deprecated use constructor with exchange class for better performance
    */
+  @Deprecated
   public ExchangeSpecification(String exchangeClassName) {
-
-    this.exchangeClassName = exchangeClassName;
+    this(exchangeClassForName(exchangeClassName));
   }
 
   /**
@@ -50,14 +55,22 @@ public class ExchangeSpecification {
    * @param exchangeClass The exchange class
    */
   public ExchangeSpecification(Class<? extends Exchange> exchangeClass) {
-
-    this.exchangeClassName = exchangeClass.getCanonicalName();
+    this.exchangeClass = exchangeClass;
   }
 
-  /** @return The exchange class name for loading at runtime */
-  public String getExchangeClassName() {
+  /** @return The exchange class for loading at runtime */
+  public Class<? extends Exchange> getExchangeClass() {
+    return exchangeClass;
+  }
 
-    return exchangeClassName;
+  /**
+   * @return The exchange class name for loading at runtime
+   * @see this#getExchangeClass
+   * @deprecated use getExchangeClass
+   */
+  @Deprecated
+  public String getExchangeClassName() {
+    return exchangeClass.getName();
   }
 
   /**
@@ -406,6 +419,14 @@ public class ExchangeSpecification {
     this.exchangeDescription = exchangeDescription;
   }
 
+  public ResilienceSpecification getResilience() {
+    return resilience;
+  }
+
+  public void setResilience(ResilienceSpecification resilience) {
+    this.resilience = resilience;
+  }
+
   /**
    * Get the override file for generating the {@link org.knowm.xchange.dto.meta.ExchangeMetaData}
    * object. By default, the {@link org.knowm.xchange.dto.meta.ExchangeMetaData} object is loaded at
@@ -453,5 +474,69 @@ public class ExchangeSpecification {
   public void setShouldLoadRemoteMetaData(boolean shouldLoadRemoteMetaData) {
 
     this.shouldLoadRemoteMetaData = shouldLoadRemoteMetaData;
+  }
+
+  /**
+   * Get uri to override websocket uri
+   *
+   * @return The uri that will be used instead of standard exchange websocket uri
+   */
+  public String getOverrideWebsocketApiUri() {
+
+    return overrideWebsocketApiUri;
+  }
+
+  /**
+   * Set uri to override websocket uri
+   *
+   * @param overrideWebsocketApiUri The uri that will be used instead of standard exchange websocket uris
+   */
+  public void setOverrideWebsocketApiUri(String overrideWebsocketApiUri) {
+
+    this.overrideWebsocketApiUri = overrideWebsocketApiUri;
+  }
+
+  public static class ResilienceSpecification {
+    private boolean retryEnabled = false;
+    private boolean rateLimiterEnabled = false;
+
+    /**
+     * @see #setRetryEnabled(boolean)
+     * @return true if enabled
+     */
+    public boolean isRetryEnabled() {
+      return retryEnabled;
+    }
+
+    /**
+     * Flag that lets you enable retry functionality if it was implemented for the given exchange.
+     *
+     * <p>If this feature is implemented and enabled then operations that can be safely retried on
+     * socket failures and timeouts will be retried.
+     */
+    public void setRetryEnabled(boolean retryEnabled) {
+      this.retryEnabled = retryEnabled;
+    }
+
+    /**
+     * @see #setRetryEnabled(boolean)
+     * @return true if enabled
+     */
+    public boolean isRateLimiterEnabled() {
+      return rateLimiterEnabled;
+    }
+
+    /**
+     * Flag that lets you enable call rate limiting functionality if it was implemented for the
+     * given exchange.
+     *
+     * <p>If this featrue is implemented and enabled then we will limit the amount of calls to the
+     * exchanges API to not exceeds its limits. This will result in delaying some calls or throwing
+     * a {@link io.github.resilience4j.ratelimiter.RequestNotPermitted} exception if we would have
+     * to wait to long.
+     */
+    public void setRateLimiterEnabled(boolean rateLimiterEnabled) {
+      this.rateLimiterEnabled = rateLimiterEnabled;
+    }
   }
 }

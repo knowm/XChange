@@ -41,6 +41,14 @@ public class HuobiUtils {
     return dateFormat.format(new Date(nonce.createValue()));
   }
 
+  public static String createUTCDate(Date date) {
+    if (date == null) {
+      return null;
+    }
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    return dateFormat.format(date);
+  }
+
   public static void setHuobiAssets(HuobiAsset[] huobiAssets) {
     for (HuobiAsset entry : huobiAssets) {
       assetMap.put(entry.getAsset(), Currency.getInstance(entry.getAsset()));

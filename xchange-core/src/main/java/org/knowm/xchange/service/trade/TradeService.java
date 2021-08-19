@@ -3,11 +3,8 @@ package org.knowm.xchange.service.trade;
 import java.io.IOException;
 import java.util.Collection;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.account.OpenPositions;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -50,7 +47,7 @@ public interface TradeService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default OpenOrders getOpenOrders() throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getOpenOrders");
   }
 
   /**
@@ -70,6 +67,11 @@ public interface TradeService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getOpenOrders");
+  }
+
+  /** Get all openPositions of the exchange */
+  default OpenPositions getOpenPositions() throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -92,7 +94,7 @@ public interface TradeService extends BaseService {
    * @see org.knowm.xchange.utils.OrderValuesHelper
    */
   default String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("placeMarketOrder");
   }
 
   /**
@@ -115,7 +117,7 @@ public interface TradeService extends BaseService {
    * @see org.knowm.xchange.utils.OrderValuesHelper
    */
   default String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("placeLimitOrder");
   }
 
   /**
@@ -138,7 +140,7 @@ public interface TradeService extends BaseService {
    * @see org.knowm.xchange.utils.OrderValuesHelper
    */
   default String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("placeStopOrder");
   }
 
   /**
@@ -203,7 +205,7 @@ public interface TradeService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("cancelOrder");
   }
 
   /**
@@ -242,7 +244,7 @@ public interface TradeService extends BaseService {
    * @see TradeHistoryParamsAll
    */
   default UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getTradeHistory");
   }
 
   /**
@@ -252,7 +254,7 @@ public interface TradeService extends BaseService {
    * same class as the createTradeHistoryParams that created the object.
    */
   default TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("createTradeHistoryParams");
   }
 
   /**
@@ -262,7 +264,7 @@ public interface TradeService extends BaseService {
    * createOpenOrdersParams that created the object.
    */
   default OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("createOpenOrdersParams");
   }
 
   /**
@@ -270,7 +272,7 @@ public interface TradeService extends BaseService {
    * org.knowm.xchange.Exchange#remoteInit()} be called before this method
    */
   default void verifyOrder(LimitOrder limitOrder) {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("verifyOrder");
   }
 
   /**
@@ -278,7 +280,7 @@ public interface TradeService extends BaseService {
    * org.knowm.xchange.Exchange#remoteInit()} be called before this method
    */
   default void verifyOrder(MarketOrder marketOrder) {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("verifyOrder");
   }
 
   /**
@@ -319,6 +321,6 @@ public interface TradeService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    throw new NotAvailableFromExchangeException();
+    throw new NotAvailableFromExchangeException("getOrder");
   }
 }

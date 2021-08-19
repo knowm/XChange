@@ -1,9 +1,9 @@
 package org.knowm.xchange.exceptions;
 
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 
 /**
- * Exception indicating the {@link CurrencyPair} was recognized by the exchange but their market is
+ * Exception indicating the {@link Instrument} was recognized by the exchange but their market is
  * suspended - either temporarly or permanently.
  *
  * <p>This exception does not suggest that the entire exhange is down (we have the {@link

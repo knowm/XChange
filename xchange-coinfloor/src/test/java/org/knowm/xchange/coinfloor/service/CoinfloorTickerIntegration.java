@@ -16,7 +16,7 @@ public class CoinfloorTickerIntegration {
 
   @Test
   public void fetchTickerTest() throws IOException {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinfloorExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinfloorExchange.class);
     MarketDataService service = exchange.getMarketDataService();
 
     Ticker ticker = service.getTicker(CurrencyPair.BTC_GBP);

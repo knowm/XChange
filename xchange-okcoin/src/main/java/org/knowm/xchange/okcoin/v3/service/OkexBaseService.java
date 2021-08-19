@@ -1,12 +1,12 @@
 package org.knowm.xchange.okcoin.v3.service;
 
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.okcoin.OkexDigestV3;
 import org.knowm.xchange.okcoin.OkexExchangeV3;
 import org.knowm.xchange.okcoin.OkexV3;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class OkexBaseService extends BaseExchangeService<OkexExchangeV3> implements BaseService {
 
@@ -20,7 +20,7 @@ public class OkexBaseService extends BaseExchangeService<OkexExchangeV3> impleme
   public OkexBaseService(OkexExchangeV3 exchange) {
     super(exchange);
     final ExchangeSpecification spec = exchange.getExchangeSpecification();
-    okex = RestProxyFactory.createProxy(OkexV3.class, spec.getSslUri(), getClientConfig());
+    okex = ExchangeRestProxyBuilder.forInterface(OkexV3.class, spec).build();
     apikey = spec.getApiKey();
     passphrase = (String) spec.getExchangeSpecificParametersItem("passphrase");
 

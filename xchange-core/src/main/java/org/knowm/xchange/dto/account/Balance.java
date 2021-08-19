@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import org.knowm.xchange.currency.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
   private final BigDecimal borrowed;
   private final BigDecimal withdrawing;
   private final BigDecimal depositing;
+  private final Date timestamp;
 
   /**
    * Constructs a balance, the {@link #available} will be the same as the <code>total</code>, and
@@ -52,7 +54,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
         BigDecimal.ZERO,
         BigDecimal.ZERO,
         BigDecimal.ZERO,
-        BigDecimal.ZERO);
+        BigDecimal.ZERO,
+        null);
   }
 
   /**
@@ -98,7 +101,60 @@ public final class Balance implements Comparable<Balance>, Serializable {
         BigDecimal.ZERO,
         BigDecimal.ZERO,
         BigDecimal.ZERO,
-        BigDecimal.ZERO);
+        BigDecimal.ZERO,
+        null);
+  }
+
+  /**
+   * Constructs a balance.
+   *
+   * @param currency the underlying currency of this balance.
+   * @param total the total amount of the <code>currency</code> in this balance, equal to <code>
+   *     available + frozen - borrowed + loaned</code>.
+   * @param available the amount of the <code>currency</code> in this balance that is available to
+   *     trade, including the <code>borrowed</code>.
+   * @param frozen the frozen amount of the <code>currency</code> in this balance that is locked in
+   *     trading.
+   * @param borrowed the borrowed amount of the available <code>currency</code> in this balance that
+   *     must be repaid.
+   * @param loaned the loaned amount of the total <code>currency</code> in this balance that will be
+   *     returned.
+   * @param withdrawing the amount of the <code>currency</code> in this balance that is scheduled
+   *     for withdrawal.
+   * @param depositing the amount of the <code>currency</code> in this balance that is being
+   *     deposited but not available yet.
+   * @param timestamp Time the balance was valid on the exchange server
+   */
+  public Balance(
+      Currency currency,
+      BigDecimal total,
+      BigDecimal available,
+      BigDecimal frozen,
+      BigDecimal borrowed,
+      BigDecimal loaned,
+      BigDecimal withdrawing,
+      BigDecimal depositing,
+      Date timestamp) {
+
+    if (total != null && available != null) {
+      BigDecimal sum =
+          available.add(frozen).subtract(borrowed).add(loaned).add(withdrawing).add(depositing);
+      if (0 != total.compareTo(sum)) {
+        log.warn(
+            "{} = total != available + frozen - borrowed + loaned + withdrawing + depositing = {}",
+            total,
+            sum);
+      }
+    }
+    this.currency = currency;
+    this.total = total;
+    this.available = available;
+    this.frozen = frozen;
+    this.borrowed = borrowed;
+    this.loaned = loaned;
+    this.withdrawing = withdrawing;
+    this.depositing = depositing;
+    this.timestamp = timestamp;
   }
 
   /**
@@ -148,6 +204,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
     this.loaned = loaned;
     this.withdrawing = withdrawing;
     this.depositing = depositing;
+    this.timestamp = null;
   }
 
   /**
@@ -166,7 +223,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
         BigDecimal.ZERO,
         BigDecimal.ZERO,
         BigDecimal.ZERO,
-        BigDecimal.ZERO);
+        BigDecimal.ZERO,
+        null);
   }
 
   public Currency getCurrency() {
@@ -275,10 +333,19 @@ public final class Balance implements Comparable<Balance>, Serializable {
     return depositing;
   }
 
+  /**
+   * Returns the time the balance was valid on the exchange server
+   *
+   * @return the timestamp.
+   */
+  public Date getTimestamp() {
+    return timestamp;
+  }
+
   @Override
   public String toString() {
-
-    return "Balance [currency="
+    return "Balance{"
+        + "currency="
         + currency
         + ", total="
         + total
@@ -286,15 +353,17 @@ public final class Balance implements Comparable<Balance>, Serializable {
         + available
         + ", frozen="
         + frozen
-        + ", borrowed="
-        + borrowed
         + ", loaned="
         + loaned
+        + ", borrowed="
+        + borrowed
         + ", withdrawing="
         + withdrawing
         + ", depositing="
         + depositing
-        + "]";
+        + ", timestamp="
+        + timestamp
+        + '}';
   }
 
   @Override
@@ -417,6 +486,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
     private BigDecimal loaned = BigDecimal.ZERO;
     private BigDecimal withdrawing = BigDecimal.ZERO;
     private BigDecimal depositing = BigDecimal.ZERO;
+    private Date timestamp;
 
     public static Builder from(Balance balance) {
 
@@ -428,7 +498,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
           .borrowed(balance.getBorrowed())
           .loaned(balance.getLoaned())
           .withdrawing(balance.getWithdrawing())
-          .depositing(balance.getDepositing());
+          .depositing(balance.getDepositing())
+          .timestamp(balance.getTimestamp());
     }
 
     public Builder currency(Currency currency) {
@@ -479,16 +550,24 @@ public final class Balance implements Comparable<Balance>, Serializable {
       return this;
     }
 
+    public Builder timestamp(Date timestamp) {
+
+      this.timestamp = timestamp;
+      return this;
+    }
+
     public Balance build() {
 
       if (frozen == null) {
         if (total == null || available == null) {
           frozen = BigDecimal.ZERO;
+        } else if (total != null) {
+          frozen = total.subtract(available);
         }
       }
 
       return new Balance(
-          currency, total, available, frozen, borrowed, loaned, withdrawing, depositing);
+          currency, total, available, frozen, borrowed, loaned, withdrawing, depositing, timestamp);
     }
   }
 }

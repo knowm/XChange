@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -23,7 +24,6 @@ import org.knowm.xchange.idex.dto.ReturnCurrenciesResponse;
 import org.knowm.xchange.idex.dto.ReturnNextNonceResponse;
 import org.knowm.xchange.idex.dto.ReturnTickerRequestedWithNull;
 import org.knowm.xchange.idex.service.ReturnNextNonceApi;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class IdexExchange extends BaseExchange {
@@ -36,6 +36,7 @@ public class IdexExchange extends BaseExchange {
     return unavailableCPMeta;
   }
 
+  @Override
   public final ExchangeMetaData getExchangeMetaData() {
 
     ReturnCurrenciesResponse allCurrenciesStatic = null;
@@ -78,21 +79,25 @@ public class IdexExchange extends BaseExchange {
   public ReturnNextNonceApi getNextNonceApi() {
     if (null == nextNonceApi) {
       nextNonceApi =
-          RestProxyFactory.createProxy(ReturnNextNonceApi.class, exchangeSpecification.getSslUri());
+          ExchangeRestProxyBuilder.forInterface(ReturnNextNonceApi.class, exchangeSpecification)
+              .build();
     }
     return nextNonceApi;
   }
 
+  @Override
   public IdexAccountService getAccountService() {
     if (null == idexAccountService) idexAccountService = new IdexAccountService(this);
     return idexAccountService;
   }
 
+  @Override
   public IdexMarketDataService getMarketDataService() {
     if (null == idexMarketDataService) idexMarketDataService = new IdexMarketDataService(this);
     return idexMarketDataService;
   }
 
+  @Override
   public IdexTradeService getTradeService() {
     if (null == idexTradeService) idexTradeService = new IdexTradeService(this);
     return idexTradeService;

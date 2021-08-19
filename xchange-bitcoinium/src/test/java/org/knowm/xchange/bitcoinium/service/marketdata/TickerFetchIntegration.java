@@ -18,7 +18,7 @@ public class TickerFetchIntegration {
   public void tickerFetchTest() throws Exception {
 
     ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(BitcoiniumExchange.class.getName());
+        new ExchangeSpecification(BitcoiniumExchange.class);
     exchangeSpecification.setApiKey("42djci5kmbtyzrvglfdw3e2dgmh5mr37");
     exchangeSpecification.setPlainTextUri("http://bitcoinium.com");
     System.out.println(exchangeSpecification.toString());

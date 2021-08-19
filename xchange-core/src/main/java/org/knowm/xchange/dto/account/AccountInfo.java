@@ -26,6 +26,9 @@ public final class AccountInfo implements Serializable {
   /** The wallets owned by this account */
   private final Map<String, Wallet> wallets;
 
+  /** The open positions owned by this account */
+  private final Collection<OpenPosition> openPositions;
+
   /**
    * The timestamp at which this account information was generated. May be null if not provided by
    * the exchange.
@@ -88,9 +91,29 @@ public final class AccountInfo implements Serializable {
   public AccountInfo(
       String username, BigDecimal tradingFee, Collection<Wallet> wallets, Date timestamp) {
 
+    this(username, tradingFee, wallets, Collections.emptySet(), timestamp);
+  }
+
+  /**
+   * Constructs an {@link AccountInfo}.
+   *
+   * @param username the user name.
+   * @param tradingFee the trading fee.
+   * @param wallets the user's wallets
+   * @param openPositions the users's open positions
+   * @param timestamp the timestamp for the account snapshot.
+   */
+  public AccountInfo(
+      String username,
+      BigDecimal tradingFee,
+      Collection<Wallet> wallets,
+      Collection<OpenPosition> openPositions,
+      Date timestamp) {
+
     this.username = username;
     this.tradingFee = tradingFee;
     this.timestamp = timestamp;
+    this.openPositions = openPositions;
 
     if (wallets.size() == 0) {
       this.wallets = Collections.emptyMap();

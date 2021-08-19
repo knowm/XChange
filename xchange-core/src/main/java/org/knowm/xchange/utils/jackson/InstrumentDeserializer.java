@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.instrument.Instrument;
 
 public class InstrumentDeserializer extends JsonDeserializer<Instrument> {
@@ -30,6 +31,7 @@ public class InstrumentDeserializer extends JsonDeserializer<Instrument> {
     // CurrencyPair (Base/Counter) i.e. BTC/USD
     if (count == 1) return new CurrencyPair(instrumentString);
     // Futures/Swaps (Base/Counter/Prompt) i.e. BTC/USD/200925
+    if (count == 2) return new FuturesContract(instrumentString);
     // Options (Base/Counter/Prompt/StrikePrice/Put?Call) i.e. BTC/USD/200925/8956.67/P
     else return null;
   }

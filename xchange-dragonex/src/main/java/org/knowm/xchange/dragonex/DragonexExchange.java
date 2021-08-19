@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dragonex.dto.DragonexException;
 import org.knowm.xchange.dragonex.dto.Token;
@@ -19,9 +20,7 @@ import org.knowm.xchange.dragonex.service.DragonexAccountServiceRaw;
 import org.knowm.xchange.dragonex.service.DragonexMarketDataService;
 import org.knowm.xchange.dragonex.service.DragonexTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
-import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class DragonexExchange extends BaseExchange implements Exchange {
@@ -41,15 +40,12 @@ public class DragonexExchange extends BaseExchange implements Exchange {
     this.accountService = new DragonexAccountService(this);
     this.tradeService = new DragonexTradeService(this);
 
-    ClientConfig rescuConfig =
-        ((DragonexMarketDataService) this.marketDataService).getClientConfig();
     ExchangeSpecification spec = this.getExchangeSpecification();
-    this.dragonexPublic =
-        RestProxyFactory.createProxy(Dragonex.class, spec.getSslUri(), rescuConfig);
+    this.dragonexPublic = ExchangeRestProxyBuilder.forInterface(Dragonex.class, spec).build();
 
     if (spec.getApiKey() != null && spec.getSecretKey() != null) {
       this.dragonexAuthenticated =
-          RestProxyFactory.createProxy(DragonexAuthenticated.class, spec.getSslUri(), rescuConfig);
+          ExchangeRestProxyBuilder.forInterface(DragonexAuthenticated.class, spec).build();
       this.signatureCreator = new DragonDigest(spec.getApiKey(), spec.getSecretKey());
     }
 
@@ -99,7 +95,7 @@ public class DragonexExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification spec = new ExchangeSpecification(this.getClass());
     spec.setSslUri("https://openapi.dragonex.io/");
     spec.setHost("openapi.dragonex.io");
     spec.setPort(80);

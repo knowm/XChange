@@ -10,8 +10,7 @@ public class KrakenExampleUtils {
 
   public static Exchange createTestExchange() {
 
-    Exchange krakenExchange =
-        ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class);
     krakenExchange.getExchangeSpecification().setApiKey("API Key");
     krakenExchange.getExchangeSpecification().setSecretKey("Secret==");
     krakenExchange.getExchangeSpecification().setUserName("user");

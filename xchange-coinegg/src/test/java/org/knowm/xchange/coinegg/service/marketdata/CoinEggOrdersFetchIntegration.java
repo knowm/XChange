@@ -15,7 +15,7 @@ public class CoinEggOrdersFetchIntegration {
   @Test
   public void ordersFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orders = marketDataService.getOrderBook(CurrencyPair.ETH_BTC);
 
@@ -26,7 +26,7 @@ public class CoinEggOrdersFetchIntegration {
   @Test
   public void ordersFetchTest_BTC_USDT() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orders = marketDataService.getOrderBook(CurrencyPair.BTC_USDT);
 

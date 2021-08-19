@@ -1,0 +1,36 @@
+{
+  "success": true,
+  "result": {
+    "backstopProvider": true,
+    "collateral": 3568181.02691129,
+    "freeCollateral": 1786071.456884368,
+    "initialMarginRequirement": 0.12222384240257728,
+    "leverage": 10,
+    "liquidating": false,
+    "maintenanceMarginRequirement": 0.07177992558058484,
+    "makerFee": 0.0002,
+    "marginFraction": 0.5588433331419503,
+    "openMarginFraction": 0.2447194090423075,
+    "takerFee": 0.0005,
+    "totalAccountValue": 3568180.98341129,
+    "totalPositionSize": 6384939.6992,
+    "username": "user@domain.com",
+    "positions": [
+      {
+        "cost": -31.7906,
+        "entryPrice": 138.22,
+        "future": "ETH-PERP",
+        "initialMarginRequirement": 0.1,
+        "longOrderSize": 1744.55,
+        "maintenanceMarginRequirement": 0.04,
+        "netSize": -0.23,
+        "openSize": 1744.32,
+        "realizedPnl": 3.39441714,
+        "shortOrderSize": 1732.09,
+        "side": "sell",
+        "size": 0.23,
+        "unrealizedPnl": 0
+      }
+    ]
+  }
+}

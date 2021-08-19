@@ -22,7 +22,7 @@ public class BitfinexErrorAdapter {
       return new CurrencyPairNotValidException(message, e);
     } else if (message.contains("not enough exchange balance")) {
       return new FundsExceededException(message, e);
-    } else if (message.contains("err_rate_limit")) {
+    } else if (message.contains("err_rate_limit") || message.contains("ratelimit")) {
       return new RateLimitExceededException(e);
     } else if (message.contains("nonce")) {
       return new NonceException(e);

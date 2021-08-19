@@ -16,16 +16,17 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
-小田謙太郎
-=
+AGP-PC\AliGökalp
 Aaron Jang
 Achterhoeker
 Adam Walczak
 Adam from WALCZAK.IT
 Alejandro Reyero
 Aleksey Baryshnikov
+Alex
 Alex Nugent
 Alexander
+Alexander Krist
 Alexey Kopylov
 Alexey Syrtsev
 Alexey Z
@@ -33,11 +34,16 @@ Alin Breaban
 Allen Day
 Alvin Singh
 Amjad
+Anatoliy Sablin
 Andraž
 Andre Reiter
 Andrea Fossi
+Andreas Joelsson
+Andrew Gurinovich
+Andrew Lalis
 André Reiter
 Anthony Tsang
+Anton.Malyshkin
 Arran Duff
 Arsentii Nerushev
 Arthurm1
@@ -45,18 +51,24 @@ Artur
 Artur M
 Baffo32
 Bartosz Milczarek
+Bashar Saleh
 BenTrapani
 Benedict Wong
 Benedikt Bünz
+Benjamin Trapani
 Bilgin Ibryam
+Boppleton Industries
 Boris Aksenov
 Bruno Volpato
 Bryan
 Bryan Hernandez
+CDP
+Caleb Allen
 Carbo Kuo
 Carlos Lopez-Camey
 Chris Cannell
 Chris Rico
+Christiaan
 Christian Strässle
 Claus235
 Cray Imperative
@@ -67,6 +79,7 @@ Daniel
 Daniel Cohen
 Daniela Hajnikova
 Danilo Guimarães
+Dany Pageau
 Dave Seyb
 David FRANCOIS
 David Jirovec
@@ -76,22 +89,30 @@ Devin Smith
 Djihad BENGATI
 Dmitri Ess
 Dmitry Fedorenko
+Dmitry Pisklov
 Dmitry Sklyadnev
 Dolezal Zdenek
 Donald Jackson
 Douggie
 DrawFun
+Dynamikey
 Eric Anderson
+Erick
+Erick Arce
 Erland Lewin
 EzBar
 Ezer Bar-Aviv
 Fabian
 Fabien André
 Felipe Micaroni Lalli
+Ferdi-135
 Flemingjp
+Foat Akhmadeev
 Frank Kaiser
+GENERAL BYTES
 GENiALi
 Gary Rowe
+George Soultos
 Gianluigi
 Giedrius
 Giedrius Koksta
@@ -99,20 +120,23 @@ Giedrius Kokšta
 Gilbert Kimutai
 Giridhar Nandigam
 GlassOfWhiskey
+Gokalp Peker
 Graham Crockford
 Greg
 Gregor Gaertner
+Guang YANG
 Guillaume Labbé-Morissette
 Guillaume Morissette
 HairyFotr
+Henry Wong
 Herman Ofenböck
 Hypeon
-陈晔
 Ian W
 Ignacio Larranaga
 Igor Velichkevich
 Igor.Velichkevich
 Iury V. Vinogradov
+Ivo Galic
 JH
 JJag
 JK
@@ -135,6 +159,7 @@ Jim Northrup
 Joakim Johansson
 Joe Zhou
 Johannes Zweng
+John Bergqvist
 Jonathan Heusser
 Jonathan Leitschuh
 Jonathan Tse
@@ -151,9 +176,12 @@ Karol Pysniak
 Karsten Nilsen
 Ken Fehling
 Kenneth Jorgensen
+Keshav Sirohi
 Kevin Britz
 Kevin Gates
 Kevin Jannis
+Khye
+Khye Ean Low
 Kolozsy Gábor
 Konstantin Alexandrov
 Konstantin Indjov
@@ -162,30 +190,42 @@ Kopylov Oleksii
 Krystian Nowak
 Krzysiek
 Krzysztof Cieślak
+Lang Christian-Gabriel
 Lee Cooper
+Leonardo Flores
 Leone Lisboa Magevski
 Leonid Shamis
 LifeIsGoodMF
+Livio Tinnirello
+Low Khye Ean
 Luca Forni
 Luca Rosellini
 Lukas Zaoralek
 Lukáš Krejza
 Macarse
+Manuel Polo
 Marc Deveaux
 Marius Hillenbrand
+Mark Anderson
 MartianTech
+Martin Jones
 Martin Kubliniak
 Martin Stachon
+Martin Zdarsky
 Massimiliano Gerardi
 Matej Spiller Muys
+Math Vadash
 Mathijs Vogelzang
 Matija Mazi
 Matt Read
+Matt Vadash
 Matt Whitlock
 Matthew Downey
 Matthew Peacock
 Maxim Fefilov
+Maxim Feofilov
 MaximFeofilov
+Mehmet Fatih Gultekin
 Mert Güner
 MertGuner
 Micah Lerner
@@ -195,7 +235,9 @@ Mike Gerlyand
 Mikelle
 Mikhail Wall
 Mindaugas Rolius
+Miron Balcerzak
 Miso Oprendek
+Mladen Markov
 Muffon
 Nathan King
 Nicolas Pinot
@@ -212,28 +254,34 @@ Oscar Francia
 Pablo Lopez
 Pan, Xinyang
 Panchen
+Paolo Rendano
 Pavel Chertalev
 Pavel Niedoba
 Pavlo Pastushok
 Peter Keeler
 Peter N. Steinmetz
 Piero Ottuzzi
+Pierre Leandre
 Piotr Ladyzynski
 Piotr Ładyżyński
 Premek
 Premysl Vyhnal
 RadeK
+Radovan Panák
 Radu
-Rafał Krupiński
 Rafal Krupinski
+Rafał Krupiński
 Raphael Voellmy
 Richard Flint
 Robert Felker
+Roberto Santacroce Martins
 Roei Bar Aviv
 Roman Belkov
 Ronald Bultman
+Rudy Godoy
 Ryan Fox
 Ryan Sundberg
+Saeid Rastak
 Sascha
 Sascha Zieger
 Sebastiaan van Erk
@@ -245,6 +293,7 @@ Sergii Pogodin
 Sergio Rodriguez
 Sikerdebaard
 Snailz
+Spyros Stylianou
 Steven te Brinke
 Stuart Low
 Stéfanie Loiseleur
@@ -260,42 +309,60 @@ Thomas Diesler
 Thomas Muhm
 Tillerino
 Tim Molter
+Tobias
 Tomas Cere
 Tomáš Procházka
 Tong Yang
 Tony Skulk
+Travis Bullock
 Travis Collins
+Travis Savo
+Treer Zoltán
+TrojaNFlash
 U-TORA\cristian.lucaci
 Ujjwal Kabra
 Uwe
+Vadims Grusas
+Valentin Stavetski
 Vassilis Papavassiliou
 Vassilis Ppapavassiliou
+Vasyl Parasyna
 Victor Didenko
 Victor Mezrin
+Viktor Szathmáry
 Viktor.Zakalyuzhnyy
+Werner Vos
 Wojciech Langiewicz
 Wyatt Endres
+YANG MING
 Yang Yang
+Ye Chen
 Yegor Pavlenko
 Ying Zhe Chong
 Your Name
+Youssef Jradeh
 Yuki INOUE
+Yuriy
 Zach Holmes
 Zdenek Dolezal
 Zorge.R
 ahmetoz
 ajdev
+akuloff
 aleks-azen
 aleksazen@gmail.com
 alessandro luppi
 alobarev
+alwinc
 amjad1210
 anton
 anw
 apaygh
 artvel
 b00lean
+belerweb
 bharris
+bobeagle
 bolo
 bolobox
 boppleton
@@ -303,15 +370,24 @@ brilliantnut
 bronko
 bronoman
 brox
+bryantharris
 cacofish
 cacofishadct
 caleb
+cd2357
+cduplessis3
+charvam
 coinlover75
+conspyrosy
 cymp
 cyril
+cyrus
+d.skalenko
+dani_devoneko
 danielgarciaperez
 datbui
 david-yam
+daz
 dependabot-preview[bot]
 dependabot[bot]
 desinerlee
@@ -320,12 +396,18 @@ dhenry
 dimecoin
 doublesharp
 dovamir
+dozd
 dyorgio
+earce
 evRusin
 evdubs
 ezhik97
 fenwulf
+firepol
 fozerol
+gaamox@tutanota.com
+garciapd
+geck64
 glebreutov
 gmorpheme
 godoorsun
@@ -333,10 +415,13 @@ gpwclark
 hardsky
 hbwhyte
 henry
+hkscfreak
 huguanrui
 hurricup
+hwiceberg
 interwater
 ivan.kosianenko
+jakubkalicki
 jamespedwards42
 jasonliu119
 jchoinski
@@ -344,8 +429,11 @@ jclaruelle
 jcuypers
 jmcklondonuk
 johndemic
+kaiserfr
+karelhovorka
 karol.pysniak@turbineam.com
 kisapmata
+kkyovsky
 kpysniak
 kyr7
 lapoor
@@ -353,7 +441,9 @@ lazy_p@163.com
 lazyp
 lichunmao
 llacina
+lukaszaoralek
 m4g4
+maghteriton
 makarid
 matija.mazi@gmail.com
 matt pearson
@@ -364,17 +454,24 @@ mfarid
 mharris021
 michaelscheung
 miho
+mikhail.petrov
 mikhw
 milczu
 mnapier
 moardm
+moritzhabegger
+mrmx
+mw
 nado04@gmail.com
 nakedpony
 nicostouch
+nihiluis
 nimrood
+nodarret
 npomfret
 nxtpool@gmail.com
 o
+octoberfestuser
 odaken
 paul
 pavel
@@ -384,7 +481,11 @@ piotr
 pnkwpk
 pozheg
 procyon
+pw4work
 rastooo
+renasse
+roeiba
+rpanak-generalbytes
 seanrobb
 sebastienkoch
 semihunaldi
@@ -392,11 +493,14 @@ senecaso
 sikerdebaard
 simonkeliuotis
 sirilicious
+sizmestiev
 skipster
+sm1l3
 sowhynot
 stachon
 stephane-coulomb
 stevenuray
+straumat
 suchac
 swiesend
 taoruifu
@@ -404,8 +508,10 @@ tbosman
 tim
 timmolter
 tobakk
+tonykwok1992
 trix
 trix13
+undecaf
 veken0m
 vitaha93
 vitalii
@@ -417,4 +523,7 @@ water0126
 will
 wvr
 ww3456
+yalevokhin
 zholmes
+陈晔
+小田謙太郎

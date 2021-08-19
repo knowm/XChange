@@ -1,0 +1,13 @@
+{
+
+  "id": "36014819",
+  "marketId": "BTC-AUD",
+  "timestamp": "2019-06-25T16:01:02.977000Z",
+  "price": "0.67",
+  "amount": "1.50533262",
+  "side": "Ask",
+  "fee": "0.00857285",
+  "orderId": "3648306",
+  "liquidityType": "Taker",
+  "clientOrderId": "48"
+}

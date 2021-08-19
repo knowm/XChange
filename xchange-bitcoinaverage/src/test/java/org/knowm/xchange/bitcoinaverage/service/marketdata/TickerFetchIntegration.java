@@ -18,7 +18,7 @@ public class TickerFetchIntegration {
   public void tickerFetchTest() throws Exception {
 
     ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(BitcoinAverageExchange.class.getName());
+        new ExchangeSpecification(BitcoinAverageExchange.class);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     exchange.remoteInit();
     MarketDataService marketDataService = exchange.getMarketDataService();

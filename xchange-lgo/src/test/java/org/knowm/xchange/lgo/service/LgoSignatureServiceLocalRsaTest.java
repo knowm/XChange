@@ -2,9 +2,9 @@ package org.knowm.xchange.lgo.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import org.apache.commons.io.IOUtils;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,8 +15,10 @@ public class LgoSignatureServiceLocalRsaTest {
 
   @Before
   public void setUp() throws Exception {
-    InputStream pKey = LgoSignatureServiceLocalRsa.class.getResourceAsStream("/private_key.pem");
-    String pKeyAsString = IOUtils.toString(pKey, StandardCharsets.UTF_8);
+    String pKeyAsString =
+        new String(
+            Files.readAllBytes(Paths.get(getClass().getResource("/private_key.pem").toURI())),
+            StandardCharsets.UTF_8);
     signatureService = new LgoSignatureServiceLocalRsa(apiKey, pKeyAsString);
   }
 

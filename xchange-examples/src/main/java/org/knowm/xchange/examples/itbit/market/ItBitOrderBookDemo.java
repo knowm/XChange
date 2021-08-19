@@ -14,7 +14,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 /** Created by joseph on 6/15/17. */
 public class ItBitOrderBookDemo {
   public static void main(String[] args) throws IOException {
-    Exchange xchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
+    Exchange xchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class);
 
     MarketDataService marketDataService = xchange.getMarketDataService();
 

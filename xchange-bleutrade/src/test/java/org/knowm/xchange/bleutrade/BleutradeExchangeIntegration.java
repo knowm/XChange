@@ -57,7 +57,24 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
   public void shouldUseDefaultExchangeSpecForNullSpecification() {
     exchange.applySpecification(null);
     assertThat(exchange.getExchangeSpecification())
-        .isEqualToComparingFieldByField(exchange.getDefaultExchangeSpecification());
+        .isEqualToComparingOnlyGivenFields(
+            exchange.getDefaultExchangeSpecification(),
+            "exchangeName",
+            "exchangeDescription",
+            "userName",
+            "password",
+            "secretKey",
+            "apiKey",
+            "sslUri",
+            "plainTextUri",
+            "host",
+            "port",
+            "proxyHost",
+            "proxyPort",
+            "httpConnTimeout",
+            "httpReadTimeout",
+            "metaDataJsonFileOverride",
+            "shouldLoadRemoteMetaData");
   }
 
   @Test
@@ -154,9 +171,9 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     assertThat(marketMetaDataMap).hasSize(2);
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString())
         .isEqualTo(
-            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, baseScale=null, priceScale=8, amountStepSize=null, tradingFeeCurrency=null]");
+            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, baseScale=null, priceScale=8, volumeScale=null, amountStepSize=null, tradingFeeCurrency=null]");
     assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString())
         .isEqualTo(
-            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, baseScale=null, priceScale=8, amountStepSize=null, tradingFeeCurrency=null]");
+            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, baseScale=null, priceScale=8, volumeScale=null, amountStepSize=null, tradingFeeCurrency=null]");
   }
 }
