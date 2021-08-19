@@ -3,6 +3,7 @@ package org.knowm.xchange.binance.service;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
+import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -87,5 +88,11 @@ public class BinanceUsAccountService extends BinanceAccountService {
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     LOG.warn("getFundingHistory: {}", NOT_SUPPORTED);
     return new ArrayList<>();
+  }
+
+  @Override
+  public BinanceSystemStatus getSystemStatus() throws IOException {
+    LOG.warn("getSystemStatus: {}", NOT_SUPPORTED);
+    return new BinanceSystemStatus();
   }
 }
