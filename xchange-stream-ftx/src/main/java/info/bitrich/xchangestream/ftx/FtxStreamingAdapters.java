@@ -36,7 +36,7 @@ public class FtxStreamingAdapters {
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
   private static final ThreadLocal<DecimalFormat> dfp = ThreadLocal.withInitial(() ->  new DecimalFormat("0.0#######"));
-  private static final ThreadLocal<DecimalFormat> dfs = ThreadLocal.withInitial(() ->  new DecimalFormat("0.0####E00"));
+  private static final ThreadLocal<DecimalFormat> dfs = ThreadLocal.withInitial(() ->  new DecimalFormat("0.####E00"));
   private static final ThreadLocal<DecimalFormat> dfq = ThreadLocal.withInitial(() ->  new DecimalFormat("0.0#######"));
   
   static Ticker NULL_TICKER = new Ticker.Builder().build();  // not need to create a new one each time
