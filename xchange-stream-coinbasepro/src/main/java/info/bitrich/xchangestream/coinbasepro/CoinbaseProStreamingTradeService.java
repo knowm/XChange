@@ -7,15 +7,17 @@ import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.rxjava3.core.Flowable;
 import java.util.List;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
+import org.knowm.xchange.coinbasepro.service.CoinbaseProTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.service.trade.TradeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CoinbaseProStreamingTradeService implements StreamingTradeService {
+public class CoinbaseProStreamingTradeService implements StreamingTradeService, TradeService {
 
   private static final Logger LOG = LoggerFactory.getLogger(CoinbaseProStreamingTradeService.class);
 
@@ -49,7 +51,7 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
         .getRawWebSocketTransactions(currencyPair, true)
         .filter(message -> message.getType().equals(MATCH))
         .filter((CoinbaseProWebSocketTransaction s) -> s.getUserId() != null)
-        .map((CoinbaseProWebSocketTransaction s) -> s.toCoinbaseProFill())
+        .map(CoinbaseProWebSocketTransaction::toCoinbaseProFill)
         .map((CoinbaseProFill f) -> adaptTradeHistory(new CoinbaseProFill[] {f}))
         .map((UserTrades h) -> h.getUserTrades().get(0));
   }

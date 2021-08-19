@@ -133,6 +133,7 @@ public class CoinbaseProWebSocketSubscriptionMessage {
           .distinct()
           .forEach(userCurrencies::add);
       pairs.put("user", userCurrencies);
+      pairs.put("heartbeat", userCurrencies);
     }
 
     for (Map.Entry<String, List<CurrencyPair>> product : pairs.entrySet()) {

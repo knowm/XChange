@@ -11,7 +11,10 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
+import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataService;
+import org.knowm.xchange.coinbasepro.service.CoinbaseProTradeService;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.service.trade.TradeService;
 
 /** CoinbasePro Streaming Exchange. Connects to live WebSocket feed. */
 public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements StreamingExchange {
@@ -24,6 +27,8 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
   private CoinbaseProStreamingService streamingService;
   private CoinbaseProStreamingMarketDataService streamingMarketDataService;
   private CoinbaseProStreamingTradeService streamingTradeService;
+
+  private CoinbaseProCacheTradeService cacheTradeService;
 
   public CoinbaseProStreamingExchange() {}
 
@@ -54,10 +59,17 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
             exchangeSpecification.getExchangeSpecificParametersItem(
                 StreamingExchange.L3_ORDERBOOK));
 
+
+
     this.streamingService =
         new CoinbaseProStreamingService(
-            apiUri, () -> authData(exchangeSpec), subscribeToL3Orderbook);
+                (CoinbaseProMarketDataService) marketDataService,
+                (CoinbaseProTradeService) tradeService,
+                apiUri, () -> authData(exchangeSpec), subscribeToL3Orderbook);
+
     applyStreamingSpecification(exchangeSpecification, this.streamingService);
+
+    this.cacheTradeService = new CoinbaseProCacheTradeService(tradeService, streamingService);
 
     this.streamingMarketDataService = new CoinbaseProStreamingMarketDataService(streamingService);
     this.streamingTradeService = new CoinbaseProStreamingTradeService(streamingService);
@@ -88,6 +100,14 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
     streamingService = null;
     streamingMarketDataService = null;
     return service.disconnect();
+  }
+
+  @Override
+  public TradeService getTradeService() {
+    if (cacheTradeService != null) {
+      return cacheTradeService;
+    }
+    return super.getTradeService();
   }
 
   @Override

@@ -128,6 +128,16 @@ public interface CoinbasePro {
       throws CoinbaseProException, IOException;
 
   @GET
+  @Path("orders")
+  CoinbaseProOrder[] getProductListOrders(
+          @QueryParam("product_id") String productId,
+          @HeaderParam("CB-ACCESS-KEY") String apiKey,
+          @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+          @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
+          @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
+          throws CoinbaseProException, IOException;
+
+  @GET
   @Path("orders?status={status}")
   CoinbaseProOrder[] getListOrders(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
