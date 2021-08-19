@@ -8,6 +8,7 @@ import info.bitrich.xchangestream.ftx.dto.FtxOrderbookResponse;
 import info.bitrich.xchangestream.ftx.dto.FtxTickerResponse;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.time.Instant;
@@ -34,7 +35,9 @@ public class FtxStreamingAdapters {
 
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
-  private static final ThreadLocal<DecimalFormat> df = ThreadLocal.withInitial(() ->  new DecimalFormat("0.0########"));  // 10 decimal places
+  private static final ThreadLocal<DecimalFormat> dfp = ThreadLocal.withInitial(() ->  new DecimalFormat("0.0#######"));
+  private static final ThreadLocal<DecimalFormat> dfs = ThreadLocal.withInitial(() ->  new DecimalFormat("0.####E00"));
+  private static final ThreadLocal<DecimalFormat> dfq = ThreadLocal.withInitial(() ->  new DecimalFormat("0.0#######"));
   
   static Ticker NULL_TICKER = new Ticker.Builder().build();  // not need to create a new one each time
 
@@ -117,29 +120,37 @@ public class FtxStreamingAdapters {
 
   public static Long getOrderbookChecksum(List<LimitOrder> asks, List<LimitOrder> bids) {
     StringBuilder data = new StringBuilder(3072);
-    DecimalFormat decimalFormat = df.get();
+    DecimalFormat fp = dfp.get();
+    DecimalFormat fs = dfs.get();
+    DecimalFormat fq = dfq.get();
     
     for (int i = 0; i < 100; i++) {
       if (bids.size() > i) {
-        data.append(decimalFormat.format(bids.get(i).getLimitPrice()))
+        BigDecimal limitPrice = bids.get(i).getLimitPrice();
+        boolean scientific = limitPrice.toPlainString().startsWith("0.0000");
+
+        data.append(scientific ? fs.format(limitPrice) : fp.format(limitPrice))
             .append(":")
-            .append(decimalFormat.format(bids.get(i).getOriginalAmount()))
+            .append(fq.format(bids.get(i).getOriginalAmount()))
             .append(":");
       }
 
       if (asks.size() > i) {
-        data.append(decimalFormat.format(asks.get(i).getLimitPrice()))
+        BigDecimal limitPrice = asks.get(i).getLimitPrice();
+        boolean scientific = limitPrice.toPlainString().startsWith("0.0000");
+
+        data.append(scientific ? fs.format(limitPrice) : fp.format(limitPrice))
             .append(":")
-            .append(decimalFormat.format(asks.get(i).getOriginalAmount()))
+            .append(fq.format(asks.get(i).getOriginalAmount()))
             .append(":");
       }
     }
     
-    String s = data.length() > 0 ? data.substring(0, data.length() - 1) : data.toString(); // strip last :
+    String s = data.toString().replace("E","e"); // strip last :
     
     CRC32 crc32 = new CRC32();
     byte[] toBytes = s.getBytes(StandardCharsets.UTF_8);
-    crc32.update(toBytes, 0, toBytes.length);
+    crc32.update(toBytes, 0, toBytes.length-1);
 
     return crc32.getValue();
   }
