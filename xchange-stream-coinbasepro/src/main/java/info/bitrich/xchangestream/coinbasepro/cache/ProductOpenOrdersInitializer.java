@@ -89,7 +89,19 @@ public class ProductOpenOrdersInitializer {
             } else
             if (openOrder == null) {
                 // order was created after we poll open orders
-                return createOrder(wsOrders);
+                CoinbaseProOrder order = createOrder(wsOrders);
+                if (order != null && order.getSize() != null && order.getFilledSize() != null) {
+                    if (ask != null) {
+                        if (ask.getVolume().compareTo(order.getSize().subtract(order.getFilledSize())) != 0) {
+                            LOG.error("Stream has a difference with order book. Order book: " + ask + ", stream: " + wsOrders);
+                        }
+                    } else if (bid != null) {
+                        if (bid.getVolume().compareTo(order.getSize().subtract(order.getFilledSize())) != 0) {
+                            LOG.error("Stream has a difference with order book. Order book: " + bid + ", stream: " + wsOrders);
+                        }
+                    }
+                }
+                return order;
             } else {
                 if (ask == null && bid == null) {
                     LOG.error("Order must be done, but done message is missed");

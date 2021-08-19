@@ -120,7 +120,9 @@ public class CoinbaseProOrder {
     return stopPrice;
   }
 
-  public boolean equals(CoinbaseProOrder order) {
+  @Override
+  public boolean equals(Object obj) {
+    CoinbaseProOrder order = (CoinbaseProOrder) obj;
     return
             (id == null && order.id == null || id != null && this.id.equals(order.id)) &&
                     (this.price == null && order.price == null || this.price != null && this.price.compareTo(order.price) == 0) &&
