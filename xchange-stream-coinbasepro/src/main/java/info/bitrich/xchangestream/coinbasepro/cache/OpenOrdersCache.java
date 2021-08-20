@@ -2,6 +2,9 @@ package info.bitrich.xchangestream.coinbasepro.cache;
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProChannelProducts;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.processors.FlowableProcessor;
+import io.reactivex.rxjava3.processors.PublishProcessor;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataService;
@@ -21,12 +24,14 @@ public class OpenOrdersCache {
     private final CoinbaseProMarketDataService marketDataService;
     private final CoinbaseProTradeService tradeService;
     private boolean inited;
+    private final FlowableProcessor<CoinbaseProOrder> orderUpdatePublisher;
 
     public OpenOrdersCache(CoinbaseProMarketDataService marketDataService, CoinbaseProTradeService tradeService) {
         this.marketDataService = marketDataService;
         this.tradeService = tradeService;
         products = new HashMap<>();
         inited = false;
+        orderUpdatePublisher = PublishProcessor.<CoinbaseProOrder>create().toSerialized();
     }
 
     private void init(CoinbaseProChannelProducts[] channels) {
@@ -40,6 +45,10 @@ public class OpenOrdersCache {
             }
         }
         inited = true;
+    }
+
+    public Flowable<CoinbaseProOrder> getOrderChanges() {
+        return orderUpdatePublisher;
     }
 
     public synchronized void processWebSocketTransaction(CoinbaseProWebSocketTransaction transaction) {
@@ -56,7 +65,7 @@ public class OpenOrdersCache {
                 } else {
                     ProductOpenOrders cache = products.get(transaction.getProductId());
                     if (cache != null) {
-                        cache.processWebSocketTransaction(transaction);
+                        cache.processWebSocketTransaction(transaction, orderUpdatePublisher);
                     }
                 }
             }

@@ -24,7 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Action;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataService;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProTradeService;
