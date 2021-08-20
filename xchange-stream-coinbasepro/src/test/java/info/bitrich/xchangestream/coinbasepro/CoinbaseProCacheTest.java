@@ -1,23 +1,19 @@
 package info.bitrich.xchangestream.coinbasepro;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.coinbasepro.cache.OpenOrdersCache;
 import info.bitrich.xchangestream.coinbasepro.cache.ProductOpenOrders;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import io.reactivex.rxjava3.processors.FlowableProcessor;
+import io.reactivex.rxjava3.processors.PublishProcessor;
 import org.junit.Assert;
 import org.junit.Test;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataService;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.utils.ObjectMapperHelper;
 
 import java.io.IOException;
 import java.util.*;
@@ -307,8 +303,10 @@ public class CoinbaseProCacheTest {
 
         ProductOpenOrders cache = new ProductOpenOrders("ETH-BTC", new CoinbaseProMarketDataServiceMock(orderBook), new CoinbaseProTradeServiceMock(openOrders));
 
+        FlowableProcessor<CoinbaseProOrder> publisher = PublishProcessor.<CoinbaseProOrder>create().toSerialized();
+
         for (CoinbaseProWebSocketTransaction message : messages) {
-            cache.processWebSocketTransaction(message);
+            cache.processWebSocketTransaction(message, publisher);
         }
         Assert.assertTrue(equals(Arrays.asList(result), cache.getCoinbaseProOpenOrders()));
     }

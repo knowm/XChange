@@ -1,15 +1,13 @@
 package info.bitrich.xchangestream.coinbasepro.cache;
 
-import info.bitrich.xchangestream.coinbasepro.CoinbaseProStreamingExchange;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProOrderBuilder;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
+import io.reactivex.rxjava3.processors.FlowableProcessor;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataService;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProTradeService;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +56,7 @@ public class ProductOpenOrders {
                 .map(CoinbaseProAdapters::adaptOrder).orElse(null);
     }
 
-    public void processWebSocketTransaction(CoinbaseProWebSocketTransaction transaction) throws IOException {
+    public void processWebSocketTransaction(CoinbaseProWebSocketTransaction transaction, FlowableProcessor<CoinbaseProOrder> orderUpdatePublisher) throws IOException {
         if (!inited) {
             if (transaction.getSequence() <= initializer.getSequence()) {
                 initializer.processWebSocketTransaction(transaction);
@@ -77,6 +75,7 @@ public class ProductOpenOrders {
         if (order == null) {
             if ("received".equals(transaction.getType())) {
                 order = CoinbaseProOrderBuilder.from(transaction);
+                orderUpdatePublisher.onNext(order);
                 openOrders.add(order);
             } else {
                 LOG.error("Order is not in open order but there is a message.");
@@ -97,6 +96,7 @@ public class ProductOpenOrders {
                 } else {
                     openOrders.add(order);
                 }
+                orderUpdatePublisher.onNext(order);
             }
         }
     }
