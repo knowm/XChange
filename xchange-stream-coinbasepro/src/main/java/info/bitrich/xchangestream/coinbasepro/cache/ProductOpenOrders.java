@@ -70,12 +70,15 @@ public class ProductOpenOrders {
             return;
         }
 
+        LOG.info("Transaction received: " + transaction);
+
         CoinbaseProOrder order = getOpenOrder(transaction.getOrderId());
 
         if (order == null) {
             if ("received".equals(transaction.getType())) {
                 order = CoinbaseProOrderBuilder.from(transaction);
                 orderUpdatePublisher.onNext(order);
+                LOG.info("Order created: " + order);
                 openOrders.add(order);
             } else {
                 LOG.error("Order is not in open order but there is a message.");
@@ -87,7 +90,9 @@ public class ProductOpenOrders {
             case "open":
             case "match":
             case "done": {
+                LOG.info("Order before transaction: " + order);
                 order = CoinbaseProOrderBuilder.from(order, transaction).build();
+                LOG.info("Order after transaction: " + order);
                 final CoinbaseProOrder finalOrder = order;
                 openOrders.removeIf(order1 -> order1.getId().equals(finalOrder.getId()));
 
