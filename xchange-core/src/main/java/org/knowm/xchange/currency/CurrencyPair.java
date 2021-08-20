@@ -83,6 +83,7 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair BCH_EUR = new CurrencyPair(Currency.BCH, Currency.EUR);
   public static final CurrencyPair BCH_BTC = new CurrencyPair(Currency.BCH, Currency.BTC);
   public static final CurrencyPair BCH_ETH = new CurrencyPair(Currency.BCH, Currency.ETH);
+  public static final CurrencyPair BCH_CZK = new CurrencyPair(Currency.BCH, Currency.CZK);
 
   public static final CurrencyPair BCA_USD = new CurrencyPair(Currency.BCA, Currency.USD);
   public static final CurrencyPair BCA_EUR = new CurrencyPair(Currency.BCA, Currency.EUR);
@@ -100,6 +101,7 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair ETH_CNY = new CurrencyPair(Currency.ETH, Currency.CNY);
   public static final CurrencyPair ETH_AUD = new CurrencyPair(Currency.ETH, Currency.AUD);
   public static final CurrencyPair ETH_NZD = new CurrencyPair(Currency.ETH, Currency.NZD);
+  public static final CurrencyPair ETH_CZK = new CurrencyPair(Currency.ETH, Currency.CZK);
 
   public static final CurrencyPair XAUR_BTC = new CurrencyPair(Currency.XAUR, Currency.BTC);
 
@@ -115,6 +117,7 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair XRP_USD = new CurrencyPair(Currency.XRP, Currency.USD);
   public static final CurrencyPair XRP_USDT = new CurrencyPair(Currency.XRP, Currency.USDT);
   public static final CurrencyPair XRP_GBP = new CurrencyPair(Currency.XRP, Currency.GBP);
+  public static final CurrencyPair XRP_CZK = new CurrencyPair(Currency.XRP, Currency.CZK);
 
   public static final CurrencyPair LTC_AUD = new CurrencyPair(Currency.LTC, Currency.AUD);
   public static final CurrencyPair LTC_GBP = new CurrencyPair(Currency.LTC, Currency.GBP);
@@ -126,6 +129,7 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair LTC_BTC = new CurrencyPair(Currency.LTC, Currency.BTC);
   public static final CurrencyPair LTC_XRP = new CurrencyPair(Currency.LTC, Currency.XRP);
   public static final CurrencyPair LTC_TRY = new CurrencyPair(Currency.LTC, Currency.TRY);
+  public static final CurrencyPair LTC_CZK = new CurrencyPair(Currency.LTC, Currency.CZK);
 
   public static final CurrencyPair NMC_USD = new CurrencyPair(Currency.NMC, Currency.USD);
   public static final CurrencyPair NMC_CNY = new CurrencyPair(Currency.NMC, Currency.CNY);
@@ -289,6 +293,7 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair DASH_EUR = new CurrencyPair(Currency.DASH, Currency.EUR);
   public static final CurrencyPair DASH_BTC = new CurrencyPair(Currency.DASH, Currency.BTC);
   public static final CurrencyPair DASH_TRY = new CurrencyPair(Currency.DASH, Currency.TRY);
+  public static final CurrencyPair DASH_CZK = new CurrencyPair(Currency.DASH, Currency.CZK);
 
   public static final CurrencyPair MLN_ETH = new CurrencyPair(Currency.MLN, Currency.ETH);
   public static final CurrencyPair MLN_BTC = new CurrencyPair(Currency.MLN, Currency.BTC);
