@@ -23,7 +23,7 @@
  */
 package org.knowm.xchange.coinmate.dto.trade;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /** @author Martin Stachon */
-public class CoinmateOpenOrdersData extends ArrayList<CoinmateOpenOrdersEntry> {}
+public interface CoinmateOpenOrdersData extends List<CoinmateOpenOrdersEntry> {}
