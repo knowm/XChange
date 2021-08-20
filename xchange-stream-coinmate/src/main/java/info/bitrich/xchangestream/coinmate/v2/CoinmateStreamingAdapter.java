@@ -71,13 +71,16 @@ public class CoinmateStreamingAdapter {
                   .timestamp(
                       Date.from(Instant.ofEpochMilli(coinmateWebsocketOpenOrder.getTimestamp())))
                   .limitPrice(BigDecimal.valueOf(coinmateWebsocketOpenOrder.getPrice()))
-                      .orderStatus(statusFromString(coinmateWebsocketOpenOrder.getOrderChangePushEvent()))
+                      .orderStatus(fromString(coinmateWebsocketOpenOrder.getOrderChangePushEvent()))
                   .build());
         });
     return new OpenOrders(openOrders);
   }
 
-    private static Order.OrderStatus statusFromString(String orderChangePushEvent) {
+    private static Order.OrderStatus fromString(String orderChangePushEvent) {
+        if (orderChangePushEvent == null) {
+            return Order.OrderStatus.UNKNOWN;
+        }
         switch (orderChangePushEvent) {
             case "CREATION":
                 return Order.OrderStatus.NEW;
