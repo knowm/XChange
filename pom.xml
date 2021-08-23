@@ -544,7 +544,7 @@
       <plugin>
         <groupId>com.coveo</groupId>
         <artifactId>fmt-maven-plugin</artifactId>
-        <version>2.11</version>
+        <version>2.12</version>
         <configuration>
           <filesNamePattern>.*\.java</filesNamePattern>
           <skip>false</skip>
