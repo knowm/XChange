@@ -1,8 +1,8 @@
 package info.bitrich.xchangestream.ftx;
 
+import com.google.common.collect.Lists;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
-import java.util.ArrayList;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -23,11 +23,29 @@ public class FtxStreamingMarketDataService implements StreamingMarketDataService
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    OrderBook orderBook = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
+    OrderBook orderBook = new OrderBook(null, Lists.newArrayList(), Lists.newArrayList());
+    String channelName = "orderbook:" + FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair);
 
     return service
-        .subscribeChannel("orderbook:" + FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair))
-        .map(res -> FtxStreamingAdapters.adaptOrderbookMessage(orderBook, currencyPair, res));
+        .subscribeChannel(channelName)
+        .map(
+            res -> {
+              try {
+                return FtxStreamingAdapters.adaptOrderbookMessage(orderBook, currencyPair, res);
+              } catch (IllegalStateException e) {
+                LOG.warn(
+                    "Resubscribing {} channel after adapter error {}",
+                    currencyPair,
+                    e.getMessage());
+                orderBook.getBids().clear();
+                orderBook.getAsks().clear();
+                // Resubscribe to the channel
+                this.service.sendMessage(service.getUnsubscribeMessage(channelName, args));
+                this.service.sendMessage(service.getSubscribeMessage(channelName, args));
+                return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
+              }
+            })
+        .filter(ob -> ob.getBids().size() > 0 && ob.getAsks().size() > 0);
   }
 
   @Override
@@ -35,7 +53,7 @@ public class FtxStreamingMarketDataService implements StreamingMarketDataService
     return service
         .subscribeChannel("ticker:" + FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair))
         .map(res -> FtxStreamingAdapters.adaptTickerMessage(currencyPair, res))
-        .filter(ticker -> ticker != FtxStreamingAdapters.NULL_TICKER);  // lets not send these backs
+        .filter(ticker -> ticker != FtxStreamingAdapters.NULL_TICKER); // lets not send these backs
   }
 
   @Override
