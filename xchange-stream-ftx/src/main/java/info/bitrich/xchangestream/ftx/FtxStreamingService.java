@@ -76,11 +76,12 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   @Override
   protected String getChannelNameFromMessage(JsonNode message) {
     String channelName = "";
+    String text = message.get("channel") == null ? null : message.get("channel").asText();
 
-    if ("fills".equals(message.get("channel").asText())) {
-      channelName = message.get("channel").asText();
-    } else if ("orderbook".equals(message.get("channel").asText())) {
-      channelName = message.get("channel").asText() + ":" + message.get("market").asText();
+    if ("fills".equals(text) || "orders".equals(text)) {
+      channelName = text;
+    } else if ("orderbook".equals(text)) {
+      channelName = text + ":" + message.get("market").asText();
     }
 
     LOG.trace("GetChannelNameFromMessage: " + channelName);
@@ -91,7 +92,7 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
     String channel = "";
-    String market = "";
+    String market = null;
 
     if (authData != null && !isLoggedIn) {
       FtxAuthenticationMessage message = getAuthMessage();
@@ -103,9 +104,10 @@ public class FtxStreamingService extends JsonNettyStreamingService {
     if (channelName.contains("orderbook")) {
       channel = channelName.substring(0, channelName.indexOf(":"));
       market = channelName.substring(channelName.indexOf(":") + 1);
+    } else if (channelName.contains("orders")) {
+      channel = "orders";
     } else if (channelName.contains("fills")) {
       channel = "fills";
-      market = null;
     }
 
     LOG.debug("GetSubscribeMessage channel: " + channel);
@@ -117,14 +119,15 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   @Override
   public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     String channel = "";
-    String market = "";
+    String market = null;
 
     if (channelName.contains("orderbook")) {
       channel = channelName.substring(0, channelName.indexOf(":"));
       market = channelName.substring(channelName.indexOf(":") + 1);
+    } else if (channelName.contains("orders")) {
+      channel = "orders";
     } else if (channelName.contains("fills")) {
       channel = "fills";
-      market = null;
     }
 
     setLoggedInToFalse();
