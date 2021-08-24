@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -88,22 +89,23 @@ public class OkexAdapters {
         .build();
   }
 
-  public static OkexOrderRequest adaptOrder(LimitOrder order) {
-    String positionEffect = null;
-    switch (order.getType()) {
+  public static String adaptOrderTypeToPositionEffect(OrderType orderType) {
+    switch (orderType) {
       case BID:
-        positionEffect = "long";
-        break;
+        return "long";
+
       case ASK:
-        positionEffect = "short";
-        break;
+        return "short";
       case EXIT_ASK:
-        positionEffect = "short";
-        break;
+        return "short";
       case EXIT_BID:
-        positionEffect = "long";
-        break;
+        return "long";
     }
+    return null;
+  }
+
+  public static OkexOrderRequest adaptOrder(LimitOrder order) {
+    String positionEffect = adaptOrderTypeToPositionEffect(order.getType());
 
     return OkexOrderRequest.builder()
         .instrumentId(adaptInstrumentId(order.getInstrument()))

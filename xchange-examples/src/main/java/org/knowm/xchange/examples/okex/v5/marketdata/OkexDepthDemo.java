@@ -6,8 +6,8 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.instrument.FuturesContract;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -16,7 +16,7 @@ public class OkexDepthDemo {
   public static void main(String[] args) throws IOException {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(OkexExchange.class);
-     Exchange okexExchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
+    Exchange okexExchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
     generic(okexExchange);
   }
 

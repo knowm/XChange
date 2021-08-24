@@ -6,8 +6,8 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.instrument.FuturesContract;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -28,14 +28,12 @@ public class OkexTradesDemo {
 
     MarketDataService marketDataService = okexExchange.getMarketDataService();
     FuturesContract contract = new FuturesContract(CurrencyPair.BTC_USDT, "210924");
-   
+
     // Get the latest trades data for BTC_UST Sept 24th Contact
     Trades trades = marketDataService.getTrades(contract);
 
     System.out.println(trades);
     System.out.println("Trades(0): " + trades.getTrades().get(0).toString());
     System.out.println("Trades size: " + trades.getTrades().size());
-
-
   }
 }
