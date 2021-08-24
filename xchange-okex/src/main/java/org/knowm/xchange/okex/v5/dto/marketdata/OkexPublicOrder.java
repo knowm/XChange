@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@JsonDeserialize(using = OkexPublicOrder.okexOrderDeserializer.class)
+@JsonDeserialize(using = OkexPublicOrder.OkexOrderDeserializer.class)
 public class OkexPublicOrder {
 
   private final BigDecimal price;
@@ -52,7 +52,7 @@ public class OkexPublicOrder {
         + '}';
   }
 
-  static class okexOrderDeserializer extends JsonDeserializer<OkexPublicOrder> {
+  static class OkexOrderDeserializer extends JsonDeserializer<OkexPublicOrder> {
 
     @Override
     public OkexPublicOrder deserialize(JsonParser jsonParser, DeserializationContext ctxt)

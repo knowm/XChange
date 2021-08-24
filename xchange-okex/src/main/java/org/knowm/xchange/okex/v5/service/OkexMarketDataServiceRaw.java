@@ -57,21 +57,13 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
 
   public OkexResponse<List<OkexTrade>> getOkexTrades(String instrument)
       throws OkexException, IOException {
-    try {
-      return okex.getTrades(instrument, 30);
-    } catch (OkexException e) {
-      throw new OkexException(e.getMessage(), e.getHttpStatusCode());
-    }
+
+    return okex.getTrades(instrument, 30);
   }
 
   public OkexResponse<List<OkexOrderbook>> getOkexOrderbook(String instrument)
       throws OkexException, IOException {
-    try {
-      OkexResponse<List<OkexOrderbook>> books = okex.getOrderbook(instrument, 20);
-      return books;
-
-    } catch (OkexException e) {
-      throw new OkexException(e.getMessage(), e.getHttpStatusCode());
-    }
+    OkexResponse<List<OkexOrderbook>> books = okex.getOrderbook(instrument, 20);
+    return books;
   }
 }
