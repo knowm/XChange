@@ -36,6 +36,8 @@ public class CoinmateTickerData {
   private final BigDecimal amount;
   private final BigDecimal bid;
   private final BigDecimal ask;
+  private final BigDecimal open;
+  private final BigDecimal change;
   private final long timestamp;
 
   @JsonCreator
@@ -46,6 +48,8 @@ public class CoinmateTickerData {
       @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("bid") BigDecimal bid,
       @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("open") BigDecimal open,
+      @JsonProperty("change") BigDecimal change,
       @JsonProperty("timestamp") long timestamp) {
 
     this.last = last;
@@ -54,6 +58,8 @@ public class CoinmateTickerData {
     this.amount = amount;
     this.bid = bid;
     this.ask = ask;
+    this.open = open;
+    this.change = change;
     this.timestamp = timestamp;
   }
 
@@ -79,6 +85,14 @@ public class CoinmateTickerData {
 
   public BigDecimal getAsk() {
     return ask;
+  }
+
+  public BigDecimal getOpen() {
+    return open;
+  }
+
+  public BigDecimal getChange() {
+    return change;
   }
 
   public long getTimestamp() {
