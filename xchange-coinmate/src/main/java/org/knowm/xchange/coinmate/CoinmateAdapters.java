@@ -388,4 +388,16 @@ public class CoinmateAdapters {
 
     return ordersList;
   }
+
+  public static Ticker adaptTradeStatistics(CoinmateTradeStatistics tradeStatistics, CurrencyPair currencyPair) {
+    return new Ticker.Builder()
+            .currencyPair(currencyPair)
+            .last(tradeStatistics.getLastRealizedTrade())
+            .high(tradeStatistics.getHigh24hours())
+            .low(tradeStatistics.getLow24hours())
+            .volume(tradeStatistics.getVolume24Hours())
+            .open(tradeStatistics.getTodaysOpen())
+            .percentageChange(tradeStatistics.getDailyChange())
+            .build();
+  }
 }

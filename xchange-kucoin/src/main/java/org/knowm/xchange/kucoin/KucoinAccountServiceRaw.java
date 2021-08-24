@@ -77,6 +77,7 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
                 .call());
   }
 
+  @Deprecated
   public Pagination<AccountLedgersResponse> getAccountLedgers(
       String accountId, Long startAt, Long endAt, Integer pageSize, Integer currentPage)
       throws IOException {
@@ -91,6 +92,36 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
                             nonceFactory,
                             passphrase,
                             accountId,
+                            startAt,
+                            endAt,
+                            pageSize,
+                            currentPage))
+                .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+                .call());
+  }
+
+  public Pagination<AccountLedgersResponse> getAccountLedgersWithParams(
+      String currency,
+      String direction,
+      String bizType,
+      Long startAt,
+      Long endAt,
+      Integer pageSize,
+      Integer currentPage)
+      throws IOException {
+    checkAuthenticated();
+    return classifyingExceptions(
+        () ->
+            decorateApiCall(
+                    () ->
+                        accountApi.getAccountLedgersWithParams(
+                            apiKey,
+                            digest,
+                            nonceFactory,
+                            passphrase,
+                            currency,
+                            direction,
+                            bizType,
                             startAt,
                             endAt,
                             pageSize,
