@@ -87,6 +87,8 @@ public class KrakenStreamingAdapters {
             throw new IllegalStateException("Checksum did not match");
         } else if (expectedChecksum.get() == 0) {
             LOG.debug("Skipping {} checksum validation, no expected checksum in message", instrument);
+        } else if (bids.size() > 0 && asks.size() > 0 && bids.first().getLimitPrice().compareTo(asks.first().getLimitPrice()) >= 0) {
+            throw new IllegalStateException("CROSSED book " + instrument + " " + bids.first().getLimitPrice() + " >= " + asks.first().getLimitPrice());
         }
         return new OrderBook(lastTime.get(), Lists.newArrayList(asks), Lists.newArrayList(bids), true);
     }

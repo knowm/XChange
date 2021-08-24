@@ -82,6 +82,22 @@ public interface AccountAPI {
       throws IOException;
 
   @GET
+  @Path("v1/accounts/ledgers")
+  KucoinResponse<Pagination<AccountLedgersResponse>> getAccountLedgersWithParams(
+      @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
+      @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
+      @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @QueryParam("currency") String currency,
+      @QueryParam("direction") String direction,
+      @QueryParam("bizType") String bizType,
+      @QueryParam("startAt") Long startAt,
+      @QueryParam("endAt") Long endAt,
+      @QueryParam("pageSize") Integer pageSize,
+      @QueryParam("currentPage") Integer currentPage)
+      throws IOException;
+
+  @GET
   @Path("v1/accounts/{accountId}")
   KucoinResponse<AccountResponse> getAccount(
       @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
