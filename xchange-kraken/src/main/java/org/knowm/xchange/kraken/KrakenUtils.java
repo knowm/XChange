@@ -139,6 +139,7 @@ public class KrakenUtils {
       }
     }
     return filteredKrakenOrders;
+  }
 
   public static Map<String, KrakenTrade> filterTradeHistoryByCurrencyPair(
           Map<String, KrakenTrade> krakenTrades, CurrencyPair currencyPair) {
