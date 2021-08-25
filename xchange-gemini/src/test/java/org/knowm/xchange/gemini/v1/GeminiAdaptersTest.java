@@ -79,9 +79,9 @@ public class GeminiAdaptersTest {
     InputStream resourceAsStream =
             GeminiAdaptersTest.class.getResourceAsStream(
                     "/org/knowm/xchange/gemini/v1/order/example-get-order-data-trades-included.json");
-    GeminiOrderStatusResponse[] response =
-            new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse[].class);
-    Order order = GeminiAdapters.adaptOrder(response[0]);
+    GeminiOrderStatusResponse response =
+            new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse.class);
+    Order order = GeminiAdapters.adaptOrder(response);
 
     assertEquals("54516439535", order.getId());
     assertEquals("TESTID0", order.getUserReference());
