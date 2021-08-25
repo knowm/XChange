@@ -19,7 +19,7 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
   private static final String SANDBOX_API_URI = "wss://ws-feed-public.sandbox.pro.coinbase.com";
   private static final String PRIME_API_URI = "wss://ws-feed.exchange.coinbase.com";
   private static final String PRIME_SANDBOX_API_URI =
-      "wss://ws-feed-public.sandbox.exchange.coinbase.com";
+          "wss://ws-feed-public.sandbox.exchange.coinbase.com";
 
   private CoinbaseProStreamingService streamingService;
   private CoinbaseProStreamingMarketDataService streamingMarketDataService;
@@ -37,26 +37,17 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
     if (args == null || args.length == 0)
       throw new UnsupportedOperationException("The ProductSubscription must be defined!");
     ExchangeSpecification exchangeSpec = getExchangeSpecification();
-    boolean useSandbox =
-        Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox"));
-    boolean usePrime =
-        Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem("Use_Prime"));
 
-    String apiUri;
-    if (useSandbox) {
-      apiUri = usePrime ? PRIME_SANDBOX_API_URI : SANDBOX_API_URI;
-    } else {
-      apiUri = usePrime ? PRIME_API_URI : API_URI;
-    }
+    String apiUri = getApiUri();
 
     boolean subscribeToL3Orderbook =
-        Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(
-                StreamingExchange.L3_ORDERBOOK));
+            Boolean.TRUE.equals(
+                    exchangeSpecification.getExchangeSpecificParametersItem(
+                            StreamingExchange.L3_ORDERBOOK));
 
     this.streamingService =
-        new CoinbaseProStreamingService(
-            apiUri, () -> authData(exchangeSpec), subscribeToL3Orderbook);
+            new CoinbaseProStreamingService(
+                    apiUri, () -> authData(exchangeSpec), subscribeToL3Orderbook);
     applyStreamingSpecification(exchangeSpecification, this.streamingService);
 
     this.streamingMarketDataService = new CoinbaseProStreamingMarketDataService(streamingService);
@@ -65,18 +56,40 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
     return streamingService.connect();
   }
 
+  public String getApiUri() {
+      String apiUri;
+      ExchangeSpecification exchangeSpec = getExchangeSpecification();
+
+      boolean useSandbox =
+              Boolean.TRUE.equals(
+                      exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_SANDBOX));
+      boolean usePrime =
+              Boolean.TRUE.equals(
+                      exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_PRIME));
+
+      if (useSandbox) {
+          apiUri = usePrime ? PRIME_SANDBOX_API_URI : SANDBOX_API_URI;
+      } else {
+          apiUri = usePrime ? PRIME_API_URI : API_URI;
+      }
+
+      return exchangeSpec.getOverrideWebsocketApiUri() == null
+              ? apiUri
+              : exchangeSpec.getOverrideWebsocketApiUri();
+  }
+
   private CoinbaseProWebsocketAuthData authData(ExchangeSpecification exchangeSpec) {
     CoinbaseProWebsocketAuthData authData = null;
     if (exchangeSpec.getApiKey() != null) {
       try {
         CoinbaseProAccountServiceRaw rawAccountService =
-            (CoinbaseProAccountServiceRaw) getAccountService();
+                (CoinbaseProAccountServiceRaw) getAccountService();
         authData = rawAccountService.getWebsocketAuthData();
       } catch (Exception e) {
         logger.warn(
-            "Failed attempting to acquire Websocket AuthData needed for private data on"
-                + " websocket.  Will only receive public information via API",
-            e);
+                "Failed attempting to acquire Websocket AuthData needed for private data on"
+                        + " websocket.  Will only receive public information via API",
+                e);
       }
     }
     return authData;
@@ -139,7 +152,7 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
    * @param channelInactiveHandler a WebSocketMessageHandler instance.
    */
   public void setChannelInactiveHandler(
-      WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+          WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
     streamingService.setChannelInactiveHandler(channelInactiveHandler);
   }
 
@@ -151,5 +164,13 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
   @Override
   public void useCompressedMessages(boolean compressedMessages) {
     streamingService.useCompressedMessages(compressedMessages);
+  }
+
+  public void setOverrideApiUri(String overrideApiUri) {
+    getExchangeSpecification().setOverrideWebsocketApiUri(overrideApiUri);
+  }
+
+  public String getOverrideApiUri() {
+    return this.getExchangeSpecification().getOverrideWebsocketApiUri();
   }
 }

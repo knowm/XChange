@@ -1,9 +1,5 @@
 package org.knowm.xchange.kraken;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -11,8 +7,15 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
+
 import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderDescription;
+import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.knowm.xchange.kraken.KrakenAdapters.adaptCurrencyPair;
 
 /** @author timmolter */
 public class KrakenUtils {
@@ -136,5 +139,15 @@ public class KrakenUtils {
       }
     }
     return filteredKrakenOrders;
+
+  public static Map<String, KrakenTrade> filterTradeHistoryByCurrencyPair(
+          Map<String, KrakenTrade> krakenTrades, CurrencyPair currencyPair) {
+    Map<String, KrakenTrade> filteredTradeHistory = new HashMap<>();
+    for (Map.Entry<String, KrakenTrade> krakenTradeEntry : krakenTrades.entrySet()) {
+      if(currencyPair != null && currencyPair.equals(adaptCurrencyPair(krakenTradeEntry.getValue().getAssetPair()))){
+        filteredTradeHistory.put(krakenTradeEntry.getKey(), krakenTradeEntry.getValue());
+      }
+    }
+    return filteredTradeHistory;
   }
 }

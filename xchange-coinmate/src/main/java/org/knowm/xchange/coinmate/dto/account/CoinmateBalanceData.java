@@ -23,7 +23,7 @@
  */
 package org.knowm.xchange.coinmate.dto.account;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /** @author Martin Stachon */
-public class CoinmateBalanceData extends HashMap<String, CoinmateBalanceDataEntry> {}
+public interface CoinmateBalanceData extends Map<String, CoinmateBalanceDataEntry> {}

@@ -81,7 +81,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateTradeHistory getCoinmateTradeHistory(
-      String currencyPair, int limit, String order, String startId) throws IOException {
+      String currencyPair, int limit, String order, String startId, Long timestampFrom, Long timestampTo) throws IOException {
     CoinmateTradeHistory tradeHistory =
         coinmateAuthenticated.getTradeHistory(
             exchange.getExchangeSpecification().getApiKey(),
@@ -91,8 +91,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             limit,
             startId,
             order,
-            null,
-            null,
+            timestampFrom,
+            timestampTo,
             currencyPair,
             null);
 
