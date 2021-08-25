@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -20,11 +19,14 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static info.bitrich.xchangestream.kraken.KrakenStreamingChecksum.createCrcChecksum;
 
@@ -57,7 +59,6 @@ public class KrakenStreamingAdapters {
 
     public static OrderBook adaptOrderbookMessage(int depth, TreeSet<LimitOrder> bids, TreeSet<LimitOrder> asks, Instrument instrument, ArrayNode arrayNode) {
         final AtomicLong expectedChecksum = new AtomicLong(0);
-        final AtomicReference<Date> lastTime = new AtomicReference<>(Date.from(Instant.EPOCH));
         final boolean awaitingSnapshot = (bids.isEmpty() && asks.isEmpty());
         arrayNode.elements().forEachRemaining(currentNode -> {
             if (awaitingSnapshot) {
@@ -90,7 +91,8 @@ public class KrakenStreamingAdapters {
         } else if (bids.size() > 0 && asks.size() > 0 && bids.first().getLimitPrice().compareTo(asks.first().getLimitPrice()) >= 0) {
             throw new IllegalStateException("CROSSED book " + instrument + " " + bids.first().getLimitPrice() + " >= " + asks.first().getLimitPrice());
         }
-        return new OrderBook(lastTime.get(), Lists.newArrayList(asks), Lists.newArrayList(bids), true);
+        final Date lastTime = Stream.concat(asks.stream(), bids.stream()).map(LimitOrder::getTimestamp).max(Date::compareTo).orElse(Date.from(Instant.EPOCH));
+        return new OrderBook(lastTime, Lists.newArrayList(asks), Lists.newArrayList(bids), true);
     }
 
     /**
