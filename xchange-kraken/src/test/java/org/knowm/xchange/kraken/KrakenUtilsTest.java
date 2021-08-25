@@ -51,7 +51,6 @@ public class KrakenUtilsTest {
         assertThat(orders.getOpenOrders().get(0).getCurrencyPair().base).isEqualTo(Currency.XBT);
         assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counter).isEqualTo(Currency.EUR);
         assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(Order.OrderType.BID);
-    }
   }
 
   @Test
