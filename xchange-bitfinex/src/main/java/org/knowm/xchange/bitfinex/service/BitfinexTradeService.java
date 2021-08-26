@@ -243,6 +243,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
               openOrders.addAll(orders.getHiddenOrders());
             }
           }
+          
         }
       }
       return openOrders;
