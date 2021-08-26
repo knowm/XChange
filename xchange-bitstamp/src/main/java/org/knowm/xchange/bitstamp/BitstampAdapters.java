@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampPairInfo;
@@ -37,7 +37,6 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -333,6 +332,8 @@ public final class BitstampAdapters {
 
     if (bitstampOrderStatus.equals(BitstampOrderStatus.Open)) return Order.OrderStatus.NEW;
 
+    if (bitstampOrderStatus.equals(BitstampOrderStatus.Canceled)) return Order.OrderStatus.CANCELED;
+
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -354,64 +355,76 @@ public final class BitstampAdapters {
     // Use only the first transaction, because we assume that for a single order id all transactions
     // will
     // be of the same currency pair
-    CurrencyPair currencyPair = adaptCurrencyPair(bitstampTransactions[0], exchangeSymbols);
-    Date date = bitstampTransactions[0].getDatetime();
-
-    BigDecimal averagePrice =
-        Arrays.stream(bitstampTransactions)
-            .map(t -> t.getPrice())
-            .reduce((x, y) -> x.add(y))
-            .get()
-            .divide(BigDecimal.valueOf(bitstampTransactions.length), 2);
-
-    BigDecimal cumulativeAmount =
-        Arrays.stream(bitstampTransactions)
-            .map(t -> getBaseCurrencyAmountFromBitstampTransaction(t, currencyPair))
-            .reduce((x, y) -> x.add(y))
-            .get();
-
-    BigDecimal totalFee =
-        Arrays.stream(bitstampTransactions).map(t -> t.getFee()).reduce((x, y) -> x.add(y)).get();
 
     Order.OrderStatus orderStatus = adaptOrderStatus(bitstampOrderStatusResponse.getStatus());
 
-    BitstampGenericOrder bitstampGenericOrder =
-        new BitstampGenericOrder(
-            null, // not discernable from response data
-            null, // not discernable from the data
-            currencyPair,
-            orderId,
-            date,
-            averagePrice,
-            cumulativeAmount,
-            totalFee,
-            orderStatus);
+    if (bitstampTransactions.length > 0) {
+      CurrencyPair currencyPair = adaptCurrencyPair(bitstampTransactions[0], exchangeSymbols);
+      Date date = bitstampTransactions[0].getDatetime();
+      BigDecimal averagePrice =
+          Arrays.stream(bitstampTransactions)
+              .map(t -> t.getPrice())
+              .reduce((x, y) -> x.add(y))
+              .get()
+              .divide(BigDecimal.valueOf(bitstampTransactions.length), 2);
 
-    return bitstampGenericOrder;
+      BigDecimal cumulativeAmount =
+          Arrays.stream(bitstampTransactions)
+              .map(t -> getBaseCurrencyAmountFromBitstampTransaction(t, currencyPair))
+              .reduce((x, y) -> x.add(y))
+              .get();
+
+      BigDecimal totalFee =
+          Arrays.stream(bitstampTransactions).map(t -> t.getFee()).reduce((x, y) -> x.add(y)).get();
+
+      return new BitstampGenericOrder(
+          null, // not discernable from response data
+          null, // not discernable from the data
+          currencyPair,
+          orderId,
+          date,
+          averagePrice,
+          cumulativeAmount,
+          totalFee,
+          orderStatus);
+
+    } else {
+      return new BitstampGenericOrder(
+          null, // not discernable from response data
+          null, // not discernable from the data
+          null, // not discernable from the data
+          orderId,
+          null, // not discernable from the data
+          new BigDecimal("0.0"), // not discernable from the data
+          new BigDecimal("0.0"), // not discernable from the data
+          new BigDecimal("0.0"), // not discernable from the data
+          orderStatus);
+    }
   }
 
   public static Map<CurrencyPair, CurrencyPairMetaData> adaptCurrencyPairs(
       Collection<BitstampPairInfo> bitstampPairInfo) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+        new HashMap<CurrencyPair, CurrencyPairMetaData>();
     for (BitstampPairInfo pairInfo : bitstampPairInfo) {
       String[] pairInfos = pairInfo.getName().split("/");
-      currencyPairs.put(new CurrencyPair(pairInfos[0], pairInfos[1]), adaptCurrencyPairInfo(pairInfo));
+      currencyPairs.put(
+          new CurrencyPair(pairInfos[0], pairInfos[1]), adaptCurrencyPairInfo(pairInfo));
     }
     return currencyPairs;
   }
 
-
-  public static CurrencyPairMetaData adaptCurrencyPairInfo (BitstampPairInfo pairInfo) {
+  public static CurrencyPairMetaData adaptCurrencyPairInfo(BitstampPairInfo pairInfo) {
 
     String[] minOrderParts = pairInfo.getMinimumOrder().split(" ");
     BigDecimal minOrder = new BigDecimal(minOrderParts[0]);
 
-    return new CurrencyPairMetaData
-                    .Builder()
-                    .counterMinimumAmount(minOrder)
-                    .priceScale(pairInfo.getCounterDecimals())
-                    .baseScale(pairInfo.getBaseDecimals()).build();
+    return new CurrencyPairMetaData.Builder()
+        .counterMinimumAmount(minOrder)
+        .priceScale(pairInfo.getCounterDecimals())
+        .baseScale(pairInfo.getBaseDecimals())
+        .build();
   }
 
   public static ExchangeMetaData adaptMetaData(
@@ -438,7 +451,6 @@ public final class BitstampAdapters {
         currenciesMap.put(c.counter, null);
       }
     }
-
 
     return metaData;
   }

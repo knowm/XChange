@@ -23,6 +23,7 @@ import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange {
+  public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
 
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
@@ -34,8 +35,8 @@ public class BinanceExchange extends BaseExchange {
   protected void initServices() {
     this.binance =
         ExchangeRestProxyBuilder.forInterface(
-                BinanceAuthenticated.class, getExchangeSpecification())
-            .build();
+            BinanceAuthenticated.class, getExchangeSpecification())
+                                .build();
     this.timestampFactory =
         new BinanceTimestampFactory(
             binance, getExchangeSpecification().getResilience(), getResilienceRegistries());
@@ -79,9 +80,18 @@ public class BinanceExchange extends BaseExchange {
     return spec;
   }
 
-  public BinanceExchangeInfo getExchangeInfo() {
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+    concludeHostParams(exchangeSpecification);
+    super.applySpecification(exchangeSpecification);
+  }
 
+  public BinanceExchangeInfo getExchangeInfo() {
     return exchangeInfo;
+  }
+
+  public boolean usingSandbox() {
+    return enabledSandbox(exchangeSpecification);
   }
 
   @Override
@@ -98,7 +108,10 @@ public class BinanceExchange extends BaseExchange {
       Symbol[] symbols = exchangeInfo.getSymbols();
 
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
-      Map<String, AssetDetail> assetDetailMap = accountService.getAssetDetails();
+      Map<String, AssetDetail> assetDetailMap = null;
+      if (!usingSandbox() && isAuthenticated()) {
+        assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
+      }
       // Clear all hardcoded currencies when loading dynamically from exchange.
       if (assetDetailMap != null) {
         currencies.clear();
@@ -172,8 +185,28 @@ public class BinanceExchange extends BaseExchange {
     }
   }
 
-  private int numberOfDecimals(String value) {
+  private boolean isAuthenticated() {
+    return exchangeSpecification != null
+        && exchangeSpecification.getApiKey() != null
+        && exchangeSpecification.getSecretKey() != null;
+  }
 
+  private int numberOfDecimals(String value) {
     return new BigDecimal(value).stripTrailingZeros().scale();
+  }
+
+  /** Adjust host parameters depending on exchange specific parameters */
+  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+    if (exchangeSpecification.getExchangeSpecificParameters() != null) {
+      if (enabledSandbox(exchangeSpecification)) {
+        exchangeSpecification.setSslUri("https://testnet.binance.vision");
+        exchangeSpecification.setHost("testnet.binance.vision");
+      }
+    }
+  }
+
+  private static boolean enabledSandbox(ExchangeSpecification exchangeSpecification) {
+    return Boolean.TRUE.equals(
+        exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX));
   }
 }

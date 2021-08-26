@@ -185,9 +185,9 @@ public class KrakenAdapters {
     return builder.build();
   }
 
-  public static List<Ticker> adaptTickers(Map<String, KrakenTicker> krackenTickers) {
+  public static List<Ticker> adaptTickers(Map<String, KrakenTicker> krakenTickers) {
     List<Ticker> tickers = new ArrayList<>();
-    for (Map.Entry<String, KrakenTicker> ticker : krackenTickers.entrySet()) {
+    for (Entry<String, KrakenTicker> ticker : krakenTickers.entrySet()) {
       CurrencyPair pair = KrakenUtils.translateKrakenCurrencyPair(ticker.getKey());
       tickers.add(adaptTicker(ticker.getValue(), pair));
     }
@@ -363,14 +363,14 @@ public class KrakenAdapters {
     Map<CurrencyPair, Fee> feeMap = new HashMap<>();
 
     // Compute Taker Fees
-    for (Map.Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFees().entrySet()) {
+    for (Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFees().entrySet()) {
       feeMap.computeIfAbsent(
           KrakenUtils.translateKrakenCurrencyPair(entry.getKey()),
           currencyPair -> new Fee(null, entry.getValue().getFee().divide(new BigDecimal(100))));
     }
 
     // Compute Maker Fees
-    for (Map.Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFeesMaker().entrySet()) {
+    for (Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFeesMaker().entrySet()) {
       feeMap.computeIfPresent(
           KrakenUtils.translateKrakenCurrencyPair(entry.getKey()),
           (currencyPair, fee) ->

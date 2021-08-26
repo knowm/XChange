@@ -41,7 +41,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
       String apiUrl,
       Supplier<CoinbaseProWebsocketAuthData> authData,
       boolean subscribeL3Orderbook) {
-    super(apiUrl, Integer.MAX_VALUE);
+    super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 60);
     this.authData = authData;
     this.subscribeL3Orderbook = subscribeL3Orderbook;
   }
@@ -120,7 +120,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     CoinbaseProWebSocketSubscriptionMessage subscribeMessage =
         new CoinbaseProWebSocketSubscriptionMessage(
             UNSUBSCRIBE, new String[] {"level2", "matches", "ticker", "full"}, authData.get());

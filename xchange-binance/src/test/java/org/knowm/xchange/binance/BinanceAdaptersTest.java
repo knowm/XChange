@@ -61,4 +61,13 @@ public class BinanceAdaptersTest {
     assertThat(assetDividend.getEnInfo()).isEqualTo("BHFT distribution");
     assertThat(assetDividend.getTranId()).isEqualByComparingTo(2968885920L);
   }
+
+  // Tests that the conversion from Date/time String to Date is done for time zone UTC
+  // regardless of the time zone of the system
+  @Test
+  public void testToDate() {
+    String applyTimeUTC="2018-10-09 07:56:10";
+    assertThat(BinanceAdapters.toDate(applyTimeUTC).getTime()).isEqualByComparingTo(1539071770000L);
+  }
+
 }

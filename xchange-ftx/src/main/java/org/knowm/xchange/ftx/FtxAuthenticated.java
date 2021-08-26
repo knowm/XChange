@@ -8,9 +8,9 @@ import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.*;
 import org.knowm.xchange.ftx.dto.account.FtxBorrowingHistoryDto;
 import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
+import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
-import org.knowm.xchange.ftx.dto.trade.FtxPositionDto;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/api")
@@ -111,6 +111,28 @@ public interface FtxAuthenticated extends Ftx {
       FtxOrderRequestPayload payload)
       throws IOException, FtxException;
 
+  @POST
+  @Path("/orders/{order_id}/modify")
+  FtxResponse<FtxOrderDto> modifyOrder(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("order_id") String orderId,
+      FtxModifyOrderRequestPayload payload)
+      throws IOException, FtxException;
+
+  @POST
+  @Path("/orders/by_client_id/{client_order_id}/modify")
+  FtxResponse<FtxOrderDto> modifyOrderByClientId(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("client_order_id") String clientId,
+      FtxModifyOrderRequestPayload payload)
+      throws IOException, FtxException;
+
   @GET
   @Path("/orders/{order_id}")
   FtxResponse<FtxOrderDto> getOrderStatus(
@@ -196,7 +218,9 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-KEY") String apiKey,
       @HeaderParam("FTX-TS") Long nonce,
       @HeaderParam("FTX-SIGN") ParamsDigest signature,
-      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @QueryParam("start_time") Long start_time,
+      @QueryParam("end_time") Long end_time)
       throws IOException, FtxException;
 
   @GET

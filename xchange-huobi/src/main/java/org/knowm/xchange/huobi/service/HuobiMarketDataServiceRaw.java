@@ -4,8 +4,8 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.huobi.HuobiUtils;
-import org.knowm.xchange.huobi.dto.marketdata.HuobiKline;
 import org.knowm.xchange.huobi.dto.marketdata.*;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiKline;
 import org.knowm.xchange.huobi.dto.marketdata.results.*;
 
 public class HuobiMarketDataServiceRaw extends HuobiBaseService {
@@ -43,11 +43,24 @@ public class HuobiMarketDataServiceRaw extends HuobiBaseService {
     return checkResult(tradesResult);
   }
 
-  public HuobiKline[] getKlines(CurrencyPair pair, KlineInterval interval, Integer limit) throws IOException {
-    return checkResult(huobi.getKlines(
+  public HuobiKline[] getKlines(CurrencyPair pair, KlineInterval interval, Integer limit)
+      throws IOException {
+    return checkResult(
+        huobi.getKlines(
             pair.base.getSymbol().toLowerCase() + pair.counter.getSymbol().toLowerCase(),
             interval.code(),
-            limit
-    ));
+            limit));
+  }
+
+  public HuobiCurrencyWrapper[] getHuobiCurrencies(String currency) throws IOException {
+    HuobiCurrenciesResult currenciesResult = huobi.getCurrencies(
+            currency.toLowerCase(),
+            false,
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+    return checkResult(currenciesResult);
   }
 }
