@@ -44,6 +44,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
   private final long tradeId;
   private final boolean working;
   private final boolean buyerMarketMaker;
+  private final long orderCreationTime;
   private final BigDecimal cumulativeQuoteAssetTransactedQuantity;
 
   public ExecutionReportBinanceUserTransaction(
@@ -72,6 +73,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
       @JsonProperty("t") long tradeId,
       @JsonProperty("w") boolean working,
       @JsonProperty("m") boolean buyerMarketMaker,
+      @JsonProperty("O") long orderCreationTime,
       @JsonProperty("Z") BigDecimal cumulativeQuoteAssetTransactedQuantity) {
     super(eventType, eventTime, symbol);
     if ("CANCELED".equals(currentExecutionType) && origClientOrderId != null) {
@@ -99,6 +101,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     this.tradeId = tradeId;
     this.working = working;
     this.buyerMarketMaker = buyerMarketMaker;
+    this.orderCreationTime = orderCreationTime;
     this.cumulativeQuoteAssetTransactedQuantity = cumulativeQuoteAssetTransactedQuantity;
   }
 
@@ -186,6 +189,10 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     return buyerMarketMaker;
   }
 
+  public long getOrderCreationTime() {
+    return orderCreationTime;
+  }
+
   public BigDecimal getCumulativeQuoteAssetTransactedQuantity() {
     return cumulativeQuoteAssetTransactedQuantity;
   }
@@ -213,15 +220,15 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
             clientOrderId,
             orderPrice,
             orderQuantity,
-            lastExecutedQuantity,
             cumulativeFilledQuantity,
+            cumulativeQuoteAssetTransactedQuantity,
             currentOrderStatus,
             timeInForce,
             orderType,
             side,
             stopPrice,
             BigDecimal.ZERO,
-            timestamp));
+            orderCreationTime));
   }
 
   @Override
