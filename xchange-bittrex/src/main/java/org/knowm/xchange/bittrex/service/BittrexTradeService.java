@@ -172,7 +172,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
                     .withRetry(retry("orderExecutionRate"))
                     .call();
             retries++;
-          } while (rate.compareTo(BigDecimal.ZERO) == 0 || retries < 3);
+          } while (rate.compareTo(BigDecimal.ZERO) == 0 && retries < 3);
           order.setAveragePrice(rate);
         }
         orders.add(order);
