@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
@@ -109,7 +111,7 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public AssetDetailResponse requestAssetDetail() throws IOException {
+  public Map<String, AssetDetail> requestAssetDetail() throws IOException {
     return decorateApiCall(
             () ->
                 binance.assetDetail(
