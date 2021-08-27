@@ -170,6 +170,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                     .originalAmount(rawTrade.getQuantity())
                     .instrument(currencyPair)
                     .price(rawTrade.getPrice())
+                    .makerOrderId(String.valueOf(rawTrade.getSellerOrderId()))
+                    .takerOrderId(String.valueOf(rawTrade.getBuyerOrderId()))
                     .timestamp(new Date(rawTrade.getTimestamp()))
                     .id(String.valueOf(rawTrade.getTradeId()))
                     .build());
