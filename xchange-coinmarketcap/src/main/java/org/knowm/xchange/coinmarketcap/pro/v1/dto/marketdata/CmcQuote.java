@@ -151,23 +151,23 @@ public final class CmcQuote {
         ? !getPercentChange24h().equals(that.getPercentChange24h())
         : that.getPercentChange24h() != null) return false;
     if (getPercentChange30d() != null
-            ? !getPercentChange30d().equals(that.getPercentChange30d())
-            : that.getPercentChange30d() != null) return false;
+        ? !getPercentChange30d().equals(that.getPercentChange30d())
+        : that.getPercentChange30d() != null) return false;
     if (getPercentChange60d() != null
-            ? !getPercentChange60d().equals(that.getPercentChange60d())
-            : that.getPercentChange60d() != null) return false;
+        ? !getPercentChange60d().equals(that.getPercentChange60d())
+        : that.getPercentChange60d() != null) return false;
     if (getPercentChange90d() != null
-            ? !getPercentChange90d().equals(that.getPercentChange90d())
-            : that.getPercentChange90d() != null) return false;
+        ? !getPercentChange90d().equals(that.getPercentChange90d())
+        : that.getPercentChange90d() != null) return false;
     if (getMarketCap() != null
         ? !getMarketCap().equals(that.getMarketCap())
         : that.getMarketCap() != null) return false;
     if (getMarketCapDominance() != null
-            ? !getMarketCapDominance().equals(that.getMarketCapDominance())
-            : that.getMarketCapDominance() != null) return false;
+        ? !getMarketCapDominance().equals(that.getMarketCapDominance())
+        : that.getMarketCapDominance() != null) return false;
     if (getFullyDilutedMarketCap() != null
-            ? !getFullyDilutedMarketCap().equals(that.getFullyDilutedMarketCap())
-            : that.getFullyDilutedMarketCap() != null) return false;
+        ? !getFullyDilutedMarketCap().equals(that.getFullyDilutedMarketCap())
+        : that.getFullyDilutedMarketCap() != null) return false;
     return getLastUpdated() != null
         ? getLastUpdated().equals(that.getLastUpdated())
         : that.getLastUpdated() == null;
