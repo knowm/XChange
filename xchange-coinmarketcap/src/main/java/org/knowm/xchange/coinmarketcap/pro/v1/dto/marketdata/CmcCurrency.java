@@ -10,6 +10,7 @@ public final class CmcCurrency {
   private final String name;
   private final String symbol;
   private final String slug;
+  private final int rank;
   private final boolean isActive;
   private final Date firstHistoricalData;
   private final Date lastHistoricalData;
@@ -20,6 +21,7 @@ public final class CmcCurrency {
       @JsonProperty("name") String name,
       @JsonProperty("symbol") String symbol,
       @JsonProperty("slug") String slug,
+      @JsonProperty("rank") int rank,
       @JsonProperty("is_active") int isActive,
       @JsonProperty("first_historical_data") @JsonDeserialize(using = ISO8601DateDeserializer.class)
           Date firstHistoricalData,
@@ -31,6 +33,7 @@ public final class CmcCurrency {
     this.name = name;
     this.symbol = symbol;
     this.slug = slug;
+    this.rank = rank;
     this.isActive = (1 == isActive);
     this.firstHistoricalData = firstHistoricalData;
     this.lastHistoricalData = lastHistoricalData;
@@ -51,6 +54,10 @@ public final class CmcCurrency {
 
   public String getSlug() {
     return slug;
+  }
+
+  public int getRank() {
+    return rank;
   }
 
   public boolean isActive() {
@@ -82,6 +89,8 @@ public final class CmcCurrency {
         + '\''
         + ", slug='"
         + slug
+        + ", rank='"
+        + rank
         + '\''
         + ", isActive="
         + isActive

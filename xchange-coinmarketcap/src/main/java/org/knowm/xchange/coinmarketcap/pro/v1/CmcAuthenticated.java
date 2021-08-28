@@ -25,7 +25,8 @@ public interface CmcAuthenticated {
       @HeaderParam(API_KEY_HEADER) String apiKey,
       @QueryParam("listing_status") String listingStatus,
       @QueryParam("start") int start,
-      @QueryParam("limit") int limit)
+      @QueryParam("limit") int limit,
+      @QueryParam("sort") String sort)
       throws IOException;
 
   @GET
