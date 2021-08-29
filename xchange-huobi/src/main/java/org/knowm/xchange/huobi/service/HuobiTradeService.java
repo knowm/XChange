@@ -24,6 +24,7 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 public class HuobiTradeService extends HuobiTradeServiceRaw implements TradeService {
   public static IOrderFlags FOK = new IOrderFlags() {};
   public static IOrderFlags IOC = new IOrderFlags() {};
+  public static IOrderFlags POST_ONLY = new IOrderFlags() {};
 
   public HuobiTradeService(Exchange exchange) {
     super(exchange);

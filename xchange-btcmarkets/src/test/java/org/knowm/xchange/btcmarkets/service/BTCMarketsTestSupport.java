@@ -326,7 +326,7 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
           "BTC",
           BTCMarketsOrder.Side.Bid,
           BTCMarketsOrder.Type.Limit,
-          null,
+          "orderOne",
           new Date(1378862733366L),
           "Placed",
           null,

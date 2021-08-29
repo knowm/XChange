@@ -83,9 +83,9 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency DGB = createCurrency("DGB", "DigiByte", null);
   public static final Currency DJF = createCurrency("DJF", "Djiboutian Franc", null);
   public static final Currency DKK = createCurrency("DKK", "Danish Krone", null);
-  public static final Currency DOGE = createCurrency("DOGE", "Dogecoin", null, "XDC", "XDG");
-  public static final Currency XDC = getInstance("XDC");
+  public static final Currency DOGE = createCurrency("DOGE", "Dogecoin", null, "XDG");
   public static final Currency XDG = getInstance("XDG");
+  public static final Currency XDC = createCurrency("XDC", "XinFin Network", null);
   public static final Currency DOP = createCurrency("DOP", "Dominican Peso", null);
   public static final Currency DGC = createCurrency("DGC", "Digitalcoin", null);
   public static final Currency DVC = createCurrency("DVC", "Devcoin", null);

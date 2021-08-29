@@ -334,7 +334,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   public abstract String getSubscribeMessage(String channelName, Object... args) throws IOException;
 
-  public abstract String getUnsubscribeMessage(String channelName) throws IOException;
+  public abstract String getUnsubscribeMessage(String channelName, Object... args) throws IOException;
 
   public String getSubscriptionUniqueId(String channelName, Object... args) {
     return channelName;

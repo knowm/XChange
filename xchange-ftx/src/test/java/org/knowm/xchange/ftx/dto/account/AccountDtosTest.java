@@ -29,7 +29,7 @@ public class AccountDtosTest {
 
     assertThat(ftxResponse.getResult().getPositions().size()).isEqualTo(1);
     assertThat(ftxResponse.getResult().getPositions().get(0).getSide())
-        .isEqualTo(FtxOrderSide.sell.toString());
+        .isEqualTo(FtxOrderSide.sell);
     assertThat(ftxResponse.getResult().getUsername()).isEqualTo("user@domain.com");
     assertThat(ftxResponse.getResult().getLeverage()).isEqualByComparingTo(BigDecimal.valueOf(10));
   }

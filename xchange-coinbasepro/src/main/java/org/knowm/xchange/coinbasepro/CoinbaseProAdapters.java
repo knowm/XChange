@@ -286,9 +286,9 @@ public class CoinbaseProAdapters {
     return CoinbaseProAdapters.adaptTrades(tradeArray, currencyPair);
   }
 
-  public static UserTrades adaptTradeHistory(CoinbaseProFill[] coinbaseExFills) {
+  public static UserTrades adaptTradeHistory(List<CoinbaseProFill> coinbaseExFills) {
 
-    List<UserTrade> trades = new ArrayList<>(coinbaseExFills.length);
+    List<UserTrade> trades = new ArrayList<>(coinbaseExFills.size());
 
     for (CoinbaseProFill fill : coinbaseExFills) {
       CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace('-', '/'));
@@ -406,7 +406,7 @@ public class CoinbaseProAdapters {
   }
 
   public static String adaptProductID(CurrencyPair currencyPair) {
-    return currencyPair.base.getCurrencyCode() + "-" + currencyPair.counter.getCurrencyCode();
+    return currencyPair == null ? null : currencyPair.base.getCurrencyCode() + "-" + currencyPair.counter.getCurrencyCode();
   }
 
   public static CoinbaseProPlaceOrder.Side adaptSide(OrderType orderType) {
@@ -448,8 +448,7 @@ public class CoinbaseProAdapters {
         .clientOid(marketOrder.getUserReference())
         .type(CoinbaseProPlaceOrder.Type.market)
         .side(adaptSide(marketOrder.getType()))
-        .funds(marketOrder.getType() == OrderType.BID ? marketOrder.getOriginalAmount() : null)
-        .size(marketOrder.getType() == OrderType.ASK ? marketOrder.getOriginalAmount() : null)
+        .size(marketOrder.getOriginalAmount())
         .build();
   }
 

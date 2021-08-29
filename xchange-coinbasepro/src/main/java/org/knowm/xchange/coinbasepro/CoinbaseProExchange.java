@@ -97,13 +97,13 @@ public class CoinbaseProExchange extends BaseExchange {
     exchangeSpecification.setExchangeSpecificParametersItem(
         PARAM_SANDBOX_HOST, "api-public.sandbox.pro.coinbase.com");
     exchangeSpecification.setExchangeSpecificParametersItem(
-        PARAM_PRIME_SSL_URI, "https://api.prime.coinbase.com");
+        PARAM_PRIME_SSL_URI, "https://api.exchange.coinbase.com");
     exchangeSpecification.setExchangeSpecificParametersItem(
-        PARAM_PRIME_HOST, "api.prime.coinbase.com");
+        PARAM_PRIME_HOST, "api.exchange.coinbase.com");
     exchangeSpecification.setExchangeSpecificParametersItem(
-        PARAM_SANDBOX_PRIME_SSL_URI, "https://api-public.sandbox.prime.coinbase.com");
+        PARAM_SANDBOX_PRIME_SSL_URI, "https://api-public.sandbox.exchange.coinbase.com");
     exchangeSpecification.setExchangeSpecificParametersItem(
-        PARAM_SANDBOX_PRIME_HOST, "api-public.sandbox.prime.coinbase.com");
+        PARAM_SANDBOX_PRIME_HOST, "api-public.sandbox.exchange.coinbase.com");
 
     return exchangeSpecification;
   }
@@ -131,7 +131,8 @@ public class CoinbaseProExchange extends BaseExchange {
         CoinbaseProAdapters.adaptToExchangeMetaData(exchangeMetaData, products, currencies);
   }
 
-  @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  // @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  // TODO: I don't know why this fails with `mvn install` yet
   public static final class Parameters {
     public static final String PARAM_USE_SANDBOX = "Use_Sandbox";
     public static final String PARAM_SANDBOX_SSL_URI = "SandboxSslUri";

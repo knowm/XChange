@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.knowm.xchange.bittrex.BittrexAdapters;
@@ -17,6 +19,7 @@ import org.knowm.xchange.bittrex.dto.BittrexException;
 import org.knowm.xchange.bittrex.dto.trade.BittrexExecution;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -26,9 +29,9 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
@@ -97,12 +100,28 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+
+    CurrencyPair currencyPair = null;
+    Date startDate = null;
+    Date endDate = null;
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    }
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      Date start = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+      if (start != null) {
+        startDate = Date.from(start.toInstant().truncatedTo(ChronoUnit.SECONDS));
+      }
+      Date end = ((TradeHistoryParamsTimeSpan) params).getEndTime();
+      if (end != null) {
+        endDate = Date.from(end.toInstant().truncatedTo(ChronoUnit.SECONDS));
+      }
+    }
+
     try {
       List<BittrexOrder> tradeHistory =
-          (params instanceof TradeHistoryParamCurrencyPair)
-              ? getBittrexUserTradeHistory(
-                  ((TradeHistoryParamCurrencyPair) params).getCurrencyPair())
-              : getBittrexUserTradeHistory();
+          getBittrexUserTradeHistory(currencyPair, startDate, endDate);
       return new UserTrades(
           BittrexAdapters.adaptUserTrades(tradeHistory), Trades.TradeSortType.SortByTimestamp);
     } catch (BittrexException e) {
@@ -112,7 +131,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new DefaultTradeHistoryParamCurrencyPair();
+    return new BittrexTradeHistoryParams();
   }
 
   @Override
@@ -131,29 +150,24 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
         }
         Order order = BittrexAdapters.adaptOrder(bittrexOrder);
         if (order instanceof MarketOrder) {
-          BigDecimal rate;
+          BigDecimal rate = BigDecimal.ZERO;
           int retries = 0;
           do {
-            rate =
-                decorateApiCall(
-                        () -> {
-                          List<BittrexExecution> executions =
-                              getBittrexOrderExecutions(order.getId());
-                          if (executions.size() > 0) {
-                            return executions.stream()
-                                .map(BittrexExecution::getRate)
-                                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                                .divide(
-                                    new BigDecimal(executions.size()),
-                                    new MathContext(8, RoundingMode.FLOOR));
-                          }
-
-                          return BigDecimal.ZERO;
-                        })
+            List<BittrexExecution> executions =
+                decorateApiCall(() -> getBittrexOrderExecutions(order.getId()))
                     .withRetry(retry("orderExecutionRate"))
                     .call();
+            if (executions.size() > 0) {
+              rate =
+                  executions.stream()
+                      .map(BittrexExecution::getRate)
+                      .reduce(BigDecimal.ZERO, BigDecimal::add)
+                      .divide(
+                          new BigDecimal(executions.size()),
+                          new MathContext(8, RoundingMode.FLOOR));
+            }
             retries++;
-          } while (rate.compareTo(BigDecimal.ZERO) == 0 || retries < 3);
+          } while (rate.compareTo(BigDecimal.ZERO) == 0 && retries < 3);
           order.setAveragePrice(rate);
         }
         orders.add(order);
