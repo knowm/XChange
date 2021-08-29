@@ -150,27 +150,22 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
         }
         Order order = BittrexAdapters.adaptOrder(bittrexOrder);
         if (order instanceof MarketOrder) {
-          BigDecimal rate;
+          BigDecimal rate = BigDecimal.ZERO;
           int retries = 0;
           do {
-            rate =
-                decorateApiCall(
-                        () -> {
-                          List<BittrexExecution> executions =
-                              getBittrexOrderExecutions(order.getId());
-                          if (executions.size() > 0) {
-                            return executions.stream()
-                                .map(BittrexExecution::getRate)
-                                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                                .divide(
-                                    new BigDecimal(executions.size()),
-                                    new MathContext(8, RoundingMode.FLOOR));
-                          }
-
-                          return BigDecimal.ZERO;
-                        })
+            List<BittrexExecution> executions =
+                decorateApiCall(() -> getBittrexOrderExecutions(order.getId()))
                     .withRetry(retry("orderExecutionRate"))
                     .call();
+            if (executions.size() > 0) {
+              rate =
+                  executions.stream()
+                      .map(BittrexExecution::getRate)
+                      .reduce(BigDecimal.ZERO, BigDecimal::add)
+                      .divide(
+                          new BigDecimal(executions.size()),
+                          new MathContext(8, RoundingMode.FLOOR));
+            }
             retries++;
           } while (rate.compareTo(BigDecimal.ZERO) == 0 && retries < 3);
           order.setAveragePrice(rate);
