@@ -91,7 +91,10 @@ public class KrakenStreamingAdapters {
         } else if (bids.size() > 0 && asks.size() > 0 && bids.first().getLimitPrice().compareTo(asks.first().getLimitPrice()) >= 0) {
             throw new IllegalStateException("CROSSED book " + instrument + " " + bids.first().getLimitPrice() + " >= " + asks.first().getLimitPrice());
         }
-        final Date lastTime = Stream.concat(asks.stream(), bids.stream()).map(LimitOrder::getTimestamp).max(Date::compareTo).orElse(Date.from(Instant.EPOCH));
+        final Date lastTime = Stream.concat(asks.stream(), bids.stream())
+            .map(LimitOrder::getTimestamp)
+            .max(Date::compareTo)
+            .orElse(null);
         return new OrderBook(lastTime, Lists.newArrayList(asks), Lists.newArrayList(bids), true);
     }
 
