@@ -32,11 +32,13 @@ public class DefaultOpenOrdersParamInstrument implements OpenOrdersParamInstrume
 
   @Override
   public Instrument getInstrument() {
-    return null;
+    return instrument;
   }
 
   @Override
-  public void setInstrument(final Instrument instrument) {}
+  public void setInstrument(final Instrument instrument) {
+    this.instrument = instrument;
+  }
 
   @Override
   public String toString() {

@@ -3,7 +3,7 @@ Deribit Exchange API specification
 
 Documentation
 -------------
-https://docs.deribit.com/v2/#deribit-api-v2-0-0
+https://docs.deribit.com/#deribit-api-v2-1-0
 
 
 API paths
