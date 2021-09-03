@@ -170,9 +170,19 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                     .originalAmount(rawTrade.getQuantity())
                     .instrument(currencyPair)
                     .price(rawTrade.getPrice())
+                    .makerOrderId(getMakerOrderId(rawTrade))
+                    .takerOrderId(getTakerOrderId(rawTrade))
                     .timestamp(new Date(rawTrade.getTimestamp()))
                     .id(String.valueOf(rawTrade.getTradeId()))
                     .build());
+  }
+
+  private String getMakerOrderId(BinanceRawTrade trade) {
+    return String.valueOf(trade.isBuyerMarketMaker() ? trade.getBuyerOrderId() : trade.getSellerOrderId());
+  }
+
+  private String getTakerOrderId(BinanceRawTrade trade) {
+    return String.valueOf(trade.isBuyerMarketMaker() ? trade.getSellerOrderId() : trade.getBuyerOrderId());
   }
 
   private Observable<OrderBookUpdate> createOrderBookUpdatesObservable(CurrencyPair currencyPair) {
