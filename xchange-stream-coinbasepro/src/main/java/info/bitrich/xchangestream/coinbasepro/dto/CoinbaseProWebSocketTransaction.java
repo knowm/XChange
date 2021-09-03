@@ -53,6 +53,13 @@ public class CoinbaseProWebSocketTransaction {
   private final String userId;
   private final String takerProfileId;
   private final String profileId;
+  private final BigDecimal takerFeeRate;
+
+  private final String makerUserId;
+  private final String makerProfileId;
+  private final BigDecimal makerFeeRate;
+
+  private final CoinbaseProChannelProducts[] channels;
 
   public CoinbaseProWebSocketTransaction(
       @JsonProperty("type") String type,
@@ -83,7 +90,12 @@ public class CoinbaseProWebSocketTransaction {
       @JsonProperty("taker_user_id") String takerUserId,
       @JsonProperty("user_id") String userId,
       @JsonProperty("taker_profile_id") String takerProfileId,
-      @JsonProperty("profile_id") String profileId) {
+      @JsonProperty("profile_id") String profileId,
+      @JsonProperty("channels") CoinbaseProChannelProducts[] channels,
+      @JsonProperty("taker_fee_rate") BigDecimal takerFeeRate,
+      @JsonProperty("maker_user_id") String makerUserId,
+      @JsonProperty("maker_profile_id") String makerProfileId,
+      @JsonProperty("maker_fee_rate") BigDecimal makerFeeRate) {
 
     this.remainingSize = remainingSize;
     this.reason = reason;
@@ -114,6 +126,11 @@ public class CoinbaseProWebSocketTransaction {
     this.userId = userId;
     this.takerProfileId = takerProfileId;
     this.profileId = profileId;
+    this.channels = channels;
+    this.takerFeeRate = takerFeeRate;
+    this.makerUserId = makerUserId;
+    this.makerProfileId = makerProfileId;
+    this.makerFeeRate = makerFeeRate;
   }
 
   private List<LimitOrder> coinbaseProOrderBookChanges(
@@ -204,7 +221,7 @@ public class CoinbaseProWebSocketTransaction {
   }
 
   public CoinbaseProFill toCoinbaseProFill() {
-    boolean taker = userId != null && takerUserId != null && userId.equals(takerUserId);
+    boolean taker = userId != null && userId.equals(takerUserId);
     // buy/sell are flipped on the taker side.
     String useSide = side;
     if (taker && side != null) {
@@ -232,6 +249,13 @@ public class CoinbaseProWebSocketTransaction {
   }
 
   public String getOrderId() {
+    if ("match".equals(type)) {
+      if (userId != null && userId.equals(takerUserId)) {
+        return takerOrderId;
+      } else {
+        return makerOrderId;
+      }
+    }
     return orderId;
   }
 
@@ -276,6 +300,17 @@ public class CoinbaseProWebSocketTransaction {
   }
 
   public String getSide() {
+    if ("match".equals(type)) {
+      boolean taker = userId != null && userId.equals(takerUserId);
+      // buy/sell are flipped on the taker side.
+      if (taker && side != null) {
+        if ("buy".equals(side)) {
+          return "sell";
+        } else {
+          return "buy";
+        }
+      }
+    }
     return side;
   }
 
@@ -337,6 +372,8 @@ public class CoinbaseProWebSocketTransaction {
     return profileId;
   }
 
+  public CoinbaseProChannelProducts[] getChannels() { return channels; }
+
   @Override
   public String toString() {
     final StringBuffer sb = new StringBuffer("CoinbaseProWebSocketTransaction{");
@@ -367,7 +404,19 @@ public class CoinbaseProWebSocketTransaction {
     if (profileId != null) sb.append(", profileId='").append(profileId).append('\'');
     if (takerUserId != null) sb.append(", takerUserId='").append(takerUserId).append('\'');
     if (takerProfileId != null) sb.append(", takerProfileId='").append(takerProfileId).append('\'');
+    if (channels != null) sb.append(", channels='").append(channels).append('\'');
     sb.append('}');
     return sb.toString();
+  }
+
+  public BigDecimal getFee() {
+    if ("match".equals(type) && userId != null) {
+      if (userId.equals(takerUserId)) {
+        return takerFeeRate.multiply(size).multiply(price);
+      } else {
+        return makerFeeRate.multiply(size).multiply(price);
+      }
+    }
+    return BigDecimal.ZERO;
   }
 }

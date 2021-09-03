@@ -214,8 +214,8 @@ public class CoinbaseProAdapters {
         .cumulativeAmount(order.getFilledSize())
         .fee(order.getFillFees());
     BigDecimal averagePrice;
-    if (order.getFilledSize().signum() != 0 && order.getExecutedvalue().signum() != 0) {
-      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), MathContext.DECIMAL32);
+    if (order.getFilledSize().signum() != 0 && order.getExecutedValue().signum() != 0) {
+      averagePrice = order.getExecutedValue().divide(order.getFilledSize(), MathContext.DECIMAL32);
     } else {
       averagePrice = BigDecimal.ZERO;
     }
@@ -424,7 +424,8 @@ public class CoinbaseProAdapters {
             .type(CoinbaseProPlaceOrder.Type.limit)
             .productId(adaptProductID(limitOrder.getCurrencyPair()))
             .side(adaptSide(limitOrder.getType()))
-            .size(limitOrder.getOriginalAmount());
+            .size(limitOrder.getOriginalAmount())
+            .stp(CoinbaseProPlaceOrder.SelfTradePrevention.cn);
 
     if (limitOrder.getOrderFlags().contains(CoinbaseProOrderFlags.POST_ONLY))
       builder.postOnly(true);

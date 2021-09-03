@@ -17,7 +17,7 @@ public class CoinbaseProOrder {
   private final boolean settled;
   private final String type;
   private final String doneReason;
-  private final BigDecimal executedvalue;
+  private final BigDecimal executedValue;
   private final String stop;
   private final BigDecimal stopPrice;
 
@@ -51,7 +51,7 @@ public class CoinbaseProOrder {
     this.settled = settled;
     this.type = type;
     this.doneReason = doneReason;
-    this.executedvalue = executedValue;
+    this.executedValue = executedValue;
     this.stop = stop;
     this.stopPrice = stopPrice;
   }
@@ -108,8 +108,8 @@ public class CoinbaseProOrder {
     return doneReason;
   }
 
-  public BigDecimal getExecutedvalue() {
-    return executedvalue;
+  public BigDecimal getExecutedValue() {
+    return executedValue;
   }
 
   public String getStop() {
@@ -118,6 +118,23 @@ public class CoinbaseProOrder {
 
   public BigDecimal getStopPrice() {
     return stopPrice;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    CoinbaseProOrder order = (CoinbaseProOrder) obj;
+    return
+            (id == null && order.id == null || id != null && this.id.equals(order.id)) &&
+                    (this.price == null && order.price == null || this.price != null && this.price.compareTo(order.price) == 0) &&
+                    (this.size == null && order.size == null || this.size != null && this.size.compareTo(order.size) == 0) &&
+                    (this.productId == null && order.productId == null || this.productId != null && this.productId.equals(order.productId)) &&
+                    (this.side == null && order.side == null || this.side != null && this.side.equals(order.side)) &&
+                    (this.filledSize == null && order.filledSize == null || this.filledSize != null && this.filledSize.compareTo(order.filledSize) == 0) &&
+                    (this.fillFees == null && order.fillFees == null || this.fillFees != null && this.fillFees.compareTo(order.fillFees) == 0) &&
+                    (this.status == null && order.status == null || this.status != null && this.status.equals(order.status)) &&
+                    (this.type == null && order.type == null || this.type != null && this.type.equals(order.type)) &&
+                    (this.doneReason == null && order.doneReason == null || this.doneReason != null && this.doneReason.equals(order.doneReason)) &&
+                    (this.executedValue == null && order.executedValue == null || this.executedValue != null && this.executedValue.compareTo(order.executedValue) == 0);
   }
 
   @Override
@@ -145,6 +162,12 @@ public class CoinbaseProOrder {
     builder.append(status);
     builder.append(", settled=");
     builder.append(settled);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append(", doneReason=");
+    builder.append(doneReason);
+    builder.append(", executedValue=");
+    builder.append(executedValue);
     builder.append(", stop=");
     builder.append(stop);
     builder.append(", stopPrice=");
