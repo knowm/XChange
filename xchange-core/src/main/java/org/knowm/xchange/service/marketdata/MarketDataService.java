@@ -2,6 +2,7 @@ package org.knowm.xchange.service.marketdata;
 
 import java.io.IOException;
 import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -38,6 +39,7 @@ public interface MarketDataService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
+  @Deprecated
   default Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException("getTicker");
   }
@@ -55,9 +57,6 @@ public interface MarketDataService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default Ticker getTicker(Instrument instrument, Object... args) throws IOException {
-    if (instrument instanceof CurrencyPair) {
-      return getTicker((CurrencyPair) instrument, args);
-    }
     throw new NotYetImplementedForExchangeException("getTicker");
   }
 
@@ -90,6 +89,7 @@ public interface MarketDataService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
+  @Deprecated
   default OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException("getOrderBook");
   }
@@ -108,9 +108,6 @@ public interface MarketDataService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
-    if (instrument instanceof CurrencyPair) {
-      return getOrderBook((CurrencyPair) instrument, args);
-    }
     throw new NotYetImplementedForExchangeException("getOrderBook");
   }
 
@@ -162,9 +159,6 @@ public interface MarketDataService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default Trades getTrades(Instrument instrument, Object... args) throws IOException {
-    if (instrument instanceof CurrencyPair) {
-      return getTrades((CurrencyPair) instrument, args);
-    }
     throw new NotYetImplementedForExchangeException("getTrades");
   }
 
