@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.dto.DeribitError;
@@ -18,7 +19,12 @@ import org.knowm.xchange.deribit.v2.dto.DeribitException;
 import org.knowm.xchange.deribit.v2.dto.Direction;
 import org.knowm.xchange.deribit.v2.dto.account.AccountSummary;
 import org.knowm.xchange.deribit.v2.dto.account.Position;
-import org.knowm.xchange.deribit.v2.dto.marketdata.*;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitCurrency;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitInstrument;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTicker;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrade;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrades;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderState;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderType;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -34,7 +40,11 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.DerivativeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
@@ -58,7 +68,7 @@ public class DeribitAdapters {
   public static String adaptInstrumentName(FuturesContract future) {
     return future.getCurrencyPair().base
         + "-"
-        + (future.getExpireDate() == null ? PERPETUAL : formatDate(future.getExpireDate()));
+        + (future.getPrompt() == null ? PERPETUAL : (future.getPrompt()));
   }
 
   public static String adaptInstrumentName(OptionsContract option) {
@@ -103,7 +113,8 @@ public class DeribitAdapters {
   /** convert orders map (price -> amount) to a list of limit orders */
   private static List<LimitOrder> adaptOrdersList(
       TreeMap<BigDecimal, BigDecimal> map, Order.OrderType type, Instrument instrument) {
-    return map.entrySet().stream()
+    return map.entrySet()
+        .stream()
         .map(e -> new LimitOrder(type, e.getValue(), instrument, null, null, e.getKey()))
         .collect(Collectors.toList());
   }
@@ -122,7 +133,9 @@ public class DeribitAdapters {
   public static Trades adaptTrades(DeribitTrades deribitTrades, Instrument instrument) {
 
     return new Trades(
-        deribitTrades.getTrades().stream()
+        deribitTrades
+            .getTrades()
+            .stream()
             .map(trade -> adaptTrade(trade, instrument))
             .collect(Collectors.toList()));
   }
@@ -248,7 +261,7 @@ public class DeribitAdapters {
     if (!PERPETUAL.equalsIgnoreCase(instrument.getSettlementPeriod())) {
       expireDate = instrument.getExpirationTimestamp();
     }
-    return new FuturesContract(currencyPair, expireDate);
+    return new FuturesContract(currencyPair, expireDate.toString());
   }
 
   public static OptionsContract adaptOptionsContract(DeribitInstrument instrument) {
@@ -328,7 +341,9 @@ public class DeribitAdapters {
   public static UserTrades adaptUserTrades(
       org.knowm.xchange.deribit.v2.dto.trade.UserTrades userTrades) {
     return new UserTrades(
-        userTrades.getTrades().stream()
+        userTrades
+            .getTrades()
+            .stream()
             .map(DeribitAdapters::adaptUserTrade)
             .collect(Collectors.toList()),
         Trades.TradeSortType.SortByTimestamp);
