@@ -128,11 +128,12 @@ public interface StreamingExchange extends Exchange {
         (String) exchangeSpec.getExchangeSpecificParametersItem(SOCKS_PROXY_HOST));
     streamingService.setSocksProxyPort(
         (Integer) exchangeSpec.getExchangeSpecificParametersItem(SOCKS_PROXY_PORT));
+    streamingService.setHttpProxyHost(exchangeSpec.getProxyHost());
+    streamingService.setHttpProxyPort(exchangeSpec.getProxyPort());
     streamingService.setBeforeConnectionHandler(
         (Runnable)
             exchangeSpec.getExchangeSpecificParametersItem(
                 ConnectableService.BEFORE_CONNECTION_HANDLER));
-
     Boolean accept_all_ceriticates =
         (Boolean) exchangeSpec.getExchangeSpecificParametersItem(ACCEPT_ALL_CERITICATES);
     if (accept_all_ceriticates != null && accept_all_ceriticates) {

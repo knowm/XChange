@@ -28,6 +28,8 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
 
   @Override
   public Completable connect(ProductSubscription... args) {
+    // ensure we setup any proxy related settings before connecting
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     return streamingService.connect();
   }
 

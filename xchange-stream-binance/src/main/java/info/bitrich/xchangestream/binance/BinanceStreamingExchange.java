@@ -75,7 +75,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
     ProductSubscription subscriptions = args[0];
     streamingService = createStreamingService(subscriptions);
-
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     List<Completable> completables = new ArrayList<>();
 
     if (subscriptions.hasUnauthenticated()) {

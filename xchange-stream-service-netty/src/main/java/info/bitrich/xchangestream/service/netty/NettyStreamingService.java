@@ -27,6 +27,7 @@ import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensio
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.proxy.HttpProxyHandler;
 import io.netty.handler.proxy.Socks5ProxyHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
@@ -59,6 +60,19 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   protected static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ofSeconds(10);
   protected static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
   protected static final int DEFAULT_IDLE_TIMEOUT = 15;
+
+  public static final String HANDLER_SOCKS_PROXY = "socks.proxy";
+  public static final String HANDLER_HTTP_PROXY = "http.proxy";
+  public static final String HANDLER_SSL = "ssl";
+  public static final String HANDLER_LOGGER = "logger";
+  public static final String HANDLER_HTTP_CLIENT_CODEC = "http.client.codec";
+  public static final String HANDLER_WEBSOCKET_CLIENT_COMPRESS = "websocket.compress";
+  public static final String HANDLER_HTTP_OBJECT_AGGREGATOR = "http.objagg";
+  public static final String HANDLER_WEBSOCKET_CLIENT_EXTENSION = "websocket.client.ext";
+  public static final String HANDLER_WEBSOCKET_CLIENT = "websocket.client";
+  public static final String HANDLER_IDLE_STATE = "idle.state";
+
+
 
   protected class Subscription {
 
@@ -102,6 +116,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   private LogLevel loggingHandlerLevel = LogLevel.DEBUG;
   private String socksProxyHost;
   private Integer socksProxyPort;
+  private String  httpProxyHost;
+  private Integer httpProxyPort;
 
   public NettyStreamingService(String apiUrl) {
     this(apiUrl, 65536);
@@ -181,7 +197,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
                 final WebSocketClientHandler handler =
                     getWebSocketClientHandler(
-                        WebSocketClientHandshakerFactory.newHandshaker(
+                            new ProxyFriendlyWebSocketClientHandshaker(
                             uri,
                             WebSocketVersion.V13,
                             null,
@@ -207,27 +223,31 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                           protected void initChannel(SocketChannel ch) {
                             ChannelPipeline p = ch.pipeline();
                             if (socksProxyHost != null) {
-                              p.addLast(
+                              p.addLast(HANDLER_SOCKS_PROXY,
                                   new Socks5ProxyHandler(
                                       SocketUtils.socketAddress(socksProxyHost, socksProxyPort)));
                             }
-                            if (sslCtx != null) {
-                              p.addLast(sslCtx.newHandler(ch.alloc(), host, port));
+                            if (httpProxyHost != null) {
+                              p.addLast(HANDLER_HTTP_PROXY, new HttpProxyHandler(SocketUtils.socketAddress(httpProxyHost, httpProxyPort)));
                             }
-                            p.addLast(new HttpClientCodec());
+
+                            if (sslCtx != null) {
+                              p.addLast(HANDLER_SSL, sslCtx.newHandler(ch.alloc(), host, port));
+                            }
+                            p.addLast(HANDLER_HTTP_CLIENT_CODEC, new HttpClientCodec());
                             if (enableLoggingHandler)
-                              p.addLast(new LoggingHandler(loggingHandlerLevel));
+                              p.addLast(HANDLER_LOGGER, new LoggingHandler(loggingHandlerLevel));
                             if (compressedMessages)
-                              p.addLast(WebSocketClientCompressionHandler.INSTANCE);
-                            p.addLast(new HttpObjectAggregator(8192));
+                              p.addLast(HANDLER_WEBSOCKET_CLIENT_COMPRESS, WebSocketClientCompressionHandler.INSTANCE);
+                            p.addLast(HANDLER_HTTP_OBJECT_AGGREGATOR, new HttpObjectAggregator(8192));
                             if (idleTimeoutSeconds > 0)
-                              p.addLast(new IdleStateHandler(idleTimeoutSeconds, 0, 0));
+                              p.addLast(HANDLER_IDLE_STATE, new IdleStateHandler(idleTimeoutSeconds, 0, 0));
                             WebSocketClientExtensionHandler clientExtensionHandler =
                                 getWebSocketClientExtensionHandler();
                             if (clientExtensionHandler != null) {
-                              p.addLast(clientExtensionHandler);
+                              p.addLast(HANDLER_WEBSOCKET_CLIENT_EXTENSION, clientExtensionHandler);
                             }
-                            p.addLast(handler);
+                            p.addLast(HANDLER_WEBSOCKET_CLIENT, handler);
                           }
                         })
                     .connect(uri.getHost(), port)
@@ -295,6 +315,14 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
               retryDuration.toMillis(),
               TimeUnit.MILLISECONDS);
     }
+  }
+
+  public void setHttpProxyHost(String httpProxyHost) {
+    this.httpProxyHost = httpProxyHost;
+  }
+
+  public void setHttpProxyPort(Integer httpProxyPort) {
+    this.httpProxyPort = httpProxyPort;
   }
 
   protected DefaultHttpHeaders getCustomHeaders() {
