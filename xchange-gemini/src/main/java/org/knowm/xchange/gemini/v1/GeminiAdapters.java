@@ -120,7 +120,7 @@ public final class GeminiAdapters {
     OrderType orderType =
         (geminiOrderStatusResponse.getSide().equals("buy")) ? OrderType.BID : OrderType.ASK;
     OrderStatus orderStatus = adaptOrderstatus(geminiOrderStatusResponse);
-    Date timestamp = new Date(geminiOrderStatusResponse.getTimestampms() / 1000);
+    Date timestamp = new Date(geminiOrderStatusResponse.getTimestampms());
 
     if (geminiOrderStatusResponse.getType().contains("limit")) {
 
