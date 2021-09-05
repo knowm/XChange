@@ -7,16 +7,16 @@ import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransact
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import nostro.xchange.persistence.OrderEntity;
-import nostro.xchange.persistence.Transaction;
-import nostro.xchange.persistence.TransactionFactory;
+import nostro.xchange.binance.sync.*;
+import nostro.xchange.persistence.*;
+import nostro.xchange.utils.AccountDocument;
 import nostro.xchange.utils.NostroUtils;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.binance.dto.trade.OrderStatus;
 import org.knowm.xchange.binance.service.BinanceTradeService;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -26,13 +26,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class BinanceNostroExchange extends BinanceStreamingExchange {
     private static final Logger LOG = LoggerFactory.getLogger(BinanceNostroExchange.class);
-
-    private TransactionFactory txFactory;
-    private BinanceNostroTradeService nostroTradeService;
+    
+    private volatile TransactionFactory txFactory;
+    private volatile BinanceNostroTradeService nostroTradeService;
+    private volatile BinanceSyncService syncService;
+    
+    private volatile AccountDocument account = null;
+    
     private Disposable tradeSubscription;
     private Disposable connectionStateSubscription;
 
@@ -69,6 +74,7 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
             try {
                 this.txFactory = TransactionFactory.get(exchangeSpecification.getExchangeName(), exchangeSpecification.getUserName());
                 this.nostroTradeService = new BinanceNostroTradeService((BinanceTradeService) this.tradeService, this.txFactory);
+                this.syncService = new BinanceSyncService(txFactory, (BinanceTradeService) this.tradeService);
             } catch (Exception e) {
                 throw new ExchangeException("Unable to init", e);
             }
@@ -85,6 +91,8 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
     public Completable connect(ProductSubscription... args) {
         return super.connect(args).doOnComplete(() -> {
             if (isAuthenticated()) {
+                updateSubscription(args[0]);
+
                 tradeSubscription = ((BinanceStreamingTradeService) super.getStreamingTradeService())
                         .getRawExecutionReports()
                         .doOnNext(r -> txFactory.execute(tx -> saveReport(tx, r)))
@@ -93,13 +101,11 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
                         .retry()
                         .subscribe();
 
-                nostroTradeService.synchronizeOpenOrders();
+                syncService.init();
 
-                connectionStateSubscription = connectionStateFlowable()
-                        .doOnNext(this::connectionStateChanged)
-                        .doOnSubscribe(r -> LOG.info("Connected to BinanceConnectionState"))
-                        .doOnError(th -> LOG.error("Error while handling BinanceConnectionState", th))
-                        .retry()
+                connectionStateSubscription = userDataStreamingService.subscribeConnectionState()
+                        .doOnNext(s -> syncService.connectionStateChanged(ConnectionStateModel.State.OPEN == s))
+                        .doOnSubscribe(s -> LOG.info("Connected to BinanceConnectionState"))
                         .subscribe();
             }
         });
@@ -129,45 +135,71 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
         Order order = report.toOrder();
         String orderId = order.getUserReference();
         String document = NostroUtils.writeOrderDocument(order);
-        boolean terminal = isTerminal(report.getCurrentOrderStatus());
+        boolean terminal = BinanceNostroUtils.isTerminal(report.getCurrentOrderStatus());
+        Timestamp created = new Timestamp(report.getOrderCreationTime());
+        Timestamp updated = new Timestamp(report.getTimestamp());
         
         Optional<OrderEntity> orderEntity = tx.getOrderRepository().lockById(orderId);
         if (orderEntity.isPresent()) {
             if (ExecutionType.REJECTED != report.getExecutionType()) {
-                tx.getOrderRepository().updateById(orderId, document, terminal);
+                tx.getOrderRepository().updateById(orderId, document, terminal, updated);
             }
         } else {
             LOG.warn("Received transaction of non-existing order: id={}, externalId={}", orderId, report.getOrderId());
             tx.getOrderRepository().insert(new OrderEntity.Builder()
                     .id(orderId)
                     .externalId(Long.toString(report.getOrderId()))
+                    .instrument(order.getInstrument().toString())
                     .terminal(terminal)
                     .document(document)
+                    .created(created)
+                    .updated(updated)
                     .build());
         }
-        nostroTradeService.orderPublisher.offer(order);
+        nostroTradeService.orderPublisher.onNext(order);
         
         if (ExecutionType.TRADE == report.getExecutionType()) {
             UserTrade trade = report.toUserTrade();
             tx.getTradeRepository().insert(
                     orderId,
                     Long.toString(report.getTradeId()),
-                    new Timestamp(report.getTimestamp()),
+                    updated,
                     NostroUtils.writeTradeDocument(trade));
             
-            nostroTradeService.tradePublisher.offer(trade);
+            nostroTradeService.tradePublisher.onNext(trade);
+        }
+        
+        String symbol = order.getCurrencyPair().toString();
+        if (!account.getSubscriptions().getOrders().contains(symbol)) {
+            LOG.info("Adding new order subscription to account: symbol={}", symbol);
+            updateSubscription(ProductSubscription.create().addOrders(order.getCurrencyPair()).build());
         }
     }
 
-    private static boolean isTerminal(OrderStatus orderStatus) {
-        return orderStatus == OrderStatus.CANCELED ||
-                orderStatus == OrderStatus.FILLED ||
-                orderStatus == OrderStatus.EXPIRED;
-    }
-    
-    private void connectionStateChanged(ConnectionStateModel.State state) {
-        LOG.info("Connection state change: {}", state);
-        
-        // TODO: update order status and publish to nostroTradeService.orderPublisher
+    private void updateSubscription(ProductSubscription subscriptions) {
+        account = txFactory.executeAndGet(tx -> {
+            AccountDocument a = NostroUtils.readAccountDocument(tx.getAccountRepository().lock());
+
+            a.getSubscriptions().getBalances().addAll(
+                    subscriptions.getBalances().stream()
+                            .map(Currency::getCurrencyCode)
+                            .collect(Collectors.toList())
+            );
+
+            a.getSubscriptions().getOrders().addAll(
+                    subscriptions.getOrders().stream()
+                            .map(CurrencyPair::toString)
+                            .collect(Collectors.toList())
+            );
+
+            a.getSubscriptions().getOrders().addAll(
+                    subscriptions.getUserTrades().stream()
+                            .map(CurrencyPair::toString)
+                            .collect(Collectors.toList())
+            );
+
+            tx.getAccountRepository().update(NostroUtils.writeAccountDocument(a));
+            return a;
+        });
     }
 }

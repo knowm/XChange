@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class OrderEntity {
     private String id;
     private String externalId;
+    private String instrument;
     private boolean terminal;
     private Timestamp created;
     private Timestamp updated;
@@ -14,6 +15,7 @@ public class OrderEntity {
         setId(builder.id);
         setExternalId(builder.externalId);
         setTerminal(builder.terminal);
+        setInstrument(builder.instrument);
         setCreated(builder.created);
         setUpdated(builder.updated);
         setDocument(builder.document);
@@ -33,6 +35,14 @@ public class OrderEntity {
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
+    }
+
+    public String getInstrument() {
+        return instrument;
+    }
+
+    public void setInstrument(String instrument) {
+        this.instrument = instrument;
     }
 
     public String getDocument() {
@@ -71,6 +81,7 @@ public class OrderEntity {
     public static final class Builder {
         private String id;
         private String externalId;
+        private String instrument;
         private boolean terminal;
         private Timestamp created;
         private Timestamp updated;
@@ -86,6 +97,11 @@ public class OrderEntity {
 
         public Builder externalId(String val) {
             externalId = val;
+            return this;
+        }
+
+        public Builder instrument(String val) {
+            instrument = val;
             return this;
         }
 

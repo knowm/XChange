@@ -7,16 +7,16 @@ import java.util.Optional;
 
 public class OrderRepository {
     private static final String INSERT_SQL =
-            "INSERT INTO order$ (id, external_id, document, terminal) VALUES (?,?,?,?)";
+            "INSERT INTO order$ (id, external_id, instrument, terminal, created, updated, document) VALUES (?,?,?,?,?,?,?)";
     
     private static final String UPDATE_EXTERNAL_ID_SQL =
-            "UPDATE order$ SET external_id = ?, updated = NOW() WHERE id = ?";
+            "UPDATE order$ SET external_id = ? WHERE id = ?";
     
     private static final String UPDATE_BY_ID_SQL =
-            "UPDATE order$ SET document = ?, terminal = ?, updated = NOW() WHERE id = ?";
+            "UPDATE order$ SET document = ?, terminal = ?, updated = ? WHERE id = ?";
 
     private static final String UPDATE_BY_EXTERNAL_ID_SQL =
-            "UPDATE order$ SET document = ?, terminal = ?, updated = NOW() WHERE external_id = ?";
+            "UPDATE order$ SET document = ?, terminal = ?, updated = ? WHERE external_id = ?";
     
     private static final String FIND_BY_ID_SQL =
             "SELECT * FROM order$ WHERE id = ?";
@@ -26,6 +26,9 @@ public class OrderRepository {
 
     private static final String FIND_ALL_OPEN_SQL =
             "SELECT * FROM order$ WHERE terminal = FALSE ORDER BY created ASC";
+
+    private static final String FIND_OPEN_BY_INSTRUMENT_SQL =
+            "SELECT * FROM order$ WHERE terminal = FALSE AND instrument = ? ORDER BY created ASC";
 
     private static final String LOCK_BY_ID_SQL =
             "SELECT * FROM order$ WHERE id = ? FOR UPDATE";
@@ -43,23 +46,21 @@ public class OrderRepository {
         this.tableName = TABLE_NAME + postfix;
     }
 
-    public void insert(String id, String document) throws SQLException {
-        insert(new OrderEntity.Builder()
-                .id(id)
-                .document(document)
-                .build());
-    }
-
     public void insert(OrderEntity o) throws SQLException {
         try(PreparedStatement stmt = prepareStatement(INSERT_SQL)) {
             stmt.setString(1, o.getId());
             stmt.setString(2, o.getExternalId());
-            stmt.setObject(3, o.getDocument(), Types.OTHER);
+            stmt.setString(3, o.getInstrument());
             stmt.setBoolean(4, o.isTerminal());
+            stmt.setTimestamp(5, o.getCreated());
+            stmt.setTimestamp(6, o.getUpdated());
+            stmt.setObject(7, o.getDocument(), Types.OTHER);
+            
             stmt.executeUpdate();
         }
     }
 
+    // TODO: remove when place order request entity introduced
     public void update(String id, String externalId) throws SQLException {
         try(PreparedStatement stmt = prepareStatement(UPDATE_EXTERNAL_ID_SQL)) {
             stmt.setString(1, externalId);
@@ -68,19 +69,20 @@ public class OrderRepository {
         }
     }
 
-    public void updateById(String id, String document, boolean terminal) throws SQLException {
-        updateById(UPDATE_BY_ID_SQL, id, document, terminal);
+    public void updateById(String id, String document, boolean terminal, Timestamp updated) throws SQLException {
+        updateById(UPDATE_BY_ID_SQL, id, document, terminal, updated);
     }
 
-    public void updateByExternalId(String externalId, String document, boolean terminal) throws SQLException {
-        updateById(UPDATE_BY_EXTERNAL_ID_SQL, externalId, document, terminal);
+    public void updateByExternalId(String externalId, String document, boolean terminal, Timestamp updated) throws SQLException {
+        updateById(UPDATE_BY_EXTERNAL_ID_SQL, externalId, document, terminal, updated);
     }
     
-    private void updateById(String sql, String id, String document, boolean terminal) throws SQLException {
+    private void updateById(String sql, String id, String document, boolean terminal, Timestamp updated) throws SQLException {
         try(PreparedStatement stmt = prepareStatement(sql)) {
             stmt.setObject(1, document, Types.OTHER);
             stmt.setBoolean(2, terminal);
-            stmt.setString(3, id);
+            stmt.setTimestamp(3, updated);
+            stmt.setString(4, id);
             stmt.executeUpdate();
         }
     }
@@ -103,6 +105,16 @@ public class OrderRepository {
 
     public List<OrderEntity> findAllOpen() throws SQLException {
         try(PreparedStatement stmt = prepareStatement(FIND_ALL_OPEN_SQL)) {
+            ResultSet rs = stmt.executeQuery();
+            List<OrderEntity> list = new ArrayList<>();
+            while (rs.next()) list.add(fromResultSet(rs));
+            return list;
+        }
+    }
+
+    public List<OrderEntity> findOpenByInstrument(String instrument) throws SQLException {
+        try(PreparedStatement stmt = prepareStatement(FIND_OPEN_BY_INSTRUMENT_SQL)) {
+            stmt.setString(1, instrument);
             ResultSet rs = stmt.executeQuery();
             List<OrderEntity> list = new ArrayList<>();
             while (rs.next()) list.add(fromResultSet(rs));
@@ -134,6 +146,7 @@ public class OrderRepository {
         return new OrderEntity.Builder()
                 .id(rs.getString("id"))
                 .externalId(rs.getString("external_id"))
+                .instrument(rs.getString("instrument"))
                 .terminal(rs.getBoolean("terminal"))
                 .created(rs.getTimestamp("created"))
                 .updated(rs.getTimestamp("updated"))

@@ -12,12 +12,14 @@ public class Transaction {
     private static final String SELECT_TIMESTAMP_SQL = "SELECT NOW()::TIMESTAMP";
     
     private final DataSource dataSource;
+    private final int accountId;
     private final String postfix;
     private Connection connection;
 
-    Transaction(DataSource dataSource, String postfix) {
+    Transaction(DataSource dataSource, int accountId) {
         this.dataSource = dataSource;
-        this.postfix = postfix;
+        this.accountId = accountId;
+        this.postfix = String.valueOf(accountId);
     }
     
     public Timestamp getTimestamp() throws SQLException {
@@ -29,6 +31,11 @@ public class Transaction {
         }
     }
     
+    public AccountRepository getAccountRepository() {
+        checkConnection();
+        return new AccountRepository(connection, accountId);
+    }
+    
     public OrderRepository getOrderRepository() {
         checkConnection();
         return new OrderRepository(connection, postfix);
@@ -37,6 +44,11 @@ public class Transaction {
     public TradeRepository getTradeRepository() {
         checkConnection();
         return new TradeRepository(connection, postfix);
+    }
+
+    public SyncTaskRepository getSyncTaskRepository() {
+        checkConnection();
+        return new SyncTaskRepository(connection, postfix);
     }
 
     private void checkConnection() {

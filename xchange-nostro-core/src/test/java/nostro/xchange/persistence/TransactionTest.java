@@ -13,7 +13,7 @@ public class TransactionTest extends DataSourceTest {
 
     @Before
     public void setUp() {
-        tx = new Transaction(TransactionFactory.getDataSource(), "");
+        tx = new Transaction(TransactionFactory.getDataSource(), 1);
     }
 
     @Test

@@ -6,9 +6,9 @@ CREATE TABLE trade$ (
   document JSONB NOT NULL
 );
 
-COMMENT ON COLUMN trade$.id IS 'Unique order identifier in the system';
+COMMENT ON COLUMN trade$.id IS 'Unique trade identifier in the system';
 COMMENT ON COLUMN trade$.order_id IS 'Unique order identifier';
-COMMENT ON COLUMN trade$.external_id IS 'Unique trade identifier in the exchange';
+COMMENT ON COLUMN trade$.external_id IS 'Trade identifier in the exchange';
 COMMENT ON COLUMN trade$.timestamp IS 'Exchange timestamp of trade execution';
 COMMENT ON COLUMN trade$.document IS 'JSON serialized trade object';
 
