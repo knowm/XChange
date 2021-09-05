@@ -18,6 +18,9 @@ import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
+import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -39,7 +42,9 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channelName = "book";
     final String depth = args.length > 0 ? args[0].toString() : "100";
-    String pair = currencyPair.base.toString() + currencyPair.counter.toString();
+    String pair =
+        BitfinexUtils.adaptXchangeCurrency(currencyPair.base)
+            + BitfinexUtils.adaptXchangeCurrency(currencyPair.counter);
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
     Observable<BitfinexWebSocketOrderbookTransaction> subscribedChannel =
@@ -65,7 +70,9 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     String channelName = "ticker";
 
-    String pair = currencyPair.base.toString() + currencyPair.counter.toString();
+    String pair =
+        BitfinexUtils.adaptXchangeCurrency(currencyPair.base)
+            + BitfinexUtils.adaptXchangeCurrency(currencyPair.counter);
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
     Observable<BitfinexWebSocketTickerTransaction> subscribedChannel =
@@ -81,7 +88,9 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
     String channelName = "trades";
     final String tradeType = args.length > 0 ? args[0].toString() : "te";
 
-    String pair = currencyPair.base.toString() + currencyPair.counter.toString();
+    String pair =
+        BitfinexUtils.adaptXchangeCurrency(currencyPair.base)
+            + BitfinexUtils.adaptXchangeCurrency(currencyPair.counter);
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
     Observable<BitfinexWebSocketTradesTransaction> subscribedChannel =
