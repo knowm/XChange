@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
+import org.knowm.xchange.deribit.v2.dto.Kind;
 import org.knowm.xchange.deribit.v2.dto.trade.AdvancedOptions;
 import org.knowm.xchange.deribit.v2.dto.trade.Order;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderPlacement;
@@ -30,10 +31,12 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
       TimeInForce timeInForce,
       BigDecimal maxShow,
       Boolean postOnly,
+      Boolean rejectPostOnly,
       Boolean reduceOnly,
-      BigDecimal stopPrice,
+      BigDecimal triggerPrice,
       Trigger trigger,
-      AdvancedOptions advanced)
+      AdvancedOptions advanced,
+      Boolean mmp)
       throws IOException {
     return deribitAuthenticated
         .buy(
@@ -45,10 +48,12 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
             timeInForce,
             maxShow,
             postOnly,
+            rejectPostOnly,
             reduceOnly,
-            stopPrice,
+            triggerPrice,
             trigger,
             advanced,
+            mmp,
             deribitAuth)
         .getResult();
   }
@@ -62,10 +67,12 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
       TimeInForce timeInForce,
       BigDecimal maxShow,
       Boolean postOnly,
+      Boolean rejectPostOnly,
       Boolean reduceOnly,
-      BigDecimal stopPrice,
+      BigDecimal triggerPrice,
       Trigger trigger,
-      AdvancedOptions advanced)
+      AdvancedOptions advanced,
+      Boolean mmp)
       throws IOException {
     return deribitAuthenticated
         .sell(
@@ -77,27 +84,98 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
             timeInForce,
             maxShow,
             postOnly,
+            rejectPostOnly,
             reduceOnly,
-            stopPrice,
+            triggerPrice,
             trigger,
             advanced,
+            mmp,
             deribitAuth)
         .getResult();
   }
 
-  public OrderPlacement edit(String orderID, BigDecimal amount, BigDecimal price)
+  public OrderPlacement edit(
+      String orderId,
+      BigDecimal amount,
+      BigDecimal price,
+      Boolean postOnly,
+      Boolean rejectPostOnly,
+      Boolean reduceOnly,
+      BigDecimal triggerPrice,
+      AdvancedOptions advanced,
+      Boolean mmp)
       throws IOException {
-    return deribitAuthenticated.edit(orderID, amount, price, deribitAuth).getResult();
+    return deribitAuthenticated
+        .edit(
+            orderId,
+            amount,
+            price,
+            postOnly,
+            rejectPostOnly,
+            reduceOnly,
+            triggerPrice,
+            advanced,
+            mmp,
+            deribitAuth)
+        .getResult();
   }
 
   public Order cancel(String orderId) throws IOException {
     return deribitAuthenticated.cancel(orderId, deribitAuth).getResult();
   }
 
+  public Integer cancelByLabel(String label) throws IOException {
+    return deribitAuthenticated.cancelByLabel(label, deribitAuth).getResult();
+  }
+
+  public List<Order> getOpenOrdersByCurrency(String currency, Kind kind, String type)
+      throws IOException {
+    return deribitAuthenticated
+        .getOpenOrdersByCurrency(currency, kind, type, deribitAuth)
+        .getResult();
+  }
+
   public List<Order> getOpenOrdersByInstrument(String instrumentName, String type)
       throws IOException {
     return deribitAuthenticated
         .getOpenOrdersByInstrument(instrumentName, type, deribitAuth)
+        .getResult();
+  }
+
+  public UserTrades getUserTradesByCurrency(
+      String currency,
+      Kind kind,
+      String startId,
+      String endId,
+      Integer count,
+      Boolean includeOld,
+      String sorting)
+      throws IOException {
+    return deribitAuthenticated
+        .getUserTradesByCurrency(
+            currency, kind, startId, endId, count, includeOld, sorting, deribitAuth)
+        .getResult();
+  }
+
+  public UserTrades getUserTradesByCurrencyAndTime(
+      String currency,
+      Kind kind,
+      Date startTimestamp,
+      Date endTimestamp,
+      Integer count,
+      Boolean includeOld,
+      String sorting)
+      throws IOException {
+    return deribitAuthenticated
+        .getUserTradesByCurrencyAndTime(
+            currency,
+            kind,
+            startTimestamp.getTime(),
+            endTimestamp.getTime(),
+            count,
+            includeOld,
+            sorting,
+            deribitAuth)
         .getResult();
   }
 
@@ -117,7 +195,7 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
 
   public UserTrades getUserTradesByInstrumentAndTime(
       String instrumentName,
-      Date startTimestsamp,
+      Date startTimestamp,
       Date endTimestamp,
       Integer count,
       Boolean includeOld,
@@ -126,7 +204,7 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
     return deribitAuthenticated
         .getUserTradesByInstrumentAndTime(
             instrumentName,
-            startTimestsamp.getTime(),
+            startTimestamp.getTime(),
             endTimestamp.getTime(),
             count,
             includeOld,
@@ -143,6 +221,20 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
         .getResult();
   }
 
+  public List<Order> getOrderHistoryByCurrency(
+      String currency,
+      Kind kind,
+      Integer count,
+      Integer offset,
+      Boolean includeOld,
+      Boolean includeUnfilled)
+      throws IOException {
+    return deribitAuthenticated
+        .getOrderHistoryByCurrency(
+            currency, kind, count, offset, includeOld, includeUnfilled, deribitAuth)
+        .getResult();
+  }
+
   public List<Order> getOrderHistoryByInstrument(
       String instrumentName,
       Integer count,
@@ -154,5 +246,9 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
         .getOrderHistoryByInstrument(
             instrumentName, count, offset, includeOld, includeUnfilled, deribitAuth)
         .getResult();
+  }
+
+  public Order getOrderState(String orderId) throws IOException {
+    return deribitAuthenticated.getOrderState(orderId, deribitAuth).getResult();
   }
 }
