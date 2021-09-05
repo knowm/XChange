@@ -3,10 +3,8 @@ package nostro.xchange.persistence;
 import nostro.xchange.utils.NostroUtils;
 import org.junit.Test;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -17,18 +15,30 @@ public class TransactionFactoryTest extends DataSourceTest {
     public void getFactory() throws SQLException {
         String xchange = "binance";
         String accountId = "user0001";
+        int nextId = getNextId();
 
         assertThat(selectAccount(accountId)).isFalse();
-        assertThatCode(() -> selectFrom("order$binance$user0001")).hasMessageContaining("does not exist");
-        assertThatCode(() -> selectFrom("trade$binance$user0001")).hasMessageContaining("does not exist");
+        assertThatCode(() -> selectFrom("order$" + nextId)).hasMessageContaining("does not exist");
+        assertThatCode(() -> selectFrom("trade$" + nextId)).hasMessageContaining("does not exist");
+        assertThatCode(() -> selectFrom("sync_task$" + nextId)).hasMessageContaining("does not exist");
 
         TransactionFactory.get(xchange, accountId);
 
         assertThat(selectAccount(accountId)).isTrue();
-        assertThatCode(() -> selectFrom("order$binance$user0001")).doesNotThrowAnyException();
-        assertThatCode(() -> selectFrom("trade$binance$user0001")).doesNotThrowAnyException();
+        assertThatCode(() -> selectFrom("order$" + nextId)).doesNotThrowAnyException();
+        assertThatCode(() -> selectFrom("trade$" + nextId)).doesNotThrowAnyException();
+        assertThatCode(() -> selectFrom("sync_task$" + nextId)).doesNotThrowAnyException();
 
         TransactionFactory.get(xchange, accountId);
+    }
+    
+    private int getNextId() throws SQLException {
+        try(Connection connection = TransactionFactory.getDataSource().getConnection();
+            PreparedStatement stmt = connection.prepareStatement("SELECT NEXTVAL(PG_GET_SERIAL_SEQUENCE('account', 'id'))")) {
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return rs.getInt(1) + 1;
+        }
     }
 
     private boolean selectAccount(String externalId) throws SQLException {
@@ -65,30 +75,34 @@ public class TransactionFactoryTest extends DataSourceTest {
     @Test
     public void commitTransaction() throws Exception {
         TransactionFactory factory = TransactionFactory.get("x", "aid");
-        
-        String orderId = NostroUtils.randomUUID();
-        factory.execute(tx -> tx.getOrderRepository().insert(orderId, "{\"key\":\"value\"}"));
+        String postfix = String.valueOf(TransactionFactory.selectAccountId("x", "aid"));
 
+        String orderId = NostroUtils.randomUUID();
+        factory.execute(tx -> tx.getTradeRepository().insert(orderId, "exid1", new Timestamp(0), "{\"key\":\"value\"}"));
+
+        
         try(Connection connection = TransactionFactory.getDataSource().getConnection()) {
-            Optional<OrderEntity> order = new OrderRepository(connection, "x$aid").findById(orderId);
-            assertThat(order.isPresent()).isTrue();
+            List<TradeEntity> trades = new TradeRepository(connection, postfix).findAllByOrderId(orderId);
+            assertThat(trades.size()).isEqualTo(1);
+            assertThat(trades.get(0).getOrderId()).isEqualTo(orderId);
         }
     }
 
     @Test
     public void rollBackTransaction() throws SQLException {
         TransactionFactory factory = TransactionFactory.get("x", "aid");
+        String postfix = String.valueOf(TransactionFactory.selectAccountId("x", "aid"));
 
         String orderId = NostroUtils.randomUUID();
         assertThatThrownBy(() ->
                 factory.execute(tx -> {
-                    tx.getOrderRepository().insert(orderId, "{\"key\":\"value\"}");
+                    tx.getTradeRepository().insert(orderId, "exid2", new Timestamp(0), "{\"key\":\"value\"}");
                     throw new ArithmeticException("Expected exception");
                 })).isInstanceOf(ArithmeticException.class).hasMessage("Expected exception");
 
         try (Connection connection = TransactionFactory.getDataSource().getConnection()) {
-            Optional<OrderEntity> order = new OrderRepository(connection, "x$aid").findById(orderId);
-            assertThat(order.isPresent()).isFalse();
+            List<TradeEntity> trades = new TradeRepository(connection, postfix).findAllByOrderId(orderId);
+            assertThat(trades.size()).isEqualTo(0);
         }
     }
 }

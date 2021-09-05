@@ -48,6 +48,18 @@ public class NostroUtils {
         }
     }
 
+    public static String writeAccountDocument(AccountDocument a) {
+        return ObjectMapperHelper.toCompactJSON(a);
+    }
+
+    public static AccountDocument readAccountDocument(String s) {
+        try {
+            return s != null ? ObjectMapperHelper.readValue(s, AccountDocument.class) : new AccountDocument();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
     public static List<Order> readOrderList(List<OrderEntity> entities) {
         List<Order> orders = new ArrayList<>();
         for(OrderEntity e : entities) {

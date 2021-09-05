@@ -12,16 +12,15 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 
 public class BinanceNostroTradeService implements TradeService, StreamingTradeService {
@@ -56,9 +55,17 @@ public class BinanceNostroTradeService implements TradeService, StreamingTradeSe
     
     private String executePlaceOrder(Order order, Callable<String> placeOrderCallable) {
         String id = order.getUserReference();
-        String document = NostroUtils.writeOrderDocument(order);
+        OrderEntity e = new OrderEntity.Builder()
+                .id(id)
+                .instrument(order.getInstrument().toString())
+                .document(NostroUtils.writeOrderDocument(order))
+                .externalId("")
+                .terminal(false)
+                .created(new Timestamp(0))
+                .updated(new Timestamp(0))
+                .build();
 
-        txFactory.execute(tx -> tx.getOrderRepository().insert(id, document));
+        txFactory.execute(tx -> tx.getOrderRepository().insert(e));
         
         return txFactory.executeAndGet(tx -> {
             tx.getOrderRepository().lockById(id);
@@ -69,21 +76,8 @@ public class BinanceNostroTradeService implements TradeService, StreamingTradeSe
     }
 
     @Override
-    public boolean cancelOrder(CancelOrderParams params) {
-        String externalId = ((CancelOrderByIdParams) params).getOrderId();
-        return txFactory.executeAndGet(tx -> {
-            Optional<OrderEntity> orderEntity = tx.getOrderRepository().lockByExternalId(externalId);
-            boolean cancelled = inner.cancelOrder(params);
-            if (orderEntity.isPresent()) {
-                Order order = NostroUtils.readOrderDocument(orderEntity.get().getDocument());
-                order.setOrderStatus(Order.OrderStatus.CANCELED);
-                String document = NostroUtils.writeOrderDocument(order);
-                tx.getOrderRepository().updateByExternalId(externalId, document, true);
-            } else {
-                LOG.warn("Cancelled non-existing order: externalId={}", externalId);
-            }
-            return cancelled;
-        });
+    public boolean cancelOrder(CancelOrderParams params) throws IOException {
+        return inner.cancelOrder(params);
     }
 
     @Override
@@ -113,9 +107,5 @@ public class BinanceNostroTradeService implements TradeService, StreamingTradeSe
     @Override
     public Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
         return tradePublisher;
-    }
-
-    public void synchronizeOpenOrders() throws IOException {
-        new SynchronizeOpenOrdersTask(inner, txFactory).call();
     }
 }

@@ -30,7 +30,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
       "Binance_Orderbook_Use_Higher_Frequency";
 
   private BinanceStreamingService streamingService;
-  private BinanceUserDataStreamingService userDataStreamingService;
+  protected BinanceUserDataStreamingService userDataStreamingService;
 
   private BinanceStreamingMarketDataService streamingMarketDataService;
   private BinanceStreamingAccountService streamingAccountService;
