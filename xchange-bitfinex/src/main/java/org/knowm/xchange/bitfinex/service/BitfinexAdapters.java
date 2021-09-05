@@ -376,7 +376,7 @@ public final class BitfinexAdapters {
       Map<String, BigDecimal[]> balancesByCurrency =
           walletsBalancesMap.get(walletId); // {total, available}
 
-      String currencyName = balance.getCurrency();
+      String currencyName = adaptBitfinexCurrency(balance.getCurrency());
       BigDecimal[] balanceDetail = balancesByCurrency.get(currencyName);
       if (balanceDetail == null) {
         balanceDetail = new BigDecimal[] {balance.getAmount(), balance.getAvailable()};
@@ -393,7 +393,7 @@ public final class BitfinexAdapters {
 
       List<Balance> balances = new ArrayList<>(balancesByCurrency.size());
       for (Entry<String, BigDecimal[]> entry : balancesByCurrency.entrySet()) {
-        String currencyName = entry.getKey();
+        String currencyName = adaptBitfinexCurrency(entry.getKey());
         BigDecimal[] balanceDetail = entry.getValue();
         BigDecimal balanceTotal = balanceDetail[0];
         BigDecimal balanceAvailable = balanceDetail[1];
@@ -695,9 +695,10 @@ public final class BitfinexAdapters {
   }
 
   public static ExchangeMetaData adaptMetaData(
-          BitfinexAccountFeesResponse accountFeesResponse, int platformStatus,
-          boolean platformStatusPresent,
-          ExchangeMetaData metaData) {
+      BitfinexAccountFeesResponse accountFeesResponse,
+      int platformStatus,
+      boolean platformStatusPresent,
+      ExchangeMetaData metaData) {
     final WalletHealth health;
     if (platformStatusPresent) {
       if (platformStatus == PLATFORM_STATUS_ONLINE) {
@@ -721,7 +722,9 @@ public final class BitfinexAdapters {
                   currencies.get(currency) == null
                       ? withdrawalFee.scale()
                       : Math.max(withdrawalFee.scale(), currencies.get(currency).getScale()),
-                  withdrawalFee, null, health);
+                  withdrawalFee,
+                  null,
+                  health);
           currencies.put(currency, newMetaData);
         });
     return metaData;
