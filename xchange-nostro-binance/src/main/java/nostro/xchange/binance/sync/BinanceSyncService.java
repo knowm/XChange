@@ -16,7 +16,7 @@ import java.util.concurrent.*;
 public class BinanceSyncService {
     private static final Logger LOG = LoggerFactory.getLogger(BinanceSyncService.class);
     
-    private static final long SYNC_DELAY_SECONDS = 300;
+    private final long syncDelay;
     
     final TransactionFactory txFactory;
     final BinanceNostroPublisher publisher;
@@ -26,10 +26,11 @@ public class BinanceSyncService {
 
     private ScheduledFuture<?> scheduled = null;
 
-    public BinanceSyncService(TransactionFactory txFactory, BinanceNostroPublisher publisher, BinanceTradeService tradeService) {
+    public BinanceSyncService(TransactionFactory txFactory, BinanceNostroPublisher publisher, BinanceTradeService tradeService, long syncDelay) {
         this.txFactory = txFactory;
         this.publisher = publisher;
         this.tradeService = tradeService;
+        this.syncDelay = syncDelay;
         this.executor = Executors.newScheduledThreadPool(1);
 
         ((ScheduledThreadPoolExecutor) executor).setRemoveOnCancelPolicy(true);
@@ -40,15 +41,15 @@ public class BinanceSyncService {
         doSync();
         
         if (scheduled == null) {
-            scheduled = executor.scheduleWithFixedDelay(this::doSync2, SYNC_DELAY_SECONDS, SYNC_DELAY_SECONDS, TimeUnit.SECONDS);
-            LOG.info("BinanceSyncService initialized, sync task scheduled with delay={} sec", SYNC_DELAY_SECONDS);
+            scheduled = executor.scheduleWithFixedDelay(this::doSync2, syncDelay, syncDelay, TimeUnit.SECONDS);
+            LOG.info("BinanceSyncService initialized, sync task scheduled with delay={} sec", syncDelay);
         }
     }
 
     public synchronized void connectionStateChanged(boolean connected) {
         if (connected) {
             if (scheduled == null) {
-                scheduled = executor.scheduleWithFixedDelay(this::doSync2, 0, SYNC_DELAY_SECONDS, TimeUnit.SECONDS);
+                scheduled = executor.scheduleWithFixedDelay(this::doSync2, 0, syncDelay, TimeUnit.SECONDS);
                 LOG.info("BinanceSyncService connected, sync task scheduled");
             }
         } else {
