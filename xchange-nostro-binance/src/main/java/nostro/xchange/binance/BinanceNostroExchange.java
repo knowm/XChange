@@ -32,6 +32,8 @@ import java.util.stream.Collectors;
 public class BinanceNostroExchange extends BinanceStreamingExchange {
     private static final Logger LOG = LoggerFactory.getLogger(BinanceNostroExchange.class);
     
+    private static final String P_SYNC_DELAY = "syncDelay";
+    
     private volatile TransactionFactory txFactory;
     private volatile BinanceNostroPublisher publisher;
     private volatile BinanceNostroTradeService nostroTradeService;
@@ -64,7 +66,9 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
         spec.setExchangeDescription(inner.getExchangeDescription());
         AuthUtils.setApiAndSecretKey(spec, "binance");
         
-        return inner;
+        spec.setExchangeSpecificParametersItem(P_SYNC_DELAY, "300");
+        
+        return spec;
     }
 
     @Override
@@ -76,7 +80,7 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
                 this.publisher = new BinanceNostroPublisher();
                 this.txFactory = TransactionFactory.get(exchangeSpecification.getExchangeName(), exchangeSpecification.getUserName());
                 this.nostroTradeService = new BinanceNostroTradeService((BinanceTradeService) this.tradeService, this.txFactory);
-                this.syncService = new BinanceSyncService(txFactory, publisher, (BinanceTradeService) this.tradeService);
+                this.syncService = new BinanceSyncService(txFactory, publisher, (BinanceTradeService) this.tradeService, getSyncDelay());
             } catch (Exception e) {
                 throw new ExchangeException("Unable to init", e);
             }
@@ -87,6 +91,14 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
         return exchangeSpecification != null
                 && exchangeSpecification.getApiKey() != null
                 && exchangeSpecification.getSecretKey() != null;
+    }
+
+    private long getSyncDelay() {
+        try {
+            return Long.valueOf((String) exchangeSpecification.getExchangeSpecificParametersItem(P_SYNC_DELAY));
+        } catch (Exception e) {
+            return 300;
+        }
     }
 
     @Override
