@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Objects;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -149,6 +150,9 @@ public final class Ticker implements Serializable {
   }
 
   public BigDecimal getVolume() {
+    if (volume == null && quoteVolume != null && last != null && last != BigDecimal.ZERO) {
+      return quoteVolume.divide(last, RoundingMode.HALF_UP);
+    }
 
     return volume;
   }
