@@ -1,14 +1,10 @@
 package nostro.xchange.binance;
 
-import info.bitrich.xchangestream.core.StreamingTradeService;
-import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.processors.PublishProcessor;
 import nostro.xchange.persistence.OrderEntity;
 import nostro.xchange.persistence.OrderRepository;
 import nostro.xchange.persistence.TransactionFactory;
 import nostro.xchange.utils.NostroUtils;
 import org.knowm.xchange.binance.service.BinanceTradeService;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.service.trade.TradeService;
@@ -23,14 +19,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public class BinanceNostroTradeService implements TradeService, StreamingTradeService {
+public class BinanceNostroTradeService implements TradeService {
     private static final Logger LOG = LoggerFactory.getLogger(BinanceNostroTradeService.class);
 
     private final BinanceTradeService inner;
     private final TransactionFactory txFactory;
-
-    final PublishProcessor<Order> orderPublisher = PublishProcessor.create();
-    final PublishProcessor<UserTrade> tradePublisher = PublishProcessor.create();
 
     // TODO: check if need to unwrap original IOException's happening in transactions
     public BinanceNostroTradeService(BinanceTradeService inner, TransactionFactory txFactory) {
@@ -59,7 +52,7 @@ public class BinanceNostroTradeService implements TradeService, StreamingTradeSe
                 .id(id)
                 .instrument(order.getInstrument().toString())
                 .document(NostroUtils.writeOrderDocument(order))
-                .externalId("")
+                .externalId(null)
                 .terminal(false)
                 .created(new Timestamp(0))
                 .updated(new Timestamp(0))
@@ -97,15 +90,5 @@ public class BinanceNostroTradeService implements TradeService, StreamingTradeSe
     public OpenOrders getOpenOrders() {
         List<OrderEntity> entities = txFactory.executeAndGet(tx -> tx.getOrderRepository().findAllOpen());
         return NostroUtils.adaptOpenOrders(NostroUtils.readOrderList(entities));
-    }
-
-    @Override
-    public Flowable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
-        return orderPublisher;
-    }
-
-    @Override
-    public Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
-        return tradePublisher;
     }
 }

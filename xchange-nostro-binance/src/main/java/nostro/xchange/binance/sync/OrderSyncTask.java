@@ -2,14 +2,12 @@ package nostro.xchange.binance.sync;
 
 import nostro.xchange.binance.BinanceNostroUtils;
 import nostro.xchange.persistence.OrderEntity;
-import nostro.xchange.persistence.TransactionFactory;
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
-import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -19,14 +17,12 @@ public class OrderSyncTask implements Callable<Long> {
 
     private static final int LIMIT = 1000;
     
-    private final TransactionFactory txFactory;
-    private final BinanceTradeService service;
+    private final BinanceSyncService syncService;
     private final CurrencyPair pair;
     private long fromId;
 
-    public OrderSyncTask(TransactionFactory txFactory, BinanceTradeService service, CurrencyPair pair, long fromId) {
-        this.txFactory = txFactory;
-        this.service = service;
+    public OrderSyncTask(BinanceSyncService syncService, CurrencyPair pair, long fromId) {
+        this.syncService = syncService;
         this.pair = pair;
         this.fromId = fromId;
     }
@@ -39,14 +35,17 @@ public class OrderSyncTask implements Callable<Long> {
         List<BinanceOrder> orders;
         BinanceOrder last = null;
         do {
-            orders = getOrders(fromId);
+            orders = syncService.getOrders(pair, fromId, LIMIT);
 
             if (orders.size() > 0) {
                 last = orders.get(orders.size() - 1);
                 fromId = last.orderId;
 
                 for (BinanceOrder o : orders) {
-                    updated += syncOrder(o) ? 1 : 0;
+                    if (syncOrder(o)) {
+                        syncService.publisher.publish(BinanceAdapters.adaptOrder(o));
+                        ++updated;
+                    }
                 }    
             }
             
@@ -59,7 +58,7 @@ public class OrderSyncTask implements Callable<Long> {
     }
 
     private boolean syncOrder(BinanceOrder binanceOrder) {
-        return txFactory.executeAndGet(tx -> {
+        return syncService.txFactory.executeAndGet(tx -> {
             String orderId = binanceOrder.clientOrderId;
             Optional<OrderEntity> o = tx.getOrderRepository().lockById(orderId);
             if (o.isPresent()) {
@@ -78,16 +77,4 @@ public class OrderSyncTask implements Callable<Long> {
             }
         });
     }
-
-    private List<BinanceOrder> getOrders(long fromId) throws IOException {
-        try {
-            List<BinanceOrder> orders = service.allOrders(pair, fromId, LIMIT);
-            LOG.info("Service returned {} orders", orders.size());
-            return orders;
-        } catch (Throwable th) {
-            LOG.error("Error while querying orders", th);
-            throw th;
-        }
-    }
-    
 }

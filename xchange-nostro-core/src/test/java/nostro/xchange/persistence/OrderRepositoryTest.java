@@ -33,14 +33,12 @@ public class OrderRepositoryTest extends DataSourceTest {
     @Test
     public void insertNewFindById() throws SQLException {
         String id = NostroUtils.randomUUID();
-        String externalId = "00000";
         String instrument = "BTC/USDT";
         String document = "{\"price\": 0.5, \"amount\": 8}";
         Timestamp created = new Timestamp(0L);
         Timestamp updated = new Timestamp(System.currentTimeMillis());
         repository.insert(new OrderEntity.Builder()
                 .id(id)
-                .externalId(externalId)
                 .instrument(instrument)
                 .document(document)
                 .terminal(false)
@@ -52,7 +50,7 @@ public class OrderRepositoryTest extends DataSourceTest {
 
         assertThat(order.isPresent()).isTrue();
         assertThat(order.get().getId()).isEqualTo(id);
-        assertThat(order.get().getExternalId()).isEqualTo(externalId);
+        assertThat(order.get().getExternalId()).isNull();
         assertThat(order.get().getInstrument()).isEqualTo(instrument);
         assertThat(order.get().getDocument()).isEqualTo(document);
         assertThat(order.get().isTerminal()).isFalse();
@@ -98,7 +96,6 @@ public class OrderRepositoryTest extends DataSourceTest {
         String id = NostroUtils.randomUUID();
         repository.insert(new OrderEntity.Builder()
                 .id(id)
-                .externalId("")
                 .instrument("ETH/USDT")
                 .document("{\"price\": 0.5, \"amount\": 8}")
                 .terminal(false)
@@ -175,7 +172,6 @@ public class OrderRepositoryTest extends DataSourceTest {
         String id3 = NostroUtils.randomUUID();
 
         OrderEntity.Builder builder = new OrderEntity.Builder()
-                .externalId("")
                 .terminal(false)
                 .document("{\"key\": \"value\"}")
                 .created(new Timestamp(0))

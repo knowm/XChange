@@ -33,6 +33,7 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
     private static final Logger LOG = LoggerFactory.getLogger(BinanceNostroExchange.class);
     
     private volatile TransactionFactory txFactory;
+    private volatile BinanceNostroPublisher publisher;
     private volatile BinanceNostroTradeService nostroTradeService;
     private volatile BinanceSyncService syncService;
     
@@ -48,7 +49,7 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
 
     @Override
     public StreamingTradeService getStreamingTradeService() {
-        return nostroTradeService;
+        return publisher;
     }
 
     @Override
@@ -72,9 +73,10 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
         
         if (isAuthenticated()) {
             try {
+                this.publisher = new BinanceNostroPublisher();
                 this.txFactory = TransactionFactory.get(exchangeSpecification.getExchangeName(), exchangeSpecification.getUserName());
                 this.nostroTradeService = new BinanceNostroTradeService((BinanceTradeService) this.tradeService, this.txFactory);
-                this.syncService = new BinanceSyncService(txFactory, (BinanceTradeService) this.tradeService);
+                this.syncService = new BinanceSyncService(txFactory, publisher, (BinanceTradeService) this.tradeService);
             } catch (Exception e) {
                 throw new ExchangeException("Unable to init", e);
             }
@@ -156,7 +158,7 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
                     .updated(updated)
                     .build());
         }
-        nostroTradeService.orderPublisher.onNext(order);
+        publisher.publish(order);
         
         if (ExecutionType.TRADE == report.getExecutionType()) {
             UserTrade trade = report.toUserTrade();
@@ -166,7 +168,7 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
                     updated,
                     NostroUtils.writeTradeDocument(trade));
             
-            nostroTradeService.tradePublisher.onNext(trade);
+            publisher.publish(trade);
         }
         
         String symbol = order.getCurrencyPair().toString();

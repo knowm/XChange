@@ -1,6 +1,6 @@
 CREATE TABLE order$ (
   id TEXT PRIMARY KEY,
-  external_id TEXT NOT NULL,
+  external_id TEXT,
   instrument TEXT NOT NULL,
   terminal BOOLEAN NOT NULL DEFAULT FALSE,
   created TIMESTAMP NOT NULL DEFAULT NOW(),
