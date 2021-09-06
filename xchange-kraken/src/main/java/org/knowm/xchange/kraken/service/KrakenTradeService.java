@@ -1,6 +1,7 @@
 package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -12,9 +13,12 @@ import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.kraken.KrakenUtils;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
 import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -32,12 +36,19 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return getOpenOrders(createOpenOrdersParams());
+    return getOpenOrders(null);
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    return KrakenAdapters.adaptOpenOrders(super.getKrakenOpenOrders());
+    Map<String, KrakenOrder> krakenOrders = super.getKrakenOpenOrders();
+    if (params != null && params instanceof OpenOrdersParamCurrencyPair) {
+      OpenOrdersParamCurrencyPair openOrdersParamCurrencyPair = (OpenOrdersParamCurrencyPair) params;
+      Map<String, KrakenOrder> filteredKrakenOrders = KrakenUtils.filterOpenOrdersByCurrencyPair(
+              krakenOrders, openOrdersParamCurrencyPair.getCurrencyPair());
+      return KrakenAdapters.adaptOpenOrders(filteredKrakenOrders);
+    }
+    return KrakenAdapters.adaptOpenOrders(krakenOrders);
   }
 
   @Override
@@ -129,7 +140,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   @Override

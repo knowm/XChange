@@ -7,10 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
@@ -29,6 +26,7 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiTrailingVolumeResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWalletJSONTest;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeDataJSONTest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 
 public class GeminiAdaptersTest {
@@ -54,6 +52,27 @@ public class GeminiAdaptersTest {
     assertEquals(new BigDecimal("55.5"), wallet.getBalance(Currency.USD).getAvailable());
     assertEquals(new BigDecimal("50"), wallet.getBalance(Currency.BTC).getTotal());
     assertEquals(new BigDecimal("30"), wallet.getBalance(Currency.BTC).getAvailable());
+  }
+
+  @Test
+  public void testAdaptOrderResponseToOrder() throws IOException {
+    InputStream resourceAsStream =
+            GeminiAdaptersTest.class.getResourceAsStream(
+                    "/org/knowm/xchange/gemini/v1/trade/example-get-order-data.json");
+    GeminiOrderStatusResponse[] response =
+            new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse[].class);
+    Order adaptedOrder = GeminiAdapters.adaptOrder(response[0]);
+
+    assertEquals("54323412782", adaptedOrder.getId());
+    assertEquals(new Date(1629770740526L), adaptedOrder.getTimestamp());
+    assertEquals(CurrencyPair.ETH_USD, adaptedOrder.getInstrument());
+
+    assertEquals(OrderType.ASK, adaptedOrder.getType());
+    assertEquals(new BigDecimal("0.001"), adaptedOrder.getOriginalAmount());
+    assertEquals(new BigDecimal("0.00"), adaptedOrder.getAveragePrice());
+
+    assertEquals(Order.OrderStatus.OPEN, adaptedOrder.getStatus());
+    assertEquals(BigDecimal.ZERO, adaptedOrder.getCumulativeAmount());
   }
 
   @Test
