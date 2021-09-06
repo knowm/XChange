@@ -1,10 +1,8 @@
 package nostro.xchange.binance.sync;
 
 import nostro.xchange.persistence.SyncTaskEntity;
-import nostro.xchange.persistence.TransactionFactory;
 import nostro.xchange.utils.AccountDocument;
 import nostro.xchange.utils.NostroUtils;
-import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,21 +14,19 @@ import java.util.concurrent.Callable;
 
 public class SyncAllTask implements Callable<Void> {
     private static final Logger LOG = LoggerFactory.getLogger(SyncAllTask.class);
+    
+    private final BinanceSyncService syncService;
 
-    private final TransactionFactory txFactory;
-    private final BinanceTradeService service;
-
-    public SyncAllTask(TransactionFactory txFactory, BinanceTradeService service) {
-        this.txFactory = txFactory;
-        this.service = service;
+    public SyncAllTask(BinanceSyncService syncService) {
+        this.syncService = syncService;
     }
 
     @Override
     public Void call() throws Exception {
-        AccountDocument account = NostroUtils.readAccountDocument(txFactory.executeAndGet(tx -> tx.getAccountRepository().get()));
+        AccountDocument account = NostroUtils.readAccountDocument(syncService.txFactory.executeAndGet(tx -> tx.getAccountRepository().get()));
         Set<String> orderSubscriptions = new HashSet<>(account.getSubscriptions().getOrders());
 
-        List<SyncTaskEntity> tasks = txFactory.executeAndGet(tx -> tx.getSyncTaskRepository().findAllLatest());
+        List<SyncTaskEntity> tasks = syncService.txFactory.executeAndGet(tx -> tx.getSyncTaskRepository().findAllLatest());
 
         for (SyncTaskEntity task : tasks) {
             if (orderSubscriptions.remove(task.getSymbol())) {
@@ -44,7 +40,7 @@ public class SyncAllTask implements Callable<Void> {
         for(String symbol : orderSubscriptions) {
             LOG.info("Found new order subscription, starting InitSyncTask for symbol={}", symbol);
 
-            SyncTaskDocument document = new InitSyncTask(service, new CurrencyPair(symbol)).call();
+            SyncTaskDocument document = new InitSyncTask(syncService, new CurrencyPair(symbol)).call();
             if (document != null) {
                 syncTradingSymbol(symbol, document);
             }
@@ -56,13 +52,13 @@ public class SyncAllTask implements Callable<Void> {
     private void syncTradingSymbol(String symbol, SyncTaskDocument document) throws Exception {
         CurrencyPair pair = new CurrencyPair(symbol);
 
-        new OpenOrderSyncTask(this.txFactory, service, pair, document.getOrderId()).call();
-        long orderId = new OrderSyncTask(this.txFactory, service, pair, document.getOrderId()).call();
-        long tradeId = new TradeSyncTask(this.txFactory, service, pair, document.getTradeId()).call();
+        new OpenOrderSyncTask(syncService, pair, document.getOrderId()).call();
+        long orderId = new OrderSyncTask(syncService, pair, document.getOrderId()).call();
+        long tradeId = new TradeSyncTask(syncService, pair, document.getTradeId()).call();
 
         SyncTaskDocument updated = new SyncTaskDocument(orderId, tradeId);
         if (!updated.equals(document)) {
-            txFactory.execute(tx ->
+            syncService.txFactory.execute(tx ->
                     tx.getSyncTaskRepository().insert(symbol, tx.getTimestamp(), SyncTaskDocument.write(updated)));
         }
     }

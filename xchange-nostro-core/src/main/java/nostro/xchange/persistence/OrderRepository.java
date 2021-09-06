@@ -60,7 +60,6 @@ public class OrderRepository {
         }
     }
 
-    // TODO: remove when place order request entity introduced
     public void update(String id, String externalId) throws SQLException {
         try(PreparedStatement stmt = prepareStatement(UPDATE_EXTERNAL_ID_SQL)) {
             stmt.setString(1, externalId);

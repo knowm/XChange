@@ -63,7 +63,7 @@ public class BinanceNostroUtils {
         if (e.isTerminal()) {
             return false;
         }
-        if (isTerminal(bo.status) || e.getUpdated().before(bo.getUpdateTime())) {
+        if (isTerminal(bo.status) || e.getUpdated().getTime() < bo.updateTime) {
             return true;
         }
         BigDecimal currentAmount = NostroUtils.readOrderDocument(e.getDocument()).getCumulativeAmount();
