@@ -150,7 +150,7 @@ public final class Ticker implements Serializable {
   }
 
   public BigDecimal getVolume() {
-    if (volume == null && quoteVolume != null && last != null && last != BigDecimal.ZERO) {
+    if (volume == null && quoteVolume != null && last != null && !last.equals(BigDecimal.ZERO)) {
       return quoteVolume.divide(last, RoundingMode.HALF_UP);
     }
 
