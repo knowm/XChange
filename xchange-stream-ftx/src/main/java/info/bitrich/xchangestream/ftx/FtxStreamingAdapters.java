@@ -35,11 +35,16 @@ public class FtxStreamingAdapters {
 
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
-  private static final ThreadLocal<DecimalFormat> dfp = ThreadLocal.withInitial(() ->  new DecimalFormat("0.0#######"));
-  private static final ThreadLocal<DecimalFormat> dfs = ThreadLocal.withInitial(() ->  new DecimalFormat("0.####E00"));
-  private static final ThreadLocal<DecimalFormat> dfq = ThreadLocal.withInitial(() ->  new DecimalFormat("0.0#######"));
-  
-  static Ticker NULL_TICKER = new Ticker.Builder().build();  // not need to create a new one each time
+  private static final ThreadLocal<DecimalFormat> dfp =
+      ThreadLocal.withInitial(() -> new DecimalFormat("0.0#######"));
+
+  private static final ThreadLocal<DecimalFormat> dfs =
+      ThreadLocal.withInitial(() -> new DecimalFormat("0.####E00"));
+  private static final ThreadLocal<DecimalFormat> dfq =
+      ThreadLocal.withInitial(() -> new DecimalFormat("0.0#######"));
+
+  static Ticker NULL_TICKER =
+      new Ticker.Builder().build(); // not need to create a new one each time
 
   public static OrderBook adaptOrderbookMessage(
       OrderBook orderBook, Instrument instrument, JsonNode jsonNode) {
@@ -51,7 +56,7 @@ public class FtxStreamingAdapters {
               try {
                 return mapper.readValue(res.toString(), FtxOrderbookResponse.class);
               } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new IllegalStateException(e);
               }
             })
         .forEach(
@@ -106,7 +111,7 @@ public class FtxStreamingAdapters {
                     getOrderbookChecksum(orderBook.getAsks(), orderBook.getBids());
 
                 if (!calculatedChecksum.equals(message.getChecksum())) {
-                  throw new RuntimeException("Checksum is not correct!");
+                  throw new IllegalStateException("Checksum is not correct!");
                 }
               }
             });
@@ -123,7 +128,7 @@ public class FtxStreamingAdapters {
     DecimalFormat fp = dfp.get();
     DecimalFormat fs = dfs.get();
     DecimalFormat fq = dfq.get();
-    
+
     for (int i = 0; i < 100; i++) {
       if (bids.size() > i) {
         BigDecimal limitPrice = bids.get(i).getLimitPrice();
@@ -145,12 +150,12 @@ public class FtxStreamingAdapters {
             .append(":");
       }
     }
-    
-    String s = data.toString().replace("E","e"); // strip last :
-    
+
+    String s = data.toString().replace("E", "e"); // strip last :
+
     CRC32 crc32 = new CRC32();
     byte[] toBytes = s.getBytes(StandardCharsets.UTF_8);
-    crc32.update(toBytes, 0, toBytes.length-1);
+    crc32.update(toBytes, 0, toBytes.length - 1);
 
     return crc32.getValue();
   }
@@ -201,28 +206,26 @@ public class FtxStreamingAdapters {
     JsonNode data = jsonNode.get("data");
 
     return new UserTrade.Builder()
-            .currencyPair(new CurrencyPair(data.get("market").asText()))
-            .type(
-                    "buy".equals(data.get("side").asText())
-                            ? Order.OrderType.BID
-                            : Order.OrderType.ASK)
-            .instrument(new CurrencyPair(data.get("market").asText()))
-            .originalAmount(data.get("size").decimalValue())
-            .price(data.get("price").decimalValue())
-            .timestamp(Date.from(Instant.ofEpochMilli(data.get("time").asLong())))
-            .id(data.get("id").asText())
-            .orderId(data.get("orderId").asText())
-            .feeAmount(data.get("fee").decimalValue())
-            .feeCurrency(new Currency(data.get("feeCurrency").asText()))
-            .build();
+        .currencyPair(new CurrencyPair(data.get("market").asText()))
+        .type("buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK)
+        .instrument(new CurrencyPair(data.get("market").asText()))
+        .originalAmount(data.get("size").decimalValue())
+        .price(data.get("price").decimalValue())
+        .timestamp(Date.from(Instant.ofEpochMilli(data.get("time").asLong())))
+        .id(data.get("id").asText())
+        .orderId(data.get("orderId").asText())
+        .feeAmount(data.get("fee").decimalValue())
+        .feeCurrency(new Currency(data.get("feeCurrency").asText()))
+        .build();
   }
 
   public static Order adaptOrders(JsonNode jsonNode) {
     JsonNode data = jsonNode.get("data");
     System.out.println(jsonNode.toPrettyString());
-    LimitOrder.Builder order = new LimitOrder.Builder("buy".equals(data.get("side").asText())
-            ? Order.OrderType.BID
-            : Order.OrderType.ASK, new CurrencyPair(data.get("market").asText()))
+    LimitOrder.Builder order =
+        new LimitOrder.Builder(
+                "buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK,
+                new CurrencyPair(data.get("market").asText()))
             .id(data.get("id").asText())
             .timestamp(Date.from(Instant.now()))
             .limitPrice(data.get("price").decimalValue())
@@ -237,6 +240,5 @@ public class FtxStreamingAdapters {
     if (data.get("reduceOnly").asBoolean()) order.flag(FtxOrderFlags.REDUCE_ONLY);
 
     return order.build();
-
   }
 }
