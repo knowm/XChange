@@ -1,0 +1,22 @@
+{
+  "error": false,
+  "errorMessage": null,
+  "data": {
+    "id": 1,
+    "timestamp": 1631188240000,
+    "trailingUpdatedTimestamp": null,
+    "type": "BUY",
+    "price": null,
+    "remainingAmount": null,
+    "originalAmount": null,
+    "stopPrice": null,
+    "originalStopPrice": null,
+    "marketPriceAtLastUpdate": null,
+    "marketPriceAtOrderCreation": null,
+    "status": "FILLED",
+    "orderTradeType": "INSTANT",
+    "hidden": false,
+    "avgPrice": 996740,
+    "trailing": false
+  }
+}

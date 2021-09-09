@@ -370,16 +370,21 @@ public class CoinmateAdapters {
       orderStatus = Order.OrderStatus.UNKNOWN;
     }
 
+    BigDecimal originalAmount = entry.getOriginalAmount();
+    BigDecimal remainingAmount = entry.getRemainingAmount();
+    BigDecimal cumulativeAmount = (originalAmount != null && remainingAmount != null) ?
+        originalAmount.subtract(remainingAmount) : null;
+
     // TODO: we can probably use `orderTradeType` to distinguish between Market and Limit order
     Order order =
         new MarketOrder(
             orderType,
-            entry.getOriginalAmount(),
+            originalAmount,
             null,
             Long.toString(entry.getId()),
             new Date(entry.getTimestamp()),
             entry.getAvgPrice(),
-            entry.getOriginalAmount().subtract(entry.getRemainingAmount()),
+            cumulativeAmount,
             null,
             orderStatus,
             null);
