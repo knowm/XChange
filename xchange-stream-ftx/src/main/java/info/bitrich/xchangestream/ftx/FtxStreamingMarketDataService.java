@@ -3,7 +3,6 @@ package info.bitrich.xchangestream.ftx;
 import com.google.common.collect.Lists;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
-import java.util.ArrayList;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -24,7 +23,7 @@ public class FtxStreamingMarketDataService implements StreamingMarketDataService
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    OrderBook orderBook = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
+    OrderBook orderBook = new OrderBook(null, Lists.newArrayList(), Lists.newArrayList());
     String channelName = "orderbook:" + FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair);
 
     return service
