@@ -3,26 +3,31 @@
   "name": "Bitcoin",
   "symbol": "BTC",
   "slug": "bitcoin",
-  "circulating_supply": 17519062,
-  "total_supply": 17519062,
-  "max_supply": 21000000,
+  "num_market_pairs": 8901,
   "date_added": "2013-04-28T00:00:00.000Z",
-  "num_market_pairs": 6513,
   "tags": [
     "mineable"
   ],
+  "max_supply": 21000000,
+  "circulating_supply": 18799950,
+  "total_supply": 18799950,
   "platform": null,
   "cmc_rank": 1,
-  "last_updated": "2019-02-04T16:34:24.000Z",
+  "last_updated": "2021-08-28T16:13:19.000Z",
   "quote": {
     "USD": {
-      "price": 3463.69103385,
-      "volume_24h": 5327785294.41072,
-      "percent_change_1h": 0.25934,
-      "percent_change_24h": -0.342853,
-      "percent_change_7d": 0.070337,
-      "market_cap": 60680617970.86225,
-      "last_updated": "2019-02-04T16:34:24.000Z"
+      "price": 48827.989730634145,
+      "volume_24h": 29502617632.520878,
+      "percent_change_1h": 0.53605754,
+      "percent_change_24h": 1.25693894,
+      "percent_change_7d": -0.98822569,
+      "percent_change_30d": 22.4523943,
+      "percent_change_60d": 35.00831003,
+      "percent_change_90d": 37.52836154,
+      "market_cap": 917963765536.4354,
+      "market_cap_dominance": 43.7315,
+      "fully_diluted_market_cap": 1025387784343.32,
+      "last_updated": "2021-08-28T16:13:19.000Z"
     }
   }
 }

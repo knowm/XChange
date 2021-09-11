@@ -39,11 +39,7 @@ import org.knowm.xchange.ftx.dto.account.FtxAccountDto;
 import org.knowm.xchange.ftx.dto.account.FtxPositionDto;
 import org.knowm.xchange.ftx.dto.account.FtxWalletBalanceDto;
 import org.knowm.xchange.ftx.dto.marketdata.*;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderFlags;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderSide;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderType;
+import org.knowm.xchange.ftx.dto.trade.*;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class FtxAdapters {
@@ -58,21 +54,19 @@ public class FtxAdapters {
         .getResult()
         .getAsks()
         .forEach(
-            ftxAsk -> {
-              asks.add(
-                  adaptOrderbookOrder(
-                      ftxAsk.getVolume(), ftxAsk.getPrice(), currencyPair, Order.OrderType.ASK));
-            });
+            ftxAsk ->
+                asks.add(
+                    adaptOrderbookOrder(
+                        ftxAsk.getVolume(), ftxAsk.getPrice(), currencyPair, Order.OrderType.ASK)));
 
     ftxOrderbookDto
         .getResult()
         .getBids()
         .forEach(
-            ftxBid -> {
-              bids.add(
-                  adaptOrderbookOrder(
-                      ftxBid.getVolume(), ftxBid.getPrice(), currencyPair, Order.OrderType.BID));
-            });
+            ftxBid ->
+                bids.add(
+                    adaptOrderbookOrder(
+                        ftxBid.getVolume(), ftxBid.getPrice(), currencyPair, Order.OrderType.BID)));
 
     return new OrderBook(Date.from(Instant.now()), asks, bids);
   }
@@ -97,13 +91,12 @@ public class FtxAdapters {
     ftxBalancesDto
         .getResult()
         .forEach(
-            ftxWalletBalanceDto -> {
-              ftxSpotBalances.add(
-                  new Balance(
-                      ftxWalletBalanceDto.getCoin(),
-                      ftxWalletBalanceDto.getTotal(),
-                      ftxWalletBalanceDto.getFree()));
-            });
+            ftxWalletBalanceDto ->
+                ftxSpotBalances.add(
+                    new Balance(
+                        ftxWalletBalanceDto.getCoin(),
+                        ftxWalletBalanceDto.getTotal(),
+                        ftxWalletBalanceDto.getFree())));
 
     BigDecimal totalPositionSize = result.getTotalPositionSize();
     BigDecimal totalAccountValue = result.getTotalAccountValue();
@@ -195,6 +188,12 @@ public class FtxAdapters {
     return adaptOrderToFtxOrderPayload(FtxOrderType.limit, limitOrder, limitOrder.getLimitPrice());
   }
 
+  public static FtxModifyOrderRequestPayload adaptModifyOrderToFtxOrderPayload(
+      LimitOrder limitOrder) {
+    return new FtxModifyOrderRequestPayload(
+        limitOrder.getLimitPrice(), limitOrder.getOriginalAmount(), limitOrder.getUserReference());
+  }
+
   private static FtxOrderRequestPayload adaptOrderToFtxOrderPayload(
       FtxOrderType type, Order order, BigDecimal price) {
     return new FtxOrderRequestPayload(
@@ -213,17 +212,16 @@ public class FtxAdapters {
     List<Trade> trades = new ArrayList<>();
 
     ftxTradeDtos.forEach(
-        ftxTradeDto -> {
-          trades.add(
-              new Trade.Builder()
-                  .id(ftxTradeDto.getId())
-                  .instrument(currencyPair)
-                  .originalAmount(ftxTradeDto.getSize())
-                  .price(ftxTradeDto.getPrice())
-                  .timestamp(ftxTradeDto.getTime())
-                  .type(adaptFtxOrderSideToOrderType(ftxTradeDto.getSide()))
-                  .build());
-        });
+        ftxTradeDto ->
+            trades.add(
+                new Trade.Builder()
+                    .id(ftxTradeDto.getId())
+                    .instrument(currencyPair)
+                    .originalAmount(ftxTradeDto.getSize())
+                    .price(ftxTradeDto.getPrice())
+                    .timestamp(ftxTradeDto.getTime())
+                    .type(adaptFtxOrderSideToOrderType(ftxTradeDto.getSide()))
+                    .build()));
 
     return new Trades(trades);
   }
@@ -285,10 +283,7 @@ public class FtxAdapters {
 
     ftxOpenOrdersResponse
         .getResult()
-        .forEach(
-            ftxOrderDto -> {
-              openOrders.add(adaptLimitOrder(ftxOrderDto));
-            });
+        .forEach(ftxOrderDto -> openOrders.add(adaptLimitOrder(ftxOrderDto)));
 
     return new OpenOrders(openOrders);
   }
@@ -301,9 +296,9 @@ public class FtxAdapters {
       case BID:
         return FtxOrderSide.buy;
       case EXIT_ASK:
-        return null;
+        return FtxOrderSide.buy;
       case EXIT_BID:
-        return null;
+        return FtxOrderSide.sell;
       default:
         return null;
     }
@@ -350,16 +345,12 @@ public class FtxAdapters {
     return value.setScale(4, RoundingMode.DOWN);
   }
 
-  public static Ticker adaptTicker(FtxResponse<FtxMarketDto> ftxMarketResp,
-                                   FtxResponse<List<FtxCandleDto>> ftxCandlesResp,
-                                   CurrencyPair currencyPair) {
-
-    System.out.println("marketResp"  + ftxMarketResp.toString());
-    System.out.println("CurrencyPair" + currencyPair.toString());
+  public static Ticker adaptTicker(
+      FtxResponse<FtxMarketDto> ftxMarketResp,
+      FtxResponse<List<FtxCandleDto>> ftxCandlesResp,
+      CurrencyPair currencyPair) {
 
     FtxCandleDto lastCandle = ftxCandlesResp.getResult().get(ftxCandlesResp.getResult().size() - 1);
-
-    System.out.println("lastCandle"  + lastCandle.toString());
 
     BigDecimal open = lastCandle.getOpen();
     BigDecimal last = ftxMarketResp.getResult().getLast();
@@ -371,15 +362,15 @@ public class FtxAdapters {
     Date timestamp = lastCandle.getStartTime();
 
     return new Ticker.Builder()
-            .currencyPair(currencyPair)
-            .open(open)
-            .last(last)
-            .bid(bid)
-            .ask(ask)
-            .high(high)
-            .low(low)
-            .volume(volume)
-            .timestamp(timestamp)
-            .build();
+        .instrument(currencyPair)
+        .open(open)
+        .last(last)
+        .bid(bid)
+        .ask(ask)
+        .high(high)
+        .low(low)
+        .volume(volume)
+        .timestamp(timestamp)
+        .build();
   }
 }

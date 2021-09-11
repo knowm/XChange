@@ -1,5 +1,5 @@
 package org.knowm.xchange.coinmate.dto.trade;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class CoinmateOrderHistoryData extends ArrayList<CoinmateOrderHistoryEntry> {}
+public interface CoinmateOrderHistoryData extends List<CoinmateOrderHistoryEntry> {}

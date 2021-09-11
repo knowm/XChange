@@ -4,16 +4,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 
 public class FtxStreamingTradeService implements StreamingTradeService {
 
-    private final FtxStreamingService service;
     private final Observable<JsonNode> fills;
+    private final Observable<JsonNode> orders;
 
     public FtxStreamingTradeService(FtxStreamingService service) {
-        this.service = service;
         this.fills = service.subscribeChannel("fills");
+        this.orders = service.subscribeChannel("orders");
     }
 
     @Override
@@ -23,5 +24,14 @@ public class FtxStreamingTradeService implements StreamingTradeService {
                 .filter(jsonNode -> jsonNode.hasNonNull("data"))
                 .filter(jsonNode -> new CurrencyPair(jsonNode.get("data").get("market").asText()).equals(currencyPair))
                 .map(FtxStreamingAdapters::adaptUserTrade);
+    }
+
+    @Override
+    public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+
+        return orders
+                .filter(jsonNode -> jsonNode.hasNonNull("data"))
+                .filter(jsonNode -> new CurrencyPair(jsonNode.get("data").get("market").asText()).equals(currencyPair))
+                .map(FtxStreamingAdapters::adaptOrders);
     }
 }

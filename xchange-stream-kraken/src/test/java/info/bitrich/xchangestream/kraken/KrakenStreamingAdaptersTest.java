@@ -16,7 +16,9 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -46,6 +48,7 @@ public class KrakenStreamingAdaptersTest {
     assertThat(afterUpdate).isNotNull();
     assertThat(afterUpdate.getAsks()).isNotNull();
     assertThat(afterUpdate.getBids()).isNotNull();
+    assertThat(afterUpdate.getTimeStamp()).isEqualTo(Instant.ofEpochMilli(1534614248765L));
 
     assertThat(afterUpdate.getAsks()).hasSize(3);
     assertThat(afterUpdate.getBids()).hasSize(3);
@@ -79,6 +82,7 @@ public class KrakenStreamingAdaptersTest {
     assertThat(afterUpdate).isNotNull();
     assertThat(afterUpdate.getAsks()).isNotNull();
     assertThat(afterUpdate.getBids()).isNotNull();
+    assertThat(afterUpdate.getTimeStamp()).isEqualTo(Instant.ofEpochMilli(1534614248765L));
 
     assertThat(afterUpdate.getAsks()).hasSize(4);
     assertThat(afterUpdate.getBids()).hasSize(3);
