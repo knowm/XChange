@@ -151,7 +151,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
     }
 
     try {
-      GeminiOrderStatusResponse orderStatus =
+      return
               gemini.orderStatus(
                       apiKey,
                       payloadCreator,
@@ -167,7 +167,6 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
                               account
                       )
               );
-      return orderStatus;
     } catch (GeminiException e) {
       throw handleException(e);
     }
