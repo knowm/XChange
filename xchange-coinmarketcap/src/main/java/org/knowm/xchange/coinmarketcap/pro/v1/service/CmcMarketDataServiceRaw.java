@@ -60,7 +60,7 @@ class CmcMarketDataServiceRaw extends CmcBaseService {
 
     CmcCurrencyMapResponse response = null;
     try {
-      response = cmcAuthenticated.getCurrencyMap(apiKey, "active", 1, 5000);
+      response = cmcAuthenticated.getCurrencyMap(apiKey, "active", 1, 5000, "id");
     } catch (HttpStatusIOException ex) {
       CmcErrorAdapter.adapt(ex);
     }

@@ -10,11 +10,17 @@ public final class BitfinexUtils {
 
   /** private Constructor */
   private BitfinexUtils() {}
+  private static final String USDT_SYMBOL_BITFINEX = "UST";
+  private static final String USDT_SYMBOL_XCHANGE = "USDT";
 
   public static String adaptXchangeCurrency(Currency xchangeSymbol) {
 
     if (xchangeSymbol == null) {
       return null;
+    }
+
+    if (USDT_SYMBOL_XCHANGE.equals(xchangeSymbol.toString())) {
+      return USDT_SYMBOL_BITFINEX;
     }
 
     return xchangeSymbol.toString(); // .toLowerCase();
