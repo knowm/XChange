@@ -30,12 +30,13 @@ public class CmcCurrencyTest {
     assertThat(currencyMap.getName()).isEqualTo(Currency.BTC.getDisplayName());
     assertThat(currencyMap.getSymbol()).isEqualTo(Currency.BTC.getSymbol());
     assertThat(currencyMap.getSlug()).isEqualTo("bitcoin");
+    assertThat(currencyMap.getRank()).isEqualTo(1);
     assertThat(currencyMap.isActive()).isTrue();
 
     SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
     Date firstHistoricalData = iso8601Format.parse("2013-04-28T18:47:21.000Z");
-    Date lastHistoricalData = iso8601Format.parse("2019-02-15T20:39:01.000Z");
+    Date lastHistoricalData = iso8601Format.parse("2021-08-28T16:49:13.000Z");
 
     assertThat(currencyMap.getFirstHistoricalData()).isEqualTo(firstHistoricalData);
     assertThat(currencyMap.getLastHistoricalData()).isEqualTo(lastHistoricalData);

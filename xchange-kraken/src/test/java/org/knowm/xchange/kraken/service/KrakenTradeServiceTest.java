@@ -10,6 +10,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,6 +56,38 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
         assertThat(secondOrder.getId()).isNotBlank();
         assertThat(secondOrder.getInstrument()).isEqualTo(CurrencyPair.LTC_USD);
 
+    }
+
+    @Test
+    public void openOrdersByCurrencyPairTest() throws Exception {
+
+        stubFor(
+                post(urlPathEqualTo("/0/private/OpenOrders"))
+                        .willReturn(
+                                aResponse()
+                                        .withStatus(200)
+                                        .withHeader("Content-Type", "application/json")
+                                        .withBody(OPEN_ORDERS_BODY)
+                        )
+        );
+
+        DefaultOpenOrdersParamCurrencyPair defaultOpenOrdersParamCurrencyPair =
+                new DefaultOpenOrdersParamCurrencyPair(CurrencyPair.BTC_USD);
+
+        OpenOrders openOrders = classUnderTest.getOpenOrders(defaultOpenOrdersParamCurrencyPair);
+        assertThat(openOrders).isNotNull();
+        assertThat(openOrders.getOpenOrders().size()).isEqualTo(3);
+        LimitOrder firstOrder = openOrders.getOpenOrders().get(0);
+        assertThat(firstOrder).isNotNull();
+        assertThat(firstOrder.getOriginalAmount()).isNotNull().isPositive();
+        assertThat(firstOrder.getId()).isNotBlank();
+        assertThat(firstOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
+
+        LimitOrder secondOrder = openOrders.getOpenOrders().get(1);
+        assertThat(secondOrder).isNotNull();
+        assertThat(secondOrder.getOriginalAmount()).isNotNull().isPositive();
+        assertThat(secondOrder.getId()).isNotBlank();
+        assertThat(secondOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
     }
 
     @Test
@@ -237,6 +270,7 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
             "    }\n" +
             "  }\n" +
             "}";
+
 
     private static String ORDER_HISTORY_BODY = "{\n" +
             "  \"error\": [],\n" +

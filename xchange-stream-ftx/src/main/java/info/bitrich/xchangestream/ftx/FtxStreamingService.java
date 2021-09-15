@@ -76,12 +76,12 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   @Override
   protected String getChannelNameFromMessage(JsonNode message) {
     String channelName = "";
-    String text = message.get("channel") == null ? null : message.get("channel").asText();
+    String channel = message.get("channel") == null ? null : message.get("channel").asText();
 
-    if ("fills".equals(text) || "orders".equals(text)) {
-      channelName = text;
-    } else if ("orderbook".equals(text)) {
-      channelName = text + ":" + message.get("market").asText();
+    if ("fills".equals(channel) || "orders".equals(channel)) {
+      channelName = channel;
+    } else if (message.hasNonNull("market")) {
+      channelName = channel + ":" + message.get("market").asText();
     }
 
     LOG.trace("GetChannelNameFromMessage: " + channelName);
@@ -101,13 +101,11 @@ public class FtxStreamingService extends JsonNettyStreamingService {
       isLoggedIn = true;
     }
 
-    if (channelName.contains("orderbook")) {
+    if(channelName.contains(":")) {
       channel = channelName.substring(0, channelName.indexOf(":"));
       market = channelName.substring(channelName.indexOf(":") + 1);
-    } else if (channelName.contains("orders")) {
-      channel = "orders";
-    } else if (channelName.contains("fills")) {
-      channel = "fills";
+    }else {
+      channel = channelName;
     }
 
     LOG.debug("GetSubscribeMessage channel: " + channel);
