@@ -23,14 +23,14 @@ public class OpenOrdersCache {
     private Map<String, ProductOpenOrders> products;
     private final CoinbaseProMarketDataService marketDataService;
     private final CoinbaseProTradeService tradeService;
-    private boolean inited;
+    private boolean initiated;
     private final FlowableProcessor<CoinbaseProOrder> orderUpdatePublisher;
 
     public OpenOrdersCache(CoinbaseProMarketDataService marketDataService, CoinbaseProTradeService tradeService) {
         this.marketDataService = marketDataService;
         this.tradeService = tradeService;
         products = new HashMap<>();
-        inited = false;
+        initiated = false;
         orderUpdatePublisher = PublishProcessor.<CoinbaseProOrder>create().toSerialized();
     }
 
@@ -44,7 +44,7 @@ public class OpenOrdersCache {
                 break;
             }
         }
-        inited = true;
+        initiated = true;
     }
 
     public Flowable<CoinbaseProOrder> getOrderChanges() {
@@ -55,6 +55,7 @@ public class OpenOrdersCache {
         try {
             if ("subscriptions".equals(transaction.getType()) ||
                     "heartbeat".equals(transaction.getType()) ||
+                    "activate".equals(transaction.getType()) ||
                     "received".equals(transaction.getType()) ||
                     "open".equals(transaction.getType()) ||
                     "done".equals(transaction.getType()) ||
@@ -74,16 +75,11 @@ public class OpenOrdersCache {
         }
     }
 
-    public synchronized boolean isInited() {
-        if (!inited) {
+    public synchronized boolean isInitiated() {
+        if (!initiated) {
             return false;
         }
-        for (Map.Entry<String, ProductOpenOrders> p : products.entrySet()) {
-            if (!p.getValue().isInited()) {
-                return false;
-            }
-        }
-        return true;
+        return products.entrySet().stream().allMatch(p -> p.getValue().isInitiated());
     }
 
     public synchronized OpenOrders getOpenOrders() {

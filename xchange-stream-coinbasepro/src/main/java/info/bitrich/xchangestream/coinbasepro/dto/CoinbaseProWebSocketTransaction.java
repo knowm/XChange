@@ -29,6 +29,9 @@ public class CoinbaseProWebSocketTransaction {
   private final BigDecimal size;
   private final BigDecimal remainingSize;
   private final BigDecimal price;
+  private final BigDecimal stopPrice;
+  private final BigDecimal limitPrice;
+  private final String stopType;
   private final BigDecimal bestBid;
   private final BigDecimal bestAsk;
   private final BigDecimal lastSize;
@@ -68,6 +71,9 @@ public class CoinbaseProWebSocketTransaction {
       @JsonProperty("size") BigDecimal size,
       @JsonProperty("remaining_size") BigDecimal remainingSize,
       @JsonProperty("price") BigDecimal price,
+      @JsonProperty("stop_price") BigDecimal stopPrice,
+      @JsonProperty("limit_price") BigDecimal limitPrice,
+      @JsonProperty("stop_type") String stopType,
       @JsonProperty("best_bid") BigDecimal bestBid,
       @JsonProperty("best_ask") BigDecimal bestAsk,
       @JsonProperty("last_size") BigDecimal lastSize,
@@ -107,6 +113,9 @@ public class CoinbaseProWebSocketTransaction {
     this.orderType = orderType;
     this.size = size;
     this.price = price;
+    this.stopPrice = stopPrice;
+    this.limitPrice = limitPrice;
+    this.stopType = stopType;
     this.bestBid = bestBid;
     this.bestAsk = bestAsk;
     this.lastSize = lastSize;
@@ -267,9 +276,13 @@ public class CoinbaseProWebSocketTransaction {
     return size;
   }
 
-  public BigDecimal getPrice() {
-    return price;
-  }
+  public BigDecimal getPrice() { return price; }
+
+  public BigDecimal getStopPrice() { return stopPrice; }
+
+  public BigDecimal getLimitPrice() { return limitPrice; }
+
+  public String getStopType() { return stopType; }
 
   public BigDecimal getBestBid() {
     return bestBid;

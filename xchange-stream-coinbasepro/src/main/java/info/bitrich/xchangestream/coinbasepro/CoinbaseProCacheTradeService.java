@@ -34,7 +34,7 @@ public class CoinbaseProCacheTradeService implements TradeService {
 
     @Override
     public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-        if (this.streamingService.getCache().isInited()) {
+        if (this.streamingService.getCache().isInitiated()) {
             return this.streamingService.getCache().getOpenOrders();
         }
         return tradeService.getOpenOrders(params);
@@ -77,7 +77,7 @@ public class CoinbaseProCacheTradeService implements TradeService {
 
     @Override
     public Collection<Order> getOrder(String... orderIds) throws IOException {
-        if (this.streamingService.getCache().isInited()) {
+        if (this.streamingService.getCache().isInitiated()) {
             Collection<Order> orders = new ArrayList<>(orderIds.length);
 
             for (String orderId : orderIds) {

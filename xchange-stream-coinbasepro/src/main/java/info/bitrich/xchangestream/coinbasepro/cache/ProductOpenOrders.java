@@ -25,7 +25,7 @@ public class ProductOpenOrders {
 
     private final ProductOpenOrdersInitializer initializer;
 
-    private boolean inited;
+    private boolean initiated;
 
     public ProductOpenOrders(String product, CoinbaseProMarketDataService marketDataService, CoinbaseProTradeService tradeService) {
         this.product = product;
@@ -33,7 +33,7 @@ public class ProductOpenOrders {
         openOrders = new ArrayList<>();
         doneOrders = new ArrayList<>();
         initializer = new ProductOpenOrdersInitializer(product, marketDataService, tradeService);
-        inited = false;
+        initiated = false;
     }
 
     public OpenOrders getOpenOrders() {
@@ -57,13 +57,13 @@ public class ProductOpenOrders {
     }
 
     public void processWebSocketTransaction(CoinbaseProWebSocketTransaction transaction, FlowableProcessor<CoinbaseProOrder> orderUpdatePublisher) throws IOException {
-        if (!inited) {
+        if (!initiated) {
             if (transaction.getSequence() <= initializer.getSequence()) {
                 initializer.processWebSocketTransaction(transaction);
                 return;
             } else {
                 openOrders = initializer.initializeOpenOrders();
-                inited = true;
+                initiated = true;
             }
         }
         if ("heartbeat".equals(transaction.getType())) {
@@ -75,7 +75,7 @@ public class ProductOpenOrders {
         CoinbaseProOrder order = getOpenOrder(transaction.getOrderId());
 
         if (order == null) {
-            if ("received".equals(transaction.getType())) {
+            if ("activate".equals(transaction.getType()) || "received".equals(transaction.getType())) {
                 order = CoinbaseProOrderBuilder.from(transaction);
                 orderUpdatePublisher.onNext(order);
                 LOG.info("Order created: " + order);
@@ -106,7 +106,7 @@ public class ProductOpenOrders {
         }
     }
 
-    public boolean isInited() {
-        return inited;
+    public boolean isInitiated() {
+        return initiated;
     }
 }

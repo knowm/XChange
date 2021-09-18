@@ -143,12 +143,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
     }
     return super.disconnect();
   }
-
-  @Override
-  protected Completable openConnection() {
-    return super.openConnection();
-  }
-
+  
   boolean isAuthenticated() {
     return authData.get() != null;
   }

@@ -20,55 +20,6 @@ public class CoinbaseProStreamingAdapters {
 
   private static final Logger LOG = LoggerFactory.getLogger(CoinbaseProStreamingAdapters.class);
 
-  /** TODO this clearly isn't good enough. We need an initial snapshot that these can build on. */
-  static Order adaptOrder(CoinbaseProWebSocketTransaction s) {
-    switch (s.getType()) {
-      case "received":
-      case "done":
-      case "match":
-        return CoinbaseProAdapters.adaptOrder(
-            new CoinbaseProOrder(
-                s.getType().equals("match") ? (s.getSide().equals("sell") ? s.getTakerOrderId() : s.getMakerOrderId()) : s.getOrderId(),
-                s.getPrice(),
-                s.getType().equals("done") ? s.getRemainingSize() : (s.getType().equals("match") ? s.getSize().add(BigDecimal.ONE) : s.getSize()),
-                s.getProductId(),
-                s.getSide(),
-                s.getTime(), // createdAt,
-                null, // doneAt,
-                s.getType().equals("match") ? s.getSize() : BigDecimal.ZERO, // filled size
-                null, // fees
-                s.getType(), // status - TODO no clean mapping atm
-                false, // settled
-                "limit", // type. TODO market orders
-                s.getReason(), // doneReason
-                s.getType().equals("match") ? s.getSize() : null,
-                null, // stop TODO no source for this
-                null // stopPrice
-                ));
-      default:
-        OrderType type = s.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
-        CurrencyPair currencyPair = new CurrencyPair(s.getProductId().replace('-', '/'));
-        return new LimitOrder.Builder(type, currencyPair)
-            .id(s.getOrderId())
-            .orderStatus(adaptOrderStatus(s))
-            .build();
-    }
-  }
-
-  private static OrderStatus adaptOrderStatus(CoinbaseProWebSocketTransaction s) {
-    if (s.getType().equals("done")) {
-      if (s.getReason().equals("canceled")) {
-        return OrderStatus.CANCELED;
-      } else {
-        return OrderStatus.FILLED;
-      }
-    } else if (s.getType().equals("match")) {
-      return OrderStatus.PARTIALLY_FILLED;
-    } else {
-      return OrderStatus.NEW;
-    }
-  }
-
   public static Date parseDate(final String rawDate) {
 
     String modified;

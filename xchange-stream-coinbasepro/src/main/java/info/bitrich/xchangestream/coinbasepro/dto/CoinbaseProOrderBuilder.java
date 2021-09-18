@@ -42,6 +42,24 @@ public class CoinbaseProOrderBuilder {
                         BigDecimal.ZERO,
                         null,
                         BigDecimal.ZERO);
+            case "activate":
+                return new CoinbaseProOrder(
+                        t.getOrderId(),
+                        t.getLimitPrice(),
+                        t.getSize(),
+                        t.getProductId(),
+                        t.getSide(),
+                        t.getTime(),
+                        null,
+                        BigDecimal.ZERO,
+                        BigDecimal.ZERO,
+                        "active",
+                        false,
+                        "limit",
+                        null,
+                        BigDecimal.ZERO,
+                        t.getStopType(),
+                        t.getStopPrice());
             case "open":
                 new CoinbaseProOrder(
                         t.getOrderId(),
