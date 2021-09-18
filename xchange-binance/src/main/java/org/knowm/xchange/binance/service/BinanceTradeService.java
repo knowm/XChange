@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceAuthenticated;
@@ -354,5 +356,13 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   @Deprecated  @Value
   static final class ClientIdFlag implements BinanceOrderFlags {
     private final String clientId;
+    
+    public ClientIdFlag(@JsonProperty("clientId") String clientId) {
+      this.clientId = clientId;
+    }
+
+    public String getClientId() {
+      return clientId;
+    }
   }
 }

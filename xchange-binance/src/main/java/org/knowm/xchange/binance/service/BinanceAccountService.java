@@ -174,7 +174,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   public Map<String, AssetDetail> getAssetDetails() throws IOException {
     try {
-      return super.requestAssetDetail().getAssetDetail();
+      return super.requestAssetDetail();
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }

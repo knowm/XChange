@@ -463,7 +463,7 @@ public interface BinanceAuthenticated extends Binance {
       throws IOException, BinanceException;
 
   @GET
-  @Path("wapi/v3/assetDetail.html")
+  @Path("/sapi/v1/asset/assetDetail")
   /**
    * Fetch asset details.
    *
@@ -475,7 +475,7 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  AssetDetailResponse assetDetail(
+  Map<String, AssetDetail> assetDetail(
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,

@@ -44,6 +44,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
   private final long tradeId;
   private final boolean working;
   private final boolean buyerMarketMaker;
+  private final long orderCreationTime;
   private final BigDecimal cumulativeQuoteAssetTransactedQuantity;
 
   public ExecutionReportBinanceUserTransaction(
@@ -51,6 +52,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
       @JsonProperty("E") String eventTime,
       @JsonProperty("s") String symbol,
       @JsonProperty("c") String clientOrderId,
+      @JsonProperty("C") String origClientOrderId,
       @JsonProperty("S") String side,
       @JsonProperty("o") String orderType,
       @JsonProperty("f") String timeInForce,
@@ -71,9 +73,14 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
       @JsonProperty("t") long tradeId,
       @JsonProperty("w") boolean working,
       @JsonProperty("m") boolean buyerMarketMaker,
+      @JsonProperty("O") long orderCreationTime,
       @JsonProperty("Z") BigDecimal cumulativeQuoteAssetTransactedQuantity) {
     super(eventType, eventTime, symbol);
-    this.clientOrderId = clientOrderId;
+    if ("CANCELED".equals(currentExecutionType) && origClientOrderId != null) {
+      this.clientOrderId = origClientOrderId;
+    } else {
+      this.clientOrderId = clientOrderId;
+    }
     this.side = OrderSide.valueOf(side);
     this.orderType = OrderType.valueOf(orderType);
     this.timeInForce = TimeInForce.valueOf(timeInForce);
@@ -94,6 +101,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     this.tradeId = tradeId;
     this.working = working;
     this.buyerMarketMaker = buyerMarketMaker;
+    this.orderCreationTime = orderCreationTime;
     this.cumulativeQuoteAssetTransactedQuantity = cumulativeQuoteAssetTransactedQuantity;
   }
 
@@ -181,6 +189,10 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     return buyerMarketMaker;
   }
 
+  public long getOrderCreationTime() {
+    return orderCreationTime;
+  }
+
   public BigDecimal getCumulativeQuoteAssetTransactedQuantity() {
     return cumulativeQuoteAssetTransactedQuantity;
   }
@@ -208,15 +220,15 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
             clientOrderId,
             orderPrice,
             orderQuantity,
-            lastExecutedQuantity,
             cumulativeFilledQuantity,
+            cumulativeQuoteAssetTransactedQuantity,
             currentOrderStatus,
             timeInForce,
             orderType,
             side,
             stopPrice,
             BigDecimal.ZERO,
-            timestamp));
+            orderCreationTime));
   }
 
   @Override

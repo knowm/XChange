@@ -112,7 +112,10 @@ public class BinanceExchange extends BaseExchange {
       Symbol[] symbols = exchangeInfo.getSymbols();
 
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
-      Map<String, AssetDetail> assetDetailMap = accountService.getAssetDetails();
+      Map<String, AssetDetail> assetDetailMap = null;
+      if (isAuthenticated()) {
+        assetDetailMap = accountService.getAssetDetails();
+      }
       // Clear all hardcoded currencies when loading dynamically from exchange.
       if (assetDetailMap != null) {
         currencies.clear();
@@ -184,6 +187,12 @@ public class BinanceExchange extends BaseExchange {
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
     }
+  }
+
+  private boolean isAuthenticated() {
+    return exchangeSpecification != null
+            && exchangeSpecification.getApiKey() != null
+            && exchangeSpecification.getSecretKey() != null;
   }
 
   private int numberOfDecimals(String value) {
