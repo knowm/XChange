@@ -2,6 +2,7 @@ package nostro.xchange.utils;
 
 import nostro.xchange.persistence.OrderEntity;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
@@ -22,15 +23,8 @@ public class NostroUtils {
     }
 
     public static Order readOrderDocument(String s) {
-        // TODO: fix serialization
-        Class<? extends Order> orderClass = MarketOrder.class;
-        if (s.contains("stopPrice")) {
-            orderClass = StopOrder.class;
-        } else if (s.contains("limitPrice")) {
-            orderClass = LimitOrder.class;
-        }
         try {
-            return ObjectMapperHelper.readValue(s, orderClass);
+            return ObjectMapperHelper.readValue(s, Order.class);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -43,6 +37,18 @@ public class NostroUtils {
     public static UserTrade readTradeDocument(String s) {
         try {
             return ObjectMapperHelper.readValue(s, UserTrade.class);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    public static String writeBalanceDocument(Balance b) {
+        return ObjectMapperHelper.toCompactJSON(b);
+    }
+
+    public static Balance readBalanceDocument(String s) {
+        try {
+            return ObjectMapperHelper.readValue(s, Balance.class);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

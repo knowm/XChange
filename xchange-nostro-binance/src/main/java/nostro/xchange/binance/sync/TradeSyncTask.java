@@ -59,7 +59,7 @@ public class TradeSyncTask implements Callable<Long> {
 
         long toId = last != null ? (last.id + 1) : fromId;
 
-        LOG.info("Finished TradeSyncTask(symbol={}): toId={}, updated={})", pair, toId, updatedCount);
+        LOG.info("Finished TradeSyncTask(symbol={}): toId={}, updated={}", pair, toId, updatedCount);
         return toId;
     }
 

@@ -53,7 +53,7 @@ public class OrderSyncTask implements Callable<Long> {
 
         long toId = last != null ? (last.orderId + 1) : fromId;
 
-        LOG.info("Finished OrderSyncTask(symbol={}): toId={}, updated={})", pair, toId, updated);
+        LOG.info("Finished OrderSyncTask(symbol={}): toId={}, updated={}", pair, toId, updated);
         return toId;
     }
 
