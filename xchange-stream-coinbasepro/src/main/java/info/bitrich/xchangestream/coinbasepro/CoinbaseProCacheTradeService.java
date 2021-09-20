@@ -24,6 +24,9 @@ public class CoinbaseProCacheTradeService implements TradeService {
 
     @Override
     public OpenOrders getOpenOrders() throws IOException {
+        if (this.streamingService.getCache().isInitiated()) {
+            return this.streamingService.getCache().getOpenOrders();
+        }
         return tradeService.getOpenOrders();
     }
 

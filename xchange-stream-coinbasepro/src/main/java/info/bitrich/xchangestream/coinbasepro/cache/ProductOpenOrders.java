@@ -77,9 +77,9 @@ public class ProductOpenOrders {
         if (order == null) {
             if ("activate".equals(transaction.getType()) || "received".equals(transaction.getType())) {
                 order = CoinbaseProOrderBuilder.from(transaction);
-                orderUpdatePublisher.onNext(order);
                 LOG.info("Order created: " + order);
                 openOrders.add(order);
+                orderUpdatePublisher.onNext(order);
             } else {
                 LOG.error("Order is not in open order but there is a message.");
             }
@@ -102,6 +102,19 @@ public class ProductOpenOrders {
                     openOrders.add(order);
                 }
                 orderUpdatePublisher.onNext(order);
+            }
+            break;
+            case "received": {
+                if ("active".equals(order.getStatus())) {
+                    final CoinbaseProOrder finalOrder = order;
+                    openOrders.removeIf(order1 -> order1.getId().equals(finalOrder.getId()));
+                    order = CoinbaseProOrderBuilder.from(transaction);
+                    LOG.info("Order created: " + order);
+                    openOrders.add(order);
+                    orderUpdatePublisher.onNext(order);
+                } else {
+                    LOG.error("Order already exists in the cache.");
+                }
             }
         }
     }
