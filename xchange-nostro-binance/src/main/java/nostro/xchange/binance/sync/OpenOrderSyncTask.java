@@ -56,7 +56,7 @@ public class OpenOrderSyncTask implements Callable<Void> {
             }
         }
 
-        LOG.info("Finished OpenOrderSyncTask(symbol={}, toId={}): updated={})", pair, toId, updated);
+        LOG.info("Finished OpenOrderSyncTask(symbol={}, toId={}): updated={}", pair, toId, updated);
         return null;
     }
 

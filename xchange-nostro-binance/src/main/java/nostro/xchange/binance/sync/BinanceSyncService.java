@@ -1,9 +1,11 @@
 package nostro.xchange.binance.sync;
 
-import nostro.xchange.binance.BinanceNostroPublisher;
 import nostro.xchange.persistence.TransactionFactory;
+import nostro.xchange.utils.NostroStreamingPublisher;
+import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceTrade;
+import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
@@ -19,16 +21,22 @@ public class BinanceSyncService {
     private final long syncDelay;
     
     final TransactionFactory txFactory;
-    final BinanceNostroPublisher publisher;
-    
+    final NostroStreamingPublisher publisher;
+
+    private final BinanceAccountService accountService;
     private final BinanceTradeService tradeService;
     private final ScheduledExecutorService executor;
 
     private ScheduledFuture<?> scheduled = null;
 
-    public BinanceSyncService(TransactionFactory txFactory, BinanceNostroPublisher publisher, BinanceTradeService tradeService, long syncDelay) {
+    public BinanceSyncService(TransactionFactory txFactory,
+                              NostroStreamingPublisher publisher,
+                              BinanceAccountService accountService,
+                              BinanceTradeService tradeService,
+                              long syncDelay) {
         this.txFactory = txFactory;
         this.publisher = publisher;
+        this.accountService = accountService;
         this.tradeService = tradeService;
         this.syncDelay = syncDelay;
         this.executor = Executors.newScheduledThreadPool(1);
@@ -75,6 +83,16 @@ public class BinanceSyncService {
             doSync();
         } catch (Exception e) {
             // do nothing, error logged inside "executeSync"
+        }
+    }
+
+    // BinanceAccountService API used in sync tasks
+    BinanceAccountInformation getAccountInformation() throws IOException {
+        try {
+            return accountService.account();
+        } catch (Throwable th) {
+            LOG.error("Error while querying account information", th);
+            throw th;
         }
     }
     

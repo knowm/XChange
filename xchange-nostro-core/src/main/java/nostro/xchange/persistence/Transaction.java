@@ -35,6 +35,11 @@ public class Transaction {
         checkConnection();
         return new AccountRepository(connection, accountId);
     }
+
+    public BalanceRepository getBalanceRepository() {
+        checkConnection();
+        return new BalanceRepository(connection, postfix);
+    }
     
     public OrderRepository getOrderRepository() {
         checkConnection();
@@ -72,15 +77,14 @@ public class Transaction {
                 LOG.error("Error when rolling back transaction!", e2);
             }
             throw e;
-        }
-        
-        try {
-            connection.close();
-        } catch (Exception e3) {
-            LOG.error("Error when closing transaction!", e3);
-            throw e3;
         } finally {
-            connection = null;
+            try {
+                connection.close();
+            } catch (Exception e3) {
+                LOG.error("Error when closing transaction!", e3);
+            } finally {
+                connection = null;
+            }
         }
         
         return result;

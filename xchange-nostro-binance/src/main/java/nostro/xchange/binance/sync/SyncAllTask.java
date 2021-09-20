@@ -23,6 +23,8 @@ public class SyncAllTask implements Callable<Void> {
 
     @Override
     public Void call() throws Exception {
+        new BalanceSyncTask(syncService).call();
+        
         AccountDocument account = NostroUtils.readAccountDocument(syncService.txFactory.executeAndGet(tx -> tx.getAccountRepository().get()));
         Set<String> orderSubscriptions = new HashSet<>(account.getSubscriptions().getOrders());
 
