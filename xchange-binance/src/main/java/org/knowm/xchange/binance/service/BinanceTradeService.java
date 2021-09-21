@@ -48,6 +48,7 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamUserReference;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.Assert;
 
@@ -321,20 +322,32 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
           throw new ExchangeException(
               "Parameters must be an instance of OrderQueryParamCurrencyPair");
         }
-        OrderQueryParamCurrencyPair orderQueryParamCurrencyPair =
-            (OrderQueryParamCurrencyPair) param;
-        if (orderQueryParamCurrencyPair.getCurrencyPair() == null
-            || orderQueryParamCurrencyPair.getOrderId() == null) {
+        
+        CurrencyPair currencyPair = ((OrderQueryParamCurrencyPair) param).getCurrencyPair();
+        if (currencyPair == null) {
           throw new ExchangeException(
-              "You need to provide the currency pair and the order id to query an order.");
+              "You need to provide the currency pair to query an order.");
         }
 
+        String orderId = param.getOrderId();
+        String userReference = null;
+        
+        // Try using user-reference only when order-id is null
+        if (orderId == null && param instanceof OrderQueryParamUserReference) {
+        	userReference = ((OrderQueryParamUserReference) param).getUserReference();
+        }	
+        
+        if (orderId == null && userReference == null) {
+            throw new ExchangeException(
+                "You need to provide either id or user-reference to query an order.");
+        }
+        
         orders.add(
             BinanceAdapters.adaptOrder(
                 super.orderStatus(
-                    orderQueryParamCurrencyPair.getCurrencyPair(),
-                    BinanceAdapters.id(orderQueryParamCurrencyPair.getOrderId()),
-                    null)));
+                    currencyPair,
+                    BinanceAdapters.id(orderId),
+                    userReference)));
       }
       return orders;
     } catch (BinanceException e) {
