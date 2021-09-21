@@ -3,6 +3,7 @@ package nostro.xchange.binance;
 import info.bitrich.xchangestream.binance.BinanceStreamingAccountService;
 import info.bitrich.xchangestream.binance.BinanceStreamingExchange;
 import info.bitrich.xchangestream.binance.BinanceStreamingTradeService;
+import info.bitrich.xchangestream.binance.dto.BinanceWebsocketBalance;
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction;
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction.ExecutionType;
 import info.bitrich.xchangestream.binance.dto.OutboundAccountInfoBinanceWebsocketTransaction;
@@ -12,6 +13,7 @@ import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import nostro.xchange.binance.sync.BinanceSyncService;
+import nostro.xchange.persistence.BalanceEntity;
 import nostro.xchange.persistence.OrderEntity;
 import nostro.xchange.persistence.Transaction;
 import nostro.xchange.persistence.TransactionFactory;
@@ -34,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -227,7 +230,6 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
 
     private void onAccountInfo(OutboundAccountInfoBinanceWebsocketTransaction accountInfo) {
         try {
-            LOG.info("Received account info, ts={}", new Timestamp(accountInfo.getLastUpdateTimestamp()));
             List<Balance> list = txFactory.executeAndGet(tx -> saveAccountInfo(tx, accountInfo));
             for(Balance b : list) {
                 publisher.publish(b);
@@ -238,11 +240,29 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
     }
 
     private List<Balance> saveAccountInfo(Transaction tx, OutboundAccountInfoBinanceWebsocketTransaction accountInfo) throws Exception {
-        List<Balance> balances = accountInfo.toBalanceList();
-        for(Balance b : balances) {
+        tx.getBalanceRepository().lock();
+
+        long timestamp = accountInfo.getLastUpdateTimestamp();
+        List<Balance> updated = new ArrayList<>();
+        
+        for (BinanceWebsocketBalance bb : accountInfo.getBalances()) {
+            Optional<BalanceEntity> o = tx.getBalanceRepository().findLatestByAsset(bb.getCurrency().getCurrencyCode());
+            if (o.isPresent()) {
+                if (BinanceNostroUtils.updateRequired(o.get(), bb, timestamp)) {
+                    updated.add(BinanceNostroUtils.adapt(bb, timestamp));
+                }
+            } else if (!BinanceNostroUtils.isZeroBalance(bb)) {
+                updated.add(BinanceNostroUtils.adapt(bb, timestamp));
+            }
+        }
+        
+        LOG.info("Received account info, ts={}, balances={}", new Timestamp(timestamp), updated);
+
+        for(Balance b: updated) {
             tx.getBalanceRepository().insert(BinanceNostroUtils.toEntity(b));
         }
-        return balances;
+        
+        return updated;
     }
 
     private void updateSubscription(ProductSubscription subscriptions) {

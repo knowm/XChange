@@ -32,21 +32,23 @@ public class BalanceSyncTask implements Callable<Void> {
         int updated = 0;
         BinanceAccountInformation account = syncService.getAccountInformation();
         for (BinanceBalance binanceBalance : account.balances) {
-            dbBalances.remove(binanceBalance.getCurrency().getCurrencyCode());
-            
-            if (syncBalance(binanceBalance, account.updateTime)) {
-                syncService.publisher.publish(BinanceNostroUtils.adapt(binanceBalance, account.updateTime));
-                ++updated;
+            if (!BinanceNostroUtils.isZeroBalance(binanceBalance)) {
+                dbBalances.remove(binanceBalance.getCurrency().getCurrencyCode());
+
+                if (syncBalance(binanceBalance, account.updateTime)) {
+                    syncService.publisher.publish(BinanceNostroUtils.adapt(binanceBalance, account.updateTime));
+                    ++updated;
+                }
             }
         }
         
         for(Map.Entry<String, BalanceEntity> e : dbBalances.entrySet()) {
             if (e.getValue().getTimestamp().getTime() < account.updateTime) {
                 BinanceBalance binanceBalance = new BinanceBalance(e.getKey(), BigDecimal.ZERO, BigDecimal.ZERO);
-                updateZeroBalance(binanceBalance, account.updateTime);
-
-                syncService.publisher.publish(BinanceNostroUtils.adapt(binanceBalance, account.updateTime));
-                ++updated;
+                if (syncBalance(binanceBalance, account.updateTime)) {
+                    syncService.publisher.publish(BinanceNostroUtils.adapt(binanceBalance, account.updateTime));
+                    ++updated;
+                }
             }
         }
 
@@ -56,27 +58,23 @@ public class BalanceSyncTask implements Callable<Void> {
 
     private boolean syncBalance(BinanceBalance binanceBalance, long updateTime) {
         return syncService.txFactory.executeAndGet(tx -> {
+            tx.getBalanceRepository().lock();
+            
             String asset = binanceBalance.getCurrency().getCurrencyCode();
             Optional<BalanceEntity> o = tx.getBalanceRepository().findLatestByAsset(asset);
             if (o.isPresent()) {
                 if (!BinanceNostroUtils.updateRequired(o.get(), binanceBalance, updateTime)) {
                     return false;
                 }
-                LOG.info("Updating balance (asset={})", asset);
+                LOG.info("Updating balance (asset={}): {}", asset, binanceBalance);
             } else {
-                LOG.info("Inserting new balance (asset={})", asset);
+                if (BinanceNostroUtils.isZeroBalance(binanceBalance)) {
+                    return false;
+                }
+                LOG.info("Inserting new balance (asset={}): {}", asset, binanceBalance);
             }
             tx.getBalanceRepository().insert(BinanceNostroUtils.toEntity(binanceBalance, updateTime));
             return true;
-        });
-    }
-    
-    private void updateZeroBalance(BinanceBalance binanceBalance, long updateTime) {
-        syncService.txFactory.execute(tx -> {
-            String asset = binanceBalance.getCurrency().getCurrencyCode();
-            LOG.info("Inserting zero balance record (asset={})", asset);
-            BinanceBalance b = new BinanceBalance(asset, BigDecimal.ZERO, BigDecimal.ZERO);
-            tx.getBalanceRepository().insert(BinanceNostroUtils.toEntity(binanceBalance, updateTime));
         });
     }
 }
