@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class BalanceRepositoryTest extends DataSourceTest {
 
@@ -116,5 +117,31 @@ public class BalanceRepositoryTest extends DataSourceTest {
             stmt.execute();
         }
     }
-    
+
+    @Test
+    public void lock() throws SQLException {
+        Connection txConnection = TransactionFactory.getDataSource().getConnection();
+        Connection failConnection = TransactionFactory.getDataSource().getConnection();
+        Connection okConnection = TransactionFactory.getDataSource().getConnection();
+
+        txConnection.setAutoCommit(false);
+        failConnection.setAutoCommit(false);
+        okConnection.setAutoCommit(false);
+
+        failConnection.prepareStatement("SET LOCAL lock_timeout = '1ms'").execute();
+
+        BalanceRepository txRepository = new BalanceRepository(txConnection, "");
+
+        String sql = "INSERT INTO balance$(asset, timestamp, zero, document) VALUES ('A', NOW(), false, '{\"a\": 0}')";
+
+        txRepository.lock();
+        assertThatCode(() -> failConnection.prepareStatement(sql).execute()).hasMessageContaining("canceling statement due to lock timeout");
+
+        txConnection.commit();
+        assertThatCode(() -> okConnection.prepareStatement(sql).execute()).doesNotThrowAnyException();
+
+        txConnection.close();
+        failConnection.close();
+        okConnection.close();
+    }
 }

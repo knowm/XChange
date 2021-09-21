@@ -1,5 +1,6 @@
 package nostro.xchange.binance;
 
+import info.bitrich.xchangestream.binance.dto.BinanceWebsocketBalance;
 import nostro.xchange.persistence.BalanceEntity;
 import nostro.xchange.persistence.OrderEntity;
 import nostro.xchange.persistence.TradeEntity;
@@ -102,9 +103,24 @@ public class BinanceNostroUtils {
                 .timestamp(new Date(time))
                 .build();
     }
-    
-    private static boolean isZeroBalance(Balance b) {
-        return b.getAvailable().equals(BigDecimal.ZERO) && b.getFrozen().equals(BigDecimal.ZERO);
+
+    public static Balance adapt(BinanceWebsocketBalance b, long time) {
+        return adapt(new BinanceBalance(b.getCurrency().getCurrencyCode(), b.getAvailable(), b.getLocked()), time);
+    }
+
+    public static boolean isZeroBalance(Balance b) {
+        return b.getAvailable().compareTo(BigDecimal.ZERO) == 0 
+                && b.getFrozen().compareTo(BigDecimal.ZERO) == 0;
+    }
+
+    public static boolean isZeroBalance(BinanceBalance b) {
+        return b.getAvailable().compareTo(BigDecimal.ZERO) == 0
+                && b.getLocked().compareTo(BigDecimal.ZERO) == 0;
+    }
+
+    public static boolean isZeroBalance(BinanceWebsocketBalance b) {
+        return b.getAvailable().compareTo(BigDecimal.ZERO) == 0
+                && b.getLocked().compareTo(BigDecimal.ZERO) == 0;
     }
 
     public static boolean updateRequired(BalanceEntity e, BinanceBalance bb, long time) {
@@ -115,5 +131,9 @@ public class BinanceNostroUtils {
         
         return bb.getAvailable().compareTo(balance.getAvailable()) != 0
                 || bb.getLocked().compareTo(balance.getFrozen()) != 0; 
+    }
+
+    public static boolean updateRequired(BalanceEntity e, BinanceWebsocketBalance bb, long time) {
+        return updateRequired(e, new BinanceBalance(bb.getCurrency().getCurrencyCode(), bb.getAvailable(), bb.getLocked()), time);
     }
 }

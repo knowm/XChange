@@ -14,6 +14,9 @@ public class BalanceRepository {
 
     private static final String FIND_ALL_NON_ZERO_SQL =
             "SELECT DISTINCT ON(asset) * FROM balance$ WHERE zero = FALSE ORDER BY asset ASC, timestamp DESC";
+    
+    private static final String LOCK_TABLE_SQL = 
+            "LOCK TABLE balance$ IN EXCLUSIVE MODE";
 
     private static final String TABLE_NAME = "balance$";
 
@@ -53,6 +56,12 @@ public class BalanceRepository {
             List<BalanceEntity> list = new ArrayList<>();
             while (rs.next()) list.add(fromResultSet(rs));
             return list;
+        }
+    }
+
+    public void lock() throws SQLException {
+        try(PreparedStatement stmt = prepareStatement(LOCK_TABLE_SQL)) {
+            stmt.execute();
         }
     }
 
