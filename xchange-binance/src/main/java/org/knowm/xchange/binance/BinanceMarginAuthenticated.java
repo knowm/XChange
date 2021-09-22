@@ -93,7 +93,7 @@ public interface BinanceMarginAuthenticated extends BinanceAuthenticated {
    */
   BinanceOrder orderStatus(
           @QueryParam("symbol") String symbol,
-          @QueryParam("orderId") long orderId,
+          @QueryParam("orderId") Long orderId,
           @QueryParam("origClientOrderId") String origClientOrderId,
           @QueryParam("recvWindow") Long recvWindow,
           @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
@@ -122,7 +122,7 @@ public interface BinanceMarginAuthenticated extends BinanceAuthenticated {
    */
   BinanceCancelledOrder cancelOrder(
           @QueryParam("symbol") String symbol,
-          @QueryParam("orderId") long orderId,
+          @QueryParam("orderId") Long orderId,
           @QueryParam("origClientOrderId") String origClientOrderId,
           @QueryParam("newClientOrderId") String newClientOrderId,
           @QueryParam("recvWindow") Long recvWindow,

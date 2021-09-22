@@ -51,6 +51,11 @@ public class Transaction {
         return new TradeRepository(connection, postfix);
     }
 
+    public OrderTaskRepository getOrderTaskRepository() {
+        checkConnection();
+        return new OrderTaskRepository(connection, postfix);
+    }
+
     public SyncTaskRepository getSyncTaskRepository() {
         checkConnection();
         return new SyncTaskRepository(connection, postfix);

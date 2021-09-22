@@ -8,6 +8,7 @@ import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransact
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction.ExecutionType;
 import info.bitrich.xchangestream.binance.dto.OutboundAccountInfoBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
 import io.reactivex.rxjava3.core.Completable;
@@ -30,6 +31,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.utils.AuthUtils;
 import org.slf4j.Logger;
@@ -48,6 +50,7 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
     
     private volatile TransactionFactory txFactory;
     private volatile NostroStreamingPublisher publisher;
+    private volatile BinanceNostroAccountService nostroAccountService;
     private volatile BinanceNostroTradeService nostroTradeService;
     private volatile BinanceSyncService syncService;
     
@@ -58,8 +61,18 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
     private Disposable connectionStateSubscription;
 
     @Override
+    public AccountService getAccountService() {
+        return nostroAccountService;
+    }
+
+    @Override
     public TradeService getTradeService() {
         return nostroTradeService;
+    }
+
+    @Override
+    public StreamingAccountService getStreamingAccountService() {
+        return publisher;
     }
 
     @Override
@@ -92,6 +105,7 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
             try {
                 this.publisher = new NostroStreamingPublisher();
                 this.txFactory = TransactionFactory.get(exchangeSpecification.getExchangeName(), exchangeSpecification.getUserName());
+                this.nostroAccountService = new BinanceNostroAccountService((BinanceAccountService) this.accountService, this.txFactory);
                 this.nostroTradeService = new BinanceNostroTradeService((BinanceTradeService) this.tradeService, this.txFactory);
                 this.syncService = new BinanceSyncService(txFactory, publisher, (BinanceAccountService) this.accountService, (BinanceTradeService) this.tradeService, getSyncDelay());
             } catch (Exception e) {

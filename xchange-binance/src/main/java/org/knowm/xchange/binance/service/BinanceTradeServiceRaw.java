@@ -115,7 +115,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public BinanceOrder orderStatus(CurrencyPair pair, long orderId, String origClientOrderId)
+  public BinanceOrder orderStatus(CurrencyPair pair, Long orderId, String origClientOrderId)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
@@ -133,7 +133,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
   }
 
   public BinanceCancelledOrder cancelOrder(
-      CurrencyPair pair, long orderId, String origClientOrderId, String newClientOrderId)
+      CurrencyPair pair, Long orderId, String origClientOrderId, String newClientOrderId)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->

@@ -7,12 +7,14 @@ import nostro.xchange.utils.NostroUtils;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderByUserReferenceParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,11 +26,12 @@ public class BinanceNostroTradeService implements TradeService {
 
     private final BinanceTradeService inner;
     private final TransactionFactory txFactory;
-
-    // TODO: check if need to unwrap original IOException's happening in transactions
+    private final BinanceCancelService cancelService;
+    
     public BinanceNostroTradeService(BinanceTradeService inner, TransactionFactory txFactory) {
         this.inner = inner;
         this.txFactory = txFactory;
+        this.cancelService = new BinanceCancelService(txFactory, inner);
     }
     
     @Override
@@ -59,36 +62,67 @@ public class BinanceNostroTradeService implements TradeService {
                 .build();
 
         txFactory.execute(tx -> tx.getOrderRepository().insert(e));
+        LOG.info("Placing order {}", order);
         
-        return txFactory.executeAndGet(tx -> {
-            tx.getOrderRepository().lockById(id);
-            String externalId = placeOrderCallable.call();
-            tx.getOrderRepository().update(id, externalId);
-            return externalId;
-        });
+        try {
+            return txFactory.executeAndGet(tx -> {
+                tx.getOrderRepository().lockById(id);
+                String externalId = placeOrderCallable.call();
+                tx.getOrderRepository().update(id, externalId);
+                return externalId;
+            });
+        } catch (RuntimeException th) {
+            if (shouldCancelOrder(th)) {
+                LOG.error("Error while placing order, cancelling", th);
+                cancelService.cancelOrder(id);
+            } else {
+                LOG.error("Error while placing order, no cancel, marking rejected", th);
+                // TODO: cancelService.markRejected(id);
+            }
+            throw th;
+        }
     }
 
-    @Override
-    public boolean cancelOrder(CancelOrderParams params) throws IOException {
-        return inner.cancelOrder(params);
+    private boolean shouldCancelOrder(Throwable th) {
+        // TODO: implement when retry is moved here
+        return false;
     }
 
     @Override
     public Collection<Order> getOrder(String... orderIds) {
-        List<OrderEntity> entities = new ArrayList<>();
-        txFactory.execute(tx -> {
+        List<OrderEntity> entities = txFactory.executeAndGet(tx -> {
             OrderRepository repo = tx.getOrderRepository();
+            List<OrderEntity> list = new ArrayList<>();
             for (String orderId : orderIds) {
-                entities.add(repo.findByExternalId(orderId)
+                list.add(repo.findByExternalId(orderId)
                         .orElseThrow(() -> new IllegalArgumentException("Order with external_id=\"" + orderId + "\" not found")));
             }
+            return list;
         });
-        return new ArrayList<>(NostroUtils.readOrderList(entities));
+        return NostroUtils.readOrderList(entities);
     }
 
     @Override
     public OpenOrders getOpenOrders() {
         List<OrderEntity> entities = txFactory.executeAndGet(tx -> tx.getOrderRepository().findAllOpen());
         return NostroUtils.adaptOpenOrders(NostroUtils.readOrderList(entities));
+    }
+
+    @Override
+    public boolean cancelOrder(String orderId) {
+        String userReference = txFactory.executeAndGet(tx ->
+                tx.getOrderRepository().findByExternalId(orderId)
+                        .orElseThrow(() -> new IllegalArgumentException("Order with external_id=\"" + orderId + "\" not found")).getId()
+        );
+        
+        return cancelOrder(new DefaultCancelOrderByUserReferenceParams(userReference));
+    }
+
+    @Override
+    public boolean cancelOrder(CancelOrderParams params) {
+        if (!(params instanceof CancelOrderByUserReferenceParams)) {
+            throw new ExchangeException("You need to provide user reference to cancel an order.");
+        }
+        return cancelService.cancelOrder(((CancelOrderByUserReferenceParams) params).getUserReference());
     }
 }
