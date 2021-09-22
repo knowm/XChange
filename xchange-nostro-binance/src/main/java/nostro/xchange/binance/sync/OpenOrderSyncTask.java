@@ -2,9 +2,11 @@ package nostro.xchange.binance.sync;
 
 import nostro.xchange.binance.BinanceNostroUtils;
 import nostro.xchange.persistence.OrderEntity;
+import nostro.xchange.utils.NostroUtils;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,15 +44,29 @@ public class OpenOrderSyncTask implements Callable<Void> {
 
         int updated = 0;
         for (OrderEntity e : dbOrders) {
-            long binanceId = Long.valueOf(e.getExternalId());
-            if (binanceId < toId) {
-                BinanceOrder binanceOrder = serviceOrders.get(binanceId);
-                if (binanceOrder == null) {
-                    binanceOrder = syncService.getOrder(pair, binanceId);
-                }
+            if (e.getExternalId() != null) {
+                long binanceId = Long.valueOf(e.getExternalId());
+                if (binanceId < toId) {
+                    BinanceOrder binanceOrder = serviceOrders.get(binanceId);
+                    if (binanceOrder == null) {
+                        binanceOrder = syncService.getOrder(pair, binanceId);
+                    }
 
-                if (syncOrder(binanceOrder)) {
-                    syncService.publisher.publish(BinanceAdapters.adaptOrder(binanceOrder));
+                    if (syncOrder(binanceOrder)) {
+                        syncService.publisher.publish(BinanceAdapters.adaptOrder(binanceOrder));
+                        ++updated;
+                    }
+                }
+            } else {
+                BinanceOrder binanceOrder = syncService.getOrder(pair, e.getId());
+                LOG.warn("Trying to sync db order(id={}) with no external_id, service returned {}", e.getId(), binanceOrder);
+                if (binanceOrder != null) {
+                    if (syncOrder(binanceOrder)) {
+                        syncService.publisher.publish(BinanceAdapters.adaptOrder(binanceOrder));
+                        ++updated;
+                    }
+                } else {
+                    syncService.publisher.publish(markRejected(e.getId()));
                     ++updated;
                 }
             }
@@ -72,6 +88,20 @@ public class OpenOrderSyncTask implements Callable<Void> {
                 return true;
             }
             return false;
+        });
+    }
+
+    private Order markRejected(String id) {
+        return syncService.txFactory.executeAndGet(tx -> {
+            OrderEntity e = tx.getOrderRepository().lockById(id).get();
+            LOG.info("Marking order(id={}) rejected", id);
+            
+            Order order = NostroUtils.readOrderDocument(e.getDocument());
+            order.setOrderStatus(Order.OrderStatus.REJECTED);
+            String document = NostroUtils.writeOrderDocument(order);
+
+            tx.getOrderRepository().updateById(id, document, true, tx.getTimestamp());
+            return order;
         });
     }
     

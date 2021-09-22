@@ -135,6 +135,19 @@ public class BinanceSyncService {
         }
     }
 
+    BinanceOrder getOrder(CurrencyPair pair, String id) throws IOException {
+        try {
+            return tradeService.orderStatus(pair, null, id);
+        } catch (Throwable th) {
+            String msg = th.getMessage();
+            if (msg != null && msg.contains("Order does not exist")) {
+                return null;
+            }
+            LOG.error("Error while querying order status", th);
+            throw th;
+        }
+    }
+
     List<BinanceOrder> getOrders(CurrencyPair pair, long fromId, int limit) throws IOException {
         try {
             List<BinanceOrder> orders = tradeService.allOrders(pair, fromId, limit);

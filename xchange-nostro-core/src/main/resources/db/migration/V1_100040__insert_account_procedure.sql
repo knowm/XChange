@@ -14,6 +14,7 @@ BEGIN
     EXECUTE 'CREATE TABLE balance$' || l_postfix || ' (LIKE balance$ INCLUDING DEFAULTS INCLUDING INDEXES)';
     EXECUTE 'CREATE TABLE order$' || l_postfix || ' (LIKE order$ INCLUDING DEFAULTS INCLUDING INDEXES)';
     EXECUTE 'CREATE TABLE trade$' || l_postfix || ' (LIKE trade$ INCLUDING DEFAULTS INCLUDING INDEXES)';
+    EXECUTE 'CREATE TABLE order_task$' || l_postfix || ' (LIKE order_task$ INCLUDING DEFAULTS INCLUDING INDEXES)';
     EXECUTE 'CREATE TABLE sync_task$' || l_postfix || ' (LIKE sync_task$ INCLUDING DEFAULTS INCLUDING INDEXES)';
   END IF;
   COMMIT;
