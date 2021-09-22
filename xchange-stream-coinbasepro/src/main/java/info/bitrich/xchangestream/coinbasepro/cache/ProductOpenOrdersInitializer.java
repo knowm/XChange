@@ -78,7 +78,15 @@ public class ProductOpenOrdersInitializer {
         Map<String, List<CoinbaseProWebSocketTransaction>> wsOrders = transactions.stream()
                 .collect(Collectors.groupingBy(CoinbaseProWebSocketTransaction::getOrderId));
 
-        return orderIds.stream().map(orderId -> syncOrder(wsOrders.get(orderId), openOrdersMap.get(orderId), asks.get(orderId), bids.get(orderId))).filter(Objects::nonNull).collect(Collectors.toList());
+        List<CoinbaseProOrder> openOrders = orderIds.stream().map(orderId -> syncOrder(wsOrders.get(orderId), openOrdersMap.get(orderId), asks.get(orderId), bids.get(orderId))).filter(Objects::nonNull).collect(Collectors.toList());
+
+        LOG.info("Product " + product + " cache has been initiated.\n" +
+                "Open orders: " + Arrays.toString(openOrders.toArray()) + ". \n" +
+                "Websocket feed: " + Arrays.toString(transactions.toArray()) + ". \n" +
+                "Order book asks: " + Arrays.toString(asks.values().toArray()) + ". \n" +
+                "Order book bids: " + Arrays.toString(bids.values().toArray()) + ". \n");
+
+        return openOrders;
     }
 
     private CoinbaseProOrder syncOrder(List<CoinbaseProWebSocketTransaction> wsOrders, CoinbaseProOrder openOrder, CoinbaseProProductBookEntryLevel3 ask, CoinbaseProProductBookEntryLevel3 bid) {

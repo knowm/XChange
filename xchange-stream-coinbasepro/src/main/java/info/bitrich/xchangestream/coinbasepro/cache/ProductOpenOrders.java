@@ -63,6 +63,7 @@ public class ProductOpenOrders {
                 return;
             } else {
                 openOrders = initializer.initializeOpenOrders();
+                LOG.info("Product " + product + " has been initialized.");
                 initiated = true;
             }
         }
