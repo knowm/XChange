@@ -12,6 +12,8 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByUserReferenceParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParam;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,6 +108,16 @@ public class BinanceNostroTradeService implements TradeService {
     public OpenOrders getOpenOrders() {
         List<OrderEntity> entities = txFactory.executeAndGet(tx -> tx.getOrderRepository().findAllOpen());
         return NostroUtils.adaptOpenOrders(NostroUtils.readOrderList(entities));
+    }
+
+    @Override
+    public OpenOrders getOpenOrders(OpenOrdersParams params) {
+        return getOpenOrders();
+    }
+
+    @Override
+    public OpenOrdersParams createOpenOrdersParams() {
+        return new DefaultOpenOrdersParam();
     }
 
     @Override

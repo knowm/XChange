@@ -110,11 +110,10 @@ public class BinanceExchange extends BaseExchange {
           (BinanceMarketDataService) this.marketDataService;
       exchangeInfo = marketDataService.getExchangeInfo();
       Symbol[] symbols = exchangeInfo.getSymbols();
-
-      BinanceAccountService accountService = (BinanceAccountService) getAccountService();
+      
       Map<String, AssetDetail> assetDetailMap = null;
       if (isAuthenticated()) {
-        assetDetailMap = accountService.getAssetDetails();
+        assetDetailMap = ((BinanceAccountService) accountService).getAssetDetails();
       }
       // Clear all hardcoded currencies when loading dynamically from exchange.
       if (assetDetailMap != null) {
