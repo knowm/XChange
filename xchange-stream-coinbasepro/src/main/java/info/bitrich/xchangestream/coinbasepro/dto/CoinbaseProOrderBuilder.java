@@ -9,6 +9,7 @@ public class CoinbaseProOrderBuilder {
     private BigDecimal price;
     private BigDecimal size;
     private String productId;
+    private String clientOid;
     private String side;
     private String createdAt;
     private String doneAt;
@@ -30,6 +31,7 @@ public class CoinbaseProOrderBuilder {
                         t.getPrice(),
                         t.getSize(),
                         t.getProductId(),
+                        t.getClientOid(),
                         t.getSide(),
                         t.getTime(),
                         null,
@@ -48,6 +50,7 @@ public class CoinbaseProOrderBuilder {
                         t.getLimitPrice(),
                         t.getSize(),
                         t.getProductId(),
+                        t.getClientOid(),
                         t.getSide(),
                         t.getTime(),
                         null,
@@ -66,6 +69,7 @@ public class CoinbaseProOrderBuilder {
                         t.getPrice(),
                         t.getRemainingSize(),
                         t.getProductId(),
+                        t.getClientOid(),
                         t.getSide(),
                         t.getTime(),
                         null,
@@ -109,6 +113,7 @@ public class CoinbaseProOrderBuilder {
                 .price(order.getPrice())
                 .size(order.getSize())
                 .productId(order.getProductId())
+                .clientOid(order.getClientOid())
                 .side(order.getSide())
                 .createdAt(order.getCreatedAt())
                 .doneAt(order.getDoneAt())
@@ -140,6 +145,11 @@ public class CoinbaseProOrderBuilder {
 
     public CoinbaseProOrderBuilder productId(String productId) {
         this.productId = productId;
+        return this;
+    }
+
+    public CoinbaseProOrderBuilder clientOid(String clientOid) {
+        this.clientOid = clientOid;
         return this;
     }
 
@@ -209,6 +219,7 @@ public class CoinbaseProOrderBuilder {
                 price,
                 size,
                 productId,
+                clientOid,
                 side,
                 createdAt,
                 doneAt,
