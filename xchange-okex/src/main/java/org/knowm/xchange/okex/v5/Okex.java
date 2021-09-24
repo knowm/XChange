@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -39,19 +40,24 @@ public interface Okex {
   OkexResponse<List<OkexInstrument>> getInstruments(
       @QueryParam("instType") String instrumentType,
       @QueryParam("uly") String underlying,
-      @QueryParam("instId") String instrumentId)
+      @QueryParam("instId") String instrumentId,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
       throws OkexException, IOException;
 
   @GET
   @Path("/market/trades")
   @Consumes(MediaType.APPLICATION_JSON)
   OkexResponse<List<OkexTrade>> getTrades(
-      @QueryParam("instId") String instrument, @QueryParam("limit") int l)
+      @QueryParam("instId") String instrument,
+      @QueryParam("limit") int l,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
       throws IOException, OkexException;
 
   @GET
   @Path("/market/books")
   OkexResponse<List<OkexOrderbook>> getOrderbook(
-      @QueryParam("instId") String instrument, @QueryParam("sz") int depth)
+      @QueryParam("instId") String instrument,
+      @QueryParam("sz") int depth,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
       throws IOException, OkexException;
 }

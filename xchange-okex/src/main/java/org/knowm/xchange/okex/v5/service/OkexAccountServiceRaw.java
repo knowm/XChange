@@ -11,6 +11,7 @@ import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.account.OkexDepositAddress;
+import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
 import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -33,7 +34,11 @@ public class OkexAccountServiceRaw extends OkexBaseService {
                       (String)
                           exchange
                               .getExchangeSpecification()
-                              .getExchangeSpecificParametersItem("passphrase")))
+                              .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated")))
           .withRateLimiter(rateLimiter(balancePath))
           .call();
     } catch (OkexException e) {
@@ -54,8 +59,41 @@ public class OkexAccountServiceRaw extends OkexBaseService {
                       (String)
                           exchange
                               .getExchangeSpecification()
-                              .getExchangeSpecificParametersItem("passphrase")))
+                              .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated")))
           .withRateLimiter(rateLimiter(depositAddressPath))
+          .call();
+    } catch (OkexException e) {
+      throw handleError(e);
+    }
+  }
+
+  public OkexResponse<List<OkexTradeFee>> getTradeFee(
+      String instrumentType, String instrumentId, String underlying, String category)
+      throws IOException, OkexException {
+    try {
+      return decorateApiCall(
+              () ->
+                  okexAuthenticated.getTradeFee(
+                      instrumentType,
+                      instrumentId,
+                      underlying,
+                      category,
+                      exchange.getExchangeSpecification().getApiKey(),
+                      signatureCreator,
+                      DateUtils.toUTCISODateString(new Date()),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated")))
+          .withRateLimiter(rateLimiter(tradeFeePath))
           .call();
     } catch (OkexException e) {
       throw handleError(e);

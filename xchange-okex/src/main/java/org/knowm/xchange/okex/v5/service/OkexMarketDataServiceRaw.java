@@ -6,7 +6,6 @@ import static org.knowm.xchange.okex.v5.OkexAuthenticated.currenciesPath;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
@@ -28,7 +27,16 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
       String instrumentType, String underlying, String instrumentId)
       throws OkexException, IOException {
     try {
-      return decorateApiCall(() -> okex.getInstruments(instrumentType, underlying, instrumentId))
+      return decorateApiCall(
+              () ->
+                  okex.getInstruments(
+                      instrumentType,
+                      underlying,
+                      instrumentId,
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated")))
           .withRateLimiter(rateLimiter(instrumentsPath))
           .call();
     } catch (OkexException e) {
@@ -47,7 +55,11 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
                       (String)
                           exchange
                               .getExchangeSpecification()
-                              .getExchangeSpecificParametersItem("passphrase")))
+                              .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated")))
           .withRateLimiter(rateLimiter(currenciesPath))
           .call();
     } catch (OkexException e) {
@@ -58,12 +70,21 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
   public OkexResponse<List<OkexTrade>> getOkexTrades(String instrument)
       throws OkexException, IOException {
 
-    return okex.getTrades(instrument, 30);
+    return okex.getTrades(
+        instrument,
+        30,
+        (String)
+            exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
   }
 
   public OkexResponse<List<OkexOrderbook>> getOkexOrderbook(String instrument)
       throws OkexException, IOException {
-    OkexResponse<List<OkexOrderbook>> books = okex.getOrderbook(instrument, 20);
+    OkexResponse<List<OkexOrderbook>> books =
+        okex.getOrderbook(
+            instrument,
+            20,
+            (String)
+                exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
     return books;
   }
 }

@@ -43,6 +43,10 @@ public class OkexTradeServiceRaw extends OkexBaseService {
                           exchange
                               .getExchangeSpecification()
                               .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated"),
                       instrumentType,
                       underlying,
                       instrumentId,
@@ -70,6 +74,10 @@ public class OkexTradeServiceRaw extends OkexBaseService {
                           exchange
                               .getExchangeSpecification()
                               .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated"),
                       instrumentId,
                       orderId,
                       null))
@@ -104,7 +112,11 @@ public class OkexTradeServiceRaw extends OkexBaseService {
                       (String)
                           exchange
                               .getExchangeSpecification()
-                              .getExchangeSpecificParametersItem("passphrase")))
+                              .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated")))
           .withRateLimiter((rateLimiter(orderDetailsPath)))
           .call();
     } catch (OkexException e) {
@@ -126,6 +138,10 @@ public class OkexTradeServiceRaw extends OkexBaseService {
                           exchange
                               .getExchangeSpecification()
                               .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated"),
                       order))
           .withRateLimiter(rateLimiter(placeOrderPath))
           .call();
@@ -148,6 +164,10 @@ public class OkexTradeServiceRaw extends OkexBaseService {
                           exchange
                               .getExchangeSpecification()
                               .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated"),
                       orders))
           .withRateLimiter(rateLimiter(placeBatchOrderPath))
           .call();
@@ -170,6 +190,10 @@ public class OkexTradeServiceRaw extends OkexBaseService {
                           exchange
                               .getExchangeSpecification()
                               .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated"),
                       order))
           .withRateLimiter(rateLimiter(cancelOrderPath))
           .call();
@@ -192,6 +216,10 @@ public class OkexTradeServiceRaw extends OkexBaseService {
                           exchange
                               .getExchangeSpecification()
                               .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated"),
                       orders))
           .withRateLimiter(rateLimiter(cancelBatchOrderPath))
           .call();
@@ -214,6 +242,10 @@ public class OkexTradeServiceRaw extends OkexBaseService {
                           exchange
                               .getExchangeSpecification()
                               .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated"),
                       order))
           .withRateLimiter(rateLimiter(amendOrderPath))
           .call();
@@ -236,6 +268,10 @@ public class OkexTradeServiceRaw extends OkexBaseService {
                           exchange
                               .getExchangeSpecification()
                               .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated"),
                       orders))
           .withRateLimiter(rateLimiter(amendBatchOrderPath))
           .call();
