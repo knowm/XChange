@@ -24,6 +24,7 @@ public class ProductOpenOrdersInitializer {
     private final CoinbaseProMarketDataService marketDataService;
     private final CoinbaseProTradeService tradeService;
     private final String product;
+    private final Map<String, String> clientOrderIdMap;
     private CoinbaseProProductBook orderBook;
     private CoinbaseProOrder[] openOrders;
 
@@ -31,10 +32,11 @@ public class ProductOpenOrdersInitializer {
 
     private List<CoinbaseProWebSocketTransaction> transactions;
 
-    public ProductOpenOrdersInitializer(String product, CoinbaseProMarketDataService marketDataService, CoinbaseProTradeService tradeService) {
+    public ProductOpenOrdersInitializer(String product, CoinbaseProMarketDataService marketDataService, CoinbaseProTradeService tradeService, Map<String, String> clientOrderIdMap) {
         this.marketDataService = marketDataService;
         this.tradeService = tradeService;
         this.product = product;
+        this.clientOrderIdMap = clientOrderIdMap;
         transactions = new ArrayList<>();
         initiated = false;
     }
@@ -67,6 +69,9 @@ public class ProductOpenOrdersInitializer {
     }
 
     public List<CoinbaseProOrder> initializeOpenOrders() {
+        for (int i = 0; i < openOrders.length; i++) {
+            openOrders[i] = CoinbaseProOrderBuilder.from(openOrders[i]).clientOid(clientOrderIdMap.get(openOrders[i].getId())).build();
+        }
         List<String> orderIds = Stream.concat(
                 transactions.stream().map(CoinbaseProWebSocketTransaction::getOrderId),
                 Arrays.stream(openOrders).map(CoinbaseProOrder::getId)
@@ -122,6 +127,9 @@ public class ProductOpenOrdersInitializer {
                 return order;
             } else {
                 if (ask == null && bid == null) {
+                    if ("active".equals(openOrder.getStatus())) {
+                        return openOrder;
+                    }
                     LOG.error("Order must be done, but done message is missed");
                     return null;
                 }

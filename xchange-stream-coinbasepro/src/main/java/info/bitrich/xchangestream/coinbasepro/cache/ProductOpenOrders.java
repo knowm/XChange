@@ -27,12 +27,12 @@ public class ProductOpenOrders {
 
     private boolean initiated;
 
-    public ProductOpenOrders(String product, CoinbaseProMarketDataService marketDataService, CoinbaseProTradeService tradeService) {
+    public ProductOpenOrders(String product, CoinbaseProMarketDataService marketDataService, CoinbaseProTradeService tradeService, Map<String, String> clientOrderIdMap) {
         this.product = product;
         this.tradeService = tradeService;
         openOrders = new ArrayList<>();
         doneOrders = new ArrayList<>();
-        initializer = new ProductOpenOrdersInitializer(product, marketDataService, tradeService);
+        initializer = new ProductOpenOrdersInitializer(product, marketDataService, tradeService, clientOrderIdMap);
         initiated = false;
     }
 

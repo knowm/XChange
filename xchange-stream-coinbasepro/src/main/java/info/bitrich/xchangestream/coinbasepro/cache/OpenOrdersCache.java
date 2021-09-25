@@ -26,10 +26,12 @@ public class OpenOrdersCache {
     private final CoinbaseProTradeService tradeService;
     private boolean initiated;
     private final FlowableProcessor<CoinbaseProOrder> orderUpdatePublisher;
+    private Map<String, String> clientOrderIdMap;
 
     public OpenOrdersCache(CoinbaseProMarketDataService marketDataService, CoinbaseProTradeService tradeService) {
         this.marketDataService = marketDataService;
         this.tradeService = tradeService;
+        this.clientOrderIdMap = new HashMap<>();
         products = new HashMap<>();
         initiated = false;
         orderUpdatePublisher = PublishProcessor.<CoinbaseProOrder>create().toSerialized();
@@ -40,7 +42,7 @@ public class OpenOrdersCache {
         for (CoinbaseProChannelProducts channel : channels) {
             if ("user".equals(channel.getName())) {
                 for (String product_id : channel.getProduct_ids()) {
-                    this.products.put(product_id, new ProductOpenOrders(product_id, marketDataService, tradeService));
+                    this.products.put(product_id, new ProductOpenOrders(product_id, marketDataService, tradeService, clientOrderIdMap));
                 }
                 break;
             }
@@ -96,5 +98,9 @@ public class OpenOrdersCache {
                 .map(p -> p.getOrder(orderId))
                 .filter(Objects::nonNull)
                 .findFirst().orElse(null);
+    }
+
+    public synchronized void addClientOrderId(String orderId, String clientOid) {
+        clientOrderIdMap.put(orderId, clientOid);
     }
 }

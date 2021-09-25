@@ -45,17 +45,23 @@ public class CoinbaseProCacheTradeService implements TradeService {
 
     @Override
     public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-        return tradeService.placeMarketOrder(marketOrder);
+        String orderId = tradeService.placeMarketOrder(marketOrder);
+        streamingService.getCache().addClientOrderId(orderId, marketOrder.getUserReference());
+        return orderId;
     }
 
     @Override
     public String placeLimitOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
-        return tradeService.placeLimitOrder(limitOrder);
+        String orderId = tradeService.placeLimitOrder(limitOrder);
+        streamingService.getCache().addClientOrderId(orderId, limitOrder.getUserReference());
+        return orderId;
     }
 
     @Override
     public String placeStopOrder(StopOrder stopOrder) throws IOException, FundsExceededException {
-        return tradeService.placeStopOrder(stopOrder);
+        String orderId = tradeService.placeStopOrder(stopOrder);
+        streamingService.getCache().addClientOrderId(orderId, stopOrder.getUserReference());
+        return orderId;
     }
 
     @Override

@@ -301,7 +301,7 @@ public class CoinbaseProCacheTest {
         final CoinbaseProWebSocketTransaction[] messages = mapper.readValue(mapper.readTree(messagesString).toString(), CoinbaseProWebSocketTransaction[].class);
         final CoinbaseProOrder[] result = mapper.readValue(mapper.readTree(resultString).toString(), CoinbaseProOrder[].class);
 
-        ProductOpenOrders cache = new ProductOpenOrders("ETH-BTC", new CoinbaseProMarketDataServiceMock(orderBook), new CoinbaseProTradeServiceMock(openOrders));
+        ProductOpenOrders cache = new ProductOpenOrders("ETH-BTC", new CoinbaseProMarketDataServiceMock(orderBook), new CoinbaseProTradeServiceMock(openOrders), new HashMap<>());
 
         FlowableProcessor<CoinbaseProOrder> publisher = PublishProcessor.<CoinbaseProOrder>create().toSerialized();
 
