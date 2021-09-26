@@ -105,7 +105,9 @@ public interface CoinbaseAuthenticated extends Coinbase {
       @HeaderParam(CB_VERSION) String apiVersion,
       @HeaderParam(CB_ACCESS_KEY) String apiKey,
       @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
-      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp)
+      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("starting_after") String starting_after)
       throws IOException, CoinbaseException;
 
   @GET
