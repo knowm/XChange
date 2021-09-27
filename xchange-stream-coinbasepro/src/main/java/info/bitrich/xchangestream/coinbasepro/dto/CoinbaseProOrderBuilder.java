@@ -9,6 +9,7 @@ public class CoinbaseProOrderBuilder {
     private BigDecimal price;
     private BigDecimal size;
     private String productId;
+    private String clientOid;
     private String side;
     private String createdAt;
     private String doneAt;
@@ -30,6 +31,7 @@ public class CoinbaseProOrderBuilder {
                         t.getPrice(),
                         t.getSize(),
                         t.getProductId(),
+                        t.getClientOid(),
                         t.getSide(),
                         t.getTime(),
                         null,
@@ -42,12 +44,32 @@ public class CoinbaseProOrderBuilder {
                         BigDecimal.ZERO,
                         null,
                         BigDecimal.ZERO);
+            case "activate":
+                return new CoinbaseProOrder(
+                        t.getOrderId(),
+                        t.getLimitPrice(),
+                        t.getSize(),
+                        t.getProductId(),
+                        t.getClientOid(),
+                        t.getSide(),
+                        t.getTime(),
+                        null,
+                        BigDecimal.ZERO,
+                        BigDecimal.ZERO,
+                        "active",
+                        false,
+                        "limit",
+                        null,
+                        BigDecimal.ZERO,
+                        t.getStopType(),
+                        t.getStopPrice());
             case "open":
                 new CoinbaseProOrder(
                         t.getOrderId(),
                         t.getPrice(),
                         t.getRemainingSize(),
                         t.getProductId(),
+                        t.getClientOid(),
                         t.getSide(),
                         t.getTime(),
                         null,
@@ -91,6 +113,7 @@ public class CoinbaseProOrderBuilder {
                 .price(order.getPrice())
                 .size(order.getSize())
                 .productId(order.getProductId())
+                .clientOid(order.getClientOid())
                 .side(order.getSide())
                 .createdAt(order.getCreatedAt())
                 .doneAt(order.getDoneAt())
@@ -122,6 +145,11 @@ public class CoinbaseProOrderBuilder {
 
     public CoinbaseProOrderBuilder productId(String productId) {
         this.productId = productId;
+        return this;
+    }
+
+    public CoinbaseProOrderBuilder clientOid(String clientOid) {
+        this.clientOid = clientOid;
         return this;
     }
 
@@ -191,6 +219,7 @@ public class CoinbaseProOrderBuilder {
                 price,
                 size,
                 productId,
+                clientOid,
                 side,
                 createdAt,
                 doneAt,

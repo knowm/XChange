@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -23,14 +24,16 @@ public class OpenOrdersCache {
     private Map<String, ProductOpenOrders> products;
     private final CoinbaseProMarketDataService marketDataService;
     private final CoinbaseProTradeService tradeService;
-    private boolean inited;
+    private boolean initiated;
     private final FlowableProcessor<CoinbaseProOrder> orderUpdatePublisher;
+    private Map<String, String> clientOrderIdMap;
 
     public OpenOrdersCache(CoinbaseProMarketDataService marketDataService, CoinbaseProTradeService tradeService) {
         this.marketDataService = marketDataService;
         this.tradeService = tradeService;
+        this.clientOrderIdMap = new HashMap<>();
         products = new HashMap<>();
-        inited = false;
+        initiated = false;
         orderUpdatePublisher = PublishProcessor.<CoinbaseProOrder>create().toSerialized();
     }
 
@@ -39,12 +42,12 @@ public class OpenOrdersCache {
         for (CoinbaseProChannelProducts channel : channels) {
             if ("user".equals(channel.getName())) {
                 for (String product_id : channel.getProduct_ids()) {
-                    this.products.put(product_id, new ProductOpenOrders(product_id, marketDataService, tradeService));
+                    this.products.put(product_id, new ProductOpenOrders(product_id, marketDataService, tradeService, clientOrderIdMap));
                 }
                 break;
             }
         }
-        inited = true;
+        initiated = true;
     }
 
     public Flowable<CoinbaseProOrder> getOrderChanges() {
@@ -55,6 +58,7 @@ public class OpenOrdersCache {
         try {
             if ("subscriptions".equals(transaction.getType()) ||
                     "heartbeat".equals(transaction.getType()) ||
+                    "activate".equals(transaction.getType()) ||
                     "received".equals(transaction.getType()) ||
                     "open".equals(transaction.getType()) ||
                     "done".equals(transaction.getType()) ||
@@ -74,22 +78,18 @@ public class OpenOrdersCache {
         }
     }
 
-    public synchronized boolean isInited() {
-        if (!inited) {
+    public synchronized boolean isInitiated() {
+        if (!initiated) {
             return false;
         }
-        for (Map.Entry<String, ProductOpenOrders> p : products.entrySet()) {
-            if (!p.getValue().isInited()) {
-                return false;
-            }
-        }
-        return true;
+        return products.entrySet().stream().allMatch(p -> p.getValue().isInitiated());
     }
 
     public synchronized OpenOrders getOpenOrders() {
         return CoinbaseProAdapters.adaptOpenOrders(
                 products.values().stream()
                         .map(ProductOpenOrders::getCoinbaseProOpenOrders)
+                        .flatMap(List::stream)
                         .toArray(CoinbaseProOrder[]::new));
     }
 
@@ -98,5 +98,9 @@ public class OpenOrdersCache {
                 .map(p -> p.getOrder(orderId))
                 .filter(Objects::nonNull)
                 .findFirst().orElse(null);
+    }
+
+    public synchronized void addClientOrderId(String orderId, String clientOid) {
+        clientOrderIdMap.put(orderId, clientOid);
     }
 }

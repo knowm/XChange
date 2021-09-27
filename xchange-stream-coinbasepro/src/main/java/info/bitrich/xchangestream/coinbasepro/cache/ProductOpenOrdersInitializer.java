@@ -24,31 +24,38 @@ public class ProductOpenOrdersInitializer {
     private final CoinbaseProMarketDataService marketDataService;
     private final CoinbaseProTradeService tradeService;
     private final String product;
+    private final Map<String, String> clientOrderIdMap;
     private CoinbaseProProductBook orderBook;
     private CoinbaseProOrder[] openOrders;
 
-    private boolean inited;
+    private boolean initiated;
 
     private List<CoinbaseProWebSocketTransaction> transactions;
 
-    public ProductOpenOrdersInitializer(String product, CoinbaseProMarketDataService marketDataService, CoinbaseProTradeService tradeService) {
+    public ProductOpenOrdersInitializer(String product, CoinbaseProMarketDataService marketDataService, CoinbaseProTradeService tradeService, Map<String, String> clientOrderIdMap) {
         this.marketDataService = marketDataService;
         this.tradeService = tradeService;
         this.product = product;
+        this.clientOrderIdMap = clientOrderIdMap;
         transactions = new ArrayList<>();
-        inited = false;
+        initiated = false;
     }
 
     private void init() throws IOException {
         CurrencyPair currencyPair = new CurrencyPair(product.replace('-', '/'));
 
         openOrders = tradeService.getCoinbaseProProductOpenOrders(product);
+        for (int i = 0; i < openOrders.length; i++) {
+            if ("active".equals(openOrders[i].getStatus())) {
+                openOrders[i] = tradeService.getOrder(openOrders[i].getId());
+            }
+        }
         orderBook = marketDataService.getCoinbaseProProductOrderBook(currencyPair, 3);
-        inited = true;
+        initiated = true;
     }
 
     public void processWebSocketTransaction(CoinbaseProWebSocketTransaction transaction) throws IOException {
-        if (!inited) {
+        if (!initiated) {
             init();
         }
         switch (transaction.getType()) {
@@ -56,11 +63,15 @@ public class ProductOpenOrdersInitializer {
             case "open":
             case "match":
             case "done":
+            case "activate":
                 transactions.add(transaction);
         }
     }
 
     public List<CoinbaseProOrder> initializeOpenOrders() {
+        for (int i = 0; i < openOrders.length; i++) {
+            openOrders[i] = CoinbaseProOrderBuilder.from(openOrders[i]).clientOid(clientOrderIdMap.get(openOrders[i].getId())).build();
+        }
         List<String> orderIds = Stream.concat(
                 transactions.stream().map(CoinbaseProWebSocketTransaction::getOrderId),
                 Arrays.stream(openOrders).map(CoinbaseProOrder::getId)
@@ -72,12 +83,24 @@ public class ProductOpenOrdersInitializer {
         Map<String, List<CoinbaseProWebSocketTransaction>> wsOrders = transactions.stream()
                 .collect(Collectors.groupingBy(CoinbaseProWebSocketTransaction::getOrderId));
 
-        return orderIds.stream().map(orderId -> syncOrder(wsOrders.get(orderId), openOrdersMap.get(orderId), asks.get(orderId), bids.get(orderId))).filter(Objects::nonNull).collect(Collectors.toList());
+        List<CoinbaseProOrder> openOrders = orderIds.stream().map(orderId -> syncOrder(wsOrders.get(orderId), openOrdersMap.get(orderId), asks.get(orderId), bids.get(orderId))).filter(Objects::nonNull).collect(Collectors.toList());
+
+        LOG.info("Product " + product + " cache has been initiated.\n" +
+                "Open orders: " + Arrays.toString(openOrders.toArray()) + ". \n" +
+                "Websocket feed: " + Arrays.toString(transactions.toArray()) + ". \n" +
+                "Order book asks: " + Arrays.toString(asks.values().toArray()) + ". \n" +
+                "Order book bids: " + Arrays.toString(bids.values().toArray()) + ". \n");
+
+        return openOrders;
     }
 
     private CoinbaseProOrder syncOrder(List<CoinbaseProWebSocketTransaction> wsOrders, CoinbaseProOrder openOrder, CoinbaseProProductBookEntryLevel3 ask, CoinbaseProProductBookEntryLevel3 bid) {
         if (wsOrders == null) {
             if (ask == null && bid == null) {
+                if ("active".equals(openOrder.getStatus())) {
+                    // it is a stop order, it should not be present in the order book.
+                    return openOrder;
+                }
                 LOG.error("Order must be done, but messages are missed");
                 return null;
             }
@@ -93,17 +116,20 @@ public class ProductOpenOrdersInitializer {
                 if (order != null && order.getSize() != null && order.getFilledSize() != null) {
                     if (ask != null) {
                         if (ask.getVolume().compareTo(order.getSize().subtract(order.getFilledSize())) != 0) {
-                            LOG.error("Stream has a difference with order book. Order book: " + ask + ", stream: " + wsOrders);
+                            LOG.error("Stream has a difference with order book. Order book: " + ask + ", stream: " + Arrays.toString(wsOrders.toArray()));
                         }
                     } else if (bid != null) {
                         if (bid.getVolume().compareTo(order.getSize().subtract(order.getFilledSize())) != 0) {
-                            LOG.error("Stream has a difference with order book. Order book: " + bid + ", stream: " + wsOrders);
+                            LOG.error("Stream has a difference with order book. Order book: " + bid + ", stream: " + Arrays.toString(wsOrders.toArray()));
                         }
                     }
                 }
                 return order;
             } else {
                 if (ask == null && bid == null) {
+                    if ("active".equals(openOrder.getStatus())) {
+                        return openOrder;
+                    }
                     LOG.error("Order must be done, but done message is missed");
                     return null;
                 }
@@ -115,17 +141,19 @@ public class ProductOpenOrdersInitializer {
 
     private int getType(String type) {
         switch(type) {
-            case "received":
+            case "activate":
                 return 0;
-            case "match":
+            case "received":
                 return 1;
-            case "open":
+            case "match":
                 return 2;
-            case "done":
+            case "open":
                 return 3;
+            case "done":
+                return 4;
         }
 
-        return 4;
+        return 5;
     }
 
     private void sortWebSocketOrders(List<CoinbaseProWebSocketTransaction> wsOrders) {
@@ -182,7 +210,7 @@ public class ProductOpenOrdersInitializer {
                 if ("match".equals(t.getType())) {
                     difference = difference.subtract(t.getSize());
                     if (difference.signum() < 0) {
-
+                        LOG.error("restore order is not accurate. Order: " + order.toString() + ", book: " + book + ", messages: " + Arrays.toString(wsOrders.toArray()));
                     }
                 }
             } else {

@@ -24,6 +24,9 @@ public class CoinbaseProCacheTradeService implements TradeService {
 
     @Override
     public OpenOrders getOpenOrders() throws IOException {
+        if (this.streamingService.getCache().isInitiated()) {
+            return this.streamingService.getCache().getOpenOrders();
+        }
         return tradeService.getOpenOrders();
     }
 
@@ -34,7 +37,7 @@ public class CoinbaseProCacheTradeService implements TradeService {
 
     @Override
     public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-        if (this.streamingService.getCache().isInited()) {
+        if (this.streamingService.getCache().isInitiated()) {
             return this.streamingService.getCache().getOpenOrders();
         }
         return tradeService.getOpenOrders(params);
@@ -42,17 +45,23 @@ public class CoinbaseProCacheTradeService implements TradeService {
 
     @Override
     public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-        return tradeService.placeMarketOrder(marketOrder);
+        String orderId = tradeService.placeMarketOrder(marketOrder);
+        streamingService.getCache().addClientOrderId(orderId, marketOrder.getUserReference());
+        return orderId;
     }
 
     @Override
     public String placeLimitOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
-        return tradeService.placeLimitOrder(limitOrder);
+        String orderId = tradeService.placeLimitOrder(limitOrder);
+        streamingService.getCache().addClientOrderId(orderId, limitOrder.getUserReference());
+        return orderId;
     }
 
     @Override
     public String placeStopOrder(StopOrder stopOrder) throws IOException, FundsExceededException {
-        return tradeService.placeStopOrder(stopOrder);
+        String orderId = tradeService.placeStopOrder(stopOrder);
+        streamingService.getCache().addClientOrderId(orderId, stopOrder.getUserReference());
+        return orderId;
     }
 
     @Override
@@ -77,7 +86,7 @@ public class CoinbaseProCacheTradeService implements TradeService {
 
     @Override
     public Collection<Order> getOrder(String... orderIds) throws IOException {
-        if (this.streamingService.getCache().isInited()) {
+        if (this.streamingService.getCache().isInitiated()) {
             Collection<Order> orders = new ArrayList<>(orderIds.length);
 
             for (String orderId : orderIds) {

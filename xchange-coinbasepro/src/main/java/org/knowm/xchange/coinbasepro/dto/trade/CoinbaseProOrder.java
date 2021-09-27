@@ -8,6 +8,7 @@ public class CoinbaseProOrder {
   private final BigDecimal price;
   private final BigDecimal size;
   private final String productId;
+  private final String clientOid;
   private final String side;
   private final String createdAt;
   private final String doneAt;
@@ -26,6 +27,7 @@ public class CoinbaseProOrder {
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("size") BigDecimal size,
       @JsonProperty("product_id") String productId,
+      @JsonProperty("client_oid") String clientOid,
       @JsonProperty("side") String side,
       @JsonProperty("created_at") String createdAt,
       @JsonProperty("done_at") String doneAt,
@@ -42,6 +44,7 @@ public class CoinbaseProOrder {
     this.price = price;
     this.size = size;
     this.productId = productId;
+    this.clientOid = clientOid;
     this.side = side;
     this.createdAt = createdAt;
     this.doneAt = doneAt;
@@ -70,6 +73,10 @@ public class CoinbaseProOrder {
 
   public String getProductId() {
     return productId;
+  }
+
+  public String getClientOid() {
+    return clientOid;
   }
 
   public String getSide() {
@@ -148,6 +155,8 @@ public class CoinbaseProOrder {
     builder.append(size);
     builder.append(", productId=");
     builder.append(productId);
+    builder.append(", clientOid=");
+    builder.append(clientOid);
     builder.append(", side=");
     builder.append(side);
     builder.append(", createdAt=");

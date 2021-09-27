@@ -212,7 +212,8 @@ public class CoinbaseProAdapters {
         .id(order.getId())
         .timestamp(parseDate(order.getCreatedAt()))
         .cumulativeAmount(order.getFilledSize())
-        .fee(order.getFillFees());
+        .fee(order.getFillFees())
+        .userReference(order.getClientOid());
     BigDecimal averagePrice;
     if (order.getFilledSize().signum() != 0 && order.getExecutedValue().signum() != 0) {
       averagePrice = order.getExecutedValue().divide(order.getFilledSize(), MathContext.DECIMAL32);

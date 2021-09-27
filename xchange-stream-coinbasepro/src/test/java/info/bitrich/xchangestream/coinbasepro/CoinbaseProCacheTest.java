@@ -20,7 +20,7 @@ import java.util.*;
 
 public class CoinbaseProCacheTest {
     @Test
-    public void test1() throws IOException {
+    public void syncWhenNoMessages() throws IOException {
         final String orderBook = "{\n" +
                 "\"bids\":[\n" +
                 "[\"0.06746\",\"0.99\",\"order1\"],\n" +
@@ -50,7 +50,7 @@ public class CoinbaseProCacheTest {
     }
 
     @Test
-    public void test2() throws IOException {
+    public void syncWhenMessageLostAfterOpenOrders() throws IOException {
         final String orderBook = "{\n" +
                 "\"bids\":[\n" +
                 "[\"0.06746\",\"0.99\",\"order1\"],\n" +
@@ -78,7 +78,7 @@ public class CoinbaseProCacheTest {
     }
 
     @Test
-    public void test3() throws IOException {
+    public void syncWhenOrderIsDoneBeforeOpenOrders() throws IOException {
         final String orderBook = "{\n" +
                 "\"bids\":[\n" +
                 "[\"0.06746\",\"0.99\",\"order1\"],\n" +
@@ -109,7 +109,7 @@ public class CoinbaseProCacheTest {
     }
 
     @Test
-    public void test4() throws IOException {
+    public void syncWhenOrderCreatedAfterOpenOrders() throws IOException {
         final String orderBook = "{\n" +
                 "\"bids\":[\n" +
                 "[\"0.06746\",\"0.99\",\"order1\"],\n" +
@@ -141,7 +141,7 @@ public class CoinbaseProCacheTest {
     }
 
     @Test
-    public void test5() throws IOException {
+    public void syncWhenOrderIsDoneBetweenOpenOrdersAndOrderBook() throws IOException {
         final String orderBook = "{\n" +
                 "\"bids\":[\n" +
                 "[\"0.06746\",\"0.99\",\"order1\"],\n" +
@@ -173,7 +173,7 @@ public class CoinbaseProCacheTest {
     }
 
     @Test
-    public void test6() throws IOException {
+    public void syncWithMessageFiltering() throws IOException {
         final String orderBook = "{\n" +
                 "\"bids\":[\n" +
                 "[\"0.06746\",\"0.99\",\"order1\"],\n" +
@@ -224,7 +224,7 @@ public class CoinbaseProCacheTest {
     }
 
     @Test
-    public void testAll() throws IOException {
+    public void testAllScenarios() throws IOException {
         final String orderBook = "{\n" +
                 "\"bids\":[\n" +
                 "[\"0.06746\",\"0.99\",\"order1\"],\n" +
@@ -301,7 +301,7 @@ public class CoinbaseProCacheTest {
         final CoinbaseProWebSocketTransaction[] messages = mapper.readValue(mapper.readTree(messagesString).toString(), CoinbaseProWebSocketTransaction[].class);
         final CoinbaseProOrder[] result = mapper.readValue(mapper.readTree(resultString).toString(), CoinbaseProOrder[].class);
 
-        ProductOpenOrders cache = new ProductOpenOrders("ETH-BTC", new CoinbaseProMarketDataServiceMock(orderBook), new CoinbaseProTradeServiceMock(openOrders));
+        ProductOpenOrders cache = new ProductOpenOrders("ETH-BTC", new CoinbaseProMarketDataServiceMock(orderBook), new CoinbaseProTradeServiceMock(openOrders), new HashMap<>());
 
         FlowableProcessor<CoinbaseProOrder> publisher = PublishProcessor.<CoinbaseProOrder>create().toSerialized();
 
