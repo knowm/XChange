@@ -86,7 +86,7 @@ public class AscendexOrderResponse {
         @JsonProperty("orderId") String orderId,
         @JsonProperty("orderType") String orderType,
         @JsonProperty("symbol") String symbol,
-        @JsonProperty("timestamp") Long timestamp) {
+        @JsonProperty("lastExecTime") Long timestamp) {
       this.id = id;
       this.orderId = orderId;
       this.orderType = orderType;
