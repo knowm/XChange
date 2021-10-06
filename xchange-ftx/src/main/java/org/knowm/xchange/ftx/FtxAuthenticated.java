@@ -8,9 +8,9 @@ import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.*;
 import org.knowm.xchange.ftx.dto.account.FtxBorrowingHistoryDto;
 import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
+import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
-import org.knowm.xchange.ftx.dto.trade.FtxPositionDto;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/api")
@@ -32,7 +32,8 @@ public interface FtxAuthenticated extends Ftx {
   FtxResponse<List<FtxWalletBalanceDto>> getWalletBalances(
       @HeaderParam("FTX-KEY") String apiKey,
       @HeaderParam("FTX-TS") Long nonce,
-      @HeaderParam("FTX-SIGN") ParamsDigest signature)
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
       throws IOException, FtxException;
 
   @GET
@@ -108,6 +109,28 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-SIGN") ParamsDigest signature,
       @HeaderParam("FTX-SUBACCOUNT") String subaccount,
       FtxOrderRequestPayload payload)
+      throws IOException, FtxException;
+
+  @POST
+  @Path("/orders/{order_id}/modify")
+  FtxResponse<FtxOrderDto> modifyOrder(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("order_id") String orderId,
+      FtxModifyOrderRequestPayload payload)
+      throws IOException, FtxException;
+
+  @POST
+  @Path("/orders/by_client_id/{client_order_id}/modify")
+  FtxResponse<FtxOrderDto> modifyOrderByClientId(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("client_order_id") String clientId,
+      FtxModifyOrderRequestPayload payload)
       throws IOException, FtxException;
 
   @GET
@@ -192,23 +215,25 @@ public interface FtxAuthenticated extends Ftx {
   @GET
   @Path("/spot_margin/borrow_history")
   FtxResponse<List<FtxBorrowingHistoryDto>> getBorrowHistory(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature,
-          @HeaderParam("FTX-SUBACCOUNT") String subaccount)
-          throws IOException, FtxException;
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @QueryParam("start_time") Long start_time,
+      @QueryParam("end_time") Long end_time)
+      throws IOException, FtxException;
 
   @GET
   @Path("/funding_payments")
   FtxResponse<List<FtxFundingPaymentsDto>> getFundingPayments(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature,
-          @HeaderParam("FTX-SUBACCOUNT") String subaccount,
-          @QueryParam("start_time") Long startTime,
-          @QueryParam("end_time") Long endTime,
-          @QueryParam("future") String future)
-          throws IOException, FtxException;
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @QueryParam("start_time") Long startTime,
+      @QueryParam("end_time") Long endTime,
+      @QueryParam("future") String future)
+      throws IOException, FtxException;
 
   @GET
   @Path("/spot_margin/lending_info")

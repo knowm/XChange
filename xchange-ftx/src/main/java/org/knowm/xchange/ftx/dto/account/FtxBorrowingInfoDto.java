@@ -2,7 +2,6 @@ package org.knowm.xchange.ftx.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class FtxBorrowingInfoDto {
@@ -58,12 +57,18 @@ public class FtxBorrowingInfoDto {
 
   @Override
   public String toString() {
-    return "FtxBorrowingInfoDto{" +
-        "coin='" + coin + '\'' +
-        ", lendable=" + lendable +
-        ", locked=" + locked +
-        ", minRate=" + minRate +
-        ", offered=" + offered +
-        '}';
+    return "FtxBorrowingInfoDto{"
+        + "coin='"
+        + coin
+        + '\''
+        + ", lendable="
+        + lendable
+        + ", locked="
+        + locked
+        + ", minRate="
+        + minRate
+        + ", offered="
+        + offered
+        + '}';
   }
 }

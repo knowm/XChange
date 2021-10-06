@@ -38,10 +38,14 @@ public class FtxLendingRatesDto {
 
   @Override
   public String toString() {
-    return "FtxLendingRatesDto{" +
-        "coin='" + coin + '\'' +
-        ", previous=" + previous +
-        ", estimate=" + estimate +
-        '}';
+    return "FtxLendingRatesDto{"
+        + "coin='"
+        + coin
+        + '\''
+        + ", previous="
+        + previous
+        + ", estimate="
+        + estimate
+        + '}';
   }
 }
