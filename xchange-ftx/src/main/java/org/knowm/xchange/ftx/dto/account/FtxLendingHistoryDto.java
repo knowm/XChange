@@ -1,7 +1,6 @@
 package org.knowm.xchange.ftx.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
 
 public class FtxLendingHistoryDto {
@@ -56,12 +55,19 @@ public class FtxLendingHistoryDto {
 
   @Override
   public String toString() {
-    return "FtxLendingHistoriesDto{" +
-        "coin='" + coin + '\'' +
-        ", cost=" + cost +
-        ", rate=" + rate +
-        ", size=" + size +
-        ", time='" + time + '\'' +
-        '}';
+    return "FtxLendingHistoriesDto{"
+        + "coin='"
+        + coin
+        + '\''
+        + ", cost="
+        + cost
+        + ", rate="
+        + rate
+        + ", size="
+        + size
+        + ", time='"
+        + time
+        + '\''
+        + '}';
   }
 }

@@ -56,12 +56,18 @@ public class FtxLendingInfoDto {
 
   @Override
   public String toString() {
-    return "FtxLendingInfoDto{" +
-        "coin='" + coin + '\'' +
-        ", lendable=" + lendable +
-        ", locked=" + locked +
-        ", minRate=" + minRate +
-        ", offered=" + offered +
-        '}';
+    return "FtxLendingInfoDto{"
+        + "coin='"
+        + coin
+        + '\''
+        + ", lendable="
+        + lendable
+        + ", locked="
+        + locked
+        + ", minRate="
+        + minRate
+        + ", offered="
+        + offered
+        + '}';
   }
 }
