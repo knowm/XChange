@@ -145,7 +145,7 @@ public class BinanceAdapters {
         .orderStatus(adaptOrderStatus(order.status))
         .originalAmount(order.origQty)
         .id(Long.toString(order.orderId))
-        .timestamp(order.getTime())
+        .timestamp(order.getUpdateTime())
         .cumulativeAmount(order.executedQty);
     if (order.executedQty.signum() != 0 && order.cummulativeQuoteQty.signum() != 0) {
       builder.averagePrice(
