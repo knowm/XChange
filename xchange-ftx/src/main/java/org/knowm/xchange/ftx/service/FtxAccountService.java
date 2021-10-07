@@ -14,7 +14,7 @@ public class FtxAccountService extends FtxAccountServiceRaw implements AccountSe
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return getSubaccountInfo(null);
+    return getSubaccountInfo(exchange.getExchangeSpecification().getUserName());
   }
 
   public AccountInfo getSubaccountInfo(String subaccount) throws IOException {

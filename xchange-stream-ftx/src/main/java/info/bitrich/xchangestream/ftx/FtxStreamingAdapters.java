@@ -231,7 +231,7 @@ public class FtxStreamingAdapters {
             .limitPrice(data.get("price").decimalValue())
             .originalAmount(data.get("size").decimalValue())
             .userReference(data.get("clientId").asText())
-            .remainingAmount(data.get("remainingSize").decimalValue())
+            .cumulativeAmount(data.get("filledSize").decimalValue())
             .averagePrice(data.get("avgFillPrice").decimalValue())
             .orderStatus(Order.OrderStatus.valueOf(data.get("status").asText().toUpperCase()));
 
