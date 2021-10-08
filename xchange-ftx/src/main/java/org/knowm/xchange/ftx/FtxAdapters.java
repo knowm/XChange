@@ -272,7 +272,7 @@ public class FtxAdapters {
                         (ftxOrderDto.isIoc() ? FtxOrderFlags.IOC : null),
                         (ftxOrderDto.isPostOnly() ? FtxOrderFlags.POST_ONLY : null),
                         (ftxOrderDto.isReduceOnly() ? FtxOrderFlags.REDUCE_ONLY : null)))))
-        .remainingAmount(ftxOrderDto.getRemainingSize())
+        .cumulativeAmount(ftxOrderDto.getFilledSize())
         .orderStatus(ftxOrderDto.getStatus())
         .id(ftxOrderDto.getId())
         .build();
