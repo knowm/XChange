@@ -193,6 +193,7 @@ public class AscendexAdapters {
                     .baseScale(ascendexProductDto.getLotSize().scale())
                     .counterMinimumAmount(ascendexProductDto.getMinNotional())
                     .counterMaximumAmount(ascendexProductDto.getMaxNotional())
+                    .minimumAmount(ascendexProductDto.getLotSize())
                     .amountStepSize(ascendexProductDto.getTickSize())
                     .build()));
 
