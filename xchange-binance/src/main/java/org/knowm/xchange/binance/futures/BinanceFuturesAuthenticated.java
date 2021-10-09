@@ -83,6 +83,7 @@ public interface BinanceFuturesAuthenticated extends BinanceAuthenticated {
             @QueryParam(SIGNATURE) ParamsDigest signature)
             throws IOException, BinanceException;
 
+    @Override
     @DELETE
     @Path("fapi/v1/order")
     /**
@@ -103,7 +104,7 @@ public interface BinanceFuturesAuthenticated extends BinanceAuthenticated {
      */
     BinanceCancelledOrder cancelOrder(
             @QueryParam("symbol") String symbol,
-            @QueryParam("orderId") long orderId,
+            @QueryParam("orderId") Long orderId,
             @QueryParam("origClientOrderId") String origClientOrderId,
             @QueryParam("newClientOrderId") String newClientOrderId,
             @QueryParam("recvWindow") Long recvWindow,
