@@ -20,13 +20,13 @@ import org.knowm.xchange.exceptions.ExchangeSecurityException;
 
 public class BinanceStreamingTradeService implements StreamingTradeService {
 
-  private final FlowableProcessor<ExecutionReportBinanceUserTransaction> executionReportsPublisher =
+  protected final FlowableProcessor<ExecutionReportBinanceUserTransaction> executionReportsPublisher =
       PublishProcessor.<ExecutionReportBinanceUserTransaction>create().toSerialized();
 
-  private volatile Disposable executionReports;
-  private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
+  protected volatile Disposable executionReports;
+  protected volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
 
-  private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+  protected final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
   public BinanceStreamingTradeService(
       BinanceUserDataStreamingService binanceUserDataStreamingService) {
@@ -85,7 +85,7 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
     openSubscriptions();
   }
 
-  private ExecutionReportBinanceUserTransaction executionReport(JsonNode json) {
+  protected ExecutionReportBinanceUserTransaction executionReport(JsonNode json) {
     try {
       return mapper.treeToValue(json, ExecutionReportBinanceUserTransaction.class);
     } catch (IOException e) {

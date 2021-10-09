@@ -106,7 +106,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
       Long endTime = tradesArgument(args, 2, Long::valueOf);
       Integer limit = tradesArgument(args, 3, Integer::valueOf);
       List<BinanceAggTrades> aggTrades =
-          binance.aggTrades(BinanceAdapters.toSymbol(pair), fromId, startTime, endTime, limit);
+          aggTrades(pair, fromId, startTime, endTime, limit);
       List<Trade> trades =
           aggTrades.stream()
               .map(

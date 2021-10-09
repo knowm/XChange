@@ -20,7 +20,7 @@ public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
     return new BinanceUserDataStreamingService(USER_API_BASE_URI + listenKey);
   }
 
-  private BinanceUserDataStreamingService(String url) {
+  protected BinanceUserDataStreamingService(String url) {
     super(url, Integer.MAX_VALUE);
   }
 
