@@ -28,9 +28,13 @@ public class FtxChangeSubAccountNamePOJO {
 
   @Override
   public String toString() {
-    return "FtxChangeSubAccountNamePOJO{" +
-        "nickname='" + nickname + '\'' +
-        ", newNickname='" + newNickname + '\'' +
-        '}';
+    return "FtxChangeSubAccountNamePOJO{"
+        + "nickname='"
+        + nickname
+        + '\''
+        + ", newNickname='"
+        + newNickname
+        + '\''
+        + '}';
   }
 }
