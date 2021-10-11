@@ -29,6 +29,10 @@ public class AbstractResilienceTest {
     return createExchange(false, true);
   }
 
+  protected BinanceExchange createExchange() {
+    return createExchange(false, false);
+  }
+
   protected BinanceExchange createExchange(boolean retryEnabled, boolean rateLimiterEnabled) {
     BinanceExchange exchange =
         (BinanceExchange)
