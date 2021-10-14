@@ -232,9 +232,10 @@ public class FtxStreamingAdapters {
             .originalAmount(data.get("size").decimalValue())
             .userReference(data.get("clientId").asText())
             .cumulativeAmount(data.get("filledSize").decimalValue())
-            .averagePrice(data.get("avgFillPrice").decimalValue())
             .orderStatus(Order.OrderStatus.valueOf(data.get("status").asText().toUpperCase()));
 
+    if (data.hasNonNull("avgFillPrice")) order.averagePrice(data.get("avgFillPrice").decimalValue());
+    
     if (data.get("ioc").asBoolean()) order.flag(FtxOrderFlags.IOC);
     if (data.get("postOnly").asBoolean()) order.flag(FtxOrderFlags.POST_ONLY);
     if (data.get("reduceOnly").asBoolean()) order.flag(FtxOrderFlags.REDUCE_ONLY);
