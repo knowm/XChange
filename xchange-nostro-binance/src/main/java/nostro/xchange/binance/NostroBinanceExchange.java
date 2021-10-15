@@ -43,15 +43,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class BinanceNostroExchange extends BinanceStreamingExchange {
-    private static final Logger LOG = LoggerFactory.getLogger(BinanceNostroExchange.class);
+public class NostroBinanceExchange extends BinanceStreamingExchange {
+    private static final Logger LOG = LoggerFactory.getLogger(NostroBinanceExchange.class);
     
     private static final String P_SYNC_DELAY = "syncDelay";
     
     private volatile TransactionFactory txFactory;
     private volatile NostroStreamingPublisher publisher;
-    private volatile BinanceNostroAccountService nostroAccountService;
-    private volatile BinanceNostroTradeService nostroTradeService;
+    private volatile NostroBinanceAccountService nostroAccountService;
+    private volatile NostroBinanceTradeService nostroTradeService;
     private volatile BinanceSyncService syncService;
     
     private volatile AccountDocument account = null;
@@ -105,8 +105,8 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
             try {
                 this.publisher = new NostroStreamingPublisher();
                 this.txFactory = TransactionFactory.get(exchangeSpecification.getExchangeName(), exchangeSpecification.getUserName());
-                this.nostroAccountService = new BinanceNostroAccountService((BinanceAccountService) this.accountService, this.txFactory);
-                this.nostroTradeService = new BinanceNostroTradeService((BinanceTradeService) this.tradeService, this.txFactory);
+                this.nostroAccountService = new NostroBinanceAccountService((BinanceAccountService) this.accountService, this.txFactory);
+                this.nostroTradeService = new NostroBinanceTradeService((BinanceTradeService) this.tradeService, this.txFactory);
                 this.syncService = new BinanceSyncService(txFactory, publisher, (BinanceAccountService) this.accountService, (BinanceTradeService) this.tradeService, getSyncDelay());
             } catch (Exception e) {
                 throw new ExchangeException("Unable to init", e);
@@ -201,7 +201,7 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
         Order order = report.toOrder();
         String orderId = order.getUserReference();
         String document = NostroUtils.writeOrderDocument(order);
-        boolean terminal = BinanceNostroUtils.isTerminal(report.getCurrentOrderStatus());
+        boolean terminal = NostroBinanceUtils.isTerminal(report.getCurrentOrderStatus());
         Timestamp created = new Timestamp(report.getOrderCreationTime());
         Timestamp updated = new Timestamp(report.getTimestamp());
         
@@ -262,18 +262,18 @@ public class BinanceNostroExchange extends BinanceStreamingExchange {
         for (BinanceWebsocketBalance bb : accountInfo.getBalances()) {
             Optional<BalanceEntity> o = tx.getBalanceRepository().findLatestByAsset(bb.getCurrency().getCurrencyCode());
             if (o.isPresent()) {
-                if (BinanceNostroUtils.updateRequired(o.get(), bb, timestamp)) {
-                    updated.add(BinanceNostroUtils.adapt(bb, timestamp));
+                if (NostroBinanceUtils.updateRequired(o.get(), bb, timestamp)) {
+                    updated.add(NostroBinanceUtils.adapt(bb, timestamp));
                 }
-            } else if (!BinanceNostroUtils.isZeroBalance(bb)) {
-                updated.add(BinanceNostroUtils.adapt(bb, timestamp));
+            } else if (!NostroBinanceUtils.isZeroBalance(bb)) {
+                updated.add(NostroBinanceUtils.adapt(bb, timestamp));
             }
         }
         
         LOG.info("Received account info, ts={}, balances={}", new Timestamp(timestamp), updated);
 
         for(Balance b: updated) {
-            tx.getBalanceRepository().insert(BinanceNostroUtils.toEntity(b));
+            tx.getBalanceRepository().insert(NostroBinanceUtils.toEntity(b));
         }
         
         return updated;

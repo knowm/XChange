@@ -24,14 +24,14 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
-public class BinanceNostroTradeService implements TradeService {
-    private static final Logger LOG = LoggerFactory.getLogger(BinanceNostroTradeService.class);
+public class NostroBinanceTradeService implements TradeService {
+    private static final Logger LOG = LoggerFactory.getLogger(NostroBinanceTradeService.class);
 
     private final BinanceTradeService inner;
     private final TransactionFactory txFactory;
     private final BinanceCancelService cancelService;
     
-    public BinanceNostroTradeService(BinanceTradeService inner, TransactionFactory txFactory) {
+    public NostroBinanceTradeService(BinanceTradeService inner, TransactionFactory txFactory) {
         this.inner = inner;
         this.txFactory = txFactory;
         this.cancelService = new BinanceCancelService(txFactory, inner);

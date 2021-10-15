@@ -1,6 +1,6 @@
 package nostro.xchange.binance.sync;
 
-import nostro.xchange.binance.BinanceNostroUtils;
+import nostro.xchange.binance.NostroBinanceUtils;
 import nostro.xchange.persistence.OrderEntity;
 import nostro.xchange.utils.NostroUtils;
 import org.knowm.xchange.binance.BinanceAdapters;
@@ -81,8 +81,8 @@ public class OpenOrderSyncTask implements Callable<Void> {
             String orderId = String.valueOf(binanceOrder.clientOrderId);
             OrderEntity e = tx.getOrderRepository().lockById(orderId).get();
             
-            if (BinanceNostroUtils.updateRequired(e, binanceOrder)) {
-                OrderEntity e2 = BinanceNostroUtils.toEntity(binanceOrder);
+            if (NostroBinanceUtils.updateRequired(e, binanceOrder)) {
+                OrderEntity e2 = NostroBinanceUtils.toEntity(binanceOrder);
                 LOG.info("Updating order(id={})", orderId);
                 tx.getOrderRepository().updateById(orderId, e2.getDocument(), e2.isTerminal(), e2.getUpdated());
                 return true;

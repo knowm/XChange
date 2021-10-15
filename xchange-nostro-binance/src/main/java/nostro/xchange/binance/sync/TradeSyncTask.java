@@ -1,6 +1,6 @@
 package nostro.xchange.binance.sync;
 
-import nostro.xchange.binance.BinanceNostroUtils;
+import nostro.xchange.binance.NostroBinanceUtils;
 import nostro.xchange.persistence.OrderEntity;
 import nostro.xchange.persistence.TradeEntity;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
@@ -48,7 +48,7 @@ public class TradeSyncTask implements Callable<Long> {
                     List<BinanceTrade> updated = syncTrades(e.getKey(), e.getValue());
                     
                     for(BinanceTrade u : updated) {
-                        syncService.publisher.publish(BinanceNostroUtils.adapt(u, pair));
+                        syncService.publisher.publish(NostroBinanceUtils.adapt(u, pair));
                     }
 
                     updatedCount += updated.size();
@@ -79,7 +79,7 @@ public class TradeSyncTask implements Callable<Long> {
                         .collect(Collectors.toSet());
             } else {
                 BinanceOrder binanceOrder = syncService.getOrder(pair, binanceOrderId);
-                OrderEntity e = BinanceNostroUtils.toEntity(binanceOrder);
+                OrderEntity e = NostroBinanceUtils.toEntity(binanceOrder);
                 orderId = e.getId();
                 
                 LOG.info("Inserting new order(id={})", orderId);
@@ -92,7 +92,7 @@ public class TradeSyncTask implements Callable<Long> {
             for (BinanceTrade binanceTrade : binanceTrades) {
                 if (!existingTradeIds.contains(Long.toString(binanceTrade.id))) {
                     LOG.info("Inserting trade(external_id={}, order_id={})", binanceTrade.id, orderId);
-                    tx.getTradeRepository().insert(BinanceNostroUtils.toEntity(binanceTrade, orderId, pair));
+                    tx.getTradeRepository().insert(NostroBinanceUtils.toEntity(binanceTrade, orderId, pair));
 
                     updated.add(binanceTrade);
                 }

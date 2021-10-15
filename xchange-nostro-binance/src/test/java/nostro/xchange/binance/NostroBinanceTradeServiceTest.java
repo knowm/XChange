@@ -21,17 +21,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.mock;
 
-public class BinanceNostroTradeServiceTest extends DataSourceTest {
+public class NostroBinanceTradeServiceTest extends DataSourceTest {
 
     private BinanceTradeService inner; 
     private TransactionFactory txFactory;
-    private BinanceNostroTradeService service;
+    private NostroBinanceTradeService service;
 
     @Before
     public void setUp() throws Exception {
         txFactory = TransactionFactory.get("Binance", "user0001");
         inner = mock(BinanceTradeService.class);
-        service = new BinanceNostroTradeService(inner, txFactory);
+        service = new NostroBinanceTradeService(inner, txFactory);
     }
 
     @Test

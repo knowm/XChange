@@ -18,12 +18,12 @@ import java.util.Map;
 import java.util.OptionalLong;
 import java.util.stream.Collectors;
 
-public class BinanceNostroAccountService implements AccountService {
+public class NostroBinanceAccountService implements AccountService {
 
     private final BinanceAccountService inner;
     private final TransactionFactory txFactory;
     
-    public BinanceNostroAccountService(BinanceAccountService inner, TransactionFactory txFactory) {
+    public NostroBinanceAccountService(BinanceAccountService inner, TransactionFactory txFactory) {
         this.inner = inner;
         this.txFactory = txFactory;
     }
