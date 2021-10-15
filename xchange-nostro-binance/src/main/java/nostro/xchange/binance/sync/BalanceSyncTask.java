@@ -1,6 +1,6 @@
 package nostro.xchange.binance.sync;
 
-import nostro.xchange.binance.BinanceNostroUtils;
+import nostro.xchange.binance.NostroBinanceUtils;
 import nostro.xchange.persistence.BalanceEntity;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.BinanceBalance;
@@ -32,11 +32,11 @@ public class BalanceSyncTask implements Callable<Void> {
         int updated = 0;
         BinanceAccountInformation account = syncService.getAccountInformation();
         for (BinanceBalance binanceBalance : account.balances) {
-            if (!BinanceNostroUtils.isZeroBalance(binanceBalance)) {
+            if (!NostroBinanceUtils.isZeroBalance(binanceBalance)) {
                 dbBalances.remove(binanceBalance.getCurrency().getCurrencyCode());
 
                 if (syncBalance(binanceBalance, account.updateTime)) {
-                    syncService.publisher.publish(BinanceNostroUtils.adapt(binanceBalance, account.updateTime));
+                    syncService.publisher.publish(NostroBinanceUtils.adapt(binanceBalance, account.updateTime));
                     ++updated;
                 }
             }
@@ -46,7 +46,7 @@ public class BalanceSyncTask implements Callable<Void> {
             if (e.getValue().getTimestamp().getTime() < account.updateTime) {
                 BinanceBalance binanceBalance = new BinanceBalance(e.getKey(), BigDecimal.ZERO, BigDecimal.ZERO);
                 if (syncBalance(binanceBalance, account.updateTime)) {
-                    syncService.publisher.publish(BinanceNostroUtils.adapt(binanceBalance, account.updateTime));
+                    syncService.publisher.publish(NostroBinanceUtils.adapt(binanceBalance, account.updateTime));
                     ++updated;
                 }
             }
@@ -63,17 +63,17 @@ public class BalanceSyncTask implements Callable<Void> {
             String asset = binanceBalance.getCurrency().getCurrencyCode();
             Optional<BalanceEntity> o = tx.getBalanceRepository().findLatestByAsset(asset);
             if (o.isPresent()) {
-                if (!BinanceNostroUtils.updateRequired(o.get(), binanceBalance, updateTime)) {
+                if (!NostroBinanceUtils.updateRequired(o.get(), binanceBalance, updateTime)) {
                     return false;
                 }
                 LOG.info("Updating balance (asset={}): {}", asset, binanceBalance);
             } else {
-                if (BinanceNostroUtils.isZeroBalance(binanceBalance)) {
+                if (NostroBinanceUtils.isZeroBalance(binanceBalance)) {
                     return false;
                 }
                 LOG.info("Inserting new balance (asset={}): {}", asset, binanceBalance);
             }
-            tx.getBalanceRepository().insert(BinanceNostroUtils.toEntity(binanceBalance, updateTime));
+            tx.getBalanceRepository().insert(NostroBinanceUtils.toEntity(binanceBalance, updateTime));
             return true;
         });
     }

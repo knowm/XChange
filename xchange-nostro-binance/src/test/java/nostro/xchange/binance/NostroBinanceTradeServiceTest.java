@@ -9,6 +9,7 @@ import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderByUserReferenceParams;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
 import java.io.IOException;
@@ -20,21 +21,21 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.mock;
 
-public class BinanceNostroTradeServiceTest extends DataSourceTest {
+public class NostroBinanceTradeServiceTest extends DataSourceTest {
 
     private BinanceTradeService inner; 
     private TransactionFactory txFactory;
-    private BinanceNostroTradeService service;
+    private NostroBinanceTradeService service;
 
     @Before
     public void setUp() throws Exception {
         txFactory = TransactionFactory.get("Binance", "user0001");
         inner = mock(BinanceTradeService.class);
-        service = new BinanceNostroTradeService(inner, txFactory);
+        service = new NostroBinanceTradeService(inner, txFactory);
     }
 
     @Test
-    public void placeLimitOrder() throws IOException {
+    public void placeAndCancelLimitOrder() throws IOException {
         LimitOrder order = new LimitOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_USDT)
                 .userReference(NostroUtils.randomUUID())
                 .limitPrice(new BigDecimal("40000"))
@@ -54,6 +55,17 @@ public class BinanceNostroTradeServiceTest extends DataSourceTest {
         LimitOrder dbOrder = ObjectMapperHelper.readValue(entity.get().getDocument(), LimitOrder.class);
         assertThat(dbOrder.getLimitPrice()).isEqualTo(order.getLimitPrice());
         assertThat(dbOrder.getOriginalAmount()).isEqualTo(order.getOriginalAmount());
+
+        given(inner.cancelOrder(CurrencyPair.BTC_USDT, null, "12345", null)).willReturn(null);
+
+        boolean cancelled = service.cancelOrder(new DefaultCancelOrderByUserReferenceParams(order.getUserReference()));
+        assertThat(cancelled).isTrue();
+
+        entity = txFactory.executeAndGet(tx -> tx.getOrderRepository().findByExternalId("12345"));
+        assertThat(entity.isPresent()).isTrue();
+
+        dbOrder = ObjectMapperHelper.readValue(entity.get().getDocument(), LimitOrder.class);
+        assertThat(dbOrder.getStatus()).isEqualTo(Order.OrderStatus.PENDING_CANCEL);
     }
 
 }

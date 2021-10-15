@@ -12,7 +12,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByUserReferenceParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParam;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,15 +22,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
-public class BinanceNostroTradeService implements TradeService {
-    private static final Logger LOG = LoggerFactory.getLogger(BinanceNostroTradeService.class);
+public class NostroBinanceTradeService implements TradeService {
+    private static final Logger LOG = LoggerFactory.getLogger(NostroBinanceTradeService.class);
 
     private final BinanceTradeService inner;
     private final TransactionFactory txFactory;
     private final BinanceCancelService cancelService;
     
-    public BinanceNostroTradeService(BinanceTradeService inner, TransactionFactory txFactory) {
+    public NostroBinanceTradeService(BinanceTradeService inner, TransactionFactory txFactory) {
         this.inner = inner;
         this.txFactory = txFactory;
         this.cancelService = new BinanceCancelService(txFactory, inner);
@@ -112,12 +113,19 @@ public class BinanceNostroTradeService implements TradeService {
 
     @Override
     public OpenOrders getOpenOrders(OpenOrdersParams params) {
-        return getOpenOrders();
+        OpenOrders openOrders = getOpenOrders();
+        if (params != null) {
+            openOrders = new OpenOrders(
+                    openOrders.getOpenOrders().stream().filter(params::accept).collect(Collectors.toList()),
+                    openOrders.getHiddenOrders().stream().filter(params::accept).collect(Collectors.toList())
+            );
+        }
+        return openOrders;
     }
 
     @Override
     public OpenOrdersParams createOpenOrdersParams() {
-        return new DefaultOpenOrdersParam();
+        return new DefaultOpenOrdersParamCurrencyPair();
     }
 
     @Override

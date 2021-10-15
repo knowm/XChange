@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class BinanceNostroUtils {
+public class NostroBinanceUtils {
     
     public static boolean isTerminal(OrderStatus orderStatus) {
         return orderStatus == OrderStatus.CANCELED ||

@@ -1,6 +1,6 @@
 package nostro.xchange.binance.sync;
 
-import nostro.xchange.binance.BinanceNostroUtils;
+import nostro.xchange.binance.NostroBinanceUtils;
 import nostro.xchange.persistence.OrderEntity;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
@@ -62,8 +62,8 @@ public class OrderSyncTask implements Callable<Long> {
             String orderId = binanceOrder.clientOrderId;
             Optional<OrderEntity> o = tx.getOrderRepository().lockById(orderId);
             if (o.isPresent()) {
-                if (BinanceNostroUtils.updateRequired(o.get(), binanceOrder)) {
-                    OrderEntity e2 = BinanceNostroUtils.toEntity(binanceOrder);
+                if (NostroBinanceUtils.updateRequired(o.get(), binanceOrder)) {
+                    OrderEntity e2 = NostroBinanceUtils.toEntity(binanceOrder);
                     LOG.info("Updating order(id={})", orderId);
                     tx.getOrderRepository().updateById(orderId, e2.getDocument(), e2.isTerminal(), e2.getUpdated());
                     return true;
@@ -72,7 +72,7 @@ public class OrderSyncTask implements Callable<Long> {
                 return false;
             } else {
                 LOG.info("Inserting new order(id={})", orderId);
-                tx.getOrderRepository().insert(BinanceNostroUtils.toEntity(binanceOrder));
+                tx.getOrderRepository().insert(NostroBinanceUtils.toEntity(binanceOrder));
                 return true;    
             }
         });
