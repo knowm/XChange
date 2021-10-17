@@ -51,7 +51,7 @@ import org.knowm.xchange.instrument.Instrument;
 
 public class DeribitAdapters {
   private static final String IMPLIED_COUNTER = "USD";
-  private static final String PERPETUAL = "perpetual";
+  private static final String PERPETUAL = "PERPETUAL";
   private static final int CURRENCY_SCALE = 8;
   private static final ThreadLocal<DateFormat> DATE_PARSER =
       ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy"));
@@ -113,8 +113,7 @@ public class DeribitAdapters {
   /** convert orders map (price -> amount) to a list of limit orders */
   private static List<LimitOrder> adaptOrdersList(
       TreeMap<BigDecimal, BigDecimal> map, Order.OrderType type, Instrument instrument) {
-    return map.entrySet()
-        .stream()
+    return map.entrySet().stream()
         .map(e -> new LimitOrder(type, e.getValue(), instrument, null, null, e.getKey()))
         .collect(Collectors.toList());
   }
@@ -133,9 +132,7 @@ public class DeribitAdapters {
   public static Trades adaptTrades(DeribitTrades deribitTrades, Instrument instrument) {
 
     return new Trades(
-        deribitTrades
-            .getTrades()
-            .stream()
+        deribitTrades.getTrades().stream()
             .map(trade -> adaptTrade(trade, instrument))
             .collect(Collectors.toList()));
   }
@@ -256,12 +253,12 @@ public class DeribitAdapters {
   public static FuturesContract adaptFuturesContract(DeribitInstrument instrument) {
     CurrencyPair currencyPair =
         new CurrencyPair(instrument.getBaseCurrency(), instrument.getQuoteCurrency());
-    Date expireDate = null;
+    String expireDate = PERPETUAL;
 
     if (!PERPETUAL.equalsIgnoreCase(instrument.getSettlementPeriod())) {
-      expireDate = instrument.getExpirationTimestamp();
+      expireDate = instrument.getExpirationTimestamp().toString();
     }
-    return new FuturesContract(currencyPair, expireDate.toString());
+    return new FuturesContract(currencyPair, expireDate);
   }
 
   public static OptionsContract adaptOptionsContract(DeribitInstrument instrument) {
@@ -341,9 +338,7 @@ public class DeribitAdapters {
   public static UserTrades adaptUserTrades(
       org.knowm.xchange.deribit.v2.dto.trade.UserTrades userTrades) {
     return new UserTrades(
-        userTrades
-            .getTrades()
-            .stream()
+        userTrades.getTrades().stream()
             .map(DeribitAdapters::adaptUserTrade)
             .collect(Collectors.toList()),
         Trades.TradeSortType.SortByTimestamp);

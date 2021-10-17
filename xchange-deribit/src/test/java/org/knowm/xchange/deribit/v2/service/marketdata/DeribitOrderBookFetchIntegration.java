@@ -10,7 +10,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.instrument.Instrument;
 
 public class DeribitOrderBookFetchIntegration {
 
@@ -34,7 +36,7 @@ public class DeribitOrderBookFetchIntegration {
 
   @Test
   public void getOrderBookTest() throws Exception {
-    CurrencyPair pair = new CurrencyPair("BTC", "PERPETUAL");
+    Instrument pair = new FuturesContract(CurrencyPair.BTC_USD, null);
     OrderBook orderBook = deribitMarketDataService.getOrderBook(pair, null);
 
     assertThat(orderBook).isNotNull();

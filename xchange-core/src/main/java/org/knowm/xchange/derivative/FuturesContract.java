@@ -39,7 +39,6 @@ public class FuturesContract extends Instrument
 
     String base = parts[0];
     String counter = parts[1];
-    String expireDate = parts[2];
 
     String prompt = parts[2];
     this.currencyPair = new CurrencyPair(base, counter);
