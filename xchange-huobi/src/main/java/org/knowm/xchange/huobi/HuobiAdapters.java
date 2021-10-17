@@ -223,7 +223,7 @@ public class HuobiAdapters {
     OrderType orderType = adaptOrderType(openOrder.getType());
     CurrencyPair currencyPair = adaptCurrencyPair(openOrder.getSymbol());
     BigDecimal openOrderAvgPrice;
-    if (openOrder.getFieldAmount().compareTo(BigDecimal.ZERO) == 0) {
+    if (openOrder.getFieldAmount() == null || openOrder.getFieldAmount().compareTo(BigDecimal.ZERO) == 0) {
       openOrderAvgPrice = BigDecimal.ZERO;
     } else {
       openOrderAvgPrice =
