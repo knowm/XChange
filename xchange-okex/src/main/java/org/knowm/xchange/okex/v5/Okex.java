@@ -49,7 +49,7 @@ public interface Okex {
   @Consumes(MediaType.APPLICATION_JSON)
   OkexResponse<List<OkexTrade>> getTrades(
       @QueryParam("instId") String instrument,
-      @QueryParam("limit") int l,
+      @QueryParam("limit") int limit,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
       throws IOException, OkexException;
 

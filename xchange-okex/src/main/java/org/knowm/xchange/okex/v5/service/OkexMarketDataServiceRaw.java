@@ -67,12 +67,12 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
     }
   }
 
-  public OkexResponse<List<OkexTrade>> getOkexTrades(String instrument)
+  public OkexResponse<List<OkexTrade>> getOkexTrades(String instrument, int limit)
       throws OkexException, IOException {
 
     return okex.getTrades(
         instrument,
-        30,
+        limit,
         (String)
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
   }
