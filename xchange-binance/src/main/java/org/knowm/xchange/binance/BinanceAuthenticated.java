@@ -300,7 +300,7 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  WithdrawRequest withdraw(
+  WithdrawResponse withdraw(
       @FormParam("coin") String coin,
       @FormParam("address") String address,
       @FormParam("addressTag") String addressTag,
@@ -358,26 +358,6 @@ public interface BinanceAuthenticated extends Binance {
       @QueryParam("coin") String coin,
       @QueryParam("startTime") Long startTime,
       @QueryParam("endTime") Long endTime,
-      @QueryParam("recvWindow") Long recvWindow,
-      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
-      @HeaderParam(X_MBX_APIKEY) String apiKey,
-      @QueryParam(SIGNATURE) ParamsDigest signature)
-      throws IOException, BinanceException;
-
-  /**
-   * Fetch small amounts of assets exchanged BNB records.
-   *
-   * @param recvWindow optional
-   * @param timestamp
-   * @param apiKey
-   * @param signature
-   * @return
-   * @throws IOException
-   * @throws BinanceException
-   */
-  @GET
-  @Path("/sapi/v1/asset/dribblet ")
-  AssetDribbletLogResponse userAssetDribbletLog(
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,

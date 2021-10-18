@@ -17,6 +17,7 @@ import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.DepositAddress;
+import org.knowm.xchange.binance.dto.account.WithdrawResponse;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -127,7 +128,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
     try {
-      return super.withdraw(currency.getCurrencyCode(), address, amount);
+      return super.withdraw(currency.getCurrencyCode(), address, amount).getId();
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -145,11 +146,11 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
       if (!(params instanceof DefaultWithdrawFundsParams)) {
         throw new IllegalArgumentException("DefaultWithdrawFundsParams must be provided.");
       }
-      String id = null;
+      WithdrawResponse withdraw;
       if (params instanceof RippleWithdrawFundsParams) {
         RippleWithdrawFundsParams rippleParams = null;
         rippleParams = (RippleWithdrawFundsParams) params;
-        id =
+        withdraw =
             super.withdraw(
                 rippleParams.getCurrency().getCurrencyCode(),
                 rippleParams.getAddress(),
@@ -157,14 +158,14 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                 rippleParams.getAmount());
       } else {
         DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
-        id =
+        withdraw =
             super.withdraw(
                 p.getCurrency().getCurrencyCode(),
                 p.getAddress(),
                 p.getAddressTag(),
                 p.getAmount());
       }
-      return id;
+      return withdraw.getId();
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
