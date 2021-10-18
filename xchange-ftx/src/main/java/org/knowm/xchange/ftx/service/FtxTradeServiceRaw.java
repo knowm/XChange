@@ -75,13 +75,13 @@ public class FtxTradeServiceRaw extends FtxBaseService {
       String subaccount, String clientId, FtxModifyOrderRequestPayload payload)
       throws FtxException, IOException {
 
-    return ftx.modifyOrder(
-          exchange.getExchangeSpecification().getApiKey(),
-          exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          subaccount,
-          clientId,
-          payload);
+    return ftx.modifyOrderByClientId(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getNonceFactory().createValue(),
+            signatureCreator,
+            subaccount,
+            clientId,
+            payload);
   }
 
   public boolean cancelOrderForSubaccount(String subaccount, String orderId) throws IOException {
