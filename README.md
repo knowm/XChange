@@ -157,16 +157,6 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
 </dependency>
 ```
 
-If it is available for your exchange, you may also want to use the streaming API:
-
-```xml
-<dependency>
-  <groupId>org.knowm.xchange</groupId>
-  <artifactId>xchange-stream-XYZ</artifactId>
-  <version>5.0.11</version>
-</dependency>
-```
-
 For snapshots, add the following repository to your pom.xml file.
 
 ```xml
