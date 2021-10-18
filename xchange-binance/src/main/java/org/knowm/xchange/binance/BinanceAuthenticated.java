@@ -300,7 +300,7 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  WithdrawRequest withdraw(
+  WithdrawResponse withdraw(
       @FormParam("coin") String coin,
       @FormParam("address") String address,
       @FormParam("addressTag") String addressTag,

@@ -1,7 +1,10 @@
 package org.knowm.xchange.binance.service.account;
 
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import org.junit.Rule;
 import org.junit.Test;
-import org.knowm.xchange.binance.AbstractResilienceTest;
+import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
@@ -17,7 +20,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
-public class AccountServiceResilienceTest extends AbstractResilienceTest {
+public class AccountServiceTest {
+
+    @Rule
+    public final WireMockRule wireMockRule = new WireMockRule();
 
     @Test(timeout = 2000)
     public void withdrawSuccess() throws Exception {
@@ -26,7 +32,7 @@ public class AccountServiceResilienceTest extends AbstractResilienceTest {
     }
 
     @Test(timeout = 2000)
-    public void withdrawFailure() throws Exception {
+    public void withdrawFailure() {
         Throwable exception = catchThrowable(() -> withdraw("withdraw-400.json", 400));
         assertThat(exception).isInstanceOf(ExchangeSecurityException.class).hasMessage("error message (HTTP status code: 400)");
     }
@@ -48,5 +54,17 @@ public class AccountServiceResilienceTest extends AbstractResilienceTest {
                                         .withStatus(statusCode)
                                         .withHeader("Content-Type", "application/json")
                                         .withBodyFile(fileName)));
+    }
+
+    private BinanceExchange createExchange() {
+        BinanceExchange exchange = ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BinanceExchange.class);
+        ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
+        specification.setHost("localhost");
+        specification.setSslUri("http://localhost:" + wireMockRule.port() + "/");
+        specification.setPort(wireMockRule.port());
+        specification.setShouldLoadRemoteMetaData(false);
+        specification.setHttpReadTimeout(1000);
+        exchange.applySpecification(specification);
+        return exchange;
     }
 }
