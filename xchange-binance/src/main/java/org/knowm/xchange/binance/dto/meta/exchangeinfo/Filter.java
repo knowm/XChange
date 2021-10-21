@@ -17,6 +17,8 @@ public class Filter {
 
   private String minNotional;
 
+  private String notional;
+
   public String getMaxPrice() {
     return maxPrice;
   }
@@ -109,5 +111,13 @@ public class Filter {
         + minNotional
         + '\''
         + '}';
+  }
+
+  public String getNotional() {
+    return notional;
+  }
+
+  public void setNotional(String notional) {
+    this.notional = notional;
   }
 }

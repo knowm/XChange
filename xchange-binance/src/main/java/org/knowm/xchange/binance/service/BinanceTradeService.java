@@ -138,7 +138,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         .findFirst();
   }
 
-  private String placeOrder(
+  protected String placeOrder(
       OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif)
       throws IOException {
     try {
@@ -184,7 +184,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     }
   }
 
-  private String getClientOrderId(Order order) {
+  protected String getClientOrderId(Order order) {
 
     // Look for user-reference directly
     String clientOrderId = order.getUserReference();    

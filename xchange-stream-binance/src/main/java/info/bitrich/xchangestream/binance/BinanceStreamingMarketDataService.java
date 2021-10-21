@@ -47,24 +47,24 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   private static final JavaType TICKER_TYPE = getTickerType();
   private static final JavaType TRADE_TYPE = getTradeType();
-  private static final JavaType DEPTH_TYPE = getDepthType();
+  protected static final JavaType DEPTH_TYPE = getDepthType();
 
-  private final BinanceStreamingService service;
+  protected final BinanceStreamingService service;
   private final String orderBookUpdateFrequencyParameter;
 
   private final Map<CurrencyPair, Flowable<BinanceTicker24h>> tickerSubscriptions;
   private final Map<CurrencyPair, Flowable<OrderBook>> orderbookSubscriptions;
   private final Map<CurrencyPair, Flowable<BinanceRawTrade>> tradeSubscriptions;
   private final Map<CurrencyPair, Flowable<OrderBookUpdate>> orderBookUpdatesSubscriptions;
-  private final Map<CurrencyPair, Flowable<DepthBinanceWebSocketTransaction>>
+  protected final Map<CurrencyPair, Flowable<DepthBinanceWebSocketTransaction>>
       orderBookRawUpdatesSubscriptions;
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-  private final BinanceMarketDataService marketDataService;
-  private final Runnable onApiCall;
+  protected final BinanceMarketDataService marketDataService;
+  protected final Runnable onApiCall;
 
-  private final AtomicBoolean fallenBack = new AtomicBoolean();
-  private final AtomicReference<Runnable> fallbackOnApiCall = new AtomicReference<>(() -> {});
+  protected final AtomicBoolean fallenBack = new AtomicBoolean();
+  protected final AtomicReference<Runnable> fallbackOnApiCall = new AtomicReference<>(() -> {});
 
   public BinanceStreamingMarketDataService(
       BinanceStreamingService service,
@@ -159,7 +159,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .publish(1).refCount();
   }
 
-  private String channelFromCurrency(CurrencyPair currencyPair, String subscriptionType) {
+  protected String channelFromCurrency(CurrencyPair currencyPair, String subscriptionType) {
     String currency = String.join("", currencyPair.toString().split("/")).toLowerCase();
     String currencyChannel = currency + "@" + subscriptionType;
 
@@ -298,7 +298,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
   }
 
-  private Flowable<DepthBinanceWebSocketTransaction> rawOrderBookUpdates(
+  protected Flowable<DepthBinanceWebSocketTransaction> rawOrderBookUpdates(
       CurrencyPair currencyPair) {
     return service
         .subscribeChannel(channelFromCurrency(currencyPair,  BinanceSubscriptionType.DEPTH.getType()))
@@ -310,7 +310,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .filter(data -> data.getCurrencyPair().equals(currencyPair));
   }
 
-  private Flowable<OrderBook> createOrderBookFlowable(CurrencyPair currencyPair) {
+  protected Flowable<OrderBook> createOrderBookFlowable(CurrencyPair currencyPair) {
     // 1. Open a stream to wss://stream.binance.com:9443/ws/bnbbtc@depth
     // 2. Buffer the events you receive from the stream.
     OrderbookSubscription subscription =
@@ -397,8 +397,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     return Flowable;
   }
 
-  private <T> BinanceWebsocketTransaction<T> readTransaction(
-      JsonNode node, JavaType type, String transactionType) {
+  protected <T> BinanceWebsocketTransaction<T> readTransaction(
+          JsonNode node, JavaType type, String transactionType) {
     try {
       return mapper.readValue(mapper.treeAsTokens(node), type);
     } catch (IOException e) {
@@ -407,8 +407,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
   }
 
-  private Stream<OrderBookUpdate> extractOrderBookUpdates(
-      CurrencyPair currencyPair, DepthBinanceWebSocketTransaction depthTransaction) {
+  protected Stream<OrderBookUpdate> extractOrderBookUpdates(
+          CurrencyPair currencyPair, DepthBinanceWebSocketTransaction depthTransaction) {
     BinanceOrderbook orderBookDiff = depthTransaction.getOrderBook();
 
     Stream<OrderBookUpdate> bidStream =

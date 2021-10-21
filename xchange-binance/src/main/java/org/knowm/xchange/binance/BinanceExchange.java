@@ -31,8 +31,8 @@ public class BinanceExchange extends BaseExchange {
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
   private BinanceExchangeInfo exchangeInfo;
-  private BinanceAuthenticated binance;
-  private SynchronizedValueFactory<Long> timestampFactory;
+  protected BinanceAuthenticated binance;
+  protected SynchronizedValueFactory<Long> timestampFactory;
 
   @Override
   protected void initServices() {
@@ -194,7 +194,7 @@ public class BinanceExchange extends BaseExchange {
             && exchangeSpecification.getSecretKey() != null;
   }
 
-  private int numberOfDecimals(String value) {
+  protected int numberOfDecimals(String value) {
 
     return new BigDecimal(value).stripTrailingZeros().scale();
   }
