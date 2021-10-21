@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
+
 /** https://www.okex.com/docs-v5/en/#rest-api-account-get-balance * */
 @Getter
 @NoArgsConstructor
@@ -40,7 +41,8 @@ public class OkexWalletBalance {
   private Detail[] details;
 
   @NoArgsConstructor
-  public class Detail {
+  @Getter
+  public static class Detail {
     @JsonProperty("ccy")
     private String currency;
 

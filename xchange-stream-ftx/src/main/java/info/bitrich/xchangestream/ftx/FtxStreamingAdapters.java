@@ -221,7 +221,7 @@ public class FtxStreamingAdapters {
 
   public static Order adaptOrders(JsonNode jsonNode) {
     JsonNode data = jsonNode.get("data");
-    System.out.println(jsonNode.toPrettyString());
+
     LimitOrder.Builder order =
         new LimitOrder.Builder(
                 "buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK,

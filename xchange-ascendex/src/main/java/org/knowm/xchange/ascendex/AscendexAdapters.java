@@ -191,8 +191,9 @@ public class AscendexAdapters {
                     .tradingFee(ascendexProductDto.getCommissionReserveRate())
                     .priceScale(ascendexProductDto.getTickSize().scale())
                     .baseScale(ascendexProductDto.getLotSize().scale())
-                    .counterMaximumAmount(ascendexProductDto.getMinNotional())
+                    .counterMinimumAmount(ascendexProductDto.getMinNotional())
                     .counterMaximumAmount(ascendexProductDto.getMaxNotional())
+                    .minimumAmount(ascendexProductDto.getLotSize())
                     .amountStepSize(ascendexProductDto.getTickSize())
                     .build()));
 

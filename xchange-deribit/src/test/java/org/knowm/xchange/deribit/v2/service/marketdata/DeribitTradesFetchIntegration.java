@@ -10,7 +10,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrades;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.instrument.Instrument;
 
 public class DeribitTradesFetchIntegration {
 
@@ -35,7 +37,7 @@ public class DeribitTradesFetchIntegration {
 
   @Test
   public void getTradesTest() throws Exception {
-    CurrencyPair pair = new CurrencyPair("BTC", "PERPETUAL");
+    Instrument pair = new FuturesContract(CurrencyPair.BTC_USD, null);
     Trades trades = deribitMarketDataService.getTrades(pair);
 
     assertThat(trades).isNotNull();
