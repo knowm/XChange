@@ -307,7 +307,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("currencyPair") String currencyPair,
-      @FormParam("limit") int limit)
+      @FormParam("limit") Integer limit)
       throws IOException;
 
   @POST

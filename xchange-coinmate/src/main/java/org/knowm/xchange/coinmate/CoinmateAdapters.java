@@ -24,12 +24,10 @@
 package org.knowm.xchange.coinmate;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
-import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceData;
+import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceDataEntry;
 import org.knowm.xchange.coinmate.dto.marketdata.*;
 import org.knowm.xchange.coinmate.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
@@ -142,7 +140,7 @@ public class CoinmateAdapters {
 
   public static Wallet adaptWallet(CoinmateBalance coinmateBalance) {
 
-    CoinmateBalanceData funds = coinmateBalance.getData();
+    Map<String, CoinmateBalanceDataEntry> funds = coinmateBalance.getData();
     List<Balance> balances = new ArrayList<>(funds.size());
     for (String lcCurrency : funds.keySet()) {
       Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
@@ -160,7 +158,7 @@ public class CoinmateAdapters {
 
   public static UserTrades adaptTransactionHistory(
       CoinmateTransactionHistory coinmateTradeHistory) {
-    List<UserTrade> trades = new ArrayList<>(coinmateTradeHistory.getData().size());
+    List<UserTrade> trades = new ArrayList<>(coinmateTradeHistory.getData().length);
 
     for (CoinmateTransactionHistoryEntry entry : coinmateTradeHistory.getData()) {
 
@@ -282,7 +280,7 @@ public class CoinmateAdapters {
   public static List<LimitOrder> adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders)
       throws CoinmateException {
 
-    List<LimitOrder> ordersList = new ArrayList<>(coinmateOpenOrders.getData().size());
+    List<LimitOrder> ordersList = new ArrayList<>(coinmateOpenOrders.getData().length);
 
     for (CoinmateOpenOrdersEntry entry : coinmateOpenOrders.getData()) {
 
@@ -314,7 +312,7 @@ public class CoinmateAdapters {
   public static List<Order> adaptStopOrders(CoinmateOpenOrders coinmateOpenOrders)
       throws CoinmateException {
 
-    return coinmateOpenOrders.getData().stream()
+    return Arrays.stream(coinmateOpenOrders.getData())
         .filter(entry -> "LIMIT_STOP".equals(entry.getOrderTradeType()))
         .map(
             entry ->

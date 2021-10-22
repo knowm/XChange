@@ -120,7 +120,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return transferHistory;
   }
 
-  public CoinmateOrderHistory getCoinmateOrderHistory(String currencyPair, int limit)
+  public CoinmateOrderHistory getCoinmateOrderHistory(String currencyPair, Integer limit)
       throws IOException {
     CoinmateOrderHistory orderHistory =
         coinmateAuthenticated.getOrderHistory(

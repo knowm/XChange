@@ -28,12 +28,12 @@ import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
 
 /** @author Martin Stachon */
 public class CoinmateTransactionHistory
-    extends CoinmateBaseResponse<CoinmateTransactionHistoryData> {
+    extends CoinmateBaseResponse<CoinmateTransactionHistoryEntry[]> {
 
   public CoinmateTransactionHistory(
       @JsonProperty("error") boolean error,
       @JsonProperty("errorMessage") String errorMessage,
-      @JsonProperty("data") CoinmateTransactionHistoryData data) {
+      @JsonProperty("data") CoinmateTransactionHistoryEntry[] data) {
 
     super(error, errorMessage, data);
   }
