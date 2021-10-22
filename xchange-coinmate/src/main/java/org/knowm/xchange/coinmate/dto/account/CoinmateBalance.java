@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
 
+import java.util.Map;
+
 /** @author Martin Stachon */
 public class CoinmateBalance extends CoinmateBaseResponse<Map<String, CoinmateBalanceDataEntry>> {
 
