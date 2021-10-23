@@ -2,17 +2,15 @@ package org.knowm.xchange.okex.v5;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -24,6 +22,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
+import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexOrderbook;
@@ -31,6 +30,7 @@ import org.knowm.xchange.okex.v5.dto.marketdata.OkexTrade;
 import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
+import org.knowm.xchange.utils.DateUtils;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAdapters {
@@ -267,5 +267,23 @@ public class OkexAdapters {
         exchangeMetaData == null ? null : exchangeMetaData.getPublicRateLimits(),
         exchangeMetaData == null ? null : exchangeMetaData.getPrivateRateLimits(),
         true);
+  }
+
+  public static Wallet adaptOkexBalances(List<OkexWalletBalance> okexWalletBalanceList) {
+    List<Balance> balances = new ArrayList<>();
+    if (!okexWalletBalanceList.isEmpty()) {
+      OkexWalletBalance okexWalletBalance = okexWalletBalanceList.get(0);
+      balances = Arrays.stream(okexWalletBalance.getDetails()).map(
+              detail ->
+                      new Balance.Builder()
+                              .currency(new Currency(detail.getCurrency()))
+                              .total(new BigDecimal(detail.getCashBalance()))
+                              .available(new BigDecimal(detail.getAvailableBalance()))
+                              .timestamp(new Date())
+                              .build())
+              .collect(Collectors.toList());
+    }
+
+    return Wallet.Builder.from(balances).build();
   }
 }

@@ -73,6 +73,9 @@ public class OkexWalletBalance {
     @JsonProperty("ordFrozen")
     private String marginFrozen;
 
+    @JsonProperty("eqUsd")
+    private String usdEqual;
+
     // TODO: Model the rest of the margin fields
   }
 }
