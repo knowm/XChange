@@ -36,6 +36,9 @@ import org.knowm.xchange.utils.DateUtils;
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAdapters {
 
+  private static final String TRADING_WALLET_ID = "trading";
+  private static final String FOUNDING_WALLET_ID = "founding";
+
   public static Order adaptOrder(OkexOrderDetails order) {
     return new LimitOrder(
         "buy".equals(order.getSide()) ? Order.OrderType.BID : Order.OrderType.ASK,
@@ -285,7 +288,8 @@ public class OkexAdapters {
               .collect(Collectors.toList());
     }
 
-    return Wallet.Builder.from(balances).features(new HashSet<>(Collections.singletonList(Wallet.WalletFeature.TRADING))).build();
+    return Wallet.Builder.from(balances).id(TRADING_WALLET_ID).features(new HashSet<>(
+            Collections.singletonList(Wallet.WalletFeature.TRADING))).build();
   }
 
   public static Wallet adaptOkexAssetBalances(List<OkexAssetBalance> okexAssetBalanceList) {
@@ -300,6 +304,7 @@ public class OkexAdapters {
                                     .build())
             .collect(Collectors.toList());
 
-    return Wallet.Builder.from(balances).features(new HashSet<>(Collections.singletonList(Wallet.WalletFeature.FUNDING))).build();
+    return Wallet.Builder.from(balances).id(FOUNDING_WALLET_ID).features(new HashSet<>(
+            Collections.singletonList(Wallet.WalletFeature.FUNDING))).build();
   }
 }
