@@ -22,6 +22,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
+import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
 import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
@@ -284,6 +285,21 @@ public class OkexAdapters {
               .collect(Collectors.toList());
     }
 
-    return Wallet.Builder.from(balances).build();
+    return Wallet.Builder.from(balances).features(new HashSet<>(Collections.singletonList(Wallet.WalletFeature.TRADING))).build();
+  }
+
+  public static Wallet adaptOkexAssetBalances(List<OkexAssetBalance> okexAssetBalanceList) {
+    List<Balance> balances;
+    balances = okexAssetBalanceList.stream().map(
+                    detail ->
+                            new Balance.Builder()
+                                    .currency(new Currency(detail.getCurrency()))
+                                    .total(new BigDecimal(detail.getBalance()))
+                                    .available(new BigDecimal(detail.getAvailableBalance()))
+                                    .timestamp(new Date())
+                                    .build())
+            .collect(Collectors.toList());
+
+    return Wallet.Builder.from(balances).features(new HashSet<>(Collections.singletonList(Wallet.WalletFeature.FUNDING))).build();
   }
 }

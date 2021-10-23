@@ -5,6 +5,7 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.okex.v5.OkexAdapters;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
+import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
 import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
 import org.knowm.xchange.service.account.AccountService;
 
@@ -17,10 +18,11 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
     super(exchange, resilienceRegistries);
   }
 
-
   public AccountInfo getAccountInfo() throws IOException {
     //null to get assets (with non-zero balance), remaining balance, and available amount in the account.
-    OkexResponse<List<OkexWalletBalance>> assetBalances = getWalletBalances(null);
-    return new AccountInfo(OkexAdapters.adaptOkexBalances(assetBalances.getData()));
+    OkexResponse<List<OkexWalletBalance>> tradingBalances = getWalletBalances(null);
+    OkexResponse<List<OkexAssetBalance>> assetBalances = getAssetBalances(null);
+    return new AccountInfo(OkexAdapters.adaptOkexBalances(tradingBalances.getData()),
+                            OkexAdapters.adaptOkexAssetBalances(assetBalances.getData()));
   }
 }
