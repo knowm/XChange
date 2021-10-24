@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.Collection;
 
 public class FtxTradeService extends FtxTradeServiceRaw implements TradeService {
+  
+  private final FtxPlaceOrderExecutor placeOrderExecutor = new FtxPlaceOrderExecutor();
 
   public FtxTradeService(Exchange exchange) {
     super(exchange);
@@ -26,14 +28,18 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    return placeMarketOrderForSubaccount(
-        exchange.getExchangeSpecification().getUserName(), marketOrder);
+    return placeOrderExecutor.executePlace(
+        () ->
+            placeMarketOrderForSubaccount(
+                exchange.getExchangeSpecification().getUserName(), marketOrder));
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return placeLimitOrderForSubaccount(
-        exchange.getExchangeSpecification().getUserName(), limitOrder);
+    return placeOrderExecutor.executePlace(
+        () ->
+            placeLimitOrderForSubaccount(
+                exchange.getExchangeSpecification().getUserName(), limitOrder));
   }
 
   @Override
