@@ -16,7 +16,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.okex.v5.dto.trade.OkexTradeParams;
 import org.knowm.xchange.okex.v5.service.OkexTradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
@@ -30,7 +29,7 @@ public class OkexExchangeIntegration {
   private static final String PASSPHRASE = "";
 
   @Test
-  public void testCreateExchangeShouldApplyDefaultSpecification() throws Exception {
+  public void testCreateExchangeShouldApplyDefaultSpecification() {
     ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
 
@@ -43,7 +42,7 @@ public class OkexExchangeIntegration {
   }
 
   @Test
-  public void testCreateExchangeShouldApplyResilience() throws Exception {
+  public void testCreateExchangeShouldApplyResilience() {
     ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
     ExchangeSpecification.ResilienceSpecification resilienceSpecification =
         new ExchangeSpecification.ResilienceSpecification();

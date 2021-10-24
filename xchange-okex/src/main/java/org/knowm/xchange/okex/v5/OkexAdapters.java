@@ -98,7 +98,9 @@ public class OkexAdapters {
         .instrumentId(adaptInstrumentId(order.getInstrument()))
         .tradeMode(order.getInstrument() instanceof CurrencyPair ? "cash" : "cross")
         .side(order.getType() == Order.OrderType.BID ? "buy" : "sell")
-        .posSide(null)
+        .posSide(null) // PosSide should come as a input from an extended LimitOrder class to
+                       // support Futures/Swap capabilities of Okex, till then it should be null to
+                       // perform "net" orders
         .orderType("limit")
         .amount(order.getOriginalAmount().toString())
         .price(order.getLimitPrice().toString())
@@ -116,22 +118,18 @@ public class OkexAdapters {
         .get(0)
         .getAsks()
         .forEach(
-            okexAsk -> {
-              asks.add(
-                  adaptOrderbookOrder(
-                      okexAsk.getVolume(), okexAsk.getPrice(), instrument, Order.OrderType.ASK));
-            });
+            okexAsk -> asks.add(
+                adaptOrderbookOrder(
+                    okexAsk.getVolume(), okexAsk.getPrice(), instrument, OrderType.ASK)));
 
     okexOrderbook
         .getData()
         .get(0)
         .getBids()
         .forEach(
-            okexBid -> {
-              bids.add(
-                  adaptOrderbookOrder(
-                      okexBid.getVolume(), okexBid.getPrice(), instrument, Order.OrderType.BID));
-            });
+            okexBid -> bids.add(
+                adaptOrderbookOrder(
+                    okexBid.getVolume(), okexBid.getPrice(), instrument, OrderType.BID)));
 
     return new OrderBook(Date.from(Instant.now()), asks, bids);
   }
@@ -158,17 +156,15 @@ public class OkexAdapters {
     List<Trade> trades = new ArrayList<>();
 
     okexTrades.forEach(
-        okexTrade -> {
-          trades.add(
-              new Trade.Builder()
-                  .id(okexTrade.getTradeId())
-                  .instrument(instrument)
-                  .originalAmount(okexTrade.getSz())
-                  .price(okexTrade.getPx())
-                  .timestamp(okexTrade.getTs())
-                  .type(adaptOkexOrderSideToOrderType(okexTrade.getSide()))
-                  .build());
-        });
+        okexTrade -> trades.add(
+            new Trade.Builder()
+                .id(okexTrade.getTradeId())
+                .instrument(instrument)
+                .originalAmount(okexTrade.getSz())
+                .price(okexTrade.getPx())
+                .timestamp(okexTrade.getTs())
+                .type(adaptOkexOrderSideToOrderType(okexTrade.getSide()))
+                .build()));
 
     return new Trades(trades);
   }
@@ -251,8 +247,8 @@ public class OkexAdapters {
     return new ExchangeMetaData(
         currencyPairs,
         currencies,
-        exchangeMetaData == null ? null : exchangeMetaData.getPublicRateLimits(),
-        exchangeMetaData == null ? null : exchangeMetaData.getPrivateRateLimits(),
+        exchangeMetaData.getPublicRateLimits(),
+        exchangeMetaData.getPrivateRateLimits(),
         true);
   }
 
