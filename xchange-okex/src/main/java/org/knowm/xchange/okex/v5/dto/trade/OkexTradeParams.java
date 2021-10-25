@@ -1,4 +1,4 @@
-package org.knowm.xchange.okex.v5;
+package org.knowm.xchange.okex.v5.dto.trade;
 
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;

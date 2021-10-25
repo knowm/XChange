@@ -16,6 +16,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.okex.v5.dto.trade.OkexTradeParams;
 import org.knowm.xchange.okex.v5.service.OkexTradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
