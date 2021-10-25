@@ -32,18 +32,19 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (orderParams instanceof CancelOrderByPairAndIdParams) {
+    if (orderParams instanceof CancelOrderByCurrencyPair) {
       cancelAllAscendexOrdersBySymbol(
-          ((CancelOrderByPairAndIdParams) orderParams).getCurrencyPair().toString());
-      return true;
-    } else if (orderParams instanceof CancelOrderByCurrencyPair) {
-      cancelAllAscendexOrdersBySymbol(
-          ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair().toString());
+              ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair().toString());
       return true;
     } else {
       throw new IOException(
-          "Params must be instanceOf CancelOrderByPairAndIdParams in order to cancel an order on Ascendex.");
+          "Params must be instanceOf CancelOrderByCurrencyPair in order to cancel an order on Ascendex.");
     }
+  }
+
+  @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[]{CancelOrderByCurrencyPair.class};
   }
 
   @Override

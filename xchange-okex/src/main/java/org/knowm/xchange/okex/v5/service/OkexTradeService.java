@@ -18,6 +18,7 @@ import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderResponse;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -106,6 +107,11 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
       throw new IOException(
           "CancelOrderParams must implement CancelOrderByIdParams and CancelOrderByInstrument interface.");
     }
+  }
+
+  @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[]{CancelOrderByIdParams.class, CancelOrderByInstrument.class};
   }
 
   public List<Boolean> cancelOrder(List<CancelOrderParams> params) throws IOException {
