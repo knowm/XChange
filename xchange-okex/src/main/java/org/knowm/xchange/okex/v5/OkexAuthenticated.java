@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
+import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
 import org.knowm.xchange.okex.v5.dto.account.OkexDepositAddress;
 import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
 import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
@@ -33,6 +34,7 @@ public interface OkexAuthenticated extends Okex {
   String balancePath = "/account/balance"; // Stated as 10 req/2 sec
   String tradeFeePath = "/account/trade-fee"; // Stated as 5 req/2 sec
   String currenciesPath = "/asset/currencies"; // Stated as 6 req/sec
+  String assetBalancesPath = "/asset/balances"; // Stated as 6 req/sec
   String pendingOrdersPath = "/trade/orders-pending"; // Stated as 20 req/2 sec
   String orderDetailsPath = "/trade/order";
   String placeOrderPath = "/trade/order"; // Stated as 60 req/2 sec
@@ -50,6 +52,7 @@ public interface OkexAuthenticated extends Okex {
         {
           put(balancePath, Arrays.asList(5, 1));
           put(currenciesPath, Arrays.asList(6, 1));
+          put(assetBalancesPath, Arrays.asList(6, 1));
           put(pendingOrdersPath, Arrays.asList(20, 2));
           put(orderDetailsPath, Arrays.asList(60, 2));
           put(placeOrderPath, Arrays.asList(60, 2));
@@ -117,6 +120,17 @@ public interface OkexAuthenticated extends Okex {
   @GET
   @Path(currenciesPath)
   OkexResponse<List<OkexCurrency>> getCurrencies(
+      @HeaderParam("OK-ACCESS-KEY") String apiKey,
+      @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+      @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+      throws OkexException, IOException;
+
+  @GET
+  @Path(assetBalancesPath)
+  OkexResponse<List<OkexAssetBalance>> getAssetBalances(
+      @QueryParam("ccy") List<Currency> currencies,
       @HeaderParam("OK-ACCESS-KEY") String apiKey,
       @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
       @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
