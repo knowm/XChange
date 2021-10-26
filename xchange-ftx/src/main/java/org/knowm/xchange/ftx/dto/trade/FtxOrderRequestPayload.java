@@ -20,18 +20,18 @@ public class FtxOrderRequestPayload {
 
   private boolean postOnly;
 
-  private String cliendId;
+  private String clientId;
 
   public FtxOrderRequestPayload(
-      String market,
-      FtxOrderSide side,
-      BigDecimal price,
-      FtxOrderType type,
-      BigDecimal size,
-      boolean reduceOnly,
-      boolean ioc,
-      boolean postOnly,
-      String cliendId) {
+          String market,
+          FtxOrderSide side,
+          BigDecimal price,
+          FtxOrderType type,
+          BigDecimal size,
+          boolean reduceOnly,
+          boolean ioc,
+          boolean postOnly,
+          String clientId) {
     this.market = market;
     this.side = side;
     this.price = price;
@@ -40,7 +40,7 @@ public class FtxOrderRequestPayload {
     this.reduceOnly = reduceOnly;
     this.ioc = ioc;
     this.postOnly = postOnly;
-    this.cliendId = cliendId;
+    this.clientId = clientId;
   }
 
   public String getMarket() {
@@ -107,37 +107,37 @@ public class FtxOrderRequestPayload {
     this.postOnly = postOnly;
   }
 
-  public String getCliendId() {
-    return cliendId;
+  public String getClientId() {
+    return clientId;
   }
 
-  public void setCliendId(String cliendId) {
-    this.cliendId = cliendId;
+  public void setClientId(String clientId) {
+    this.clientId = clientId;
   }
 
   @Override
   public String toString() {
     return "FtxOrderRequestPOJO{"
-        + "market='"
-        + market
-        + '\''
-        + ", side="
-        + side
+            + "market='"
+            + market
+            + '\''
+            + ", side="
+            + side
         + ", price="
         + price
-        + ", type="
-        + type
-        + ", size="
-        + size
-        + ", reduceOnly="
-        + reduceOnly
-        + ", ioc="
-        + ioc
-        + ", postOnly="
-        + postOnly
-        + ", cliendId='"
-        + cliendId
-        + '\''
-        + '}';
+            + ", type="
+            + type
+            + ", size="
+            + size
+            + ", reduceOnly="
+            + reduceOnly
+            + ", ioc="
+            + ioc
+            + ", postOnly="
+            + postOnly
+            + ", clientId='"
+            + clientId
+            + '\''
+            + '}';
   }
 }
