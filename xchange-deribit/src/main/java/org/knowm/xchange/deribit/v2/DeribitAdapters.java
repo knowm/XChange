@@ -229,9 +229,11 @@ public class DeribitAdapters {
   }
 
   public static OpenPosition adapt(Position p) {
+    Instrument instrument = adaptInstrument(p.getInstrumentName());
+    BigDecimal size = instrument instanceof FuturesContract ? p.getSizeCurrency() : p.getSize();
     return new OpenPosition.Builder()
-        .instrument(adaptInstrument(p.getInstrumentName()))
-        .size(p.getSize())
+        .instrument(instrument)
+        .size(size)
         .price(p.getMarkPrice())
         .build();
   }

@@ -23,7 +23,7 @@ public class FuturesContract extends Instrument
 
   private static final Comparator<FuturesContract> COMPARATOR =
       Comparator.comparing(FuturesContract::getCurrencyPair)
-          .thenComparing(FuturesContract::getExpireDate);
+          .thenComparing(FuturesContract::getExpireDate, Comparator.nullsLast(Comparator.naturalOrder()));
 
   /** The CurrencyPair the FuturesContract is based upon */
   private final CurrencyPair currencyPair;

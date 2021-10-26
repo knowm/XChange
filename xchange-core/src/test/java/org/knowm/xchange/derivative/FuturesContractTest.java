@@ -18,4 +18,13 @@ public class FuturesContractTest {
     FuturesContract jsonCopy2 = ObjectMapperHelper.viaJSON(contractPerpetual);
     assertThat(jsonCopy2).isEqualTo(contractPerpetual);
   }
+  
+  @Test
+  public void testComparator() {
+    FuturesContract contractExpire = new FuturesContract("XBT/USD/200925");
+    FuturesContract contractPerpetual = new FuturesContract("XBT/USD/perpetual");
+
+    int c = contractExpire.compareTo(contractPerpetual);
+    assertThat(c).isEqualTo(-1);
+  }
 }
