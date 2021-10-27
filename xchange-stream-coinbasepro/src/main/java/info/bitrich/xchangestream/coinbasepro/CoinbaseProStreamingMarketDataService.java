@@ -6,19 +6,21 @@ import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptTrades;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.rxjava3.core.Flowable;
+
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** Created by luca on 4/3/17. */
 public class CoinbaseProStreamingMarketDataService implements StreamingMarketDataService {
@@ -30,10 +32,7 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
 
   private final CoinbaseProStreamingService service;
 
-  private final Map<CurrencyPair, SortedMap<BigDecimal, BigDecimal>> bids =
-      new ConcurrentHashMap<>();
-  private final Map<CurrencyPair, SortedMap<BigDecimal, BigDecimal>> asks =
-      new ConcurrentHashMap<>();
+  private final Map<CurrencyPair, Flowable<OrderBook>> orderbookSubscriptions = new ConcurrentHashMap<>();
 
   CoinbaseProStreamingMarketDataService(CoinbaseProStreamingService service) {
     this.service = service;
@@ -54,24 +53,85 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
     if (!containsPair(service.getProduct().getOrderBook(), currencyPair))
       throw new UnsupportedOperationException(
           String.format("The currency pair %s is not subscribed for orderbook", currencyPair));
-    final int maxDepth =
-        (args.length > 0 && args[0] instanceof Number) ? ((Number) args[0]).intValue() : 100;
-    return getRawWebSocketTransactions(currencyPair, false)
-        .filter(
-            message -> (SNAPSHOT).equals(message.getType()) || (L2UPDATE).equals(message.getType()))
-        .map(
-            s -> {
-              if (s.getType().equals(SNAPSHOT)) {
-                bids.put(currencyPair, new TreeMap<>(java.util.Collections.reverseOrder()));
-                asks.put(currencyPair, new TreeMap<>());
-              } else {
-                bids.computeIfAbsent(
-                    currencyPair, k -> new TreeMap<>(java.util.Collections.reverseOrder()));
-                asks.computeIfAbsent(currencyPair, k -> new TreeMap<>());
-              }
-              return s.toOrderBook(
-                  bids.get(currencyPair), asks.get(currencyPair), maxDepth, currencyPair);
-            });
+
+    return orderbookSubscriptions.computeIfAbsent(currencyPair, this::initOrderBookIfAbsent);
+  }
+
+  private Flowable<OrderBook> initOrderBookIfAbsent(CurrencyPair currencyPair) {
+    OrderbookSubscription subscription =
+            new OrderbookSubscription(currencyPair, getRawWebSocketTransactions(currencyPair, false));
+
+    return subscription.stream
+            .filter(message -> (SNAPSHOT).equals(message.getType()) || (L2UPDATE).equals(message.getType()))
+            .doOnNext(subscription::update)
+            .filter(s -> subscription.isOrderbookReady())
+            .map(s -> subscription.toOrderBook())
+            .publish(1).refCount();
+  }
+
+  private final class OrderbookSubscription {
+    final CurrencyPair currencyPair;
+    final Flowable<CoinbaseProWebSocketTransaction> stream;
+    SortedMap<BigDecimal, BigDecimal> bids = new TreeMap<>(java.util.Collections.reverseOrder());
+    SortedMap<BigDecimal, BigDecimal> asks = new TreeMap<>();
+
+    Date lastUpdateTime;
+    Date lastEmitTime;
+
+    private OrderbookSubscription(CurrencyPair currencyPair, Flowable<CoinbaseProWebSocketTransaction> stream) {
+      this.currencyPair = currencyPair;
+      this.stream = stream;
+    }
+
+    void update(CoinbaseProWebSocketTransaction t) {
+      if (t.getType().equals(SNAPSHOT)) {
+        initSnapshot(t);
+      } else {
+        for(String[] change : t.getChanges()) {
+          updateMap("buy".equals(change[0]) ? bids : asks, change);
+        }
+        lastUpdateTime = CoinbaseProStreamingAdapters.parseDate(t.getTime());
+      }
+    }
+
+    boolean isOrderbookReady() {
+      return lastUpdateTime != null && (lastEmitTime == null || lastUpdateTime.getTime() - lastEmitTime.getTime() >= 1000);
+    }
+
+    OrderBook toOrderBook() {
+      List<LimitOrder> _bids = bids.entrySet().stream().limit(100)
+              .map(level -> new LimitOrder(Order.OrderType.BID, level.getValue(), currencyPair, "0", null, level.getKey()))
+              .collect(Collectors.toList());
+
+      List<LimitOrder> _asks = asks.entrySet().stream().limit(100)
+              .map(level -> new LimitOrder(Order.OrderType.ASK, level.getValue(), currencyPair, "0", null, level.getKey()))
+              .collect(Collectors.toList());
+      lastEmitTime = lastUpdateTime;
+      return new OrderBook(new Date(lastEmitTime.getTime()), _asks, _bids);
+    }
+
+    private void initSnapshot(CoinbaseProWebSocketTransaction t) {
+      bids = new TreeMap<>(java.util.Collections.reverseOrder());
+      asks = new TreeMap<>();
+      for (String[] level : t.getBids()) {
+        updateMap(bids, level);
+      }
+      for (String[] level : t.getAsks()) {
+        updateMap(asks, level);
+      }
+      lastUpdateTime = null;
+      lastEmitTime = null;
+    }
+
+    private void updateMap(SortedMap<BigDecimal, BigDecimal> map, String[] level) {
+      BigDecimal price = new BigDecimal(level[level.length - 2]);
+      BigDecimal volume = new BigDecimal(level[level.length - 1]);
+      if (volume.signum() == 0) {
+        map.remove(price);
+      } else {
+        map.put(price, volume);
+      }
+    }
   }
 
   /**

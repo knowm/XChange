@@ -142,74 +142,6 @@ public class CoinbaseProWebSocketTransaction {
     this.makerFeeRate = makerFeeRate;
   }
 
-  private List<LimitOrder> coinbaseProOrderBookChanges(
-      String side,
-      OrderType orderType,
-      CurrencyPair currencyPair,
-      String[][] changes,
-      SortedMap<BigDecimal, BigDecimal> sideEntries,
-      int maxDepth) {
-    if (changes.length == 0) {
-      return Collections.emptyList();
-    }
-
-    if (sideEntries == null) {
-      return Collections.emptyList();
-    }
-
-    for (String[] level : changes) {
-      if (level.length == 3 && !level[0].equals(side)) {
-        continue;
-      }
-
-      BigDecimal price = new BigDecimal(level[level.length - 2]);
-      BigDecimal volume = new BigDecimal(level[level.length - 1]);
-      sideEntries.put(price, volume);
-    }
-
-    Stream<Entry<BigDecimal, BigDecimal>> stream =
-        sideEntries.entrySet().stream()
-            .filter(level -> level.getValue().compareTo(BigDecimal.ZERO) != 0);
-    if (maxDepth != 0) {
-      stream = stream.limit(maxDepth);
-    }
-    return stream
-        .map(
-            level ->
-                new LimitOrder(
-                    orderType, level.getValue(), currencyPair, "0", null, level.getKey()))
-        .collect(Collectors.toList());
-  }
-
-  public OrderBook toOrderBook(
-      SortedMap<BigDecimal, BigDecimal> bids,
-      SortedMap<BigDecimal, BigDecimal> asks,
-      int maxDepth,
-      CurrencyPair currencyPair) {
-    // For efficiency, we go straight to XChange format
-    List<LimitOrder> gdaxOrderBookBids =
-        coinbaseProOrderBookChanges(
-            "buy",
-            OrderType.BID,
-            currencyPair,
-            changes != null ? changes : this.bids,
-            bids,
-            maxDepth);
-    List<LimitOrder> gdaxOrderBookAsks =
-        coinbaseProOrderBookChanges(
-            "sell",
-            OrderType.ASK,
-            currencyPair,
-            changes != null ? changes : this.asks,
-            asks,
-            maxDepth);
-    return new OrderBook(
-        time == null ? null : CoinbaseProStreamingAdapters.parseDate(time),
-        gdaxOrderBookAsks,
-        gdaxOrderBookBids,
-        false);
-  }
-
   public CoinbaseProProductTicker toCoinbaseProProductTicker() {
     String tickerTime = time;
     if (tickerTime == null) {
@@ -310,6 +242,18 @@ public class CoinbaseProWebSocketTransaction {
 
   public BigDecimal getHigh24h() {
     return high24h;
+  }
+
+  public String[][] getBids() {
+    return bids;
+  }
+
+  public String[][] getAsks() {
+    return asks;
+  }
+
+  public String[][] getChanges() {
+    return changes;
   }
 
   public String getSide() {
