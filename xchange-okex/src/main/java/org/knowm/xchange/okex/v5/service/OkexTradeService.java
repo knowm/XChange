@@ -1,8 +1,6 @@
 package org.knowm.xchange.okex.v5.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,9 +18,9 @@ import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderResponse;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexTradeService extends OkexTradeServiceRaw implements TradeService {
@@ -36,35 +34,15 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
         getOkexPendingOrder(null, null, null, null, null, null, null, null).getData());
   }
 
-  public Order getOrder(OrderQueryParams orderQueryParams) throws IOException {
-    Order result = null;
-    if(orderQueryParams instanceof OrderQueryParamInstrument) {
-      Instrument instrument = ((OrderQueryParamInstrument) orderQueryParams).getInstrument();
-      String orderId = orderQueryParams.getOrderId();
+  public Order getOrder(Instrument instrument, String orderId) throws IOException {
+    List<OkexOrderDetails> orderResults =
+            getOkexOrder(OkexAdapters.adaptInstrumentId(instrument), orderId).getData();
 
-      List<OkexOrderDetails> orderResults =
-              getOkexOrder(OkexAdapters.adaptInstrumentId(instrument), orderId).getData();
-
-      if (!orderResults.isEmpty()) {
-        result = OkexAdapters.adaptOrder(orderResults.get(0));
-      }
-    }else {
-      throw new IOException(
-              "OrderQueryParams must implement OrderQueryParamInstrument interface.");
+    if (!orderResults.isEmpty()) {
+      return OkexAdapters.adaptOrder(orderResults.get(0));
+    } else {
+      return null;
     }
-    return result;
-  }
-
-  @Override
-  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    ArrayList<Order> result = new ArrayList<>();
-    for (OrderQueryParams orderQueryParam : orderQueryParams) {
-      Order order = getOrder(orderQueryParam);
-      if (order != null) {
-        result.add(order);
-      }
-    }
-    return result;
   }
 
   @Override

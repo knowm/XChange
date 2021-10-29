@@ -21,7 +21,6 @@ import org.knowm.xchange.okex.v5.service.OkexTradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
 import lombok.extern.slf4j.Slf4j;
-import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
 
 @Slf4j
 public class OkexExchangeIntegration {
@@ -98,11 +97,11 @@ public class OkexExchangeIntegration {
       log.info("Amended orderId: {}", orderId2);
 
       //Get non-existent Order Detail
-      Order failOrder = okexTradeService.getOrder(new DefaultQueryOrderParamInstrument(TRX_USDT, "2132465465"));
+      Order failOrder = okexTradeService.getOrder(TRX_USDT, "2132465465");
       log.info("Null Order: {}", failOrder);
 
       //Get Order Detail
-      Order amendedOrder = okexTradeService.getOrder(new DefaultQueryOrderParamInstrument(TRX_USDT, orderId2));
+      Order amendedOrder = okexTradeService.getOrder(TRX_USDT, orderId2);
       log.info("Amended Order: {}", amendedOrder);
 
       // Cancel that order
