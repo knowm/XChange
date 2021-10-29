@@ -63,6 +63,11 @@ public class DsxTradeService extends DsxTradeServiceRaw implements TradeService 
     }
   }
 
+  @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[]{CancelOrderByUserReferenceParams.class};
+  }
+
   /** Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair} */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {

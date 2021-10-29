@@ -9,8 +9,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 import java.io.IOException;
@@ -47,6 +46,13 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     return cancelOrderForSubaccount(exchange.getExchangeSpecification().getUserName(), orderParams);
+  }
+
+  @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[]{
+            CancelOrderByCurrencyPair.class,
+            CancelOrderByUserReferenceParams.class};
   }
 
   @Override

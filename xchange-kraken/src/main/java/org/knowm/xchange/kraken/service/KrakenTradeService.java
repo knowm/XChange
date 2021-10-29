@@ -85,6 +85,13 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
     return false;
   }
 
+  @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[]{
+            CancelOrderByIdParams.class,
+            CancelOrderByUserReferenceParams.class};
+  }
+
   /**
    * @param params Can optionally implement {@link TradeHistoryParamOffset} and {@link
    *     TradeHistoryParamsTimeSpan} and {@link TradeHistoryParamsIdSpan} All other
