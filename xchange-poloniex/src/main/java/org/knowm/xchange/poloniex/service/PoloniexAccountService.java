@@ -27,7 +27,6 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 public class PoloniexAccountService extends PoloniexAccountServiceRaw implements AccountService {
 
   private static final String TRADING_WALLET_ID = "trading";
-  private static final String FOUNDING_WALLET_ID = "founding";
 
   /**
    * Constructor
