@@ -89,9 +89,9 @@ public class AscendexOrderResponse {
         + ", status='"
         + status
         + '\''
-        + ", message='" + message + '\'' +
-        + ", reason='" + reason + '\'' +
-        + ", code='" + code + '\'' +
+        + ", message='" + message + '\'' 
+        + ", reason='" + reason + '\'' 
+        + ", code='" + code + '\'' 
         + '}';
   }
 
