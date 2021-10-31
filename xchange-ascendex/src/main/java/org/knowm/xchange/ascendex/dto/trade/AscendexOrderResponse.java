@@ -1,7 +1,7 @@
 package org.knowm.xchange.ascendex.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.fasterxml.jackson.annotation.JsonAlias;
 import java.time.Instant;
 import java.util.Date;
 
