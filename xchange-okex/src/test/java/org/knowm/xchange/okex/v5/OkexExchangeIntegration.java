@@ -30,7 +30,7 @@ public class OkexExchangeIntegration {
   private static final String PASSPHRASE = "";
 
   @Test
-  public void testCreateExchangeShouldApplyDefaultSpecification() throws Exception {
+  public void testCreateExchangeShouldApplyDefaultSpecification() {
     ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
 
@@ -43,7 +43,7 @@ public class OkexExchangeIntegration {
   }
 
   @Test
-  public void testCreateExchangeShouldApplyResilience() throws Exception {
+  public void testCreateExchangeShouldApplyResilience() {
     ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
     ExchangeSpecification.ResilienceSpecification resilienceSpecification =
         new ExchangeSpecification.ResilienceSpecification();

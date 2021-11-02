@@ -17,9 +17,9 @@ import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderResponse;
-import org.knowm.xchange.okex.v5.dto.trade.OkexTradeParams;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByInstrumentAndIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
@@ -54,7 +54,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     else
       throw new OkexException(
           okexResponse.getData().get(0).getMessage(),
-          Integer.valueOf(okexResponse.getData().get(0).getCode()));
+          Integer.parseInt(okexResponse.getData().get(0).getCode()));
   }
 
   public List<String> placeLimitOrder(List<LimitOrder> limitOrders)
@@ -62,11 +62,11 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     return placeOkexOrder(
             limitOrders
                 .stream()
-                .map(order -> OkexAdapters.adaptOrder(order))
+                .map(OkexAdapters::adaptOrder)
                 .collect(Collectors.toList()))
         .getData()
         .stream()
-        .map(result -> result.getOrderId())
+        .map(OkexOrderResponse::getOrderId)
         .collect(Collectors.toList());
   }
 
@@ -80,22 +80,23 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     return amendOkexOrder(
             limitOrders
                 .stream()
-                .map(order -> OkexAdapters.adaptAmendOrder(order))
+                .map(OkexAdapters::adaptAmendOrder)
                 .collect(Collectors.toList()))
         .getData()
         .stream()
-        .map(result -> result.getOrderId())
+        .map(OkexOrderResponse::getOrderId)
         .collect(Collectors.toList());
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams params) throws IOException {
-    if (params instanceof CancelOrderByInstrumentAndIdParams) {
+    if (params instanceof CancelOrderByIdParams &&
+        params instanceof CancelOrderByInstrument) {
 
-      String id = ((CancelOrderByInstrumentAndIdParams) params).getOrderId();
+      String id = ((CancelOrderByIdParams) params).getOrderId();
       String instrumentId =
           OkexAdapters.adaptInstrumentId(
-              ((CancelOrderByInstrumentAndIdParams) params).getInstrument());
+              ((CancelOrderByInstrument) params).getInstrument());
 
       OkexCancelOrderRequest req =
           OkexCancelOrderRequest.builder().instrumentId(instrumentId).orderId(id).build();
@@ -103,7 +104,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
       return "0".equals(cancelOkexOrder(req).getData().get(0).getCode());
     } else {
       throw new IOException(
-          "CancelOrderParams must implement CancelOrderByInstrumentAndIdParams interface.");
+          "CancelOrderParams must implement CancelOrderByIdParams and CancelOrderByInstrument interface.");
     }
   }
 
@@ -114,10 +115,10 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
                   .map(
                       param ->
                           OkexCancelOrderRequest.builder()
-                              .orderId(((CancelOrderByInstrumentAndIdParams) param).getOrderId())
+                              .orderId(((CancelOrderByIdParams) param).getOrderId())
                               .instrumentId(
                                   OkexAdapters.adaptInstrumentId(
-                                      ((CancelOrderByInstrumentAndIdParams) param)
+                                      ((CancelOrderByInstrument) param)
                                           .getInstrument()))
                               .build())
                   .collect(Collectors.toList()))
