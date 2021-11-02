@@ -26,7 +26,6 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiTrailingVolumeResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWalletJSONTest;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeDataJSONTest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 
 public class GeminiAdaptersTest {
@@ -58,21 +57,46 @@ public class GeminiAdaptersTest {
   public void testAdaptOrderResponseToOrder() throws IOException {
     InputStream resourceAsStream =
             GeminiAdaptersTest.class.getResourceAsStream(
-                    "/org/knowm/xchange/gemini/v1/trade/example-get-order-data.json");
-    GeminiOrderStatusResponse[] response =
-            new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse[].class);
-    Order adaptedOrder = GeminiAdapters.adaptOrder(response[0]);
+                    "/org/knowm/xchange/gemini/v1/order/example-get-order-data.json");
+    GeminiOrderStatusResponse response =
+            new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse.class);
+    Order order = GeminiAdapters.adaptOrder(response);
 
-    assertEquals("54323412782", adaptedOrder.getId());
-    assertEquals(new Date(1629770740526L), adaptedOrder.getTimestamp());
-    assertEquals(CurrencyPair.ETH_USD, adaptedOrder.getInstrument());
+    assertEquals("54323412782", order.getId());
+    assertEquals(new Date(1629770740526L), order.getTimestamp());
+    assertEquals(CurrencyPair.ETH_USD, order.getInstrument());
 
-    assertEquals(OrderType.ASK, adaptedOrder.getType());
-    assertEquals(new BigDecimal("0.001"), adaptedOrder.getOriginalAmount());
-    assertEquals(new BigDecimal("0.00"), adaptedOrder.getAveragePrice());
+    assertEquals(OrderType.ASK, order.getType());
+    assertEquals(new BigDecimal("0.001"), order.getOriginalAmount());
+    assertEquals(new BigDecimal("0.00"), order.getAveragePrice());
 
-    assertEquals(Order.OrderStatus.OPEN, adaptedOrder.getStatus());
-    assertEquals(BigDecimal.ZERO, adaptedOrder.getCumulativeAmount());
+    assertEquals(Order.OrderStatus.OPEN, order.getStatus());
+    assertEquals(BigDecimal.ZERO, order.getCumulativeAmount());
+  }
+
+  @Test
+  public void testAdaptOrderResponseContainingTradesToOrder() throws IOException {
+    InputStream resourceAsStream =
+            GeminiAdaptersTest.class.getResourceAsStream(
+                    "/org/knowm/xchange/gemini/v1/order/example-get-order-data-trades-included.json");
+    GeminiOrderStatusResponse response =
+            new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse.class);
+    Order order = GeminiAdapters.adaptOrder(response);
+
+    assertEquals("54516439535", order.getId());
+    assertEquals("TESTID0", order.getUserReference());
+
+    assertEquals(new Date(1629872367328L), order.getTimestamp());
+    assertEquals(CurrencyPair.ETH_USD, order.getInstrument());
+
+    assertEquals(OrderType.ASK, order.getType());
+    assertEquals(new BigDecimal("0.001"), order.getOriginalAmount());
+    assertEquals(new BigDecimal("3206.00"), order.getAveragePrice());
+    assertEquals(new BigDecimal("0.001"), order.getCumulativeAmount());
+    assertEquals(new BigDecimal("0.000"), order.getRemainingAmount());
+    assertEquals(new BigDecimal("0.003206"), order.getFee());
+
+    assertEquals(Order.OrderStatus.FILLED, order.getStatus());
   }
 
   @Test
@@ -219,6 +243,7 @@ public class GeminiAdaptersTest {
       responses[i] =
           new GeminiOrderStatusResponse(
               i,
+              null,
               "Gemini",
               symbol,
               price,
@@ -232,7 +257,8 @@ public class GeminiAdaptersTest {
               wasForced,
               originalAmount,
               remainingAmount,
-              executedAmount);
+              executedAmount,
+             null);
     }
 
     return responses;

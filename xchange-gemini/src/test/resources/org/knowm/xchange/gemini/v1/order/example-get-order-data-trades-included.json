@@ -1,0 +1,37 @@
+{
+  "order_id": "54516439535",
+  "id": "54516439535",
+  "symbol": "ethusd",
+  "exchange": "gemini",
+  "avg_execution_price": "3206.00",
+  "side": "sell",
+  "type": "exchange limit",
+  "timestamp": "1629872367",
+  "timestampms": 1629872367328,
+  "is_live": false,
+  "is_cancelled": false,
+  "is_hidden": false,
+  "was_forced": false,
+  "executed_amount": "0.001",
+  "client_order_id": "TESTID0",
+  "options": [],
+  "price": "3206.00",
+  "original_amount": "0.001",
+  "remaining_amount": "0",
+  "trades": [
+    {
+      "price": "3206.00",
+      "amount": "0.001",
+      "timestamp": 1629872369,
+      "timestampms": 1629872369740,
+      "type": "Sell",
+      "aggressor": false,
+      "fee_currency": "USD",
+      "fee_amount": "0.003206",
+      "tid": 54516442309,
+      "order_id": "54516439535",
+      "exchange": "gemini",
+      "is_auction_fill": false
+    }
+  ]
+}
