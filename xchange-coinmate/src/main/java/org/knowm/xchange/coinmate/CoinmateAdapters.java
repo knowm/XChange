@@ -27,9 +27,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
-import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceData;
+import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceDataEntry;
 import org.knowm.xchange.coinmate.dto.marketdata.*;
 import org.knowm.xchange.coinmate.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
@@ -142,7 +143,7 @@ public class CoinmateAdapters {
 
   public static Wallet adaptWallet(CoinmateBalance coinmateBalance) {
 
-    CoinmateBalanceData funds = coinmateBalance.getData();
+    Map<String, CoinmateBalanceDataEntry> funds = coinmateBalance.getData();
     List<Balance> balances = new ArrayList<>(funds.size());
     for (String lcCurrency : funds.keySet()) {
       Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
