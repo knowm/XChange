@@ -22,10 +22,11 @@ public class FtxMarketDataServiceRaw extends FtxBaseService {
     }
   }
 
-  public FtxResponse<List<FtxCandleDto>> getFtxCandles(String market, String resolution)
+  public FtxResponse<List<FtxCandleDto>> getFtxCandles(
+          String market, String resolution, String starTime, String endTime, Integer limit)
       throws FtxException, IOException{
     try {
-      return ftx.getCandles(market, resolution);
+      return ftx.getCandles(market, resolution, starTime, endTime, limit);
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }
