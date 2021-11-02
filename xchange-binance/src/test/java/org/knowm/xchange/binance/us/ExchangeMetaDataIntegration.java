@@ -1,6 +1,4 @@
-package org.knowm.xchange.binance;
-
-import static org.assertj.core.api.Assertions.assertThat;
+package org.knowm.xchange.binance.us;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -8,7 +6,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 
-public class ExchangeMetaDataIntegration extends BinanceExchangeIntegration {
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class ExchangeMetaDataIntegration extends BinanceUsExchangeIntegration {
 
   static ExchangeMetaData metaData;
 
