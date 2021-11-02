@@ -17,13 +17,6 @@ public class BinanceAdaptersTest {
   @Test
   public void testFilledMarketOrder() throws IOException {
 
-    //    InputStream is =
-    //        BinanceAdaptersTest.class.getResourceAsStream(
-    //            "/org/knowm/xchange/binance/filled-market-order.json");
-    //    // Use Jackson to parse it
-    //    ObjectMapper mapper = new ObjectMapper();
-    //    BinanceOrder binanceOrder = mapper.readValue(is, BinanceOrder.class);
-
     BinanceOrder binanceOrder =
         ObjectMapperHelper.readValue(
             BinanceAdaptersTest.class.getResource(
@@ -46,6 +39,7 @@ public class BinanceAdaptersTest {
 
   @Test
   public void testAssetDividendList() throws Exception {
+
     AssetDividendResponse assetDividendList =
         ObjectMapperHelper.readValue(
             BinanceAdaptersTest.class.getResource(

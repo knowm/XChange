@@ -2,7 +2,6 @@ package org.knowm.xchange.bitstamp;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -10,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
+
 import org.junit.Test;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
@@ -28,6 +28,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.UserTrades;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /** Tests the BitstampAdapter class */
 public class BitstampAdapterTest {
@@ -243,4 +245,5 @@ public class BitstampAdapterTest {
     assertThat(genericOrder.getFee()).isEqualTo(new BigDecimal("0.43692"));
     assertThat(genericOrder.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
   }
+
 }
