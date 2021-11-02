@@ -1,6 +1,5 @@
 package org.knowm.xchange.ftx.service;
 
-import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -8,6 +7,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import java.io.IOException;
 
 public class FtxMarketDataService extends FtxMarketDataServiceRaw implements MarketDataService {
 
@@ -34,7 +34,7 @@ public class FtxMarketDataService extends FtxMarketDataServiceRaw implements Mar
 
     return FtxAdapters.adaptTicker(
             getFtxMarket(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair)),
-            getFtxCandles(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair), "60"), //60 seconds
+            getFtxCandles(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair), "60", null, null, null), //60 seconds
             currencyPair);
   }
 }

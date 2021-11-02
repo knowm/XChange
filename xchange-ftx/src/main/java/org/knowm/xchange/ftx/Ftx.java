@@ -36,11 +36,13 @@ public interface Ftx {
 
 
   @GET
-  @Path("/markets/{market_name}/candles?resolution={resolution}")
+  @Path("/markets/{market_name}/candles")
   @Consumes(MediaType.APPLICATION_JSON)
   FtxResponse<List<FtxCandleDto>> getCandles(
-          @PathParam("market_name") String market, @PathParam("resolution") String resolution)
-          throws IOException, FtxException;
+          @PathParam("market_name") String market, @QueryParam("resolution") String resolution,
+          @QueryParam("start_time") String startTime, @QueryParam("end_time") String endTime,
+          @QueryParam("limit") Integer limit
+  ) throws IOException, FtxException;
 
 
   @GET
