@@ -44,7 +44,7 @@ public class HuobiAdapters {
     builder.last(huobiTicker.getClose());
     builder.high(huobiTicker.getHigh());
     builder.low(huobiTicker.getLow());
-    builder.volume(huobiTicker.getVol());
+    builder.quoteVolume(huobiTicker.getVol());
     builder.timestamp(huobiTicker.getTs());
     builder.currencyPair(currencyPair);
     return builder.build();
@@ -69,7 +69,7 @@ public class HuobiAdapters {
                     .last(huobiTicker.getClose())
                     .high(huobiTicker.getHigh())
                     .low(huobiTicker.getLow())
-                    .volume(huobiTicker.getVol())
+                    .quoteVolume(huobiTicker.getVol())
                     .timestamp(huobiTicker.getTs())
                     .build())
         .collect(Collectors.toList());
