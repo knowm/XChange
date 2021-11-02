@@ -6,7 +6,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>5.0.12</version>
+        <version>5.0.13-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-fcoin</artifactId>
