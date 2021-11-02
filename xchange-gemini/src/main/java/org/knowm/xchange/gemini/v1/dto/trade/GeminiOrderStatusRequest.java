@@ -18,13 +18,13 @@ public class GeminiOrderStatusRequest {
   private long orderId;
 
   @JsonProperty("client_order_id")
-  private String clientOrderId; //Optional, but cannot be used in combination with orderId
+  private String clientOrderId; // Optional, but cannot be used in combination with orderId
 
   @JsonProperty("include_trades")
-  private boolean includeTrades; //Optional, defaults to false
+  private boolean includeTrades; // Optional, defaults to false
 
   @JsonProperty("account")
-  private String account; //Optional
+  private String account; // Optional
 
   /**
    * Constructor for requests without optional fields
@@ -40,12 +40,14 @@ public class GeminiOrderStatusRequest {
 
   /**
    * Constructor for requests with optional fields, order lookup by exchange order id
+   *
    * @param nonce
    * @param orderId
    * @param includeTrades
    * @param account
    */
-  public GeminiOrderStatusRequest(String nonce, long orderId, boolean includeTrades, String account) {
+  public GeminiOrderStatusRequest(
+      String nonce, long orderId, boolean includeTrades, String account) {
     this.request = "/v1/order/status";
     this.orderId = orderId;
     this.nonce = nonce;
@@ -55,12 +57,14 @@ public class GeminiOrderStatusRequest {
 
   /**
    * Constructor for requests with optional fields, order lookup by client order id
+   *
    * @param nonce
    * @param clientOrderId
    * @param includeTrades
    * @param account
    */
-  public GeminiOrderStatusRequest(String nonce, String clientOrderId, boolean includeTrades, String account) {
+  public GeminiOrderStatusRequest(
+      String nonce, String clientOrderId, boolean includeTrades, String account) {
     this.request = "/v1/order/status";
     this.clientOrderId = clientOrderId;
     this.nonce = nonce;

@@ -1,9 +1,8 @@
 package org.knowm.xchange.okex.v5.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OkexTrade {
 

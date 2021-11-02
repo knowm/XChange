@@ -373,8 +373,10 @@ public class CoinmateAdapters {
 
     BigDecimal originalAmount = entry.getOriginalAmount();
     BigDecimal remainingAmount = entry.getRemainingAmount();
-    BigDecimal cumulativeAmount = (originalAmount != null && remainingAmount != null) ?
-        originalAmount.subtract(remainingAmount) : null;
+    BigDecimal cumulativeAmount =
+        (originalAmount != null && remainingAmount != null)
+            ? originalAmount.subtract(remainingAmount)
+            : null;
 
     // TODO: we can probably use `orderTradeType` to distinguish between Market and Limit order
     Order order =
@@ -395,15 +397,16 @@ public class CoinmateAdapters {
     return ordersList;
   }
 
-  public static Ticker adaptTradeStatistics(CoinmateTradeStatistics tradeStatistics, CurrencyPair currencyPair) {
+  public static Ticker adaptTradeStatistics(
+      CoinmateTradeStatistics tradeStatistics, CurrencyPair currencyPair) {
     return new Ticker.Builder()
-            .currencyPair(currencyPair)
-            .last(tradeStatistics.getLastRealizedTrade())
-            .high(tradeStatistics.getHigh24hours())
-            .low(tradeStatistics.getLow24hours())
-            .volume(tradeStatistics.getVolume24Hours())
-            .open(tradeStatistics.getTodaysOpen())
-            .percentageChange(tradeStatistics.getDailyChange())
-            .build();
+        .currencyPair(currencyPair)
+        .last(tradeStatistics.getLastRealizedTrade())
+        .high(tradeStatistics.getHigh24hours())
+        .low(tradeStatistics.getLow24hours())
+        .volume(tradeStatistics.getVolume24Hours())
+        .open(tradeStatistics.getTodaysOpen())
+        .percentageChange(tradeStatistics.getDailyChange())
+        .build();
   }
 }

@@ -23,7 +23,8 @@ public class OkexDigest extends BaseParamsDigest {
     sb.append(restInvocation.getHttpHeadersFromParams().getOrDefault("OK-ACCESS-TIMESTAMP", null));
     sb.append(restInvocation.getHttpMethod());
     sb.append(restInvocation.getPath());
-    if ("GET".equals(restInvocation.getHttpMethod()) && !restInvocation.getQueryString().isEmpty()) {
+    if ("GET".equals(restInvocation.getHttpMethod())
+        && !restInvocation.getQueryString().isEmpty()) {
       sb.append("?" + restInvocation.getQueryString());
     }
     sb.append(restInvocation.getRequestBody());

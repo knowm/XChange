@@ -1,11 +1,10 @@
 package org.knowm.xchange.kucoin.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.math.BigDecimal;
 import lombok.Data;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.kucoin.dto.KlineIntervalType;
-
-import java.math.BigDecimal;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

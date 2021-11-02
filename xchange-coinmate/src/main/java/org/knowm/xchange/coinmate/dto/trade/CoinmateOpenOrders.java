@@ -24,9 +24,8 @@
 package org.knowm.xchange.coinmate.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
-
 import java.util.List;
+import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
 
 /** @author Martin Stachon */
 public class CoinmateOpenOrders extends CoinmateBaseResponse<List<CoinmateOpenOrdersEntry>> {

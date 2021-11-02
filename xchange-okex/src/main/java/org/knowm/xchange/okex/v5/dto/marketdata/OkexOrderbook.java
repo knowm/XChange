@@ -1,9 +1,8 @@
 package org.knowm.xchange.okex.v5.dto.marketdata;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 public class OkexOrderbook {
 

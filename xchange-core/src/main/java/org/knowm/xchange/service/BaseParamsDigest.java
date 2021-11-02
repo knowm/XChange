@@ -44,7 +44,7 @@ public abstract class BaseParamsDigest implements ParamsDigest {
     final SecretKey secretKey = new SecretKeySpec(secretKeyBase64, hmacString);
     mac = createMac(secretKey, hmacString);
   }
-  
+
   private Mac createMac(SecretKey secretKey, String hmacString) {
     try {
       Mac mac = Mac.getInstance(hmacString);
@@ -54,7 +54,7 @@ public abstract class BaseParamsDigest implements ParamsDigest {
       throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(
-              "Illegal algorithm for post body digest. Check the implementation.");
+          "Illegal algorithm for post body digest. Check the implementation.");
     }
   }
 

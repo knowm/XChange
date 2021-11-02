@@ -9,7 +9,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.kucoin.dto.response.DepositAddressResponse;
 import org.knowm.xchange.kucoin.dto.response.DepositResponse;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;

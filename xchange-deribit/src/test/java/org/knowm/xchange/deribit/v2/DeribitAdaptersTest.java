@@ -51,7 +51,7 @@ public class DeribitAdaptersTest {
     //    assertThat(instrument).isEqualTo(new OptionsContract("BTC/USD/210924/7000/P"));
   }
 
-  //@Test
+  // @Test
   public void adaptTicker() throws IOException {
     // given
     InputStream is =

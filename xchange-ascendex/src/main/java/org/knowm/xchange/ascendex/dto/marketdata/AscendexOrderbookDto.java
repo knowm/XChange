@@ -1,7 +1,6 @@
 package org.knowm.xchange.ascendex.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;

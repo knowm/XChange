@@ -1,14 +1,12 @@
 package org.knowm.xchange.derivative;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Objects;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 public class FuturesContract extends Instrument
     implements Derivative, Comparable<FuturesContract>, Serializable {

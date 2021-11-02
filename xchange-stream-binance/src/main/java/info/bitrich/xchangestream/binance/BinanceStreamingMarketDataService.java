@@ -178,11 +178,13 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   private String getMakerOrderId(BinanceRawTrade trade) {
-    return String.valueOf(trade.isBuyerMarketMaker() ? trade.getBuyerOrderId() : trade.getSellerOrderId());
+    return String.valueOf(
+        trade.isBuyerMarketMaker() ? trade.getBuyerOrderId() : trade.getSellerOrderId());
   }
 
   private String getTakerOrderId(BinanceRawTrade trade) {
-    return String.valueOf(trade.isBuyerMarketMaker() ? trade.getSellerOrderId() : trade.getBuyerOrderId());
+    return String.valueOf(
+        trade.isBuyerMarketMaker() ? trade.getSellerOrderId() : trade.getBuyerOrderId());
   }
 
   private Observable<OrderBookUpdate> createOrderBookUpdatesObservable(CurrencyPair currencyPair) {

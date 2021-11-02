@@ -1,16 +1,14 @@
 package org.knowm.xchange.binance;
 
+import java.io.IOException;
+import java.util.Map;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
-import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.binance.service.BinanceUsAccountService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.utils.AuthUtils;
-
-import java.io.IOException;
-import java.util.Map;
 
 public class BinanceUsExchange extends BinanceExchange {
 

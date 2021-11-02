@@ -125,8 +125,10 @@ public final class GeminiAdapters {
     // Calculate Fees in counter currency
     BigDecimal fee = null;
 
-    if (geminiOrderStatusResponse.getTrades() != null && geminiOrderStatusResponse.getTrades().length > 0) {
-      for (GeminiOrderStatusResponse.OrderStatusTradeDetails trade : geminiOrderStatusResponse.getTrades()) {
+    if (geminiOrderStatusResponse.getTrades() != null
+        && geminiOrderStatusResponse.getTrades().length > 0) {
+      for (GeminiOrderStatusResponse.OrderStatusTradeDetails trade :
+          geminiOrderStatusResponse.getTrades()) {
         if (fee == null) {
           fee = trade.getFeeAmount();
         } else {
@@ -359,14 +361,15 @@ public final class GeminiAdapters {
     return adaptOrders(activeOrders, null);
   }
 
-  public static OpenOrders adaptOrders(GeminiOrderStatusResponse[] activeOrders, CurrencyPair currencyPair) {
+  public static OpenOrders adaptOrders(
+      GeminiOrderStatusResponse[] activeOrders, CurrencyPair currencyPair) {
 
     List<LimitOrder> limitOrders = new ArrayList<>(activeOrders.length);
 
     for (GeminiOrderStatusResponse order : activeOrders) {
       CurrencyPair currentCurrencyPair = adaptCurrencyPair(order.getSymbol());
 
-      if(currencyPair != null && !currentCurrencyPair.equals(currencyPair)){
+      if (currencyPair != null && !currentCurrencyPair.equals(currencyPair)) {
         continue;
       }
 

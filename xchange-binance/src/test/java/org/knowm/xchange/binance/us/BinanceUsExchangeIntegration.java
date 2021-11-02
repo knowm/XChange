@@ -1,5 +1,8 @@
 package org.knowm.xchange.binance.us;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.IOException;
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -8,12 +11,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.BinanceUsExchange;
 import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
-import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceUsAccountService;
-
-import java.io.IOException;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class BinanceUsExchangeIntegration {
   protected static BinanceUsExchange exchange;

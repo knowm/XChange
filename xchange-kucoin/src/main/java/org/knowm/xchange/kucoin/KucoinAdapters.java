@@ -8,14 +8,12 @@ import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.*;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -38,7 +36,6 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.*;

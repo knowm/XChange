@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;

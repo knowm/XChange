@@ -60,8 +60,7 @@ public class BinanceAdaptersTest {
   // regardless of the time zone of the system
   @Test
   public void testToDate() {
-    String applyTimeUTC="2018-10-09 07:56:10";
+    String applyTimeUTC = "2018-10-09 07:56:10";
     assertThat(BinanceAdapters.toDate(applyTimeUTC).getTime()).isEqualByComparingTo(1539071770000L);
   }
-
 }

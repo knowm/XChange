@@ -12,14 +12,12 @@ import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensio
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Supplier;
-
+import javax.crypto.Mac;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.ftx.service.FtxDigest;
 import org.knowm.xchange.utils.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.crypto.Mac;
 
 public class FtxStreamingService extends JsonNettyStreamingService {
 
@@ -43,7 +41,7 @@ public class FtxStreamingService extends JsonNettyStreamingService {
     return WebSocketClientCompressionAllowClientNoContextHandler.INSTANCE;
   }
 
-  private FtxAuthenticationMessage getAuthMessage(){
+  private FtxAuthenticationMessage getAuthMessage() {
     Mac mac = FtxDigest.createInstance(authData.get().getSecretKey()).getMac();
 
     try {
@@ -53,11 +51,11 @@ public class FtxStreamingService extends JsonNettyStreamingService {
       mac.update(message.getBytes(StandardCharsets.UTF_8));
 
       return new FtxAuthenticationMessage(
-              new FtxAuthenticationMessage.FtxAuthenticationArgs(
-                      authData.get().getApiKey(),
-                      DigestUtils.bytesToHex(mac.doFinal()).toLowerCase(),
-                      nonce,
-                      authData.get().getUserName()));
+          new FtxAuthenticationMessage.FtxAuthenticationArgs(
+              authData.get().getApiKey(),
+              DigestUtils.bytesToHex(mac.doFinal()).toLowerCase(),
+              nonce,
+              authData.get().getUserName()));
     } catch (Exception e) {
       throw new ExchangeException("Digest encoding exception", e);
     }
@@ -96,15 +94,15 @@ public class FtxStreamingService extends JsonNettyStreamingService {
 
     if (authData != null && !isLoggedIn) {
       FtxAuthenticationMessage message = getAuthMessage();
-      LOG.info("Sending authentication message: "+ message);
+      LOG.info("Sending authentication message: " + message);
       sendObjectMessage(message);
       isLoggedIn = true;
     }
 
-    if(channelName.contains(":")) {
+    if (channelName.contains(":")) {
       channel = channelName.substring(0, channelName.indexOf(":"));
       market = channelName.substring(channelName.indexOf(":") + 1);
-    }else {
+    } else {
       channel = channelName;
     }
 
@@ -142,10 +140,10 @@ public class FtxStreamingService extends JsonNettyStreamingService {
     super.resubscribeChannels();
   }
 
-  private void setLoggedInToFalse(){
+  private void setLoggedInToFalse() {
     if (authData != null && isLoggedIn) {
       isLoggedIn = false;
-      LOG.info("IsLoggedIn is "+false);
+      LOG.info("IsLoggedIn is " + false);
     }
   }
 }

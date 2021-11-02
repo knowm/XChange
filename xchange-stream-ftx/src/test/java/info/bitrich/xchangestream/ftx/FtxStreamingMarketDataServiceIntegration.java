@@ -2,13 +2,20 @@ package info.bitrich.xchangestream.ftx;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingExchangeFactory;
+import info.bitrich.xchangestream.ftx.dto.FtxOrderbookResponse;
+import info.bitrich.xchangestream.ftx.dto.FtxTickerResponse;
+import io.reactivex.disposables.Disposable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -16,16 +23,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import info.bitrich.xchangestream.ftx.dto.FtxOrderbookResponse;
-import info.bitrich.xchangestream.ftx.dto.FtxTickerResponse;
-import io.reactivex.disposables.Disposable;
 
 public class FtxStreamingMarketDataServiceIntegration {
 

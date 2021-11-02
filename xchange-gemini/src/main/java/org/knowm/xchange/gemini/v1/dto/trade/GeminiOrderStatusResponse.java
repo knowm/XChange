@@ -2,9 +2,8 @@ package org.knowm.xchange.gemini.v1.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-
 import java.math.BigDecimal;
+import lombok.Getter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
@@ -47,23 +46,23 @@ public class GeminiOrderStatusResponse {
    * @param trades
    */
   public GeminiOrderStatusResponse(
-          @JsonProperty("order_id") long id,
-          @JsonProperty("client_order_id") String clientOrderId,
-          @JsonProperty("exchange") String exchange,
-          @JsonProperty("symbol") String symbol,
-          @JsonProperty("price") BigDecimal price,
-          @JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice,
-          @JsonProperty("side") String side,
-          @JsonProperty("type") String type,
-          @JsonProperty("timestamp") String timestamp,
-          @JsonProperty("timestampms") long timestampms,
-          @JsonProperty("is_live") boolean isLive,
-          @JsonProperty("is_cancelled") boolean isCancelled,
-          @JsonProperty("was_forced") boolean wasForced,
-          @JsonProperty("original_amount") BigDecimal originalAmount,
-          @JsonProperty("remaining_amount") BigDecimal remainingAmount,
-          @JsonProperty("executed_amount") BigDecimal executedAmount,
-          @JsonProperty("trades") OrderStatusTradeDetails[] trades) {
+      @JsonProperty("order_id") long id,
+      @JsonProperty("client_order_id") String clientOrderId,
+      @JsonProperty("exchange") String exchange,
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice,
+      @JsonProperty("side") String side,
+      @JsonProperty("type") String type,
+      @JsonProperty("timestamp") String timestamp,
+      @JsonProperty("timestampms") long timestampms,
+      @JsonProperty("is_live") boolean isLive,
+      @JsonProperty("is_cancelled") boolean isCancelled,
+      @JsonProperty("was_forced") boolean wasForced,
+      @JsonProperty("original_amount") BigDecimal originalAmount,
+      @JsonProperty("remaining_amount") BigDecimal remainingAmount,
+      @JsonProperty("executed_amount") BigDecimal executedAmount,
+      @JsonProperty("trades") OrderStatusTradeDetails[] trades) {
     this.id = id;
     this.clientOrderId = clientOrderId;
     this.exchange = exchange;
@@ -138,21 +137,20 @@ public class GeminiOrderStatusResponse {
     private String Break;
 
     public OrderStatusTradeDetails(
-             @JsonProperty("price") BigDecimal price,
-             @JsonProperty("amount") BigDecimal amount,
-             @JsonProperty("timestamp") String timestamp,
-             @JsonProperty("timestampms") String timestampms,
-             @JsonProperty("type") String type,
-             @JsonProperty("aggressor") boolean aggressor,
-             @JsonProperty("fee_currency") String feeCurrency,
-             @JsonProperty("fee_amount") String feeAmount,
-             @JsonProperty("tid") long tradeId,
-             @JsonProperty("order_id") String orderId,
-             @JsonProperty("client_order_id") String clientOrderId,
-             @JsonProperty("exchange") String exchange,
-             @JsonProperty("is_auction_fill") boolean isAuctionFill,
-             @JsonProperty("break") String Break
-    ) {
+        @JsonProperty("price") BigDecimal price,
+        @JsonProperty("amount") BigDecimal amount,
+        @JsonProperty("timestamp") String timestamp,
+        @JsonProperty("timestampms") String timestampms,
+        @JsonProperty("type") String type,
+        @JsonProperty("aggressor") boolean aggressor,
+        @JsonProperty("fee_currency") String feeCurrency,
+        @JsonProperty("fee_amount") String feeAmount,
+        @JsonProperty("tid") long tradeId,
+        @JsonProperty("order_id") String orderId,
+        @JsonProperty("client_order_id") String clientOrderId,
+        @JsonProperty("exchange") String exchange,
+        @JsonProperty("is_auction_fill") boolean isAuctionFill,
+        @JsonProperty("break") String Break) {
       this.price = price;
       this.amount = amount;
       this.timestamp = timestamp;

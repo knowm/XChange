@@ -1,9 +1,7 @@
 package org.knowm.xchange.kucoin.service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;

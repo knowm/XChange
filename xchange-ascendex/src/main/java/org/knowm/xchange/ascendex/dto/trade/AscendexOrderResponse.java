@@ -1,8 +1,7 @@
 package org.knowm.xchange.ascendex.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonAlias;
-import java.time.Instant;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 public class AscendexOrderResponse {
@@ -16,7 +15,7 @@ public class AscendexOrderResponse {
   private final AscendexPlaceOrderInfo info;
 
   private final String status;
-  
+
   private final String message;
 
   private final String reason;
@@ -61,13 +60,15 @@ public class AscendexOrderResponse {
   public String getStatus() {
     return status;
   }
-  
+
   public String getMessage() {
     return message;
   }
+
   public String getReason() {
     return reason;
   }
+
   public String getCode() {
     return code;
   }
@@ -89,9 +90,15 @@ public class AscendexOrderResponse {
         + ", status='"
         + status
         + '\''
-        + ", message='" + message + '\'' 
-        + ", reason='" + reason + '\'' 
-        + ", code='" + code + '\'' 
+        + ", message='"
+        + message
+        + '\''
+        + ", reason='"
+        + reason
+        + '\''
+        + ", code='"
+        + code
+        + '\''
         + '}';
   }
 

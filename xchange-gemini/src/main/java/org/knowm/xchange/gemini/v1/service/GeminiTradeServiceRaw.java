@@ -132,7 +132,8 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
     }
   }
 
-  public GeminiOrderStatusResponse getGeminiOrderStatus(OrderQueryParams params) throws IOException {
+  public GeminiOrderStatusResponse getGeminiOrderStatus(OrderQueryParams params)
+      throws IOException {
     Long orderId = null;
     String clientOrderId = null;
     boolean includeTrades = false;
@@ -151,22 +152,21 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
     }
 
     try {
-      return
-              gemini.orderStatus(
-                      apiKey,
-                      payloadCreator,
-                      signatureCreator,
-                      orderId == null ? new GeminiOrderStatusRequest(
-                              String.valueOf(exchange.getNonceFactory().createValue()),
-                              clientOrderId,
-                              includeTrades,
-                              account) : new GeminiOrderStatusRequest(
-                              String.valueOf(exchange.getNonceFactory().createValue()),
-                              orderId,
-                              includeTrades,
-                              account
-                      )
-              );
+      return gemini.orderStatus(
+          apiKey,
+          payloadCreator,
+          signatureCreator,
+          orderId == null
+              ? new GeminiOrderStatusRequest(
+                  String.valueOf(exchange.getNonceFactory().createValue()),
+                  clientOrderId,
+                  includeTrades,
+                  account)
+              : new GeminiOrderStatusRequest(
+                  String.valueOf(exchange.getNonceFactory().createValue()),
+                  orderId,
+                  includeTrades,
+                  account));
     } catch (GeminiException e) {
       throw handleException(e);
     }

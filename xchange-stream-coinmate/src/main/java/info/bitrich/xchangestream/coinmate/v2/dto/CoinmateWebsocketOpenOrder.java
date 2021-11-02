@@ -137,7 +137,9 @@ public class CoinmateWebsocketOpenOrder {
     return this.trailingUpdatedTimestamp;
   }
 
-  public String getOrderChangePushEvent() { return this.orderChangePushEvent; }
+  public String getOrderChangePushEvent() {
+    return this.orderChangePushEvent;
+  }
 
   @Override
   public String toString() {

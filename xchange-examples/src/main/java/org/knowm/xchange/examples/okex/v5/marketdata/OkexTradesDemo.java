@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.okex.v5.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;

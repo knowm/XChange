@@ -2,11 +2,9 @@ package org.knowm.xchange.kucoin;
 
 import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExceptions;
 import static org.knowm.xchange.kucoin.KucoinResilience.PRIVATE_REST_ENDPOINT_RATE_LIMITER;
-import static org.knowm.xchange.kucoin.KucoinResilience.PUBLIC_REST_ENDPOINT_RATE_LIMITER;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.kucoin.dto.request.ApplyWithdrawApiRequest;
 import org.knowm.xchange.kucoin.dto.request.CreateAccountRequest;

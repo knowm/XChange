@@ -17,7 +17,7 @@ public final class BinanceWithdraw {
   private int transferType; // 1 for internal transfer, 0 for external transfer
   /** (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed) */
   private int status;
+
   private BigDecimal transactionFee;
   private String txId;
-
 }

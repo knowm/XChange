@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.knowm.xchange.Exchange;
@@ -57,8 +56,10 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
       return noOpenOrders;
     } else {
       if (params != null && params instanceof OpenOrdersParamCurrencyPair) {
-        OpenOrdersParamCurrencyPair openOrdersParamCurrencyPair = (OpenOrdersParamCurrencyPair) params;
-        return GeminiAdapters.adaptOrders(activeOrders, openOrdersParamCurrencyPair.getCurrencyPair());
+        OpenOrdersParamCurrencyPair openOrdersParamCurrencyPair =
+            (OpenOrdersParamCurrencyPair) params;
+        return GeminiAdapters.adaptOrders(
+            activeOrders, openOrdersParamCurrencyPair.getCurrencyPair());
       }
       return GeminiAdapters.adaptOrders(activeOrders);
     }
@@ -191,7 +192,8 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     private boolean includeTrades;
     private String account;
 
-    public GeminiOrderQueryParams(String orderId, String clientOrderId, boolean includeTrades, String account) {
+    public GeminiOrderQueryParams(
+        String orderId, String clientOrderId, boolean includeTrades, String account) {
       this.orderId = orderId;
       this.clientOrderId = clientOrderId;
       this.includeTrades = includeTrades;

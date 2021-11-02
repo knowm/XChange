@@ -24,62 +24,53 @@
 package org.knowm.xchange.coinmate.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
-
 
 public class CoinmateTradeStatistics {
 
-    private final BigDecimal lastRealizedTrade;
-    private final BigDecimal todaysOpen;
-    private final BigDecimal dailyChange;
-    private final BigDecimal volume24Hours;
-    private final BigDecimal high24hours;
-    private final BigDecimal low24hours;
+  private final BigDecimal lastRealizedTrade;
+  private final BigDecimal todaysOpen;
+  private final BigDecimal dailyChange;
+  private final BigDecimal volume24Hours;
+  private final BigDecimal high24hours;
+  private final BigDecimal low24hours;
 
-    public CoinmateTradeStatistics(
-            @JsonProperty("lastRealizedTrade")
-            BigDecimal lastRealizedTrade,
-            @JsonProperty("todaysOpen")
-            BigDecimal todaysOpen,
-            @JsonProperty("dailyChange")
-            BigDecimal dailyChange,
-            @JsonProperty("volume24Hours")
-            BigDecimal volume24Hours,
-            @JsonProperty("high24hours")
-            BigDecimal high24hours,
-            @JsonProperty("low24hours")
-            BigDecimal low24hours
-    ) {
-        this.lastRealizedTrade = lastRealizedTrade;
-        this.todaysOpen = todaysOpen;
-        this.dailyChange = dailyChange;
-        this.volume24Hours = volume24Hours;
-        this.high24hours = high24hours;
-        this.low24hours = low24hours;
-    }
+  public CoinmateTradeStatistics(
+      @JsonProperty("lastRealizedTrade") BigDecimal lastRealizedTrade,
+      @JsonProperty("todaysOpen") BigDecimal todaysOpen,
+      @JsonProperty("dailyChange") BigDecimal dailyChange,
+      @JsonProperty("volume24Hours") BigDecimal volume24Hours,
+      @JsonProperty("high24hours") BigDecimal high24hours,
+      @JsonProperty("low24hours") BigDecimal low24hours) {
+    this.lastRealizedTrade = lastRealizedTrade;
+    this.todaysOpen = todaysOpen;
+    this.dailyChange = dailyChange;
+    this.volume24Hours = volume24Hours;
+    this.high24hours = high24hours;
+    this.low24hours = low24hours;
+  }
 
-    public BigDecimal getLastRealizedTrade() {
-        return lastRealizedTrade;
-    }
+  public BigDecimal getLastRealizedTrade() {
+    return lastRealizedTrade;
+  }
 
-    public BigDecimal getTodaysOpen() {
-        return todaysOpen;
-    }
+  public BigDecimal getTodaysOpen() {
+    return todaysOpen;
+  }
 
-    public BigDecimal getDailyChange() {
-        return dailyChange;
-    }
+  public BigDecimal getDailyChange() {
+    return dailyChange;
+  }
 
-    public BigDecimal getVolume24Hours() {
-        return volume24Hours;
-    }
+  public BigDecimal getVolume24Hours() {
+    return volume24Hours;
+  }
 
-    public BigDecimal getHigh24hours() {
-        return high24hours;
-    }
+  public BigDecimal getHigh24hours() {
+    return high24hours;
+  }
 
-    public BigDecimal getLow24hours() {
-        return low24hours;
-    }
+  public BigDecimal getLow24hours() {
+    return low24hours;
+  }
 }

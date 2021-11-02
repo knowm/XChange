@@ -1,7 +1,6 @@
 package org.knowm.xchange.ftx.service;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ftx.FtxException;

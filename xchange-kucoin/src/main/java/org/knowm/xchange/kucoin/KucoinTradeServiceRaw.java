@@ -4,7 +4,6 @@ import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExce
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.*;

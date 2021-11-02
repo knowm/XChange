@@ -64,7 +64,6 @@ public class CoinmateMarketDataService extends CoinmateMarketDataServiceRaw
       minutesIntoHistory = (int) args[0];
     }
     return CoinmateAdapters.adaptTrades(
-        getCoinmateTransactions(
-            minutesIntoHistory, CoinmateUtils.getPair(currencyPair)));
+        getCoinmateTransactions(minutesIntoHistory, CoinmateUtils.getPair(currencyPair)));
   }
 }

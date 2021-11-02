@@ -1,7 +1,6 @@
 package org.knowm.xchange.ftx.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class FtxModifyOrderRequestPayload {
@@ -13,9 +12,9 @@ public class FtxModifyOrderRequestPayload {
   private final String clientId;
 
   public FtxModifyOrderRequestPayload(
-          @JsonProperty("price") BigDecimal price,
-          @JsonProperty("size") BigDecimal size,
-          @JsonProperty("clientId") String clientId) {
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("size") BigDecimal size,
+      @JsonProperty("clientId") String clientId) {
     this.price = price;
     this.size = size;
     this.clientId = clientId;
@@ -36,13 +35,13 @@ public class FtxModifyOrderRequestPayload {
   @Override
   public String toString() {
     return "FtxModifyOrderRequestPayload{"
-            + "price="
-            + price
-            + ", size="
-            + size
-            + ", clientId='"
-            + clientId
-            + '\''
-            + '}';
+        + "price="
+        + price
+        + ", size="
+        + size
+        + ", clientId='"
+        + clientId
+        + '\''
+        + '}';
   }
 }
