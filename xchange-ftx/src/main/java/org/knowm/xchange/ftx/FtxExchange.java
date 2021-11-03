@@ -4,17 +4,21 @@ import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.ftx.dto.marketdata.FtxMarketsDto;
 import org.knowm.xchange.ftx.service.*;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class FtxExchange extends BaseExchange implements Exchange {
+  private static final String FTX_OTC_BASE_URL = "https://otc.ftx.com/";
 
   private FtxLendingServiceRaw lendingService;
   private FtxBorrowingServiceRaw borrowingService;
+  private SynchronizedValueFactory<Long> timestampFactory;
 
   @Override
   protected void initServices() {
@@ -23,6 +27,16 @@ public class FtxExchange extends BaseExchange implements Exchange {
     this.tradeService = new FtxTradeService(this);
     this.lendingService = new FtxLendingServiceRaw(this);
     this.borrowingService = new FtxBorrowingServiceRaw(this);
+    this.timestampFactory =
+        new FtxTimestampFactory(
+            ExchangeRestProxyBuilder.forInterface(FtxOtc.class, this.getExchangeSpecification())
+                .baseUrl(FTX_OTC_BASE_URL)
+                .build());
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    return timestampFactory;
   }
 
   @Override
