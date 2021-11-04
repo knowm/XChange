@@ -55,56 +55,44 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
-  @Override
-  public String withdrawFunds(WithdrawFundsParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
-    if (params instanceof RippleWithdrawFundsParams) {
-      RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
-
-      BitstampWithdrawal response =
-          withdrawRippleFunds(
-              rippleWithdrawFundsParams.getAmount(),
-              rippleWithdrawFundsParams.getAddress(),
-              rippleWithdrawFundsParams.getTag());
-
-      if (response.error != null) {
-        throw new ExchangeException("Failed to withdraw: " + response.error);
-      }
-
-      if (response.getId() == null) {
-        return null;
-      }
-
-      return Long.toString(response.getId());
-    } else if (params instanceof DefaultWithdrawFundsParams) {
-      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-
-      BitstampWithdrawal response;
-      if (defaultParams.getCurrency().equals(Currency.LTC)) {
-        response = withdrawLtcFunds(defaultParams.getAmount(), defaultParams.getAddress());
-      } else if (defaultParams.getCurrency().equals(Currency.ETH)) {
-        response = withdrawEthFunds(defaultParams.getAmount(), defaultParams.getAddress());
-      } else if (defaultParams.getCurrency().equals(Currency.BTC)) {
-        response = withdrawBtcFunds(defaultParams.getAmount(), defaultParams.getAddress());
-      } else if (defaultParams.getCurrency().equals(Currency.BCH)) {
-        response = withdrawBchFunds(defaultParams.getAmount(), defaultParams.getAddress());
-      } else {
-        throw new IllegalStateException("Cannot withdraw " + defaultParams.getCurrency());
-      }
-
-      if (response.error != null) {
-        throw new ExchangeException("Failed to withdraw: " + response.error);
-      }
-
-      if (response.getId() == null) {
-        return null;
-      }
-
-      return Long.toString(response.getId());
+    public String withdrawFunds(Currency currency, BigDecimal amount, String address, String destinationTag)
+            throws IOException {
+        return withdrawFunds(new DefaultWithdrawFundsParams(address, destinationTag, currency, amount, null));
     }
 
-    throw new IllegalStateException("Don't know how to withdraw: " + params);
+    @Override
+    public String withdrawFunds(WithdrawFundsParams params)
+            throws ExchangeException, NotAvailableFromExchangeException,
+            NotYetImplementedForExchangeException, IOException {
+
+        BitstampWithdrawal response;
+        // XRP and XLM add extra param to transaction address
+        // there is tag on DefaultWithdrawFundsParams now, if present we use it
+        // there is no xlm withdraw class, so ripple can be used with currency set to XLM and destination tag
+        if (params instanceof RippleWithdrawFundsParams) {
+            RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
+            response = withdrawBitstampFunds(
+                    rippleWithdrawFundsParams.currency,
+                    rippleWithdrawFundsParams.getAmount(),
+                    rippleWithdrawFundsParams.getAddress(),
+                    rippleWithdrawFundsParams.getTag());
+        } else if (params instanceof DefaultWithdrawFundsParams) {
+            // assume there is no arbitrary data to address
+            DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+            response = withdrawBitstampFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress(), ((DefaultWithdrawFundsParams) params).getAddressTag());
+            if (response.error != null) {
+                throw new ExchangeException("Failed to withdraw: " + response.error);
+            }
+        } else {
+            throw new IllegalStateException("Unsupported WithdrawFundsParams sub class");
+        }
+
+      if (response.getId() == null) {
+        return null;
+      }
+
+      return Long.toString(response.getId());
+
   }
 
   /**

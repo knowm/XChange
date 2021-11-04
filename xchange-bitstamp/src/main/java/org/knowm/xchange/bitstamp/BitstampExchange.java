@@ -22,11 +22,9 @@ public class BitstampExchange extends BaseExchange implements Exchange {
   private final SynchronizedValueFactory<Long> nonceFactory =
       new CurrentTimeIncrementalNonceFactory(TimeUnit.NANOSECONDS);
 
-  private final SynchronizedValueFactory<String> uuidNonceFactory =
-      () -> UUID.randomUUID().toString();
+  private final SynchronizedValueFactory<String> uuidNonceFactory = () -> UUID.randomUUID().toString();
 
-  private final SynchronizedValueFactory<String> timestampFactory =
-      () -> String.valueOf(System.currentTimeMillis());
+  private final SynchronizedValueFactory<String> timestampFactory = () -> String.valueOf(System.currentTimeMillis());
 
   @Override
   protected void initServices() {

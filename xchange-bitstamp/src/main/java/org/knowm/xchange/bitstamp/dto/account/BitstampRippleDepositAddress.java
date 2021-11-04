@@ -14,11 +14,15 @@ import java.io.IOException;
 public class BitstampRippleDepositAddress extends BitstampDepositAddress {
 
   @JsonProperty("address")
-  private final String addressAndDt;
-
+  private  String addressAndDt;
   private String address = null;
-
   private Long destinationTag = null;
+
+  public BitstampRippleDepositAddress(String address, Long destinationTag) {
+    super(null, address);
+    this.destinationTag = destinationTag;
+    this.addressAndDt = address + "?dt=" + destinationTag;
+  }
 
   public BitstampRippleDepositAddress(String error, String depositAddress) {
     super(error, depositAddress);
@@ -58,7 +62,7 @@ public class BitstampRippleDepositAddress extends BitstampDepositAddress {
     @Override
     public BitstampRippleDepositAddress deserialize(
         JsonParser jsonParser, DeserializationContext ctxt)
-        throws IOException, JsonProcessingException {
+        throws IOException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
