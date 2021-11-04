@@ -347,7 +347,7 @@
       <dependency>
         <groupId>com.pubnub</groupId>
         <artifactId>pubnub-gson</artifactId>
-        <version>4.31.3</version>
+        <version>5.2.2</version>
       </dependency>
         <!-- Netty version compatible with service-wamp -->
         <dependency>
