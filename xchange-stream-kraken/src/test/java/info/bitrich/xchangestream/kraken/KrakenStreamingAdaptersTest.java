@@ -1,9 +1,17 @@
 package info.bitrich.xchangestream.kraken;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.knowm.xchange.currency.CurrencyPair.XBT_USD;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Sets;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import java.io.IOException;
+import java.time.Instant;
+import java.util.Comparator;
+import java.util.List;
+import java.util.TreeSet;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,17 +22,6 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
-
-import java.io.IOException;
-import java.time.Instant;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.TreeSet;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.knowm.xchange.currency.CurrencyPair.XBT_USD;
 
 public class KrakenStreamingAdaptersTest {
 
@@ -41,9 +38,13 @@ public class KrakenStreamingAdaptersTest {
 
   @Test
   public void testAdaptOrderbookMessageWithSnapshot() throws IOException {
-    JsonNode jsonNode = StreamingObjectMapperHelper.getObjectMapper().readTree(this.getClass().getResource("/orderBookMessageSnapshot.json").openStream());
+    JsonNode jsonNode =
+        StreamingObjectMapperHelper.getObjectMapper()
+            .readTree(this.getClass().getResource("/orderBookMessageSnapshot.json").openStream());
     Assert.assertNotNull(jsonNode);
-    OrderBook afterUpdate = KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
+    OrderBook afterUpdate =
+        KrakenStreamingAdapters.adaptOrderbookMessage(
+            100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
     assertThat(afterUpdate).isNotNull();
     assertThat(afterUpdate.getAsks()).isNotNull();
@@ -70,14 +71,22 @@ public class KrakenStreamingAdaptersTest {
     Assert.assertNotNull(jsonNode);
     KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
-    jsonNode = StreamingObjectMapperHelper.getObjectMapper().readTree(this.getClass().getResource("/orderBookMessageUpdate00.json").openStream());
+    jsonNode =
+        StreamingObjectMapperHelper.getObjectMapper()
+            .readTree(this.getClass().getResource("/orderBookMessageUpdate00.json").openStream());
     KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
-    jsonNode = StreamingObjectMapperHelper.getObjectMapper().readTree(this.getClass().getResource("/orderBookMessageUpdate01.json").openStream());
+    jsonNode =
+        StreamingObjectMapperHelper.getObjectMapper()
+            .readTree(this.getClass().getResource("/orderBookMessageUpdate01.json").openStream());
     KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
-    jsonNode = StreamingObjectMapperHelper.getObjectMapper().readTree(this.getClass().getResource("/orderBookMessageUpdate02.json").openStream());
-    OrderBook afterUpdate = KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
+    jsonNode =
+        StreamingObjectMapperHelper.getObjectMapper()
+            .readTree(this.getClass().getResource("/orderBookMessageUpdate02.json").openStream());
+    OrderBook afterUpdate =
+        KrakenStreamingAdapters.adaptOrderbookMessage(
+            100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
     assertThat(afterUpdate).isNotNull();
     assertThat(afterUpdate.getAsks()).isNotNull();

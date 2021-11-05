@@ -17,7 +17,7 @@ public abstract class BaseParamsDigest implements ParamsDigest {
   public static final String HMAC_SHA_1 = "HmacSHA1";
   public static final String HMAC_MD5 = "HmacMD5";
 
-  private final ThreadLocal<Mac> threadLocalMac;
+  private final Mac mac;
 
   /**
    * Constructor
@@ -42,20 +42,20 @@ public abstract class BaseParamsDigest implements ParamsDigest {
       throws IllegalArgumentException {
 
     final SecretKey secretKey = new SecretKeySpec(secretKeyBase64, hmacString);
-    threadLocalMac =
-        ThreadLocal.withInitial(
-            () -> {
-              try {
-                Mac mac = Mac.getInstance(hmacString);
-                mac.init(secretKey);
-                return mac;
-              } catch (InvalidKeyException e) {
-                throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-              } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(
-                    "Illegal algorithm for post body digest. Check the implementation.");
-              }
-            });
+    mac = createMac(secretKey, hmacString);
+  }
+
+  private Mac createMac(SecretKey secretKey, String hmacString) {
+    try {
+      Mac mac = Mac.getInstance(hmacString);
+      mac.init(secretKey);
+      return mac;
+    } catch (InvalidKeyException e) {
+      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(
+          "Illegal algorithm for post body digest. Check the implementation.");
+    }
   }
 
   protected static byte[] decodeBase64(String secretKey) {
@@ -63,6 +63,6 @@ public abstract class BaseParamsDigest implements ParamsDigest {
   }
 
   public Mac getMac() {
-    return threadLocalMac.get();
+    return mac;
   }
 }

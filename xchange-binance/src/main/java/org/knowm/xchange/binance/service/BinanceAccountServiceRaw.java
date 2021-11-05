@@ -40,7 +40,8 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
     return withdraw(coin, address, null, amount, name);
   }
 
-  public WithdrawResponse withdraw(String coin, String address, String addressTag, BigDecimal amount)
+  public WithdrawResponse withdraw(
+      String coin, String address, String addressTag, BigDecimal amount)
       throws IOException, BinanceException {
     // the name parameter seams to be mandatory
     String name = address.length() <= 10 ? address : address.substring(0, 10);
@@ -50,20 +51,21 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
   private WithdrawResponse withdraw(
       String coin, String address, String addressTag, BigDecimal amount, String name)
       throws IOException, BinanceException {
-      return decorateApiCall(() ->
-                    binance.withdraw(
-                        coin,
-                        address,
-                        addressTag,
-                        amount,
-                        name,
-                        getRecvWindow(),
-                        getTimestampFactory(),
-                        apiKey,
-                        signatureCreator))
-            .withRetry(retry("withdraw", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
-            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
-            .call();
+    return decorateApiCall(
+            () ->
+                binance.withdraw(
+                    coin,
+                    address,
+                    addressTag,
+                    amount,
+                    name,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
+        .withRetry(retry("withdraw", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
+        .call();
   }
 
   public DepositAddress requestDepositAddress(Currency currency) throws IOException {

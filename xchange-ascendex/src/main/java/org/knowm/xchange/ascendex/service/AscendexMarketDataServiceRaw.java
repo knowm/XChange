@@ -1,14 +1,13 @@
 package org.knowm.xchange.ascendex.service;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ascendex.AscendexException;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexAssetDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexMarketTradesDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexOrderbookDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexProductDto;
-
-import java.io.IOException;
-import java.util.List;
 
 public class AscendexMarketDataServiceRaw extends AscendexBaseService {
 
@@ -24,11 +23,13 @@ public class AscendexMarketDataServiceRaw extends AscendexBaseService {
     return checkResult(ascendex.getAllProducts());
   }
 
-  public AscendexOrderbookDto getAscendexOrderbook(String symbol) throws AscendexException, IOException {
+  public AscendexOrderbookDto getAscendexOrderbook(String symbol)
+      throws AscendexException, IOException {
     return checkResult(ascendex.getOrderbookDepth(symbol));
   }
 
-  public AscendexMarketTradesDto getAscendexTrades(String symbol) throws AscendexException, IOException {
+  public AscendexMarketTradesDto getAscendexTrades(String symbol)
+      throws AscendexException, IOException {
     return checkResult(ascendex.getTrades(symbol));
   }
 }

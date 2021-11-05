@@ -12,7 +12,6 @@ public class BaseWiremockTest {
   @Rule public WireMockRule wireMockRule = new WireMockRule();
   public static final String WIREMOCK_FILES_PATH = "__files";
 
-
   public Exchange createExchange() {
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(CoinbaseProExchange.class);

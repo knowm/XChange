@@ -1,7 +1,6 @@
 package org.knowm.xchange.okex.v5.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;

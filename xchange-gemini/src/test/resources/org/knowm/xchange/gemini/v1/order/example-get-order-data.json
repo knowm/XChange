@@ -1,0 +1,21 @@
+{
+  "order_id": "54323412782",
+  "id": "54323412782",
+  "symbol": "ethusd",
+  "exchange": "gemini",
+  "avg_execution_price": "0.00",
+  "side": "sell",
+  "type": "exchange limit",
+  "timestamp": "1629770740",
+  "timestampms": 1629770740526,
+  "is_live": true,
+  "is_cancelled": false,
+  "is_hidden": false,
+  "was_forced": false,
+  "executed_amount": "0",
+  "client_order_id": "TESTID0",
+  "options": [],
+  "price": "3302.00",
+  "original_amount": "0.001",
+  "remaining_amount": "0.001"
+}

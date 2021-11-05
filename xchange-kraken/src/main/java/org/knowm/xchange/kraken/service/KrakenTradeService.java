@@ -1,10 +1,8 @@
 package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -43,8 +41,10 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     Map<String, KrakenOrder> krakenOrders = super.getKrakenOpenOrders();
     if (params != null && params instanceof OpenOrdersParamCurrencyPair) {
-      OpenOrdersParamCurrencyPair openOrdersParamCurrencyPair = (OpenOrdersParamCurrencyPair) params;
-      Map<String, KrakenOrder> filteredKrakenOrders = KrakenUtils.filterOpenOrdersByCurrencyPair(
+      OpenOrdersParamCurrencyPair openOrdersParamCurrencyPair =
+          (OpenOrdersParamCurrencyPair) params;
+      Map<String, KrakenOrder> filteredKrakenOrders =
+          KrakenUtils.filterOpenOrdersByCurrencyPair(
               krakenOrders, openOrdersParamCurrencyPair.getCurrencyPair());
       return KrakenAdapters.adaptOpenOrders(filteredKrakenOrders);
     }
@@ -127,13 +127,13 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
     }
 
     Map<String, KrakenTrade> krakenTradeHistory =
-            getKrakenTradeHistory(null, false, start, end, offset).getTrades();
+        getKrakenTradeHistory(null, false, start, end, offset).getTrades();
 
-    if (params instanceof TradeHistoryParamCurrencyPair &&
-            ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
-      krakenTradeHistory = KrakenUtils.filterTradeHistoryByCurrencyPair(
-              krakenTradeHistory,
-              ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+    if (params instanceof TradeHistoryParamCurrencyPair
+        && ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
+      krakenTradeHistory =
+          KrakenUtils.filterTradeHistoryByCurrencyPair(
+              krakenTradeHistory, ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
     }
 
     return KrakenAdapters.adaptTradesHistory(krakenTradeHistory);

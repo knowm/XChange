@@ -13,8 +13,7 @@ public class FtxMarketDataServiceRaw extends FtxBaseService {
     super(exchange);
   }
 
-  public FtxResponse<FtxMarketDto> getFtxMarket(String market)
-      throws FtxException, IOException {
+  public FtxResponse<FtxMarketDto> getFtxMarket(String market) throws FtxException, IOException {
     try {
       return ftx.getMarket(market);
     } catch (FtxException e) {
@@ -23,8 +22,8 @@ public class FtxMarketDataServiceRaw extends FtxBaseService {
   }
 
   public FtxResponse<List<FtxCandleDto>> getFtxCandles(
-          String market, String resolution, String starTime, String endTime, Integer limit)
-      throws FtxException, IOException{
+      String market, String resolution, String starTime, String endTime, Integer limit)
+      throws FtxException, IOException {
     try {
       return ftx.getCandles(market, resolution, starTime, endTime, limit);
     } catch (FtxException e) {
@@ -57,7 +56,4 @@ public class FtxMarketDataServiceRaw extends FtxBaseService {
       throw new FtxException(e.getMessage());
     }
   }
-
-
 }
-

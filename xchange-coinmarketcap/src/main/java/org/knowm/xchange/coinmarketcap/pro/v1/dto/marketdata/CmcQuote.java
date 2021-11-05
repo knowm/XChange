@@ -184,8 +184,11 @@ public final class CmcQuote {
     result = 31 * result + (getPercentChange60d() != null ? getPercentChange60d().hashCode() : 0);
     result = 31 * result + (getPercentChange90d() != null ? getPercentChange90d().hashCode() : 0);
     result = 31 * result + (getMarketCap() != null ? getMarketCap().hashCode() : 0);
-    result = 31 * result + (getMarketCapDominance() != null ? getMarketCapDominance().hashCode() : 0);
-    result = 31 * result + (getFullyDilutedMarketCap() != null ? getFullyDilutedMarketCap().hashCode() : 0);
+    result =
+        31 * result + (getMarketCapDominance() != null ? getMarketCapDominance().hashCode() : 0);
+    result =
+        31 * result
+            + (getFullyDilutedMarketCap() != null ? getFullyDilutedMarketCap().hashCode() : 0);
     result = 31 * result + (getLastUpdated() != null ? getLastUpdated().hashCode() : 0);
     return result;
   }

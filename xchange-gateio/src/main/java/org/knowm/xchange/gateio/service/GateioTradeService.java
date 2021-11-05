@@ -80,8 +80,8 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (orderParams instanceof CancelOrderByIdParams &&
-        orderParams instanceof CancelOrderByCurrencyPair) {
+    if (orderParams instanceof CancelOrderByIdParams
+        && orderParams instanceof CancelOrderByCurrencyPair) {
       return cancelOrder(
           ((CancelOrderByIdParams) orderParams).getOrderId(),
           ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair());

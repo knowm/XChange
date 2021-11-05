@@ -1,16 +1,15 @@
 package org.knowm.xchange.ascendex;
 
+import java.io.IOException;
+import java.util.List;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.ascendex.dto.AscendexResponse;
 import org.knowm.xchange.ascendex.dto.account.AscendexCashAccountBalanceDto;
 import org.knowm.xchange.ascendex.dto.trade.AscendexOpenOrdersResponse;
-import org.knowm.xchange.ascendex.dto.trade.AscendexPlaceOrderRequestPayload;
 import org.knowm.xchange.ascendex.dto.trade.AscendexOrderResponse;
+import org.knowm.xchange.ascendex.dto.trade.AscendexPlaceOrderRequestPayload;
 import si.mazi.rescu.ParamsDigest;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.List;
 
 @Path("api/pro/v1")
 @Produces(MediaType.APPLICATION_JSON)

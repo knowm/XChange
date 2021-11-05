@@ -1,5 +1,6 @@
 package org.knowm.xchange.ascendex;
 
+import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -9,12 +10,7 @@ import org.knowm.xchange.ascendex.service.AscendexMarketDataServiceRaw;
 import org.knowm.xchange.ascendex.service.AscendexTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-import java.io.IOException;
-
-/**
- * @author makarid
- */
-
+/** @author makarid */
 public class AscendexExchange extends BaseExchange implements Exchange {
 
   @Override

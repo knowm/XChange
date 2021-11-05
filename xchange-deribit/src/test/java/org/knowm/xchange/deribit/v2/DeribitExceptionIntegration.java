@@ -7,7 +7,6 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.dto.DeribitException;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
-import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.instrument.Instrument;
 
 public class DeribitExceptionIntegration {

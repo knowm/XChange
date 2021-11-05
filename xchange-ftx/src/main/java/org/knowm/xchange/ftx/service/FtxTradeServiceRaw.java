@@ -1,5 +1,9 @@
 package org.knowm.xchange.ftx.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -18,11 +22,6 @@ import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class FtxTradeServiceRaw extends FtxBaseService {
 
@@ -63,12 +62,12 @@ public class FtxTradeServiceRaw extends FtxBaseService {
       throws FtxException, IOException {
 
     return ftx.modifyOrder(
-          exchange.getExchangeSpecification().getApiKey(),
-          exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          subaccount,
-          orderId,
-          payload);
+        exchange.getExchangeSpecification().getApiKey(),
+        exchange.getNonceFactory().createValue(),
+        signatureCreator,
+        subaccount,
+        orderId,
+        payload);
   }
 
   public FtxResponse<FtxOrderDto> modifyFtxOrderByClientId(
@@ -76,12 +75,12 @@ public class FtxTradeServiceRaw extends FtxBaseService {
       throws FtxException, IOException {
 
     return ftx.modifyOrderByClientId(
-            exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory().createValue(),
-            signatureCreator,
-            subaccount,
-            clientId,
-            payload);
+        exchange.getExchangeSpecification().getApiKey(),
+        exchange.getNonceFactory().createValue(),
+        signatureCreator,
+        subaccount,
+        clientId,
+        payload);
   }
 
   public boolean cancelOrderForSubaccount(String subaccount, String orderId) throws IOException {

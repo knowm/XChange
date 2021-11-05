@@ -1,5 +1,7 @@
 package org.knowm.xchange.ascendex.service;
 
+import java.io.IOException;
+import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ascendex.AscendexAdapters;
 import org.knowm.xchange.dto.Order;
@@ -12,9 +14,6 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstr
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.Collection;
 
 public class AscendexTradeService extends AscendexTradeServiceRaw implements TradeService {
 
@@ -56,7 +55,8 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     if (params instanceof OpenOrdersParamCurrencyPair) {
       return AscendexAdapters.adaptOpenOrders(
-          getAscendexOpenOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair().toString()));
+          getAscendexOpenOrders(
+              ((OpenOrdersParamCurrencyPair) params).getCurrencyPair().toString()));
     } else if (params instanceof OpenOrdersParamInstrument) {
       return AscendexAdapters.adaptOpenOrders(
           getAscendexOpenOrders(((OpenOrdersParamInstrument) params).getInstrument().toString()));
@@ -78,7 +78,8 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
           getAscendexUserTrades(
               ((TradeHistoryParamCurrencyPair) params).getCurrencyPair().toString()));
     } else {
-      throw new IOException("CurrencyPair must specified in order to get usertrades from Ascendex.");
+      throw new IOException(
+          "CurrencyPair must specified in order to get usertrades from Ascendex.");
     }
   }
 

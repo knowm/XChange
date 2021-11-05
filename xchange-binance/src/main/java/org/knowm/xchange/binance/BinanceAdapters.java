@@ -33,12 +33,12 @@ public class BinanceAdapters {
 
   /**
    * Converts a datetime as string in time zone UTC to a Date object
+   *
    * @param dateTime String that represents datetime in zone UTC
    * @return Date Object in time zone UTC
    */
   public static Date toDate(String dateTime) {
-    return java.util.Date.from(
-        Instant.from(toLocalDateTime(dateTime).atZone(ZoneId.of("UTC"))));
+    return java.util.Date.from(Instant.from(toLocalDateTime(dateTime).atZone(ZoneId.of("UTC"))));
   }
 
   public static LocalDateTime toLocalDateTime(String dateTime) {

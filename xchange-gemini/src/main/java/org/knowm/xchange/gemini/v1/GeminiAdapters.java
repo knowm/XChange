@@ -122,6 +122,21 @@ public final class GeminiAdapters {
     OrderStatus orderStatus = adaptOrderstatus(geminiOrderStatusResponse);
     Date timestamp = new Date(geminiOrderStatusResponse.getTimestampms());
 
+    // Calculate Fees in counter currency
+    BigDecimal fee = null;
+
+    if (geminiOrderStatusResponse.getTrades() != null
+        && geminiOrderStatusResponse.getTrades().length > 0) {
+      for (GeminiOrderStatusResponse.OrderStatusTradeDetails trade :
+          geminiOrderStatusResponse.getTrades()) {
+        if (fee == null) {
+          fee = trade.getFeeAmount();
+        } else {
+          fee.add(trade.getFeeAmount());
+        }
+      }
+    }
+
     if (geminiOrderStatusResponse.getType().contains("limit")) {
 
       BigDecimal limitPrice = geminiOrderStatusResponse.getPrice();
@@ -135,8 +150,9 @@ public final class GeminiAdapters {
           limitPrice,
           averageExecutionPrice,
           executedAmount,
-          null,
-          orderStatus);
+          fee,
+          orderStatus,
+          geminiOrderStatusResponse.getClientOrderId());
 
     } else if (geminiOrderStatusResponse.getType().contains("market")) {
 
@@ -148,8 +164,9 @@ public final class GeminiAdapters {
           timestamp,
           averageExecutionPrice,
           executedAmount,
-          null,
-          orderStatus);
+          fee,
+          orderStatus,
+          geminiOrderStatusResponse.getClientOrderId());
     }
 
     throw new NotYetImplementedForExchangeException();
@@ -344,14 +361,15 @@ public final class GeminiAdapters {
     return adaptOrders(activeOrders, null);
   }
 
-  public static OpenOrders adaptOrders(GeminiOrderStatusResponse[] activeOrders, CurrencyPair currencyPair) {
+  public static OpenOrders adaptOrders(
+      GeminiOrderStatusResponse[] activeOrders, CurrencyPair currencyPair) {
 
     List<LimitOrder> limitOrders = new ArrayList<>(activeOrders.length);
 
     for (GeminiOrderStatusResponse order : activeOrders) {
       CurrencyPair currentCurrencyPair = adaptCurrencyPair(order.getSymbol());
 
-      if(currencyPair != null && !currentCurrencyPair.equals(currencyPair)){
+      if (currencyPair != null && !currentCurrencyPair.equals(currencyPair)) {
         continue;
       }
 

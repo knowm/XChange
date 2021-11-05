@@ -14,8 +14,9 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.ParamsDigest;
 
 /**
- * In order for Ascendex exchange authenticated endpoints to work you must add a specificParameterItem
- * named 'account-group' on the getExchangeSpecification.getExchangeSpecificParameters Map
+ * In order for Ascendex exchange authenticated endpoints to work you must add a
+ * specificParameterItem named 'account-group' on the
+ * getExchangeSpecification.getExchangeSpecificParameters Map
  */
 public class AscendexBaseService extends BaseExchangeService implements BaseService {
 

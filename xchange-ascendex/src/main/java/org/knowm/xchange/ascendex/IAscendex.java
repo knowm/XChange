@@ -1,18 +1,17 @@
 package org.knowm.xchange.ascendex;
 
-import org.knowm.xchange.ascendex.dto.AscendexResponse;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexAssetDto;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexMarketTradesDto;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexOrderbookDto;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexProductDto;
-
+import java.io.IOException;
+import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.List;
+import org.knowm.xchange.ascendex.dto.AscendexResponse;
+import org.knowm.xchange.ascendex.dto.marketdata.AscendexAssetDto;
+import org.knowm.xchange.ascendex.dto.marketdata.AscendexMarketTradesDto;
+import org.knowm.xchange.ascendex.dto.marketdata.AscendexOrderbookDto;
+import org.knowm.xchange.ascendex.dto.marketdata.AscendexProductDto;
 
 @Path("api/pro/v1")
 @Produces(MediaType.APPLICATION_JSON)

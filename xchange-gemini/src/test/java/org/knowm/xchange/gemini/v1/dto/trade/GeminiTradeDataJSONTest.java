@@ -36,7 +36,7 @@ public class GeminiTradeDataJSONTest {
     assertEquals("1387061558.610016778", response.getTimestamp());
     assertTrue(response.isLive());
     assertFalse(response.isCancelled());
-    assertFalse(response.getWasForced());
+    assertFalse(response.isWasForced());
     assertEquals(new BigDecimal("0.01"), response.getOriginalAmount());
     assertEquals(new BigDecimal("0.01"), response.getRemainingAmount());
     assertEquals(new BigDecimal("0.0"), response.getExecutedAmount());
@@ -60,7 +60,7 @@ public class GeminiTradeDataJSONTest {
     assertEquals("1387061342.0", response.getTimestamp());
     assertFalse(response.isLive());
     assertTrue(response.isCancelled());
-    assertFalse(response.getWasForced());
+    assertFalse(response.isWasForced());
     assertEquals(new BigDecimal("0.01"), response.getOriginalAmount());
     assertEquals(new BigDecimal("0.01"), response.getRemainingAmount());
     assertEquals(new BigDecimal("0.0"), response.getExecutedAmount());
@@ -84,7 +84,7 @@ public class GeminiTradeDataJSONTest {
     assertEquals("1387061342.0", response.getTimestamp());
     assertTrue(response.isLive());
     assertFalse(response.isCancelled());
-    assertFalse(response.getWasForced());
+    assertFalse(response.isWasForced());
     assertEquals(new BigDecimal("0.08"), response.getOriginalAmount());
     assertEquals(new BigDecimal("0.06"), response.getRemainingAmount());
     assertEquals(new BigDecimal("0.02"), response.getExecutedAmount());

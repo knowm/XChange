@@ -23,25 +23,25 @@ public class OkexAccountServiceRaw extends OkexBaseService {
   }
 
   public OkexResponse<List<OkexAssetBalance>> getAssetBalances(List<Currency> currencies)
-          throws OkexException, IOException {
+      throws OkexException, IOException {
     try {
       return decorateApiCall(
               () ->
-                      okexAuthenticated.getAssetBalances(
-                              currencies,
-                              exchange.getExchangeSpecification().getApiKey(),
-                              signatureCreator,
-                              DateUtils.toUTCISODateString(new Date()),
-                              (String)
-                                      exchange
-                                              .getExchangeSpecification()
-                                              .getExchangeSpecificParametersItem("passphrase"),
-                              (String)
-                                      exchange
-                                              .getExchangeSpecification()
-                                              .getExchangeSpecificParametersItem("simulated")))
-              .withRateLimiter(rateLimiter(assetBalancesPath))
-              .call();
+                  okexAuthenticated.getAssetBalances(
+                      currencies,
+                      exchange.getExchangeSpecification().getApiKey(),
+                      signatureCreator,
+                      DateUtils.toUTCISODateString(new Date()),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated")))
+          .withRateLimiter(rateLimiter(assetBalancesPath))
+          .call();
     } catch (OkexException e) {
       throw handleError(e);
     }

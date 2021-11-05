@@ -53,7 +53,8 @@ public class HuobiMarketDataServiceRaw extends HuobiBaseService {
   }
 
   public HuobiCurrencyWrapper[] getHuobiCurrencies(String currency) throws IOException {
-    HuobiCurrenciesResult currenciesResult = huobi.getCurrencies(
+    HuobiCurrenciesResult currenciesResult =
+        huobi.getCurrencies(
             currency.toLowerCase(),
             false,
             exchange.getExchangeSpecification().getApiKey(),

@@ -1,5 +1,7 @@
 package org.knowm.xchange.ascendex;
 
+import java.time.Instant;
+import java.util.*;
 import org.knowm.xchange.ascendex.dto.account.AscendexCashAccountBalanceDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexAssetDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexMarketTradesDto;
@@ -25,9 +27,6 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
-
-import java.time.Instant;
-import java.util.*;
 
 public class AscendexAdapters {
 
@@ -172,7 +171,8 @@ public class AscendexAdapters {
   public static ExchangeMetaData adaptExchangeMetaData(
       List<AscendexAssetDto> ascendexAssetDtos, List<AscendexProductDto> ascendexProductDtos) {
     Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<>(ascendexAssetDtos.size());
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairMetaDataMap = new HashMap<>(ascendexProductDtos.size());
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairMetaDataMap =
+        new HashMap<>(ascendexProductDtos.size());
 
     ascendexAssetDtos.forEach(
         ascendexAssetDto ->

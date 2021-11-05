@@ -1,7 +1,6 @@
 package org.knowm.xchange.ascendex.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class AscendexCashAccountBalanceDto {

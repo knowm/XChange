@@ -7,7 +7,8 @@ public class AscendexException extends HttpStatusExceptionSupport {
 
   private final int code;
 
-  public AscendexException(@JsonProperty("code") int code, @JsonProperty("message") String message) {
+  public AscendexException(
+      @JsonProperty("code") int code, @JsonProperty("message") String message) {
     super(message);
     this.code = code;
   }

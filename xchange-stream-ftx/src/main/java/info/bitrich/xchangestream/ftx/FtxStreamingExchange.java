@@ -11,7 +11,6 @@ import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.ftx.FtxExchange;
 
-
 public class FtxStreamingExchange extends FtxExchange implements StreamingExchange {
 
   private final String API_URI = "wss://ftx.com/ws/";
@@ -25,7 +24,14 @@ public class FtxStreamingExchange extends FtxExchange implements StreamingExchan
     super.initServices();
 
     if (exchangeSpecification.getApiKey() != null) {
-      this.ftxStreamingService = new FtxStreamingService(API_URI, () -> new FtxWebsocketCredential(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName()));
+      this.ftxStreamingService =
+          new FtxStreamingService(
+              API_URI,
+              () ->
+                  new FtxWebsocketCredential(
+                      exchangeSpecification.getApiKey(),
+                      exchangeSpecification.getSecretKey(),
+                      exchangeSpecification.getUserName()));
       this.ftxStreamingTradeService = new FtxStreamingTradeService(ftxStreamingService);
     } else {
       this.ftxStreamingService = new FtxStreamingService(API_URI);

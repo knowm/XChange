@@ -1,10 +1,10 @@
 package info.bitrich.xchangestream.coinbasepro;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoinbaseProStreamingExchangeTest {
 

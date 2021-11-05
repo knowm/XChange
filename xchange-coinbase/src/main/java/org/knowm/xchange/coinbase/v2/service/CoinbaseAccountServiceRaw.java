@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.Coinbase;
@@ -52,11 +54,38 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
    */
   public List<CoinbaseAccount> getCoinbaseAccounts() throws IOException {
     String apiKey = exchange.getExchangeSpecification().getApiKey();
-    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
 
-    return coinbase
-        .getAccounts(Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp)
-        .getData();
+    List<CoinbaseAccount> returnList = new ArrayList<>();
+    List<CoinbaseAccount> tmpList = null;
+
+    String lastAccount = null;
+    do {
+      BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
+
+      tmpList =
+          coinbase
+              .getAccounts(
+                  Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, 100, lastAccount)
+              .getData();
+
+      lastAccount = null;
+      if (tmpList != null && tmpList.size() > 0) {
+        returnList.addAll(tmpList);
+        lastAccount = tmpList.get(tmpList.size() - 1).getId();
+      }
+
+    } while (lastAccount != null && isValidUUID(lastAccount));
+
+    return returnList;
+  }
+
+  private boolean isValidUUID(String uuid) {
+    try {
+      UUID.fromString(uuid);
+      return true;
+    } catch (IllegalArgumentException exception) {
+      return false;
+    }
   }
 
   /**

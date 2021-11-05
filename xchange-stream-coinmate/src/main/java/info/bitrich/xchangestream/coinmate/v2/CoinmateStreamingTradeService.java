@@ -40,17 +40,16 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
         .subscribeChannel(channelName, true)
         .map(
             (message) -> {
-                JsonNode payload = message.get("payload");
-                List<CoinmateWebsocketOpenOrder> websocketOpenOrders;
-                if (payload.isArray()) {
-                    websocketOpenOrders =
-                            Arrays.asList(
-                                    reader.readValue(payload, CoinmateWebsocketOpenOrder[].class));
-                } else {
-                    websocketOpenOrders =
-                            Collections.singletonList(
-                                    reader.readValue(payload, CoinmateWebsocketOpenOrder.class));
-                }
+              JsonNode payload = message.get("payload");
+              List<CoinmateWebsocketOpenOrder> websocketOpenOrders;
+              if (payload.isArray()) {
+                websocketOpenOrders =
+                    Arrays.asList(reader.readValue(payload, CoinmateWebsocketOpenOrder[].class));
+              } else {
+                websocketOpenOrders =
+                    Collections.singletonList(
+                        reader.readValue(payload, CoinmateWebsocketOpenOrder.class));
+              }
               return CoinmateStreamingAdapter.adaptWebsocketOpenOrders(
                   websocketOpenOrders, currencyPair);
             })

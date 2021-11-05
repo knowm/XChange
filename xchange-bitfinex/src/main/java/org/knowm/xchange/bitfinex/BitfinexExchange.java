@@ -1,5 +1,11 @@
 package org.knowm.xchange.bitfinex;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -13,13 +19,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class BitfinexExchange extends BaseExchange implements Exchange {
 
@@ -95,8 +94,12 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
         // Additional remoteInit configuration for authenticated instances
         BitfinexAccountService accountService = (BitfinexAccountService) this.accountService;
         final BitfinexAccountFeesResponse accountFees = accountService.getAccountFees();
-        exchangeMetaData = BitfinexAdapters.adaptMetaData(accountFees, bitfinexPlatformStatus,
-                bitfinexPlatformStatusPresent, exchangeMetaData);
+        exchangeMetaData =
+            BitfinexAdapters.adaptMetaData(
+                accountFees,
+                bitfinexPlatformStatus,
+                bitfinexPlatformStatusPresent,
+                exchangeMetaData);
 
         BitfinexTradeService tradeService = (BitfinexTradeService) this.tradeService;
         final BitfinexAccountInfosResponse[] bitfinexAccountInfos =
