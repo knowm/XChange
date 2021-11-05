@@ -19,7 +19,6 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -97,7 +96,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     } else if (currency.equals(Currency.LTC)) {
       return getBitstampLitecoinDepositAddress().getDepositAddress();
     } else if (currency.equals(Currency.XRP)) {
-      return getRippleDepositAddress().getAddressAndDt();
+      return getXRPDepositAddress().getAddressAndDt();
     } else if (currency.equals(Currency.BCH)) {
       return getBitstampBitcoinCashDepositAddress().getDepositAddress();
     } else if (currency.equals(Currency.ETH)) {
@@ -114,7 +113,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     } else if (currency.equals(Currency.LTC)) {
       return getBitstampLitecoinDepositAddress();
     } else if (currency.equals(Currency.XRP)) {
-      return getRippleDepositAddress();
+      return getXRPDepositAddress();
     } else if (currency.equals(Currency.BCH)) {
       return getBitstampBitcoinCashDepositAddress();
     } else if (currency.equals(Currency.ETH)) {
