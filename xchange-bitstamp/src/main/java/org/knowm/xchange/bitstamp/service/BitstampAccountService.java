@@ -55,9 +55,9 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
-    public String withdrawFunds(Currency currency, BigDecimal amount, String address, String destinationTag)
+    public String withdrawFunds(Currency currency, BigDecimal amount, String address, String addressTag)
             throws IOException {
-        return withdrawFunds(new DefaultWithdrawFundsParams(address, destinationTag, currency, amount, null));
+        return withdrawFunds(new DefaultWithdrawFundsParams(address, addressTag, currency, amount, null));
     }
 
     @Override
@@ -66,20 +66,11 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
             NotYetImplementedForExchangeException, IOException {
 
         BitstampWithdrawal response;
-        // XRP and XLM add extra param to transaction address
-        // there is tag on DefaultWithdrawFundsParams now, if present we use it
-        // there is no xlm withdraw class, so ripple can be used with currency set to XLM and destination tag
-        if (params instanceof RippleWithdrawFundsParams) {
-            RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
-            response = withdrawBitstampFunds(
-                    rippleWithdrawFundsParams.currency,
-                    rippleWithdrawFundsParams.getAmount(),
-                    rippleWithdrawFundsParams.getAddress(),
-                    rippleWithdrawFundsParams.getTag());
-        } else if (params instanceof DefaultWithdrawFundsParams) {
-            // assume there is no arbitrary data to address
+
+        // XRP, XLM and HBAR add extra param to transaction address which will be the addressTag
+        if (params instanceof DefaultWithdrawFundsParams) {
             DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-            response = withdrawBitstampFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress(), ((DefaultWithdrawFundsParams) params).getAddressTag());
+            response = withdrawBitstampFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress(),  defaultParams.getAddressTag());
             if (response.error != null) {
                 throw new ExchangeException("Failed to withdraw: " + response.error);
             }

@@ -4,9 +4,6 @@ import java.math.BigDecimal;
 import javax.annotation.Nullable;
 import org.knowm.xchange.currency.Currency;
 
-/**
- * this can be also used for XLM withdrawal, destination tag will be used as memo_id api param
- */
 public class RippleWithdrawFundsParams extends DefaultWithdrawFundsParams {
   @Nullable public final String tag; // optional
 
@@ -16,7 +13,7 @@ public class RippleWithdrawFundsParams extends DefaultWithdrawFundsParams {
 
   public RippleWithdrawFundsParams(
       String address, Currency currency, BigDecimal amount, String tag) {
-    super(address, currency, amount);
+    super(address, tag, currency, amount, null);
     this.tag = tag;
   }
 

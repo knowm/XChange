@@ -104,14 +104,18 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
       Currency currency, BigDecimal amount, final String address, final String tag)
       throws IOException {
     BitstampWithdrawal response;
+
     amount = amount.setScale(5, RoundingMode.HALF_UP);
-    if (currency.equals(Currency.XRP) && tag != null && tag.trim().length() > 0) {
+
+    if (currency.equals(Currency.XRP)) {
+      Long dt = null;
       try {
-        Long dt = Long.valueOf(tag);
-        response = withdrawRippleFunds(amount, address, dt);
+        dt = Long.valueOf(tag);
       } catch (NumberFormatException e) {
-        throw new RuntimeException("Destination tag must be a Long number");
+        // dt may be part of address,
       }
+      response = withdrawRippleFunds(amount, address, dt);
+
     } else if (currency.equals(Currency.XLM)) {
       response = withdrawXLM(amount, address, tag);
     } else {
@@ -169,12 +173,11 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   public BitstampWithdrawal withdrawRippleFunds(
       BigDecimal amount, String address, Long destinationTag) throws IOException {
     BitstampRippleDepositAddress addressAndDt;
-    if (destinationTag == null) {
-      // tag was not provided in method call, but it can still be there as part of address
-      addressAndDt = new BitstampRippleDepositAddress(address, destinationTag);
-    } else {
-      addressAndDt = new BitstampRippleDepositAddress(null, address);
-    }
+
+
+      // even if tag was not explicitly provided in method call, it can still be there as part of address as addr?dt=tag
+      addressAndDt = new BitstampRippleDepositAddress(null, address, destinationTag);
+
 
     try {
       BitstampWithdrawal response =
@@ -203,7 +206,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
           try {
               longMemo = Long.valueOf(memo);
           } catch (NumberFormatException exception) {
-              throw new RuntimeException("Bistamp supports only numbers for xlm memo field");
+              throw new RuntimeException("Bitstamp supports only numbers for xlm memo field");
           }
       }
 

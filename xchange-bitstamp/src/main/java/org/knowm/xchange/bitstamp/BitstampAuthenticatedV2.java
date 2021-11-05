@@ -138,6 +138,11 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("since_id") String sinceId)
       throws BitstampException, IOException;
 
+
+/**
+ *  please keep in mind that the methods below are called through reflections with naming pattern "withdraw" + Currency code
+ */
+
   @POST
   @Path("btc_withdrawal/")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

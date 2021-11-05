@@ -2,7 +2,6 @@ package org.knowm.xchange.bitstamp.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -15,22 +14,21 @@ public class BitstampRippleDepositAddress extends BitstampDepositAddress {
 
   @JsonProperty("address")
   private  String addressAndDt;
-  private String address = null;
-  private Long destinationTag = null;
+  private final String address;
+  private final Long destinationTag;
 
-  public BitstampRippleDepositAddress(String address, Long destinationTag) {
-    super(null, address);
-    this.destinationTag = destinationTag;
-    this.addressAndDt = address + "?dt=" + destinationTag;
-  }
+  public BitstampRippleDepositAddress(String error, String address, Long destinationTag) {
+    super(error, address);
 
-  public BitstampRippleDepositAddress(String error, String depositAddress) {
-    super(error, depositAddress);
-    this.addressAndDt = depositAddress;
-    final String[] split = addressAndDt.split("\\?dt=");
+    final String[] split = address.split("\\?dt=");
     if (split.length == 2) {
-      address = split[0];
-      destinationTag = Long.parseLong(split[1]);
+      this.address = split[0];
+      this.destinationTag = Long.parseLong(split[1]);
+      this.addressAndDt = address;
+    } else {
+      this.address = address;
+      this.addressAndDt = address + "?dt=" + destinationTag;
+      this.destinationTag = destinationTag;
     }
   }
 
@@ -67,11 +65,12 @@ public class BitstampRippleDepositAddress extends BitstampDepositAddress {
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
       if (node.get("error") != null) {
-        return new BitstampRippleDepositAddress(node.path("error").asText(), "");
-      } else if (node.get("address") != null) {
-        return new BitstampRippleDepositAddress(null, node.get("address").asText());
+        return new BitstampRippleDepositAddress(node.path("error").asText(), "", null);
+      }
+      else if (node.get("address") != null) {
+        return new BitstampRippleDepositAddress(null, node.get("address").asText(), null);
       } else {
-        return new BitstampRippleDepositAddress(null, node.asText());
+        return new BitstampRippleDepositAddress(null, node.asText(), null);
       }
     }
   }
