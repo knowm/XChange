@@ -1,5 +1,7 @@
 package org.knowm.xchange.ftx.service;
 
+import java.io.IOException;
+import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPositions;
@@ -12,9 +14,6 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.Collection;
 
 public class FtxTradeService extends FtxTradeServiceRaw implements TradeService {
 

@@ -1,15 +1,13 @@
 package org.knowm.xchange.ascendex.service;
 
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ascendex.AscendexException;
-
-import org.knowm.xchange.ascendex.dto.trade.AscendexCancelOrderRequestPayload;
-import org.knowm.xchange.ascendex.dto.trade.AscendexOpenOrdersResponse;
-import org.knowm.xchange.ascendex.dto.trade.AscendexPlaceOrderRequestPayload;
-import org.knowm.xchange.ascendex.dto.trade.AscendexOrderResponse;
-
 import java.io.IOException;
 import java.util.List;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.ascendex.AscendexException;
+import org.knowm.xchange.ascendex.dto.trade.AscendexCancelOrderRequestPayload;
+import org.knowm.xchange.ascendex.dto.trade.AscendexOpenOrdersResponse;
+import org.knowm.xchange.ascendex.dto.trade.AscendexOrderResponse;
+import org.knowm.xchange.ascendex.dto.trade.AscendexPlaceOrderRequestPayload;
 
 public class AscendexTradeServiceRaw extends AscendexBaseService {
 

@@ -15,15 +15,15 @@ public class GateioOrderStatus extends GateioBaseResponse {
   private GateioOrderStatus(
       @JsonProperty("order") BTEROrderStatusInfo orderStatusInfo,
       @JsonProperty("result") boolean result,
-      @JsonProperty("msg") String msg) {
+      @JsonProperty("message") String msg) {
 
     super(result, msg);
     this.orderStatusInfo = orderStatusInfo;
   }
 
-  public String getId() {
+  public String getOrderNumber() {
 
-    return orderStatusInfo.getId();
+    return orderStatusInfo.getOrderNumber();
   }
 
   public String getStatus() {
@@ -68,7 +68,7 @@ public class GateioOrderStatus extends GateioBaseResponse {
 
   public static class BTEROrderStatusInfo {
 
-    private final String id;
+    private final String orderNumber;
     private final String status;
     private final CurrencyPair currencyPair;
     private final GateioOrderType type;
@@ -78,16 +78,16 @@ public class GateioOrderStatus extends GateioBaseResponse {
     private final BigDecimal initialAmount;
 
     private BTEROrderStatusInfo(
-        @JsonProperty("id") String id,
+        @JsonProperty("orderNumber") String orderNumber,
         @JsonProperty("status") String status,
-        @JsonProperty("pair") String currencyPair,
+        @JsonProperty("currencyPair") String currencyPair,
         @JsonProperty("type") GateioOrderType type,
         @JsonProperty("rate") BigDecimal rate,
         @JsonProperty("amount") BigDecimal amount,
-        @JsonProperty("initial_rate") BigDecimal initialRate,
-        @JsonProperty("initial_amount") BigDecimal initialAmount) {
+        @JsonProperty("initialRate") BigDecimal initialRate,
+        @JsonProperty("initialAmount") BigDecimal initialAmount) {
 
-      this.id = id;
+      this.orderNumber = orderNumber;
       this.status = status;
       this.currencyPair = GateioAdapters.adaptCurrencyPair(currencyPair);
       this.type = type;
@@ -97,9 +97,9 @@ public class GateioOrderStatus extends GateioBaseResponse {
       this.initialAmount = initialAmount;
     }
 
-    public String getId() {
+    public String getOrderNumber() {
 
-      return id;
+      return orderNumber;
     }
 
     public String getStatus() {
@@ -141,7 +141,7 @@ public class GateioOrderStatus extends GateioBaseResponse {
     public String toString() {
 
       return "BTEROrderStatusInfo [id="
-          + id
+          + orderNumber
           + ", status="
           + status
           + ", currencyPair="

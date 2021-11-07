@@ -6,6 +6,7 @@ import com.google.common.collect.Sets;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import io.reactivex.Observable;
+import java.util.TreeSet;
 import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -14,8 +15,6 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.TreeSet;
 
 /** @author makarid, pchertalev */
 public class KrakenStreamingMarketDataService implements StreamingMarketDataService {
@@ -32,27 +31,36 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
     this.service = service;
   }
 
-    @Override
-    public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-      String channelName = getChannelName(KrakenSubscriptionName.book, currencyPair);
-      TreeSet<LimitOrder> bids = Sets.newTreeSet();
-      TreeSet<LimitOrder> asks = Sets.newTreeSet();
-      int depth = ObjectUtils.defaultIfNull(KrakenStreamingService.parseOrderBookSize(args), KrakenStreamingService.ORDER_BOOK_SIZE_DEFAULT);
-      return subscribe(channelName, MIN_DATA_ARRAY_SIZE, args).map(arrayNode -> {
-                            try {
-                                    return KrakenStreamingAdapters.adaptOrderbookMessage(depth, bids, asks, currencyPair, arrayNode);
-                            } catch (IllegalStateException e) {
-                                LOG.warn("Resubscribing {} channel after adapter error {}", currencyPair, e.getMessage());
-                                bids.clear();
-                                asks.clear();
-                                // Resubscribe to the channel, triggering a new snapshot
-                                this.service.sendMessage(service.getUnsubscribeMessage(channelName, args));
-                                this.service.sendMessage(service.getSubscribeMessage(channelName, args));
-                                return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
-                            }
-                        })
-              .filter(ob -> ob.getBids().size() > 0 && ob.getAsks().size() > 0);
-    }
+  @Override
+  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+    String channelName = getChannelName(KrakenSubscriptionName.book, currencyPair);
+    TreeSet<LimitOrder> bids = Sets.newTreeSet();
+    TreeSet<LimitOrder> asks = Sets.newTreeSet();
+    int depth =
+        ObjectUtils.defaultIfNull(
+            KrakenStreamingService.parseOrderBookSize(args),
+            KrakenStreamingService.ORDER_BOOK_SIZE_DEFAULT);
+    return subscribe(channelName, MIN_DATA_ARRAY_SIZE, args)
+        .map(
+            arrayNode -> {
+              try {
+                return KrakenStreamingAdapters.adaptOrderbookMessage(
+                    depth, bids, asks, currencyPair, arrayNode);
+              } catch (IllegalStateException e) {
+                LOG.warn(
+                    "Resubscribing {} channel after adapter error {}",
+                    currencyPair,
+                    e.getMessage());
+                bids.clear();
+                asks.clear();
+                // Resubscribe to the channel, triggering a new snapshot
+                this.service.sendMessage(service.getUnsubscribeMessage(channelName, args));
+                this.service.sendMessage(service.getSubscribeMessage(channelName, args));
+                return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
+              }
+            })
+        .filter(ob -> ob.getBids().size() > 0 && ob.getAsks().size() > 0);
+  }
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {

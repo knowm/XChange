@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -221,7 +220,7 @@ public class FtxStreamingAdapters {
 
   public static Order adaptOrders(JsonNode jsonNode) {
     JsonNode data = jsonNode.get("data");
-    System.out.println(jsonNode.toPrettyString());
+
     LimitOrder.Builder order =
         new LimitOrder.Builder(
                 "buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK,

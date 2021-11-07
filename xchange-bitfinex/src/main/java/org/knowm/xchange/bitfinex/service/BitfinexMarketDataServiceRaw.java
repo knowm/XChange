@@ -1,23 +1,22 @@
 package org.knowm.xchange.bitfinex.service;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.knowm.xchange.bitfinex.BitfinexExchange;
-import org.knowm.xchange.bitfinex.dto.BitfinexException;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.*;
-import org.knowm.xchange.bitfinex.v2.dto.marketdata.*;
-import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import si.mazi.rescu.HttpStatusIOException;
+import static org.knowm.xchange.bitfinex.BitfinexResilience.BITFINEX_RATE_LIMITER;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import static org.knowm.xchange.bitfinex.BitfinexResilience.BITFINEX_RATE_LIMITER;
+import org.knowm.xchange.bitfinex.BitfinexExchange;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.*;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.*;
+import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import si.mazi.rescu.HttpStatusIOException;
 
 /**
  * Implementation of the market data service for Bitfinex
@@ -119,11 +118,10 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
 
   //////// v2
   public Integer[] getBitfinexPlatformStatus() throws IOException {
-    return decorateApiCall(
-            bitfinexV2::getPlatformStatus)
-            .withRetry(retry("platform-status"))
-            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-            .call();
+    return decorateApiCall(bitfinexV2::getPlatformStatus)
+        .withRetry(retry("platform-status"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] getBitfinexTickers(

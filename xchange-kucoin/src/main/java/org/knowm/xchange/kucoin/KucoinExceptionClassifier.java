@@ -1,7 +1,6 @@
 package org.knowm.xchange.kucoin;
 
 import java.io.IOException;
-
 import org.knowm.xchange.exceptions.*;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.service.KucoinApiException;

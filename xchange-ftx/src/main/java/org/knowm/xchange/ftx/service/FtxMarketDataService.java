@@ -28,13 +28,17 @@ public class FtxMarketDataService extends FtxMarketDataServiceRaw implements Mar
         currencyPair);
   }
 
-
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     return FtxAdapters.adaptTicker(
-            getFtxMarket(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair)),
-            getFtxCandles(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair), "60"), //60 seconds
-            currencyPair);
+        getFtxMarket(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair)),
+        getFtxCandles(
+            FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair),
+            "60",
+            null,
+            null,
+            null), // 60 seconds
+        currencyPair);
   }
 }

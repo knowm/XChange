@@ -328,13 +328,14 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
         .call();
   }
+
   public void updateCollateralDerivativePosition(UpdateCollateralDerivativePositionRequest req)
-          throws IOException {
-        decorateApiCall(
-                () ->
-                    bitfinexV2.updateCollateralDerivativePosition(
-                        exchange.getNonceFactory(), apiKey, signatureV2, req))
-            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-            .call();
-      }
+      throws IOException {
+    decorateApiCall(
+            () ->
+                bitfinexV2.updateCollateralDerivativePosition(
+                    exchange.getNonceFactory(), apiKey, signatureV2, req))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
+  }
 }

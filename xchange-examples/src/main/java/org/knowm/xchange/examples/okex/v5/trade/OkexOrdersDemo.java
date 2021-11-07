@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.okex.v5.trade;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;

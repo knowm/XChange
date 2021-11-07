@@ -1,7 +1,6 @@
 package org.knowm.xchange.ascendex.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;

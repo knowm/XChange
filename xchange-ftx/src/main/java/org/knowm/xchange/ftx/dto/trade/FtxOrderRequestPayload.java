@@ -23,15 +23,15 @@ public class FtxOrderRequestPayload {
   private String clientId;
 
   public FtxOrderRequestPayload(
-          String market,
-          FtxOrderSide side,
-          BigDecimal price,
-          FtxOrderType type,
-          BigDecimal size,
-          boolean reduceOnly,
-          boolean ioc,
-          boolean postOnly,
-          String clientId) {
+      String market,
+      FtxOrderSide side,
+      BigDecimal price,
+      FtxOrderType type,
+      BigDecimal size,
+      boolean reduceOnly,
+      boolean ioc,
+      boolean postOnly,
+      String clientId) {
     this.market = market;
     this.side = side;
     this.price = price;
@@ -118,26 +118,26 @@ public class FtxOrderRequestPayload {
   @Override
   public String toString() {
     return "FtxOrderRequestPOJO{"
-            + "market='"
-            + market
-            + '\''
-            + ", side="
-            + side
+        + "market='"
+        + market
+        + '\''
+        + ", side="
+        + side
         + ", price="
         + price
-            + ", type="
-            + type
-            + ", size="
-            + size
-            + ", reduceOnly="
-            + reduceOnly
-            + ", ioc="
-            + ioc
-            + ", postOnly="
-            + postOnly
-            + ", clientId='"
-            + clientId
-            + '\''
-            + '}';
+        + ", type="
+        + type
+        + ", size="
+        + size
+        + ", reduceOnly="
+        + reduceOnly
+        + ", ioc="
+        + ioc
+        + ", postOnly="
+        + postOnly
+        + ", clientId='"
+        + clientId
+        + '\''
+        + '}';
   }
 }

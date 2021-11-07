@@ -1,8 +1,8 @@
 package org.knowm.xchange.okex.v5.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.instrument.Instrument;
@@ -28,8 +28,13 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   }
 
   @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    return this.getOrderBook((Instrument) currencyPair, args);
+  }
+
+  @Override
   public Trades getTrades(Instrument instrument, Object... args) throws IOException {
     return OkexAdapters.adaptTrades(
-        getOkexTrades(OkexAdapters.adaptCurrencyPairId(instrument)).getData(), instrument);
+        getOkexTrades(OkexAdapters.adaptCurrencyPairId(instrument), 100).getData(), instrument);
   }
 }

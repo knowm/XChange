@@ -36,7 +36,7 @@ public interface StreamingTradeService {
   }
 
   default Observable<Order> getOrderChanges(Instrument instrument, Object... args) {
-    if(instrument instanceof CurrencyPair) {
+    if (instrument instanceof CurrencyPair) {
       return getOrderChanges((CurrencyPair) instrument, args);
     }
     throw new NotYetImplementedForExchangeException("getOrderChanges");
@@ -67,7 +67,7 @@ public interface StreamingTradeService {
   }
 
   default Observable<UserTrade> getUserTrades(Instrument instrument, Object... args) {
-    if(instrument instanceof CurrencyPair) {
+    if (instrument instanceof CurrencyPair) {
       return getUserTrades((CurrencyPair) instrument, args);
     }
     throw new NotYetImplementedForExchangeException("getUserTrades");

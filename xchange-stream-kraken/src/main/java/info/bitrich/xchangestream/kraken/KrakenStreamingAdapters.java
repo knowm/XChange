@@ -1,10 +1,21 @@
 package info.bitrich.xchangestream.kraken;
 
+import static info.bitrich.xchangestream.kraken.KrakenStreamingChecksum.createCrcChecksum;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -17,97 +28,117 @@ import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static info.bitrich.xchangestream.kraken.KrakenStreamingChecksum.createCrcChecksum;
-
-/**
- * Kraken streaming adapters
- */
+/** Kraken streaming adapters */
 public class KrakenStreamingAdapters {
-    private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingAdapters.class);
+  private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingAdapters.class);
 
-    static final String ASK_SNAPSHOT = "as";
-    static final String ASK_UPDATE = "a";
+  static final String ASK_SNAPSHOT = "as";
+  static final String ASK_UPDATE = "a";
 
-    static final String BID_SNAPSHOT = "bs";
-    static final String BID_UPDATE = "b";
+  static final String BID_SNAPSHOT = "bs";
+  static final String BID_UPDATE = "b";
 
-    static final String CHECKSUM = "c";
+  static final String CHECKSUM = "c";
 
-    private static void updateInBook(int depth, Instrument instrument, Order.OrderType orderType, JsonNode currentNode, String key, TreeSet<LimitOrder> target) {
-        adaptLimitOrders(instrument, orderType, currentNode.get(key)).forEachRemaining(limitOrder -> {
-            target.removeIf(it -> it.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0);
-            if (limitOrder.getOriginalAmount().compareTo(BigDecimal.ZERO) != 0) {
+  private static void updateInBook(
+      int depth,
+      Instrument instrument,
+      Order.OrderType orderType,
+      JsonNode currentNode,
+      String key,
+      TreeSet<LimitOrder> target) {
+    adaptLimitOrders(instrument, orderType, currentNode.get(key))
+        .forEachRemaining(
+            limitOrder -> {
+              target.removeIf(it -> it.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0);
+              if (limitOrder.getOriginalAmount().compareTo(BigDecimal.ZERO) != 0) {
                 target.add(limitOrder);
-            }
-        });
-        while (target.size() > depth) {
-            LimitOrder last = target.last();
-            target.remove(last);
-        }
+              }
+            });
+    while (target.size() > depth) {
+      LimitOrder last = target.last();
+      target.remove(last);
     }
+  }
 
-    public static OrderBook adaptOrderbookMessage(int depth, TreeSet<LimitOrder> bids, TreeSet<LimitOrder> asks, Instrument instrument, ArrayNode arrayNode) {
-        final AtomicLong expectedChecksum = new AtomicLong(0);
-        final boolean awaitingSnapshot = (bids.isEmpty() && asks.isEmpty());
-        arrayNode.elements().forEachRemaining(currentNode -> {
-            if (awaitingSnapshot) {
+  public static OrderBook adaptOrderbookMessage(
+      int depth,
+      TreeSet<LimitOrder> bids,
+      TreeSet<LimitOrder> asks,
+      Instrument instrument,
+      ArrayNode arrayNode) {
+    final AtomicLong expectedChecksum = new AtomicLong(0);
+    final boolean awaitingSnapshot = (bids.isEmpty() && asks.isEmpty());
+    arrayNode
+        .elements()
+        .forEachRemaining(
+            currentNode -> {
+              if (awaitingSnapshot) {
                 if (currentNode.has(BID_SNAPSHOT) && currentNode.has(ASK_SNAPSHOT)) {
-                    LOG.info("Received {} snapshot, clearing book", instrument);
-                    updateInBook(depth, instrument, Order.OrderType.BID, currentNode, BID_SNAPSHOT, bids);
-                    updateInBook(depth, instrument, Order.OrderType.ASK, currentNode, ASK_SNAPSHOT, asks);
+                  LOG.info("Received {} snapshot, clearing book", instrument);
+                  updateInBook(
+                      depth, instrument, Order.OrderType.BID, currentNode, BID_SNAPSHOT, bids);
+                  updateInBook(
+                      depth, instrument, Order.OrderType.ASK, currentNode, ASK_SNAPSHOT, asks);
                 }
-            } else {
+              } else {
                 if (currentNode.has(BID_UPDATE)) {
-                    updateInBook(depth, instrument, Order.OrderType.BID, currentNode, BID_UPDATE, bids);
+                  updateInBook(
+                      depth, instrument, Order.OrderType.BID, currentNode, BID_UPDATE, bids);
                 }
                 if (currentNode.has(ASK_UPDATE)) {
-                    updateInBook(depth, instrument, Order.OrderType.ASK, currentNode, ASK_UPDATE, asks);
+                  updateInBook(
+                      depth, instrument, Order.OrderType.ASK, currentNode, ASK_UPDATE, asks);
                 }
-            }
-            if (!awaitingSnapshot && currentNode.has(CHECKSUM)) {
+              }
+              if (!awaitingSnapshot && currentNode.has(CHECKSUM)) {
                 expectedChecksum.set(currentNode.get(CHECKSUM).asLong());
-            }
-        });
-        if ( bids.isEmpty() && asks.isEmpty()){
-            LOG.info("Ignoring {} message {}, awaiting snapshot", instrument, arrayNode);
-        }
-        long localChecksum = createCrcChecksum(asks, bids);
-        if (expectedChecksum.get() > 0 && expectedChecksum.get() != localChecksum) {
-            LOG.warn("{} checksum does not match, expected {} but local checksum is {}", instrument, expectedChecksum.get(), localChecksum);
-            throw new IllegalStateException("Checksum did not match");
-        } else if (expectedChecksum.get() == 0) {
-            LOG.debug("Skipping {} checksum validation, no expected checksum in message", instrument);
-        } else if (bids.size() > 0 && asks.size() > 0 && bids.first().getLimitPrice().compareTo(asks.first().getLimitPrice()) >= 0) {
-            throw new IllegalStateException("CROSSED book " + instrument + " " + bids.first().getLimitPrice() + " >= " + asks.first().getLimitPrice());
-        }
-        final Date lastTime = Stream.concat(asks.stream(), bids.stream())
+              }
+            });
+    if (bids.isEmpty() && asks.isEmpty()) {
+      LOG.info("Ignoring {} message {}, awaiting snapshot", instrument, arrayNode);
+    }
+    long localChecksum = createCrcChecksum(asks, bids);
+    if (expectedChecksum.get() > 0 && expectedChecksum.get() != localChecksum) {
+      LOG.warn(
+          "{} checksum does not match, expected {} but local checksum is {}",
+          instrument,
+          expectedChecksum.get(),
+          localChecksum);
+      throw new IllegalStateException("Checksum did not match");
+    } else if (expectedChecksum.get() == 0) {
+      LOG.debug("Skipping {} checksum validation, no expected checksum in message", instrument);
+    } else if (bids.size() > 0
+        && asks.size() > 0
+        && bids.first().getLimitPrice().compareTo(asks.first().getLimitPrice()) >= 0) {
+      throw new IllegalStateException(
+          "CROSSED book "
+              + instrument
+              + " "
+              + bids.first().getLimitPrice()
+              + " >= "
+              + asks.first().getLimitPrice());
+    }
+    final Date lastTime =
+        Stream.concat(asks.stream(), bids.stream())
             .map(LimitOrder::getTimestamp)
             .max(Date::compareTo)
             .orElse(null);
-        return new OrderBook(lastTime, Lists.newArrayList(asks), Lists.newArrayList(bids), true);
-    }
+    return new OrderBook(lastTime, Lists.newArrayList(asks), Lists.newArrayList(bids), true);
+  }
 
-    /**
-     * Adapt a JsonNode to a Stream of limit orders, the node past in here should be the body of a
-     * a/b/as/bs key.
-     */
-    public static Iterator<LimitOrder> adaptLimitOrders(Instrument instrument, Order.OrderType orderType, JsonNode node) {
-        if (node == null || !node.isArray()) {
-            return Collections.emptyIterator();
-        }
-        return Iterators.transform(node.elements(), jsonNode -> adaptLimitOrder(instrument, orderType, jsonNode));
+  /**
+   * Adapt a JsonNode to a Stream of limit orders, the node past in here should be the body of a
+   * a/b/as/bs key.
+   */
+  public static Iterator<LimitOrder> adaptLimitOrders(
+      Instrument instrument, Order.OrderType orderType, JsonNode node) {
+    if (node == null || !node.isArray()) {
+      return Collections.emptyIterator();
     }
+    return Iterators.transform(
+        node.elements(), jsonNode -> adaptLimitOrder(instrument, orderType, jsonNode));
+  }
 
   /** Adapt a JsonNode containing two decimals into a LimitOrder */
   public static LimitOrder adaptLimitOrder(
@@ -203,7 +234,8 @@ public class KrakenStreamingAdapters {
     if (iterator == null || !iterator.hasNext()) {
       return null;
     }
-      return DateUtils.fromMillisUtc(new BigDecimal(iterator.next().textValue()).multiply(new BigDecimal(1000)).longValue());
+    return DateUtils.fromMillisUtc(
+        new BigDecimal(iterator.next().textValue()).multiply(new BigDecimal(1000)).longValue());
   }
 
   /**

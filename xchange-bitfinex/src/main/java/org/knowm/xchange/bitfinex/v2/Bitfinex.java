@@ -27,8 +27,7 @@ public interface Bitfinex {
 
   @GET
   @Path("platform/status")
-  Integer[] getPlatformStatus()
-          throws IOException, BitfinexExceptionV2;
+  Integer[] getPlatformStatus() throws IOException, BitfinexExceptionV2;
 
   @GET
   @Path("tickers")

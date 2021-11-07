@@ -10,8 +10,6 @@ import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM
 import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM_USE_SANDBOX;
 
 import java.io.IOException;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.client.ResilienceRegistries;

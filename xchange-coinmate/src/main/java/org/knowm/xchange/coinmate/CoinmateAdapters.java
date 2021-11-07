@@ -27,9 +27,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
-import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceData;
+import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceDataEntry;
 import org.knowm.xchange.coinmate.dto.marketdata.*;
 import org.knowm.xchange.coinmate.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
@@ -142,7 +143,7 @@ public class CoinmateAdapters {
 
   public static Wallet adaptWallet(CoinmateBalance coinmateBalance) {
 
-    CoinmateBalanceData funds = coinmateBalance.getData();
+    Map<String, CoinmateBalanceDataEntry> funds = coinmateBalance.getData();
     List<Balance> balances = new ArrayList<>(funds.size());
     for (String lcCurrency : funds.keySet()) {
       Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
@@ -370,16 +371,23 @@ public class CoinmateAdapters {
       orderStatus = Order.OrderStatus.UNKNOWN;
     }
 
+    BigDecimal originalAmount = entry.getOriginalAmount();
+    BigDecimal remainingAmount = entry.getRemainingAmount();
+    BigDecimal cumulativeAmount =
+        (originalAmount != null && remainingAmount != null)
+            ? originalAmount.subtract(remainingAmount)
+            : null;
+
     // TODO: we can probably use `orderTradeType` to distinguish between Market and Limit order
     Order order =
         new MarketOrder(
             orderType,
-            entry.getOriginalAmount(),
+            originalAmount,
             null,
             Long.toString(entry.getId()),
             new Date(entry.getTimestamp()),
             entry.getAvgPrice(),
-            entry.getOriginalAmount().subtract(entry.getRemainingAmount()),
+            cumulativeAmount,
             null,
             orderStatus,
             null);
@@ -389,15 +397,16 @@ public class CoinmateAdapters {
     return ordersList;
   }
 
-  public static Ticker adaptTradeStatistics(CoinmateTradeStatistics tradeStatistics, CurrencyPair currencyPair) {
+  public static Ticker adaptTradeStatistics(
+      CoinmateTradeStatistics tradeStatistics, CurrencyPair currencyPair) {
     return new Ticker.Builder()
-            .currencyPair(currencyPair)
-            .last(tradeStatistics.getLastRealizedTrade())
-            .high(tradeStatistics.getHigh24hours())
-            .low(tradeStatistics.getLow24hours())
-            .volume(tradeStatistics.getVolume24Hours())
-            .open(tradeStatistics.getTodaysOpen())
-            .percentageChange(tradeStatistics.getDailyChange())
-            .build();
+        .currencyPair(currencyPair)
+        .last(tradeStatistics.getLastRealizedTrade())
+        .high(tradeStatistics.getHigh24hours())
+        .low(tradeStatistics.getLow24hours())
+        .volume(tradeStatistics.getVolume24Hours())
+        .open(tradeStatistics.getTodaysOpen())
+        .percentageChange(tradeStatistics.getDailyChange())
+        .build();
   }
 }

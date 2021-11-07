@@ -42,15 +42,15 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
     try {
       return decorateApiCall(
               () ->
-                      coinbasePro.getListOrders(
-                              apiKey,
-                              digest,
-                              UnixTimestampFactory.INSTANCE.createValue(),
-                              passphrase,
-                              "open",
-                              productId))
-              .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-              .call();
+                  coinbasePro.getListOrders(
+                      apiKey,
+                      digest,
+                      UnixTimestampFactory.INSTANCE.createValue(),
+                      passphrase,
+                      "open",
+                      productId))
+          .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
