@@ -34,12 +34,18 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
   public BitfinexStreamingMarketDataService(BitfinexStreamingService service) {
     this.service = service;
   }
+  
+  private String pairToSymbol(CurrencyPair currencyPair) {
+    return (currencyPair.counter == Currency.USDT) ?
+           ("t" + currencyPair.base.getCurrencyCode() + "UST") :
+           ("t" + currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode());
+  }
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channelName = "book";
     final String depth = args.length > 0 ? args[0].toString() : "100";
-    String pair = currencyPair.base.toString() + currencyPair.counter.toString();
+    String pair = pairToSymbol(currencyPair);
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
     Observable<BitfinexWebSocketOrderbookTransaction> subscribedChannel =
@@ -65,7 +71,7 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     String channelName = "ticker";
 
-    String pair = currencyPair.base.toString() + currencyPair.counter.toString();
+    String pair = pairToSymbol(currencyPair);
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
     Observable<BitfinexWebSocketTickerTransaction> subscribedChannel =
@@ -81,7 +87,7 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
     String channelName = "trades";
     final String tradeType = args.length > 0 ? args[0].toString() : "te";
 
-    String pair = currencyPair.base.toString() + currencyPair.counter.toString();
+    String pair = pairToSymbol(currencyPair);
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
     Observable<BitfinexWebSocketTradesTransaction> subscribedChannel =
