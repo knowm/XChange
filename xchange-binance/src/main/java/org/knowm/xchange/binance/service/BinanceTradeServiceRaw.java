@@ -58,7 +58,8 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
       BigDecimal price,
       String newClientOrderId,
       BigDecimal stopPrice,
-      BigDecimal icebergQty)
+      BigDecimal icebergQty,
+      BinanceNewOrder.NewOrderResponseType newOrderRespType)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
@@ -72,6 +73,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
                     newClientOrderId,
                     stopPrice,
                     icebergQty,
+                    newOrderRespType,
                     getRecvWindow(),
                     getTimestampFactory(),
                     apiKey,
