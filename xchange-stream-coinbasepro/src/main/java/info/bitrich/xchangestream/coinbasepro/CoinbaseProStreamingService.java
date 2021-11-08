@@ -8,10 +8,7 @@ import info.bitrich.xchangestream.coinbasepro.cache.OpenOrdersCache;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextHandler;
-import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
+import info.bitrich.xchangestream.service.netty.*;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
@@ -171,7 +168,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
-    return WebSocketClientCompressionAllowClientNoContextHandler.INSTANCE;
+    return WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler.INSTANCE;
   }
 
   @Override
