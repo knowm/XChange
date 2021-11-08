@@ -184,16 +184,17 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
   }
 
   public List<BinanceTrade> myTrades(
-      CurrencyPair pair, Integer limit, Long startTime, Long endTime, Long fromId)
+      CurrencyPair pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit)
       throws BinanceException, IOException {
     return decorateApiCall(
             () ->
                 binance.myTrades(
                     BinanceAdapters.toSymbol(pair),
-                    limit,
+                    orderId,
                     startTime,
                     endTime,
                     fromId,
+                    limit,
                     getRecvWindow(),
                     getTimestampFactory(),
                     apiKey,
