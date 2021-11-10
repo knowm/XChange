@@ -20,6 +20,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class CexIOTradeServiceRaw extends CexIOBaseService {
   public CexIOTradeServiceRaw(Exchange exchange) {

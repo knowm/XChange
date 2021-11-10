@@ -105,6 +105,11 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
   }
 
   @Override
+  public Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParamCurrencyPair.class;
+  }
+
+  @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     if (orderQueryParams == null) {
       return new ArrayList<>();

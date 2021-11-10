@@ -128,11 +128,6 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotAvailableFromExchangeException();
-  }
-
   public static class CryptopiaTradeHistoryParams
       implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit {
 

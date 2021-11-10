@@ -205,6 +205,11 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
   }
 
   @Override
+  public Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParamCurrencyPair.class;
+  }
+
+  @Override
   public Collection<Order> getOrder(OrderQueryParams... params) throws IOException {
 
     try {

@@ -105,6 +105,11 @@ public class DsxTradeService extends DsxTradeServiceRaw implements TradeService 
   }
 
   @Override
+  public Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParamCurrencyPair.class;
+  }
+
+  @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     if (orderQueryParams == null) {
       return new ArrayList<>();

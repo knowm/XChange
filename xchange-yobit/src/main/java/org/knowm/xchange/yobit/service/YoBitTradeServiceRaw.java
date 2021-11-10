@@ -14,6 +14,7 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.yobit.YoBit;
 import org.knowm.xchange.yobit.YoBitAdapters;
 import org.knowm.xchange.yobit.YoBitExchange;
@@ -110,8 +111,7 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
         market);
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
+  public Collection<Order> getOrderImpl(String... orderIds) throws IOException {
 
     List<Order> orders = new ArrayList<>();
 
@@ -135,5 +135,10 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
     }
 
     return orders;
+  }
+
+  @Override
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    return getOrderImpl(TradeService.toOrderIds(orderQueryParams));
   }
 }

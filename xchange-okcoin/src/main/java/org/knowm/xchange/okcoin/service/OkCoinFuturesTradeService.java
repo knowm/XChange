@@ -268,7 +268,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     Map<CurrencyPair, Map<FuturesContract, Set<String>>> ordersToQuery =
-        new HashMap<CurrencyPair, Map<FuturesContract, Set<String>>>();
+            new HashMap<>();
     List<String> orderIdsRequest = new ArrayList<>();
     List<OkCoinFuturesOrder> orderResults = new ArrayList<>();
     List<Order> openOrders = new ArrayList<>();
@@ -277,13 +277,13 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
       OkCoinFuturesOrderQueryParams myParams = (OkCoinFuturesOrderQueryParams) orderQueryParam;
       CurrencyPair currencyPair = myParams.getCurrencyPair();
       FuturesContract reqFuturesContract = myParams.futuresContract;
-      long orderId = myParams.getOrderId() != null ? Long.valueOf(myParams.getOrderId()) : -1;
+      long orderId = myParams.getOrderId() != null ? Long.parseLong(myParams.getOrderId()) : -1;
 
       if (ordersToQuery.get(currencyPair) == null) {
         Set<String> orderSet = new HashSet<>();
         orderSet.add(String.valueOf(orderId));
         HashMap<FuturesContract, Set<String>> futuresContractMap =
-            new HashMap<FuturesContract, Set<String>>();
+                new HashMap<>();
         futuresContractMap.put(reqFuturesContract, orderSet);
         ordersToQuery.put(currencyPair, futuresContractMap);
 

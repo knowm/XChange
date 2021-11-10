@@ -84,12 +84,6 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException(
-        "This operation is not yet implemented for this exchange");
-  }
-
-  @Override
   public String placeStopOrder(StopOrder arg0) throws IOException {
     throw new NotYetImplementedForExchangeException(
         "This operation is not yet implemented for this exchange");

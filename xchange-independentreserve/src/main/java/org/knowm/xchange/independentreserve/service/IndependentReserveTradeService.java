@@ -104,7 +104,7 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     List<Order> res = new ArrayList<>();
-    for (OrderQueryParams orderQueryParam : Arrays.asList(orderQueryParams)) {
+    for (OrderQueryParams orderQueryParam : orderQueryParams) {
       IndependentReserveOrderDetailsResponse orderDetailsResponse =
           getOrderDetails(orderQueryParam.getOrderId());
       res.add(IndependentReserveAdapters.adaptOrderDetails(orderDetailsResponse));

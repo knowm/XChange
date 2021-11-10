@@ -121,6 +121,11 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
   }
 
   @Override
+  public Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParamCurrencyPair.class;
+  }
+
+  @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     /* This only works for executed orders */
     return Arrays.stream(orderQueryParams)

@@ -48,11 +48,6 @@ public class CoinoneTradeService extends CoinoneTradeServiceRaw implements Trade
   }
 
   @Override
-  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(CancelOrderParams orderParams)
       throws ExchangeException, NotAvailableFromExchangeException,
           NotYetImplementedForExchangeException, IOException {

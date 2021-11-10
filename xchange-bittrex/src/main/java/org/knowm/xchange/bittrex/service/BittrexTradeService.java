@@ -25,6 +25,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class BittrexTradeService extends BittrexTradeServiceRaw implements TradeService {
 
@@ -131,11 +132,11 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     try {
       List<Order> orders = new ArrayList<>();
-      for (String orderId : orderIds) {
-        BittrexOrder order = getBittrexOrder(orderId);
+      for (OrderQueryParams params : orderQueryParams) {
+        BittrexOrder order = getBittrexOrder(params.getOrderId());
         if (order != null) {
           LimitOrder limitOrder = BittrexAdapters.adaptOrder(order);
           orders.add(limitOrder);
