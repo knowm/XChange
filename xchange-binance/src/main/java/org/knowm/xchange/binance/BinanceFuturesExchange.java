@@ -61,7 +61,7 @@ public class BinanceFuturesExchange extends BinanceExchange {
     spec.setSslUri("https://fapi.binance.com");
     spec.setHost("www.binance.com");
     spec.setPort(80);
-    spec.setExchangeName("Binance");
+    spec.setExchangeName("Binance Futures");
     spec.setExchangeDescription("Binance Futures Exchange.");
     AuthUtils.setApiAndSecretKey(spec, "binance");
     return spec;

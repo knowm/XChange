@@ -1,0 +1,1261 @@
+{
+	"futures": {
+		"BTC/USDT/perpetual": {
+			"min_amount": 0.000001,
+			"max_amount": 9000.000000,
+			"price_scale": 2,
+			"trading_fee": 0.00075
+		},
+		"ETH/USDT/perpetual": {
+			"min_amount": 0.00001,
+			"max_amount": 9000.00000,
+			"price_scale": 2,
+			"trading_fee": 0.00075
+		}
+	},
+	"currencies": {
+		"1INCH": {
+			"scale": 8
+		},
+		"AAVE": {
+			"scale": 8
+		},
+		"AAVEDOWN": {
+			"scale": 8
+		},
+		"AAVEUP": {
+			"scale": 8
+		},
+		"ACM": {
+			"scale": 8
+		},
+		"ADA": {
+			"scale": 8,
+			"withdrawal_fee": 1.0
+		},
+		"ADADOWN": {
+			"scale": 8
+		},
+		"ADAUP": {
+			"scale": 8
+		},
+		"ADX": {
+			"scale": 8,
+			"withdrawal_fee": 4.1
+		},
+		"AE": {
+			"scale": 8,
+			"withdrawal_fee": 1.8
+		},
+		"AERGO": {
+			"scale": 8
+		},
+		"AGI": {
+			"scale": 8
+		},
+		"AION": {
+			"scale": 8,
+			"withdrawal_fee": 1.2
+		},
+		"AKRO": {
+			"scale": 8
+		},
+		"ALGO": {
+			"scale": 8
+		},
+		"ALPHA": {
+			"scale": 8
+		},
+		"AMB": {
+			"scale": 8,
+			"withdrawal_fee": 8.9
+		},
+		"ANKR": {
+			"scale": 8
+		},
+		"ANT": {
+			"scale": 8
+		},
+		"APPC": {
+			"scale": 8,
+			"withdrawal_fee": 7.7
+		},
+		"ARDR": {
+			"scale": 8
+		},
+		"ARK": {
+			"scale": 8,
+			"withdrawal_fee": 0.1
+		},
+		"ARN": {
+			"scale": 8,
+			"withdrawal_fee": 2.6
+		},
+		"ARPA": {
+			"scale": 8
+		},
+		"ASR": {
+			"scale": 8
+		},
+		"AST": {
+			"scale": 8,
+			"withdrawal_fee": 8.9
+		},
+		"ATM": {
+			"scale": 8
+		},
+		"ATOM": {
+			"scale": 8
+		},
+		"AUCTION": {
+			"scale": 8
+		},
+		"AUD": {
+			"scale": 8
+		},
+		"AUDIO": {
+			"scale": 8
+		},
+		"AVA": {
+			"scale": 8
+		},
+		"AVAX": {
+			"scale": 8
+		},
+		"AXS": {
+			"scale": 8
+		},
+		"BAKE": {
+			"scale": 8
+		},
+		"BAL": {
+			"scale": 8
+		},
+		"BAND": {
+			"scale": 8
+		},
+		"BAT": {
+			"scale": 8,
+			"withdrawal_fee": 13.0
+		},
+		"BCD": {
+			"scale": 8,
+			"withdrawal_fee": 1.0
+		},
+		"BCH": {
+			"scale": 8,
+			"withdrawal_fee": 0.001
+		},
+		"BCHA": {
+			"scale": 8
+		},
+		"BCPT": {
+			"scale": 8,
+			"withdrawal_fee": 6.7
+		},
+		"BCX": {
+			"scale": 8,
+			"withdrawal_fee": 1.0
+		},
+		"BEAM": {
+			"scale": 8
+		},
+		"BEL": {
+			"scale": 8
+		},
+		"BETH": {
+			"scale": 8
+		},
+		"BIDR": {
+			"scale": 2
+		},
+		"BLZ": {
+			"scale": 8,
+			"withdrawal_fee": 7.0
+		},
+		"BNB": {
+			"scale": 8,
+			"withdrawal_fee": 0.0
+		},
+		"BNBDOWN": {
+			"scale": 8
+		},
+		"BNBUP": {
+			"scale": 8
+		},
+		"BNT": {
+			"scale": 8,
+			"withdrawal_fee": 0.9
+		},
+		"BQX": {
+			"scale": 8,
+			"withdrawal_fee": 1.3
+		},
+		"BRD": {
+			"scale": 8,
+			"withdrawal_fee": 6.0
+		},
+		"BRL": {
+			"scale": 8
+		},
+		"BTC": {
+			"scale": 8,
+			"withdrawal_fee": 0.00050
+		},
+		"BTCDOWN": {
+			"scale": 8
+		},
+		"BTCST": {
+			"scale": 8
+		},
+		"BTCUP": {
+			"scale": 8
+		},
+		"BTG": {
+			"scale": 8,
+			"withdrawal_fee": 0.001
+		},
+		"BTM": {
+			"scale": 8,
+			"withdrawal_fee": 5.0
+		},
+		"BTS": {
+			"scale": 8,
+			"withdrawal_fee": 1.0
+		},
+		"BTT": {
+			"scale": 8
+		},
+		"BURGER": {
+			"scale": 8
+		},
+		"BUSD": {
+			"scale": 8
+		},
+		"BVND": {
+			"scale": 2
+		},
+		"BZRX": {
+			"scale": 8
+		},
+		"CAKE": {
+			"scale": 8
+		},
+		"CDT": {
+			"scale": 8,
+			"withdrawal_fee": 71.0
+		},
+		"CELO": {
+			"scale": 8
+		},
+		"CELR": {
+			"scale": 8
+		},
+		"CHAT": {
+			"scale": 8,
+			"withdrawal_fee": 36.0
+		},
+		"CHR": {
+			"scale": 8
+		},
+		"CHZ": {
+			"scale": 8
+		},
+		"CKB": {
+			"scale": 8
+		},
+		"CMT": {
+			"scale": 8,
+			"withdrawal_fee": 30.0
+		},
+		"CND": {
+			"scale": 8,
+			"withdrawal_fee": 39.0
+		},
+		"COCOS": {
+			"scale": 8
+		},
+		"COMP": {
+			"scale": 8
+		},
+		"COS": {
+			"scale": 8
+		},
+		"COTI": {
+			"scale": 8
+		},
+		"COVER": {
+			"scale": 8
+		},
+		"CREAM": {
+			"scale": 8
+		},
+		"CRV": {
+			"scale": 8
+		},
+		"CTK": {
+			"scale": 8
+		},
+		"CTR": {
+			"scale": 8,
+			"withdrawal_fee": 35.0
+		},
+		"CTSI": {
+			"scale": 8
+		},
+		"CTXC": {
+			"scale": 8
+		},
+		"CVC": {
+			"scale": 8
+		},
+		"CVP": {
+			"scale": 8
+		},
+		"DAI": {
+			"scale": 8
+		},
+		"DASH": {
+			"scale": 8,
+			"withdrawal_fee": 0.002
+		},
+		"DATA": {
+			"scale": 8
+		},
+		"DCR": {
+			"scale": 8
+		},
+		"DENT": {
+			"scale": 8
+		},
+		"DEXE": {
+			"scale": 8
+		},
+		"DF": {
+			"scale": 8
+		},
+		"DGB": {
+			"scale": 8
+		},
+		"DGD": {
+			"scale": 8,
+			"withdrawal_fee": 0.02
+		},
+		"DIA": {
+			"scale": 8
+		},
+		"DLT": {
+			"scale": 8,
+			"withdrawal_fee": 15.8
+		},
+		"DNT": {
+			"scale": 8,
+			"withdrawal_fee": 42.0
+		},
+		"DOCK": {
+			"scale": 8
+		},
+		"DODO": {
+			"scale": 8
+		},
+		"DOGE": {
+			"scale": 8
+		},
+		"DOT": {
+			"scale": 8
+		},
+		"DOTDOWN": {
+			"scale": 8
+		},
+		"DOTUP": {
+			"scale": 8
+		},
+		"DREP": {
+			"scale": 8
+		},
+		"DUSK": {
+			"scale": 8
+		},
+		"EASY": {
+			"scale": 8
+		},
+		"EDO": {
+			"scale": 8,
+			"withdrawal_fee": 1.7
+		},
+		"EGLD": {
+			"scale": 8
+		},
+		"ELF": {
+			"scale": 8,
+			"withdrawal_fee": 2.9
+		},
+		"ENG": {
+			"scale": 8,
+			"withdrawal_fee": 1.8
+		},
+		"ENJ": {
+			"scale": 8,
+			"withdrawal_fee": 26.0
+		},
+		"EOS": {
+			"scale": 8,
+			"withdrawal_fee": 0.4
+		},
+		"EOSDOWN": {
+			"scale": 8
+		},
+		"EOSUP": {
+			"scale": 8
+		},
+		"ETC": {
+			"scale": 8,
+			"withdrawal_fee": 0.01
+		},
+		"ETF": {
+			"scale": 8,
+			"withdrawal_fee": 1.0
+		},
+		"ETH": {
+			"scale": 8,
+			"withdrawal_fee": 0.01
+		},
+		"ETHDOWN": {
+			"scale": 8
+		},
+		"ETHUP": {
+			"scale": 8
+		},
+		"EUR": {
+			"scale": 8
+		},
+		"EVX": {
+			"scale": 8,
+			"withdrawal_fee": 2.5
+		},
+		"FET": {
+			"scale": 8
+		},
+		"FIL": {
+			"scale": 8
+		},
+		"FILDOWN": {
+			"scale": 8
+		},
+		"FILUP": {
+			"scale": 8
+		},
+		"FIO": {
+			"scale": 8
+		},
+		"FIRO": {
+			"scale": 8
+		},
+		"FLM": {
+			"scale": 8
+		},
+		"FOR": {
+			"scale": 8
+		},
+		"FRONT": {
+			"scale": 8
+		},
+		"FTM": {
+			"scale": 8
+		},
+		"FTT": {
+			"scale": 8
+		},
+		"FUEL": {
+			"scale": 8,
+			"withdrawal_fee": 41.0
+		},
+		"FUN": {
+			"scale": 8,
+			"withdrawal_fee": 78.0
+		},
+		"FXS": {
+			"scale": 8
+		},
+		"GAS": {
+			"scale": 8,
+			"withdrawal_fee": 0.0
+		},
+		"GBP": {
+			"scale": 8
+		},
+		"GHST": {
+			"scale": 8
+		},
+		"GLM": {
+			"scale": 8
+		},
+		"GO": {
+			"scale": 8
+		},
+		"GRS": {
+			"scale": 8,
+			"withdrawal_fee": 0.2
+		},
+		"GRT": {
+			"scale": 8
+		},
+		"GTO": {
+			"scale": 8,
+			"withdrawal_fee": 15.0
+		},
+		"GVT": {
+			"scale": 8,
+			"withdrawal_fee": 0.15
+		},
+		"GXS": {
+			"scale": 8,
+			"withdrawal_fee": 0.3
+		},
+		"HARD": {
+			"scale": 8
+		},
+		"HBAR": {
+			"scale": 8
+		},
+		"HCC": {
+			"scale": 8,
+			"withdrawal_fee": 0.00050
+		},
+		"HEGIC": {
+			"scale": 8
+		},
+		"HIVE": {
+			"scale": 8
+		},
+		"HNT": {
+			"scale": 8
+		},
+		"HOT": {
+			"scale": 8
+		},
+		"HSR": {
+			"scale": 8,
+			"withdrawal_fee": 0.00010
+		},
+		"ICN": {
+			"scale": 8,
+			"withdrawal_fee": 2.8
+		},
+		"ICX": {
+			"scale": 8,
+			"withdrawal_fee": 1.2
+		},
+		"IDEX": {
+			"scale": 8
+		},
+		"IDRT": {
+			"scale": 2
+		},
+		"INJ": {
+			"scale": 8
+		},
+		"INS": {
+			"scale": 8,
+			"withdrawal_fee": 2.4
+		},
+		"IOST": {
+			"scale": 8,
+			"withdrawal_fee": 84.9
+		},
+		"IOTA": {
+			"scale": 8,
+			"withdrawal_fee": 0.5
+		},
+		"IOTX": {
+			"scale": 8
+		},
+		"IQ": {
+			"scale": 8
+		},
+		"IRIS": {
+			"scale": 8
+		},
+		"JST": {
+			"scale": 8
+		},
+		"JUV": {
+			"scale": 8
+		},
+		"KAVA": {
+			"scale": 8
+		},
+		"KEY": {
+			"scale": 8
+		},
+		"KMD": {
+			"scale": 8,
+			"withdrawal_fee": 0.002
+		},
+		"KNC": {
+			"scale": 8,
+			"withdrawal_fee": 2.4
+		},
+		"KP3R": {
+			"scale": 8
+		},
+		"KSM": {
+			"scale": 8
+		},
+		"LEND": {
+			"scale": 8,
+			"withdrawal_fee": 60.0
+		},
+		"LINK": {
+			"scale": 8,
+			"withdrawal_fee": 7.2
+		},
+		"LINKDOWN": {
+			"scale": 8
+		},
+		"LINKUP": {
+			"scale": 8
+		},
+		"LIT": {
+			"scale": 8
+		},
+		"LLT": {
+			"scale": 8,
+			"withdrawal_fee": 67.8
+		},
+		"LOOM": {
+			"scale": 8
+		},
+		"LRC": {
+			"scale": 8,
+			"withdrawal_fee": 5.7
+		},
+		"LSK": {
+			"scale": 8,
+			"withdrawal_fee": 0.1
+		},
+		"LTC": {
+			"scale": 8,
+			"withdrawal_fee": 0.01
+		},
+		"LTCDOWN": {
+			"scale": 8
+		},
+		"LTCUP": {
+			"scale": 8
+		},
+		"LTO": {
+			"scale": 8
+		},
+		"LUN": {
+			"scale": 8,
+			"withdrawal_fee": 0.31
+		},
+		"LUNA": {
+			"scale": 8
+		},
+		"MANA": {
+			"scale": 8,
+			"withdrawal_fee": 33.0
+		},
+		"MATIC": {
+			"scale": 8
+		},
+		"MBL": {
+			"scale": 8
+		},
+		"MCO": {
+			"scale": 8,
+			"withdrawal_fee": 0.47
+		},
+		"MDA": {
+			"scale": 8,
+			"withdrawal_fee": 3.3
+		},
+		"MDT": {
+			"scale": 8
+		},
+		"MFT": {
+			"scale": 8
+		},
+		"MITH": {
+			"scale": 8
+		},
+		"MKR": {
+			"scale": 8
+		},
+		"MOD": {
+			"scale": 8,
+			"withdrawal_fee": 2.0
+		},
+		"MTH": {
+			"scale": 8,
+			"withdrawal_fee": 33.0
+		},
+		"MTL": {
+			"scale": 8,
+			"withdrawal_fee": 0.8
+		},
+		"NANO": {
+			"scale": 8,
+			"withdrawal_fee": 0.01
+		},
+		"NAS": {
+			"scale": 8
+		},
+		"NAV": {
+			"scale": 8,
+			"withdrawal_fee": 0.2
+		},
+		"NBS": {
+			"scale": 8
+		},
+		"NCASH": {
+			"scale": 8,
+			"withdrawal_fee": 81.3
+		},
+		"NEAR": {
+			"scale": 8
+		},
+		"NEBL": {
+			"scale": 8,
+			"withdrawal_fee": 0.01
+		},
+		"NEO": {
+			"scale": 8,
+			"withdrawal_fee": 0.0
+		},
+		"NGN": {
+			"scale": 8
+		},
+		"NKN": {
+			"scale": 8
+		},
+		"NMR": {
+			"scale": 8
+		},
+		"NPXS": {
+			"scale": 8
+		},
+		"NULS": {
+			"scale": 8,
+			"withdrawal_fee": 1.3
+		},
+		"NXS": {
+			"scale": 8
+		},
+		"OAX": {
+			"scale": 8,
+			"withdrawal_fee": 4.9
+		},
+		"OCEAN": {
+			"scale": 8
+		},
+		"OG": {
+			"scale": 8
+		},
+		"OGN": {
+			"scale": 8
+		},
+		"OMG": {
+			"scale": 8,
+			"withdrawal_fee": 0.33
+		},
+		"ONE": {
+			"scale": 8
+		},
+		"ONG": {
+			"scale": 8
+		},
+		"ONT": {
+			"scale": 8,
+			"withdrawal_fee": 0.1
+		},
+		"ORN": {
+			"scale": 8
+		},
+		"OST": {
+			"scale": 8,
+			"withdrawal_fee": 17.0
+		},
+		"OXT": {
+			"scale": 8
+		},
+		"PAX": {
+			"scale": 8
+		},
+		"PAXG": {
+			"scale": 8
+		},
+		"PERL": {
+			"scale": 8
+		},
+		"PHA": {
+			"scale": 8
+		},
+		"PHB": {
+			"scale": 8
+		},
+		"PIVX": {
+			"scale": 8,
+			"withdrawal_fee": 0.02
+		},
+		"PNT": {
+			"scale": 8
+		},
+		"POA": {
+			"scale": 8,
+			"withdrawal_fee": 0.01
+		},
+		"POE": {
+			"scale": 8,
+			"withdrawal_fee": 86.0
+		},
+		"POLY": {
+			"scale": 8
+		},
+		"POWR": {
+			"scale": 8,
+			"withdrawal_fee": 8.1
+		},
+		"PPT": {
+			"scale": 8,
+			"withdrawal_fee": 0.22
+		},
+		"PROM": {
+			"scale": 8
+		},
+		"PROS": {
+			"scale": 8
+		},
+		"PSG": {
+			"scale": 8
+		},
+		"QKC": {
+			"scale": 8
+		},
+		"QLC": {
+			"scale": 8,
+			"withdrawal_fee": 1.0
+		},
+		"QSP": {
+			"scale": 8,
+			"withdrawal_fee": 21.0
+		},
+		"QTUM": {
+			"scale": 8,
+			"withdrawal_fee": 0.01
+		},
+		"RCN": {
+			"scale": 8,
+			"withdrawal_fee": 26.0
+		},
+		"RDN": {
+			"scale": 8,
+			"withdrawal_fee": 2.0
+		},
+		"REEF": {
+			"scale": 8
+		},
+		"REN": {
+			"scale": 8
+		},
+		"RENBTC": {
+			"scale": 8
+		},
+		"REP": {
+			"scale": 8
+		},
+		"REQ": {
+			"scale": 8,
+			"withdrawal_fee": 15.5
+		},
+		"RIF": {
+			"scale": 8
+		},
+		"RLC": {
+			"scale": 8,
+			"withdrawal_fee": 2.8
+		},
+		"ROSE": {
+			"scale": 8
+		},
+		"RPX": {
+			"scale": 8,
+			"withdrawal_fee": 1.0
+		},
+		"RSR": {
+			"scale": 8
+		},
+		"RUB": {
+			"scale": 8
+		},
+		"RUNE": {
+			"scale": 8
+		},
+		"RVN": {
+			"scale": 8
+		},
+		"SALT": {
+			"scale": 8,
+			"withdrawal_fee": 1.2
+		},
+		"SAND": {
+			"scale": 8
+		},
+		"SBTC": {
+			"scale": 8,
+			"withdrawal_fee": 0.00050
+		},
+		"SC": {
+			"scale": 8
+		},
+		"SCRT": {
+			"scale": 8
+		},
+		"SFP": {
+			"scale": 8
+		},
+		"SKL": {
+			"scale": 8
+		},
+		"SKY": {
+			"scale": 8
+		},
+		"SLP": {
+			"scale": 8
+		},
+		"SNGLS": {
+			"scale": 8,
+			"withdrawal_fee": 30.0
+		},
+		"SNM": {
+			"scale": 8,
+			"withdrawal_fee": 23.0
+		},
+		"SNT": {
+			"scale": 8,
+			"withdrawal_fee": 38.0
+		},
+		"SNX": {
+			"scale": 8
+		},
+		"SOL": {
+			"scale": 8
+		},
+		"SPARTA": {
+			"scale": 8
+		},
+		"SRM": {
+			"scale": 8
+		},
+		"STEEM": {
+			"scale": 8,
+			"withdrawal_fee": 0.01
+		},
+		"STMX": {
+			"scale": 8
+		},
+		"STORJ": {
+			"scale": 8,
+			"withdrawal_fee": 3.4
+		},
+		"STORM": {
+			"scale": 8,
+			"withdrawal_fee": 86.0
+		},
+		"STPT": {
+			"scale": 8
+		},
+		"STRAT": {
+			"scale": 8,
+			"withdrawal_fee": 0.1
+		},
+		"STRAX": {
+			"scale": 8
+		},
+		"STX": {
+			"scale": 8
+		},
+		"SUB": {
+			"scale": 8,
+			"withdrawal_fee": 6.3
+		},
+		"SUN": {
+			"scale": 8
+		},
+		"SUSD": {
+			"scale": 8
+		},
+		"SUSHI": {
+			"scale": 8
+		},
+		"SUSHIDOWN": {
+			"scale": 8
+		},
+		"SUSHIUP": {
+			"scale": 8
+		},
+		"SWRV": {
+			"scale": 8
+		},
+		"SXP": {
+			"scale": 8
+		},
+		"SXPDOWN": {
+			"scale": 8
+		},
+		"SXPUP": {
+			"scale": 8
+		},
+		"SYS": {
+			"scale": 8,
+			"withdrawal_fee": 0.001
+		},
+		"TCT": {
+			"scale": 8
+		},
+		"TFUEL": {
+			"scale": 8
+		},
+		"THETA": {
+			"scale": 8
+		},
+		"TNB": {
+			"scale": 8,
+			"withdrawal_fee": 86.0
+		},
+		"TNT": {
+			"scale": 8,
+			"withdrawal_fee": 36.0
+		},
+		"TOMO": {
+			"scale": 8
+		},
+		"TRB": {
+			"scale": 8
+		},
+		"TRIG": {
+			"scale": 8,
+			"withdrawal_fee": 17.7
+		},
+		"TROY": {
+			"scale": 8
+		},
+		"TRU": {
+			"scale": 8
+		},
+		"TRX": {
+			"scale": 8,
+			"withdrawal_fee": 72.0
+		},
+		"TRXDOWN": {
+			"scale": 8
+		},
+		"TRXUP": {
+			"scale": 8
+		},
+		"TRY": {
+			"scale": 8
+		},
+		"TUSD": {
+			"scale": 8
+		},
+		"TVK": {
+			"scale": 8
+		},
+		"TWT": {
+			"scale": 8
+		},
+		"UAH": {
+			"scale": 8
+		},
+		"UFT": {
+			"scale": 8
+		},
+		"UMA": {
+			"scale": 8
+		},
+		"UNFI": {
+			"scale": 8
+		},
+		"UNI": {
+			"scale": 8
+		},
+		"UNIDOWN": {
+			"scale": 8
+		},
+		"UNIUP": {
+			"scale": 8
+		},
+		"USDC": {
+			"scale": 8
+		},
+		"USDT": {
+			"scale": 8,
+			"withdrawal_fee": 3.9
+		},
+		"UTK": {
+			"scale": 8
+		},
+		"VAI": {
+			"scale": 8
+		},
+		"VEN": {
+			"scale": 8,
+			"withdrawal_fee": 1.0
+		},
+		"VET": {
+			"scale": 8
+		},
+		"VIA": {
+			"scale": 8,
+			"withdrawal_fee": 0.01
+		},
+		"VIB": {
+			"scale": 8,
+			"withdrawal_fee": 18.0
+		},
+		"VIBE": {
+			"scale": 8,
+			"withdrawal_fee": 15.3
+		},
+		"VIDT": {
+			"scale": 8
+		},
+		"VITE": {
+			"scale": 8
+		},
+		"VTHO": {
+			"scale": 8
+		},
+		"WABI": {
+			"scale": 8,
+			"withdrawal_fee": 3.6
+		},
+		"WAN": {
+			"scale": 8,
+			"withdrawal_fee": 0.1
+		},
+		"WAVES": {
+			"scale": 8,
+			"withdrawal_fee": 0.002
+		},
+		"WBTC": {
+			"scale": 8
+		},
+		"WIN": {
+			"scale": 8
+		},
+		"WING": {
+			"scale": 8
+		},
+		"WINGS": {
+			"scale": 8,
+			"withdrawal_fee": 6.1
+		},
+		"WNXM": {
+			"scale": 8
+		},
+		"WPR": {
+			"scale": 8,
+			"withdrawal_fee": 29.5
+		},
+		"WRX": {
+			"scale": 8
+		},
+		"WTC": {
+			"scale": 8,
+			"withdrawal_fee": 0.3
+		},
+		"XEM": {
+			"scale": 8,
+			"withdrawal_fee": 4.0
+		},
+		"XLM": {
+			"scale": 8,
+			"withdrawal_fee": 0.01
+		},
+		"XLMDOWN": {
+			"scale": 8
+		},
+		"XLMUP": {
+			"scale": 8
+		},
+		"XMR": {
+			"scale": 8,
+			"withdrawal_fee": 0.04
+		},
+		"XRP": {
+			"scale": 8,
+			"withdrawal_fee": 0.25
+		},
+		"XRPDOWN": {
+			"scale": 8
+		},
+		"XRPUP": {
+			"scale": 8
+		},
+		"XTZ": {
+			"scale": 8
+		},
+		"XTZDOWN": {
+			"scale": 8
+		},
+		"XTZUP": {
+			"scale": 8
+		},
+		"XVG": {
+			"scale": 8,
+			"withdrawal_fee": 0.1
+		},
+		"XVS": {
+			"scale": 8
+		},
+		"XZC": {
+			"scale": 8,
+			"withdrawal_fee": 0.02
+		},
+		"YFI": {
+			"scale": 8
+		},
+		"YFIDOWN": {
+			"scale": 8
+		},
+		"YFII": {
+			"scale": 8
+		},
+		"YFIUP": {
+			"scale": 8
+		},
+		"YOYO": {
+			"scale": 8,
+			"withdrawal_fee": 30.0
+		},
+		"ZAR": {
+			"scale": 8
+		},
+		"ZEC": {
+			"scale": 8,
+			"withdrawal_fee": 0.005
+		},
+		"ZEN": {
+			"scale": 8
+		},
+		"ZIL": {
+			"scale": 8,
+			"withdrawal_fee": 100.0
+		},
+		"ZRX": {
+			"scale": 8,
+			"withdrawal_fee": 4.3
+		}
+	},
+	"public_rate_limits": [
+		{
+			"calls": 2,
+			"time_span": 1,
+			"time_unit": "SECONDS"
+		}
+	]
+}
