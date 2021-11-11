@@ -88,14 +88,4 @@ public class LykkeTradeService extends LykkeTradeServiceRaw implements TradeServ
   public OpenOrdersParams createOpenOrdersParams() {
     return new DefaultOpenOrdersParamCurrencyPair();
   }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

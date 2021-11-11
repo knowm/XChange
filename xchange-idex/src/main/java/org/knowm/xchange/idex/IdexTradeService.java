@@ -186,12 +186,6 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
   }
 
   @Override
-  public Collection<Order> getOrder(String... strings) {
-    ReturnOpenOrdersApi proxy = returnOpenOrdersApi;
-    return Collections.emptyList();
-  }
-
-  @Override
   public OpenOrdersParams createOpenOrdersParams() {
 
     throw new NotAvailableFromExchangeException();

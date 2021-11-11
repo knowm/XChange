@@ -22,11 +22,6 @@ public class BitZTradeService extends BitZTradeServiceRaw implements TradeServic
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     throw new NotAvailableFromExchangeException();
   }

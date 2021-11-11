@@ -20,6 +20,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class Bl3pTradeService extends Bl3pBaseService implements TradeService {
@@ -141,11 +142,16 @@ public class Bl3pTradeService extends Bl3pBaseService implements TradeService {
   public void verifyOrder(MarketOrder marketOrder) {}
 
   @Override
+  public Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParamCurrencyPair.class;
+  }
+
+  @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     Collection<Order> result = new ArrayList<>(orderQueryParams.length);
 
     for (OrderQueryParams p : orderQueryParams) {
-      Bl3pOrderQueryParams bp = (Bl3pOrderQueryParams) p;
+      OrderQueryParamCurrencyPair bp = (OrderQueryParamCurrencyPair) p;
 
       Bl3pGetOrder order =
           this.bl3p.getOrder(
@@ -166,31 +172,4 @@ public class Bl3pTradeService extends Bl3pBaseService implements TradeService {
     throw new NotAvailableFromExchangeException();
   }
 
-  public static class Bl3pOrderQueryParams implements OrderQueryParams {
-    private String orderId;
-    private CurrencyPair currencyPair;
-
-    public Bl3pOrderQueryParams(CurrencyPair currencyPair, String orderId) {
-      this.orderId = orderId;
-      this.currencyPair = currencyPair;
-    }
-
-    @Override
-    public String getOrderId() {
-      return orderId;
-    }
-
-    public CurrencyPair getCurrencyPair() {
-      return currencyPair;
-    }
-
-    @Override
-    public void setOrderId(String orderId) {
-      this.orderId = orderId;
-    }
-
-    public void setCurrencyPair(CurrencyPair currencyPair) {
-      this.currencyPair = currencyPair;
-    }
-  }
 }

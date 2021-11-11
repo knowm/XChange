@@ -21,6 +21,7 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.DateUtils;
 
 public class BitfinexTradeService extends BitfinexTradeServiceRaw implements TradeService {
@@ -224,13 +225,12 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     try {
       List<Order> openOrders = new ArrayList<>();
 
-      for (String orderId : orderIds) {
-
-        BitfinexOrderStatusResponse orderStatus = getBitfinexOrderStatus(orderId);
+      for (OrderQueryParams orderParam : orderQueryParams) {
+        BitfinexOrderStatusResponse orderStatus = getBitfinexOrderStatus(orderParam.getOrderId());
         BitfinexOrderStatusResponse[] orderStatuses = new BitfinexOrderStatusResponse[1];
         if (orderStatus != null) {
           orderStatuses[0] = orderStatus;

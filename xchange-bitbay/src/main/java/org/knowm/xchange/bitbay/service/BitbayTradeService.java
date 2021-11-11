@@ -93,9 +93,4 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
   }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) {
-    throw new NotAvailableFromExchangeException();
-  }
 }

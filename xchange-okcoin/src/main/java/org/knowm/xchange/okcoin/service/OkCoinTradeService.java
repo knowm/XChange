@@ -287,11 +287,6 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public OkCoinOrderResult getOrder(String symbol) throws IOException {
     return super.getOrder(symbol);
   }

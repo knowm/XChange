@@ -312,17 +312,6 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    Collection<Order> orders = new ArrayList<>(orderIds.length);
-
-    for (String orderId : orderIds) {
-      orders.add(DeribitAdapters.adaptOrder(super.getOrderState(orderId)));
-    }
-
-    return orders;
-  }
-
-  @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     return getOrder(
         Arrays.stream(orderQueryParams).map(OrderQueryParams::getOrderId).toArray(String[]::new));

@@ -10,10 +10,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.*;
 
 public class AscendexTradeService extends AscendexTradeServiceRaw implements TradeService {
 
@@ -89,7 +86,12 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    return AscendexAdapters.adaptOpenOrderById(getAscendexOrderById(orderIds[0]));
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    if(orderQueryParams.length == 1){
+      return AscendexAdapters.adaptOpenOrderById(
+              getAscendexOrderById(orderQueryParams[0].getOrderId()));
+    }else{
+      throw new IOException("Ascendex only supports query with single id");
+    }
   }
 }

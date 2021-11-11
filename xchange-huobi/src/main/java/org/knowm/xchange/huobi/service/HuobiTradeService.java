@@ -7,6 +7,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
+import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.huobi.HuobiAdapters;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
@@ -20,6 +21,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class HuobiTradeService extends HuobiTradeServiceRaw implements TradeService {
   public static IOrderFlags FOK = new IOrderFlags() {};
@@ -61,8 +63,8 @@ public class HuobiTradeService extends HuobiTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    return HuobiAdapters.adaptOrders(getHuobiOrder(orderIds));
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    return HuobiAdapters.adaptOrders(getHuobiOrder(TradeService.toOrderIds(orderQueryParams)));
   }
 
   @Override
