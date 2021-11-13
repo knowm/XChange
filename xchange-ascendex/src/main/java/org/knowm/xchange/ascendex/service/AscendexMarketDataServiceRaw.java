@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ascendex.AscendexException;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexAssetDto;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexMarketTradesDto;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexOrderbookDto;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexProductDto;
+import org.knowm.xchange.ascendex.dto.marketdata.*;
 
 public class AscendexMarketDataServiceRaw extends AscendexBaseService {
 
@@ -31,5 +28,9 @@ public class AscendexMarketDataServiceRaw extends AscendexBaseService {
   public AscendexMarketTradesDto getAscendexTrades(String symbol)
       throws AscendexException, IOException {
     return checkResult(ascendex.getTrades(symbol));
+  }
+
+  public List<AscendexBarHistDto> getBarHistoryData(String symbol,String interval,Long to,Long from,Integer noOfBars) throws AscendexException,IOException {
+    return checkResult(ascendex.getHistoricalBarData(symbol,interval,to,from,noOfBars));
   }
 }
