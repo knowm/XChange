@@ -80,7 +80,7 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
   public List<BinanceTicker24h> ticker24h() throws IOException {
     return decorateApiCall(() -> binance.ticker24h())
         .withRetry(retry("ticker24h"))
-        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 40)
         .call();
   }
 
