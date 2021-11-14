@@ -252,16 +252,15 @@ public interface BinanceAuthenticated extends Binance {
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
 
-  @GET
-  @Path("api/v3/myTrades")
-  /**
+    /**
    * Get trades for a specific account and symbol.
    *
    * @param symbol
+   * @param orderId optional
    * @param startTime optional
    * @param endTime optional
-   * @param limit optional, default 500; max 1000.
    * @param fromId optional, tradeId to fetch from. Default gets most recent trades.
+   * @param limit optional, default 500; max 1000.
    * @param recvWindow optional
    * @param timestamp
    * @param apiKey
@@ -270,12 +269,15 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    * @throws BinanceException
    */
+  @GET
+  @Path("api/v3/myTrades")
   List<BinanceTrade> myTrades(
       @QueryParam("symbol") String symbol,
-      @QueryParam("limit") Integer limit,
+      @QueryParam("orderId") Long orderId,
       @QueryParam("startTime") Long startTime,
       @QueryParam("endTime") Long endTime,
       @QueryParam("fromId") Long fromId,
+      @QueryParam("limit") Integer limit,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
