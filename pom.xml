@@ -483,6 +483,8 @@
           <target>${version.java}</target>
           <showDeprecation>true</showDeprecation>
           <showWarnings>true</showWarnings>
+        	<fork>true</fork>
+        	<useIncrementalCompilation>true</useIncrementalCompilation>
         </configuration>
       </plugin>
       <!-- for deploying to Maven Central -->
