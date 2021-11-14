@@ -48,6 +48,8 @@ public interface BinanceAuthenticated extends Binance {
    *     sent.
    * @param stopPrice optional, used with stop orders
    * @param icebergQty optional, used with iceberg orders
+   * @param newOrderRespType optional, MARKET and LIMIT order types default to FULL, all other
+   *     orders default to ACK
    * @param recvWindow optional
    * @param timestamp
    * @return
@@ -66,6 +68,7 @@ public interface BinanceAuthenticated extends Binance {
       @FormParam("newClientOrderId") String newClientOrderId,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("icebergQty") BigDecimal icebergQty,
+      @FormParam("newOrderRespType") BinanceNewOrder.NewOrderResponseType newOrderRespType,
       @FormParam("recvWindow") Long recvWindow,
       @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
