@@ -152,6 +152,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
               limitPrice,
               getClientOrderId(order),
               stopPrice,
+              null,
               null);
       return Long.toString(newOrder.orderId);
     } catch (BinanceException e) {
