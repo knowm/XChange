@@ -1,6 +1,7 @@
 package org.knowm.xchange.okex.v5.service;
 
 import java.io.IOException;
+
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -23,8 +24,18 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
 
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
+    int limitDepth = 50;
+
+    if (args != null && args.length == 1) {
+      Object arg0 = args[0];
+      if (!(arg0 instanceof Integer)) {
+        throw new IllegalArgumentException("Argument 0 must be an Integer!");
+      } else {
+        limitDepth = (Integer) arg0;
+      }
+    }
     return OkexAdapters.adaptOrderBook(
-        getOkexOrderbook(OkexAdapters.adaptCurrencyPairId(instrument)), instrument);
+        getOkexOrderbook(OkexAdapters.adaptCurrencyPairId(instrument), limitDepth), instrument);
   }
 
   @Override
@@ -34,7 +45,24 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
 
   @Override
   public Trades getTrades(Instrument instrument, Object... args) throws IOException {
+    int limitTrades = 100;
+
+    if (args != null && args.length == 1) {
+      Object arg0 = args[0];
+      if (!(arg0 instanceof Integer)) {
+        throw new IllegalArgumentException("Argument 0 must be an Integer!");
+      } else {
+        limitTrades = (Integer) arg0;
+      }
+    }
+
     return OkexAdapters.adaptTrades(
-        getOkexTrades(OkexAdapters.adaptCurrencyPairId(instrument), 100).getData(), instrument);
+        getOkexTrades(OkexAdapters.adaptCurrencyPairId(instrument), limitTrades).getData(),
+        instrument);
+  }
+
+  @Override
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    return this.getTrades((Instrument) currencyPair, args);
   }
 }

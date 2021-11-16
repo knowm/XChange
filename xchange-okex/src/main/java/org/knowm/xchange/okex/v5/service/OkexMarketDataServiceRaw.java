@@ -6,6 +6,7 @@ import static org.knowm.xchange.okex.v5.OkexAuthenticated.currenciesPath;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
@@ -77,12 +78,12 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
   }
 
-  public OkexResponse<List<OkexOrderbook>> getOkexOrderbook(String instrument)
+  public OkexResponse<List<OkexOrderbook>> getOkexOrderbook(String instrument, int depth)
       throws OkexException, IOException {
     OkexResponse<List<OkexOrderbook>> books =
         okex.getOrderbook(
             instrument,
-            20,
+            depth,
             (String)
                 exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
     return books;
