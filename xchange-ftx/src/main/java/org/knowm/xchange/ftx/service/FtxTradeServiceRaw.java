@@ -1,7 +1,6 @@
 package org.knowm.xchange.ftx.service;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -16,6 +15,7 @@ import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
 import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
@@ -124,7 +124,7 @@ public class FtxTradeServiceRaw extends FtxBaseService {
       return cancelAllFtxOrders(
           subaccount,
           new CancelAllFtxOrdersParams(
-              FtxAdapters.adaptCurrencyPairToFtxMarket(
+              FtxAdapters.adaptInstrumentToFtxMarket(
                   ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair())));
     } else if (orderParams instanceof CancelOrderByUserReferenceParams) {
       return cancelFtxByClientId(
@@ -176,23 +176,18 @@ public class FtxTradeServiceRaw extends FtxBaseService {
 
   public UserTrades getTradeHistoryForSubaccount(String subaccount, TradeHistoryParams params)
       throws IOException {
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      return FtxAdapters.adaptUserTrades(
-          getFtxOrderHistory(
-                  subaccount,
-                  FtxAdapters.adaptCurrencyPairToFtxMarket(
-                      ((TradeHistoryParamCurrencyPair) params).getCurrencyPair()))
-              .getResult());
-    } else if (params instanceof TradeHistoryParamInstrument) {
-      CurrencyPair currencyPair =
-          new CurrencyPair(((TradeHistoryParamInstrument) params).getInstrument().toString());
-      return FtxAdapters.adaptUserTrades(
-          getFtxOrderHistory(subaccount, FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair))
-              .getResult());
+    Instrument instrument;
+    if (params instanceof CurrencyPairParam) {
+      instrument = ((CurrencyPairParam) params).getCurrencyPair();
+    } else if (params instanceof InstrumentParam) {
+      instrument = ((InstrumentParam) params).getInstrument();
     } else {
       throw new IOException(
           "TradeHistoryParams must implement TradeHistoryParamCurrencyPair or TradeHistoryParamInstrument interface.");
     }
+    return FtxAdapters.adaptUserTrades(
+        getFtxOrderHistory(subaccount, FtxAdapters.adaptInstrumentToFtxMarket(instrument))
+            .getResult());
   }
 
   public FtxResponse<List<FtxOrderDto>> getFtxOrderHistory(String subaccount, String market)
@@ -215,15 +210,17 @@ public class FtxTradeServiceRaw extends FtxBaseService {
 
   public OpenOrders getOpenOrdersForSubaccount(String subaccount, OpenOrdersParams params)
       throws IOException {
+    Instrument instrument;
     if (params instanceof CurrencyPairParam) {
-      return FtxAdapters.adaptOpenOrders(
-          getFtxOpenOrders(
-              subaccount,
-              FtxAdapters.adaptCurrencyPairToFtxMarket(
-                  ((CurrencyPairParam) params).getCurrencyPair())));
+      instrument = ((CurrencyPairParam) params).getCurrencyPair();
+    } else if (params instanceof InstrumentParam) {
+      instrument = ((InstrumentParam) params).getInstrument();
     } else {
-      throw new IOException("OpenOrdersParams must implement CurrencyPairParam interface.");
+      throw new IOException(
+          "OpenOrdersParams must implement CurrencyPairParam or OpenOrdersParamInstrument interface.");
     }
+    return FtxAdapters.adaptOpenOrders(
+        getFtxOpenOrders(subaccount, FtxAdapters.adaptInstrumentToFtxMarket(instrument)));
   }
 
   public FtxResponse<List<FtxOrderDto>> getFtxAllOpenOrdersForSubaccount(String subaccount)

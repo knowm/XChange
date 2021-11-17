@@ -1,51 +1,38 @@
 package org.knowm.xchange.ftx;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.OpenPosition;
-import org.knowm.xchange.dto.account.OpenPositions;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.RateLimit;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.meta.*;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.FtxAccountDto;
 import org.knowm.xchange.ftx.dto.account.FtxPositionDto;
 import org.knowm.xchange.ftx.dto.account.FtxWalletBalanceDto;
 import org.knowm.xchange.ftx.dto.marketdata.*;
 import org.knowm.xchange.ftx.dto.trade.*;
-import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
+import org.knowm.xchange.instrument.Instrument;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class FtxAdapters {
+  private static final String IMPLIED_COUNTER = "USD";
+  public static final String PERPETUAL = "PERP";
 
   public static OrderBook adaptOrderBook(
-      FtxResponse<FtxOrderbookDto> ftxOrderbookDto, CurrencyPair currencyPair) {
+      FtxResponse<FtxOrderbookDto> ftxOrderbookDto, Instrument instrument) {
 
     List<LimitOrder> asks = new ArrayList<>();
     List<LimitOrder> bids = new ArrayList<>();
@@ -57,7 +44,7 @@ public class FtxAdapters {
             ftxAsk ->
                 asks.add(
                     adaptOrderbookOrder(
-                        ftxAsk.getVolume(), ftxAsk.getPrice(), currencyPair, Order.OrderType.ASK)));
+                        ftxAsk.getVolume(), ftxAsk.getPrice(), instrument, Order.OrderType.ASK)));
 
     ftxOrderbookDto
         .getResult()
@@ -66,20 +53,21 @@ public class FtxAdapters {
             ftxBid ->
                 bids.add(
                     adaptOrderbookOrder(
-                        ftxBid.getVolume(), ftxBid.getPrice(), currencyPair, Order.OrderType.BID)));
+                        ftxBid.getVolume(), ftxBid.getPrice(), instrument, Order.OrderType.BID)));
 
     return new OrderBook(Date.from(Instant.now()), asks, bids);
   }
 
   public static LimitOrder adaptOrderbookOrder(
-      BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, Order.OrderType orderType) {
+      BigDecimal amount, BigDecimal price, Instrument instrument, Order.OrderType orderType) {
 
-    return new LimitOrder(orderType, amount, currencyPair, "", null, price);
+    return new LimitOrder(orderType, amount, instrument, "", null, price);
   }
 
   public static AccountInfo adaptAccountInfo(
       FtxResponse<FtxAccountDto> ftxAccountDto,
-      FtxResponse<List<FtxWalletBalanceDto>> ftxBalancesDto) {
+      FtxResponse<List<FtxWalletBalanceDto>> ftxBalancesDto,
+      Collection<OpenPosition> openPositions) {
 
     List<Balance> ftxAccountInfo = new ArrayList<>();
     List<Balance> ftxSpotBalances = new ArrayList<>();
@@ -131,6 +119,7 @@ public class FtxAdapters {
         result.getUsername(),
         result.getTakerFee(),
         Collections.unmodifiableList(Arrays.asList(accountWallet, spotWallet)),
+        openPositions,
         Date.from(Instant.now()));
   }
 
@@ -138,23 +127,25 @@ public class FtxAdapters {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currency = new HashMap<>();
+    Map<FuturesContract, DerivativeMetaData> futures = new HashMap<>();
 
     marketsDto
         .getMarketList()
         .forEach(
             ftxMarketDto -> {
-              CurrencyPairMetaData currencyPairMetaData =
-                  new CurrencyPairMetaData.Builder()
-                      .amountStepSize(ftxMarketDto.getPriceIncrement())
-                      .minimumAmount(ftxMarketDto.getSizeIncrement())
-                      .priceScale(ftxMarketDto.getPriceIncrement().scale())
-                      .baseScale(ftxMarketDto.getSizeIncrement().scale())
-                      .build();
-
               if ("spot".equals(ftxMarketDto.getType())) {
                 CurrencyPair currencyPair =
                     new CurrencyPair(
                         ftxMarketDto.getBaseCurrency(), ftxMarketDto.getQuoteCurrency());
+
+                CurrencyPairMetaData currencyPairMetaData =
+                    new CurrencyPairMetaData.Builder()
+                        .amountStepSize(ftxMarketDto.getPriceIncrement())
+                        .minimumAmount(ftxMarketDto.getSizeIncrement())
+                        .priceScale(ftxMarketDto.getPriceIncrement().scale())
+                        .baseScale(ftxMarketDto.getSizeIncrement().scale())
+                        .build();
+
                 currencyPairs.put(currencyPair, currencyPairMetaData);
                 if (!currency.containsKey(currencyPair.base)) {
                   currency.put(
@@ -168,16 +159,27 @@ public class FtxAdapters {
                       new CurrencyMetaData(
                           ftxMarketDto.getPriceIncrement().scale(), BigDecimal.ZERO));
                 }
-              } else if ("future".equals(ftxMarketDto.getType())
-                  && ftxMarketDto.getName().contains("-")) {
-                CurrencyPair futuresContract = new CurrencyPair(ftxMarketDto.getName());
-                currencyPairs.put(futuresContract, currencyPairMetaData);
+              } else if ("future".equals(ftxMarketDto.getType())) {
+                Instrument instrument = adaptFtxMarketToInstrument(ftxMarketDto.getName());
+                if (instrument instanceof FuturesContract) {
+                  DerivativeMetaData futuresContractMetaData =
+                      new DerivativeMetaData.Builder()
+                          .minimumAmount(ftxMarketDto.getMinProvideSize())
+                          .amountStepSize(ftxMarketDto.getSizeIncrement())
+                          .amountScale(ftxMarketDto.getSizeIncrement().scale())
+                          .priceStepSize(ftxMarketDto.getPriceIncrement())
+                          .priceScale(ftxMarketDto.getPriceIncrement().scale())
+                          .build();
+
+                  futures.put((FuturesContract) instrument, futuresContractMetaData);
+                }
               }
             });
 
     RateLimit[] rateLimits = {new RateLimit(30, 1, TimeUnit.SECONDS)};
 
-    return new ExchangeMetaData(currencyPairs, currency, rateLimits, rateLimits, true);
+    return new ExchangeMetaData(
+        currencyPairs, currency, futures, null, rateLimits, rateLimits, true);
   }
 
   public static FtxOrderRequestPayload adaptMarketOrderToFtxOrderPayload(MarketOrder marketOrder) {
@@ -197,7 +199,7 @@ public class FtxAdapters {
   private static FtxOrderRequestPayload adaptOrderToFtxOrderPayload(
       FtxOrderType type, Order order, BigDecimal price) {
     return new FtxOrderRequestPayload(
-        adaptCurrencyPairToFtxMarket(order.getCurrencyPair()),
+        adaptInstrumentToFtxMarket(order.getInstrument()),
         adaptOrderTypeToFtxOrderSide(order.getType()),
         price,
         type,
@@ -208,7 +210,7 @@ public class FtxAdapters {
         order.getUserReference());
   }
 
-  public static Trades adaptTrades(List<FtxTradeDto> ftxTradeDtos, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(List<FtxTradeDto> ftxTradeDtos, Instrument instrument) {
     List<Trade> trades = new ArrayList<>();
 
     ftxTradeDtos.forEach(
@@ -216,7 +218,7 @@ public class FtxAdapters {
             trades.add(
                 new Trade.Builder()
                     .id(ftxTradeDto.getId())
-                    .instrument(currencyPair)
+                    .instrument(instrument)
                     .originalAmount(ftxTradeDto.getSize())
                     .price(ftxTradeDto.getPrice())
                     .timestamp(ftxTradeDto.getTime())
@@ -234,10 +236,7 @@ public class FtxAdapters {
           if (ftxOrderDto.getFilledSize().compareTo(BigDecimal.ZERO) != 0) {
             userTrades.add(
                 new UserTrade.Builder()
-                    .instrument(
-                        CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
-                    .currencyPair(
-                        CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+                    .instrument(adaptFtxMarketToInstrument(ftxOrderDto.getMarket()))
                     .timestamp(ftxOrderDto.getCreatedAt())
                     .id(ftxOrderDto.getId())
                     .orderId(ftxOrderDto.getId())
@@ -259,7 +258,7 @@ public class FtxAdapters {
 
     return new LimitOrder.Builder(
             adaptFtxOrderSideToOrderType(ftxOrderDto.getSide()),
-            CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+            adaptFtxMarketToInstrument(ftxOrderDto.getMarket()))
         .originalAmount(ftxOrderDto.getSize())
         .limitPrice(ftxOrderDto.getPrice())
         .averagePrice(ftxOrderDto.getAvgFillPrice())
@@ -309,14 +308,32 @@ public class FtxAdapters {
     return ftxOrderSide == FtxOrderSide.buy ? Order.OrderType.BID : Order.OrderType.ASK;
   }
 
-  private static final Pattern FUTURES_PATTERN = Pattern.compile("PERP|[0-9]+");
-
-  public static String adaptCurrencyPairToFtxMarket(CurrencyPair currencyPair) {
-    if (FUTURES_PATTERN.matcher(currencyPair.counter.getCurrencyCode()).matches()) {
-      return currencyPair.base + "-" + currencyPair.counter;
-    } else {
-      return currencyPair.toString();
+  public static String adaptInstrumentToFtxMarket(Instrument instrument) {
+    if (instrument instanceof FuturesContract) {
+      FuturesContract futuresContract = (FuturesContract) instrument;
+      String date;
+      if (futuresContract.isPerpetual()) {
+        date = PERPETUAL; 
+      } else {
+        ZonedDateTime zdt = futuresContract.getExpireDate().toInstant().atZone(TimeZone.getDefault().toZoneId());
+        date = String.format("%02d%02d", zdt.getMonthValue(), zdt.getDayOfMonth());
+      }
+      return futuresContract.getCurrencyPair().base + "-" + date;
     }
+    return instrument.toString();
+  }
+
+  public static Instrument adaptFtxMarketToInstrument(String marketName) {
+    long count = marketName.chars().filter(ch -> ch == '/').count();
+    if (count == 1) {
+      return new CurrencyPair(marketName);
+    }
+    count = marketName.chars().filter(ch -> ch == '-').count();
+    if (count == 1) {
+      CurrencyPair currencyPair = new CurrencyPair(marketName.split("-")[0], IMPLIED_COUNTER);
+      return new FuturesContract(currencyPair, parseFuturesContractDate(marketName));
+    }
+    return null;
   }
 
   public static OpenPositions adaptOpenPositions(List<FtxPositionDto> ftxPositionDtos) {
@@ -327,7 +344,7 @@ public class FtxAdapters {
           if (ftxPositionDto.getSize().compareTo(BigDecimal.ZERO) > 0) {
             openPositionList.add(
                 new OpenPosition.Builder()
-                    .instrument(new CurrencyPair(ftxPositionDto.getFuture()))
+                    .instrument(adaptFtxMarketToInstrument(ftxPositionDto.getFuture()))
                     .price(ftxPositionDto.getEntryPrice())
                     .size(ftxPositionDto.getSize())
                     .type(
@@ -348,7 +365,7 @@ public class FtxAdapters {
   public static Ticker adaptTicker(
       FtxResponse<FtxMarketDto> ftxMarketResp,
       FtxResponse<List<FtxCandleDto>> ftxCandlesResp,
-      CurrencyPair currencyPair) {
+      Instrument instrument) {
 
     FtxCandleDto lastCandle = ftxCandlesResp.getResult().get(ftxCandlesResp.getResult().size() - 1);
 
@@ -362,7 +379,7 @@ public class FtxAdapters {
     Date timestamp = lastCandle.getStartTime();
 
     return new Ticker.Builder()
-        .instrument(currencyPair)
+        .instrument(instrument)
         .open(open)
         .last(last)
         .bid(bid)
@@ -372,5 +389,25 @@ public class FtxAdapters {
         .volume(volume)
         .timestamp(timestamp)
         .build();
+  }
+
+  private static Date parseFuturesContractDate(String name) {
+    try {
+      String[] split = name.split("-");
+      if (PERPETUAL.equals(split[1])) {
+        return null;
+      }
+      int m = Integer.parseInt(split[1].substring(0, 2));
+      int d = Integer.parseInt(split[1].substring(2, 4));
+      Instant instant =
+              Instant.now().atZone(TimeZone.getDefault().toZoneId()).withMonth(m).withDayOfMonth(d).toInstant();
+      if (instant.isBefore(Instant.now())) {
+        instant = instant.atZone(TimeZone.getDefault().toZoneId()).plus(1, ChronoUnit.YEARS).toInstant();
+      }
+      return Date.from(instant);
+    } catch (Exception e) {
+      throw new IllegalArgumentException(
+              "Could not parse futures contract from name '" + name + "'");
+    }
   }
 }

@@ -19,6 +19,8 @@ public class FtxAccountService extends FtxAccountServiceRaw implements AccountSe
 
   public AccountInfo getSubaccountInfo(String subaccount) throws IOException {
     return FtxAdapters.adaptAccountInfo(
-        getFtxAccountInformation(subaccount), getFtxWalletBalances(subaccount));
+        getFtxAccountInformation(subaccount),
+        getFtxWalletBalances(subaccount),
+        exchange.getTradeService().getOpenPositions().getOpenPositions());
   }
 }

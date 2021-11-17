@@ -10,9 +10,9 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new DefaultTradeHistoryParamCurrencyPair();
+    return new DefaultTradeHistoryParamInstrument();
   }
 
   @Override
@@ -74,7 +74,7 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override
