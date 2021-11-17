@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 import java.util.zip.CRC32;
 
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -206,9 +205,8 @@ public class FtxStreamingAdapters {
     JsonNode data = jsonNode.get("data");
 
     return new UserTrade.Builder()
-        .currencyPair(new CurrencyPair(data.get("market").asText()))
         .type("buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK)
-        .instrument(new CurrencyPair(data.get("market").asText()))
+        .instrument(FtxAdapters.adaptFtxMarketToInstrument(data.get("market").asText()))
         .originalAmount(data.get("size").decimalValue())
         .price(data.get("price").decimalValue())
         .timestamp(Date.from(Instant.ofEpochMilli(data.get("time").asLong())))
@@ -225,7 +223,7 @@ public class FtxStreamingAdapters {
     LimitOrder.Builder order =
         new LimitOrder.Builder(
                 "buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK,
-                new CurrencyPair(data.get("market").asText()))
+                FtxAdapters.adaptFtxMarketToInstrument(data.get("market").asText()))
             .id(data.get("id").asText())
             .timestamp(Date.from(Instant.now()))
             .limitPrice(data.get("price").decimalValue())

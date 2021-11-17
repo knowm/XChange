@@ -9,22 +9,22 @@ import java.io.InputStream;
 import java.util.List;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
+import org.knowm.xchange.instrument.Instrument;
 
 public class FtxAdapterTest {
 
   @Test
   public void adaptCurrencyPairToFtxPair() {
-    assertPair("BTC-USD", "BTC/USD", "BTC/USD");
-    assertPair("BTC-PERP", "BTC/PERP", "BTC-PERP");
-    assertPair("BTC-0625", "BTC/0625", "BTC-0625");
+    assertPair(new CurrencyPair("BTC/USD"),"BTC/USD");
+    assertPair(new FuturesContract("BTC/USD/perpetual"), "BTC-PERP");
+    assertPair(new FuturesContract("BTC/USD/210625"), "BTC-0625");
   }
 
-  private void assertPair(String market, String expString, String expAdapted) {
-    CurrencyPair currencyPair = new CurrencyPair(market);
-    assertThat(currencyPair.toString()).isEqualTo(expString);
-    assertThat(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair)).isEqualTo(expAdapted);
+  private void assertPair(Instrument instrument, String expAdapted) {
+    assertThat(FtxAdapters.adaptInstrumentToFtxMarket(instrument)).isEqualTo(expAdapted);
   }
 
   @Test
