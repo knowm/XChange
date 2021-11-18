@@ -5,8 +5,8 @@ import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
-import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.dto.trade.*;
+import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesInitialLeverage;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAccountInformation;
 import org.knowm.xchange.binance.futures.dto.account.BinanceUserCommissionRate;
 import org.knowm.xchange.binance.futures.dto.meta.BinanceFuturesExchangeInfo;
@@ -340,5 +340,29 @@ public interface BinanceFuturesAuthenticated extends BinanceAuthenticated {
     @Path("/fapi/v1/listenKey?listenKey={listenKey}")
     Map<?, ?> closeUserDataStream(
             @HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey)
+            throws IOException, BinanceException;
+
+    /**
+     * Change user's initial leverage of specific symbol market.
+     *
+     * @param symbol
+     * @param leverage
+     * @param recvWindow optional
+     * @param timestamp
+     * @param apiKey
+     * @param signature
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @POST
+    @Path("/fapi/v1/leverage")
+    BinanceFuturesInitialLeverage changeInitialLeverage(
+            @FormParam("symbol") String symbol,
+            @FormParam("leverage") Integer leverage,
+            @FormParam("recvWindow") Long recvWindow,
+            @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+            @HeaderParam(X_MBX_APIKEY) String apiKey,
+            @QueryParam(SIGNATURE) ParamsDigest signature)
             throws IOException, BinanceException;
 }

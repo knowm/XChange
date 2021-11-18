@@ -7,10 +7,7 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.AddressWithTag;
-import org.knowm.xchange.dto.account.Fee;
-import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -204,5 +201,16 @@ public interface AccountService extends BaseService {
    */
   default Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
     throw new NotYetImplementedForExchangeException("getDynamicTradingFees");
+  }
+
+  /**
+   * Change account initial leverage of specific symbol market.
+   *
+   * @param setting represents initial leverage
+   * @return account leverage setting
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default AccountLeverageSetting setInitialLeverage(AccountLeverageSetting setting) throws IOException {
+    throw new NotYetImplementedForExchangeException("setInitialLeverage");
   }
 }

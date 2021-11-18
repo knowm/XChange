@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.dto.account.AccountLeverageSetting;
 import org.knowm.xchange.ftx.FtxException;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.*;
@@ -121,6 +122,10 @@ public class FtxAccountServiceRaw extends FtxBaseService {
     }
   }
 
+  /**
+   * @deprecated use {@link FtxAccountService#setInitialLeverage(AccountLeverageSetting)}
+   */
+  @Deprecated
   public FtxResponse<FtxLeverageDto> changeLeverage(String subaccount, int leverage)
       throws FtxException, IOException {
     try {

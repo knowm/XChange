@@ -4,12 +4,14 @@ import org.knowm.xchange.binance.*;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.futures.BinanceFuturesAdapter;
 import org.knowm.xchange.binance.futures.BinanceFuturesAuthenticated;
+import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesInitialLeverage;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAccountInformation;
 import org.knowm.xchange.binance.futures.dto.account.BinanceUserCommissionRate;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.AccountLeverageSetting;
 import org.knowm.xchange.dto.account.Fee;
 
 import java.io.IOException;
@@ -20,9 +22,11 @@ import java.util.Map;
 import static org.knowm.xchange.binance.BinanceResilience.REQUEST_WEIGHT_RATE_LIMITER;
 
 public class BinanceFuturesAccountService extends BinanceAccountService {
+    protected final BinanceFuturesAuthenticated binanceFutures;
 
     public BinanceFuturesAccountService(BinanceExchange exchange, BinanceAuthenticated binance, ResilienceRegistries resilienceRegistries) {
         super(exchange, binance, resilienceRegistries);
+        binanceFutures = (BinanceFuturesAuthenticated) binance;
     }
 
     @Override
@@ -33,7 +37,7 @@ public class BinanceFuturesAccountService extends BinanceAccountService {
     public BinanceFuturesAccountInformation getFuturesAccountInfo() throws IOException {
         try {
             return decorateApiCall(
-                    () -> ((BinanceFuturesAuthenticated)binance).futuresAccount(getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
+                    () -> binanceFutures.futuresAccount(getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
                     .withRetry(retry("account"))
                     .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
                     .call();
@@ -63,10 +67,33 @@ public class BinanceFuturesAccountService extends BinanceAccountService {
     public BinanceUserCommissionRate getTradingCommission(CurrencyPair pair) throws IOException {
         try {
             return decorateApiCall(
-                    () -> ((BinanceFuturesAuthenticated)binance).userCommissionRate(BinanceAdapters.toSymbol(pair), getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
+                    () -> binanceFutures.userCommissionRate(BinanceAdapters.toSymbol(pair), getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
                     .withRetry(retry("userCommissionRate"))
                     .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 20)
                     .call();
+        } catch (BinanceException e) {
+            throw BinanceErrorAdapter.adapt(e);
+        }
+    }
+
+    @Override
+    public AccountLeverageSetting setInitialLeverage(AccountLeverageSetting setting) throws IOException {
+        try {
+            BinanceFuturesInitialLeverage response = decorateApiCall(
+                    () -> binanceFutures.changeInitialLeverage(
+                            setting.getPair() != null ? BinanceAdapters.toSymbol(setting.getPair()) : null,
+                            setting.getLeverage(),
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            apiKey,
+                            signatureCreator))
+                    .withRetry(retry("setInitialLeverage"))
+                    .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+                    .call();
+            return new AccountLeverageSetting.Builder()
+                    .leverage(response.leverage)
+                    .pair(BinanceAdapters.adaptSymbol(response.symbol))
+                    .build();
         } catch (BinanceException e) {
             throw BinanceErrorAdapter.adapt(e);
         }
