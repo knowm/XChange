@@ -14,10 +14,13 @@ import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.*;
 import org.knowm.xchange.utils.Assert;
@@ -46,14 +49,16 @@ public class BinanceFuturesTradeService extends BinanceTradeService {
     @Override
     public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
         try {
-            List<BinanceFuturesOrder> binanceOpenOrders;
-            if (params instanceof OpenOrdersParamCurrencyPair) {
-                OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
-                CurrencyPair pair = pairParams.getCurrencyPair();
-                binanceOpenOrders = futuresOpenOrders(pair);
-            } else {
-                binanceOpenOrders = futuresOpenOrders(null);
+            CurrencyPair pair = null;
+            if (params instanceof OpenOrdersParamInstrument) {
+                Instrument instrument = ((OpenOrdersParamInstrument) params).getInstrument();
+                if (instrument instanceof FuturesContract) {
+                    pair = ((FuturesContract)instrument).getCurrencyPair();
+                }
+            } else if (params instanceof OpenOrdersParamCurrencyPair) {
+                pair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
             }
+            List<BinanceFuturesOrder> binanceOpenOrders = futuresOpenOrders(pair);
 
             List<LimitOrder> limitOrders = new ArrayList<>();
             List<Order> otherOrders = new ArrayList<>();
@@ -74,17 +79,29 @@ public class BinanceFuturesTradeService extends BinanceTradeService {
 
     @Override
     public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-        return super.placeMarketOrder(marketOrder);     // DONE
+        if (marketOrder.getInstrument() instanceof FuturesContract) {
+            CurrencyPair pair = ((FuturesContract) marketOrder.getInstrument()).getCurrencyPair();
+            return super.placeMarketOrder(BinanceFuturesAdapter.replaceInstrument(marketOrder, pair));     // DONE
+        }
+        throw new NotAvailableFromExchangeException("not supported instrument " + marketOrder.getInstrument());
     }
 
     @Override
     public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-        return super.placeLimitOrder(limitOrder);     // DONE
+        if (limitOrder.getInstrument() instanceof FuturesContract) {
+            CurrencyPair pair = ((FuturesContract) limitOrder.getInstrument()).getCurrencyPair();
+            return super.placeLimitOrder(BinanceFuturesAdapter.replaceInstrument(limitOrder, pair));     // DONE
+        }
+        throw new NotAvailableFromExchangeException("not supported instrument " + limitOrder.getInstrument());
     }
 
     @Override
     public String placeStopOrder(StopOrder stopOrder) throws IOException {
-        return super.placeStopOrder(stopOrder);     // DONE
+        if (stopOrder.getInstrument() instanceof FuturesContract) {
+            CurrencyPair pair = ((FuturesContract) stopOrder.getInstrument()).getCurrencyPair();
+            return super.placeStopOrder(BinanceFuturesAdapter.replaceInstrument(stopOrder, pair));     // DONE
+        }
+        throw new NotAvailableFromExchangeException("not supported instrument " + stopOrder.getInstrument());
     }
 
     @Override
@@ -141,7 +158,7 @@ public class BinanceFuturesTradeService extends BinanceTradeService {
                                             new UserTrade.Builder()
                                                     .type(BinanceAdapters.convertType(t.buyer))
                                                     .originalAmount(t.qty)
-                                                    .currencyPair(pair)
+                                                    .instrument(new FuturesContract(pair, null))
                                                     .price(t.price)
                                                     .timestamp(t.getTime())
                                                     .id(Long.toString(t.id))

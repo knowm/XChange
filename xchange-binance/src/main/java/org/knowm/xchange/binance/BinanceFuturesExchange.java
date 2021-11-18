@@ -21,8 +21,10 @@ import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.DerivativeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -72,11 +74,11 @@ public class BinanceFuturesExchange extends BinanceExchange {
 
     try {
       // populate currency pair keys only, exchange does not provide any other metadata for download
-      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
+      Map<FuturesContract, DerivativeMetaData> futures = exchangeMetaData.getFutures();
       Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
       currencies.clear();
-      currencyPairs.clear();
+      futures.clear();
 
       BinanceFuturesMarketDataService marketDataService =
               (BinanceFuturesMarketDataService) this.marketDataService;
@@ -84,7 +86,7 @@ public class BinanceFuturesExchange extends BinanceExchange {
       FuturesSymbol[] symbols = exchangeInfo.getSymbols();
 
       for (FuturesSymbol symbol : symbols) {
-        if (symbol.getStatus().equals("TRADING")) { // Symbols which are trading
+        if (symbol.getStatus().equals("TRADING") || symbol.getContractType().equals("PERPETUAL")) { // Symbols which are trading, PERPETUAL - limitation 
           int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
           int counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
           int pairPrecision = 8;
@@ -115,24 +117,20 @@ public class BinanceFuturesExchange extends BinanceExchange {
               counterMinQty = new BigDecimal(filter.getNotional()).stripTrailingZeros();
             }
           }
-
-          boolean marketOrderAllowed = Arrays.asList(symbol.getOrderTypes()).contains("MARKET");
-          currencyPairs.put(
-                  currentCurrencyPair,
-                  new CurrencyPairMetaData(
+          
+          futures.put(
+                  new FuturesContract(currentCurrencyPair, null),
+                  new DerivativeMetaData(
                           new BigDecimal("0.001"), // Trading fee at Binance is 0.1 %
                           minQty, // Min amount
                           maxQty, // Max amount
-                          counterMinQty,
-                          counterMaxQty,
                           amountPrecision, // base precision
                           pairPrecision, // counter precision
                           null,
-                          null, /* TODO get fee tiers, although this is not necessary now
-                        because their API returns current fee directly */
                           stepSize,
-                          null,
-                          marketOrderAllowed));
+                          null
+                          
+                  ));
 
           Currency baseCurrency = currentCurrencyPair.base;
           CurrencyMetaData baseCurrencyMetaData =
