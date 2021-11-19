@@ -2,6 +2,7 @@ package org.knowm.xchange.binance.futures;
 
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.dto.BinanceException;
+import org.knowm.xchange.binance.dto.account.BinanceMarginType;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
@@ -345,13 +346,8 @@ public interface BinanceFuturesAuthenticated extends BinanceAuthenticated {
     /**
      * Change user's initial leverage of specific symbol market.
      *
-     * @param symbol
-     * @param leverage
-     * @param recvWindow optional
-     * @param timestamp
-     * @param apiKey
-     * @param signature
-     * @return
+     * @param symbol symbol
+     * @param leverage leverage setting
      * @throws IOException
      * @throws BinanceException
      */
@@ -360,6 +356,25 @@ public interface BinanceFuturesAuthenticated extends BinanceAuthenticated {
     BinanceFuturesInitialLeverage changeInitialLeverage(
             @FormParam("symbol") String symbol,
             @FormParam("leverage") Integer leverage,
+            @FormParam("recvWindow") Long recvWindow,
+            @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+            @HeaderParam(X_MBX_APIKEY) String apiKey,
+            @QueryParam(SIGNATURE) ParamsDigest signature)
+            throws IOException, BinanceException;
+
+    /**
+     * Change user's initial leverage of specific symbol market.
+     *
+     * @param symbol symbol
+     * @param marginType marginType
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @POST
+    @Path("/fapi/v1/marginType")
+    Map<?, ?> changeMarginType(
+            @FormParam("symbol") String symbol,
+            @FormParam("marginType") BinanceMarginType marginType,
             @FormParam("recvWindow") Long recvWindow,
             @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
             @HeaderParam(X_MBX_APIKEY) String apiKey,

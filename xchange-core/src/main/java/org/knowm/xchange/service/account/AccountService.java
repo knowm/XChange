@@ -13,6 +13,7 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.service.account.params.AccountLeverageParams;
+import org.knowm.xchange.service.account.params.AccountMarginParams;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
@@ -209,12 +210,21 @@ public interface AccountService extends BaseService {
   }
 
   /**
-   * Change account initial leverage of specific symbol market.
+   * Change account leverage
    *
    * @param params account leverage params
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default void setLeverage(AccountLeverageParams params) throws IOException {
     throw new NotYetImplementedForExchangeException("setLeverage");
+  }
+
+  /**
+   * Change account margin type
+   * @param params account margin params
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default void setMargin(AccountMarginParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException("setMarginType");
   }
 }
