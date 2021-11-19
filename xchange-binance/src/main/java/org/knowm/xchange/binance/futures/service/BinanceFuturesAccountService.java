@@ -4,15 +4,15 @@ import org.knowm.xchange.binance.*;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.futures.BinanceFuturesAdapter;
 import org.knowm.xchange.binance.futures.BinanceFuturesAuthenticated;
-import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesInitialLeverage;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAccountInformation;
 import org.knowm.xchange.binance.futures.dto.account.BinanceUserCommissionRate;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.AccountLeverageSetting;
 import org.knowm.xchange.dto.account.Fee;
+import org.knowm.xchange.service.account.params.AccountLeverageParams;
+import org.knowm.xchange.service.account.params.AccountLeverageParamsCurrencyPair;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -77,12 +77,17 @@ public class BinanceFuturesAccountService extends BinanceAccountService {
     }
 
     @Override
-    public AccountLeverageSetting setInitialLeverage(AccountLeverageSetting setting) throws IOException {
+    public void setLeverage(AccountLeverageParams params) throws IOException {
+        if (!(params instanceof AccountLeverageParamsCurrencyPair))
+            throw new IllegalArgumentException("object '" + params + "' is not an instance of '" + AccountLeverageParamsCurrencyPair.class.getName() + "' class");
+
+        final AccountLeverageParamsCurrencyPair leverageParams = (AccountLeverageParamsCurrencyPair) params;
+
         try {
-            BinanceFuturesInitialLeverage response = decorateApiCall(
+            decorateApiCall(
                     () -> binanceFutures.changeInitialLeverage(
-                            setting.getPair() != null ? BinanceAdapters.toSymbol(setting.getPair()) : null,
-                            setting.getLeverage(),
+                            BinanceAdapters.toSymbol(leverageParams.getPair()),
+                            params.getLeverage(),
                             getRecvWindow(),
                             getTimestampFactory(),
                             apiKey,
@@ -90,10 +95,6 @@ public class BinanceFuturesAccountService extends BinanceAccountService {
                     .withRetry(retry("setInitialLeverage"))
                     .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
                     .call();
-            return new AccountLeverageSetting.Builder()
-                    .leverage(response.leverage)
-                    .pair(BinanceAdapters.adaptSymbol(response.symbol))
-                    .build();
         } catch (BinanceException e) {
             throw BinanceErrorAdapter.adapt(e);
         }

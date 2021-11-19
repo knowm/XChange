@@ -1,21 +1,26 @@
 package org.knowm.xchange.service.account;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.AddressWithTag;
+import org.knowm.xchange.dto.account.Fee;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.BaseService;
+import org.knowm.xchange.service.account.params.AccountLeverageParams;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Interface to provide the following to {@link Exchange}:
@@ -206,11 +211,10 @@ public interface AccountService extends BaseService {
   /**
    * Change account initial leverage of specific symbol market.
    *
-   * @param setting represents initial leverage
-   * @return account leverage setting
+   * @param params account leverage params
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default AccountLeverageSetting setInitialLeverage(AccountLeverageSetting setting) throws IOException {
-    throw new NotYetImplementedForExchangeException("setInitialLeverage");
+  default void setLeverage(AccountLeverageParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException("setLeverage");
   }
 }

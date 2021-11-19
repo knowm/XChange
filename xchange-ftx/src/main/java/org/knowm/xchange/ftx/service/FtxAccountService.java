@@ -1,13 +1,12 @@
 package org.knowm.xchange.ftx.service;
 
-import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.AccountLeverageSetting;
 import org.knowm.xchange.ftx.FtxAdapters;
-import org.knowm.xchange.ftx.FtxException;
-import org.knowm.xchange.ftx.dto.account.FtxLeverageDto;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.account.params.AccountLeverageParams;
+
+import java.io.IOException;
 
 public class FtxAccountService extends FtxAccountServiceRaw implements AccountService {
 
@@ -26,17 +25,7 @@ public class FtxAccountService extends FtxAccountServiceRaw implements AccountSe
   }
 
   @Override
-  public AccountLeverageSetting setInitialLeverage(AccountLeverageSetting setting) throws IOException {
-      try {
-        ftx.changeLeverage(
-                exchange.getExchangeSpecification().getApiKey(),
-                exchange.getNonceFactory().createValue(),
-                signatureCreator,
-                null,
-                new FtxLeverageDto(setting.getLeverage()));
-        return new AccountLeverageSetting.Builder().leverage(setting.getLeverage()).build();
-      } catch (FtxException e) {
-        throw new FtxException(e.getMessage());
-      }
-    }
+  public void setLeverage(AccountLeverageParams params) throws IOException {
+    setLeverage(exchange.getExchangeSpecification().getUserName(), params.getLeverage());
+  }
 }
