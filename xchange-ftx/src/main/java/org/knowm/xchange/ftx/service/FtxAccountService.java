@@ -1,10 +1,12 @@
 package org.knowm.xchange.ftx.service;
 
-import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.account.params.AccountLeverageParams;
+
+import java.io.IOException;
 
 public class FtxAccountService extends FtxAccountServiceRaw implements AccountService {
 
@@ -22,5 +24,10 @@ public class FtxAccountService extends FtxAccountServiceRaw implements AccountSe
         getFtxAccountInformation(subaccount),
         getFtxWalletBalances(subaccount),
         exchange.getTradeService().getOpenPositions().getOpenPositions());
+  }
+
+  @Override
+  public void setLeverage(AccountLeverageParams params) throws IOException {
+    setLeverage(exchange.getExchangeSpecification().getUserName(), params.getLeverage());
   }
 }

@@ -1,7 +1,6 @@
 package org.knowm.xchange.ftx.service;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ftx.FtxException;
@@ -121,15 +120,15 @@ public class FtxAccountServiceRaw extends FtxBaseService {
     }
   }
 
-  public FtxResponse<FtxLeverageDto> changeLeverage(String subaccount, int leverage)
-      throws FtxException, IOException {
+  public FtxResponse<FtxLeverageDto> setLeverage(String subaccount, int leverage)
+          throws FtxException, IOException {
     try {
       return ftx.changeLeverage(
-          exchange.getExchangeSpecification().getApiKey(),
-          exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          null,
-          new FtxLeverageDto(leverage));
+              exchange.getExchangeSpecification().getApiKey(),
+              exchange.getNonceFactory().createValue(),
+              signatureCreator,
+              subaccount,
+              new FtxLeverageDto(leverage));
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }
