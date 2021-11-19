@@ -3,17 +3,21 @@ package info.bitrich.xchangestream.binance.futures;
 import com.google.common.util.concurrent.RateLimiter;
 import info.bitrich.xchangestream.binance.BinanceStreamingMarketDataService;
 import info.bitrich.xchangestream.binance.BinanceStreamingService;
-import info.bitrich.xchangestream.binance.BinanceSubscriptionType;
-import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.DepthBinanceWebSocketTransaction;
 import io.reactivex.rxjava3.core.Flowable;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
+import org.knowm.xchange.binance.futures.BinanceFuturesAdapter;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
+import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +30,50 @@ public class BinanceFuturesStreamingMarketDataService extends BinanceStreamingMa
 
     public BinanceFuturesStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService, Runnable onApiCall, String orderBookUpdateFrequencyParameter) {
         super(service, marketDataService, onApiCall, orderBookUpdateFrequencyParameter);
+    }
+
+    @Override
+    public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+        throw new NotAvailableFromExchangeException("getOrderBook");
+    }
+
+    @Override
+    public Flowable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
+        if (instrument instanceof FuturesContract) {
+            FuturesContract futuresContract = (FuturesContract) instrument;
+            return super.getOrderBook(futuresContract.getCurrencyPair(), args);
+        }
+        throw new NotAvailableFromExchangeException("getOrderBook");
+    }
+
+    @Override
+    public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+        throw new NotAvailableFromExchangeException("getTicker");
+    }
+
+    @Override
+    public Flowable<Ticker> getTicker(Instrument instrument, Object... args) {
+        if (instrument instanceof FuturesContract) {
+            FuturesContract futuresContract = (FuturesContract) instrument;
+            return super.getTicker(futuresContract.getCurrencyPair(), args)
+                    .map(t -> BinanceFuturesAdapter.replaceInstrument(t, futuresContract));
+        }
+        throw new NotAvailableFromExchangeException("getTicker");
+    }
+
+    @Override
+    public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+        throw new NotAvailableFromExchangeException("getTrades");
+    }
+    
+    @Override
+    public Flowable<Trade> getTrades(Instrument instrument, Object... args) {
+        if (instrument instanceof FuturesContract) {
+            FuturesContract futuresContract = (FuturesContract) instrument;
+            return super.getTrades(futuresContract.getCurrencyPair(), args)
+                    .map(t -> Trade.Builder.from(t).instrument(futuresContract).build());
+        }
+        throw new NotAvailableFromExchangeException("getTrades");
     }
 
     protected Flowable<OrderBook> createOrderBookFlowable(CurrencyPair currencyPair) {
@@ -90,7 +138,7 @@ public class BinanceFuturesStreamingMarketDataService extends BinanceStreamingMa
                 // happen and is normal.
                 .map(
                         depth -> {
-                            extractOrderBookUpdates(currencyPair, depth)
+                            extractOrderBookUpdates(new FuturesContract(currencyPair, null), depth)
                                     .forEach(it -> subscription.orderBook.update(it));
                             return subscription.orderBook;
                         })
@@ -123,7 +171,7 @@ public class BinanceFuturesStreamingMarketDataService extends BinanceStreamingMa
                 BinanceOrderbook book = fetchBinanceOrderBook(currencyPair);
                 snapshotLastUpdateId.set(book.lastUpdateId);
                 lastUpdateId.set(book.lastUpdateId);
-                orderBook = BinanceMarketDataService.convertOrderBook(book, currencyPair);
+                orderBook = BinanceMarketDataService.convertOrderBook(book, new FuturesContract(currencyPair, null));
             } catch (Exception e) {
                 LOG.error("Failed to fetch initial order book for " + currencyPair, e);
                 snapshotLastUpdateId.set(0);
