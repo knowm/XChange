@@ -10,10 +10,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
-import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
-import org.knowm.xchange.okex.v5.dto.account.OkexDepositAddress;
-import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
-import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
+import org.knowm.xchange.okex.v5.dto.account.*;
 import org.knowm.xchange.utils.DateUtils;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
@@ -121,6 +118,29 @@ public class OkexAccountServiceRaw extends OkexBaseService {
                               .getExchangeSpecificParametersItem("simulated")))
           .withRateLimiter(rateLimiter(tradeFeePath))
           .call();
+    } catch (OkexException e) {
+      throw handleError(e);
+    }
+  }
+
+  public OkexResponse<List<OkexAccountConfig>> getOkexAccountConfiguration() throws OkexException, IOException {
+    try {
+      return decorateApiCall(
+              () ->
+                      okexAuthenticated.getAccountConfiguration(
+                              exchange.getExchangeSpecification().getApiKey(),
+                              signatureCreator,
+                              DateUtils.toUTCISODateString(new Date()),
+                              (String)
+                                      exchange
+                                              .getExchangeSpecification()
+                                              .getExchangeSpecificParametersItem("passphrase"),
+                              (String)
+                                      exchange
+                                              .getExchangeSpecification()
+                                              .getExchangeSpecificParametersItem("simulated")))
+              .withRateLimiter(rateLimiter(currenciesPath))
+              .call();
     } catch (OkexException e) {
       throw handleError(e);
     }
