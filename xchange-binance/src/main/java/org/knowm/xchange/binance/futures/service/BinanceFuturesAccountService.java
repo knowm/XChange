@@ -8,6 +8,7 @@ import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAccountInform
 import org.knowm.xchange.binance.futures.dto.account.BinanceUserCommissionRate;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.account.params.BinanceAccountMarginParams;
+import org.knowm.xchange.binance.service.account.params.BinanceAccountPositionMarginParams;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -15,6 +16,7 @@ import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.service.account.params.AccountLeverageParams;
 import org.knowm.xchange.service.account.params.AccountLeverageParamsCurrencyPair;
 import org.knowm.xchange.service.account.params.AccountMarginParams;
+import org.knowm.xchange.service.account.params.AccountPositionMarginParams;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -103,7 +105,7 @@ public class BinanceFuturesAccountService extends BinanceAccountService {
     }
 
     @Override
-    public void setMargin(AccountMarginParams params) throws IOException {
+    public void setMarginType(AccountMarginParams params) throws IOException {
         if (!(params instanceof BinanceAccountMarginParams))
             throw new IllegalArgumentException("object '" + params + "' is not an instance of '" + BinanceAccountMarginParams.class.getName() + "' class");
 
@@ -114,6 +116,32 @@ public class BinanceFuturesAccountService extends BinanceAccountService {
                     () -> binanceFutures.changeMarginType(
                             BinanceAdapters.toSymbol(marginParams.getPair()),
                             marginParams.getMarginType(),
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            apiKey,
+                            signatureCreator))
+                    .withRetry(retry("setMargin"))
+                    .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+                    .call();
+        } catch (BinanceException e) {
+            throw BinanceErrorAdapter.adapt(e);
+        }
+    }
+
+    @Override
+    public void setIsolatedPositionMargin(AccountPositionMarginParams params) throws IOException {
+        if (!(params instanceof BinanceAccountMarginParams))
+            throw new IllegalArgumentException("object '" + params + "' is not an instance of '" + BinanceAccountPositionMarginParams.class.getName() + "' class");
+
+        final BinanceAccountPositionMarginParams marginParams = (BinanceAccountPositionMarginParams) params;
+
+        try {
+            decorateApiCall(
+                    () -> binanceFutures.modifyIsolatedPositionMargin(
+                            BinanceAdapters.toSymbol(marginParams.getPair()),
+                            marginParams.getSide(),
+                            marginParams.getAmount(),
+                            marginParams.getType().getValue(),
                             getRecvWindow(),
                             getTimestampFactory(),
                             apiKey,

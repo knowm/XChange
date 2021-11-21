@@ -11,7 +11,7 @@ public enum BinanceMarginType {
         try {
             return BinanceMarginType.valueOf(s);
         } catch (Exception e) {
-            throw new RuntimeException("Unknown order type " + s + ".");
+            throw new RuntimeException("Unknown margin type " + s + ".");
         }
     }
 }

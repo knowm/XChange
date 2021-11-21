@@ -14,6 +14,7 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.service.account.params.AccountLeverageParams;
 import org.knowm.xchange.service.account.params.AccountMarginParams;
+import org.knowm.xchange.service.account.params.AccountPositionMarginParams;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
@@ -224,7 +225,16 @@ public interface AccountService extends BaseService {
    * @param params account margin params
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default void setMargin(AccountMarginParams params) throws IOException {
+  default void setMarginType(AccountMarginParams params) throws IOException {
     throw new NotYetImplementedForExchangeException("setMarginType");
+  }
+
+  /**
+   * change isolated position margin
+   * @param params position margin params
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default void setIsolatedPositionMargin(AccountPositionMarginParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException("setIsolatedPositionMargin");
   }
 }

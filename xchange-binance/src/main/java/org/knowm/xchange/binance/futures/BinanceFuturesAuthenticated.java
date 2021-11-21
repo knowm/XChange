@@ -2,6 +2,8 @@ package org.knowm.xchange.binance.futures;
 
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.dto.BinanceException;
+import org.knowm.xchange.binance.dto.account.BinanceMarginPositionSide;
+import org.knowm.xchange.binance.dto.account.BinanceMarginPositionType;
 import org.knowm.xchange.binance.dto.account.BinanceMarginType;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
@@ -15,6 +17,7 @@ import org.knowm.xchange.binance.futures.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import javax.annotation.Nullable;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -380,4 +383,28 @@ public interface BinanceFuturesAuthenticated extends BinanceAuthenticated {
             @HeaderParam(X_MBX_APIKEY) String apiKey,
             @QueryParam(SIGNATURE) ParamsDigest signature)
             throws IOException, BinanceException;
+
+    /**
+     * Modify isolated position margin
+     * Note: Only for isolated symbol
+     * @param symbol symbol
+     * @param positionSide both/long/short position side
+     * @param amount optional
+     * @param type add/reduce position margin
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @POST
+    @Path("/fapi/v1/positionMargin")
+    Map<?, ?> modifyIsolatedPositionMargin(
+            @FormParam("symbol") String symbol,
+            @FormParam("positionSide") BinanceMarginPositionSide positionSide,
+            @FormParam("amount") BigDecimal amount,
+            @FormParam("type") int type,
+            @FormParam("recvWindow") Long recvWindow,
+            @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+            @HeaderParam(X_MBX_APIKEY) String apiKey,
+            @QueryParam(SIGNATURE) ParamsDigest signature)
+            throws IOException, BinanceException;
+
 }
