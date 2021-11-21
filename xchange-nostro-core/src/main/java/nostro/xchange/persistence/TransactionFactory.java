@@ -30,7 +30,7 @@ public class TransactionFactory {
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         HDS = new HikariDataSource(config);
 
-        Flyway flyway = Flyway.configure().dataSource(HDS).load();
+        Flyway flyway = Flyway.configure().dataSource(HDS).baselineOnMigrate(true).load();
         flyway.migrate();
     }
 
