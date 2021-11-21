@@ -58,7 +58,8 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
       BigDecimal price,
       String newClientOrderId,
       BigDecimal stopPrice,
-      BigDecimal icebergQty)
+      BigDecimal icebergQty,
+      BinanceNewOrder.NewOrderResponseType newOrderRespType)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
@@ -72,6 +73,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
                     newClientOrderId,
                     stopPrice,
                     icebergQty,
+                    newOrderRespType,
                     getRecvWindow(),
                     getTimestampFactory(),
                     apiKey,
@@ -115,7 +117,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public BinanceOrder orderStatus(CurrencyPair pair, long orderId, String origClientOrderId)
+  public BinanceOrder orderStatus(CurrencyPair pair, Long orderId, String origClientOrderId)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
@@ -133,7 +135,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
   }
 
   public BinanceCancelledOrder cancelOrder(
-      CurrencyPair pair, long orderId, String origClientOrderId, String newClientOrderId)
+      CurrencyPair pair, Long orderId, String origClientOrderId, String newClientOrderId)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
@@ -184,16 +186,17 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
   }
 
   public List<BinanceTrade> myTrades(
-      CurrencyPair pair, Integer limit, Long startTime, Long endTime, Long fromId)
+      CurrencyPair pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit)
       throws BinanceException, IOException {
     return decorateApiCall(
             () ->
                 binance.myTrades(
                     BinanceAdapters.toSymbol(pair),
-                    limit,
+                    orderId,
                     startTime,
                     endTime,
                     fromId,
+                    limit,
                     getRecvWindow(),
                     getTimestampFactory(),
                     apiKey,
