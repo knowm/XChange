@@ -14,8 +14,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import com.fasterxml.jackson.databind.JsonNode;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
+import org.knowm.xchange.okex.v5.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexOrderbook;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexTrade;
@@ -58,4 +61,15 @@ public interface Okex {
       @QueryParam("sz") int depth,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
       throws IOException, OkexException;
+
+  @GET
+  @Path("/market/history-candles")
+  OkexResponse<List<OkexCandleStick>> getHistoryCandles(
+          @QueryParam("instId") String instrument,
+          @QueryParam("after") String after,
+          @QueryParam("before") String before,
+          @QueryParam("bar") String bar,
+          @QueryParam("limit") String limit,
+          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+          throws IOException, OkexException;
 }
