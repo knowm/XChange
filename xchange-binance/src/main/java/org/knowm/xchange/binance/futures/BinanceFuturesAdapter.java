@@ -7,17 +7,20 @@ import org.knowm.xchange.binance.futures.dto.trade.PositionSide;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +39,7 @@ public class BinanceFuturesAdapter {
         List<OpenPosition> openPositions =
                 account.positions.stream()
                         .map(p -> new OpenPosition(
-                                BinanceAdapters.adaptSymbol(p.symbol),
+                                new FuturesContract(BinanceAdapters.adaptSymbol(p.symbol), null),
                                 adaptPositionType(p.positionSide),
                                 p.positionAmt,
                                 p.entryPrice
@@ -52,15 +55,15 @@ public class BinanceFuturesAdapter {
 
     public static Order adaptOrder(BinanceFuturesOrder order) {
         Order.OrderType type = BinanceAdapters.convert(order.side);
-        CurrencyPair currencyPair = BinanceAdapters.adaptSymbol(order.symbol);
+        FuturesContract futuresContract = new FuturesContract(BinanceAdapters.adaptSymbol(order.symbol), null);
         Order.Builder builder;
         if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
-            builder = new MarketOrder.Builder(type, currencyPair);
+            builder = new MarketOrder.Builder(type, futuresContract);
         } else if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT)
                 || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT_MAKER)) {
-            builder = new LimitOrder.Builder(type, currencyPair).limitPrice(order.price);
+            builder = new LimitOrder.Builder(type, futuresContract).limitPrice(order.price);
         } else {
-            builder = new StopOrder.Builder(type, currencyPair).stopPrice(order.stopPrice);
+            builder = new StopOrder.Builder(type, futuresContract).stopPrice(order.stopPrice);
         }
         builder
                 .orderStatus(BinanceAdapters.adaptOrderStatus(order.status))
@@ -74,5 +77,54 @@ public class BinanceFuturesAdapter {
             builder.flag(BinanceTradeService.BinanceOrderFlags.withClientId(order.clientOrderId)); // backward compatibility
         }
         return builder.build();
+    }
+
+  public static Ticker replaceInstrument(Ticker ticker, FuturesContract futuresContract) {
+    return new Ticker.Builder()
+        .instrument(futuresContract)
+        .open(ticker.getOpen())
+        .last(ticker.getLast())
+        .bid(ticker.getBid())
+        .ask(ticker.getAsk())
+        .high(ticker.getHigh())
+        .low(ticker.getLow())
+        .vwap(ticker.getVwap())
+        .volume(ticker.getVolume())
+        .quoteVolume(ticker.getQuoteVolume())
+        .timestamp(ticker.getTimestamp())
+        .bidSize(ticker.getBidSize())
+        .askSize(ticker.getAskSize())
+        .percentageChange(ticker.getPercentageChange())
+        .build();
+  }
+
+  public static OrderBook replaceInstrument(OrderBook orderBook, FuturesContract futuresContract) {
+    return new OrderBook(
+        orderBook.getTimeStamp(),
+        orderBook.getAsks().stream()
+            .map(order -> LimitOrder.Builder.from(order).instrument(futuresContract).build()),
+        orderBook.getBids().stream()
+            .map(order -> LimitOrder.Builder.from(order).instrument(futuresContract).build()),
+        false);
+  }
+
+  public static Trades replaceInstrument(Trades trades, FuturesContract futuresContract) {
+    return new Trades(
+        trades.getTrades().stream()
+            .map(t -> Trade.Builder.from(t).instrument(futuresContract).build())
+            .collect(Collectors.toList()),
+        trades.getTradeSortType());
+  }
+
+    public static MarketOrder replaceInstrument(MarketOrder market, CurrencyPair pair) {
+        return MarketOrder.Builder.from(market).instrument(pair).build();
+    }
+
+    public static LimitOrder replaceInstrument(LimitOrder limit, CurrencyPair pair) {
+        return LimitOrder.Builder.from(limit).instrument(pair).build();
+    }
+
+    public static StopOrder replaceInstrument(StopOrder stop, CurrencyPair pair) {
+        return StopOrder.Builder.from(stop).instrument(pair).build();
     }
 }

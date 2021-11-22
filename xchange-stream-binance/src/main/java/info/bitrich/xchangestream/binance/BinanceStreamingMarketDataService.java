@@ -27,6 +27,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
+import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -408,7 +409,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   protected Stream<OrderBookUpdate> extractOrderBookUpdates(
-          CurrencyPair currencyPair, DepthBinanceWebSocketTransaction depthTransaction) {
+          Instrument instrument, DepthBinanceWebSocketTransaction depthTransaction) {
     BinanceOrderbook orderBookDiff = depthTransaction.getOrderBook();
 
     Stream<OrderBookUpdate> bidStream =
@@ -418,7 +419,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                     new OrderBookUpdate(
                         OrderType.BID,
                         entry.getValue(),
-                        currencyPair,
+                        instrument,
                         entry.getKey(),
                         depthTransaction.getEventTime(),
                         entry.getValue()));
@@ -430,7 +431,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                     new OrderBookUpdate(
                         OrderType.ASK,
                         entry.getValue(),
-                        currencyPair,
+                        instrument,
                         entry.getKey(),
                         depthTransaction.getEventTime(),
                         entry.getValue()));

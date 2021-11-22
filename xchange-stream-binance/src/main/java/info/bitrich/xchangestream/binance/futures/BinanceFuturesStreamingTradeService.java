@@ -2,7 +2,6 @@ package info.bitrich.xchangestream.binance.futures;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.binance.BinanceStreamingTradeService;
 import info.bitrich.xchangestream.binance.BinanceUserDataStreamingService;
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction;
@@ -14,13 +13,15 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.processors.FlowableProcessor;
 import io.reactivex.rxjava3.processors.PublishProcessor;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 public class BinanceFuturesStreamingTradeService implements StreamingTradeService {
 
@@ -50,7 +51,15 @@ public class BinanceFuturesStreamingTradeService implements StreamingTradeServic
 
     @Override
     public Flowable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
-        return getOrderChanges().filter(oc -> currencyPair.equals(oc.getCurrencyPair()));
+        throw new NotAvailableFromExchangeException("getOrderChanges");
+    }
+
+    @Override
+    public Flowable<Order> getOrderChanges(Instrument instrument, Object... args) {
+        if (instrument instanceof FuturesContract) {
+            return getOrderChanges().filter(oc -> instrument.equals(oc.getInstrument()));
+        }
+        throw new NotAvailableFromExchangeException("getOrderChanges");
     }
 
     public Flowable<UserTrade> getUserTrades() {
@@ -61,7 +70,15 @@ public class BinanceFuturesStreamingTradeService implements StreamingTradeServic
 
     @Override
     public Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
-        return getUserTrades().filter(t -> t.getCurrencyPair().equals(currencyPair));
+        throw new NotAvailableFromExchangeException("getUserTrades");
+    }
+
+    @Override
+    public Flowable<UserTrade> getUserTrades(Instrument instrument, Object... args) {
+        if (instrument instanceof FuturesContract) {
+            return getUserTrades().filter(t -> instrument.equals(t.getInstrument()));
+        }
+        throw new NotAvailableFromExchangeException("getUserTrades");
     }
 
     /**
