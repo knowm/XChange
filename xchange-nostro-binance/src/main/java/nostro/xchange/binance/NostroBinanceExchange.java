@@ -90,6 +90,7 @@ public class NostroBinanceExchange extends BinanceStreamingExchange {
         spec.setPort(inner.getPort());
         spec.setExchangeName(inner.getExchangeName());
         spec.setExchangeDescription(inner.getExchangeDescription());
+        spec.setShouldLoadRemoteMetaData(inner.isShouldLoadRemoteMetaData());
         AuthUtils.setApiAndSecretKey(spec, "binance");
         
         spec.setExchangeSpecificParametersItem(P_SYNC_DELAY, "300");
