@@ -1,10 +1,17 @@
 package org.knowm.xchange.okex.v5.service;
 
-import static org.knowm.xchange.okex.v5.OkexAuthenticated.*;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.amendBatchOrderPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.amendOrderPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.cancelBatchOrderPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.cancelOrderPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.orderDetailsPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.placeBatchOrderPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.placeOrderPath;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
@@ -14,6 +21,7 @@ import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderResponse;
+import org.knowm.xchange.okex.v5.dto.trade.OkexPriceLimit;
 import org.knowm.xchange.utils.DateUtils;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
@@ -278,5 +286,14 @@ public class OkexTradeServiceRaw extends OkexBaseService {
     } catch (OkexException e) {
       throw handleError(e);
     }
+  }
+
+  public OkexPriceLimit getOkexPriceLimits(String instrument) throws OkexException, IOException {
+    return okex.getFuturesPriceLimits(
+            instrument,
+            (String)
+                exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"))
+        .getData()
+        .get(0);
   }
 }

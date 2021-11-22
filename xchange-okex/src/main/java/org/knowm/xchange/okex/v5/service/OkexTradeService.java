@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -18,6 +19,7 @@ import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderResponse;
+import org.knowm.xchange.okex.v5.dto.trade.OkexPriceLimit;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
@@ -35,6 +37,10 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   public OpenOrders getOpenOrders() throws IOException {
     return OkexAdapters.adaptOpenOrders(
         getOkexPendingOrder(null, null, null, null, null, null, null, null).getData());
+  }
+
+  public OkexPriceLimit getFuturesPriceLimits(Instrument instrument) throws IOException {
+    return getOkexPriceLimits(OkexAdapters.adaptCurrencyPairId(instrument));
   }
 
   public Order getOrder(OrderQueryParams orderQueryParams) throws IOException {
@@ -124,7 +130,8 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
   public List<Boolean> cancelOrder(List<CancelOrderParams> params) throws IOException {
     return cancelOkexOrder(
-            params.stream()
+            params
+                .stream()
                 .map(
                     param ->
                         OkexCancelOrderRequest.builder()
