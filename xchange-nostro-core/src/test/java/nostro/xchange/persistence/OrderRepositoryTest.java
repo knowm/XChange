@@ -164,6 +164,26 @@ public class OrderRepositoryTest extends DataSourceTest {
     }
 
     @Test
+    public void updateCreatedById() throws SQLException {
+        String id = NostroUtils.randomUUID();
+        OrderEntity existing = new OrderEntity.Builder()
+                .id(id)
+                .instrument("BTC/USDT")
+                .document("{\"price\": 0, \"amount\": 0}")
+                .terminal(false)
+                .created(new Timestamp(0))
+                .updated(new Timestamp(0))
+                .build();
+        repository.insert(existing);
+
+        repository.updateCreatedById(id, new Timestamp(10_000));
+
+        Optional<OrderEntity> order = repository.findById(id);
+        assertThat(order.isPresent()).isTrue();
+        assertThat(order.get().getCreated()).isEqualTo(new Timestamp(10_000));
+    }
+
+    @Test
     public void findAllOpenAndByInstrument() throws Exception {
         TransactionFactory factory = TransactionFactory.get("test", "open_orders");
 

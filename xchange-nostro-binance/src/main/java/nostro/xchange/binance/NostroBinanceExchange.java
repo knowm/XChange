@@ -208,6 +208,9 @@ public class NostroBinanceExchange extends BinanceStreamingExchange {
         Optional<OrderEntity> orderEntity = tx.getOrderRepository().lockById(orderId);
         if (orderEntity.isPresent()) {
             if (ExecutionType.REJECTED != report.getExecutionType()) {
+                if (orderEntity.get().getCreated().before(created)) {
+                    tx.getOrderRepository().updateCreatedById(orderId, created);
+                }
                 tx.getOrderRepository().updateById(orderId, document, terminal, updated);
             }
         } else {
