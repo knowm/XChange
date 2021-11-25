@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -262,7 +264,7 @@ public class OkexAdapters {
                       new Balance.Builder()
                           .currency(new Currency(detail.getCurrency()))
                           .total(new BigDecimal(detail.getCashBalance()))
-                          .available(new BigDecimal(detail.getAvailableBalance()))
+                          .available(checkForEmpty(detail.getAvailableBalance()))
                           .timestamp(new Date())
                           .build())
               .collect(Collectors.toList());
@@ -283,7 +285,7 @@ public class OkexAdapters {
                     new Balance.Builder()
                         .currency(new Currency(detail.getCurrency()))
                         .total(new BigDecimal(detail.getBalance()))
-                        .available(new BigDecimal(detail.getAvailableBalance()))
+                        .available(checkForEmpty(detail.getAvailableBalance()))
                         .timestamp(new Date())
                         .build())
             .collect(Collectors.toList());
@@ -292,5 +294,9 @@ public class OkexAdapters {
         .id(FOUNDING_WALLET_ID)
         .features(new HashSet<>(Collections.singletonList(Wallet.WalletFeature.FUNDING)))
         .build();
+  }
+
+  private static BigDecimal checkForEmpty(String value){
+    return StringUtils.isEmpty(value) ? null : new BigDecimal(value);
   }
 }
