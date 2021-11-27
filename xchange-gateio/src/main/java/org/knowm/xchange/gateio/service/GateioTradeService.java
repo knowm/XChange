@@ -74,6 +74,11 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
   }
 
   @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[]{CancelOrderByIdParams.class, CancelOrderByCurrencyPair.class};
+  }
+
+  @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams
         && orderParams instanceof CancelOrderByCurrencyPair) {
