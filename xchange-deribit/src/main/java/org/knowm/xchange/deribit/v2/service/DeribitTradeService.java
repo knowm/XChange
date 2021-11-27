@@ -214,6 +214,13 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
   }
 
   @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[]{
+            CancelOrderByIdParams.class,
+            CancelOrderByUserReferenceParams.class};
+  }
+
+  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     String instrumentName = null;
     if (params instanceof TradeHistoryParamInstrument) {

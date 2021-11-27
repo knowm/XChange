@@ -121,6 +121,14 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
   }
 
   @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[]{
+            CancelOrderByIdParams.class,
+            CancelOrderByCurrencyPair.class,
+            CancelOrderByOrderTypeParams.class};
+  }
+
+  @Override
   public boolean cancelOrder(String orderId) throws IOException {
     return cancelOrder(new DefaultCancelOrderParamId(orderId));
   }

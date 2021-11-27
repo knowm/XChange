@@ -122,6 +122,11 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     }
   }
 
+  @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[]{CancelOrderByIdParams.class, CancelOrderByInstrument.class};
+  }
+
   public List<Boolean> cancelOrder(List<CancelOrderParams> params) throws IOException {
     return cancelOkexOrder(
             params.stream()
