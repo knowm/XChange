@@ -242,13 +242,15 @@ public final class GateioAdapters {
       currencyPairs.put(currencyPair, currencyPairMetaData);
     }
 
-    Map<String, GateioFeeInfo> gateioFees = marketDataService.getGateioFees();
-    Map<String, GateioCoin> coins = marketDataService.getGateioCoinInfo().getCoins();
-    for (String coin : coins.keySet()) {
-      GateioCoin gateioCoin = coins.get(coin);
-      GateioFeeInfo gateioFeeInfo = gateioFees.get(coin);
-      if (gateioCoin != null && gateioFeeInfo != null) {
-        currencies.put(new Currency(coin), adaptCurrencyMetaData(gateioCoin, gateioFeeInfo));
+    if(marketDataService.getApiKey() != null) {
+      Map<String, GateioFeeInfo> gateioFees = marketDataService.getGateioFees();
+      Map<String, GateioCoin> coins = marketDataService.getGateioCoinInfo().getCoins();
+      for (String coin : coins.keySet()) {
+        GateioCoin gateioCoin = coins.get(coin);
+        GateioFeeInfo gateioFeeInfo = gateioFees.get(coin);
+        if (gateioCoin != null && gateioFeeInfo != null) {
+          currencies.put(new Currency(coin), adaptCurrencyMetaData(gateioCoin, gateioFeeInfo));
+        }
       }
     }
 
