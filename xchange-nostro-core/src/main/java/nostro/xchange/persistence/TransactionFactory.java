@@ -19,11 +19,13 @@ public class TransactionFactory {
         String url = System.getProperty("xchange.db.url");
         String user = System.getProperty("xchange.db.user");
         String password = System.getProperty("xchange.db.password");
+        String driver = System.getProperty("xchange.db.driver");
 
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(url);
         config.setUsername(user);
         config.setPassword(password);
+        config.setDriverClassName(driver);
         config.setMaximumPoolSize(MAXIMUM_POOL_SIZE);
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");

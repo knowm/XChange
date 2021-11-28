@@ -18,6 +18,9 @@ public class OrderRepository {
     private static final String UPDATE_BY_EXTERNAL_ID_SQL =
             "UPDATE order$ SET document = ?, terminal = ?, updated = ? WHERE external_id = ?";
     
+    private static final String UPDATE_CREATED_BY_ID_SQL =
+            "UPDATE order$ SET created = ? WHERE id = ?";
+    
     private static final String FIND_BY_ID_SQL =
             "SELECT * FROM order$ WHERE id = ?";
     
@@ -84,6 +87,15 @@ public class OrderRepository {
             stmt.setString(4, id);
             stmt.executeUpdate();
         }
+    }
+
+
+    public void updateCreatedById(String id, Timestamp created) throws SQLException {
+        try(PreparedStatement stmt = prepareStatement(UPDATE_CREATED_BY_ID_SQL)) {
+            stmt.setTimestamp(1, created);
+            stmt.setString(2, id);
+            stmt.executeUpdate();
+        }    
     }
     
     public Optional<OrderEntity> findById(String id) throws SQLException {
