@@ -20,6 +20,7 @@ import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -250,8 +251,8 @@ public class FtxTradeServiceRaw extends FtxBaseService {
     }
   }
 
-  public OpenPositions getOpenPositionsForSubaccount(String subaccount) throws IOException {
-    return FtxAdapters.adaptOpenPositions(getFtxPositions(subaccount).getResult());
+  public OpenPositions getOpenPositionsForSubaccount(String subaccount, BigDecimal leverage) throws IOException {
+    return FtxAdapters.adaptOpenPositions(getFtxPositions(subaccount).getResult(), leverage);
   }
 
   public FtxResponse<List<FtxPositionDto>> getFtxPositions(String subaccount)

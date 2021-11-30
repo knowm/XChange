@@ -36,6 +36,8 @@ public class Position {
   private BigDecimal maintenanceMargin;
   /** Instrument kind, "future" or "option" */
   private Kind kind;
+  /** Current available leverage for future position */
+  private BigDecimal leverage;
   /** Unique instrument identifier */
   @JsonProperty("instrument_name")
   private String instrumentName;

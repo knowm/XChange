@@ -3,10 +3,13 @@ package org.knowm.xchange.ftx.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.ftx.FtxAdapters;
+import org.knowm.xchange.ftx.dto.FtxResponse;
+import org.knowm.xchange.ftx.dto.account.FtxAccountDto;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.account.params.AccountLeverageParams;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 public class FtxAccountService extends FtxAccountServiceRaw implements AccountService {
 
@@ -20,10 +23,14 @@ public class FtxAccountService extends FtxAccountServiceRaw implements AccountSe
   }
 
   public AccountInfo getSubaccountInfo(String subaccount) throws IOException {
+    FtxResponse<FtxAccountDto> ftxAccountInformation = getFtxAccountInformation(subaccount);
+    BigDecimal leverage = ftxAccountInformation.getResult().getLeverage();
     return FtxAdapters.adaptAccountInfo(
-        getFtxAccountInformation(subaccount),
+        ftxAccountInformation,
         getFtxWalletBalances(subaccount),
-        exchange.getTradeService().getOpenPositions().getOpenPositions());
+        ((FtxTradeService) exchange.getTradeService())
+            .getOpenPositionsForSubaccount(subaccount, leverage)
+            .getOpenPositions());
   }
 
   @Override

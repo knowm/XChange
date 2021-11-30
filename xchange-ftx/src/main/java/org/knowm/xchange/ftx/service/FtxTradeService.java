@@ -16,6 +16,7 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstr
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collection;
 
 public class FtxTradeService extends FtxTradeServiceRaw implements TradeService {
@@ -84,7 +85,13 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
 
   @Override
   public OpenPositions getOpenPositions() throws IOException {
-    return getOpenPositionsForSubaccount(exchange.getExchangeSpecification().getUserName());
+    String subaccount = exchange.getExchangeSpecification().getUserName();
+    BigDecimal leverage =
+        ((FtxAccountService) exchange.getAccountService())
+            .getFtxAccountInformation(subaccount)
+            .getResult()
+            .getLeverage();
+    return getOpenPositionsForSubaccount(subaccount, leverage);
   }
 
   @Override

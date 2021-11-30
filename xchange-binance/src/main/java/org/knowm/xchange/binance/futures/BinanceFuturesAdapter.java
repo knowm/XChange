@@ -2,6 +2,7 @@ package org.knowm.xchange.binance.futures;
 
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAccountInformation;
+import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesPosition;
 import org.knowm.xchange.binance.futures.dto.trade.BinanceFuturesOrder;
 import org.knowm.xchange.binance.futures.dto.trade.PositionSide;
 import org.knowm.xchange.binance.service.BinanceTradeService;
@@ -21,6 +22,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -38,15 +41,23 @@ public class BinanceFuturesAdapter {
 
         List<OpenPosition> openPositions =
                 account.positions.stream()
-                        .map(p -> new OpenPosition(
-                                new FuturesContract(BinanceAdapters.adaptSymbol(p.symbol), null),
-                                adaptPositionType(p.positionSide),
-                                p.positionAmt,
-                                p.entryPrice
-                        ))
+                        .map(p -> new OpenPosition.Builder()
+                                .instrument(new FuturesContract(BinanceAdapters.adaptSymbol(p.symbol), null))
+                                .type(adaptPositionType(p.positionSide))
+                                .size(p.positionAmt)
+                                .price(p.entryPrice)
+                                .leverage(p.leverage)
+                                .marginRatio(getMarginRatio(p))
+                                .build())
                         .collect(Collectors.toList());
 
         return new AccountInfo(null, null, Collections.singleton(Wallet.Builder.from(balances).build()), openPositions, new Date(account.updateTime));
+    }
+
+    private static BigDecimal getMarginRatio(BinanceFuturesPosition p) {
+        return p.initialMargin == null || p.initialMargin.compareTo(BigDecimal.ZERO) == 0
+            ? null
+            : p.maintMargin.divide(p.initialMargin, p.initialMargin.scale(), RoundingMode.HALF_DOWN);
     }
 
     public static OpenPosition.Type adaptPositionType(PositionSide positionSide) {
