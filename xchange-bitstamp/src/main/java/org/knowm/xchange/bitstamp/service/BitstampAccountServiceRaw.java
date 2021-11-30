@@ -93,8 +93,6 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
             throws IOException {
         BitstampWithdrawal response;
 
-        amount = amount.setScale(5, RoundingMode.HALF_UP);
-
         if (currency.equals(Currency.XRP)) {
             Long dt = null;
             try {
