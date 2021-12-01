@@ -3,11 +3,13 @@ package nostro.xchange.utils;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -73,4 +75,25 @@ public class NostroUtilsTest {
         assertThat(((StopOrder) o).getIntention()).isEqualTo(StopOrder.Intention.TAKE_PROFIT);
     }
 
+    @Test
+    public void positionReadWrite() {
+        Date timestamp = new Date();
+        BigDecimal size = BigDecimal.TEN;
+        BigDecimal price = BigDecimal.ONE;
+        CurrencyPair instrument = CurrencyPair.BTC_USDT;
+
+        OpenPosition position = new OpenPosition.Builder()
+                .size(size)
+                .price(price)
+                .instrument(instrument)
+                .timestamp(timestamp).build();
+        String json = NostroUtils.writePositionDocument(position);
+        OpenPosition document = NostroUtils.readPositionDocument(json);
+
+        assertThat(document).isExactlyInstanceOf(OpenPosition.class);
+        assertThat(document.getSize()).isEqualTo(size);
+        assertThat(document.getPrice()).isEqualTo(price);
+        assertThat(document.getTimestamp()).isEqualTo(timestamp);
+        assertThat(document.getInstrument()).isEqualTo(instrument);
+    }
 }

@@ -27,8 +27,16 @@ public class AccountUpdateBinanceWebsocketTransaction
     this.updateData = updateData;
   }
 
+  public long getTransactionTime() {
+    return transactionTime;
+  }
+
+  public List<BinanceFuturesWebsocketBalance> getBalances() {
+    return updateData.getBalances();
+  }
+
   public List<Balance> toBalanceList() {
-    return updateData.getBalances().stream()
+    return getBalances().stream()
         .map(
             b ->
                 new Balance(

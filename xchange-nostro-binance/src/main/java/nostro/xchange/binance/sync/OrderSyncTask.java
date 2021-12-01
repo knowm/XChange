@@ -43,7 +43,7 @@ public class OrderSyncTask implements Callable<Long> {
 
                 for (BinanceOrder o : orders) {
                     if (syncOrder(o)) {
-                        syncService.publisher.publish(BinanceAdapters.adaptOrder(o));
+                        syncService.getPublisher().publish(BinanceAdapters.adaptOrder(o));
                         ++updated;
                     }
                 }    
@@ -58,7 +58,7 @@ public class OrderSyncTask implements Callable<Long> {
     }
 
     private boolean syncOrder(BinanceOrder binanceOrder) {
-        return syncService.txFactory.executeAndGet(tx -> {
+        return syncService.getTXFactory().executeAndGet(tx -> {
             String orderId = binanceOrder.clientOrderId;
             Optional<OrderEntity> o = tx.getOrderRepository().lockById(orderId);
             if (o.isPresent()) {

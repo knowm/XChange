@@ -50,7 +50,11 @@ public class TransactionFactory {
     private TransactionFactory(int accountId) {
         this.accountId = accountId;
     }
-    
+
+    public int getAccountId() {
+        return accountId;
+    }
+
     public static TransactionFactory get(String xchange, String externalId) throws SQLException {
         LOG.debug("Creating tx factory for Account({}, {})", xchange, externalId);
         

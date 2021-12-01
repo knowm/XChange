@@ -1,6 +1,7 @@
 package nostro.xchange.binance.sync;
 
 import nostro.xchange.persistence.TransactionFactory;
+import nostro.xchange.sync.SyncService;
 import nostro.xchange.utils.NostroStreamingPublisher;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
@@ -12,78 +13,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
 
-public class BinanceSyncService {
+public class BinanceSyncService extends SyncService {
     private static final Logger LOG = LoggerFactory.getLogger(BinanceSyncService.class);
     
-    private final long syncDelay;
-    
-    final TransactionFactory txFactory;
-    final NostroStreamingPublisher publisher;
-
     private final BinanceAccountService accountService;
     private final BinanceTradeService tradeService;
-    private final ScheduledExecutorService executor;
-
-    private ScheduledFuture<?> scheduled = null;
 
     public BinanceSyncService(TransactionFactory txFactory,
                               NostroStreamingPublisher publisher,
                               BinanceAccountService accountService,
                               BinanceTradeService tradeService,
                               long syncDelay) {
-        this.txFactory = txFactory;
-        this.publisher = publisher;
+        super(txFactory, publisher, syncDelay);
         this.accountService = accountService;
         this.tradeService = tradeService;
-        this.syncDelay = syncDelay;
-        this.executor = Executors.newScheduledThreadPool(1);
-
-        ((ScheduledThreadPoolExecutor) executor).setRemoveOnCancelPolicy(true);
     }
 
-    public synchronized void init() throws Exception {
-        LOG.info("BinanceSyncService starting initialization");
-        doSync();
-        
-        if (scheduled == null) {
-            scheduled = executor.scheduleWithFixedDelay(this::doSync2, syncDelay, syncDelay, TimeUnit.SECONDS);
-            LOG.info("BinanceSyncService initialized, sync task scheduled with delay={} sec", syncDelay);
-        }
-    }
-
-    public synchronized void connectionStateChanged(boolean connected) {
-        if (connected) {
-            if (scheduled == null) {
-                scheduled = executor.scheduleWithFixedDelay(this::doSync2, 0, syncDelay, TimeUnit.SECONDS);
-                LOG.info("BinanceSyncService connected, sync task scheduled");
-            }
-        } else {
-            if (scheduled != null) {
-                scheduled.cancel(false);
-                scheduled = null;
-                LOG.info("BinanceSyncService disconnected, sync task canceled");
-            }
-        }
-    }
-    
-    private void doSync() throws Exception {
-        try {
-            new SyncAllTask(this).call();
-        } catch (Throwable th) {
-            LOG.error("Sync failed", th);
-            throw th;
-        }
-    }
-
-    private void doSync2() {
-        try {
-            doSync();
-        } catch (Exception e) {
-            // do nothing, error logged inside "executeSync"
-        }
+    @Override
+    public List<Callable<?>> generateTasks() {
+        return Collections.singletonList(new SyncAllTask(this));
     }
 
     // BinanceAccountService API used in sync tasks

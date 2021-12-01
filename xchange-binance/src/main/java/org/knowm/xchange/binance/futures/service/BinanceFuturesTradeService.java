@@ -276,7 +276,7 @@ public class BinanceFuturesTradeService extends BinanceTradeService {
         }
     }
 
-    public BinanceFuturesOrder futuresOrderStatus(CurrencyPair pair, long orderId, String origClientOrderId)
+    public BinanceFuturesOrder futuresOrderStatus(CurrencyPair pair, Long orderId, String origClientOrderId)
             throws IOException, BinanceException {
         return decorateApiCall(
                 () ->
@@ -304,6 +304,24 @@ public class BinanceFuturesTradeService extends BinanceTradeService {
                                 signatureCreator))
                 .withRetry(retry("futuresOpenOrders"))
                 .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), openOrdersPermits(pair))
+                .call();
+    }
+
+    public List<BinanceFuturesOrder> futuresAllOrders(CurrencyPair pair, Integer limit, Long startTime, Long endTime, Long fromId) throws BinanceException, IOException {
+        return decorateApiCall(() ->
+                ((BinanceFuturesAuthenticated)binance).futuresAllOrders(
+                        Optional.ofNullable(pair).map(BinanceAdapters::toSymbol).orElse(null),
+                        limit,
+                        startTime,
+                        endTime,
+                        fromId,
+                        getRecvWindow(),
+                        getTimestampFactory(),
+                        apiKey,
+                        signatureCreator
+                ))
+                .withRetry(retry("futuresAllOrders"))
+                .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
                 .call();
     }
 

@@ -32,7 +32,7 @@ public class OpenOrderSyncTask implements Callable<Void> {
     public Void call() throws Exception {
         LOG.info("Starting OpenOrderSyncTask(symbol={}, toId={})", pair, toId);
 
-        List<OrderEntity> dbOrders = syncService.txFactory.executeAndGet(tx -> tx.getOrderRepository().findOpenByInstrument(pair.toString()));
+        List<OrderEntity> dbOrders = syncService.getTXFactory().executeAndGet(tx -> tx.getOrderRepository().findOpenByInstrument(pair.toString()));
         if (dbOrders.isEmpty()) {
             LOG.info("Finished OpenOrderSyncTask(symbol={}, toId={}): no open orders found in DB", pair, toId);
             return null;
@@ -53,7 +53,7 @@ public class OpenOrderSyncTask implements Callable<Void> {
                     }
 
                     if (syncOrder(binanceOrder)) {
-                        syncService.publisher.publish(BinanceAdapters.adaptOrder(binanceOrder));
+                        syncService.getPublisher().publish(BinanceAdapters.adaptOrder(binanceOrder));
                         ++updated;
                     }
                 }
@@ -62,11 +62,11 @@ public class OpenOrderSyncTask implements Callable<Void> {
                 LOG.warn("Trying to sync db order(id={}) with no external_id, service returned {}", e.getId(), binanceOrder);
                 if (binanceOrder != null) {
                     if (syncOrder(binanceOrder)) {
-                        syncService.publisher.publish(BinanceAdapters.adaptOrder(binanceOrder));
+                        syncService.getPublisher().publish(BinanceAdapters.adaptOrder(binanceOrder));
                         ++updated;
                     }
                 } else {
-                    syncService.publisher.publish(markRejected(e.getId()));
+                    syncService.getPublisher().publish(markRejected(e.getId()));
                     ++updated;
                 }
             }
@@ -77,7 +77,7 @@ public class OpenOrderSyncTask implements Callable<Void> {
     }
 
     private boolean syncOrder(BinanceOrder binanceOrder) {
-        return syncService.txFactory.executeAndGet(tx -> {
+        return syncService.getTXFactory().executeAndGet(tx -> {
             String orderId = String.valueOf(binanceOrder.clientOrderId);
             OrderEntity e = tx.getOrderRepository().lockById(orderId).get();
             
@@ -92,7 +92,7 @@ public class OpenOrderSyncTask implements Callable<Void> {
     }
 
     private Order markRejected(String id) {
-        return syncService.txFactory.executeAndGet(tx -> {
+        return syncService.getTXFactory().executeAndGet(tx -> {
             OrderEntity e = tx.getOrderRepository().lockById(id).get();
             LOG.info("Marking order(id={}) rejected", id);
             

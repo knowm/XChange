@@ -1,36 +1,34 @@
-package nostro.xchange.binance;
+package nostro.xchange.binance.futures;
 
-import info.bitrich.xchangestream.binance.BinanceStreamingAccountService;
-import info.bitrich.xchangestream.binance.BinanceStreamingExchange;
-import info.bitrich.xchangestream.binance.BinanceStreamingTradeService;
-import info.bitrich.xchangestream.binance.dto.BinanceWebsocketBalance;
-import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction;
-import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction.ExecutionType;
-import info.bitrich.xchangestream.binance.dto.OutboundAccountInfoBinanceWebsocketTransaction;
+import info.bitrich.xchangestream.binance.BinanceFuturesStreamingExchange;
+import info.bitrich.xchangestream.binance.futures.BinanceFuturesStreamingAccountService;
+import info.bitrich.xchangestream.binance.futures.BinanceFuturesStreamingTradeService;
+import info.bitrich.xchangestream.binance.futures.dto.AccountUpdateBinanceWebsocketTransaction;
+import info.bitrich.xchangestream.binance.futures.dto.OrderTradeUpdateBinanceUserTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import nostro.xchange.binance.sync.BinanceSyncService;
-import nostro.xchange.persistence.BalanceEntity;
-import nostro.xchange.persistence.OrderEntity;
-import nostro.xchange.persistence.Transaction;
+import nostro.xchange.binance.futures.sync.BinanceFuturesSyncService;
 import nostro.xchange.persistence.TransactionFactory;
 import nostro.xchange.utils.AccountDocument;
+import nostro.xchange.utils.InstrumentUtils;
 import nostro.xchange.utils.NostroStreamingPublisher;
 import nostro.xchange.utils.NostroUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.binance.service.BinanceAccountService;
-import org.knowm.xchange.binance.service.BinanceTradeService;
+import org.knowm.xchange.binance.futures.service.BinanceFuturesAccountService;
+import org.knowm.xchange.binance.futures.service.BinanceFuturesTradeService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.utils.AuthUtils;
@@ -38,24 +36,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class NostroBinanceExchange extends BinanceStreamingExchange {
-    private static final Logger LOG = LoggerFactory.getLogger(NostroBinanceExchange.class);
-    
+public class NostroBinanceFuturesExchange extends BinanceFuturesStreamingExchange {
+    private static final Logger LOG = LoggerFactory.getLogger(NostroBinanceFuturesExchange.class);
+
     private static final String P_SYNC_DELAY = "syncDelay";
-    
+
     private volatile TransactionFactory txFactory;
     private volatile NostroStreamingPublisher publisher;
-    private volatile NostroBinanceAccountService nostroAccountService;
-    private volatile NostroBinanceTradeService nostroTradeService;
-    private volatile BinanceSyncService syncService;
-    
+    private volatile NostroBinanceFuturesAccountService nostroAccountService;
+    private volatile NostroBinanceFuturesTradeService nostroTradeService;
+    private volatile BinanceFuturesSyncService syncService;
+
     private volatile AccountDocument account = null;
-    
+
     private Disposable tradeSubscription;
     private Disposable accountSubscription;
     private Disposable connectionStateSubscription;
@@ -92,23 +88,23 @@ public class NostroBinanceExchange extends BinanceStreamingExchange {
         spec.setExchangeDescription(inner.getExchangeDescription());
         spec.setShouldLoadRemoteMetaData(inner.isShouldLoadRemoteMetaData());
         AuthUtils.setApiAndSecretKey(spec, "binance");
-        
+
         spec.setExchangeSpecificParametersItem(P_SYNC_DELAY, "300");
-        
+
         return spec;
     }
 
     @Override
     protected void initServices() {
         super.initServices();
-        
+
         if (isAuthenticated()) {
             try {
                 this.publisher = new NostroStreamingPublisher();
                 this.txFactory = TransactionFactory.get(exchangeSpecification.getExchangeName(), exchangeSpecification.getUserName());
-                this.nostroAccountService = new NostroBinanceAccountService((BinanceAccountService) this.accountService, this.txFactory);
-                this.nostroTradeService = new NostroBinanceTradeService((BinanceTradeService) this.tradeService, this.txFactory);
-                this.syncService = new BinanceSyncService(txFactory, publisher, (BinanceAccountService) this.accountService, (BinanceTradeService) this.tradeService, getSyncDelay());
+                this.nostroAccountService = new NostroBinanceFuturesAccountService((BinanceFuturesAccountService) this.accountService, this.txFactory);
+                this.nostroTradeService = new NostroBinanceFuturesTradeService((BinanceFuturesTradeService) this.tradeService, this.txFactory);
+                this.syncService = new BinanceFuturesSyncService(txFactory, publisher, (BinanceFuturesAccountService) this.accountService, (BinanceFuturesTradeService) this.tradeService, getSyncDelay());
             } catch (Exception e) {
                 throw new ExchangeException("Unable to init", e);
             }
@@ -135,7 +131,7 @@ public class NostroBinanceExchange extends BinanceStreamingExchange {
             if (isAuthenticated()) {
                 updateSubscription(args[0]);
 
-                tradeSubscription = ((BinanceStreamingTradeService) super.getStreamingTradeService())
+                tradeSubscription = ((BinanceFuturesStreamingTradeService) super.getStreamingTradeService())
                         .getRawExecutionReports()
                         .doOnNext(this::onExecutionReport)
                         .doOnSubscribe(r -> LOG.info("Connected to BinanceExecutionReport"))
@@ -143,7 +139,7 @@ public class NostroBinanceExchange extends BinanceStreamingExchange {
                         .retry()
                         .subscribe();
 
-                accountSubscription = ((BinanceStreamingAccountService) super.getStreamingAccountService())
+                accountSubscription = ((BinanceFuturesStreamingAccountService) super.getStreamingAccountService())
                         .getRawAccountInfo()
                         .doOnNext(this::onAccountInfo)
                         .doOnSubscribe(r -> LOG.info("Connected to BinanceAccountInfo"))
@@ -164,7 +160,7 @@ public class NostroBinanceExchange extends BinanceStreamingExchange {
     @Override
     public Completable disconnect() {
         return super.disconnect().doOnComplete(() -> {
-            
+
             if (connectionStateSubscription != null) {
                 connectionStateSubscription.dispose();
                 connectionStateSubscription = null;
@@ -184,11 +180,14 @@ public class NostroBinanceExchange extends BinanceStreamingExchange {
             }
         });
     }
-    
-    private void onExecutionReport(ExecutionReportBinanceUserTransaction report) {
+
+    private void onExecutionReport(OrderTradeUpdateBinanceUserTransaction report) {
         try {
-            LOG.info("Received execution report, client_id={}", report.getClientOrderId());
-            Pair<Order, UserTrade> pair = txFactory.executeAndGet(tx -> saveExecutionReport(tx, report));
+            LOG.info("Received execution report, client_id={}", report.getOrderTradeUpdate().getClientOrderId());
+            Pair<Order, UserTrade> pair = nostroTradeService.saveExecutionReport(report);
+
+            tryUpdateSubscription(pair.getLeft());
+
             publisher.publish(pair.getLeft());
             if (pair.getRight() != null) {
                 publisher.publish(pair.getRight());
@@ -198,89 +197,27 @@ public class NostroBinanceExchange extends BinanceStreamingExchange {
         }
     }
 
-    private Pair<Order, UserTrade> saveExecutionReport(Transaction tx, ExecutionReportBinanceUserTransaction report) throws Exception {
-        Order order = report.toOrder();
-        String orderId = order.getUserReference();
-        String document = NostroUtils.writeOrderDocument(order);
-        boolean terminal = NostroBinanceUtils.isTerminal(report.getCurrentOrderStatus());
-        Timestamp created = new Timestamp(report.getOrderCreationTime());
-        Timestamp updated = new Timestamp(report.getTimestamp());
-        
-        Optional<OrderEntity> orderEntity = tx.getOrderRepository().lockById(orderId);
-        if (orderEntity.isPresent()) {
-            if (ExecutionType.REJECTED != report.getExecutionType()) {
-                if (orderEntity.get().getCreated().before(created)) {
-                    tx.getOrderRepository().updateCreatedById(orderId, created);
-                }
-                tx.getOrderRepository().updateById(orderId, document, terminal, updated);
-            }
-        } else {
-            LOG.warn("Received transaction of non-existing order: id={}, externalId={}", orderId, report.getOrderId());
-            tx.getOrderRepository().insert(new OrderEntity.Builder()
-                    .id(orderId)
-                    .externalId(Long.toString(report.getOrderId()))
-                    .instrument(order.getInstrument().toString())
-                    .terminal(terminal)
-                    .document(document)
-                    .created(created)
-                    .updated(updated)
-                    .build());
-        }
-        
-        UserTrade trade = null;
-        if (ExecutionType.TRADE == report.getExecutionType()) {
-            trade = report.toUserTrade();
-            tx.getTradeRepository().insert(
-                    orderId,
-                    Long.toString(report.getTradeId()),
-                    updated,
-                    NostroUtils.writeTradeDocument(trade));
-        }
-        
-        String symbol = order.getCurrencyPair().toString();
-        if (!account.getSubscriptions().getOrders().contains(symbol)) {
-            LOG.info("Adding new order subscription to account: symbol={}", symbol);
-            updateSubscription(ProductSubscription.create().addOrders(order.getCurrencyPair()).build());
-        }
-        
-        return Pair.of(order, trade);
-    }
-
-    private void onAccountInfo(OutboundAccountInfoBinanceWebsocketTransaction accountInfo) {
+    private void onAccountInfo(AccountUpdateBinanceWebsocketTransaction accountInfo) {
         try {
-            List<Balance> list = txFactory.executeAndGet(tx -> saveAccountInfo(tx, accountInfo));
-            for(Balance b : list) {
-                publisher.publish(b);
-            }
+            LOG.info("Received account info, ts={}", new Timestamp(accountInfo.getTransactionTime()));
+            List<Balance> list = nostroAccountService.saveAccountInfo(accountInfo);
+            list.forEach(publisher::publish);
         } catch (Throwable th) {
             LOG.error("Error saving account info", th);
         }
     }
 
-    private List<Balance> saveAccountInfo(Transaction tx, OutboundAccountInfoBinanceWebsocketTransaction accountInfo) throws Exception {
-        tx.getBalanceRepository().lock();
-
-        long timestamp = accountInfo.getLastUpdateTimestamp();
-        List<Balance> updated = new ArrayList<>();
-        
-        for (BinanceWebsocketBalance bb : accountInfo.getBalances()) {
-            Optional<BalanceEntity> o = tx.getBalanceRepository().findLatestByAsset(bb.getCurrency().getCurrencyCode());
-            if (o.isPresent()) {
-                if (NostroBinanceUtils.updateRequired(o.get(), NostroBinanceUtils.adapt(bb, timestamp))) {
-                    updated.add(NostroBinanceUtils.adapt(bb, timestamp));
-                }
-            } else if (!NostroBinanceUtils.isZeroBalance(bb)) {
-                updated.add(NostroBinanceUtils.adapt(bb, timestamp));
-            }
+    private void tryUpdateSubscription(Order order) {
+        Instrument instrument = order.getInstrument();
+        if (!(instrument instanceof FuturesContract)) {
+            throw new IllegalStateException(
+                    "The instrument of this type is not supported: " + instrument);
         }
-        
-        LOG.info("Received account info, ts={}, balances={}", new Timestamp(timestamp), updated);
-
-        for(Balance b: updated) {
-            tx.getBalanceRepository().insert(NostroBinanceUtils.toEntity(b));
+        CurrencyPair currencyPair = InstrumentUtils.getCurrencyPair(instrument);
+        if (!account.getSubscriptions().getOrders().contains(currencyPair.toString())) {
+            LOG.info("Adding new order subscription to account: symbol={}", currencyPair.toString());
+            updateSubscription(ProductSubscription.create().addOrders(currencyPair).build());
         }
-        
-        return updated;
     }
 
     private void updateSubscription(ProductSubscription subscriptions) {

@@ -2,6 +2,7 @@ package org.knowm.xchange.binance.futures;
 
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAccountInformation;
+import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAsset;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesPosition;
 import org.knowm.xchange.binance.futures.dto.trade.BinanceFuturesOrder;
 import org.knowm.xchange.binance.futures.dto.trade.PositionSide;
@@ -21,6 +22,8 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -33,51 +36,68 @@ public class BinanceFuturesAdapter {
     public static AccountInfo adaptAccountInfo(BinanceFuturesAccountInformation account) {
         List<Balance> balances =
                 account.assets.stream()
-                        .map(b -> new Balance.Builder()
-                                .currency(Currency.getInstance(b.asset))
-                                .total(b.walletBalance)
-                                .available(b.availableBalance)
-                                .timestamp(b.updateTime != 0 ? new Date(b.updateTime) : null)
-                                .build())
+                        .map(BinanceFuturesAdapter::adaptBalance)
                         .collect(Collectors.toList());
 
         List<OpenPosition> openPositions =
                 account.positions.stream()
-                        .map(p -> new OpenPosition.Builder()
-                                .instrument(new FuturesContract(BinanceAdapters.adaptSymbol(p.symbol), null))
-                                .type(adaptPositionType(p.positionSide))
-                                .size(p.positionAmt)
-                                .price(p.entryPrice)
-                                .leverage(p.leverage)
-                                .marginRatio(getMarginRatio(p))
-                                .timestamp(p.updateTime != 0 ? new Date(p.updateTime) : null)
-                                .build())
+                        .map(BinanceFuturesAdapter::adaptPosition)
                         .collect(Collectors.toList());
 
-        return new AccountInfo(null, null, Collections.singleton(Wallet.Builder.from(balances).build()), openPositions, new Date(account.updateTime));
+        return new AccountInfo(
+                null,
+                null,
+                Collections.singleton(Wallet.Builder.from(balances).build()),
+                openPositions,
+                account.updateTime != 0 ? new Date(account.updateTime) : null);
     }
 
     private static BigDecimal getMarginRatio(BinanceFuturesPosition p) {
         return p.initialMargin == null || p.initialMargin.compareTo(BigDecimal.ZERO) == 0
-            ? null
-            : p.maintMargin.divide(p.initialMargin, RoundingMode.HALF_DOWN);
+                ? null
+                : p.maintMargin.divide(p.initialMargin, RoundingMode.HALF_DOWN);
+    }
+
+    public static OpenPosition adaptPosition(BinanceFuturesPosition p) {
+        return new OpenPosition.Builder()
+                .instrument(adaptInstrument(p.symbol))
+                .type(adaptPositionType(p.positionSide))
+                .size(p.positionAmt)
+                .price(p.entryPrice)
+                .leverage(p.leverage)
+                .marginRatio(getMarginRatio(p))
+                .timestamp(p.updateTime != 0 ? new Date(p.updateTime) : null)
+                .build();
+    }
+
+    public static Balance adaptBalance(BinanceFuturesAsset a) {
+        return new Balance.Builder()
+                .currency(Currency.getInstance(a.asset))
+                .total(a.walletBalance)
+                .available(a.availableBalance)
+                .timestamp(a.updateTime != 0 ? new Date(a.updateTime) : null)
+                .build();
     }
 
     public static OpenPosition.Type adaptPositionType(PositionSide positionSide) {
         return positionSide == PositionSide.LONG ? OpenPosition.Type.LONG : OpenPosition.Type.SHORT;
     }
 
+    public static Instrument adaptInstrument(String symbol) {
+        return new FuturesContract(BinanceAdapters.adaptSymbol(symbol), null);
+    }
+
     public static Order adaptOrder(BinanceFuturesOrder order) {
         Order.OrderType type = BinanceAdapters.convert(order.side);
-        FuturesContract futuresContract = new FuturesContract(BinanceAdapters.adaptSymbol(order.symbol), null);
+        Instrument instrument = adaptInstrument(order.symbol);
         Order.Builder builder;
         if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
-            builder = new MarketOrder.Builder(type, futuresContract);
+            builder = new MarketOrder.Builder(type, instrument);
         } else if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT)
                 || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT_MAKER)) {
-            builder = new LimitOrder.Builder(type, futuresContract).limitPrice(order.price);
+            builder = new LimitOrder.Builder(type, instrument).limitPrice(order.price);
         } else {
-            builder = new StopOrder.Builder(type, futuresContract).stopPrice(order.stopPrice);
+            builder = new StopOrder.Builder(type, instrument).stopPrice(order.stopPrice);
         }
         builder
                 .orderStatus(BinanceAdapters.adaptOrderStatus(order.status))
@@ -93,7 +113,7 @@ public class BinanceFuturesAdapter {
         return builder.build();
     }
 
-  public static Ticker replaceInstrument(Ticker ticker, FuturesContract futuresContract) {
+    public static Ticker replaceInstrument(Ticker ticker, FuturesContract futuresContract) {
     return new Ticker.Builder()
         .instrument(futuresContract)
         .open(ticker.getOpen())
@@ -112,7 +132,7 @@ public class BinanceFuturesAdapter {
         .build();
   }
 
-  public static OrderBook replaceInstrument(OrderBook orderBook, FuturesContract futuresContract) {
+    public static OrderBook replaceInstrument(OrderBook orderBook, FuturesContract futuresContract) {
     return new OrderBook(
         orderBook.getTimeStamp(),
         orderBook.getAsks().stream()
@@ -122,7 +142,7 @@ public class BinanceFuturesAdapter {
         false);
   }
 
-  public static Trades replaceInstrument(Trades trades, FuturesContract futuresContract) {
+    public static Trades replaceInstrument(Trades trades, FuturesContract futuresContract) {
     return new Trades(
         trades.getTrades().stream()
             .map(t -> Trade.Builder.from(t).instrument(futuresContract).build())
