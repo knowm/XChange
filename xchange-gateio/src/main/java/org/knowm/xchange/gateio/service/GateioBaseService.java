@@ -41,4 +41,8 @@ public class GateioBaseService extends BaseExchangeService implements BaseServic
 
     return response;
   }
+
+  public String getApiKey() {
+    return apiKey;
+  }
 }
