@@ -21,6 +21,8 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
@@ -38,6 +40,32 @@ public class OkexAdapters {
 
   private static final String TRADING_WALLET_ID = "trading";
   private static final String FOUNDING_WALLET_ID = "founding";
+
+  public static UserTrades adaptUserTrades(List<OkexOrderDetails> okexTradeHistory) {
+    List<UserTrade> userTradeList = new ArrayList<>();
+
+    okexTradeHistory.forEach(
+        okexOrderDetails -> {
+          userTradeList.add(
+              new UserTrade.Builder()
+                  .originalAmount(new BigDecimal(okexOrderDetails.getAmount()))
+                  .instrument(new CurrencyPair(okexOrderDetails.getInstrumentId()))
+                  .currencyPair(new CurrencyPair(okexOrderDetails.getInstrumentId()))
+                  .price(new BigDecimal(okexOrderDetails.getPrice()))
+                  .type(adaptOkexOrderSideToOrderType(okexOrderDetails.getOrderType()))
+                  .id(okexOrderDetails.getOrderId())
+                  .orderId(okexOrderDetails.getOrderId())
+                  .timestamp(
+                      Date.from(
+                          Instant.ofEpochMilli(Long.parseLong(okexOrderDetails.getUpdateTime()))))
+                  .feeAmount(new BigDecimal(okexOrderDetails.getFee()))
+                  .feeCurrency(new Currency(okexOrderDetails.getFeeCurrency()))
+                  .orderUserReference(okexOrderDetails.getClientOrderId())
+                  .build());
+        });
+
+    return new UserTrades(userTradeList, Trades.TradeSortType.SortByTimestamp);
+  }
 
   public static Order adaptOrder(OkexOrderDetails order) {
     return new LimitOrder(
@@ -296,7 +324,7 @@ public class OkexAdapters {
         .build();
   }
 
-  private static BigDecimal checkForEmpty(String value){
+  private static BigDecimal checkForEmpty(String value) {
     return StringUtils.isEmpty(value) ? null : new BigDecimal(value);
   }
 }
