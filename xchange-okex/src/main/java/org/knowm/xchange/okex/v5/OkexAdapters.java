@@ -54,7 +54,7 @@ public class OkexAdapters {
         new BigDecimal(order.getFee()),
         "live".equals(order.getState())
             ? Order.OrderStatus.OPEN
-            : Order.OrderStatus.PARTIALLY_FILLED,
+            : Order.OrderStatus.valueOf(order.getState().toUpperCase(Locale.ENGLISH)),
         null);
   }
 
@@ -77,7 +77,7 @@ public class OkexAdapters {
                         new BigDecimal(order.getFee()),
                         "live".equals(order.getState())
                             ? Order.OrderStatus.OPEN
-                            : Order.OrderStatus.PARTIALLY_FILLED,
+                            : Order.OrderStatus.valueOf(order.getState().toUpperCase(Locale.ENGLISH)),
                         null))
             .collect(Collectors.toList());
     return new OpenOrders(openOrders);
