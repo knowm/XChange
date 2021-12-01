@@ -223,6 +223,8 @@ public final class AccountInfo implements Serializable {
         + tradingFee
         + ", wallets="
         + wallets
+        + ", openPositions="
+        + openPositions
         + "]";
   }
 }

@@ -365,10 +365,7 @@ public class FtxAdapters {
             || p.getInitialMarginRequirement().compareTo(BigDecimal.ZERO) == 0
         ? null
         : p.getMaintenanceMarginRequirement()
-            .divide(
-                p.getInitialMarginRequirement(),
-                p.getInitialMarginRequirement().scale(),
-                RoundingMode.HALF_DOWN);
+            .divide(p.getInitialMarginRequirement(), RoundingMode.HALF_DOWN);
   }
 
   public static BigDecimal lendingRounding(BigDecimal value) {

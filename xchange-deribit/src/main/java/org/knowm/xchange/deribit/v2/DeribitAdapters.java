@@ -250,7 +250,7 @@ public class DeribitAdapters {
     return p.getInitialMargin() == null || p.getInitialMargin().compareTo(BigDecimal.ZERO) == 0
         ? null
         : p.getMaintenanceMargin()
-            .divide(p.getInitialMargin(), p.getInitialMargin().scale(), RoundingMode.HALF_DOWN);
+            .divide(p.getInitialMargin(), RoundingMode.HALF_DOWN);
   }
 
   public static CurrencyMetaData adaptMeta(DeribitCurrency currency) {

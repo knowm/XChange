@@ -2,6 +2,7 @@ package org.knowm.xchange.dto.account;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Objects;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -20,9 +21,11 @@ public class OpenPosition implements Serializable {
   private final BigDecimal leverage;
   /** Maintenance Margin / Margin Balance. Position will be liquidated once Margin Ratio reaches 1 */
   private final BigDecimal marginRatio;
+  /** The time the position was valid on the exchange server */
+  private final Date timestamp;
 
   public OpenPosition(Instrument instrument, Type type, BigDecimal size, BigDecimal price) {
-    this(instrument, type, size, price, null, null, null);
+    this(instrument, type, size, price, null, null, null, null);
   }
 
   private OpenPosition(
@@ -32,7 +35,8 @@ public class OpenPosition implements Serializable {
       BigDecimal price,
       BigDecimal markPrice,
       BigDecimal leverage,
-      BigDecimal marginRatio) {
+      BigDecimal marginRatio,
+      Date timestamp) {
     this.instrument = instrument;
     this.type = type;
     this.size = size;
@@ -40,6 +44,7 @@ public class OpenPosition implements Serializable {
     this.markPrice = markPrice;
     this.leverage = leverage;
     this.marginRatio = marginRatio;
+    this.timestamp = timestamp;
   }
 
   public Instrument getInstrument() {
@@ -70,6 +75,10 @@ public class OpenPosition implements Serializable {
     return marginRatio;
   }
 
+  public Date getTimestamp() {
+    return timestamp;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -81,12 +90,13 @@ public class OpenPosition implements Serializable {
         && Objects.equals(price, that.price)
         && Objects.equals(markPrice, that.markPrice)
         && Objects.equals(leverage, that.leverage)
-        && Objects.equals(marginRatio, that.marginRatio);
+        && Objects.equals(marginRatio, that.marginRatio)
+        && Objects.equals(timestamp, that.timestamp);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(instrument, type, size, price, markPrice, leverage, marginRatio);
+    return Objects.hash(instrument, type, size, price, markPrice, leverage, marginRatio, timestamp);
   }
 
   @Override
@@ -106,6 +116,8 @@ public class OpenPosition implements Serializable {
         + leverage
         + ", marginRatio="
         + marginRatio
+        + ", timestamp="
+        + timestamp
         + '}';
   }
 
@@ -122,6 +134,7 @@ public class OpenPosition implements Serializable {
     private BigDecimal markPrice;
     private BigDecimal leverage;
     private BigDecimal marginRatio;
+    private Date timestamp;
 
     public static Builder from(OpenPosition openPosition) {
       return new Builder()
@@ -131,7 +144,8 @@ public class OpenPosition implements Serializable {
           .price(openPosition.getPrice())
           .markPrice(openPosition.getMarkPrice())
           .leverage(openPosition.getLeverage())
-          .marginRatio(openPosition.getMarginRatio());
+          .marginRatio(openPosition.getMarginRatio())
+          .timestamp(openPosition.getTimestamp());
     }
 
     public Builder instrument(final Instrument instrument) {
@@ -169,8 +183,13 @@ public class OpenPosition implements Serializable {
       return this;
     }
 
+    public Builder timestamp(final Date timestamp) {
+      this.timestamp = timestamp;
+      return this;
+    }
+
     public OpenPosition build() {
-      return new OpenPosition(instrument, type, size, price, markPrice, leverage, marginRatio);
+      return new OpenPosition(instrument, type, size, price, markPrice, leverage, marginRatio, timestamp);
     }
   }
 }

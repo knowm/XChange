@@ -33,10 +33,12 @@ public class BinanceFuturesAdapter {
     public static AccountInfo adaptAccountInfo(BinanceFuturesAccountInformation account) {
         List<Balance> balances =
                 account.assets.stream()
-                        .map(b -> new Balance(
-                                Currency.getInstance(b.asset),
-                                b.walletBalance,
-                                b.availableBalance))
+                        .map(b -> new Balance.Builder()
+                                .currency(Currency.getInstance(b.asset))
+                                .total(b.walletBalance)
+                                .available(b.availableBalance)
+                                .timestamp(b.updateTime != 0 ? new Date(b.updateTime) : null)
+                                .build())
                         .collect(Collectors.toList());
 
         List<OpenPosition> openPositions =
@@ -48,6 +50,7 @@ public class BinanceFuturesAdapter {
                                 .price(p.entryPrice)
                                 .leverage(p.leverage)
                                 .marginRatio(getMarginRatio(p))
+                                .timestamp(p.updateTime != 0 ? new Date(p.updateTime) : null)
                                 .build())
                         .collect(Collectors.toList());
 
@@ -57,7 +60,7 @@ public class BinanceFuturesAdapter {
     private static BigDecimal getMarginRatio(BinanceFuturesPosition p) {
         return p.initialMargin == null || p.initialMargin.compareTo(BigDecimal.ZERO) == 0
             ? null
-            : p.maintMargin.divide(p.initialMargin, p.initialMargin.scale(), RoundingMode.HALF_DOWN);
+            : p.maintMargin.divide(p.initialMargin, RoundingMode.HALF_DOWN);
     }
 
     public static OpenPosition.Type adaptPositionType(PositionSide positionSide) {
