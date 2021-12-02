@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import org.knowm.xchange.instrument.Instrument;
 
+@JsonDeserialize(builder = OpenPosition.Builder.class)
 public class OpenPosition implements Serializable {
   /** The instrument */
   private final Instrument instrument;
@@ -126,6 +130,7 @@ public class OpenPosition implements Serializable {
     SHORT;
   }
 
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder {
     private Instrument instrument;
     private Type type;
