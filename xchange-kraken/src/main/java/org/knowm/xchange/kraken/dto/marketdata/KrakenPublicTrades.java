@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
+
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrades.KrakenTradesDeserializer;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderType;
 import org.knowm.xchange.kraken.dto.trade.KrakenType;
@@ -49,7 +51,7 @@ public class KrakenPublicTrades {
 
     @Override
     public KrakenPublicTrades deserialize(JsonParser jsonParser, DeserializationContext ctxt)
-        throws IOException, JsonProcessingException {
+        throws IOException {
 
       List<KrakenPublicTrade> krakenTrades = new ArrayList<>();
       long last = 0;
@@ -60,7 +62,7 @@ public class KrakenPublicTrades {
         Entry<String, JsonNode> entry = tradesResultIterator.next();
         String key = entry.getKey();
         JsonNode value = entry.getValue();
-        if (key == "last") {
+        if (Objects.equals(key, "last")) {
           last = value.asLong();
         } else if (value.isArray()) {
           for (JsonNode tradeJsonNode : value) {
