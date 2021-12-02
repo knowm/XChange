@@ -25,7 +25,9 @@ public class TransactionFactory {
         config.setJdbcUrl(url);
         config.setUsername(user);
         config.setPassword(password);
-        config.setDriverClassName(driver);
+        if (driver != null) {
+            config.setDriverClassName(driver);
+        }
         config.setMaximumPoolSize(MAXIMUM_POOL_SIZE);
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");

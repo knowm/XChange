@@ -3,6 +3,7 @@ package org.knowm.xchange.deribit.v2;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -234,8 +235,22 @@ public class DeribitAdapters {
     return new OpenPosition.Builder()
         .instrument(instrument)
         .size(size)
-        .price(p.getMarkPrice())
+        .type(
+            p.getDirection() == Direction.buy
+                ? OpenPosition.Type.LONG
+                : p.getDirection() == Direction.sell ? OpenPosition.Type.SHORT : null)
+        .price(p.getAveragePrice())
+        .markPrice(p.getMarkPrice())
+        .leverage(p.getLeverage())   
+        .marginRatio(getMarginRatio(p))    
         .build();
+  }
+
+  private static BigDecimal getMarginRatio(Position p) {
+    return p.getInitialMargin() == null || p.getInitialMargin().compareTo(BigDecimal.ZERO) == 0
+        ? null
+        : p.getMaintenanceMargin()
+            .divide(p.getInitialMargin(), RoundingMode.HALF_DOWN);
   }
 
   public static CurrencyMetaData adaptMeta(DeribitCurrency currency) {

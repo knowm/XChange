@@ -336,7 +336,7 @@ public class FtxAdapters {
     return null;
   }
 
-  public static OpenPositions adaptOpenPositions(List<FtxPositionDto> ftxPositionDtos) {
+  public static OpenPositions adaptOpenPositions(List<FtxPositionDto> ftxPositionDtos, BigDecimal leverage) {
     List<OpenPosition> openPositionList = new ArrayList<>();
 
     ftxPositionDtos.forEach(
@@ -351,11 +351,21 @@ public class FtxAdapters {
                         ftxPositionDto.getSide() == FtxOrderSide.buy
                             ? OpenPosition.Type.LONG
                             : OpenPosition.Type.SHORT)
+                    .leverage(leverage)
+                    .marginRatio(getMarginRatio(ftxPositionDto))
                     .build());
           }
         });
 
     return new OpenPositions(openPositionList);
+  }
+
+  private static BigDecimal getMarginRatio(FtxPositionDto p) {
+    return p.getInitialMarginRequirement() == null
+            || p.getInitialMarginRequirement().compareTo(BigDecimal.ZERO) == 0
+        ? null
+        : p.getMaintenanceMarginRequirement()
+            .divide(p.getInitialMarginRequirement(), RoundingMode.HALF_DOWN);
   }
 
   public static BigDecimal lendingRounding(BigDecimal value) {
