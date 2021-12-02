@@ -2,13 +2,21 @@ package org.knowm.xchange.okex.v5;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
@@ -31,6 +39,7 @@ import org.knowm.xchange.okex.v5.dto.marketdata.OkexOrderbook;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexTrade;
 import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
+import org.knowm.xchange.okex.v5.dto.trade.OkexOrderFlags;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
@@ -52,15 +61,29 @@ public class OkexAdapters {
             : new BigDecimal(order.getAverageFilledPrice()),
         new BigDecimal(order.getAccumulatedFill()),
         new BigDecimal(order.getFee()),
-        "live".equals(order.getState())
-            ? Order.OrderStatus.OPEN
-            : Order.OrderStatus.valueOf(order.getState().toUpperCase(Locale.ENGLISH)),
+        adaptOrderStatus(order.getState()),
         null);
+  }
+
+  public static OrderStatus adaptOrderStatus(String state) {
+    switch (state) {
+      case "canceled":
+        return OrderStatus.CANCELED;
+      case "live":
+        return OrderStatus.NEW;
+      case "partially_filled":
+        return OrderStatus.PARTIALLY_FILLED;
+      case "filled":
+        return OrderStatus.FILLED;
+      default:
+        return null;
+    }
   }
 
   public static OpenOrders adaptOpenOrders(List<OkexOrderDetails> orders) {
     List<LimitOrder> openOrders =
-        orders.stream()
+        orders
+            .stream()
             .map(
                 order ->
                     new LimitOrder(
@@ -75,9 +98,7 @@ public class OkexAdapters {
                             : new BigDecimal(order.getAverageFilledPrice()),
                         new BigDecimal(order.getAccumulatedFill()),
                         new BigDecimal(order.getFee()),
-                        "live".equals(order.getState())
-                            ? Order.OrderStatus.OPEN
-                            : Order.OrderStatus.valueOf(order.getState().toUpperCase(Locale.ENGLISH)),
+                        adaptOrderStatus(order.getState()),
                         null))
             .collect(Collectors.toList());
     return new OpenOrders(openOrders);
@@ -95,15 +116,49 @@ public class OkexAdapters {
   public static OkexOrderRequest adaptOrder(LimitOrder order) {
     return OkexOrderRequest.builder()
         .instrumentId(adaptInstrumentId(order.getInstrument()))
-        .tradeMode(order.getInstrument() instanceof CurrencyPair ? "cash" : "cross")
-        .side(order.getType() == Order.OrderType.BID ? "buy" : "sell")
-        .posSide(null) // PosSide should come as a input from an extended LimitOrder class to
+        .tradeMode(
+            "cross") // default to corss as API does not seem to work with cash even on non margin
+        // paris
+        // .tradeMode(order.getInstrument() instanceof CurrencyPair ? "cash" : "cross")
+        .side(adaptSide(order.getType()))
+        .posSide(order.hasFlag(OkexOrderFlags.LONG_SHORT) ? adaptPosSide(order.getType()) : "net")
+        // PosSide should come as a input from an extended LimitOrder class
         // support Futures/Swap capabilities of Okex, till then it should be null to
         // perform "net" orders
         .orderType("limit")
         .amount(order.getOriginalAmount().toString())
         .price(order.getLimitPrice().toString())
         .build();
+  }
+
+  public static String adaptSide(OrderType orderType) {
+    switch (orderType) {
+      case BID:
+        return "buy";
+      case ASK:
+        return "sell";
+      case EXIT_ASK:
+        return "buy";
+      case EXIT_BID:
+        return "sell";
+      default:
+        return null;
+    }
+  }
+
+  public static String adaptPosSide(OrderType orderType) {
+    switch (orderType) {
+      case BID:
+        return "long";
+      case ASK:
+        return "short";
+      case EXIT_ASK:
+        return "short";
+      case EXIT_BID:
+        return "long";
+      default:
+        return null;
+    }
   }
 
   public static OrderBook adaptOrderBook(
@@ -231,7 +286,8 @@ public class OkexAdapters {
     }
 
     if (currs != null) {
-      currs.stream()
+      currs
+          .stream()
           .forEach(
               currency ->
                   currencies.put(
@@ -279,7 +335,8 @@ public class OkexAdapters {
   public static Wallet adaptOkexAssetBalances(List<OkexAssetBalance> okexAssetBalanceList) {
     List<Balance> balances;
     balances =
-        okexAssetBalanceList.stream()
+        okexAssetBalanceList
+            .stream()
             .map(
                 detail ->
                     new Balance.Builder()
