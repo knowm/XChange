@@ -164,7 +164,7 @@ public class FtxAdapters {
                 if (instrument instanceof FuturesContract) {
                   DerivativeMetaData futuresContractMetaData =
                       new DerivativeMetaData.Builder()
-                          .minimumAmount(ftxMarketDto.getMinProvideSize())
+                          .minimumAmount(ftxMarketDto.getSizeIncrement())
                           .amountStepSize(ftxMarketDto.getSizeIncrement())
                           .amountScale(ftxMarketDto.getSizeIncrement().scale())
                           .priceStepSize(ftxMarketDto.getPriceIncrement())
