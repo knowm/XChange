@@ -51,8 +51,8 @@ public class OkexAdapters {
                   .originalAmount(new BigDecimal(okexOrderDetails.getAmount()))
                   .instrument(new CurrencyPair(okexOrderDetails.getInstrumentId()))
                   .currencyPair(new CurrencyPair(okexOrderDetails.getInstrumentId()))
-                  .price(new BigDecimal(okexOrderDetails.getPrice()))
-                  .type(adaptOkexOrderSideToOrderType(okexOrderDetails.getOrderType()))
+                  .price(new BigDecimal(okexOrderDetails.getAverageFilledPrice()))
+                  .type(adaptOkexOrderSideToOrderType(okexOrderDetails.getSide()))
                   .id(okexOrderDetails.getOrderId())
                   .orderId(okexOrderDetails.getOrderId())
                   .timestamp(
@@ -105,7 +105,8 @@ public class OkexAdapters {
                         new BigDecimal(order.getFee()),
                         "live".equals(order.getState())
                             ? Order.OrderStatus.OPEN
-                            : Order.OrderStatus.valueOf(order.getState().toUpperCase(Locale.ENGLISH)),
+                            : Order.OrderStatus.valueOf(
+                                order.getState().toUpperCase(Locale.ENGLISH)),
                         null))
             .collect(Collectors.toList());
     return new OpenOrders(openOrders);
