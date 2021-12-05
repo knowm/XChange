@@ -2,9 +2,11 @@ package org.knowm.xchange.okex.v5.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.ToString;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 10-06-2021 */
 @Getter
+@ToString
 public class OkexOrderDetails {
   @JsonProperty("instType")
   private String instrumentType;
