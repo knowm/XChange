@@ -6,7 +6,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.*;
-import org.knowm.xchange.ftx.dto.account.FtxBorrowingHistoryDto;
 import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
 import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
@@ -101,6 +100,37 @@ public interface FtxAuthenticated extends Ftx {
       FtxSubAccountTransferPOJO payload)
       throws IOException, FtxException;
 
+  @POST
+  @Path("/otc/quotes")
+  FtxResponse<FtxConvertSimulatetDto> simulateConvert(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      FtxConvertSimulatePayloadRequestDto payload)
+      throws IOException, FtxException;
+
+  @GET
+  @Path("/otc/quotes/{quoteId}")
+  FtxResponse<FtxConvertDto> getConvertStatus(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("quoteId") String quoteId)
+      throws IOException, FtxException;
+  
+  @POST
+  @Path("/otc/quotes/{quoteId}/accept")
+  FtxResponse<FtxConvertAcceptRequestDto> acceptConvert(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("quoteId") String quoteId,
+      FtxConvertAcceptPayloadRequestDto payload)
+      throws IOException, FtxException;
+  
   @POST
   @Path("/orders")
   FtxResponse<FtxOrderDto> placeOrder(
