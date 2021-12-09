@@ -3,7 +3,6 @@ package org.knowm.xchange.raydium;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.makarid.solanaj.core.PublicKey;
 import org.junit.Test;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.raydium.dto.FarmListDto;
 import org.knowm.xchange.raydium.dto.LpListDto;
 import org.knowm.xchange.raydium.dto.TokenListDto;

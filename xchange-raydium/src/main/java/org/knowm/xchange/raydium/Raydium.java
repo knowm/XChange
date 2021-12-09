@@ -13,17 +13,17 @@ import java.io.IOException;
 public interface Raydium {
 
   @GET
-  @Path("/token/raydium.mainnet.json")
+  @Path("token/raydium.mainnet.json")
   @Consumes(MediaType.APPLICATION_JSON)
   TokenListDto getTokenList() throws IOException;
 
   @GET
-  @Path("/token/liquidity/mainnet.json")
+  @Path("liquidity/mainnet.json")
   @Consumes(MediaType.APPLICATION_JSON)
   LpListDto getLpList() throws IOException;
 
   @GET
-  @Path("/token/farm/mainnet.json")
+  @Path("farm/mainnet.json")
   @Consumes(MediaType.APPLICATION_JSON)
   FarmListDto getFarmList() throws IOException;
 }

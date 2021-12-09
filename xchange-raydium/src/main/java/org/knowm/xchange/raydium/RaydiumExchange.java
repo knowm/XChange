@@ -8,6 +8,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.raydium.dto.FarmListDto;
 import org.knowm.xchange.raydium.dto.LpListDto;
 import org.knowm.xchange.raydium.dto.TokenListDto;
+import org.knowm.xchange.raydium.service.RaydiumAccountService;
 import org.knowm.xchange.raydium.service.RaydiumAccountServiceRaw;
 import org.knowm.xchange.raydium.service.RaydiumMarketDataService;
 
@@ -23,13 +24,14 @@ public class RaydiumExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
     this.marketDataService = new RaydiumMarketDataService(this);
+    this.accountService = new RaydiumAccountService(this);
   }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
-    exchangeSpecification.setSslUri("https://sdk.raydium.io/");
+    exchangeSpecification.setSslUri("https://sdk.raydium.io");
     exchangeSpecification.setHost("raydium.io");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Raydium");
@@ -42,9 +44,10 @@ public class RaydiumExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
     RaydiumAccountServiceRaw raw = ((RaydiumAccountServiceRaw) this.accountService);
-    tokenListDto = raw.raydium.getTokenList();
-    lpListDto = raw.raydium.getLpList();
-    farmListDto = raw.raydium.getFarmList();
+
+    tokenListDto = raw.getTokenList();
+    lpListDto = raw.getLpList();
+    farmListDto = raw.getFarmList();
   }
 
   public TokenListDto getTokenListDto() {
