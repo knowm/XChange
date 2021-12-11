@@ -82,11 +82,11 @@ public class TokenListDto {
   @Getter
   public static class LpDto {
 
-    private final HashMap<String, LpDto.LpDetails> lps = new HashMap<>();
+    private final HashMap<PublicKey, LpDto.LpDetails> lps = new HashMap<>();
 
     @JsonAnySetter
     public void setLpDetails(String name, LpDto.LpDetails lpDetails) {
-      this.lps.put(name, lpDetails);
+      this.lps.put(lpDetails.getMintAddress(), lpDetails);
     }
 
     @ToString

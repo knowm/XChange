@@ -1,25 +1,18 @@
 package org.knowm.xchange.raydium;
 
+import io.github.makarid.solanaj.programs.raydium.RaydiumProgram;
 import lombok.extern.java.Log;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.raydium.dto.FarmListDto;
-import org.knowm.xchange.raydium.dto.LpListDto;
-import org.knowm.xchange.raydium.dto.TokenListDto;
 import org.knowm.xchange.raydium.service.RaydiumAccountService;
-import org.knowm.xchange.raydium.service.RaydiumAccountServiceRaw;
 import org.knowm.xchange.raydium.service.RaydiumMarketDataService;
 
-import java.io.IOException;
 
 @Log
 public class RaydiumExchange extends BaseExchange implements Exchange {
 
-  TokenListDto tokenListDto;
-  LpListDto lpListDto;
-  FarmListDto farmListDto;
+  private final RaydiumProgram raydiumProgram = new RaydiumProgram();
 
   @Override
   protected void initServices() {
@@ -41,24 +34,7 @@ public class RaydiumExchange extends BaseExchange implements Exchange {
     return exchangeSpecification;
   }
 
-  @Override
-  public void remoteInit() throws IOException, ExchangeException {
-    RaydiumAccountServiceRaw raw = ((RaydiumAccountServiceRaw) this.accountService);
-
-    tokenListDto = raw.getTokenList();
-    lpListDto = raw.getLpList();
-    farmListDto = raw.getFarmList();
-  }
-
-  public TokenListDto getTokenListDto() {
-    return tokenListDto;
-  }
-
-  public LpListDto getLpListDto() {
-    return lpListDto;
-  }
-
-  public FarmListDto getFarmListDto() {
-    return farmListDto;
+  public RaydiumProgram getRaydiumProgram() {
+    return raydiumProgram;
   }
 }
