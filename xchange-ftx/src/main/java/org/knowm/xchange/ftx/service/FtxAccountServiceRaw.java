@@ -120,19 +120,22 @@ public class FtxAccountServiceRaw extends FtxBaseService {
     }
   }
 
-  public FtxResponse<FtxLeverageDto> changeLeverage(String subaccount, int leverage)
-      throws FtxException, IOException {
-    try {
-      return ftx.changeLeverage(
-          exchange.getExchangeSpecification().getApiKey(),
-          exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          null,
-          new FtxLeverageDto(leverage));
-    } catch (FtxException e) {
-      throw new FtxException(e.getMessage());
-    }
-  }
+	public FtxResponse<FtxLeverageDto> changeLeverage(int leverage) throws FtxException, IOException {
+		return changeLeverage(null, leverage);
+	}
+  
+	public FtxResponse<FtxLeverageDto> changeLeverage(String subaccount, int leverage) throws FtxException, IOException {
+		try {
+			return ftx.changeLeverage(
+					exchange.getExchangeSpecification().getApiKey(),
+					exchange.getNonceFactory().createValue(),
+					signatureCreator,
+					subaccount,
+					new FtxLeverageDto(leverage));
+		} catch (FtxException e) {
+			throw new FtxException(e.getMessage());
+		}
+	}
 
   public FtxResponse<List<FtxFundingPaymentsDto>> getFtxFundingPayments(
       String subaccount, Long startTime, Long endTime, String future)
