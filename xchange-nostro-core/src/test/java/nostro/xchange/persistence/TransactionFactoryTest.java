@@ -23,6 +23,7 @@ public class TransactionFactoryTest extends DataSourceTest {
         assertThatCode(() -> selectFrom("trade$" + nextId)).hasMessageContaining("does not exist");
         assertThatCode(() -> selectFrom("order_task$" + nextId)).hasMessageContaining("does not exist");
         assertThatCode(() -> selectFrom("sync_task$" + nextId)).hasMessageContaining("does not exist");
+        assertThatCode(() -> selectFrom("funding$" + nextId)).hasMessageContaining("does not exist");
 
         TransactionFactory.get(xchange, accountId);
 
@@ -32,6 +33,7 @@ public class TransactionFactoryTest extends DataSourceTest {
         assertThatCode(() -> selectFrom("trade$" + nextId)).doesNotThrowAnyException();
         assertThatCode(() -> selectFrom("order_task$" + nextId)).doesNotThrowAnyException();
         assertThatCode(() -> selectFrom("sync_task$" + nextId)).doesNotThrowAnyException();
+        assertThatCode(() -> selectFrom("funding$" + nextId)).doesNotThrowAnyException();
 
         TransactionFactory.get(xchange, accountId);
     }
