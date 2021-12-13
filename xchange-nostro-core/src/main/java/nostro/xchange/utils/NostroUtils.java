@@ -3,6 +3,7 @@ package nostro.xchange.utils;
 import nostro.xchange.persistence.OrderEntity;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
@@ -61,6 +62,18 @@ public class NostroUtils {
     public static AccountDocument readAccountDocument(String s) {
         try {
             return s != null ? ObjectMapperHelper.readValue(s, AccountDocument.class) : new AccountDocument();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    public static String writeFundingDocument(FundingRecord r) {
+        return ObjectMapperHelper.toCompactJSON(r);
+    }
+
+    public static FundingRecord readFundingDocument(String s) {
+        try {
+            return ObjectMapperHelper.readValue(s, FundingRecord.class);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

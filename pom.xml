@@ -199,6 +199,7 @@
 
     <module>xchange-nostro-binance</module>
     <module>xchange-nostro-core</module>
+    <module>xchange-nostro-ftx</module>
   </modules>
 
   <ciManagement>

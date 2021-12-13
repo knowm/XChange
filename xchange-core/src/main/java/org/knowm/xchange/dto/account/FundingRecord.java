@@ -5,7 +5,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.instrument.Instrument;
 
 /**
  * DTO representing funding information
@@ -13,6 +17,7 @@ import org.knowm.xchange.currency.Currency;
  * <p>Funding information contains the detail of deposit/withdrawal transaction for a specific
  * currency
  */
+@JsonDeserialize(builder = FundingRecord.Builder.class)
 public final class FundingRecord implements Serializable {
 
   private static final long serialVersionUID = 3788398035845873448L;
@@ -51,6 +56,9 @@ public final class FundingRecord implements Serializable {
   private final BigDecimal balance;
   /** Transaction Fee Amount in given transaction currency (always positive) */
   private final BigDecimal fee;
+  /** Transaction related instrument, like derivative for Type.REALISED_PROFIT or Type.REALISED_LOSS
+   * or <tt>null</tt> for deposit/withdrawal*/
+  protected final Instrument instrument;
   /** Description of the transaction */
   private String description;
 
@@ -138,6 +146,35 @@ public final class FundingRecord implements Serializable {
       final BigDecimal balance,
       final BigDecimal fee,
       final String description) {
+    this(address,
+            addressTag,
+            date,
+            currency,
+            amount,
+            internalId,
+            blockchainTransactionHash,
+            type,
+            status,
+            balance,
+            fee,
+            null,
+            description);
+  }
+
+  public FundingRecord(
+          final String address,
+          final String addressTag,
+          final Date date,
+          final Currency currency,
+          final BigDecimal amount,
+          final String internalId,
+          final String blockchainTransactionHash,
+          final Type type,
+          final Status status,
+          final BigDecimal balance,
+          final BigDecimal fee,
+          final Instrument instrument,
+          final String description) {  
     this.address = address;
     this.addressTag = addressTag == null || addressTag.isEmpty() ? null : addressTag;
     this.date = date;
@@ -149,6 +186,7 @@ public final class FundingRecord implements Serializable {
     this.status = status;
     this.balance = balance;
     this.fee = fee == null ? null : fee.abs();
+    this.instrument = instrument;
     this.description = description;
   }
 
@@ -261,6 +299,14 @@ public final class FundingRecord implements Serializable {
     return fee;
   }
 
+  /** 
+   * Transaction related instrument, like derivative for Type.REALISED_PROFIT or Type.REALISED_LOSS
+   * or <tt>null</tt> for deposit/withdrawal
+   */
+  public Instrument getInstrument() {
+    return instrument;
+  }
+
   /** @return Description of the transaction */
   public String getDescription() {
     return description;
@@ -269,7 +315,7 @@ public final class FundingRecord implements Serializable {
   @Override
   public String toString() {
     return String.format(
-        "FundingRecord{address='%s', date=%s, currency=%s, amount=%s, internalId=%s, blockchainTransactionHash=%s, description='%s', type=%s, status=%s, balance=%s, fee=%s}",
+        "FundingRecord{address='%s', date=%s, currency=%s, amount=%s, internalId=%s, blockchainTransactionHash=%s, description='%s', type=%s, status=%s, balance=%s, fee=%s, instrument=%s}",
         address,
         date,
         currency,
@@ -280,7 +326,8 @@ public final class FundingRecord implements Serializable {
         type,
         status,
         balance,
-        fee);
+        fee,
+        instrument);
   }
 
   /** Enum representing funding transaction type */
@@ -397,7 +444,8 @@ public final class FundingRecord implements Serializable {
       return fromString.get(str.toUpperCase());
     }
   }
-
+  
+  @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
     private String address;
@@ -412,6 +460,7 @@ public final class FundingRecord implements Serializable {
     private Status status;
     private BigDecimal balance;
     private BigDecimal fee;
+    private Instrument instrument;
 
     public static Builder from(FundingRecord record) {
       return new Builder()
@@ -426,7 +475,8 @@ public final class FundingRecord implements Serializable {
           .setType(record.type)
           .setStatus(record.status)
           .setBalance(record.balance)
-          .setFee(record.fee);
+          .setFee(record.fee)
+          .setInstrument(record.instrument);
     }
 
     public Builder setAddress(String address) {
@@ -489,6 +539,11 @@ public final class FundingRecord implements Serializable {
       return this;
     }
 
+    public Builder setInstrument(Instrument instrument) {
+      this.instrument = instrument;
+      return this;
+    }
+
     public FundingRecord build() {
       return new FundingRecord(
           address,
@@ -502,6 +557,7 @@ public final class FundingRecord implements Serializable {
           status,
           balance,
           fee,
+          instrument,
           description);
     }
   }

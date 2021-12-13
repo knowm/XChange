@@ -61,6 +61,11 @@ public class Transaction {
         return new SyncTaskRepository(connection, postfix);
     }
 
+    public FundingRepository getFundingRepository() {
+        checkConnection();
+        return new FundingRepository(connection, postfix);
+    }
+
     private void checkConnection() {
         if (connection == null) {
             throw new IllegalStateException("Not available outside of transaction");
