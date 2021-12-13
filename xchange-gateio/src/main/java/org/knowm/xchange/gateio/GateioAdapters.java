@@ -242,18 +242,20 @@ public final class GateioAdapters {
       currencyPairs.put(currencyPair, currencyPairMetaData);
     }
 
+    Map<String, GateioFeeInfo> gateioFees = marketDataService.getGateioFees();
     Map<String, GateioCoin> coins = marketDataService.getGateioCoinInfo().getCoins();
     for (String coin : coins.keySet()) {
       GateioCoin gateioCoin = coins.get(coin);
-      if (gateioCoin != null) {
-        currencies.put(new Currency(coin), adaptCurrencyMetaData(gateioCoin));
+      GateioFeeInfo gateioFeeInfo = gateioFees.get(coin);
+      if (gateioCoin != null && gateioFeeInfo != null) {
+        currencies.put(new Currency(coin), adaptCurrencyMetaData(gateioCoin, gateioFeeInfo));
       }
     }
 
     return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
   }
 
-  private static CurrencyMetaData adaptCurrencyMetaDataWithFeeInfo(
+  private static CurrencyMetaData adaptCurrencyMetaData(
       GateioCoin gateioCoin, GateioFeeInfo gateioFeeInfo) {
     WalletHealth walletHealth = WalletHealth.ONLINE;
     if (gateioCoin.isWithdrawDelayed()) {
@@ -271,26 +273,6 @@ public final class GateioAdapters {
         new BigDecimal(gateioFeeInfo.getWithdrawFix()),
         gateioFeeInfo.getWithdrawAmountMini(),
         walletHealth);
-  }
-
-  private static CurrencyMetaData adaptCurrencyMetaData(
-          GateioCoin gateioCoin) {
-    WalletHealth walletHealth = WalletHealth.ONLINE;
-    if (gateioCoin.isWithdrawDelayed()) {
-      walletHealth = WalletHealth.UNKNOWN;
-    } else if (gateioCoin.isDelisted()
-            || (gateioCoin.isWithdrawDisabled() && gateioCoin.isDepositDisabled())) {
-      walletHealth = WalletHealth.OFFLINE;
-    } else if (gateioCoin.isDepositDisabled()) {
-      walletHealth = WalletHealth.DEPOSITS_DISABLED;
-    } else if (gateioCoin.isWithdrawDisabled()) {
-      walletHealth = WalletHealth.WITHDRAWALS_DISABLED;
-    }
-    return new CurrencyMetaData(
-            0,
-            null,
-            null,
-            walletHealth);
   }
 
   public static List<FundingRecord> adaptDepositsWithdrawals(
