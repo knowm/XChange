@@ -132,6 +132,7 @@ public class NostroBinanceFuturesTradeService implements TradeService {
 
     @Override
     public boolean cancelOrder(String orderId) throws IOException {
+        LOG.info("cancel order id={}", orderId);
         String userReference = txFactory.executeAndGet(tx ->
                 tx.getOrderRepository().findByExternalId(orderId)
                         .orElseThrow(() -> new IllegalArgumentException("Order with external_id=\"" + orderId + "\" not found")).getId()

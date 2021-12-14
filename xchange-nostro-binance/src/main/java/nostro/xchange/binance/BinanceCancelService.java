@@ -27,6 +27,7 @@ public class BinanceCancelService {
     }
 
     public boolean cancelOrder(String id) {
+        LOG.info("cancel order id={}", id);
         try {
             return cancelTx(id);
         } catch (Throwable th) {

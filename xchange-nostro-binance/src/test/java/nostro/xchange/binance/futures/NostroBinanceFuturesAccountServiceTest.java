@@ -10,6 +10,7 @@ import nostro.xchange.binance.utils.NostroDBUtils;
 import nostro.xchange.persistence.BalanceEntity;
 import nostro.xchange.persistence.TransactionFactory;
 import nostro.xchange.utils.NostroUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,10 +26,10 @@ import org.knowm.xchange.binance.service.account.params.BinanceAccountPositionMa
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.service.account.params.AccountLeverageParamsCurrencyPair;
-import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -60,58 +61,63 @@ public class NostroBinanceFuturesAccountServiceTest extends DataSourceTest {
     }
 
     @Test
-    public void testSaveAccountInfo() throws Exception {
-        final String json = "{\n" +
-                "  \"e\": \"ACCOUNT_UPDATE\"," +
-                "  \"E\": 1564745798939," +
-                "  \"T\": 1564745798938," +
-                "  \"a\":" +
-                "    {\n" +
-                "      \"m\":\"ORDER\"," +
-                "      \"B\":[" +
-                "        {\n" +
-                "          \"a\":\"USDT\"," +
-                "          \"wb\":\"122624.12345678\"," +
-                "          \"cw\":\"100.12345678\"," +
-                "          \"bc\":\"50.12345678\"" +
-                "        },\n" +
-                "        {\n" +
-                "          \"a\":\"BUSD\"," +
-                "          \"wb\":\"1.00000000\"," +
-                "          \"cw\":\"0.00000000\"," +
-                "          \"bc\":\"-49.12345678\"" +
-                "        },\n" +
-                "        {\n" +
-                "          \"a\":\"USDS\"," +
-                "          \"wb\":\"0.00000000\"," +
-                "          \"cw\":\"0.00000000\"," +
-                "          \"bc\":\"-49.12345678\"" +
-                "        }\n" +
-                "      ]\n" +
-                "    }\n" +
-                "}";
-        AccountUpdateBinanceWebsocketTransaction transaction = mapper.readValue(json, AccountUpdateBinanceWebsocketTransaction.class);
+    public void testSaveAccountInfo_verifyBalances() throws Exception {
+        long time = Long.parseLong("1564745798938");
+        AccountUpdateBinanceWebsocketTransaction transaction = generateAccountUpdateBinanceWebsocketTransaction();
 
         // when
-        service.saveAccountInfo(transaction);
+        Pair<List<Balance>, List<OpenPosition>> pair = service.saveAccountInfo(transaction);
 
         // then
-        List<BalanceEntity> entities = txFactory.executeAndGet(tx -> tx.getBalanceRepository().findAllLatest());
+        // there are only 2 balances - one is skipped because of zero value
+        assertThat(pair.getLeft().size()).isEqualTo(2);
 
-        // there are only 2 balances - 3 one is skipped because of zero value
-        assertThat(entities.size()).isEqualTo(2);
+        Optional<BalanceEntity> e1 = txFactory.executeAndGet(tx -> tx.getBalanceRepository().findLatestByAsset("USDT"));
+        assertThat(e1.isPresent()).isTrue();
+        assertThat(e1.get().getAsset()).isEqualTo("USDT");
+        assertThat(e1.get().isZero()).isFalse();
+        assertThat(e1.get().getDocument()).isNotNull();
+        assertThat(e1.get().getTimestamp().getTime()).isEqualTo(time);
 
-        assertThat(entities.get(1).getAsset()).isEqualTo("USDT");
-        assertThat(entities.get(1).getTimestamp().getTime()).isEqualTo(Long.parseLong("1564745798938"));
+        Optional<BalanceEntity> e2 = txFactory.executeAndGet(tx -> tx.getBalanceRepository().findLatestByAsset("BUSD"));
+        assertThat(e2.isPresent()).isTrue();
+        assertThat(e2.get().getAsset()).isEqualTo("BUSD");
+        assertThat(e2.get().isZero()).isFalse();
+        assertThat(e2.get().getDocument()).isNotNull();
+        assertThat(e2.get().getTimestamp().getTime()).isEqualTo(time);
+    }
 
-        assertThat(entities.get(0).getAsset()).isEqualTo("BUSD");
-        assertThat(entities.get(0).getTimestamp().getTime()).isEqualTo(Long.parseLong("1564745798938"));
+    @Test
+    public void testSaveAccountInfo_verifyPositions() throws Exception {
+        long time = Long.parseLong("1564745798938");
+        AccountUpdateBinanceWebsocketTransaction transaction = generateAccountUpdateBinanceWebsocketTransaction();
+
+        // when
+        Pair<List<Balance>, List<OpenPosition>> pair = service.saveAccountInfo(transaction);
+
+        // then
+        // there are only 2 positions - one is skipped because of zero value
+        assertThat(pair.getRight().size()).isEqualTo(2);
+
+        Optional<BalanceEntity> e1 = txFactory.executeAndGet(tx -> tx.getBalanceRepository().findLatestByAsset("BTC/USDT/perpetual"));
+        assertThat(e1.isPresent()).isTrue();
+        assertThat(e1.get().getAsset()).isEqualTo("BTC/USDT/perpetual");
+        assertThat(e1.get().isZero()).isFalse();
+        assertThat(e1.get().getDocument()).isNotNull();
+        assertThat(e1.get().getTimestamp().getTime()).isEqualTo(time);
+
+        Optional<BalanceEntity> e2 = txFactory.executeAndGet(tx -> tx.getBalanceRepository().findLatestByAsset("ETH/USDT/perpetual"));
+        assertThat(e2.isPresent()).isTrue();
+        assertThat(e2.get().getAsset()).isEqualTo("ETH/USDT/perpetual");
+        assertThat(e2.get().isZero()).isFalse();
+        assertThat(e2.get().getDocument()).isNotNull();
+        assertThat(e2.get().getTimestamp().getTime()).isEqualTo(time);
     }
 
     @Test
     public void testSaveAccountInfo_updateNotRequired() throws Exception {
-        service.saveAccountInfo(generateOrderUpdate("USDT", Long.parseLong("1564745798839")));
-        service.saveAccountInfo(generateOrderUpdate("USDT", Long.parseLong("1564745798837")));
+        service.saveAccountInfo(generateAccountUpdateBinanceWebsocketTransaction_singleBalance("USDT", Long.parseLong("1564745798839")));
+        service.saveAccountInfo(generateAccountUpdateBinanceWebsocketTransaction_singleBalance("USDT", Long.parseLong("1564745798837")));
 
         // then
         BalanceEntity entity = txFactory.executeAndGet(tx -> tx.getBalanceRepository().findAllLatest()).get(0);
@@ -182,7 +188,7 @@ public class NostroBinanceFuturesAccountServiceTest extends DataSourceTest {
         assertThat(openPosition.getLeverage()).isEqualTo(new BigDecimal("1"));
     }
 
-    private AccountUpdateBinanceWebsocketTransaction generateOrderUpdate(String symbol, long time) throws JsonProcessingException {
+    private AccountUpdateBinanceWebsocketTransaction generateAccountUpdateBinanceWebsocketTransaction_singleBalance(String symbol, long time) throws JsonProcessingException {
         final String json = "{\n" +
                 "  \"e\": \"ACCOUNT_UPDATE\"," +
                 "  \"E\": " + time + "," +
@@ -202,4 +208,70 @@ public class NostroBinanceFuturesAccountServiceTest extends DataSourceTest {
                 "}";
         return mapper.readValue(json, AccountUpdateBinanceWebsocketTransaction.class);
     }
+
+    private AccountUpdateBinanceWebsocketTransaction generateAccountUpdateBinanceWebsocketTransaction() throws JsonProcessingException {
+        final String json = "{\n" +
+                "    \"e\": \"ACCOUNT_UPDATE\",\n" +
+                "    \"E\": 1564745798939,\n" +
+                "    \"T\": 1564745798938,\n" +
+                "    \"a\": {\n" +
+                "        \"m\": \"ORDER\",\n" +
+                "        \"B\": [\n" +
+                "            {\n" +
+                "                \"a\": \"USDT\",\n" +
+                "                \"wb\": \"122624.12345678\",\n" +
+                "                \"cw\": \"100.12345678\",\n" +
+                "                \"bc\": \"50.12345678\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"a\": \"BUSD\",\n" +
+                "                \"wb\": \"1.00000000\",\n" +
+                "                \"cw\": \"0.00000000\",\n" +
+                "                \"bc\": \"-49.12345678\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"a\": \"USDS\",\n" +
+                "                \"wb\": \"0.00000000\",\n" +
+                "                \"cw\": \"0.00000000\",\n" +
+                "                \"bc\": \"-49.12345678\"\n" +
+                "            }\n" +
+                "        ],\n" +
+                "        \"P\": [\n" +
+                "            {\n" +
+                "                \"s\": \"BTCUSDT\",\n" +
+                "                \"pa\": \"0\",\n" +
+                "                \"ep\": \"0.00000\",\n" +
+                "                \"cr\": \"200\",\n" +
+                "                \"up\": \"0\",\n" +
+                "                \"mt\": \"isolated\",\n" +
+                "                \"iw\": \"0.00000000\",\n" +
+                "                \"ps\": \"BOTH\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"s\": \"BTCUSDT\",\n" +
+                "                \"pa\": \"20\",\n" +
+                "                \"ep\": \"6563.66500\",\n" +
+                "                \"cr\": \"0\",\n" +
+                "                \"up\": \"2850.21200\",\n" +
+                "                \"mt\": \"isolated\",\n" +
+                "                \"iw\": \"13200.70726908\",\n" +
+                "                \"ps\": \"LONG\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"s\": \"ETHUSDT\",\n" +
+                "                \"pa\": \"-10\",\n" +
+                "                \"ep\": \"6563.86000\",\n" +
+                "                \"cr\": \"-45.04000000\",\n" +
+                "                \"up\": \"-1423.15600\",\n" +
+                "                \"mt\": \"isolated\",\n" +
+                "                \"iw\": \"6570.42511771\",\n" +
+                "                \"ps\": \"SHORT\"\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    }\n" +
+                "}";
+        AccountUpdateBinanceWebsocketTransaction transaction = mapper.readValue(json, AccountUpdateBinanceWebsocketTransaction.class);
+        return transaction;
+    }
+
 }

@@ -88,7 +88,7 @@ public class NostroBinanceExchange extends BinanceStreamingExchange {
         spec.setSslUri(inner.getSslUri());
         spec.setHost(inner.getHost());
         spec.setPort(inner.getPort());
-        spec.setExchangeName(inner.getExchangeName());
+        spec.setExchangeName("NostroBinance");
         spec.setExchangeDescription(inner.getExchangeDescription());
         spec.setShouldLoadRemoteMetaData(inner.isShouldLoadRemoteMetaData());
         AuthUtils.setApiAndSecretKey(spec, "binance");
@@ -96,6 +96,11 @@ public class NostroBinanceExchange extends BinanceStreamingExchange {
         spec.setExchangeSpecificParametersItem(P_SYNC_DELAY, "300");
         
         return spec;
+    }
+
+    @Override
+    public String getMetaDataFileName(ExchangeSpecification exchangeSpecification) {
+        return "binance";
     }
 
     @Override

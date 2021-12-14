@@ -5,6 +5,7 @@ import nostro.xchange.binance.NostroBinanceUtils;
 import nostro.xchange.persistence.BalanceEntity;
 import nostro.xchange.persistence.TransactionFactory;
 import nostro.xchange.utils.NostroUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.knowm.xchange.binance.futures.service.BinanceFuturesAccountService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.Derivative;
@@ -76,28 +77,45 @@ public class NostroBinanceFuturesAccountService implements AccountService {
         inner.setIsolatedPositionMargin(params);
     }
 
-    List<Balance> saveAccountInfo(AccountUpdateBinanceWebsocketTransaction accountInfo) {
+    Pair<List<Balance>, List<OpenPosition>> saveAccountInfo(AccountUpdateBinanceWebsocketTransaction accountInfo) {
         return txFactory.executeAndGet(tx -> {
             tx.getBalanceRepository().lock();
-            List<Balance> updated = new ArrayList<>();
+            List<Balance> updatedBalances = new ArrayList<>();
+            List<OpenPosition> updatedPositions = new ArrayList<>();
 
             for (Balance balance : accountInfo.toBalanceList()) {
-            Optional<BalanceEntity> o = tx.getBalanceRepository().findLatestByAsset(balance.getCurrency().getCurrencyCode());
+                LOG.debug("process balance={}", balance);
+                Optional<BalanceEntity> o = tx.getBalanceRepository().findLatestByAsset(balance.getCurrency().getCurrencyCode());
                 if (o.isPresent()) {
                     if (NostroBinanceUtils.updateRequired(o.get(), balance)) {
-                        updated.add(balance);
+                        updatedBalances.add(balance);
                     }
                 } else if (!NostroBinanceUtils.isZeroBalance(balance)) {
-                    updated.add(balance);
+                    updatedBalances.add(balance);
                 }
             }
-            LOG.info("Updated account info, ts={}, balances={}", new Timestamp(accountInfo.getTransactionTime()), updated);
+            for (OpenPosition position : accountInfo.toPositionList()) {
+                LOG.debug("process position={}", position);
+                Optional<BalanceEntity> o = tx.getBalanceRepository().findLatestByAsset(position.getInstrument().toString());
+                if (o.isPresent()) {
+                    if (NostroBinanceUtils.updateRequired(o.get(), position)) {
+                        updatedPositions.add(position);
+                    }
+                } else if (!NostroBinanceUtils.isZeroPosition(position)) {
+                    updatedPositions.add(position);
+                }
+            }
+            LOG.info("Updated account info, ts={}, balances={}, positions={}", new Timestamp(accountInfo.getTransactionTime()), updatedBalances, updatedPositions);
 
-            for (Balance b : updated) {
+            for (Balance b : updatedBalances) {
                 tx.getBalanceRepository().insert(NostroBinanceUtils.toEntity(b));
             }
 
-            return updated;
+            for (OpenPosition p : updatedPositions) {
+                tx.getBalanceRepository().insert(NostroBinanceUtils.toEntity(p));
+            }
+
+            return Pair.of(updatedBalances, updatedPositions);
         });
     }
 }

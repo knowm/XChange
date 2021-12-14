@@ -26,6 +26,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
@@ -84,7 +85,7 @@ public class NostroBinanceFuturesExchange extends BinanceFuturesStreamingExchang
         spec.setSslUri(inner.getSslUri());
         spec.setHost(inner.getHost());
         spec.setPort(inner.getPort());
-        spec.setExchangeName(inner.getExchangeName());
+        spec.setExchangeName("NostroBinancefutures");
         spec.setExchangeDescription(inner.getExchangeDescription());
         spec.setShouldLoadRemoteMetaData(inner.isShouldLoadRemoteMetaData());
         AuthUtils.setApiAndSecretKey(spec, "binance");
@@ -92,6 +93,11 @@ public class NostroBinanceFuturesExchange extends BinanceFuturesStreamingExchang
         spec.setExchangeSpecificParametersItem(P_SYNC_DELAY, "300");
 
         return spec;
+    }
+
+    @Override
+    public String getMetaDataFileName(ExchangeSpecification exchangeSpecification) {
+        return "binancefutures";
     }
 
     @Override
@@ -200,8 +206,9 @@ public class NostroBinanceFuturesExchange extends BinanceFuturesStreamingExchang
     private void onAccountInfo(AccountUpdateBinanceWebsocketTransaction accountInfo) {
         try {
             LOG.info("Received account info, ts={}", new Timestamp(accountInfo.getTransactionTime()));
-            List<Balance> list = nostroAccountService.saveAccountInfo(accountInfo);
-            list.forEach(publisher::publish);
+            Pair<List<Balance>, List<OpenPosition>> pair = nostroAccountService.saveAccountInfo(accountInfo);
+            pair.getLeft().forEach(publisher::publish);
+            pair.getRight().forEach(publisher::publish);
         } catch (Throwable th) {
             LOG.error("Error saving account info", th);
         }
