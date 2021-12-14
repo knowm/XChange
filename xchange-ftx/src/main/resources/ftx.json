@@ -1,3 +1,5906 @@
 {
-
+  "currency_pairs": {
+    "1INCH/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AAPL/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "AAVE/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "AAVE/USDT": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ABNB/USD": {
+      "min_amount": 0.025,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "ACB/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "ADABEAR/USD": {
+      "min_amount": 10000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "ADABULL/USD": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ADAHALF/USD": {
+      "min_amount": 0.000001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ADAHEDGE/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "AGLD/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AKRO/USD": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "AKRO/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "ALCX/USD": {
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ALEPH/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ALGOBEAR/USD": {
+      "min_amount": 1000000000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "ALGOBULL/USD": {
+      "min_amount": 100000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "ALGOHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ALGOHEDGE/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ALICE/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ALPHA/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ALTBEAR/USD": {
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "ALTBULL/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "ALTHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ALTHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "AMC/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AMD/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "AMPL/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AMPL/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AMZN/USD": {
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "APHA/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "ARKK/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ASD/USD": {
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ASDBEAR/USD": {
+      "min_amount": 100000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "ASDBEAR/USDT": {
+      "min_amount": 100000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "ASDBULL/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ASDBULL/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ASDHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ASDHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "ATLAS/USD": {
+      "min_amount": 10.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "ATOMBEAR/USD": {
+      "min_amount": 10000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "ATOMBULL/USD": {
+      "min_amount": 10.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "ATOMHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ATOMHEDGE/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AUDIO/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "AUDIO/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "AURY/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "AVAX/BTC": {
+      "min_amount": 0.1,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "AVAX/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AVAX/USDT": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AXS/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BABA/USD": {
+      "min_amount": 0.005,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BADGER/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BAL/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BAL/USDT": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BALBEAR/USD": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BALBEAR/USDT": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BALBULL/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "BALBULL/USDT": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "BALHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BALHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BAND/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BAO/USD": {
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BAR/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BAT/USD": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "BB/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BCH/BTC": {
+      "min_amount": 0.001,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "BCH/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BCH/USDT": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BCHBEAR/USD": {
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BCHBEAR/USDT": {
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BCHBULL/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "BCHBULL/USDT": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "BCHHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BCHHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BEAR/USD": {
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BEAR/USDT": {
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BEARSHIT/USD": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BICO/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BILI/USD": {
+      "min_amount": 0.05,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BIT/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "BITO/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BITW/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BLT/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BNB/BTC": {
+      "min_amount": 0.01,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "BNB/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BNB/USDT": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BNBBEAR/USD": {
+      "min_amount": 10000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BNBBEAR/USDT": {
+      "min_amount": 10000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BNBBULL/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BNBBULL/USDT": {
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BNBHALF/USD": {
+      "min_amount": 0.000001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BNBHEDGE/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BNT/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BNTX/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BOBA/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BRZ/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "BRZ/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "BSVBEAR/USD": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BSVBEAR/USDT": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BSVBULL/USD": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BSVBULL/USDT": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BSVHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BSVHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BTC/BRZ": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BTC/EUR": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BTC/TRYB": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BTC/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BTC/USDT": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BULL/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BULL/USDT": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BULLSHIT/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BVOL/BTC": {
+      "min_amount": 0.0001,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "BVOL/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BVOL/USDT": {
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BYND/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "C98/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "CAD/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "CEL/BTC": {
+      "min_amount": 0.1,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "CEL/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "CGC/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "CHR/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "CHZ/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "CHZ/USDT": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "CITY/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "CLV/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "COIN/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "COMP/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "COMP/USDT": {
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "COMPBEAR/USD": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "COMPBEAR/USDT": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "COMPBULL/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "COMPBULL/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "COMPHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "COMPHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "CONV/USD": {
+      "min_amount": 10.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "COPE/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "CQT/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "CREAM/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "CREAM/USDT": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "CRO/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "CRON/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "CRV/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "CUSDT/USD": {
+      "min_amount": 1.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "CUSDT/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "CUSDTBEAR/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "CUSDTBEAR/USDT": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "CUSDTBULL/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "CUSDTBULL/USDT": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "CUSDTHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "CUSDTHEDGE/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "CVC/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "DAI/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "DAI/USDT": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "DAWN/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "DEFIBEAR/USD": {
+      "min_amount": 100.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "DEFIBEAR/USDT": {
+      "min_amount": 100.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "DEFIBULL/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "DEFIBULL/USDT": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "DEFIHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "DEFIHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "DENT/USD": {
+      "min_amount": 100.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "DFL/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "DKNG/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "DMG/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "DMG/USDT": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "DODO/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "DOGE/BTC": {
+      "min_amount": 1.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "DOGE/USD": {
+      "min_amount": 1.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "DOGE/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "DOGEBEAR2021/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "DOGEBULL/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "DOGEHALF/USD": {
+      "min_amount": 0.000001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "DOGEHEDGE/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "DRGNBEAR/USD": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "DRGNBULL/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "DRGNHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "DRGNHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "DYDX/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "EDEN/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "EMB/USD": {
+      "min_amount": 10.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ENJ/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ENS/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "EOSBEAR/USD": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "EOSBEAR/USDT": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "EOSBULL/USD": {
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "EOSBULL/USDT": {
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "EOSHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "EOSHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "ETCBEAR/USD": {
+      "min_amount": 1000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "ETCBULL/USD": {
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ETCHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ETCHEDGE/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ETH/BRZ": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ETH/BTC": {
+      "min_amount": 0.001,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "ETH/EUR": {
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ETH/USD": {
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ETH/USDT": {
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ETHBEAR/USD": {
+      "min_amount": 1000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "ETHBEAR/USDT": {
+      "min_amount": 1000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "ETHBULL/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ETHBULL/USDT": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ETHE/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "ETHHALF/USD": {
+      "min_amount": 0.000001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ETHHEDGE/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "EUR/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "EXCHBEAR/USD": {
+      "min_amount": 1000.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "EXCHBULL/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "EXCHHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "EXCHHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "FB/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "FIDA/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "FIDA/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "FRONT/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "FRONT/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "FTM/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "FTT/BTC": {
+      "min_amount": 0.1,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "FTT/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "FTT/USDT": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GAL/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GALA/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "GBP/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "GBTC/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GDX/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GDXJ/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GENE/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GLD/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GLXY/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GME/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GODS/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "GOOGL/USD": {
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "GRT/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "GRTBEAR/USD": {
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "GRTBULL/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "GT/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "HALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "HALFSHIT/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "HEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "HEDGESHIT/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "HGET/USD": {
+      "min_amount": 0.05,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "HGET/USDT": {
+      "min_amount": 0.05,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "HMT/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "HNT/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "HNT/USDT": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "HOLY/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "HOOD/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "HT/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "HTBEAR/USD": {
+      "min_amount": 100.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "HTBULL/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "HTHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "HTHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "HUM/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "HXRO/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "HXRO/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "IBVOL/BTC": {
+      "min_amount": 0.0001,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "IBVOL/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "IBVOL/USDT": {
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "IMX/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "INTER/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "JET/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "JST/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "KIN/USD": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "KNC/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "KNC/USDT": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "KNCBEAR/USD": {
+      "min_amount": 100.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "KNCBEAR/USDT": {
+      "min_amount": 100.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "KNCBULL/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "KNCBULL/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "KNCHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "KNCHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "KSHIB/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "LEO/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "LEOBEAR/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "LEOBULL/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "LEOHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "LEOHEDGE/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "LINA/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "LINK/BTC": {
+      "min_amount": 0.1,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "LINK/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "LINK/USDT": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "LINKBEAR/USD": {
+      "min_amount": 10000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "LINKBEAR/USDT": {
+      "min_amount": 10000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "LINKBULL/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "LINKBULL/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "LINKHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "LINKHEDGE/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "LRC/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "LTC/BTC": {
+      "min_amount": 0.01,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "LTC/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "LTC/USDT": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "LTCBEAR/USD": {
+      "min_amount": 100.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "LTCBEAR/USDT": {
+      "min_amount": 100.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "LTCBULL/USD": {
+      "min_amount": 10.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "LTCBULL/USDT": {
+      "min_amount": 10.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "LTCHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "LTCHEDGE/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "LUA/USD": {
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "LUA/USDT": {
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "MANA/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MAPS/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MAPS/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MATH/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MATH/USDT": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MATIC/BTC": {
+      "min_amount": 10.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "MATIC/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "MATICBEAR2021/USD": {
+      "min_amount": 100.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "MATICBULL/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "MATICHALF/USD": {
+      "min_amount": 0.000001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "MATICHEDGE/USD": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "MCB/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "MEDIA/USD": {
+      "min_amount": 0.01,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "MER/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MIDBEAR/USD": {
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "MIDBULL/USD": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "MIDHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "MIDHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "MKR/USD": {
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "MKR/USDT": {
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "MKRBEAR/USD": {
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "MKRBULL/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "MNGO/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "MOB/USD": {
+      "min_amount": 0.5,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MOB/USDT": {
+      "min_amount": 0.5,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MRNA/USD": {
+      "min_amount": 0.005,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "MSOL/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "MSTR/USD": {
+      "min_amount": 0.005,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "MTA/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MTA/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MTL/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "NFLX/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "NIO/USD": {
+      "min_amount": 0.005,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "NOK/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "NVDA/USD": {
+      "min_amount": 0.0025,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "OKB/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "OKBBEAR/USD": {
+      "min_amount": 1000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "OKBBULL/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "OKBHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "OKBHEDGE/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "OMG/USD": {
+      "min_amount": 0.5,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ORBS/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "OXY/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "OXY/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "PAXG/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "PAXG/USDT": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "PAXGBEAR/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "PAXGBULL/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "PAXGHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "PAXGHEDGE/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "PENN/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "PERP/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "PFE/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "POLIS/USD": {
+      "min_amount": 0.1,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "PORT/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "PRIVBEAR/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "PRIVBULL/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "PRIVHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "PRIVHEDGE/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "PROM/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "PSG/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "PTU/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "PUNDIX/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "PYPL/USD": {
+      "min_amount": 0.005,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "QI/USD": {
+      "min_amount": 10.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "RAMP/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "RAY/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "REEF/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "REN/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "RNDR/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ROOK/USD": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ROOK/USDT": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "RSR/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "RUNE/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "RUNE/USDT": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SAND/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "SECO/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SHIB/USD": {
+      "min_amount": 100000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "SKL/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SLND/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "SLP/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "SLRS/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "SLV/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SNX/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SNY/USD": {
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SOL/BTC": {
+      "min_amount": 0.01,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "SOL/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SOL/USDT": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SPELL/USD": {
+      "min_amount": 100.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "SPY/USD": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "SQ/USD": {
+      "min_amount": 0.005,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "SRM/USD": {
+      "min_amount": 1.0,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "SRM/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "STARS/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "STEP/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "STETH/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "STMX/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "STORJ/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "STSOL/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "SUN/USD": {
+      "min_amount": 0.001,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "SUSHI/BTC": {
+      "min_amount": 0.5,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "SUSHI/USD": {
+      "min_amount": 0.5,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SUSHI/USDT": {
+      "min_amount": 0.5,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SUSHIBEAR/USD": {
+      "min_amount": 10000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "SUSHIBULL/USD": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "SXP/BTC": {
+      "min_amount": 0.1,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "SXP/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SXP/USDT": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SXPBEAR/USD": {
+      "min_amount": 1000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "SXPBULL/USD": {
+      "min_amount": 100.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "SXPHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "SXPHALF/USDT": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "SXPHEDGE/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "THETABEAR/USD": {
+      "min_amount": 10000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "THETABULL/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "THETAHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "THETAHEDGE/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "TLM/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "TLRY/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "TOMO/USD": {
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "TOMO/USDT": {
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "TOMOBEAR2021/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "TOMOBULL/USD": {
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "TOMOHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "TOMOHEDGE/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "TONCOIN/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "TRU/USD": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "TRU/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "TRX/BTC": {
+      "min_amount": 1.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "TRX/USD": {
+      "min_amount": 1.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "TRX/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "TRXBEAR/USD": {
+      "min_amount": 1000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "TRXBULL/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "TRXHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "TRXHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "TRYB/USD": {
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "TRYBBEAR/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "TRYBBULL/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "TRYBHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "TRYBHEDGE/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "TSLA/BTC": {
+      "min_amount": 0.01,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "TSLA/DOGE": {
+      "min_amount": 0.01,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "TSLA/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "TSM/USD": {
+      "min_amount": 0.005,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "TULIP/USD": {
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "TWTR/USD": {
+      "min_amount": 0.05,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "UBER/USD": {
+      "min_amount": 0.05,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "UBXT/USD": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "UBXT/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "UNI/BTC": {
+      "min_amount": 0.05,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "UNI/USD": {
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "UNI/USDT": {
+      "min_amount": 0.05,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "UNISWAPBEAR/USD": {
+      "min_amount": 10.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "UNISWAPBULL/USD": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "USDT/USD": {
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "USDTBEAR/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "USDTBULL/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "USDTHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "USDTHEDGE/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "USO/USD": {
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "VETBEAR/USD": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "VETBEAR/USDT": {
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "VETBULL/USD": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "VETBULL/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "VETHEDGE/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "VGX/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "WAVES/USD": {
+      "min_amount": 0.5,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "WBTC/BTC": {
+      "min_amount": 0.0001,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "WBTC/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "WNDR/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "WRX/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "WRX/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "XAUT/USD": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "XAUT/USDT": {
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "XAUTBEAR/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "XAUTBULL/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "XAUTHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "XAUTHEDGE/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "XLMBEAR/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "XLMBULL/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "XRP/BTC": {
+      "min_amount": 1.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "XRP/USD": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "XRP/USDT": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "XRPBEAR/USD": {
+      "min_amount": 1000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "XRPBEAR/USDT": {
+      "min_amount": 1000000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "XRPBULL/USD": {
+      "min_amount": 100.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "XRPBULL/USDT": {
+      "min_amount": 100.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "XRPHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "XRPHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "XTZBEAR/USD": {
+      "min_amount": 100000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "XTZBEAR/USDT": {
+      "min_amount": 100000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "XTZBULL/USD": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "XTZBULL/USDT": {
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "XTZHALF/USD": {
+      "min_amount": 0.00001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "XTZHEDGE/USD": {
+      "min_amount": 0.001,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "YFI/BTC": {
+      "min_amount": 0.001,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "YFI/USD": {
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "YFI/USDT": {
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "YFII/USD": {
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ZECBEAR/USD": {
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "ZECBULL/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ZM/USD": {
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ZRX/USD": {
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    }
+  },
+  "currencies": {
+    "1INCH": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "AAPL": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "AAVE": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "ABNB": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "ACB": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ADABEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ADABULL": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "ADAHALF": {
+      "scale": 6,
+      "withdrawal_fee": 0
+    },
+    "ADAHEDGE": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "AGLD": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "AKRO": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ALCX": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "ALEPH": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ALGOBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ALGOBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ALGOHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "ALGOHEDGE": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "ALICE": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ALPHA": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ALTBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ALTBULL": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "ALTHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "ALTHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "AMC": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "AMD": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "AMPL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "AMZN": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "APHA": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ARKK": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "ASD": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ASDBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ASDBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ASDHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "ASDHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "ATLAS": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ATOMBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ATOMBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ATOMHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "ATOMHEDGE": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "AUDIO": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "AURY": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "AVAX": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "AXS": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BABA": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "BADGER": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "BAL": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "BALBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BALBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BALHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "BALHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "BAND": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BAO": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BAT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BB": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BCH": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "BCHBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BCHBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BCHHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "BCHHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "BEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BEARSHIT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BICO": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BILI": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "BIT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BITO": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "BITW": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "BLT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BNB": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "BNBBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BNBBULL": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "BNBHALF": {
+      "scale": 6,
+      "withdrawal_fee": 0
+    },
+    "BNBHEDGE": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "BNT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BNTX": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "BOBA": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BRZ": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BSVBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BSVBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "BSVHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "BSVHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "BTC": {
+      "scale": 7,
+      "withdrawal_fee": 0
+    },
+    "BULL": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "BULLSHIT": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "BVOL": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "BYND": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "C98": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CAD": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CEL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CGC": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CHR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CHZ": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CITY": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CLV": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "COIN": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "COMP": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "COMPBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "COMPBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "COMPHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "COMPHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "CONV": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "COPE": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CQT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CREAM": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "CRO": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CRON": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CRV": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CUSDT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "CUSDTBEAR": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "CUSDTBULL": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "CUSDTHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "CUSDTHEDGE": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "CVC": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "DAI": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "DAWN": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "DEFIBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "DEFIBULL": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "DEFIHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "DEFIHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "DENT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "DFL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "DKNG": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "DMG": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "DODO": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "DOGE": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "DOGEBEAR2021": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "DOGEBULL": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "DOGEHALF": {
+      "scale": 6,
+      "withdrawal_fee": 0
+    },
+    "DOGEHEDGE": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "DRGNBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "DRGNBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "DRGNHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "DRGNHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "DYDX": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "EDEN": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "EMB": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ENJ": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ENS": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "EOSBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "EOSBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "EOSHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "EOSHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "ETCBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ETCBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ETCHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "ETCHEDGE": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "ETH": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "ETHBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ETHBULL": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "ETHE": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ETHHALF": {
+      "scale": 6,
+      "withdrawal_fee": 0
+    },
+    "ETHHEDGE": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "EUR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "EXCHBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "EXCHBULL": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "EXCHHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "EXCHHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "FB": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "FIDA": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "FRONT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "FTM": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "FTT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "GAL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "GALA": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "GBP": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "GBTC": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "GDX": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "GDXJ": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "GENE": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "GLD": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "GLXY": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "GME": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "GODS": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "GOOGL": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "GRT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "GRTBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "GRTBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "GT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "HALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "HALFSHIT": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "HEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "HEDGESHIT": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "HGET": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "HMT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "HNT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "HOLY": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "HOOD": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "HT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "HTBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "HTBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "HTHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "HTHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "HUM": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "HXRO": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "IBVOL": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "IMX": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "INTER": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "JET": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "JST": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "KIN": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "KNC": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "KNCBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "KNCBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "KNCHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "KNCHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "KSHIB": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "LEO": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "LEOBEAR": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "LEOBULL": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "LEOHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "LEOHEDGE": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "LINA": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "LINK": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "LINKBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "LINKBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "LINKHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "LINKHEDGE": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "LRC": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "LTC": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "LTCBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "LTCBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "LTCHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "LTCHEDGE": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "LUA": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MANA": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MAPS": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MATH": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MATIC": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MATICBEAR2021": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MATICBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MATICHALF": {
+      "scale": 6,
+      "withdrawal_fee": 0
+    },
+    "MATICHEDGE": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MCB": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "MEDIA": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "MER": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MIDBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MIDBULL": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "MIDHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "MIDHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "MKR": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "MKRBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MKRBULL": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "MNGO": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MOB": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MRNA": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "MSOL": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "MSTR": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "MTA": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "MTL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "NFLX": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "NIO": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "NOK": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "NVDA": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "OKB": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "OKBBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "OKBBULL": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "OKBHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "OKBHEDGE": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "OMG": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ORBS": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "OXY": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "PAXG": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "PAXGBEAR": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "PAXGBULL": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "PAXGHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "PAXGHEDGE": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "PENN": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "PERP": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "PFE": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "POLIS": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "PORT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "PRIVBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "PRIVBULL": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "PRIVHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "PRIVHEDGE": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "PROM": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "PSG": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "PTU": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "PUNDIX": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "PYPL": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "QI": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "RAMP": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "RAY": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "REEF": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "REN": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "RNDR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ROOK": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "RSR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "RUNE": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SAND": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SECO": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SHIB": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SKL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SLND": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SLP": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SLRS": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SLV": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SNX": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SNY": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SOL": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "SPELL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SPY": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "SQ": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "SRM": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "STARS": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "STEP": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "STETH": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "STMX": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "STORJ": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "STSOL": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "SUN": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "SUSHI": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SUSHIBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SUSHIBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SXP": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SXPBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SXPBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "SXPHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "SXPHEDGE": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "THETABEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "THETABULL": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "THETAHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "THETAHEDGE": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "TLM": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "TLRY": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "TOMO": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "TOMOBEAR2021": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "TOMOBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "TOMOHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "TOMOHEDGE": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "TONCOIN": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "TRU": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "TRX": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "TRXBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "TRXBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "TRXHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "TRXHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "TRYB": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "TRYBBEAR": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "TRYBBULL": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "TRYBHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "TRYBHEDGE": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "TSLA": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "TSM": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "TULIP": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "TWTR": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "UBER": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "UBXT": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "UNI": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "UNISWAPBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "UNISWAPBULL": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "USD": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "USDT": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "USDTBEAR": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "USDTBULL": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "USDTHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "USDTHEDGE": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "USO": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "VETBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "VETBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "VETHEDGE": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "VGX": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "WAVES": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "WBTC": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "WNDR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "WRX": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "XAUT": {
+      "scale": 4,
+      "withdrawal_fee": 0
+    },
+    "XAUTBEAR": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "XAUTBULL": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "XAUTHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "XAUTHEDGE": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "XLMBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "XLMBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "XRP": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "XRPBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "XRPBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "XRPHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "XRPHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "XTZBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "XTZBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "XTZHALF": {
+      "scale": 5,
+      "withdrawal_fee": 0
+    },
+    "XTZHEDGE": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "YFI": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "YFII": {
+      "scale": 3,
+      "withdrawal_fee": 0
+    },
+    "ZECBEAR": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ZECBULL": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    },
+    "ZM": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "ZRX": {
+      "scale": 1,
+      "withdrawal_fee": 0
+    }
+  },
+  "futures": {
+    "1INCH/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "1INCH/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AAPL/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "AAVE/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "AAVE/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ABNB/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.025,
+      "min_amount": 0.025,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "ACB/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "ADA/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "ADA/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "AGLD/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ALCX/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ALGO/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ALGO/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ALICE/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ALPHA/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ALT/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ALT/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "AMC/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AMD/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "AMPL/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AMZN/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "APHA/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "AR/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "ARKK/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ASD/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ATLAS/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "ATOM/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ATOM/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AUDIO/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "AVAX/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "AVAX/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "AXS/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BABA/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.005,
+      "min_amount": 0.005,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BADGER/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BAL/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BAL/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BAND/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BAO/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1000.0,
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BAT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "BB/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BCH/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BCH/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BILI/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.05,
+      "min_amount": 0.05,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BIT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "BITO/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BITW/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "BNB/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BNB/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BNT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BNTX/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BOBA/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "BRZ/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "BSV/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BSV/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "BTC/USD/211231": {
+      "amount_scale": 4,
+      "amount_step_size": 0.0001,
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BTC/USD/220325": {
+      "amount_scale": 4,
+      "amount_step_size": 0.0001,
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BTC/USD/perpetual": {
+      "amount_scale": 4,
+      "amount_step_size": 0.0001,
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "BTT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1000.0,
+      "min_amount": 1000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "BYND/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "C98/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "CAKE/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "CEL/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "CEL/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "CELO/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "CGC/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "CHR/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "CHZ/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "CHZ/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "CLV/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "COMP/USD/211231": {
+      "amount_scale": 4,
+      "amount_step_size": 0.0001,
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "COMP/USD/perpetual": {
+      "amount_scale": 4,
+      "amount_step_size": 0.0001,
+      "min_amount": 0.0001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "CONV/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "CREAM/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "CRO/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "CRON/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "CRV/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "CUSDT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "CVC/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "DASH/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "DAWN/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "DEFI/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "DEFI/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "DENT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 100.0,
+      "min_amount": 100.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "DKNG/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "DODO/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "DOGE/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "DOGE/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "DOT/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "DOT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "DRGN/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "DRGN/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "DYDX/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "EDEN/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "EDEN/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "EGLD/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "ENJ/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ENS/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "EOS/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "EOS/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ETC/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ETH/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ETH/USD/220325": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ETH/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "ETHE/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "EXCH/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "EXCH/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "FB/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "FIDA/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "FIL/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "FIL/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "FLM/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "FLOW/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "FTM/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "FTT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "GALA/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "GBTC/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GDX/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GDXJ/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GLD/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "GME/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "GOOGL/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "GRT/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "GRT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "HBAR/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "HNT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "HOLY/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "HOT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 100.0,
+      "min_amount": 100.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "HT/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "HUM/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "ICP/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ICX/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "IOTA/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "KAVA/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "KIN/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10000.0,
+      "min_amount": 10000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "KNC/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "KSHIB/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "KSM/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "LEO/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "LINA/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "LINK/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "LINK/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "LRC/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "LTC/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "LTC/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "LUNA/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "MANA/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MAPS/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MATIC/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "MCB/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "MEDIA/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "MER/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MID/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "MID/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "MKR/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "MNGO/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "MRNA/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "MSTR/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.005,
+      "min_amount": 0.005,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "MTA/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MTL/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "MVDA10/USD/perpetual": {
+      "amount_scale": 4,
+      "amount_step_size": 0.0001,
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "MVDA25/USD/perpetual": {
+      "amount_scale": 4,
+      "amount_step_size": 0.0001,
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "NEAR/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "NEO/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "NFLX/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "NIO/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.05,
+      "min_amount": 0.05,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "NOK/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "NVDA/USD/211231": {
+      "amount_scale": 4,
+      "amount_step_size": 0.0025,
+      "min_amount": 0.0025,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "OKB/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "OKB/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "OMG/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "OMG/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ONE/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "ONT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ORBS/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "OXY/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "PAXG/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "PENN/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "PERP/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "PFE/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "POLIS/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "PRIV/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "PRIV/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "PROM/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "PUNDIX/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "PYPL/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.005,
+      "min_amount": 0.005,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "QTUM/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "RAMP/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "RAY/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "REEF/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "REEF/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "REN/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "RNDR/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "ROOK/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "RSR/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "RUNE/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SAND/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "SC/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 100.0,
+      "min_amount": 100.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "SECO/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SHIB/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 100000.0,
+      "min_amount": 100000.0,
+      "price_scale": 8,
+      "trading_fee": 0.0007
+    },
+    "SHIT/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "SHIT/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "SKL/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SLP/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "SLV/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SNX/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SOL/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SOL/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SPELL/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 100.0,
+      "min_amount": 100.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "SPY/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "SQ/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.005,
+      "min_amount": 0.005,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "SRM/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "SRN/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "STEP/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "STMX/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "STORJ/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "STX/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "SUSHI/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.5,
+      "min_amount": 0.5,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SUSHI/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.5,
+      "min_amount": 0.5,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SXP/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "SXP/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "THETA/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "THETA/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "TLM/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "TLRY/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "TOMO/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "TONCOIN/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "TRU/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "TRX/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "TRX/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 7,
+      "trading_fee": 0.0007
+    },
+    "TRYB/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "TSLA/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "TSM/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.005,
+      "min_amount": 0.005,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "TULIP/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "TWTR/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.05,
+      "min_amount": 0.05,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "UBER/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.05,
+      "min_amount": 0.05,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "UNI/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "UNI/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.1,
+      "min_amount": 0.1,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "UNISWAP/USD/211231": {
+      "amount_scale": 4,
+      "amount_step_size": 0.0001,
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "UNISWAP/USD/perpetual": {
+      "amount_scale": 4,
+      "amount_step_size": 0.0001,
+      "min_amount": 0.0001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "USDT/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "USDT/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "USO/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 3,
+      "trading_fee": 0.0007
+    },
+    "VET/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "WAVES/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 0.5,
+      "min_amount": 0.5,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "WAVES/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 0.5,
+      "min_amount": 0.5,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "WSB/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "XAUT/USD/211231": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "XAUT/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "XEM/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "XLM/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "XMR/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.01,
+      "min_amount": 0.01,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "XRP/USD/211231": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "XRP/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 6,
+      "trading_fee": 0.0007
+    },
+    "XTZ/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "XTZ/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 4,
+      "trading_fee": 0.0007
+    },
+    "YFI/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "YFI/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 1,
+      "trading_fee": 0.0007
+    },
+    "YFII/USD/perpetual": {
+      "amount_scale": 3,
+      "amount_step_size": 0.001,
+      "min_amount": 0.001,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ZEC/USD/perpetual": {
+      "amount_scale": 2,
+      "amount_step_size": 0.05,
+      "min_amount": 0.05,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ZIL/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 10.0,
+      "min_amount": 10.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    },
+    "ZM/USD/211231": {
+      "amount_scale": 3,
+      "amount_step_size": 0.005,
+      "min_amount": 0.005,
+      "price_scale": 2,
+      "trading_fee": 0.0007
+    },
+    "ZRX/USD/perpetual": {
+      "amount_scale": 1,
+      "amount_step_size": 1.0,
+      "min_amount": 1.0,
+      "price_scale": 5,
+      "trading_fee": 0.0007
+    }
+  },
+  "public_rate_limits": [
+    {
+      "calls": 2,
+      "time_span": 1,
+      "time_unit": "SECONDS"
+    }
+  ]
 }

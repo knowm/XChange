@@ -144,6 +144,7 @@ public class FtxAdapters {
                         .minimumAmount(ftxMarketDto.getSizeIncrement())
                         .priceScale(ftxMarketDto.getPriceIncrement().scale())
                         .baseScale(ftxMarketDto.getSizeIncrement().scale())
+                        .tradingFee(new BigDecimal("0.0007")) // Trading fee at Ftx is 0.07 % for a 1 Tier (max value)
                         .build();
 
                 currencyPairs.put(currencyPair, currencyPairMetaData);
@@ -169,6 +170,7 @@ public class FtxAdapters {
                           .amountScale(ftxMarketDto.getSizeIncrement().scale())
                           .priceStepSize(ftxMarketDto.getPriceIncrement())
                           .priceScale(ftxMarketDto.getPriceIncrement().scale())
+                          .tradingFee(new BigDecimal("0.0007")) // Trading fee at Ftx is 0.07 % for a 1 Tier (max value)
                           .build();
 
                   futures.put((FuturesContract) instrument, futuresContractMetaData);
