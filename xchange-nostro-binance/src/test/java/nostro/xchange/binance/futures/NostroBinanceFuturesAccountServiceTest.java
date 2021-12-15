@@ -20,6 +20,7 @@ import org.knowm.xchange.binance.dto.account.BinanceMarginType;
 import org.knowm.xchange.binance.futures.BinanceFuturesAdapter;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAsset;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesPosition;
+import org.knowm.xchange.binance.futures.dto.trade.PositionSide;
 import org.knowm.xchange.binance.futures.service.BinanceFuturesAccountService;
 import org.knowm.xchange.binance.service.account.params.BinanceAccountMarginParams;
 import org.knowm.xchange.binance.service.account.params.BinanceAccountPositionMarginParams;
@@ -172,7 +173,7 @@ public class NostroBinanceFuturesAccountServiceTest extends DataSourceTest {
         txFactory.execute(tx -> tx.getBalanceRepository().insert(NostroBinanceUtils.toEntity(BinanceFuturesAdapter.adaptBalance(asset1))));
         txFactory.execute(tx -> tx.getBalanceRepository().insert(NostroBinanceUtils.toEntity(BinanceFuturesAdapter.adaptBalance(asset2))));
 
-        BinanceFuturesPosition position = NostroBinanceFuturesDtoUtils.generatePosition("BTCUSDT", 1, new BigDecimal("55500"), new BigDecimal(1), timestamp.getTime());
+        BinanceFuturesPosition position = NostroBinanceFuturesDtoUtils.generatePosition("BTCUSDT", 1, new BigDecimal("55500"), new BigDecimal(1), timestamp.getTime(), PositionSide.LONG);
         txFactory.execute(tx -> tx.getBalanceRepository().insert(NostroBinanceUtils.toEntity(BinanceFuturesAdapter.adaptPosition(position))));
 
         AccountInfo accountInfo = service.getAccountInfo();

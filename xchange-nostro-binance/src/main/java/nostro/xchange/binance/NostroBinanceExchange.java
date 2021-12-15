@@ -192,7 +192,7 @@ public class NostroBinanceExchange extends BinanceStreamingExchange {
     
     private void onExecutionReport(ExecutionReportBinanceUserTransaction report) {
         try {
-            LOG.info("Received execution report, client_id={}", report.getClientOrderId());
+            LOG.info("Received execution report, client_id={}, reason={}", report.getClientOrderId(), report.getEventType());
             Pair<Order, UserTrade> pair = txFactory.executeAndGet(tx -> saveExecutionReport(tx, report));
             publisher.publish(pair.getLeft());
             if (pair.getRight() != null) {
@@ -253,6 +253,7 @@ public class NostroBinanceExchange extends BinanceStreamingExchange {
 
     private void onAccountInfo(OutboundAccountInfoBinanceWebsocketTransaction accountInfo) {
         try {
+            LOG.info("Received account info ts={} reason={}", new Timestamp(accountInfo.getLastUpdateTimestamp()), accountInfo.getEventType());
             List<Balance> list = txFactory.executeAndGet(tx -> saveAccountInfo(tx, accountInfo));
             for(Balance b : list) {
                 publisher.publish(b);

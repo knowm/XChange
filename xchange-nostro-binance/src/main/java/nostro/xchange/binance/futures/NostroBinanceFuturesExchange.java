@@ -189,7 +189,7 @@ public class NostroBinanceFuturesExchange extends BinanceFuturesStreamingExchang
 
     private void onExecutionReport(OrderTradeUpdateBinanceUserTransaction report) {
         try {
-            LOG.info("Received execution report, client_id={}", report.getOrderTradeUpdate().getClientOrderId());
+            LOG.info("Received execution report, client_id={}, reason={}", report.getOrderTradeUpdate().getClientOrderId(), report.getEventType());
             Pair<Order, UserTrade> pair = nostroTradeService.saveExecutionReport(report);
 
             tryUpdateSubscription(pair.getLeft());
@@ -205,7 +205,7 @@ public class NostroBinanceFuturesExchange extends BinanceFuturesStreamingExchang
 
     private void onAccountInfo(AccountUpdateBinanceWebsocketTransaction accountInfo) {
         try {
-            LOG.info("Received account info, ts={}", new Timestamp(accountInfo.getTransactionTime()));
+            LOG.info("Received account info ts={} reason={}", new Timestamp(accountInfo.getTransactionTime()), accountInfo.getEventType());
             Pair<List<Balance>, List<OpenPosition>> pair = nostroAccountService.saveAccountInfo(accountInfo);
             pair.getLeft().forEach(publisher::publish);
             pair.getRight().forEach(publisher::publish);

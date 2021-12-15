@@ -14,6 +14,7 @@ import org.knowm.xchange.binance.futures.BinanceFuturesAdapter;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAccountInformation;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAsset;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesPosition;
+import org.knowm.xchange.binance.futures.dto.trade.PositionSide;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.Balance;
@@ -173,7 +174,7 @@ public class BinanceFuturesBalanceSyncTaskTest extends DataSourceTest {
         BigDecimal entryPrice = new BigDecimal(1000);
         BigDecimal positionAmount = new BigDecimal(10);
         String symbol = BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT);
-        BinanceFuturesPosition futuresPosition = generatePosition(symbol, 1, entryPrice, positionAmount, updateTime.getTime());
+        BinanceFuturesPosition futuresPosition = generatePosition(symbol, 1, entryPrice, positionAmount, updateTime.getTime(), PositionSide.LONG);
         BinanceFuturesAccountInformation accountInformation = generateAccountInformation(0, Collections.singletonList(futuresPosition), null);
         given(syncService.getFuturesAccountInfo()).willReturn(accountInformation);
         // when
@@ -195,7 +196,7 @@ public class BinanceFuturesBalanceSyncTaskTest extends DataSourceTest {
         BigDecimal entryPrice = new BigDecimal(0);
         BigDecimal positionAmount = new BigDecimal(0);
         String symbol = BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT);
-        BinanceFuturesPosition futuresPosition = generatePosition(symbol, 1, entryPrice, positionAmount, updateTime.getTime());
+        BinanceFuturesPosition futuresPosition = generatePosition(symbol, 1, entryPrice, positionAmount, updateTime.getTime(), PositionSide.LONG);
         BinanceFuturesAccountInformation accountInformation = generateAccountInformation(0, Collections.singletonList(futuresPosition), null);
         given(syncService.getFuturesAccountInfo()).willReturn(accountInformation);
         // when
@@ -211,7 +212,7 @@ public class BinanceFuturesBalanceSyncTaskTest extends DataSourceTest {
         Timestamp updateTime = new Timestamp(new Date().getTime());
         String symbol = BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT);
         // sync 1 time
-        BinanceFuturesPosition futuresPosition = generatePosition(symbol, 1, new BigDecimal(1000), new BigDecimal(10), updateTime.getTime() - 10);
+        BinanceFuturesPosition futuresPosition = generatePosition(symbol, 1, new BigDecimal(1000), new BigDecimal(10), updateTime.getTime() - 10, PositionSide.LONG);
         given(syncService.getFuturesAccountInfo()).willReturn(generateAccountInformation(updateTime.getTime() - 10, Collections.singletonList(futuresPosition), null));
         new BinanceFuturesBalanceSyncTask(syncService).call();
         assertThat(txFactory.executeAndGet(tx -> tx.getBalanceRepository().findAllLatest()).size()).isEqualTo(1);
@@ -220,7 +221,7 @@ public class BinanceFuturesBalanceSyncTaskTest extends DataSourceTest {
         assertThat(balanceEntity1.get().isZero()).isFalse();
 
         // sync 2 time
-        BinanceFuturesPosition futuresPosition2 = generatePosition(symbol, 5, new BigDecimal(0), new BigDecimal(0), updateTime.getTime());
+        BinanceFuturesPosition futuresPosition2 = generatePosition(symbol, 5, new BigDecimal(0), new BigDecimal(0), updateTime.getTime(), PositionSide.LONG);
         given(syncService.getFuturesAccountInfo()).willReturn(generateAccountInformation(updateTime.getTime(), Collections.singletonList(futuresPosition2), null));
         new BinanceFuturesBalanceSyncTask(syncService).call();
         assertThat(txFactory.executeAndGet(tx -> tx.getBalanceRepository().findAllLatest()).size()).isEqualTo(1);
@@ -236,7 +237,7 @@ public class BinanceFuturesBalanceSyncTaskTest extends DataSourceTest {
         Timestamp updateTime = new Timestamp(new Date().getTime());
         String symbol = BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT);
         // sync 1 time
-        BinanceFuturesPosition futuresPosition = generatePosition(symbol, 1, new BigDecimal(1000), new BigDecimal(10), updateTime.getTime() - 10);
+        BinanceFuturesPosition futuresPosition = generatePosition(symbol, 1, new BigDecimal(1000), new BigDecimal(10), updateTime.getTime() - 10, PositionSide.LONG);
         given(syncService.getFuturesAccountInfo()).willReturn(generateAccountInformation(updateTime.getTime() - 10, Collections.singletonList(futuresPosition), null));
         new BinanceFuturesBalanceSyncTask(syncService).call();
         assertThat(txFactory.executeAndGet(tx -> tx.getBalanceRepository().findAllLatest()).size()).isEqualTo(1);
@@ -261,13 +262,13 @@ public class BinanceFuturesBalanceSyncTaskTest extends DataSourceTest {
         Timestamp updateTime = new Timestamp(new Date().getTime());
         String symbol = BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT);
         // sync 1 time
-        BinanceFuturesPosition futuresPosition = generatePosition(symbol, 1, new BigDecimal(1000), new BigDecimal(10), updateTime.getTime() - 10);
+        BinanceFuturesPosition futuresPosition = generatePosition(symbol, 1, new BigDecimal(1000), new BigDecimal(10), updateTime.getTime() - 10, PositionSide.LONG);
         given(syncService.getFuturesAccountInfo()).willReturn(generateAccountInformation(updateTime.getTime() - 10, Collections.singletonList(futuresPosition), null));
         new BinanceFuturesBalanceSyncTask(syncService).call();
         assertThat(txFactory.executeAndGet(tx -> tx.getBalanceRepository().findAllLatest()).size()).isEqualTo(1);
 
         // sync 2 time
-        BinanceFuturesPosition futuresPosition2 = generatePosition(symbol, 5, new BigDecimal(5000), new BigDecimal(11), updateTime.getTime());
+        BinanceFuturesPosition futuresPosition2 = generatePosition(symbol, 5, new BigDecimal(5000), new BigDecimal(11), updateTime.getTime(), PositionSide.LONG);
         given(syncService.getFuturesAccountInfo()).willReturn(generateAccountInformation(updateTime.getTime(), Collections.singletonList(futuresPosition2), null));
         new BinanceFuturesBalanceSyncTask(syncService).call();
         assertThat(txFactory.executeAndGet(tx -> tx.getBalanceRepository().findAllLatest()).size()).isEqualTo(1);

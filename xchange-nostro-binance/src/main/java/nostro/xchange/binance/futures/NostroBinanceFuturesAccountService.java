@@ -89,9 +89,15 @@ public class NostroBinanceFuturesAccountService implements AccountService {
                 if (o.isPresent()) {
                     if (NostroBinanceUtils.updateRequired(o.get(), balance)) {
                         updatedBalances.add(balance);
+                    } else {
+                        LOG.debug("skip - update not required {}", balance);
                     }
-                } else if (!NostroBinanceUtils.isZeroBalance(balance)) {
-                    updatedBalances.add(balance);
+                } else {
+                    if (!NostroBinanceUtils.isZeroBalance(balance)) {
+                        updatedBalances.add(balance);
+                    } else {
+                        LOG.debug("skip - zero balance {}", balance);
+                    }
                 }
             }
             for (OpenPosition position : accountInfo.toPositionList()) {
@@ -100,9 +106,15 @@ public class NostroBinanceFuturesAccountService implements AccountService {
                 if (o.isPresent()) {
                     if (NostroBinanceUtils.updateRequired(o.get(), position)) {
                         updatedPositions.add(position);
+                    } else {
+                        LOG.debug("skip - update not required {}", position);
                     }
-                } else if (!NostroBinanceUtils.isZeroPosition(position)) {
-                    updatedPositions.add(position);
+                } else {
+                    if (!NostroBinanceUtils.isZeroPosition(position)) {
+                        updatedPositions.add(position);
+                    } else {
+                        LOG.debug("skip - zero position {}", position);
+                    }
                 }
             }
             LOG.info("Updated account info, ts={}, balances={}, positions={}", new Timestamp(accountInfo.getTransactionTime()), updatedBalances, updatedPositions);

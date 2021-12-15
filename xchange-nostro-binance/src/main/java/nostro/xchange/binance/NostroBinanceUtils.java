@@ -145,8 +145,8 @@ public class NostroBinanceUtils {
             return false;
         }
         OpenPosition position = NostroUtils.readPositionDocument(e.getDocument());
-        return p.getSize().compareTo(position.getSize()) != 0
-                || p.getPrice().compareTo(position.getPrice()) != 0;
+        return p.getType().equals(position.getType()) // position types should match
+                && (p.getSize().compareTo(position.getSize()) != 0 || p.getPrice().compareTo(position.getPrice()) != 0);
 
     }
 

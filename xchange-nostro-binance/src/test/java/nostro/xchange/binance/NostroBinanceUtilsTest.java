@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.futures.BinanceFuturesAdapter;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesPosition;
+import org.knowm.xchange.binance.futures.dto.trade.PositionSide;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.OpenPosition;
 
@@ -44,11 +45,11 @@ public class NostroBinanceUtilsTest {
     @Test
     public void testPositionUpdateRequired() throws Exception {
         Timestamp updateTime = new Timestamp(new Date().getTime());
-        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime());
+        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime(), PositionSide.LONG);
         OpenPosition p1 = BinanceFuturesAdapter.adaptPosition(fp1);
         BalanceEntity e1 = NostroBinanceUtils.toEntity(p1);
 
-        BinanceFuturesPosition fp2 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime());
+        BinanceFuturesPosition fp2 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime(), PositionSide.LONG);
         OpenPosition p2 = BinanceFuturesAdapter.adaptPosition(fp2);
         assertThat(NostroBinanceUtils.updateRequired(e1, p2)).isFalse(); // positions have equal timestamp
     }
@@ -56,11 +57,11 @@ public class NostroBinanceUtilsTest {
     @Test
     public void testPositionUpdateRequired1() throws Exception {
         Timestamp updateTime = new Timestamp(new Date().getTime());
-        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime());
+        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime(), PositionSide.LONG);
         OpenPosition p1 = BinanceFuturesAdapter.adaptPosition(fp1);
         BalanceEntity e1 = NostroBinanceUtils.toEntity(p1);
 
-        BinanceFuturesPosition fp2 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime() - 10);
+        BinanceFuturesPosition fp2 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime() - 10, PositionSide.LONG);
         OpenPosition p2 = BinanceFuturesAdapter.adaptPosition(fp2);
         assertThat(NostroBinanceUtils.updateRequired(e1, p2)).isFalse(); // position is older
     }
@@ -68,11 +69,11 @@ public class NostroBinanceUtilsTest {
     @Test
     public void testPositionUpdateRequired2() throws Exception {
         Timestamp updateTime = new Timestamp(new Date().getTime());
-        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime());
+        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime(), PositionSide.LONG);
         OpenPosition p1 = BinanceFuturesAdapter.adaptPosition(fp1);
         BalanceEntity e1 = NostroBinanceUtils.toEntity(p1);
 
-        BinanceFuturesPosition fp2 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime() + 10);
+        BinanceFuturesPosition fp2 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime() + 10, PositionSide.LONG);
         OpenPosition p2 = BinanceFuturesAdapter.adaptPosition(fp2);
         assertThat(NostroBinanceUtils.updateRequired(e1, p2)).isFalse(); // position 2 is newer but control values are equal
     }
@@ -80,11 +81,11 @@ public class NostroBinanceUtilsTest {
     @Test
     public void testPositionUpdateRequired3() throws Exception {
         Timestamp updateTime = new Timestamp(new Date().getTime());
-        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime());
+        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime(), PositionSide.LONG);
         OpenPosition p1 = BinanceFuturesAdapter.adaptPosition(fp1);
         BalanceEntity e1 = NostroBinanceUtils.toEntity(p1);
 
-        BinanceFuturesPosition fp2 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(15), new BigDecimal(1), updateTime.getTime() + 10);
+        BinanceFuturesPosition fp2 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(15), new BigDecimal(1), updateTime.getTime() + 10, PositionSide.LONG);
         OpenPosition p2 = BinanceFuturesAdapter.adaptPosition(fp2);
         assertThat(NostroBinanceUtils.updateRequired(e1, p2)).isTrue(); // entry price not equal and should be updated
     }
@@ -92,19 +93,31 @@ public class NostroBinanceUtilsTest {
     @Test
     public void testPositionUpdateRequired4() throws Exception {
         Timestamp updateTime = new Timestamp(new Date().getTime());
-        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime());
+        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime(), PositionSide.LONG);
         OpenPosition p1 = BinanceFuturesAdapter.adaptPosition(fp1);
         BalanceEntity e1 = NostroBinanceUtils.toEntity(p1);
 
-        BinanceFuturesPosition fp2 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal("1.5"), updateTime.getTime() + 10);
+        BinanceFuturesPosition fp2 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal("1.5"), updateTime.getTime() + 10, PositionSide.LONG);
         OpenPosition p2 = BinanceFuturesAdapter.adaptPosition(fp2);
         assertThat(NostroBinanceUtils.updateRequired(e1, p2)).isTrue(); // position amount not equal and should be updated
     }
 
     @Test
+    public void testPositionUpdateRequired5() throws Exception {
+        Timestamp updateTime = new Timestamp(new Date().getTime());
+        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime(), PositionSide.LONG);
+        OpenPosition p1 = BinanceFuturesAdapter.adaptPosition(fp1);
+        BalanceEntity e1 = NostroBinanceUtils.toEntity(p1);
+
+        BinanceFuturesPosition fp2 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(0), new BigDecimal("0.0"), updateTime.getTime() + 10, PositionSide.SHORT);
+        OpenPosition p2 = BinanceFuturesAdapter.adaptPosition(fp2);
+        assertThat(NostroBinanceUtils.updateRequired(e1, p2)).isFalse(); // despite size/price difference - position types is not equal
+    }
+
+    @Test
     public void testPositionToBalanceEntity() throws Exception {
         Timestamp updateTime = new Timestamp(new Date().getTime());
-        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime());
+        BinanceFuturesPosition fp1 = NostroBinanceFuturesDtoUtils.generatePosition(BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), 1, new BigDecimal(10), new BigDecimal(1), updateTime.getTime(), PositionSide.LONG);
         OpenPosition p1 = BinanceFuturesAdapter.adaptPosition(fp1);
         BalanceEntity e1 = NostroBinanceUtils.toEntity(p1);
 

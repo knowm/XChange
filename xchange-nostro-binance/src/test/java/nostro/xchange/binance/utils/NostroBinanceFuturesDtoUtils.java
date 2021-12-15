@@ -12,6 +12,7 @@ import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAsset;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesPosition;
 import org.knowm.xchange.binance.futures.dto.trade.BinanceFuturesOrder;
 import org.knowm.xchange.binance.futures.dto.trade.BinanceFuturesTrade;
+import org.knowm.xchange.binance.futures.dto.trade.PositionSide;
 import org.knowm.xchange.dto.Order;
 
 import java.math.BigDecimal;
@@ -32,12 +33,13 @@ public class NostroBinanceFuturesDtoUtils {
         return mapper.readValue(content, BinanceFuturesAsset.class);
     }
 
-    public static BinanceFuturesPosition generatePosition(String symbol, int leverage, BigDecimal entryPrice, BigDecimal positionAmt, long updateTime) throws JsonProcessingException {
+    public static BinanceFuturesPosition generatePosition(String symbol, int leverage, BigDecimal entryPrice, BigDecimal positionAmt, long updateTime, PositionSide positionSide) throws JsonProcessingException {
         String content = "{\n" +
                 "            \"symbol\": \"" + symbol + "\"," +
                 "            \"leverage\": \"" + leverage + "\",    " +
                 "            \"entryPrice\": \"" + entryPrice + "\", " +
                 "            \"positionAmt\": \"" + positionAmt + "\", " +
+                "            \"positionSide\": \"" + positionSide.toString() + "\", " +
                 "            \"updateTime\": " + updateTime + " " +
                 "        }";
         return mapper.readValue(content, BinanceFuturesPosition.class);

@@ -5,6 +5,7 @@ import nostro.xchange.binance.futures.NostroBinanceFuturesUtils;
 import nostro.xchange.persistence.BalanceEntity;
 import nostro.xchange.sync.SyncTask;
 import nostro.xchange.utils.InstrumentUtils;
+import nostro.xchange.utils.NostroUtils;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.futures.BinanceFuturesAdapter;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAccountInformation;
@@ -84,7 +85,20 @@ class BinanceFuturesBalanceSyncTask extends SyncTask<Void, BinanceFuturesSyncSer
                 Instrument instrument = NostroBinanceFuturesUtils.adaptInstrument(e.getKey());
                 if (instrument instanceof Derivative) {
                     String key = BinanceAdapters.toSymbol(InstrumentUtils.getCurrencyPair(instrument));
-                    final BinanceFuturesPosition futuresPosition = new BinanceFuturesPosition(key, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, false, BigDecimal.ZERO, BigDecimal.ZERO, null, BigDecimal.ZERO, updateTime);
+                    final BinanceFuturesPosition futuresPosition = new BinanceFuturesPosition(
+                            key,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            false,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BinanceFuturesAdapter.adaptPositionSide(NostroUtils.readPositionDocument(e.getValue().getDocument()).getType()),
+                            BigDecimal.ZERO,
+                            updateTime);
                     OpenPosition position = BinanceFuturesAdapter.adaptPosition(futuresPosition);
                     LOG.debug("insert zero position {}", position);
                     if (sync(position, e.getKey())) {
@@ -92,7 +106,21 @@ class BinanceFuturesBalanceSyncTask extends SyncTask<Void, BinanceFuturesSyncSer
                         updated.incrementAndGet();
                     }
                 } else {
-                    final BinanceFuturesAsset futuresAsset = new BinanceFuturesAsset(e.getKey(), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, false, updateTime);
+                    final BinanceFuturesAsset futuresAsset = new BinanceFuturesAsset(
+                            e.getKey(),
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            false,
+                            updateTime);
                     final Balance balance = BinanceFuturesAdapter.adaptBalance(futuresAsset);
                     LOG.debug("insert zero balance {}", balance);
                     if (sync(balance, e.getKey())) {

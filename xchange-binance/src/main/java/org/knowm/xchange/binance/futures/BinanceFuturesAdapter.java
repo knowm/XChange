@@ -83,6 +83,10 @@ public class BinanceFuturesAdapter {
         return positionSide == PositionSide.LONG ? OpenPosition.Type.LONG : OpenPosition.Type.SHORT;
     }
 
+    public static PositionSide adaptPositionSide(OpenPosition.Type positionType) {
+        return positionType == OpenPosition.Type.LONG ? PositionSide.LONG : PositionSide.SHORT;
+    }
+
     public static Instrument adaptInstrument(String symbol) {
         return new FuturesContract(BinanceAdapters.adaptSymbol(symbol), null);
     }
