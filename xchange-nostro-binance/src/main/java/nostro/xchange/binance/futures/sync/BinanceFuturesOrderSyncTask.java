@@ -39,15 +39,19 @@ class BinanceFuturesOrderSyncTask extends SyncTask<Long, BinanceFuturesSyncServi
             orders = getSyncService().getOrders(pair, fromId, LIMIT);
 
             if (orders.size() > 0) {
-                last = orders.get(orders.size() - 1);
-                fromId = last.orderId;
-
                 for (BinanceFuturesOrder o : orders) {
                     if (syncOrder(o)) {
                         getSyncService().getPublisher().publish(BinanceFuturesAdapter.adaptOrder(o));
                         ++updated;
                     }
                 }
+
+                last = orders.get(orders.size() - 1);
+                if (fromId == last.orderId && orders.size() != 1) {
+                    LOG.error("Logical error found! External service returned unexpected order list - fromId={} points to the last order from the list - skip sync next page", fromId);
+                    break;
+                }
+                fromId = last.orderId;
             }
 
         } while (!orders.isEmpty() && orders.size() >= LIMIT);
