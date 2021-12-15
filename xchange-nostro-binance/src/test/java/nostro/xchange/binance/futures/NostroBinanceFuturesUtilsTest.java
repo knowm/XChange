@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nostro.xchange.binance.utils.NostroBinanceFuturesDTOUtils;
+import nostro.xchange.binance.utils.NostroBinanceFuturesDtoUtils;
 import nostro.xchange.persistence.OrderEntity;
 import nostro.xchange.persistence.TradeEntity;
 import nostro.xchange.utils.NostroUtils;
@@ -39,7 +39,7 @@ public class NostroBinanceFuturesUtilsTest {
 
     @Test
     public void testToOrderEntity() throws JsonProcessingException {
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(1, OrderStatus.NEW, "BTCUSDT", new Date().getTime(), new Date().getTime(), null);
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(1, OrderStatus.NEW, "BTCUSDT", new Date().getTime(), new Date().getTime(), null);
         OrderEntity orderEntity = NostroBinanceFuturesUtils.toEntity(order);
 
         assertThat(orderEntity.getId()).isEqualTo(order.clientOrderId);
@@ -54,7 +54,7 @@ public class NostroBinanceFuturesUtilsTest {
     @Test
     public void testOrderUpdateRequired_entityTerminal() throws JsonProcessingException {
         long time = new Timestamp(new Date().getTime()).getTime();
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(1, OrderStatus.FILLED, "BTCUSDT", time, time, null);
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(1, OrderStatus.FILLED, "BTCUSDT", time, time, null);
         OrderEntity orderEntity = NostroBinanceFuturesUtils.toEntity(order);
         assertThat(NostroBinanceFuturesUtils.updateRequired(orderEntity, order)).isFalse();
     }
@@ -62,8 +62,8 @@ public class NostroBinanceFuturesUtilsTest {
     @Test
     public void testOrderUpdateRequired_orderTerminal() throws JsonProcessingException {
         long time = new Timestamp(new Date().getTime()).getTime();
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(1, OrderStatus.NEW, "BTCUSDT", time, time, null);
-        BinanceFuturesOrder orderUpd = NostroBinanceFuturesDTOUtils.generateOrder(1, OrderStatus.FILLED, "BTCUSDT", time, time, null);
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(1, OrderStatus.NEW, "BTCUSDT", time, time, null);
+        BinanceFuturesOrder orderUpd = NostroBinanceFuturesDtoUtils.generateOrder(1, OrderStatus.FILLED, "BTCUSDT", time, time, null);
         OrderEntity orderEntity = NostroBinanceFuturesUtils.toEntity(order);
         assertThat(NostroBinanceFuturesUtils.updateRequired(orderEntity, orderUpd)).isTrue();
     }
@@ -71,8 +71,8 @@ public class NostroBinanceFuturesUtilsTest {
     @Test
     public void testOrderUpdateRequired_orderUpdateTime() throws JsonProcessingException {
         Timestamp timestamp = new Timestamp(new Date().getTime());
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(1, OrderStatus.NEW, "BTCUSDT", timestamp.getTime(), timestamp.getTime(), null);
-        BinanceFuturesOrder orderOutdated = NostroBinanceFuturesDTOUtils.generateOrder(1, OrderStatus.NEW, "BTCUSDT", timestamp.getTime()-1, timestamp.getTime()-1, null);
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(1, OrderStatus.NEW, "BTCUSDT", timestamp.getTime(), timestamp.getTime(), null);
+        BinanceFuturesOrder orderOutdated = NostroBinanceFuturesDtoUtils.generateOrder(1, OrderStatus.NEW, "BTCUSDT", timestamp.getTime()-1, timestamp.getTime()-1, null);
         OrderEntity orderEntity = NostroBinanceFuturesUtils.toEntity(orderOutdated);
 
         assertThat(NostroBinanceFuturesUtils.updateRequired(orderEntity, order)).isTrue();
@@ -81,8 +81,8 @@ public class NostroBinanceFuturesUtilsTest {
     @Test
     public void testOrderUpdateRequired_orderExecutedQty() throws JsonProcessingException {
         long time = new Date().getTime();
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(1, OrderStatus.NEW, "BTCUSDT", time, time, new BigDecimal(1));
-        BinanceFuturesOrder orderUpd = NostroBinanceFuturesDTOUtils.generateOrder(1, OrderStatus.FILLED, "BTCUSDT", time, time, new BigDecimal(2));
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(1, OrderStatus.NEW, "BTCUSDT", time, time, new BigDecimal(1));
+        BinanceFuturesOrder orderUpd = NostroBinanceFuturesDtoUtils.generateOrder(1, OrderStatus.FILLED, "BTCUSDT", time, time, new BigDecimal(2));
         OrderEntity orderEntity = NostroBinanceFuturesUtils.toEntity(order);
 
         assertThat(NostroBinanceFuturesUtils.updateRequired(orderEntity, orderUpd)).isTrue();
@@ -97,7 +97,7 @@ public class NostroBinanceFuturesUtilsTest {
 
     @Test
     public void testAdaptTrade() throws JsonProcessingException {
-        BinanceFuturesTrade trade = NostroBinanceFuturesDTOUtils.generateTrade(1, 2, Long.valueOf("1569514978020"));
+        BinanceFuturesTrade trade = NostroBinanceFuturesDtoUtils.generateTrade(1, 2, Long.valueOf("1569514978020"));
         CurrencyPair pair = CurrencyPair.BTC_USDT;
         UserTrade userTrade = NostroBinanceFuturesUtils.adaptTrade(trade, pair);
 
@@ -117,7 +117,7 @@ public class NostroBinanceFuturesUtilsTest {
 
     @Test
     public void testToTradeEntity() throws JsonProcessingException {
-        BinanceFuturesTrade trade = NostroBinanceFuturesDTOUtils.generateTrade(1, 2, Long.valueOf("1569514978020"));
+        BinanceFuturesTrade trade = NostroBinanceFuturesDtoUtils.generateTrade(1, 2, Long.valueOf("1569514978020"));
         CurrencyPair pair = CurrencyPair.BTC_USDT;
         String orderId = "order-X";
         TradeEntity tradeEntity = NostroBinanceFuturesUtils.toEntity(trade, orderId, pair);

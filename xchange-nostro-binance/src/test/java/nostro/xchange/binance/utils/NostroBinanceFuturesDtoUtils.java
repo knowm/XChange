@@ -17,7 +17,7 @@ import org.knowm.xchange.dto.Order;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class NostroBinanceFuturesDTOUtils {
+public class NostroBinanceFuturesDtoUtils {
     private static ObjectMapper mapper = new ObjectMapper()
             .setSerializationInclusion(JsonInclude.Include.NON_NULL)
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

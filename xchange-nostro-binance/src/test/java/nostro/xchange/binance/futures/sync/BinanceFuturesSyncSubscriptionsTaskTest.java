@@ -2,7 +2,7 @@ package nostro.xchange.binance.futures.sync;
 
 import nostro.xchange.binance.DataSourceTest;
 import nostro.xchange.binance.sync.SyncTaskDocument;
-import nostro.xchange.binance.utils.NostroBinanceFuturesDTOUtils;
+import nostro.xchange.binance.utils.NostroBinanceFuturesDtoUtils;
 import nostro.xchange.binance.utils.NostroDBUtils;
 import nostro.xchange.persistence.SyncTaskEntity;
 import nostro.xchange.persistence.TransactionFactory;
@@ -65,8 +65,8 @@ public class BinanceFuturesSyncSubscriptionsTaskTest extends DataSourceTest {
         long time = new Timestamp(new Date().getTime()).getTime();
         int orderId = 1;
         CurrencyPair currencyPair = CurrencyPair.BTC_USDT;
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(currencyPair), time, time, new BigDecimal(0));
-        BinanceFuturesTrade trade = NostroBinanceFuturesDTOUtils.generateTrade(orderId, orderId, time);
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(currencyPair), time, time, new BigDecimal(0));
+        BinanceFuturesTrade trade = NostroBinanceFuturesDtoUtils.generateTrade(orderId, orderId, time);
         Instrument instrument = BinanceFuturesAdapter.adaptOrder(order).getInstrument();
         given(syncService.getOpenOrders(currencyPair)).willReturn(Collections.singletonList(order));
         given(syncService.getFirstTrade(currencyPair, time)).willReturn(trade);
@@ -82,9 +82,9 @@ public class BinanceFuturesSyncSubscriptionsTaskTest extends DataSourceTest {
         long orderId = 2;
         CurrencyPair currencyPair = CurrencyPair.BTC_USDT;
         String symbol = currencyPair.toString();
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(currencyPair), time, time, new BigDecimal(0));
-        BinanceFuturesTrade trade = NostroBinanceFuturesDTOUtils.generateTrade(orderId, orderId, time);
-        BinanceFuturesTrade trade2 = NostroBinanceFuturesDTOUtils.generateTrade(orderId+1, orderId, time);
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(currencyPair), time, time, new BigDecimal(0));
+        BinanceFuturesTrade trade = NostroBinanceFuturesDtoUtils.generateTrade(orderId, orderId, time);
+        BinanceFuturesTrade trade2 = NostroBinanceFuturesDtoUtils.generateTrade(orderId+1, orderId, time);
         given(syncService.getOpenOrders(currencyPair)).willReturn(Collections.singletonList(order));
         given(syncService.getFirstTrade(currencyPair, time)).willReturn(trade);
         given(syncService.getTrades(eq(currencyPair), eq(orderId), anyInt())).willReturn(Collections.singletonList(trade2));
@@ -104,9 +104,9 @@ public class BinanceFuturesSyncSubscriptionsTaskTest extends DataSourceTest {
         long time = new Timestamp(new Date().getTime()).getTime();
         long orderId = 3;
         CurrencyPair currencyPair = CurrencyPair.BTC_USDT;
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(currencyPair), time, time, new BigDecimal(0));
-        BinanceFuturesTrade trade = NostroBinanceFuturesDTOUtils.generateTrade(orderId, orderId, time);
-        BinanceFuturesTrade trade2 = NostroBinanceFuturesDTOUtils.generateTrade(orderId+1, orderId, time);
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(currencyPair), time, time, new BigDecimal(0));
+        BinanceFuturesTrade trade = NostroBinanceFuturesDtoUtils.generateTrade(orderId, orderId, time);
+        BinanceFuturesTrade trade2 = NostroBinanceFuturesDtoUtils.generateTrade(orderId+1, orderId, time);
         given(syncService.getOpenOrders(currencyPair)).willReturn(Collections.singletonList(order));
         given(syncService.getFirstTrade(currencyPair, time)).willReturn(trade);
         given(syncService.getTrades(eq(currencyPair), eq(orderId), anyInt())).willReturn(Collections.singletonList(trade2));

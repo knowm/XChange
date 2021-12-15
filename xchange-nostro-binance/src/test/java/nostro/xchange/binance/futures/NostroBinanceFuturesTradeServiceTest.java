@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction;
 import info.bitrich.xchangestream.binance.futures.dto.OrderTradeUpdateBinanceUserTransaction;
 import nostro.xchange.binance.DataSourceTest;
-import nostro.xchange.binance.utils.NostroBinanceFuturesDTOUtils;
+import nostro.xchange.binance.utils.NostroBinanceFuturesDtoUtils;
 import nostro.xchange.binance.utils.NostroDBUtils;
 import nostro.xchange.persistence.OrderEntity;
 import nostro.xchange.persistence.TradeEntity;
@@ -297,7 +297,7 @@ public class NostroBinanceFuturesTradeServiceTest extends DataSourceTest {
         long created = Long.parseLong("1638271651233");
         String userReference = "DTI";
         String orderId = "123123";
-        OrderTradeUpdateBinanceUserTransaction transaction = NostroBinanceFuturesDTOUtils.orderTradeUpdateBinanceUserTransaction(orderId, userReference, "0", "BTCUSDT", Order.OrderStatus.NEW, ExecutionReportBinanceUserTransaction.ExecutionType.NEW, created);
+        OrderTradeUpdateBinanceUserTransaction transaction = NostroBinanceFuturesDtoUtils.orderTradeUpdateBinanceUserTransaction(orderId, userReference, "0", "BTCUSDT", Order.OrderStatus.NEW, ExecutionReportBinanceUserTransaction.ExecutionType.NEW, created);
 
         Pair<Order, UserTrade> pair = service.saveExecutionReport(transaction);
         Order order = pair.getLeft();
@@ -327,12 +327,12 @@ public class NostroBinanceFuturesTradeServiceTest extends DataSourceTest {
         long created = Long.parseLong("1638271651233");
         String userReference = "YbV";
         String orderId = "777";
-        OrderTradeUpdateBinanceUserTransaction transaction = NostroBinanceFuturesDTOUtils.orderTradeUpdateBinanceUserTransaction(orderId, userReference, "0", "BTCUSDT", Order.OrderStatus.NEW, ExecutionReportBinanceUserTransaction.ExecutionType.NEW, created);
+        OrderTradeUpdateBinanceUserTransaction transaction = NostroBinanceFuturesDtoUtils.orderTradeUpdateBinanceUserTransaction(orderId, userReference, "0", "BTCUSDT", Order.OrderStatus.NEW, ExecutionReportBinanceUserTransaction.ExecutionType.NEW, created);
         service.saveExecutionReport(transaction);
 
         long updated = Long.parseLong("1638271651243");
         String tradeId = "111";
-        OrderTradeUpdateBinanceUserTransaction transaction2 = NostroBinanceFuturesDTOUtils.orderTradeUpdateBinanceUserTransaction(orderId, userReference, tradeId, "BTCUSDT", Order.OrderStatus.FILLED, ExecutionReportBinanceUserTransaction.ExecutionType.TRADE, updated);
+        OrderTradeUpdateBinanceUserTransaction transaction2 = NostroBinanceFuturesDtoUtils.orderTradeUpdateBinanceUserTransaction(orderId, userReference, tradeId, "BTCUSDT", Order.OrderStatus.FILLED, ExecutionReportBinanceUserTransaction.ExecutionType.TRADE, updated);
         Pair<Order, UserTrade> pair = service.saveExecutionReport(transaction2);
         Order order = pair.getLeft();
         UserTrade trade = pair.getRight();
@@ -361,7 +361,7 @@ public class NostroBinanceFuturesTradeServiceTest extends DataSourceTest {
 
         String userReference = "XYZ";
         String orderId = "99999";
-        OrderTradeUpdateBinanceUserTransaction transaction = NostroBinanceFuturesDTOUtils.orderTradeUpdateBinanceUserTransaction(orderId, userReference, "0", "BTCUSDT", Order.OrderStatus.NEW, ExecutionReportBinanceUserTransaction.ExecutionType.NEW, 0);
+        OrderTradeUpdateBinanceUserTransaction transaction = NostroBinanceFuturesDtoUtils.orderTradeUpdateBinanceUserTransaction(orderId, userReference, "0", "BTCUSDT", Order.OrderStatus.NEW, ExecutionReportBinanceUserTransaction.ExecutionType.NEW, 0);
         Order order = transaction.toOrder();
 
         OrderEntity e = new OrderEntity.Builder()
@@ -377,10 +377,10 @@ public class NostroBinanceFuturesTradeServiceTest extends DataSourceTest {
         txFactory.execute(tx -> tx.getOrderRepository().insert(e));
 
         long created = Long.parseLong("1638271651233");
-        service.saveExecutionReport(NostroBinanceFuturesDTOUtils.orderTradeUpdateBinanceUserTransaction(orderId, userReference, "0", "BTCUSDT", Order.OrderStatus.NEW, ExecutionReportBinanceUserTransaction.ExecutionType.NEW, created));
+        service.saveExecutionReport(NostroBinanceFuturesDtoUtils.orderTradeUpdateBinanceUserTransaction(orderId, userReference, "0", "BTCUSDT", Order.OrderStatus.NEW, ExecutionReportBinanceUserTransaction.ExecutionType.NEW, created));
 
         long updated = Long.parseLong("1638271651243");
-        service.saveExecutionReport(NostroBinanceFuturesDTOUtils.orderTradeUpdateBinanceUserTransaction(orderId, userReference, "909990", "BTCUSDT", Order.OrderStatus.FILLED, ExecutionReportBinanceUserTransaction.ExecutionType.TRADE, updated));
+        service.saveExecutionReport(NostroBinanceFuturesDtoUtils.orderTradeUpdateBinanceUserTransaction(orderId, userReference, "909990", "BTCUSDT", Order.OrderStatus.FILLED, ExecutionReportBinanceUserTransaction.ExecutionType.TRADE, updated));
 
         Optional<OrderEntity> orderEntity = txFactory.executeAndGet(tx -> tx.getOrderRepository().findById(userReference));
         assertThat(orderEntity.isPresent()).isTrue();

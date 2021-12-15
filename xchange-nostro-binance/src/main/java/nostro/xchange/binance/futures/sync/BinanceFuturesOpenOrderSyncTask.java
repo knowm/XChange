@@ -35,7 +35,7 @@ public class BinanceFuturesOpenOrderSyncTask extends SyncTask <Void, BinanceFutu
     public Void call() throws Exception {
         LOG.info("Starting task (symbol={}, instrument={}, toId={})", pair, instrument, toId);
 
-        List<OrderEntity> dbOrders = getSyncService().getTXFactory().executeAndGet(tx -> tx.getOrderRepository().findOpenOrders(instrument));
+        List<OrderEntity> dbOrders = getSyncService().getTXFactory().executeAndGet(tx -> tx.getOrderRepository().findOpenByInstrument(instrument.toString()));
         if (dbOrders.isEmpty()) {
             LOG.info("Finished task (symbol={}, instrument={}, toId={}): no open orders found in DB", pair, instrument, toId);
             return null;

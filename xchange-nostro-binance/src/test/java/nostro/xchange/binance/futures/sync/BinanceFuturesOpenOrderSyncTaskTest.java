@@ -2,7 +2,7 @@ package nostro.xchange.binance.futures.sync;
 
 import nostro.xchange.binance.DataSourceTest;
 import nostro.xchange.binance.futures.NostroBinanceFuturesUtils;
-import nostro.xchange.binance.utils.NostroBinanceFuturesDTOUtils;
+import nostro.xchange.binance.utils.NostroBinanceFuturesDtoUtils;
 import nostro.xchange.binance.utils.NostroDBUtils;
 import nostro.xchange.persistence.OrderEntity;
 import nostro.xchange.persistence.TransactionFactory;
@@ -61,7 +61,7 @@ public class BinanceFuturesOpenOrderSyncTaskTest extends DataSourceTest {
     @Test
     public void testSyncOpenOrders_noOpenOrders_terminal() throws Exception {
         // insert terminal order - verify that it is not synced
-        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDTOUtils.generateOrder(1, OrderStatus.FILLED, BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), Long.parseLong("1638264757254"), null, null);
+        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDtoUtils.generateOrder(1, OrderStatus.FILLED, BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), Long.parseLong("1638264757254"), null, null);
         txFactory.execute(tx -> tx.getOrderRepository().insert(NostroBinanceFuturesUtils.toEntity(futuresOrder)));
         new BinanceFuturesOpenOrderSyncTask(syncService, CurrencyPair.BTC_USDT, 0).call();
         verify(publisher, never()).publish(any(Order.class));
@@ -70,7 +70,7 @@ public class BinanceFuturesOpenOrderSyncTaskTest extends DataSourceTest {
 
     @Test
     public void testSyncOpenOrders_noOpenOrders_currency() throws Exception {
-        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDTOUtils.generateOrder(2, OrderStatus.NEW, BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), Long.parseLong("1638264757254"), null, null);
+        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDtoUtils.generateOrder(2, OrderStatus.NEW, BinanceAdapters.toSymbol(CurrencyPair.BTC_USDT), Long.parseLong("1638264757254"), null, null);
         txFactory.execute(tx -> tx.getOrderRepository().insert(NostroBinanceFuturesUtils.toEntity(futuresOrder)));
         new BinanceFuturesOpenOrderSyncTask(syncService, CurrencyPair.ETH_USDT, 0).call();
         verify(publisher, never()).publish(any(Order.class));
@@ -83,7 +83,7 @@ public class BinanceFuturesOpenOrderSyncTaskTest extends DataSourceTest {
         long orderId = 3;
         long time = Long.parseLong("1638264757254");
         CurrencyPair pair = CurrencyPair.BTC_USDT;
-        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDTOUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(pair), time, time, new BigDecimal("0.001"));
+        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDtoUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(pair), time, time, new BigDecimal("0.001"));
         Instrument instrument = BinanceFuturesAdapter.adaptOrder(futuresOrder).getInstrument();
         OrderEntity orderEntity = NostroBinanceFuturesUtils.toEntity(futuresOrder);
         txFactory.execute(tx -> tx.getOrderRepository().insert(orderEntity));
@@ -93,7 +93,7 @@ public class BinanceFuturesOpenOrderSyncTaskTest extends DataSourceTest {
         new BinanceFuturesOpenOrderSyncTask(syncService, pair, orderId+1).call();
 
         // then
-        List<OrderEntity> orderEntities = txFactory.executeAndGet(tx -> tx.getOrderRepository().findOpenOrders(instrument));
+        List<OrderEntity> orderEntities = txFactory.executeAndGet(tx -> tx.getOrderRepository().findOpenByInstrument(instrument.toString()));
         assertThat(orderEntities.size()).isEqualTo(1);
         assertThat(orderEntities.get(0).getUpdated().getTime()).isEqualTo(time);
         verify(publisher, never()).publish(any(Order.class));
@@ -108,12 +108,12 @@ public class BinanceFuturesOpenOrderSyncTaskTest extends DataSourceTest {
         long orderId = 4;
         Timestamp time = new Timestamp(new Date().getTime());
         CurrencyPair pair = CurrencyPair.BTC_USDT;
-        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDTOUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(pair), time.getTime() - 10, null, null);
+        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDtoUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(pair), time.getTime() - 10, null, null);
         Instrument instrument = BinanceFuturesAdapter.adaptOrder(futuresOrder).getInstrument();
         OrderEntity orderEntity = NostroBinanceFuturesUtils.toEntity(futuresOrder);
         txFactory.execute(tx -> tx.getOrderRepository().insert(orderEntity));
 
-        BinanceFuturesOrder futuresOrderUpd = NostroBinanceFuturesDTOUtils.generateOrder(orderId, OrderStatus.FILLED, BinanceAdapters.toSymbol(pair), time.getTime() - 10, time.getTime(), null);
+        BinanceFuturesOrder futuresOrderUpd = NostroBinanceFuturesDtoUtils.generateOrder(orderId, OrderStatus.FILLED, BinanceAdapters.toSymbol(pair), time.getTime() - 10, time.getTime(), null);
 
         given(syncService.getOpenOrders(pair)).willReturn(Collections.emptyList());
         given(syncService.getOrder(pair, orderId)).willReturn(futuresOrderUpd);
@@ -122,7 +122,7 @@ public class BinanceFuturesOpenOrderSyncTaskTest extends DataSourceTest {
         new BinanceFuturesOpenOrderSyncTask(syncService, pair, orderId+1).call();
 
         // then
-        assertThat(txFactory.executeAndGet(tx -> tx.getOrderRepository().findOpenOrders(instrument)).size()).isEqualTo(0);
+        assertThat(txFactory.executeAndGet(tx -> tx.getOrderRepository().findOpenByInstrument(instrument.toString())).size()).isEqualTo(0);
         Optional<OrderEntity> orderEntityUpd = txFactory.executeAndGet(tx -> tx.getOrderRepository().findByExternalId(String.valueOf(futuresOrderUpd.orderId)));
         assertThat(orderEntityUpd.isPresent()).isTrue();
         assertThat(orderEntityUpd.get().getUpdated()).isEqualTo(time);
@@ -139,13 +139,13 @@ public class BinanceFuturesOpenOrderSyncTaskTest extends DataSourceTest {
         long orderId = 5;
         Timestamp time = new Timestamp(new Date().getTime());
         CurrencyPair pair = CurrencyPair.BTC_USDT;
-        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDTOUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(pair), time.getTime() - 10, null, null);
+        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDtoUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(pair), time.getTime() - 10, null, null);
         Instrument instrument = BinanceFuturesAdapter.adaptOrder(futuresOrder).getInstrument();
         OrderEntity orderEntity = NostroBinanceFuturesUtils.toEntity(futuresOrder);
         orderEntity.setExternalId(null);
         txFactory.execute(tx -> tx.getOrderRepository().insert(orderEntity));
 
-        BinanceFuturesOrder futuresOrderUpd = NostroBinanceFuturesDTOUtils.generateOrder(orderId, OrderStatus.FILLED, BinanceAdapters.toSymbol(pair), time.getTime() - 10, time.getTime(), null);
+        BinanceFuturesOrder futuresOrderUpd = NostroBinanceFuturesDtoUtils.generateOrder(orderId, OrderStatus.FILLED, BinanceAdapters.toSymbol(pair), time.getTime() - 10, time.getTime(), null);
 
         given(syncService.getOpenOrders(pair)).willReturn(Collections.emptyList());
         given(syncService.getOrder(pair, futuresOrder.clientOrderId)).willReturn(futuresOrderUpd);
@@ -154,7 +154,7 @@ public class BinanceFuturesOpenOrderSyncTaskTest extends DataSourceTest {
         new BinanceFuturesOpenOrderSyncTask(syncService, pair, orderId+1).call();
 
         // then
-        assertThat(txFactory.executeAndGet(tx -> tx.getOrderRepository().findOpenOrders(instrument)).size()).isEqualTo(0);
+        assertThat(txFactory.executeAndGet(tx -> tx.getOrderRepository().findOpenByInstrument(instrument.toString())).size()).isEqualTo(0);
         Optional<OrderEntity> orderEntityUpd = txFactory.executeAndGet(tx -> tx.getOrderRepository().findById(futuresOrderUpd.clientOrderId));
         assertThat(orderEntityUpd.isPresent()).isTrue();
         assertThat(orderEntityUpd.get().getUpdated()).isEqualTo(time);
@@ -170,7 +170,7 @@ public class BinanceFuturesOpenOrderSyncTaskTest extends DataSourceTest {
         long orderId = 6;
         Timestamp timestamp = new Timestamp(new Date().getTime());
         CurrencyPair pair = CurrencyPair.BTC_USDT;
-        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDTOUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(pair), timestamp.getTime(), null, null);
+        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDtoUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(pair), timestamp.getTime(), null, null);
         OrderEntity orderEntity = NostroBinanceFuturesUtils.toEntity(futuresOrder);
         orderEntity.setExternalId(null);
         txFactory.execute(tx -> tx.getOrderRepository().insert(orderEntity));

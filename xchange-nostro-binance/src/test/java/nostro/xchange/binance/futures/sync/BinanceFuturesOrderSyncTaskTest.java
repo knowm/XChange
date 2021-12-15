@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
-import static nostro.xchange.binance.utils.NostroBinanceFuturesDTOUtils.generateOrder;
+import static nostro.xchange.binance.utils.NostroBinanceFuturesDtoUtils.generateOrder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;

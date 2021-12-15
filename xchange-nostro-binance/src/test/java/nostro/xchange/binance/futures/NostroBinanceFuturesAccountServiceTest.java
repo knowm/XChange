@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.binance.futures.dto.AccountUpdateBinanceWebsocketTransaction;
 import nostro.xchange.binance.DataSourceTest;
 import nostro.xchange.binance.NostroBinanceUtils;
-import nostro.xchange.binance.utils.NostroBinanceFuturesDTOUtils;
+import nostro.xchange.binance.utils.NostroBinanceFuturesDtoUtils;
 import nostro.xchange.binance.utils.NostroDBUtils;
 import nostro.xchange.persistence.BalanceEntity;
 import nostro.xchange.persistence.TransactionFactory;
@@ -167,12 +167,12 @@ public class NostroBinanceFuturesAccountServiceTest extends DataSourceTest {
     @Test
     public void getAccountInfo() throws Exception {
         Timestamp timestamp = new Timestamp(new Date().getTime());
-        BinanceFuturesAsset asset1 = NostroBinanceFuturesDTOUtils.generateAsset("BTC", new BigDecimal("10.0"), new BigDecimal("10.0"), timestamp.getTime()-10);
-        BinanceFuturesAsset asset2 = NostroBinanceFuturesDTOUtils.generateAsset("USDT", new BigDecimal("1000.0"), new BigDecimal("1000.0"), timestamp.getTime() - 20);
+        BinanceFuturesAsset asset1 = NostroBinanceFuturesDtoUtils.generateAsset("BTC", new BigDecimal("10.0"), new BigDecimal("10.0"), timestamp.getTime()-10);
+        BinanceFuturesAsset asset2 = NostroBinanceFuturesDtoUtils.generateAsset("USDT", new BigDecimal("1000.0"), new BigDecimal("1000.0"), timestamp.getTime() - 20);
         txFactory.execute(tx -> tx.getBalanceRepository().insert(NostroBinanceUtils.toEntity(BinanceFuturesAdapter.adaptBalance(asset1))));
         txFactory.execute(tx -> tx.getBalanceRepository().insert(NostroBinanceUtils.toEntity(BinanceFuturesAdapter.adaptBalance(asset2))));
 
-        BinanceFuturesPosition position = NostroBinanceFuturesDTOUtils.generatePosition("BTCUSDT", 1, new BigDecimal("55500"), new BigDecimal(1), timestamp.getTime());
+        BinanceFuturesPosition position = NostroBinanceFuturesDtoUtils.generatePosition("BTCUSDT", 1, new BigDecimal("55500"), new BigDecimal(1), timestamp.getTime());
         txFactory.execute(tx -> tx.getBalanceRepository().insert(NostroBinanceUtils.toEntity(BinanceFuturesAdapter.adaptPosition(position))));
 
         AccountInfo accountInfo = service.getAccountInfo();

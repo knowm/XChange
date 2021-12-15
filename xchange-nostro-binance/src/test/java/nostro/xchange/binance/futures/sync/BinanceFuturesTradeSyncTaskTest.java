@@ -2,7 +2,7 @@ package nostro.xchange.binance.futures.sync;
 
 import nostro.xchange.binance.DataSourceTest;
 import nostro.xchange.binance.futures.NostroBinanceFuturesUtils;
-import nostro.xchange.binance.utils.NostroBinanceFuturesDTOUtils;
+import nostro.xchange.binance.utils.NostroBinanceFuturesDtoUtils;
 import nostro.xchange.binance.utils.NostroDBUtils;
 import nostro.xchange.persistence.TradeEntity;
 import nostro.xchange.persistence.TransactionFactory;
@@ -65,8 +65,8 @@ public class BinanceFuturesTradeSyncTaskTest extends DataSourceTest {
         int fromTradeId = 0;
         long time = new Timestamp(new Date().getTime()).getTime();
         CurrencyPair pair = CurrencyPair.BTC_USDT;
-        BinanceFuturesTrade trade = NostroBinanceFuturesDTOUtils.generateTrade(tradeId, tradeId, time);
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(tradeId, OrderStatus.FILLED, "BTCUSDT", time, time, new BigDecimal(1));
+        BinanceFuturesTrade trade = NostroBinanceFuturesDtoUtils.generateTrade(tradeId, tradeId, time);
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(tradeId, OrderStatus.FILLED, "BTCUSDT", time, time, new BigDecimal(1));
         given(syncService.getTrades(pair, fromTradeId, BinanceFuturesTradeSyncTask.LIMIT)).willReturn(Collections.singletonList(trade));
         given(syncService.getOrder(pair, order.orderId)).willReturn(order);
 
@@ -86,8 +86,8 @@ public class BinanceFuturesTradeSyncTaskTest extends DataSourceTest {
         int fromTradeId = tradeId-1;
         long time = new Timestamp(new Date().getTime()).getTime();
         CurrencyPair pair = CurrencyPair.BTC_USDT;
-        BinanceFuturesTrade trade = NostroBinanceFuturesDTOUtils.generateTrade(tradeId, tradeId, time);
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(tradeId, OrderStatus.FILLED, "BTCUSDT", time, time, new BigDecimal(1));
+        BinanceFuturesTrade trade = NostroBinanceFuturesDtoUtils.generateTrade(tradeId, tradeId, time);
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(tradeId, OrderStatus.FILLED, "BTCUSDT", time, time, new BigDecimal(1));
         given(syncService.getTrades(pair, fromTradeId, BinanceFuturesTradeSyncTask.LIMIT)).willReturn(Collections.singletonList(trade));
         given(syncService.getOrder(pair, order.orderId)).willReturn(order);
         txFactory.execute(tx -> tx.getOrderRepository().insert(NostroBinanceFuturesUtils.toEntity(order)));
@@ -109,9 +109,9 @@ public class BinanceFuturesTradeSyncTaskTest extends DataSourceTest {
         int limit = 1;
         BinanceFuturesTradeSyncTask.LIMIT = limit;
         CurrencyPair pair = CurrencyPair.BTC_USDT;
-        BinanceFuturesTrade trade = NostroBinanceFuturesDTOUtils.generateTrade(tradeId, tradeId, time);
-        BinanceFuturesTrade trade2 = NostroBinanceFuturesDTOUtils.generateTrade(tradeId+1, tradeId, time);
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(tradeId, OrderStatus.FILLED, "BTCUSDT", time, time, new BigDecimal(1));
+        BinanceFuturesTrade trade = NostroBinanceFuturesDtoUtils.generateTrade(tradeId, tradeId, time);
+        BinanceFuturesTrade trade2 = NostroBinanceFuturesDtoUtils.generateTrade(tradeId+1, tradeId, time);
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(tradeId, OrderStatus.FILLED, "BTCUSDT", time, time, new BigDecimal(1));
         given(syncService.getTrades(pair, fromTradeId, limit)).willReturn(Collections.singletonList(trade));
         given(syncService.getTrades(pair, fromTradeId+1, limit)).willReturn(Collections.singletonList(trade2));
         given(syncService.getTrades(pair, fromTradeId+2, limit)).willReturn(Collections.emptyList());
@@ -136,8 +136,8 @@ public class BinanceFuturesTradeSyncTaskTest extends DataSourceTest {
         int fromTradeId = tradeId-1;
         long time = new Timestamp(new Date().getTime()).getTime();
         CurrencyPair pair = CurrencyPair.BTC_USDT;
-        BinanceFuturesTrade trade = NostroBinanceFuturesDTOUtils.generateTrade(tradeId, tradeId, time);
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(tradeId, OrderStatus.FILLED, "BTCUSDT", time, time, new BigDecimal(1));
+        BinanceFuturesTrade trade = NostroBinanceFuturesDtoUtils.generateTrade(tradeId, tradeId, time);
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(tradeId, OrderStatus.FILLED, "BTCUSDT", time, time, new BigDecimal(1));
         given(syncService.getTrades(pair, fromTradeId, BinanceFuturesTradeSyncTask.LIMIT)).willReturn(Collections.singletonList(trade));
         given(syncService.getOrder(pair, order.orderId)).willReturn(order);
 
@@ -157,8 +157,8 @@ public class BinanceFuturesTradeSyncTaskTest extends DataSourceTest {
         int fromTradeId = tradeId-1;
         long time = new Timestamp(new Date().getTime()).getTime();
         CurrencyPair pair = CurrencyPair.BTC_USDT;
-        BinanceFuturesTrade trade = NostroBinanceFuturesDTOUtils.generateTrade(tradeId, tradeId, time);
-        BinanceFuturesOrder order = NostroBinanceFuturesDTOUtils.generateOrder(tradeId, OrderStatus.FILLED, "BTCUSDT", time, time, new BigDecimal(1));
+        BinanceFuturesTrade trade = NostroBinanceFuturesDtoUtils.generateTrade(tradeId, tradeId, time);
+        BinanceFuturesOrder order = NostroBinanceFuturesDtoUtils.generateOrder(tradeId, OrderStatus.FILLED, "BTCUSDT", time, time, new BigDecimal(1));
         given(syncService.getTrades(pair, fromTradeId, BinanceFuturesTradeSyncTask.LIMIT)).willReturn(Collections.singletonList(trade));
         given(syncService.getOrder(pair, order.orderId)).willReturn(order);
 

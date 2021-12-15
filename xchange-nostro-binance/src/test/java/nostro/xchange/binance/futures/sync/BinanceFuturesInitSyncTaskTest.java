@@ -1,7 +1,7 @@
 package nostro.xchange.binance.futures.sync;
 
 import nostro.xchange.binance.sync.SyncTaskDocument;
-import nostro.xchange.binance.utils.NostroBinanceFuturesDTOUtils;
+import nostro.xchange.binance.utils.NostroBinanceFuturesDtoUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.binance.BinanceAdapters;
@@ -42,7 +42,7 @@ public class BinanceFuturesInitSyncTaskTest {
     public void testSync_no_trades() throws Exception {
         long orderId = 1;
         CurrencyPair pair = CurrencyPair.BTC_USDT;
-        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDTOUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(pair), Long.parseLong("1638264757254"), Long.parseLong("1638264757254"), null);
+        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDtoUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(pair), Long.parseLong("1638264757254"), Long.parseLong("1638264757254"), null);
 
         given(syncService.getOpenOrders(pair)).willReturn(Collections.singletonList(futuresOrder));
         given(syncService.getLastOrder(pair)).willReturn(null);
@@ -63,8 +63,8 @@ public class BinanceFuturesInitSyncTaskTest {
         long orderId = 1;
         long tradeId = 2;
         CurrencyPair pair = CurrencyPair.BTC_USDT;
-        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDTOUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(pair), Long.parseLong("1638264757254"), Long.parseLong("1638264757254"), null);
-        BinanceFuturesTrade futuresTrade = NostroBinanceFuturesDTOUtils.generateTrade(tradeId, orderId, Long.valueOf("1569514978020"));
+        BinanceFuturesOrder futuresOrder = NostroBinanceFuturesDtoUtils.generateOrder(orderId, OrderStatus.NEW, BinanceAdapters.toSymbol(pair), Long.parseLong("1638264757254"), Long.parseLong("1638264757254"), null);
+        BinanceFuturesTrade futuresTrade = NostroBinanceFuturesDtoUtils.generateTrade(tradeId, orderId, Long.valueOf("1569514978020"));
         given(syncService.getOpenOrders(pair)).willReturn(Collections.singletonList(futuresOrder));
         given(syncService.getLastOrder(pair)).willReturn(null);
         given(syncService.getFirstTrade(pair, futuresOrder.time)).willReturn(futuresTrade);

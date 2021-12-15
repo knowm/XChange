@@ -1,8 +1,5 @@
 package nostro.xchange.persistence;
 
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.instrument.Instrument;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,10 +121,6 @@ public class OrderRepository {
             while (rs.next()) list.add(fromResultSet(rs));
             return list;
         }
-    }
-
-    public List<OrderEntity> findOpenOrders(Instrument instrument) throws SQLException {
-        return findOpenByInstrument(instrument.toString());
     }
 
     public List<OrderEntity> findOpenByInstrument(String instrument) throws SQLException {
