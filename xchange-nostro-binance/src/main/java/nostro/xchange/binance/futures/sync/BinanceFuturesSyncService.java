@@ -109,7 +109,7 @@ public class BinanceFuturesSyncService extends SyncService {
     List<BinanceFuturesOrder> getOrders(CurrencyPair pair, long fromId, int limit) throws IOException {
         try {
             List<BinanceFuturesOrder> orders = tradeService.futuresAllOrders(pair, limit, null, null, fromId);
-            LOG.info("Service returned {} orders", orders.size());
+            LOG.info("Service returned {} orders fromId={} limit={}", orders.size(), fromId, limit);
             return orders;
         } catch (Throwable th) {
             LOG.error("Error while querying orders", th);
@@ -120,7 +120,7 @@ public class BinanceFuturesSyncService extends SyncService {
     List<BinanceFuturesTrade> getTrades(CurrencyPair pair, long fromId, int limit) throws IOException {
         try {
             List<BinanceFuturesTrade> trades = tradeService.myFuturesTrades(pair, limit, null, null, fromId);
-            LOG.info("Service returned {} trades", trades.size());
+            LOG.info("Service returned {} trades fromId={} limit={}", trades.size(), fromId, limit);
             return trades;
         } catch (Throwable th) {
             LOG.error("Error while querying trades", th);

@@ -31,10 +31,14 @@ public class OrderSyncTask implements Callable<Long> {
     public Long call() throws Exception {
         LOG.info("Starting OrderSyncTask(symbol={}): fromId={})", pair, fromId);
 
+        long startId = fromId;
         int updated = 0;
         List<BinanceOrder> orders;
         BinanceOrder last = null;
         do {
+            if (fromId != startId) LOG.info("Request next page fromId={}, limit={}", fromId, LIMIT);
+            else LOG.info("Request first page fromId={}, limit={}", fromId, LIMIT);
+
             orders = syncService.getOrders(pair, fromId, LIMIT);
 
             if (orders.size() > 0) {

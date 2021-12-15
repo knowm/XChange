@@ -23,7 +23,7 @@ public class BinanceFuturesSyncSubscriptionsTask extends SyncTask<Void, BinanceF
 
     @Override
     public Void call() throws Exception {
-        LOG.info("Starting task");
+        LOG.info("Starting task; orders={}", orders);
         Set<String> orderSubscriptions = new HashSet<>(orders);
 
         List<SyncTaskEntity> tasks = getSyncService().getTXFactory().executeAndGet(tx -> tx.getSyncTaskRepository().findAllLatest());

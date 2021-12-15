@@ -29,10 +29,13 @@ class BinanceFuturesOrderSyncTask extends SyncTask<Long, BinanceFuturesSyncServi
     public Long call() throws Exception {
         LOG.info("Starting task (symbol={}): fromId={})", pair, fromId);
 
+        long startId = fromId;
         int updated = 0;
         List<BinanceFuturesOrder> orders;
         BinanceFuturesOrder last = null;
         do {
+            if (fromId != startId) LOG.info("Request next page fromId={}, limit={}", fromId, LIMIT);
+            else LOG.info("Request first page fromId={}, limit={}", fromId, LIMIT);
             orders = getSyncService().getOrders(pair, fromId, LIMIT);
 
             if (orders.size() > 0) {
