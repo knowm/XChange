@@ -14,6 +14,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.trade.UserTrade;
 
 import java.math.BigDecimal;
@@ -93,7 +94,7 @@ public class NostroBinanceUtils {
                 .document(NostroUtils.writeBalanceDocument(balance))
                 .build();
     }
-    
+
     public static Balance adapt(BinanceBalance b, long time) {
         return new Balance.Builder()
                 .currency(b.getCurrency())
@@ -123,17 +124,38 @@ public class NostroBinanceUtils {
                 && b.getLocked().compareTo(BigDecimal.ZERO) == 0;
     }
 
-    public static boolean updateRequired(BalanceEntity e, BinanceBalance bb, long time) {
-        if (e.getTimestamp().getTime() >= time) {
+    public static boolean updateRequired(BalanceEntity e, Balance bb) {
+        if (e.getTimestamp().getTime() >= bb.getTimestamp().getTime()) {
             return false;
         }
         Balance balance = NostroUtils.readBalanceDocument(e.getDocument());
-        
+
         return bb.getAvailable().compareTo(balance.getAvailable()) != 0
-                || bb.getLocked().compareTo(balance.getFrozen()) != 0; 
+                || bb.getFrozen().compareTo(balance.getFrozen()) != 0;
     }
 
-    public static boolean updateRequired(BalanceEntity e, BinanceWebsocketBalance bb, long time) {
-        return updateRequired(e, new BinanceBalance(bb.getCurrency().getCurrencyCode(), bb.getAvailable(), bb.getLocked()), time);
+    /* Position utils */
+    public static boolean isZeroPosition(OpenPosition p) {
+        return p.getPrice().compareTo(BigDecimal.ZERO) == 0
+                && p.getSize().compareTo(BigDecimal.ZERO) == 0;
+    }
+
+    public static boolean updateRequired(BalanceEntity e, OpenPosition p) {
+        if (e.getTimestamp().getTime() >= p.getTimestamp().getTime()) {
+            return false;
+        }
+        OpenPosition position = NostroUtils.readPositionDocument(e.getDocument());
+        return p.getType().equals(position.getType()) // position types should match
+                && (p.getSize().compareTo(position.getSize()) != 0 || p.getPrice().compareTo(position.getPrice()) != 0);
+
+    }
+
+    public static BalanceEntity toEntity(OpenPosition p) {
+        return new BalanceEntity.Builder()
+                .asset(p.getInstrument().toString())
+                .timestamp(new Timestamp(p.getTimestamp().getTime()))
+                .zero(isZeroPosition(p))
+                .document(NostroUtils.writePositionDocument(p))
+                .build();
     }
 }

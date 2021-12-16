@@ -2,10 +2,13 @@ package nostro.xchange.binance;
 
 import nostro.xchange.persistence.OrderEntity;
 import nostro.xchange.persistence.TransactionFactory;
+import nostro.xchange.utils.InstrumentUtils;
 import nostro.xchange.utils.NostroUtils;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.utils.jackson.InstrumentDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +27,7 @@ public class BinanceCancelService {
     }
 
     public boolean cancelOrder(String id) {
+        LOG.info("cancel order id={}", id);
         try {
             return cancelTx(id);
         } catch (Throwable th) {
@@ -71,7 +75,12 @@ public class BinanceCancelService {
                 return false;
             }
 
-            tradeService.cancelOrder(new CurrencyPair(e.getInstrument()), null, id, null);
+            Instrument instrument = InstrumentDeserializer.fromString(e.getInstrument());
+            if (instrument == null) {
+                throw new IllegalArgumentException("Attempt to cancel order(id=" + e.getId() + ") failed - couldn't parse instrument=" + e.getInstrument());
+            }
+            CurrencyPair currencyPair = InstrumentUtils.getCurrencyPair(instrument);
+            tradeService.cancelOrder(currencyPair, null, id, null);
 
             Order order = NostroUtils.readOrderDocument(e.getDocument());
             order.setOrderStatus(Order.OrderStatus.PENDING_CANCEL);

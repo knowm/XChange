@@ -48,7 +48,7 @@ public class TradeSyncTask implements Callable<Long> {
                     List<BinanceTrade> updated = syncTrades(e.getKey(), e.getValue());
                     
                     for(BinanceTrade u : updated) {
-                        syncService.publisher.publish(NostroBinanceUtils.adapt(u, pair));
+                        syncService.getPublisher().publish(NostroBinanceUtils.adapt(u, pair));
                     }
 
                     updatedCount += updated.size();
@@ -64,7 +64,7 @@ public class TradeSyncTask implements Callable<Long> {
     }
 
     private List<BinanceTrade> syncTrades(long binanceOrderId, List<BinanceTrade> binanceTrades) {
-        return syncService.txFactory.executeAndGet(tx -> {
+        return syncService.getTXFactory().executeAndGet(tx -> {
 
             String orderId;
             Set<String> existingTradeIds;

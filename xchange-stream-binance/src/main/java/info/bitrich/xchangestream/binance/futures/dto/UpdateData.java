@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.binance.futures.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketBalance;
+import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesPosition;
 import org.knowm.xchange.dto.account.Balance;
 
 import java.math.BigDecimal;
@@ -14,12 +15,15 @@ public class UpdateData {
 
   private final String eventReasonType;
   private final List<BinanceFuturesWebsocketBalance> balances;
+  private final List<BinanceFuturesWebsocketPosition> positions;
 
   public UpdateData(
       @JsonProperty("m") String eventReasonType,
-      @JsonProperty("B") List<BinanceFuturesWebsocketBalance> balances) {
+      @JsonProperty("B") List<BinanceFuturesWebsocketBalance> balances,
+      @JsonProperty("P") List<BinanceFuturesWebsocketPosition> positions) {
     this.eventReasonType = eventReasonType;
     this.balances = balances;
+    this.positions = positions;
   }
 
   public String getEventReasonType() {
@@ -28,5 +32,9 @@ public class UpdateData {
 
   public List<BinanceFuturesWebsocketBalance> getBalances() {
     return balances;
+  }
+
+  public List<BinanceFuturesWebsocketPosition> getPositions() {
+    return positions;
   }
 }

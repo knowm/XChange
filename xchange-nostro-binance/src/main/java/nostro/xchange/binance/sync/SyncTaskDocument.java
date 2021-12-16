@@ -40,6 +40,14 @@ public class SyncTaskDocument {
         return Objects.hash(orderId, tradeId);
     }
 
+    @Override
+    public String toString() {
+        return "SyncTaskDocument{" +
+                "orderId=" + orderId +
+                ", tradeId=" + tradeId +
+                '}';
+    }
+
     public static SyncTaskDocument read(String s) {
         try {
             return ObjectMapperHelper.readValue(s, SyncTaskDocument.class);

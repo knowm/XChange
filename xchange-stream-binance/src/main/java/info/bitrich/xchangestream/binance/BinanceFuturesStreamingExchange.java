@@ -3,7 +3,9 @@ package info.bitrich.xchangestream.binance;
 import com.google.common.base.MoreObjects;
 import info.bitrich.xchangestream.binance.futures.*;
 import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.rxjava3.core.Completable;
@@ -29,7 +31,7 @@ public class BinanceFuturesStreamingExchange extends BinanceFuturesExchange impl
             "Binance_Orderbook_Use_Higher_Frequency";
 
     private BinanceStreamingService streamingService;
-    private BinanceUserDataStreamingService userDataStreamingService;
+    protected BinanceUserDataStreamingService userDataStreamingService;
 
     private BinanceFuturesStreamingMarketDataService streamingMarketDataService;
     private BinanceFuturesStreamingAccountService streamingAccountService;
@@ -186,12 +188,12 @@ public class BinanceFuturesStreamingExchange extends BinanceFuturesExchange impl
     }
 
     @Override
-    public BinanceFuturesStreamingAccountService getStreamingAccountService() {
+    public StreamingAccountService getStreamingAccountService() {
         return streamingAccountService;
     }
 
     @Override
-    public BinanceFuturesStreamingTradeService getStreamingTradeService() {
+    public StreamingTradeService getStreamingTradeService() {
         return streamingTradeService;
     }
 

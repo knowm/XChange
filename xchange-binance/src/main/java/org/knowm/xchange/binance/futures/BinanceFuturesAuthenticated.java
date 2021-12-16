@@ -87,6 +87,40 @@ public interface BinanceFuturesAuthenticated extends BinanceAuthenticated {
             @QueryParam(SIGNATURE) ParamsDigest signature)
             throws IOException, BinanceException;
 
+    @GET
+    @Path("fapi/v1/allOrders")
+    /**
+     * Get all account orders; active, canceled, or filled.
+     * These orders will not be found:
+     * order status is CANCELED or EXPIRED, AND
+     * order has NO filled trade, AND
+     * created time + 7 days < current time
+     *
+     * @param symbol required
+     * @param limit optional, default 500; max 1000.
+     * @param startTime optional
+     * @param endTime optional
+     * @param fromId optional, If is set, it will get orders >= that orderId. Otherwise most recent orders are returned.
+     * @param recvWindow optional
+     * @param timestamp required
+     *
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    List<BinanceFuturesOrder> futuresAllOrders(
+            @QueryParam("symbol") String symbol,
+            @QueryParam("limit") Integer limit,
+            @QueryParam("startTime") Long startTime,
+            @QueryParam("endTime") Long endTime,
+            @QueryParam("fromId") Long fromId,
+            @QueryParam("recvWindow") Long recvWindow,
+            @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+            @HeaderParam(X_MBX_APIKEY) String apiKey,
+            @QueryParam(SIGNATURE) ParamsDigest signature)
+            throws IOException, BinanceException;
+
+
     @Override
     @DELETE
     @Path("fapi/v1/order")
@@ -186,7 +220,7 @@ public interface BinanceFuturesAuthenticated extends BinanceAuthenticated {
      */
     BinanceFuturesOrder futuresOrderStatus(
             @QueryParam("symbol") String symbol,
-            @QueryParam("orderId") long orderId,
+            @QueryParam("orderId") Long orderId,
             @QueryParam("origClientOrderId") String origClientOrderId,
             @QueryParam("recvWindow") Long recvWindow,
             @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,

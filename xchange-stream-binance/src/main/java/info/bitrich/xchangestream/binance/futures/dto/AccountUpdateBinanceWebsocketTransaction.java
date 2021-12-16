@@ -3,13 +3,19 @@ package info.bitrich.xchangestream.binance.futures.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketBalance;
+import org.knowm.xchange.binance.futures.BinanceFuturesAdapter;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.OpenPosition;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.knowm.xchange.binance.futures.BinanceFuturesAdapter.adaptInstrument;
+import static org.knowm.xchange.binance.futures.BinanceFuturesAdapter.adaptPositionType;
 
 public class AccountUpdateBinanceWebsocketTransaction
     extends BaseBinanceWebSocketTransaction {
@@ -27,8 +33,21 @@ public class AccountUpdateBinanceWebsocketTransaction
     this.updateData = updateData;
   }
 
+  public long getTransactionTime() {
+    return transactionTime;
+  }
+
+  public List<BinanceFuturesWebsocketBalance> getBalances() {
+    return updateData.getBalances();
+  }
+
+  public List<BinanceFuturesWebsocketPosition> getPositions() {
+    return updateData.getPositions();
+  }
+
   public List<Balance> toBalanceList() {
-    return updateData.getBalances().stream()
+    if (getBalances() == null) return Collections.emptyList();
+    return getBalances().stream()
         .map(
             b ->
                 new Balance(
@@ -42,5 +61,18 @@ public class AccountUpdateBinanceWebsocketTransaction
                     BigDecimal.ZERO,
                     new Date(transactionTime)))
         .collect(Collectors.toList());
+  }
+
+  public List<OpenPosition> toPositionList() {
+    if (getPositions() == null) return Collections.emptyList();
+    return getPositions().stream()
+            .map(p -> new OpenPosition.Builder()
+                    .instrument(adaptInstrument(p.symbol))
+                    .type(adaptPositionType(p.positionSide))
+                    .size(p.positionAmt)
+                    .price(p.entryPrice)
+                    .timestamp(new Date(transactionTime))
+                    .build())
+            .collect(Collectors.toList());
   }
 }

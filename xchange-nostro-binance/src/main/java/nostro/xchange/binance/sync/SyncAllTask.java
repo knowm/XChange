@@ -25,10 +25,10 @@ public class SyncAllTask implements Callable<Void> {
     public Void call() throws Exception {
         new BalanceSyncTask(syncService).call();
         
-        AccountDocument account = NostroUtils.readAccountDocument(syncService.txFactory.executeAndGet(tx -> tx.getAccountRepository().get()));
+        AccountDocument account = NostroUtils.readAccountDocument(syncService.getTXFactory().executeAndGet(tx -> tx.getAccountRepository().get()));
         Set<String> orderSubscriptions = new HashSet<>(account.getSubscriptions().getOrders());
 
-        List<SyncTaskEntity> tasks = syncService.txFactory.executeAndGet(tx -> tx.getSyncTaskRepository().findAllLatest());
+        List<SyncTaskEntity> tasks = syncService.getTXFactory().executeAndGet(tx -> tx.getSyncTaskRepository().findAllLatest());
 
         for (SyncTaskEntity task : tasks) {
             if (orderSubscriptions.remove(task.getSymbol())) {
@@ -60,7 +60,7 @@ public class SyncAllTask implements Callable<Void> {
 
         SyncTaskDocument updated = new SyncTaskDocument(orderId, tradeId);
         if (!updated.equals(document)) {
-            syncService.txFactory.execute(tx ->
+            syncService.getTXFactory().execute(tx ->
                     tx.getSyncTaskRepository().insert(symbol, tx.getTimestamp(), SyncTaskDocument.write(updated)));
         }
     }

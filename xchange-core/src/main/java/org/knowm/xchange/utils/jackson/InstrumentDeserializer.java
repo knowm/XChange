@@ -27,14 +27,18 @@ public class InstrumentDeserializer extends JsonDeserializer<Instrument> {
 
     final ObjectCodec oc = jsonParser.getCodec();
     final JsonNode node = oc.readTree(jsonParser);
-    final String instrumentString = node.asText();
-    long count = instrumentString.chars().filter(ch -> ch == '/').count();
+    return fromString(node.asText());
+  }
+
+  public static Instrument fromString(String s) {
+    long count = s.chars().filter(ch -> ch == '/').count();
     // CurrencyPair (Base/Counter) i.e. BTC/USD
-    if (count == 1) return new CurrencyPair(instrumentString);
+    if (count == 1) return new CurrencyPair(s);
     // Futures/Swaps (Base/Counter/Prompt) i.e. BTC/USD/200925
-    if (count == 2) return new FuturesContract(instrumentString);
+    if (count == 2) return new FuturesContract(s);
     // Options (Base/Counter/Prompt/StrikePrice/Put?Call) i.e. BTC/USD/200925/8956.67/P
-    if (count == 4) return new OptionsContract(instrumentString);
-    else return null;
+    if (count == 4) return new OptionsContract(s);
+
+    return null;
   }
 }

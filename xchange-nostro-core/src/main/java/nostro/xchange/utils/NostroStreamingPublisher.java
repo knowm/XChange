@@ -8,6 +8,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.trade.UserTrade;
 
 public class NostroStreamingPublisher implements StreamingTradeService, StreamingAccountService {
@@ -15,7 +16,8 @@ public class NostroStreamingPublisher implements StreamingTradeService, Streamin
     private final PublishProcessor<Order> orderPublisher = PublishProcessor.create();
     private final PublishProcessor<UserTrade> tradePublisher = PublishProcessor.create();
     private final PublishProcessor<Balance> balancePublisher = PublishProcessor.create();
-    
+    private final PublishProcessor<OpenPosition> openPositionPublisher = PublishProcessor.create();
+
     public void publish(Order order) {
         orderPublisher.onNext(order);
     }
@@ -26,6 +28,10 @@ public class NostroStreamingPublisher implements StreamingTradeService, Streamin
 
     public void publish(Balance balance) {
         balancePublisher.onNext(balance);
+    }
+
+    public void publish(OpenPosition position) {
+        openPositionPublisher.onNext(position);
     }
 
     @Override
@@ -41,5 +47,10 @@ public class NostroStreamingPublisher implements StreamingTradeService, Streamin
     @Override
     public Flowable<Balance> getBalanceChanges(Currency currency, Object... args) {
         return balancePublisher;
+    }
+
+    // TODO: declare in interface when ready
+    public Flowable<OpenPosition> getOpenPositionChanges(Currency currency, Object... args) {
+        return openPositionPublisher;
     }
 }
