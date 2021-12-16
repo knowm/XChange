@@ -37,7 +37,7 @@
     <version.github.mmazi>2.0.4</version.github.mmazi>
     <version.resilience4j>1.7.0</version.resilience4j>
     <version.junit>4.13.1</version.junit>
-    <version.lombok>1.18.20</version.lombok>
+    <version.lombok>1.18.18</version.lombok>
     <version.knowm.xchart>3.8.0</version.knowm.xchart>
     <version.qos.logback>1.2.3</version.qos.logback>
     <version.reflections>0.9.12</version.reflections>
