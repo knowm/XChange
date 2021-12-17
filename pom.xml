@@ -196,10 +196,6 @@
     <module>xchange-stream-service-core</module>
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
-
-    <module>xchange-nostro-binance</module>
-    <module>xchange-nostro-core</module>
-    <module>xchange-nostro-ftx</module>
   </modules>
 
   <ciManagement>
