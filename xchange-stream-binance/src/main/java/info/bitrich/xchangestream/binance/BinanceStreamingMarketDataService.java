@@ -346,7 +346,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     /**
-     * Helps to keep integrity of book snapshot which is initialised and patched on different
+     * Helps to keep integrity of book snapshot which is initialized and patched on different
      * threads.
      */
     private final Object monitor = new Object();
@@ -362,22 +362,22 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         throw new IllegalStateException(
             "Disposed before, use a new instance to connect next time.");
 
-      disposables.add(asyncInitialiseOrderBookSnapshot());
+      disposables.add(asyncInitializeOrderBookSnapshot());
 
       deltasObservable
           .doOnNext(
               delta -> {
                 synchronized (monitor) {
-                  if (isBookInitialised()) {
+                  if (isBookInitialized()) {
                     if (!appendDelta(delta)) {
-                      disposables.add(asyncInitialiseOrderBookSnapshot());
+                      disposables.add(asyncInitializeOrderBookSnapshot());
                     }
                   } else {
                     bufferDelta(delta);
                   }
                 }
               })
-          .filter(delta -> isBookInitialised())
+          .filter(delta -> isBookInitialized())
           .map(delta -> getBook())
           .doFinally(() -> dispose())
           .subscribe(booksSubject);
@@ -405,7 +405,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
       return booksSubject.hasComplete() || booksSubject.hasThrowable();
     }
 
-    private boolean isBookInitialised() {
+    private boolean isBookInitialized() {
       return getBook() != null;
     }
 
@@ -419,9 +419,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
       }
     }
 
-    private Disposable asyncInitialiseOrderBookSnapshot() {
-      if (isBookInitialised()) {
-        LOG.info("Orderbook snapshot for {} was initialised before. Re-syncing.", currencyPair);
+    private Disposable asyncInitializeOrderBookSnapshot() {
+      if (isBookInitialized()) {
+        LOG.info("Orderbook snapshot for {} was initialized before. Re-syncing.", currencyPair);
 
         synchronized (monitor) {
           bookRef.set(null);
@@ -454,7 +454,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                   // notified with an already outdated snapshot).
                   for (DepthBinanceWebSocketTransaction delta : deltasPatchingSnapshot) {
                     if (!appendDelta(delta)) {
-                      disposables.add(asyncInitialiseOrderBookSnapshot());
+                      disposables.add(asyncInitializeOrderBookSnapshot());
                     }
                   }
                 }
