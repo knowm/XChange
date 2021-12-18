@@ -1,7 +1,5 @@
 package info.bitrich.xchangestream.binance;
 
-import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,14 +17,6 @@ import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Stream;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import org.knowm.xchange.binance.BinanceAdapters;
@@ -47,11 +37,16 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
 public class BinanceStreamingMarketDataService implements StreamingMarketDataService {
   private static final Logger LOG =
@@ -334,14 +329,10 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   @SuppressWarnings("Convert2MethodRef")
   private final class OrderBookSubscription implements Disposable {
     private final CurrencyPair currencyPair;
-
     private final Observable<DepthBinanceWebSocketTransaction> deltasObservable;
-    private final Queue<DepthBinanceWebSocketTransaction> deltasBuffer =
-        new ConcurrentLinkedQueue<>();
 
+    private final Queue<DepthBinanceWebSocketTransaction> deltasBuffer = new LinkedList<>();
     private final BehaviorSubject<OrderBook> booksSubject = BehaviorSubject.create();
-    private final AtomicReference<OrderBook> bookRef = new AtomicReference<>();
-    private final AtomicLong bookLastUpdateId = new AtomicLong();
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
@@ -349,7 +340,10 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
      * Helps to keep integrity of book snapshot which is initialized and patched on different
      * threads.
      */
-    private final Object monitor = new Object();
+    private final Object bookIntegrityMonitor = new Object();
+
+    private OrderBook book;
+    private long bookLastUpdateId;
 
     private OrderBookSubscription(
         Observable<DepthBinanceWebSocketTransaction> deltasObservable, CurrencyPair currencyPair) {
@@ -367,7 +361,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
       deltasObservable
           .doOnNext(
               delta -> {
-                synchronized (monitor) {
+                synchronized (bookIntegrityMonitor) {
                   if (isBookInitialized()) {
                     if (!appendDelta(delta)) {
                       disposables.add(asyncInitializeOrderBookSnapshot());
@@ -406,15 +400,19 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
 
     private boolean isBookInitialized() {
-      return getBook() != null;
+      synchronized (bookIntegrityMonitor) {
+        return book != null;
+      }
     }
 
     private OrderBook getBook() {
-      return bookRef.get();
+      synchronized (bookIntegrityMonitor) {
+        return book;
+      }
     }
 
     private void bufferDelta(DepthBinanceWebSocketTransaction delta) {
-      synchronized (monitor) {
+      synchronized (bookIntegrityMonitor) {
         deltasBuffer.add(delta);
       }
     }
@@ -423,10 +421,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
       if (isBookInitialized()) {
         LOG.info("Orderbook snapshot for {} was initialized before. Re-syncing.", currencyPair);
 
-        synchronized (monitor) {
-          bookRef.set(null);
-          deltasBuffer.clear();
-          bookLastUpdateId.set(0);
+        synchronized (bookIntegrityMonitor) {
+          if (book != null) {
+            book = null;
+            deltasBuffer.clear();
+            bookLastUpdateId = 0;
+          }
         }
       }
 
@@ -436,14 +436,14 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
           .flatMap(delta -> fetchSingleBinanceOrderBookUpdatedAfter(delta))
           .subscribe(
               binanceBook -> {
-                final OrderBook book =
+                final OrderBook convertedBook =
                     BinanceMarketDataService.convertOrderBook(binanceBook, currencyPair);
 
-                synchronized (monitor) {
-                  bookRef.set(book);
-                  bookLastUpdateId.set(binanceBook.lastUpdateId);
+                synchronized (bookIntegrityMonitor) {
+                  book = convertedBook;
+                  bookLastUpdateId = binanceBook.lastUpdateId;
 
-                  final List<DepthBinanceWebSocketTransaction> deltasPatchingSnapshot =
+                  final List<DepthBinanceWebSocketTransaction> applicableBookPatches =
                       deltasBuffer.stream()
                           .filter(delta -> delta.getLastUpdateId() > binanceBook.lastUpdateId)
                           .collect(Collectors.toList());
@@ -452,7 +452,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
                   // Update the book with all buffered deltas (as probably nobody would like to be
                   // notified with an already outdated snapshot).
-                  for (DepthBinanceWebSocketTransaction delta : deltasPatchingSnapshot) {
+                  for (DepthBinanceWebSocketTransaction delta : applicableBookPatches) {
                     if (!appendDelta(delta)) {
                       disposables.add(asyncInitializeOrderBookSnapshot());
                     }
@@ -464,23 +464,21 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean appendDelta(DepthBinanceWebSocketTransaction delta) {
-      synchronized (monitor) {
-        if (delta.getFirstUpdateId() > bookLastUpdateId.get() + 1) {
+      synchronized (bookIntegrityMonitor) {
+        if (delta.getFirstUpdateId() > bookLastUpdateId + 1) {
           LOG.info(
               "Orderbook snapshot for {} out of date (last={}, U={}, u={}).",
               currencyPair,
-              bookLastUpdateId.get(),
+              bookLastUpdateId,
               delta.getFirstUpdateId(),
               delta.getLastUpdateId());
 
           return false;
         } else {
-          bookLastUpdateId.set(delta.getLastUpdateId());
+          bookLastUpdateId = delta.getLastUpdateId();
 
-          // FIXME
-          // The underlying impl is far from being optimal, LimitOrders could be created directly.
-          extractOrderBookUpdates(currencyPair, delta)
-              .forEach(update -> bookRef.get().update(update));
+          // FIXME The underlying impl would be more optimal if LimitOrders were created directly.
+          extractOrderBookUpdates(currencyPair, delta).forEach(update -> book.update(update));
         }
 
         return true;
@@ -506,7 +504,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                   // Repeat while the snapshot is older than the provided delta (Why? To ensure we
                   // have deltas old enough to be able to apply a chain of updates to the snapshot
                   // in order to bump it to the current state). If any repeats will be indeed
-                  // necessary, its recommended to update the implementation, give some initial
+                  // necessary, it's recommended to update the implementation, give some initial
                   // delay, after subscribed for deltas, before asked for the snapshot first time.
                   // Was not required at the time of writing, but exchange behaviour can change over
                   // time.
