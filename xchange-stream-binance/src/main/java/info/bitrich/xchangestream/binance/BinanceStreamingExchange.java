@@ -118,7 +118,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   private Completable createAndConnectUserDataService(String listenKey) {
-    userDataStreamingService = BinanceUserDataStreamingService.create(listenKey);
+    userDataStreamingService = BinanceUserDataStreamingService.create(getStreamingBaseUri(), listenKey);
     return userDataStreamingService
         .connect()
         .doOnComplete(
@@ -196,12 +196,14 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   protected BinanceStreamingService createStreamingService(ProductSubscription subscription) {
-    String path =
-        Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))
-            ? WS_SANDBOX_API_BASE_URI
-            : WS_API_BASE_URI;
-    path += "stream?streams=" + buildSubscriptionStreams(subscription);
+    String path = getStreamingBaseUri() + "stream?streams=" + buildSubscriptionStreams(subscription);
     return new BinanceStreamingService(path, subscription);
+  }
+
+  protected String getStreamingBaseUri() {
+    return Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))
+        ? WS_SANDBOX_API_BASE_URI
+        : WS_API_BASE_URI;
   }
 
   public String buildSubscriptionStreams(ProductSubscription subscription) {
