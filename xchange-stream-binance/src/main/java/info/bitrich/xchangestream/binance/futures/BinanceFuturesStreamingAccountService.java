@@ -14,8 +14,10 @@ import io.reactivex.rxjava3.processors.BehaviorProcessor;
 import io.reactivex.rxjava3.processors.FlowableProcessor;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BinanceFuturesStreamingAccountService implements StreamingAccountService {
 
@@ -57,6 +59,13 @@ public class BinanceFuturesStreamingAccountService implements StreamingAccountSe
         .flatMap(Flowable::fromIterable);
   }
 
+  public Flowable<OpenPosition> getPositionChanges() {
+    checkConnected();
+    return getRawAccountInfo()
+            .map(AccountUpdateBinanceWebsocketTransaction::toPositionList)
+            .flatMap(Flowable::fromIterable);
+  }
+
   private void checkConnected() {
     if (binanceUserDataStreamingService == null || !binanceUserDataStreamingService.isSocketOpen())
       throw new ExchangeSecurityException("Not authenticated");
@@ -65,6 +74,11 @@ public class BinanceFuturesStreamingAccountService implements StreamingAccountSe
   @Override
   public Flowable<Balance> getBalanceChanges(Currency currency, Object... args) {
     return getBalanceChanges().filter(t -> t.getCurrency().equals(currency));
+  }
+
+  @Override
+  public Flowable<OpenPosition> getPositionChanges(Instrument instrument, Object... args) {
+    return getPositionChanges().filter(t -> t.getInstrument().equals(instrument));
   }
 
   /**
