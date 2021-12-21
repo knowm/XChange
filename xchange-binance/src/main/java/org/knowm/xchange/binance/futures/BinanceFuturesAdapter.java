@@ -22,7 +22,6 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
@@ -61,7 +60,7 @@ public class BinanceFuturesAdapter {
     public static OpenPosition adaptPosition(BinanceFuturesPosition p) {
         return new OpenPosition.Builder()
                 .instrument(adaptInstrument(p.symbol))
-                .type(adaptPositionType(p.positionSide))
+                .type(adaptPositionType(p.positionSide, p.positionAmt))
                 .size(p.positionAmt)
                 .price(p.entryPrice)
                 .leverage(p.leverage)
@@ -79,12 +78,13 @@ public class BinanceFuturesAdapter {
                 .build();
     }
 
-    public static OpenPosition.Type adaptPositionType(PositionSide positionSide) {
-        return positionSide == PositionSide.LONG ? OpenPosition.Type.LONG : OpenPosition.Type.SHORT;
-    }
-
-    public static PositionSide adaptPositionSide(OpenPosition.Type positionType) {
-        return positionType == OpenPosition.Type.LONG ? PositionSide.LONG : PositionSide.SHORT;
+    public static OpenPosition.Type adaptPositionType(PositionSide positionSide, BigDecimal positionAmt) {
+        if (positionSide == null) return null;
+        switch (positionSide) {
+            case LONG: return OpenPosition.Type.LONG;
+            case SHORT: return OpenPosition.Type.SHORT;
+            default: return positionAmt.compareTo(BigDecimal.ZERO) > 0 ? OpenPosition.Type.LONG : OpenPosition.Type.SHORT;
+        }
     }
 
     public static Instrument adaptInstrument(String symbol) {

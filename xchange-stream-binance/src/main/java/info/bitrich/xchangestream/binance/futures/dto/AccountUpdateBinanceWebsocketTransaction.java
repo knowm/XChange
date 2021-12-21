@@ -2,8 +2,6 @@ package info.bitrich.xchangestream.binance.futures.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.BinanceWebsocketBalance;
-import org.knowm.xchange.binance.futures.BinanceFuturesAdapter;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.OpenPosition;
@@ -68,7 +66,7 @@ public class AccountUpdateBinanceWebsocketTransaction
     return getPositions().stream()
             .map(p -> new OpenPosition.Builder()
                     .instrument(adaptInstrument(p.symbol))
-                    .type(adaptPositionType(p.positionSide))
+                    .type(adaptPositionType(p.positionSide, p.positionAmt))
                     .size(p.positionAmt)
                     .price(p.entryPrice)
                     .timestamp(new Date(transactionTime))
