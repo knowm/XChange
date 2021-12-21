@@ -5,10 +5,8 @@ import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensio
 
 public class BinanceFuturesUserDataStreamingService extends BinanceUserDataStreamingService {
 
-    private static final String USER_API_BASE_URI = "wss://fstream.binance.com/ws/";
-
-    public static BinanceUserDataStreamingService create(String listenKey) {
-        return new BinanceFuturesUserDataStreamingService(USER_API_BASE_URI + listenKey);
+    public static BinanceUserDataStreamingService create(String apiUri, String listenKey) {
+        return new BinanceFuturesUserDataStreamingService(apiUri + "/ws/" + listenKey);
     }
 
     protected BinanceFuturesUserDataStreamingService(String url) {

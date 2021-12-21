@@ -26,7 +26,8 @@ import java.util.stream.Stream;
 
 public class BinanceFuturesStreamingExchange extends BinanceFuturesExchange implements StreamingExchange {
     private static final Logger LOG = LoggerFactory.getLogger(BinanceFuturesStreamingExchange.class);
-    private static final String API_BASE_URI = "wss://fstream.binance.com/";
+    private static final String API_BASE_URI = "wss://fstream.binance.com";
+    private static final String SANDBOX_API_BASE_URI = "wss://stream.binancefuture.com";
     protected static final String USE_HIGHER_UPDATE_FREQUENCY =
             "Binance_Orderbook_Use_Higher_Frequency";
 
@@ -76,8 +77,12 @@ public class BinanceFuturesStreamingExchange extends BinanceFuturesExchange impl
                     "Exchange only handles a single connection - disconnect the current connection.");
         }
 
+        final boolean useSandbox =
+                Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_SANDBOX));
+        final String apiUri = useSandbox ? SANDBOX_API_BASE_URI : API_BASE_URI;
+
         ProductSubscription subscriptions = args[0];
-        streamingService = createStreamingService(subscriptions);
+        streamingService = createStreamingService(apiUri, subscriptions);
 
         List<Completable> completables = new ArrayList<>();
 
@@ -98,7 +103,7 @@ public class BinanceFuturesStreamingExchange extends BinanceFuturesExchange impl
             userDataChannel =
                     new BinanceUserDataChannel(binance, exchangeSpecification.getApiKey(), onApiCall);
             try {
-                completables.add(createAndConnectUserDataService(userDataChannel.getListenKey()));
+                completables.add(createAndConnectUserDataService(apiUri, userDataChannel.getListenKey()));
             } catch (BinanceUserDataChannel.NoActiveChannelException e) {
                 throw new IllegalStateException("Failed to establish user data channel", e);
             }
@@ -119,8 +124,8 @@ public class BinanceFuturesStreamingExchange extends BinanceFuturesExchange impl
                 .doOnComplete(() -> streamingTradeService.openSubscriptions());
     }
 
-    private Completable createAndConnectUserDataService(String listenKey) {
-        userDataStreamingService = BinanceFuturesUserDataStreamingService.create(listenKey);
+    private Completable createAndConnectUserDataService(String apiUri, String listenKey) {
+        userDataStreamingService = BinanceFuturesUserDataStreamingService.create(apiUri, listenKey);
         return userDataStreamingService
                 .connect()
                 .doOnComplete(
@@ -132,7 +137,7 @@ public class BinanceFuturesStreamingExchange extends BinanceFuturesExchange impl
                                                 .disconnect()
                                                 .doOnComplete(
                                                         () -> {
-                                                            createAndConnectUserDataService(newListenKey)
+                                                            createAndConnectUserDataService(apiUri, newListenKey)
                                                                     .doOnComplete(
                                                                             () -> {
                                                                                 streamingAccountService.setUserDataStreamingService(
@@ -197,9 +202,8 @@ public class BinanceFuturesStreamingExchange extends BinanceFuturesExchange impl
         return streamingTradeService;
     }
 
-    private BinanceStreamingService createStreamingService(ProductSubscription subscription) {
-        String path = API_BASE_URI + "stream?streams=" + buildSubscriptionStreams(subscription);
-        return new BinanceFuturesStreamingService(path, subscription);
+    private BinanceStreamingService createStreamingService(String apiUri, ProductSubscription subscription) {
+        return new BinanceFuturesStreamingService(apiUri + "/stream?streams=" + buildSubscriptionStreams(subscription), subscription);
     }
 
     public String buildSubscriptionStreams(ProductSubscription subscription) {
