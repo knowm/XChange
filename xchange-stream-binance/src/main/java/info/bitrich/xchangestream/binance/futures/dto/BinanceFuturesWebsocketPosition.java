@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.binance.futures.dto.trade.PositionSide;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class BinanceFuturesWebsocketPosition {
     public final String symbol;
@@ -33,5 +34,19 @@ public class BinanceFuturesWebsocketPosition {
         this.marginType = marginType;
         this.isolatedWallet = isolatedWallet;
         this.positionSide = positionSide;
+    }
+
+    @Override
+    public String toString() {
+        return "BinanceFuturesWebsocketPosition{" +
+                "symbol='" + symbol + '\'' +
+                ", positionAmt=" + positionAmt +
+                ", accumulatedRealized=" + accumulatedRealized +
+                ", unrealizedProfit=" + unrealizedProfit +
+                ", entryPrice=" + entryPrice +
+                ", marginType='" + marginType + '\'' +
+                ", isolatedWallet=" + isolatedWallet +
+                ", positionSide=" + positionSide +
+                '}';
     }
 }

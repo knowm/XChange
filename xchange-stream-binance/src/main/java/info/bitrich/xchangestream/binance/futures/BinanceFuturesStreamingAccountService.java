@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.binance.BinanceUserDataStreamingService;
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
+import info.bitrich.xchangestream.binance.futures.dto.AccountConfigUpdateBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.futures.dto.AccountUpdateBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
@@ -23,7 +24,13 @@ public class BinanceFuturesStreamingAccountService implements StreamingAccountSe
   private final FlowableProcessor<AccountUpdateBinanceWebsocketTransaction> accountInfoPublisher =
       accountInfoLast.toSerialized();
 
+  private final BehaviorProcessor<AccountConfigUpdateBinanceWebsocketTransaction> accountConfigLast =
+          BehaviorProcessor.create();
+  private final FlowableProcessor<AccountConfigUpdateBinanceWebsocketTransaction> accountConfigPublisher =
+          accountConfigLast.toSerialized();
+
   private volatile Disposable accountInfo;
+  private volatile Disposable accountConfig;
   private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
@@ -36,6 +43,11 @@ public class BinanceFuturesStreamingAccountService implements StreamingAccountSe
   public Flowable<AccountUpdateBinanceWebsocketTransaction> getRawAccountInfo() {
     checkConnected();
     return accountInfoPublisher;
+  }
+
+  public Flowable<AccountConfigUpdateBinanceWebsocketTransaction> getRawAccountConfig() {
+    checkConnected();
+    return accountConfigPublisher;
   }
 
   public Flowable<Balance> getBalanceChanges() {
@@ -65,14 +77,22 @@ public class BinanceFuturesStreamingAccountService implements StreamingAccountSe
     if (binanceUserDataStreamingService != null) {
       accountInfo =
           binanceUserDataStreamingService
-              .subscribeChannel(
-                  BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.ACCOUNT_UPDATE)
+              .subscribeChannel(BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.ACCOUNT_UPDATE)
               .map(this::accountInfo)
               .filter(
                   m ->
                       accountInfoLast.getValue() == null
                           || accountInfoLast.getValue().getEventTime().before(m.getEventTime()))
               .subscribe(accountInfoPublisher::onNext);
+
+      accountConfig = binanceUserDataStreamingService
+              .subscribeChannel(BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.ACCOUNT_CONFIG_UPDATE)
+              .map(this::accountConfigUpdate)
+              .filter(
+                  m ->
+                      accountConfigLast.getValue() == null
+                          || accountConfigLast.getValue().getEventTime().before(m.getEventTime()))
+              .subscribe(accountConfigPublisher::onNext);
     }
   }
 
@@ -84,6 +104,7 @@ public class BinanceFuturesStreamingAccountService implements StreamingAccountSe
   public void setUserDataStreamingService(
       BinanceUserDataStreamingService binanceUserDataStreamingService) {
     if (accountInfo != null && !accountInfo.isDisposed()) accountInfo.dispose();
+    if (accountInfo != null && !accountConfig.isDisposed()) accountConfig.dispose();
     this.binanceUserDataStreamingService = binanceUserDataStreamingService;
     openSubscriptions();
   }
@@ -93,6 +114,14 @@ public class BinanceFuturesStreamingAccountService implements StreamingAccountSe
       return mapper.treeToValue(json, AccountUpdateBinanceWebsocketTransaction.class);
     } catch (Exception e) {
       throw new ExchangeException("Unable to parse account info", e);
+    }
+  }
+
+  private AccountConfigUpdateBinanceWebsocketTransaction accountConfigUpdate(JsonNode json) {
+    try {
+      return mapper.treeToValue(json, AccountConfigUpdateBinanceWebsocketTransaction.class);
+    } catch (Exception e) {
+      throw new ExchangeException("Unable to parse account config update", e);
     }
   }
 }
