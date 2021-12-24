@@ -3,21 +3,20 @@ package org.knowm.xchange.binance.futures;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.BinanceMarginPositionSide;
-import org.knowm.xchange.binance.dto.account.BinanceMarginPositionType;
 import org.knowm.xchange.binance.dto.account.BinanceMarginType;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.dto.trade.*;
-import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesInitialLeverage;
 import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAccountInformation;
+import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesIncomeHistoryRecord;
+import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesInitialLeverage;
 import org.knowm.xchange.binance.futures.dto.account.BinanceUserCommissionRate;
 import org.knowm.xchange.binance.futures.dto.meta.BinanceFuturesExchangeInfo;
 import org.knowm.xchange.binance.futures.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import javax.annotation.Nullable;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -441,4 +440,33 @@ public interface BinanceFuturesAuthenticated extends BinanceAuthenticated {
             @QueryParam(SIGNATURE) ParamsDigest signature)
             throws IOException, BinanceException;
 
+    /**
+     * Get Income History
+     *
+     * If neither startTime nor endTime is sent, the recent 7-day data will be returned.
+     * If incomeType is not sent, all kinds of flow will be returned
+     * "trandId" is unique in the same incomeType for a user
+     *
+     * @param symbol optional
+     * @param incomeType optional
+     * @param startTime optional
+     * @param endTime optional
+     * @param limit optional, default 100; max 1000.
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @GET
+    @Path("/fapi/v1/income")
+    List<BinanceFuturesIncomeHistoryRecord> getIncomeHistory(
+            @QueryParam("symbol") String symbol,
+            @QueryParam("incomeType") String incomeType,
+            @QueryParam("startTime") Long startTime,
+            @QueryParam("endTime") Long endTime,
+            @QueryParam("limit") Integer limit,
+            @QueryParam("recvWindow") Long recvWindow,
+            @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+            @HeaderParam(X_MBX_APIKEY) String apiKey,
+            @QueryParam(SIGNATURE) ParamsDigest signature)
+            throws IOException, BinanceException;
 }

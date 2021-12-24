@@ -35,6 +35,10 @@ public class AccountUpdateBinanceWebsocketTransaction
     return transactionTime;
   }
 
+  public UpdateDataReasonType getEventReasonType() {
+    return updateData.getEventReasonType();
+  }
+
   public List<BinanceFuturesWebsocketBalance> getBalances() {
     return updateData.getBalances();
   }

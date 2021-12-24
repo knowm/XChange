@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 
 public class UpdateData {
 
-  private final String eventReasonType;
+  private final UpdateDataReasonType eventReasonType;
   private final List<BinanceFuturesWebsocketBalance> balances;
   private final List<BinanceFuturesWebsocketPosition> positions;
 
   public UpdateData(
-      @JsonProperty("m") String eventReasonType,
+      @JsonProperty("m") UpdateDataReasonType eventReasonType,
       @JsonProperty("B") List<BinanceFuturesWebsocketBalance> balances,
       @JsonProperty("P") List<BinanceFuturesWebsocketPosition> positions) {
     this.eventReasonType = eventReasonType;
@@ -26,7 +26,7 @@ public class UpdateData {
     this.positions = positions;
   }
 
-  public String getEventReasonType() {
+  public UpdateDataReasonType getEventReasonType() {
     return eventReasonType;
   }
 
