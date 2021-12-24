@@ -12,6 +12,7 @@ import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceDustLog;
 import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
 import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
@@ -189,20 +190,38 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
       CurrencyPair pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit)
       throws BinanceException, IOException {
     return decorateApiCall(
-            () ->
-                binance.myTrades(
-                    BinanceAdapters.toSymbol(pair),
-                    orderId,
-                    startTime,
-                    endTime,
-                    fromId,
-                    limit,
-                    getRecvWindow(),
-                    getTimestampFactory(),
-                    apiKey,
-                    signatureCreator))
+        () ->
+            binance.myTrades(
+                BinanceAdapters.toSymbol(pair),
+                orderId,
+                startTime,
+                endTime,
+                fromId,
+                limit,
+                getRecvWindow(),
+                getTimestampFactory(),
+                apiKey,
+                signatureCreator))
         .withRetry(retry("myTrades"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), myTradesPermits(limit))
+        .call();
+  }
+
+
+  public BinanceDustLog myDustLog(
+      Long startTime, Long endTime)
+      throws BinanceException, IOException {
+    return decorateApiCall(
+        () ->
+            binance.myDustLog(
+                startTime,
+                endTime,
+                getRecvWindow(),
+                getTimestampFactory(),
+                apiKey,
+                signatureCreator))
+        .withRetry(retry("myDustLog"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
         .call();
   }
 
