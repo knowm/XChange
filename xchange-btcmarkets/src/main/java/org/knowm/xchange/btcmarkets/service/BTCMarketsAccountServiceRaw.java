@@ -9,6 +9,7 @@ import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryRes
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoResponse;
 import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsAddressesResponse;
+import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsTradingFeesResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
 
@@ -47,7 +48,7 @@ public class BTCMarketsAccountServiceRaw extends BTCMarketsBaseService {
               + " "
               + response.getErrorCode());
 
-    return response.status;
+    return response.fundTransferId;
   }
 
   public BTCMarketsFundtransferHistoryResponse fundtransferHistory() throws IOException {
@@ -71,5 +72,10 @@ public class BTCMarketsAccountServiceRaw extends BTCMarketsBaseService {
         nonceFactory,
         signerV3,
         currency.getCurrencyCode());
+  }
+
+  public BTCMarketsTradingFeesResponse tradingFees() throws IOException {
+    return btcmv3.tradingFees(
+        exchange.getExchangeSpecification().getApiKey(), nonceFactory, signerV3);
   }
 }

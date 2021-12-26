@@ -40,8 +40,13 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
     public OrderBook apply(CexioWebSocketOrderBookSubscribeResponse t) throws Exception {
       OrderBook retVal;
       if (prevID != null && prevID.add(BigInteger.ONE).compareTo(t.id) != 0) {
-        orderBookSoFar =
-            new OrderBook(new Date(), new ArrayList<LimitOrder>(), new ArrayList<LimitOrder>());
+        throw new IllegalStateException(
+            "Received an update message with id ["
+                + t.id
+                + "] not sequential to last id ["
+                + prevID
+                + "]. "
+                + "Orderbook out of order!");
       }
 
       prevID = t.id;
@@ -58,8 +63,13 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
         CexioStreamingRawService.GetOrderBookChannelForCurrencyPair(currencyPair);
 
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+    // check depth parameter
+    int depth = 0;
+    if (args != null && args[0] instanceof Integer) {
+      depth = (Integer) args[0];
+    }
     Observable<JsonNode> jsonNodeObservable =
-        streamingOrderDataService.subscribeChannel(channelNameForPair, currencyPair);
+        streamingOrderDataService.subscribeChannel(channelNameForPair, currencyPair, depth);
     OrderBookUpdateConsumer orderBookConsumer =
         new OrderBookUpdateConsumer(streamingOrderDataService);
     return jsonNodeObservable
@@ -74,7 +84,37 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException();
+    String channelNameForPair =
+        CexioStreamingRawService.GetOrderBookChannelForCurrencyPair(currencyPair);
+
+    final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+    int depth = 1;
+    Observable<JsonNode> jsonNodeObservable =
+        streamingOrderDataService.subscribeChannel(channelNameForPair, currencyPair, depth);
+    OrderBookUpdateConsumer orderBookConsumer =
+        new OrderBookUpdateConsumer(streamingOrderDataService);
+
+    return jsonNodeObservable
+        .map(
+            s -> {
+              JsonNode dataNode = s.get("data");
+              return mapper.readValue(
+                  dataNode.toString(), CexioWebSocketOrderBookSubscribeResponse.class);
+            })
+        .map(orderBookConsumer)
+        .filter(orderBook -> !orderBook.getBids().isEmpty() && !orderBook.getAsks().isEmpty())
+        .map(
+            orderBook ->
+                new Ticker.Builder()
+                    .timestamp(orderBook.getTimeStamp())
+                    .instrument(currencyPair)
+                    .bid(orderBook.getBids().get(0).getLimitPrice())
+                    .ask(orderBook.getAsks().get(0).getLimitPrice())
+                    .build())
+        .distinctUntilChanged(
+            (prev, next) ->
+                prev.getBid().compareTo(next.getBid()) == 0
+                    && prev.getAsk().compareTo(next.getAsk()) == 0);
   }
 
   @Override

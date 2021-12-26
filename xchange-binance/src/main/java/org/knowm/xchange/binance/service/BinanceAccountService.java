@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
@@ -16,6 +17,7 @@ import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.DepositAddress;
+import org.knowm.xchange.binance.dto.account.WithdrawResponse;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -37,6 +39,23 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
       BinanceAuthenticated binance,
       ResilienceRegistries resilienceRegistries) {
     super(exchange, binance, resilienceRegistries);
+  }
+
+  private static FundingRecord.Status transferHistoryStatus(String historyStatus) {
+    Status status;
+    switch (historyStatus) {
+      case "SUCCESS":
+        status = Status.COMPLETE;
+        break;
+      default:
+        status =
+            Status.resolveStatus(
+                historyStatus); // FIXME not documented yet in Binance spot api docs
+        if (status == null) {
+          status = Status.FAILED;
+        }
+    }
+    return status;
   }
 
   /** (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed) */
@@ -109,7 +128,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
     try {
-      return super.withdraw(currency.getCurrencyCode(), address, amount);
+      return super.withdraw(currency.getCurrencyCode(), address, amount).getId();
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -127,11 +146,11 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
       if (!(params instanceof DefaultWithdrawFundsParams)) {
         throw new IllegalArgumentException("DefaultWithdrawFundsParams must be provided.");
       }
-      String id = null;
+      WithdrawResponse withdraw;
       if (params instanceof RippleWithdrawFundsParams) {
         RippleWithdrawFundsParams rippleParams = null;
         rippleParams = (RippleWithdrawFundsParams) params;
-        id =
+        withdraw =
             super.withdraw(
                 rippleParams.getCurrency().getCurrencyCode(),
                 rippleParams.getAddress(),
@@ -139,14 +158,14 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                 rippleParams.getAmount());
       } else {
         DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
-        id =
+        withdraw =
             super.withdraw(
                 p.getCurrency().getCurrencyCode(),
                 p.getAddress(),
                 p.getAddressTag(),
                 p.getAmount());
       }
-      return id;
+      return withdraw.getId();
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -174,7 +193,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   public Map<String, AssetDetail> getAssetDetails() throws IOException {
     try {
-      return super.requestAssetDetail().getAssetDetail();
+      return super.requestAssetDetail();
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -254,8 +273,8 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                       new FundingRecord(
                           w.getAddress(),
                           w.getAddressTag(),
-                          new Date(w.getApplyTime()),
-                          Currency.getInstance(w.getAsset()),
+                          BinanceAdapters.toDate(w.getApplyTime()),
+                          Currency.getInstance(w.getCoin()),
                           w.getAmount(),
                           w.getId(),
                           w.getTxId(),
@@ -276,7 +295,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           d.getAddress(),
                           d.getAddressTag(),
                           new Date(d.getInsertTime()),
-                          Currency.getInstance(d.getAsset()),
+                          Currency.getInstance(d.getCoin()),
                           d.getAmount(),
                           null,
                           d.getTxId(),
@@ -322,7 +341,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           .setCurrency(Currency.getInstance(a.getAsset()))
                           .setAmount(a.getQty())
                           .setType(Type.INTERNAL_WITHDRAWAL)
-                          .setStatus(Status.COMPLETE)
+                          .setStatus(transferHistoryStatus(a.getStatus()))
                           .build());
                 });
       }

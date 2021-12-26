@@ -13,9 +13,11 @@ import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
+import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
@@ -23,6 +25,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
@@ -38,6 +41,8 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   private final boolean isPrivate;
   private final Supplier<KrakenWebsocketToken> authData;
   private final Map<Integer, String> subscriptionRequestMap = new ConcurrentHashMap<>();
+  static final int ORDER_BOOK_SIZE_DEFAULT = 25;
+  private static final int[] KRAKEN_VALID_ORDER_BOOK_SIZES = {10, 25, 100, 500, 1000};
 
   public KrakenStreamingService(
       boolean isPrivate, String uri, final Supplier<KrakenWebsocketToken> authData) {
@@ -54,12 +59,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
       Duration retryDuration,
       int idleTimeoutSeconds,
       final Supplier<KrakenWebsocketToken> authData) {
-    super(
-        uri,
-        maxFramePayloadLength,
-        connectionTimeout,
-        retryDuration,
-        idleTimeoutSeconds);
+    super(uri, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.isPrivate = isPrivate;
     this.authData = authData;
   }
@@ -67,6 +67,11 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   @Override
   public boolean processArrayMessageSeparately() {
     return false;
+  }
+
+  @Override
+  protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
+    return WebSocketClientCompressionAllowClientNoContextHandler.INSTANCE;
   }
 
   @Override
@@ -92,6 +97,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
             LOG.info("System status: {}", systemStatus);
             break;
           case subscriptionStatus:
+            LOG.debug("Received subscriptionStatus message {}", message);
             KrakenSubscriptionStatusMessage statusMessage =
                 mapper.treeToValue(message, KrakenSubscriptionStatusMessage.class);
             Integer reqid = statusMessage.getReqid();
@@ -160,8 +166,8 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
       }
     }
 
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("ChannelName {}", StringUtils.isBlank(channelName) ? "not defined" : channelName);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("ChannelName {}", StringUtils.isBlank(channelName) ? "not defined" : channelName);
     }
     return channelName;
   }
@@ -184,10 +190,6 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     } else {
       String pair = channelData[1];
 
-      Integer depth = null;
-      if (args.length > 0 && args[0] != null) {
-        depth = (Integer) args[0];
-      }
       subscriptionRequestMap.put(reqID, channelName);
 
       KrakenSubscriptionMessage subscriptionMessage =
@@ -195,13 +197,13 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
               reqID,
               subscribe,
               Collections.singletonList(pair),
-              new KrakenSubscriptionConfig(subscriptionName, depth, null));
+              new KrakenSubscriptionConfig(subscriptionName, parseOrderBookSize(args), null));
       return objectMapper.writeValueAsString(subscriptionMessage);
     }
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     int reqID = Math.abs(UUID.randomUUID().hashCode());
     String[] channelData =
         channelName.split(KrakenStreamingMarketDataService.KRAKEN_CHANNEL_DELIMITER);
@@ -224,7 +226,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
               reqID,
               KrakenEventType.unsubscribe,
               Collections.singletonList(pair),
-              new KrakenSubscriptionConfig(subscriptionName));
+              new KrakenSubscriptionConfig(subscriptionName, parseOrderBookSize(args), null));
       return objectMapper.writeValueAsString(subscriptionMessage);
     }
   }
@@ -262,5 +264,25 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
         channelInactiveHandler.onMessage("WebSocket Client disconnected!");
       }
     }
+  }
+
+  static Integer parseOrderBookSize(Object[] args) {
+    if (args != null && args.length > 0) {
+      Object obSizeParam = args[0];
+      LOG.debug("Specified Kraken order book size: {}", obSizeParam);
+      if (Number.class.isAssignableFrom(obSizeParam.getClass())) {
+        int obSize = ((Number) obSizeParam).intValue();
+        if (ArrayUtils.contains(KRAKEN_VALID_ORDER_BOOK_SIZES, obSize)) {
+          return obSize;
+        }
+        LOG.error(
+            "Invalid order book size {}. Valid values: {}. Default order book size has been used: {}",
+            obSize,
+            ArrayUtils.toString(KRAKEN_VALID_ORDER_BOOK_SIZES),
+            ORDER_BOOK_SIZE_DEFAULT);
+        return ORDER_BOOK_SIZE_DEFAULT;
+      }
+    }
+    return null;
   }
 }

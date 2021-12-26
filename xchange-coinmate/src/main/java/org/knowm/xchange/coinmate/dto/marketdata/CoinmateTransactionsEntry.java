@@ -34,19 +34,22 @@ public class CoinmateTransactionsEntry {
   private final BigDecimal price;
   private final BigDecimal amount;
   private final String currencyPair;
+  private final String type;
 
   public CoinmateTransactionsEntry(
       @JsonProperty("timestamp") long timestamp,
       @JsonProperty("transactionId") String transactionId,
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("currencyPair") String currencyPair) {
+      @JsonProperty("currencyPair") String currencyPair,
+      @JsonProperty("tradeType") String type) {
 
     this.timestamp = timestamp;
     this.transactionId = transactionId;
     this.price = price;
     this.amount = amount;
     this.currencyPair = currencyPair;
+    this.type = type;
   }
 
   public long getTimestamp() {
@@ -67,5 +70,9 @@ public class CoinmateTransactionsEntry {
 
   public String getCurrencyPair() {
     return currencyPair;
+  }
+
+  public String getType() {
+    return type;
   }
 }

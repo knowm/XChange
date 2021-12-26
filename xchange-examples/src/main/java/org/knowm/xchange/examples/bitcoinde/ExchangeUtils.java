@@ -6,7 +6,7 @@ import java.io.InputStream;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitcoinde.BitcoindeExchange;
+import org.knowm.xchange.bitcoinde.v4.BitcoindeExchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

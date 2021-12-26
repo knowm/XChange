@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
-import info.bitrich.xchangestream.coinbasepro.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
@@ -41,7 +41,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
       String apiUrl,
       Supplier<CoinbaseProWebsocketAuthData> authData,
       boolean subscribeL3Orderbook) {
-    super(apiUrl, Integer.MAX_VALUE);
+    super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 60);
     this.authData = authData;
     this.subscribeL3Orderbook = subscribeL3Orderbook;
   }
@@ -54,12 +54,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
       int idleTimeoutSeconds,
       Supplier<CoinbaseProWebsocketAuthData> authData,
       boolean subscribeL3Orderbook) {
-    super(
-        apiUrl,
-        maxFramePayloadLength,
-        connectionTimeout,
-        retryDuration,
-        idleTimeoutSeconds);
+    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.authData = authData;
     this.subscribeL3Orderbook = subscribeL3Orderbook;
   }
@@ -125,7 +120,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     CoinbaseProWebSocketSubscriptionMessage subscribeMessage =
         new CoinbaseProWebSocketSubscriptionMessage(
             UNSUBSCRIBE, new String[] {"level2", "matches", "ticker", "full"}, authData.get());
@@ -157,9 +152,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   @Override
   protected void handleChannelMessage(String channel, JsonNode message) {
     if (SHARE_CHANNEL_NAME.equals(channel)) {
-      channels
-          .forEach((k, v) ->
-              v.getEmitter().onNext(message));
+      channels.forEach((k, v) -> v.getEmitter().onNext(message));
 
     } else {
       super.handleChannelMessage(channel, message);

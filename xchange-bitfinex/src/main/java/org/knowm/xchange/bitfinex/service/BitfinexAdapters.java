@@ -5,16 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.MathContext;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -25,12 +18,7 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeeResponse;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendLevel;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.*;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
@@ -56,14 +44,8 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
-import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.meta.WalletHealth;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.slf4j.Logger;
@@ -75,6 +57,10 @@ public final class BitfinexAdapters {
   private static final ObjectMapper mapper = new ObjectMapper();
 
   private static final AtomicBoolean warnedStopLimit = new AtomicBoolean();
+  private static final String USDT_SYMBOL_BITFINEX = "UST";
+  private static final String USDT_SYMBOL_XCHANGE = "USDT";
+  private static final int PLATFORM_STATUS_ONLINE = 1;
+  private static final int PLATFORM_STATUS_OFFLINE = 0;
 
   private BitfinexAdapters() {}
 
@@ -112,7 +98,11 @@ public final class BitfinexAdapters {
   }
 
   public static String adaptBitfinexCurrency(String bitfinexSymbol) {
-    return bitfinexSymbol.toUpperCase();
+    String result = bitfinexSymbol.toUpperCase();
+    if (USDT_SYMBOL_BITFINEX.equals(result)) {
+      result = USDT_SYMBOL_XCHANGE;
+    }
+    return result;
   }
 
   public static String adaptOrderType(OrderType type) {
@@ -348,7 +338,9 @@ public final class BitfinexAdapters {
 
     BigDecimal last = bitfinexTicker.getLast_price();
     BigDecimal bid = bitfinexTicker.getBid();
+    BigDecimal bidSize = bitfinexTicker.getBidSize();
     BigDecimal ask = bitfinexTicker.getAsk();
+    BigDecimal askSize = bitfinexTicker.getAskSize();
     BigDecimal high = bitfinexTicker.getHigh();
     BigDecimal low = bitfinexTicker.getLow();
     BigDecimal volume = bitfinexTicker.getVolume();
@@ -359,7 +351,9 @@ public final class BitfinexAdapters {
         .currencyPair(currencyPair)
         .last(last)
         .bid(bid)
+        .bidSize(bidSize)
         .ask(ask)
+        .askSize(askSize)
         .high(high)
         .low(low)
         .volume(volume)
@@ -701,7 +695,23 @@ public final class BitfinexAdapters {
   }
 
   public static ExchangeMetaData adaptMetaData(
-      BitfinexAccountFeesResponse accountFeesResponse, ExchangeMetaData metaData) {
+      BitfinexAccountFeesResponse accountFeesResponse,
+      int platformStatus,
+      boolean platformStatusPresent,
+      ExchangeMetaData metaData) {
+    final WalletHealth health;
+    if (platformStatusPresent) {
+      if (platformStatus == PLATFORM_STATUS_ONLINE) {
+        health = WalletHealth.ONLINE;
+      } else if (platformStatus == PLATFORM_STATUS_OFFLINE) {
+        health = WalletHealth.OFFLINE;
+      } else {
+        health = WalletHealth.UNKNOWN;
+      }
+    } else {
+      health = WalletHealth.UNKNOWN;
+    }
+
     Map<Currency, CurrencyMetaData> currencies = metaData.getCurrencies();
     final Map<Currency, BigDecimal> withdrawFees = accountFeesResponse.getWithdraw();
     withdrawFees.forEach(
@@ -712,7 +722,9 @@ public final class BitfinexAdapters {
                   currencies.get(currency) == null
                       ? withdrawalFee.scale()
                       : Math.max(withdrawalFee.scale(), currencies.get(currency).getScale()),
-                  withdrawalFee);
+                  withdrawalFee,
+                  null,
+                  health);
           currencies.put(currency, newMetaData);
         });
     return metaData;
@@ -904,6 +916,8 @@ public final class BitfinexAdapters {
     BigDecimal high = bitfinexTicker.getHigh();
     BigDecimal low = bitfinexTicker.getLow();
     BigDecimal volume = bitfinexTicker.getVolume();
+    BigDecimal percentageChange =
+        bitfinexTicker.getDailyChangePerc().multiply(new BigDecimal("100"), new MathContext(8));
 
     CurrencyPair currencyPair =
         CurrencyPairDeserializer.getCurrencyPairFromString(bitfinexTicker.getSymbol().substring(1));
@@ -918,6 +932,7 @@ public final class BitfinexAdapters {
         .volume(volume)
         .bidSize(bidSize)
         .askSize(askSize)
+        .percentageChange(percentageChange)
         .build();
   }
 

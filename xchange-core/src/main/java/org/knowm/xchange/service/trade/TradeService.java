@@ -1,21 +1,18 @@
 package org.knowm.xchange.service.trade;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.account.OpenPositions;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.BaseService;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
@@ -71,6 +68,27 @@ public interface TradeService extends BaseService {
    */
   default OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     throw new NotYetImplementedForExchangeException("getOpenOrders");
+  }
+
+  /**
+   * Returns required cancel order parameter as classes
+   *
+   * Different trading services requires different parameters for order cancellation.
+   * To provide generic operation of the trade service interface. This method returns {@link Class}
+   * of the parameter objects as an array. This class information can be utilized by the caller of
+   * {@link #cancelOrder(CancelOrderParams)} to create instances of the required parameters such as
+   * {@link CancelOrderByIdParams}, {@link CancelOrderByInstrument} etc...
+   *
+   * @return Class types for the required parameter classes. Default implementation returns an array
+   * with a single {@link CancelOrderByIdParams} element
+   */
+  default Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[]{CancelOrderByIdParams.class};
+  }
+
+  /** Get all openPositions of the exchange */
+  default OpenPositions getOpenPositions() throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   /**

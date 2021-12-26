@@ -50,7 +50,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +78,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   private final int maxFramePayloadLength;
-  private final URI uri;
+  protected URI uri;
   private final AtomicBoolean isManualDisconnect = new AtomicBoolean();
   private Channel webSocketChannel;
   private final Duration retryDuration;
@@ -117,12 +116,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration) {
-    this(
-        apiUrl,
-        maxFramePayloadLength,
-        connectionTimeout,
-        retryDuration,
-        DEFAULT_IDLE_TIMEOUT);
+    this(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, DEFAULT_IDLE_TIMEOUT);
   }
 
   public NettyStreamingService(
@@ -340,7 +334,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   public abstract String getSubscribeMessage(String channelName, Object... args) throws IOException;
 
-  public abstract String getUnsubscribeMessage(String channelName) throws IOException;
+  public abstract String getUnsubscribeMessage(String channelName, Object... args)
+      throws IOException;
 
   public String getSubscriptionUniqueId(String channelName, Object... args) {
     return channelName;
@@ -391,24 +386,24 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
     LOG.info("Subscribing to channel {}", channelId);
 
     return Observable.<T>create(
-        e -> {
-          if (webSocketChannel == null || !webSocketChannel.isOpen()) {
-            e.onError(new NotConnectedException());
-          }
-          channels.computeIfAbsent(
-              channelId,
-              cid -> {
-                Subscription newSubscription = new Subscription(e, channelName, args);
-                try {
-                  sendMessage(getSubscribeMessage(channelName, args));
-                } catch (
-                    Exception
-                        throwable) { // if getSubscribeMessage throws this, it is because it
-                  // needs to report
-                  e.onError(throwable); // a problem creating the message
-                }
-                return newSubscription;
-              });
+            e -> {
+              if (webSocketChannel == null || !webSocketChannel.isOpen()) {
+                e.onError(new NotConnectedException());
+              }
+              channels.computeIfAbsent(
+                  channelId,
+                  cid -> {
+                    Subscription newSubscription = new Subscription(e, channelName, args);
+                    try {
+                      sendMessage(getSubscribeMessage(channelName, args));
+                    } catch (
+                        Exception
+                            throwable) { // if getSubscribeMessage throws this, it is because it
+                      // needs to report
+                      e.onError(throwable); // a problem creating the message
+                    }
+                    return newSubscription;
+                  });
             })
         .doOnDispose(
             () -> {
@@ -480,17 +475,17 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       LOG.debug("Channel provided is null");
       return;
     }
-      NettyStreamingService<T>.Subscription subscription = channels.get(channel);
-      if (subscription == null) {
-        LOG.debug("Channel has been closed {}.", channel);
-        return;
-      }
-      ObservableEmitter<T> emitter = subscription.emitter;
-      if (emitter == null) {
-        LOG.debug("No subscriber for channel {}.", channel);
-        return;
-      }
-      emitter.onNext(message);
+    NettyStreamingService<T>.Subscription subscription = channels.get(channel);
+    if (subscription == null) {
+      LOG.debug("Channel has been closed {}.", channel);
+      return;
+    }
+    ObservableEmitter<T> emitter = subscription.emitter;
+    if (emitter == null) {
+      LOG.debug("No subscriber for channel {}.", channel);
+      return;
+    }
+    emitter.onNext(message);
   }
 
   protected void handleChannelError(String channel, Throwable t) {

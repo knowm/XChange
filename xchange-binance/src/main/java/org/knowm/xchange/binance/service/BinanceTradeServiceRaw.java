@@ -1,7 +1,7 @@
 package org.knowm.xchange.binance.service;
 
 import static org.knowm.xchange.binance.BinanceResilience.*;
-import static org.knowm.xchange.client.ResilienceRegistries.NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME;
+import static org.knowm.xchange.client.ResilienceRegistries.NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -58,7 +58,8 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
       BigDecimal price,
       String newClientOrderId,
       BigDecimal stopPrice,
-      BigDecimal icebergQty)
+      BigDecimal icebergQty,
+      BinanceNewOrder.NewOrderResponseType newOrderRespType)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
@@ -72,11 +73,12 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
                     newClientOrderId,
                     stopPrice,
                     icebergQty,
+                    newOrderRespType,
                     getRecvWindow(),
                     getTimestampFactory(),
                     apiKey,
                     signatureCreator))
-        .withRetry(retry("newOrder", NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME))
+        .withRetry(retry("newOrder", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
         .withRateLimiter(rateLimiter(ORDERS_PER_SECOND_RATE_LIMITER))
         .withRateLimiter(rateLimiter(ORDERS_PER_DAY_RATE_LIMITER))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
@@ -115,7 +117,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public BinanceOrder orderStatus(CurrencyPair pair, long orderId, String origClientOrderId)
+  public BinanceOrder orderStatus(CurrencyPair pair, Long orderId, String origClientOrderId)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
@@ -133,7 +135,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
   }
 
   public BinanceCancelledOrder cancelOrder(
-      CurrencyPair pair, long orderId, String origClientOrderId, String newClientOrderId)
+      CurrencyPair pair, Long orderId, String origClientOrderId, String newClientOrderId)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
@@ -184,16 +186,17 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
   }
 
   public List<BinanceTrade> myTrades(
-      CurrencyPair pair, Integer limit, Long startTime, Long endTime, Long fromId)
+      CurrencyPair pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit)
       throws BinanceException, IOException {
     return decorateApiCall(
             () ->
                 binance.myTrades(
                     BinanceAdapters.toSymbol(pair),
-                    limit,
+                    orderId,
                     startTime,
                     endTime,
                     fromId,
+                    limit,
                     getRecvWindow(),
                     getTimestampFactory(),
                     apiKey,

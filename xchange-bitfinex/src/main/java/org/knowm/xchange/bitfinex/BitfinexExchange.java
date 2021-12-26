@@ -10,14 +10,11 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
-import org.knowm.xchange.bitfinex.service.BitfinexAccountService;
-import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
-import org.knowm.xchange.bitfinex.service.BitfinexMarketDataService;
-import org.knowm.xchange.bitfinex.service.BitfinexMarketDataServiceRaw;
-import org.knowm.xchange.bitfinex.service.BitfinexTradeService;
+import org.knowm.xchange.bitfinex.service.*;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
@@ -25,14 +22,24 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitfinexExchange extends BaseExchange implements Exchange {
 
+  private static ResilienceRegistries RESILIENCE_REGISTRIES;
+
   private SynchronizedValueFactory<Long> nonceFactory =
       new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
   protected void initServices() {
-    this.marketDataService = new BitfinexMarketDataService(this);
-    this.accountService = new BitfinexAccountService(this);
-    this.tradeService = new BitfinexTradeService(this);
+    this.marketDataService = new BitfinexMarketDataService(this, getResilienceRegistries());
+    this.accountService = new BitfinexAccountService(this, getResilienceRegistries());
+    this.tradeService = new BitfinexTradeService(this, getResilienceRegistries());
+  }
+
+  @Override
+  public ResilienceRegistries getResilienceRegistries() {
+    if (RESILIENCE_REGISTRIES == null) {
+      RESILIENCE_REGISTRIES = BitfinexResilience.createRegistries();
+    }
+    return RESILIENCE_REGISTRIES;
   }
 
   @Override
@@ -44,6 +51,8 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BitFinex");
     exchangeSpecification.setExchangeDescription("BitFinex is a bitcoin exchange.");
+    exchangeSpecification.getResilience().setRateLimiterEnabled(true);
+    exchangeSpecification.getResilience().setRetryEnabled(true);
 
     return exchangeSpecification;
   }
@@ -77,10 +86,20 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
 
       if (exchangeSpecification.getApiKey() != null
           && exchangeSpecification.getSecretKey() != null) {
+        // Bitfinex does not provide any specific wallet health info
+        // So instead of wallet status, fetch platform status to get wallet health
+        Integer bitfinexPlatformStatusData = dataService.getBitfinexPlatformStatus()[0];
+        boolean bitfinexPlatformStatusPresent = bitfinexPlatformStatusData != null;
+        int bitfinexPlatformStatus = bitfinexPlatformStatusPresent ? bitfinexPlatformStatusData : 0;
         // Additional remoteInit configuration for authenticated instances
         BitfinexAccountService accountService = (BitfinexAccountService) this.accountService;
         final BitfinexAccountFeesResponse accountFees = accountService.getAccountFees();
-        exchangeMetaData = BitfinexAdapters.adaptMetaData(accountFees, exchangeMetaData);
+        exchangeMetaData =
+            BitfinexAdapters.adaptMetaData(
+                accountFees,
+                bitfinexPlatformStatus,
+                bitfinexPlatformStatusPresent,
+                exchangeMetaData);
 
         BitfinexTradeService tradeService = (BitfinexTradeService) this.tradeService;
         final BitfinexAccountInfosResponse[] bitfinexAccountInfos =

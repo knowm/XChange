@@ -60,7 +60,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateTransactionHistory getCoinmateTransactionHistory(
-      int offset, Integer limit, String sort) throws IOException {
+      int offset, Integer limit, String sort, Long timestampFrom, Long timestampTo, String orderId)
+      throws IOException {
     CoinmateTransactionHistory transactionHistory =
         coinmateAuthenticated.getTransactionHistory(
             exchange.getExchangeSpecification().getApiKey(),
@@ -69,14 +70,23 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             exchange.getNonceFactory(),
             offset,
             limit,
-            sort);
+            sort,
+            timestampFrom,
+            timestampTo,
+            orderId);
 
     throwExceptionIfError(transactionHistory);
 
     return transactionHistory;
   }
 
-  public CoinmateTradeHistory getCoinmateTradeHistory(String currencyPair, int limit, String order, String startId)
+  public CoinmateTradeHistory getCoinmateTradeHistory(
+      String currencyPair,
+      int limit,
+      String order,
+      String startId,
+      Long timestampFrom,
+      Long timestampTo)
       throws IOException {
     CoinmateTradeHistory tradeHistory =
         coinmateAuthenticated.getTradeHistory(
@@ -87,8 +97,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             limit,
             startId,
             order,
-            null,
-            null,
+            timestampFrom,
+            timestampTo,
             currencyPair,
             null);
 
@@ -195,6 +205,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
       Integer trailing)
       throws IOException {
@@ -209,6 +220,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             currencyPair,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
             trailing);
 
@@ -223,6 +235,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
       Integer trailing)
       throws IOException {
@@ -237,6 +250,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             currencyPair,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
             trailing);
 
@@ -252,6 +266,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
       Integer trailing)
       throws IOException {
@@ -267,6 +282,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             orderId,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
             trailing);
 
@@ -282,6 +298,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
       Integer trailing)
       throws IOException {
@@ -297,6 +314,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             orderId,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
             trailing);
 

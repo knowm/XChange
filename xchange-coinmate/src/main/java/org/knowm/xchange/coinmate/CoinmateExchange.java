@@ -32,19 +32,9 @@ import org.knowm.xchange.coinmate.service.CoinmateMarketDataService;
 import org.knowm.xchange.coinmate.service.CoinmateMetadataServiceRaw;
 import org.knowm.xchange.coinmate.service.CoinmateTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author Martin Stachon */
 public class CoinmateExchange extends BaseExchange implements Exchange {
-
-  private final SynchronizedValueFactory<Long> nonceFactory =
-      new AtomicLongCurrentTimeIncrementalNonceFactory();
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
-  }
 
   @Override
   protected void initServices() {

@@ -16,22 +16,22 @@ public final class ConnectionStateModel {
     OPEN
   }
 
-  private final AtomicReference<State> state = new AtomicReference<>(
-      State.CLOSED);  // start with a closed state
-  private final Subject<State> stateSubject = BehaviorSubject.create();  // remembers the last state
+  private final AtomicReference<State> state =
+      new AtomicReference<>(State.CLOSED); // start with a closed state
+  private final Subject<State> stateSubject = BehaviorSubject.create(); // remembers the last state
 
   public State getState() {
     return state.get();
   }
 
   void setState(State newState) {
-    if (newState != state.getAndSet(newState))  // returns old state value
+    if (newState != state.getAndSet(newState)) // returns old state value
     {
       this.stateSubject.onNext(newState);
     }
   }
 
   public Observable<State> stateObservable() {
-    return stateSubject.share();  // stateSubject can never emit an error
+    return stateSubject.share(); // stateSubject can never emit an error
   }
 }

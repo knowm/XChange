@@ -2,7 +2,10 @@ package info.bitrich.xchangestream.binance.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import org.knowm.xchange.dto.account.Balance;
 
 public class OutboundAccountInfoBinanceWebsocketTransaction
     extends BaseBinanceWebSocketTransaction {
@@ -82,6 +85,23 @@ public class OutboundAccountInfoBinanceWebsocketTransaction
 
   public List<String> getPermissions() {
     return permissions;
+  }
+
+  public List<Balance> toBalanceList() {
+    return balances.stream()
+        .map(
+            b ->
+                new Balance(
+                    b.getCurrency(),
+                    b.getTotal(),
+                    b.getAvailable(),
+                    b.getLocked(),
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    new Date(lastUpdateTimestamp)))
+        .collect(Collectors.toList());
   }
 
   @Override

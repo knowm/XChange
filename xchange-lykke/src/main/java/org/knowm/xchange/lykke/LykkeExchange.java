@@ -20,24 +20,14 @@ import org.knowm.xchange.lykke.dto.marketdata.LykkeAssetPair;
 import org.knowm.xchange.lykke.service.LykkeAccountService;
 import org.knowm.xchange.lykke.service.LykkeMarketDataService;
 import org.knowm.xchange.lykke.service.LykkeTradeService;
-import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class LykkeExchange extends BaseExchange implements Exchange {
-
-  private SynchronizedValueFactory<Long> nonceFactory =
-      new AtomicLongCurrentTimeIncrementalNonceFactory();
 
   @Override
   protected void initServices() {
     this.marketDataService = new LykkeMarketDataService(this);
     this.tradeService = new LykkeTradeService(this);
     this.accountService = new LykkeAccountService(this);
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   @Override

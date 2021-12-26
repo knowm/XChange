@@ -19,6 +19,7 @@ package org.knowm.xchange.coinmate.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
@@ -55,8 +56,10 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
 
     String currencyPairString = CoinmateUtils.getPair(currencyPair);
     CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPairString);
+
     List<LimitOrder> orders = CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders);
-    return new OpenOrders(orders);
+    List<Order> hiddenOrders = CoinmateAdapters.adaptStopOrders(coinmateOpenOrders);
+    return new OpenOrders(orders, hiddenOrders);
   }
 
   @Override
@@ -98,6 +101,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     boolean immediateOrCancel =
         limitOrder.getOrderFlags().contains(CoinmateOrderFlags.IMMEDIATE_OR_CANCEL);
     boolean trailing = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.TRAILING);
+    boolean postOnly = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.POST_ONLY);
 
     if (limitOrder.getType().equals(Order.OrderType.ASK)) {
       response =
@@ -107,6 +111,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               CoinmateUtils.getPair(limitOrder.getCurrencyPair()),
               null,
               hidden ? 1 : 0,
+              postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0);
     } else if (limitOrder.getType().equals(Order.OrderType.BID)) {
@@ -117,6 +122,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               CoinmateUtils.getPair(limitOrder.getCurrencyPair()),
               null,
               hidden ? 1 : 0,
+              postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0);
     } else {
@@ -133,6 +139,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     boolean immediateOrCancel =
         stopOrder.getOrderFlags().contains(CoinmateOrderFlags.IMMEDIATE_OR_CANCEL);
     boolean trailing = stopOrder.getOrderFlags().contains(CoinmateOrderFlags.TRAILING);
+    boolean postOnly = stopOrder.getOrderFlags().contains(CoinmateOrderFlags.POST_ONLY);
 
     if (stopOrder.getType().equals(Order.OrderType.ASK)) {
       response =
@@ -142,6 +149,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               CoinmateUtils.getPair(stopOrder.getCurrencyPair()),
               stopOrder.getStopPrice(),
               hidden ? 1 : 0,
+              postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0);
     } else if (stopOrder.getType().equals(Order.OrderType.BID)) {
@@ -152,6 +160,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               CoinmateUtils.getPair(stopOrder.getCurrencyPair()),
               stopOrder.getStopPrice(),
               hidden ? 1 : 0,
+              postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0);
     } else {
@@ -205,9 +214,26 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
       startId = ((TradeHistoryParamsIdSpan) params).getStartId();
     }
 
+    Long timestampFrom = null;
+    Long timestampTo = null;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan thpts = (TradeHistoryParamsTimeSpan) params;
+      if (thpts.getStartTime() != null) {
+        timestampFrom = thpts.getStartTime().getTime();
+      }
+      if (thpts.getEndTime() != null) {
+        timestampTo = thpts.getEndTime().getTime();
+      }
+    }
+
     CoinmateTradeHistory coinmateTradeHistory =
         getCoinmateTradeHistory(
-            CoinmateUtils.getPair(currencyPair), limit, CoinmateAdapters.adaptSortOrder(order), startId);
+            CoinmateUtils.getPair(currencyPair),
+            limit,
+            CoinmateAdapters.adaptSortOrder(order),
+            startId,
+            timestampFrom,
+            timestampTo);
     return CoinmateAdapters.adaptTradeHistory(coinmateTradeHistory);
   }
 
@@ -217,6 +243,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     boolean immediateOrCancel =
         limitOrder.getOrderFlags().contains(CoinmateOrderFlags.IMMEDIATE_OR_CANCEL);
     boolean trailing = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.TRAILING);
+    boolean postOnly = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.POST_ONLY);
 
     CoinmateReplaceResponse response;
     if (limitOrder.getType().equals(Order.OrderType.ASK)) {
@@ -228,6 +255,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               CoinmateUtils.getPair(limitOrder.getCurrencyPair()),
               null,
               hidden ? 1 : 0,
+              postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0);
     } else if (limitOrder.getType().equals(Order.OrderType.BID)) {
@@ -239,6 +267,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               CoinmateUtils.getPair(limitOrder.getCurrencyPair()),
               null,
               hidden ? 1 : 0,
+              postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0);
     } else {
@@ -259,12 +288,18 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   }
 
   public static class CoinmateTradeHistoryHistoryParams
-      implements TradeHistoryParamOffset, TradeHistoryParamLimit, TradeHistoryParamsSorted, TradeHistoryParamsIdSpan {
+      implements TradeHistoryParamOffset,
+          TradeHistoryParamLimit,
+          TradeHistoryParamsSorted,
+          TradeHistoryParamsIdSpan,
+          TradeHistoryParamsTimeSpan {
 
     private Integer limit;
     private Long offset;
     private Order order;
     private String startId;
+    private Date startTime;
+    private Date endTime;
 
     public CoinmateTradeHistoryHistoryParams(Integer limit, Long offset, Order order) {
       this.limit = limit;
@@ -314,7 +349,6 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     @Override
     public void setStartId(String startId) {
       this.startId = startId;
-
     }
 
     @Override
@@ -325,7 +359,26 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     @Override
     public void setEndId(String endId) {
       throw new UnsupportedOperationException("Coinmate doesn't support start id.");
+    }
 
+    @Override
+    public Date getStartTime() {
+      return startTime;
+    }
+
+    @Override
+    public void setStartTime(Date startTime) {
+      this.startTime = startTime;
+    }
+
+    @Override
+    public Date getEndTime() {
+      return endTime;
+    }
+
+    @Override
+    public void setEndTime(Date endTime) {
+      this.endTime = endTime;
     }
   }
 }

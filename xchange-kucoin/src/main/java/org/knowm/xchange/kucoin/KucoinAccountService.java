@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -20,8 +21,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 public class KucoinAccountService extends KucoinAccountServiceRaw implements AccountService {
 
-  KucoinAccountService(KucoinExchange exchange) {
-    super(exchange);
+  KucoinAccountService(KucoinExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   @Override

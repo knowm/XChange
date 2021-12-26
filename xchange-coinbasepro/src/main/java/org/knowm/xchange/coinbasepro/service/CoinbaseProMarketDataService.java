@@ -1,9 +1,10 @@
 package org.knowm.xchange.coinbasepro.service;
 
 import java.io.IOException;
-import lombok.extern.slf4j.Slf4j;
-import org.knowm.xchange.Exchange;
+import java.util.List;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
+import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
@@ -13,14 +14,18 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRaw
     implements MarketDataService {
 
-  public CoinbaseProMarketDataService(Exchange exchange) {
+  private static final Logger log = LoggerFactory.getLogger(CoinbaseProMarketDataService.class);
 
-    super(exchange);
+  public CoinbaseProMarketDataService(
+      CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   @Override
@@ -33,6 +38,11 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
 
     // Adapt to XChange DTOs
     return CoinbaseProAdapters.adaptTicker(ticker, stats, currencyPair);
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException, RateLimitExceededException {
+    return CoinbaseProAdapters.adaptTickers(getCoinbaseProStats());
   }
 
   @Override
@@ -74,19 +84,20 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
       throws IOException, RateLimitExceededException {
 
     if (args.length == 0) {
-
       return CoinbaseProAdapters.adaptTrades(getCoinbaseProTrades(currencyPair), currencyPair);
-
     } else if ((args.length == 2) && (args[0] instanceof Long) && (args[1] instanceof Long)) {
 
       Long fromTradeId = (Long) args[0];
       Long toTradeId = (Long) args[1];
+
       log.debug("fromTradeId: {}, toTradeId: {}", fromTradeId, toTradeId);
+
       Long latestTradeId = toTradeId;
       CoinbaseProTrades CoinbaseProTrades = new CoinbaseProTrades();
       for (; ; ) {
         CoinbaseProTrades CoinbaseProTradesNew =
             getCoinbaseProTradesExtended(currencyPair, latestTradeId, 100);
+
         CoinbaseProTrades.addAll(CoinbaseProTradesNew);
         log.debug(
             "latestTradeId: {}, earliest-latest: {}-{}, trades: {}",
@@ -109,9 +120,7 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
           CoinbaseProTrades.getEarliestTradeId(),
           CoinbaseProTrades.getLatestTradeId());
 
-      if (log.isDebugEnabled()) {
-        CoinbaseProTrades.stream().forEach(System.out::println);
-      }
+      CoinbaseProTrades.forEach(s -> log.debug(s.toString()));
 
       return CoinbaseProAdapters.adaptTrades(CoinbaseProTrades, currencyPair);
     }

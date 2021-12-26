@@ -61,8 +61,9 @@ public class HitbtcMessageTest {
     LOG.info("Testing {} message...", testResource);
 
     String message =
-            new String(Files.readAllBytes(Paths.get(getClass().getResource(
-                    testResource).toURI())), StandardCharsets.UTF_8);
+        new String(
+            Files.readAllBytes(Paths.get(getClass().getResource(testResource).toURI())),
+            StandardCharsets.UTF_8);
 
     Object object = objectMapper.readValue(message, clazz);
 

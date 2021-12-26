@@ -35,14 +35,12 @@ import org.knowm.xchange.bitmex.service.BitmexDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Created by Lukas Zaoralek on 13.11.17.
- */
+/** Created by Lukas Zaoralek on 13.11.17. */
 public class BitmexStreamingService extends JsonNettyStreamingService {
 
   private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingService.class);
-  private static final Set<String> SIMPLE_TABLES = ImmutableSet
-      .of("order", "funding", "settlement", "position", "wallet", "margin");
+  private static final Set<String> SIMPLE_TABLES =
+      ImmutableSet.of("order", "funding", "settlement", "position", "wallet", "margin");
 
   private final ObjectMapper mapper = new ObjectMapper();
   private final List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
@@ -71,12 +69,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
       Duration connectionTimeout,
       Duration retryDuration,
       int idleTimeoutSeconds) {
-    super(
-        apiUrl,
-        maxFramePayloadLength,
-        connectionTimeout,
-        retryDuration,
-        idleTimeoutSeconds);
+    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.apiKey = apiKey;
     this.secretKey = secretKey;
   }
@@ -228,7 +221,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     BitmexWebSocketSubscriptionMessage subscribeMessage =
         new BitmexWebSocketSubscriptionMessage("unsubscribe", new String[] {channelName});
     return objectMapper.writeValueAsString(subscribeMessage);

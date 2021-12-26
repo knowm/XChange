@@ -1,9 +1,6 @@
 package info.bitrich.xchangestream.bitfinex;
 
-import static org.knowm.xchange.service.BaseParamsDigest.HMAC_SHA_384;
-
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexAuthRequestStatus;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuth;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
@@ -13,7 +10,6 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketUnSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -21,8 +17,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -34,11 +28,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
+import org.knowm.xchange.bitfinex.v1.BitfinexDigest;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.utils.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -91,12 +85,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
   private Disposable calculator;
 
   public BitfinexStreamingService(String apiUrl, SynchronizedValueFactory<Long> nonceFactory) {
-    super(
-        apiUrl,
-        Integer.MAX_VALUE,
-        DEFAULT_CONNECTION_TIMEOUT,
-        DEFAULT_RETRY_DURATION,
-        30);
+    super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 30);
     this.nonceFactory = nonceFactory;
   }
 
@@ -107,12 +96,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
       Duration connectionTimeout,
       Duration retryDuration,
       int idleTimeoutSeconds) {
-    super(
-        apiUrl,
-        maxFramePayloadLength,
-        connectionTimeout,
-        retryDuration,
-        idleTimeoutSeconds);
+    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.nonceFactory = nonceFactory;
   }
 
@@ -146,7 +130,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
 
     if (message.isArray()) {
       String type = message.get(1).asText();
-      if (type.equals("hb")) {
+      if ("hb".equals(type)) {
         return;
       }
     }
@@ -162,20 +146,21 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
           if (isAuthenticated()) auth();
           break;
         case AUTH:
-          if (message.get(STATUS).textValue().equals(BitfinexAuthRequestStatus.FAILED.name())) {
+          final String status = message.get(STATUS).textValue();
+          if (BitfinexAuthRequestStatus.FAILED.name().equals(status)) {
             LOG.error("Authentication error: {}", message.get(MESSAGE));
           }
-          if (message.get(STATUS).textValue().equals(BitfinexAuthRequestStatus.OK.name())) {
+          if (BitfinexAuthRequestStatus.OK.name().equals(status)) {
             LOG.info("Authenticated successfully");
           }
           break;
         case SUBSCRIBED:
           {
             String channel = message.get("channel").asText();
-            String pair = message.get("pair").asText();
+            String symbol = message.get("symbol").asText();
             String channelId = message.get(CHANNEL_ID).asText();
             try {
-              String subscriptionUniqueId = getSubscriptionUniqueId(channel, pair);
+              String subscriptionUniqueId = getSubscriptionUniqueId(channel, symbol);
               subscribedChannels.put(channelId, subscriptionUniqueId);
               LOG.debug("Register channel {}: {}", subscriptionUniqueId, channelId);
             } catch (Exception e) {
@@ -190,18 +175,16 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
             break;
           }
         case ERROR:
-          if (message.get("code").asInt() == SUBSCRIPTION_FAILED) {
-            LOG.error("Error with message: " + message.get("symbol") + " " + message.get("msg"));
-            return;
+          final int code = message.get(ERROR_CODE).asInt();
+          switch (code) {
+            case SUBSCRIPTION_FAILED:
+              LOG.error("Error with message: " + message.get("symbol") + " " + message.get("msg"));
+              return;
+            case SUBSCRIPTION_DUP:
+              LOG.warn("Already subscribed: " + message.toString());
+              return;
           }
-          // {"channel":"ticker","pair":"BTCUSD","event":"error","msg":"subscribe:
-          // dup","code":10301}
-          if (message.get("code").asInt() == SUBSCRIPTION_DUP) {
-            LOG.warn("Already subscribed: " + message.toString());
-            return;
-          }
-          super.handleError(
-              message, new ExchangeException("Error code: " + message.get(ERROR_CODE).asText()));
+          super.handleError(message, new ExchangeException("Error code: " + code));
           break;
       }
     } else {
@@ -297,7 +280,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     String channelId = null;
     for (Map.Entry<String, String> entry : subscribedChannels.entrySet()) {
       if (entry.getValue().equals(channelName)) {
@@ -308,10 +291,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
 
     if (channelId == null) throw new IOException("Can't find channel unique name");
 
-    BitfinexWebSocketUnSubscriptionMessage subscribeMessage =
-        new BitfinexWebSocketUnSubscriptionMessage(channelId);
-    ObjectMapper objectMapper = StreamingObjectMapperHelper.getObjectMapper();
-    return objectMapper.writeValueAsString(subscribeMessage);
+    return objectMapper.writeValueAsString(new BitfinexWebSocketUnSubscriptionMessage(channelId));
   }
 
   void setApiKey(String apiKey) {
@@ -328,22 +308,13 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
 
   private void auth() {
     long nonce = nonceFactory.createValue();
-    String payload = "AUTH" + nonce;
-    String signature;
-    try {
-      Mac macEncoder = Mac.getInstance(HMAC_SHA_384);
-      SecretKeySpec secretKeySpec =
-          new SecretKeySpec(apiSecret.getBytes(StandardCharsets.UTF_8), HMAC_SHA_384);
-      macEncoder.init(secretKeySpec);
-      byte[] result = macEncoder.doFinal(payload.getBytes(StandardCharsets.UTF_8));
-      signature = DatatypeConverter.printHexBinary(result);
-    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-      LOG.error("auth. Sign failed error={}", e.getMessage());
-      return;
-    }
-    BitfinexWebSocketAuth message =
-        new BitfinexWebSocketAuth(apiKey, payload, String.valueOf(nonce), signature.toLowerCase());
-    sendObjectMessage(message);
+    final String payload = "AUTH" + nonce;
+    final Mac macEncoder = BitfinexDigest.createInstance(apiSecret).getMac();
+    byte[] result = macEncoder.doFinal(payload.getBytes(StandardCharsets.UTF_8));
+    final String signature = DigestUtils.bytesToHex(result);
+
+    sendObjectMessage(
+        new BitfinexWebSocketAuth(apiKey, payload, String.valueOf(nonce), signature.toLowerCase()));
   }
 
   Observable<BitfinexWebSocketAuthOrder> getAuthenticatedOrders() {

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -26,7 +28,10 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.DateUtils;
 
 public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeService {
@@ -40,7 +45,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return getOpenOrders(createOpenOrdersParams());
+    return getOpenOrders(null);
   }
 
   @Override
@@ -50,6 +55,12 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     if (activeOrders.length <= 0) {
       return noOpenOrders;
     } else {
+      if (params != null && params instanceof OpenOrdersParamCurrencyPair) {
+        OpenOrdersParamCurrencyPair openOrdersParamCurrencyPair =
+            (OpenOrdersParamCurrencyPair) params;
+        return GeminiAdapters.adaptOrders(
+            activeOrders, openOrdersParamCurrencyPair.getCurrencyPair());
+      }
       return GeminiAdapters.adaptOrders(activeOrders);
     }
   }
@@ -146,7 +157,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   @Override
@@ -159,6 +170,45 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     }
 
     return orders;
+  }
+
+  @Override
+  public Collection<Order> getOrder(OrderQueryParams... params) throws IOException {
+
+    Collection<Order> orders = new ArrayList<>(params.length);
+
+    for (OrderQueryParams param : params) {
+      orders.add(GeminiAdapters.adaptOrder(super.getGeminiOrderStatus(param)));
+    }
+
+    return orders;
+  }
+
+  @Getter
+  @Setter
+  public static class GeminiOrderQueryParams implements OrderQueryParams {
+    private String orderId;
+    private String clientOrderId;
+    private boolean includeTrades;
+    private String account;
+
+    public GeminiOrderQueryParams(
+        String orderId, String clientOrderId, boolean includeTrades, String account) {
+      this.orderId = orderId;
+      this.clientOrderId = clientOrderId;
+      this.includeTrades = includeTrades;
+      this.account = account;
+    }
+
+    @Override
+    public String getOrderId() {
+      return orderId;
+    }
+
+    @Override
+    public void setOrderId(String orderId) {
+      this.orderId = orderId;
+    }
   }
 
   public static class GeminiTradeHistoryParams

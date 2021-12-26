@@ -13,6 +13,7 @@
 
 #NetBeans
 nb-configuration.xml
+nbactions.xml
 
 # VSCode
 .vscode

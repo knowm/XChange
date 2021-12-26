@@ -63,7 +63,10 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("offset") int offset,
       @FormParam("limit") Integer limit,
-      @FormParam("sort") String sort)
+      @FormParam("sort") String sort,
+      @FormParam("timestampFrom") Long timestampFrom,
+      @FormParam("timestampTo") Long timestampTo,
+      @FormParam("orderId") String orderId)
       throws IOException;
 
   @POST
@@ -119,6 +122,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("currencyPair") String currencyPair,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
+      @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
       @FormParam("trailing") Integer trailing)
       throws IOException;
@@ -135,6 +139,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("currencyPair") String currencyPair,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
+      @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
       @FormParam("trailing") Integer trailing)
       throws IOException;
@@ -349,6 +354,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("orderIdToBeReplaced") String orderIdToBeReplaced,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
+      @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
       @FormParam("trailing") Integer trailing)
       throws IOException;
@@ -366,6 +372,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("orderIdToBeReplaced") String orderIdToBeReplaced,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
+      @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
       @FormParam("trailing") Integer trailing)
       throws IOException;

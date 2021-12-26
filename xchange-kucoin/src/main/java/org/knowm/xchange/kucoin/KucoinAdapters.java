@@ -8,7 +8,9 @@ import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.*;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,9 +30,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
@@ -41,6 +41,8 @@ import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.*;
 
 public class KucoinAdapters {
+
+  private static final String TAKER_FEE_RATE = "takerFeeRate";
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
     return pair == null ? null : pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
@@ -56,7 +58,7 @@ public class KucoinAdapters {
 
   public static Ticker.Builder adaptTickerFull(CurrencyPair pair, SymbolTickResponse stats) {
     return new Ticker.Builder()
-        .currencyPair(pair)
+        .instrument(pair)
         .bid(stats.getBuy())
         .ask(stats.getSell())
         .last(stats.getLast())
@@ -73,7 +75,7 @@ public class KucoinAdapters {
         .map(
             ticker ->
                 new Ticker.Builder()
-                    .currencyPair(adaptCurrencyPair(ticker.getSymbol()))
+                    .instrument(adaptCurrencyPair(ticker.getSymbol()))
                     .bid(ticker.getBuy())
                     .ask(ticker.getSell())
                     .last(ticker.getLast())
@@ -81,6 +83,8 @@ public class KucoinAdapters {
                     .low(ticker.getLow())
                     .volume(ticker.getVol())
                     .quoteVolume(ticker.getVolValue())
+                    .percentageChange(
+                        ticker.getChangeRate().multiply(new BigDecimal("100"), new MathContext(8)))
                     .build())
         .collect(Collectors.toList());
   }
@@ -90,34 +94,59 @@ public class KucoinAdapters {
    * <strong>and max</strong> amount that the XChange API current doesn't take account of.
    *
    * @param exchangeMetaData The static exchange metadata.
-   * @param kucoinSymbols Kucoin symbol data.
+   * @param currenciesResponse Kucoin currencies
+   * @param symbolsResponse Kucoin symbols
+   * @param tradeFee Kucoin trade fee (optional)
    * @return Exchange metadata.
    */
   public static ExchangeMetaData adaptMetadata(
-      ExchangeMetaData exchangeMetaData, List<SymbolResponse> kucoinSymbols) {
+      ExchangeMetaData exchangeMetaData,
+      List<CurrenciesResponse> currenciesResponse,
+      List<SymbolResponse> symbolsResponse,
+      TradeFeeResponse tradeFee)
+      throws IOException {
+
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
+    Map<String, CurrencyMetaData> stringCurrencyMetaDataMap =
+        adaptCurrencyMetaData(currenciesResponse);
 
-    for (SymbolResponse symbol : kucoinSymbols) {
+    BigDecimal takerTradingFee = tradeFee != null ? tradeFee.getTakerFeeRate() : null;
+
+    for (SymbolResponse symbol : symbolsResponse) {
 
       CurrencyPair pair = adaptCurrencyPair(symbol.getSymbol());
       CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
 
       BigDecimal minSize = symbol.getBaseMinSize();
       BigDecimal maxSize = symbol.getBaseMaxSize();
+      BigDecimal minQuoteSize = symbol.getQuoteMinSize();
+      BigDecimal maxQuoteSize = symbol.getQuoteMaxSize();
+      int baseScale = symbol.getBaseIncrement().stripTrailingZeros().scale();
       int priceScale = symbol.getQuoteIncrement().stripTrailingZeros().scale();
+      FeeTier[] feeTiers = staticMetaData != null ? staticMetaData.getFeeTiers() : null;
+      Currency feeCurrency = new Currency(symbol.getFeeCurrency());
 
       CurrencyPairMetaData cpmd =
           new CurrencyPairMetaData(
-              null,
+              takerTradingFee,
               minSize,
               maxSize,
+              minQuoteSize,
+              maxQuoteSize,
+              baseScale,
               priceScale,
-              staticMetaData != null ? staticMetaData.getFeeTiers() : null);
+              null,
+              feeTiers,
+              null,
+              feeCurrency,
+              true);
       currencyPairs.put(pair, cpmd);
 
-      if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
-      if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
+      if (!currencies.containsKey(pair.base))
+        currencies.put(pair.base, stringCurrencyMetaDataMap.get(pair.base.getCurrencyCode()));
+      if (!currencies.containsKey(pair.counter))
+        currencies.put(pair.counter, stringCurrencyMetaDataMap.get(pair.counter.getCurrencyCode()));
     }
 
     return new ExchangeMetaData(
@@ -126,6 +155,40 @@ public class KucoinAdapters {
         exchangeMetaData.getPublicRateLimits(),
         exchangeMetaData.getPrivateRateLimits(),
         true);
+  }
+
+  static HashMap<String, CurrencyMetaData> adaptCurrencyMetaData(List<CurrenciesResponse> list) {
+    HashMap<String, CurrencyMetaData> stringCurrencyMetaDataMap = new HashMap<>();
+    for (CurrenciesResponse currenciesResponse : list) {
+      BigDecimal precision = currenciesResponse.getPrecision();
+      String withdrawalMinFee = currenciesResponse.getWithdrawalMinFee();
+      String withdrawalMinSize = currenciesResponse.getWithdrawalMinSize();
+      WalletHealth walletHealth = getWalletHealth(currenciesResponse);
+      CurrencyMetaData currencyMetaData =
+          new CurrencyMetaData(
+              precision.intValue(),
+              new BigDecimal(withdrawalMinFee),
+              new BigDecimal(withdrawalMinSize),
+              walletHealth);
+      stringCurrencyMetaDataMap.put(currenciesResponse.getCurrency(), currencyMetaData);
+    }
+    return stringCurrencyMetaDataMap;
+  }
+
+  /**
+   * @param currenciesResponse currency response which holds wallet status information
+   * @return WalletHealth
+   */
+  private static WalletHealth getWalletHealth(CurrenciesResponse currenciesResponse) {
+    WalletHealth walletHealth = WalletHealth.ONLINE;
+    if (!currenciesResponse.isWithdrawEnabled() && !currenciesResponse.isDepositEnabled()) {
+      walletHealth = WalletHealth.OFFLINE;
+    } else if (!currenciesResponse.isDepositEnabled()) {
+      walletHealth = WalletHealth.DEPOSITS_DISABLED;
+    } else if (!currenciesResponse.isWithdrawEnabled()) {
+      walletHealth = WalletHealth.WITHDRAWALS_DISABLED;
+    }
+    return walletHealth;
   }
 
   public static OrderBook adaptOrderBook(CurrencyPair currencyPair, OrderBookResponse kc) {
@@ -167,7 +230,7 @@ public class KucoinAdapters {
 
   private static Trade adaptTrade(CurrencyPair currencyPair, TradeHistoryResponse trade) {
     return new Trade.Builder()
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .originalAmount(trade.getSize())
         .price(trade.getPrice())
         .timestamp(new Date(Long.parseLong(trade.getSequence())))
@@ -232,7 +295,7 @@ public class KucoinAdapters {
       builder.flag(TimeInForce.getTimeInForce(order.getTimeInForce()));
     }
 
-    return StopOrder.Builder.class.isInstance(builder)
+    return builder instanceof StopOrder.Builder
         ? ((StopOrder.Builder) builder).build()
         : ((LimitOrder.Builder) builder).build();
   }
@@ -309,7 +372,7 @@ public class KucoinAdapters {
       request.clientOid(UUID.randomUUID().toString());
     }
     return request
-        .symbol(adaptCurrencyPair(order.getCurrencyPair()))
+        .symbol(adaptCurrencyPair((CurrencyPair) order.getInstrument()))
         .size(order.getOriginalAmount())
         .side(adaptSide(order.getType()));
   }

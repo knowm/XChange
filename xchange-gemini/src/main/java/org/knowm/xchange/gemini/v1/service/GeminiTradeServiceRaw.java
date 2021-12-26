@@ -18,6 +18,7 @@ import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusRequest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiPastTradesRequest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class GeminiTradeServiceRaw extends GeminiBaseService {
 
@@ -32,7 +33,6 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
   }
 
   public GeminiOrderStatusResponse[] getGeminiOpenOrders() throws IOException {
-
     try {
       GeminiOrderStatusResponse[] activeOrders =
           gemini.activeOrders(
@@ -81,6 +81,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
     GeminiNewOrderRequest request =
         new GeminiNewOrderRequest(
             String.valueOf(exchange.getNonceFactory().createValue()),
+            limitOrder.getUserReference(),
             pair,
             limitOrder.getOriginalAmount(),
             limitOrder.getLimitPrice(),
@@ -99,7 +100,6 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
   }
 
   public boolean cancelGeminiOrder(String orderId) throws IOException {
-
     try {
       gemini.cancelOrders(
           apiKey,
@@ -118,7 +118,6 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
   }
 
   public GeminiOrderStatusResponse getGeminiOrderStatus(String orderId) throws IOException {
-
     try {
       GeminiOrderStatusResponse orderStatus =
           gemini.orderStatus(
@@ -128,6 +127,46 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
               new GeminiOrderStatusRequest(
                   String.valueOf(exchange.getNonceFactory().createValue()), Long.valueOf(orderId)));
       return orderStatus;
+    } catch (GeminiException e) {
+      throw handleException(e);
+    }
+  }
+
+  public GeminiOrderStatusResponse getGeminiOrderStatus(OrderQueryParams params)
+      throws IOException {
+    Long orderId = null;
+    String clientOrderId = null;
+    boolean includeTrades = false;
+    String account = null;
+
+    if (params instanceof GeminiTradeService.GeminiOrderQueryParams) {
+      orderId = Long.valueOf(params.getOrderId());
+
+      // If both types of ids are included in the params, default to using orderId
+      if (orderId == null) {
+        clientOrderId = ((GeminiTradeService.GeminiOrderQueryParams) params).getClientOrderId();
+      }
+
+      includeTrades = ((GeminiTradeService.GeminiOrderQueryParams) params).isIncludeTrades();
+      account = ((GeminiTradeService.GeminiOrderQueryParams) params).getAccount();
+    }
+
+    try {
+      return gemini.orderStatus(
+          apiKey,
+          payloadCreator,
+          signatureCreator,
+          orderId == null
+              ? new GeminiOrderStatusRequest(
+                  String.valueOf(exchange.getNonceFactory().createValue()),
+                  clientOrderId,
+                  includeTrades,
+                  account)
+              : new GeminiOrderStatusRequest(
+                  String.valueOf(exchange.getNonceFactory().createValue()),
+                  orderId,
+                  includeTrades,
+                  account));
     } catch (GeminiException e) {
       throw handleException(e);
     }

@@ -4,13 +4,9 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinde.service.BitcoindeMarketDataService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author matthewdowney */
 public class BitcoindeExchange extends BaseExchange implements Exchange {
-
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
@@ -31,11 +27,5 @@ public class BitcoindeExchange extends BaseExchange implements Exchange {
     this.marketDataService = new BitcoindeMarketDataService(this);
     this.tradeService = null;
     this.accountService = null;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-
-    return nonceFactory;
   }
 }

@@ -10,17 +10,8 @@ import org.knowm.xchange.ccex.service.CCEXAccountService;
 import org.knowm.xchange.ccex.service.CCEXMarketDataService;
 import org.knowm.xchange.ccex.service.CCEXMarketDataServiceRaw;
 import org.knowm.xchange.ccex.service.CCEXTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CCEXExchange extends BaseExchange implements Exchange {
-
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
-  }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
