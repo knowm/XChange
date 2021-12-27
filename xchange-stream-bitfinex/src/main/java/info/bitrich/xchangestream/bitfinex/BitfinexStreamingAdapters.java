@@ -16,6 +16,7 @@ import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -29,6 +30,12 @@ class BitfinexStreamingAdapters {
   private static final Logger LOG = LoggerFactory.getLogger(BitfinexStreamingAdapters.class);
 
   private static final BigDecimal THOUSAND = new BigDecimal(1000);
+
+  private static CurrencyPair adaptUstToUsdt(CurrencyPair currencyPair) {
+    return (currencyPair.counter.toString().equals("UST"))
+        ? new CurrencyPair(currencyPair.base + "/" + "USDT")
+        : currencyPair;
+  }
 
   @Nullable
   static BitfinexWebSocketAuthPreTrade adaptPreTrade(JsonNode preTrade) {
@@ -262,7 +269,9 @@ class BitfinexStreamingAdapters {
 
   static UserTrade adaptUserTrade(BitfinexWebSocketAuthTrade authTrade) {
     return new UserTrade.Builder()
-        .currencyPair(BitfinexAdapters.adaptCurrencyPair(adaptV2SymbolToV1(authTrade.getPair())))
+        .currencyPair(
+            adaptUstToUsdt(
+                BitfinexAdapters.adaptCurrencyPair(adaptV2SymbolToV1(authTrade.getPair()))))
         .feeAmount(authTrade.getFee().abs())
         .feeCurrency(Currency.getInstance(authTrade.getFeeCurrency()))
         .id(Long.toString(authTrade.getId()))
