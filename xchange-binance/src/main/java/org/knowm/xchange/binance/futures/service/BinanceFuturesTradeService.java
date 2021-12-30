@@ -307,14 +307,14 @@ public class BinanceFuturesTradeService extends BinanceTradeService {
                 .call();
     }
 
-    public List<BinanceFuturesOrder> futuresAllOrders(CurrencyPair pair, Integer limit, Long startTime, Long endTime, Long fromId) throws BinanceException, IOException {
+    public List<BinanceFuturesOrder> futuresAllOrders(CurrencyPair pair, Long orderId, Long startTime, Long endTime, Integer limit) throws BinanceException, IOException {
         return decorateApiCall(() ->
                 ((BinanceFuturesAuthenticated)binance).futuresAllOrders(
                         Optional.ofNullable(pair).map(BinanceAdapters::toSymbol).orElse(null),
-                        limit,
+                        orderId,
                         startTime,
                         endTime,
-                        fromId,
+                        limit,
                         getRecvWindow(),
                         getTimestampFactory(),
                         apiKey,

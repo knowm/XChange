@@ -83,7 +83,7 @@ public class BinanceFuturesAdapter {
         switch (positionSide) {
             case LONG: return OpenPosition.Type.LONG;
             case SHORT: return OpenPosition.Type.SHORT;
-            default: return positionAmt.compareTo(BigDecimal.ZERO) > 0 ? OpenPosition.Type.LONG : OpenPosition.Type.SHORT;
+            default: return positionAmt.signum() > 0 ? OpenPosition.Type.LONG : OpenPosition.Type.SHORT;
         }
     }
 

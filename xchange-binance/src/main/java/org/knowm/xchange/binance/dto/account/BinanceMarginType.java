@@ -9,7 +9,12 @@ public enum BinanceMarginType {
     @JsonCreator
     public static BinanceMarginType getBinanceMarginType(String s) {
         try {
-            return BinanceMarginType.valueOf(s);
+            if (s.equalsIgnoreCase("isolated")) {
+                return BinanceMarginType.ISOLATED;
+            } else if (s.equalsIgnoreCase("cross")) {
+                return BinanceMarginType.CROSSED;
+            }
+            return BinanceMarginType.valueOf(s.toUpperCase());
         } catch (Exception e) {
             throw new RuntimeException("Unknown margin type " + s + ".");
         }

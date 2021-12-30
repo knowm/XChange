@@ -7,9 +7,7 @@ import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.futures.BinanceFuturesAdapter;
 import org.knowm.xchange.binance.futures.BinanceFuturesAuthenticated;
-import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesAccountInformation;
-import org.knowm.xchange.binance.futures.dto.account.BinanceFuturesIncomeHistoryRecord;
-import org.knowm.xchange.binance.futures.dto.account.BinanceUserCommissionRate;
+import org.knowm.xchange.binance.futures.dto.account.*;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.account.params.BinanceAccountMarginParams;
 import org.knowm.xchange.binance.service.account.params.BinanceAccountPositionMarginParams;
@@ -178,6 +176,39 @@ public class BinanceFuturesAccountService extends BinanceAccountService {
         } catch (BinanceException e) {
             throw BinanceErrorAdapter.adapt(e);
         }
+    }
 
+    public List<BinanceFuturesLeverageBrackets> getLeverageBrackets(CurrencyPair currencyPair) throws IOException {
+        try {
+            return decorateApiCall(
+                    () -> binanceFutures.getLeverageBrackets(
+                            Optional.ofNullable(currencyPair).map(BinanceAdapters::toSymbol).orElse(null),
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            apiKey,
+                            signatureCreator))
+                    .withRetry(retry("getLeverageBrackets"))
+                    .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+                    .call();
+        } catch (BinanceException e) {
+            throw BinanceErrorAdapter.adapt(e);
+        }
+    }
+
+    public List<BinanceFuturesPositionInformation> getPositionInformation(CurrencyPair currencyPair) throws IOException {
+        try {
+            return decorateApiCall(
+                    () -> binanceFutures.getPositionInformation(
+                            Optional.ofNullable(currencyPair).map(BinanceAdapters::toSymbol).orElse(null),
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            apiKey,
+                            signatureCreator))
+                    .withRetry(retry("getPositionInformation"))
+                    .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
+                    .call();
+        } catch (BinanceException e) {
+            throw BinanceErrorAdapter.adapt(e);
+        }
     }
 }
