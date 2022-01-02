@@ -173,8 +173,8 @@ public class KucoinAdapters {
       CurrencyMetaData currencyMetaData =
           new CurrencyMetaData(
               precision.intValue(),
-                  withdrawalMinFee,
-                  withdrawalMinSize,
+              withdrawalMinFee,
+              withdrawalMinSize,
               walletHealth);
       stringCurrencyMetaDataMap.put(currenciesResponse.getCurrency(), currencyMetaData);
     }
