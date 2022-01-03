@@ -287,4 +287,35 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-SIGN") ParamsDigest signature,
       @HeaderParam("FTX-SUBACCOUNT") String subaccount)
       throws IOException, FtxException;
+
+  @POST
+  @Path("/otc/quotes")
+  FtxResponse<FtxConvertSimulatetDto> simulateConvert(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      FtxConvertSimulatePayloadRequestDto payload)
+      throws IOException, FtxException;
+
+  @GET
+  @Path("/otc/quotes/{quoteId}")
+  FtxResponse<FtxConvertDto> getConvertStatus(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("quoteId") String quoteId)
+      throws IOException, FtxException;
+
+  @POST
+  @Path("/otc/quotes/{quoteId}/accept")
+  FtxResponse<FtxConvertAcceptRequestDto> acceptConvert(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("quoteId") String quoteId,
+      FtxConvertAcceptPayloadRequestDto payload)
+      throws IOException, FtxException;
 }

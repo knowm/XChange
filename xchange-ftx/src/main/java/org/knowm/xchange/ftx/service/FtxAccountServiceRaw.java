@@ -1,8 +1,10 @@
 package org.knowm.xchange.ftx.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.ftx.FtxException;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.*;
@@ -146,6 +148,54 @@ public class FtxAccountServiceRaw extends FtxBaseService {
           startTime,
           endTime,
           future);
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<FtxConvertSimulatetDto> simulateFtxConvert(
+      String subaccount, Currency fromCoin, Currency toCoin, BigDecimal size)
+      throws FtxException, IOException {
+
+    try {
+      return ftx.simulateConvert(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          subaccount,
+          new FtxConvertSimulatePayloadRequestDto(fromCoin, toCoin, size));
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<FtxConvertDto> getFtxConvertStatus(String subaccount, Integer quoteId)
+      throws FtxException, IOException {
+
+    try {
+      return ftx.getConvertStatus(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          subaccount,
+          quoteId.toString());
+    } catch (FtxException e) {
+      e.printStackTrace();
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<FtxConvertAcceptRequestDto> acceptFtxConvert(
+      String subaccount, Integer quoteId) throws FtxException, IOException {
+
+    try {
+      return ftx.acceptConvert(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          subaccount,
+          quoteId.toString(),
+          new FtxConvertAcceptPayloadRequestDto(quoteId));
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }
