@@ -198,7 +198,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                 .type(KrakenAdapters.adaptOrderType(KrakenType.fromString(dto.type)))
                 .price(dto.price)
                 .feeAmount(dto.fee)
-                .feeCurrency(currencyPair.base)
+                .feeCurrency(currencyPair.quote)
                 .originalAmount(dto.vol)
                 .build());
       }
