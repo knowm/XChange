@@ -25,7 +25,8 @@ import org.slf4j.LoggerFactory;
 public class BinanceStreamingExchange extends BinanceExchange implements StreamingExchange {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceStreamingExchange.class);
-  private static final String API_BASE_URI = "wss://stream.binance.com:9443/";
+  private static final String API_BASE_URI = "wss://stream.binance.com:9443";
+  private static final String SANDBOX_API_BASE_URI = "wss://testnet.binance.vision";
   protected static final String USE_HIGHER_UPDATE_FREQUENCY =
       "Binance_Orderbook_Use_Higher_Frequency";
 
@@ -197,7 +198,10 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   private BinanceStreamingService createStreamingService(ProductSubscription subscription) {
-    String path = API_BASE_URI + "stream?streams=" + buildSubscriptionStreams(subscription);
+    final boolean useSandbox =
+            Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_SANDBOX));
+    final String apiUri = useSandbox ? SANDBOX_API_BASE_URI : API_BASE_URI;
+    String path = apiUri + "/stream?streams=" + buildSubscriptionStreams(subscription);
     return new BinanceStreamingService(path, subscription);
   }
 

@@ -23,6 +23,9 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import static org.knowm.xchange.binance.BinanceExchange.Parameters.PARAM_SANDBOX_SSL_URI;
+import static org.knowm.xchange.binance.BinanceExchange.Parameters.PARAM_USE_SANDBOX;
+
 public class BinanceExchange extends BaseExchange {
 
   public static final String EXCHANGE_TYPE_MARGIN = "BinanceMarginExchange";
@@ -36,6 +39,8 @@ public class BinanceExchange extends BaseExchange {
 
   @Override
   protected void initServices() {
+
+    concludeHostParams(exchangeSpecification);
 
     if (EXCHANGE_TYPE_MARGIN.equals(exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE))) {
       this.binance = ExchangeRestProxyBuilder.forInterface(
@@ -89,8 +94,19 @@ public class BinanceExchange extends BaseExchange {
     spec.setPort(80);
     spec.setExchangeName("Binance");
     spec.setExchangeDescription("Binance Exchange.");
+
+    spec.setExchangeSpecificParametersItem(PARAM_USE_SANDBOX, false);
+    spec.setExchangeSpecificParametersItem(PARAM_SANDBOX_SSL_URI, "https://testnet.binance.vision");
+
     AuthUtils.setApiAndSecretKey(spec, "binance");
     return spec;
+  }
+
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+    super.applySpecification(exchangeSpecification);
+
+    concludeHostParams(exchangeSpecification);
   }
 
   public BinanceExchangeInfo getExchangeInfo() {
@@ -197,5 +213,21 @@ public class BinanceExchange extends BaseExchange {
   protected int numberOfDecimals(String value) {
 
     return new BigDecimal(value).stripTrailingZeros().scale();
+  }
+
+  /** Adjust host parameters depending on exchange specific parameters */
+  protected static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+
+    if (exchangeSpecification.getExchangeSpecificParameters() != null) {
+      final boolean useSandbox = exchangeSpecification.getExchangeSpecificParametersItem(PARAM_USE_SANDBOX).equals(true);
+      if (useSandbox) {
+        exchangeSpecification.setSslUri((String) exchangeSpecification.getExchangeSpecificParametersItem(PARAM_SANDBOX_SSL_URI));
+      }
+    }
+  }
+
+  public static final class Parameters {
+    public static final String PARAM_USE_SANDBOX = "Use_Sandbox";
+    public static final String PARAM_SANDBOX_SSL_URI = "SandboxSslUri";
   }
 }

@@ -21,8 +21,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import static org.knowm.xchange.binance.BinanceFuturesExchange.Parameters.PARAM_USE_SANDBOX;
-import static org.knowm.xchange.binance.BinanceFuturesExchange.Parameters.PARAM_SANDBOX_SSL_URI;
+import static org.knowm.xchange.binance.BinanceExchange.Parameters.PARAM_USE_SANDBOX;
+import static org.knowm.xchange.binance.BinanceExchange.Parameters.PARAM_SANDBOX_SSL_URI;
 
 public class BinanceFuturesExchange extends BinanceExchange {
 
@@ -64,13 +64,6 @@ public class BinanceFuturesExchange extends BinanceExchange {
 
     AuthUtils.setApiAndSecretKey(spec, "binance");
     return spec;
-  }
-
-  @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-    super.applySpecification(exchangeSpecification);
-
-    concludeHostParams(exchangeSpecification);
   }
 
   @Override
@@ -154,19 +147,4 @@ public class BinanceFuturesExchange extends BinanceExchange {
     }
   }
 
-  /** Adjust host parameters depending on exchange specific parameters */
-  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
-
-    if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      final boolean useSandbox = exchangeSpecification.getExchangeSpecificParametersItem(PARAM_USE_SANDBOX).equals(true);
-      if (useSandbox) {
-          exchangeSpecification.setSslUri((String) exchangeSpecification.getExchangeSpecificParametersItem(PARAM_SANDBOX_SSL_URI));
-      }
-    }
-  }
-
-  public static final class Parameters {
-    public static final String PARAM_USE_SANDBOX = "Use_Sandbox";
-    public static final String PARAM_SANDBOX_SSL_URI = "SandboxSslUri";
-  }
 }
