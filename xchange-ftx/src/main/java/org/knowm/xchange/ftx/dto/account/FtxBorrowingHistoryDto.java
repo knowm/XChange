@@ -21,17 +21,22 @@ public class FtxBorrowingHistoryDto {
   @JsonProperty("time")
   private final Date time;
 
+  @JsonProperty("feeUsd")
+  private final BigDecimal feeUsd;
+
   public FtxBorrowingHistoryDto(
       @JsonProperty("coin") String coin,
       @JsonProperty("cost") BigDecimal cost,
       @JsonProperty("rate") BigDecimal rate,
       @JsonProperty("size") BigDecimal size,
-      @JsonProperty("time") Date time) {
+      @JsonProperty("time") Date time,
+      @JsonProperty("feeUsd") BigDecimal feeUsd) {
     this.coin = coin;
     this.cost = cost;
     this.rate = rate;
     this.size = size;
     this.time = time;
+    this.feeUsd = feeUsd;
   }
 
   public String getCoin() {
@@ -54,6 +59,10 @@ public class FtxBorrowingHistoryDto {
     return time;
   }
 
+  public BigDecimal getFeeUsd() {
+    return feeUsd;
+  }
+
   @Override
   public String toString() {
     return "FtxBorrowingHistoryDto{"
@@ -68,6 +77,8 @@ public class FtxBorrowingHistoryDto {
         + size
         + ", time="
         + time
+        + ", feeUsd="
+        + feeUsd
         + '}';
   }
 }
