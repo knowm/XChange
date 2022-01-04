@@ -235,6 +235,26 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         .call();
   }
 
+  protected String futureTransfer(
+          String asset, BigDecimal amount, Integer type)
+          throws IOException, BinanceException {
+    FutureTransferResponse result =
+            decorateApiCall(
+                    () ->
+                            binance.futuresTransfer(
+                                    asset,
+                                    amount,
+                                    type,
+                                    getRecvWindow(),
+                                    getTimestampFactory(),
+                                    apiKey,
+                                    signatureCreator))
+                    .withRetry(retry("futureTransfer"))
+                    .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+                    .call();
+    return String.valueOf(result.getTranId());
+  }
+
   private <T> T checkWapiResponse(WapiResponse<T> result) {
     if (!result.success) {
       BinanceException exception;

@@ -15,6 +15,7 @@ import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.service.account.params.AccountLeverageParams;
 import org.knowm.xchange.service.account.params.AccountMarginParams;
 import org.knowm.xchange.service.account.params.AccountPositionMarginParams;
+import org.knowm.xchange.service.account.params.AccountFundsTransferParams;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
@@ -236,5 +237,14 @@ public interface AccountService extends BaseService {
    */
   default void setIsolatedPositionMargin(AccountPositionMarginParams params) throws IOException {
     throw new NotYetImplementedForExchangeException("setIsolatedPositionMargin");
+  }
+
+  /**
+   * transfer funds in context of current exchange
+   * @param params params
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default String internalFundsTransfer(AccountFundsTransferParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException("internalFundsTransfer");
   }
 }

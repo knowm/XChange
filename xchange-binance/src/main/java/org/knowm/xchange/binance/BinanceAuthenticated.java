@@ -524,4 +524,33 @@ public interface BinanceAuthenticated extends Binance {
   Map<?, ?> closeUserDataStream(
       @HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey)
       throws IOException, BinanceException;
+
+
+  /**
+   * Execute transfer between spot account and futures account.
+   *
+   * @param asset The asset being transferred, e.g., USDT, mandatory
+   * @param amount The amount to be transferred, mandatory
+   * @param type transfer type, mandatory. types:
+   * 1: transfer from spot account to USDT-Ⓜ futures account.
+   * 2: transfer from USDT-Ⓜ futures account to spot account.
+   * 3: transfer from spot account to COIN-Ⓜ futures account.
+   * 4: transfer from COIN-Ⓜ futures account to spot account.
+   * @param recvWindow optional
+   * @param timestamp
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @POST
+  @Path("sapi/v1/futures/transfer")
+  FutureTransferResponse futuresTransfer(
+          @FormParam("asset") String asset,
+          @FormParam("amount") BigDecimal amount,
+          @FormParam("type") Integer type,
+          @FormParam("recvWindow") Long recvWindow,
+          @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+          @HeaderParam(X_MBX_APIKEY) String apiKey,
+          @QueryParam(SIGNATURE) ParamsDigest signature)
+          throws IOException, BinanceException;
 }
