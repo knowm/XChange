@@ -344,35 +344,37 @@ public class CoinmateAdapters {
     }
   }
 
-  public static List<Order> adaptOrders(CoinmateOrders coinmateOrders) {
-    List<Order> ordersList = new ArrayList<>(1);
-
-    CoinmateOrder entry = coinmateOrders.getData();
+  public static Order adaptOrder(CoinmateOrder coinmateOrder) {
 
     Order.OrderType orderType;
 
-    if ("BUY".equals(entry.getType())) {
+    if ("BUY".equals(coinmateOrder.getType())) {
       orderType = Order.OrderType.BID;
-    } else if ("SELL".equals(entry.getType())) {
+    } else if ("SELL".equals(coinmateOrder.getType())) {
       orderType = Order.OrderType.ASK;
     } else {
       throw new CoinmateException("Unknown order type");
     }
     Order.OrderStatus orderStatus;
-    if ("CANCELLED".equals(entry.getStatus())) {
-      orderStatus = Order.OrderStatus.CANCELED;
-    } else if ("FILLED".equals(entry.getStatus())) {
+    if ("CANCELLED".equals(coinmateOrder.getStatus())) {
+      if (coinmateOrder.getStopLossOrderId() != null) {
+        // this is a stopped order
+        orderStatus = Order.OrderStatus.STOPPED;
+      } else {
+        orderStatus = Order.OrderStatus.CANCELED;
+      }
+    } else if ("FILLED".equals(coinmateOrder.getStatus())) {
       orderStatus = Order.OrderStatus.FILLED;
-    } else if ("PARTIALLY_FILLED".equals(entry.getStatus())) {
+    } else if ("PARTIALLY_FILLED".equals(coinmateOrder.getStatus())) {
       orderStatus = Order.OrderStatus.PARTIALLY_FILLED;
-    } else if ("OPEN".equals(entry.getStatus())) {
+    } else if ("OPEN".equals(coinmateOrder.getStatus())) {
       orderStatus = Order.OrderStatus.NEW;
     } else {
       orderStatus = Order.OrderStatus.UNKNOWN;
     }
 
-    BigDecimal originalAmount = entry.getOriginalAmount();
-    BigDecimal remainingAmount = entry.getRemainingAmount();
+    BigDecimal originalAmount = coinmateOrder.getOriginalAmount();
+    BigDecimal remainingAmount = coinmateOrder.getRemainingAmount();
     BigDecimal cumulativeAmount =
         (originalAmount != null && remainingAmount != null)
             ? originalAmount.subtract(remainingAmount)
@@ -384,17 +386,15 @@ public class CoinmateAdapters {
             orderType,
             originalAmount,
             null,
-            Long.toString(entry.getId()),
-            new Date(entry.getTimestamp()),
-            entry.getAvgPrice(),
+            Long.toString(coinmateOrder.getId()),
+            new Date(coinmateOrder.getTimestamp()),
+            coinmateOrder.getAvgPrice(),
             cumulativeAmount,
             null,
             orderStatus,
             null);
 
-    ordersList.add(order);
-
-    return ordersList;
+    return order;
   }
 
   public static Ticker adaptTradeStatistics(

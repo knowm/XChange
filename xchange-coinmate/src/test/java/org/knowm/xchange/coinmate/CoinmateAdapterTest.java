@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.TimeZone;
 import org.junit.Test;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
@@ -86,16 +85,15 @@ public class CoinmateAdapterTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     CoinmateOrders coinmateOrders = mapper.readValue(is, CoinmateOrders.class);
 
-    List<Order> orders = CoinmateAdapters.adaptOrders(coinmateOrders);
+    Order order = CoinmateAdapters.adaptOrder(coinmateOrders.getData());
 
-    Order order1 = orders.get(0);
-    assertThat(order1.getType() == Order.OrderType.ASK);
-    assertThat(order1.getId().equals("1"));
-    assertThat(order1.getAveragePrice().equals(new BigDecimal("996740")));
-    assertThat(order1.getTimestamp().equals(1631188240000L));
-    assertNull(order1.getOriginalAmount());
-    assertNull(order1.getCumulativeAmount());
-    assertThat(order1.getStatus() == Order.OrderStatus.FILLED);
+    assertThat(order.getType() == Order.OrderType.ASK);
+    assertThat(order.getId().equals("1"));
+    assertThat(order.getAveragePrice().equals(new BigDecimal("996740")));
+    assertThat(order.getTimestamp().equals(1631188240000L));
+    assertNull(order.getOriginalAmount());
+    assertNull(order.getCumulativeAmount());
+    assertThat(order.getStatus() == Order.OrderStatus.FILLED);
   }
 
   @Test
@@ -113,16 +111,15 @@ public class CoinmateAdapterTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     CoinmateOrders coinmateOrders = mapper.readValue(is, CoinmateOrders.class);
 
-    List<Order> orders = CoinmateAdapters.adaptOrders(coinmateOrders);
+    Order order = CoinmateAdapters.adaptOrder(coinmateOrders.getData());
 
-    Order order2 = orders.get(0);
-    assertThat(order2.getType() == Order.OrderType.ASK);
-    assertThat(order2.getId().equals("2"));
-    assertThat(order2.getAveragePrice().equals(new BigDecimal("997850")));
-    assertThat(order2.getTimestamp().equals(16311882400001L));
-    assertThat(order2.getOriginalAmount().compareTo(new BigDecimal("0.0002")) == 0);
-    assertThat(order2.getCumulativeAmount().compareTo(new BigDecimal("0.0002")) == 0);
-    assertThat(order2.getRemainingAmount().compareTo(BigDecimal.ZERO) == 0);
-    assertThat(order2.getStatus() == Order.OrderStatus.FILLED);
+    assertThat(order.getType() == Order.OrderType.ASK);
+    assertThat(order.getId().equals("2"));
+    assertThat(order.getAveragePrice().equals(new BigDecimal("997850")));
+    assertThat(order.getTimestamp().equals(16311882400001L));
+    assertThat(order.getOriginalAmount().compareTo(new BigDecimal("0.0002")) == 0);
+    assertThat(order.getCumulativeAmount().compareTo(new BigDecimal("0.0002")) == 0);
+    assertThat(order.getRemainingAmount().compareTo(BigDecimal.ZERO) == 0);
+    assertThat(order.getStatus() == Order.OrderStatus.FILLED);
   }
 }

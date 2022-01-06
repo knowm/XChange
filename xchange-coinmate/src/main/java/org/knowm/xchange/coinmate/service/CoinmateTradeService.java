@@ -17,6 +17,7 @@
 package org.knowm.xchange.coinmate.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -67,8 +68,22 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     ArrayList<Order> result = new ArrayList<>(orderQueryParams.length);
     for (OrderQueryParams orderQueryParam : orderQueryParams) {
       CoinmateOrders response = this.getCoinmateOrderById(orderQueryParam.getOrderId());
-      List<Order> orders = CoinmateAdapters.adaptOrders(response);
-      result.addAll(orders);
+      Order order = CoinmateAdapters.adaptOrder(response.getData());
+      if (order.getStatus() == Order.OrderStatus.STOPPED) {
+        // fetch generated market order and get its average price and amount
+        CoinmateOrders marketOrderRaw = this.getCoinmateOrderById( response.getData().getStopLossOrderId());
+        if (marketOrderRaw != null) {
+          order.setAveragePrice(marketOrderRaw.getData().getAvgPrice());
+          BigDecimal originalAmount = marketOrderRaw.getData().getOriginalAmount();
+          BigDecimal remainingAmount = marketOrderRaw.getData().getRemainingAmount();
+          BigDecimal cumulativeAmount =
+              (originalAmount != null && remainingAmount != null)
+                  ? originalAmount.subtract(remainingAmount)
+                  : null;
+          order.setCumulativeAmount(cumulativeAmount);
+        }
+      }
+      result.add(order);
     }
     return result;
   }
