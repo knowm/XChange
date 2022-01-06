@@ -47,7 +47,7 @@ public class OrderHistoryJSONTest {
     CoinmateOrderHistory orderHistory = mapper.readValue(is, CoinmateOrderHistory.class);
 
     // Verify that the example data was unmarshalled correctly
-    CoinmateOrderHistoryEntry entry1 = orderHistory.getData()[0];
+    CoinmateOrderHistoryEntry entry1 = orderHistory.getData().get(0);
 
     assertThat(entry1.getId()).isEqualTo(12345678);
     assertThat(entry1.getTimestamp()).isEqualTo(1634890351090L);
