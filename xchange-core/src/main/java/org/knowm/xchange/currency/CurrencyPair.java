@@ -483,7 +483,7 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
     if (obj == null) {
       return false;
     }
-    if (getClass() != obj.getClass()) {
+    if (!(obj instanceof CurrencyPair)) {
       return false;
     }
     CurrencyPair other = (CurrencyPair) obj;
