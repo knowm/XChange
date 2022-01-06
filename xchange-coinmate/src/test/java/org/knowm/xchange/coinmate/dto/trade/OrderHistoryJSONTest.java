@@ -65,6 +65,7 @@ public class OrderHistoryJSONTest {
     assertThat(entry1.isHidden()).isEqualTo(false);
     assertThat(entry1.getAvgPrice()).isNull();
     assertThat(entry1.isTrailing()).isEqualTo(false);
-    assertThat(entry1.getStopLossOrderId()).isNull();
+    assertThat(entry1.getStopLossOrderId()).isEqualTo("44444");
+    assertThat(entry1.getOriginalOrderId()).isEqualTo("55555");
   }
 }

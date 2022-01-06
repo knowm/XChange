@@ -233,7 +233,8 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
             CoinmateAdapters.adaptSortOrder(order),
             startId,
             timestampFrom,
-            timestampTo);
+            timestampTo,
+            null);
     return CoinmateAdapters.adaptTradeHistory(coinmateTradeHistory);
   }
 

@@ -21,7 +21,8 @@ public class CoinmateOrderHistoryEntry {
   private final BigDecimal marketPriceAtOrderCreation;
   private final boolean hidden;
   private final BigDecimal avgPrice;
-  private final Long stopLossOrderId;
+  private final String stopLossOrderId;
+  private final String originalOrderId;
 
   public CoinmateOrderHistoryEntry(
       @JsonProperty("id") long id,
@@ -40,7 +41,8 @@ public class CoinmateOrderHistoryEntry {
       @JsonProperty("marketPriceAtOrderCreation") BigDecimal marketPriceAtOrderCreation,
       @JsonProperty("hidden") boolean hidden,
       @JsonProperty("avgPrice") BigDecimal avgPrice,
-      @JsonProperty("stopLossOrderId") Long stopLossOrderId
+      @JsonProperty("stopLossOrderId") String stopLossOrderId,
+      @JsonProperty("originalOrderId") String originalOrderId
       ) {
 
     this.id = id;
@@ -60,6 +62,7 @@ public class CoinmateOrderHistoryEntry {
     this.hidden = hidden;
     this.avgPrice = avgPrice;
     this.stopLossOrderId = stopLossOrderId;
+    this.originalOrderId = originalOrderId;
   }
 
   public long getId() {
@@ -122,8 +125,12 @@ public class CoinmateOrderHistoryEntry {
     return avgPrice;
   }
 
-  public Long getStopLossOrderId() {
+  public String getStopLossOrderId() {
     return stopLossOrderId;
+  }
+
+  public String getOriginalOrderId() {
+    return originalOrderId;
   }
 
   public String getOrderTradeType() {
@@ -140,6 +147,7 @@ public class CoinmateOrderHistoryEntry {
         ", remainingAmount=" + remainingAmount +
         ", originalAmount=" + originalAmount +
         ", status='" + status + '\'' +
+        ", orderTradeType='" + orderTradeType + '\'' +
         ", stopPrice=" + stopPrice +
         ", trailing=" + trailing +
         ", trailingUpdatedTimestamp=" + trailingUpdatedTimestamp +
@@ -149,6 +157,7 @@ public class CoinmateOrderHistoryEntry {
         ", hidden=" + hidden +
         ", avgPrice=" + avgPrice +
         ", stopLossOrderId=" + stopLossOrderId +
+        ", originalOrderId=" + originalOrderId +
         '}';
   }
 }

@@ -19,7 +19,8 @@
       "hidden": false,
       "avgPrice": null,
       "trailing": false,
-      "stopLossOrderId": null
+      "stopLossOrderId": 44444,
+      "originalOrderId": 55555
     }
   ]
 }
