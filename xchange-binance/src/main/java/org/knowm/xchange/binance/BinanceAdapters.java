@@ -121,8 +121,18 @@ public class BinanceAdapters {
     }
   }
 
-  public static OrderType convertType(boolean isBuyer) {
-    return isBuyer ? OrderType.BID : OrderType.ASK;
+  /**
+   * If "is buyer maker" is true for the trade, it means that the order of whoever was on the buy
+   * side, was sitting as a bid in the orderbook for some time (so that it was making the market)
+   * and then someone came in and matched it immediately (market taker). So, that specific trade
+   * will now qualify as SELL (=ASK) and in UI highlight as reddish. On the opposite isBuyerMaker=false
+   * trade will qualify as BUY (=BID) and highlight greenish (source:
+   * https://money.stackexchange.com/a/102005).
+   *
+   * <p>Many other exchanges label trades directly as buy or sell.
+   */
+  public static OrderType convertType(boolean isBuyerMaker) {
+    return isBuyerMaker ? OrderType.ASK : OrderType.BID;
   }
 
   public static CurrencyPair adaptSymbol(String symbol) {
