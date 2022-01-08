@@ -40,6 +40,8 @@ public abstract class Order implements Serializable {
   private final String userReference;
   /** The timestamp on the order according to the exchange's server, null if not provided */
   private final Date timestamp;
+  /** The timestamp in which the order status became final */
+  private Date completedTimestamp;
   /** Any applicable order flags */
   private final Set<IOrderFlags> orderFlags = new HashSet<>();
   /** Status of order during it lifecycle */
@@ -263,6 +265,16 @@ public abstract class Order implements Serializable {
     return timestamp;
   }
 
+  public Date getCompletedTimestamp() {
+
+    return completedTimestamp;
+  }
+
+  public void setCompletedTimestamp(Date completedTimestamp) {
+
+    this.completedTimestamp = completedTimestamp;
+  }
+	  
   public Set<IOrderFlags> getOrderFlags() {
 
     return orderFlags;
@@ -486,6 +498,7 @@ public abstract class Order implements Serializable {
     protected String id;
     protected String userReference;
     protected Date timestamp;
+    protected Date completedTimestamp;
     protected BigDecimal averagePrice;
     protected OrderStatus status;
     protected BigDecimal fee;
@@ -568,6 +581,12 @@ public abstract class Order implements Serializable {
     public Builder timestamp(Date timestamp) {
 
       this.timestamp = timestamp;
+      return this;
+    }
+    
+    public Builder completedTimestamp(Date timestamp) {
+
+      this.completedTimestamp = timestamp;
       return this;
     }
 
