@@ -87,6 +87,8 @@ public final class BitfinexUtils {
         return "ethereum";
       case "ETC":
         return "ethereumc";
+      case "CLO":
+        return "clo";
       case "ZEC":
         return "zcash";
       case "XMR":
