@@ -306,7 +306,7 @@ public interface BinanceAuthenticated extends Binance {
    */
   @GET
   @Path("/sapi/v1/asset/dribblet")
-  BinanceDustLog myDustLog(
+  BinanceDustLog getDustLog(
       @QueryParam("startTime") Long startTime,
       @QueryParam("endTime") Long endTime,
       @QueryParam("recvWindow") Long recvWindow,

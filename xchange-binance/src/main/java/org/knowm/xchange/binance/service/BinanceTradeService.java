@@ -229,27 +229,6 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     return new Class[]{CancelOrderByIdParams.class, CancelOrderByCurrencyPair.class};
   }
 
-  /**
-   * Retrieves the dust log from Binance. If you have many currencies with low amount (=dust) that
-   * cannot be traded, because their amount is less than the minimum amount required for trading
-   * them, you can convert all these currencies at once into BNB with the button "Convert Small
-   * Balance to BNB".
-   *
-   * @param startTime optional. If set, also the endTime must be set. If neither time is set, the
-   *     100 most recent dust logs are returned.
-   * @param endTime optional. If set, also the startTime must be set. If neither time is set, the
-   *     100 most recent dust logs are returned.
-   * @return
-   * @throws IOException
-   */
-  public BinanceDustLog getDustLog(Long startTime, Long endTime) throws IOException {
-
-    if (((startTime != null) && (endTime == null)) || (startTime == null) && (endTime != null))
-      throw new ExchangeException("You need to specify both, the start and the end date");
-
-    return super.myDustLog(startTime, endTime);
-  }
-
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     try {
