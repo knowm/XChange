@@ -137,27 +137,4 @@ public class CoinmateOrderHistoryEntry {
     return orderTradeType;
   }
 
-  @Override
-  public String toString() {
-    return "CoinmateOrderHistoryEntry{" +
-        "id=" + id +
-        ", timestamp=" + timestamp +
-        ", type='" + type + '\'' +
-        ", price=" + price +
-        ", remainingAmount=" + remainingAmount +
-        ", originalAmount=" + originalAmount +
-        ", status='" + status + '\'' +
-        ", orderTradeType='" + orderTradeType + '\'' +
-        ", stopPrice=" + stopPrice +
-        ", trailing=" + trailing +
-        ", trailingUpdatedTimestamp=" + trailingUpdatedTimestamp +
-        ", originalStopPrice=" + originalStopPrice +
-        ", marketPriceAtLastUpdate=" + marketPriceAtLastUpdate +
-        ", marketPriceAtOrderCreation=" + marketPriceAtOrderCreation +
-        ", hidden=" + hidden +
-        ", avgPrice=" + avgPrice +
-        ", stopLossOrderId=" + stopLossOrderId +
-        ", originalOrderId=" + originalOrderId +
-        '}';
-  }
 }

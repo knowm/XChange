@@ -85,7 +85,7 @@ public class CoinmateAdapterTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     CoinmateOrders coinmateOrders = mapper.readValue(is, CoinmateOrders.class);
 
-    Order order = CoinmateAdapters.adaptOrder(coinmateOrders.getData());
+    Order order = CoinmateAdapters.adaptOrder(coinmateOrders.getData(), id -> null);
 
     assertThat(order.getType() == Order.OrderType.ASK);
     assertThat(order.getId().equals("1"));
@@ -111,7 +111,7 @@ public class CoinmateAdapterTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     CoinmateOrders coinmateOrders = mapper.readValue(is, CoinmateOrders.class);
 
-    Order order = CoinmateAdapters.adaptOrder(coinmateOrders.getData());
+    Order order = CoinmateAdapters.adaptOrder(coinmateOrders.getData(), id -> null);
 
     assertThat(order.getType() == Order.OrderType.ASK);
     assertThat(order.getId().equals("2"));
