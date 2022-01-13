@@ -1,0 +1,206 @@
+{
+  "total" : 1,
+  "dribblets" : [ {
+    "operateTime" : 1639129045000,
+    "totalTransferedAmount" : 0.0086914,
+    "totalServiceChargeAmount" : 0.00017367,
+    "transId" : "90698471826",
+    "binanceDribbletDetails" : [ {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000969,
+      "amount" : 0.27878109,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00048483,
+      "fromAsset" : "BUSD"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 4.5E-7,
+      "amount" : 0.2,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00002278,
+      "fromAsset" : "ZIL"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000121,
+      "amount" : 0.00023,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00006088,
+      "fromAsset" : "LTC"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000935,
+      "amount" : 0.009799,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.0004679,
+      "fromAsset" : "NEO"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000795,
+      "amount" : 0.03689108,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00039774,
+      "fromAsset" : "GAS"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000118,
+      "amount" : 0.5,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00005906,
+      "fromAsset" : "CELR"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000441,
+      "amount" : 0.0000311,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00022076,
+      "fromAsset" : "ETH"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000263,
+      "amount" : 0.6,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00013169,
+      "fromAsset" : "DATA"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00004903,
+      "amount" : 0.008,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.0024516,
+      "fromAsset" : "SOL"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000736,
+      "amount" : 33.31295809,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00036844,
+      "fromAsset" : "VTHO"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000378,
+      "amount" : 0.19953853,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00018939,
+      "fromAsset" : "FET"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 4.7E-7,
+      "amount" : 0.5,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00002387,
+      "fromAsset" : "COS"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000421,
+      "amount" : 0.03796232,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00021053,
+      "fromAsset" : "EOS"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000971,
+      "amount" : 0.00062,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00048563,
+      "fromAsset" : "BCH"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00001675,
+      "amount" : 0.58,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00083766,
+      "fromAsset" : "ZRX"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 5E-8,
+      "amount" : 0.051,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00000281,
+      "fromAsset" : "IOST"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 1.7E-7,
+      "amount" : 0.05670708,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00000888,
+      "fromAsset" : "TRX"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000301,
+      "amount" : 0.00444,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00015082,
+      "fromAsset" : "LINK"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000283,
+      "amount" : 0.3,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00014199,
+      "fromAsset" : "XLM"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000334,
+      "amount" : 0.115258,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00016742,
+      "fromAsset" : "XRP"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 3E-8,
+      "amount" : 0.08178211,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00000166,
+      "fromAsset" : "TROY"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000713,
+      "amount" : 0.13352395,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00035682,
+      "fromAsset" : "SXP"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00001635,
+      "amount" : 0.47007571,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00081791,
+      "fromAsset" : "USDT"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000316,
+      "amount" : 0.32,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00015843,
+      "fromAsset" : "DUSK"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 1.2E-7,
+      "amount" : 0.2,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00000636,
+      "fromAsset" : "XVG"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000121,
+      "amount" : 0.2,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00006065,
+      "fromAsset" : "ONE"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000621,
+      "amount" : 0.07,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00031068,
+      "fromAsset" : "ENJ"
+    }, {
+      "transId" : "90698471826",
+      "serviceChargeAmount" : 0.00000188,
+      "amount" : 0.639,
+      "operateTime" : 1639129045000,
+      "transferedAmount" : 0.00009421,
+      "fromAsset" : "VET"
+    } ]
+  } ]
+}
