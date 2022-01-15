@@ -27,7 +27,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   protected static final String USE_HIGHER_UPDATE_FREQUENCY =
       "Binance_Orderbook_Use_Higher_Frequency";
   protected static final String USE_REALTIME_BOOK_TICKER = "Binance_Ticker_Use_Realtime";
-  protected static final String USE_MAX_FETCH_ORDER_BOOK_LIMIT = "Binance_Max_Fetch_Order_Book_Limit";
+  protected static final String FETCH_ORDER_BOOK_LIMIT = "Binance_Fetch_Order_Book_Limit";
   private BinanceStreamingService streamingService;
   private BinanceUserDataStreamingService userDataStreamingService;
 
@@ -54,11 +54,9 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     if (userHigherFrequency) {
       orderBookUpdateFrequencyParameter = "@100ms";
     }
-    boolean useMaxFetchOderBookLimit =
-        Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(USE_MAX_FETCH_ORDER_BOOK_LIMIT));
-    if (useMaxFetchOderBookLimit) {
-      oderBookFetchLimitParameter = 5000;
+    Object fetchOrderBookLimit = exchangeSpecification.getExchangeSpecificParametersItem(FETCH_ORDER_BOOK_LIMIT);
+    if (fetchOrderBookLimit instanceof Integer) {
+      oderBookFetchLimitParameter = (int) fetchOrderBookLimit;
     }
   }
 
