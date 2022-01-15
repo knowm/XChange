@@ -161,8 +161,8 @@ public class KucoinAdapters {
     HashMap<String, CurrencyMetaData> stringCurrencyMetaDataMap = new HashMap<>();
     for (CurrenciesResponse currenciesResponse : list) {
       BigDecimal precision = currenciesResponse.getPrecision();
-      BigDecimal withdrawalMinFee = BigDecimal.ZERO;
-      BigDecimal withdrawalMinSize = BigDecimal.ZERO;
+      BigDecimal withdrawalMinFee = null;
+      BigDecimal withdrawalMinSize = null;
       if (currenciesResponse.getWithdrawalMinFee() != null) {
           withdrawalMinFee = new BigDecimal(currenciesResponse.getWithdrawalMinFee());
       }
