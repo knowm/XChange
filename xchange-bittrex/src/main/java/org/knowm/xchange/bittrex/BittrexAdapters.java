@@ -3,8 +3,17 @@ package org.knowm.xchange.bittrex;
 import static org.knowm.xchange.bittrex.BittrexConstants.*;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
@@ -12,6 +21,7 @@ import org.knowm.xchange.bittrex.dto.marketdata.*;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -26,6 +36,7 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 
 public final class BittrexAdapters {
@@ -45,7 +56,9 @@ public final class BittrexAdapters {
   public static List<LimitOrder> adaptOpenOrders(List<BittrexOrder> bittrexOpenOrders) {
     return bittrexOpenOrders == null
         ? null
-        : bittrexOpenOrders.stream().map(BittrexAdapters::adaptOrder).collect(Collectors.toList());
+        : bittrexOpenOrders.stream()
+            .map(BittrexAdapters::adaptLimitOrder)
+            .collect(Collectors.toList());
   }
 
   public static List<LimitOrder> adaptOrders(
@@ -64,26 +77,48 @@ public final class BittrexAdapters {
         .collect(Collectors.toList());
   }
 
-  public static LimitOrder adaptOrder(BittrexOrder order) {
+  public static Order adaptOrder(BittrexOrder order) {
     return adaptOrder(order, adaptOrderStatus(order));
   }
 
-  public static LimitOrder adaptOrder(BittrexOrder order, OrderStatus status) {
+  public static LimitOrder adaptLimitOrder(BittrexOrder order) {
+    return adaptLimitOrder(order, adaptOrderStatus(order));
+  }
+
+  public static LimitOrder adaptLimitOrder(BittrexOrder order, OrderStatus status) {
+    return (LimitOrder) adaptOrder(order, status);
+  }
+
+  public static Order adaptOrder(BittrexOrder order, OrderStatus status) {
 
     OrderType type =
-        order.getDirection().equalsIgnoreCase(BittrexConstants.SELL)
+            BittrexConstants.SELL.equalsIgnoreCase(order.getDirection())
             ? OrderType.ASK
             : OrderType.BID;
     CurrencyPair pair = BittrexUtils.toCurrencyPair(order.getMarketSymbol());
-    return new LimitOrder.Builder(type, pair)
-        .originalAmount(order.getQuantity())
-        .id(order.getId())
-        .timestamp(order.getUpdatedAt() != null ? order.getUpdatedAt() : order.getCreatedAt())
-        .limitPrice(order.getLimit())
-        .remainingAmount(order.getQuantity().subtract(order.getFillQuantity()))
-        .fee(order.getCommission())
-        .orderStatus(status)
-        .build();
+    if (BittrexConstants.MARKET.equalsIgnoreCase(order.getType())) {
+      return new MarketOrder.Builder(type, pair)
+          .originalAmount(order.getQuantity())
+          .id(order.getId())
+          .timestamp(order.getUpdatedAt() != null ? order.getUpdatedAt() : order.getCreatedAt())
+          .cumulativeAmount(order.getFillQuantity())
+          .remainingAmount(order.getQuantity().subtract(order.getFillQuantity()))
+          .fee(order.getCommission())
+          .orderStatus(status)
+          .build();
+    } else {
+      return new LimitOrder.Builder(type, pair)
+          .originalAmount(order.getQuantity())
+          .id(order.getId())
+          .timestamp(order.getUpdatedAt() != null ? order.getUpdatedAt() : order.getCreatedAt())
+          .limitPrice(order.getLimit())
+          .averagePrice(order.getLimit())
+          .cumulativeAmount(order.getFillQuantity())
+          .remainingAmount(order.getQuantity().subtract(order.getFillQuantity()))
+          .fee(order.getCommission())
+          .orderStatus(status)
+          .build();
+    }
   }
 
   public static OrderStatus adaptOrderStatus(BittrexOrder order) {

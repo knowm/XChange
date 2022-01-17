@@ -13,10 +13,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
+
 import org.knowm.xchange.bittrex.dto.BittrexException;
 import org.knowm.xchange.bittrex.dto.account.*;
 import org.knowm.xchange.bittrex.dto.batch.BatchResponse;
 import org.knowm.xchange.bittrex.dto.batch.order.BatchOrder;
+import org.knowm.xchange.bittrex.dto.trade.BittrexExecution;
 import org.knowm.xchange.bittrex.dto.trade.BittrexNewOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrders;
@@ -124,6 +128,16 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Signature") ParamsDigest signature,
       @PathParam("orderId") String orderId)
       throws IOException, BittrexException;
+
+  @GET
+  @Path("orders/{orderId}/executions")
+  List<BittrexExecution> getOrderExecutions(
+          @HeaderParam("Api-Key") String apiKey,
+          @HeaderParam("Api-Timestamp") Long timestamp,
+          @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+          @HeaderParam("Api-Signature") ParamsDigest signature,
+          @PathParam("orderId") String orderId)
+          throws IOException, BittrexException;
 
   @POST
   @Path("orders")

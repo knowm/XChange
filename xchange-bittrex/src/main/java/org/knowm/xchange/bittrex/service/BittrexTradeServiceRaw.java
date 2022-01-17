@@ -5,6 +5,7 @@ import static org.knowm.xchange.bittrex.BittrexResilience.GET_CLOSED_ORDERS_RATE
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.knowm.xchange.bittrex.BittrexAdapters;
@@ -15,6 +16,7 @@ import org.knowm.xchange.bittrex.BittrexUtils;
 import org.knowm.xchange.bittrex.dto.batch.BatchResponse;
 import org.knowm.xchange.bittrex.dto.batch.order.BatchOrder;
 import org.knowm.xchange.bittrex.dto.batch.order.neworder.TimeInForce;
+import org.knowm.xchange.bittrex.dto.trade.BittrexExecution;
 import org.knowm.xchange.bittrex.dto.trade.BittrexNewOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrders;
@@ -142,6 +144,11 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
   public BatchResponse[] executeOrdersBatch(BatchOrder[] batchOrders) throws IOException {
     return bittrexAuthenticated.executeOrdersBatch(
         apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, batchOrders);
+  }
+
+  public List<BittrexExecution> getBittrexOrderExecutions(String orderId) throws IOException {
+    return bittrexAuthenticated.getOrderExecutions(
+        apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, orderId);
   }
 
   @AllArgsConstructor
