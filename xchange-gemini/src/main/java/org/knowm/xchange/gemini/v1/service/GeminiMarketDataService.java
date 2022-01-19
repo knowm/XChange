@@ -22,7 +22,7 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
- * Implementation of the market data service for Gemini
+ * Implementation of the market data service for Gemini.
  *
  * <ul>
  *   <li>Provides access to various market data values
