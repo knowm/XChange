@@ -27,6 +27,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   protected static final String USE_HIGHER_UPDATE_FREQUENCY =
       "Binance_Orderbook_Use_Higher_Frequency";
   protected static final String USE_REALTIME_BOOK_TICKER = "Binance_Ticker_Use_Realtime";
+  protected static final String FETCH_ORDER_BOOK_LIMIT = "Binance_Fetch_Order_Book_Limit";
   private BinanceStreamingService streamingService;
   private BinanceUserDataStreamingService userDataStreamingService;
 
@@ -37,6 +38,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   private BinanceUserDataChannel userDataChannel;
   private Runnable onApiCall;
   private String orderBookUpdateFrequencyParameter = "";
+  private int oderBookFetchLimitParameter = 1000;
   private boolean realtimeOrderBookTicker;
 
   @Override
@@ -51,6 +53,10 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             exchangeSpecification.getExchangeSpecificParametersItem(USE_REALTIME_BOOK_TICKER));
     if (userHigherFrequency) {
       orderBookUpdateFrequencyParameter = "@100ms";
+    }
+    Object fetchOrderBookLimit = exchangeSpecification.getExchangeSpecificParametersItem(FETCH_ORDER_BOOK_LIMIT);
+    if (fetchOrderBookLimit instanceof Integer) {
+      oderBookFetchLimitParameter = (int) fetchOrderBookLimit;
     }
   }
 
@@ -107,7 +113,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             (BinanceMarketDataService) marketDataService,
             onApiCall,
             orderBookUpdateFrequencyParameter,
-            realtimeOrderBookTicker);
+            realtimeOrderBookTicker,
+            oderBookFetchLimitParameter);
     streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService);
     streamingTradeService = new BinanceStreamingTradeService(userDataStreamingService);
 

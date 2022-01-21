@@ -52,6 +52,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   private final BinanceStreamingService service;
   private final String orderBookUpdateFrequencyParameter;
   private final boolean realtimeOrderBookTicker;
+  private final int oderBookFetchLimitParameter;
 
   private final Map<CurrencyPair, Observable<BinanceTicker24h>> tickerSubscriptions;
   private final Map<CurrencyPair, Observable<BinanceBookTicker>> bookTickerSubscriptions;
@@ -73,10 +74,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
       BinanceMarketDataService marketDataService,
       Runnable onApiCall,
       final String orderBookUpdateFrequencyParameter,
-      boolean realtimeOrderBookTicker) {
+      boolean realtimeOrderBookTicker,
+      int oderBookFetchLimitParameter) {
     this.service = service;
     this.orderBookUpdateFrequencyParameter = orderBookUpdateFrequencyParameter;
     this.realtimeOrderBookTicker = realtimeOrderBookTicker;
+    this.oderBookFetchLimitParameter = oderBookFetchLimitParameter;
     this.marketDataService = marketDataService;
     this.onApiCall = onApiCall;
     this.tickerSubscriptions = new ConcurrentHashMap<>();
@@ -335,7 +338,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     private BinanceOrderbook fetchBinanceOrderBook(CurrencyPair currencyPair)
         throws IOException, InterruptedException {
       try {
-        return marketDataService.getBinanceOrderbook(currencyPair, 1000);
+        return marketDataService.getBinanceOrderbook(currencyPair, oderBookFetchLimitParameter);
       } catch (BinanceException e) {
         if (BinanceErrorAdapter.adapt(e) instanceof RateLimitExceededException) {
           if (fallenBack.compareAndSet(false, true)) {
