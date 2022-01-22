@@ -2,8 +2,11 @@ package org.knowm.xchange.gemini.v1.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Collectors;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.knowm.xchange.Exchange;
@@ -17,17 +20,12 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiAdapters;
 import org.knowm.xchange.gemini.v1.GeminiOrderType;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelAllOrdersParams;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiLimitOrder;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -99,6 +97,19 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
     } else {
       return false;
+    }
+  }
+
+  @Override
+  public Collection<String> cancelAllOpenOrders(CancelAllOrders orderParams) throws IOException {
+    if (orderParams instanceof GeminiCancelAllOrdersParams) {
+      return Arrays.stream(cancelAllGeminiOrders(
+              ((GeminiCancelAllOrdersParams) orderParams).isSessionOnly(),
+              ((GeminiCancelAllOrdersParams) orderParams).getAccount()).getDetails().getCancelledOrders()).mapToObj(
+              id -> String.valueOf(id)
+      ).collect(Collectors.toList());
+    } else {
+      return null;
     }
   }
 
