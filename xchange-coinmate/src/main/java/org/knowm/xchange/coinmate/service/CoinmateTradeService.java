@@ -17,6 +17,7 @@
 package org.knowm.xchange.coinmate.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -67,8 +68,14 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     ArrayList<Order> result = new ArrayList<>(orderQueryParams.length);
     for (OrderQueryParams orderQueryParam : orderQueryParams) {
       CoinmateOrders response = this.getCoinmateOrderById(orderQueryParam.getOrderId());
-      List<Order> orders = CoinmateAdapters.adaptOrders(response);
-      result.addAll(orders);
+      Order order = CoinmateAdapters.adaptOrder(response.getData(), orderId -> {
+        try {
+          return this.getCoinmateOrderById(orderId).getData();
+        } catch (IOException ex) {
+          return null;
+        }
+      });
+      result.add(order);
     }
     return result;
   }
@@ -233,7 +240,8 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
             CoinmateAdapters.adaptSortOrder(order),
             startId,
             timestampFrom,
-            timestampTo);
+            timestampTo,
+            null);
     return CoinmateAdapters.adaptTradeHistory(coinmateTradeHistory);
   }
 
