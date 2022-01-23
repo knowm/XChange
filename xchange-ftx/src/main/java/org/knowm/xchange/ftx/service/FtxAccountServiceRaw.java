@@ -120,19 +120,22 @@ public class FtxAccountServiceRaw extends FtxBaseService {
     }
   }
 
-  public FtxResponse<FtxLeverageDto> changeLeverage(String subaccount, int leverage)
-      throws FtxException, IOException {
-    try {
-      return ftx.changeLeverage(
-          exchange.getExchangeSpecification().getApiKey(),
-          exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          null,
-          new FtxLeverageDto(leverage));
-    } catch (FtxException e) {
-      throw new FtxException(e.getMessage());
-    }
-  }
+	public FtxResponse<FtxLeverageDto> changeLeverage(int leverage) throws FtxException, IOException {
+		return changeLeverage(null, leverage);
+	}
+  
+	public FtxResponse<FtxLeverageDto> changeLeverage(String subaccount, int leverage) throws FtxException, IOException {
+		try {
+			return ftx.changeLeverage(
+					exchange.getExchangeSpecification().getApiKey(),
+					exchange.getNonceFactory().createValue(),
+					signatureCreator,
+					subaccount,
+					new FtxLeverageDto(leverage));
+		} catch (FtxException e) {
+			throw new FtxException(e.getMessage());
+		}
+	}
 
   public FtxResponse<List<FtxFundingPaymentsDto>> getFtxFundingPayments(
       String subaccount, Long startTime, Long endTime, String future)
@@ -150,4 +153,51 @@ public class FtxAccountServiceRaw extends FtxBaseService {
       throw new FtxException(e.getMessage());
     }
   }
+  
+  public FtxResponse<FtxConvertSimulatetDto> simulateFtxConvert(String subaccount, String fromCoin, String toCoin, double size)
+	      throws FtxException, IOException {
+
+	    try {
+	      return ftx.simulateConvert(
+	          exchange.getExchangeSpecification().getApiKey(),
+	          exchange.getNonceFactory().createValue(),
+	          signatureCreator,
+	          subaccount,
+	          new FtxConvertSimulatePayloadRequestDto(fromCoin, toCoin, size));
+	    } catch (FtxException e) {
+	      throw new FtxException(e.getMessage());
+	    }
+	  }
+  
+  public FtxResponse<FtxConvertDto> getFtxConvertStatus(String subaccount, Integer quoteId)
+	      throws FtxException, IOException {
+
+	    try {
+	      return ftx.getConvertStatus(
+	          exchange.getExchangeSpecification().getApiKey(),
+	          exchange.getNonceFactory().createValue(),
+	          signatureCreator,
+	          subaccount,
+	          quoteId.toString());
+	    } catch (FtxException e) {
+	    	e.printStackTrace();
+	      throw new FtxException(e.getMessage());
+	    }
+	  }
+  
+  public FtxResponse<FtxConvertAcceptRequestDto> acceptFtxConvert(String subaccount, Integer quoteId)
+	      throws FtxException, IOException {
+
+	    try {
+	      return ftx.acceptConvert(
+	          exchange.getExchangeSpecification().getApiKey(),
+	          exchange.getNonceFactory().createValue(),
+	          signatureCreator,
+	          subaccount,
+	          quoteId.toString(),
+	          new FtxConvertAcceptPayloadRequestDto(quoteId));
+	    } catch (FtxException e) {
+	      throw new FtxException(e.getMessage());
+	    }
+	  }
 }
