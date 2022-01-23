@@ -161,14 +161,20 @@ public class KucoinAdapters {
     HashMap<String, CurrencyMetaData> stringCurrencyMetaDataMap = new HashMap<>();
     for (CurrenciesResponse currenciesResponse : list) {
       BigDecimal precision = currenciesResponse.getPrecision();
-      String withdrawalMinFee = currenciesResponse.getWithdrawalMinFee();
-      String withdrawalMinSize = currenciesResponse.getWithdrawalMinSize();
+      BigDecimal withdrawalMinFee = null;
+      BigDecimal withdrawalMinSize = null;
+      if (currenciesResponse.getWithdrawalMinFee() != null) {
+          withdrawalMinFee = new BigDecimal(currenciesResponse.getWithdrawalMinFee());
+      }
+      if (currenciesResponse.getWithdrawalMinSize() != null) {
+          withdrawalMinSize = new BigDecimal(currenciesResponse.getWithdrawalMinSize());
+      }
       WalletHealth walletHealth = getWalletHealth(currenciesResponse);
       CurrencyMetaData currencyMetaData =
           new CurrencyMetaData(
               precision.intValue(),
-              new BigDecimal(withdrawalMinFee),
-              new BigDecimal(withdrawalMinSize),
+              withdrawalMinFee,
+              withdrawalMinSize,
               walletHealth);
       stringCurrencyMetaDataMap.put(currenciesResponse.getCurrency(), currencyMetaData);
     }
