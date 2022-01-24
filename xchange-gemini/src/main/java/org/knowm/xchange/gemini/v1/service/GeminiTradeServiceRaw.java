@@ -10,7 +10,16 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.gemini.v1.GeminiOrderType;
 import org.knowm.xchange.gemini.v1.GeminiUtils;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
-import org.knowm.xchange.gemini.v1.dto.trade.*;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelAllOrdersRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelAllOrdersResponse;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelOrderRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewOrderRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiNonceOnlyRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderFlags;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiPastTradesRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class GeminiTradeServiceRaw extends GeminiBaseService {
@@ -111,27 +120,25 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
   }
 
   public GeminiCancelAllOrdersResponse cancelAllGeminiOrders(boolean sessionOnly, String accountId)
-          throws IOException {
+      throws IOException {
     try {
       if (sessionOnly) {
         return gemini.cancelAllSessionOrders(
-                apiKey,
-                payloadCreator,
-                signatureCreator,
-                new GeminiCancelAllOrdersRequest(
-                        String.valueOf(exchange.getNonceFactory().createValue()), accountId)
-        );
+            apiKey,
+            payloadCreator,
+            signatureCreator,
+            new GeminiCancelAllOrdersRequest(
+                String.valueOf(exchange.getNonceFactory().createValue()), accountId));
       } else {
         return gemini.cancelAllOrders(
-                apiKey,
-                payloadCreator,
-                signatureCreator,
-                new GeminiCancelAllOrdersRequest(
-                        String.valueOf(exchange.getNonceFactory().createValue()), accountId)
-        );
+            apiKey,
+            payloadCreator,
+            signatureCreator,
+            new GeminiCancelAllOrdersRequest(
+                String.valueOf(exchange.getNonceFactory().createValue()), accountId));
       }
     } catch (GeminiException e) {
-        throw handleException(e);
+      throw handleException(e);
     }
   }
 

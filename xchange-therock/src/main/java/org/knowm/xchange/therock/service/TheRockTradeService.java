@@ -122,7 +122,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
 
   @Override
   public Class[] getRequiredCancelOrderParamClasses() {
-    return new Class[]{CancelOrderByIdParams.class, CancelOrderByCurrencyPair.class};
+    return new Class[] {CancelOrderByIdParams.class, CancelOrderByCurrencyPair.class};
   }
 
   private boolean cancelOrder(CurrencyPair currencyPair, String orderId)

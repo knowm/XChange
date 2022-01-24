@@ -15,8 +15,8 @@ import org.knowm.xchange.binance.service.BinanceAccountService;
 
 public class BinanceExchangeIntegration {
   protected static BinanceExchange exchange;
-  @Rule
-  public WireMockRule wireMockRule = new WireMockRule();
+  @Rule public WireMockRule wireMockRule = new WireMockRule();
+
   @BeforeClass
   public static void beforeClass() throws Exception {
     createExchange();
@@ -48,7 +48,7 @@ public class BinanceExchangeIntegration {
 
   protected BinanceExchange createExchangeMocked() {
     BinanceExchange exchangeMocked =
-            ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BinanceExchange.class);
+        ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BinanceExchange.class);
     ExchangeSpecification specification = exchangeMocked.getDefaultExchangeSpecification();
     specification.setHost("localhost");
     specification.setSslUri("http://localhost:" + wireMockRule.port() + "/");

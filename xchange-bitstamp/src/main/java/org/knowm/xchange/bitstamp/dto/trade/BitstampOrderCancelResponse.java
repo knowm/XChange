@@ -1,15 +1,15 @@
 package org.knowm.xchange.bitstamp.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.currency.CurrencyPair;
-
 import java.math.BigDecimal;
+import org.knowm.xchange.currency.CurrencyPair;
 
 public class BitstampOrderCancelResponse {
 
   private long id;
   /** 0 - buy (bid); 1 - sell (ask) */
   private int type;
+
   private CurrencyPair currencyPair;
   private BigDecimal price;
   private BigDecimal amount;

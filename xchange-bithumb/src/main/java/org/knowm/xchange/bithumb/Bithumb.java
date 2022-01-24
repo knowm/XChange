@@ -8,7 +8,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bithumb.dto.BithumbResponse;
-import org.knowm.xchange.bithumb.dto.marketdata.*;
+import org.knowm.xchange.bithumb.dto.marketdata.BithumbOrderbook;
+import org.knowm.xchange.bithumb.dto.marketdata.BithumbOrderbookAll;
+import org.knowm.xchange.bithumb.dto.marketdata.BithumbTicker;
+import org.knowm.xchange.bithumb.dto.marketdata.BithumbTickersReturn;
+import org.knowm.xchange.bithumb.dto.marketdata.BithumbTransactionHistory;
 
 @Path("public")
 @Produces(MediaType.APPLICATION_JSON)

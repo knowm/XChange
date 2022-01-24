@@ -23,14 +23,13 @@
  */
 package org.knowm.xchange.coinmate.dto.trade;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 
 /** @author Martin Stachon */
 public class OrderHistoryJSONTest {

@@ -2,7 +2,6 @@ package org.knowm.xchange.service.trade;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
@@ -82,17 +81,17 @@ public interface TradeService extends BaseService {
   /**
    * Returns required cancel order parameter as classes
    *
-   * Different trading services requires different parameters for order cancellation.
-   * To provide generic operation of the trade service interface. This method returns {@link Class}
-   * of the parameter objects as an array. This class information can be utilized by the caller of
-   * {@link #cancelOrder(CancelOrderParams)} to create instances of the required parameters such as
-   * {@link CancelOrderByIdParams}, {@link CancelOrderByInstrument} etc...
+   * <p>Different trading services requires different parameters for order cancellation. To provide
+   * generic operation of the trade service interface. This method returns {@link Class} of the
+   * parameter objects as an array. This class information can be utilized by the caller of {@link
+   * #cancelOrder(CancelOrderParams)} to create instances of the required parameters such as {@link
+   * CancelOrderByIdParams}, {@link CancelOrderByInstrument} etc...
    *
    * @return Class types for the required parameter classes. Default implementation returns an array
-   * with a single {@link CancelOrderByIdParams} element
+   *     with a single {@link CancelOrderByIdParams} element
    */
   default Class[] getRequiredCancelOrderParamClasses() {
-    return new Class[]{CancelOrderByIdParams.class};
+    return new Class[] {CancelOrderByIdParams.class};
   }
 
   /** Get all openPositions of the exchange */

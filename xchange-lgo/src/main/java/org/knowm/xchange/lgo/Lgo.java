@@ -1,13 +1,24 @@
 package org.knowm.xchange.lgo;
 
 import java.io.IOException;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.lgo.dto.LgoException;
 import org.knowm.xchange.lgo.dto.WithCursor;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
-import org.knowm.xchange.lgo.dto.marketdata.*;
-import org.knowm.xchange.lgo.dto.order.*;
+import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
+import org.knowm.xchange.lgo.dto.marketdata.LgoPriceHistory;
+import org.knowm.xchange.lgo.dto.order.LgoEncryptedOrder;
+import org.knowm.xchange.lgo.dto.order.LgoPlaceOrderResponse;
+import org.knowm.xchange.lgo.dto.order.LgoUnencryptedOrder;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
 import si.mazi.rescu.ParamsDigest;

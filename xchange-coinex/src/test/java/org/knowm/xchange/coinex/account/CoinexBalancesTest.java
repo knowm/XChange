@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import org.junit.Test;
 import org.knowm.xchange.coinex.dto.CoinexResponse;

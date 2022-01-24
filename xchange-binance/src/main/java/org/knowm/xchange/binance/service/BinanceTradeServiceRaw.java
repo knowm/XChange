@@ -1,6 +1,8 @@
 package org.knowm.xchange.binance.service;
 
-import static org.knowm.xchange.binance.BinanceResilience.*;
+import static org.knowm.xchange.binance.BinanceResilience.ORDERS_PER_DAY_RATE_LIMITER;
+import static org.knowm.xchange.binance.BinanceResilience.ORDERS_PER_SECOND_RATE_LIMITER;
+import static org.knowm.xchange.binance.BinanceResilience.REQUEST_WEIGHT_RATE_LIMITER;
 import static org.knowm.xchange.client.ResilienceRegistries.NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME;
 
 import java.io.IOException;
@@ -191,18 +193,18 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
       CurrencyPair pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit)
       throws BinanceException, IOException {
     return decorateApiCall(
-        () ->
-            binance.myTrades(
-                BinanceAdapters.toSymbol(pair),
-                orderId,
-                startTime,
-                endTime,
-                fromId,
-                limit,
-                getRecvWindow(),
-                getTimestampFactory(),
-                apiKey,
-                signatureCreator))
+            () ->
+                binance.myTrades(
+                    BinanceAdapters.toSymbol(pair),
+                    orderId,
+                    startTime,
+                    endTime,
+                    fromId,
+                    limit,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
         .withRetry(retry("myTrades"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), myTradesPermits(limit))
         .call();
@@ -224,17 +226,18 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
   public BinanceDustLog getDustLog(Long startTime, Long endTime) throws IOException {
 
     if (((startTime != null) && (endTime == null)) || (startTime == null) && (endTime != null))
-      throw new ExchangeException("You need to specify both, the start and the end date, or none of them");
+      throw new ExchangeException(
+          "You need to specify both, the start and the end date, or none of them");
 
     return decorateApiCall(
-        () ->
-            binance.getDustLog(
-                startTime,
-                endTime,
-                getRecvWindow(),
-                getTimestampFactory(),
-                apiKey,
-                signatureCreator))
+            () ->
+                binance.getDustLog(
+                    startTime,
+                    endTime,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
         .withRetry(retry("myDustLog"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
         .call();

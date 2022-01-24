@@ -96,19 +96,34 @@ public class CoinmateOrder {
 
   @Override
   public String toString() {
-    return "CoinmateOrder{" +
-        "id=" + id +
-        ", timestamp=" + timestamp +
-        ", type='" + type + '\'' +
-        ", price=" + price +
-        ", remainingAmount=" + remainingAmount +
-        ", originalAmount=" + originalAmount +
-        ", stopPrice=" + stopPrice +
-        ", status='" + status + '\'' +
-        ", orderTradeType='" + orderTradeType + '\'' +
-        ", avgPrice=" + avgPrice +
-        ", stopLossOrderId=" + stopLossOrderId +
-        ", originalOrderId=" + originalOrderId +
-        '}';
+    return "CoinmateOrder{"
+        + "id="
+        + id
+        + ", timestamp="
+        + timestamp
+        + ", type='"
+        + type
+        + '\''
+        + ", price="
+        + price
+        + ", remainingAmount="
+        + remainingAmount
+        + ", originalAmount="
+        + originalAmount
+        + ", stopPrice="
+        + stopPrice
+        + ", status='"
+        + status
+        + '\''
+        + ", orderTradeType='"
+        + orderTradeType
+        + '\''
+        + ", avgPrice="
+        + avgPrice
+        + ", stopLossOrderId="
+        + stopLossOrderId
+        + ", originalOrderId="
+        + originalOrderId
+        + '}';
   }
 }

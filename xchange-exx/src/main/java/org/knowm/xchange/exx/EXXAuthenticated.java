@@ -2,7 +2,7 @@ package org.knowm.xchange.exx;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;

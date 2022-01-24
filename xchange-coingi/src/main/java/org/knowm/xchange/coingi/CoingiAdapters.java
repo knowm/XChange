@@ -2,7 +2,12 @@ package org.knowm.xchange.coingi;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.coingi.dto.account.CoingiBalance;
 import org.knowm.xchange.coingi.dto.account.CoingiBalances;
 import org.knowm.xchange.coingi.dto.account.CoingiUserTransaction;

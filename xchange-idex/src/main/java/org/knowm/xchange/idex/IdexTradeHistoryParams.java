@@ -1,6 +1,6 @@
 package org.knowm.xchange.idex;
 
-import java.util.*;
+import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.idex.dto.TradeHistoryReq;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;

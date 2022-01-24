@@ -54,35 +54,40 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
-    public String withdrawFunds(Currency currency, BigDecimal amount, String address, String addressTag)
-            throws IOException {
-        return withdrawFunds(new DefaultWithdrawFundsParams(address, addressTag, currency, amount, null));
+  public String withdrawFunds(
+      Currency currency, BigDecimal amount, String address, String addressTag) throws IOException {
+    return withdrawFunds(
+        new DefaultWithdrawFundsParams(address, addressTag, currency, amount, null));
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params)
+      throws ExchangeException, NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException, IOException {
+
+    BitstampWithdrawal response;
+
+    // XRP, XLM and HBAR add extra param to transaction address which will be the addressTag
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      response =
+          withdrawBitstampFunds(
+              defaultParams.getCurrency(),
+              defaultParams.getAmount(),
+              defaultParams.getAddress(),
+              defaultParams.getAddressTag());
+      if (response.error != null) {
+        throw new ExchangeException("Failed to withdraw: " + response.error);
+      }
+    } else {
+      throw new IllegalStateException("Unsupported WithdrawFundsParams sub class");
     }
 
-    @Override
-    public String withdrawFunds(WithdrawFundsParams params)
-            throws ExchangeException, NotAvailableFromExchangeException,
-            NotYetImplementedForExchangeException, IOException {
+    if (response.getId() == null) {
+      return null;
+    }
 
-        BitstampWithdrawal response;
-
-        // XRP, XLM and HBAR add extra param to transaction address which will be the addressTag
-        if (params instanceof DefaultWithdrawFundsParams) {
-            DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-            response = withdrawBitstampFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress(),  defaultParams.getAddressTag());
-            if (response.error != null) {
-                throw new ExchangeException("Failed to withdraw: " + response.error);
-            }
-        } else {
-            throw new IllegalStateException("Unsupported WithdrawFundsParams sub class");
-        }
-
-      if (response.getId() == null) {
-        return null;
-      }
-
-      return Long.toString(response.getId());
-
+    return Long.toString(response.getId());
   }
 
   /**

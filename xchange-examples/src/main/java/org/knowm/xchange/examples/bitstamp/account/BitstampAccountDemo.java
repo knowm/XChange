@@ -74,7 +74,9 @@ public class BitstampAccountDemo {
       System.out.println(unconfirmedDeposit);
     }
 
-    BitstampWithdrawal withdrawResult = accountService.withdrawBitstampFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "XXX");
+    BitstampWithdrawal withdrawResult =
+        accountService.withdrawBitstampFunds(
+            Currency.BTC, new BigDecimal(1).movePointLeft(4), "XXX");
     System.out.println("BitstampBooleanResponse = " + withdrawResult);
   }
 }

@@ -1,6 +1,8 @@
 package org.knowm.xchange.independentreserve.util;
 
-import static org.knowm.xchange.independentreserve.IndependentReserveAuthenticated.*;
+import static org.knowm.xchange.independentreserve.IndependentReserveAuthenticated.GetDigitalCurrencyDepositAddress;
+import static org.knowm.xchange.independentreserve.IndependentReserveAuthenticated.SynchDigitalCurrencyDepositAddressWithBlockchain;
+import static org.knowm.xchange.independentreserve.IndependentReserveAuthenticated.WithdrawDigitalCurrency;
 
 import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
 

@@ -5,7 +5,12 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cobinhood.CobinhoodAdapters;
 import org.knowm.xchange.cobinhood.CobinhoodException;
 import org.knowm.xchange.cobinhood.dto.CobinhoodResponse;
-import org.knowm.xchange.cobinhood.dto.marketdata.*;
+import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodCurrencies;
+import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodOrderBook;
+import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodTicker;
+import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodTickers;
+import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodTrades;
+import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodTradingPairs;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 

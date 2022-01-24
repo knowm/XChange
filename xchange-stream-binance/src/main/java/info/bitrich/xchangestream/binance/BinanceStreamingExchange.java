@@ -54,7 +54,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     if (userHigherFrequency) {
       orderBookUpdateFrequencyParameter = "@100ms";
     }
-    Object fetchOrderBookLimit = exchangeSpecification.getExchangeSpecificParametersItem(FETCH_ORDER_BOOK_LIMIT);
+    Object fetchOrderBookLimit =
+        exchangeSpecification.getExchangeSpecificParametersItem(FETCH_ORDER_BOOK_LIMIT);
     if (fetchOrderBookLimit instanceof Integer) {
       oderBookFetchLimitParameter = (int) fetchOrderBookLimit;
     }
@@ -125,7 +126,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   private Completable createAndConnectUserDataService(String listenKey) {
-    userDataStreamingService = BinanceUserDataStreamingService.create(getStreamingBaseUri(), listenKey);
+    userDataStreamingService =
+        BinanceUserDataStreamingService.create(getStreamingBaseUri(), listenKey);
     return userDataStreamingService
         .connect()
         .doOnComplete(
@@ -203,7 +205,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   protected BinanceStreamingService createStreamingService(ProductSubscription subscription) {
-    String path = getStreamingBaseUri() + "stream?streams=" + buildSubscriptionStreams(subscription);
+    String path =
+        getStreamingBaseUri() + "stream?streams=" + buildSubscriptionStreams(subscription);
     return new BinanceStreamingService(path, subscription);
   }
 

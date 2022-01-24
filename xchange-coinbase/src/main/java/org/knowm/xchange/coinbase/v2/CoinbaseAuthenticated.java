@@ -13,7 +13,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
-import org.knowm.xchange.coinbase.v2.dto.account.*;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountsData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseBuyData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseSellData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
 import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellResponse;
 import si.mazi.rescu.ParamsDigest;
 

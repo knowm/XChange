@@ -9,10 +9,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.ascendex.dto.AscendexResponse;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexAssetDto;
+import org.knowm.xchange.ascendex.dto.marketdata.AscendexBarHistDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexMarketTradesDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexOrderbookDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexProductDto;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexBarHistDto;
 
 @Path("api/pro/v1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -38,9 +38,11 @@ public interface IAscendex {
 
   @GET
   @Path("/barhist")
-  AscendexResponse<List<AscendexBarHistDto>> getHistoricalBarData(@QueryParam("symbol") String symbol,
-                                                                  @QueryParam("interval") String internal,
-                                                                  @QueryParam("to") Long to,
-                                                                  @QueryParam("from") Long from,
-                                                                  @QueryParam("n") Integer noOfBars) throws IOException;
+  AscendexResponse<List<AscendexBarHistDto>> getHistoricalBarData(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("interval") String internal,
+      @QueryParam("to") Long to,
+      @QueryParam("from") Long from,
+      @QueryParam("n") Integer noOfBars)
+      throws IOException;
 }

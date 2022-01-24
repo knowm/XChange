@@ -1,6 +1,11 @@
 package info.bitrich.xchangestream.dydx;
 
-import static org.knowm.xchange.currency.Currency.*;
+import static org.knowm.xchange.currency.Currency.DAI;
+import static org.knowm.xchange.currency.Currency.PBTC;
+import static org.knowm.xchange.currency.Currency.PLINK;
+import static org.knowm.xchange.currency.Currency.USD;
+import static org.knowm.xchange.currency.Currency.USDC;
+import static org.knowm.xchange.currency.Currency.WETH;
 
 import java.math.BigDecimal;
 import java.util.Collections;

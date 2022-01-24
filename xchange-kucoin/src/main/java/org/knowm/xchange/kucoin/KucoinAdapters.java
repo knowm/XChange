@@ -1,10 +1,15 @@
 package org.knowm.xchange.kucoin;
 
 import static java.util.stream.Collectors.toCollection;
-import static org.knowm.xchange.dto.Order.OrderStatus.*;
+import static org.knowm.xchange.dto.Order.OrderStatus.CANCELED;
+import static org.knowm.xchange.dto.Order.OrderStatus.NEW;
+import static org.knowm.xchange.dto.Order.OrderStatus.PARTIALLY_FILLED;
+import static org.knowm.xchange.dto.Order.OrderStatus.UNKNOWN;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
-import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.*;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.HIDDEN;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.ICEBERG;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.POST_ONLY;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
@@ -12,7 +17,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
@@ -30,7 +41,11 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.*;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
@@ -38,7 +53,19 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
-import org.knowm.xchange.kucoin.dto.response.*;
+import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
+import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
+import org.knowm.xchange.kucoin.dto.response.CurrenciesResponse;
+import org.knowm.xchange.kucoin.dto.response.DepositResponse;
+import org.knowm.xchange.kucoin.dto.response.HistOrdersResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderResponse;
+import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
+import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeFeeResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeHistoryResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeResponse;
+import org.knowm.xchange.kucoin.dto.response.WithdrawalResponse;
 
 public class KucoinAdapters {
 
@@ -164,18 +191,15 @@ public class KucoinAdapters {
       BigDecimal withdrawalMinFee = null;
       BigDecimal withdrawalMinSize = null;
       if (currenciesResponse.getWithdrawalMinFee() != null) {
-          withdrawalMinFee = new BigDecimal(currenciesResponse.getWithdrawalMinFee());
+        withdrawalMinFee = new BigDecimal(currenciesResponse.getWithdrawalMinFee());
       }
       if (currenciesResponse.getWithdrawalMinSize() != null) {
-          withdrawalMinSize = new BigDecimal(currenciesResponse.getWithdrawalMinSize());
+        withdrawalMinSize = new BigDecimal(currenciesResponse.getWithdrawalMinSize());
       }
       WalletHealth walletHealth = getWalletHealth(currenciesResponse);
       CurrencyMetaData currencyMetaData =
           new CurrencyMetaData(
-              precision.intValue(),
-              withdrawalMinFee,
-              withdrawalMinSize,
-              walletHealth);
+              precision.intValue(), withdrawalMinFee, withdrawalMinSize, walletHealth);
       stringCurrencyMetaDataMap.put(currenciesResponse.getCurrency(), currencyMetaData);
     }
     return stringCurrencyMetaDataMap;

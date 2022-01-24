@@ -42,8 +42,7 @@ public class CoinmateOrderHistoryEntry {
       @JsonProperty("hidden") boolean hidden,
       @JsonProperty("avgPrice") BigDecimal avgPrice,
       @JsonProperty("stopLossOrderId") String stopLossOrderId,
-      @JsonProperty("originalOrderId") String originalOrderId
-      ) {
+      @JsonProperty("originalOrderId") String originalOrderId) {
 
     this.id = id;
     this.timestamp = timestamp;
@@ -136,5 +135,4 @@ public class CoinmateOrderHistoryEntry {
   public String getOrderTradeType() {
     return orderTradeType;
   }
-
 }

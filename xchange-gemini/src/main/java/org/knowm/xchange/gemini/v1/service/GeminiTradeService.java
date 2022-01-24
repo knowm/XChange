@@ -6,7 +6,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -36,9 +37,6 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.DateUtils;
-
-import lombok.Getter;
-import lombok.Setter;
 
 public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeService {
 
@@ -111,11 +109,14 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
   @Override
   public Collection<String> cancelAllOrders(CancelAllOrders orderParams) throws IOException {
     if (orderParams instanceof GeminiCancelAllOrdersParams) {
-      return Arrays.stream(cancelAllGeminiOrders(
-              ((GeminiCancelAllOrdersParams) orderParams).isSessionOnly(),
-              ((GeminiCancelAllOrdersParams) orderParams).getAccount()).getDetails().getCancelledOrders()).mapToObj(
-              id -> String.valueOf(id)
-      ).collect(Collectors.toList());
+      return Arrays.stream(
+              cancelAllGeminiOrders(
+                      ((GeminiCancelAllOrdersParams) orderParams).isSessionOnly(),
+                      ((GeminiCancelAllOrdersParams) orderParams).getAccount())
+                  .getDetails()
+                  .getCancelledOrders())
+          .mapToObj(id -> String.valueOf(id))
+          .collect(Collectors.toList());
     } else {
       return null;
     }

@@ -33,8 +33,13 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
-import org.knowm.xchange.gateio.dto.marketdata.*;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCoin;
+import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
+import org.knowm.xchange.gateio.dto.marketdata.GateioFeeInfo;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
+import org.knowm.xchange.gateio.dto.marketdata.GateioPublicOrder;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrder;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
@@ -242,7 +247,7 @@ public final class GateioAdapters {
       currencyPairs.put(currencyPair, currencyPairMetaData);
     }
 
-    if(marketDataService.getApiKey() != null) {
+    if (marketDataService.getApiKey() != null) {
       Map<String, GateioFeeInfo> gateioFees = marketDataService.getGateioFees();
       Map<String, GateioCoin> coins = marketDataService.getGateioCoinInfo().getCoins();
       for (String coin : coins.keySet()) {

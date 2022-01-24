@@ -7,8 +7,21 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coingi.dto.CoingiException;
-import org.knowm.xchange.coingi.dto.account.*;
-import org.knowm.xchange.coingi.dto.trade.*;
+import org.knowm.xchange.coingi.dto.account.CoingiBalanceRequest;
+import org.knowm.xchange.coingi.dto.account.CoingiBalances;
+import org.knowm.xchange.coingi.dto.account.CoingiDepositWalletRequest;
+import org.knowm.xchange.coingi.dto.account.CoingiDepositWalletResponse;
+import org.knowm.xchange.coingi.dto.account.CoingiUserTransactionList;
+import org.knowm.xchange.coingi.dto.account.CoingiWithdrawalRequest;
+import org.knowm.xchange.coingi.dto.account.CoingiWithdrawalResponse;
+import org.knowm.xchange.coingi.dto.trade.CoingiCancelOrderRequest;
+import org.knowm.xchange.coingi.dto.trade.CoingiGetOrderHistoryRequest;
+import org.knowm.xchange.coingi.dto.trade.CoingiGetOrderRequest;
+import org.knowm.xchange.coingi.dto.trade.CoingiOrder;
+import org.knowm.xchange.coingi.dto.trade.CoingiOrdersList;
+import org.knowm.xchange.coingi.dto.trade.CoingiPlaceLimitOrderRequest;
+import org.knowm.xchange.coingi.dto.trade.CoingiPlaceOrderResponse;
+import org.knowm.xchange.coingi.dto.trade.CoingiTransactionHistoryRequest;
 
 @Path("user")
 @Consumes(MediaType.APPLICATION_JSON)
