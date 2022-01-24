@@ -224,6 +224,10 @@ public interface TradeService extends BaseService {
     throw new NotYetImplementedForExchangeException("cancelOrder");
   }
 
+  default Collection<String> cancelAllOpenOrders(CancelAllOrders orderParams) throws IOException {
+    throw new NotYetImplementedForExchangeException("cancelAllOpenOrders");
+  }
+
   /**
    * Fetch the history of user trades.
    *

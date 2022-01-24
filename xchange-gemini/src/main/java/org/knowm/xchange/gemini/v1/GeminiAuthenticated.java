@@ -19,13 +19,7 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelOrderRequest;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewOrderRequest;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiNonceOnlyRequest;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusRequest;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiPastTradesRequest;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
+import org.knowm.xchange.gemini.v1.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("v1")
@@ -58,6 +52,23 @@ public interface GeminiAuthenticated extends Gemini {
       @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
       GeminiCancelOrderRequest cancelOrderRequest)
+      throws IOException, GeminiException;
+
+  @POST
+  @Path("order/cancel/session")
+  GeminiCancelAllOrdersResponse cancelAllSessionOrders(
+          @HeaderParam("X-GEMINI-APIKEY") String apiKey,
+          @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
+          @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
+          GeminiCancelAllOrdersRequest cancelAllOrdersRequest)
+          throws IOException, GeminiException;
+  @POST
+  @Path("order/cancel/all")
+  GeminiCancelAllOrdersResponse cancelAllOrders(
+      @HeaderParam("X-GEMINI-APIKEY") String apiKey,
+      @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
+      GeminiCancelAllOrdersRequest cancelAllOrdersRequest)
       throws IOException, GeminiException;
 
   @POST
