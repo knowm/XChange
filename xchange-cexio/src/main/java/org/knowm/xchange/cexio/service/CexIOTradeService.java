@@ -6,7 +6,10 @@ import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAdapters;
-import org.knowm.xchange.cexio.dto.trade.*;
+import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOCancelReplaceOrderResponse;
+import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -132,8 +135,7 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-
-    List<Order> orders = new ArrayList<>();
+    List<Order> orders = new ArrayList<>(orderQueryParams.length);
     for (OrderQueryParams params : orderQueryParams) {
       CexIOOpenOrder cexIOOrder = getOrderDetail(params.getOrderId());
       orders.add(CexIOAdapters.adaptOrder(cexIOOrder));

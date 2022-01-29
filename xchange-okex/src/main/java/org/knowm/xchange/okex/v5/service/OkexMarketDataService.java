@@ -37,4 +37,10 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
     return OkexAdapters.adaptTrades(
         getOkexTrades(OkexAdapters.adaptCurrencyPairId(instrument), 100).getData(), instrument);
   }
+
+  @Override
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    return OkexAdapters.adaptTrades(
+        getOkexTrades(OkexAdapters.adaptCurrencyPairId(currencyPair), 100).getData(), currencyPair);
+  }
 }

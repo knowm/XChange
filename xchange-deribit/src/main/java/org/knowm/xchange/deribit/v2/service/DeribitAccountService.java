@@ -8,7 +8,10 @@ import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.deribit.v2.DeribitAdapters;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
-import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.OpenPosition;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.service.account.AccountService;
 
 public class DeribitAccountService extends DeribitAccountServiceRaw implements AccountService {

@@ -1,7 +1,9 @@
 package info.bitrich.xchangestream.lgo.domain;
 
-import com.fasterxml.jackson.annotation.*;
-import java.util.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Date;
+import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 

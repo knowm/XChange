@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceTradeService;
@@ -60,11 +59,11 @@ public class BinanceTradeDemo {
     // Cancel order
     if (order != null) {
       List<Class> classList =
-              Arrays.asList(exchange.getTradeService().getRequiredCancelOrderParamClasses());
+          Arrays.asList(exchange.getTradeService().getRequiredCancelOrderParamClasses());
 
       CancelOrderParams cancelParam = new DefaultCancelOrderParamId(order.getId());
-      if (classList.contains(CancelOrderByCurrencyPair.class) &&
-              classList.contains(CancelOrderByIdParams.class)) {
+      if (classList.contains(CancelOrderByCurrencyPair.class)
+          && classList.contains(CancelOrderByIdParams.class)) {
         cancelParam = new DefaultCancelOrderByCurrencyPairAndIdParams(pair, order.getId());
       }
 

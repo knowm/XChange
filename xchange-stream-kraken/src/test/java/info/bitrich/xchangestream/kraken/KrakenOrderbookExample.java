@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.kraken;
 
-import static org.knowm.xchange.currency.CurrencyPair.*;
+import static org.knowm.xchange.currency.CurrencyPair.BTC_USD;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;

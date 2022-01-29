@@ -139,7 +139,7 @@ public class BankeraTradeService extends BankeraTradeServiceRaw implements Trade
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    List<Order> orders = new ArrayList<>();
+    List<Order> orders = new ArrayList<>(orderQueryParams.length);
 
     for (OrderQueryParams orderQueryParam : orderQueryParams) {
       BankeraOrder order = getUserOrder(orderQueryParam.getOrderId());

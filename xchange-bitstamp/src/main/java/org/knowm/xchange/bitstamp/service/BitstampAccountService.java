@@ -19,7 +19,6 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -55,56 +54,40 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
+  public String withdrawFunds(
+      Currency currency, BigDecimal amount, String address, String addressTag) throws IOException {
+    return withdrawFunds(
+        new DefaultWithdrawFundsParams(address, addressTag, currency, amount, null));
+  }
+
   @Override
   public String withdrawFunds(WithdrawFundsParams params)
       throws ExchangeException, NotAvailableFromExchangeException,
           NotYetImplementedForExchangeException, IOException {
-    if (params instanceof RippleWithdrawFundsParams) {
-      RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
 
-      BitstampWithdrawal response =
-          withdrawRippleFunds(
-              rippleWithdrawFundsParams.getAmount(),
-              rippleWithdrawFundsParams.getAddress(),
-              rippleWithdrawFundsParams.getTag());
+    BitstampWithdrawal response;
 
-      if (response.error != null) {
-        throw new ExchangeException("Failed to withdraw: " + response.error);
-      }
-
-      if (response.getId() == null) {
-        return null;
-      }
-
-      return Long.toString(response.getId());
-    } else if (params instanceof DefaultWithdrawFundsParams) {
+    // XRP, XLM and HBAR add extra param to transaction address which will be the addressTag
+    if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-
-      BitstampWithdrawal response;
-      if (defaultParams.getCurrency().equals(Currency.LTC)) {
-        response = withdrawLtcFunds(defaultParams.getAmount(), defaultParams.getAddress());
-      } else if (defaultParams.getCurrency().equals(Currency.ETH)) {
-        response = withdrawEthFunds(defaultParams.getAmount(), defaultParams.getAddress());
-      } else if (defaultParams.getCurrency().equals(Currency.BTC)) {
-        response = withdrawBtcFunds(defaultParams.getAmount(), defaultParams.getAddress());
-      } else if (defaultParams.getCurrency().equals(Currency.BCH)) {
-        response = withdrawBchFunds(defaultParams.getAmount(), defaultParams.getAddress());
-      } else {
-        throw new IllegalStateException("Cannot withdraw " + defaultParams.getCurrency());
-      }
-
+      response =
+          withdrawBitstampFunds(
+              defaultParams.getCurrency(),
+              defaultParams.getAmount(),
+              defaultParams.getAddress(),
+              defaultParams.getAddressTag());
       if (response.error != null) {
         throw new ExchangeException("Failed to withdraw: " + response.error);
       }
-
-      if (response.getId() == null) {
-        return null;
-      }
-
-      return Long.toString(response.getId());
+    } else {
+      throw new IllegalStateException("Unsupported WithdrawFundsParams sub class");
     }
 
-    throw new IllegalStateException("Don't know how to withdraw: " + params);
+    if (response.getId() == null) {
+      return null;
+    }
+
+    return Long.toString(response.getId());
   }
 
   /**
@@ -118,7 +101,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     } else if (currency.equals(Currency.LTC)) {
       return getBitstampLitecoinDepositAddress().getDepositAddress();
     } else if (currency.equals(Currency.XRP)) {
-      return getRippleDepositAddress().getAddressAndDt();
+      return getXRPDepositAddress().getAddressAndDt();
     } else if (currency.equals(Currency.BCH)) {
       return getBitstampBitcoinCashDepositAddress().getDepositAddress();
     } else if (currency.equals(Currency.ETH)) {
@@ -135,7 +118,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     } else if (currency.equals(Currency.LTC)) {
       return getBitstampLitecoinDepositAddress();
     } else if (currency.equals(Currency.XRP)) {
-      return getRippleDepositAddress();
+      return getXRPDepositAddress();
     } else if (currency.equals(Currency.BCH)) {
       return getBitstampBitcoinCashDepositAddress();
     } else if (currency.equals(Currency.ETH)) {

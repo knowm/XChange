@@ -7,7 +7,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
-import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.huobi.HuobiAdapters;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;

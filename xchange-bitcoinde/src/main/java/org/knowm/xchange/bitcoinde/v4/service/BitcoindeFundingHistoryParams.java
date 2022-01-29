@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeAccountLedgerType;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 
 @Data
 @NoArgsConstructor

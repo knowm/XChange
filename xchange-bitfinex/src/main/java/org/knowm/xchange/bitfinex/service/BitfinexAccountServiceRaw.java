@@ -167,6 +167,10 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
       type = "litecoin";
     } else if ("ETH".equalsIgnoreCase(currency)) {
       type = "ethereum";
+    } else if ("ETC".equalsIgnoreCase(currency)) {
+      type = "ethereumc";
+    } else if ("CLO".equalsIgnoreCase(currency)) {
+      type = "clo";
     } else if ("IOT".equalsIgnoreCase(currency)) {
       type = "iota";
     } else if ("BCH".equalsIgnoreCase(currency)) {

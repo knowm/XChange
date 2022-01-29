@@ -10,6 +10,7 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
+import org.knowm.xchange.okex.v5.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexOrderbook;
@@ -86,5 +87,18 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
             (String)
                 exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
     return books;
+  }
+
+  public OkexResponse<List<OkexCandleStick>> getHistoryCandle(
+      String instrument, String after, String before, String bar, String limit)
+      throws OkexException, IOException {
+    return okex.getHistoryCandles(
+        instrument,
+        after,
+        before,
+        bar,
+        limit,
+        (String)
+            exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
   }
 }

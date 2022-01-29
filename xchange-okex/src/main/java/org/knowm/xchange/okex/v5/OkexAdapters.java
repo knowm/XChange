@@ -1,5 +1,18 @@
 package org.knowm.xchange.okex.v5;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -15,6 +28,8 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
@@ -28,16 +43,37 @@ import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.*;
-import java.util.stream.Collectors;
-
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAdapters {
 
   private static final String TRADING_WALLET_ID = "trading";
   private static final String FOUNDING_WALLET_ID = "founding";
+
+  public static UserTrades adaptUserTrades(List<OkexOrderDetails> okexTradeHistory) {
+    List<UserTrade> userTradeList = new ArrayList<>();
+
+    okexTradeHistory.forEach(
+        okexOrderDetails -> {
+          userTradeList.add(
+              new UserTrade.Builder()
+                  .originalAmount(new BigDecimal(okexOrderDetails.getAmount()))
+                  .instrument(new CurrencyPair(okexOrderDetails.getInstrumentId()))
+                  .currencyPair(new CurrencyPair(okexOrderDetails.getInstrumentId()))
+                  .price(new BigDecimal(okexOrderDetails.getAverageFilledPrice()))
+                  .type(adaptOkexOrderSideToOrderType(okexOrderDetails.getSide()))
+                  .id(okexOrderDetails.getOrderId())
+                  .orderId(okexOrderDetails.getOrderId())
+                  .timestamp(
+                      Date.from(
+                          Instant.ofEpochMilli(Long.parseLong(okexOrderDetails.getUpdateTime()))))
+                  .feeAmount(new BigDecimal(okexOrderDetails.getFee()))
+                  .feeCurrency(new Currency(okexOrderDetails.getFeeCurrency()))
+                  .orderUserReference(okexOrderDetails.getClientOrderId())
+                  .build());
+        });
+
+    return new UserTrades(userTradeList, Trades.TradeSortType.SortByTimestamp);
+  }
 
   public static Order adaptOrder(OkexOrderDetails order) {
     return new LimitOrder(
@@ -77,7 +113,8 @@ public class OkexAdapters {
                         new BigDecimal(order.getFee()),
                         "live".equals(order.getState())
                             ? Order.OrderStatus.OPEN
-                            : Order.OrderStatus.valueOf(order.getState().toUpperCase(Locale.ENGLISH)),
+                            : Order.OrderStatus.valueOf(
+                                order.getState().toUpperCase(Locale.ENGLISH)),
                         null))
             .collect(Collectors.toList());
     return new OpenOrders(openOrders);
@@ -222,7 +259,7 @@ public class OkexAdapters {
       currencyPairs.put(
           pair,
           new CurrencyPairMetaData(
-              new BigDecimal(makerFee).negate(),
+              new BigDecimal("0.50"),
               new BigDecimal(instrument.getMinSize()),
               null,
               null,
@@ -270,7 +307,7 @@ public class OkexAdapters {
                       new Balance.Builder()
                           .currency(new Currency(detail.getCurrency()))
                           .total(new BigDecimal(detail.getCashBalance()))
-                          .available(new BigDecimal(detail.getAvailableBalance()))
+                          .available(checkForEmpty(detail.getAvailableBalance()))
                           .timestamp(new Date())
                           .build())
               .collect(Collectors.toList());
@@ -291,7 +328,7 @@ public class OkexAdapters {
                     new Balance.Builder()
                         .currency(new Currency(detail.getCurrency()))
                         .total(new BigDecimal(detail.getBalance()))
-                        .available(new BigDecimal(detail.getAvailableBalance()))
+                        .available(checkForEmpty(detail.getAvailableBalance()))
                         .timestamp(new Date())
                         .build())
             .collect(Collectors.toList());
@@ -300,5 +337,9 @@ public class OkexAdapters {
         .id(FOUNDING_WALLET_ID)
         .features(new HashSet<>(Collections.singletonList(Wallet.WalletFeature.FUNDING)))
         .build();
+  }
+
+  private static BigDecimal checkForEmpty(String value) {
+    return StringUtils.isEmpty(value) ? null : new BigDecimal(value);
   }
 }

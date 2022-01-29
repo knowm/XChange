@@ -1,6 +1,12 @@
 package org.knowm.xchange.okex.v5.service;
 
-import static org.knowm.xchange.okex.v5.OkexAuthenticated.*;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.amendBatchOrderPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.amendOrderPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.cancelBatchOrderPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.cancelOrderPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.orderDetailsPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.placeBatchOrderPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.placeOrderPath;
 
 import java.io.IOException;
 import java.util.Date;
@@ -103,6 +109,7 @@ public class OkexTradeServiceRaw extends OkexBaseService {
                       instrumentType,
                       instrumentId,
                       orderType,
+                      "filled",
                       after,
                       before,
                       limit,

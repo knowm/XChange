@@ -10,7 +10,6 @@ import static org.knowm.xchange.idex.IdexSignature.generateSignature;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;

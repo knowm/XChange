@@ -2,11 +2,13 @@ package info.bitrich.xchangestream.lgo.domain;
 
 import info.bitrich.xchangestream.lgo.dto.LgoLevel2Data;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 
 public class LgoGroupedLevel2Update {
 
