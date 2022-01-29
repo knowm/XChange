@@ -149,7 +149,7 @@ public class OkexAccountServiceRaw extends OkexBaseService {
                                       exchange
                                               .getExchangeSpecification()
                                               .getExchangeSpecificParametersItem("simulated")))
-              .withRateLimiter(rateLimiter(currenciesPath))
+              .withRateLimiter(rateLimiter(okexAuthenticated.currenciesPath))
               .call();
     } catch (OkexException e) {
       throw handleError(e);
