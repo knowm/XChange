@@ -1,12 +1,5 @@
 package org.knowm.xchange.coinsuper.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinsuper.CoinsuperAdapters;
 import org.knowm.xchange.coinsuper.dto.CoinsuperResponse;
@@ -27,6 +20,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
+
+import java.io.IOException;
+import java.util.*;
 
 public class CoinsuperTradeService extends CoinsuperTradeServiceRaw implements TradeService {
   public CoinsuperTradeService(Exchange exchange) {
@@ -143,9 +139,11 @@ public class CoinsuperTradeService extends CoinsuperTradeServiceRaw implements T
 
     Map<String, String> parameters = new HashMap<>();
     StringBuilder builder = new StringBuilder();
-    for (String orderId : orderIds) {
-      builder.append(orderId);
-      builder.append(",");
+    for (int index = 0; index < orderIds.length; index++) {
+      builder.append(orderIds[index]);
+      if (index < orderIds.length - 1) {
+        builder.append(",");
+      }
     }
     parameters.put("orderNoList", builder.toString());
     // without translation
