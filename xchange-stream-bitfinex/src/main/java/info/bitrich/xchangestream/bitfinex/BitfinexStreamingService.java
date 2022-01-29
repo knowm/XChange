@@ -157,10 +157,10 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
         case SUBSCRIBED:
           {
             String channel = message.get("channel").asText();
-            String pair = message.get("pair").asText();
+            String symbol = message.get("symbol").asText();
             String channelId = message.get(CHANNEL_ID).asText();
             try {
-              String subscriptionUniqueId = getSubscriptionUniqueId(channel, pair);
+              String subscriptionUniqueId = getSubscriptionUniqueId(channel, symbol);
               subscribedChannels.put(channelId, subscriptionUniqueId);
               LOG.debug("Register channel {}: {}", subscriptionUniqueId, channelId);
             } catch (Exception e) {

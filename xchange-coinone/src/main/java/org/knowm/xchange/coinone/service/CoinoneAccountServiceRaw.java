@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinone.dto.CoinoneException;
-import org.knowm.xchange.coinone.dto.account.*;
+import org.knowm.xchange.coinone.dto.account.CoinoneBalancesRequest;
+import org.knowm.xchange.coinone.dto.account.CoinoneBalancesResponse;
+import org.knowm.xchange.coinone.dto.account.CoinoneWithdrawRequest;
+import org.knowm.xchange.coinone.dto.account.CoinoneWithdrawResponse;
 import org.knowm.xchange.currency.Currency;
 
 public class CoinoneAccountServiceRaw extends CoinoneBaseService {

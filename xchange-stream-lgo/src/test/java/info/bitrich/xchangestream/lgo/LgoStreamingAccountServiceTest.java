@@ -1,7 +1,10 @@
 package info.bitrich.xchangestream.lgo;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.reactivex.Observable;
@@ -11,7 +14,8 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 
 public class LgoStreamingAccountServiceTest {
 

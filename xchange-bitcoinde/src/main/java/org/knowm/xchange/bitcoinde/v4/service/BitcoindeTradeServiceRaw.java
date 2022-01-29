@@ -1,7 +1,8 @@
 package org.knowm.xchange.bitcoinde.v4.service;
 
-import static org.knowm.xchange.bitcoinde.BitcoindeUtils.*;
+import static org.knowm.xchange.bitcoinde.BitcoindeUtils.createBitcoindeBoolean;
 import static org.knowm.xchange.bitcoinde.BitcoindeUtils.createBitcoindePair;
+import static org.knowm.xchange.bitcoinde.BitcoindeUtils.createBitcoindeType;
 import static org.knowm.xchange.bitcoinde.BitcoindeUtils.rfc3339Timestamp;
 
 import java.io.IOException;

@@ -9,6 +9,7 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.OkexAdapters;
@@ -22,6 +23,12 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
@@ -32,9 +39,73 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   }
 
   @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    if (params instanceof TradeHistoryParamInstrument) {
+      return OkexAdapters.adaptUserTrades(
+          getOrderHistory(
+                  "SPOT",
+                  OkexAdapters.adaptInstrumentId(
+                      ((TradeHistoryParamInstrument) params).getInstrument()),
+                  null,
+                  null,
+                  null,
+                  null)
+              .getData());
+    } else if (params instanceof TradeHistoryParamCurrencyPair) {
+      return OkexAdapters.adaptUserTrades(
+          getOrderHistory(
+                  "SPOT",
+                  OkexAdapters.adaptInstrumentId(
+                      ((TradeHistoryParamCurrencyPair) params).getCurrencyPair()),
+                  null,
+                  null,
+                  null,
+                  null)
+              .getData());
+    } else {
+      return OkexAdapters.adaptUserTrades(
+          getOrderHistory("SPOT", null, null, null, null, null).getData());
+    }
+  }
+
+  @Override
   public OpenOrders getOpenOrders() throws IOException {
     return OkexAdapters.adaptOpenOrders(
         getOkexPendingOrder(null, null, null, null, null, null, null, null).getData());
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    if (params instanceof OpenOrdersParamCurrencyPair) {
+      return OkexAdapters.adaptOpenOrders(
+          getOkexPendingOrder(
+                  null,
+                  null,
+                  OkexAdapters.adaptInstrumentId(
+                      ((OpenOrdersParamCurrencyPair) params).getCurrencyPair()),
+                  null,
+                  null,
+                  null,
+                  null,
+                  null)
+              .getData());
+    } else if (params instanceof OpenOrdersParamInstrument) {
+      return OkexAdapters.adaptOpenOrders(
+          getOkexPendingOrder(
+                  null,
+                  null,
+                  OkexAdapters.adaptInstrumentId(
+                      ((OpenOrdersParamInstrument) params).getInstrument()),
+                  null,
+                  null,
+                  null,
+                  null,
+                  null)
+              .getData());
+    } else {
+      return OkexAdapters.adaptOpenOrders(
+          getOkexPendingOrder(null, null, null, null, null, null, null, null).getData());
+    }
   }
 
   @Override
@@ -129,7 +200,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
   @Override
   public Class[] getRequiredCancelOrderParamClasses() {
-    return new Class[]{CancelOrderByIdParams.class, CancelOrderByInstrument.class};
+    return new Class[] {CancelOrderByIdParams.class, CancelOrderByInstrument.class};
   }
 
   public List<Boolean> cancelOrder(List<CancelOrderParams> params) throws IOException {

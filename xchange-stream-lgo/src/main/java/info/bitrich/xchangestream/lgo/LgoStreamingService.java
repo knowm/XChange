@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.lgo;
 
-import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.*;
+import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.lgo.dto.LgoSubscription;

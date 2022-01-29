@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.lgo.domain;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 import info.bitrich.xchangestream.lgo.LgoAdapter;
 import info.bitrich.xchangestream.lgo.dto.LgoTrade;

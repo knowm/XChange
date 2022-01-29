@@ -9,6 +9,15 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.*;
 
@@ -30,7 +39,7 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByCurrencyPair) {
       cancelAllAscendexOrdersBySymbol(
-              ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair().toString());
+          ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair().toString());
       return true;
     } else {
       throw new IOException(
@@ -40,7 +49,7 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
 
   @Override
   public Class[] getRequiredCancelOrderParamClasses() {
-    return new Class[]{CancelOrderByCurrencyPair.class};
+    return new Class[] {CancelOrderByCurrencyPair.class};
   }
 
   @Override

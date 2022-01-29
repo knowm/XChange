@@ -2,13 +2,23 @@ package org.knowm.xchange.deribit.v2.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.DeribitAdapters;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.Kind;
-import org.knowm.xchange.deribit.v2.dto.trade.*;
+import org.knowm.xchange.deribit.v2.dto.trade.AdvancedOptions;
+import org.knowm.xchange.deribit.v2.dto.trade.OrderFlags;
+import org.knowm.xchange.deribit.v2.dto.trade.OrderPlacement;
+import org.knowm.xchange.deribit.v2.dto.trade.OrderState;
+import org.knowm.xchange.deribit.v2.dto.trade.OrderType;
+import org.knowm.xchange.deribit.v2.dto.trade.TimeInForce;
+import org.knowm.xchange.deribit.v2.dto.trade.Trigger;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.account.OpenPositions;
@@ -21,8 +31,21 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.*;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class DeribitTradeService extends DeribitTradeServiceRaw implements TradeService {
 
@@ -215,9 +238,7 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
 
   @Override
   public Class[] getRequiredCancelOrderParamClasses() {
-    return new Class[]{
-            CancelOrderByIdParams.class,
-            CancelOrderByUserReferenceParams.class};
+    return new Class[] {CancelOrderByIdParams.class, CancelOrderByUserReferenceParams.class};
   }
 
   @Override

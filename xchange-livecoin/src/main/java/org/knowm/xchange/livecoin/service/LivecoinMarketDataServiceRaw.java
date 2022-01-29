@@ -8,7 +8,11 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.LivecoinExchange;
-import org.knowm.xchange.livecoin.dto.marketdata.*;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinAllOrderBooks;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 
 public class LivecoinMarketDataServiceRaw extends LivecoinBaseService {
 

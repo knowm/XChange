@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceTradeService;
@@ -17,6 +16,12 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.*;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderByCurrencyPairAndIdParams;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.utils.StreamUtils;
 
 public class BinanceTradeDemo {
@@ -60,11 +65,11 @@ public class BinanceTradeDemo {
     // Cancel order
     if (order != null) {
       List<Class> classList =
-              Arrays.asList(exchange.getTradeService().getRequiredCancelOrderParamClasses());
+          Arrays.asList(exchange.getTradeService().getRequiredCancelOrderParamClasses());
 
       CancelOrderParams cancelParam = new DefaultCancelOrderParamId(order.getId());
-      if (classList.contains(CancelOrderByCurrencyPair.class) &&
-              classList.contains(CancelOrderByIdParams.class)) {
+      if (classList.contains(CancelOrderByCurrencyPair.class)
+          && classList.contains(CancelOrderByIdParams.class)) {
         cancelParam = new DefaultCancelOrderByCurrencyPairAndIdParams(pair, order.getId());
       }
 
