@@ -1,11 +1,9 @@
 package org.knowm.xchange.bibox.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.dto.BiboxAdapters;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;

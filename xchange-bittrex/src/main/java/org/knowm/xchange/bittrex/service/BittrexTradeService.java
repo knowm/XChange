@@ -138,7 +138,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     try {
-      List<Order> orders = new ArrayList<>();
+      List<Order> orders = new ArrayList<>(orderQueryParams.length);
       for (OrderQueryParams params : orderQueryParams) {
         BittrexOrder order = getBittrexOrder(params.getOrderId());
         if (order != null) {

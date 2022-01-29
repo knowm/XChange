@@ -2,7 +2,6 @@ package org.knowm.xchange.independentreserve.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
@@ -103,7 +102,7 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    List<Order> res = new ArrayList<>();
+    List<Order> res = new ArrayList<>(orderQueryParams.length);
     for (OrderQueryParams orderQueryParam : orderQueryParams) {
       IndependentReserveOrderDetailsResponse orderDetailsResponse =
           getOrderDetails(orderQueryParam.getOrderId());

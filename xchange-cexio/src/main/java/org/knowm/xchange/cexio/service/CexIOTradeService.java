@@ -135,8 +135,7 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-
-    List<Order> orders = new ArrayList<>();
+    List<Order> orders = new ArrayList<>(orderQueryParams.length);
     for (OrderQueryParams params : orderQueryParams) {
       CexIOOpenOrder cexIOOrder = getOrderDetail(params.getOrderId());
       orders.add(CexIOAdapters.adaptOrder(cexIOOrder));

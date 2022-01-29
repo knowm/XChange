@@ -1,12 +1,10 @@
 package org.knowm.xchange.coinone.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinone.dto.CoinoneException;
 import org.knowm.xchange.coinone.dto.trade.CoinoneTradeCancelRequest;
 import org.knowm.xchange.coinone.dto.trade.CoinoneTradeResponse;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
@@ -15,7 +13,6 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 /** @author interwater */
 public class CoinoneTradeService extends CoinoneTradeServiceRaw implements TradeService {
