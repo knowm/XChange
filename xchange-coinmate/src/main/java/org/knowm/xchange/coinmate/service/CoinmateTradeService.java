@@ -25,12 +25,30 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
 import org.knowm.xchange.coinmate.CoinmateException;
 import org.knowm.xchange.coinmate.CoinmateUtils;
-import org.knowm.xchange.coinmate.dto.trade.*;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrderFlags;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrders;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateReplaceResponse;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
@@ -67,8 +85,17 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     ArrayList<Order> result = new ArrayList<>(orderQueryParams.length);
     for (OrderQueryParams orderQueryParam : orderQueryParams) {
       CoinmateOrders response = this.getCoinmateOrderById(orderQueryParam.getOrderId());
-      List<Order> orders = CoinmateAdapters.adaptOrders(response);
-      result.addAll(orders);
+      Order order =
+          CoinmateAdapters.adaptOrder(
+              response.getData(),
+              orderId -> {
+                try {
+                  return this.getCoinmateOrderById(orderId).getData();
+                } catch (IOException ex) {
+                  return null;
+                }
+              });
+      result.add(order);
     }
     return result;
   }
@@ -233,7 +260,8 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
             CoinmateAdapters.adaptSortOrder(order),
             startId,
             timestampFrom,
-            timestampTo);
+            timestampTo,
+            null);
     return CoinmateAdapters.adaptTradeHistory(coinmateTradeHistory);
   }
 

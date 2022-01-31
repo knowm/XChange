@@ -1,9 +1,17 @@
 package org.knowm.xchange.globitex;
 
 import java.io.IOException;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.globitex.dto.marketdata.*;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexOrderBook;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexSymbols;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexTicker;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexTickers;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexTrades;
 
 @Path("/api/1/")
 @Produces(MediaType.APPLICATION_JSON)

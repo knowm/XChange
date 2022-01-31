@@ -16,7 +16,13 @@ import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
 import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.CurrencyPairParam;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 import java.io.IOException;

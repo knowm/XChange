@@ -1,13 +1,25 @@
 package org.knowm.xchange.ftx.service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.ftx.FtxException;
 import org.knowm.xchange.ftx.dto.FtxResponse;
-import org.knowm.xchange.ftx.dto.account.*;
+import org.knowm.xchange.ftx.dto.account.FtxAccountDto;
+import org.knowm.xchange.ftx.dto.account.FtxChangeSubAccountNamePOJO;
+import org.knowm.xchange.ftx.dto.account.FtxConvertAcceptPayloadRequestDto;
+import org.knowm.xchange.ftx.dto.account.FtxConvertAcceptRequestDto;
+import org.knowm.xchange.ftx.dto.account.FtxConvertDto;
+import org.knowm.xchange.ftx.dto.account.FtxConvertSimulatePayloadRequestDto;
+import org.knowm.xchange.ftx.dto.account.FtxConvertSimulatetDto;
+import org.knowm.xchange.ftx.dto.account.FtxFundingPaymentsDto;
+import org.knowm.xchange.ftx.dto.account.FtxLeverageDto;
+import org.knowm.xchange.ftx.dto.account.FtxSubAccountBalanceDto;
+import org.knowm.xchange.ftx.dto.account.FtxSubAccountDto;
+import org.knowm.xchange.ftx.dto.account.FtxSubAccountRequestPOJO;
+import org.knowm.xchange.ftx.dto.account.FtxSubAccountTranferDto;
+import org.knowm.xchange.ftx.dto.account.FtxSubAccountTransferPOJO;
+import org.knowm.xchange.ftx.dto.account.FtxWalletBalanceDto;
 
 public class FtxAccountServiceRaw extends FtxBaseService {
 
@@ -122,6 +134,10 @@ public class FtxAccountServiceRaw extends FtxBaseService {
     }
   }
 
+  public FtxResponse<FtxLeverageDto> changeLeverage(int leverage) throws FtxException, IOException {
+    return changeLeverage(null, leverage);
+  }
+
   public FtxResponse<FtxLeverageDto> changeLeverage(String subaccount, int leverage)
       throws FtxException, IOException {
     try {
@@ -129,7 +145,7 @@ public class FtxAccountServiceRaw extends FtxBaseService {
           exchange.getExchangeSpecification().getApiKey(),
           exchange.getNonceFactory().createValue(),
           signatureCreator,
-          null,
+          subaccount,
           new FtxLeverageDto(leverage));
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
@@ -154,7 +170,7 @@ public class FtxAccountServiceRaw extends FtxBaseService {
   }
 
   public FtxResponse<FtxConvertSimulatetDto> simulateFtxConvert(
-      String subaccount, Currency fromCoin, Currency toCoin, BigDecimal size)
+      String subaccount, String fromCoin, String toCoin, double size)
       throws FtxException, IOException {
 
     try {

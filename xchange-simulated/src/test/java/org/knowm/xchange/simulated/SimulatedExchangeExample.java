@@ -4,7 +4,9 @@ import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.currency.Currency.USD;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USD;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
-import static org.knowm.xchange.simulated.SimulatedExchange.*;
+import static org.knowm.xchange.simulated.SimulatedExchange.ACCOUNT_FACTORY_PARAM;
+import static org.knowm.xchange.simulated.SimulatedExchange.ENGINE_FACTORY_PARAM;
+import static org.knowm.xchange.simulated.SimulatedExchange.ON_OPERATION_PARAM;
 
 import com.google.common.util.concurrent.RateLimiter;
 import java.io.IOException;

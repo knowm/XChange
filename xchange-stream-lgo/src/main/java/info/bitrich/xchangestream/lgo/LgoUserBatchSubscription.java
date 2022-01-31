@@ -1,18 +1,25 @@
 package info.bitrich.xchangestream.lgo;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toConcurrentMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.lgo.domain.*;
-import info.bitrich.xchangestream.lgo.dto.*;
+import info.bitrich.xchangestream.lgo.domain.LgoBatchOrderEvent;
+import info.bitrich.xchangestream.lgo.domain.LgoGroupedUserUpdate;
+import info.bitrich.xchangestream.lgo.dto.LgoUserMessage;
+import info.bitrich.xchangestream.lgo.dto.LgoUserSnapshot;
+import info.bitrich.xchangestream.lgo.dto.LgoUserUpdate;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 
 class LgoUserBatchSubscription {
 

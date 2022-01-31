@@ -1,7 +1,11 @@
 package org.knowm.xchange.lgo.service;
 
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamNextPageCursor;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 
 public class LgoTradeHistoryParams
     implements TradeHistoryParams,

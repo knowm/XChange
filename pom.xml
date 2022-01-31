@@ -9,7 +9,7 @@
 
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-parent</artifactId>
-  <version>5.0.13-SNAPSHOT</version>
+  <version>5.0.14-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>XChange</name>
@@ -41,9 +41,9 @@
     <version.knowm.xchart>3.8.1</version.knowm.xchart>
     <version.qos.logback>1.2.10</version.qos.logback>
     <version.reflections>0.10.2</version.reflections>
-    <version.slf4j>1.7.32</version.slf4j>
+    <version.slf4j>1.7.33</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>3.18.2</version.java-jwt>
+    <version.java-jwt>3.18.3</version.java-jwt>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
@@ -477,7 +477,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.9.0</version>
         <configuration>
           <source>${version.java}</source>
           <target>${version.java}</target>

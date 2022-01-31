@@ -8,7 +8,14 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
-import org.knowm.xchange.coinbasepro.dto.marketdata.*;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCandle;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProStats;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.InstrumentNotValidException;
 

@@ -15,6 +15,8 @@ public class CoinmateOrder {
   private final String status;
   private final String orderTradeType;
   private final BigDecimal avgPrice;
+  private final String stopLossOrderId;
+  private final String originalOrderId;
 
   public CoinmateOrder(
       @JsonProperty("id") long id,
@@ -26,7 +28,9 @@ public class CoinmateOrder {
       @JsonProperty("stopPrice") BigDecimal stopPrice,
       @JsonProperty("status") String status,
       @JsonProperty("orderTradeType") String orderTradeType,
-      @JsonProperty("avgPrice") BigDecimal avgPrice) {
+      @JsonProperty("avgPrice") BigDecimal avgPrice,
+      @JsonProperty("stopLossOrderId") String stopLossOrderId,
+      @JsonProperty("originalOrderId") String originalOrderId) {
 
     this.id = id;
     this.timestamp = timestamp;
@@ -38,6 +42,8 @@ public class CoinmateOrder {
     this.status = status;
     this.orderTradeType = orderTradeType;
     this.avgPrice = avgPrice;
+    this.stopLossOrderId = stopLossOrderId;
+    this.originalOrderId = originalOrderId;
   }
 
   public long getId() {
@@ -78,5 +84,46 @@ public class CoinmateOrder {
 
   public BigDecimal getAvgPrice() {
     return avgPrice;
+  }
+
+  public String getStopLossOrderId() {
+    return stopLossOrderId;
+  }
+
+  public String getOriginalOrderId() {
+    return originalOrderId;
+  }
+
+  @Override
+  public String toString() {
+    return "CoinmateOrder{"
+        + "id="
+        + id
+        + ", timestamp="
+        + timestamp
+        + ", type='"
+        + type
+        + '\''
+        + ", price="
+        + price
+        + ", remainingAmount="
+        + remainingAmount
+        + ", originalAmount="
+        + originalAmount
+        + ", stopPrice="
+        + stopPrice
+        + ", status='"
+        + status
+        + '\''
+        + ", orderTradeType='"
+        + orderTradeType
+        + '\''
+        + ", avgPrice="
+        + avgPrice
+        + ", stopLossOrderId="
+        + stopLossOrderId
+        + ", originalOrderId="
+        + originalOrderId
+        + '}';
   }
 }

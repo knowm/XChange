@@ -2,12 +2,17 @@ package org.knowm.xchange.ftx.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.ftx.FtxExchange;
-import org.knowm.xchange.ftx.dto.account.*;
+import org.knowm.xchange.ftx.dto.account.FtxLendDataDto;
+import org.knowm.xchange.ftx.dto.account.FtxLendingHistoryDto;
+import org.knowm.xchange.ftx.dto.account.FtxLendingInfoDto;
+import org.knowm.xchange.ftx.dto.account.FtxLendingRatesDto;
+import org.knowm.xchange.ftx.dto.account.FtxSubmitLendingOfferParams;
 
 public class FtxLendingServiceRaw extends FtxBaseService {
 

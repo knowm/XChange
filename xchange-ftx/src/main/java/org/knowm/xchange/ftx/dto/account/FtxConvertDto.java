@@ -3,18 +3,19 @@ package org.knowm.xchange.ftx.dto.account;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.math.BigDecimal;
-
 public class FtxConvertDto {
 
   @JsonProperty("baseCoin")
   private final String baseCoin;
 
   @JsonProperty("cost")
-  private final BigDecimal cost;
+  private final double cost;
 
   @JsonProperty("expired")
   private final boolean expired;
+
+  //	@JsonProperty("expiry")
+  //	private final Date expiry;
 
   @JsonProperty("filled")
   private final boolean filled;
@@ -26,10 +27,10 @@ public class FtxConvertDto {
   private final int id;
 
   @JsonProperty("price")
-  private final BigDecimal price;
+  private final double price;
 
   @JsonProperty("proceeds")
-  private final BigDecimal proceeds;
+  private final double proceeds;
 
   @JsonProperty("quoteCoin")
   private final String quoteCoin;
@@ -43,13 +44,13 @@ public class FtxConvertDto {
   @JsonCreator
   public FtxConvertDto(
       @JsonProperty(value = "baseCoin", required = false) String baseCoin,
-      @JsonProperty(value = "cost", required = false) BigDecimal cost,
+      @JsonProperty(value = "cost", required = false) double cost,
       @JsonProperty(value = "expired", required = false) boolean expired,
       @JsonProperty(value = "filled", required = false) boolean filled,
       @JsonProperty(value = "fromCoin", required = false) String fromCoin,
       @JsonProperty(value = "id", required = false) int id,
-      @JsonProperty(value = "price", required = false) BigDecimal price,
-      @JsonProperty(value = "proceeds", required = false) BigDecimal proceeds,
+      @JsonProperty(value = "price", required = false) double price,
+      @JsonProperty(value = "proceeds", required = false) double proceeds,
       @JsonProperty(value = "quoteCoin", required = false) String quoteCoin,
       @JsonProperty(value = "side", required = false) String side,
       @JsonProperty(value = "toCoin", required = false) String toCoin) {
@@ -70,7 +71,7 @@ public class FtxConvertDto {
     return baseCoin;
   }
 
-  public BigDecimal getCost() {
+  public double getCost() {
     return cost;
   }
 
@@ -90,11 +91,11 @@ public class FtxConvertDto {
     return id;
   }
 
-  public BigDecimal getPrice() {
+  public double getPrice() {
     return price;
   }
 
-  public BigDecimal getProceeds() {
+  public double getProceeds() {
     return proceeds;
   }
 

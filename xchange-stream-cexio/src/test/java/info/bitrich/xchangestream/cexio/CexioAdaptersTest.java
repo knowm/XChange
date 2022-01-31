@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.cexio;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import info.bitrich.xchangestream.cexio.dto.CexioWebSocketOrderBookSubscribeResponse;
 import java.math.BigDecimal;

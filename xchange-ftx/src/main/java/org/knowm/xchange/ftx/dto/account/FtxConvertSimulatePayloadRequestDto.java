@@ -2,40 +2,37 @@ package org.knowm.xchange.ftx.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.currency.Currency;
-
-import java.math.BigDecimal;
 
 public class FtxConvertSimulatePayloadRequestDto {
 
   @JsonProperty("fromCoin")
-  private final Currency fromCoin;
+  private final String fromCoin;
 
   @JsonProperty("toCoin")
-  private final Currency toCoin;
+  private final String toCoin;
 
   @JsonProperty("size")
-  private final BigDecimal size;
+  private final double size;
 
   @JsonCreator
   public FtxConvertSimulatePayloadRequestDto(
-      @JsonProperty("fromCoin") Currency fromCoin,
-      @JsonProperty("toCoin") Currency toCoin,
-      @JsonProperty("size") BigDecimal size) {
+      @JsonProperty("fromCoin") String fromCoin,
+      @JsonProperty("toCoin") String toCoin,
+      @JsonProperty("size") double size) {
     this.fromCoin = fromCoin;
     this.toCoin = toCoin;
     this.size = size;
   }
 
-  public Currency getFromCoin() {
+  public String getFromCoin() {
     return fromCoin;
   }
 
-  public Currency getToCoin() {
+  public String getToCoin() {
     return toCoin;
   }
 
-  public BigDecimal getSize() {
+  public double getSize() {
     return size;
   }
 }
