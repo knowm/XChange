@@ -14,12 +14,20 @@ public class OpenPosition implements Serializable {
   private final BigDecimal size;
   /** The avarage entry price for the position */
   private final BigDecimal price;
+  /** The estimatedLiquidationPrice */
+  private final BigDecimal liquidationprice;
 
-  public OpenPosition(Instrument instrument, Type type, BigDecimal size, BigDecimal price) {
+  public OpenPosition(
+      Instrument instrument,
+      Type type,
+      BigDecimal size,
+      BigDecimal price,
+      BigDecimal liquidationprice) {
     this.instrument = instrument;
     this.type = type;
     this.size = size;
     this.price = price;
+    this.liquidationprice = liquidationprice;
   }
 
   public Instrument getInstrument() {
@@ -38,6 +46,10 @@ public class OpenPosition implements Serializable {
     return price;
   }
 
+  public BigDecimal getLiquidationprice() {
+    return liquidationprice;
+  }
+
   @Override
   public boolean equals(final Object o) {
     if (this == o) return true;
@@ -46,12 +58,13 @@ public class OpenPosition implements Serializable {
     return Objects.equals(instrument, that.instrument)
         && type == that.type
         && Objects.equals(size, that.size)
-        && Objects.equals(price, that.price);
+        && Objects.equals(price, that.price)
+        && Objects.equals(liquidationprice, that.liquidationprice);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(instrument, type, size, price);
+    return Objects.hash(instrument, type, size, price, liquidationprice);
   }
 
   @Override
@@ -65,6 +78,8 @@ public class OpenPosition implements Serializable {
         + size
         + ", price="
         + price
+        + ", liquidationprice="
+        + liquidationprice
         + '}';
   }
 
@@ -78,12 +93,14 @@ public class OpenPosition implements Serializable {
     private Type type;
     private BigDecimal size;
     private BigDecimal price;
+    private BigDecimal liquidationPrice;
 
     public static Builder from(OpenPosition openPosition) {
       return new Builder()
           .instrument(openPosition.getInstrument())
           .type(openPosition.getType())
           .size(openPosition.getSize())
+          .liquidationPrice(openPosition.getLiquidationprice())
           .price(openPosition.getPrice());
     }
 
@@ -107,8 +124,13 @@ public class OpenPosition implements Serializable {
       return this;
     }
 
+    public Builder liquidationPrice(final BigDecimal liquidationPrice) {
+      this.liquidationPrice = liquidationPrice;
+      return this;
+    }
+
     public OpenPosition build() {
-      return new OpenPosition(instrument, type, size, price);
+      return new OpenPosition(instrument, type, size, price, liquidationPrice);
     }
   }
 }
