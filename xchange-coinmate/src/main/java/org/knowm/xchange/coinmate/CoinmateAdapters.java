@@ -46,6 +46,8 @@ import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeHistory;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeHistoryEntry;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistoryEntry;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistoryEntry;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -225,7 +227,7 @@ public class CoinmateAdapters {
   }
 
   public static List<FundingRecord> adaptFundingHistory(
-      CoinmateTransactionHistory coinmateTradeHistory) {
+      CoinmateTransactionHistory coinmateTradeHistory, CoinmateTransferHistory additionalTransferData) {
     List<FundingRecord> fundings = new ArrayList<>();
 
     for (CoinmateTransactionHistoryEntry entry : coinmateTradeHistory.getData()) {
@@ -276,10 +278,20 @@ public class CoinmateAdapters {
             description.replace(
                 feeCurrency + ": ", ""); // the transaction hash is in the description
       }
+      String address = "";
+      String addressTag = "";
+
+      CoinmateTransferHistoryEntry transferEntry = additionalTransferData.getData().stream().filter(transfer -> transfer.getId() == entry.getTransactionId())
+              .findAny()
+              .orElse(null);
+      address = transferEntry.getDestination();
+      addressTag = transferEntry.getDestinationTag();
+
 
       FundingRecord funding =
           new FundingRecord(
-              null,
+              address,
+              addressTag,
               new Date(entry.getTimestamp()),
               Currency.getInstance(entry.getAmountCurrency()),
               entry.getAmount(),
