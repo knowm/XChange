@@ -16,7 +16,7 @@ public class CoinmateTransferHistoryEntry {
   private final String destinationTag;
 
   public CoinmateTransferHistoryEntry(
-      @JsonProperty("id") long id,
+      @JsonProperty("transactionId") long id,
       @JsonProperty("fee") BigDecimal fee,
       @JsonProperty("transferType") String transferType,
       @JsonProperty("timestamp") long timestamp,
