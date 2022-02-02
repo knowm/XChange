@@ -279,14 +279,15 @@ public class CoinmateAdapters {
                 feeCurrency + ": ", ""); // the transaction hash is in the description
       }
       String address = null;
-      String addressTag = "";
-
-      CoinmateTransferHistoryEntry transferEntry = additionalTransferData.getData().stream().filter(transfer -> transfer.getId() == entry.getTransactionId())
-              .findAny()
-              .orElse(null);
-      address = transferEntry != null ? transferEntry.getDestination()  : null ;
-      addressTag = transferEntry != null ? transferEntry.getDestinationTag() : null ;
-
+      String addressTag = null;
+      if (entry.getTransactionType().equals("WITHDRAWAL") || entry.getTransactionType().equals("DEPOSIT")) {
+        for (CoinmateTransferHistoryEntry transfer : additionalTransferData.getData()) {
+          if (transfer != null && transfer.getId() == entry.getTransactionId()) {
+            address = transfer.getDestination();
+            addressTag = transfer.getDestinationTag();
+          }
+        }
+      }
 
       FundingRecord funding =
           new FundingRecord(
