@@ -278,14 +278,14 @@ public class CoinmateAdapters {
             description.replace(
                 feeCurrency + ": ", ""); // the transaction hash is in the description
       }
-      String address = "";
+      String address = null;
       String addressTag = "";
 
       CoinmateTransferHistoryEntry transferEntry = additionalTransferData.getData().stream().filter(transfer -> transfer.getId() == entry.getTransactionId())
               .findAny()
               .orElse(null);
-      address = transferEntry.getDestination();
-      addressTag = transferEntry.getDestinationTag();
+      address = transferEntry != null ? transferEntry.getDestination()  : null ;
+      addressTag = transferEntry != null ? transferEntry.getDestinationTag() : null ;
 
 
       FundingRecord funding =
