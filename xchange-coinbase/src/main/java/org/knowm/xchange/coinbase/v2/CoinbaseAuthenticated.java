@@ -86,6 +86,30 @@ public interface CoinbaseAuthenticated extends Coinbase {
 
   @GET
   @Path("accounts/{accountId}/deposits")
+  CoinbaseBuySellResponse getAllDeposits(
+      @HeaderParam(CB_VERSION) String apiVersion,
+      @HeaderParam(CB_ACCESS_KEY) String apiKey,
+      @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
+      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+      @PathParam("accountId") String accountId,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("starting_after") String startingAfter)
+      throws IOException, CoinbaseException;
+
+  @GET
+  @Path("accounts/{accountId}/withdrawals")
+  CoinbaseBuySellResponse getAllWithdrawals(
+      @HeaderParam(CB_VERSION) String apiVersion,
+      @HeaderParam(CB_ACCESS_KEY) String apiKey,
+      @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
+      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+      @PathParam("accountId") String accountId,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("starting_after") String startingAfter)
+      throws IOException, CoinbaseException;
+
+  @GET
+  @Path("accounts/{accountId}/deposits")
   Map getDeposits(
       @HeaderParam(CB_VERSION) String apiVersion,
       @HeaderParam(CB_ACCESS_KEY) String apiKey,
