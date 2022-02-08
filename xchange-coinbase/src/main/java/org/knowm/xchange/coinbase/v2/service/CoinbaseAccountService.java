@@ -76,7 +76,7 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
    * The Coinbase is not typical exchange. It has splitted buys and sells into wallets (accounts).
    * To get it is necessary to know the accountId (wallet ID) see {@link AccountInfo#getWallets()}
    */
-  public List<FundingRecord> getWithdrwalHistory(CoinbaseTradeHistoryParams params, String accountId)
+  public List<FundingRecord> getWithdrawalHistory(CoinbaseTradeHistoryParams params, String accountId)
           throws IOException {
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
     final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
