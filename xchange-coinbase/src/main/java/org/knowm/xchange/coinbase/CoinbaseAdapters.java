@@ -77,7 +77,7 @@ public final class CoinbaseAdapters {
       case "CREATE_VOUCHER":
         type = FundingRecord.Type.WITHDRAWAL;
         break;
-      case "deposit":
+      case "DEPOSIT":
       case "USED_VOUCHER":
       case "NEW_USER_REWARD":
       case "REFERRAL":
@@ -103,23 +103,19 @@ public final class CoinbaseAdapters {
         status = FundingRecord.Status.FAILED;
     }
 
-    String internalId = transaction.getId();
-    String description = transaction.getTransaction().getResource();
-
     FundingRecord funding =
       new FundingRecord(
         null,
         Date.from(transaction.getCreatedAt().toInstant()),
         Currency.getInstance(transaction.getAmount().getCurrency()),
         transaction.getAmount().getAmount(),
-        internalId,
+        transaction.getId(),
         null,
         type,
         status,
         null,
         transaction.getFee().getAmount(),
-        description);
-
+        null);
     return funding;
   }
 

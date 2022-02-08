@@ -72,27 +72,26 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
     return new CoinbaseTradeHistoryParams();
   }
 
-
   /**
    * The Coinbase is not typical exchange. It has splitted buys and sells into wallets (accounts).
    * To get it is necessary to know the accountId (wallet ID) see {@link AccountInfo#getWallets()}
    */
-//  public List<FundingRecord>  getWithdrwalHistory(CoinbaseTradeHistoryParams params, String accountId)
-//          throws IOException {
-//    final String apiKey = exchange.getExchangeSpecification().getApiKey();
-//    final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
-//    final CoinbaseBuySellResponse withdrawals =
-//      (CoinbaseBuySellResponse) coinbase.getAllWithdrawals(
-//              Coinbase.CB_VERSION_VALUE,
-//              apiKey,
-//              signatureCreator2,
-//              timestamp,
-//              accountId,
-//              params.getLimit(),
-//              params.getStartId()
-//      );
-//    return CoinbaseAdapters.adaptTrades(withdrawals.getData());
-//  }
+  public List<FundingRecord> getWithdrwalHistory(CoinbaseTradeHistoryParams params, String accountId)
+          throws IOException {
+    final String apiKey = exchange.getExchangeSpecification().getApiKey();
+    final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
+    final CoinbaseBuySellResponse withdrawals =
+            coinbase.getAllWithdrawals(
+                    Coinbase.CB_VERSION_VALUE,
+                    apiKey,
+                    signatureCreator2,
+                    timestamp,
+                    accountId,
+                    params.getLimit(),
+                    params.getStartId()
+            );
+    return CoinbaseAdapters.adaptFundings(withdrawals.getData());
+  }
 
   /**
    * The Coinbase is not typical exchange. It has splitted buys and sells into wallets (accounts).
