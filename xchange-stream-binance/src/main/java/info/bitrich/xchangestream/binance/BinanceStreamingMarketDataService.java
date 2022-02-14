@@ -341,23 +341,11 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    /**
-     * Used as a gate, preventing access to the book snapshot, until initialized on background
-     * thread.
-     */
+    private OrderBook book;
+
+    private long bookLastUpdateId;
+
     private volatile boolean bookInitialized;
-
-    /**
-     * Volatile as, it is initialized on background thread, then accessed and updated on observable
-     * thread.
-     */
-    private volatile long bookLastUpdateId;
-
-    /**
-     * Volatile as, it is initialized on background thread, then accessed and updated on observable
-     * thread
-     */
-    private volatile OrderBook book;
 
     private OrderBookSubscription(
         Observable<DepthBinanceWebSocketTransaction> deltasObservable, CurrencyPair currencyPair) {
