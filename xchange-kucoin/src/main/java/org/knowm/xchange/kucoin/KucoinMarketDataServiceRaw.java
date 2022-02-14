@@ -1,7 +1,8 @@
 package org.knowm.xchange.kucoin;
 
 import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExceptions;
-import static org.knowm.xchange.kucoin.KucoinResilience.*;
+import static org.knowm.xchange.kucoin.KucoinResilience.PRIVATE_REST_ENDPOINT_RATE_LIMITER;
+import static org.knowm.xchange.kucoin.KucoinResilience.PUBLIC_REST_ENDPOINT_RATE_LIMITER;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -11,7 +12,15 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.kucoin.dto.KlineIntervalType;
-import org.knowm.xchange.kucoin.dto.response.*;
+import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
+import org.knowm.xchange.kucoin.dto.response.CurrenciesResponse;
+import org.knowm.xchange.kucoin.dto.response.KucoinKline;
+import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
+import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
+import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
+import org.knowm.xchange.kucoin.dto.response.TickerResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeFeeResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeHistoryResponse;
 
 public class KucoinMarketDataServiceRaw extends KucoinBaseService {
 

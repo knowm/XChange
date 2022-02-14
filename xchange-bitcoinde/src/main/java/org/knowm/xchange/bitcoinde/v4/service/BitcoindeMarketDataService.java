@@ -1,6 +1,8 @@
 package org.knowm.xchange.bitcoinde.v4.service;
 
-import static org.knowm.xchange.bitcoinde.v4.BitcoindeAdapters.*;
+import static org.knowm.xchange.bitcoinde.v4.BitcoindeAdapters.adaptCompactOrderBook;
+import static org.knowm.xchange.bitcoinde.v4.BitcoindeAdapters.adaptOrderBook;
+import static org.knowm.xchange.bitcoinde.v4.BitcoindeAdapters.adaptTrades;
 
 import java.io.IOException;
 import org.knowm.xchange.bitcoinde.v4.BitcoindeExchange;

@@ -5,7 +5,11 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.globitex.GlobitexAdapters;
-import org.knowm.xchange.globitex.dto.marketdata.*;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexOrderBook;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexSymbols;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexTicker;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexTickers;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexTrades;
 import si.mazi.rescu.HttpStatusIOException;
 
 public class GlobitexMarketDataServiceRaw extends GlobitexBaseService {

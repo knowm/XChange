@@ -5,7 +5,9 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;

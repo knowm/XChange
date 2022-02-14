@@ -48,13 +48,24 @@ public class OkexCandleStick {
 
   @Override
   public String toString() {
-    return "OkexCandleStick{" +
-            "timestamp=" + timestamp +
-            ", openPrice='" + openPrice + '\'' +
-            ", closePrice='" + closePrice + '\'' +
-            ", highPrice='" + highPrice + '\'' +
-            ", lowPrice='" + lowPrice + '\'' +
-            ", volume='" + volume + '\'' +
-            '}';
+    return "OkexCandleStick{"
+        + "timestamp="
+        + timestamp
+        + ", openPrice='"
+        + openPrice
+        + '\''
+        + ", closePrice='"
+        + closePrice
+        + '\''
+        + ", highPrice='"
+        + highPrice
+        + '\''
+        + ", lowPrice='"
+        + lowPrice
+        + '\''
+        + ", volume='"
+        + volume
+        + '\''
+        + '}';
   }
 }

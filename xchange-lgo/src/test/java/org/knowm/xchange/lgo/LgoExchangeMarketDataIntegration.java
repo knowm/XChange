@@ -1,20 +1,24 @@
 package org.knowm.xchange.lgo;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.TimeZone;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.lgo.dto.marketdata.*;
+import org.knowm.xchange.lgo.dto.marketdata.LgoGranularity;
+import org.knowm.xchange.lgo.dto.marketdata.LgoPriceHistory;
 import org.knowm.xchange.lgo.service.LgoMarketDataService;
 
 @Ignore

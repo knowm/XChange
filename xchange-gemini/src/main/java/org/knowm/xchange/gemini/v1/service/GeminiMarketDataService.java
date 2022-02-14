@@ -17,6 +17,7 @@ import org.knowm.xchange.gemini.v1.GeminiUtils;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendDepth;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -37,6 +38,11 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw
   public GeminiMarketDataService(Exchange exchange) {
 
     super(exchange);
+  }
+
+  @Override
+  public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
+    return getTicker((CurrencyPair) instrument, args);
   }
 
   @Override

@@ -38,8 +38,17 @@ import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.FtxAccountDto;
 import org.knowm.xchange.ftx.dto.account.FtxPositionDto;
 import org.knowm.xchange.ftx.dto.account.FtxWalletBalanceDto;
-import org.knowm.xchange.ftx.dto.marketdata.*;
-import org.knowm.xchange.ftx.dto.trade.*;
+import org.knowm.xchange.ftx.dto.marketdata.FtxCandleDto;
+import org.knowm.xchange.ftx.dto.marketdata.FtxMarketDto;
+import org.knowm.xchange.ftx.dto.marketdata.FtxMarketsDto;
+import org.knowm.xchange.ftx.dto.marketdata.FtxOrderbookDto;
+import org.knowm.xchange.ftx.dto.marketdata.FtxTradeDto;
+import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
+import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
+import org.knowm.xchange.ftx.dto.trade.FtxOrderFlags;
+import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
+import org.knowm.xchange.ftx.dto.trade.FtxOrderSide;
+import org.knowm.xchange.ftx.dto.trade.FtxOrderType;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class FtxAdapters {

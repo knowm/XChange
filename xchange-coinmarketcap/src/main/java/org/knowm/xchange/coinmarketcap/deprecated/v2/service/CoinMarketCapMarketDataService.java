@@ -2,7 +2,11 @@ package org.knowm.xchange.coinmarketcap.deprecated.v2.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata.CoinMarketCapCurrency;
 import org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata.CoinMarketCapTicker;

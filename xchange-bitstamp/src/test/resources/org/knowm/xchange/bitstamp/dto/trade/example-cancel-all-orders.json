@@ -1,0 +1,12 @@
+{
+  "canceled": [
+    {
+      "amount": 0.00018632,
+      "price": 120000,
+      "type": 1,
+      "currency_pair": "BTC/EUR",
+      "id": 1422488511692800
+    }
+  ],
+  "success": true
+}

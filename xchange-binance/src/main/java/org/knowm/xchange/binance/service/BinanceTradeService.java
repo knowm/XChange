@@ -225,7 +225,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public Class[] getRequiredCancelOrderParamClasses() {
-    return new Class[]{CancelOrderByIdParams.class, CancelOrderByCurrencyPair.class};
+    return new Class[] {CancelOrderByIdParams.class, CancelOrderByCurrencyPair.class};
   }
 
   @Override

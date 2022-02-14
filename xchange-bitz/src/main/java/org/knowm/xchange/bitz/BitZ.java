@@ -2,11 +2,28 @@ package org.knowm.xchange.bitz;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import javax.ws.rs.*;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitz.dto.account.result.BitZUserAssetsResult;
-import org.knowm.xchange.bitz.dto.marketdata.result.*;
-import org.knowm.xchange.bitz.dto.trade.result.*;
+import org.knowm.xchange.bitz.dto.marketdata.result.BitZCurrencyCoinRateResult;
+import org.knowm.xchange.bitz.dto.marketdata.result.BitZCurrencyRateResult;
+import org.knowm.xchange.bitz.dto.marketdata.result.BitZKlineResult;
+import org.knowm.xchange.bitz.dto.marketdata.result.BitZOrdersResult;
+import org.knowm.xchange.bitz.dto.marketdata.result.BitZSymbolListResult;
+import org.knowm.xchange.bitz.dto.marketdata.result.BitZTickerAllResult;
+import org.knowm.xchange.bitz.dto.marketdata.result.BitZTickerResult;
+import org.knowm.xchange.bitz.dto.marketdata.result.BitZTradesResult;
+import org.knowm.xchange.bitz.dto.trade.result.BitZEntrustSheetInfoResult;
+import org.knowm.xchange.bitz.dto.trade.result.BitZTradeAddResult;
+import org.knowm.xchange.bitz.dto.trade.result.BitZTradeCancelListResult;
+import org.knowm.xchange.bitz.dto.trade.result.BitZTradeCancelResult;
+import org.knowm.xchange.bitz.dto.trade.result.BitZUserHistoryResult;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("api_v1")

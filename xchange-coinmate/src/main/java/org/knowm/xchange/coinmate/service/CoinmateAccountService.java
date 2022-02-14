@@ -40,6 +40,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 /** @author Martin Stachon */
@@ -130,6 +131,8 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
     TradeHistoryParamsSorted.Order order = TradeHistoryParamsSorted.Order.asc;
     Integer limit = 1000;
     int offset = 0;
+    Long timestampFrom = null;
+    Long timestampTo = null;
 
     if (params instanceof TradeHistoryParamOffset) {
       offset = Math.toIntExact(((TradeHistoryParamOffset) params).getOffset());
@@ -143,9 +146,24 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
       order = ((TradeHistoryParamsSorted) params).getOrder();
     }
 
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan thpts = (TradeHistoryParamsTimeSpan) params;
+      if (thpts.getStartTime() != null) {
+        timestampFrom = thpts.getStartTime().getTime();
+      }
+      if (thpts.getEndTime() != null) {
+        timestampTo = thpts.getEndTime().getTime();
+      }
+    }
+
     CoinmateTransactionHistory coinmateTransactionHistory =
         getCoinmateTransactionHistory(
-            offset, limit, CoinmateAdapters.adaptSortOrder(order), null, null, null);
+            offset,
+            limit,
+            CoinmateAdapters.adaptSortOrder(order),
+            timestampFrom,
+            timestampTo,
+            null);
     return CoinmateAdapters.adaptFundingHistory(coinmateTransactionHistory);
   }
 

@@ -1,13 +1,16 @@
 package org.knowm.xchange.lgo.dto.marketdata;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
-import java.text.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.TimeZone;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.knowm.xchange.lgo.dto.product.LgoProductsTest;
 
 public class LgoPriceHistoryTest {

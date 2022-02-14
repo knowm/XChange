@@ -41,8 +41,11 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     try {
-      Wallet build = Wallet.Builder.from(PoloniexAdapters.adaptPoloniexBalances(getExchangeWallet())).id(TRADING_WALLET_ID).features(new HashSet<>(
-              Collections.singletonList(Wallet.WalletFeature.TRADING))).build();
+      Wallet build =
+          Wallet.Builder.from(PoloniexAdapters.adaptPoloniexBalances(getExchangeWallet()))
+              .id(TRADING_WALLET_ID)
+              .features(new HashSet<>(Collections.singletonList(Wallet.WalletFeature.TRADING)))
+              .build();
       return new AccountInfo(build);
     } catch (PoloniexException e) {
       throw PoloniexErrorAdapter.adapt(e);

@@ -1,6 +1,8 @@
 package org.knowm.xchange.huobi.dto.marketdata;
 
-import static java.util.concurrent.TimeUnit.*;
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 public enum KlineInterval {
   m1("1min", MINUTES.toMillis(1)),

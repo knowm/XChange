@@ -9,7 +9,11 @@ import lombok.Getter;
 import lombok.ToString;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeError;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeException;
-import org.knowm.xchange.exceptions.*;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.exceptions.NonceException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.RateLimitExceededException;
 
 public final class BitcoindeErrorAdapter {
 
