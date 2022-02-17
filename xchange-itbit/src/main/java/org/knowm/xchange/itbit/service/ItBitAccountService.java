@@ -78,7 +78,7 @@ public class ItBitAccountService extends ItBitAccountServiceRaw implements Accou
     List<FundingRecord> fundingRecords = new ArrayList<>();
 
     ItBitFundingHistoryResponse funding = getFunding(page, perPage);
-    if(funding.fundingHistory != null) {
+    if (funding.fundingHistory != null) {
       for (ItBitFunding itBitFunding : funding.fundingHistory) {
         FundingRecord fundingRecord = ItBitAdapters.adapt(itBitFunding);
         fundingRecords.add(fundingRecord);
