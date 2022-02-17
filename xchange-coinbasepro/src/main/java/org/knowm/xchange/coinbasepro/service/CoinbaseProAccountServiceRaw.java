@@ -88,7 +88,7 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
   }
 
   /** https://docs.pro.coinbase.com/#get-an-account */
-  public List<Map<?, ?>> ledger(String accountId, Integer startingOrderId) throws IOException {
+  public List<Map<?, ?>> ledger(String accountId, String startingOrderId) throws IOException {
     return decorateApiCall(
             () ->
                 coinbasePro.ledger(
