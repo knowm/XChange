@@ -121,6 +121,7 @@ public final class CoinbaseAdapters {
 
   private static UserTrade adaptTrade(CoinbaseBuySell transaction, OrderType orderType) {
     // Bug fix - Null point exception in case of cancelled transactions
+
       String transactionId = transaction.getTransaction() == null ?
               null : (transaction.getTransaction().getId() == null ?
               null : transaction.getTransaction().getId());
