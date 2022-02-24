@@ -71,8 +71,9 @@ public final class CoinbaseAdapters {
 
     FundingRecord.Type type = null;
     FundingRecord.Status status;
+    String recordType = transaction.getResource().toUpperCase();
 
-    switch (transaction.getResource()) {
+    switch (recordType) {
       case "WITHDRAWAL":
       case "CREATE_VOUCHER":
         type = FundingRecord.Type.WITHDRAWAL;
