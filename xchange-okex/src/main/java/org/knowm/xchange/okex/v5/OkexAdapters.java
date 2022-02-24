@@ -1,17 +1,5 @@
 package org.knowm.xchange.okex.v5;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -42,6 +30,11 @@ import org.knowm.xchange.okex.v5.dto.marketdata.OkexTrade;
 import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAdapters {
@@ -243,7 +236,7 @@ public class OkexAdapters {
             : exchangeMetaData.getCurrencies();
 
     String makerFee = "0.5";
-    if (!tradeFee.isEmpty()) {
+    if (tradeFee != null && !tradeFee.isEmpty()) {
       makerFee = tradeFee.get(0).getMaker();
     }
 
@@ -259,7 +252,7 @@ public class OkexAdapters {
       currencyPairs.put(
           pair,
           new CurrencyPairMetaData(
-              new BigDecimal("0.50"),
+              new BigDecimal(makerFee).negate(),
               new BigDecimal(instrument.getMinSize()),
               null,
               null,
