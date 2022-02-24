@@ -26,6 +26,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 /** Author: brox Since: 2/6/14 */
 public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeService {
@@ -133,11 +134,10 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-
-    List<Order> orders = new ArrayList<>();
-    for (String orderId : orderIds) {
-      CexIOOpenOrder cexIOOrder = getOrderDetail(orderId);
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    List<Order> orders = new ArrayList<>(orderQueryParams.length);
+    for (OrderQueryParams params : orderQueryParams) {
+      CexIOOpenOrder cexIOOrder = getOrderDetail(params.getOrderId());
       orders.add(CexIOAdapters.adaptOrder(cexIOOrder));
     }
     return orders;

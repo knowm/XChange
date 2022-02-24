@@ -16,6 +16,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class FtxTradeService extends FtxTradeServiceRaw implements TradeService {
 
@@ -58,6 +59,12 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     return getOrderFromSubaccount(exchange.getExchangeSpecification().getUserName(), orderIds);
+  }
+
+  @Override
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    return getOrderFromSubaccount(exchange.getExchangeSpecification().getUserName(),
+            TradeService.toOrderIds(orderQueryParams));
   }
 
   @Override

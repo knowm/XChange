@@ -176,15 +176,6 @@ public class CoindirectTradeService extends CoindirectTradeServiceRaw implements
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    List<Order> orderList = new ArrayList<>();
-    for (String orderId : orderIds) {
-      orderList.add(CoindirectAdapters.adaptOrder(getExchangeOrder(orderId)));
-    }
-    return orderList;
-  }
-
-  @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     List<Order> orderList = new ArrayList<>();
     for (OrderQueryParams orderParams : orderQueryParams) {

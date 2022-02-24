@@ -108,6 +108,11 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     }
   }
 
+  @Override
+  public Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParamInstrument.class;
+  }
+
   public Order getOrder(OrderQueryParams orderQueryParams) throws IOException {
     Order result = null;
     if (orderQueryParams instanceof OrderQueryParamInstrument) {

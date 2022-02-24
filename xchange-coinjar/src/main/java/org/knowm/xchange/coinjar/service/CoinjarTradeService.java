@@ -5,9 +5,7 @@ import static org.knowm.xchange.coinjar.CoinjarAdapters.orderTypeToBuySell;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -88,20 +86,9 @@ public class CoinjarTradeService extends CoinjarTradeServiceRaw implements Trade
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    try {
-      String orderId = orderIds[0];
-      CoinjarOrder coinjarOrder = getOrder(orderId);
-      return Collections.singletonList(CoinjarAdapters.adaptOrderToLimitOrder(coinjarOrder));
-    } catch (CoinjarException e) {
-      throw CoinjarErrorAdapter.adaptCoinjarException(e);
-    }
-  }
-
-  @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     List<Order> res = new ArrayList<>();
-    for (OrderQueryParams orderQueryParam : Arrays.asList(orderQueryParams)) {
+    for (OrderQueryParams orderQueryParam : orderQueryParams) {
       res.addAll(this.getOrder(new String[] {orderQueryParam.getOrderId()}));
     }
     return res;

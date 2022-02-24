@@ -1,12 +1,5 @@
 package org.knowm.xchange.coinsuper.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinsuper.CoinsuperAdapters;
 import org.knowm.xchange.coinsuper.dto.CoinsuperResponse;
@@ -23,10 +16,13 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
+
+import java.io.IOException;
+import java.util.*;
 
 public class CoinsuperTradeService extends CoinsuperTradeServiceRaw implements TradeService {
   public CoinsuperTradeService(Exchange exchange) {
@@ -137,32 +133,33 @@ public class CoinsuperTradeService extends CoinsuperTradeServiceRaw implements T
     return new DefaultOpenOrdersParamCurrencyPair();
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-
+  public Collection<Order> getOrderImpl(String... orderIds) throws IOException {
+    // This method possibly not working
     Collection<Order> orders = new ArrayList<>(orderIds.length);
 
-    Map<String, String> parameters = new HashMap<String, String>();
+    Map<String, String> parameters = new HashMap<>();
     StringBuilder builder = new StringBuilder();
-    int k = 1;
-    for (String orderId : orderIds) {
-      builder.append(orderId);
-      if (k > orderIds.length) builder.append(",");
+    for (int index = 0; index < orderIds.length; index++) {
+      builder.append(orderIds[index]);
+      if (index < orderIds.length - 1) {
+        builder.append(",");
+      }
     }
     parameters.put("orderNoList", builder.toString());
-    // without transation
+    // without translation
     CoinsuperResponse<List<OrderList>> ordersList = orderList(parameters);
     for (OrderList orderList : ordersList.getData().getResult()) {
-      System.out.println(orderList.getOrderNo());
-      System.out.println(orderList.getSymbol());
-
       orders.add(CoinsuperAdapters.adaptOrder(Long.toString(orderList.getOrderNo()), orderList));
     }
 
     return orders;
   }
 
-  /** Required parameter types: {@link TradeHistoryParamPaging#getPageLength()} */
+  @Override
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    return getOrderImpl(TradeService.toOrderIds(orderQueryParams));
+  }
+
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 

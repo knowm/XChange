@@ -336,6 +336,32 @@ public interface TradeService extends BaseService {
     return res;
   }
 
+  static String[] toOrderIds(OrderQueryParams... orderQueryParams) {
+    String[] orderIds = new String[orderQueryParams.length];
+    int index = 0;
+    for (OrderQueryParams orderQueryParam : orderQueryParams) {
+      orderIds[index++] = orderQueryParam.getOrderId();
+    }
+    return orderIds;
+  }
+
+  /**
+   * Returns required get order parameter as classes
+   *
+   * Different trading services requires different parameters for order querying.
+   * To provide generic operation of the trade service interface, This method returns {@link Class}
+   * of the parameter objects as an array. This class information can be utilized by the caller of
+   * {@link #getOrder(OrderQueryParams...)} to create instances of the required parameter such as
+   * {@link org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair},
+   * {@link org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument} etc...
+   *
+   * @return Class type for the required parameter class. Default implementation returns an instance
+   * of {@link OrderQueryParams} element
+   */
+  default Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParams.class;
+  }
+
   /**
    * get's the latest order form the order book that with matching orderQueryParams
    *
