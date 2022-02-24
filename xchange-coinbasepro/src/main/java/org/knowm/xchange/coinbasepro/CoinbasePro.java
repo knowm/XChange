@@ -239,7 +239,7 @@ public interface CoinbasePro {
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("account_id") String accountId,
-      @QueryParam("after") Integer startingOrderId)
+      @QueryParam("after") String startingOrderId)
       throws CoinbaseProException, IOException;
 
   @GET
