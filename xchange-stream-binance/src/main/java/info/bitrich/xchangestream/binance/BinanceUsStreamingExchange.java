@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.binance;
 
-import info.bitrich.xchangestream.core.ProductSubscription;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.utils.AuthUtils;
 import org.slf4j.Logger;
@@ -11,9 +10,8 @@ public class BinanceUsStreamingExchange extends BinanceStreamingExchange {
   private static final String API_BASE_URI = "wss://stream.binance.us:9443/";
 
   @Override
-  protected BinanceStreamingService createStreamingService(ProductSubscription subscription) {
-    String path = API_BASE_URI + "stream?streams=" + buildSubscriptionStreams(subscription);
-    return new BinanceStreamingService(path, subscription);
+  protected String getStreamingBaseUri() {
+    return API_BASE_URI;
   }
 
   // This is needed since BinanceStreamingExchange extends BinanceExchange which has the spec

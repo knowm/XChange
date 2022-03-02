@@ -1,5 +1,10 @@
 package org.knowm.xchange.binance.service.trade;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.ok;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import static org.junit.Assert.assertEquals;
 import static org.knowm.xchange.binance.dto.trade.OrderType.LIMIT;
 import static org.knowm.xchange.binance.dto.trade.OrderType.MARKET;
 import static org.knowm.xchange.binance.dto.trade.OrderType.STOP_LOSS_LIMIT;
@@ -13,7 +18,9 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.BinanceExchangeIntegration;
+import org.knowm.xchange.binance.dto.trade.BinanceDustLog;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -127,5 +134,23 @@ public class TradeServiceIntegration extends BinanceExchangeIntegration {
         .intention(StopOrder.Intention.TAKE_PROFIT)
         .flag(TimeInForce.GTC)
         .build();
+  }
+
+  @Test
+  public void testDustLog() throws IOException {
+    BinanceExchange exchangeMocked = createExchangeMocked();
+    tradeService = (BinanceTradeService) exchangeMocked.getTradeService();
+    stubFor(
+        get(urlPathEqualTo("/sapi/v1/asset/dribblet"))
+            .willReturn(
+                ok().withHeader("Content-Type", "application/json").withBodyFile("dustlog.json")));
+
+    BinanceDustLog dustLog = tradeService.getDustLog(1639094400000L, 1639180800000L);
+    assertEquals(1, dustLog.getDribblets().size());
+    assertEquals(28, dustLog.getDribblets().get(0).getBinanceDribbletDetails().size());
+    assertEquals((Long) 1639129045000L, dustLog.getDribblets().get(0).getOperateTime());
+    assertEquals(
+        "90698471826",
+        dustLog.getDribblets().get(0).getBinanceDribbletDetails().get(0).getTransId());
   }
 }

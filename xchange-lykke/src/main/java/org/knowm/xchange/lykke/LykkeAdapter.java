@@ -21,7 +21,9 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.lykke.dto.account.LykkeWallet;
 import org.knowm.xchange.lykke.dto.marketdata.LykkeOrderBook;
 import org.knowm.xchange.lykke.dto.marketdata.LykkePrices;
-import org.knowm.xchange.lykke.dto.trade.*;
+import org.knowm.xchange.lykke.dto.trade.LykkeLimitOrder;
+import org.knowm.xchange.lykke.dto.trade.LykkeOrder;
+import org.knowm.xchange.lykke.dto.trade.LykkeOrderType;
 import org.knowm.xchange.utils.DateUtils;
 
 public class LykkeAdapter {

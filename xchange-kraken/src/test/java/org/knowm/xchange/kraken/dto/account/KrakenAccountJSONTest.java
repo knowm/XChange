@@ -9,7 +9,11 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.kraken.dto.account.results.*;
+import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenWebsocketTokenResult;
 
 public class KrakenAccountJSONTest {
 

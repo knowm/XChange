@@ -1,6 +1,6 @@
 package org.knowm.xchange.lgo.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class LgoPriceHistory {

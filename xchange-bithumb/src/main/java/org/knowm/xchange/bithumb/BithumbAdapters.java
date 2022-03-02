@@ -10,7 +10,11 @@ import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
 import org.knowm.xchange.bithumb.dto.account.BithumbBalance;
 import org.knowm.xchange.bithumb.dto.account.BithumbOrder;
 import org.knowm.xchange.bithumb.dto.account.BithumbOrderDetail;
-import org.knowm.xchange.bithumb.dto.marketdata.*;
+import org.knowm.xchange.bithumb.dto.marketdata.BithumbOrderbook;
+import org.knowm.xchange.bithumb.dto.marketdata.BithumbOrderbookEntry;
+import org.knowm.xchange.bithumb.dto.marketdata.BithumbTicker;
+import org.knowm.xchange.bithumb.dto.marketdata.BithumbTickersReturn;
+import org.knowm.xchange.bithumb.dto.marketdata.BithumbTransactionHistory;
 import org.knowm.xchange.bithumb.dto.trade.BithumbUserTransaction;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -22,7 +26,11 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 
 public final class BithumbAdapters {
   public static final String SEARCH_BUY = "1";

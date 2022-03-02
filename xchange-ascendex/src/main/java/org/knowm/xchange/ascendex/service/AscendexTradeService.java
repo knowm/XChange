@@ -9,11 +9,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
+import org.knowm.xchange.service.trade.params.orders.*;
 
 public class AscendexTradeService extends AscendexTradeServiceRaw implements TradeService {
 
@@ -31,18 +32,19 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (orderParams instanceof CancelOrderByPairAndIdParams) {
-      cancelAllAscendexOrdersBySymbol(
-          ((CancelOrderByPairAndIdParams) orderParams).getCurrencyPair().toString());
-      return true;
-    } else if (orderParams instanceof CancelOrderByCurrencyPair) {
+    if (orderParams instanceof CancelOrderByCurrencyPair) {
       cancelAllAscendexOrdersBySymbol(
           ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair().toString());
       return true;
     } else {
       throw new IOException(
-          "Params must be instanceOf CancelOrderByPairAndIdParams in order to cancel an order on Ascendex.");
+          "Params must be instanceOf CancelOrderByCurrencyPair in order to cancel an order on Ascendex.");
     }
+  }
+
+  @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[] {CancelOrderByCurrencyPair.class};
   }
 
   @Override
@@ -88,7 +90,12 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    return AscendexAdapters.adaptOpenOrderById(getAscendexOrderById(orderIds[0]));
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    if(orderQueryParams.length == 1){
+      return AscendexAdapters.adaptOpenOrderById(
+              getAscendexOrderById(orderQueryParams[0].getOrderId()));
+    }else{
+      throw new IOException("Ascendex only supports query with single id");
+    }
   }
 }

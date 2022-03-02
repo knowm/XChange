@@ -1,0 +1,11 @@
+{
+  "result": "ok",
+  "details": {
+    "cancelRejects": [],
+    "cancelledOrders": [
+      330429106,
+      330429079,
+      330429082
+    ]
+  }
+}

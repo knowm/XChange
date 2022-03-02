@@ -1,7 +1,11 @@
 package info.bitrich.xchangestream.coinmate.v2;
 
 import info.bitrich.xchangestream.coinmate.v2.dto.auth.AuthParams;
-import info.bitrich.xchangestream.core.*;
+import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.core.StreamingAccountService;
+import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.Completable;
 import org.knowm.xchange.coinmate.CoinmateExchange;
 

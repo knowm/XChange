@@ -1,11 +1,13 @@
 package info.bitrich.xchangestream.lgo;
 
-import static info.bitrich.xchangestream.lgo.TestUtils.*;
-import static org.assertj.core.api.Assertions.*;
+import static info.bitrich.xchangestream.lgo.TestUtils.asJsonNode;
+import static info.bitrich.xchangestream.lgo.TestUtils.getJsonContent;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.lgo.LgoEnv;
 import org.knowm.xchange.lgo.LgoEnv.SignatureService;

@@ -5,7 +5,11 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ftx.FtxException;
 import org.knowm.xchange.ftx.dto.FtxResponse;
-import org.knowm.xchange.ftx.dto.marketdata.*;
+import org.knowm.xchange.ftx.dto.marketdata.FtxCandleDto;
+import org.knowm.xchange.ftx.dto.marketdata.FtxMarketDto;
+import org.knowm.xchange.ftx.dto.marketdata.FtxMarketsDto;
+import org.knowm.xchange.ftx.dto.marketdata.FtxOrderbookDto;
+import org.knowm.xchange.ftx.dto.marketdata.FtxTradeDto;
 
 public class FtxMarketDataServiceRaw extends FtxBaseService {
 

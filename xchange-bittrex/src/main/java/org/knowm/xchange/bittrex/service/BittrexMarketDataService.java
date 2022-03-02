@@ -1,8 +1,15 @@
 package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
-import java.util.*;
-import org.knowm.xchange.bittrex.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.knowm.xchange.bittrex.BittrexAdapters;
+import org.knowm.xchange.bittrex.BittrexAuthenticated;
+import org.knowm.xchange.bittrex.BittrexErrorAdapter;
+import org.knowm.xchange.bittrex.BittrexExchange;
+import org.knowm.xchange.bittrex.BittrexUtils;
 import org.knowm.xchange.bittrex.dto.BittrexException;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTicker;

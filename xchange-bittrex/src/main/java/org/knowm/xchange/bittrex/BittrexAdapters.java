@@ -1,14 +1,28 @@
 package org.knowm.xchange.bittrex;
 
-import static org.knowm.xchange.bittrex.BittrexConstants.*;
+import static org.knowm.xchange.bittrex.BittrexConstants.OFFLINE;
+import static org.knowm.xchange.bittrex.BittrexConstants.ONLINE;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
-import org.knowm.xchange.bittrex.dto.marketdata.*;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrency;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexLevel;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexTicker;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;

@@ -10,6 +10,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.gemini.v1.GeminiOrderType;
 import org.knowm.xchange.gemini.v1.GeminiUtils;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelAllOrdersRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelAllOrdersResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelOrderRequest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewOrderRequest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiNonceOnlyRequest;
@@ -117,6 +119,29 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
     }
   }
 
+  public GeminiCancelAllOrdersResponse cancelAllGeminiOrders(boolean sessionOnly, String accountId)
+      throws IOException {
+    try {
+      if (sessionOnly) {
+        return gemini.cancelAllSessionOrders(
+            apiKey,
+            payloadCreator,
+            signatureCreator,
+            new GeminiCancelAllOrdersRequest(
+                String.valueOf(exchange.getNonceFactory().createValue()), accountId));
+      } else {
+        return gemini.cancelAllOrders(
+            apiKey,
+            payloadCreator,
+            signatureCreator,
+            new GeminiCancelAllOrdersRequest(
+                String.valueOf(exchange.getNonceFactory().createValue()), accountId));
+      }
+    } catch (GeminiException e) {
+      throw handleException(e);
+    }
+  }
+
   public GeminiOrderStatusResponse getGeminiOrderStatus(String orderId) throws IOException {
     try {
       GeminiOrderStatusResponse orderStatus =
@@ -191,4 +216,19 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
       throw handleException(e);
     }
   }
+  
+  public GeminiOrderStatusResponse heartBeat() throws IOException {
+        try {
+            GeminiOrderStatusResponse orderStatus =
+                    gemini.heartBeat(
+                            apiKey,
+                            payloadCreator,
+                            signatureCreator,
+                            new GeminiNonceOnlyRequest(
+                                    "/v1/heartbeat", String.valueOf(exchange.getNonceFactory().createValue())));
+            return orderStatus;
+        } catch (GeminiException e) {
+            throw handleException(e);
+        }
+    }
 }

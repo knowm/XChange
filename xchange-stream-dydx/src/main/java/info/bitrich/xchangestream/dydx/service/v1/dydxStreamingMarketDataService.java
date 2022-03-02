@@ -1,6 +1,8 @@
 package info.bitrich.xchangestream.dydx.service.v1;
 
-import static info.bitrich.xchangestream.dydx.dydxStreamingService.*;
+import static info.bitrich.xchangestream.dydx.dydxStreamingService.CHANNEL_DATA;
+import static info.bitrich.xchangestream.dydx.dydxStreamingService.SUBSCRIBED;
+import static info.bitrich.xchangestream.dydx.dydxStreamingService.V1_ORDERBOOK;
 
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.dydx.dto.v1.dydxInitialOrderBookMessage;

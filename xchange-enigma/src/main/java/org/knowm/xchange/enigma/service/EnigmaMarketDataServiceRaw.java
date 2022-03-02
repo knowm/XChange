@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.enigma.dto.marketdata.*;
+import org.knowm.xchange.enigma.dto.marketdata.EnigmaOrderBook;
+import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
+import org.knowm.xchange.enigma.dto.marketdata.EnigmaProductMarketData;
+import org.knowm.xchange.enigma.dto.marketdata.EnigmaTicker;
+import org.knowm.xchange.enigma.dto.marketdata.EnigmaTransaction;
 import org.knowm.xchange.enigma.model.EnigmaException;
 
 public class EnigmaMarketDataServiceRaw extends EnigmaBaseService {

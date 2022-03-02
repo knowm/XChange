@@ -21,6 +21,7 @@ public final class BinanceResilience {
         .rateLimiter(
             REQUEST_WEIGHT_RATE_LIMITER,
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
+                .timeoutDuration(Duration.ofMinutes(1))
                 .limitRefreshPeriod(Duration.ofMinutes(1))
                 .limitForPeriod(1200)
                 .build());

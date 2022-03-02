@@ -120,6 +120,11 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
     return cancelOrder(currencyPair, paramId.getOrderId());
   }
 
+  @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[] {CancelOrderByIdParams.class, CancelOrderByCurrencyPair.class};
+  }
+
   private boolean cancelOrder(CurrencyPair currencyPair, String orderId)
       throws TheRockException, NumberFormatException, IOException {
     TheRockOrder cancelledOrder = cancelTheRockOrder(currencyPair, Long.parseLong(orderId));

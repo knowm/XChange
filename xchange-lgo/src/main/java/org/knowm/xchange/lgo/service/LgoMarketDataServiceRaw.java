@@ -6,7 +6,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.lgo.LgoAdapters;
 import org.knowm.xchange.lgo.LgoExchange;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
-import org.knowm.xchange.lgo.dto.marketdata.*;
+import org.knowm.xchange.lgo.dto.marketdata.LgoGranularity;
+import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
 import org.knowm.xchange.lgo.dto.marketdata.LgoPriceHistory;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
 

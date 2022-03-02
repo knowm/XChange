@@ -9,7 +9,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bittrex.dto.BittrexException;
-import org.knowm.xchange.bittrex.dto.marketdata.*;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrency;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexDepth;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexTicker;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 
 @Path("v3")
 @Produces(MediaType.APPLICATION_JSON)

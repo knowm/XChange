@@ -1,22 +1,34 @@
 package org.knowm.xchange.okex.v5;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.okex.v5.dto.OkexException;
-import org.knowm.xchange.okex.v5.dto.OkexResponse;
-import org.knowm.xchange.okex.v5.dto.account.*;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
-import org.knowm.xchange.okex.v5.dto.subaccount.OkexSubAccountDetails;
-import org.knowm.xchange.okex.v5.dto.trade.*;
-import si.mazi.rescu.ParamsDigest;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.okex.v5.dto.OkexException;
+import org.knowm.xchange.okex.v5.dto.OkexResponse;
+import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
+import org.knowm.xchange.okex.v5.dto.account.OkexDepositAddress;
+import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
+import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
+import org.knowm.xchange.okex.v5.dto.account.PiggyBalance;
+import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
+import org.knowm.xchange.okex.v5.dto.subaccount.OkexSubAccountDetails;
+import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
+import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
+import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
+import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
+import org.knowm.xchange.okex.v5.dto.trade.OkexOrderResponse;
+import si.mazi.rescu.ParamsDigest;
 
 @Path("/api/v5")
 @Produces(MediaType.APPLICATION_JSON)
@@ -82,6 +94,7 @@ public interface OkexAuthenticated extends Okex {
       @QueryParam("instType") String instType,
       @QueryParam("instId") String instrumentId,
       @QueryParam("ordType") String orderType,
+      @QueryParam("state") String state,
       @QueryParam("after") String after,
       @QueryParam("before") String before,
       @QueryParam("limit") String limit,
@@ -165,40 +178,40 @@ public interface OkexAuthenticated extends Okex {
       @QueryParam("clOrdId") String clientOrderId)
       throws OkexException, IOException;
 
-
   @GET
   @Path(subAccountList)
   OkexResponse<List<OkexSubAccountDetails>> getSubAccountList(
-          @HeaderParam("OK-ACCESS-KEY") String apiKey,
-          @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
-          @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
-          @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
-          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
-          @QueryParam("enable") String enable,
-          @QueryParam("subAcct") String subAcct)
-          throws OkexException, IOException;
+      @HeaderParam("OK-ACCESS-KEY") String apiKey,
+      @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+      @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
+      @QueryParam("enable") String enable,
+      @QueryParam("subAcct") String subAcct)
+      throws OkexException, IOException;
 
   @GET
   @Path(subAccountBalance)
   OkexResponse<List<OkexWalletBalance>> getSubAccountBalance(
-          @HeaderParam("OK-ACCESS-KEY") String apiKey,
-          @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
-          @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
-          @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
-          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
-          @QueryParam("subAcct") String subAcct)
-          throws OkexException, IOException;
+      @HeaderParam("OK-ACCESS-KEY") String apiKey,
+      @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+      @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
+      @QueryParam("subAcct") String subAcct)
+      throws OkexException, IOException;
 
   @GET
   @Path(piggyBalance)
   OkexResponse<List<PiggyBalance>> getPiggyBalance(
-          @HeaderParam("OK-ACCESS-KEY") String apiKey,
-          @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
-          @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
-          @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
-          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
-          @QueryParam("ccy") String ccy)
-          throws OkexException, IOException;
+      @HeaderParam("OK-ACCESS-KEY") String apiKey,
+      @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+      @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
+      @QueryParam("ccy") String ccy)
+      throws OkexException, IOException;
+
   @POST
   @Path(placeOrderPath)
   @Consumes(MediaType.APPLICATION_JSON)

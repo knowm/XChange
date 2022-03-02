@@ -1,7 +1,6 @@
 package org.knowm.xchange.coinbasepro.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import org.knowm.xchange.client.ResilienceRegistries;
@@ -90,17 +89,6 @@ public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implemen
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new CoinbaseProTradeHistoryParams();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    Collection<Order> orders = new ArrayList<>(orderIds.length);
-
-    for (String orderId : orderIds) {
-      orders.add(CoinbaseProAdapters.adaptOrder(super.getOrder(orderId)));
-    }
-
-    return orders;
   }
 
   @Override
