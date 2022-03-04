@@ -154,7 +154,7 @@ public class FtxAdapters {
             ftxMarketDto -> {
               CurrencyPairMetaData currencyPairMetaData =
                   new CurrencyPairMetaData.Builder()
-                      .amountStepSize(ftxMarketDto.getPriceIncrement())
+                      .amountStepSize(ftxMarketDto.getSizeIncrement())
                       .minimumAmount(ftxMarketDto.getSizeIncrement())
                       .priceScale(ftxMarketDto.getPriceIncrement().scale())
                       .baseScale(ftxMarketDto.getSizeIncrement().scale())
