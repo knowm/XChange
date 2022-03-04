@@ -80,6 +80,11 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
 
   public KrakenDepositMethods[] getDepositMethods(String assetPairs, String assets)
       throws IOException {
+    /*
+     * TODO
+     *
+     * Cache this
+     */
     KrakenDepositMethodsResults depositMethods =
         kraken.getDepositMethods(
             assetPairs,
