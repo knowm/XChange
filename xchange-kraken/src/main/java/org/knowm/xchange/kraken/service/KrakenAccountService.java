@@ -98,7 +98,11 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     }
 
     if(depositMethods.length > 1 && protocol == null) {
-      return null; // we don't know what to do
+      LOGGER.warn("Multiple methods for currency "+currency+" protocol "+protocol);
+      for(KrakenDepositMethods method : depositMethods) {
+        LOGGER.warn(" -- "+method.getMethod());
+      }
+      return depositMethods[0].getMethod(); // we don't know what to do
     } else if(protocol != null) {
       return protocol;
     }
@@ -165,9 +169,11 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
       protocol = args[0];
     }
 
-    KrakenDepositAddress[] depositAddresses = requestDepositAddress(false, currency, protocol);
+    Currency krakenCurrency = Currency.getInstance(KrakenUtils.getKrakenCurrencyCode(currency));
+
+    KrakenDepositAddress[] depositAddresses = requestDepositAddress(false, krakenCurrency, protocol);
     if(depositAddresses == null || depositAddresses.length <= 0) {
-      depositAddresses = requestDepositAddress(true, currency, protocol);
+      depositAddresses = requestDepositAddress(true, krakenCurrency, protocol);
     }
 
     if(depositAddresses == null || depositAddresses.length <= 0) {
