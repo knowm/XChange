@@ -1,14 +1,11 @@
 package org.knowm.xchange.okex.v5;
 
-import static org.knowm.xchange.okex.v5.service.OkexMarketDataService.SPOT;
-
-import java.io.IOException;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
 import org.knowm.xchange.okex.v5.service.OkexAccountService;
@@ -16,6 +13,11 @@ import org.knowm.xchange.okex.v5.service.OkexMarketDataService;
 import org.knowm.xchange.okex.v5.service.OkexMarketDataServiceRaw;
 import org.knowm.xchange.okex.v5.service.OkexTradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.util.List;
+
+import static org.knowm.xchange.okex.v5.service.OkexMarketDataService.SPOT;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexExchange extends BaseExchange {
@@ -96,16 +98,21 @@ public class OkexExchange extends BaseExchange {
             .getOkexInstruments(SPOT, null, null)
             .getData();
 
-    // Currency data is only retrievable through a private endpoint
+    // Currency data and trade fee is only retrievable through a private endpoint
     List<OkexCurrency> currencies = null;
+    List<OkexTradeFee> tradeFee = null;
     if (exchangeSpecification.getApiKey() != null
         && exchangeSpecification.getSecretKey() != null
         && exchangeSpecification.getExchangeSpecificParametersItem("passphrase") != null) {
       currencies = ((OkexMarketDataServiceRaw) marketDataService).getOkexCurrencies().getData();
+      String accountLevel =
+              ((OkexAccountService) accountService).getOkexAccountConfiguration().getData().get(0).getAccountLevel();
+      tradeFee = ((OkexAccountService) accountService).getTradeFee(
+              SPOT, null, null, accountLevel).getData();
     }
 
     exchangeMetaData =
-        OkexAdapters.adaptToExchangeMetaData(exchangeMetaData, instruments, currencies);
+        OkexAdapters.adaptToExchangeMetaData(exchangeMetaData, instruments, currencies, tradeFee);
   }
 
   @NoArgsConstructor(access = AccessLevel.PRIVATE)

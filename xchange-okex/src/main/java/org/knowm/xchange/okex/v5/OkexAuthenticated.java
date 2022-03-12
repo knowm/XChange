@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
+import org.knowm.xchange.okex.v5.dto.account.*;
 import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
 import org.knowm.xchange.okex.v5.dto.account.OkexDepositAddress;
 import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
@@ -35,6 +36,7 @@ import si.mazi.rescu.ParamsDigest;
 public interface OkexAuthenticated extends Okex {
   String balancePath = "/account/balance"; // Stated as 10 req/2 sec
   String tradeFeePath = "/account/trade-fee"; // Stated as 5 req/2 sec
+  String configPath = "/account/config"; // Stated as 5 req/2 sec
   String currenciesPath = "/asset/currencies"; // Stated as 6 req/sec
   String assetBalancesPath = "/asset/balances"; // Stated as 6 req/sec
   String pendingOrdersPath = "/trade/orders-pending"; // Stated as 20 req/2 sec
@@ -69,6 +71,7 @@ public interface OkexAuthenticated extends Okex {
           put(depositAddressPath, Arrays.asList(6, 1));
           put(ordersHistoryPath, Arrays.asList(40, 2));
           put(tradeFeePath, Arrays.asList(5, 2));
+          put(configPath, Arrays.asList(5, 2));
           put(subAccountList, Arrays.asList(2, 2));
           put(subAccountBalance, Arrays.asList(2, 2));
           put(piggyBalance, Arrays.asList(6, 1));
@@ -87,6 +90,16 @@ public interface OkexAuthenticated extends Okex {
       @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
       @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading);
+
+  @GET
+  @Path(configPath)
+  OkexResponse<List<OkexAccountConfig>> getAccountConfiguration(
+          @HeaderParam("OK-ACCESS-KEY") String apiKey,
+          @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+          @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+          @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+          throws OkexException, IOException;
 
   @GET
   @Path(ordersHistoryPath)

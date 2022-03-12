@@ -1,17 +1,5 @@
 package org.knowm.xchange.okex.v5;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -33,6 +21,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
+import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
 import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
@@ -41,6 +30,11 @@ import org.knowm.xchange.okex.v5.dto.marketdata.OkexTrade;
 import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAdapters {
@@ -226,9 +220,10 @@ public class OkexAdapters {
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
-      ExchangeMetaData exchangeMetaData,
-      List<OkexInstrument> instruments,
-      List<OkexCurrency> currs) {
+          ExchangeMetaData exchangeMetaData,
+          List<OkexInstrument> instruments,
+          List<OkexCurrency> currs,
+          List<OkexTradeFee> tradeFee) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         exchangeMetaData.getCurrencyPairs() == null
@@ -239,6 +234,11 @@ public class OkexAdapters {
         exchangeMetaData.getCurrencies() == null
             ? new HashMap<>()
             : exchangeMetaData.getCurrencies();
+
+    String makerFee = "0.5";
+    if (tradeFee != null && !tradeFee.isEmpty()) {
+      makerFee = tradeFee.get(0).getMaker();
+    }
 
     for (OkexInstrument instrument : instruments) {
       if (!"live".equals(instrument.getState())) {
@@ -252,7 +252,7 @@ public class OkexAdapters {
       currencyPairs.put(
           pair,
           new CurrencyPairMetaData(
-              new BigDecimal("0.50"),
+              new BigDecimal(makerFee).negate(),
               new BigDecimal(instrument.getMinSize()),
               null,
               null,
