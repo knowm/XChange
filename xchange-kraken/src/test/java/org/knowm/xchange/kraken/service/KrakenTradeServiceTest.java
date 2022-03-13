@@ -138,7 +138,7 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
         wireMockRule.findAll(postRequestedFor(urlEqualTo("/0/private/AddOrder")));
     assertThat(requests).hasSize(1);
 
-    Map<String, String> requestParams = parseAddOrderRequestBody(requests);
+    Map<String, String> requestParams = parseAddOrderRequestBody(requests.get(0));
     assertThat(requestParams.get("type")).isEqualTo("buy");
     assertThat(requestParams.get("volume")).isEqualTo("2.12340000");
     assertThat(requestParams.get("pair")).isEqualTo("XXBTZUSD");
@@ -158,7 +158,7 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
         wireMockRule.findAll(postRequestedFor(urlEqualTo("/0/private/AddOrder")));
     assertThat(requests).hasSize(1);
 
-    Map<String, String> requestParams = parseAddOrderRequestBody(requests);
+    Map<String, String> requestParams = parseAddOrderRequestBody(requests.get(0));
     assertThat(requestParams.get("timeinforce")).isEqualTo("IOC");
   }
 
@@ -172,8 +172,8 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
                     .withBody(PLACE_ORDER_RESPONSE_BODY)));
   }
 
-  private Map<String, String> parseAddOrderRequestBody(List<LoggedRequest> requests) {
-    return Arrays.stream(requests.get(0).getBodyAsString().split("&"))
+  private Map<String, String> parseAddOrderRequestBody(LoggedRequest request) {
+    return Arrays.stream(request.getBodyAsString().split("&"))
         .map(keyValueString -> keyValueString.split("=", 2))
         .collect(Collectors.toMap(a -> a[0], b -> b[1]));
   }
