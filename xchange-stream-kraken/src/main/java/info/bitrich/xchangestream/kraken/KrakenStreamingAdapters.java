@@ -214,7 +214,7 @@ public class KrakenStreamingAdapters {
    * or index does not exist.
    */
   private static BigDecimal arrayNodeItemAsDecimal(ArrayNode arrayNode, int index) {
-    if (arrayNode == null || index > arrayNode.size()) {
+    if (arrayNode == null) {
       return null;
     }
     JsonNode itemNode = arrayNode.get(index);
