@@ -122,6 +122,7 @@
     <module>xchange-cobinhood</module>
     <module>xchange-coinbase</module>
     <module>xchange-coinbasepro</module>
+    <module>xchange-coincheck</module>
     <module>xchange-coindeal</module>
     <module>xchange-coindirect</module>
     <module>xchange-coinbene</module>
@@ -215,6 +216,7 @@
     <module>xchange-stream-service-core</module>
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
+    <module>xchange-stream-coincheck</module>
   </modules>
 
   <ciManagement>
@@ -325,12 +327,15 @@
         <artifactId>logback-classic</artifactId>
         <version>${version.qos.logback}</version>
       </dependency>
+
+      <!-- Lombok for boilerplate -->
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>${version.lombok}</version>
         <scope>provided</scope>
       </dependency>
+
       <!-- jwt for auth -->
       <dependency>
         <groupId>com.auth0</groupId>
