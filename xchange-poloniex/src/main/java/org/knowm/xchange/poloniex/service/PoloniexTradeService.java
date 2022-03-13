@@ -247,8 +247,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
     returnValue.addAll(
         orderIdList.stream()
-            .filter(
-                f -> returnValue.stream().noneMatch(a -> a.getId().equals(f)))
+            .filter(f -> returnValue.stream().noneMatch(a -> a.getId().equals(f)))
             .map(
                 f -> {
                   try {

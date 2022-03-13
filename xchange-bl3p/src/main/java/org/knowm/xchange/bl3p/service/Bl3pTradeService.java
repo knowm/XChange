@@ -177,5 +177,4 @@ public class Bl3pTradeService extends Bl3pBaseService implements TradeService {
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
-
 }

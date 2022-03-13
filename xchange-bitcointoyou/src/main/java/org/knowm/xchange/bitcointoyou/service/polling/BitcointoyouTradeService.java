@@ -105,7 +105,7 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     if (orderQueryParams.length == 1) {
       return BitcointoyouAdapters.adaptBitcointoyouOrderToOrdersCollection(
-              returnOrderById(orderQueryParams[0].getOrderId()));
+          returnOrderById(orderQueryParams[0].getOrderId()));
     }
 
     // Bitcointoyou API doesn't support multiple-orders ID.

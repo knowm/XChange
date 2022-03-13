@@ -65,7 +65,7 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     return Collections.singletonList(
-            CoindealAdapters.adaptOrder(getCoindealOrderById(orderQueryParams[0].getOrderId())));
+        CoindealAdapters.adaptOrder(getCoindealOrderById(orderQueryParams[0].getOrderId())));
   }
 
   @Override
