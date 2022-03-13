@@ -159,8 +159,8 @@ public class KrakenStreamingAdapters {
         .filter(JsonNode::isObject)
         .map(
             tickerNode -> {
-              ArrayNode askList = (ArrayNode) tickerNode.get("a");
-              ArrayNode bidList = (ArrayNode) tickerNode.get("b");
+              ArrayNode askArray = (ArrayNode) tickerNode.get("a");
+              ArrayNode bidArray = (ArrayNode) tickerNode.get("b");
               Iterator<JsonNode> closeIterator = tickerNode.get("c").iterator();
               Iterator<JsonNode> volumeIterator = tickerNode.get("v").iterator();
               Iterator<JsonNode> vwapIterator = tickerNode.get("p").iterator();
@@ -175,10 +175,10 @@ public class KrakenStreamingAdapters {
 
               return new Ticker.Builder()
                   .open(nextNodeAsDecimal(openPriceIterator))
-                  .ask(arrayNodeItemAsDecimal(askList, 0))
-                  .bid(arrayNodeItemAsDecimal(bidList, 0))
-                  .askSize(arrayNodeItemAsDecimal(askList, 2))
-                  .bidSize(arrayNodeItemAsDecimal(bidList, 2))
+                  .ask(arrayNodeItemAsDecimal(askArray, 0))
+                  .bid(arrayNodeItemAsDecimal(bidArray, 0))
+                  .askSize(arrayNodeItemAsDecimal(askArray, 2))
+                  .bidSize(arrayNodeItemAsDecimal(bidArray, 2))
                   .last(nextNodeAsDecimal(closeIterator))
                   .high(nextNodeAsDecimal(highPriceIterator))
                   .low(nextNodeAsDecimal(lowPriceIterator))
