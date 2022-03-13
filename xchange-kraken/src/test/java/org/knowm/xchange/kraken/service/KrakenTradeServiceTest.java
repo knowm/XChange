@@ -159,7 +159,7 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
     assertThat(requests).hasSize(1);
 
     Map<String, String> requestParams = parseAddOrderRequestBody(requests.get(0));
-    assertThat(requestParams.get("timeinforce")).isEqualTo("IOC");
+    assertThat(requestParams.get("timeInForce")).isEqualTo("IOC");
   }
 
   private void stubAddOrderApi() {
