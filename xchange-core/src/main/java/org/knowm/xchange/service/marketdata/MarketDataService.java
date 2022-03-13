@@ -1,6 +1,7 @@
 package org.knowm.xchange.service.marketdata;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -184,9 +185,8 @@ public interface MarketDataService extends BaseService {
    * Get the CandleStickData for given currency between startDate to endDate.
    *
    * @param currencyPair currencyPair.
-   * @param startDate startDate of candle stick, E.G. march 2022 (Epoch timestamp in milis).
-   * @param endDate endDate of candle stick, E.G. april 2022 (Epoch timestamp in milis).
-   * @param period period of candle stick in milis.
+   * @param startDate startDate of candle stick, E.G. march 2022.
+   * @param endDate endDate of candle stick, E.G. april 2022.
    * @param args extra exchange specific parameters.
    * @return The CandleStickData, null if some sort of error occurred. Implementers should log the error.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the
@@ -197,7 +197,7 @@ public interface MarketDataService extends BaseService {
    * requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default CandleStickData getCandleStickData(CurrencyPair currencyPair, String startDate, String endDate, String period, Object... args) throws IOException {
+  default CandleStickData getCandleStickData(CurrencyPair currencyPair, Date startDate, Date endDate, Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException("getCandleStickData");
   }
 }

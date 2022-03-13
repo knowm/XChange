@@ -3,6 +3,7 @@ package org.knowm.xchange.dto.marketdata;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 public class CandleStickData implements Serializable {
@@ -20,6 +21,6 @@ public class CandleStickData implements Serializable {
     }
 
     public List<CandleStick> getCandleSticks() {
-        return candleSticks;
+        return Collections.unmodifiableList(candleSticks);
     }
 }

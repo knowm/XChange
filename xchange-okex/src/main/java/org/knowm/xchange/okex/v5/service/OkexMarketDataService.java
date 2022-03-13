@@ -1,6 +1,7 @@
 package org.knowm.xchange.okex.v5.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import org.knowm.xchange.client.ResilienceRegistries;
@@ -50,19 +51,27 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   }
 
   @Override
-  public CandleStickData getCandleStickData(CurrencyPair currencyPair, String startDate, String endDate, String period, Object... args)
+  public CandleStickData getCandleStickData(CurrencyPair currencyPair, Date startDate, Date endDate, Object... args)
           throws IOException {
 
     String limit = null;
-    if (args != null && args.length == 1) {
-      if (args[0] != null && args[0] instanceof String) {
-        limit = String.valueOf(args[0]);
+    String period = null;
+
+    if (args != null) {
+      switch (args.length) {
+        case 2:
+          if (args[1] != null && args[1] instanceof String) {
+            limit = (String) args[1];
+          }
+        case 1:
+          if (args[0] != null && args[0] instanceof String) {
+            period = (String) args[0];
+          }
       }
     }
 
     OkexResponse<List<OkexCandleStick>> historyCandle = getHistoryCandle(
-            OkexAdapters.adaptCurrencyPairId(currencyPair), endDate, startDate, period, limit);
-
+            OkexAdapters.adaptCurrencyPairId(currencyPair), String.valueOf(endDate.getTime()), String.valueOf(startDate.getTime()), period, limit);
     return OkexAdapters.adaptCandleStickData(historyCandle.getData(), currencyPair);
   }
 
