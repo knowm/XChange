@@ -42,16 +42,16 @@ public class BinanceTradeDemo {
 
     // Get orders using params
     if (order != null) {
-      Class queryParamClass =exchange.getTradeService().getRequiredOrderQueryParamClass();
+      Class queryParamClass = exchange.getTradeService().getRequiredOrderQueryParamClass();
       OrderQueryParams queryParams = new DefaultQueryOrderParam(order.getId());
       if (queryParamClass == OrderQueryParamCurrencyPair.class) {
         queryParams = new DefaultQueryOrderParamCurrencyPair(pair, order.getId());
-      }else if(queryParamClass == OrderQueryParamInstrument.class) {
+      } else if (queryParamClass == OrderQueryParamInstrument.class) {
         Instrument pairAsInstrument = pair;
         queryParams = new DefaultQueryOrderParamInstrument(pairAsInstrument, order.getId());
       }
       Collection<Order> ordersWithId = exchange.getTradeService().getOrder(queryParams);
-      if(ordersWithId != null) {
+      if (ordersWithId != null) {
         System.out.println(ordersWithId);
       }
     }

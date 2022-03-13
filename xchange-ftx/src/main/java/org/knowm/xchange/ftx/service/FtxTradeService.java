@@ -63,8 +63,9 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    return getOrderFromSubaccount(exchange.getExchangeSpecification().getUserName(),
-            TradeService.toOrderIds(orderQueryParams));
+    return getOrderFromSubaccount(
+        exchange.getExchangeSpecification().getUserName(),
+        TradeService.toOrderIds(orderQueryParams));
   }
 
   @Override
