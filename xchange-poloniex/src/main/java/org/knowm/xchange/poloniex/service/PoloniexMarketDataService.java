@@ -2,9 +2,11 @@ package org.knowm.xchange.poloniex.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -14,6 +16,7 @@ import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
 import org.knowm.xchange.poloniex.PoloniexUtils;
 import org.knowm.xchange.poloniex.dto.PoloniexException;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexChartData;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
@@ -115,6 +118,20 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw
         poloniexPublicTrades = getPoloniexPublicTrades(currencyPair, startTime, endTime);
       }
       return PoloniexAdapters.adaptPoloniexPublicTrades(poloniexPublicTrades, currencyPair);
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
+    }
+  }
+
+  @Override
+  public CandleStickData getCandleStickData(CurrencyPair currencyPair, String startDate, String endDate, String period, Object... args)
+          throws IOException {
+
+    try {
+      PoloniexChartDataPeriodType periodType = period != null ? PoloniexChartDataPeriodType.valueOf(period) : PoloniexChartDataPeriodType.PERIOD_300;
+      PoloniexChartData[] poloniexChartData = getPoloniexChartData(
+              currencyPair, TimeUnit.MILLISECONDS.toSeconds(Long.parseLong(startDate)), TimeUnit.MILLISECONDS.toSeconds(Long.parseLong(endDate)), periodType);
+      return PoloniexAdapters.adaptPoloniexCandleStickData(poloniexChartData, currencyPair);
     } catch (PoloniexException e) {
       throw PoloniexErrorAdapter.adapt(e);
     }
