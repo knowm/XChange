@@ -11,6 +11,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.verification.*;
+import java.math.*;
+import java.util.*;
+import java.util.stream.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -22,10 +25,6 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.kraken.dto.trade.*;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-
-import java.math.*;
-import java.util.*;
-import java.util.stream.*;
 
 public class KrakenTradeServiceTest extends BaseWiremockTest {
 
