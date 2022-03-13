@@ -246,7 +246,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
               krakenStandardOrder.getExpireTime(),
               krakenStandardOrder.getUserRefId(),
               krakenStandardOrder.getCloseOrder(),
-              nullSafeToString(krakenStandardOrder),
+              nullSafeToString(krakenStandardOrder.getTimeInForce()),
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory());
@@ -267,7 +267,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
               krakenStandardOrder.getUserRefId(),
               true,
               krakenStandardOrder.getCloseOrder(),
-              nullSafeToString(krakenStandardOrder),
+              nullSafeToString(krakenStandardOrder.getTimeInForce()),
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory());
@@ -316,9 +316,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
     return checkResult(krakenOrderResult);
   }
 
-  private String nullSafeToString(KrakenStandardOrder krakenStandardOrder) {
-    return krakenStandardOrder.getTimeInForce() == null
-        ? null
-        : krakenStandardOrder.getTimeInForce().toString();
+  private String nullSafeToString(Object value) {
+    return value == null ? null : value.toString();
   }
 }
