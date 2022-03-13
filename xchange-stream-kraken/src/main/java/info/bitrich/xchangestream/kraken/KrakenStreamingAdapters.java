@@ -159,8 +159,8 @@ public class KrakenStreamingAdapters {
         .filter(JsonNode::isObject)
         .map(
             tickerNode -> {
-              Iterator<JsonNode> askIterator = tickerNode.get("a").iterator();
-              Iterator<JsonNode> bidIterator = tickerNode.get("b").iterator();
+              ArrayNode askList = (ArrayNode) tickerNode.get("a");
+              ArrayNode bidList = (ArrayNode) tickerNode.get("b");
               Iterator<JsonNode> closeIterator = tickerNode.get("c").iterator();
               Iterator<JsonNode> volumeIterator = tickerNode.get("v").iterator();
               Iterator<JsonNode> vwapIterator = tickerNode.get("p").iterator();
@@ -175,8 +175,10 @@ public class KrakenStreamingAdapters {
 
               return new Ticker.Builder()
                   .open(nextNodeAsDecimal(openPriceIterator))
-                  .ask(nextNodeAsDecimal(askIterator))
-                  .bid(nextNodeAsDecimal(bidIterator))
+                  .ask(arrayNodeItemAsDecimal(askList, 0))
+                  .bid(arrayNodeItemAsDecimal(bidList, 0))
+                  .askSize(arrayNodeItemAsDecimal(askList, 2))
+                  .bidSize(arrayNodeItemAsDecimal(bidList, 2))
                   .last(nextNodeAsDecimal(closeIterator))
                   .high(nextNodeAsDecimal(highPriceIterator))
                   .low(nextNodeAsDecimal(lowPriceIterator))
@@ -213,6 +215,17 @@ public class KrakenStreamingAdapters {
         .type(nextNodeAsOrderType(iterator))
         .instrument(instrument)
         .build();
+  }
+
+  /**
+   * Returns the element at index in arrayNode as a BigDecimal. Retuns null if the arrayNode is null
+   * or index does not exist.
+   */
+  private static BigDecimal arrayNodeItemAsDecimal(ArrayNode arrayNode, int index) {
+    if (arrayNode == null || index > arrayNode.size()) {
+      return null;
+    }
+    return new BigDecimal(arrayNode.get(index).asText());
   }
 
   /**
