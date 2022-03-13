@@ -90,10 +90,10 @@ public abstract class BaseExchange implements Exchange {
     } else if (this.exchangeSpecification.getExchangeName()
         != null) { // load the metadata from the classpath
 
+      String metadataFileName = getMetaDataFileName(this.exchangeSpecification) + ".json";
+      logger.debug("Loading metadata from {}", metadataFileName);
       try (InputStream is =
-          BaseExchangeService.class
-              .getClassLoader()
-              .getResourceAsStream(getMetaDataFileName(this.exchangeSpecification) + ".json")) {
+          BaseExchangeService.class.getClassLoader().getResourceAsStream(metadataFileName)) {
 
         loadExchangeMetaData(is);
       } catch (IOException e) {
