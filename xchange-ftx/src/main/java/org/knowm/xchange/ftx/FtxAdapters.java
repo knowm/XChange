@@ -11,10 +11,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.derivative.OptionsContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -49,6 +52,7 @@ import org.knowm.xchange.ftx.dto.trade.FtxOrderFlags;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderSide;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderType;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class FtxAdapters {
@@ -326,6 +330,22 @@ public class FtxAdapters {
     } else {
       return currencyPair.toString();
     }
+  }
+
+  public static String adaptInstrumentToFtxMarket(Instrument instrument) {
+    return adaptCurrencyPairToFtxMarket(
+        Objects.requireNonNull(getCurrencyPairFromInstrument(instrument)));
+  }
+
+  public static CurrencyPair getCurrencyPairFromInstrument(Instrument instrument) {
+    if(instrument instanceof FuturesContract){
+      return ((FuturesContract)instrument).getCurrencyPair();
+    } else if(instrument instanceof OptionsContract){
+      return ((OptionsContract)instrument).getCurrencyPair();
+    } else if(instrument instanceof CurrencyPair){
+      return (CurrencyPair)instrument;
+    }
+    return null;
   }
 
   public static OpenPositions adaptOpenPositions(List<FtxPositionDto> ftxPositionDtos) {
