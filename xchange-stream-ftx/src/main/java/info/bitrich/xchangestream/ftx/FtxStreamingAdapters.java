@@ -29,11 +29,17 @@ import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.ftx.dto.marketdata.FtxTradeDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderFlags;
 import org.knowm.xchange.instrument.Instrument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FtxStreamingAdapters {
 
+  private static final Logger LOG = LoggerFactory.getLogger(FtxStreamingAdapters.class);
+
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-  /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
+  /**
+   * Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero
+   */
   private static final ThreadLocal<DecimalFormat> dfp =
       ThreadLocal.withInitial(() -> new DecimalFormat("0.0#######"));
 
@@ -61,6 +67,8 @@ public class FtxStreamingAdapters {
         .forEach(
             message -> {
               if ("partial".equals(message.getAction())) {
+                orderBook.getAsks().clear();
+                orderBook.getBids().clear();
                 message
                     .getAsks()
                     .forEach(
@@ -110,6 +118,8 @@ public class FtxStreamingAdapters {
                     getOrderbookChecksum(orderBook.getAsks(), orderBook.getBids());
 
                 if (!calculatedChecksum.equals(message.getChecksum())) {
+                  LOG.error("calculated checksum: {}", calculatedChecksum);
+                  LOG.error("message checksum:    {}", message.getChecksum());
                   throw new IllegalStateException("Checksum is not correct!");
                 }
               }
@@ -151,6 +161,7 @@ public class FtxStreamingAdapters {
     }
 
     String s = data.toString().replace("E", "e"); // strip last :
+    s = s.replaceAll(",", "."); //Important for the german people :D
 
     CRC32 crc32 = new CRC32();
     byte[] toBytes = s.getBytes(StandardCharsets.UTF_8);
@@ -223,8 +234,8 @@ public class FtxStreamingAdapters {
 
     LimitOrder.Builder order =
         new LimitOrder.Builder(
-                "buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK,
-                new CurrencyPair(data.get("market").asText()))
+            "buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK,
+            new CurrencyPair(data.get("market").asText()))
             .id(data.get("id").asText())
             .timestamp(Date.from(Instant.now()))
             .limitPrice(data.get("price").decimalValue())
@@ -234,9 +245,15 @@ public class FtxStreamingAdapters {
             .averagePrice(data.get("avgFillPrice").decimalValue())
             .orderStatus(Order.OrderStatus.valueOf(data.get("status").asText().toUpperCase()));
 
-    if (data.get("ioc").asBoolean()) order.flag(FtxOrderFlags.IOC);
-    if (data.get("postOnly").asBoolean()) order.flag(FtxOrderFlags.POST_ONLY);
-    if (data.get("reduceOnly").asBoolean()) order.flag(FtxOrderFlags.REDUCE_ONLY);
+    if (data.get("ioc").asBoolean()) {
+      order.flag(FtxOrderFlags.IOC);
+    }
+    if (data.get("postOnly").asBoolean()) {
+      order.flag(FtxOrderFlags.POST_ONLY);
+    }
+    if (data.get("reduceOnly").asBoolean()) {
+      order.flag(FtxOrderFlags.REDUCE_ONLY);
+    }
 
     return order.build();
   }
