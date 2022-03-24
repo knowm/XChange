@@ -37,6 +37,8 @@ import org.knowm.xchange.utils.DateUtils;
 /** @author jamespedwards42 */
 public class KrakenAccountServiceRaw extends KrakenBaseService {
 
+  private static final int MAX_FUNDING_REQUESTS_COUNT = 9;
+  private static final int THREAD_SLEEP_DURATION = 3 * 1000;
   /**
    * Constructor
    *
@@ -187,7 +189,7 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    * @return
    * @throws IOException
    */
-  public Map<String, KrakenLedger> getKrakenLedgerInfo() throws IOException {
+  public Map<String, KrakenLedger> getKrakenLedgerInfo() throws IOException, InterruptedException {
 
     return getKrakenLedgerInfo(null, null, null, null);
   }
@@ -238,8 +240,8 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    */
   public Map<String, KrakenLedger> getKrakenLedgerInfo(
       LedgerType ledgerType, Date start, Date end, Long offset, Currency... assets)
-      throws IOException {
-
+          throws IOException, InterruptedException {
+// test
     String startTime = null;
     String endTime = null;
     long longOffset = 0;
@@ -258,7 +260,14 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
         getKrakenPartialLedgerInfo(ledgerType, startTime, endTime, offset, assets);
     Map<String, KrakenLedger> lastLedgerMap = fullLedgerMap;
 
-    while (!lastLedgerMap.isEmpty()) {
+    // set MAX number of requests due to RATE API LIMITS "https://docs.kraken.com/rest/#section/Rate-Limits";
+    int sentRequests = 0;
+    while (!lastLedgerMap.isEmpty() || sentRequests > MAX_FUNDING_REQUESTS_COUNT) {
+      if(sentRequests > MAX_FUNDING_REQUESTS_COUNT) {
+        break;
+      }
+      Thread.sleep(THREAD_SLEEP_DURATION);
+
       longOffset += lastLedgerMap.size();
       lastLedgerMap =
           getKrakenPartialLedgerInfo(ledgerType, startTime, endTime, longOffset, assets);
@@ -266,6 +275,7 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
         break;
       }
       fullLedgerMap.putAll(lastLedgerMap);
+      sentRequests++;
     }
     return fullLedgerMap;
   }

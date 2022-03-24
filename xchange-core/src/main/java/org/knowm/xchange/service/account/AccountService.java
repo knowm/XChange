@@ -166,7 +166,7 @@ public interface AccountService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+  default List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException, InterruptedException {
     throw new NotYetImplementedForExchangeException("getFundingHistory");
   }
 
