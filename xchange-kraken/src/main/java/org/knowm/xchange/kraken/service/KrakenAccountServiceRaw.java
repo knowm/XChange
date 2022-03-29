@@ -38,7 +38,8 @@ import org.knowm.xchange.utils.DateUtils;
 public class KrakenAccountServiceRaw extends KrakenBaseService {
 
   private static final int MAX_FUNDING_REQUESTS_COUNT = 9;
-  private static final int THREAD_SLEEP_DURATION = 3 * 1000;
+  private static final int THREAD_SLEEP_DURATION = 3 * 1000; // REST API Rate Limits adjustment
+
   /**
    * Constructor
    *
@@ -241,7 +242,7 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
   public Map<String, KrakenLedger> getKrakenLedgerInfo(
       LedgerType ledgerType, Date start, Date end, Long offset, Currency... assets)
           throws IOException, InterruptedException {
-// test
+
     String startTime = null;
     String endTime = null;
     long longOffset = 0;

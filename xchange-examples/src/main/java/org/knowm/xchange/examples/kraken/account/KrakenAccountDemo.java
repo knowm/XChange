@@ -26,7 +26,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
  */
 public class KrakenAccountDemo {
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, InterruptedException {
 
     Exchange krakenExchange = KrakenExampleUtils.createTestExchange();
 
@@ -34,7 +34,7 @@ public class KrakenAccountDemo {
     raw(krakenExchange);
   }
 
-  private static void generic(Exchange krakenExchange) throws IOException {
+  private static void generic(Exchange krakenExchange) throws IOException, InterruptedException {
 
     AccountInfo accountInfo = krakenExchange.getAccountService().getAccountInfo();
     System.out.println("Account Info: " + accountInfo.toString());
@@ -49,7 +49,7 @@ public class KrakenAccountDemo {
     System.out.println("Balance Info: " + rawKrakenAcctService.getKrakenBalance());
   }
 
-  private static void fundingHistory(AccountService accountService) throws IOException {
+  private static void fundingHistory(AccountService accountService) throws IOException, InterruptedException {
     // Get the funds information
     TradeHistoryParams params = accountService.createFundingHistoryParams();
     if (params instanceof TradeHistoryParamsTimeSpan) {
