@@ -12,7 +12,7 @@ import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
 
 public class KrakenAccountRawSpecificDemo {
 
-  public static void main(String[] args) throws IOException, InterruptedException {
+  public static void main(String[] args) throws IOException {
 
     Exchange krakenExchange = KrakenExampleUtils.createTestExchange();
 
