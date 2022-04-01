@@ -72,6 +72,7 @@ class KucoinStreamingMarketDataService implements StreamingMarketDataService {
 
     return service
             .subscribeChannel(channelName)
+            .doOnError(ex -> logger.warn("encountered error while subscribing to channel " + channelName, ex))
             .map(it -> mapper.treeToValue(it, KucoinOrderBookEvent.class))
             .map(e -> e.data);
   }
@@ -88,6 +89,8 @@ class KucoinStreamingMarketDataService implements StreamingMarketDataService {
             // 3. Get a depth snapshot
             // (we do this if we don't already have one or we've invalidated a previous one)
             .doOnNext(transaction -> subscription.initSnapshotIfInvalid(currencyPair))
+
+            .doOnError(ex -> logger.warn("encountered error while processing order book event", ex))
 
             // If we failed, don't return anything. Just keep trying until it works
             .filter(transaction -> subscription.snapshotLastUpdateId.get() > 0L)
