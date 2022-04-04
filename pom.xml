@@ -171,6 +171,7 @@
     <module>xchange-mercadobitcoin</module>
     <module>xchange-okcoin</module>
     <module>xchange-okex</module>
+    <module>xchange-okx</module>
     <module>xchange-openexchangerates</module>
     <module>xchange-paribu</module>
     <module>xchange-paymium</module>

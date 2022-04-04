@@ -62,8 +62,8 @@ public class OkexExchange extends BaseExchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
-    exchangeSpecification.setSslUri("https://www.okx.com");
-    exchangeSpecification.setHost("okx.com");
+    exchangeSpecification.setSslUri("https://www.okex.com");
+    exchangeSpecification.setHost("okex.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Okex");
     exchangeSpecification.setExchangeDescription("Okex Exchange");
@@ -74,6 +74,8 @@ public class OkexExchange extends BaseExchange {
     exchangeSpecification.setExchangeSpecificParametersItem(
         Parameters.PARAM_AWS_HOST, "aws.okx.com");
 
+    exchangeSpecification.setProxyHost("127.0.0.1");
+    exchangeSpecification.setProxyPort(1087);
     return exchangeSpecification;
   }
 
