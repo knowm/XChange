@@ -74,6 +74,19 @@ public class OkexExchange extends BaseExchange {
     exchangeSpecification.setExchangeSpecificParametersItem(
         Parameters.PARAM_AWS_HOST, "aws.okx.com");
 
+    exchangeSpecification.setExchangeSpecificParametersItem(Parameters.PARAM_SIMULATED_TRADING, "1");
+
+    // TODO
+    if (System.getenv("okx_secretkey") != null) {
+      exchangeSpecification.setSecretKey(System.getenv("okx_secretkey"));
+    }
+    if (System.getenv("okx_apikey") != null) {
+      exchangeSpecification.setApiKey(System.getenv("okx_apikey"));
+    }
+    if (System.getenv("okx_passphrase") != null) {
+      exchangeSpecification.setExchangeSpecificParametersItem(Parameters.PARAM_PASSPHRASE, System.getenv("okx_passphrase"));
+    }
+
     exchangeSpecification.setProxyHost("127.0.0.1");
     exchangeSpecification.setProxyPort(1087);
     return exchangeSpecification;
@@ -122,5 +135,7 @@ public class OkexExchange extends BaseExchange {
     public static final String PARAM_USE_AWS = "Use_AWS";
     public static final String PARAM_AWS_SSL_URI = "AWSSslUri";
     public static final String PARAM_AWS_HOST = "AWSHost";
+    public static final String PARAM_SIMULATED_TRADING = "simulated";
+    public static final String PARAM_PASSPHRASE = "passphrase";
   }
 }
