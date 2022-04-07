@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.okcoin;
 
+import info.bitrich.xchangestream.okcoin.dto.okx.OkxSubscribeMessage;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +16,13 @@ public class OkxStreamingServiceTest {
     @Test
     public void testOne() throws Exception {
         streamingService.connect().blockingAwait();
-        streamingService.subscribeChannel("tickers").forEach(System.out::println);
+        OkxSubscribeMessage.SubscriptionTopic t = new OkxSubscribeMessage.SubscriptionTopic("candle1D", null, null , "BTC-USDT");
+        OkxSubscribeMessage.SubscriptionTopic t2 = new OkxSubscribeMessage.SubscriptionTopic("tickers", null, null , "BTC-USDT-220408");
+        OkxSubscribeMessage.SubscriptionTopic t3 = new OkxSubscribeMessage.SubscriptionTopic("trades", null, null , "BTC-USDT-220408");
+        OkxSubscribeMessage m = new OkxSubscribeMessage();
+        m.setOp("subscribe");
+        m.getArgs().add(t3);
+        streamingService.subscribeChannel("trades", m).forEach(System.out::println);
         Thread.sleep(31000);
     }
 }

@@ -44,11 +44,6 @@ public class OkxStreamingService extends JsonNettyStreamingService {
     }
 
     @Override
-    protected void handleMessage(JsonNode message) {
-        super.handleMessage(message);
-    }
-
-    @Override
     public void messageHandler(String message) {
         LOG.debug("Received message: {}", message);
         JsonNode jsonNode;
@@ -57,9 +52,11 @@ public class OkxStreamingService extends JsonNettyStreamingService {
         try {
             jsonNode = objectMapper.readTree(message);
         } catch (IOException e) {
-            if (!"pong".equals(message)) {
-                LOG.error("Error parsing incoming message to JSON: {}", message);
+            if ("pong".equals(message)) {
+                // ping pong message
+                return;
             }
+            LOG.error("Error parsing incoming message to JSON: {}", message);
             return;
         }
 
@@ -75,6 +72,7 @@ public class OkxStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected String getChannelNameFromMessage(JsonNode message) throws IOException {
+        if (message.has("event")) return message.get("event").asText();
         return message.has("arg") ?
                 (message.get("arg").has("channel") ? message.get("arg").get("channel").asText() : "")
                 : "";
@@ -82,17 +80,14 @@ public class OkxStreamingService extends JsonNettyStreamingService {
 
     @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-        return "{\n" +
-                "    \"op\": \"subscribe\",\n" +
-                "    \"args\": [{\n" +
-                "        \"channel\": \"candle1D\",\n" +
-                "        \"instId\": \"BTC-USDT\"\n" +
-                "    }]\n" +
-                "}\n";
+        if (args.length != 1) throw new IOException("SubscribeMessage: Insufficient arguments");
+
+        return objectMapper.writeValueAsString(args[0]);
     }
 
     @Override
     public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
-        return null;
+        String s = objectMapper.writeValueAsString(args[0]);
+        return String.format("{\"op\": \"unsubscribe\", \"args\": %s}", s);
     }
 }
