@@ -155,8 +155,10 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   @Override
   public Completable disconnect() {
     List<Completable> completables = new ArrayList<>();
-    completables.add(streamingService.disconnect());
-    streamingService = null;
+    if (streamingService != null) {
+      completables.add(streamingService.disconnect());
+      streamingService = null;
+    }
     if (userDataStreamingService != null) {
       completables.add(userDataStreamingService.disconnect());
       userDataStreamingService = null;
