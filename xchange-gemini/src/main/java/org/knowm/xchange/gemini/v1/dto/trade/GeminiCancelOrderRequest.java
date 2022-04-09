@@ -22,14 +22,12 @@ public class GeminiCancelOrderRequest {
    * @param orderId
    */
   public GeminiCancelOrderRequest(String nonce, long orderId) {
-
     this.request = "/v1/order/cancel";
     this.orderId = orderId;
     this.nonce = nonce;
   }
 
   public String getOrderId() {
-
     return String.valueOf(orderId);
   }
 }

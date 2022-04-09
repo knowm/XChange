@@ -10,8 +10,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.huobi.dto.account.HuobiCreateWithdrawRequest;
-import org.knowm.xchange.huobi.dto.account.results.*;
-import org.knowm.xchange.huobi.dto.marketdata.results.*;
+import org.knowm.xchange.huobi.dto.account.results.HuobiAccountResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiBalanceResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiCreateWithdrawResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressV2Result;
+import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressWithTagResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiFeeRateResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiFundingHistoryResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiTransactFeeRateResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiWithdrawFeeRangeResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAllTickersResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetPairsResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetsResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiCurrenciesResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiDepthResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiKlinesResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiTickerResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiTradesResult;
 import org.knowm.xchange.huobi.dto.trade.HuobiCreateOrderRequest;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiCancelOrderResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiMatchesResult;
@@ -62,6 +78,18 @@ public interface Huobi {
   @Path("v1/fee/fee-rate/get")
   HuobiFeeRateResult getFeeRate(
       @QueryParam("symbols") String symbols,
+      @QueryParam("AccessKeyId") String apiKey,
+      @QueryParam("SignatureMethod") String signatureMethod,
+      @QueryParam("SignatureVersion") int signatureVersion,
+      @QueryParam("Timestamp") String nonce,
+      @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
+
+  @GET
+  @Path("v2/reference/currencies")
+  HuobiCurrenciesResult getCurrencies(
+      @QueryParam("currency") String currency,
+      @QueryParam("authorizedUser") boolean authorizedUser,
       @QueryParam("AccessKeyId") String apiKey,
       @QueryParam("SignatureMethod") String signatureMethod,
       @QueryParam("SignatureVersion") int signatureVersion,

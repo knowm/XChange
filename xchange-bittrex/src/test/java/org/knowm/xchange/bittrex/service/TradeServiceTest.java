@@ -1,7 +1,13 @@
 package org.knowm.xchange.bittrex.service;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.assertj.core.api.Assertions.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.delete;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +29,7 @@ public class TradeServiceTest extends BaseWiremockTest {
   private static BittrexTradeService tradeService;
   private static final String NEWORDER_FILE_NAME = "newOrder.json";
   private static final String OPENORDERS_FILE_NAME = "openOrders.json";
+  private static final String PLACEDORDER_FILE_NAME = "placedOrder.json";
 
   @Before
   public void setUp() {
@@ -43,7 +50,7 @@ public class TradeServiceTest extends BaseWiremockTest {
                 aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "application/json")
-                    .withBodyFile("placedorder.json")));
+                    .withBodyFile("placedOrder.json")));
 
     Order.OrderType type =
         BittrexConstants.BUY.equals(jsonRoot.get("direction").asText())
@@ -60,6 +67,24 @@ public class TradeServiceTest extends BaseWiremockTest {
                 .originalAmount(quantity)
                 .build());
     assertThat(orderId).isNotNull().isNotEmpty();
+  }
+
+  @Test
+  public void cancelOrderTest() throws Exception {
+    final ObjectMapper mapper = new ObjectMapper();
+    JsonNode jsonRoot =
+        mapper.readTree(
+            this.getClass().getResource("/" + WIREMOCK_FILES_PATH + "/" + PLACEDORDER_FILE_NAME));
+    String orderId = jsonRoot.get("id").asText();
+
+    stubFor(
+        delete(urlPathEqualTo("/v3/orders/" + orderId))
+            .willReturn(
+                aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("closedOrder.json")));
+    assertThat(tradeService.cancelOrder(orderId) == true);
   }
 
   @Test

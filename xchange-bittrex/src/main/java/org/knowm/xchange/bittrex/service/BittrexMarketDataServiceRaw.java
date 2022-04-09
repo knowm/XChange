@@ -11,6 +11,7 @@ import org.knowm.xchange.bittrex.BittrexAdapters;
 import org.knowm.xchange.bittrex.BittrexAuthenticated;
 import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrency;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexDepth;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
@@ -39,6 +40,13 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
   public List<BittrexSymbol> getBittrexSymbols() throws IOException {
     return decorateApiCall(bittrexAuthenticated::getMarkets)
         .withRetry(retry("getMarkets"))
+        .withRateLimiter(rateLimiter(PUBLIC_ENDPOINTS_RATE_LIMITER))
+        .call();
+  }
+
+  public List<BittrexCurrency> getBittrexCurrencies() throws IOException {
+    return decorateApiCall(bittrexAuthenticated::getCurrencies)
+        .withRetry(retry("getCurrencies"))
         .withRateLimiter(rateLimiter(PUBLIC_ENDPOINTS_RATE_LIMITER))
         .call();
   }

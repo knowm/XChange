@@ -33,8 +33,13 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
-import org.knowm.xchange.gateio.dto.marketdata.*;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCoin;
+import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
+import org.knowm.xchange.gateio.dto.marketdata.GateioFeeInfo;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
+import org.knowm.xchange.gateio.dto.marketdata.GateioPublicOrder;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrder;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
@@ -220,12 +225,14 @@ public final class GateioAdapters {
         .build();
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(GateioMarketDataServiceRaw marketDataService) throws IOException {
+  public static ExchangeMetaData adaptToExchangeMetaData(
+      GateioMarketDataServiceRaw marketDataService) throws IOException {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
-    for (Entry<CurrencyPair, GateioMarketInfo> entry : marketDataService.getBTERMarketInfo().entrySet()) {
+    for (Entry<CurrencyPair, GateioMarketInfo> entry :
+        marketDataService.getBTERMarketInfo().entrySet()) {
 
       CurrencyPair currencyPair = entry.getKey();
       GateioMarketInfo btermarketInfo = entry.getValue();
@@ -240,31 +247,39 @@ public final class GateioAdapters {
       currencyPairs.put(currencyPair, currencyPairMetaData);
     }
 
-    Map<String, GateioFeeInfo> gateioFees = marketDataService.getGateioFees();
-    Map<String, GateioCoin> coins =  marketDataService.getGateioCoinInfo().getCoins();
-    for (String coin : coins.keySet()) {
-      GateioCoin gateioCoin = coins.get(coin);
-      GateioFeeInfo gateioFeeInfo = gateioFees.get(coin);
-      if(gateioCoin != null && gateioFeeInfo != null) {
-        currencies.put(new Currency(coin), adaptCurrencyMetaData(gateioCoin, gateioFeeInfo));
+    if (marketDataService.getApiKey() != null) {
+      Map<String, GateioFeeInfo> gateioFees = marketDataService.getGateioFees();
+      Map<String, GateioCoin> coins = marketDataService.getGateioCoinInfo().getCoins();
+      for (String coin : coins.keySet()) {
+        GateioCoin gateioCoin = coins.get(coin);
+        GateioFeeInfo gateioFeeInfo = gateioFees.get(coin);
+        if (gateioCoin != null && gateioFeeInfo != null) {
+          currencies.put(new Currency(coin), adaptCurrencyMetaData(gateioCoin, gateioFeeInfo));
+        }
       }
     }
 
     return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
   }
 
-  private static CurrencyMetaData adaptCurrencyMetaData(GateioCoin gateioCoin, GateioFeeInfo gateioFeeInfo) {
+  private static CurrencyMetaData adaptCurrencyMetaData(
+      GateioCoin gateioCoin, GateioFeeInfo gateioFeeInfo) {
     WalletHealth walletHealth = WalletHealth.ONLINE;
     if (gateioCoin.isWithdrawDelayed()) {
       walletHealth = WalletHealth.UNKNOWN;
-    } else if (gateioCoin.isDelisted() || (gateioCoin.isWithdrawDisabled() && gateioCoin.isDepositDisabled())) {
+    } else if (gateioCoin.isDelisted()
+        || (gateioCoin.isWithdrawDisabled() && gateioCoin.isDepositDisabled())) {
       walletHealth = WalletHealth.OFFLINE;
     } else if (gateioCoin.isDepositDisabled()) {
       walletHealth = WalletHealth.DEPOSITS_DISABLED;
     } else if (gateioCoin.isWithdrawDisabled()) {
       walletHealth = WalletHealth.WITHDRAWALS_DISABLED;
     }
-    return new CurrencyMetaData(0, new BigDecimal(gateioFeeInfo.getWithdrawFix()), gateioFeeInfo.getWithdrawAmountMini(), walletHealth);
+    return new CurrencyMetaData(
+        0,
+        new BigDecimal(gateioFeeInfo.getWithdrawFix()),
+        gateioFeeInfo.getWithdrawAmountMini(),
+        walletHealth);
   }
 
   public static List<FundingRecord> adaptDepositsWithdrawals(

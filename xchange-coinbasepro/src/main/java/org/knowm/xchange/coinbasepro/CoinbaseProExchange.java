@@ -10,8 +10,6 @@ import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM
 import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM_USE_SANDBOX;
 
 import java.io.IOException;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.client.ResilienceRegistries;
@@ -131,7 +129,8 @@ public class CoinbaseProExchange extends BaseExchange {
         CoinbaseProAdapters.adaptToExchangeMetaData(exchangeMetaData, products, currencies);
   }
 
-  @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  // @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  // TODO: I don't know why this fails with `mvn install` yet
   public static final class Parameters {
     public static final String PARAM_USE_SANDBOX = "Use_Sandbox";
     public static final String PARAM_SANDBOX_SSL_URI = "SandboxSslUri";

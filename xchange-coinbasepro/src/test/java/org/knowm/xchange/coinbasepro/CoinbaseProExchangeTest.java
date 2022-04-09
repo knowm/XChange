@@ -45,7 +45,8 @@ public class CoinbaseProExchangeTest {
 
     assertThat(exchange.getExchangeSpecification().getSslUri())
         .isEqualTo("https://api.exchange.coinbase.com");
-    assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("api.exchange.coinbase.com");
+    assertThat(exchange.getExchangeSpecification().getHost())
+        .isEqualTo("api.exchange.coinbase.com");
   }
 
   @Test

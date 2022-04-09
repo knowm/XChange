@@ -17,6 +17,7 @@ import org.knowm.xchange.bitfinex.v2.dto.account.LedgerRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
 import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsResponse;
+import org.knowm.xchange.bitfinex.v2.dto.account.UpdateCollateralDerivativePositionRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
 import org.knowm.xchange.bitfinex.v2.dto.trade.ActiveOrder;
 import org.knowm.xchange.bitfinex.v2.dto.trade.OrderTrade;
@@ -170,5 +171,14 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam(BFX_APIKEY) String apiKey,
       @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
       TransferBetweenWalletsRequest req)
+      throws IOException, BitfinexExceptionV2;
+
+  @POST
+  @Path("/auth/w/deriv/collateral/set")
+  List<List<Integer>> updateCollateralDerivativePosition(
+      @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(BFX_APIKEY) String apiKey,
+      @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
+      UpdateCollateralDerivativePositionRequest req)
       throws IOException, BitfinexExceptionV2;
 }

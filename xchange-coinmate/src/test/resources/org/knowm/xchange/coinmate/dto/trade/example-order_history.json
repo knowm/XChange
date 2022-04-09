@@ -1,0 +1,26 @@
+{
+  "error": false,
+  "errorMessage": null,
+  "data": [
+    {
+      "id": 12345678,
+      "timestamp": 1634890351090,
+      "trailingUpdatedTimestamp": null,
+      "type": "BUY",
+      "price": 1395123,
+      "remainingAmount": 0.0010,
+      "originalAmount": 0.0010,
+      "stopPrice": null,
+      "originalStopPrice": null,
+      "marketPriceAtLastUpdate": null,
+      "marketPriceAtOrderCreation": null,
+      "status": "CANCELLED",
+      "orderTradeType": "LIMIT",
+      "hidden": false,
+      "avgPrice": null,
+      "trailing": false,
+      "stopLossOrderId": 44444,
+      "originalOrderId": 55555
+    }
+  ]
+}

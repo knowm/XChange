@@ -1,14 +1,13 @@
 package dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.knowm.xchange.currency.CurrencyPair;
-
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.knowm.xchange.currency.CurrencyPair;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 05-05-2021 */
 @Setter

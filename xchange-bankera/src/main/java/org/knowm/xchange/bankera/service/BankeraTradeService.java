@@ -88,19 +88,6 @@ public class BankeraTradeService extends BankeraTradeServiceRaw implements Trade
     return new BankeraOpenOrderParams();
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-
-    List<Order> orders = new ArrayList<>();
-
-    for (String orderId : orderIds) {
-      BankeraOrder order = getUserOrder(orderId);
-      orders.add(BankeraAdapters.adaptOrder(order));
-    }
-
-    return orders;
-  }
-
   public static class BankeraOpenOrderParams
       implements OpenOrdersParams,
           OpenOrdersParamLimit,
@@ -147,5 +134,17 @@ public class BankeraTradeService extends BankeraTradeServiceRaw implements Trade
     public void setCurrencyPair(CurrencyPair pair) {
       this.currencyPair = pair;
     }
+  }
+
+  @Override
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    List<Order> orders = new ArrayList<>(orderQueryParams.length);
+
+    for (OrderQueryParams orderQueryParam : orderQueryParams) {
+      BankeraOrder order = getUserOrder(orderQueryParam.getOrderId());
+      orders.add(BankeraAdapters.adaptOrder(order));
+    }
+
+    return orders;
   }
 }

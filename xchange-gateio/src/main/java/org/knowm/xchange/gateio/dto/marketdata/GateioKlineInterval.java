@@ -1,6 +1,9 @@
 package org.knowm.xchange.gateio.dto.marketdata;
 
-import static java.util.concurrent.TimeUnit.*;
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public enum GateioKlineInterval {
   s10("10s", SECONDS.toSeconds(10)),

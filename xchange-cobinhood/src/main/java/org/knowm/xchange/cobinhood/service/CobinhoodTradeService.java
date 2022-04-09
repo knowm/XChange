@@ -11,6 +11,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class CobinhoodTradeService extends CobinhoodTradeServiceRaw implements TradeService {
   public CobinhoodTradeService(Exchange exchange) {
@@ -28,8 +29,8 @@ public class CobinhoodTradeService extends CobinhoodTradeServiceRaw implements T
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    return getCobinhoodOrder(orderIds);
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    return getCobinhoodOrder(TradeService.toOrderIds(orderQueryParams));
   }
 
   @Override

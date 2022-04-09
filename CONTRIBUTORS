@@ -16,6 +16,7 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
+AGP-PC\AliGökalp
 Aaron Jang
 Achterhoeker
 Adam Walczak
@@ -23,6 +24,7 @@ Adam from WALCZAK.IT
 Alejandro Reyero
 Aleksey Baryshnikov
 Alex
+Alex Dupre
 Alex Nugent
 Alexander
 Alexander Krist
@@ -36,9 +38,11 @@ Amjad
 Anatoliy Sablin
 Andraž
 Andre Reiter
-Andrea Fossi
-Andrew Gurinovich
 André Reiter
+Andrea Fossi
+Andreas Joelsson
+Andrew Gurinovich
+Andrew Lalis
 Anthony Tsang
 Anton.Malyshkin
 Arran Duff
@@ -63,6 +67,7 @@ CDP
 Caleb Allen
 Carbo Kuo
 Carlos Lopez-Camey
+Celebrate-future
 Chris Cannell
 Chris Rico
 Christiaan
@@ -103,6 +108,7 @@ Fabian
 Fabien André
 Felipe Micaroni Lalli
 Ferdi-135
+Filip Ocelka
 Flemingjp
 Foat Akhmadeev
 Frank Kaiser
@@ -117,6 +123,7 @@ Giedrius Kokšta
 Gilbert Kimutai
 Giridhar Nandigam
 GlassOfWhiskey
+Gokalp Peker
 Graham Crockford
 Greg
 Gregor Gaertner
@@ -168,6 +175,7 @@ Jure Grabnar
 Justin Ramsey
 Kalle Rosenbaum
 Kamil Żbikowski
+Karel Hovorka
 Karol Pysniak
 Karsten Nilsen
 Ken Fehling
@@ -188,6 +196,7 @@ Krzysiek
 Krzysztof Cieślak
 Lang Christian-Gabriel
 Lee Cooper
+Leonardo Flores
 Leone Lisboa Magevski
 Leonid Shamis
 LifeIsGoodMF
@@ -198,6 +207,7 @@ Luca Rosellini
 Lukas Zaoralek
 Lukáš Krejza
 Macarse
+Manuel Polo
 Marc Deveaux
 Marius Hillenbrand
 Mark Anderson
@@ -206,20 +216,24 @@ Martin Jones
 Martin Kubliniak
 Martin Stachon
 Martin Zdarsky
+Marvin W
 Massimiliano Gerardi
 Matej Spiller Muys
 Math Vadash
 Mathijs Vogelzang
 Matija Mazi
 Matt Read
+Matt Vadash
 Matt Whitlock
 Matthew Downey
 Matthew Peacock
+Max Guo
 Maxim Fefilov
 Maxim Feofilov
 MaximFeofilov
 Mehmet Fatih Gultekin
 Mert Güner
+MertGorates
 MertGuner
 Micah Lerner
 Michael Lagace
@@ -231,8 +245,10 @@ Mindaugas Rolius
 Miron Balcerzak
 Miso Oprendek
 Mladen Markov
+Moritz Habegger
 Muffon
 Nathan King
+Nibaru
 Nicolas Pinot
 Niels
 Niels Draaisma
@@ -279,6 +295,7 @@ Sascha
 Sascha Zieger
 Sebastiaan van Erk
 Sebastian Emler
+Sébastien Koch
 Sergey Belyakov
 Sergey Lukashevich
 Sergey Tselovalnikov
@@ -287,19 +304,20 @@ Sergio Rodriguez
 Sikerdebaard
 Snailz
 Spyros Stylianou
+Stéfanie Loiseleur
 Steven te Brinke
 Stuart Low
-Stéfanie Loiseleur
 Sumedha Saxena
 Sylvain
-Sébastien Koch
 T Savo
 TM Lee
 Tangjun He
 The Gitter Badger
+Themis Vassiliadis
 Theofanis Pantelides
 Thomas Diesler
 Thomas Muhm
+Tiger Fok
 Tillerino
 Tim Molter
 Tobias
@@ -319,6 +337,7 @@ Vadims Grusas
 Valentin Stavetski
 Vassilis Papavassiliou
 Vassilis Ppapavassiliou
+Vasyl Parasyna
 Victor Didenko
 Victor Mezrin
 Viktor Szathmáry
@@ -331,6 +350,7 @@ Yang Yang
 Ye Chen
 Yegor Pavlenko
 Ying Zhe Chong
+Yoobi
 Your Name
 Youssef Jradeh
 Yuki INOUE
@@ -344,6 +364,7 @@ akuloff
 aleks-azen
 aleksazen@gmail.com
 alessandro luppi
+alfio
 alobarev
 alwinc
 amjad1210
@@ -375,6 +396,7 @@ cymp
 cyril
 cyrus
 d.skalenko
+dani_devoneko
 danielgarciaperez
 datbui
 david-yam
@@ -386,6 +408,7 @@ deveth0
 dhenry
 dimecoin
 doublesharp
+douggie
 dovamir
 dozd
 dyorgio
@@ -397,6 +420,7 @@ fenwulf
 firepol
 fozerol
 gaamox@tutanota.com
+garciapd
 geck64
 glebreutov
 gmorpheme
@@ -417,10 +441,15 @@ jasonliu119
 jchoinski
 jclaruelle
 jcuypers
+jecker
+jkolenko
 jmcklondonuk
 johndemic
 kaiserfr
+karelhovorka
 karol.pysniak@turbineam.com
+kevin
+kevinstl
 kisapmata
 kkyovsky
 kpysniak
@@ -430,11 +459,14 @@ lazy_p@163.com
 lazyp
 lichunmao
 llacina
+lukasz.drygala
 lukaszaoralek
 m4g4
+maghteriton
 makarid
 matija.mazi@gmail.com
 matt pearson
+mautomic
 mazi
 mdeverdelhan
 mert güner
@@ -442,11 +474,13 @@ mfarid
 mharris021
 michaelscheung
 miho
+mikhail.petrov
 mikhw
 milczu
 mnapier
 moardm
 moritzhabegger
+mrmx
 mw
 nado04@gmail.com
 nakedpony
@@ -467,6 +501,7 @@ piotr
 pnkwpk
 pozheg
 procyon
+pw4work
 rastooo
 renasse
 roeiba
@@ -485,10 +520,12 @@ sowhynot
 stachon
 stephane-coulomb
 stevenuray
+straumat
 suchac
 swiesend
 taoruifu
 tbosman
+theluckysuccess
 tim
 timmolter
 tobakk
@@ -496,6 +533,7 @@ tonykwok1992
 trix
 trix13
 undecaf
+vasylp3
 veken0m
 vitaha93
 vitalii

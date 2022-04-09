@@ -16,6 +16,7 @@ import org.knowm.xchange.kucoin.dto.request.CreateAccountRequest;
 import org.knowm.xchange.kucoin.dto.request.InnerTransferRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
 import org.knowm.xchange.kucoin.dto.response.AccountLedgersResponse;
+import org.knowm.xchange.kucoin.dto.response.AccountResponse;
 import org.knowm.xchange.kucoin.dto.response.InternalTransferResponse;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.Pagination;
@@ -83,5 +84,31 @@ public interface AccountAPI {
       @QueryParam("endAt") Long endAt,
       @QueryParam("pageSize") Integer pageSize,
       @QueryParam("currentPage") Integer currentPage)
+      throws IOException;
+
+  @GET
+  @Path("v1/accounts/ledgers")
+  KucoinResponse<Pagination<AccountLedgersResponse>> getAccountLedgersWithParams(
+      @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
+      @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
+      @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @QueryParam("currency") String currency,
+      @QueryParam("direction") String direction,
+      @QueryParam("bizType") String bizType,
+      @QueryParam("startAt") Long startAt,
+      @QueryParam("endAt") Long endAt,
+      @QueryParam("pageSize") Integer pageSize,
+      @QueryParam("currentPage") Integer currentPage)
+      throws IOException;
+
+  @GET
+  @Path("v1/accounts/{accountId}")
+  KucoinResponse<AccountResponse> getAccount(
+      @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
+      @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
+      @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @PathParam("accountId") String accountId)
       throws IOException;
 }

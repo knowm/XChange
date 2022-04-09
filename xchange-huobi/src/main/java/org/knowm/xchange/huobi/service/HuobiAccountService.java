@@ -37,6 +37,14 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
   }
 
   @Override
+  public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address)
+      throws IOException {
+    return String.valueOf(
+        createWithdraw(
+            currency.toString(), amount, null, address.getAddress(), address.getAddressTag()));
+  }
+
+  @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
     return String.valueOf(createWithdraw(currency.toString(), amount, null, address, null));

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>5.0.9-SNAPSHOT</version>
+        <version>5.0.14-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-coindirect</artifactId>

@@ -4,9 +4,16 @@ import static org.knowm.xchange.coinjar.CoinjarAdapters.currencyPairToProduct;
 import static org.knowm.xchange.coinjar.CoinjarAdapters.orderTypeToBuySell;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
-import org.knowm.xchange.coinjar.*;
+import org.knowm.xchange.coinjar.CoinjarAdapters;
+import org.knowm.xchange.coinjar.CoinjarErrorAdapter;
+import org.knowm.xchange.coinjar.CoinjarException;
+import org.knowm.xchange.coinjar.CoinjarExchange;
+import org.knowm.xchange.coinjar.CoinjarOrderFlags;
 import org.knowm.xchange.coinjar.dto.CoinjarOrder;
 import org.knowm.xchange.coinjar.dto.trading.CoinjarFills;
 import org.knowm.xchange.coinjar.dto.trading.CoinjarOrderRequest;
@@ -16,7 +23,12 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamNextPageCursor;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamOffset;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
@@ -74,20 +86,9 @@ public class CoinjarTradeService extends CoinjarTradeServiceRaw implements Trade
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    try {
-      String orderId = orderIds[0];
-      CoinjarOrder coinjarOrder = getOrder(orderId);
-      return Collections.singletonList(CoinjarAdapters.adaptOrderToLimitOrder(coinjarOrder));
-    } catch (CoinjarException e) {
-      throw CoinjarErrorAdapter.adaptCoinjarException(e);
-    }
-  }
-
-  @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     List<Order> res = new ArrayList<>();
-    for (OrderQueryParams orderQueryParam : Arrays.asList(orderQueryParams)) {
+    for (OrderQueryParams orderQueryParam : orderQueryParams) {
       res.addAll(this.getOrder(new String[] {orderQueryParam.getOrderId()}));
     }
     return res;

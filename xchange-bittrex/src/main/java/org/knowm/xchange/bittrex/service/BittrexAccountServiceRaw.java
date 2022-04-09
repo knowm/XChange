@@ -1,6 +1,7 @@
 package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -15,10 +16,13 @@ import org.knowm.xchange.bittrex.dto.account.BittrexAccountVolume;
 import org.knowm.xchange.bittrex.dto.account.BittrexAddress;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalances;
+import org.knowm.xchange.bittrex.dto.account.BittrexComissionRatesWithMarket;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
 import org.knowm.xchange.bittrex.dto.account.BittrexNewAddress;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
+import org.knowm.xchange.bittrex.dto.withdrawal.BittrexNewWithdrawal;
+import org.knowm.xchange.bittrex.dto.withdrawal.BittrexWithdrawal;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
@@ -97,6 +101,11 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
         apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
   }
 
+  public List<BittrexComissionRatesWithMarket> getTradingFees() throws IOException {
+    return bittrexAuthenticated.getTradingFees(
+        apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
+  }
+
   public BittrexOrder getBittrexOrder(String orderId) throws IOException {
     return bittrexAuthenticated.getOrder(
         apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, orderId);
@@ -128,6 +137,17 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
         nextPageToken,
         previousPageToken,
         pageSize);
+  }
+
+  public BittrexWithdrawal createNewWithdrawal(Currency currency, BigDecimal amount, String address)
+      throws IOException {
+    BittrexNewWithdrawal newWithdrawal = new BittrexNewWithdrawal();
+    newWithdrawal.setCurrencySymbol(currency.getCurrencyCode());
+    newWithdrawal.setQuantity(amount);
+    newWithdrawal.setCryptoAddress(address);
+
+    return bittrexAuthenticated.createNewWithdrawal(
+        apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, newWithdrawal);
   }
 
   @AllArgsConstructor

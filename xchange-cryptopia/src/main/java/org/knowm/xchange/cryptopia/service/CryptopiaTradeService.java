@@ -1,12 +1,10 @@
 package org.knowm.xchange.cryptopia.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import org.knowm.xchange.cryptopia.CryptopiaErrorAdapter;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.cryptopia.dto.CryptopiaException;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -125,11 +123,6 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
 
   @Override
   public void verifyOrder(MarketOrder marketOrder) {
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 

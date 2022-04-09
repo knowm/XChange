@@ -24,6 +24,7 @@ public class ExchangeSpecification {
   private String apiKey;
   private String sslUri;
   private String plainTextUri;
+  private String overrideWebsocketApiUri;
   private String host;
   private int port = 80;
   private String proxyHost;
@@ -473,6 +474,27 @@ public class ExchangeSpecification {
   public void setShouldLoadRemoteMetaData(boolean shouldLoadRemoteMetaData) {
 
     this.shouldLoadRemoteMetaData = shouldLoadRemoteMetaData;
+  }
+
+  /**
+   * Get uri to override websocket uri
+   *
+   * @return The uri that will be used instead of standard exchange websocket uri
+   */
+  public String getOverrideWebsocketApiUri() {
+
+    return overrideWebsocketApiUri;
+  }
+
+  /**
+   * Set uri to override websocket uri
+   *
+   * @param overrideWebsocketApiUri The uri that will be used instead of standard exchange websocket
+   *     uris
+   */
+  public void setOverrideWebsocketApiUri(String overrideWebsocketApiUri) {
+
+    this.overrideWebsocketApiUri = overrideWebsocketApiUri;
   }
 
   public static class ResilienceSpecification {

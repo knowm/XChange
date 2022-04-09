@@ -50,6 +50,9 @@ public class CoinmateWebsocketOpenOrder {
   @JsonIgnore
   private final long trailingUpdatedTimestamp;
 
+  @JsonProperty("orderChangePushEvent")
+  private final String orderChangePushEvent;
+
   @JsonCreator
   public CoinmateWebsocketOpenOrder(
       @JsonProperty("amount") double amount,
@@ -64,7 +67,8 @@ public class CoinmateWebsocketOpenOrder {
       @JsonProperty("originalStopPrice") double originalStopPrice,
       @JsonProperty("priceAtStopLossCreation") double priceAtStopLossCreation,
       @JsonProperty("priceAtStopLossUpdate") double priceAtStopLossUpdate,
-      @JsonProperty("trailingUpdatedTimestamp") long trailingUpdatedTimestamp) {
+      @JsonProperty("trailingUpdatedTimestamp") long trailingUpdatedTimestamp,
+      @JsonProperty("orderChangePushEvent") String orderChangePushEvent) {
     this.amount = amount;
     this.timestamp = timestamp;
     this.isHidden = isHidden;
@@ -78,6 +82,7 @@ public class CoinmateWebsocketOpenOrder {
     this.priceAtStopLossCreation = priceAtStopLossCreation;
     this.priceAtStopLossUpdate = priceAtStopLossUpdate;
     this.trailingUpdatedTimestamp = trailingUpdatedTimestamp;
+    this.orderChangePushEvent = orderChangePushEvent;
   }
 
   public double getAmount() {
@@ -130,6 +135,10 @@ public class CoinmateWebsocketOpenOrder {
 
   public long getTrailingUpdatedTimestamp() {
     return this.trailingUpdatedTimestamp;
+  }
+
+  public String getOrderChangePushEvent() {
+    return this.orderChangePushEvent;
   }
 
   @Override

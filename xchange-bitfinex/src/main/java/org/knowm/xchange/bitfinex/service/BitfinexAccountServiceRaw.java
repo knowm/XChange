@@ -31,6 +31,7 @@ import org.knowm.xchange.bitfinex.v2.dto.account.LedgerRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
 import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsResponse;
+import org.knowm.xchange.bitfinex.v2.dto.account.UpdateCollateralDerivativePositionRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -166,6 +167,10 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
       type = "litecoin";
     } else if ("ETH".equalsIgnoreCase(currency)) {
       type = "ethereum";
+    } else if ("ETC".equalsIgnoreCase(currency)) {
+      type = "ethereumc";
+    } else if ("CLO".equalsIgnoreCase(currency)) {
+      type = "clo";
     } else if ("IOT".equalsIgnoreCase(currency)) {
       type = "iota";
     } else if ("BCH".equalsIgnoreCase(currency)) {
@@ -323,6 +328,16 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
     return decorateApiCall(
             () ->
                 bitfinexV2.transferBetweenWallets(
+                    exchange.getNonceFactory(), apiKey, signatureV2, req))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
+  }
+
+  public void updateCollateralDerivativePosition(UpdateCollateralDerivativePositionRequest req)
+      throws IOException {
+    decorateApiCall(
+            () ->
+                bitfinexV2.updateCollateralDerivativePosition(
                     exchange.getNonceFactory(), apiKey, signatureV2, req))
         .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
         .call();

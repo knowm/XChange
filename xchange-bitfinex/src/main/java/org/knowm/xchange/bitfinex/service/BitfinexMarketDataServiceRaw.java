@@ -130,6 +130,12 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
   }
 
   //////// v2
+  public Integer[] getBitfinexPlatformStatus() throws IOException {
+    return decorateApiCall(bitfinexV2::getPlatformStatus)
+        .withRetry(retry("platform-status"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
+  }
 
   public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] getBitfinexTickers(
       Collection<CurrencyPair> currencyPairs) throws IOException {

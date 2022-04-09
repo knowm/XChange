@@ -1,6 +1,8 @@
 package org.knowm.xchange.poloniex;
 
-import static org.knowm.xchange.dto.account.FundingRecord.Type.*;
+import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
+import static org.knowm.xchange.dto.account.FundingRecord.Type.OTHER_INFLOW;
+import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -253,15 +255,16 @@ public class PoloniexAdapters {
 
       Currency ccy = Currency.getInstance(entry.getKey());
 
-      if (!currencyMetaDataMap.containsKey(ccy)){
+      if (!currencyMetaDataMap.containsKey(ccy)) {
         currencyMetaDataMap.put(ccy, currencyArchetype);
       }
       CurrencyMetaData currencyMetaData = currencyMetaDataMap.get(ccy);
       WalletHealth walletHealth = WalletHealth.ONLINE;
-      if( entry.getValue().isDelisted() || entry.getValue().isDisabled()){
+      if (entry.getValue().isDelisted() || entry.getValue().isDisabled()) {
         walletHealth = WalletHealth.OFFLINE;
       }
-      CurrencyMetaData currencyMetaDataUpdated = new CurrencyMetaData(
+      CurrencyMetaData currencyMetaDataUpdated =
+          new CurrencyMetaData(
               currencyMetaData.getScale(),
               entry.getValue().getTxFee(),
               currencyMetaData.getMinWithdrawalAmount(),

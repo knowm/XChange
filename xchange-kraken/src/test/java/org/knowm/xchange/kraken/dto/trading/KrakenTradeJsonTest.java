@@ -71,7 +71,7 @@ public class KrakenTradeJsonTest {
     KrakenTradeHistoryResult krakenResult = mapper.readValue(is, KrakenTradeHistoryResult.class);
     KrakenTradeHistory krakenTradeHistory = krakenResult.getResult();
     Map<String, KrakenTrade> krakenTradeHistoryMap = krakenTradeHistory.getTrades();
-    KrakenTrade trade = krakenTradeHistoryMap.get("TY5BYV-WJUQF-XPYEYD");
+    KrakenTrade trade = krakenTradeHistoryMap.get("TY5BYV-WJUQF-XPYEYD-1");
 
     assertThat(trade.getAssetPair()).isEqualTo("XLTCXXBT");
     assertThat(trade.getPrice()).isEqualTo("32.07562");
@@ -79,7 +79,7 @@ public class KrakenTradeJsonTest {
     assertThat(trade.getFee()).isEqualTo("0.03208");
     assertThat(trade.getMargin()).isEqualTo("0.00000");
     assertThat(trade.getVolume()).isEqualTo("0.50000000");
-    assertThat(trade.getOrderTxId()).isEqualTo("ONRNOX-DVI4W-76DL6Q");
+    assertThat(trade.getOrderTxId()).isEqualTo("ONRNOX-DVI4W-76DL6Q-1");
     assertThat(trade.getUnixTimestamp()).isEqualTo(1389071942.2089);
     assertThat(trade.getType()).isEqualTo(KrakenType.SELL);
     assertThat(trade.getOrderType()).isEqualTo(KrakenOrderType.MARKET);

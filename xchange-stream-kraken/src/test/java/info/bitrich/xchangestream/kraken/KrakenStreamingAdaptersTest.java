@@ -1,14 +1,19 @@
 package info.bitrich.xchangestream.kraken;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.knowm.xchange.currency.CurrencyPair.XBT_USD;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.google.common.collect.Sets;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.Instant;
+import java.util.Comparator;
 import java.util.List;
+import java.util.TreeSet;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -22,55 +27,78 @@ public class KrakenStreamingAdaptersTest {
 
   private static final CurrencyPair XBT_EUR = new CurrencyPair(Currency.XBT, Currency.EUR);
 
+  private TreeSet<LimitOrder> bids;
+  private TreeSet<LimitOrder> asks;
+
+  @Before
+  public void setUp() throws Exception {
+    bids = Sets.newTreeSet(Comparator.reverseOrder());
+    asks = Sets.newTreeSet();
+  }
+
   @Test
   public void testAdaptOrderbookMessageWithSnapshot() throws IOException {
     JsonNode jsonNode =
         StreamingObjectMapperHelper.getObjectMapper()
             .readTree(this.getClass().getResource("/orderBookMessageSnapshot.json").openStream());
-    OrderBook beforeUpdate = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
     Assert.assertNotNull(jsonNode);
     OrderBook afterUpdate =
-        KrakenStreamingAdapters.adaptOrderbookMessage(beforeUpdate, XBT_EUR, (ArrayNode) jsonNode);
+        KrakenStreamingAdapters.adaptOrderbookMessage(
+            100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
     assertThat(afterUpdate).isNotNull();
     assertThat(afterUpdate.getAsks()).isNotNull();
     assertThat(afterUpdate.getBids()).isNotNull();
+    assertThat(afterUpdate.getTimeStamp()).isEqualTo(Instant.ofEpochMilli(1534614248765L));
 
-    assertThat(afterUpdate.getAsks()).hasSize(25);
-    assertThat(afterUpdate.getBids()).hasSize(25);
+    assertThat(afterUpdate.getAsks()).hasSize(3);
+    assertThat(afterUpdate.getBids()).hasSize(3);
 
     LimitOrder firstAsk = afterUpdate.getAsks().get(0);
-    assertThat(firstAsk.getLimitPrice()).isEqualByComparingTo("8692");
-    assertThat(firstAsk.getOriginalAmount()).isEqualByComparingTo("2.01122372");
-    assertThat(firstAsk.getTimestamp().getTime()).isEqualByComparingTo(1561120269000L);
+    assertThat(firstAsk.getLimitPrice()).isEqualByComparingTo("5541.30000");
+    assertThat(firstAsk.getOriginalAmount()).isEqualByComparingTo("2.50700000");
 
     LimitOrder firstBid = afterUpdate.getBids().get(0);
-    assertThat(firstBid.getLimitPrice()).isEqualByComparingTo("8691.9");
-    assertThat(firstBid.getOriginalAmount()).isEqualByComparingTo("1.45612927");
-    assertThat(firstBid.getTimestamp().getTime()).isEqualByComparingTo(1561120266000L);
+    assertThat(firstBid.getLimitPrice()).isEqualByComparingTo("5541.20000");
+    assertThat(firstBid.getOriginalAmount()).isEqualByComparingTo("1.52900000");
   }
 
   @Test
   public void testAdaptOrderbookMessageWithUpdate() throws IOException {
     JsonNode jsonNode =
         StreamingObjectMapperHelper.getObjectMapper()
-            .readTree(this.getClass().getResource("/orderBookMessageUpdate.json").openStream());
+            .readTree(this.getClass().getResource("/orderBookMessageSnapshot.json").openStream());
     Assert.assertNotNull(jsonNode);
-    OrderBook beforeUpdate = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
+    KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
+
+    jsonNode =
+        StreamingObjectMapperHelper.getObjectMapper()
+            .readTree(this.getClass().getResource("/orderBookMessageUpdate00.json").openStream());
+    KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
+
+    jsonNode =
+        StreamingObjectMapperHelper.getObjectMapper()
+            .readTree(this.getClass().getResource("/orderBookMessageUpdate01.json").openStream());
+    KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
+
+    jsonNode =
+        StreamingObjectMapperHelper.getObjectMapper()
+            .readTree(this.getClass().getResource("/orderBookMessageUpdate02.json").openStream());
     OrderBook afterUpdate =
-        KrakenStreamingAdapters.adaptOrderbookMessage(beforeUpdate, XBT_EUR, (ArrayNode) jsonNode);
+        KrakenStreamingAdapters.adaptOrderbookMessage(
+            100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
     assertThat(afterUpdate).isNotNull();
     assertThat(afterUpdate.getAsks()).isNotNull();
     assertThat(afterUpdate.getBids()).isNotNull();
+    assertThat(afterUpdate.getTimeStamp()).isEqualTo(Instant.ofEpochMilli(1534614248765L));
 
-    assertThat(afterUpdate.getAsks()).hasSize(1);
-    assertThat(afterUpdate.getBids()).hasSize(0);
+    assertThat(afterUpdate.getAsks()).hasSize(4);
+    assertThat(afterUpdate.getBids()).hasSize(3);
 
     LimitOrder firstAsk = afterUpdate.getAsks().get(0);
-    assertThat(firstAsk.getLimitPrice()).isEqualByComparingTo("9621");
-    assertThat(firstAsk.getOriginalAmount()).isEqualByComparingTo("1.36275258");
-    assertThat(firstAsk.getTimestamp().getTime()).isEqualByComparingTo(1561372897000L);
+    assertThat(firstAsk.getLimitPrice()).isEqualByComparingTo("5541.30000");
+    assertThat(firstAsk.getOriginalAmount()).isEqualByComparingTo("2.50700000");
   }
 
   @Test
@@ -105,13 +133,13 @@ public class KrakenStreamingAdaptersTest {
     Trade trade = trades.get(0);
     assertThat(trade.getPrice()).isEqualByComparingTo("5541.20000");
     assertThat(trade.getOriginalAmount()).isEqualByComparingTo("0.15850568");
-    assertThat(trade.getTimestamp().getTime()).isEqualTo(1534614057000L);
+    assertThat(trade.getTimestamp().getTime()).isEqualTo(1534614057321L);
     assertThat(trade.getType()).isEqualTo(Order.OrderType.ASK);
 
     trade = trades.get(1);
     assertThat(trade.getPrice()).isEqualByComparingTo("6060.00000");
     assertThat(trade.getOriginalAmount()).isEqualByComparingTo("0.02455000");
-    assertThat(trade.getTimestamp().getTime()).isEqualTo(1534614057000L);
+    assertThat(trade.getTimestamp().getTime()).isEqualTo(1534614057324L);
     assertThat(trade.getType()).isEqualTo(Order.OrderType.BID);
   }
 }

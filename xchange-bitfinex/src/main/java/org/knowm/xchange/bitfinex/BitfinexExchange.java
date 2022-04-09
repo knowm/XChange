@@ -90,10 +90,20 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
 
       if (exchangeSpecification.getApiKey() != null
           && exchangeSpecification.getSecretKey() != null) {
+        // Bitfinex does not provide any specific wallet health info
+        // So instead of wallet status, fetch platform status to get wallet health
+        Integer bitfinexPlatformStatusData = dataService.getBitfinexPlatformStatus()[0];
+        boolean bitfinexPlatformStatusPresent = bitfinexPlatformStatusData != null;
+        int bitfinexPlatformStatus = bitfinexPlatformStatusPresent ? bitfinexPlatformStatusData : 0;
         // Additional remoteInit configuration for authenticated instances
         BitfinexAccountService accountService = (BitfinexAccountService) this.accountService;
         final BitfinexAccountFeesResponse accountFees = accountService.getAccountFees();
-        exchangeMetaData = BitfinexAdapters.adaptMetaData(accountFees, exchangeMetaData);
+        exchangeMetaData =
+            BitfinexAdapters.adaptMetaData(
+                accountFees,
+                bitfinexPlatformStatus,
+                bitfinexPlatformStatusPresent,
+                exchangeMetaData);
 
         BitfinexTradeService tradeService = (BitfinexTradeService) this.tradeService;
         final BitfinexAccountInfosResponse[] bitfinexAccountInfos =

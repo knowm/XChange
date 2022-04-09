@@ -10,7 +10,18 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.kraken.dto.account.results.*;
+import org.knowm.xchange.kraken.dto.account.results.DepositStatusResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenDepositMethodsResults;
+import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenWebsocketTokenResult;
+import org.knowm.xchange.kraken.dto.account.results.WithdrawInfoResult;
+import org.knowm.xchange.kraken.dto.account.results.WithdrawResult;
+import org.knowm.xchange.kraken.dto.account.results.WithdrawStatusResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenCancelOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenClosedOrdersResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
@@ -99,6 +110,7 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("expiretm") String expireTime,
       @FormParam("userref") String userRefId,
       @FormParam("close") Map<String, String> closeOrder,
+      @FormParam("timeInForce") String timeInForce,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
@@ -122,6 +134,7 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("userref") String userRefId,
       @FormParam("validate") boolean validateOnly,
       @FormParam("close") Map<String, String> closeOrder,
+      @FormParam("timeInForce") String timeInForce,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)

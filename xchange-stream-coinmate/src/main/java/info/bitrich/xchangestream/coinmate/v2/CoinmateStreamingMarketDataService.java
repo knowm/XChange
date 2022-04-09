@@ -10,11 +10,11 @@ import java.util.List;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBookData;
+import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTradeStatistics;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 
 public class CoinmateStreamingMarketDataService implements StreamingMarketDataService {
   private final CoinmateStreamingService coinmateStreamingService;
@@ -44,8 +44,17 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    // No live ticker
-    throw new NotAvailableFromExchangeException();
+    String channelName = "statistics-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
+
+    ObjectReader reader =
+        StreamingObjectMapperHelper.getObjectMapper().readerFor(CoinmateTradeStatistics.class);
+    return coinmateStreamingService
+        .subscribeChannel(channelName)
+        .map(
+            s -> {
+              CoinmateTradeStatistics tradeStatistics = reader.readValue(s.get("payload"));
+              return CoinmateAdapters.adaptTradeStatistics(tradeStatistics, currencyPair);
+            });
   }
 
   @Override

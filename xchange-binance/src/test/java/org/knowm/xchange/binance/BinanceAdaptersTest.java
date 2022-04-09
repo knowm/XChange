@@ -17,13 +17,6 @@ public class BinanceAdaptersTest {
   @Test
   public void testFilledMarketOrder() throws IOException {
 
-    //    InputStream is =
-    //        BinanceAdaptersTest.class.getResourceAsStream(
-    //            "/org/knowm/xchange/binance/filled-market-order.json");
-    //    // Use Jackson to parse it
-    //    ObjectMapper mapper = new ObjectMapper();
-    //    BinanceOrder binanceOrder = mapper.readValue(is, BinanceOrder.class);
-
     BinanceOrder binanceOrder =
         ObjectMapperHelper.readValue(
             BinanceAdaptersTest.class.getResource(
@@ -46,6 +39,7 @@ public class BinanceAdaptersTest {
 
   @Test
   public void testAssetDividendList() throws Exception {
+
     AssetDividendResponse assetDividendList =
         ObjectMapperHelper.readValue(
             BinanceAdaptersTest.class.getResource(
@@ -60,5 +54,13 @@ public class BinanceAdaptersTest {
     assertThat(assetDividend.getDivTime()).isEqualByComparingTo(1563189166000L);
     assertThat(assetDividend.getEnInfo()).isEqualTo("BHFT distribution");
     assertThat(assetDividend.getTranId()).isEqualByComparingTo(2968885920L);
+  }
+
+  // Tests that the conversion from Date/time String to Date is done for time zone UTC
+  // regardless of the time zone of the system
+  @Test
+  public void testToDate() {
+    String applyTimeUTC = "2018-10-09 07:56:10";
+    assertThat(BinanceAdapters.toDate(applyTimeUTC).getTime()).isEqualByComparingTo(1539071770000L);
   }
 }

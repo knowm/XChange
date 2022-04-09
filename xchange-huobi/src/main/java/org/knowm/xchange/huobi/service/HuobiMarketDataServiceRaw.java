@@ -4,9 +4,20 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.huobi.HuobiUtils;
-import org.knowm.xchange.huobi.dto.marketdata.*;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiAllTicker;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiAssetPair;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiCurrencyWrapper;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiDepth;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiKline;
-import org.knowm.xchange.huobi.dto.marketdata.results.*;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiTicker;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiTradeWrapper;
+import org.knowm.xchange.huobi.dto.marketdata.KlineInterval;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAllTickersResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetPairsResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiCurrenciesResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiDepthResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiTickerResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiTradesResult;
 
 public class HuobiMarketDataServiceRaw extends HuobiBaseService {
 
@@ -50,5 +61,18 @@ public class HuobiMarketDataServiceRaw extends HuobiBaseService {
             pair.base.getSymbol().toLowerCase() + pair.counter.getSymbol().toLowerCase(),
             interval.code(),
             limit));
+  }
+
+  public HuobiCurrencyWrapper[] getHuobiCurrencies(String currency) throws IOException {
+    HuobiCurrenciesResult currenciesResult =
+        huobi.getCurrencies(
+            currency.toLowerCase(),
+            false,
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+    return checkResult(currenciesResult);
   }
 }

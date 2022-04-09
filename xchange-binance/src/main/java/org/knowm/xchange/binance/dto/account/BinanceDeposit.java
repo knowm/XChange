@@ -6,12 +6,16 @@ import lombok.Data;
 @Data
 public final class BinanceDeposit {
 
-  private long insertTime;
   private BigDecimal amount;
-  private String asset;
-  private String txId;
-  private String address;
-  private String addressTag;
+  private String coin;
+  private String network;
   /** (0:pending,1:success) */
   private int status;
+
+  private String address;
+  private String addressTag;
+  private String txId;
+  private long insertTime;
+  private int transferType; // 1 for internal transfer, 0 for external transfer
+  private String confirmTimes;
 }

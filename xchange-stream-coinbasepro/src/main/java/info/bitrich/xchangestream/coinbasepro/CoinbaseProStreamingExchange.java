@@ -37,17 +37,8 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
     if (args == null || args.length == 0)
       throw new UnsupportedOperationException("The ProductSubscription must be defined!");
     ExchangeSpecification exchangeSpec = getExchangeSpecification();
-    boolean useSandbox =
-        Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox"));
-    boolean usePrime =
-        Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem("Use_Prime"));
 
-    String apiUri;
-    if (useSandbox) {
-      apiUri = usePrime ? PRIME_SANDBOX_API_URI : SANDBOX_API_URI;
-    } else {
-      apiUri = usePrime ? PRIME_API_URI : API_URI;
-    }
+    String apiUri = getApiUri();
 
     boolean subscribeToL3Orderbook =
         Boolean.TRUE.equals(
@@ -63,6 +54,28 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
     this.streamingTradeService = new CoinbaseProStreamingTradeService(streamingService);
     streamingService.subscribeMultipleCurrencyPairs(args);
     return streamingService.connect();
+  }
+
+  public String getApiUri() {
+    String apiUri;
+    ExchangeSpecification exchangeSpec = getExchangeSpecification();
+
+    boolean useSandbox =
+        Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_SANDBOX));
+    boolean usePrime =
+        Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_PRIME));
+
+    if (useSandbox) {
+      apiUri = usePrime ? PRIME_SANDBOX_API_URI : SANDBOX_API_URI;
+    } else {
+      apiUri = usePrime ? PRIME_API_URI : API_URI;
+    }
+
+    return exchangeSpec.getOverrideWebsocketApiUri() == null
+        ? apiUri
+        : exchangeSpec.getOverrideWebsocketApiUri();
   }
 
   private CoinbaseProWebsocketAuthData authData(ExchangeSpecification exchangeSpec) {
@@ -106,6 +119,11 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
   }
 
   @Override
+  public Observable<Object> connectionIdle() {
+    return streamingService.subscribeIdle();
+  }
+
+  @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification spec = super.getDefaultExchangeSpecification();
     spec.setShouldLoadRemoteMetaData(false);
@@ -146,5 +164,13 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
   @Override
   public void useCompressedMessages(boolean compressedMessages) {
     streamingService.useCompressedMessages(compressedMessages);
+  }
+
+  public void setOverrideApiUri(String overrideApiUri) {
+    getExchangeSpecification().setOverrideWebsocketApiUri(overrideApiUri);
+  }
+
+  public String getOverrideApiUri() {
+    return this.getExchangeSpecification().getOverrideWebsocketApiUri();
   }
 }

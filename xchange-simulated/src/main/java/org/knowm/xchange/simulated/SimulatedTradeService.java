@@ -1,7 +1,10 @@
 package org.knowm.xchange.simulated;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.dto.Order;
@@ -15,8 +18,20 @@ import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.*;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByOrderTypeParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange>
     implements TradeService {
@@ -121,8 +136,22 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
   }
 
   @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[] {
+      CancelOrderByIdParams.class,
+      CancelOrderByCurrencyPair.class,
+      CancelOrderByOrderTypeParams.class
+    };
+  }
+
+  @Override
   public boolean cancelOrder(String orderId) throws IOException {
     return cancelOrder(new DefaultCancelOrderParamId(orderId));
+  }
+
+  @Override
+  public Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParamCurrencyPair.class;
   }
 
   @Override
@@ -131,8 +160,10 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
         .flatMap(
             p -> {
               if (p instanceof OrderQueryParamCurrencyPair) {
-                return exchange.getEngine(((OrderQueryParamCurrencyPair) p).getCurrencyPair())
-                    .openOrders(getApiKey()).stream()
+                return exchange
+                    .getEngine(((OrderQueryParamCurrencyPair) p).getCurrencyPair())
+                    .openOrders(getApiKey())
+                    .stream()
                     .filter(o -> o.getId().equals(p.getOrderId()));
               } else if (p instanceof DefaultQueryOrderParam) {
                 return exchange.getEngines().stream()

@@ -1,7 +1,6 @@
 package org.knowm.xchange.coinbasepro.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import org.knowm.xchange.client.ResilienceRegistries;
@@ -20,6 +19,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
@@ -32,7 +32,7 @@ public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implemen
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return getOpenOrders(createOpenOrdersParams());
+    return CoinbaseProAdapters.adaptOpenOrders(getCoinbaseProOpenOrders());
   }
 
   @Override
@@ -42,6 +42,11 @@ public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implemen
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    if (params instanceof OpenOrdersParamCurrencyPair) {
+      OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
+      String productId = CoinbaseProAdapters.adaptProductID(pairParams.getCurrencyPair());
+      return CoinbaseProAdapters.adaptOpenOrders(getCoinbaseProOpenOrders(productId));
+    }
     return CoinbaseProAdapters.adaptOpenOrders(getCoinbaseProOpenOrders());
   }
 
@@ -84,17 +89,6 @@ public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implemen
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new CoinbaseProTradeHistoryParams();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    Collection<Order> orders = new ArrayList<>(orderIds.length);
-
-    for (String orderId : orderIds) {
-      orders.add(CoinbaseProAdapters.adaptOrder(super.getOrder(orderId)));
-    }
-
-    return orders;
   }
 
   @Override

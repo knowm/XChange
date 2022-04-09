@@ -9,8 +9,7 @@ public class OkexException extends HttpStatusExceptionSupport {
   private final String message;
   private final int code;
 
-  public OkexException(@JsonProperty("msg") String message,
-                       @JsonProperty("code") int code) {
+  public OkexException(@JsonProperty("msg") String message, @JsonProperty("code") int code) {
     super(message);
     this.message = message;
     this.code = code;
@@ -19,5 +18,10 @@ public class OkexException extends HttpStatusExceptionSupport {
   @Override
   public String getMessage() {
     return message;
+  }
+
+  @Override
+  public String toString() {
+    return code + ":" + message;
   }
 }

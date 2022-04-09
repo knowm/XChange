@@ -70,7 +70,7 @@ public class GateioTradeJsonTest {
 
     assertThat(orderStatus.isResult()).isTrue();
     assertThat(orderStatus.getMessage()).isEqualTo("Success");
-    assertThat(orderStatus.getId()).isEqualTo("12942570");
+    assertThat(orderStatus.getOrderNumber()).isEqualTo("12942570");
     assertThat(orderStatus.getStatus()).isEqualTo("open");
     assertThat(orderStatus.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_BTC);
     assertThat(orderStatus.getType()).isEqualTo(GateioOrderType.SELL);
