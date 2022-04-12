@@ -59,7 +59,7 @@ public class FtxMarketDataService extends FtxMarketDataServiceRaw implements Mar
         getFtxMarket(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair)),
         getFtxCandles(
             FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair),
-            "60",
+            resolution,
             startTime,
             endTime,
             limit), // 60 seconds
