@@ -3,11 +3,14 @@ package org.knowm.xchange.okex.v5;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.derivative.OptionsContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -23,10 +26,7 @@ import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
 import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
 import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexOrderbook;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexTrade;
+import org.knowm.xchange.okex.v5.dto.marketdata.*;
 import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
@@ -136,24 +136,22 @@ public class OkexAdapters {
         .build();
   }
 
-  public static OrderBook adaptOrderBook(
-      OkexResponse<List<OkexOrderbook>> okexOrderbook, Instrument instrument) {
+  public static LimitOrder adaptLimitOrder(OkexPublicOrder okexPublicOrder, Instrument instrument, OrderType orderType) {
+    return adaptOrderbookOrder(okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType);
+  }
 
+  public static OrderBook adaptOrderBook(List<OkexOrderbook> okexOrderbooks, Instrument instrument) {
     List<LimitOrder> asks = new ArrayList<>();
     List<LimitOrder> bids = new ArrayList<>();
 
-    okexOrderbook
-        .getData()
+    okexOrderbooks
         .get(0)
         .getAsks()
         .forEach(
             okexAsk ->
-                asks.add(
-                    adaptOrderbookOrder(
-                        okexAsk.getVolume(), okexAsk.getPrice(), instrument, OrderType.ASK)));
+                asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK)));
 
-    okexOrderbook
-        .getData()
+    okexOrderbooks
         .get(0)
         .getBids()
         .forEach(
@@ -165,10 +163,49 @@ public class OkexAdapters {
     return new OrderBook(Date.from(Instant.now()), asks, bids);
   }
 
+  public static OrderBook adaptOrderBook(
+      OkexResponse<List<OkexOrderbook>> okexOrderbook, Instrument instrument) {
+    return adaptOrderBook(okexOrderbook.getData(), instrument);
+  }
+
   public static LimitOrder adaptOrderbookOrder(
       BigDecimal amount, BigDecimal price, Instrument instrument, Order.OrderType orderType) {
 
     return new LimitOrder(orderType, amount, instrument, "", null, price);
+  }
+
+  public static Ticker adaptTicker(OkexTicker okexTicker) {
+    return new Ticker.Builder()
+            .instrument(adaptInstrument(okexTicker.getInstrumentId()))
+            .open(okexTicker.getOpen24h())
+            .last(okexTicker.getLast())
+            .bid(okexTicker.getBidPrice())
+            .ask(okexTicker.getAskPrice())
+            .high(okexTicker.getHigh24h())
+            .low(okexTicker.getLow24h())
+            // .vwap(null)
+            .volume(okexTicker.getVolume24h())
+            .quoteVolume(okexTicker.getVolumeCurrency24h())
+            .timestamp(okexTicker.getTimestamp())
+            .bidSize(okexTicker.getBidSize())
+            .askSize(okexTicker.getAskSize())
+            .percentageChange(null)
+            .build();
+  }
+
+  public static Instrument adaptInstrument(String instrumentId) {
+    String[] tokens = instrumentId.split("-");
+    if (tokens.length == 2) {
+      // SPOT or Margin
+      return new CurrencyPair(tokens[0], tokens[1]);
+    } else if (tokens.length == 3) {
+      // Future Or Swap
+      return new FuturesContract(instrumentId.replace("-", "/"));
+    } else if (tokens.length == 5) {
+      // Option
+      return new OptionsContract(instrumentId.replace("-", "/"));
+    }
+    return null;
   }
 
   public static String adaptCurrencyPairId(Instrument instrument) {

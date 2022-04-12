@@ -1,11 +1,15 @@
 package info.bitrich.xchangestream.okcoin;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import info.bitrich.xchangestream.okcoin.dto.okx.OkxLoginMessage;
+import info.bitrich.xchangestream.okcoin.dto.okx.OkxStreamingAuthenticator;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
+import org.knowm.xchange.ExchangeSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,13 +19,18 @@ import java.util.concurrent.TimeUnit;
 public class OkxStreamingService extends JsonNettyStreamingService {
 
     private static final Logger LOG = LoggerFactory.getLogger(OkxStreamingService.class);
+    private static final String LOGIN_SIGN_METHOD = "GET";
+    private static final String LOGIN_SIGN_REQUEST_PATH = "/users/self/verify";
 
     private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
 
     private Disposable pingPongSubscription;
 
-    public OkxStreamingService(String apiUrl) {
+    private final ExchangeSpecification xSpec;
+
+    public OkxStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
         super(apiUrl);
+        this.xSpec = exchangeSpecification;
     }
 
     @Override
@@ -41,6 +50,21 @@ public class OkxStreamingService extends JsonNettyStreamingService {
                     completable.onError(e);
                 }
         });
+    }
+
+    public void login() throws JsonProcessingException {
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String sign = OkxStreamingAuthenticator.generateSignature(xSpec.getSecretKey(), timestamp, LOGIN_SIGN_METHOD, LOGIN_SIGN_REQUEST_PATH);
+        if (sign == null) {
+            LOG.error(String.format("Failed to get signature"));
+            return;
+        }
+
+        OkxLoginMessage message = new OkxLoginMessage();
+        String passphrase = (String)xSpec.getExchangeSpecificParametersItem("passphrase");
+        OkxLoginMessage.LoginArg loginArg = new OkxLoginMessage.LoginArg(xSpec.getApiKey(), passphrase, timestamp, sign);
+
+        this.sendMessage(objectMapper.writeValueAsString(message));
     }
 
     @Override
@@ -87,7 +111,7 @@ public class OkxStreamingService extends JsonNettyStreamingService {
 
     @Override
     public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
-        String s = objectMapper.writeValueAsString(args[0]);
+        String s = objectMapper.writeValueAsString(channelName);
         return String.format("{\"op\": \"unsubscribe\", \"args\": %s}", s);
     }
 }

@@ -10,7 +10,7 @@ public class OkxStreamingServiceTest {
 
     @Before
     public void setUp() {
-        streamingService = new OkxStreamingService("wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999");
+        streamingService = new OkxStreamingService("wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999", null);
     }
 
     @Test
