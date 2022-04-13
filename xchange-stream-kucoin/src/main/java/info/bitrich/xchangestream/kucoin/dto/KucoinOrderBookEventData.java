@@ -33,7 +33,7 @@ public class KucoinOrderBookEventData {
     private void update(CurrencyPair currencyPair, OrderBook orderBook, Order.OrderType orderType, List<List<String>> changes) {
         for (List<String> change : changes) {
             String price = change.get(0);
-            if (!price.equals("0")) {
+            if (!"0".equals(price)) {
                 String size = change.get(1);
                 LimitOrder limitOrder = new LimitOrder(orderType, new BigDecimal(size), currencyPair, null, null, new BigDecimal(price));
                 orderBook.update(limitOrder);

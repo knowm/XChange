@@ -15,11 +15,11 @@ public class KucoinStreamingAdapters {
     public static Order adaptOrder(KucoinWebSocketOrderEvent orderEvent) {
         KucoinOrderEventData data = orderEvent.data;
 
-        Order.OrderType orderType = data.side.equals("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
+        Order.OrderType orderType = "buy".equals(data.side) ? Order.OrderType.BID : Order.OrderType.ASK;
         CurrencyPair currencyPair = data.getCurrencyPair();
 
         Order.Builder orderBuilder =
-                data.orderType.equals("market") ? new MarketOrder.Builder(orderType, currencyPair) :
+                "market".equals(data.orderType) ? new MarketOrder.Builder(orderType, currencyPair) :
                 new LimitOrder.Builder(orderType, currencyPair).limitPrice(new BigDecimal(data.price));
 
         orderBuilder
@@ -34,9 +34,11 @@ public class KucoinStreamingAdapters {
     }
 
     private static Order.OrderStatus adaptStatus(String status) {
-        if (status.equals("match"))
+        if ("open".equals(status))
+            return Order.OrderStatus.NEW;
+        if ("match".equals(status))
             return Order.OrderStatus.PARTIALLY_FILLED;
-        if (status.equals("done"))
+        if ("done".equals(status))
             return Order.OrderStatus.FILLED;
         return null;
     }

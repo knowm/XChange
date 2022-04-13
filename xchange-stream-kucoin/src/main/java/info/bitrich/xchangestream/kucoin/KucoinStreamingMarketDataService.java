@@ -106,14 +106,8 @@ class KucoinStreamingMarketDataService implements StreamingMarketDataService {
             .filter(
                     depth -> {
                       long lastUpdateId = subscription.lastUpdateId.get();
-                      boolean result;
-                      if (lastUpdateId == 0L) {
-                        result = true;
-                      } else {
-                        result =
-                                depth.sequenceStart <= lastUpdateId + 1
-                                        && depth.sequenceEnd >= lastUpdateId + 1;
-                      }
+                      boolean result = lastUpdateId == 0L ||
+                              (depth.sequenceStart <= lastUpdateId + 1 && depth.sequenceEnd >= lastUpdateId + 1);
                       if (result) {
                         subscription.lastUpdateId.set(depth.sequenceEnd);
                       } else {

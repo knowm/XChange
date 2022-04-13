@@ -69,11 +69,14 @@ class KucoinStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected void handleMessage(JsonNode message) {
-    String type = message.get("type").asText();
-    if (type.equals("message"))
-      super.handleMessage(message);
-    else if (type.equals("error"))
-      super.handleError(message, new Exception(message.get("data").asText()));
+    JsonNode typeNode = message.get("type");
+    if (typeNode != null) {
+      String type = typeNode.asText();
+      if ("message".equals(type))
+        super.handleMessage(message);
+      else if ("error".equals(type))
+        super.handleError(message, new Exception(message.get("data").asText()));
+    }
   }
 
   @Override
