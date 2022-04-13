@@ -100,7 +100,7 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
     CoinbaseProStreamingService service = streamingService;
     streamingService = null;
     streamingMarketDataService = null;
-    return service.disconnect();
+    return service != null ? service.disconnect() : Completable.complete();
   }
 
   @Override
