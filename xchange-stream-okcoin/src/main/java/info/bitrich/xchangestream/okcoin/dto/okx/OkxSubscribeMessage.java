@@ -9,7 +9,6 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 public class OkxSubscribeMessage {
-
     private String op;
     List<SubscriptionTopic> args = new LinkedList<>();
 

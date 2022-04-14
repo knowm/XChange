@@ -17,8 +17,8 @@ public class OkxStreamingServiceTest {
     public void testOne() throws Exception {
         streamingService.connect().blockingAwait();
         OkxSubscribeMessage.SubscriptionTopic t = new OkxSubscribeMessage.SubscriptionTopic("candle1D", null, null , "BTC-USDT");
-        OkxSubscribeMessage.SubscriptionTopic t2 = new OkxSubscribeMessage.SubscriptionTopic("tickers", null, null , "BTC-USDT-220408");
-        OkxSubscribeMessage.SubscriptionTopic t3 = new OkxSubscribeMessage.SubscriptionTopic("trades", null, null , "BTC-USDT-220408");
+        OkxSubscribeMessage.SubscriptionTopic t2 = new OkxSubscribeMessage.SubscriptionTopic("tickers", null, null , "BTC-USDT-220930");
+        OkxSubscribeMessage.SubscriptionTopic t3 = new OkxSubscribeMessage.SubscriptionTopic("trades", null, null , "BTC-USDT-220930");
         OkxSubscribeMessage m = new OkxSubscribeMessage();
         m.setOp("subscribe");
         m.getArgs().add(t3);

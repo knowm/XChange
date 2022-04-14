@@ -63,6 +63,7 @@ public class OkxStreamingService extends JsonNettyStreamingService {
         OkxLoginMessage message = new OkxLoginMessage();
         String passphrase = (String)xSpec.getExchangeSpecificParametersItem("passphrase");
         OkxLoginMessage.LoginArg loginArg = new OkxLoginMessage.LoginArg(xSpec.getApiKey(), passphrase, timestamp, sign);
+        message.getArgs().add(loginArg);
 
         this.sendMessage(objectMapper.writeValueAsString(message));
     }

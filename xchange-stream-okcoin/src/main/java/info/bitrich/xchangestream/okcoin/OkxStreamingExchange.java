@@ -19,7 +19,7 @@ public class OkxStreamingExchange extends OkexExchange implements StreamingExcha
     public static final String SANDBOX_WS_PUBLIC_CHANNEL_URI = "wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999";
     public static final String SANDBOX_WS_PRIVATE_CHANNEL_URI = "wss://wspap.okx.com:8443/ws/v5/private?brokerId=9999";
 
-    private OkxStreamingService streamingService;
+    private OkxStreamingService publicStreamingService;
 
     private OkxStreamingMarketDataService streamingMarketDataService;
 
@@ -29,17 +29,17 @@ public class OkxStreamingExchange extends OkexExchange implements StreamingExcha
     @Override
     public Completable connect(ProductSubscription... args) {
         ExchangeSpecification exchangeSpec = getExchangeSpecification();
-        String apiUrl = getApiUrl();
+        String publicApiUrl = getPublicApiUrl();
 
-        this.streamingService = new OkxStreamingService(apiUrl, exchangeSpec);
+        this.publicStreamingService = new OkxStreamingService(publicApiUrl, exchangeSpec);
 
-        applyStreamingSpecification(exchangeSpec, this.streamingService);
-        this.streamingMarketDataService = new OkxStreamingMarketDataService(this.streamingService);
+        applyStreamingSpecification(exchangeSpec, this.publicStreamingService);
+        this.streamingMarketDataService = new OkxStreamingMarketDataService(this.publicStreamingService);
 
-        return streamingService.connect();
+        return publicStreamingService.connect();
     }
 
-    private String getApiUrl() {
+    private String getPublicApiUrl() {
         String apiUrl;
         ExchangeSpecification exchangeSpec = getExchangeSpecification();
         if (exchangeSpec.getOverrideWebsocketApiUri() != null) {
@@ -64,15 +64,15 @@ public class OkxStreamingExchange extends OkexExchange implements StreamingExcha
 
     @Override
     public Completable disconnect() {
-        OkxStreamingService service = this.streamingService;
-        this.streamingService = null;
+        OkxStreamingService service = this.publicStreamingService;
+        this.publicStreamingService = null;
         this.streamingMarketDataService = null;
         return service.disconnect();
     }
 
     @Override
     public boolean isAlive() {
-        return streamingService != null && streamingService.isSocketOpen();
+        return publicStreamingService != null && publicStreamingService.isSocketOpen();
     }
 
     @Override

@@ -40,7 +40,7 @@ public class OkxStreamingMarketDataService implements StreamingMarketDataService
     public Observable<Ticker> getTicker(Instrument instrument, Object... args) {
         String channelName = "tickers";
 
-        String instId = OkexAdapters.adaptCurrencyPairId(instrument);
+        String instId = OkexAdapters.adaptInstrumentId(instrument);
         OkxSubscribeMessage.SubscriptionTopic topic = new OkxSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
         OkxSubscribeMessage osm = new OkxSubscribeMessage();
         osm.setOp("subscribe");
@@ -58,7 +58,7 @@ public class OkxStreamingMarketDataService implements StreamingMarketDataService
     public Observable<Trade> getTrades(Instrument instrument, Object... args) {
         String channelName = "trades";
 
-        String instId = OkexAdapters.adaptCurrencyPairId(instrument);
+        String instId = OkexAdapters.adaptInstrumentId(instrument);
         OkxSubscribeMessage.SubscriptionTopic topic = new OkxSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
         OkxSubscribeMessage osm = new OkxSubscribeMessage();
         osm.setOp("subscribe");
@@ -75,7 +75,7 @@ public class OkxStreamingMarketDataService implements StreamingMarketDataService
     @Override
     public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
         String channelName = args.length >= 1 ? args[0].toString() : "books";
-        String instId = OkexAdapters.adaptCurrencyPairId(instrument);
+        String instId = OkexAdapters.adaptInstrumentId(instrument);
         OkxSubscribeMessage.SubscriptionTopic topic = new OkxSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
         OkxSubscribeMessage osm = new OkxSubscribeMessage();
         osm.setOp("subscribe");
