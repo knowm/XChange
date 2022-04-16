@@ -1,10 +1,13 @@
 package org.knowm.xchange.poloniex.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -14,6 +17,7 @@ import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
 import org.knowm.xchange.poloniex.PoloniexUtils;
 import org.knowm.xchange.poloniex.dto.PoloniexException;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexChartData;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
@@ -115,6 +119,26 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw
         poloniexPublicTrades = getPoloniexPublicTrades(currencyPair, startTime, endTime);
       }
       return PoloniexAdapters.adaptPoloniexPublicTrades(poloniexPublicTrades, currencyPair);
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
+    }
+  }
+
+  @Override
+  public CandleStickData getCandleStickData(CurrencyPair currencyPair, Date startDate, Date endDate, Object... args)
+          throws IOException {
+
+    try {
+      String period = null;
+      if (args != null && args.length == 1) {
+        if (args[0] != null && args[0] instanceof String) {
+          period = (String) args[0];
+        }
+      }
+      PoloniexChartDataPeriodType periodType = period != null ? PoloniexChartDataPeriodType.valueOf(period) : PoloniexChartDataPeriodType.PERIOD_300;
+
+      PoloniexChartData[] poloniexChartData = getPoloniexChartData(currencyPair, TimeUnit.MILLISECONDS.toSeconds(startDate.getTime()), TimeUnit.MILLISECONDS.toSeconds(endDate.getTime()), periodType);
+      return PoloniexAdapters.adaptPoloniexCandleStickData(poloniexChartData, currencyPair);
     } catch (PoloniexException e) {
       throw PoloniexErrorAdapter.adapt(e);
     }

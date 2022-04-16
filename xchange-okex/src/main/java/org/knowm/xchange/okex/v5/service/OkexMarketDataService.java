@@ -1,13 +1,19 @@
 package org.knowm.xchange.okex.v5.service;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.OkexAdapters;
 import org.knowm.xchange.okex.v5.OkexExchange;
+import org.knowm.xchange.okex.v5.dto.OkexResponse;
+import org.knowm.xchange.okex.v5.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
@@ -43,4 +49,30 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
     return OkexAdapters.adaptTrades(
         getOkexTrades(OkexAdapters.adaptCurrencyPairId(currencyPair), 100).getData(), currencyPair);
   }
+
+  @Override
+  public CandleStickData getCandleStickData(CurrencyPair currencyPair, Date startDate, Date endDate, Object... args)
+          throws IOException {
+
+    String limit = null;
+    String period = null;
+
+    if (args != null) {
+      switch (args.length) {
+        case 2:
+          if (args[1] != null && args[1] instanceof String) {
+            limit = (String) args[1];
+          }
+        case 1:
+          if (args[0] != null && args[0] instanceof String) {
+            period = (String) args[0];
+          }
+      }
+    }
+
+    OkexResponse<List<OkexCandleStick>> historyCandle = getHistoryCandle(
+            OkexAdapters.adaptCurrencyPairId(currencyPair), String.valueOf(endDate.getTime()), String.valueOf(startDate.getTime()), period, limit);
+    return OkexAdapters.adaptCandleStickData(historyCandle.getData(), currencyPair);
+  }
+
 }
