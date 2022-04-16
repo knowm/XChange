@@ -112,7 +112,8 @@ public class OkxStreamingService extends JsonNettyStreamingService {
 
     @Override
     public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
-        String s = objectMapper.writeValueAsString(channelName);
-        return String.format("{\"op\": \"unsubscribe\", \"args\": %s}", s);
+        if (args.length != 1) throw new IOException("UnsubscribeMessage: Insufficient arguments");
+
+        return objectMapper.writeValueAsString(args[0]);
     }
 }

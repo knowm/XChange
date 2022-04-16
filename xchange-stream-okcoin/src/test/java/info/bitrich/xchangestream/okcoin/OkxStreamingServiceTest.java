@@ -1,8 +1,17 @@
 package info.bitrich.xchangestream.okcoin;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.okcoin.dto.okx.OkxSubscribeMessage;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class OkxStreamingServiceTest {
 
@@ -14,15 +23,40 @@ public class OkxStreamingServiceTest {
     }
 
     @Test
-    public void testOne() throws Exception {
-        streamingService.connect().blockingAwait();
-        OkxSubscribeMessage.SubscriptionTopic t = new OkxSubscribeMessage.SubscriptionTopic("candle1D", null, null , "BTC-USDT");
-        OkxSubscribeMessage.SubscriptionTopic t2 = new OkxSubscribeMessage.SubscriptionTopic("tickers", null, null , "BTC-USDT-220930");
-        OkxSubscribeMessage.SubscriptionTopic t3 = new OkxSubscribeMessage.SubscriptionTopic("trades", null, null , "BTC-USDT-220930");
-        OkxSubscribeMessage m = new OkxSubscribeMessage();
-        m.setOp("subscribe");
-        m.getArgs().add(t3);
-        streamingService.subscribeChannel("trades", m).forEach(System.out::println);
-        Thread.sleep(31000);
+    public void testGetChannelNameFromMessage() throws Exception {
+        String expected =
+                new String(
+                        Files.readAllBytes(
+                                Paths.get(ClassLoader.getSystemResource("okx-ws-tickers-v5.json").toURI())));
+        JsonNode data = new ObjectMapper().readTree(expected);
+        String channel = streamingService.getChannelNameFromMessage(data);
+
+        assertThat(channel).isEqualTo("tickers");
+    }
+
+    @Test
+    public void testGetSubscribeMessage() throws IOException, URISyntaxException {
+        OkxSubscribeMessage.SubscriptionTopic t = new OkxSubscribeMessage.SubscriptionTopic("tickers", null, null , "LTC-USD-200327");
+        OkxSubscribeMessage message = new OkxSubscribeMessage();
+        message.setOp("subscribe");
+        message.getArgs().add(t);
+        String subscribeMessage = streamingService.getSubscribeMessage("tickers", message);
+        String expected =
+                new String(
+                        Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("okx-ws-tickers-subscribe.json").toURI())));
+        assertThat(subscribeMessage).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGetUnsubscribeMessage() throws IOException, URISyntaxException {
+        OkxSubscribeMessage.SubscriptionTopic t = new OkxSubscribeMessage.SubscriptionTopic("tickers", null, null , "LTC-USD-200327");
+        OkxSubscribeMessage message = new OkxSubscribeMessage();
+        message.setOp("unsubscribe");
+        message.getArgs().add(t);
+        String subscribeMessage = streamingService.getUnsubscribeMessage("tickers", message);
+        String expected =
+                new String(
+                        Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("okx-ws-tickers-unsubscribe.json").toURI())));
+        assertThat(subscribeMessage).isEqualTo(expected);
     }
 }

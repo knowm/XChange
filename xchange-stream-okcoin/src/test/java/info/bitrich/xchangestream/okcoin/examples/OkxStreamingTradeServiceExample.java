@@ -13,7 +13,7 @@ import org.knowm.xchange.okex.v5.OkexAdapters;
 
 public class OkxStreamingTradeServiceExample {
 
-    public static void main(String[] args) throws JsonProcessingException {
+    public static void main(String[] args) throws JsonProcessingException, InterruptedException {
         // Enter your authentication details here to run private endpoint tests
         final String API_KEY = System.getenv("okx_apikey");
         final String SECRET_KEY = System.getenv("okx_secretkey");
@@ -31,12 +31,14 @@ public class OkxStreamingTradeServiceExample {
 
         service.login();
 
+        Thread.sleep(3000);
+
         OkxStreamingTradeService tradeService = new OkxStreamingTradeService(service);
-        Instrument instrument = new FuturesContract(CurrencyPair.BTC_USD, "220930");
+        Instrument instrument = CurrencyPair.BTC_USDT;
         tradeService.getUserTrades(
                 instrument
-                , OkxInstType.FUTURES
-                , OkexAdapters.adaptCurrencyPairId(((FuturesContract)instrument).getCurrencyPair())
+                , OkxInstType.SPOT
+                , OkexAdapters.adaptCurrencyPairId(instrument)
                 , OkexAdapters.adaptInstrumentId(instrument)
         ).forEach(System.out::println);
     }
