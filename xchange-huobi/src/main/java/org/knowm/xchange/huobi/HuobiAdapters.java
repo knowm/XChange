@@ -2,11 +2,8 @@ package org.knowm.xchange.huobi;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -17,6 +14,8 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.marketdata.CandleStick;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -35,12 +34,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceRecord;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceSum;
 import org.knowm.xchange.huobi.dto.account.HuobiFundingRecord;
-import org.knowm.xchange.huobi.dto.marketdata.HuobiAllTicker;
-import org.knowm.xchange.huobi.dto.marketdata.HuobiAsset;
-import org.knowm.xchange.huobi.dto.marketdata.HuobiAssetPair;
-import org.knowm.xchange.huobi.dto.marketdata.HuobiCurrency;
-import org.knowm.xchange.huobi.dto.marketdata.HuobiCurrencyWrapper;
-import org.knowm.xchange.huobi.dto.marketdata.HuobiTicker;
+import org.knowm.xchange.huobi.dto.marketdata.*;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
 
 public class HuobiAdapters {
@@ -460,5 +454,30 @@ public class HuobiAdapters {
       default:
         return null;
     }
+  }
+
+  public static CandleStickData adaptCandleStickData(HuobiKline[] klines, CurrencyPair currencyPair, Date endDate) {
+    CandleStickData candleStickData = null;
+    if(klines.length != 0) {
+      List<CandleStick> candleStickList = new ArrayList<>();
+      Iterator<HuobiKline> iterator = Arrays.stream(klines).iterator();
+      while(iterator.hasNext()) {
+        HuobiKline huobiKline = iterator.next();
+        Date date = new Date(TimeUnit.SECONDS.toMillis(huobiKline.getId()));
+        if(date.before(endDate)) {
+          candleStickList.add(new CandleStick.Builder()
+                  .date(date)
+                  .open(huobiKline.getOpen())
+                  .high(huobiKline.getHigh())
+                  .low(huobiKline.getLow())
+                  .close(huobiKline.getClose())
+                  .volume(huobiKline.getVol())
+                  .currencyVolume(huobiKline.getAmount())
+                  .build());
+        }
+      }
+      candleStickData = new CandleStickData(currencyPair, candleStickList);
+    }
+    return candleStickData;
   }
 }

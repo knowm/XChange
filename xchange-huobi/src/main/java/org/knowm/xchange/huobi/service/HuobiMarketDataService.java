@@ -2,24 +2,25 @@ package org.knowm.xchange.huobi.service;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.HuobiAdapters;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiDepth;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiTradeWrapper;
+import org.knowm.xchange.huobi.dto.marketdata.KlineInterval;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
 public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements MarketDataService {
+
+  private static final int MAX_NUMBER_OF_KLINE_RETURNS = 2000;
 
   public HuobiMarketDataService(Exchange exchange) {
     super(exchange);
@@ -96,5 +97,23 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
             .collect(Collectors.toList());
 
     return new Trades(trades);
+  }
+
+  @Override
+  public CandleStickData getCandleStickData(CurrencyPair currencyPair, Date startDate, Date endDate, Object... args) throws IOException {
+    String period = null;
+
+    if (args != null) {
+      if (args.length > 0) {
+        if (args[0] != null && args[0] instanceof String) {
+          period = (String) args[0];
+        }
+      }
+    }
+
+    long timeDifferenceInMilis = Math.abs(new Date().getTime() - startDate.getTime());
+    int size = Math.min((int) (timeDifferenceInMilis / KlineInterval.valueOf(period).getMillis()), MAX_NUMBER_OF_KLINE_RETURNS);
+
+    return HuobiAdapters.adaptCandleStickData(getKlines(currencyPair, KlineInterval.valueOf(period), size), currencyPair, endDate);
   }
 }
