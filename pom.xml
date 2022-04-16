@@ -43,7 +43,7 @@
     <version.reflections>0.10.2</version.reflections>
     <version.slf4j>1.7.36</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>3.18.3</version.java-jwt>
+    <version.java-jwt>3.19.1</version.java-jwt>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
@@ -534,13 +534,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.0.0-M6</version>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.0.0-M6</version>
         <executions>
           <execution>
             <goals>
