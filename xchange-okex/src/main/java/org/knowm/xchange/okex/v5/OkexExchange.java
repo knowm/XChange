@@ -62,11 +62,11 @@ public class OkexExchange extends BaseExchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
-    exchangeSpecification.setSslUri("https://www.okex.com");
-    exchangeSpecification.setHost("okex.com");
+    exchangeSpecification.setSslUri("https://www.okx.com");
+    exchangeSpecification.setHost("okx.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Okex");
-    exchangeSpecification.setExchangeDescription("Okex Exchange");
+    exchangeSpecification.setExchangeDescription("Okx Exchange");
 
     exchangeSpecification.setExchangeSpecificParametersItem(Parameters.PARAM_USE_AWS, false);
     exchangeSpecification.setExchangeSpecificParametersItem(
@@ -76,19 +76,6 @@ public class OkexExchange extends BaseExchange {
 
     exchangeSpecification.setExchangeSpecificParametersItem(Parameters.PARAM_SIMULATED_TRADING, "1");
 
-    // TODO
-    if (System.getenv("okx_secretkey") != null) {
-      exchangeSpecification.setSecretKey(System.getenv("okx_secretkey"));
-    }
-    if (System.getenv("okx_apikey") != null) {
-      exchangeSpecification.setApiKey(System.getenv("okx_apikey"));
-    }
-    if (System.getenv("okx_passphrase") != null) {
-      exchangeSpecification.setExchangeSpecificParametersItem(Parameters.PARAM_PASSPHRASE, System.getenv("okx_passphrase"));
-    }
-
-    exchangeSpecification.setProxyHost("127.0.0.1");
-    exchangeSpecification.setProxyPort(1087);
     return exchangeSpecification;
   }
 

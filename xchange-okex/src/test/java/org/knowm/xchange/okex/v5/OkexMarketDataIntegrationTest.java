@@ -18,10 +18,10 @@ public class OkexMarketDataIntegrationTest {
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(OkexExchange.class.getCanonicalName());
     exchange.remoteInit();
-    ((OkexMarketDataService) exchange.getMarketDataService()).getOkexOrderbook("BTC-USDC");
+    ((OkexMarketDataService) exchange.getMarketDataService()).getOkexOrderbook("BTC-USDT");
     OkexResponse<List<OkexCandleStick>> barHistDtos =
         ((OkexMarketDataService) exchange.getMarketDataService())
-            .getHistoryCandle("BTC-USDC", null, null, null, null);
+            .getHistoryCandle("BTC-USDT", null, null, null, null);
     Assert.assertTrue(Objects.nonNull(barHistDtos) && !barHistDtos.getData().isEmpty());
   }
 }
