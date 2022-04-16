@@ -20,6 +20,8 @@ import org.knowm.xchange.service.marketdata.params.Params;
 
 public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements MarketDataService {
 
+  private static final int MAX_NUMBER_OF_KLINE_RETURNS = 2000;
+
   public HuobiMarketDataService(Exchange exchange) {
     super(exchange);
   }
@@ -109,8 +111,8 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
       }
     }
 
-    long timeDifferenceInMilis = Math.abs(endDate.getTime() - startDate.getTime());
-    int size = Math.min((int) (timeDifferenceInMilis / KlineInterval.valueOf(period).getMillis()), 2000);
+    long timeDifferenceInMilis = Math.abs(new Date().getTime() - startDate.getTime());
+    int size = Math.min((int) (timeDifferenceInMilis / KlineInterval.valueOf(period).getMillis()), MAX_NUMBER_OF_KLINE_RETURNS);
 
     return HuobiAdapters.adaptCandleStickData(getKlines(currencyPair, KlineInterval.valueOf(period), size), currencyPair, endDate);
   }
