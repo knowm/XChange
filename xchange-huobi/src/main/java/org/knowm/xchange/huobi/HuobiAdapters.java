@@ -202,7 +202,7 @@ public class HuobiAdapters {
         // It might be a new currency. Ignore the exception and continue with other currency.
       }
     }
-    return Wallet.Builder.from(balances).build();
+    return Wallet.Builder.from(balances).id(Wallet.WalletFeature.TRADING.name()).build();
   }
 
   public static Map<String, HuobiBalanceSum> adaptBalance(HuobiBalanceRecord[] huobiBalance) {
