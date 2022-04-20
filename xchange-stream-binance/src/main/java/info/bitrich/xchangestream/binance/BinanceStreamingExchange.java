@@ -207,7 +207,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   protected BinanceStreamingService createStreamingService(ProductSubscription subscription) {
     String path =
         getStreamingBaseUri() + "stream?streams=" + buildSubscriptionStreams(subscription);
-    return new BinanceStreamingService(path, subscription);
+    return new BinanceStreamingService(this, path, subscription);
   }
 
   protected String getStreamingBaseUri() {

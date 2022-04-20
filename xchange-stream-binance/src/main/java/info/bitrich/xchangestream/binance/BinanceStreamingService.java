@@ -7,6 +7,8 @@ import info.bitrich.xchangestream.binance.dto.BinanceWebSocketSubscriptionMessag
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import java.io.IOException;
 import java.net.URI;
@@ -33,9 +35,19 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
   private Map<Integer, BinanceWebSocketSubscriptionMessage> liveSubscriptionMessage =
       new ConcurrentHashMap<>();
 
-  public BinanceStreamingService(String baseUri, ProductSubscription productSubscription) {
+  private RateLimiter rateLimiter;
+
+  public BinanceStreamingService(BinanceStreamingExchange exchange, String baseUri, ProductSubscription productSubscription) {
     super(baseUri, Integer.MAX_VALUE);
     this.productSubscription = productSubscription;
+
+    if (exchange.getExchangeSpecification().getResilience().isRateLimiterEnabled()) {
+      // 5 messages per second
+      rateLimiter = new SlidingWindowRateLimiter("websocket rate limiter", RateLimiterConfig.custom()
+              .limitForPeriod(5)
+              .limitRefreshPeriod(Duration.ofSeconds(1))
+              .build());
+    }
   }
 
   public BinanceStreamingService(
@@ -173,6 +185,9 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
   public void sendMessage(String message) {
 
     if (isLiveSubscriptionEnabled) {
+      if (rateLimiter != null)
+        RateLimiter.waitForPermission(rateLimiter);
+
       super.sendMessage(message);
     }
     // If Live Subscription is disabled, Subscriptions are made upon connection - no messages are
