@@ -42,9 +42,11 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
     this.productSubscription = productSubscription;
 
     if (exchange.getExchangeSpecification().getResilience().isRateLimiterEnabled()) {
-      // 5 messages per second
-      rateLimiter = new SlidingWindowRateLimiter("websocket rate limiter", RateLimiterConfig.custom()
-              .limitForPeriod(5)
+      // 1 message per second
+      // even though Binance docs state that 5 messages per second are allowed, it very often disconnects
+      // websocket if rate is more than 1 message per second
+      rateLimiter = RateLimiter.of("websocket rate limiter", RateLimiterConfig.custom()
+              .limitForPeriod(1)
               .limitRefreshPeriod(Duration.ofSeconds(1))
               .build());
     }
