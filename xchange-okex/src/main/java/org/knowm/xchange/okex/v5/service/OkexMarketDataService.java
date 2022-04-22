@@ -1,14 +1,19 @@
 package org.knowm.xchange.okex.v5.service;
 
 import java.io.IOException;
+import java.util.List;
+
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.OkexAdapters;
 import org.knowm.xchange.okex.v5.OkexExchange;
+import org.knowm.xchange.okex.v5.dto.marketdata.OkexTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexMarketDataService extends OkexMarketDataServiceRaw implements MarketDataService {
@@ -42,5 +47,22 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     return OkexAdapters.adaptTrades(
         getOkexTrades(OkexAdapters.adaptCurrencyPairId(currencyPair), 100).getData(), currencyPair);
+  }
+
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+    return getTicker((Instrument) currencyPair, args);
+  }
+
+  @Override
+  public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
+    List<OkexTicker> tickers = getOkexTicker(OkexAdapters.adaptCurrencyPairId(instrument)).getData();
+    return tickers.isEmpty() ? null : OkexAdapters.adaptTicker(tickers.get(0));
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    return OkexAdapters.adaptTickers(
+            getOkexTickers(SPOT, null).getData());
   }
 }

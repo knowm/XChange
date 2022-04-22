@@ -10,11 +10,7 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexCandleStick;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexOrderbook;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexTrade;
+import org.knowm.xchange.okex.v5.dto.marketdata.*;
 import org.knowm.xchange.utils.DateUtils;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
@@ -100,5 +96,20 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
         limit,
         (String)
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
+  }
+
+  public OkexResponse<List<OkexTicker>> getOkexTicker(String instrument)
+      throws OkexException, IOException {
+    return okex.getTicker(
+        instrument,
+        (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
+  }
+
+  public OkexResponse<List<OkexTicker>> getOkexTickers(String instrumentType, String underlying)
+      throws OkexException, IOException {
+    return okex.getTickers(
+        instrumentType,
+        underlying,
+        (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
   }
 }
