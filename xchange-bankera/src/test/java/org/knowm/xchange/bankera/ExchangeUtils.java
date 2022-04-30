@@ -19,7 +19,8 @@ public class ExchangeUtils {
         ExchangeUtils.class.getResourceAsStream(
             "/org/knowm/xchange/bankera/configuration.properties");
     Properties props = new Properties();
-
+    exSpec.setProxyHost("localhost");
+    exSpec.setProxyPort(1080);
     try {
       props.load(is);
       logger.debug(props.toString());

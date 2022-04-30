@@ -2,6 +2,7 @@ package org.knowm.xchange.bitz.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -9,7 +10,7 @@ import org.knowm.xchange.bitz.BitZExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
+@Ignore("Dead")
 public class BitzOrdersFetchIntegration {
 
   @Test

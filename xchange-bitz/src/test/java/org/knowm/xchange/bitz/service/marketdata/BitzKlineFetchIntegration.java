@@ -2,13 +2,14 @@ package org.knowm.xchange.bitz.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitz.BitZExchange;
 import org.knowm.xchange.bitz.dto.marketdata.BitZKline;
 import org.knowm.xchange.bitz.service.BitZMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
-
+@Ignore("Dead")
 public class BitzKlineFetchIntegration {
 
   @Test

@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -24,6 +26,7 @@ public class HitbtcMarketDataServiceIntegration extends BaseServiceTest {
     assertEquals(CurrencyPair.BTC_USD, ticker.getCurrencyPair());
   }
 
+  @Ignore(" HTTP status code was not OK: 400")
   @Test
   public void testGetTicker_BCC() throws IOException {
 

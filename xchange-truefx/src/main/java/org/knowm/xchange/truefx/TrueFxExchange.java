@@ -13,7 +13,7 @@ public class TrueFxExchange extends BaseExchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification specification = new ExchangeSpecification(this.getClass());
     specification.setShouldLoadRemoteMetaData(false);
-    specification.setPlainTextUri("http://webrates.truefx.com/");
+    specification.setPlainTextUri("https://webrates.truefx.com/");
     specification.setExchangeName("TrueFX");
     specification.setExchangeDescription("TrueFX exchange");
     return specification;

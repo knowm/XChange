@@ -2,6 +2,7 @@ package org.knowm.xchange.bitcointoyou.service.marketdata;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -17,6 +18,8 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
  * @author Danilo Guimaraes
  * @author Jonathas Carrijo
  */
+@Ignore("We are under maintenance, we are going back soon." +
+        "Web server is down")
 public class TickerFetchIntegration {
 
   private static Ticker ticker;

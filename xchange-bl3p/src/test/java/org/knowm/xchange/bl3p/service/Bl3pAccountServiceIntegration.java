@@ -3,6 +3,8 @@ package org.knowm.xchange.bl3p.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -18,6 +20,7 @@ public class Bl3pAccountServiceIntegration {
   Exchange exchange = ExchangeFactory.INSTANCE.createExchange(Bl3pExchange.class);
   AccountService accountService = exchange.getAccountService();
 
+  @Ignore("HTTP status code was not OK: 400")
   @Test
   public void getAccountInfo() throws IOException {
     AccountInfo accountInfo = accountService.getAccountInfo();
@@ -25,6 +28,7 @@ public class Bl3pAccountServiceIntegration {
     System.out.println(accountInfo);
   }
 
+  @Ignore("HTTP status code was not OK: 400")
   @Test
   public void requestDepositAddress() throws IOException {
     String newDepositAddress = accountService.requestDepositAddress(Currency.BTC);
@@ -45,6 +49,7 @@ public class Bl3pAccountServiceIntegration {
     }
   }
 
+  @Ignore("HTTP status code was not OK: 400")
   @Test
   public void withdrawFunds() throws IOException {
     Bl3pWithdrawFundsParams.Coins withdrawCoins =

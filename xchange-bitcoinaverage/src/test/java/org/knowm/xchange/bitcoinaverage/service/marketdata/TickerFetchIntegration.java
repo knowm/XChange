@@ -2,6 +2,7 @@ package org.knowm.xchange.bitcoinaverage.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -13,7 +14,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** @author timmolter */
 public class TickerFetchIntegration {
-
+@Ignore("Need to register")
   @Test
   public void tickerFetchTest() throws Exception {
 

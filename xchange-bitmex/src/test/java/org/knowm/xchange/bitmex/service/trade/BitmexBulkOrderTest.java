@@ -43,7 +43,7 @@ public class BitmexBulkOrderTest {
 
     defaultExchangeSpecification.setShouldLoadRemoteMetaData(true);
     defaultExchangeSpecification.setProxyHost("localhost");
-    defaultExchangeSpecification.setProxyPort(9999);
+    defaultExchangeSpecification.setProxyPort(1080);
     exchange.applySpecification(defaultExchangeSpecification);
 
     BitmexMarketDataService marketDataService =

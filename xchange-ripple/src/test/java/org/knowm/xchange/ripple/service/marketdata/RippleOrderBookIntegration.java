@@ -2,6 +2,7 @@ package org.knowm.xchange.ripple.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -13,7 +14,7 @@ import org.knowm.xchange.ripple.dto.RippleException;
 import org.knowm.xchange.ripple.dto.trade.RippleLimitOrder;
 import org.knowm.xchange.ripple.service.params.RippleMarketDataParams;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
+@Ignore("SSL Read timed out")
 public class RippleOrderBookIntegration {
 
   @Test

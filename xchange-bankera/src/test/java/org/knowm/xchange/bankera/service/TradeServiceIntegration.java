@@ -3,10 +3,8 @@ package org.knowm.xchange.bankera.service;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bankera.ExchangeUtils;
@@ -24,7 +22,7 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Ignore("Need api key")
 public class TradeServiceIntegration {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -33,6 +31,8 @@ public class TradeServiceIntegration {
 
   @BeforeClass
   public static void init() {
+
+
     Exchange exchange = ExchangeUtils.createExchangeFromProperties();
     tradeService = exchange.getTradeService();
   }

@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.knowm.xchange.ExchangeFactory;
@@ -40,7 +41,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.IRestProxyFactory;
-
+@Ignore("Dead or Portugal IP only")
 @RunWith(MockitoJUnitRunner.class)
 public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestSupport {
 

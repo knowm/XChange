@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.knowm.xchange.ExchangeFactory;
@@ -34,7 +35,7 @@ import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.IRestProxyFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
-
+@Ignore("Dead or Portugal IP only")
 @RunWith(MockitoJUnitRunner.class)
 public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupport {
 

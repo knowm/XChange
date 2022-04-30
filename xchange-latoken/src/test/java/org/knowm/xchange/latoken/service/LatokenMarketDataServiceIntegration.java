@@ -4,10 +4,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -17,6 +15,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.latoken.LatokenExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
+@Ignore("Need keys or protocol version v2")
 public class LatokenMarketDataServiceIntegration {
 
   static Exchange exchange;

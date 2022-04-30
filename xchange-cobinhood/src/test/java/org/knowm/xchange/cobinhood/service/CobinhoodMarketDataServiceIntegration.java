@@ -3,6 +3,7 @@ package org.knowm.xchange.cobinhood.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -12,6 +13,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
+@Ignore("Dead ?")
 public class CobinhoodMarketDataServiceIntegration {
 
   private static final Exchange COBINHOOD =

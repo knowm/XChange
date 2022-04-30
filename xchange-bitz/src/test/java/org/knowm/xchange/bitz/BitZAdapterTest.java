@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.bitz.dto.marketdata.result.BitZOrdersResult;
 import org.knowm.xchange.bitz.dto.marketdata.result.BitZTickerResult;
@@ -14,7 +16,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-
+@Ignore("Dead")
 public class BitZAdapterTest {
 
   @Test

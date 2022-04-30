@@ -15,6 +15,8 @@ public class TickerIntegration {
   @Test
   public void tickerTest() throws Exception {
     ExchangeSpecification exSpec = new ExchangeSpecification(CoinoneExchange.class);
+    exSpec.setProxyHost("localhost");
+    exSpec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_KRW);

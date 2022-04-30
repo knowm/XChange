@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Instant;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -11,7 +12,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.lgo.LgoEnv;
 import org.knowm.xchange.lgo.LgoEnv.SignatureService;
 import org.knowm.xchange.lgo.dto.key.LgoKey;
-
+@Ignore("Need registration")
 public class LgoKeyServiceIntegration {
 
   private LgoKeyService lgoKeyService;

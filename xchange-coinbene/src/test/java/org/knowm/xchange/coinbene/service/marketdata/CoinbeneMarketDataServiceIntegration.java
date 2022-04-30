@@ -5,6 +5,8 @@ import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -16,6 +18,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
+@Ignore("Dead")
 public class CoinbeneMarketDataServiceIntegration {
 
   private static final Exchange COINBENE =

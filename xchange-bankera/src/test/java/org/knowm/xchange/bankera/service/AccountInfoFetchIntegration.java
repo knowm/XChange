@@ -3,11 +3,14 @@ package org.knowm.xchange.bankera.service;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bankera.ExchangeUtils;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
+
+@Ignore("Need api key")
 
 public class AccountInfoFetchIntegration {
 
@@ -15,7 +18,6 @@ public class AccountInfoFetchIntegration {
 
   @Before
   public void setUp() {
-
     exchange = ExchangeUtils.createExchangeFromProperties();
   }
 

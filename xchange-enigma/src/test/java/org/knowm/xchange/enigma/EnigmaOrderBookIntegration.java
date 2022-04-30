@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -15,7 +16,7 @@ import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProductMarketData;
 import org.knowm.xchange.enigma.service.EnigmaAccountService;
 import org.knowm.xchange.enigma.service.EnigmaMarketDataService;
-
+@Ignore("Need registration")
 public class EnigmaOrderBookIntegration {
 
   private static final String TEST_SSL_URI = "https://api-test.enigma-securities.io/";

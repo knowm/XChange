@@ -15,6 +15,8 @@ public class OrderBookIntegration {
   @Test
   public void orderBookTest() throws Exception {
     ExchangeSpecification exSpec = new ExchangeSpecification(CoinoneExchange.class);
+    exSpec.setProxyHost("localhost");
+    exSpec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.ETH_BTC);

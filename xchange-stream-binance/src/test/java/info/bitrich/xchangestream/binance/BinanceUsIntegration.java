@@ -14,9 +14,15 @@ public class BinanceUsIntegration {
 
   @Test
   public void channelCreateUrlTest() {
+    ExchangeSpecification spec = new ExchangeSpecification(BinanceUsStreamingExchange.class);
+    spec.setProxyHost("localhost");
+    spec.setProxyPort(1080);
     BinanceUsStreamingExchange exchange =
         (BinanceUsStreamingExchange)
-            StreamingExchangeFactory.INSTANCE.createExchange(BinanceUsStreamingExchange.class);
+            StreamingExchangeFactory.INSTANCE.createExchange(spec);
+//    BinanceUsStreamingExchange exchange =
+//        (BinanceUsStreamingExchange)
+//            StreamingExchangeFactory.INSTANCE.createExchange(BinanceUsStreamingExchange.class);
     ProductSubscription.ProductSubscriptionBuilder builder = ProductSubscription.create();
     builder.addTicker(CurrencyPair.BTC_USD).addTicker(CurrencyPair.DASH_BTC);
     String buildSubscriptionStreams = exchange.buildSubscriptionStreams(builder.build());
@@ -38,10 +44,14 @@ public class BinanceUsIntegration {
         .addTicker(CurrencyPair.BTC_USD)
         .addTicker(CurrencyPair.DASH_BTC)
         .addOrderbook(CurrencyPair.ETH_BTC);
-    ExchangeSpecification spec =
-        StreamingExchangeFactory.INSTANCE
-            .createExchange(BinanceUsStreamingExchange.class)
-            .getDefaultExchangeSpecification();
+    ExchangeSpecification spec = new ExchangeSpecification(BinanceUsStreamingExchange.class);
+    spec.setProxyHost("localhost");
+    spec.setProxyPort(1080);
+
+//    ExchangeSpecification spec =
+//        StreamingExchangeFactory.INSTANCE
+//            .createExchange(BinanceUsStreamingExchange.class)
+//            .getDefaultExchangeSpecification();
     spec.setExchangeSpecificParametersItem(USE_HIGHER_UPDATE_FREQUENCY, true);
     BinanceUsStreamingExchange exchange =
         (BinanceUsStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
@@ -57,10 +67,14 @@ public class BinanceUsIntegration {
         .addTicker(CurrencyPair.BTC_USD)
         .addTicker(CurrencyPair.DASH_BTC)
         .addOrderbook(CurrencyPair.ETH_BTC);
-    ExchangeSpecification spec =
-        StreamingExchangeFactory.INSTANCE
-            .createExchange(BinanceUsStreamingExchange.class)
-            .getDefaultExchangeSpecification();
+    ExchangeSpecification spec = new ExchangeSpecification(BinanceUsStreamingExchange.class);
+    spec.setProxyHost("localhost");
+    spec.setProxyPort(1080);
+
+//    ExchangeSpecification spec =
+//        StreamingExchangeFactory.INSTANCE
+//            .createExchange(BinanceUsStreamingExchange.class)
+//            .getDefaultExchangeSpecification();
     spec.setExchangeSpecificParametersItem(USE_REALTIME_BOOK_TICKER, true);
     BinanceUsStreamingExchange exchange =
         (BinanceUsStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);

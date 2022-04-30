@@ -8,6 +8,8 @@ import org.knowm.xchange.utils.AuthUtils;
 public class ExchangeUtils {
   public static Exchange createExchangeFromProperties() {
     ExchangeSpecification exSpec = new ExchangeSpecification(BTCMarketsExchange.class);
+    exSpec.setProxyHost("localhost");
+    exSpec.setProxyPort(1080);
     AuthUtils.setApiAndSecretKey(exSpec);
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }

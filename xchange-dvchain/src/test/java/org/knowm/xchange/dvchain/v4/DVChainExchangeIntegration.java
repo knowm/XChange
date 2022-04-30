@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -20,7 +22,7 @@ import org.knowm.xchange.dvchain.DVChainExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsZero;
-
+@Ignore("Lots of errors")
 public class DVChainExchangeIntegration {
   final String secret =
       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjMGZkZjczNTUxYTU4M2I2OGNmOTM1YSIsImlhdCI6MTU0NDcyNjk3Nn0.wBuyED4CmkFzzrNdQm1FqwixJhvQTfl-aN4OE0ryoho";

@@ -3,15 +3,19 @@ package org.knowm.xchange.bleutrade.service.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bleutrade.BleutradeExchange;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTicker;
 import org.knowm.xchange.bleutrade.service.BleutradeMarketDataService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.CertHelper;
 
+@Ignore("Dead or Portugal IP only")
 /** @author timmolter */
 public class TickerFetchIntegration {
 

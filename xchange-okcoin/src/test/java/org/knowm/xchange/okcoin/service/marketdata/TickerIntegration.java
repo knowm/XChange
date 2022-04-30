@@ -2,6 +2,7 @@ package org.knowm.xchange.okcoin.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -12,6 +13,7 @@ import org.knowm.xchange.okcoin.OkCoinExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** @author timmolter */
+@Ignore("api version changed, url api changed?")
 public class TickerIntegration {
 
   @Test

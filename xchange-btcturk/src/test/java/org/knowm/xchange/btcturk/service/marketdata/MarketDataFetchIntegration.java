@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -24,6 +25,7 @@ import org.knowm.xchange.service.marketdata.params.Params;
  * @author semihunaldi
  * @author mertguner
  */
+@Ignore("Need API KEY ?")
 public class MarketDataFetchIntegration {
 
   private Exchange btcTurk;
@@ -33,6 +35,7 @@ public class MarketDataFetchIntegration {
   public void InitExchange() throws IOException {
     if (BTCTurkDemoUtilsTest.BTCTURK_APIKEY.isEmpty())
       btcTurk = ExchangeFactory.INSTANCE.createExchange(BTCTurkExchange.class);
+
     else {
       ExchangeSpecification exSpec = new BTCTurkExchange().getDefaultExchangeSpecification();
       exSpec.setApiKey(BTCTurkDemoUtilsTest.BTCTURK_APIKEY);

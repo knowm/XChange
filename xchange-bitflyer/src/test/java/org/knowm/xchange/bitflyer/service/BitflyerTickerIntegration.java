@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitflyer.BitflyerExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -16,7 +17,11 @@ public class BitflyerTickerIntegration {
 
   @Test
   public void fetchTickerTest() throws IOException {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitflyerExchange.class);
+    ExchangeSpecification spec = new ExchangeSpecification(BitflyerExchange.class);
+    spec.setProxyHost("localhost");
+    spec.setProxyPort(1080);
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
+//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitflyerExchange.class);
     MarketDataService service = exchange.getMarketDataService();
 
     Ticker ticker = service.getTicker(CurrencyPair.BTC_JPY);

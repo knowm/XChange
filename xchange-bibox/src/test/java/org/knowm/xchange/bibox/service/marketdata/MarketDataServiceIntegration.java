@@ -3,6 +3,8 @@ package org.knowm.xchange.bibox.service.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -28,6 +30,7 @@ public class MarketDataServiceIntegration {
     assertThat(ticker.getHigh()).isGreaterThan(ticker.getLow());
   }
 
+  @Ignore("cmd个数限制 Ограничение на количество команд")
   @Test
   public void testGetAllOrderBooks() throws Exception {
 

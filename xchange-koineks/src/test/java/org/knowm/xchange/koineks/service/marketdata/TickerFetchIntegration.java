@@ -2,6 +2,7 @@ package org.knowm.xchange.koineks.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -11,6 +12,7 @@ import org.knowm.xchange.koineks.KoineksExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** @author semihunaldi */
+@Ignore("Dead or only Tur ip")
 public class TickerFetchIntegration {
 
   @Test

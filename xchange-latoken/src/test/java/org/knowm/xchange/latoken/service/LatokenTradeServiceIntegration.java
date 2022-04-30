@@ -3,10 +3,9 @@ package org.knowm.xchange.latoken.service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+
+import org.junit.*;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -19,6 +18,7 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Ignore("Need keys or protocol version v2")
 public class LatokenTradeServiceIntegration {
 
   static Logger LOG = LoggerFactory.getLogger(LatokenTradeServiceIntegration.class);

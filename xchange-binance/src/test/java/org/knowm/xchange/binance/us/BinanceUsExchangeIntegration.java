@@ -51,6 +51,8 @@ public class BinanceUsExchangeIntegration {
             System.getProperty(
                 BinanceExchange.SPECIFIC_PARAM_USE_SANDBOX, Boolean.FALSE.toString()));
     spec.setExchangeSpecificParametersItem(BinanceExchange.SPECIFIC_PARAM_USE_SANDBOX, useSandbox);
+    spec.setProxyHost("localhost");
+    spec.setProxyPort(1080);
     exchange.applySpecification(spec);
   }
 
