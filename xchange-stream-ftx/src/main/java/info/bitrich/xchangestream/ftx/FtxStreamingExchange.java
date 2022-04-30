@@ -13,7 +13,7 @@ import org.knowm.xchange.ftx.FtxExchange;
 
 public class FtxStreamingExchange extends FtxExchange implements StreamingExchange {
 
-  private final String API_URI = "wss://ftx.com/ws/";
+  private final static String API_URI = "wss://ftx.com/ws/";
 
   private FtxStreamingService ftxStreamingService;
   private FtxStreamingMarketDataService ftxStreamingMarketDataService;
@@ -23,10 +23,12 @@ public class FtxStreamingExchange extends FtxExchange implements StreamingExchan
   protected void initServices() {
     super.initServices();
 
+    String apiUri = exchangeSpecification.getOverrideWebsocketApiUri() != null ? exchangeSpecification.getOverrideWebsocketApiUri() : API_URI;
+
     if (exchangeSpecification.getApiKey() != null) {
       this.ftxStreamingService =
           new FtxStreamingService(
-              API_URI,
+                  apiUri,
               () ->
                   new FtxWebsocketCredential(
                       exchangeSpecification.getApiKey(),
@@ -34,7 +36,7 @@ public class FtxStreamingExchange extends FtxExchange implements StreamingExchan
                       exchangeSpecification.getUserName()));
       this.ftxStreamingTradeService = new FtxStreamingTradeService(ftxStreamingService);
     } else {
-      this.ftxStreamingService = new FtxStreamingService(API_URI);
+      this.ftxStreamingService = new FtxStreamingService(apiUri);
     }
 
     this.ftxStreamingMarketDataService = new FtxStreamingMarketDataService(ftxStreamingService);

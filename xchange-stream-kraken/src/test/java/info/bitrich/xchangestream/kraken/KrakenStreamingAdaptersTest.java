@@ -113,6 +113,8 @@ public class KrakenStreamingAdaptersTest {
     assertThat(ticker.getOpen()).isEqualByComparingTo("9668.90000");
     assertThat(ticker.getAsk()).isEqualByComparingTo("9971.00000");
     assertThat(ticker.getBid()).isEqualByComparingTo("9970.90000");
+    assertThat(ticker.getAskSize()).isEqualByComparingTo("2.83251755");
+    assertThat(ticker.getBidSize()).isEqualByComparingTo("10.57957134");
     assertThat(ticker.getHigh()).isEqualByComparingTo("9990.00000");
     assertThat(ticker.getLow()).isEqualByComparingTo("9653.20000");
     assertThat(ticker.getVwap()).isEqualByComparingTo("9732.48471");
