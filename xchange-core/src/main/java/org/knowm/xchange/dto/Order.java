@@ -473,7 +473,15 @@ public abstract class Order implements Serializable {
   }
 
   @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.WRAPPER_OBJECT)
-  public interface IOrderFlags {}
+  public interface IOrderFlags {
+
+    static <T extends IOrderFlags> T getOrderFlagOfType(Set<IOrderFlags> setOfFlags, Class<T> type) {
+      return (T) setOfFlags.stream()
+              .filter(flag -> type.isAssignableFrom(flag.getClass()))
+              .findFirst()
+              .orElse(null);
+    }
+  }
 
   public abstract static class Builder {
 

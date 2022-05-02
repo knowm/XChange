@@ -13,15 +13,8 @@ import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceDustLog;
-import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
-import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceTrade;
-import org.knowm.xchange.binance.dto.trade.OrderSide;
-import org.knowm.xchange.binance.dto.trade.OrderType;
-import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.trade.*;
+import org.knowm.xchange.binance.dto.trade.margin.*;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -259,6 +252,102 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
     decorateApiCall(() -> binance.closeUserDataStream(apiKey, listenKey))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
         .call();
+  }
+
+  public BinanceNewMarginOrder newMarginOrder(
+          CurrencyPair pair,
+          OrderSide side,
+          MarginAccountType marginAccountType,
+          OrderType type,
+          TimeInForce timeInForce,
+          BigDecimal quantity,
+          BigDecimal price,
+          String newClientOrderId,
+          BigDecimal stopPrice,
+          BigDecimal icebergQty,
+          BinanceNewOrder.NewOrderResponseType newOrderRespType,
+          MarginSideEffectType sideEffectType)
+          throws IOException, BinanceException {
+    return decorateApiCall(
+            () ->
+                    binance.newMarginOrder(
+                            BinanceAdapters.toSymbol(pair),
+                            marginAccountType,
+                            side,
+                            type,
+                            timeInForce,
+                            quantity,
+                            price,
+                            newClientOrderId,
+                            stopPrice,
+                            icebergQty,
+                            newOrderRespType,
+                            sideEffectType,
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            apiKey,
+                            signatureCreator))
+            .withRetry(retry("newMarginOrder", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
+            .withRateLimiter(rateLimiter(ORDERS_PER_SECOND_RATE_LIMITER))
+            .withRateLimiter(rateLimiter(ORDERS_PER_DAY_RATE_LIMITER))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+  }
+
+  public BinanceMarginOrder marginOrderStatus(
+          CurrencyPair pair, MarginAccountType marginAccountType, Long orderId, String origClientOrderId)
+          throws IOException, BinanceException {
+    return decorateApiCall(
+            () ->
+                    binance.marginOrderStatus(
+                            BinanceAdapters.toSymbol(pair),
+                            marginAccountType,
+                            orderId,
+                            origClientOrderId,
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            super.apiKey,
+                            super.signatureCreator))
+            .withRetry(retry("marginOrderStatus"))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+  }
+
+  public BinanceCancelledMarginOrder cancelMarginOrder(
+          CurrencyPair pair, MarginAccountType marginAccountType, Long orderId, String origClientOrderId, String newClientOrderId)
+          throws IOException, BinanceException {
+    return decorateApiCall(
+            () ->
+                    binance.cancelMarginOrder(
+                            BinanceAdapters.toSymbol(pair),
+                            marginAccountType,
+                            orderId,
+                            origClientOrderId,
+                            newClientOrderId,
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            super.apiKey,
+                            super.signatureCreator))
+            .withRetry(retry("cancelMarginOrder"))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+  }
+
+  public List<BinanceCancelledMarginOrder> cancelAllOpenMarginOrders(
+          CurrencyPair pair, MarginAccountType marginAccountType)
+          throws IOException, BinanceException {
+    return decorateApiCall(
+            () ->
+                    binance.cancelAllOpenMarginOrders(
+                            BinanceAdapters.toSymbol(pair),
+                            marginAccountType,
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            super.apiKey,
+                            super.signatureCreator))
+            .withRetry(retry("cancelAllOpenMarginOrders"))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
   }
 
   protected int openOrdersPermits(CurrencyPair pair) {

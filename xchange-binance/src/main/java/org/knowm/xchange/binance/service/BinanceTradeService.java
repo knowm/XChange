@@ -2,10 +2,7 @@ package org.knowm.xchange.binance.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.Value;
 import org.knowm.xchange.binance.BinanceAdapters;
@@ -13,49 +10,36 @@ import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceTrade;
-import org.knowm.xchange.binance.dto.trade.OrderType;
-import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.trade.*;
+import org.knowm.xchange.binance.dto.trade.margin.BinanceNewMarginOrder;
+import org.knowm.xchange.binance.dto.trade.margin.MarginAccountType;
+import org.knowm.xchange.binance.dto.trade.margin.MarginSideEffectType;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParam;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
+import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.orders.*;
 import org.knowm.xchange.utils.Assert;
 
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
+
+  private final boolean includeMarginAccountTypeInOrderId;
 
   public BinanceTradeService(
       BinanceExchange exchange,
       BinanceAuthenticated binance,
       ResilienceRegistries resilienceRegistries) {
     super(exchange, binance, resilienceRegistries);
+
+    Boolean includeMarginAccountTypeInOrderId = (Boolean) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("Include_Margin_Account_Type_In_OrderId");
+    this.includeMarginAccountTypeInOrderId = includeMarginAccountTypeInOrderId != null && includeMarginAccountTypeInOrderId;
   }
 
   @Override
@@ -98,7 +82,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public String placeMarketOrder(MarketOrder mo) throws IOException {
-    return placeOrder(OrderType.MARKET, mo, null, null, null);
+    return placeOrder(OrderType.MARKET, mo, null, null, null, mo.getOrderFlags());
   }
 
   @Override
@@ -111,7 +95,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     } else {
       type = OrderType.LIMIT;
     }
-    return placeOrder(type, limitOrder, limitOrder.getLimitPrice(), null, tif);
+    return placeOrder(type, limitOrder, limitOrder.getLimitPrice(), null, tif, limitOrder.getOrderFlags());
   }
 
   @Override
@@ -126,7 +110,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
     OrderType orderType = BinanceAdapters.adaptOrderType(order);
 
-    return placeOrder(orderType, order, order.getLimitPrice(), order.getStopPrice(), tif);
+    return placeOrder(orderType, order, order.getLimitPrice(), order.getStopPrice(), tif, order.getOrderFlags());
   }
 
   private Optional<TimeInForce> timeInForceFromOrder(Order order) {
@@ -137,25 +121,49 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   private String placeOrder(
-      OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif)
+          OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif, Set<IOrderFlags> orderFlags)
       throws IOException {
     try {
       Long recvWindow =
           (Long)
               exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-      BinanceNewOrder newOrder =
-          newOrder(
-              order.getCurrencyPair(),
-              BinanceAdapters.convert(order.getType()),
-              type,
-              tif,
-              order.getOriginalAmount(),
-              limitPrice,
-              getClientOrderId(order),
-              stopPrice,
-              null,
-              null);
-      return Long.toString(newOrder.orderId);
+
+      MarginAccountType marginAccountType = IOrderFlags.getOrderFlagOfType(orderFlags, MarginAccountType.class);
+
+      if (marginAccountType == null) {
+        BinanceNewOrder newOrder =
+                newOrder(
+                        order.getCurrencyPair(),
+                        BinanceAdapters.convert(order.getType()),
+                        type,
+                        tif,
+                        order.getOriginalAmount(),
+                        limitPrice,
+                        getClientOrderId(order),
+                        stopPrice,
+                        null,
+                        null);
+        return Long.toString(newOrder.orderId);
+      } else {
+        MarginSideEffectType marginSideEffect = IOrderFlags.getOrderFlagOfType(orderFlags, MarginSideEffectType.class);
+
+        BinanceNewMarginOrder newOrder =
+                newMarginOrder(
+                        order.getCurrencyPair(),
+                        BinanceAdapters.convert(order.getType()),
+                        marginAccountType,
+                        type,
+                        tif,
+                        order.getOriginalAmount(),
+                        limitPrice,
+                        getClientOrderId(order),
+                        stopPrice,
+                        null,
+                        null,
+                        marginSideEffect);
+
+        return newOrder.orderId + (includeMarginAccountTypeInOrderId ? "-" + marginAccountType.name() : "");
+      }
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -184,17 +192,8 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   private String getClientOrderId(Order order) {
-
-    String clientOrderId = null;
-    for (IOrderFlags flags : order.getOrderFlags()) {
-      if (flags instanceof BinanceOrderFlags) {
-        BinanceOrderFlags bof = (BinanceOrderFlags) flags;
-        if (clientOrderId == null) {
-          clientOrderId = bof.getClientId();
-        }
-      }
-    }
-    return clientOrderId;
+    BinanceOrderFlags bof = IOrderFlags.getOrderFlagOfType(order.getOrderFlags(), BinanceOrderFlags.class);
+    return bof != null ? bof.getClientId() : null;
   }
 
   @Override
@@ -206,21 +205,40 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   public boolean cancelOrder(CancelOrderParams params) throws IOException {
     try {
       if (!(params instanceof CancelOrderByCurrencyPair)
-          && !(params instanceof CancelOrderByIdParams)) {
+          || !(params instanceof CancelOrderByIdParams)) {
         throw new ExchangeException(
             "You need to provide the currency pair and the order id to cancel an order.");
       }
       CancelOrderByCurrencyPair paramCurrencyPair = (CancelOrderByCurrencyPair) params;
       CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
-      super.cancelOrder(
-          paramCurrencyPair.getCurrencyPair(),
-          BinanceAdapters.id(paramId.getOrderId()),
-          null,
-          null);
+      String orderId = paramId.getOrderId();
+      MarginAccountType marginAccountType =
+              params instanceof BinanceCancelOrderParams ? ((BinanceCancelOrderParams) params).getMarginAccountType()
+                      : includeMarginAccountTypeInOrderId ? getMarginAccountTypeFromOrderId(orderId)
+                      : null;
+      if (marginAccountType == null) {
+        super.cancelOrder(
+                paramCurrencyPair.getCurrencyPair(),
+                BinanceAdapters.id(orderId),
+                null,
+                null);
+      } else {
+        super.cancelMarginOrder(
+                paramCurrencyPair.getCurrencyPair(),
+                marginAccountType,
+                BinanceAdapters.id(orderId),
+                null,
+                null);
+      }
       return true;
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
+  }
+
+  private MarginAccountType getMarginAccountTypeFromOrderId(String orderId) {
+    int hyphenIndex = orderId.indexOf('-');
+    return hyphenIndex > 0 ? MarginAccountType.valueOf(orderId.substring(hyphenIndex + 1)) : null;
   }
 
   @Override
@@ -334,13 +352,27 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
           throw new ExchangeException(
               "You need to provide the currency pair and the order id to query an order.");
         }
+        String orderId = orderQueryParamCurrencyPair.getOrderId();
 
-        orders.add(
-            BinanceAdapters.adaptOrder(
-                super.orderStatus(
-                    orderQueryParamCurrencyPair.getCurrencyPair(),
-                    BinanceAdapters.id(orderQueryParamCurrencyPair.getOrderId()),
-                    null)));
+        MarginAccountType marginAccountType =
+                param instanceof BinanceQueryOrderParams ? ((BinanceQueryOrderParams) param).getMarginAccountType()
+                        : includeMarginAccountTypeInOrderId ? getMarginAccountTypeFromOrderId(orderId)
+                        : null;
+
+        BinanceOrder binanceOrder;
+        if (marginAccountType == null) {
+          binanceOrder = super.orderStatus(
+                  orderQueryParamCurrencyPair.getCurrencyPair(),
+                  BinanceAdapters.id(orderId),
+                  null);
+        } else {
+          binanceOrder = super.marginOrderStatus(
+                  orderQueryParamCurrencyPair.getCurrencyPair(),
+                  marginAccountType,
+                  BinanceAdapters.id(orderId),
+                  null);
+        }
+        orders.add(BinanceAdapters.adaptOrder(binanceOrder));
       }
       return orders;
     } catch (BinanceException e) {

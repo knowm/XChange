@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public final class BinanceOrder {
+public class BinanceOrder {
 
   public final String symbol;
   public final long orderId;

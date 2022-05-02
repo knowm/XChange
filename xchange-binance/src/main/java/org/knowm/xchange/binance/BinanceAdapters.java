@@ -97,7 +97,12 @@ public class BinanceAdapters {
 
   public static long id(String id) {
     try {
-      return Long.valueOf(id);
+      // hyphen could optionally be added to order id to specify margin account type
+      int hyphenIndex = id.indexOf('-');
+      if (hyphenIndex > 0)
+        id = id.substring(0, hyphenIndex);
+
+      return Long.parseLong(id);
     } catch (Throwable e) {
       throw new IllegalArgumentException("Binance id must be a valid long number.", e);
     }
