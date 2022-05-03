@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.okcoin;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -73,6 +74,11 @@ public class OkxStreamingExchange extends OkexExchange implements StreamingExcha
     @Override
     public boolean isAlive() {
         return publicStreamingService != null && publicStreamingService.isSocketOpen();
+    }
+
+    @Override
+    public StreamingMarketDataService getStreamingMarketDataService() {
+        return streamingMarketDataService;
     }
 
     @Override
