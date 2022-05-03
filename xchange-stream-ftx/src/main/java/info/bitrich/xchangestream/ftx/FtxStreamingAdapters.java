@@ -221,6 +221,13 @@ public class FtxStreamingAdapters {
   public static Order adaptOrders(JsonNode jsonNode) {
     JsonNode data = jsonNode.get("data");
 
+    // FTX reduces the remaining size on closed orders to 0 even though it's not filled.
+    // Without any trade this results in a cumulative quantity equal to the size of the order,
+    // which is wrong. We therefore calculate the remaining quantity manually.
+    BigDecimal size = data.get("size").decimalValue();
+    BigDecimal filledSize = data.get("filledSize").decimalValue();
+    BigDecimal remainingSize = size.subtract(filledSize);
+
     LimitOrder.Builder order =
         new LimitOrder.Builder(
                 "buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK,
@@ -230,7 +237,8 @@ public class FtxStreamingAdapters {
             .limitPrice(data.get("price").decimalValue())
             .originalAmount(data.get("size").decimalValue())
             .userReference(data.get("clientId").asText())
-            .remainingAmount(data.get("remainingSize").decimalValue())
+            .remainingAmount(remainingSize)
+            .cumulativeAmount(data.get("filledSize").decimalValue())
             .averagePrice(data.get("avgFillPrice").decimalValue())
             .orderStatus(Order.OrderStatus.valueOf(data.get("status").asText().toUpperCase()));
 
