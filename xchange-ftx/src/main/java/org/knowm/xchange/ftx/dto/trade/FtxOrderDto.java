@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-import org.knowm.xchange.dto.Order;
 
 public class FtxOrderDto {
 
@@ -28,7 +27,7 @@ public class FtxOrderDto {
 
   private final BigDecimal size;
 
-  private final Order.OrderStatus status;
+  private final FtxOrderStatus status;
 
   private final FtxOrderType type;
 
@@ -52,7 +51,7 @@ public class FtxOrderDto {
       @JsonProperty("avgFillPrice") BigDecimal avgFillPrice,
       @JsonProperty("side") FtxOrderSide side,
       @JsonProperty("size") BigDecimal size,
-      @JsonProperty("status") String status,
+      @JsonProperty("status") FtxOrderStatus status,
       @JsonProperty("type") FtxOrderType type,
       @JsonProperty("reduceOnly") boolean reduceOnly,
       @JsonProperty("ioc") boolean ioc,
@@ -68,7 +67,7 @@ public class FtxOrderDto {
     this.avgFillPrice = avgFillPrice;
     this.side = side;
     this.size = size;
-    this.status = Order.OrderStatus.valueOf(status.toUpperCase());
+    this.status = status;
     this.type = type;
     this.reduceOnly = reduceOnly;
     this.ioc = ioc;
@@ -116,7 +115,7 @@ public class FtxOrderDto {
     return size;
   }
 
-  public Order.OrderStatus getStatus() {
+  public FtxOrderStatus getStatus() {
     return status;
   }
 

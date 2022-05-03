@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -53,9 +53,10 @@ import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.Krake
 
 public class KrakenAdaptersTest {
 
-  @Before
-  public void before() throws IOException {
+  @BeforeClass
+  public static void before() throws IOException {
 
+    KrakenUtils.clearAssets();
     // Read in the JSON from the example resources
     InputStream is =
         KrakenAdaptersTest.class.getResourceAsStream(
