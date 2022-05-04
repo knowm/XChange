@@ -20,11 +20,13 @@ import java.util.zip.CRC32;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrade.Builder;
 import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.ftx.dto.marketdata.FtxTradeDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderFlags;
@@ -33,7 +35,9 @@ import org.knowm.xchange.instrument.Instrument;
 public class FtxStreamingAdapters {
 
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-  /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
+  /**
+   * Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero
+   */
   private static final ThreadLocal<DecimalFormat> dfp =
       ThreadLocal.withInitial(() -> new DecimalFormat("0.0#######"));
 
@@ -204,9 +208,9 @@ public class FtxStreamingAdapters {
   public static UserTrade adaptUserTrade(JsonNode jsonNode) {
     JsonNode data = jsonNode.get("data");
 
-    return new UserTrade.Builder()
+    Builder userTradeBuilder = new Builder()
         .currencyPair(new CurrencyPair(data.get("market").asText()))
-        .type("buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK)
+        .type("buy".equals(data.get("side").asText()) ? OrderType.BID : OrderType.ASK)
         .instrument(new CurrencyPair(data.get("market").asText()))
         .originalAmount(data.get("size").decimalValue())
         .price(data.get("price").decimalValue())
@@ -214,8 +218,12 @@ public class FtxStreamingAdapters {
         .id(data.get("id").asText())
         .orderId(data.get("orderId").asText())
         .feeAmount(data.get("fee").decimalValue())
-        .feeCurrency(new Currency(data.get("feeCurrency").asText()))
-        .build();
+        .feeCurrency(new Currency(data.get("feeCurrency").asText()));
+
+    if (data.has("clientOrderId")) {
+      userTradeBuilder.orderUserReference(data.get("clientOrderId").asText());
+    }
+    return userTradeBuilder.build();
   }
 
   public static Order adaptOrders(JsonNode jsonNode) {
@@ -230,8 +238,8 @@ public class FtxStreamingAdapters {
 
     LimitOrder.Builder order =
         new LimitOrder.Builder(
-                "buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK,
-                new CurrencyPair(data.get("market").asText()))
+            "buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK,
+            new CurrencyPair(data.get("market").asText()))
             .id(data.get("id").asText())
             .timestamp(Date.from(Instant.now()))
             .limitPrice(data.get("price").decimalValue())
@@ -242,9 +250,15 @@ public class FtxStreamingAdapters {
             .averagePrice(data.get("avgFillPrice").decimalValue())
             .orderStatus(Order.OrderStatus.valueOf(data.get("status").asText().toUpperCase()));
 
-    if (data.get("ioc").asBoolean()) order.flag(FtxOrderFlags.IOC);
-    if (data.get("postOnly").asBoolean()) order.flag(FtxOrderFlags.POST_ONLY);
-    if (data.get("reduceOnly").asBoolean()) order.flag(FtxOrderFlags.REDUCE_ONLY);
+    if (data.get("ioc").asBoolean()) {
+      order.flag(FtxOrderFlags.IOC);
+    }
+    if (data.get("postOnly").asBoolean()) {
+      order.flag(FtxOrderFlags.POST_ONLY);
+    }
+    if (data.get("reduceOnly").asBoolean()) {
+      order.flag(FtxOrderFlags.REDUCE_ONLY);
+    }
 
     return order.build();
   }
