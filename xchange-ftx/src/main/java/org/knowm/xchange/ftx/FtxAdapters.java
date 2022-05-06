@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.OpenPosition;
@@ -32,6 +33,7 @@ import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.ftx.dto.FtxResponse;
@@ -43,11 +45,15 @@ import org.knowm.xchange.ftx.dto.marketdata.FtxMarketDto;
 import org.knowm.xchange.ftx.dto.marketdata.FtxMarketsDto;
 import org.knowm.xchange.ftx.dto.marketdata.FtxOrderbookDto;
 import org.knowm.xchange.ftx.dto.marketdata.FtxTradeDto;
+import org.knowm.xchange.ftx.dto.trade.FtxConditionalOrderRequestPayload;
+import org.knowm.xchange.ftx.dto.trade.FtxConditionalOrderType;
+import org.knowm.xchange.ftx.dto.trade.FtxModifyConditionalOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderFlags;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderSide;
+import org.knowm.xchange.ftx.dto.trade.FtxOrderStatus;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderType;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
@@ -283,7 +289,7 @@ public class FtxAdapters {
                         (ftxOrderDto.isReduceOnly() ? FtxOrderFlags.REDUCE_ONLY : null)))))
         .cumulativeAmount(ftxOrderDto.getFilledSize())
         .remainingAmount(ftxOrderDto.getRemainingSize())
-        .orderStatus(ftxOrderDto.getStatus())
+        .orderStatus(adaptFtxOrderStatusToOrderStatus(ftxOrderDto.getStatus()))
         .id(ftxOrderDto.getId())
         .build();
   }
@@ -317,6 +323,24 @@ public class FtxAdapters {
   public static Order.OrderType adaptFtxOrderSideToOrderType(FtxOrderSide ftxOrderSide) {
 
     return ftxOrderSide == FtxOrderSide.buy ? Order.OrderType.BID : Order.OrderType.ASK;
+  }
+
+  public static OrderStatus adaptFtxOrderStatusToOrderStatus(FtxOrderStatus ftxOrderStatus) {
+
+    switch (ftxOrderStatus) {
+      case NEW:
+      case TRIGGERED:
+        return OrderStatus.NEW;
+      case CLOSED:
+        return OrderStatus.CLOSED;
+      case CANCELLED:
+        return OrderStatus.CANCELED;
+      case OPEN:
+        return OrderStatus.OPEN;
+      default:
+        return OrderStatus.UNKNOWN;
+    }
+
   }
 
   private static final Pattern FUTURES_PATTERN = Pattern.compile("PERP|[0-9]+");
@@ -382,5 +406,34 @@ public class FtxAdapters {
         .volume(volume)
         .timestamp(timestamp)
         .build();
+  }
+
+  public static FtxConditionalOrderRequestPayload adaptStopOrderToFtxOrderPayload(StopOrder stopOrder) {
+    return adaptConditionalOrderToFtxOrderPayload(
+        FtxConditionalOrderType.stop, stopOrder, stopOrder.getLimitPrice(), stopOrder.getStopPrice(), null);
+  }
+
+  public static FtxModifyConditionalOrderRequestPayload adaptModifyConditionalOrderToFtxOrderPayload(
+      StopOrder stopOrder) {
+    return new FtxModifyConditionalOrderRequestPayload(
+        stopOrder.getLimitPrice(), stopOrder.getStopPrice(), null, stopOrder.getOriginalAmount());
+  }
+
+  private static FtxConditionalOrderRequestPayload adaptConditionalOrderToFtxOrderPayload(
+      FtxConditionalOrderType type,
+      Order order,
+      BigDecimal price,
+      BigDecimal triggerPrice,
+      BigDecimal trailValue) {
+    return new FtxConditionalOrderRequestPayload(
+        adaptCurrencyPairToFtxMarket(order.getCurrencyPair()),
+        adaptOrderTypeToFtxOrderSide(order.getType()),
+        order.getOriginalAmount(),
+        type,
+        order.hasFlag(FtxOrderFlags.REDUCE_ONLY),
+        order.hasFlag(FtxOrderFlags.RETRY_UNTIL_FILLED),
+        price,
+        triggerPrice,
+        trailValue);
   }
 }

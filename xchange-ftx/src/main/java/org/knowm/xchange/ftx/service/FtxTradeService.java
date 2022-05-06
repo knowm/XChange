@@ -8,6 +8,7 @@ import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.service.trade.TradeService;
@@ -34,6 +35,11 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     return placeLimitOrderForSubaccount(
         exchange.getExchangeSpecification().getUserName(), limitOrder);
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    return placeStopOrderForSubAccount(exchange.getExchangeSpecification().getUserName(), stopOrder);
   }
 
   @Override
