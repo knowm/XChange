@@ -348,15 +348,15 @@ public interface TradeService extends BaseService {
   /**
    * Returns required get order parameter as classes
    *
-   * Different trading services requires different parameters for order querying.
-   * To provide generic operation of the trade service interface, This method returns {@link Class}
-   * of the parameter objects as an array. This class information can be utilized by the caller of
-   * {@link #getOrder(OrderQueryParams...)} to create instances of the required parameter such as
-   * {@link org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair},
-   * {@link org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument} etc...
+   * <p>Different trading services requires different parameters for order querying. To provide
+   * generic operation of the trade service interface, This method returns {@link Class} of the
+   * parameter objects as an array. This class information can be utilized by the caller of {@link
+   * #getOrder(OrderQueryParams...)} to create instances of the required parameter such as {@link
+   * org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair}, {@link
+   * org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument} etc...
    *
    * @return Class type for the required parameter class. Default implementation returns an instance
-   * of {@link OrderQueryParams} element
+   *     of {@link OrderQueryParams} element
    */
   default Class getRequiredOrderQueryParamClass() {
     return OrderQueryParams.class;

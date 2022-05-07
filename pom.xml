@@ -43,7 +43,7 @@
     <version.reflections>0.10.2</version.reflections>
     <version.slf4j>1.7.36</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>3.18.3</version.java-jwt>
+    <version.java-jwt>3.19.1</version.java-jwt>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
@@ -122,6 +122,7 @@
     <module>xchange-cobinhood</module>
     <module>xchange-coinbase</module>
     <module>xchange-coinbasepro</module>
+    <module>xchange-coincheck</module>
     <module>xchange-coindeal</module>
     <module>xchange-coindirect</module>
     <module>xchange-coinbene</module>
@@ -215,6 +216,7 @@
     <module>xchange-stream-service-core</module>
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
+    <module>xchange-stream-coincheck</module>
   </modules>
 
   <ciManagement>
@@ -325,12 +327,15 @@
         <artifactId>logback-classic</artifactId>
         <version>${version.qos.logback}</version>
       </dependency>
+
+      <!-- Lombok for boilerplate -->
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>${version.lombok}</version>
         <scope>provided</scope>
       </dependency>
+
       <!-- jwt for auth -->
       <dependency>
         <groupId>com.auth0</groupId>
@@ -529,13 +534,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.0.0-M6</version>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.0.0-M6</version>
         <executions>
           <execution>
             <goals>

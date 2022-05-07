@@ -146,13 +146,13 @@ public interface GeminiAuthenticated extends Gemini {
       @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signatureCreator,
       GeminiTransfersRequest request)
       throws IOException, GeminiException;
-  
+
   @POST
   @Path("heartbeat")
   GeminiOrderStatusResponse heartBeat(
-          @HeaderParam("X-GEMINI-APIKEY") String apiKey,
-          @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payloadCreator,
-          @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signatureCreator,
-          GeminiNonceOnlyRequest nonceOnlyRequest)
-          throws IOException, GeminiException;
+      @HeaderParam("X-GEMINI-APIKEY") String apiKey,
+      @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payloadCreator,
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signatureCreator,
+      GeminiNonceOnlyRequest nonceOnlyRequest)
+      throws IOException, GeminiException;
 }

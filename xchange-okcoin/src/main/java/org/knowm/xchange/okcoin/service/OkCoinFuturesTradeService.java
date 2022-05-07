@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -267,8 +266,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    Map<CurrencyPair, Map<FuturesContract, Set<String>>> ordersToQuery =
-            new HashMap<>();
+    Map<CurrencyPair, Map<FuturesContract, Set<String>>> ordersToQuery = new HashMap<>();
     List<String> orderIdsRequest = new ArrayList<>();
     List<OkCoinFuturesOrder> orderResults = new ArrayList<>();
     List<Order> openOrders = new ArrayList<>();
@@ -281,8 +279,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
       if (ordersToQuery.get(currencyPair) == null) {
         Set<String> orderSet = Collections.singleton(String.valueOf(orderId));
-        HashMap<FuturesContract, Set<String>> futuresContractMap =
-                new HashMap<>();
+        HashMap<FuturesContract, Set<String>> futuresContractMap = new HashMap<>();
         futuresContractMap.put(reqFuturesContract, orderSet);
         ordersToQuery.put(currencyPair, futuresContractMap);
 

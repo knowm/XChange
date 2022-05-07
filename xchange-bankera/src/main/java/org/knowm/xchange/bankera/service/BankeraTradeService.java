@@ -1,5 +1,9 @@
 package org.knowm.xchange.bankera.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bankera.BankeraAdapters;
 import org.knowm.xchange.bankera.dto.trade.BankeraOrder;
@@ -18,11 +22,6 @@ import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPa
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.*;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class BankeraTradeService extends BankeraTradeServiceRaw implements TradeService {
 

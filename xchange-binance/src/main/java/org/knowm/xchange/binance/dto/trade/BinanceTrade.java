@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public final class BinanceTrade {
-  
+
   public final long id;
   public final long tradeId;
   public final long orderId;

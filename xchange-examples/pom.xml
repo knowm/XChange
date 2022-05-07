@@ -140,6 +140,12 @@
 			<artifactId>xchange-coinbene</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Coincheck support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-coincheck</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange CoinEgg support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -236,7 +242,7 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-okex</artifactId>
 			<version>${project.version}</version>
-		</dependency>		
+		</dependency>
 		<!-- XChange Bleutrade exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>

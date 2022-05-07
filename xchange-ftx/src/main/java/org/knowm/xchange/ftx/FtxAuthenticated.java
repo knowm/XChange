@@ -37,9 +37,13 @@ import org.knowm.xchange.ftx.dto.account.FtxSubAccountTransferPOJO;
 import org.knowm.xchange.ftx.dto.account.FtxSubmitLendingOfferParams;
 import org.knowm.xchange.ftx.dto.account.FtxWalletBalanceDto;
 import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
+import org.knowm.xchange.ftx.dto.trade.FtxConditionalOrderDto;
+import org.knowm.xchange.ftx.dto.trade.FtxConditionalOrderRequestPayload;
+import org.knowm.xchange.ftx.dto.trade.FtxModifyConditionalOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
+import org.knowm.xchange.ftx.dto.trade.FtxTriggerDto;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/api")
@@ -347,4 +351,66 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-SIGN") ParamsDigest signature,
       @HeaderParam("FTX-SUBACCOUNT") String subaccount)
       throws IOException, FtxException;
+
+  @POST
+  @Path("/conditional_orders")
+  FtxResponse<FtxConditionalOrderDto> placeConditionalOrder(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      FtxConditionalOrderRequestPayload payload)
+      throws IOException, FtxException;
+
+  @POST
+  @Path("/conditional_orders/{order_id}/modify")
+  FtxResponse<FtxConditionalOrderDto> modifyConditionalOrder(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("order_id") String orderId,
+      FtxModifyConditionalOrderRequestPayload payload)
+      throws IOException, FtxException;
+
+  @DELETE
+  @Path("/conditional_orders/{orderId}")
+  FtxResponse<String> cancelConditionalOrder(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("orderId") String orderId)
+      throws IOException, FtxException;
+
+  @GET
+  @Path("/conditional_orders/history?market={market}")
+  FtxResponse<List<FtxConditionalOrderDto>> conditionalOrderHistory(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("market") String market)
+      throws IOException, FtxException;
+
+  @GET
+  @Path("/conditional_orders?market={market}")
+  FtxResponse<List<FtxConditionalOrderDto>> openConditionalOrders(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("market") String market)
+      throws IOException, FtxException;
+
+  @GET
+  @Path("/conditional_orders/{id}/triggers")
+  FtxResponse<List<FtxTriggerDto>> getTriggers(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("id") String id)
+      throws IOException, FtxException;
+
 }

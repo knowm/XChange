@@ -91,10 +91,10 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    if(orderQueryParams.length == 1){
+    if (orderQueryParams.length == 1) {
       return AscendexAdapters.adaptOpenOrderById(
-              getAscendexOrderById(orderQueryParams[0].getOrderId()));
-    }else{
+          getAscendexOrderById(orderQueryParams[0].getOrderId()));
+    } else {
       throw new IOException("Ascendex only supports query with single id");
     }
   }

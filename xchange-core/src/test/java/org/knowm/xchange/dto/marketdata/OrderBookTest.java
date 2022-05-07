@@ -1,4 +1,4 @@
-package org.knowm.xchange;
+package org.knowm.xchange.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,8 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
@@ -146,5 +144,34 @@ public class OrderBookTest {
     orderBook.update(lowerBidUpdate);
     assertThat(orderBook.getTimeStamp()).isAfter(oldDate);
     assertThat(orderBook.getTimeStamp()).isEqualTo(timeStamp);
+  }
+
+  @Test
+  public void testOrderSorting() {
+    List<LimitOrder> asks =
+        Arrays.asList(
+            new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD)
+                .limitPrice(new BigDecimal("30"))
+                .build(),
+            new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD)
+                .limitPrice(new BigDecimal("10"))
+                .build(),
+            new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD)
+                .limitPrice(new BigDecimal("20"))
+                .build());
+    List<LimitOrder> bids =
+        Arrays.asList(
+            new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+                .limitPrice(new BigDecimal("2"))
+                .build(),
+            new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+                .limitPrice(new BigDecimal("3"))
+                .build(),
+            new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+                .limitPrice(new BigDecimal("1"))
+                .build());
+    OrderBook book = new OrderBook(null, asks, bids, true);
+    assertThat(book.getAsks().get(0).getLimitPrice()).isEqualTo(new BigDecimal("10"));
+    assertThat(book.getBids().get(0).getLimitPrice()).isEqualTo(new BigDecimal("3"));
   }
 }
