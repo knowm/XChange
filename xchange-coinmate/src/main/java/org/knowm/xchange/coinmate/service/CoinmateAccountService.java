@@ -31,6 +31,7 @@ import org.knowm.xchange.coinmate.CoinmateAdapters;
 import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -155,6 +156,8 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
         timestampTo = thpts.getEndTime().getTime();
       }
     }
+    CoinmateTransferHistory coinmateTransferHistory =
+            getTransfersData(limit, timestampFrom, timestampTo);
 
     CoinmateTransactionHistory coinmateTransactionHistory =
         getCoinmateTransactionHistory(
@@ -164,7 +167,7 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
             timestampFrom,
             timestampTo,
             null);
-    return CoinmateAdapters.adaptFundingHistory(coinmateTransactionHistory);
+    return CoinmateAdapters.adaptFundingHistory(coinmateTransactionHistory, coinmateTransferHistory);
   }
 
   public static class CoinmateFundingHistoryParams
