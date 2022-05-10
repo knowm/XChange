@@ -44,6 +44,7 @@ public class KucoinStreamingExchange extends KucoinExchange implements Streaming
         String url = instanceServer.getEndpoint() + "?token=" + connectionDetails.getToken();
 
         publicStreamingService = new KucoinStreamingService(url, instanceServer.getPingInterval(), false);
+        applyStreamingSpecification(getExchangeSpecification(), publicStreamingService);
         publicStreamingService.connect().doOnError(ex -> logger.warn("encountered error while subscribing to public websocket", ex)).blockingAwait();
 
         services.add(publicStreamingService);
@@ -62,6 +63,7 @@ public class KucoinStreamingExchange extends KucoinExchange implements Streaming
         String url = instanceServer.getEndpoint() + "?token=" + connectionDetails.getToken();
 
         privateStreamingService = new KucoinStreamingService(url, instanceServer.getPingInterval(), true);
+        applyStreamingSpecification(getExchangeSpecification(), privateStreamingService);
         privateStreamingService.connect().doOnError(ex -> logger.warn("encountered error while subscribing to private websocket", ex)).blockingAwait();
 
         services.add(privateStreamingService);
