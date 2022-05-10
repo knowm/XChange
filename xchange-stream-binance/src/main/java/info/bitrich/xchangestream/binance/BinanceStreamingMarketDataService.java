@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.RateLimiter;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import info.bitrich.xchangestream.binance.dto.BinanceRawTrade;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.BookTickerBinanceWebSocketTransaction;
@@ -18,15 +19,21 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.Single;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
+import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.BehaviorSubject;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -45,6 +52,12 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.Queue;
+
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
+
 public class BinanceStreamingMarketDataService implements StreamingMarketDataService {
   private static final Logger LOG =
       LoggerFactory.getLogger(BinanceStreamingMarketDataService.class);
@@ -53,6 +66,18 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   private static final JavaType BOOK_TICKER_TYPE = getBookTickerType();
   private static final JavaType TRADE_TYPE = getTradeType();
   private static final JavaType DEPTH_TYPE = getDepthType();
+
+  /**
+   * A scheduler for initialisation of binance order book snapshots, which is delegated to a
+   * dedicated thread in order to avoid blocking of the Web Socket threads.
+   */
+  private static final Scheduler bookSnapshotsScheduler =
+      Schedulers.from(
+          Executors.newSingleThreadExecutor(
+              new ThreadFactoryBuilder()
+                  .setDaemon(true)
+                  .setNameFormat("binance-book-snapshots-%d")
+                  .build()));
 
   private final BinanceStreamingService service;
   private final String orderBookUpdateFrequencyParameter;
@@ -308,41 +333,207 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .map(transaction -> transaction.getData().getTicker());
   }
 
-  private final class OrderbookSubscription {
-    final Observable<DepthBinanceWebSocketTransaction> stream;
-    final AtomicLong lastUpdateId = new AtomicLong();
-    final AtomicLong snapshotLastUpdateId = new AtomicLong();
-    OrderBook orderBook;
+  /**
+   * Encapsulates a state of the order book subscription, including the order book initial snapshot
+   * and further updates with received deltas.
+   *
+   * <p>Related doc: https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream
+   */
+  @SuppressWarnings("Convert2MethodRef")
+  private final class OrderBookSubscription implements Disposable {
+    private final CurrencyPair currencyPair;
+    private final Observable<DepthBinanceWebSocketTransaction> deltasObservable;
 
-    private OrderbookSubscription(Observable<DepthBinanceWebSocketTransaction> stream) {
-      this.stream = stream;
+    private final Queue<DepthBinanceWebSocketTransaction> deltasBuffer = new LinkedList<>();
+    private final BehaviorSubject<OrderBook> booksSubject = BehaviorSubject.create();
+
+    private final CompositeDisposable disposables = new CompositeDisposable();
+
+    /**
+     * Helps to keep integrity of book snapshot which is initialized and patched on different
+     * threads.
+     */
+    private final Object bookIntegrityMonitor = new Object();
+
+    private OrderBook book;
+    private long bookLastUpdateId;
+
+    private OrderBookSubscription(
+        Observable<DepthBinanceWebSocketTransaction> deltasObservable, CurrencyPair currencyPair) {
+      this.deltasObservable = deltasObservable;
+      this.currencyPair = currencyPair;
     }
 
-    void invalidateSnapshot() {
-      snapshotLastUpdateId.set(0);
+    public Observable<OrderBook> connect() {
+      if (isDisposed())
+        throw new IllegalStateException(
+            "Disposed before, use a new instance to connect next time.");
+
+      disposables.add(asyncInitializeOrderBookSnapshot());
+
+      deltasObservable
+          .doOnNext(
+              delta -> {
+                synchronized (bookIntegrityMonitor) {
+                  if (isBookInitialized()) {
+                    if (!appendDelta(delta)) {
+                      disposables.add(asyncInitializeOrderBookSnapshot());
+                    }
+                  } else {
+                    bufferDelta(delta);
+                  }
+                }
+              })
+          .filter(delta -> isBookInitialized())
+          .map(delta -> getBook())
+          .doFinally(() -> dispose())
+          .subscribe(booksSubject);
+
+      return booksSubject.hide();
     }
 
-    void initSnapshotIfInvalid(CurrencyPair currencyPair) {
-      if (snapshotLastUpdateId.get() != 0) return;
-      try {
-        LOG.info("Fetching initial orderbook snapshot for {} ", currencyPair);
-        onApiCall.run();
-        fallbackOnApiCall.get().run();
-        BinanceOrderbook book = fetchBinanceOrderBook(currencyPair);
-        snapshotLastUpdateId.set(book.lastUpdateId);
-        lastUpdateId.set(book.lastUpdateId);
-        orderBook = BinanceMarketDataService.convertOrderBook(book, currencyPair);
-      } catch (Exception e) {
-        LOG.error("Failed to fetch initial order book for " + currencyPair, e);
-        snapshotLastUpdateId.set(0);
-        lastUpdateId.set(0);
-        orderBook = null;
+    @Override
+    public void dispose() {
+      if (!isDisposed()) {
+        booksSubject.onComplete();
+        disposables.dispose();
       }
+    }
+
+    private void disposeWithError(Throwable error) {
+      if (!isDisposed()) {
+        booksSubject.onError(error);
+        disposables.dispose();
+      }
+    }
+
+    @Override
+    public boolean isDisposed() {
+      return booksSubject.hasComplete() || booksSubject.hasThrowable();
+    }
+
+    private boolean isBookInitialized() {
+      synchronized (bookIntegrityMonitor) {
+        return book != null;
+      }
+    }
+
+    private OrderBook getBook() {
+      synchronized (bookIntegrityMonitor) {
+        return book;
+      }
+    }
+
+    private void bufferDelta(DepthBinanceWebSocketTransaction delta) {
+      synchronized (bookIntegrityMonitor) {
+        deltasBuffer.add(delta);
+      }
+    }
+
+    private Disposable asyncInitializeOrderBookSnapshot() {
+      if (isBookInitialized()) {
+        LOG.info("Orderbook snapshot for {} was initialized before. Re-syncing.", currencyPair);
+
+        synchronized (bookIntegrityMonitor) {
+          if (book != null) {
+            book = null;
+            deltasBuffer.clear();
+            bookLastUpdateId = 0;
+          }
+        }
+      }
+
+      return deltasObservable
+          .firstOrError()
+          .observeOn(bookSnapshotsScheduler)
+          .flatMap(delta -> fetchSingleBinanceOrderBookUpdatedAfter(delta))
+          .subscribe(
+              binanceBook -> {
+                final OrderBook convertedBook =
+                    BinanceMarketDataService.convertOrderBook(binanceBook, currencyPair);
+
+                synchronized (bookIntegrityMonitor) {
+                  book = convertedBook;
+                  bookLastUpdateId = binanceBook.lastUpdateId;
+
+                  final List<DepthBinanceWebSocketTransaction> applicableBookPatches =
+                      deltasBuffer.stream()
+                          .filter(delta -> delta.getLastUpdateId() > binanceBook.lastUpdateId)
+                          .collect(Collectors.toList());
+
+                  deltasBuffer.clear();
+
+                  // Update the book with all buffered deltas (as probably nobody would like to be
+                  // notified with an already outdated snapshot).
+                  for (DepthBinanceWebSocketTransaction delta : applicableBookPatches) {
+                    if (!appendDelta(delta)) {
+                      disposables.add(asyncInitializeOrderBookSnapshot());
+                    }
+                  }
+                }
+              },
+              error -> disposeWithError(error));
+    }
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    private boolean appendDelta(DepthBinanceWebSocketTransaction delta) {
+      synchronized (bookIntegrityMonitor) {
+        if (delta.getFirstUpdateId() > bookLastUpdateId + 1) {
+          LOG.info(
+              "Orderbook snapshot for {} out of date (last={}, U={}, u={}).",
+              currencyPair,
+              bookLastUpdateId,
+              delta.getFirstUpdateId(),
+              delta.getLastUpdateId());
+
+          return false;
+        } else {
+          bookLastUpdateId = delta.getLastUpdateId();
+
+          // FIXME The underlying impl would be more optimal if LimitOrders were created directly.
+          extractOrderBookUpdates(currencyPair, delta).forEach(update -> book.update(update));
+        }
+
+        return true;
+      }
+    }
+
+    private Single<BinanceOrderbook> fetchSingleBinanceOrderBookUpdatedAfter(
+        final DepthBinanceWebSocketTransaction delta) {
+      return Single.fromCallable(
+              () -> {
+                BinanceOrderbook snapshot;
+                int attemptNum = 0;
+                do {
+                  attemptNum++;
+
+                  // Get a snapshot.
+                  LOG.info(
+                      "Fetching initial orderbook snapshot for {}, attempt #{}",
+                      currencyPair,
+                      attemptNum);
+                  snapshot = fetchBinanceOrderBook(currencyPair);
+
+                  // Repeat while the snapshot is older than the provided delta (Why? To ensure we
+                  // have deltas old enough to be able to apply a chain of updates to the snapshot
+                  // in order to bump it to the current state). If any repeats will be indeed
+                  // necessary, it's recommended to update the implementation, give some initial
+                  // delay, after subscribed for deltas, before asked for the snapshot first time.
+                  // Was not required at the time of writing, but exchange behaviour can change over
+                  // time.
+                } while (snapshot.lastUpdateId < delta.getFirstUpdateId());
+
+                return snapshot;
+              })
+          .doOnError(
+              error -> LOG.error("Failed to fetch initial order book for " + currencyPair, error));
     }
 
     private BinanceOrderbook fetchBinanceOrderBook(CurrencyPair currencyPair)
         throws IOException, InterruptedException {
       try {
+        onApiCall.run();
+        fallbackOnApiCall.get().run();
         return marketDataService.getBinanceOrderbook(currencyPair, oderBookFetchLimitParameter);
       } catch (BinanceException e) {
         if (BinanceErrorAdapter.adapt(e) instanceof RateLimitExceededException) {
@@ -382,72 +573,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   private Observable<OrderBook> createOrderBookObservable(CurrencyPair currencyPair) {
-    // 1. Open a stream to wss://stream.binance.com:9443/ws/bnbbtc@depth
-    // 2. Buffer the events you receive from the stream.
-    OrderbookSubscription subscription =
-        new OrderbookSubscription(orderBookRawUpdatesSubscriptions.get(currencyPair));
-
-    return subscription
-        .stream
-
-        // 3. Get a depth snapshot from
-        // https://www.binance.com/api/v1/depth?symbol=BNBBTC&limit=1000
-        // (we do this if we don't already have one or we've invalidated a previous one)
-        .doOnNext(transaction -> subscription.initSnapshotIfInvalid(currencyPair))
-
-        // If we failed, don't return anything. Just keep trying until it works
-        .filter(transaction -> subscription.snapshotLastUpdateId.get() > 0L)
-
-        // 4. Drop any event where u is <= lastUpdateId in the snapshot
-        .filter(depth -> depth.getLastUpdateId() > subscription.snapshotLastUpdateId.get())
-
-        // 5. The first processed should have U <= lastUpdateId+1 AND u >= lastUpdateId+1, and
-        // subsequent events would
-        // normally have u == lastUpdateId + 1 which is stricter version of the above - let's be
-        // more relaxed
-        // each update has absolute numbers so even if there's an overlap it does no harm
-        .filter(
-            depth -> {
-              long lastUpdateId = subscription.lastUpdateId.get();
-              boolean result;
-              if (lastUpdateId == 0L) {
-                result = true;
-              } else {
-                result =
-                    depth.getFirstUpdateId() <= lastUpdateId + 1
-                        && depth.getLastUpdateId() >= lastUpdateId + 1;
-              }
-              if (result) {
-                subscription.lastUpdateId.set(depth.getLastUpdateId());
-              } else {
-                // If not, we re-sync.  This will commonly occur a few times when starting up, since
-                // given update ids 1,2,3,4,5,6,7,8,9, Binance may sometimes return a snapshot
-                // as of 5, but update events covering 1-3, 4-6 and 7-9.  We can't apply the 4-6
-                // update event without double-counting 5, and we can't apply the 7-9 update without
-                // missing 6.  The only thing we can do is to keep requesting a fresh snapshot until
-                // we get to a situation where the snapshot and an update event precisely line up.
-                LOG.info(
-                    "Orderbook snapshot for {} out of date (last={}, U={}, u={}). This is normal. Re-syncing.",
-                    currencyPair,
-                    lastUpdateId,
-                    depth.getFirstUpdateId(),
-                    depth.getLastUpdateId());
-                subscription.invalidateSnapshot();
-              }
-              return result;
-            })
-
-        // 7. The data in each event is the absolute quantity for a price level
-        // 8. If the quantity is 0, remove the price level
-        // 9. Receiving an event that removes a price level that is not in your local order book can
-        // happen and is normal.
-        .map(
-            depth -> {
-              extractOrderBookUpdates(currencyPair, depth)
-                  .forEach(it -> subscription.orderBook.update(it));
-              return subscription.orderBook;
-            })
-        .share();
+    return new OrderBookSubscription(
+            orderBookRawUpdatesSubscriptions.get(currencyPair), currencyPair)
+        .connect();
   }
 
   private Observable<BinanceRawTrade> rawTradeStream(CurrencyPair currencyPair) {
