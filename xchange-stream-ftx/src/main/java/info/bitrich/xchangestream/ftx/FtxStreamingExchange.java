@@ -39,6 +39,7 @@ public class FtxStreamingExchange extends FtxExchange implements StreamingExchan
       this.ftxStreamingService = new FtxStreamingService(apiUri);
     }
 
+    applyStreamingSpecification(getExchangeSpecification(), ftxStreamingService);
     this.ftxStreamingMarketDataService = new FtxStreamingMarketDataService(ftxStreamingService);
   }
 

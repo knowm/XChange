@@ -25,7 +25,9 @@ public class BTCMarketsStreamingExchange extends BTCMarketsExchange implements S
   }
 
   private BTCMarketsStreamingService createStreamingService() {
-    return new BTCMarketsStreamingService(API_URI);
+    BTCMarketsStreamingService streamingService = new BTCMarketsStreamingService(API_URI);
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
+    return streamingService;
   }
 
   @Override
