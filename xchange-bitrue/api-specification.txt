@@ -1,0 +1,52 @@
+Bitrue Exchange API specification
+===================================
+
+
+## public
+
+* ping
+
+    GET /api/v1/ping
+
+* serverTime
+
+    GET /api/v1/time
+
+* exchangeInfo
+
+    GET /api/v1/exchangeInfo
+
+#### MarketData
+
+* depth
+
+    GET /api/v1/depth
+
+* trades
+
+    GET /api/v1/trades
+
+* historical Trades
+
+    GET /api/v1/historicalTrades
+
+
+* Aggregate trades list
+
+    GET /api/v1/aggTrades
+
+* 24hr ticker price change statistics
+
+    GET /api/v1/ticker/24hr
+
+* Symbol price ticker
+
+    GET /api/v1/ticker/price
+
+* Symbol order book ticker
+
+    GET /api/v1/ticker/bookTicker
+
+## private
+
+POST /api/v1/order  (HMAC SHA256)
