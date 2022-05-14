@@ -29,6 +29,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.List;
+
 import org.junit.Test;
 
 /** @author Martin Stachon */
@@ -66,5 +68,53 @@ public class OrderHistoryJSONTest {
     assertThat(entry1.isTrailing()).isEqualTo(false);
     assertThat(entry1.getStopLossOrderId()).isEqualTo("44444");
     assertThat(entry1.getOriginalOrderId()).isEqualTo("55555");
+  }
+
+  @Test
+  public void testUnmarshalWithTrades() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is =
+        OrderHistoryJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinmate/dto/trade/example-order_with_trades.json");
+
+    ObjectMapper mapper = new ObjectMapper();
+    CoinmateOrders response = mapper.readValue(is, CoinmateOrders.class);
+    CoinmateOrderHistoryEntry order = response.getData();
+
+    assertThat(order.getId()).isEqualTo(2642);
+    assertThat(order.getTimestamp()).isEqualTo(1651824240630L);
+    assertThat(order.getTrailingUpdatedTimestamp()).isNull();
+    assertThat(order.getType()).isEqualTo("SELL");
+    assertThat(order.getPrice()).isNull();
+    assertThat(order.getRemainingAmount()).isEqualByComparingTo(new BigDecimal("0"));
+    assertThat(order.getOriginalAmount()).isEqualByComparingTo(new BigDecimal("1"));
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("1"));
+    assertThat(order.getStopPrice()).isNull();
+    assertThat(order.getOriginalStopPrice()).isNull();
+    assertThat(order.getMarketPriceAtLastUpdate()).isNull();
+    assertThat(order.getMarketPriceAtOrderCreation()).isNull();
+    assertThat(order.getStatus()).isEqualTo("FILLED");
+    assertThat(order.getOrderTradeType()).isEqualTo("QUICK");
+    assertThat(order.isHidden()).isEqualTo(false);
+    assertThat(order.getAvgPrice()).isEqualByComparingTo(new BigDecimal("200000"));
+    assertThat(order.isTrailing()).isEqualTo(false);
+    assertThat(order.getStopLossOrderId()).isNull();
+    assertThat(order.getOriginalOrderId()).isNull();
+
+    List<CoinmateTradeHistoryEntry> trades = order.getTrades();
+    assertThat(trades).isNotNull();
+    assertThat(trades.size()).isEqualTo(1);
+    CoinmateTradeHistoryEntry trade = trades.get(0);
+    assertThat(trade.getTransactionId()).isEqualTo(11620);
+    assertThat(trade.getCreatedTimestamp()).isEqualTo(1651824240638L);
+    assertThat(trade.getCurrencyPair()).isEqualTo("BTC_CZK");
+    assertThat(trade.getType()).isEqualTo("SELL");
+    assertThat(trade.getOrderType()).isEqualTo("QUICK");
+    assertThat(trade.getOrderId()).isEqualTo(2642);
+    assertThat(trade.getAmount()).isEqualByComparingTo("1");
+    assertThat(trade.getPrice()).isEqualByComparingTo("205825.242");
+    assertThat(trade.getFee()).isEqualByComparingTo("0");
+    assertThat(trade.getFeeType()).isEqualTo("TAKER");
   }
 }
