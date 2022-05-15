@@ -15,6 +15,7 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.service.marketdata.params.Params;
+import org.knowm.xchange.service.trade.params.CandleStickDataParams;
 
 /**
  * Interface to provide the following to {@link Exchange}:
@@ -185,9 +186,7 @@ public interface MarketDataService extends BaseService {
    * Get the CandleStickData for given currency between startDate to endDate.
    *
    * @param currencyPair currencyPair.
-   * @param startDate startDate of candle stick, E.G. march 2022.
-   * @param endDate endDate of candle stick, E.G. april 2022.
-   * @param args extra exchange specific parameters.
+   * @param params Params for query, including start(e.g. march 2022.) and end date, period etc.,
    * @return The CandleStickData, null if some sort of error occurred. Implementers should log the error.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the
    * request or response
@@ -197,7 +196,7 @@ public interface MarketDataService extends BaseService {
    * requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default CandleStickData getCandleStickData(CurrencyPair currencyPair, Date startDate, Date endDate, Object... args) throws IOException {
+  default CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params) throws IOException {
     throw new NotYetImplementedForExchangeException("getCandleStickData");
   }
 }
