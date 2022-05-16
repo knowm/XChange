@@ -63,37 +63,6 @@ public class TradeServiceIntegration extends BitrueExchangeIntegration {
     return new MarketOrder.Builder(BID, currencyPair).originalAmount(amount).build();
   }
 
-  private StopOrder sampleStopLimitOrder() throws IOException {
-    final CurrencyPair currencyPair = CurrencyPair.BTC_USDT;
-    final BigDecimal amount = BigDecimal.ONE;
-    final BigDecimal limitPrice = limitPriceForCurrencyPair(currencyPair);
-    final BigDecimal stopPrice =
-        limitPrice.multiply(new BigDecimal("0.9")).setScale(2, RoundingMode.HALF_UP);
-    return new StopOrder.Builder(BID, currencyPair)
-        .originalAmount(amount)
-        .limitPrice(limitPrice)
-        .stopPrice(stopPrice)
-        .intention(StopOrder.Intention.STOP_LOSS)
-        .flag(TimeInForce.GTC)
-        .build();
-  }
-
-
-
-  private StopOrder sampleTakeProfitLimitOrder() throws IOException {
-    final CurrencyPair currencyPair = CurrencyPair.BTC_USDT;
-    final BigDecimal amount = BigDecimal.ONE;
-    final BigDecimal limitPrice = limitPriceForCurrencyPair(currencyPair);
-    final BigDecimal takeProfitPrice =
-        limitPrice.multiply(new BigDecimal("1.1")).setScale(2, RoundingMode.HALF_UP);
-    return new StopOrder.Builder(BID, currencyPair)
-        .originalAmount(amount)
-        .stopPrice(takeProfitPrice)
-        .limitPrice(limitPrice)
-        .intention(StopOrder.Intention.TAKE_PROFIT)
-        .flag(TimeInForce.GTC)
-        .build();
-  }
 
 
 }

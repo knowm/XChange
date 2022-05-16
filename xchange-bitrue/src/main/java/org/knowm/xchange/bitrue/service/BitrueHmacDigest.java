@@ -38,10 +38,7 @@ public class BitrueHmacDigest extends BaseParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
     final String input;
 
-    if (restInvocation.getPath().startsWith("wapi/")) {
-      // little dirty hack for /wapi methods
-      input = getQuery(restInvocation);
-    } else {
+
       switch (restInvocation.getHttpMethod()) {
         case "GET":
         case "DELETE":
@@ -53,11 +50,21 @@ public class BitrueHmacDigest extends BaseParamsDigest {
         default:
           throw new RuntimeException("Not support http method: " + restInvocation.getHttpMethod());
       }
-    }
 
     Mac mac = getMac();
     mac.update(input.getBytes(StandardCharsets.UTF_8));
     String printBase64Binary = bytesToHex(mac.doFinal());
     return printBase64Binary;
+  }
+
+  public static void main(String[] args){
+    String apiKey = "vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A";
+    String secKey = "NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j";
+    String input = "symbol=LTCBTC&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1499827319559";
+    BitrueHmacDigest bd = new BitrueHmacDigest(secKey);
+    Mac mac = bd.getMac();
+    mac.update(input.getBytes(StandardCharsets.UTF_8));
+    String printBase64Binary = bytesToHex(mac.doFinal());
+    System.out.println("c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71".equalsIgnoreCase(printBase64Binary));
   }
 }

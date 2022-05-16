@@ -26,11 +26,13 @@ public class BitrueExchangeIntegration {
     exchange = ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BitrueExchange.class);
     ExchangeSpecification spec = exchange.getDefaultExchangeSpecification();
     spec.setShouldLoadRemoteMetaData(true);
+//    spec.setApiKey("vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A");
+//    spec.setSecretKey("NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j");
     exchange.applySpecification(spec);
   }
 
   protected void assumeProduction() {
-    Assume.assumeFalse("Using sandbox", exchange.usingSandbox());
+    Assume.assumeFalse("Using sandbox", false);
   }
 
   protected BitrueExchange createExchangeMocked() {

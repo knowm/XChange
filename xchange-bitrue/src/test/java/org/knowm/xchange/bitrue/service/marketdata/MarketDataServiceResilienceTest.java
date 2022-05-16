@@ -29,10 +29,10 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
     stubForTicker24WithFirstCallTimetoutAndSecondSuccessful();
 
     // when
-    Ticker ticker = service.getTicker(new CurrencyPair("BNB", "BTC"));
+    Ticker ticker = service.getTicker(new CurrencyPair("BTR", "BTC"));
 
     // then
-    assertThat(ticker.getLast()).isEqualByComparingTo("4.00000200");
+    assertThat(ticker.getLast()).isEqualByComparingTo("0.02000200");
   }
 
   @Test
@@ -42,7 +42,7 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
     stubForTicker24WithFirstCallTimetoutAndSecondSuccessful();
 
     // when
-    Throwable exception = catchThrowable(() -> service.getTicker(new CurrencyPair("BNB", "BTC")));
+    Throwable exception = catchThrowable(() -> service.getTicker(new CurrencyPair("BTR", "BTC")));
 
     // then
     assertThat(exception).isInstanceOf(IOException.class);
@@ -93,13 +93,13 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
 
   private void stubForTicker24WithFirstCallTimetoutAndSecondSuccessful() {
     stubFor(
-        get(urlPathEqualTo("/api/v3/ticker/24hr"))
+        get(urlPathEqualTo("/api/v1/ticker/24hr"))
             .inScenario("Retry read")
             .whenScenarioStateIs(STARTED)
             .willReturn(aResponse().withFixedDelay(READ_TIMEOUT_MS * 2).withStatus(500))
             .willSetStateTo("After fail"));
     stubFor(
-        get(urlPathEqualTo("/api/v3/ticker/24hr"))
+        get(urlPathEqualTo("/api/v1/ticker/24hr"))
             .inScenario("Retry read")
             .whenScenarioStateIs("After fail")
             .willReturn(
@@ -111,7 +111,7 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
 
   private void stubForDepth() {
     stubFor(
-        get(urlPathEqualTo("/api/v3/depth"))
+        get(urlPathEqualTo("/api/v1/depth"))
             .willReturn(
                 aResponse()
                     .withStatus(200)

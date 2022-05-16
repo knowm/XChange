@@ -7,6 +7,7 @@ import org.knowm.xchange.bitrue.dto.meta.BitrueTime;
 import org.knowm.xchange.bitrue.dto.meta.exchangeinfo.BitrueExchangeInfo;
 import org.knowm.xchange.bitrue.dto.trade.BitrueTrade;
 
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -106,7 +107,7 @@ public interface Bitrue {
      */
     @GET
     @Path("api/v1/ticker/24hr")
-    BitrueTicker24h ticker24h(@QueryParam("symbol") String symbol)
+    List<BitrueTicker24h> ticker24h(@QueryParam("symbol") String symbol)
             throws IOException, BitrueException;
 
     /**

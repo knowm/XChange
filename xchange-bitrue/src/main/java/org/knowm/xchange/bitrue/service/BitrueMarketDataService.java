@@ -7,6 +7,7 @@ import org.knowm.xchange.bitrue.BitrueExchange;
 import org.knowm.xchange.bitrue.dto.BitrueException;
 import org.knowm.xchange.bitrue.dto.marketdata.BitrueAggTrades;
 import org.knowm.xchange.bitrue.dto.marketdata.BitrueOrderbook;
+import org.knowm.xchange.bitrue.dto.marketdata.BitrueTicker24h;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -69,7 +70,8 @@ public class BitrueMarketDataService extends BitrueMarketDataServiceRaw
   @Override
   public Ticker getTicker(CurrencyPair pair, Object... args) throws IOException {
     try {
-      return ticker24h(pair).toTicker();
+      List<BitrueTicker24h> lst = ticker24h(pair);
+      return lst!=null && lst.size() > 0 ? lst.get(0).toTicker(): null;
     } catch (BitrueException e) {
       throw BitrueErrorAdapter.adapt(e);
     }

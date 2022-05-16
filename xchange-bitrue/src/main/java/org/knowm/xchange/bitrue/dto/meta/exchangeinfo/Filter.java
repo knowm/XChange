@@ -5,7 +5,7 @@ public class Filter {
 
   private String filterType;
 
-  private String tickSize;
+  private String priceScale;
 
   private String minPrice;
 
@@ -13,7 +13,7 @@ public class Filter {
 
   private String maxQty;
 
-  private String stepSize;
+  private String volumeScale;
 
   private String minVal;
 
@@ -33,12 +33,12 @@ public class Filter {
     this.filterType = filterType;
   }
 
-  public String getTickSize() {
-    return tickSize;
+  public String getPriceScale() {
+    return priceScale;
   }
 
-  public void setTickSize(String tickSize) {
-    this.tickSize = tickSize;
+  public void setPriceScale(String priceScale) {
+    this.priceScale = priceScale;
   }
 
   public String getMinPrice() {
@@ -65,12 +65,12 @@ public class Filter {
     this.maxQty = maxQty;
   }
 
-  public String getStepSize() {
-    return stepSize;
+  public String getVolumeScale() {
+    return volumeScale;
   }
 
-  public void setStepSize(String stepSize) {
-    this.stepSize = stepSize;
+  public void setVolumeScale(String volumeScale) {
+    this.volumeScale = volumeScale;
   }
 
   public String getMinVal() {
@@ -91,7 +91,7 @@ public class Filter {
         + filterType
         + '\''
         + ", tickSize='"
-        + tickSize
+        + priceScale
         + '\''
         + ", minPrice='"
         + minPrice
@@ -103,7 +103,7 @@ public class Filter {
         + maxQty
         + '\''
         + ", stepSize='"
-        + stepSize
+        + volumeScale
         + '\''
         + ", minVal='"
         + minVal

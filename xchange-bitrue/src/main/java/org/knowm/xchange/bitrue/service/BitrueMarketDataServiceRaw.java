@@ -70,13 +70,13 @@ public class BitrueMarketDataServiceRaw extends BitrueBaseService {
 //        .call();
 //  }
 
-  public BitrueTicker24h ticker24h(CurrencyPair pair) throws IOException {
-    BitrueTicker24h ticker24h =
+  public List<BitrueTicker24h> ticker24h(CurrencyPair pair) throws IOException {
+    List<BitrueTicker24h> ticker24h =
         decorateApiCall(() -> bitrue.ticker24h(BitrueAdapters.toSymbol(pair)))
             .withRetry(retry("ticker24h"))
             .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
             .call();
-    ticker24h.setCurrencyPair(pair);
+    ticker24h.forEach(e -> e.setCurrencyPair(pair));
     return ticker24h;
   }
 

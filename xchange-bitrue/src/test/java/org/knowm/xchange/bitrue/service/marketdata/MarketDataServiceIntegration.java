@@ -25,7 +25,7 @@ public class MarketDataServiceIntegration extends BitrueExchangeIntegration {
 
   @Before
   public void before() {
-    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
+//    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
   }
 
   @Test
@@ -41,7 +41,7 @@ public class MarketDataServiceIntegration extends BitrueExchangeIntegration {
     List<BitrueTicker24h> tickers = new ArrayList<>();
     for (CurrencyPair cp : exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
       if (cp.counter == Currency.USDT) {
-        tickers.add(getBitrueTicker24h(cp));
+        tickers.addAll(getBitrueTicker24h(cp));
       }
     }
 
@@ -60,7 +60,7 @@ public class MarketDataServiceIntegration extends BitrueExchangeIntegration {
             });
   }
 
-  private BitrueTicker24h getBitrueTicker24h(CurrencyPair pair) throws IOException {
+  private List<BitrueTicker24h> getBitrueTicker24h(CurrencyPair pair) throws IOException {
     BitrueMarketDataService service = (BitrueMarketDataService) marketService;
     return service.ticker24h(pair);
   }

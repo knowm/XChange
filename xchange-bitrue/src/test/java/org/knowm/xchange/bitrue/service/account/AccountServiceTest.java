@@ -6,64 +6,29 @@ import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitrue.BitrueExchange;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.exceptions.ExchangeSecurityException;
-import org.knowm.xchange.service.account.AccountService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 
 public class AccountServiceTest {
 
   @Rule public final WireMockRule wireMockRule = new WireMockRule();
 
-  @Test(timeout = 2000)
-  public void withdrawSuccess() throws Exception {
-    String response = withdraw("withdraw-200.json", 200);
-    assertThat(response).isEqualTo("9c7662xxxxxxxxxc8bd");
-  }
 
-  @Test(timeout = 2000)
-  public void withdrawFailure() {
-    Throwable exception = catchThrowable(() -> withdraw("withdraw-400.json", 400));
-    assertThat(exception)
-        .isInstanceOf(ExchangeSecurityException.class)
-        .hasMessage("error message (HTTP status code: 400)");
-  }
 
-  private String withdraw(String responseFileName, int statusCode) throws IOException {
-    BitrueExchange exchange = createExchange();
-    AccountService service = exchange.getAccountService();
-    stubWithdraw(responseFileName, statusCode);
-
-    return service.withdrawFunds(
-        Currency.BTC, BigDecimal.TEN, "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa");
-  }
-
-  private void stubWithdraw(String fileName, int statusCode) {
-    stubFor(
-        post(urlPathEqualTo("/sapi/v1/capital/withdraw/apply"))
-            .willReturn(
-                aResponse()
-                    .withStatus(statusCode)
-                    .withHeader("Content-Type", "application/json")
-                    .withBodyFile(fileName)));
-  }
-
-  private BitrueExchange createExchange() {
+  @Test
+  public void createExchange() {
     BitrueExchange exchange =
         ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BitrueExchange.class);
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
-    specification.setHost("localhost");
-    specification.setSslUri("http://localhost:" + wireMockRule.port() + "/");
-    specification.setPort(wireMockRule.port());
+//    specification.setHost("localhost");
+//    specification.setSslUri("http://localhost:" + wireMockRule.port() + "/");
+//    specification.setPort(wireMockRule.port());
     specification.setShouldLoadRemoteMetaData(false);
     specification.setHttpReadTimeout(1000);
+    specification.setExchangeSpecificParametersItem("recvWindow", "20000");
+    specification.setSecretKey("166d1f1903f15adcb16a862f884c56f42e0386aba53138c5b599c344f60e6284");
+    specification.setApiKey("e05def3fe6d924ff06872ee57af0b2688411af0ec75097a22746e17853f45e5c");
     exchange.applySpecification(specification);
-    return exchange;
+    exchange.remoteInit();
+
+
   }
 }

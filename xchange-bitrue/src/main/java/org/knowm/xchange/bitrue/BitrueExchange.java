@@ -143,13 +143,18 @@ public class BitrueExchange extends BaseExchange {
 
         for (Filter filter : filters) {
           if (filter.getFilterType().equals("PRICE_FILTER")) {
-            pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getTickSize()));
+            pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getPriceScale()));
             counterMaxQty = new BigDecimal(filter.getMaxPrice()).stripTrailingZeros();
           } else if (filter.getFilterType().equals("LOT_SIZE")) {
-            amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getStepSize()));
+            if(filter.getVolumeScale() != null) {
+              amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getVolumeScale()));
+            }
+            else{
+
+            }
             minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
             maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
-            stepSize = new BigDecimal(filter.getStepSize()).stripTrailingZeros();
+
           } else if (filter.getFilterType().equals("MIN_NOTIONAL")) {
             counterMinQty = new BigDecimal(filter.getMinVal()).stripTrailingZeros();
           }

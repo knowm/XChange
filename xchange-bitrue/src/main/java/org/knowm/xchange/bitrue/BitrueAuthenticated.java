@@ -195,7 +195,7 @@ public interface BitrueAuthenticated extends Bitrue {
    * @throws BitrueException
    */
   @GET
-  @Path("api/v3/account")
+  @Path("api/v1/account")
   BitrueAccountInformation account(
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
@@ -300,7 +300,7 @@ public interface BitrueAuthenticated extends Bitrue {
    * @throws BitrueException
    */
   @GET
-  @Path("/sapi/v1/asset/assetDetail")
+  @Path("/api/v1/account")
   Map<String, AssetDetail> assetDetail(
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,

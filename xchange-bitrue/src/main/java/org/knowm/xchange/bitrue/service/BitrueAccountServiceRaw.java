@@ -31,13 +31,23 @@ public class BitrueAccountServiceRaw extends BitrueBaseService {
 
 
   public Map<String, AssetDetail> requestAssetDetail() throws IOException {
-    return decorateApiCall(
-            () ->
-                bitrue.assetDetail(
-                    getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
-        .withRetry(retry("assetDetail"))
-        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
-        .call();
+//    return decorateApiCall(
+//            () ->
+//                bitrue.assetDetail(
+//                    getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
+//        .withRetry(retry("account"))
+//        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+//        .call();
+    try {
+      Map<String, AssetDetail> results = bitrue.assetDetail(
+              getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator);
+      System.out.println(results);
+      return results;
+    }
+    catch(Exception ex){
+      ex.printStackTrace();
+    }
+    return null;
   }
 
 
