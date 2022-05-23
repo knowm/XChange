@@ -1,19 +1,12 @@
 package info.bitrich.xchangestream.binance;
 
-import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.RateLimiter;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import info.bitrich.xchangestream.binance.dto.BinanceRawTrade;
-import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
-import info.bitrich.xchangestream.binance.dto.BookTickerBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.DepthBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.TickerBinanceWebsocketTransaction;
-import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
+import info.bitrich.xchangestream.binance.dto.*;
 import info.bitrich.xchangestream.binance.exceptions.UpFrontSubscriptionRequiredException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
@@ -24,14 +17,6 @@ import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
-import java.util.LinkedList;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Stream;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import org.knowm.xchange.binance.BinanceAdapters;
@@ -52,11 +37,16 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Queue;
-
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
 public class BinanceStreamingMarketDataService implements StreamingMarketDataService {
   private static final Logger LOG =
@@ -460,9 +450,11 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                       deltasBuffer.stream()
                           .filter(delta -> delta.getLastUpdateId() > binanceBook.lastUpdateId)
                           .collect(Collectors.toList());
-
+                  for(DepthBinanceWebSocketTransaction d:deltasBuffer) {
+                    LOG.trace("db {} {} {}",d.getFirstUpdateId()-bookLastUpdateId,d.getLastUpdateId()-bookLastUpdateId,
+                            d.getEventTime().getTime()-bookLastUpdateId);
+                  }
                   deltasBuffer.clear();
-
                   // Update the book with all buffered deltas (as probably nobody would like to be
                   // notified with an already outdated snapshot).
                   for (DepthBinanceWebSocketTransaction delta : applicableBookPatches) {
@@ -477,7 +469,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean appendDelta(DepthBinanceWebSocketTransaction delta) {
+      LOG.trace("appendDelta before sync last {} U {} u {} E {}",bookLastUpdateId,delta.getFirstUpdateId(),delta.getLastUpdateId());
       synchronized (bookIntegrityMonitor) {
+        LOG.trace("appendDelta before check last {} U {} u {} E {}",bookLastUpdateId,delta.getFirstUpdateId(),delta.getLastUpdateId());
         if (delta.getFirstUpdateId() > bookLastUpdateId + 1) {
           LOG.info(
               "Orderbook snapshot for {} out of date (last={}, U={}, u={}).",
@@ -485,15 +479,13 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
               bookLastUpdateId,
               delta.getFirstUpdateId(),
               delta.getLastUpdateId());
-
           return false;
         } else {
           bookLastUpdateId = delta.getLastUpdateId();
-
           // FIXME The underlying impl would be more optimal if LimitOrders were created directly.
           extractOrderBookUpdates(currencyPair, delta).forEach(update -> book.update(update));
+          LOG.trace("appendDelta after extractUpdates last {} U {} u {} E {}",bookLastUpdateId,delta.getFirstUpdateId(),delta.getLastUpdateId());
         }
-
         return true;
       }
     }
@@ -521,6 +513,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                   // delay, after subscribed for deltas, before asked for the snapshot first time.
                   // Was not required at the time of writing, but exchange behaviour can change over
                   // time.
+                  LOG.info(
+                          "initial book snapshot for {} after fetch (last={}, U={}, u={}).",
+                          currencyPair,
+                          snapshot.lastUpdateId,
+                          (delta.getFirstUpdateId()-snapshot.lastUpdateId),
+                          (delta.getLastUpdateId()-snapshot.lastUpdateId));
                 } while (snapshot.lastUpdateId < delta.getFirstUpdateId());
 
                 return snapshot;

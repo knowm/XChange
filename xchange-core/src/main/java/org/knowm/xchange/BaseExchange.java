@@ -1,13 +1,6 @@
 package org.knowm.xchange;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -19,6 +12,14 @@ import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public abstract class BaseExchange implements Exchange {
 
@@ -121,7 +122,12 @@ public abstract class BaseExchange implements Exchange {
   public void remoteInit() throws IOException, ExchangeException {
 
     logger.info(
-        "No remote initialization implemented for {}. The exchange meta data for this exchange is loaded from a json file containing hard-coded exchange meta-data. This may or may not be OK for you, and you should understand exactly how this works. Each exchange can either 1) rely on the hard-coded json file that comes packaged with XChange's jar, 2) provide your own override json file, 3) properly implement the `remoteInit()` method for the exchange (please submit a pull request so the whole community can benefit) or 4) a combination of hard-coded JSON and remote API calls. For more info see: https://github.com/timmolter/XChange/wiki/Design-Notes#exchange-metadata",
+        "No remote initialization implemented for {}. The exchange meta data for this exchange is loaded from a json file containing hard-coded " +
+                "exchange meta-data. This may or may not be OK for you, and you should understand exactly how this works. Each exchange can either 1)" +
+                " rely on the hard-coded json file that comes packaged with XChange's jar, 2) provide your own override json file, 3) properly " +
+                "implement the `remoteInit()` method for the exchange (please submit a pull request so the whole community can benefit) or 4) a " +
+                "combination of hard-coded JSON and remote API calls. For more info see:" +
+                " https://github.com/timmolter/XChange/wiki/Design-Notes#exchange-metadata",
         exchangeSpecification.getExchangeName());
   }
 

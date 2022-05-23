@@ -76,13 +76,22 @@ public class OkxStreamingMarketDataService implements StreamingMarketDataService
     public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
         String channelName = args.length >= 1 ? args[0].toString() : "books";
         String instId = OkexAdapters.adaptInstrumentId(instrument);
+        String SubscriptionName = "";
+            if (args.length >= 1) {
+                SubscriptionName = instId  + "-" + args[0].toString();
+                LOG.debug("channelName unique id {}", SubscriptionName);
+            } else {
+                SubscriptionName = instId + "-books";
+                LOG.debug("channelName unique id {}", SubscriptionName);
+            }
+
         OkxSubscribeMessage.SubscriptionTopic topic = new OkxSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
         OkxSubscribeMessage osm = new OkxSubscribeMessage();
         osm.setOp("subscribe");
         osm.getArgs().add(topic);
 
         return service
-                .subscribeChannel(channelName, osm)
+                .subscribeChannel(SubscriptionName, osm)
                 .flatMap(jsonNode -> {
                     // "books5" channel pushes 5 depth levels every time.
                     String action = channelName.equals("books5") ? "snapshot" : jsonNode.get("action").asText();

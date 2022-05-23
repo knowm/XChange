@@ -7,10 +7,6 @@ import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
@@ -18,6 +14,11 @@ import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BinanceStreamingExchange extends BinanceExchange implements StreamingExchange {
 
@@ -36,10 +37,10 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   private BinanceStreamingTradeService streamingTradeService;
 
   private BinanceUserDataChannel userDataChannel;
-  private Runnable onApiCall;
-  private String orderBookUpdateFrequencyParameter = "";
-  private int oderBookFetchLimitParameter = 1000;
-  private boolean realtimeOrderBookTicker;
+  Runnable onApiCall;
+  String orderBookUpdateFrequencyParameter = "";
+  int oderBookFetchLimitParameter = 1000;
+  boolean realtimeOrderBookTicker;
 
   @Override
   protected void initServices() {

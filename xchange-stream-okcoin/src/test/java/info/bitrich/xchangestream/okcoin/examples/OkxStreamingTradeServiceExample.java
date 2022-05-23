@@ -7,7 +7,6 @@ import info.bitrich.xchangestream.okcoin.OkxStreamingTradeService;
 import info.bitrich.xchangestream.okcoin.dto.okx.enums.OkxInstType;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.OkexAdapters;
 
@@ -20,6 +19,7 @@ public class OkxStreamingTradeServiceExample {
         final String PASSPHRASE = System.getenv("okx_passphrase");
 
         String url = "wss://wspap.okx.com:8443/ws/v5/private?brokerId=9999";
+
         ExchangeSpecification spec = new OkxStreamingExchange().getDefaultExchangeSpecification();
         spec.setApiKey(API_KEY);
         spec.setSecretKey(SECRET_KEY);

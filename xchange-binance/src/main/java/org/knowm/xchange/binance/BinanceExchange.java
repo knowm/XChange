@@ -1,8 +1,5 @@
 package org.knowm.xchange.binance;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Map;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
@@ -21,6 +18,10 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Map;
 
 public class BinanceExchange extends BaseExchange {
   public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
@@ -57,6 +58,16 @@ public class BinanceExchange extends BaseExchange {
 
   public static void resetResilienceRegistries() {
     RESILIENCE_REGISTRIES = null;
+  }
+
+  /**
+   * Helps to provide custom resilence registers, overriding what would be created by default and
+   * returned by the {@link #getResilienceRegistries()}.
+   *
+   * <p>Retained till next call of {@link #resetResilienceRegistries()}.
+   */
+  public static void setResilienceRegistries(ResilienceRegistries resilienceRegistries) {
+    RESILIENCE_REGISTRIES = resilienceRegistries;
   }
 
   @Override
