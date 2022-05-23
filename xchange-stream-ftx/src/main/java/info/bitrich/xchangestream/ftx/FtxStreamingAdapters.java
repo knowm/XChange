@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -223,17 +224,18 @@ public class FtxStreamingAdapters {
   public static UserTrade adaptUserTrade(JsonNode jsonNode) {
     JsonNode data = jsonNode.get("data");
 
-    Builder userTradeBuilder = new Builder()
-        .currencyPair(new CurrencyPair(data.get("market").asText()))
-        .type("buy".equals(data.get("side").asText()) ? OrderType.BID : OrderType.ASK)
-        .instrument(new CurrencyPair(data.get("market").asText()))
-        .originalAmount(data.get("size").decimalValue())
-        .price(data.get("price").decimalValue())
-        .timestamp(Date.from(Instant.ofEpochMilli(data.get("time").asLong())))
-        .id(data.get("id").asText())
-        .orderId(data.get("orderId").asText())
-        .feeAmount(data.get("fee").decimalValue())
-        .feeCurrency(new Currency(data.get("feeCurrency").asText()));
+    Builder userTradeBuilder =
+        new Builder()
+            .currencyPair(new CurrencyPair(data.get("market").asText()))
+            .type("buy".equals(data.get("side").asText()) ? OrderType.BID : OrderType.ASK)
+            .instrument(new CurrencyPair(data.get("market").asText()))
+            .originalAmount(data.get("size").decimalValue())
+            .price(data.get("price").decimalValue())
+            .timestamp(Date.from(OffsetDateTime.parse(data.get("time").asText()).toInstant()))
+            .id(data.get("id").asText())
+            .orderId(data.get("orderId").asText())
+            .feeAmount(data.get("fee").decimalValue())
+            .feeCurrency(new Currency(data.get("feeCurrency").asText()));
 
     if (data.has("clientOrderId")) {
       userTradeBuilder.orderUserReference(data.get("clientOrderId").asText());
