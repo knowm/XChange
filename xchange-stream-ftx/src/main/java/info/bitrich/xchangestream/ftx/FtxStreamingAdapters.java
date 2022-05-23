@@ -11,13 +11,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
 import org.knowm.xchange.currency.Currency;
@@ -38,19 +35,14 @@ import org.knowm.xchange.instrument.Instrument;
 public class FtxStreamingAdapters {
 
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-  /**
-   * Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero
-   */
+  /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
   private static final ThreadLocal<DecimalFormat> dfp =
-      ThreadLocal.withInitial(
-          () -> new DecimalFormat("0.0#######", new DecimalFormatSymbols(Locale.US)));
+      ThreadLocal.withInitial(() -> new DecimalFormat("0.0#######"));
 
   private static final ThreadLocal<DecimalFormat> dfs =
-      ThreadLocal.withInitial(
-          () -> new DecimalFormat("0.####E00", new DecimalFormatSymbols(Locale.US)));
+      ThreadLocal.withInitial(() -> new DecimalFormat("0.####E00"));
   private static final ThreadLocal<DecimalFormat> dfq =
-      ThreadLocal.withInitial(
-          () -> new DecimalFormat("0.0#######", new DecimalFormatSymbols(Locale.US)));
+      ThreadLocal.withInitial(() -> new DecimalFormat("0.0#######"));
 
   static Ticker NULL_TICKER =
       new Ticker.Builder().build(); // not need to create a new one each time
@@ -120,17 +112,7 @@ public class FtxStreamingAdapters {
                     getOrderbookChecksum(orderBook.getAsks(), orderBook.getBids());
 
                 if (!calculatedChecksum.equals(message.getChecksum())) {
-                  final OrderBook sortedOrderBook =
-                      new OrderBook(
-                          Date.from(Instant.now()),
-                          new ArrayList<>(orderBook.getAsks()),
-                          new ArrayList<>(orderBook.getBids()),
-                          true);
-                  calculatedChecksum =
-                      getOrderbookChecksum(sortedOrderBook.getAsks(), sortedOrderBook.getBids());
-                  if (!calculatedChecksum.equals(message.getChecksum())) {
-                    throw new IllegalStateException("Checksum is not correct!");
-                  }
+                  throw new IllegalStateException("Checksum is not correct!");
                 }
               }
             });
@@ -170,11 +152,11 @@ public class FtxStreamingAdapters {
       }
     }
 
-    String s = data.toString().replace("E", "e");
+    String s = data.toString().replace("E", "e"); // strip last :
 
     CRC32 crc32 = new CRC32();
     byte[] toBytes = s.getBytes(StandardCharsets.UTF_8);
-    crc32.update(toBytes, 0, toBytes.length - 1); // strip last :
+    crc32.update(toBytes, 0, toBytes.length - 1);
 
     return crc32.getValue();
   }
@@ -231,7 +213,7 @@ public class FtxStreamingAdapters {
             .instrument(new CurrencyPair(data.get("market").asText()))
             .originalAmount(data.get("size").decimalValue())
             .price(data.get("price").decimalValue())
-            .timestamp(Date.from(OffsetDateTime.parse(data.get("time").asText()).toInstant()))
+            .timestamp(Date.from(Instant.ofEpochMilli(data.get("time").asLong())))
             .id(data.get("id").asText())
             .orderId(data.get("orderId").asText())
             .feeAmount(data.get("fee").decimalValue())
