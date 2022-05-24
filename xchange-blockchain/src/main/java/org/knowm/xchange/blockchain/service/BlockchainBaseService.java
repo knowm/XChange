@@ -1,21 +1,22 @@
 package org.knowm.xchange.blockchain.service;
 
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.blockchain.Blockchain;
-import org.knowm.xchange.client.ExchangeRestProxyBuilder;
-import org.knowm.xchange.service.BaseExchangeService;
-import org.knowm.xchange.service.BaseService;
+import org.knowm.xchange.blockchain.BlockchainAuthenticated;
+import org.knowm.xchange.blockchain.BlockchainExchange;
+import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.service.BaseResilientExchangeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class BlockchainBaseService extends BaseExchangeService implements BaseService {
+public class BlockchainBaseService extends BaseResilientExchangeService<BlockchainExchange> {
 
+  protected final Logger LOG = LoggerFactory.getLogger(getClass());
   protected final String apiKey;
-  protected final Blockchain blockchain;
+  protected final BlockchainAuthenticated blockchainApi;
 
-  protected BlockchainBaseService(Exchange exchange) {
-    super(exchange);
-    this.blockchain =
-        ExchangeRestProxyBuilder.forInterface(Blockchain.class, exchange.getExchangeSpecification())
-            .build();
+  protected BlockchainBaseService(BlockchainExchange exchange, BlockchainAuthenticated blockchainApi, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
+    this.blockchainApi = blockchainApi;
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
   }
 }
