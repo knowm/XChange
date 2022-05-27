@@ -2,50 +2,74 @@ package org.knowm.xchange.blockchain;
 
 import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.blockchain.dto.account.*;
-import org.knowm.xchange.blockchain.dto.trade.BlockchainOrder;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-@Path("")
+@Path("v3/exchange")
 @Produces(MediaType.APPLICATION_JSON)
 public interface BlockchainAuthenticated extends Blockchain{
 
-    @Path("v3/exchange/withdrawals")
+    /**
+     * Receive current account balances
+     * @return
+     */
+    @Path("/accounts")
+    @GET
+    Map<String, List<BlockchainAccountInformation>> getAccountInformation();
+
+    /**
+     * Request a withdrawal
+     * Call GET /whitelist first to retrieve the ID of the beneficiary.
+     * @return
+     * @throws IOException
+     * @throws BlockchainException
+     */
+    @Path("/withdrawals")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     BlockchainWithdrawal postWithdrawFunds(BlockchainWithdrawalRequest blockchainWithdrawalRequest) throws IOException, BlockchainException;
 
-    @Path("v3/exchange/withdrawals")
+    /**
+     * Get a list of withdrawals
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Path("/withdrawals")
     @GET
     List<BlockchainWithdrawal> getWithdrawFunds(@QueryParam("from") Long startTime,
                                                 @QueryParam("to") Long endTime);
-
-    @Path("v3/exchange/deposits/{symbol}")
+    /**
+     * Get a deposit address. Currently, only crypto currencies are supported
+     * @param symbol
+     * @return
+     */
+    @Path("/deposits/{symbol}")
     @POST
-    BlockchainAccount getDepositAddress(@PathParam("symbol") @FormParam("symbol") String symbol);
+    //TODO: @FormParam is being used as a workaround to avoid http status error 411.
+    //TODO: To solved that, we need exposed a get endpoint in the API
+    BlockchainDeposit getDepositAddress(@PathParam("symbol") @FormParam("symbol") String symbol);
 
-    @Path("v3/exchange/orders")
-    @GET
-    List<BlockchainOrder> getOrders();
-
-    @Path("v3/exchange/trades")
-    @GET
-    List<BlockchainOrder> getTrades();
-
-    @Path("v3/exchange/orders")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    BlockchainOrder postOrder(BlockchainOrder blockchainOrder);
-
-    @Path("v3/exchange/fees")
+    /**
+     * Get current fee level
+     * @return
+     */
+    @Path("/fees")
     @GET
     BlockchainFees getFees();
 
-    @Path("v3/exchange/deposits")
+    /**
+     * Get a list of deposits
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Path("/deposits")
     @GET
-    List<BlockchainDeposit> depositHistory(@QueryParam("from") Long startTime,
-                                           @QueryParam("to") Long endTime);
+    List<BlockchainDeposits> depositHistory(@QueryParam("from") Long startTime,
+                                            @QueryParam("to") Long endTime);
 }

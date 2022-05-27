@@ -2,7 +2,6 @@ package org.knowm.xchange.blockchain.service;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.junit.ClassRule;
-import org.junit.Rule;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.blockchain.BlockchainExchange;

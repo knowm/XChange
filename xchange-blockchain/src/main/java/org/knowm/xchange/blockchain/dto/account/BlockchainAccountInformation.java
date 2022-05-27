@@ -13,10 +13,13 @@ import java.math.BigDecimal;
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BlockchainWithdrawalRequest {
+public class BlockchainAccountInformation {
 
-    private final Currency currency;
-    private final BigDecimal amount;
-    @JsonProperty("beneficiary")
-    private final String address;
+    private final Currency   currency;
+    @JsonProperty("balance")
+    private final BigDecimal total;
+    private final BigDecimal available;
+    private final BigDecimal balance_local;
+    private final BigDecimal available_local;
+    private final BigDecimal rate;
 }

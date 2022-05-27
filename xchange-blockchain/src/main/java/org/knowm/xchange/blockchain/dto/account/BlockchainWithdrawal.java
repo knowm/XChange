@@ -14,6 +14,7 @@ import java.util.Date;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BlockchainWithdrawal {
+
     private final String withdrawalId;
     private final BigDecimal amount;
     private final BigDecimal fee;

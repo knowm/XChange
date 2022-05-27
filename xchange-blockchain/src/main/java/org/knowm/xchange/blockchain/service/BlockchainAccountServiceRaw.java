@@ -23,12 +23,19 @@ public abstract class BlockchainAccountServiceRaw extends BlockchainBaseService{
         super(exchange, blockchainApi, resilienceRegistries);
     }
 
-    protected BlockchainWithdrawal postWithdrawFunds(BlockchainWithdrawalRequest blockchainWithdrawalRequest) throws IOException, BlockchainException {
-        return decorateApiCall(() -> this.blockchainApi.postWithdrawFunds(blockchainWithdrawalRequest))
+    protected Map<String, List<BlockchainAccountInformation>> getAccountInformation() throws IOException, BlockchainException {
+        return decorateApiCall(() -> this.blockchainApi.getAccountInformation())
+                .withRetry(retry(GET_ACCOUNT_INFORMATION))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
                 .call();
     }
-    protected BlockchainAccount getDepositAddress(Currency currency) throws IOException {
+    protected BlockchainWithdrawal postWithdrawFunds(BlockchainWithdrawalRequest blockchainWithdrawalRequest) throws IOException, BlockchainException {
+        return decorateApiCall(() -> this.blockchainApi.postWithdrawFunds(blockchainWithdrawalRequest))
+                .withRetry(retry(GET_WITHDRAWAL))
+                .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
+                .call();
+    }
+    protected BlockchainDeposit getDepositAddress(Currency currency) throws IOException {
         return decorateApiCall(() -> this.blockchainApi.getDepositAddress(currency.getCurrencyCode()))
                 .withRetry(retry(GET_DEPOSIT_ADDRESS))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
@@ -36,25 +43,29 @@ public abstract class BlockchainAccountServiceRaw extends BlockchainBaseService{
     }
 
     public BlockchainFees getFees() throws IOException {
-        return decorateApiCall(() -> this.blockchainApi.getFees())
+        return decorateApiCall(this.blockchainApi::getFees)
+                .withRetry(retry(GET_FEES))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
                 .call();
     }
 
-    public List<BlockchainDeposit> depositHistory(Long startTime, Long endTime) throws IOException {
+    public List<BlockchainDeposits> depositHistory(Long startTime, Long endTime) throws IOException {
         return decorateApiCall(() -> this.blockchainApi.depositHistory(startTime, endTime))
+                .withRetry(retry(GET_DEPOSIT_HISTORY))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
                 .call();
     }
 
     public List<BlockchainWithdrawal> withdrawHistory(Long startTime, Long endTime) throws IOException {
         return decorateApiCall(() -> this.blockchainApi.getWithdrawFunds(startTime, endTime))
+                .withRetry(retry(GET_WITHDRAWAL_HISTORY))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
                 .call();
     }
 
     public Map<String,BlockchainSymbols> getSymbols() throws IOException {
-        return decorateApiCall(() -> this.blockchainApi.getSymbols())
+        return decorateApiCall(this.blockchainApi::getSymbols)
+                .withRetry(retry(GET_SYMBOLS))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
                 .call();
     }

@@ -1,18 +1,20 @@
 package org.knowm.xchange.blockchain;
 
+import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.exceptions.*;
 
-/** @author walec51 */
-public final class BlockchainErrorAdapter {
+import static org.knowm.xchange.blockchain.BlockchainConstants.EXCEPTION_MESSAGE;
 
-  private BlockchainErrorAdapter() {}
+/** @author scuevas */
+@UtilityClass
+public final class BlockchainErrorAdapter {
 
   public static ExchangeException adapt(BlockchainException e) {
     String message = e.getMessage();
     if (StringUtils.isEmpty(message)) {
-      message = "Operation failed without any error message";
+      message = EXCEPTION_MESSAGE;
     }
     switch (e.getStatus()) {
       case 401:

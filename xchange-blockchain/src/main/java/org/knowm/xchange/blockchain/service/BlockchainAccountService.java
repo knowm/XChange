@@ -1,25 +1,56 @@
 package org.knowm.xchange.blockchain.service;
 
-import org.knowm.xchange.blockchain.*;
+import org.knowm.xchange.blockchain.BlockchainAdapters;
+import org.knowm.xchange.blockchain.BlockchainAuthenticated;
+import org.knowm.xchange.blockchain.BlockchainErrorAdapter;
+import org.knowm.xchange.blockchain.BlockchainExchange;
 import org.knowm.xchange.blockchain.dto.BlockchainException;
+import org.knowm.xchange.blockchain.dto.account.BlockchainAccountInformation;
 import org.knowm.xchange.blockchain.dto.account.BlockchainFees;
+import org.knowm.xchange.blockchain.params.BlockchainFundingHistoryParams;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.account.AddressWithTag;
-import org.knowm.xchange.dto.account.Fee;
-import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.knowm.xchange.blockchain.BlockchainConstants.FUNDING_RECORD_TYPE_UNSUPPORTED;
+import static org.knowm.xchange.blockchain.BlockchainConstants.WITHDRAWAL_EXCEPTION;
 
 public class BlockchainAccountService extends BlockchainAccountServiceRaw implements AccountService {
 
     public BlockchainAccountService(BlockchainExchange exchange, BlockchainAuthenticated blockchainApi, ResilienceRegistries resilienceRegistries) {
         super(exchange, blockchainApi, resilienceRegistries);
+    }
+
+    @Override
+    public AccountInfo getAccountInfo() throws IOException {
+        try {
+
+            Map<String, List<BlockchainAccountInformation>> account = this.getAccountInformation();
+            List<Wallet> wallets = new ArrayList<>();
+
+            for (Map.Entry<String, List<BlockchainAccountInformation>> entry : account.entrySet()) {
+                List<Balance> balances = entry.getValue().stream().map(bal -> new Balance(bal.getCurrency(),
+                                bal.getTotal(),
+                                bal.getAvailable()))
+                        .collect(Collectors.toList());
+                wallets.add(Wallet.Builder.from(balances).id(entry.getKey()).build());
+            }
+            return new AccountInfo(wallets);
+        } catch (BlockchainException e) {
+            throw BlockchainErrorAdapter.adapt(e);
+        }
     }
 
     @Override
@@ -32,7 +63,7 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
     }
 
     @Override
-    public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address) throws IOException{
+    public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address) throws IOException {
         return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
     }
 
@@ -44,10 +75,10 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
                     defaultParams.getCurrency(),
                     defaultParams.getAmount(),
                     defaultParams.getAddress()
-                    )).getWithdrawalId();
+            )).getWithdrawalId();
         }
 
-        throw new IllegalStateException("Don't know how to withdraw: " + params);
+        throw new IllegalStateException(WITHDRAWAL_EXCEPTION + params);
     }
 
     @Override
@@ -62,7 +93,7 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
 
     @Override
     public TradeHistoryParams createFundingHistoryParams() {
-        return new BlockchainFundingHistoryParams();
+        return BlockchainFundingHistoryParams.builder().build();
     }
 
     @Override
@@ -87,15 +118,15 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
                     switch (((HistoryParamsFundingType) params).getType()) {
                         case WITHDRAWAL:
                             this.withdrawHistory(startTime, endTime)
-                                    .forEach(w -> { result.add(BlockchainAdapters.toFundingWithdrawal(w)); });
+                                    .forEach(w -> result.add(BlockchainAdapters.toFundingWithdrawal(w)));
                             break;
                         case DEPOSIT:
                             this.depositHistory(startTime, endTime)
-                                    .forEach(d -> { result.add(BlockchainAdapters.toFundingDeposit(d)); });
+                                    .forEach(d -> result.add(BlockchainAdapters.toFundingDeposit(d)));
                             break;
                         default:
                             throw new IllegalArgumentException(
-                                    "Unsupported FundingRecord.Type: "
+                                    FUNDING_RECORD_TYPE_UNSUPPORTED
                                             + ((HistoryParamsFundingType) params).getType());
                     }
                 }
@@ -120,5 +151,12 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
         } catch (BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);
         }
+    }
+
+    @Override
+    public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
+        Map<CurrencyPair, Fee> dynamicTradingFees = getDynamicTradingFees();
+        return dynamicTradingFees.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

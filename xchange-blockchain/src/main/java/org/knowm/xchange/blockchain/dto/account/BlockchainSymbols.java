@@ -11,22 +11,23 @@ import org.knowm.xchange.currency.Currency;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BlockchainSymbols {
-    private final Currency base_currency;
-    private final Integer base_currency_scale;
-    private final Currency counter_currency;
-    private final Integer counter_currency_scale;
-    private final Integer min_price_increment;
-    private final Integer min_price_increment_scale;
-    private final Long min_order_size;
-    private final Integer min_order_size_scale;
-    private final Integer max_order_size;
-    private final Integer max_order_size_scale;
-    private final Integer lot_size;
-    private final Integer lot_size_scale;
+
+    private final Currency baseCurrency;
+    private final Integer baseCurrencyScale;
+    private final Currency counterCurrency;
+    private final Integer counterCurrencyScale;
+    private final Integer minPriceIncrement;
+    private final Integer minPriceIncrementScale;
+    private final Long minOrderSize;
+    private final Integer minOrderSizeScale;
+    private final Integer maxOrderSize;
+    private final Integer maxOrderSizeScale;
+    private final Integer lotSize;
+    private final Integer lotSizeScale;
     private final String  status;
     private final Integer id;
-    private final Integer auction_price;
-    private final Integer auction_size;
-    private final Long    auction_time;
+    private final Integer auctionPrice;
+    private final Integer auctionSize;
+    private final Long auctionTime;
     private final Integer imbalance;
 }
