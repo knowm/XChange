@@ -10,7 +10,7 @@ import org.knowm.xchange.currency.Currency;
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BlockchainSymbols {
+public class BlockchainSymbol {
 
     private final Currency baseCurrency;
     private final Integer baseCurrencyScale;

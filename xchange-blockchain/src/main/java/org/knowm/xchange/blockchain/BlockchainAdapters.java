@@ -89,7 +89,7 @@ public class BlockchainAdapters {
                 .build();
     }
 
-   public static CurrencyPair toCurrencyPairBySymbol(BlockchainSymbols blockchainSymbol) {
+   public static CurrencyPair toCurrencyPairBySymbol(BlockchainSymbol blockchainSymbol) {
         Currency baseSymbol = blockchainSymbol.getBaseCurrency();
         Currency counterSymbol = blockchainSymbol.getCounterCurrency();
         return new CurrencyPair(baseSymbol, counterSymbol);

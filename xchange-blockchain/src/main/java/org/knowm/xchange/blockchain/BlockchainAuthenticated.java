@@ -9,12 +9,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * @see <a href="https://api.blockchain.info/v3/#/">Swagger</a>
+ */
 @Path("v3/exchange")
 @Produces(MediaType.APPLICATION_JSON)
-public interface BlockchainAuthenticated extends Blockchain{
+public interface BlockchainAuthenticated extends Blockchain {
 
     /**
      * Receive current account balances
+     *
      * @return
      */
     @Path("/accounts")
@@ -24,6 +29,7 @@ public interface BlockchainAuthenticated extends Blockchain{
     /**
      * Request a withdrawal
      * Call GET /whitelist first to retrieve the ID of the beneficiary.
+     *
      * @return
      * @throws IOException
      * @throws BlockchainException
@@ -35,6 +41,7 @@ public interface BlockchainAuthenticated extends Blockchain{
 
     /**
      * Get a list of withdrawals
+     *
      * @param startTime
      * @param endTime
      * @return
@@ -43,19 +50,24 @@ public interface BlockchainAuthenticated extends Blockchain{
     @GET
     List<BlockchainWithdrawal> getWithdrawFunds(@QueryParam("from") Long startTime,
                                                 @QueryParam("to") Long endTime);
+
     /**
      * Get a deposit address. Currently, only crypto currencies are supported
+     *
      * @param symbol
      * @return
+     * @throws IOException
+     * @throws BlockchainException
      */
     @Path("/deposits/{symbol}")
     @POST
     //TODO: @FormParam is being used as a workaround to avoid http status error 411.
     //TODO: To solved that, we need exposed a get endpoint in the API
-    BlockchainDeposit getDepositAddress(@PathParam("symbol") @FormParam("symbol") String symbol);
+    BlockchainDeposit getDepositAddress(@PathParam("symbol") @FormParam("symbol") String symbol) throws IOException, BlockchainException;
 
     /**
      * Get current fee level
+     *
      * @return
      */
     @Path("/fees")
@@ -64,6 +76,7 @@ public interface BlockchainAuthenticated extends Blockchain{
 
     /**
      * Get a list of deposits
+     *
      * @param startTime
      * @param endTime
      * @return

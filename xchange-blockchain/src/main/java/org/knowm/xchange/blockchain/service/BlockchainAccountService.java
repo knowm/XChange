@@ -78,12 +78,16 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
             )).getWithdrawalId();
         }
 
-        throw new IllegalStateException(WITHDRAWAL_EXCEPTION + params);
+        throw new IllegalStateException(WITHDRAWAL_EXCEPTION);
     }
 
     @Override
     public String requestDepositAddress(Currency currency, String... args) throws IOException {
-        return this.getDepositAddress(currency).getAddress();
+        try {
+            return this.getDepositAddress(currency).getAddress();
+        } catch(BlockchainException e) {
+            throw BlockchainErrorAdapter.adapt(e);
+        }
     }
 
     @Override
@@ -101,6 +105,7 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
         try {
             Long startTime = null;
             Long endTime = null;
+            FundingRecord.Type historyParamsFundingType = ((HistoryParamsFundingType) params).getType();
 
             if (params instanceof TradeHistoryParamsTimeSpan) {
                 TradeHistoryParamsTimeSpan tp = (TradeHistoryParamsTimeSpan) params;
@@ -113,22 +118,18 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
             }
 
             List<FundingRecord> result = new ArrayList<>();
-            if (params instanceof HistoryParamsFundingType) {
-                if (((HistoryParamsFundingType) params).getType() != null) {
-                    switch (((HistoryParamsFundingType) params).getType()) {
-                        case WITHDRAWAL:
-                            this.withdrawHistory(startTime, endTime)
-                                    .forEach(w -> result.add(BlockchainAdapters.toFundingWithdrawal(w)));
-                            break;
-                        case DEPOSIT:
-                            this.depositHistory(startTime, endTime)
-                                    .forEach(d -> result.add(BlockchainAdapters.toFundingDeposit(d)));
-                            break;
-                        default:
-                            throw new IllegalArgumentException(
-                                    FUNDING_RECORD_TYPE_UNSUPPORTED
-                                            + ((HistoryParamsFundingType) params).getType());
-                    }
+            if (historyParamsFundingType != null) {
+                switch (historyParamsFundingType) {
+                    case WITHDRAWAL:
+                        this.withdrawHistory(startTime, endTime)
+                                .forEach(w -> result.add(BlockchainAdapters.toFundingWithdrawal(w)));
+                        break;
+                    case DEPOSIT:
+                        this.depositHistory(startTime, endTime)
+                                .forEach(d -> result.add(BlockchainAdapters.toFundingDeposit(d)));
+                        break;
+                    default:
+                        throw new IllegalArgumentException(FUNDING_RECORD_TYPE_UNSUPPORTED);
                 }
             }
 
@@ -142,7 +143,6 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
     public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
         try {
             BlockchainFees fees = this.getFees();
-
             Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
             List<CurrencyPair> pairs = this.getExchangeSymbols();
 

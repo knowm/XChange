@@ -5,6 +5,8 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.blockchain.service.BlockchainAccountService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.trade.TradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import javax.ws.rs.HeaderParam;
@@ -22,10 +24,10 @@ public class BlockchainExchange extends BaseExchange {
   protected void initServices() {
     this.blockchain = ExchangeRestProxyBuilder
             .forInterface(BlockchainAuthenticated.class, this.getExchangeSpecification())
-            .clientConfigCustomizer(clientConfig -> {
-              String secretKey = this.getExchangeSpecification().getSecretKey();
-              clientConfig.addDefaultParam(HeaderParam.class, X_API_TOKEN, secretKey);
-            }).build();
+            .clientConfigCustomizer(clientConfig -> clientConfig.addDefaultParam(
+                    HeaderParam.class, X_API_TOKEN,
+                    this.getExchangeSpecification().getSecretKey())
+            ).build();
 
     this.accountService = new BlockchainAccountService(this, this.blockchain, this.getResilienceRegistries());
   }
@@ -43,7 +45,7 @@ public class BlockchainExchange extends BaseExchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-    throw new UnsupportedOperationException("Not implemented yet");
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED_YET);
   }
 
   @Override
@@ -52,5 +54,15 @@ public class BlockchainExchange extends BaseExchange {
       RESILIENCE_REGISTRIES = BlockchainResilience.getResilienceRegistries();
     }
     return RESILIENCE_REGISTRIES;
+  }
+
+  @Override
+  public MarketDataService getMarketDataService() {
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED_YET);
+  }
+
+  @Override
+  public TradeService getTradeService() {
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED_YET);
   }
 }
