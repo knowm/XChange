@@ -1,9 +1,11 @@
 package org.knowm.xchange.service.marketdata;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -13,6 +15,7 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.service.marketdata.params.Params;
+import org.knowm.xchange.service.trade.params.CandleStickDataParams;
 
 /**
  * Interface to provide the following to {@link Exchange}:
@@ -176,5 +179,24 @@ public interface MarketDataService extends BaseService {
    */
   default Trades getTrades(Params params) throws IOException {
     throw new NotYetImplementedForExchangeException("getTrades");
+  }
+
+
+  /**
+   * Get the CandleStickData for given currency between startDate to endDate.
+   *
+   * @param currencyPair currencyPair.
+   * @param params Params for query, including start(e.g. march 2022.) and end date, period etc.,
+   * @return The CandleStickData, null if some sort of error occurred. Implementers should log the error.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   * request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   * requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   * requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getCandleStickData");
   }
 }
