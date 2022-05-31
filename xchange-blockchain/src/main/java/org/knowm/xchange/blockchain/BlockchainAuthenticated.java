@@ -20,7 +20,8 @@ public interface BlockchainAuthenticated extends Blockchain {
     /**
      * Receive current account balances
      *
-     * @return
+     * @return This returns a map where the key {@link String} represents the primary data and the value which is an
+     * instance of type {@link BlockchainAccountInformation} is a list of account balances
      */
     @Path("/accounts")
     @GET
@@ -30,7 +31,7 @@ public interface BlockchainAuthenticated extends Blockchain {
      * Request a withdrawal
      * Call GET /whitelist first to retrieve the ID of the beneficiary.
      *
-     * @return
+     * @return the withdrawal object created
      * @throws IOException
      * @throws BlockchainException
      */
@@ -44,7 +45,7 @@ public interface BlockchainAuthenticated extends Blockchain {
      *
      * @param startTime
      * @param endTime
-     * @return
+     * @return list of withdrawals object
      */
     @Path("/withdrawals")
     @GET
@@ -55,20 +56,18 @@ public interface BlockchainAuthenticated extends Blockchain {
      * Get a deposit address. Currently, only crypto currencies are supported
      *
      * @param symbol
-     * @return
+     * @return the deposit object according to the currency
      * @throws IOException
      * @throws BlockchainException
      */
     @Path("/deposits/{symbol}")
     @POST
-    //TODO: @FormParam is being used as a workaround to avoid http status error 411.
-    //TODO: To solved that, we need exposed a get endpoint in the API
     BlockchainDeposit getDepositAddress(@PathParam("symbol") @FormParam("symbol") String symbol) throws IOException, BlockchainException;
 
     /**
      * Get current fee level
      *
-     * @return
+     * @return the fees of all currency pairs
      */
     @Path("/fees")
     @GET
@@ -79,7 +78,7 @@ public interface BlockchainAuthenticated extends Blockchain {
      *
      * @param startTime
      * @param endTime
-     * @return
+     * @return list of deposits object
      */
     @Path("/deposits")
     @GET
