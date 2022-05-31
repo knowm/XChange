@@ -11,6 +11,7 @@ public class OkexCandleStick {
   private final String highPrice;
   private final String lowPrice;
   private final String volume;
+  private final String volumeCcy;
 
   @JsonCreator
   public OkexCandleStick(JsonNode node) {
@@ -20,6 +21,7 @@ public class OkexCandleStick {
     this.highPrice = node.get(2).asText();
     this.lowPrice = node.get(3).asText();
     this.volume = node.get(5).asText();
+    this.volumeCcy = node.get(6).asText();
   }
 
   public Long getTimestamp() {
@@ -46,26 +48,7 @@ public class OkexCandleStick {
     return volume;
   }
 
-  @Override
-  public String toString() {
-    return "OkexCandleStick{"
-        + "timestamp="
-        + timestamp
-        + ", openPrice='"
-        + openPrice
-        + '\''
-        + ", closePrice='"
-        + closePrice
-        + '\''
-        + ", highPrice='"
-        + highPrice
-        + '\''
-        + ", lowPrice='"
-        + lowPrice
-        + '\''
-        + ", volume='"
-        + volume
-        + '\''
-        + '}';
+  public String getVolumeCcy() {
+    return volumeCcy;
   }
 }
