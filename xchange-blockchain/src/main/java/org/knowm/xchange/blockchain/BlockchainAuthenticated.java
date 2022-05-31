@@ -2,6 +2,7 @@ package org.knowm.xchange.blockchain;
 
 import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.blockchain.dto.account.*;
+import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -38,7 +39,7 @@ public interface BlockchainAuthenticated extends Blockchain {
     @Path("/withdrawals")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    BlockchainWithdrawal postWithdrawFunds(BlockchainWithdrawalRequest blockchainWithdrawalRequest) throws IOException, BlockchainException;
+    BlockchainWithdrawal postWithdrawFunds(BlockchainWithdrawalParams blockchainWithdrawalRequest) throws IOException, BlockchainException;
 
     /**
      * Get a list of withdrawals

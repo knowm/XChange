@@ -3,6 +3,7 @@ package org.knowm.xchange.examples.blockchain.account;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -15,6 +16,7 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -22,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static org.knowm.xchange.examples.blockchain.BlockchainDemoUtils.BENEFICIARY;
 import static org.knowm.xchange.examples.blockchain.BlockchainDemoUtils.END_TIME;
 
 /**
@@ -44,9 +47,15 @@ public class BlockchainAccountDemo {
         AccountInfo accountInfo = accountService.getAccountInfo();
         System.out.println(OBJECT_MAPPER.writeValueAsString(accountInfo));
 
-        /*System.out.println("===== withdrawFunds =====");
-        String withdraw = accountService.withdrawFunds(Currency.BTC, BigDecimal.valueOf(0.00005), "ea1f34b3-e77a-4646-9cfa-5d6d3518c6d3");
-        System.out.println(OBJECT_MAPPER.writeValueAsString(withdraw));*/
+        System.out.println("===== withdrawFunds =====");
+        WithdrawFundsParams params = BlockchainWithdrawalParams.builder()
+                .beneficiary(BENEFICIARY)
+                .currency(Currency.BTC)
+                .amount(BigDecimal.valueOf(0.0005))
+                .sendMax(false)
+                .build();
+        String withdraw = accountService.withdrawFunds(params);
+        System.out.println(OBJECT_MAPPER.writeValueAsString(withdraw));
 
         System.out.println("===== requestDepositAddress =====");
         String address = accountService.requestDepositAddress(Currency.ETH);
@@ -57,14 +66,14 @@ public class BlockchainAccountDemo {
         System.out.println(OBJECT_MAPPER.writeValueAsString(addressWithTag));
 
         System.out.println("===== getFundingHistory =====");
-        TradeHistoryParams params = accountService.createFundingHistoryParams();
-        final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
+        TradeHistoryParams tradeHistoryParams = accountService.createFundingHistoryParams();
+        final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) tradeHistoryParams;
         timeSpanParam.setStartTime(new Date(System.currentTimeMillis() - END_TIME));
-        ((HistoryParamsFundingType) params).setType(FundingRecord.Type.DEPOSIT);
-        List<FundingRecord> fundingDepositsRecords = accountService.getFundingHistory(params);
+        ((HistoryParamsFundingType) tradeHistoryParams).setType(FundingRecord.Type.DEPOSIT);
+        List<FundingRecord> fundingDepositsRecords = accountService.getFundingHistory(tradeHistoryParams);
 
-        ((HistoryParamsFundingType) params).setType(FundingRecord.Type.WITHDRAWAL);
-        List<FundingRecord> fundingWithdrawalRecords = accountService.getFundingHistory(params);
+        ((HistoryParamsFundingType) tradeHistoryParams).setType(FundingRecord.Type.WITHDRAWAL);
+        List<FundingRecord> fundingWithdrawalRecords = accountService.getFundingHistory(tradeHistoryParams);
 
         System.out.println(OBJECT_MAPPER.writeValueAsString(fundingDepositsRecords));
         System.out.println(OBJECT_MAPPER.writeValueAsString(fundingWithdrawalRecords));

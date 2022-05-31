@@ -8,10 +8,12 @@ import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.blockchain.dto.account.BlockchainAccountInformation;
 import org.knowm.xchange.blockchain.dto.account.BlockchainFees;
 import org.knowm.xchange.blockchain.params.BlockchainFundingHistoryParams;
+import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.*;
@@ -24,8 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.knowm.xchange.blockchain.BlockchainConstants.FUNDING_RECORD_TYPE_UNSUPPORTED;
-import static org.knowm.xchange.blockchain.BlockchainConstants.WITHDRAWAL_EXCEPTION;
+import static org.knowm.xchange.blockchain.BlockchainConstants.*;
 
 public class BlockchainAccountService extends BlockchainAccountServiceRaw implements AccountService {
 
@@ -55,30 +56,31 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
 
     @Override
     public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-        try {
-            return this.postWithdrawFunds(BlockchainAdapters.toWithdrawalRequest(currency, amount, address)).getWithdrawalId();
-        } catch (BlockchainException e) {
-            throw BlockchainErrorAdapter.adapt(e);
-        }
+        throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
     }
 
     @Override
     public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address) throws IOException {
-        return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+        throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
     }
 
     @Override
     public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-        if (params instanceof DefaultWithdrawFundsParams) {
-            DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-            return postWithdrawFunds(BlockchainAdapters.toWithdrawalRequest(
-                    defaultParams.getCurrency(),
-                    defaultParams.getAmount(),
-                    defaultParams.getAddress()
-            )).getWithdrawalId();
-        }
+        try{
+            if (params instanceof BlockchainWithdrawalParams) {
+                BlockchainWithdrawalParams defaultParams = (BlockchainWithdrawalParams) params;
+                if (defaultParams.getSendMax()){
+                    defaultParams = defaultParams.toBuilder()
+                            .amount(null)
+                            .build();
+                }
+                return this.postWithdrawFunds(defaultParams).getWithdrawalId();
+            }
 
-        throw new IllegalStateException(WITHDRAWAL_EXCEPTION);
+            throw new IllegalStateException(WITHDRAWAL_EXCEPTION);
+        } catch(BlockchainException e) {
+            throw BlockchainErrorAdapter.adapt(e);
+        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.knowm.xchange.blockchain.BlockchainExchange;
 import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.blockchain.dto.account.*;
 import org.knowm.xchange.blockchain.dto.account.BlockchainSymbol;
+import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -29,7 +30,7 @@ public abstract class BlockchainAccountServiceRaw extends BlockchainBaseService{
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
                 .call();
     }
-    protected BlockchainWithdrawal postWithdrawFunds(BlockchainWithdrawalRequest blockchainWithdrawalRequest) throws IOException, BlockchainException {
+    protected BlockchainWithdrawal postWithdrawFunds(BlockchainWithdrawalParams blockchainWithdrawalRequest) throws IOException, BlockchainException {
         return decorateApiCall(() -> this.blockchainApi.postWithdrawFunds(blockchainWithdrawalRequest))
                 .withRetry(retry(GET_WITHDRAWAL))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))

@@ -5,6 +5,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.blockchain.service.BlockchainAccountService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -35,7 +36,7 @@ public class BlockchainExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
-    exchangeSpecification.setSslUri("https://api.blockchain.com");
+    exchangeSpecification.setSslUri("https://api.staging.blockchain.info");
     exchangeSpecification.setHost("www.blockchain.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Blockchain Exchange");
@@ -45,7 +46,7 @@ public class BlockchainExchange extends BaseExchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-    throw new UnsupportedOperationException(NOT_IMPLEMENTED_YET);
+    throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
   }
 
   @Override
@@ -58,11 +59,11 @@ public class BlockchainExchange extends BaseExchange {
 
   @Override
   public MarketDataService getMarketDataService() {
-    throw new UnsupportedOperationException(NOT_IMPLEMENTED_YET);
+    throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
   }
 
   @Override
   public TradeService getTradeService() {
-    throw new UnsupportedOperationException(NOT_IMPLEMENTED_YET);
+    throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
   }
 }
