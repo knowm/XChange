@@ -5,7 +5,8 @@ import org.knowm.xchange.blockchain.BlockchainAuthenticated;
 import org.knowm.xchange.blockchain.BlockchainExchange;
 import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.blockchain.dto.account.*;
-import org.knowm.xchange.blockchain.dto.account.BlockchainSymbols;
+import org.knowm.xchange.blockchain.dto.account.BlockchainSymbol;
+import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -24,18 +25,18 @@ public abstract class BlockchainAccountServiceRaw extends BlockchainBaseService{
     }
 
     protected Map<String, List<BlockchainAccountInformation>> getAccountInformation() throws IOException, BlockchainException {
-        return decorateApiCall(() -> this.blockchainApi.getAccountInformation())
+        return decorateApiCall(this.blockchainApi::getAccountInformation)
                 .withRetry(retry(GET_ACCOUNT_INFORMATION))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
                 .call();
     }
-    protected BlockchainWithdrawal postWithdrawFunds(BlockchainWithdrawalRequest blockchainWithdrawalRequest) throws IOException, BlockchainException {
+    protected BlockchainWithdrawal postWithdrawFunds(BlockchainWithdrawalParams blockchainWithdrawalRequest) throws IOException, BlockchainException {
         return decorateApiCall(() -> this.blockchainApi.postWithdrawFunds(blockchainWithdrawalRequest))
                 .withRetry(retry(GET_WITHDRAWAL))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
                 .call();
     }
-    protected BlockchainDeposit getDepositAddress(Currency currency) throws IOException {
+    protected BlockchainDeposit getDepositAddress(Currency currency) throws IOException, BlockchainException {
         return decorateApiCall(() -> this.blockchainApi.getDepositAddress(currency.getCurrencyCode()))
                 .withRetry(retry(GET_DEPOSIT_ADDRESS))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
@@ -63,7 +64,7 @@ public abstract class BlockchainAccountServiceRaw extends BlockchainBaseService{
                 .call();
     }
 
-    public Map<String,BlockchainSymbols> getSymbols() throws IOException {
+    public Map<String, BlockchainSymbol> getSymbols() throws IOException {
         return decorateApiCall(this.blockchainApi::getSymbols)
                 .withRetry(retry(GET_SYMBOLS))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
@@ -72,8 +73,8 @@ public abstract class BlockchainAccountServiceRaw extends BlockchainBaseService{
 
     public List<CurrencyPair> getExchangeSymbols() throws IOException {
         List<CurrencyPair> currencyPairs = new ArrayList<>();
-        Map<String, BlockchainSymbols> symbol = this.getSymbols();
-        for (Map.Entry<String, BlockchainSymbols> entry : symbol.entrySet()) {
+        Map<String, BlockchainSymbol> symbol = this.getSymbols();
+        for (Map.Entry<String, BlockchainSymbol> entry : symbol.entrySet()) {
             currencyPairs.add(BlockchainAdapters.toCurrencyPairBySymbol(entry.getValue()));
         }
         return currencyPairs;

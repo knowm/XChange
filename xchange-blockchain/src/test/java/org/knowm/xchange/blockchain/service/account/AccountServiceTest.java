@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.blockchain.BlockchainExchange;
+import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 import org.knowm.xchange.blockchain.service.BlockchainBaseTest;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,9 +13,11 @@ import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -27,7 +30,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.*;
 
 public class AccountServiceTest extends BlockchainBaseTest {
-    private static AccountService service;
+    private AccountService service;
 
     @Before
     public void init() {
@@ -40,12 +43,6 @@ public class AccountServiceTest extends BlockchainBaseTest {
         AccountInfo response = getAccountInfo();
         System.out.println(response);
         Assert.assertNotNull(response);
-    }
-
-    private AccountInfo getAccountInfo() throws IOException {
-        stubGet(ACCOUNT_INFORMATION_JSON, 200, URL_ACCOUNT);
-
-        return service.getAccountInfo();
     }
 
     @Test(timeout = 2000)
@@ -62,11 +59,12 @@ public class AccountServiceTest extends BlockchainBaseTest {
                 .hasMessage(STATUS_CODE_401);
     }
 
-    private String withdraw(String responseFileName, int statusCode) throws IOException {
-        stubPost(responseFileName, statusCode, URL_WITHDRAWALS);
-
-        return service.withdrawFunds(
-                Currency.BTC, BigDecimal.valueOf(0.005), ADDRESS);
+    @Test(timeout = 2000)
+    public void withdrawException() {
+        Throwable exception = catchThrowable(() -> withdrawExcept());
+        assertThat(exception)
+                .isInstanceOf(NotYetImplementedForExchangeException.class)
+                .hasMessage(NOT_IMPLEMENTED_YET);
     }
 
     @Test(timeout = 2000)
@@ -77,16 +75,10 @@ public class AccountServiceTest extends BlockchainBaseTest {
 
     @Test(timeout = 2000)
     public void requestDepositAddressFailure() {
-        Throwable exception = catchThrowable(() -> withdraw(DEPOSIT_FAILURE_JSON, 400));
+        Throwable exception = catchThrowable(() -> requestDeposit(DEPOSIT_FAILURE_JSON, 400));
         assertThat(exception)
                 .isInstanceOf(ExchangeException.class)
                 .hasMessage(STATUS_CODE_400);
-    }
-
-    private String requestDeposit(String responseFileName, int statusCode) throws IOException {
-        stubPost(responseFileName, statusCode, URL_DEPOSIT_BY_CURRENCY);
-
-        return service.requestDepositAddress(Currency.BTC);
     }
 
     @Test(timeout = 2000)
@@ -100,16 +92,6 @@ public class AccountServiceTest extends BlockchainBaseTest {
                 });
     }
 
-    private List<FundingRecord> withdrawFundingHistory() throws IOException {
-        stubGet(WITHDRAWAL_HISTORY_SUCCESS_JSON, 200, URL_WITHDRAWALS);
-        TradeHistoryParams params = service.createFundingHistoryParams();
-        if (params instanceof HistoryParamsFundingType) {
-            ((HistoryParamsFundingType) params).setType(FundingRecord.Type.WITHDRAWAL);
-        }
-
-        return service.getFundingHistory(params);
-    }
-
     @Test(timeout = 2000)
     public void getDepositFundingHistorySuccess() throws Exception {
         List<FundingRecord> response = depositFundingHistory();
@@ -121,6 +103,52 @@ public class AccountServiceTest extends BlockchainBaseTest {
                 });
     }
 
+    @Test(timeout = 2000)
+    public void getDynamicTradingFeesSuccess() throws Exception {
+        Map<CurrencyPair, Fee> response = tradingFees();
+        Assert.assertNotNull(response);
+    }
+
+    private AccountInfo getAccountInfo() throws IOException {
+        stubGet(ACCOUNT_INFORMATION_JSON, 200, URL_ACCOUNT);
+
+        return service.getAccountInfo();
+    }
+
+    private String withdraw(String responseFileName, int statusCode) throws IOException {
+        stubPost(responseFileName, statusCode, URL_WITHDRAWALS);
+        WithdrawFundsParams params = BlockchainWithdrawalParams.builder()
+                .beneficiary(BENEFICIARY)
+                .currency(Currency.BTC)
+                .amount(BigDecimal.valueOf(0.0005))
+                .sendMax(false)
+                .build();
+
+        return service.withdrawFunds(params);
+    }
+
+    private String withdrawExcept() throws IOException {
+        stubPost(WITHDRAWAL_SUCCESS_JSON, 200, URL_WITHDRAWALS);
+        return service.withdrawFunds(
+                Currency.BTC, BigDecimal.valueOf(0.005), ADDRESS);
+    }
+
+    private String requestDeposit(String responseFileName, int statusCode) throws IOException {
+        stubPost(responseFileName, statusCode, URL_DEPOSIT_BY_CURRENCY);
+
+        return service.requestDepositAddress(Currency.BTC);
+    }
+
+    private List<FundingRecord> withdrawFundingHistory() throws IOException {
+        stubGet(WITHDRAWAL_HISTORY_SUCCESS_JSON, 200, URL_WITHDRAWALS);
+        TradeHistoryParams params = service.createFundingHistoryParams();
+        if (params instanceof HistoryParamsFundingType) {
+            ((HistoryParamsFundingType) params).setType(FundingRecord.Type.WITHDRAWAL);
+        }
+
+        return service.getFundingHistory(params);
+    }
+
     private List<FundingRecord> depositFundingHistory() throws IOException {
         stubGet(DEPOSIT_HISTORY_SUCCESS_JSON, 200, URL_DEPOSITS);
         TradeHistoryParams params = service.createFundingHistoryParams();
@@ -129,12 +157,6 @@ public class AccountServiceTest extends BlockchainBaseTest {
         }
 
         return service.getFundingHistory(params);
-    }
-
-    @Test(timeout = 2000)
-    public void getDynamicTradingFeesSuccess() throws Exception {
-        Map<CurrencyPair, Fee> response = tradingFees();
-        Assert.assertNotNull(response);
     }
 
     private Map<CurrencyPair, Fee> tradingFees() throws IOException {

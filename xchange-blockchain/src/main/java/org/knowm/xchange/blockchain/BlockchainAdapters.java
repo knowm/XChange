@@ -81,15 +81,7 @@ public class BlockchainAdapters {
                 null);
     }
 
-    public static BlockchainWithdrawalRequest toWithdrawalRequest(Currency currency, BigDecimal amount, String address){
-        return BlockchainWithdrawalRequest.builder()
-                .currency(currency)
-                .amount(amount)
-                .address(address)
-                .build();
-    }
-
-   public static CurrencyPair toCurrencyPairBySymbol(BlockchainSymbols blockchainSymbol) {
+   public static CurrencyPair toCurrencyPairBySymbol(BlockchainSymbol blockchainSymbol) {
         Currency baseSymbol = blockchainSymbol.getBaseCurrency();
         Currency counterSymbol = blockchainSymbol.getCounterCurrency();
         return new CurrencyPair(baseSymbol, counterSymbol);

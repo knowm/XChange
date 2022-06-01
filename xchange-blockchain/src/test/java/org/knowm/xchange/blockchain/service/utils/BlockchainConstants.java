@@ -24,4 +24,6 @@ public class BlockchainConstants {
     public static final String FEES_JSON = "fees.json";
     public static final String SYMBOL_JSON = "symbols.json";
     public static final String DEPOSIT_FAILURE_JSON = "deposit-failure.json";
+    public static final String NOT_IMPLEMENTED_YET = "Not implemented yet";
+    public static final String BENEFICIARY = "ea1f34b3-e77a-4646-9cfa-5d6d3518c6d3";
 }

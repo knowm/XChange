@@ -8,10 +8,12 @@ import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.blockchain.dto.account.BlockchainAccountInformation;
 import org.knowm.xchange.blockchain.dto.account.BlockchainFees;
 import org.knowm.xchange.blockchain.params.BlockchainFundingHistoryParams;
+import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.*;
@@ -24,8 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.knowm.xchange.blockchain.BlockchainConstants.FUNDING_RECORD_TYPE_UNSUPPORTED;
-import static org.knowm.xchange.blockchain.BlockchainConstants.WITHDRAWAL_EXCEPTION;
+import static org.knowm.xchange.blockchain.BlockchainConstants.*;
 
 public class BlockchainAccountService extends BlockchainAccountServiceRaw implements AccountService {
 
@@ -53,37 +54,51 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
         }
     }
 
+    /**
+     * Use {@link String withdrawFunds(WithdrawFundsParams params)} instead
+     */
     @Override
     public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-        try {
-            return this.postWithdrawFunds(BlockchainAdapters.toWithdrawalRequest(currency, amount, address)).getWithdrawalId();
-        } catch (BlockchainException e) {
+        throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
+    }
+
+    /**
+     * Use {@link String withdrawFunds(WithdrawFundsParams params)} instead
+     */
+    @Override
+    public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address) throws IOException {
+        throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
+    }
+
+    /**
+     * For more information see {@link WithdrawFundsParams}
+     */
+    @Override
+    public String withdrawFunds(WithdrawFundsParams params) throws IOException {
+        try{
+            if (params instanceof BlockchainWithdrawalParams) {
+                BlockchainWithdrawalParams defaultParams = (BlockchainWithdrawalParams) params;
+                if (defaultParams.getSendMax()){
+                    defaultParams = defaultParams.toBuilder()
+                            .amount(null)
+                            .build();
+                }
+                return this.postWithdrawFunds(defaultParams).getWithdrawalId();
+            }
+
+            throw new IllegalStateException(WITHDRAWAL_EXCEPTION);
+        } catch(BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);
         }
     }
 
     @Override
-    public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address) throws IOException {
-        return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
-    }
-
-    @Override
-    public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-        if (params instanceof DefaultWithdrawFundsParams) {
-            DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-            return postWithdrawFunds(BlockchainAdapters.toWithdrawalRequest(
-                    defaultParams.getCurrency(),
-                    defaultParams.getAmount(),
-                    defaultParams.getAddress()
-            )).getWithdrawalId();
-        }
-
-        throw new IllegalStateException(WITHDRAWAL_EXCEPTION + params);
-    }
-
-    @Override
     public String requestDepositAddress(Currency currency, String... args) throws IOException {
-        return this.getDepositAddress(currency).getAddress();
+        try {
+            return this.getDepositAddress(currency).getAddress();
+        } catch(BlockchainException e) {
+            throw BlockchainErrorAdapter.adapt(e);
+        }
     }
 
     @Override
@@ -101,6 +116,7 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
         try {
             Long startTime = null;
             Long endTime = null;
+            FundingRecord.Type historyParamsFundingType = ((HistoryParamsFundingType) params).getType();
 
             if (params instanceof TradeHistoryParamsTimeSpan) {
                 TradeHistoryParamsTimeSpan tp = (TradeHistoryParamsTimeSpan) params;
@@ -113,22 +129,18 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
             }
 
             List<FundingRecord> result = new ArrayList<>();
-            if (params instanceof HistoryParamsFundingType) {
-                if (((HistoryParamsFundingType) params).getType() != null) {
-                    switch (((HistoryParamsFundingType) params).getType()) {
-                        case WITHDRAWAL:
-                            this.withdrawHistory(startTime, endTime)
-                                    .forEach(w -> result.add(BlockchainAdapters.toFundingWithdrawal(w)));
-                            break;
-                        case DEPOSIT:
-                            this.depositHistory(startTime, endTime)
-                                    .forEach(d -> result.add(BlockchainAdapters.toFundingDeposit(d)));
-                            break;
-                        default:
-                            throw new IllegalArgumentException(
-                                    FUNDING_RECORD_TYPE_UNSUPPORTED
-                                            + ((HistoryParamsFundingType) params).getType());
-                    }
+            if (historyParamsFundingType != null) {
+                switch (historyParamsFundingType) {
+                    case WITHDRAWAL:
+                        this.withdrawHistory(startTime, endTime)
+                                .forEach(w -> result.add(BlockchainAdapters.toFundingWithdrawal(w)));
+                        break;
+                    case DEPOSIT:
+                        this.depositHistory(startTime, endTime)
+                                .forEach(d -> result.add(BlockchainAdapters.toFundingDeposit(d)));
+                        break;
+                    default:
+                        throw new IllegalArgumentException(FUNDING_RECORD_TYPE_UNSUPPORTED);
                 }
             }
 
@@ -142,7 +154,6 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
     public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
         try {
             BlockchainFees fees = this.getFees();
-
             Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
             List<CurrencyPair> pairs = this.getExchangeSymbols();
 
