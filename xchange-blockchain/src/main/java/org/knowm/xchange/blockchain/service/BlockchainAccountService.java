@@ -54,16 +54,25 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
         }
     }
 
+    /**
+     * Use {@link String withdrawFunds(WithdrawFundsParams params)} instead
+     */
     @Override
     public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
         throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
     }
 
+    /**
+     * Use {@link String withdrawFunds(WithdrawFundsParams params)} instead
+     */
     @Override
     public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address) throws IOException {
         throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
     }
 
+    /**
+     * For more information see {@link WithdrawFundsParams}
+     */
     @Override
     public String withdrawFunds(WithdrawFundsParams params) throws IOException {
         try{

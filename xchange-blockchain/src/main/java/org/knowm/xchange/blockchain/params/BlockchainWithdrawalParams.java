@@ -16,9 +16,10 @@ import java.math.BigDecimal;
 public class BlockchainWithdrawalParams implements WithdrawFundsParams {
 
     /**
-     * UUID that represent a whitelisted address
-     * to get the UUIDs of the whitelisted addresses, call this endpoint
-     * @see <a href="https://api.blockchain.info/v3/#/payments/getWhitelist">https://api.blockchain.info/v3/#/payments/getWhitelist</a>
+     * UUID representing a whitelist address that is indicated in the whitelistId field.
+     * Whitelist addresses can be managed in Blockchain Exchange UI.
+     * To obtain the UUIDs of the whitelist addresses, call this endpoint:
+     * @see <a href="https://api.blockchain.info/v3/#/payments/getWhitelist">getWhitelist</a>
      */
     public final String beneficiary;
     public final Currency currency;

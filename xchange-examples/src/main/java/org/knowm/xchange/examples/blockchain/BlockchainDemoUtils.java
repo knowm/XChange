@@ -7,7 +7,7 @@ import org.knowm.xchange.blockchain.BlockchainExchange;
 
 public class BlockchainDemoUtils {
     public static final Long END_TIME = 12 * 30 * 24 * 60 * 60 * 1000L;
-    public static final String BENEFICIARY = "ea1f34b3-e77a-4646-9cfa-5d6d3518c6d3";
+    public static final String BENEFICIARY = "8a2e42ee-c94a-4641-9208-9501cbc0fed0";
     public static Exchange createExchange() {
 
         Exchange bcd = ExchangeFactory.INSTANCE.createExchange(BlockchainExchange.class);

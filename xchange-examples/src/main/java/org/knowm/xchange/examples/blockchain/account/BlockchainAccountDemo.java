@@ -50,8 +50,8 @@ public class BlockchainAccountDemo {
         System.out.println("===== withdrawFunds =====");
         WithdrawFundsParams params = BlockchainWithdrawalParams.builder()
                 .beneficiary(BENEFICIARY)
-                .currency(Currency.BTC)
-                .amount(BigDecimal.valueOf(0.0005))
+                .currency(Currency.USDT)
+                .amount(BigDecimal.valueOf(5))
                 .sendMax(false)
                 .build();
         String withdraw = accountService.withdrawFunds(params);
