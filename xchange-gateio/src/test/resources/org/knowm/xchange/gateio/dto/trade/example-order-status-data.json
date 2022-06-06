@@ -1,14 +1,14 @@
 {
   "result": true,
   "order": {
-    "id": "12942570",
+    "orderNumber": "12942570",
     "status": "open",
-    "pair": "ltc_btc",
+    "currencyPair": "ltc_btc",
     "type": "sell",
     "rate": 0.0265,
     "amount": "0.384",
-    "initial_rate": 0.0265,
-    "initial_amount": "0.384"
+    "initialRate": 0.0265,
+    "initialAmount": "0.384"
   },
-  "msg": "Success"
+  "message": "Success"
 }

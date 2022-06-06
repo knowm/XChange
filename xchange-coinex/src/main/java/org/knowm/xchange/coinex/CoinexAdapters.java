@@ -1,7 +1,9 @@
 package org.knowm.xchange.coinex;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.coinex.dto.account.CoinexBalanceInfo;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;

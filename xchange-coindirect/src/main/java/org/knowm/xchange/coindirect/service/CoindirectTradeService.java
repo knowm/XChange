@@ -12,7 +12,12 @@ import org.knowm.xchange.coindirect.dto.trade.CoindirectOrderRequest;
 import org.knowm.xchange.coindirect.service.params.CoindirectTradeHistoryParams;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -168,15 +173,6 @@ public class CoindirectTradeService extends CoindirectTradeServiceRaw implements
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new CoindirectTradeHistoryParams();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    List<Order> orderList = new ArrayList<>();
-    for (String orderId : orderIds) {
-      orderList.add(CoindirectAdapters.adaptOrder(getExchangeOrder(orderId)));
-    }
-    return orderList;
   }
 
   @Override

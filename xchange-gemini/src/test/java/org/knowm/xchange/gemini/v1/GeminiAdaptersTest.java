@@ -9,9 +9,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
@@ -54,6 +54,52 @@ public class GeminiAdaptersTest {
     assertEquals(new BigDecimal("55.5"), wallet.getBalance(Currency.USD).getAvailable());
     assertEquals(new BigDecimal("50"), wallet.getBalance(Currency.BTC).getTotal());
     assertEquals(new BigDecimal("30"), wallet.getBalance(Currency.BTC).getAvailable());
+  }
+
+  @Test
+  public void testAdaptOrderResponseToOrder() throws IOException {
+    InputStream resourceAsStream =
+        GeminiAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gemini/v1/order/example-get-order-data.json");
+    GeminiOrderStatusResponse response =
+        new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse.class);
+    Order order = GeminiAdapters.adaptOrder(response);
+
+    assertEquals("54323412782", order.getId());
+    assertEquals(new Date(1629770740526L), order.getTimestamp());
+    assertEquals(CurrencyPair.ETH_USD, order.getInstrument());
+
+    assertEquals(OrderType.ASK, order.getType());
+    assertEquals(new BigDecimal("0.001"), order.getOriginalAmount());
+    assertEquals(new BigDecimal("0.00"), order.getAveragePrice());
+
+    assertEquals(Order.OrderStatus.OPEN, order.getStatus());
+    assertEquals(BigDecimal.ZERO, order.getCumulativeAmount());
+  }
+
+  @Test
+  public void testAdaptOrderResponseContainingTradesToOrder() throws IOException {
+    InputStream resourceAsStream =
+        GeminiAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gemini/v1/order/example-get-order-data-trades-included.json");
+    GeminiOrderStatusResponse response =
+        new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse.class);
+    Order order = GeminiAdapters.adaptOrder(response);
+
+    assertEquals("54516439535", order.getId());
+    assertEquals("TESTID0", order.getUserReference());
+
+    assertEquals(new Date(1629872367328L), order.getTimestamp());
+    assertEquals(CurrencyPair.ETH_USD, order.getInstrument());
+
+    assertEquals(OrderType.ASK, order.getType());
+    assertEquals(new BigDecimal("0.001"), order.getOriginalAmount());
+    assertEquals(new BigDecimal("3206.00"), order.getAveragePrice());
+    assertEquals(new BigDecimal("0.001"), order.getCumulativeAmount());
+    assertEquals(new BigDecimal("0.000"), order.getRemainingAmount());
+    assertEquals(new BigDecimal("0.003206"), order.getFee());
+
+    assertEquals(Order.OrderStatus.FILLED, order.getStatus());
   }
 
   @Test
@@ -136,16 +182,10 @@ public class GeminiAdaptersTest {
   public void testAdaptOrdersToOpenOrdersFiltersByCurrencyPair() {
 
     GeminiOrderStatusResponse[] responsesToRetain =
-            ArrayUtils.addAll(
-                    initOrderStatusResponses(SYMBOL),
-                    initOrderStatusResponses(SYMBOL)
-            );
+        ArrayUtils.addAll(initOrderStatusResponses(SYMBOL), initOrderStatusResponses(SYMBOL));
 
     GeminiOrderStatusResponse[] responses =
-            ArrayUtils.addAll(
-                    initOrderStatusResponses("ETHBTC"),
-                    responsesToRetain
-                    );
+        ArrayUtils.addAll(initOrderStatusResponses("ETHBTC"), responsesToRetain);
 
     OpenOrders orders = GeminiAdapters.adaptOrders(responses, CurrencyPair.BTC_USD);
     assertEquals(orders.getOpenOrders().size(), responsesToRetain.length);
@@ -153,7 +193,9 @@ public class GeminiAdaptersTest {
     for (int i = 0; i < responsesToRetain.length; i++) {
       LimitOrder order = orders.getOpenOrders().get(i);
       long expectedTimestampMillis =
-          new BigDecimal(responsesToRetain[i].getTimestamp()).multiply(new BigDecimal(1000L)).longValue();
+          new BigDecimal(responsesToRetain[i].getTimestamp())
+              .multiply(new BigDecimal(1000L))
+              .longValue();
       Order.OrderType expectedOrderType =
           responsesToRetain[i].getSide().equalsIgnoreCase("buy")
               ? Order.OrderType.BID
@@ -200,6 +242,7 @@ public class GeminiAdaptersTest {
       responses[i] =
           new GeminiOrderStatusResponse(
               i,
+              null,
               "Gemini",
               symbol,
               price,
@@ -213,7 +256,8 @@ public class GeminiAdaptersTest {
               wasForced,
               originalAmount,
               remainingAmount,
-              executedAmount);
+              executedAmount,
+              null);
     }
 
     return responses;
@@ -310,13 +354,13 @@ public class GeminiAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-            GeminiAdaptersTest.class.getResourceAsStream(
-                    "/org/knowm/xchange/gemini/v1/order/limit-order-partially-filled.json");
+        GeminiAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gemini/v1/order/limit-order-partially-filled.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     GeminiOrderStatusResponse geminiOrderStatusResponse =
-            mapper.readValue(is, GeminiOrderStatusResponse.class);
+        mapper.readValue(is, GeminiOrderStatusResponse.class);
 
     Order order = GeminiAdapters.adaptOrder(geminiOrderStatusResponse);
 
@@ -333,13 +377,13 @@ public class GeminiAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-            GeminiAdaptersTest.class.getResourceAsStream(
-                    "/org/knowm/xchange/gemini/v1/order/limit-order-untouched.json");
+        GeminiAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gemini/v1/order/limit-order-untouched.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     GeminiOrderStatusResponse geminiOrderStatusResponse =
-            mapper.readValue(is, GeminiOrderStatusResponse.class);
+        mapper.readValue(is, GeminiOrderStatusResponse.class);
 
     Order order = GeminiAdapters.adaptOrder(geminiOrderStatusResponse);
 

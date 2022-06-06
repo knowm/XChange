@@ -91,7 +91,8 @@ public class GateioTradeDemo {
     List<GateioOpenOrder> openOrdersList = openOrders.getOrders();
     if (!openOrdersList.isEmpty()) {
       String existingOrderId = openOrdersList.get(0).getId();
-      GateioOrderStatus orderStatus = tradeService.getGateioOrderStatus(existingOrderId);
+      GateioOrderStatus orderStatus =
+          tradeService.getGateioOrderStatus(existingOrderId, CurrencyPair.LTC_BTC);
       System.out.println(orderStatus);
 
       boolean isCancelled =

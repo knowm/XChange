@@ -3,11 +3,14 @@ package org.knowm.xchange.gemini.v1.dto.trade;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import lombok.Getter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
 public class GeminiOrderStatusResponse {
 
   private final long id;
+  private final String clientOrderId;
   private final String exchange;
   private final String symbol;
   private final BigDecimal price;
@@ -22,6 +25,7 @@ public class GeminiOrderStatusResponse {
   private final BigDecimal originalAmount;
   private final BigDecimal remainingAmount;
   private final BigDecimal executedAmount;
+  private final OrderStatusTradeDetails[] trades;
 
   /**
    * Constructor
@@ -39,9 +43,11 @@ public class GeminiOrderStatusResponse {
    * @param originalAmount
    * @param remainingAmount
    * @param executedAmount
+   * @param trades
    */
   public GeminiOrderStatusResponse(
       @JsonProperty("order_id") long id,
+      @JsonProperty("client_order_id") String clientOrderId,
       @JsonProperty("exchange") String exchange,
       @JsonProperty("symbol") String symbol,
       @JsonProperty("price") BigDecimal price,
@@ -55,9 +61,10 @@ public class GeminiOrderStatusResponse {
       @JsonProperty("was_forced") boolean wasForced,
       @JsonProperty("original_amount") BigDecimal originalAmount,
       @JsonProperty("remaining_amount") BigDecimal remainingAmount,
-      @JsonProperty("executed_amount") BigDecimal executedAmount) {
-
+      @JsonProperty("executed_amount") BigDecimal executedAmount,
+      @JsonProperty("trades") OrderStatusTradeDetails[] trades) {
     this.id = id;
+    this.clientOrderId = clientOrderId;
     this.exchange = exchange;
     this.symbol = symbol;
     this.price = price;
@@ -72,80 +79,15 @@ public class GeminiOrderStatusResponse {
     this.originalAmount = originalAmount;
     this.remainingAmount = remainingAmount;
     this.executedAmount = executedAmount;
+    this.trades = trades;
   }
 
-  public BigDecimal getExecutedAmount() {
-
-    return executedAmount;
-  }
-
-  public BigDecimal getRemainingAmount() {
-
-    return remainingAmount;
-  }
-
-  public BigDecimal getOriginalAmount() {
-
-    return originalAmount;
-  }
-
-  public boolean getWasForced() {
-
-    return wasForced;
-  }
-
-  public String getType() {
-
-    return type;
-  }
-
-  public String getSymbol() {
-
-    return symbol;
-  }
-
-  public boolean isCancelled() {
-
-    return isCancelled;
-  }
-
-  public BigDecimal getPrice() {
-
-    return price;
-  }
-
-  public String getSide() {
-
-    return side;
-  }
-
-  public String getTimestamp() {
-
-    return timestamp;
-  }
-
-  public long getId() {
-
-    return id;
-  }
-
-  public boolean isLive() {
-
-    return isLive;
-  }
-
-  public BigDecimal getAvgExecutionPrice() {
-
-    return avgExecutionPrice;
-  }
-
-  public Long getTimestampms() {
-    return timestampms;
+  public OrderStatusTradeDetails[] getTrades() {
+    return this.trades;
   }
 
   @Override
   public String toString() {
-
     StringBuilder builder = new StringBuilder();
     builder.append("GeminiOrderStatusResponse [id=");
     builder.append(id);
@@ -175,5 +117,54 @@ public class GeminiOrderStatusResponse {
     builder.append(executedAmount);
     builder.append("]");
     return builder.toString();
+  }
+
+  @Getter
+  public static class OrderStatusTradeDetails {
+    private BigDecimal price;
+    private BigDecimal amount;
+    private String timestamp;
+    private String timestampms;
+    private String type;
+    private boolean aggressor;
+    private String feeCurrency;
+    private BigDecimal feeAmount;
+    private long tradeId;
+    private String orderId;
+    private String clientOrderId;
+    private String exchange;
+    private boolean isAuctionFill;
+    private String Break;
+
+    public OrderStatusTradeDetails(
+        @JsonProperty("price") BigDecimal price,
+        @JsonProperty("amount") BigDecimal amount,
+        @JsonProperty("timestamp") String timestamp,
+        @JsonProperty("timestampms") String timestampms,
+        @JsonProperty("type") String type,
+        @JsonProperty("aggressor") boolean aggressor,
+        @JsonProperty("fee_currency") String feeCurrency,
+        @JsonProperty("fee_amount") String feeAmount,
+        @JsonProperty("tid") long tradeId,
+        @JsonProperty("order_id") String orderId,
+        @JsonProperty("client_order_id") String clientOrderId,
+        @JsonProperty("exchange") String exchange,
+        @JsonProperty("is_auction_fill") boolean isAuctionFill,
+        @JsonProperty("break") String Break) {
+      this.price = price;
+      this.amount = amount;
+      this.timestamp = timestamp;
+      this.timestampms = timestampms;
+      this.type = type;
+      this.aggressor = aggressor;
+      this.feeCurrency = feeCurrency;
+      this.feeAmount = new BigDecimal(feeAmount);
+      this.tradeId = tradeId;
+      this.orderId = orderId;
+      this.clientOrderId = clientOrderId;
+      this.exchange = exchange;
+      this.isAuctionFill = isAuctionFill;
+      this.Break = Break;
+    }
   }
 }

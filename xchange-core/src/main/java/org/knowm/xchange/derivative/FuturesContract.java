@@ -3,11 +3,7 @@ package org.knowm.xchange.derivative;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Objects;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
@@ -17,23 +13,19 @@ public class FuturesContract extends Instrument
 
   private static final long serialVersionUID = 6876906648149216819L;
 
-  private static final ThreadLocal<DateFormat> DATE_PARSER =
-      ThreadLocal.withInitial(() -> new SimpleDateFormat("yyMMdd"));
-  private static final String PERPETUAL = "perpetual";
-
   private static final Comparator<FuturesContract> COMPARATOR =
       Comparator.comparing(FuturesContract::getCurrencyPair)
-          .thenComparing(FuturesContract::getExpireDate);
+          .thenComparing(FuturesContract::getPrompt);
 
   /** The CurrencyPair the FuturesContract is based upon */
   private final CurrencyPair currencyPair;
 
   /** The Date when the FuturesContract expires, when null it is perpetual */
-  private final Date expireDate;
+  private final String prompt;
 
-  public FuturesContract(CurrencyPair currencyPair, Date expireDate) {
+  public FuturesContract(CurrencyPair currencyPair, String prompt) {
     this.currencyPair = currencyPair;
-    this.expireDate = expireDate;
+    this.prompt = prompt;
   }
 
   @JsonCreator
@@ -45,20 +37,11 @@ public class FuturesContract extends Instrument
 
     String base = parts[0];
     String counter = parts[1];
-    String expireDate = parts[2];
+
+    String prompt = parts[2];
     this.currencyPair = new CurrencyPair(base, counter);
-    if (!PERPETUAL.equalsIgnoreCase(expireDate)) {
-      try {
-        this.expireDate = DATE_PARSER.get().parse(expireDate);
-      } catch (ParseException e) {
-        throw new IllegalArgumentException(
-            "Could not parse expire date from '"
-                + symbol
-                + "'. It has to be either a 'yyMMdd' date or 'perpetual'");
-      }
-    } else {
-      this.expireDate = null;
-    }
+
+    this.prompt = prompt;
   }
 
   @Override
@@ -66,12 +49,12 @@ public class FuturesContract extends Instrument
     return currencyPair;
   }
 
-  public Date getExpireDate() {
-    return expireDate;
+  public String getPrompt() {
+    return prompt;
   }
 
   public boolean isPerpetual() {
-    return this.expireDate == null;
+    return this.prompt.matches("(?i)PERP|SWAP|PERPETUAL");
   }
 
   @Override
@@ -85,20 +68,18 @@ public class FuturesContract extends Instrument
     if (o == null || getClass() != o.getClass()) return false;
     final FuturesContract contract = (FuturesContract) o;
     return Objects.equals(currencyPair, contract.currencyPair)
-        && Objects.equals(expireDate, contract.expireDate);
+        && Objects.equals(prompt, contract.prompt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(currencyPair, expireDate);
+    return Objects.hash(currencyPair, prompt);
   }
 
   @JsonValue
   @Override
   public String toString() {
 
-    return currencyPair
-        + "/"
-        + (expireDate == null ? PERPETUAL : DATE_PARSER.get().format(this.expireDate));
+    return currencyPair + "/" + prompt;
   }
 }

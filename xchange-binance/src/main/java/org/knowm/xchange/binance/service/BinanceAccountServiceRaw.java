@@ -3,7 +3,6 @@ package org.knowm.xchange.binance.service;
 import static org.knowm.xchange.binance.BinanceResilience.REQUEST_WEIGHT_RATE_LIMITER;
 import static org.knowm.xchange.client.ResilienceRegistries.NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,8 +11,15 @@ import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.account.*;
+import org.knowm.xchange.binance.dto.account.AssetDetail;
+import org.knowm.xchange.binance.dto.account.AssetDividendResponse;
+import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.BinanceDeposit;
+import org.knowm.xchange.binance.dto.account.BinanceWithdraw;
+import org.knowm.xchange.binance.dto.account.DepositAddress;
+import org.knowm.xchange.binance.dto.account.TransferHistory;
+import org.knowm.xchange.binance.dto.account.TransferSubUserHistory;
+import org.knowm.xchange.binance.dto.account.WithdrawResponse;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 
@@ -34,41 +40,39 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public String withdraw(String coin, String address, BigDecimal amount)
+  public WithdrawResponse withdraw(String coin, String address, BigDecimal amount)
       throws IOException, BinanceException {
     // the name parameter seams to be mandatory
     String name = address.length() <= 10 ? address : address.substring(0, 10);
     return withdraw(coin, address, null, amount, name);
   }
 
-  public String withdraw(String coin, String address, String addressTag, BigDecimal amount)
+  public WithdrawResponse withdraw(
+      String coin, String address, String addressTag, BigDecimal amount)
       throws IOException, BinanceException {
     // the name parameter seams to be mandatory
     String name = address.length() <= 10 ? address : address.substring(0, 10);
     return withdraw(coin, address, addressTag, amount, name);
   }
 
-  private String withdraw(
+  private WithdrawResponse withdraw(
       String coin, String address, String addressTag, BigDecimal amount, String name)
       throws IOException, BinanceException {
-    WithdrawRequest result =
-        decorateApiCall(
-                () ->
-                    binance.withdraw(
-                        coin,
-                        address,
-                        addressTag,
-                        amount,
-                        name,
-                        getRecvWindow(),
-                        getTimestampFactory(),
-                        apiKey,
-                        signatureCreator))
-            .withRetry(retry("withdraw", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
-            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
-            .call();
-    checkApiResponse(result);
-    return result.getData();
+    return decorateApiCall(
+            () ->
+                binance.withdraw(
+                    coin,
+                    address,
+                    addressTag,
+                    amount,
+                    name,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
+        .withRetry(retry("withdraw", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
+        .call();
   }
 
   public DepositAddress requestDepositAddress(Currency currency) throws IOException {
@@ -127,18 +131,6 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         .withRetry(retry("withdrawHistory"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
         .call();
-  }
-
-  public AssetDribbletLogResponse.AssetDribbletLogResults getAssetDribbletLog()
-      throws BinanceException, IOException {
-    return decorateApiCall(
-            () ->
-                binance.userAssetDribbletLog(
-                    getRecvWindow(), getTimestampFactory(), super.apiKey, super.signatureCreator))
-        .withRetry(retry("userAssetDribbletLog"))
-        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
-        .call()
-        .getData();
   }
 
   public List<AssetDividendResponse.AssetDividend> getAssetDividend(Long startTime, Long endTime)
@@ -202,18 +194,5 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         .withRetry(retry("transferSubUserHistory"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
         .call();
-  }
-
-  private <T> T checkApiResponse(ApiResponse<T> result) {
-    if (!result.success) {
-      BinanceException exception;
-      try {
-        exception = new ObjectMapper().readValue(result.msg, BinanceException.class);
-      } catch (Throwable e) {
-        exception = new BinanceException(-1, result.msg);
-      }
-      throw exception;
-    }
-    return result.getData();
   }
 }

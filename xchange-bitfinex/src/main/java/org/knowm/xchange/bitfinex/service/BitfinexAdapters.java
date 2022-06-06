@@ -3,13 +3,35 @@ package org.knowm.xchange.bitfinex.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeeResponse;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.*;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendLevel;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
@@ -36,21 +58,18 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
+import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public final class BitfinexAdapters {
 
@@ -696,9 +715,10 @@ public final class BitfinexAdapters {
   }
 
   public static ExchangeMetaData adaptMetaData(
-          BitfinexAccountFeesResponse accountFeesResponse, int platformStatus,
-          boolean platformStatusPresent,
-          ExchangeMetaData metaData) {
+      BitfinexAccountFeesResponse accountFeesResponse,
+      int platformStatus,
+      boolean platformStatusPresent,
+      ExchangeMetaData metaData) {
     final WalletHealth health;
     if (platformStatusPresent) {
       if (platformStatus == PLATFORM_STATUS_ONLINE) {
@@ -722,7 +742,9 @@ public final class BitfinexAdapters {
                   currencies.get(currency) == null
                       ? withdrawalFee.scale()
                       : Math.max(withdrawalFee.scale(), currencies.get(currency).getScale()),
-                  withdrawalFee, null, health);
+                  withdrawalFee,
+                  null,
+                  health);
           currencies.put(currency, newMetaData);
         });
     return metaData;

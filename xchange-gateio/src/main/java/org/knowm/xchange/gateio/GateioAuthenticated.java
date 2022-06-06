@@ -113,7 +113,8 @@ public interface GateioAuthenticated extends Gateio {
   @POST
   @Path("private/getorder")
   GateioOrderStatus getOrderStatus(
-      @FormParam("order_id") String orderId,
+      @FormParam("orderNumber") String orderNumber,
+      @FormParam("currencyPair") String currencyPair,
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("SIGN") ParamsDigest signer)
       throws IOException;

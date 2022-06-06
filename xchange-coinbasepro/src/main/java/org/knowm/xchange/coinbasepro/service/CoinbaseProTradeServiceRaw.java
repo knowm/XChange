@@ -8,7 +8,11 @@ import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbasePagedResponse;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
-import org.knowm.xchange.coinbasepro.dto.trade.*;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProIdResponse;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceOrder;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
@@ -42,15 +46,15 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
     try {
       return decorateApiCall(
               () ->
-                      coinbasePro.getListOrders(
-                              apiKey,
-                              digest,
-                              UnixTimestampFactory.INSTANCE.createValue(),
-                              passphrase,
-                              "open",
-                              productId))
-              .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-              .call();
+                  coinbasePro.getListOrders(
+                      apiKey,
+                      digest,
+                      UnixTimestampFactory.INSTANCE.createValue(),
+                      passphrase,
+                      "open",
+                      productId))
+          .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }

@@ -1,6 +1,6 @@
 package org.knowm.xchange.latoken.dto.marketdata;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;

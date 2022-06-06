@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.coinmate.v2;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectReader;
 import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebSocketUserTrade;
 import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebsocketOpenOrder;
@@ -8,6 +9,7 @@ import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -38,9 +40,16 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
         .subscribeChannel(channelName, true)
         .map(
             (message) -> {
-              List<CoinmateWebsocketOpenOrder> websocketOpenOrders =
-                  Arrays.asList(
-                      reader.readValue(message.get("payload"), CoinmateWebsocketOpenOrder[].class));
+              JsonNode payload = message.get("payload");
+              List<CoinmateWebsocketOpenOrder> websocketOpenOrders;
+              if (payload.isArray()) {
+                websocketOpenOrders =
+                    Arrays.asList(reader.readValue(payload, CoinmateWebsocketOpenOrder[].class));
+              } else {
+                websocketOpenOrders =
+                    Collections.singletonList(
+                        reader.readValue(payload, CoinmateWebsocketOpenOrder.class));
+              }
               return CoinmateStreamingAdapter.adaptWebsocketOpenOrders(
                   websocketOpenOrders, currencyPair);
             })

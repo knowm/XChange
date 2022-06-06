@@ -1,9 +1,8 @@
 package org.knowm.xchange.ftx.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderSide;
-
 import java.math.BigDecimal;
+import org.knowm.xchange.ftx.dto.trade.FtxOrderSide;
 
 public class FtxPositionDto {
 

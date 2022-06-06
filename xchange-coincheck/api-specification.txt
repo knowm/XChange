@@ -1,0 +1,10 @@
+Coincheck Exchange API specification
+================================
+
+Documentation
+-------------
+https://coincheck.com/documents/exchange/api
+
+REQUEST LIMITS
+------
+* New order to the exchange can be up to 5 requests per second.

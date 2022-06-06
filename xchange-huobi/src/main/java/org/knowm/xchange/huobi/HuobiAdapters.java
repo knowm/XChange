@@ -2,7 +2,11 @@ package org.knowm.xchange.huobi;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -15,7 +19,11 @@ import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.*;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -27,7 +35,12 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceRecord;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceSum;
 import org.knowm.xchange.huobi.dto.account.HuobiFundingRecord;
-import org.knowm.xchange.huobi.dto.marketdata.*;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiAllTicker;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiAsset;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiAssetPair;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiCurrency;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiCurrencyWrapper;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiTicker;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
 
 public class HuobiAdapters {
@@ -44,7 +57,7 @@ public class HuobiAdapters {
     builder.last(huobiTicker.getClose());
     builder.high(huobiTicker.getHigh());
     builder.low(huobiTicker.getLow());
-    builder.volume(huobiTicker.getVol());
+    builder.quoteVolume(huobiTicker.getVol());
     builder.timestamp(huobiTicker.getTs());
     builder.currencyPair(currencyPair);
     return builder.build();
@@ -69,15 +82,17 @@ public class HuobiAdapters {
                     .last(huobiTicker.getClose())
                     .high(huobiTicker.getHigh())
                     .low(huobiTicker.getLow())
-                    .volume(huobiTicker.getVol())
+                    .quoteVolume(huobiTicker.getVol())
                     .timestamp(huobiTicker.getTs())
                     .build())
         .collect(Collectors.toList());
   }
 
   static ExchangeMetaData adaptToExchangeMetaData(
-          HuobiAssetPair[] assetPairs, HuobiAsset[] assets,
-          ExchangeMetaData staticMetaData, HuobiCurrencyWrapper[] currencyWrapper) {
+      HuobiAssetPair[] assetPairs,
+      HuobiAsset[] assets,
+      ExchangeMetaData staticMetaData,
+      HuobiCurrencyWrapper[] currencyWrapper) {
 
     HuobiUtils.setHuobiAssets(assets);
     HuobiUtils.setHuobiAssetPairs(assetPairs);
@@ -94,7 +109,8 @@ public class HuobiAdapters {
       if (huobiCurrencyWrapper.getHuobiCurrencies().length != 0) {
         boolean isDelisted = DELISTED.equals(huobiCurrencyWrapper.getInstStatus());
         CurrencyMetaData currencyMetaData = adaptCurrencyMetaData(huobiCurrencyWrapper, isDelisted);
-        Currency currency = HuobiUtils.translateHuobiCurrencyCode(huobiCurrencyWrapper.getCurrency());
+        Currency currency =
+            HuobiUtils.translateHuobiCurrencyCode(huobiCurrencyWrapper.getCurrency());
         currencies.put(currency, currencyMetaData);
       }
     }
@@ -102,7 +118,8 @@ public class HuobiAdapters {
     return new ExchangeMetaData(pairs, currencies, null, null, false);
   }
 
-  private static CurrencyMetaData adaptCurrencyMetaData(HuobiCurrencyWrapper huobiCurrencyWrapper, boolean isDelisted) {
+  private static CurrencyMetaData adaptCurrencyMetaData(
+      HuobiCurrencyWrapper huobiCurrencyWrapper, boolean isDelisted) {
     CurrencyMetaData result = null;
     List<HuobiCurrency> huobiCurrencies = Arrays.asList(huobiCurrencyWrapper.getHuobiCurrencies());
     if (!huobiCurrencies.isEmpty()) {
@@ -117,17 +134,21 @@ public class HuobiAdapters {
     return result;
   }
 
-  private static CurrencyMetaData getCurrencyMetaData(HuobiCurrency huobiCurrency, boolean isDelisted) {
+  private static CurrencyMetaData getCurrencyMetaData(
+      HuobiCurrency huobiCurrency, boolean isDelisted) {
     int withdrawPrecision = huobiCurrency.getWithdrawPrecision();
     BigDecimal transactFeeWithdraw = new BigDecimal(huobiCurrency.getTransactFeeWithdraw());
     BigDecimal minWithdrawAmt = new BigDecimal(huobiCurrency.getMinWithdrawAmt());
-    WalletHealth walletHealthStatus = isDelisted ? WalletHealth.OFFLINE : getWalletHealthStatus(huobiCurrency);
-    return new CurrencyMetaData(withdrawPrecision, transactFeeWithdraw, minWithdrawAmt, walletHealthStatus);
+    WalletHealth walletHealthStatus =
+        isDelisted ? WalletHealth.OFFLINE : getWalletHealthStatus(huobiCurrency);
+    return new CurrencyMetaData(
+        withdrawPrecision, transactFeeWithdraw, minWithdrawAmt, walletHealthStatus);
   }
 
   private static WalletHealth getWalletHealthStatus(HuobiCurrency huobiCurrency) {
     WalletHealth walletHealth = WalletHealth.ONLINE;
-    if (!ONLINE.equals(huobiCurrency.getDepositStatus()) && !ONLINE.equals(huobiCurrency.getWithdrawStatus())) {
+    if (!ONLINE.equals(huobiCurrency.getDepositStatus())
+        && !ONLINE.equals(huobiCurrency.getWithdrawStatus())) {
       walletHealth = WalletHealth.OFFLINE;
     } else if (!ONLINE.equals(huobiCurrency.getDepositStatus())) {
       walletHealth = WalletHealth.DEPOSITS_DISABLED;
@@ -223,7 +244,8 @@ public class HuobiAdapters {
     OrderType orderType = adaptOrderType(openOrder.getType());
     CurrencyPair currencyPair = adaptCurrencyPair(openOrder.getSymbol());
     BigDecimal openOrderAvgPrice;
-    if (openOrder.getFieldAmount().compareTo(BigDecimal.ZERO) == 0) {
+    if (openOrder.getFieldAmount() == null
+        || openOrder.getFieldAmount().compareTo(BigDecimal.ZERO) == 0) {
       openOrderAvgPrice = BigDecimal.ZERO;
     } else {
       openOrderAvgPrice =

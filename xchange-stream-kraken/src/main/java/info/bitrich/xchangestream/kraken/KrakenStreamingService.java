@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -198,7 +197,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
               reqID,
               subscribe,
               Collections.singletonList(pair),
-              new KrakenSubscriptionConfig(subscriptionName, parseOrderBookSize(args),null));
+              new KrakenSubscriptionConfig(subscriptionName, parseOrderBookSize(args), null));
       return objectMapper.writeValueAsString(subscriptionMessage);
     }
   }
@@ -277,10 +276,10 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
           return obSize;
         }
         LOG.error(
-                "Invalid order book size {}. Valid values: {}. Default order book size has been used: {}",
-                obSize,
-                ArrayUtils.toString(KRAKEN_VALID_ORDER_BOOK_SIZES),
-                ORDER_BOOK_SIZE_DEFAULT);
+            "Invalid order book size {}. Valid values: {}. Default order book size has been used: {}",
+            obSize,
+            ArrayUtils.toString(KRAKEN_VALID_ORDER_BOOK_SIZES),
+            ORDER_BOOK_SIZE_DEFAULT);
         return ORDER_BOOK_SIZE_DEFAULT;
       }
     }

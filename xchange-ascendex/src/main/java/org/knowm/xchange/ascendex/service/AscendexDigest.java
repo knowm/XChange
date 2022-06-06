@@ -1,11 +1,10 @@
 package org.knowm.xchange.ascendex.service;
 
-import org.knowm.xchange.service.BaseParamsDigest;
-import si.mazi.rescu.RestInvocation;
-
-import javax.crypto.Mac;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import javax.crypto.Mac;
+import org.knowm.xchange.service.BaseParamsDigest;
+import si.mazi.rescu.RestInvocation;
 
 public class AscendexDigest extends BaseParamsDigest {
 

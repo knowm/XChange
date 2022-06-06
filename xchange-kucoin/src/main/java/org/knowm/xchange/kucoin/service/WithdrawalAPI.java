@@ -25,7 +25,7 @@ public interface WithdrawalAPI {
    * Apply withdraw.
    *
    * @see https://docs.kucoin.com/#apply-withdraw
-   * @param withdraw creation request
+   * @param req creation request
    */
   @POST
   @Consumes(MediaType.APPLICATION_JSON)

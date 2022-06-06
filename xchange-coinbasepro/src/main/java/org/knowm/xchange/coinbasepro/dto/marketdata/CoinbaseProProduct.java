@@ -18,6 +18,7 @@ public class CoinbaseProProduct {
   private final boolean limitOnly;
   private final boolean postOnly;
   private final boolean tradingDisabled;
+  private final boolean fxStablecoin;
   private final String status;
 
   public CoinbaseProProduct(
@@ -34,6 +35,7 @@ public class CoinbaseProProduct {
       @JsonProperty("limit_only") boolean limitOnly,
       @JsonProperty("post_only") boolean postOnly,
       @JsonProperty("trading_disabled") boolean tradingDisabled,
+      @JsonProperty("fx_stablecoin") boolean fxStablecoin,
       @JsonProperty("status") String status) {
 
     this.id = id;
@@ -49,6 +51,7 @@ public class CoinbaseProProduct {
     this.limitOnly = limitOnly;
     this.postOnly = postOnly;
     this.tradingDisabled = tradingDisabled;
+    this.fxStablecoin = fxStablecoin;
     this.status = status;
   }
 
@@ -108,6 +111,10 @@ public class CoinbaseProProduct {
 
   public boolean isTradingDisabled() {
     return tradingDisabled;
+  }
+
+  public boolean isFxStablecoin() {
+    return fxStablecoin;
   }
 
   public String getStatus() {

@@ -11,7 +11,6 @@ public class BaseWiremockTest {
 
   @Rule public WireMockRule wireMockRule = new WireMockRule();
 
-
   public Exchange createExchange() {
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(GeminiExchange.class);

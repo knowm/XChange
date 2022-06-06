@@ -19,6 +19,8 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelAllOrdersRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelAllOrdersResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelOrderRequest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewOrderRequest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiNonceOnlyRequest;
@@ -58,6 +60,24 @@ public interface GeminiAuthenticated extends Gemini {
       @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
       GeminiCancelOrderRequest cancelOrderRequest)
+      throws IOException, GeminiException;
+
+  @POST
+  @Path("order/cancel/session")
+  GeminiCancelAllOrdersResponse cancelAllSessionOrders(
+      @HeaderParam("X-GEMINI-APIKEY") String apiKey,
+      @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
+      GeminiCancelAllOrdersRequest cancelAllOrdersRequest)
+      throws IOException, GeminiException;
+
+  @POST
+  @Path("order/cancel/all")
+  GeminiCancelAllOrdersResponse cancelAllOrders(
+      @HeaderParam("X-GEMINI-APIKEY") String apiKey,
+      @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
+      GeminiCancelAllOrdersRequest cancelAllOrdersRequest)
       throws IOException, GeminiException;
 
   @POST
@@ -125,5 +145,14 @@ public interface GeminiAuthenticated extends Gemini {
       @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payloadCreator,
       @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signatureCreator,
       GeminiTransfersRequest request)
+      throws IOException, GeminiException;
+
+  @POST
+  @Path("heartbeat")
+  GeminiOrderStatusResponse heartBeat(
+      @HeaderParam("X-GEMINI-APIKEY") String apiKey,
+      @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payloadCreator,
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signatureCreator,
+      GeminiNonceOnlyRequest nonceOnlyRequest)
       throws IOException, GeminiException;
 }

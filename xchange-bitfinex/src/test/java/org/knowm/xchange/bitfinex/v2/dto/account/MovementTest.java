@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitfinex.v2.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.ArrayType;

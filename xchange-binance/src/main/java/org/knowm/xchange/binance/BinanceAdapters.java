@@ -2,10 +2,14 @@ package org.knowm.xchange.binance;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
@@ -30,9 +34,14 @@ public class BinanceAdapters {
 
   private BinanceAdapters() {}
 
+  /**
+   * Converts a datetime as string in time zone UTC to a Date object
+   *
+   * @param dateTime String that represents datetime in zone UTC
+   * @return Date Object in time zone UTC
+   */
   public static Date toDate(String dateTime) {
-    return java.util.Date.from(
-        toLocalDateTime(dateTime).atZone(ZoneId.systemDefault()).toInstant());
+    return java.util.Date.from(Instant.from(toLocalDateTime(dateTime).atZone(ZoneId.of("UTC"))));
   }
 
   public static LocalDateTime toLocalDateTime(String dateTime) {

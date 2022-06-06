@@ -161,6 +161,11 @@ public class LivecoinTradeService extends LivecoinTradeServiceRaw implements Tra
   }
 
   @Override
+  public Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParamCurrencyPair.class;
+  }
+
+  @Override
   public Collection<Order> getOrder(OrderQueryParams... params) throws IOException {
     try {
       if (params == null || params.length == 0) {

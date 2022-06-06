@@ -1,9 +1,17 @@
 package info.bitrich.xchangestream.kraken;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.knowm.xchange.currency.CurrencyPair.XBT_USD;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Sets;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import java.io.IOException;
+import java.time.Instant;
+import java.util.Comparator;
+import java.util.List;
+import java.util.TreeSet;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,15 +22,6 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
-
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.List;
-import java.util.TreeSet;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.knowm.xchange.currency.CurrencyPair.XBT_USD;
 
 public class KrakenStreamingAdaptersTest {
 
@@ -39,13 +38,18 @@ public class KrakenStreamingAdaptersTest {
 
   @Test
   public void testAdaptOrderbookMessageWithSnapshot() throws IOException {
-    JsonNode jsonNode = StreamingObjectMapperHelper.getObjectMapper().readTree(this.getClass().getResource("/orderBookMessageSnapshot.json").openStream());
+    JsonNode jsonNode =
+        StreamingObjectMapperHelper.getObjectMapper()
+            .readTree(this.getClass().getResource("/orderBookMessageSnapshot.json").openStream());
     Assert.assertNotNull(jsonNode);
-    OrderBook afterUpdate = KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
+    OrderBook afterUpdate =
+        KrakenStreamingAdapters.adaptOrderbookMessage(
+            100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
     assertThat(afterUpdate).isNotNull();
     assertThat(afterUpdate.getAsks()).isNotNull();
     assertThat(afterUpdate.getBids()).isNotNull();
+    assertThat(afterUpdate.getTimeStamp()).isEqualTo(Instant.ofEpochMilli(1534614248765L));
 
     assertThat(afterUpdate.getAsks()).hasSize(3);
     assertThat(afterUpdate.getBids()).hasSize(3);
@@ -67,18 +71,27 @@ public class KrakenStreamingAdaptersTest {
     Assert.assertNotNull(jsonNode);
     KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
-    jsonNode = StreamingObjectMapperHelper.getObjectMapper().readTree(this.getClass().getResource("/orderBookMessageUpdate00.json").openStream());
+    jsonNode =
+        StreamingObjectMapperHelper.getObjectMapper()
+            .readTree(this.getClass().getResource("/orderBookMessageUpdate00.json").openStream());
     KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
-    jsonNode = StreamingObjectMapperHelper.getObjectMapper().readTree(this.getClass().getResource("/orderBookMessageUpdate01.json").openStream());
+    jsonNode =
+        StreamingObjectMapperHelper.getObjectMapper()
+            .readTree(this.getClass().getResource("/orderBookMessageUpdate01.json").openStream());
     KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
-    jsonNode = StreamingObjectMapperHelper.getObjectMapper().readTree(this.getClass().getResource("/orderBookMessageUpdate02.json").openStream());
-    OrderBook afterUpdate = KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
+    jsonNode =
+        StreamingObjectMapperHelper.getObjectMapper()
+            .readTree(this.getClass().getResource("/orderBookMessageUpdate02.json").openStream());
+    OrderBook afterUpdate =
+        KrakenStreamingAdapters.adaptOrderbookMessage(
+            100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
     assertThat(afterUpdate).isNotNull();
     assertThat(afterUpdate.getAsks()).isNotNull();
     assertThat(afterUpdate.getBids()).isNotNull();
+    assertThat(afterUpdate.getTimeStamp()).isEqualTo(Instant.ofEpochMilli(1534614248765L));
 
     assertThat(afterUpdate.getAsks()).hasSize(4);
     assertThat(afterUpdate.getBids()).hasSize(3);
@@ -100,6 +113,8 @@ public class KrakenStreamingAdaptersTest {
     assertThat(ticker.getOpen()).isEqualByComparingTo("9668.90000");
     assertThat(ticker.getAsk()).isEqualByComparingTo("9971.00000");
     assertThat(ticker.getBid()).isEqualByComparingTo("9970.90000");
+    assertThat(ticker.getAskSize()).isEqualByComparingTo("2.83251755");
+    assertThat(ticker.getBidSize()).isEqualByComparingTo("10.57957134");
     assertThat(ticker.getHigh()).isEqualByComparingTo("9990.00000");
     assertThat(ticker.getLow()).isEqualByComparingTo("9653.20000");
     assertThat(ticker.getVwap()).isEqualByComparingTo("9732.48471");

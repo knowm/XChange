@@ -1,106 +1,136 @@
 package info.bitrich.xchangestream.kraken;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.node.*;
 import com.google.common.collect.Streams;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.instrument.Instrument;
-import org.knowm.xchange.kraken.KrakenAdapters;
-import org.knowm.xchange.kraken.dto.trade.KrakenType;
-import org.knowm.xchange.utils.DateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.common.collect.*;
+import org.knowm.xchange.dto.*;
+import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.instrument.*;
+import org.knowm.xchange.kraken.*;
+import org.knowm.xchange.kraken.dto.trade.*;
+import org.knowm.xchange.utils.*;
+import org.slf4j.*;
 
-import java.math.BigDecimal;
-import java.time.Instant;
+import java.math.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.*;
+import java.util.stream.*;
 
-import static info.bitrich.xchangestream.kraken.KrakenStreamingChecksum.createCrcChecksum;
+import static info.bitrich.xchangestream.kraken.KrakenStreamingChecksum.*;
 
-/**
- * Kraken streaming adapters
- */
+/** Kraken streaming adapters */
 public class KrakenStreamingAdapters {
-    private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingAdapters.class);
+  private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingAdapters.class);
 
-    static final String ASK_SNAPSHOT = "as";
-    static final String ASK_UPDATE = "a";
+  static final String ASK_SNAPSHOT = "as";
+  static final String ASK_UPDATE = "a";
 
-    static final String BID_SNAPSHOT = "bs";
-    static final String BID_UPDATE = "b";
+  static final String BID_SNAPSHOT = "bs";
+  static final String BID_UPDATE = "b";
 
-    static final String CHECKSUM = "c";
+  static final String CHECKSUM = "c";
 
-    private static void updateInBook(int depth, Instrument instrument, Order.OrderType orderType, JsonNode currentNode, String key, TreeSet<LimitOrder> target) {
-        adaptLimitOrders(instrument, orderType, currentNode.get(key)).forEachRemaining(limitOrder -> {
-            target.removeIf(it -> it.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0);
-            if (limitOrder.getOriginalAmount().compareTo(BigDecimal.ZERO) != 0) {
+  private static void updateInBook(
+      int depth,
+      Instrument instrument,
+      Order.OrderType orderType,
+      JsonNode currentNode,
+      String key,
+      TreeSet<LimitOrder> target) {
+    adaptLimitOrders(instrument, orderType, currentNode.get(key))
+        .forEachRemaining(
+            limitOrder -> {
+              target.removeIf(it -> it.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0);
+              if (limitOrder.getOriginalAmount().compareTo(BigDecimal.ZERO) != 0) {
                 target.add(limitOrder);
-            }
-        });
-        while (target.size() > depth) {
-            LimitOrder last = target.last();
-            target.remove(last);
-        }
+              }
+            });
+    while (target.size() > depth) {
+      LimitOrder last = target.last();
+      target.remove(last);
     }
+  }
 
-    public static OrderBook adaptOrderbookMessage(int depth, TreeSet<LimitOrder> bids, TreeSet<LimitOrder> asks, Instrument instrument, ArrayNode arrayNode) {
-        final AtomicLong expectedChecksum = new AtomicLong(0);
-        final AtomicReference<Date> lastTime = new AtomicReference<>(Date.from(Instant.EPOCH));
-        final boolean awaitingSnapshot = (bids.isEmpty() && asks.isEmpty());
-        arrayNode.elements().forEachRemaining(currentNode -> {
-            if (awaitingSnapshot) {
+  public static OrderBook adaptOrderbookMessage(
+      int depth,
+      TreeSet<LimitOrder> bids,
+      TreeSet<LimitOrder> asks,
+      Instrument instrument,
+      ArrayNode arrayNode) {
+    final AtomicLong expectedChecksum = new AtomicLong(0);
+    final boolean awaitingSnapshot = (bids.isEmpty() && asks.isEmpty());
+    arrayNode
+        .elements()
+        .forEachRemaining(
+            currentNode -> {
+              if (awaitingSnapshot) {
                 if (currentNode.has(BID_SNAPSHOT) && currentNode.has(ASK_SNAPSHOT)) {
-                    LOG.info("Received {} snapshot, clearing book", instrument);
-                    updateInBook(depth, instrument, Order.OrderType.BID, currentNode, BID_SNAPSHOT, bids);
-                    updateInBook(depth, instrument, Order.OrderType.ASK, currentNode, ASK_SNAPSHOT, asks);
+                  LOG.info("Received {} snapshot, clearing book", instrument);
+                  updateInBook(
+                      depth, instrument, Order.OrderType.BID, currentNode, BID_SNAPSHOT, bids);
+                  updateInBook(
+                      depth, instrument, Order.OrderType.ASK, currentNode, ASK_SNAPSHOT, asks);
                 }
-            } else {
+              } else {
                 if (currentNode.has(BID_UPDATE)) {
-                    updateInBook(depth, instrument, Order.OrderType.BID, currentNode, BID_UPDATE, bids);
+                  updateInBook(
+                      depth, instrument, Order.OrderType.BID, currentNode, BID_UPDATE, bids);
                 }
                 if (currentNode.has(ASK_UPDATE)) {
-                    updateInBook(depth, instrument, Order.OrderType.ASK, currentNode, ASK_UPDATE, asks);
+                  updateInBook(
+                      depth, instrument, Order.OrderType.ASK, currentNode, ASK_UPDATE, asks);
                 }
-            }
-            if (!awaitingSnapshot && currentNode.has(CHECKSUM)) {
+              }
+              if (!awaitingSnapshot && currentNode.has(CHECKSUM)) {
                 expectedChecksum.set(currentNode.get(CHECKSUM).asLong());
-            }
-        });
-        if ( bids.isEmpty() && asks.isEmpty()){
-            LOG.info("Ignoring {} message {}, awaiting snapshot", instrument, arrayNode);
-        }
-        long localChecksum = createCrcChecksum(asks, bids);
-        if (expectedChecksum.get() > 0 && expectedChecksum.get() != localChecksum) {
-            LOG.warn("{} checksum does not match, expected {} but local checksum is {}", instrument, expectedChecksum.get(), localChecksum);
-            throw new IllegalStateException("Checksum did not match");
-        } else if (expectedChecksum.get() == 0) {
-            LOG.debug("Skipping {} checksum validation, no expected checksum in message", instrument);
-        }
-        return new OrderBook(lastTime.get(), Lists.newArrayList(asks), Lists.newArrayList(bids), true);
+              }
+            });
+    if (bids.isEmpty() && asks.isEmpty()) {
+      LOG.info("Ignoring {} message {}, awaiting snapshot", instrument, arrayNode);
     }
+    long localChecksum = createCrcChecksum(asks, bids);
+    if (expectedChecksum.get() > 0 && expectedChecksum.get() != localChecksum) {
+      LOG.warn(
+          "{} checksum does not match, expected {} but local checksum is {}",
+          instrument,
+          expectedChecksum.get(),
+          localChecksum);
+      throw new IllegalStateException("Checksum did not match");
+    } else if (expectedChecksum.get() == 0) {
+      LOG.debug("Skipping {} checksum validation, no expected checksum in message", instrument);
+    } else if (bids.size() > 0
+        && asks.size() > 0
+        && bids.first().getLimitPrice().compareTo(asks.first().getLimitPrice()) >= 0) {
+      throw new IllegalStateException(
+          "CROSSED book "
+              + instrument
+              + " "
+              + bids.first().getLimitPrice()
+              + " >= "
+              + asks.first().getLimitPrice());
+    }
+    final Date lastTime =
+        Stream.concat(asks.stream(), bids.stream())
+            .map(LimitOrder::getTimestamp)
+            .max(Date::compareTo)
+            .orElse(null);
+    return new OrderBook(lastTime, Lists.newArrayList(asks), Lists.newArrayList(bids), true);
+  }
 
-    /**
-     * Adapt a JsonNode to a Stream of limit orders, the node past in here should be the body of a
-     * a/b/as/bs key.
-     */
-    public static Iterator<LimitOrder> adaptLimitOrders(Instrument instrument, Order.OrderType orderType, JsonNode node) {
-        if (node == null || !node.isArray()) {
-            return Collections.emptyIterator();
-        }
-        return Iterators.transform(node.elements(), jsonNode -> adaptLimitOrder(instrument, orderType, jsonNode));
+  /**
+   * Adapt a JsonNode to a Stream of limit orders, the node past in here should be the body of a
+   * a/b/as/bs key.
+   */
+  public static Iterator<LimitOrder> adaptLimitOrders(
+      Instrument instrument, Order.OrderType orderType, JsonNode node) {
+    if (node == null || !node.isArray()) {
+      return Collections.emptyIterator();
     }
+    return Iterators.transform(
+        node.elements(), jsonNode -> adaptLimitOrder(instrument, orderType, jsonNode));
+  }
 
   /** Adapt a JsonNode containing two decimals into a LimitOrder */
   public static LimitOrder adaptLimitOrder(
@@ -121,8 +151,8 @@ public class KrakenStreamingAdapters {
         .filter(JsonNode::isObject)
         .map(
             tickerNode -> {
-              Iterator<JsonNode> askIterator = tickerNode.get("a").iterator();
-              Iterator<JsonNode> bidIterator = tickerNode.get("b").iterator();
+              ArrayNode askArray = (ArrayNode) tickerNode.get("a");
+              ArrayNode bidArray = (ArrayNode) tickerNode.get("b");
               Iterator<JsonNode> closeIterator = tickerNode.get("c").iterator();
               Iterator<JsonNode> volumeIterator = tickerNode.get("v").iterator();
               Iterator<JsonNode> vwapIterator = tickerNode.get("p").iterator();
@@ -137,8 +167,10 @@ public class KrakenStreamingAdapters {
 
               return new Ticker.Builder()
                   .open(nextNodeAsDecimal(openPriceIterator))
-                  .ask(nextNodeAsDecimal(askIterator))
-                  .bid(nextNodeAsDecimal(bidIterator))
+                  .ask(arrayNodeItemAsDecimal(askArray, 0))
+                  .bid(arrayNodeItemAsDecimal(bidArray, 0))
+                  .askSize(arrayNodeItemAsDecimal(askArray, 2))
+                  .bidSize(arrayNodeItemAsDecimal(bidArray, 2))
                   .last(nextNodeAsDecimal(closeIterator))
                   .high(nextNodeAsDecimal(highPriceIterator))
                   .low(nextNodeAsDecimal(lowPriceIterator))
@@ -178,6 +210,21 @@ public class KrakenStreamingAdapters {
   }
 
   /**
+   * Returns the element at index in arrayNode as a BigDecimal. Retuns null if the arrayNode is null
+   * or index does not exist.
+   */
+  private static BigDecimal arrayNodeItemAsDecimal(ArrayNode arrayNode, int index) {
+    if (arrayNode == null) {
+      return null;
+    }
+    JsonNode itemNode = arrayNode.get(index);
+    if (itemNode == null) {
+      return null;
+    }
+    return new BigDecimal(itemNode.asText());
+  }
+
+  /**
    * Checks if a iterator has next node and returns the value as a BigDecimal. Returns null if the
    * iterator has no next value or the given iterator is null.
    */
@@ -196,7 +243,8 @@ public class KrakenStreamingAdapters {
     if (iterator == null || !iterator.hasNext()) {
       return null;
     }
-      return DateUtils.fromMillisUtc(new BigDecimal(iterator.next().textValue()).multiply(new BigDecimal(1000)).longValue());
+    return DateUtils.fromMillisUtc(
+        new BigDecimal(iterator.next().textValue()).multiply(new BigDecimal(1000)).longValue());
   }
 
   /**

@@ -167,6 +167,10 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
       type = "litecoin";
     } else if ("ETH".equalsIgnoreCase(currency)) {
       type = "ethereum";
+    } else if ("ETC".equalsIgnoreCase(currency)) {
+      type = "ethereumc";
+    } else if ("CLO".equalsIgnoreCase(currency)) {
+      type = "clo";
     } else if ("IOT".equalsIgnoreCase(currency)) {
       type = "iota";
     } else if ("BCH".equalsIgnoreCase(currency)) {
@@ -328,13 +332,14 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
         .call();
   }
+
   public void updateCollateralDerivativePosition(UpdateCollateralDerivativePositionRequest req)
-          throws IOException {
-        decorateApiCall(
-                () ->
-                    bitfinexV2.updateCollateralDerivativePosition(
-                        exchange.getNonceFactory(), apiKey, signatureV2, req))
-            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-            .call();
-      }
+      throws IOException {
+    decorateApiCall(
+            () ->
+                bitfinexV2.updateCollateralDerivativePosition(
+                    exchange.getNonceFactory(), apiKey, signatureV2, req))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
+  }
 }

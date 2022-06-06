@@ -2,11 +2,9 @@ package org.knowm.xchange.kucoin;
 
 import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExceptions;
 import static org.knowm.xchange.kucoin.KucoinResilience.PRIVATE_REST_ENDPOINT_RATE_LIMITER;
-import static org.knowm.xchange.kucoin.KucoinResilience.PUBLIC_REST_ENDPOINT_RATE_LIMITER;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.kucoin.dto.request.ApplyWithdrawApiRequest;
 import org.knowm.xchange.kucoin.dto.request.CreateAccountRequest;
@@ -77,6 +75,7 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
                 .call());
   }
 
+  @Deprecated
   public Pagination<AccountLedgersResponse> getAccountLedgers(
       String accountId, Long startAt, Long endAt, Integer pageSize, Integer currentPage)
       throws IOException {
@@ -91,6 +90,36 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
                             nonceFactory,
                             passphrase,
                             accountId,
+                            startAt,
+                            endAt,
+                            pageSize,
+                            currentPage))
+                .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+                .call());
+  }
+
+  public Pagination<AccountLedgersResponse> getAccountLedgersWithParams(
+      String currency,
+      String direction,
+      String bizType,
+      Long startAt,
+      Long endAt,
+      Integer pageSize,
+      Integer currentPage)
+      throws IOException {
+    checkAuthenticated();
+    return classifyingExceptions(
+        () ->
+            decorateApiCall(
+                    () ->
+                        accountApi.getAccountLedgersWithParams(
+                            apiKey,
+                            digest,
+                            nonceFactory,
+                            passphrase,
+                            currency,
+                            direction,
+                            bizType,
                             startAt,
                             endAt,
                             pageSize,

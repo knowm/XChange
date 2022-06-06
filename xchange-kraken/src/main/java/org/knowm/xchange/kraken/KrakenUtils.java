@@ -1,5 +1,7 @@
 package org.knowm.xchange.kraken;
 
+import static org.knowm.xchange.kraken.KrakenAdapters.adaptCurrencyPair;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.currency.Currency;
@@ -7,6 +9,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrderDescription;
+import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 
 /** @author timmolter */
 public class KrakenUtils {
@@ -115,5 +120,32 @@ public class KrakenUtils {
     assetPairMapReverse.clear();
     assetsMap.clear();
     assetsMapReverse.clear();
+  }
+
+  public static Map<String, KrakenOrder> filterOpenOrdersByCurrencyPair(
+      Map<String, KrakenOrder> krakenOrders, CurrencyPair currencyPair) {
+    Map<String, KrakenOrder> filteredKrakenOrders = new HashMap<>();
+    for (Map.Entry<String, KrakenOrder> krakenOrderEntry : krakenOrders.entrySet()) {
+      KrakenOrder krakenOrder = krakenOrderEntry.getValue();
+      KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
+      if (currencyPair != null
+          && currencyPair.equals(
+              KrakenAdapters.adaptCurrencyPair(orderDescription.getAssetPair()))) {
+        filteredKrakenOrders.put(krakenOrderEntry.getKey(), krakenOrder);
+      }
+    }
+    return filteredKrakenOrders;
+  }
+
+  public static Map<String, KrakenTrade> filterTradeHistoryByCurrencyPair(
+      Map<String, KrakenTrade> krakenTrades, CurrencyPair currencyPair) {
+    Map<String, KrakenTrade> filteredTradeHistory = new HashMap<>();
+    for (Map.Entry<String, KrakenTrade> krakenTradeEntry : krakenTrades.entrySet()) {
+      if (currencyPair != null
+          && currencyPair.equals(adaptCurrencyPair(krakenTradeEntry.getValue().getAssetPair()))) {
+        filteredTradeHistory.put(krakenTradeEntry.getKey(), krakenTradeEntry.getValue());
+      }
+    }
+    return filteredTradeHistory;
   }
 }

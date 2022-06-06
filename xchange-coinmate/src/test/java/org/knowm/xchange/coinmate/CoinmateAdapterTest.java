@@ -24,7 +24,10 @@
 package org.knowm.xchange.coinmate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +36,9 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 import org.junit.Test;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrders;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
 /** @author Martin Stachon */
@@ -47,11 +52,13 @@ public class CoinmateAdapterTest {
         CoinmateAdapterTest.class.getResourceAsStream(
             "/org/knowm/xchange/coinmate/dto/marketdata/example-ticker.json");
 
+    assertNotNull(is);
+
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    CoinmateTicker bitstampTicker = mapper.readValue(is, CoinmateTicker.class);
+    CoinmateTicker coinmateTicker = mapper.readValue(is, CoinmateTicker.class);
 
-    Ticker ticker = CoinmateAdapters.adaptTicker(bitstampTicker, CurrencyPair.BTC_EUR);
+    Ticker ticker = CoinmateAdapters.adaptTicker(coinmateTicker, CurrencyPair.BTC_EUR);
 
     assertThat(ticker.getLast().toString()).isEqualTo("254.08");
     assertThat(ticker.getBid().toString()).isEqualTo("252.93");
@@ -61,5 +68,58 @@ public class CoinmateAdapterTest {
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
     String dateString = f.format(ticker.getTimestamp());
     assertThat(dateString).isEqualTo("2017-01-26 20:12:57");
+  }
+
+  @Test
+  public void testOrderAdapter_nullPrice() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is =
+        CoinmateAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinmate/dto/trade/example-order1.json");
+
+    assertNotNull(is);
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    CoinmateOrders coinmateOrders = mapper.readValue(is, CoinmateOrders.class);
+
+    Order order = CoinmateAdapters.adaptOrder(coinmateOrders.getData(), id -> null);
+
+    assertThat(order.getType() == Order.OrderType.ASK);
+    assertThat(order.getId().equals("1"));
+    assertThat(order.getAveragePrice().equals(new BigDecimal("996740")));
+    assertThat(order.getTimestamp().equals(1631188240000L));
+    assertNull(order.getOriginalAmount());
+    assertNull(order.getCumulativeAmount());
+    assertThat(order.getStatus() == Order.OrderStatus.FILLED);
+  }
+
+  @Test
+  public void testOrderAdapter_notNullPrice() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is =
+        CoinmateAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinmate/dto/trade/example-order2.json");
+
+    assertNotNull(is);
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    CoinmateOrders coinmateOrders = mapper.readValue(is, CoinmateOrders.class);
+
+    Order order = CoinmateAdapters.adaptOrder(coinmateOrders.getData(), id -> null);
+
+    assertThat(order.getType() == Order.OrderType.ASK);
+    assertThat(order.getId().equals("2"));
+    assertThat(order.getAveragePrice().equals(new BigDecimal("997850")));
+    assertThat(order.getTimestamp().equals(16311882400001L));
+    assertThat(order.getOriginalAmount().compareTo(new BigDecimal("0.0002")) == 0);
+    assertThat(order.getCumulativeAmount().compareTo(new BigDecimal("0.0002")) == 0);
+    assertThat(order.getRemainingAmount().compareTo(BigDecimal.ZERO) == 0);
+    assertThat(order.getStatus() == Order.OrderStatus.FILLED);
   }
 }

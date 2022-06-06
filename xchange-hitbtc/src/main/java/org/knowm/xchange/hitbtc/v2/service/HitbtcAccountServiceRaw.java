@@ -9,7 +9,12 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.hitbtc.v2.dto.*;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcAddress;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcInternalTransferResponse;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransferType;
 import si.mazi.rescu.HttpStatusIOException;
 
 public class HitbtcAccountServiceRaw extends HitbtcBaseService {

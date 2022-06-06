@@ -36,6 +36,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.DateUtils;
 
 /** @author Matija Mazi */
@@ -175,15 +176,14 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    Collection<Order> orders = new ArrayList<>(orderQueryParams.length);
 
-    Collection<Order> orders = new ArrayList<>(orderIds.length);
-
-    for (String orderId : orderIds) {
+    for (OrderQueryParams params : orderQueryParams) {
       orders.add(
           BitstampAdapters.adaptOrder(
-              orderId,
-              super.getBitstampOrder(Long.parseLong(orderId)),
+              params.getOrderId(),
+              super.getBitstampOrder(Long.parseLong(params.getOrderId())),
               exchange.getExchangeSymbols()));
     }
 

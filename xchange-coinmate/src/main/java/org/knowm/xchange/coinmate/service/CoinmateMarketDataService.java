@@ -59,8 +59,11 @@ public class CoinmateMarketDataService extends CoinmateMarketDataServiceRaw
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    int minutesIntoHistory = TRANSACTIONS_MINUTES_INTO_HISTORY;
+    if (args.length == 1 && (args[0] instanceof Integer)) {
+      minutesIntoHistory = (int) args[0];
+    }
     return CoinmateAdapters.adaptTrades(
-        getCoinmateTransactions(
-            TRANSACTIONS_MINUTES_INTO_HISTORY, CoinmateUtils.getPair(currencyPair)));
+        getCoinmateTransactions(minutesIntoHistory, CoinmateUtils.getPair(currencyPair)));
   }
 }

@@ -12,7 +12,11 @@ import org.knowm.xchange.coinbasepro.CoinbasePro;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
-import org.knowm.xchange.coinbasepro.dto.account.*;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFee;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProSendMoneyRequest;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawCryptoResponse;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawFundsRequest;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
@@ -88,7 +92,7 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
   }
 
   /** https://docs.pro.coinbase.com/#get-an-account */
-  public List<Map<?, ?>> ledger(String accountId, Integer startingOrderId) throws IOException {
+  public List<Map<?, ?>> ledger(String accountId, String startingOrderId) throws IOException {
     return decorateApiCall(
             () ->
                 coinbasePro.ledger(

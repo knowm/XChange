@@ -87,6 +87,7 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
           throw new FrequencyLimitExceededException(error);
         case "EOrder:Insufficient funds":
           throw new FundsExceededException(error);
+        case "EGeneral:Too many requests":
         case "EAPI:Rate limit exceeded":
         case "EOrder:Rate limit exceeded":
           throw new RateLimitExceededException(error);

@@ -1,8 +1,7 @@
 package org.knowm.xchange.ascendex.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.time.Instant;
 import java.util.Date;
 
 public class AscendexOrderResponse {
@@ -17,17 +16,29 @@ public class AscendexOrderResponse {
 
   private final String status;
 
+  private final String message;
+
+  private final String reason;
+
+  private final String code;
+
   public AscendexOrderResponse(
       @JsonProperty("ac") String ac,
       @JsonProperty("accountId") String accountId,
       @JsonProperty("action") String action,
       @JsonProperty("info") AscendexPlaceOrderInfo info,
-      @JsonProperty("status") String status) {
+      @JsonProperty("status") String status,
+      @JsonProperty("message") String message,
+      @JsonProperty("reason") String reason,
+      @JsonProperty("code") String code) {
     this.ac = ac;
     this.accountId = accountId;
     this.action = action;
     this.info = info;
     this.status = status;
+    this.message = message;
+    this.reason = reason;
+    this.code = code;
   }
 
   public String getAc() {
@@ -50,6 +61,18 @@ public class AscendexOrderResponse {
     return status;
   }
 
+  public String getMessage() {
+    return message;
+  }
+
+  public String getReason() {
+    return reason;
+  }
+
+  public String getCode() {
+    return code;
+  }
+
   @Override
   public String toString() {
     return "AscendexPlaceOrderResponse{"
@@ -66,6 +89,15 @@ public class AscendexOrderResponse {
         + info
         + ", status='"
         + status
+        + '\''
+        + ", message='"
+        + message
+        + '\''
+        + ", reason='"
+        + reason
+        + '\''
+        + ", code='"
+        + code
         + '\''
         + '}';
   }
@@ -86,12 +118,12 @@ public class AscendexOrderResponse {
         @JsonProperty("orderId") String orderId,
         @JsonProperty("orderType") String orderType,
         @JsonProperty("symbol") String symbol,
-        @JsonProperty("timestamp") Long timestamp) {
+        @JsonProperty("timestamp") @JsonAlias({"lastExecTime"}) Long timestamp) {
       this.id = id;
       this.orderId = orderId;
       this.orderType = orderType;
       this.symbol = symbol;
-      this.timestamp = Date.from(Instant.ofEpochMilli(timestamp));
+      this.timestamp = timestamp == null ? null : new Date(timestamp);
     }
 
     public String getId() {

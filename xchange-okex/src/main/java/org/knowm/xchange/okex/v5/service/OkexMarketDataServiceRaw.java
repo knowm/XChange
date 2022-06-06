@@ -10,8 +10,11 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
+import org.knowm.xchange.okex.v5.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
+import org.knowm.xchange.okex.v5.dto.marketdata.OkexOrderbook;
+import org.knowm.xchange.okex.v5.dto.marketdata.OkexTrade;
 import org.knowm.xchange.utils.DateUtils;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
@@ -25,7 +28,16 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
       String instrumentType, String underlying, String instrumentId)
       throws OkexException, IOException {
     try {
-      return decorateApiCall(() -> okex.getInstruments(instrumentType, underlying, instrumentId))
+      return decorateApiCall(
+              () ->
+                  okex.getInstruments(
+                      instrumentType,
+                      underlying,
+                      instrumentId,
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated")))
           .withRateLimiter(rateLimiter(instrumentsPath))
           .call();
     } catch (OkexException e) {
@@ -44,11 +56,49 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
                       (String)
                           exchange
                               .getExchangeSpecification()
-                              .getExchangeSpecificParametersItem("passphrase")))
+                              .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated")))
           .withRateLimiter(rateLimiter(currenciesPath))
           .call();
     } catch (OkexException e) {
       throw handleError(e);
     }
+  }
+
+  public OkexResponse<List<OkexTrade>> getOkexTrades(String instrument, int limit)
+      throws OkexException, IOException {
+
+    return okex.getTrades(
+        instrument,
+        limit,
+        (String)
+            exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
+  }
+
+  public OkexResponse<List<OkexOrderbook>> getOkexOrderbook(String instrument)
+      throws OkexException, IOException {
+    OkexResponse<List<OkexOrderbook>> books =
+        okex.getOrderbook(
+            instrument,
+            20,
+            (String)
+                exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
+    return books;
+  }
+
+  public OkexResponse<List<OkexCandleStick>> getHistoryCandle(
+      String instrument, String after, String before, String bar, String limit)
+      throws OkexException, IOException {
+    return okex.getHistoryCandles(
+        instrument,
+        after,
+        before,
+        bar,
+        limit,
+        (String)
+            exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
   }
 }

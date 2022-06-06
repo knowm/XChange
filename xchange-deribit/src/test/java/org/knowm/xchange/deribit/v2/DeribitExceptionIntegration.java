@@ -7,7 +7,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.dto.DeribitException;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
-import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
+import org.knowm.xchange.instrument.Instrument;
 
 public class DeribitExceptionIntegration {
   private static Exchange exchange;
@@ -20,9 +20,9 @@ public class DeribitExceptionIntegration {
     deribitMarketDataService = (DeribitMarketDataService) exchange.getMarketDataService();
   }
 
-  @Test(expected = CurrencyPairNotValidException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void getTickerThrowsExceptionTest() throws Exception {
-    CurrencyPair pair = new CurrencyPair("?", "?");
+    Instrument pair = new CurrencyPair("?", "?");
     deribitMarketDataService.getTicker(pair);
   }
 

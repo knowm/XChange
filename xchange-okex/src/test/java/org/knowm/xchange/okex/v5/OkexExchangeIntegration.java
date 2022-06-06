@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -19,8 +19,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.okex.v5.dto.trade.OkexTradeParams;
 import org.knowm.xchange.okex.v5.service.OkexTradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-
-import lombok.extern.slf4j.Slf4j;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
 
 @Slf4j
 public class OkexExchangeIntegration {
@@ -30,7 +29,7 @@ public class OkexExchangeIntegration {
   private static final String PASSPHRASE = "";
 
   @Test
-  public void testCreateExchangeShouldApplyDefaultSpecification() throws Exception {
+  public void testCreateExchangeShouldApplyDefaultSpecification() {
     ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
 
@@ -43,7 +42,7 @@ public class OkexExchangeIntegration {
   }
 
   @Test
-  public void testCreateExchangeShouldApplyResilience() throws Exception {
+  public void testCreateExchangeShouldApplyResilience() {
     ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
     ExchangeSpecification.ResilienceSpecification resilienceSpecification =
         new ExchangeSpecification.ResilienceSpecification();
@@ -96,12 +95,14 @@ public class OkexExchangeIntegration {
       String orderId2 = okexTradeService.changeOrder(limitOrder2);
       log.info("Amended orderId: {}", orderId2);
 
-      //Get non-existent Order Detail
-      Order failOrder = okexTradeService.getOrder(TRX_USDT, "2132465465");
+      // Get non-existent Order Detail
+      Order failOrder =
+          okexTradeService.getOrder(new DefaultQueryOrderParamInstrument(TRX_USDT, "2132465465"));
       log.info("Null Order: {}", failOrder);
 
-      //Get Order Detail
-      Order amendedOrder = okexTradeService.getOrder(TRX_USDT, orderId2);
+      // Get Order Detail
+      Order amendedOrder =
+          okexTradeService.getOrder(new DefaultQueryOrderParamInstrument(TRX_USDT, orderId2));
       log.info("Amended Order: {}", amendedOrder);
 
       // Cancel that order
@@ -113,8 +114,7 @@ public class OkexExchangeIntegration {
 
       // Place batch orders
       List<String> orderIds =
-          okexTradeService
-              .placeLimitOrder(Arrays.asList(limitOrder, limitOrder, limitOrder));
+          okexTradeService.placeLimitOrder(Arrays.asList(limitOrder, limitOrder, limitOrder));
       log.info("Placed batch orderIds: {}", orderIds);
 
       // Amend batch orders
@@ -129,21 +129,18 @@ public class OkexExchangeIntegration {
                 new Date(),
                 new BigDecimal(1000)));
       }
-      List<String> amendedOrderIds =
-          okexTradeService.changeOrder(amendOrders);
+      List<String> amendedOrderIds = okexTradeService.changeOrder(amendOrders);
       log.info("Amended batch orderIds: {}", amendedOrderIds);
 
       OpenOrders openOrders = okexTradeService.getOpenOrders();
       log.info("Open Orders: {}", openOrders);
-
 
       // Cancel batch orders
       List<CancelOrderParams> cancelOrderParams = new ArrayList<>();
       for (String id : orderIds) {
         cancelOrderParams.add(new OkexTradeParams.OkexCancelOrderParams(TRX_USDT, id));
       }
-      List<Boolean> results =
-          okexTradeService.cancelOrder(cancelOrderParams);
+      List<Boolean> results = okexTradeService.cancelOrder(cancelOrderParams);
       log.info("Cancelled order results: {}", results);
     }
   }

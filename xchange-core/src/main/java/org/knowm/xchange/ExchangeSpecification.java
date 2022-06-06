@@ -489,7 +489,8 @@ public class ExchangeSpecification {
   /**
    * Set uri to override websocket uri
    *
-   * @param overrideWebsocketApiUri The uri that will be used instead of standard exchange websocket uris
+   * @param overrideWebsocketApiUri The uri that will be used instead of standard exchange websocket
+   *     uris
    */
   public void setOverrideWebsocketApiUri(String overrideWebsocketApiUri) {
 

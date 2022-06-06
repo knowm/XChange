@@ -2,9 +2,16 @@ package org.knowm.xchange.dto.account;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import com.fasterxml.jackson.annotation.*;
 import org.knowm.xchange.currency.Currency;
 
 /**
@@ -29,6 +36,8 @@ public final class Wallet implements Serializable {
 
   /** The keys represent the currency of the wallet. */
   private final Map<Currency, Balance> balances;
+  /** Collection of balances for deserialization * */
+  private final Collection<Balance> balanceCollection;
   /** A unique identifier for this wallet */
   private String id;
   /** A descriptive name for this wallet. Defaults to {@link #id} */
@@ -50,12 +59,12 @@ public final class Wallet implements Serializable {
    *     <p>maxLeverage and currentLeverage are BigDecimal.ZERO for the default constructor
    */
   public Wallet(
-      String id,
-      String name,
-      Collection<Balance> balances,
-      Set<WalletFeature> features,
-      BigDecimal maxLeverage,
-      BigDecimal currentLeverage) {
+      @JsonProperty("id") String id,
+      @JsonProperty("name") String name,
+      @JsonProperty("balances") Collection<Balance> balances,
+      @JsonProperty("features") Set<WalletFeature> features,
+      @JsonProperty("maxLeverage") BigDecimal maxLeverage,
+      @JsonProperty("currentLeverage") BigDecimal currentLeverage) {
 
     this.id = id;
     if (name == null) {
@@ -63,6 +72,7 @@ public final class Wallet implements Serializable {
     } else {
       this.name = name;
     }
+    this.balanceCollection = balances;
     if (balances.size() == 0) {
       this.balances = Collections.emptyMap();
     } else if (balances.size() == 1) {
@@ -95,7 +105,15 @@ public final class Wallet implements Serializable {
     return name;
   }
 
+  /** @return The available colletion of balances */
+  @JsonGetter
+  public Collection<Balance> balances() {
+
+    return balanceCollection;
+  }
+
   /** @return The available balances (amount and currency) */
+  @JsonIgnore
   public Map<Currency, Balance> getBalances() {
 
     return Collections.unmodifiableMap(balances);
@@ -149,7 +167,7 @@ public final class Wallet implements Serializable {
   public String toString() {
     return "Wallet{"
         + "balances="
-        + balances
+        + balanceCollection
         + ", id='"
         + id
         + '\''

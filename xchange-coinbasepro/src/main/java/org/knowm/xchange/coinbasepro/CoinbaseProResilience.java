@@ -22,7 +22,7 @@ public class CoinbaseProResilience {
             PUBLIC_REST_ENDPOINT_RATE_LIMITER,
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .limitRefreshPeriod(Duration.ofSeconds(1))
-                .limitForPeriod(3)
+                .limitForPeriod(10)
                 .drainPermissionsOnResult(
                     e -> ResilienceUtils.matchesHttpCode(e, TOO_MANY_REQUESTS))
                 .build());
@@ -33,7 +33,7 @@ public class CoinbaseProResilience {
             PRIVATE_REST_ENDPOINT_RATE_LIMITER,
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .limitRefreshPeriod(Duration.ofSeconds(1))
-                .limitForPeriod(5)
+                .limitForPeriod(15)
                 .drainPermissionsOnResult(
                     e -> ResilienceUtils.matchesHttpCode(e, TOO_MANY_REQUESTS))
                 .build());
