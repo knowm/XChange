@@ -3,6 +3,7 @@ package org.knowm.xchange.blockchain;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.blockchain.service.BlockchainAccountService;
+import org.knowm.xchange.blockchain.service.BlockchainTradeService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -31,6 +32,7 @@ public class BlockchainExchange extends BaseExchange {
             ).build();
 
     this.accountService = new BlockchainAccountService(this, this.blockchain, this.getResilienceRegistries());
+    this.tradeService = new BlockchainTradeService(this, this.blockchain, this.getResilienceRegistries());
   }
 
   @Override
@@ -59,11 +61,6 @@ public class BlockchainExchange extends BaseExchange {
 
   @Override
   public MarketDataService getMarketDataService() {
-    throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
-  }
-
-  @Override
-  public TradeService getTradeService() {
     throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
   }
 }

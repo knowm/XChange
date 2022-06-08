@@ -166,24 +166,4 @@ public class AccountServiceTest extends BlockchainBaseTest {
         return service.getDynamicTradingFees();
     }
 
-    private void stubPost(String fileName, int statusCode, String url) {
-        stubFor(
-                post(urlPathEqualTo(url))
-                        .willReturn(
-                                aResponse()
-                                        .withStatus(statusCode)
-                                        .withHeader("Content-Type", "application/json")
-                                        .withBodyFile(fileName)));
-    }
-
-    private void stubGet(String fileName, int statusCode, String url) {
-        stubFor(
-                get(urlPathEqualTo(url))
-                        .willReturn(
-                                aResponse()
-                                        .withStatus(statusCode)
-                                        .withHeader("Content-Type", "application/json")
-                                        .withBodyFile(fileName)));
-    }
-
 }

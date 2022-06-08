@@ -2,6 +2,8 @@ package org.knowm.xchange.blockchain;
 
 import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.blockchain.dto.account.*;
+import org.knowm.xchange.blockchain.dto.trade.BlockchainOrder;
+import org.knowm.xchange.blockchain.params.BlockchainOrderParams;
 import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 
 import javax.ws.rs.*;
@@ -85,4 +87,21 @@ public interface BlockchainAuthenticated extends Blockchain {
     @GET
     List<BlockchainDeposits> depositHistory(@QueryParam("from") Long startTime,
                                             @QueryParam("to") Long endTime);
+
+    @Path("orders")
+    @GET
+    List<BlockchainOrder> getOrders();
+
+    @Path("orders")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    BlockchainOrder postOrder(BlockchainOrderParams blockchainOrder);
+
+    @Path("orders/{orderId}")
+    @DELETE
+    Boolean cancelOrder(@PathParam("orderId") String orderId) throws IOException, BlockchainException;
+
+    @Path("orders")
+    @DELETE
+    Boolean cancelAllOrders(@QueryParam("symbol") String symbol) throws IOException, BlockchainException;
 }
