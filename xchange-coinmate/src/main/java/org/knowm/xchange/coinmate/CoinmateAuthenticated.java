@@ -175,6 +175,30 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("currencyPair") String currencyPair)
       throws IOException;
 
+  @POST
+  @Path("buyQuick")
+  CoinmateTradeResponse buyQuick(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("clientOrderId") String clientOrderId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("total") BigDecimal total,
+      @FormParam("currencyPair") String currencyPair)
+      throws IOException;
+
+  @POST
+  @Path("sellQuick")
+  CoinmateTradeResponse sellQuick(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("clientOrderId") String clientOrderId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("currencyPair") String currencyPair)
+      throws IOException;
+
   // withdrawal and deposits
   // bitcoin
   @POST
