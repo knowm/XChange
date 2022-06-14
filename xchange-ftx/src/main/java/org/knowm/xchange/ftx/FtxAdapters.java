@@ -369,6 +369,7 @@ public class FtxAdapters {
                         ftxPositionDto.getSide() == FtxOrderSide.buy
                             ? OpenPosition.Type.LONG
                             : OpenPosition.Type.SHORT)
+                    .liquidationPrice(ftxPositionDto.getEstimatedLiquidationPrice())
                     .build());
           }
         });
