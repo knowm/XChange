@@ -5,9 +5,11 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.instrument.Instrument;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OpenPosition implements Serializable {
   /** The instrument */
   private final Instrument instrument;
