@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.instrument.Instrument;
 
 public class OpenPosition implements Serializable {
@@ -15,16 +17,16 @@ public class OpenPosition implements Serializable {
   /** The size of the position */
   private final BigDecimal size;
   /** The average entry price for the position */
-  private final BigDecimal price;
+  @JsonIgnore private final BigDecimal price;
   /** The estimatedLiquidationPrice */
-  private final BigDecimal liquidationPrice;
+  @JsonIgnore private final BigDecimal liquidationPrice;
 
   public OpenPosition(
-          @JsonProperty("instrument") Instrument instrument,
-          @JsonProperty("type") Type type,
-          @JsonProperty("size") BigDecimal size,
-          @JsonProperty("price") BigDecimal price,
-          @JsonProperty("liquidationPrice") BigDecimal liquidationPrice) {
+      @JsonProperty("instrument") Instrument instrument,
+      @JsonProperty("type") Type type,
+      @JsonProperty("size") BigDecimal size,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("liquidationPrice") BigDecimal liquidationPrice) {
     this.instrument = instrument;
     this.type = type;
     this.size = size;
@@ -58,10 +60,10 @@ public class OpenPosition implements Serializable {
     if (o == null || getClass() != o.getClass()) return false;
     final OpenPosition that = (OpenPosition) o;
     return Objects.equals(instrument, that.instrument)
-            && type == that.type
-            && Objects.equals(size, that.size)
-            && Objects.equals(price, that.price)
-            && Objects.equals(liquidationPrice, that.liquidationPrice);
+        && type == that.type
+        && Objects.equals(size, that.size)
+        && Objects.equals(price, that.price)
+        && Objects.equals(liquidationPrice, that.liquidationPrice);
   }
 
   @Override
@@ -72,17 +74,17 @@ public class OpenPosition implements Serializable {
   @Override
   public String toString() {
     return "OpenPosition{"
-            + "instrument="
-            + instrument
-            + ", type="
-            + type
-            + ", size="
-            + size
-            + ", price="
-            + price
-            + ", liquidationPrice="
-            + liquidationPrice
-            + '}';
+        + "instrument="
+        + instrument
+        + ", type="
+        + type
+        + ", size="
+        + size
+        + ", price="
+        + price
+        + ", liquidationPrice="
+        + liquidationPrice
+        + '}';
   }
 
   public enum Type {
@@ -99,11 +101,11 @@ public class OpenPosition implements Serializable {
 
     public static Builder from(OpenPosition openPosition) {
       return new Builder()
-              .instrument(openPosition.getInstrument())
-              .type(openPosition.getType())
-              .size(openPosition.getSize())
-              .liquidationPrice(openPosition.getLiquidationPrice())
-              .price(openPosition.getPrice());
+          .instrument(openPosition.getInstrument())
+          .type(openPosition.getType())
+          .size(openPosition.getSize())
+          .liquidationPrice(openPosition.getLiquidationPrice())
+          .price(openPosition.getPrice());
     }
 
     public Builder instrument(final Instrument instrument) {
