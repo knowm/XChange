@@ -75,7 +75,8 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-KEY") String apiKey,
       @HeaderParam("FTX-TS") Long nonce,
       @HeaderParam("FTX-SIGN") ParamsDigest signature,
-      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @QueryParam("showAvgPrice") boolean showAvgPrice)
       throws IOException, FtxException;
 
   @DELETE
@@ -247,13 +248,15 @@ public interface FtxAuthenticated extends Ftx {
       throws IOException, FtxException;
 
   @GET
-  @Path("/orders/history?market={market}")
+  @Path("/orders/history")
   FtxResponse<List<FtxOrderDto>> orderHistory(
       @HeaderParam("FTX-KEY") String apiKey,
       @HeaderParam("FTX-TS") Long nonce,
       @HeaderParam("FTX-SIGN") ParamsDigest signature,
       @HeaderParam("FTX-SUBACCOUNT") String subaccount,
-      @PathParam("market") String market)
+      @QueryParam("market") String market,
+      @QueryParam("start_time") Long startTime,
+      @QueryParam("end_time") Long endTime)
       throws IOException, FtxException;
 
   @DELETE
@@ -412,5 +415,4 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-SUBACCOUNT") String subaccount,
       @PathParam("id") String id)
       throws IOException, FtxException;
-
 }
