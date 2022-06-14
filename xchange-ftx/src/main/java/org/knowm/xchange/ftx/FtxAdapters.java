@@ -439,7 +439,7 @@ public class FtxAdapters {
   public static FtxConditionalOrderRequestPayload adaptStopOrderToFtxOrderPayload(
       StopOrder stopOrder) throws IOException {
     return adaptConditionalOrderToFtxOrderPayload(
-        adaptTriggerOrderIntention(stopOrder.getIntention()),
+        adaptTriggerOrderIntention((stopOrder.getIntention() == null) ? StopOrder.Intention.STOP_LOSS : stopOrder.getIntention()),
         stopOrder,
         stopOrder.getLimitPrice(),
         stopOrder.getStopPrice(),
