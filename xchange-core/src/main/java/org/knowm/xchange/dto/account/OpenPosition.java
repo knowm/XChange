@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.instrument.Instrument;
 
 public class OpenPosition implements Serializable {
@@ -21,17 +20,22 @@ public class OpenPosition implements Serializable {
   /** The estimatedLiquidationPrice */
   @JsonIgnore private final BigDecimal liquidationPrice;
 
+  /** The unrealised pnl of the position */
+  @JsonIgnore private final BigDecimal unRealisedPnl;
+
   public OpenPosition(
       @JsonProperty("instrument") Instrument instrument,
       @JsonProperty("type") Type type,
       @JsonProperty("size") BigDecimal size,
       @JsonProperty("price") BigDecimal price,
-      @JsonProperty("liquidationPrice") BigDecimal liquidationPrice) {
+      @JsonProperty("liquidationPrice") BigDecimal liquidationPrice,
+      @JsonProperty("unRealisedPnl") BigDecimal unRealisedPnl) {
     this.instrument = instrument;
     this.type = type;
     this.size = size;
     this.price = price;
     this.liquidationPrice = liquidationPrice;
+    this.unRealisedPnl = unRealisedPnl;
   }
 
   public Instrument getInstrument() {
@@ -54,6 +58,10 @@ public class OpenPosition implements Serializable {
     return liquidationPrice;
   }
 
+  public BigDecimal getUnRealisedPnL() {
+    return unRealisedPnl;
+  }
+
   @Override
   public boolean equals(final Object o) {
     if (this == o) return true;
@@ -63,12 +71,13 @@ public class OpenPosition implements Serializable {
         && type == that.type
         && Objects.equals(size, that.size)
         && Objects.equals(price, that.price)
-        && Objects.equals(liquidationPrice, that.liquidationPrice);
+        && Objects.equals(liquidationPrice, that.liquidationPrice)
+        && Objects.equals(unRealisedPnl, that.unRealisedPnl);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(instrument, type, size, price, liquidationPrice);
+    return Objects.hash(instrument, type, size, price, liquidationPrice, unRealisedPnl);
   }
 
   @Override
@@ -84,6 +93,8 @@ public class OpenPosition implements Serializable {
         + price
         + ", liquidationPrice="
         + liquidationPrice
+        + ", unRealisedPnL="
+        + unRealisedPnl
         + '}';
   }
 
@@ -98,6 +109,7 @@ public class OpenPosition implements Serializable {
     private BigDecimal size;
     private BigDecimal price;
     private BigDecimal liquidationPrice;
+    private BigDecimal unRealisedPnl;
 
     public static Builder from(OpenPosition openPosition) {
       return new Builder()
@@ -105,6 +117,7 @@ public class OpenPosition implements Serializable {
           .type(openPosition.getType())
           .size(openPosition.getSize())
           .liquidationPrice(openPosition.getLiquidationPrice())
+          .unRealisedPnl(openPosition.getUnRealisedPnL())
           .price(openPosition.getPrice());
     }
 
@@ -133,8 +146,13 @@ public class OpenPosition implements Serializable {
       return this;
     }
 
+    public Builder unRealisedPnl(final BigDecimal unRealisedPnl) {
+      this.unRealisedPnl = unRealisedPnl;
+      return this;
+    }
+
     public OpenPosition build() {
-      return new OpenPosition(instrument, type, size, price, liquidationPrice);
+      return new OpenPosition(instrument, type, size, price, liquidationPrice, unRealisedPnl);
     }
   }
 }
