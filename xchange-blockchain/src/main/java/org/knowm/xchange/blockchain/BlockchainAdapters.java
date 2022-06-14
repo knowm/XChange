@@ -1,33 +1,44 @@
 package org.knowm.xchange.blockchain;
 
 import lombok.experimental.UtilityClass;
-import org.knowm.xchange.blockchain.dto.account.*;
+import org.knowm.xchange.blockchain.dto.account.BlockchainDeposit;
+import org.knowm.xchange.blockchain.dto.account.BlockchainDeposits;
+import org.knowm.xchange.blockchain.dto.account.BlockchainSymbol;
+import org.knowm.xchange.blockchain.dto.account.BlockchainWithdrawal;
 import org.knowm.xchange.blockchain.dto.trade.BlockchainOrder;
-import org.knowm.xchange.blockchain.params.BlockchainOrderParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.knowm.xchange.blockchain.BlockchainConstants.*;
-import static org.knowm.xchange.blockchain.BlockchainConstants.SELL;
 
 @UtilityClass
 public class BlockchainAdapters {
 
     public static String toSymbol(CurrencyPair currencyPair) {
         return String.format(CURRENCY_PAIR_SYMBOL_FORMAT, currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+    }
+
+    public static String toSymbol(CancelOrderParams currencyPair) {
+        if (currencyPair instanceof CancelOrderByCurrencyPair) {
+            return String.format(CURRENCY_PAIR_SYMBOL_FORMAT,
+                    ((CancelOrderByCurrencyPair) currencyPair).getCurrencyPair().base,
+                    ((CancelOrderByCurrencyPair) currencyPair).getCurrencyPair().counter);
+        }
+        throw new IllegalArgumentException(String.format("Unsupported currency pair '%s'", currencyPair));
     }
 
     public static CurrencyPair toCurrencyPair(Instrument instrument){
@@ -139,6 +150,29 @@ public class BlockchainAdapters {
         return new OpenOrders(limitOrders, hiddenOrders);
     }
 
+    public static Order toOpenOrdersById(BlockchainOrder blockchainOrder){
+        Order.OrderType orderType = blockchainOrder.isBuyer() ? Order.OrderType.BID : Order.OrderType.ASK;
+        CurrencyPair symbol = blockchainOrder.getSymbol();
+        Order.Builder builder;
+
+        if (blockchainOrder.isMarketOrder()) {
+            builder = new MarketOrder.Builder(orderType, symbol);
+        } else if (blockchainOrder.isLimitOrder()){
+            builder = new LimitOrder.Builder(orderType, symbol).limitPrice(blockchainOrder.getPrice());
+        } else {
+            builder = new StopOrder.Builder(orderType, symbol).stopPrice(blockchainOrder.getPrice());
+        }
+
+        return builder.originalAmount(blockchainOrder.getCumQty().add(blockchainOrder.getLeavesQty()))
+                      .id(Long.toString(blockchainOrder.getExOrdId()))
+                      .timestamp(blockchainOrder.getTimestamp())
+                      .averagePrice(blockchainOrder.getAvgPx())
+                      .cumulativeAmount(blockchainOrder.getCumQty())
+                      .orderStatus(toOrderStatus(blockchainOrder.getOrdStatus()))
+                      .userReference(blockchainOrder.getClOrdId())
+                      .build();
+    }
+
     public static Order.OrderStatus toOrderStatus(String status) {
         switch (status.toUpperCase()) {
             case OPEN:
@@ -160,40 +194,37 @@ public class BlockchainAdapters {
         }
     }
 
-    public static BlockchainOrderParams toBlockchainOrder(String orderType, LimitOrder limitOrder, MarketOrder marketOrder, StopOrder stopOrder){
+    public static BlockchainOrder toBlockchainLimitOrder(LimitOrder limitOrder){
+        return BlockchainOrder.builder()
+                .ordType(limitOrder.getType().toString())
+                .symbol(toCurrencyPair(limitOrder.getInstrument()))
+                .side(Order.OrderType.BID.equals(limitOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
+                .orderQty(limitOrder.getOriginalAmount())
+                .price(limitOrder.getLimitPrice())
+                .clOrdId(generateClOrdId())
+                .build();
+    }
 
-        switch (orderType){
-            case LIMIT:
-                return BlockchainOrderParams.builder()
-                        .ordType(orderType)
-                        .symbol(toCurrencyPair(limitOrder.getInstrument()))
-                        .side(Order.OrderType.BID.equals(limitOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
-                        .orderQty(limitOrder.getOriginalAmount())
-                        .price(limitOrder.getLimitPrice())
-                        .clOrdId(generateClOrdId())
-                        .build();
-            case MARKET:
-                return BlockchainOrderParams.builder()
-                        .ordType(orderType)
-                        .symbol(toCurrencyPair(marketOrder.getInstrument()))
-                        .side(Order.OrderType.BID.equals(marketOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
-                        .orderQty(marketOrder.getOriginalAmount())
-                        .price(marketOrder.getCumulativeAmount())
-                        .clOrdId(generateClOrdId())
-                        .build();
-            case STOP_ORDER:
-                return BlockchainOrderParams.builder()
-                        .ordType(orderType)
-                        .symbol(toCurrencyPair(stopOrder.getInstrument()))
-                        .side(Order.OrderType.BID.equals(stopOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
-                        .orderQty(stopOrder.getOriginalAmount())
-                        .price(stopOrder.getStopPrice())
-                        .clOrdId(generateClOrdId())
-                        .build();
-            default:
-                return null;
+    public static BlockchainOrder toBlockchainMarketOrder(MarketOrder marketOrder){
+        return BlockchainOrder.builder()
+                .ordType(marketOrder.getType().toString())
+                .symbol(toCurrencyPair(marketOrder.getInstrument()))
+                .side(Order.OrderType.BID.equals(marketOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
+                .orderQty(marketOrder.getOriginalAmount())
+                .price(marketOrder.getCumulativeAmount())
+                .clOrdId(generateClOrdId())
+                .build();
+    }
 
-        }
+    public static BlockchainOrder toBlockchainStopOrder(StopOrder stopOrder){
+        return BlockchainOrder.builder()
+                .ordType(stopOrder.getType().toString())
+                .symbol(toCurrencyPair(stopOrder.getInstrument()))
+                .side(Order.OrderType.BID.equals(stopOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
+                .orderQty(stopOrder.getOriginalAmount())
+                .price(stopOrder.getStopPrice())
+                .clOrdId(generateClOrdId())
+                .build();
     }
 
     private static String generateClOrdId() {
@@ -201,4 +232,54 @@ public class BlockchainAdapters {
         uuid = uuid.substring(0, 16).replace("-", "");
         return uuid;
     }
+
+    public static UserTrades toUserTrades(List<BlockchainOrder> blockchainTrades) {
+        List<UserTrade> trades = blockchainTrades.stream()
+                .map(blockchainTrade -> new UserTrade.Builder()
+                                .type(blockchainTrade.isBuyer()? Order.OrderType.BID : Order.OrderType.ASK)
+                                .originalAmount(blockchainTrade.getCumQty())
+                                .currencyPair(blockchainTrade.getSymbol())
+                                .price(blockchainTrade.getPrice())
+                                .timestamp(blockchainTrade.getTimestamp())
+                                .id(Long.toString(blockchainTrade.getExOrdId()))
+                                .orderId(blockchainTrade.getClOrdId())
+                                .build()
+                ).collect(Collectors.toList());
+        Long lastId = blockchainTrades.stream().map(BlockchainOrder::getExOrdId).max(Long::compareTo).orElse(0L);
+        return new UserTrades(trades, lastId, Trades.TradeSortType.SortByTimestamp);
+    }
+
+    /*public static ExchangeMetaData adaptMetaData(
+            List<CurrencyPair> currencyPairs, ExchangeMetaData metaData) {
+
+        Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
+        Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
+
+        pairsMap.keySet().retainAll(currencyPairs);
+
+        Set<Currency> currencies =
+                currencyPairs.stream()
+                        .flatMap(pair -> Stream.of(pair.base, pair.counter))
+                        .collect(Collectors.toSet());
+        currenciesMap.keySet().retainAll(currencies);
+
+        for (CurrencyPair c : currencyPairs) {
+            if (!pairsMap.containsKey(c)) {
+                pairsMap.put(c, null);
+            }
+
+            if (!currenciesMap.containsKey(c.base)) {
+                currenciesMap.put(
+                        c.base,
+                        new CurrencyMetaData(
+                                2,
+                                null));
+            }
+            if (!currenciesMap.containsKey(c.counter)) {
+                currenciesMap.put(c.counter, new CurrencyMetaData(2, null));
+            }
+        }
+
+        return metaData;
+    }*/
 }

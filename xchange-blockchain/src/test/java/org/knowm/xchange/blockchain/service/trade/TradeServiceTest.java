@@ -7,15 +7,18 @@ import org.knowm.xchange.blockchain.BlockchainExchange;
 import org.knowm.xchange.blockchain.service.BlockchainBaseTest;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import si.mazi.rescu.HttpStatusIOException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -32,29 +35,26 @@ public class TradeServiceTest extends BlockchainBaseTest {
 
     @Test(timeout = 2000)
     public void getOpenOrdersSuccess() throws Exception {
-        OpenOrders response = getOpenOrders();
-        System.out.println(response);
+        stubGet(ORDERS_JSON, 200, URL_ORDERS);
+        OpenOrders response = service.getOpenOrders();
         Assert.assertNotNull(response);
     }
 
     @Test(timeout = 2000)
     public void placeLimitOrderSuccess() throws Exception {
         String response = placeLimitOrder();
-        System.out.println(response);
         Assert.assertNotNull(response);
     }
 
     @Test(timeout = 2000)
     public void placeMarketOrderSuccess() throws Exception {
         String response = placeMarketOrder();
-        System.out.println(response);
         Assert.assertNotNull(response);
     }
 
     @Test(timeout = 2000)
     public void placeStopOrderSuccess() throws Exception {
         String response = placeStopOrder();
-        System.out.println(response);
         Assert.assertNotNull(response);
     }
 
@@ -72,10 +72,36 @@ public class TradeServiceTest extends BlockchainBaseTest {
                 .hasMessage(HTTP_CODE_400);
     }
 
-    private OpenOrders getOpenOrders() throws IOException {
-        stubGet(ORDERS_JSON, 200, URL_ORDERS);
+    @Test(timeout = 2000)
+    public void cancelOrderByCurrency() throws Exception {
+        CancelOrderByCurrencyPair cancelOrderByCurrencyPair = () -> new CurrencyPair("BTC/USD");
+        Boolean response = cancelAllOrder(200, cancelOrderByCurrencyPair);
+        assertThat(response).isEqualTo(true);
+    }
 
-        return service.getOpenOrders();
+    @Test(timeout = 2000)
+    public void getTrades() throws Exception {
+        TradeHistoryParams params = service.createTradeHistoryParams();
+        if (params instanceof TradeHistoryParamsTimeSpan) {
+            final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
+            timeSpanParam.setStartTime(
+                    new Date(System.currentTimeMillis() - END_TIME));
+        }
+        if (params instanceof TradeHistoryParamCurrencyPair) {
+            ((TradeHistoryParamCurrencyPair) params).setCurrencyPair(CurrencyPair.BTC_USDT);
+        }
+
+        stubGet(ORDERS_JSON, 200, URL_TRADES);
+        UserTrades response = service.getTradeHistory(params);
+        Assert.assertNotNull(response);
+    }
+
+    @Test(timeout = 2000)
+    public void getOrderSuccess() throws Exception {
+        stubGet(NEW_ORDER_LIMIT_JSON, 200, URL_ORDERS_BY_ID_1);
+        stubGet(NEW_ORDER_MARKET_JSON, 200, URL_ORDERS_BY_ID_2);
+        Collection<Order> response = service.getOrder("11111111","22222222");
+        Assert.assertNotNull(response);
     }
 
     private String placeLimitOrder() throws IOException {
@@ -115,8 +141,14 @@ public class TradeServiceTest extends BlockchainBaseTest {
     }
 
     private Boolean cancelOrder(int statusCode, String orderId) throws IOException {
-        stubDelete(statusCode, URL_ORDERS_DELETE);
+        stubDelete(statusCode, URL_ORDERS_BY_ID_1);
 
         return service.cancelOrder(orderId);
+    }
+
+    private Boolean cancelAllOrder(int statusCode, CancelOrderByCurrencyPair orderParams) throws IOException {
+        stubDelete(statusCode, URL_ORDERS);
+
+        return service.cancelOrder(orderParams);
     }
 }

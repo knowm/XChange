@@ -5,25 +5,25 @@ import org.knowm.xchange.blockchain.BlockchainAuthenticated;
 import org.knowm.xchange.blockchain.BlockchainErrorAdapter;
 import org.knowm.xchange.blockchain.BlockchainExchange;
 import org.knowm.xchange.blockchain.dto.BlockchainException;
+import org.knowm.xchange.blockchain.dto.trade.BlockchainOrder;
+import org.knowm.xchange.blockchain.params.BlockchainTradeHistoryParams;
 import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.OpenPositions;
+import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelAllOrders;
-import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.orders.*;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 
-import static org.knowm.xchange.blockchain.BlockchainConstants.*;
+import static org.knowm.xchange.blockchain.BlockchainConstants.CURRENCY_PAIR_EXCEPTION;
+import static org.knowm.xchange.blockchain.BlockchainConstants.NOT_IMPLEMENTED_YET;
 
 public class BlockchainTradeService extends BlockchainTradeServiceRaw implements TradeService {
 
@@ -47,27 +47,21 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
 
     @Override
     public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-        Long id = this.postOrder(BlockchainAdapters.toBlockchainOrder(LIMIT, limitOrder,
-                null,
-                null)).getExOrdId();
+        Long id = this.postOrder(BlockchainAdapters.toBlockchainLimitOrder(limitOrder)).getExOrdId();
         if (id != null) return Long.toString(id);
         return null;
     }
 
     @Override
     public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-        Long id = this.postOrder(BlockchainAdapters.toBlockchainOrder(MARKET,
-                null, marketOrder,
-                null)).getExOrdId();
+        Long id = this.postOrder(BlockchainAdapters.toBlockchainMarketOrder(marketOrder)).getExOrdId();
         if (id != null) return Long.toString(id);
         return null;
     }
 
     @Override
     public String placeStopOrder(StopOrder stopOrder) throws IOException {
-        Long id = this.postOrder(BlockchainAdapters.toBlockchainOrder(STOP_ORDER,
-                null,
-                null, stopOrder)).getExOrdId();
+        Long id = this.postOrder(BlockchainAdapters.toBlockchainStopOrder(stopOrder)).getExOrdId();
         if (id != null) return Long.toString(id);
         return null;
     }
@@ -85,26 +79,97 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     @Override
     public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
         if (orderParams instanceof CancelOrderByCurrencyPair) {
-            this.cancelAllOrdersBySymbol(
-                    ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair().toString());
+            this.cancelAllOrdersBySymbol(BlockchainAdapters.toSymbol(orderParams));
             return true;
-        } else {
-            if (orderParams instanceof CancelOrderByIdParams) {
-                return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
-            } else {
-                return false;
+        }
+
+        if (orderParams instanceof CancelOrderByIdParams) {
+            return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+        }
+
+        return false;
+    }
+
+    @Override
+    public Class[] getRequiredCancelOrderParamClasses() {
+        return new Class[]{CancelOrderByIdParams.class, CancelOrderByCurrencyPair.class};
+    }
+
+    @Override
+    public OpenPositions getOpenPositions() throws IOException {
+        throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
+    }
+
+    @Override
+    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+        try {
+            Long startTime = null;
+            Long endTime = null;
+            Integer limit = null;
+
+            if (!(params instanceof TradeHistoryParamCurrencyPair)) {
+                throw new ExchangeException(CURRENCY_PAIR_EXCEPTION);
             }
+
+            String symbol = BlockchainAdapters.toSymbol(
+                    ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+
+            if (symbol == null) {
+                throw new ExchangeException(CURRENCY_PAIR_EXCEPTION);
+            }
+
+            if (params instanceof TradeHistoryParamsTimeSpan) {
+                if (((TradeHistoryParamsTimeSpan) params).getStartTime() != null) {
+                    startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime().getTime();
+                }
+                if (((TradeHistoryParamsTimeSpan) params).getEndTime() != null) {
+                    endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime().getTime();
+                }
+            }
+
+            if (params instanceof TradeHistoryParamLimit) {
+                TradeHistoryParamLimit limitParams = (TradeHistoryParamLimit) params;
+                limit = limitParams.getLimit();
+            }
+
+            List<BlockchainOrder> tradesOrders = this.getTrades(symbol, startTime, endTime, limit);
+            return BlockchainAdapters.toUserTrades(tradesOrders);
+        } catch (BlockchainException e) {
+            throw BlockchainErrorAdapter.adapt(e);
         }
     }
 
     @Override
-    public Collection<String> cancelAllOrders(CancelAllOrders orderParams) throws IOException {
-        if (orderParams instanceof CancelOrderByCurrencyPair) {
-            cancelOrder(orderParams);
-            Collection<String> cancelIds = Arrays.asList(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair().toString());
-            return cancelIds;
-        }else {
-            return null;
+    public TradeHistoryParams createTradeHistoryParams() {
+        return BlockchainTradeHistoryParams.builder().build();
+    }
+
+    @Override
+    public Class getRequiredOrderQueryParamClass() {
+        return OrderQueryParamCurrencyPair.class;
+    }
+
+    @Override
+    public Collection<Order> getOrder(String... orderIds) throws IOException {
+        List<Order> openOrders = new ArrayList<>();
+
+        for (String orderId : orderIds) {
+            openOrders.addAll(getOrder(new DefaultQueryOrderParam(orderId)));
+        }
+        return openOrders;
+    }
+
+    @Override
+    public Collection<Order> getOrder(OrderQueryParams... params) throws IOException {
+        try {
+            Collection<Order> orders = new ArrayList<>();
+            for (OrderQueryParams param : params) {
+                BlockchainOrder order = this.getOrder(param.getOrderId());
+                orders.add(BlockchainAdapters.toOpenOrdersById(order));
+            }
+            return orders;
+        } catch (BlockchainException e) {
+            throw BlockchainErrorAdapter.adapt(e);
         }
     }
 

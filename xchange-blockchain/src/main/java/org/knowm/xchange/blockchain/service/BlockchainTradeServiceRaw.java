@@ -1,12 +1,10 @@
 package org.knowm.xchange.blockchain.service;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.knowm.xchange.blockchain.BlockchainAuthenticated;
 import org.knowm.xchange.blockchain.BlockchainErrorAdapter;
 import org.knowm.xchange.blockchain.BlockchainExchange;
 import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.blockchain.dto.trade.BlockchainOrder;
-import org.knowm.xchange.blockchain.params.BlockchainOrderParams;
 import org.knowm.xchange.client.ResilienceRegistries;
 
 import java.io.IOException;
@@ -27,7 +25,14 @@ public class BlockchainTradeServiceRaw extends BlockchainBaseService {
                 .call();
     }
 
-    protected BlockchainOrder postOrder(BlockchainOrderParams blockchainOrder) throws IOException{
+    protected BlockchainOrder getOrder(String orderId) throws IOException {
+        return decorateApiCall(() -> this.blockchainApi.getOrder(orderId))
+                .withRetry(retry(GET_ORDER))
+                .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
+                .call();
+    }
+
+    protected BlockchainOrder postOrder(BlockchainOrder blockchainOrder) throws IOException{
         return decorateApiCall(() -> this.blockchainApi.postOrder(blockchainOrder))
                 .withRetry(retry(POST_ORDER))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
@@ -57,5 +62,12 @@ public class BlockchainTradeServiceRaw extends BlockchainBaseService {
         }catch (BlockchainException e){
             throw BlockchainErrorAdapter.adapt(e);
         }
+    }
+
+    protected List<BlockchainOrder> getTrades(String symbol, Long startTime, Long endTime, Integer limit) throws IOException {
+        return  decorateApiCall(() -> this.blockchainApi.getTrades(symbol, startTime, endTime, limit))
+                .withRetry(retry(GET_TRADES))
+                .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
+                .call();
     }
 }

@@ -32,6 +32,7 @@ public class BlockchainOrder {
     private final String clOrdId;
     private final String ordType;
     private final String ordStatus;
+    private final BigDecimal orderQty;
     private final String side;
     private final String text;
     private final BigDecimal price;

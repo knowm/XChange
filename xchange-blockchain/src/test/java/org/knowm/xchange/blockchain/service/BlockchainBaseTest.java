@@ -54,6 +54,5 @@ public class BlockchainBaseTest {
                                 aResponse()
                                         .withStatus(statusCode)
                                         .withHeader("Content-Type", "application/json")));
-                                        //.withBodyFile(fileName)));
     }
 }

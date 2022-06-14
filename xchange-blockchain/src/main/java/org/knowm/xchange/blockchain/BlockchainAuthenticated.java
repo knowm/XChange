@@ -3,7 +3,6 @@ package org.knowm.xchange.blockchain;
 import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.blockchain.dto.account.*;
 import org.knowm.xchange.blockchain.dto.trade.BlockchainOrder;
-import org.knowm.xchange.blockchain.params.BlockchainOrderParams;
 import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 
 import javax.ws.rs.*;
@@ -88,20 +87,76 @@ public interface BlockchainAuthenticated extends Blockchain {
     List<BlockchainDeposits> depositHistory(@QueryParam("from") Long startTime,
                                             @QueryParam("to") Long endTime);
 
-    @Path("orders")
+    /**
+     * Get a list orders
+     *
+     * @return live and historic orders, defaulting to live orders. Returns at most 100 results, use timestamp to
+     * paginate for further results
+     */
+    @Path("/orders")
     @GET
     List<BlockchainOrder> getOrders();
 
-    @Path("orders")
+    /**
+     * Get a specific order
+     *
+     * @param orderId
+     * @return the order according to the orderId, 404 if not found
+     */
+    @Path("/orders/{orderId}")
+    @GET
+    BlockchainOrder getOrder(@PathParam("orderId") String orderId);
+
+    /**
+     * Add an order
+     *
+     * @param blockchainOrder
+     * @return a new order according to the provided parameters
+     */
+    @Path("/orders")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    BlockchainOrder postOrder(BlockchainOrderParams blockchainOrder);
+    BlockchainOrder postOrder(BlockchainOrder blockchainOrder);
 
-    @Path("orders/{orderId}")
+    /**
+     * Delete a specific order
+     *
+     * @param orderId
+     * @return status 200 if it was successfully removed or 400 if there was an error
+     * @throws IOException
+     * @throws BlockchainException
+     */
+    @Path("/orders/{orderId}")
     @DELETE
-    Boolean cancelOrder(@PathParam("orderId") String orderId) throws IOException, BlockchainException;
+    Void cancelOrder(@PathParam("orderId") String orderId) throws IOException, BlockchainException;
 
-    @Path("orders")
+    /**
+     * Delete all open orders (of a symbol, if specified)
+     *
+     * @param symbol
+     * @return status 200 if it was successfully removed or 400 if there was an error
+     * @throws IOException
+     * @throws BlockchainException
+     */
+    @Path("/orders")
     @DELETE
-    Boolean cancelAllOrders(@QueryParam("symbol") String symbol) throws IOException, BlockchainException;
+    Void cancelAllOrders(@QueryParam("symbol") String symbol) throws IOException, BlockchainException;
+
+    /**
+     * Get a list of filled orders
+     *
+     * @param symbol
+     * @param startTime
+     * @param endTime
+     * @param limit
+     * @return filled orders, including partial fills. Returns at most 100 results, use timestamp to paginate for
+     * further results
+     */
+    @Path("/trades")
+    @GET
+    List<BlockchainOrder> getTrades(@QueryParam("symbol") String symbol,
+                                    @QueryParam("from") Long startTime,
+                                    @QueryParam("to") Long endTime,
+                                    @QueryParam("limit") Integer limit);
+
 }

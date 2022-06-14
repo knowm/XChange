@@ -11,7 +11,9 @@ public class BlockchainConstants {
     public static final String URL_DEPOSIT_BY_CURRENCY = "/v3/exchange/deposits/BTC";
     public static final String URL_WITHDRAWALS = "/v3/exchange/withdrawals";
     public static final String URL_ORDERS = "/v3/exchange/orders";
-    public static final String URL_ORDERS_DELETE = "/v3/exchange/orders/11111111";
+    public static final String URL_ORDERS_BY_ID_1 = "/v3/exchange/orders/11111111";
+    public static final String URL_ORDERS_BY_ID_2 = "/v3/exchange/orders/22222222";
+    public static final String URL_TRADES = "/v3/exchange/trades";
     public static final String WITHDRAWAL_ID = "3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ";
     public static final String STATUS_CODE_401 = "Unauthorized (HTTP status code: 401)";
     public static final String STATUS_CODE_400 = "Bad Request (HTTP status code: 400)";
@@ -34,4 +36,5 @@ public class BlockchainConstants {
     public static final String NOT_IMPLEMENTED_YET = "Not implemented yet";
     public static final String BENEFICIARY = "ea1f34b3-e77a-4646-9cfa-5d6d3518c6d3";
     public static final String ORDER_ID = "11111111";
+    public static final Long END_TIME = 12 * 30 * 24 * 60 * 60 * 1000L;
 }
