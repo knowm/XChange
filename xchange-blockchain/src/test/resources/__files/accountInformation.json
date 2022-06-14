@@ -1,20 +1,20 @@
 {
   "primary": [
     {
-      "currency": "BTC",
-      "balance": 0.0,
-      "available": 0.0,
-      "balance_local": 0.0,
-      "available_local": 0.0,
-      "rate": 29340.1
+      "currency": "USDT",
+      "balance": 200,
+      "available": 200,
+      "balance_local": 199.782,
+      "available_local": 199.782,
+      "rate": 0.99891
     },
     {
-      "currency": "USDT",
-      "balance": 200.0,
-      "available": 200.0,
-      "balance_local": 199.804,
-      "available_local": 199.804,
-      "rate": 0.99902
+      "currency": "BTC",
+      "balance": 0,
+      "available": 0,
+      "balance_local": 0,
+      "available_local": 0,
+      "rate": 29837
     }
   ]
 }
