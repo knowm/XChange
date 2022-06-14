@@ -449,7 +449,7 @@ public class FtxAdapters {
   public static FtxConditionalOrderType adaptTriggerOrderIntention(StopOrder.Intention stopOrderIntention) throws IOException {
     switch (stopOrderIntention){
       case STOP_LOSS: return FtxConditionalOrderType.stop;
-      case TAKE_PROFIT: return FtxConditionalOrderType.takeProfit;
+      case TAKE_PROFIT: return FtxConditionalOrderType.take_profit;
       default: throw new IOException("StopOrder Intention is not supported.");
     }
   }
