@@ -103,7 +103,7 @@ public class FtxAdapterTest {
   }
 
   @Test
-  public void adaptStopOrderToFtxOrderPayloadTest() {
+  public void adaptStopOrderToFtxOrderPayloadTest() throws IOException {
     CurrencyPair currencyPair = new CurrencyPair(Currency.BTC.getCurrencyCode(), "PERP");
     OrderType orderType = OrderType.BID;
     BigDecimal amount = BigDecimal.valueOf(0.001);

@@ -1,5 +1,6 @@
 package org.knowm.xchange.ftx;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
@@ -436,13 +437,21 @@ public class FtxAdapters {
   }
 
   public static FtxConditionalOrderRequestPayload adaptStopOrderToFtxOrderPayload(
-      StopOrder stopOrder) {
+      StopOrder stopOrder) throws IOException {
     return adaptConditionalOrderToFtxOrderPayload(
-        FtxConditionalOrderType.stop,
+        adaptTriggerOrderIntention(stopOrder.getIntention()),
         stopOrder,
         stopOrder.getLimitPrice(),
         stopOrder.getStopPrice(),
         null);
+  }
+
+  public static FtxConditionalOrderType adaptTriggerOrderIntention(StopOrder.Intention stopOrderIntention) throws IOException {
+    switch (stopOrderIntention){
+      case STOP_LOSS: return FtxConditionalOrderType.stop;
+      case TAKE_PROFIT: return FtxConditionalOrderType.takeProfit;
+      default: throw new IOException("StopOrder Intention is not supported.");
+    }
   }
 
   public static FtxModifyConditionalOrderRequestPayload
