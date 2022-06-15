@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 
-import static org.knowm.xchange.examples.blockchain.BlockchainDemoUtils.END_TIME;
+import static org.knowm.xchange.examples.blockchain.BlockchainDemoUtils.*;
 
 public class BlockchainTradeDemo {
     private static final Exchange BLOCKCHAIN_EXCHANGE = BlockchainDemoUtils.createExchange();
@@ -35,8 +35,8 @@ public class BlockchainTradeDemo {
         System.out.println("===== placeLimitOrder =====");
         LimitOrder limitOrder =
                 new LimitOrder.Builder(Order.OrderType.BID, CurrencyPair.ADA_USDT)
-                        .originalAmount(new BigDecimal("1.0"))
-                        .limitPrice(new BigDecimal("0.23"))
+                        .originalAmount(AMOUNT)
+                        .limitPrice(STOP_LIMIT)
                         .build();
 
         String tradeLimitOrder = tradeService.placeLimitOrder(limitOrder);
@@ -45,8 +45,8 @@ public class BlockchainTradeDemo {
         System.out.println("===== placeMarketOrder =====");
         MarketOrder marketOrder =
                 new MarketOrder.Builder(Order.OrderType.BID, CurrencyPair.ADA_USDT)
-                        .originalAmount(new BigDecimal("1.0"))
-                        .cumulativeAmount(new BigDecimal("0.22"))
+                        .originalAmount(AMOUNT)
+                        .cumulativeAmount(STOP_PRICE)
                         .build();
 
         String tradeMarketOrder = tradeService.placeMarketOrder(marketOrder);
@@ -55,8 +55,8 @@ public class BlockchainTradeDemo {
         System.out.println("===== placeStopOrder =====");
         StopOrder stopOrder =
                 new StopOrder.Builder(Order.OrderType.BID, CurrencyPair.ADA_USDT)
-                        .originalAmount(new BigDecimal("1.0"))
-                        .stopPrice(new BigDecimal("0.21"))
+                        .originalAmount(AMOUNT)
+                        .stopPrice(STOP_PRICE)
                         .build();
 
         String tradeStopOrder = tradeService.placeStopOrder(stopOrder);
@@ -76,7 +76,7 @@ public class BlockchainTradeDemo {
 
 
         System.out.println("===== cancelOrder =====");
-        CancelOrderByCurrencyPair cancelOrderByCurrencyPair = () -> new CurrencyPair("ADA/USDT");
+        CancelOrderByCurrencyPair cancelOrderByCurrencyPair = () -> new CurrencyPair(SYMBOL);
         boolean cancelAllOrderByCurrency = tradeService.cancelOrder(cancelOrderByCurrencyPair);
         System.out.println("Canceling returned " + cancelAllOrderByCurrency);
 

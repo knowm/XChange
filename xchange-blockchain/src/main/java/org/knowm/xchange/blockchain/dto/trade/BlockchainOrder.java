@@ -63,17 +63,21 @@ public class BlockchainOrder {
     }
 
     @JsonIgnore
+    public Order.OrderType getOrderType(){
+        return isBuyer() ? Order.OrderType.BID : Order.OrderType.ASK;
+    }
+
+    @JsonIgnore
     public Order.Builder getOrderBuilder(){
-        final Order.OrderType orderType = this.isBuyer() ? Order.OrderType.BID : Order.OrderType.ASK;
         final CurrencyPair symbol = this.getSymbol();
         Order.Builder builder;
 
         if (this.isMarketOrder()) {
-            builder = new MarketOrder.Builder(orderType, symbol);
+            builder = new MarketOrder.Builder(getOrderType(), symbol);
         } else if (this.isLimitOrder()){
-            builder = new LimitOrder.Builder(orderType, symbol).limitPrice(this.getPrice());
+            builder = new LimitOrder.Builder(getOrderType(), symbol).limitPrice(this.getPrice());
         } else {
-            builder = new StopOrder.Builder(orderType, symbol).stopPrice(this.getPrice());
+            builder = new StopOrder.Builder(getOrderType(), symbol).stopPrice(this.getPrice());
         }
 
         return builder;

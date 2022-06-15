@@ -22,8 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.knowm.xchange.blockchain.BlockchainConstants.CURRENCY_PAIR_EXCEPTION;
-import static org.knowm.xchange.blockchain.BlockchainConstants.NOT_IMPLEMENTED_YET;
+import static org.knowm.xchange.blockchain.BlockchainConstants.*;
 
 public class BlockchainTradeService extends BlockchainTradeServiceRaw implements TradeService {
 
@@ -47,23 +46,36 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
 
     @Override
     public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-        Long id = this.postOrder(BlockchainAdapters.toBlockchainLimitOrder(limitOrder)).getExOrdId();
-        if (id != null) return Long.toString(id);
-        return null;
+        try {
+            Long id = this.postOrder(BlockchainAdapters.toBlockchainLimitOrder(limitOrder)).getExOrdId();
+            if (id == null) throw new ExchangeException(ORDER_EXCEPTION);
+            return Long.toString(id);
+        } catch (BlockchainException e) {
+            throw BlockchainErrorAdapter.adapt(e);
+        }
     }
 
     @Override
     public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-        Long id = this.postOrder(BlockchainAdapters.toBlockchainMarketOrder(marketOrder)).getExOrdId();
-        if (id != null) return Long.toString(id);
-        return null;
+        try {
+           Long id = this.postOrder(BlockchainAdapters.toBlockchainMarketOrder(marketOrder)).getExOrdId();
+           if (id == null) throw new ExchangeException(ORDER_EXCEPTION);
+           return Long.toString(id);
+        } catch (BlockchainException e) {
+            throw BlockchainErrorAdapter.adapt(e);
+        }
     }
 
     @Override
     public String placeStopOrder(StopOrder stopOrder) throws IOException {
-        Long id = this.postOrder(BlockchainAdapters.toBlockchainStopOrder(stopOrder)).getExOrdId();
-        if (id != null) return Long.toString(id);
-        return null;
+        try {
+            Long id = this.postOrder(BlockchainAdapters.toBlockchainStopOrder(stopOrder)).getExOrdId();
+            if (id == null) throw new ExchangeException(ORDER_EXCEPTION);
+            return Long.toString(id);
+        } catch (BlockchainException e) {
+            throw BlockchainErrorAdapter.adapt(e);
+        }
+
     }
 
     @Override

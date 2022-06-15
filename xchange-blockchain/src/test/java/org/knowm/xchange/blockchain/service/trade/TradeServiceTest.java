@@ -106,7 +106,8 @@ public class TradeServiceTest extends BlockchainBaseTest {
         stubGet(NEW_ORDER_LIMIT_JSON, URL_ORDERS_BY_ID_1);
         stubGet(NEW_ORDER_MARKET_JSON, URL_ORDERS_BY_ID_2);
         Collection<Order> response = service.getOrder("11111111", "22222222");
-        Assert.assertNotNull(response);
+        assertThat(response).isNotNull();
+        assertThat(response).isNotEmpty();
         response.forEach(
                 record -> Assert.assertTrue(record.getOriginalAmount().compareTo(BigDecimal.ZERO) > 0));
 
