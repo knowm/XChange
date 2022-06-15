@@ -284,20 +284,19 @@ public class HuobiAdapters {
     }
     if (openOrder.isStop()) {
       order =
-          new StopOrder(
-              orderType,
-              openOrder.getAmount(),
-              currencyPair,
-              String.valueOf(openOrder.getId()),
-              openOrder.getCreatedAt(),
-              openOrder.getStopPrice(),
-              openOrder.getPrice(),
-              openOrderAvgPrice,
-              openOrder.getFieldAmount(),
-              openOrder.getFieldFees(),
-              adaptOrderStatus(openOrder.getState()),
-              openOrder.getClOrdId(),
-              openOrder.getOperator().equals("lte") ? Intention.STOP_LOSS : Intention.TAKE_PROFIT);
+          new StopOrder.Builder(orderType, currencyPair)
+                  .originalAmount(openOrder.getAmount())
+                  .id(String.valueOf(openOrder.getId()))
+                  .timestamp(openOrder.getCreatedAt())
+                  .stopPrice(openOrder.getStopPrice())
+                  .limitPrice(openOrder.getPrice())
+                  .averagePrice(openOrderAvgPrice)
+                  .cumulativeAmount(openOrder.getFieldAmount())
+                  .fee(openOrder.getFieldFees())
+                  .orderStatus(adaptOrderStatus(openOrder.getState()))
+                  .userReference(openOrder.getClOrdId())
+                  .intention(openOrder.getOperator().equals("lte") ? Intention.STOP_LOSS : Intention.TAKE_PROFIT)
+                  .build();
     }
 
     order.setAveragePrice(openOrderAvgPrice);
