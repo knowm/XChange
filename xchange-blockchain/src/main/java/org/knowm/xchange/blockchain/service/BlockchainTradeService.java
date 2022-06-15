@@ -79,8 +79,7 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     @Override
     public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
         if (orderParams instanceof CancelOrderByCurrencyPair) {
-            this.cancelAllOrdersBySymbol(BlockchainAdapters.toSymbol(orderParams));
-            return true;
+            return this.cancelAllOrdersBySymbol(BlockchainAdapters.toSymbol(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair()));
         }
 
         if (orderParams instanceof CancelOrderByIdParams) {
@@ -96,7 +95,7 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     }
 
     @Override
-    public OpenPositions getOpenPositions() throws IOException {
+    public OpenPositions getOpenPositions() {
         throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
     }
 
@@ -113,10 +112,6 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
 
             String symbol = BlockchainAdapters.toSymbol(
                     ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
-
-            if (symbol == null) {
-                throw new ExchangeException(CURRENCY_PAIR_EXCEPTION);
-            }
 
             if (params instanceof TradeHistoryParamsTimeSpan) {
                 if (((TradeHistoryParamsTimeSpan) params).getStartTime() != null) {
@@ -140,7 +135,7 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     }
 
     @Override
-    public TradeHistoryParams createTradeHistoryParams() {
+    public BlockchainTradeHistoryParams createTradeHistoryParams() {
         return BlockchainTradeHistoryParams.builder().build();
     }
 
@@ -154,7 +149,9 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
         List<Order> openOrders = new ArrayList<>();
 
         for (String orderId : orderIds) {
-            openOrders.addAll(getOrder(new DefaultQueryOrderParam(orderId)));
+            if (orderId != null) {
+                openOrders.addAll(getOrder(new DefaultQueryOrderParam(orderId)));
+            }
         }
         return openOrders;
     }

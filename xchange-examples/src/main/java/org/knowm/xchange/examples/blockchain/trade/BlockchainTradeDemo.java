@@ -2,16 +2,14 @@ package org.knowm.xchange.examples.blockchain.trade;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import lombok.SneakyThrows;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.blockchain.params.BlockchainTradeHistoryParams;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.examples.blockchain.BlockchainDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 
@@ -26,13 +24,12 @@ public class BlockchainTradeDemo {
     private static final Exchange BLOCKCHAIN_EXCHANGE = BlockchainDemoUtils.createExchange();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println("===== TRADE SERVICE =====");
         tradeServiceDemo();
     }
 
-    @SneakyThrows
-    private static void tradeServiceDemo() throws IOException {
+    private static void tradeServiceDemo() throws InterruptedException, IOException {
         TradeService tradeService = BLOCKCHAIN_EXCHANGE.getTradeService();
 
         System.out.println("===== placeLimitOrder =====");
@@ -68,37 +65,29 @@ public class BlockchainTradeDemo {
         Thread.sleep(5000);
         System.out.println("===== getOpenOrders =====");
 
-        try {
-            final OpenOrdersParamCurrencyPair openOrdersParamsBtcUsd =
-                    (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
-            openOrdersParamsBtcUsd.setCurrencyPair(CurrencyPair.ADA_USDT);
-            OpenOrders openOrdersParams = tradeService.getOpenOrders(openOrdersParamsBtcUsd);
-            System.out.println(OBJECT_MAPPER.writeValueAsString(openOrdersParams));
+        final OpenOrdersParamCurrencyPair openOrdersParamsBtcUsd =
+                (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+        openOrdersParamsBtcUsd.setCurrencyPair(CurrencyPair.ADA_USDT);
+        OpenOrders openOrdersParams = tradeService.getOpenOrders(openOrdersParamsBtcUsd);
+        System.out.println(OBJECT_MAPPER.writeValueAsString(openOrdersParams));
 
-            OpenOrders openOrders = tradeService.getOpenOrders();
-            System.out.println(OBJECT_MAPPER.writeValueAsString(openOrders));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        OpenOrders openOrders = tradeService.getOpenOrders();
+        System.out.println(OBJECT_MAPPER.writeValueAsString(openOrders));
 
 
         System.out.println("===== cancelOrder =====");
         CancelOrderByCurrencyPair cancelOrderByCurrencyPair = () -> new CurrencyPair("ADA/USDT");
-        Boolean cancelAllOrderByCurrency = tradeService.cancelOrder(cancelOrderByCurrencyPair);
+        boolean cancelAllOrderByCurrency = tradeService.cancelOrder(cancelOrderByCurrencyPair);
         System.out.println("Canceling returned " + cancelAllOrderByCurrency);
 
         System.out.println("===== getTradeHistory =====");
 
-        TradeHistoryParams params = tradeService.createTradeHistoryParams();
-        if (params instanceof TradeHistoryParamsTimeSpan) {
-            final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
-            timeSpanParam.setStartTime(
-                    new Date(System.currentTimeMillis() - END_TIME));
-        }
+        BlockchainTradeHistoryParams params = (BlockchainTradeHistoryParams) tradeService.createTradeHistoryParams();
+        ((TradeHistoryParamsTimeSpan) params).setStartTime(
+                new Date(System.currentTimeMillis() - END_TIME));
 
-        if (params instanceof TradeHistoryParamCurrencyPair) {
-            ((TradeHistoryParamCurrencyPair) params).setCurrencyPair(CurrencyPair.ADA_USDT);
-        }
+        params.setCurrencyPair(CurrencyPair.ADA_USDT);
+
         UserTrades tradeHistory = tradeService.getTradeHistory(params);
         System.out.println(OBJECT_MAPPER.writeValueAsString(tradeHistory));
 

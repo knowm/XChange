@@ -36,5 +36,9 @@ public class BlockchainConstants {
     public static final String NOT_IMPLEMENTED_YET = "Not implemented yet";
     public static final String BENEFICIARY = "ea1f34b3-e77a-4646-9cfa-5d6d3518c6d3";
     public static final String ORDER_ID = "11111111";
+    public static final String MARKET_ORDER_ID = "22222222";
+    public static final String STOP_ORDER_ID = "33333333";
     public static final Long END_TIME = 12 * 30 * 24 * 60 * 60 * 1000L;
+    public static final String CONTENT_TYPE = "Content-Type";
+    public static final String APPLICATION = "application/json";
 }

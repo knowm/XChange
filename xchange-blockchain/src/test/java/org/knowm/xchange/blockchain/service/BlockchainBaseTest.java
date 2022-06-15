@@ -8,6 +8,8 @@ import org.knowm.xchange.blockchain.BlockchainExchange;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.APPLICATION;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.CONTENT_TYPE;
 
 public class BlockchainBaseTest {
 
@@ -33,17 +35,17 @@ public class BlockchainBaseTest {
                         .willReturn(
                                 aResponse()
                                         .withStatus(statusCode)
-                                        .withHeader("Content-Type", "application/json")
+                                        .withHeader(CONTENT_TYPE, APPLICATION)
                                         .withBodyFile(fileName)));
     }
 
-    protected void stubGet(String fileName, int statusCode, String url) {
+    protected void stubGet(String fileName, String url) {
         stubFor(
                 get(urlPathEqualTo(url))
                         .willReturn(
                                 aResponse()
-                                        .withStatus(statusCode)
-                                        .withHeader("Content-Type", "application/json")
+                                        .withStatus(200)
+                                        .withHeader(CONTENT_TYPE, APPLICATION)
                                         .withBodyFile(fileName)));
     }
 
@@ -53,6 +55,6 @@ public class BlockchainBaseTest {
                         .willReturn(
                                 aResponse()
                                         .withStatus(statusCode)
-                                        .withHeader("Content-Type", "application/json")));
+                                        .withHeader(CONTENT_TYPE, APPLICATION)));
     }
 }

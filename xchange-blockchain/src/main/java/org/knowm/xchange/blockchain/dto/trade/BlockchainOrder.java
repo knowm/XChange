@@ -10,6 +10,10 @@ import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.blockchain.serializer.BlockchainCurrencyPairSerializer;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 import java.math.BigDecimal;
@@ -57,4 +61,22 @@ public class BlockchainOrder {
     public boolean isBuyer() {
         return BUY.equals(this.side.toUpperCase());
     }
+
+    @JsonIgnore
+    public Order.Builder getOrderBuilder(){
+        final Order.OrderType orderType = this.isBuyer() ? Order.OrderType.BID : Order.OrderType.ASK;
+        final CurrencyPair symbol = this.getSymbol();
+        Order.Builder builder;
+
+        if (this.isMarketOrder()) {
+            builder = new MarketOrder.Builder(orderType, symbol);
+        } else if (this.isLimitOrder()){
+            builder = new LimitOrder.Builder(orderType, symbol).limitPrice(this.getPrice());
+        } else {
+            builder = new StopOrder.Builder(orderType, symbol).stopPrice(this.getPrice());
+        }
+
+        return builder;
+    }
+
 }

@@ -12,15 +12,15 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.instrument.Instrument;
-import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static org.knowm.xchange.blockchain.BlockchainConstants.*;
@@ -30,15 +30,6 @@ public class BlockchainAdapters {
 
     public static String toSymbol(CurrencyPair currencyPair) {
         return String.format(CURRENCY_PAIR_SYMBOL_FORMAT, currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
-    }
-
-    public static String toSymbol(CancelOrderParams currencyPair) {
-        if (currencyPair instanceof CancelOrderByCurrencyPair) {
-            return String.format(CURRENCY_PAIR_SYMBOL_FORMAT,
-                    ((CancelOrderByCurrencyPair) currencyPair).getCurrencyPair().base,
-                    ((CancelOrderByCurrencyPair) currencyPair).getCurrencyPair().counter);
-        }
-        throw new IllegalArgumentException(String.format("Unsupported currency pair '%s'", currencyPair));
     }
 
     public static CurrencyPair toCurrencyPair(Instrument instrument){
@@ -118,21 +109,12 @@ public class BlockchainAdapters {
     }
 
     public static OpenOrders toOpenOrders(List<BlockchainOrder> blockchainOrders){
-        List<LimitOrder> limitOrders = new ArrayList<>(Collections.emptyList());
-        List<Order> hiddenOrders = new ArrayList<>(Collections.emptyList());
+        List<LimitOrder> limitOrders = new ArrayList<>();
+        List<Order> hiddenOrders = new ArrayList<>();
 
         for(BlockchainOrder blockchainOrder : blockchainOrders) {
-            final Order.OrderType orderType = blockchainOrder.isBuyer() ? Order.OrderType.BID : Order.OrderType.ASK;
-            final CurrencyPair symbol = blockchainOrder.getSymbol();
-            Order.Builder builder;
+            Order.Builder builder = blockchainOrder.getOrderBuilder();
 
-            if (blockchainOrder.isMarketOrder()) {
-                builder = new MarketOrder.Builder(orderType, symbol);
-            } else if (blockchainOrder.isLimitOrder()){
-                builder = new LimitOrder.Builder(orderType, symbol).limitPrice(blockchainOrder.getPrice());
-            } else {
-                builder = new StopOrder.Builder(orderType, symbol).stopPrice(blockchainOrder.getPrice());
-            }
             Order order = builder.orderStatus(toOrderStatus(blockchainOrder.getOrdStatus()))
                     .originalAmount(blockchainOrder.getCumQty().add(blockchainOrder.getLeavesQty()))
                     .id(Long.toString(blockchainOrder.getExOrdId()))
@@ -151,17 +133,7 @@ public class BlockchainAdapters {
     }
 
     public static Order toOpenOrdersById(BlockchainOrder blockchainOrder){
-        Order.OrderType orderType = blockchainOrder.isBuyer() ? Order.OrderType.BID : Order.OrderType.ASK;
-        CurrencyPair symbol = blockchainOrder.getSymbol();
-        Order.Builder builder;
-
-        if (blockchainOrder.isMarketOrder()) {
-            builder = new MarketOrder.Builder(orderType, symbol);
-        } else if (blockchainOrder.isLimitOrder()){
-            builder = new LimitOrder.Builder(orderType, symbol).limitPrice(blockchainOrder.getPrice());
-        } else {
-            builder = new StopOrder.Builder(orderType, symbol).stopPrice(blockchainOrder.getPrice());
-        }
+        Order.Builder builder = blockchainOrder.getOrderBuilder();
 
         return builder.originalAmount(blockchainOrder.getCumQty().add(blockchainOrder.getLeavesQty()))
                       .id(Long.toString(blockchainOrder.getExOrdId()))
@@ -196,7 +168,7 @@ public class BlockchainAdapters {
 
     public static BlockchainOrder toBlockchainLimitOrder(LimitOrder limitOrder){
         return BlockchainOrder.builder()
-                .ordType(limitOrder.getType().toString())
+                .ordType(LIMIT)
                 .symbol(toCurrencyPair(limitOrder.getInstrument()))
                 .side(Order.OrderType.BID.equals(limitOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
                 .orderQty(limitOrder.getOriginalAmount())
@@ -207,7 +179,7 @@ public class BlockchainAdapters {
 
     public static BlockchainOrder toBlockchainMarketOrder(MarketOrder marketOrder){
         return BlockchainOrder.builder()
-                .ordType(marketOrder.getType().toString())
+                .ordType(MARKET)
                 .symbol(toCurrencyPair(marketOrder.getInstrument()))
                 .side(Order.OrderType.BID.equals(marketOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
                 .orderQty(marketOrder.getOriginalAmount())
@@ -218,7 +190,7 @@ public class BlockchainAdapters {
 
     public static BlockchainOrder toBlockchainStopOrder(StopOrder stopOrder){
         return BlockchainOrder.builder()
-                .ordType(stopOrder.getType().toString())
+                .ordType(STOP)
                 .symbol(toCurrencyPair(stopOrder.getInstrument()))
                 .side(Order.OrderType.BID.equals(stopOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
                 .orderQty(stopOrder.getOriginalAmount())
@@ -249,37 +221,24 @@ public class BlockchainAdapters {
         return new UserTrades(trades, lastId, Trades.TradeSortType.SortByTimestamp);
     }
 
-    /*public static ExchangeMetaData adaptMetaData(
-            List<CurrencyPair> currencyPairs, ExchangeMetaData metaData) {
+   public static ExchangeMetaData adaptMetaData(Map<String, BlockchainSymbol> markets) {
+       Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+       Map<Currency, CurrencyMetaData> currency = new HashMap<>();
 
-        Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
-        Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
+       for (Map.Entry<String, BlockchainSymbol> entry : markets.entrySet()) {
+           CurrencyPair pair = BlockchainAdapters.toCurrencyPairBySymbol(entry.getValue());
+           CurrencyPairMetaData currencyPairMetaData =
+                   new CurrencyPairMetaData.Builder()
+                           .baseScale(entry.getValue().getBaseCurrencyScale())
+                           .minimumAmount(entry.getValue().getMinOrderSize())
+                           .maximumAmount(entry.getValue().getMaxOrderSize())
+                           .build();
+           currencyPairs.put(pair, currencyPairMetaData);
+           currency.put(entry.getValue().getBaseCurrency(), null);
+       }
 
-        pairsMap.keySet().retainAll(currencyPairs);
+       RateLimit[] rateLimits = {new RateLimit(30, 1, TimeUnit.SECONDS)};
 
-        Set<Currency> currencies =
-                currencyPairs.stream()
-                        .flatMap(pair -> Stream.of(pair.base, pair.counter))
-                        .collect(Collectors.toSet());
-        currenciesMap.keySet().retainAll(currencies);
-
-        for (CurrencyPair c : currencyPairs) {
-            if (!pairsMap.containsKey(c)) {
-                pairsMap.put(c, null);
-            }
-
-            if (!currenciesMap.containsKey(c.base)) {
-                currenciesMap.put(
-                        c.base,
-                        new CurrencyMetaData(
-                                2,
-                                null));
-            }
-            if (!currenciesMap.containsKey(c.counter)) {
-                currenciesMap.put(c.counter, new CurrencyMetaData(2, null));
-            }
-        }
-
-        return metaData;
-    }*/
+       return new ExchangeMetaData(currencyPairs, currency, rateLimits, rateLimits, false);
+    }
 }

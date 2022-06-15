@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.*;
@@ -61,7 +60,7 @@ public class AccountServiceTest extends BlockchainBaseTest {
 
     @Test(timeout = 2000)
     public void withdrawException() {
-        Throwable exception = catchThrowable(() -> withdrawExcept());
+        Throwable exception = catchThrowable(this::withdrawExcept);
         assertThat(exception)
                 .isInstanceOf(NotYetImplementedForExchangeException.class)
                 .hasMessage(NOT_IMPLEMENTED_YET);
@@ -87,9 +86,7 @@ public class AccountServiceTest extends BlockchainBaseTest {
         Assert.assertNotNull(response);
 
         response.forEach(
-                record -> {
-                    Assert.assertTrue( record.getAmount().compareTo(BigDecimal.ZERO) > 0);
-                });
+                record -> Assert.assertTrue(record.getAmount().compareTo(BigDecimal.ZERO) > 0));
     }
 
     @Test(timeout = 2000)
@@ -98,9 +95,7 @@ public class AccountServiceTest extends BlockchainBaseTest {
         Assert.assertNotNull(response);
 
         response.forEach(
-                record -> {
-                    Assert.assertTrue( record.getAmount().compareTo(BigDecimal.ZERO) > 0);
-                });
+                record -> Assert.assertTrue(record.getAmount().compareTo(BigDecimal.ZERO) > 0));
     }
 
     @Test(timeout = 2000)
@@ -110,7 +105,7 @@ public class AccountServiceTest extends BlockchainBaseTest {
     }
 
     private AccountInfo getAccountInfo() throws IOException {
-        stubGet(ACCOUNT_INFORMATION_JSON, 200, URL_ACCOUNT);
+        stubGet(ACCOUNT_INFORMATION_JSON, URL_ACCOUNT);
 
         return service.getAccountInfo();
     }
@@ -127,9 +122,9 @@ public class AccountServiceTest extends BlockchainBaseTest {
         return service.withdrawFunds(params);
     }
 
-    private String withdrawExcept() throws IOException {
+    private void withdrawExcept() throws IOException {
         stubPost(WITHDRAWAL_SUCCESS_JSON, 200, URL_WITHDRAWALS);
-        return service.withdrawFunds(
+        service.withdrawFunds(
                 Currency.BTC, BigDecimal.valueOf(0.005), ADDRESS);
     }
 
@@ -140,7 +135,7 @@ public class AccountServiceTest extends BlockchainBaseTest {
     }
 
     private List<FundingRecord> withdrawFundingHistory() throws IOException {
-        stubGet(WITHDRAWAL_HISTORY_SUCCESS_JSON, 200, URL_WITHDRAWALS);
+        stubGet(WITHDRAWAL_HISTORY_SUCCESS_JSON, URL_WITHDRAWALS);
         TradeHistoryParams params = service.createFundingHistoryParams();
         if (params instanceof HistoryParamsFundingType) {
             ((HistoryParamsFundingType) params).setType(FundingRecord.Type.WITHDRAWAL);
@@ -150,7 +145,7 @@ public class AccountServiceTest extends BlockchainBaseTest {
     }
 
     private List<FundingRecord> depositFundingHistory() throws IOException {
-        stubGet(DEPOSIT_HISTORY_SUCCESS_JSON, 200, URL_DEPOSITS);
+        stubGet(DEPOSIT_HISTORY_SUCCESS_JSON, URL_DEPOSITS);
         TradeHistoryParams params = service.createFundingHistoryParams();
         if (params instanceof HistoryParamsFundingType) {
             ((HistoryParamsFundingType) params).setType(FundingRecord.Type.DEPOSIT);
@@ -160,8 +155,8 @@ public class AccountServiceTest extends BlockchainBaseTest {
     }
 
     private Map<CurrencyPair, Fee> tradingFees() throws IOException {
-        stubGet(FEES_JSON, 200, URL_FEES);
-        stubGet(SYMBOL_JSON, 200, URL_SYMBOLS);
+        stubGet(FEES_JSON, URL_FEES);
+        stubGet(SYMBOL_JSON, URL_SYMBOLS);
 
         return service.getDynamicTradingFees();
     }
