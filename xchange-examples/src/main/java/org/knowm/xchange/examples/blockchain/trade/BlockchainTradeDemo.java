@@ -14,7 +14,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 
@@ -46,7 +45,6 @@ public class BlockchainTradeDemo {
         MarketOrder marketOrder =
                 new MarketOrder.Builder(Order.OrderType.BID, CurrencyPair.ADA_USDT)
                         .originalAmount(AMOUNT)
-                        .cumulativeAmount(STOP_PRICE)
                         .build();
 
         String tradeMarketOrder = tradeService.placeMarketOrder(marketOrder);
@@ -57,6 +55,7 @@ public class BlockchainTradeDemo {
                 new StopOrder.Builder(Order.OrderType.BID, CurrencyPair.ADA_USDT)
                         .originalAmount(AMOUNT)
                         .stopPrice(STOP_PRICE)
+                        .limitPrice(STOP_LIMIT)
                         .build();
 
         String tradeStopOrder = tradeService.placeStopOrder(stopOrder);

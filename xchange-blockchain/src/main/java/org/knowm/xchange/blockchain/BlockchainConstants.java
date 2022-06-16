@@ -24,7 +24,6 @@ public class BlockchainConstants {
     public static final String EXCEPTION_MESSAGE = "Operation failed without any error message";
     public static final String FUNDING_RECORD_TYPE_UNSUPPORTED =  "Invalid FundingRecord parameter. Only DefaultWithdrawFundsParams is supported.";
     public static final String CURRENCY_PAIR_EXCEPTION = "Invalid TradeHistoryParams type, it should be an instance of BlockchainTradeHistoryParams";
-    public static final String ORDER_EXCEPTION = "The order was rejected probably the amount does not comply with the restrictions.  The order id is null";
     public static final String OPEN = "OPEN";
     public static final String REJECTED = "REJECTED";
     public static final String REFUNDING = "REFUNDING";
@@ -40,7 +39,7 @@ public class BlockchainConstants {
     public static final String NOT_IMPLEMENTED_YET = "Not implemented yet";
     public static final String MARKET = "MARKET";
     public static final String LIMIT = "LIMIT";
-    public static final String STOP = "STOP";
+    public static final String STOP = "STOPLIMIT";
     public static final String BUY = "buy";
     public static final String SELL = "sell";
 }

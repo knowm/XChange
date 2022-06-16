@@ -47,8 +47,9 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     @Override
     public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
         try {
-            Long id = this.postOrder(BlockchainAdapters.toBlockchainLimitOrder(limitOrder)).getExOrdId();
-            if (id == null) throw new ExchangeException(ORDER_EXCEPTION);
+            BlockchainOrder order = this.postOrder(BlockchainAdapters.toBlockchainLimitOrder(limitOrder));
+            Long id = order.getExOrdId();
+            if (id == null) throw new ExchangeException(order.getText());
             return Long.toString(id);
         } catch (BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);
@@ -58,8 +59,9 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     @Override
     public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
         try {
-           Long id = this.postOrder(BlockchainAdapters.toBlockchainMarketOrder(marketOrder)).getExOrdId();
-           if (id == null) throw new ExchangeException(ORDER_EXCEPTION);
+           BlockchainOrder order = this.postOrder(BlockchainAdapters.toBlockchainMarketOrder(marketOrder));
+           Long id = order.getExOrdId();
+           if (id == null) throw new ExchangeException(order.getText());
            return Long.toString(id);
         } catch (BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);
@@ -69,8 +71,9 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     @Override
     public String placeStopOrder(StopOrder stopOrder) throws IOException {
         try {
-            Long id = this.postOrder(BlockchainAdapters.toBlockchainStopOrder(stopOrder)).getExOrdId();
-            if (id == null) throw new ExchangeException(ORDER_EXCEPTION);
+            BlockchainOrder order = this.postOrder(BlockchainAdapters.toBlockchainStopOrder(stopOrder));
+            Long id = order.getExOrdId();
+            if (id == null) throw new ExchangeException(order.getText());
             return Long.toString(id);
         } catch (BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);

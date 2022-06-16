@@ -13,10 +13,12 @@ public class BlockchainConstants {
     public static final String URL_ORDERS = "/v3/exchange/orders";
     public static final String URL_ORDERS_BY_ID_1 = "/v3/exchange/orders/11111111";
     public static final String URL_ORDERS_BY_ID_2 = "/v3/exchange/orders/22222222";
+    public static final String URL_ORDERS_BY_ID = "/v3/exchange/orders/111111211";
     public static final String URL_TRADES = "/v3/exchange/trades";
     public static final String WITHDRAWAL_ID = "3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ";
     public static final String STATUS_CODE_401 = "Unauthorized (HTTP status code: 401)";
     public static final String STATUS_CODE_400 = "Bad Request (HTTP status code: 400)";
+    public static final String STATUS_CODE_404 = " (HTTP status code: 404)";
     public static final String HTTP_CODE_400 = "HTTP status code was not OK: 400";
     public static final String ADDRESS = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
     public static final String ADDRESS_DEPOSIT = "3CrbF4Z45fnJs62jFs1p3LkR8KiZSGKJFL";
@@ -25,6 +27,7 @@ public class BlockchainConstants {
     public static final String NEW_ORDER_MARKET_JSON = "new_order_market.json";
     public static final String NEW_ORDER_LIMIT_JSON = "new_order_limit.json";
     public static final String NEW_ORDER_STOP_JSON = "new_order_stop.json";
+    public static final String ORDER_NOT_FOUND_JSON = "order_not_found.json";
     public static final String DEPOSIT_SUCCESS_JSON = "deposit-success.json";
     public static final String WITHDRAWAL_SUCCESS_JSON = "withdraw-success.json";
     public static final String WITHDRAWAL_FAILURE_JSON = "withdraw-failure.json";

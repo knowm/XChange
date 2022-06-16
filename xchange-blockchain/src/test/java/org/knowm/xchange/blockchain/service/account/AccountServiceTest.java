@@ -105,7 +105,7 @@ public class AccountServiceTest extends BlockchainBaseTest {
     }
 
     private AccountInfo getAccountInfo() throws IOException {
-        stubGet(ACCOUNT_INFORMATION_JSON, URL_ACCOUNT);
+        stubGet(ACCOUNT_INFORMATION_JSON, 200, URL_ACCOUNT);
 
         return service.getAccountInfo();
     }
@@ -135,7 +135,7 @@ public class AccountServiceTest extends BlockchainBaseTest {
     }
 
     private List<FundingRecord> withdrawFundingHistory() throws IOException {
-        stubGet(WITHDRAWAL_HISTORY_SUCCESS_JSON, URL_WITHDRAWALS);
+        stubGet(WITHDRAWAL_HISTORY_SUCCESS_JSON, 200, URL_WITHDRAWALS);
         TradeHistoryParams params = service.createFundingHistoryParams();
         if (params instanceof HistoryParamsFundingType) {
             ((HistoryParamsFundingType) params).setType(FundingRecord.Type.WITHDRAWAL);
@@ -145,7 +145,7 @@ public class AccountServiceTest extends BlockchainBaseTest {
     }
 
     private List<FundingRecord> depositFundingHistory() throws IOException {
-        stubGet(DEPOSIT_HISTORY_SUCCESS_JSON, URL_DEPOSITS);
+        stubGet(DEPOSIT_HISTORY_SUCCESS_JSON, 200, URL_DEPOSITS);
         TradeHistoryParams params = service.createFundingHistoryParams();
         if (params instanceof HistoryParamsFundingType) {
             ((HistoryParamsFundingType) params).setType(FundingRecord.Type.DEPOSIT);
@@ -155,8 +155,8 @@ public class AccountServiceTest extends BlockchainBaseTest {
     }
 
     private Map<CurrencyPair, Fee> tradingFees() throws IOException {
-        stubGet(FEES_JSON, URL_FEES);
-        stubGet(SYMBOL_JSON, URL_SYMBOLS);
+        stubGet(FEES_JSON, 200, URL_FEES);
+        stubGet(SYMBOL_JSON, 200, URL_SYMBOLS);
 
         return service.getDynamicTradingFees();
     }

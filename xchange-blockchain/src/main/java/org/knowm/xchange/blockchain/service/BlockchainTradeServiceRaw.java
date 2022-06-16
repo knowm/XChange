@@ -18,7 +18,7 @@ public class BlockchainTradeServiceRaw extends BlockchainBaseService {
         super(exchange, blockchainApi, resilienceRegistries);
     }
 
-    protected List<BlockchainOrder> getOrders() throws IOException {
+    protected List<BlockchainOrder> getOrders() throws IOException, BlockchainException {
         return decorateApiCall(this.blockchainApi::getOrders)
                 .withRetry(retry(GET_ORDERS))
                 .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
@@ -26,10 +26,15 @@ public class BlockchainTradeServiceRaw extends BlockchainBaseService {
     }
 
     protected BlockchainOrder getOrder(String orderId) throws IOException {
-        return decorateApiCall(() -> this.blockchainApi.getOrder(orderId))
-                .withRetry(retry(GET_ORDER))
-                .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
-                .call();
+        try {
+            return decorateApiCall(() -> this.blockchainApi.getOrder(orderId))
+                    .withRetry(retry(GET_ORDER))
+                    .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
+                    .call();
+        }catch (BlockchainException e){
+            throw BlockchainErrorAdapter.adapt(e);
+        }
+
     }
 
     protected BlockchainOrder postOrder(BlockchainOrder blockchainOrder) throws IOException{

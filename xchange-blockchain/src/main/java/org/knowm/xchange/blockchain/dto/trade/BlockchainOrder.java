@@ -45,6 +45,7 @@ public class BlockchainOrder {
     private final BigDecimal leavesQty;
     private final BigDecimal cumQty;
     private final BigDecimal avgPx;
+    private final BigDecimal stopPx;
     private final Date timestamp;
 
     @JsonIgnore

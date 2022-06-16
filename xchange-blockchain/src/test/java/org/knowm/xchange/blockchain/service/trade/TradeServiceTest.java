@@ -9,6 +9,7 @@ import org.knowm.xchange.blockchain.service.BlockchainBaseTest;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -34,7 +35,7 @@ public class TradeServiceTest extends BlockchainBaseTest {
 
     @Test(timeout = 2000)
     public void getOpenOrdersSuccess() throws Exception {
-        stubGet(ORDERS_JSON, URL_ORDERS);
+        stubGet(ORDERS_JSON, 200, URL_ORDERS);
         OpenOrders response = service.getOpenOrders();
         assertThat(response).isNotNull();
         assertThat(response.getAllOpenOrders()).isNotEmpty();
@@ -91,7 +92,7 @@ public class TradeServiceTest extends BlockchainBaseTest {
 
         params.setCurrencyPair(CurrencyPair.BTC_USDT);
 
-        stubGet(ORDERS_JSON, URL_TRADES);
+        stubGet(ORDERS_JSON, 200, URL_TRADES);
         UserTrades response = service.getTradeHistory(params);
         assertThat(response).isNotNull();
         assertThat(response.getUserTrades()).isNotEmpty();
@@ -103,13 +104,23 @@ public class TradeServiceTest extends BlockchainBaseTest {
 
     @Test(timeout = 2000)
     public void getOrderSuccess() throws Exception {
-        stubGet(NEW_ORDER_LIMIT_JSON, URL_ORDERS_BY_ID_1);
-        stubGet(NEW_ORDER_MARKET_JSON, URL_ORDERS_BY_ID_2);
+        stubGet(NEW_ORDER_LIMIT_JSON, 200, URL_ORDERS_BY_ID_1);
+        stubGet(NEW_ORDER_MARKET_JSON, 200, URL_ORDERS_BY_ID_2);
         Collection<Order> response = service.getOrder("11111111", "22222222");
         assertThat(response).isNotNull();
         assertThat(response).isNotEmpty();
         response.forEach(
                 record -> Assert.assertTrue(record.getOriginalAmount().compareTo(BigDecimal.ZERO) > 0));
+
+    }
+
+    @Test(timeout = 2000)
+    public void getOrderFailure() {
+        stubGet(ORDER_NOT_FOUND_JSON, 404, URL_ORDERS_BY_ID);
+        Throwable exception = catchThrowable(() -> service.getOrder("111111211"));
+        assertThat(exception)
+                .isInstanceOf(RateLimitExceededException.class)
+                .hasMessage(STATUS_CODE_404);
 
     }
 

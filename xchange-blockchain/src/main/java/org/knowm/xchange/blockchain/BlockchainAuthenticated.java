@@ -105,7 +105,7 @@ public interface BlockchainAuthenticated extends Blockchain {
      */
     @Path("/orders/{orderId}")
     @GET
-    BlockchainOrder getOrder(@PathParam("orderId") String orderId);
+    BlockchainOrder getOrder(@PathParam("orderId") String orderId) throws IOException, BlockchainException;;
 
     /**
      * Add an order

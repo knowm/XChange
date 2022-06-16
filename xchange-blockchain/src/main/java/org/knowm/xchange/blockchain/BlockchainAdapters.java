@@ -19,6 +19,7 @@ import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.instrument.Instrument;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -194,7 +195,8 @@ public class BlockchainAdapters {
                 .symbol(toCurrencyPair(stopOrder.getInstrument()))
                 .side(Order.OrderType.BID.equals(stopOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
                 .orderQty(stopOrder.getOriginalAmount())
-                .price(stopOrder.getStopPrice())
+                .price(stopOrder.getLimitPrice())
+                .stopPx(stopOrder.getStopPrice())
                 .clOrdId(generateClOrdId())
                 .build();
     }
@@ -208,7 +210,7 @@ public class BlockchainAdapters {
     public static UserTrades toUserTrades(List<BlockchainOrder> blockchainTrades) {
         List<UserTrade> trades = blockchainTrades.stream()
                 .map(blockchainTrade -> new UserTrade.Builder()
-                                .type(blockchainTrade.isBuyer()? Order.OrderType.BID : Order.OrderType.ASK)
+                                .type(blockchainTrade.getOrderType())
                                 .originalAmount(blockchainTrade.getCumQty())
                                 .currencyPair(blockchainTrade.getSymbol())
                                 .price(blockchainTrade.getPrice())
@@ -227,10 +229,12 @@ public class BlockchainAdapters {
 
        for (Map.Entry<String, BlockchainSymbol> entry : markets.entrySet()) {
            CurrencyPair pair = BlockchainAdapters.toCurrencyPairBySymbol(entry.getValue());
+           BigDecimal min_scale = BigDecimal.valueOf(Math.pow(10, (entry.getValue().getMinOrderSizeScale())*-1));
+           BigDecimal minAmount = entry.getValue().getMinOrderSize().multiply(min_scale);
            CurrencyPairMetaData currencyPairMetaData =
                    new CurrencyPairMetaData.Builder()
                            .baseScale(entry.getValue().getBaseCurrencyScale())
-                           .minimumAmount(entry.getValue().getMinOrderSize())
+                           .minimumAmount(minAmount)
                            .maximumAmount(entry.getValue().getMaxOrderSize())
                            .build();
            currencyPairs.put(pair, currencyPairMetaData);

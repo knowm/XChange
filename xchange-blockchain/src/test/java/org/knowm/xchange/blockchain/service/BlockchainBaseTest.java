@@ -39,12 +39,12 @@ public class BlockchainBaseTest {
                                         .withBodyFile(fileName)));
     }
 
-    protected void stubGet(String fileName, String url) {
+    protected void stubGet(String fileName, int statusCode, String url) {
         stubFor(
                 get(urlPathEqualTo(url))
                         .willReturn(
                                 aResponse()
-                                        .withStatus(200)
+                                        .withStatus(statusCode)
                                         .withHeader(CONTENT_TYPE, APPLICATION)
                                         .withBodyFile(fileName)));
     }
