@@ -233,7 +233,7 @@ public class FtxTradeServiceRaw extends FtxBaseService {
 
   public OpenOrders getOpenOrdersForSubaccount(String subaccount, OpenOrdersParams params)
       throws IOException {
-    if (params instanceof OpenOrdersParamCurrencyPair) {
+    if (params instanceof FtxTriggerOpenOrdersParams) {
       return FtxAdapters.adaptTriggerOpenOrders(
           getFtxOpenConditionalOrdersForSubAccount(
               subaccount,
