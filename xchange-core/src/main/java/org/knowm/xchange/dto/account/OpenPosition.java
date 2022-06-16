@@ -60,7 +60,7 @@ public class OpenPosition implements Serializable {
     return liquidationPrice;
   }
 
-  public BigDecimal getUnRealisedPnL() {
+  public BigDecimal getUnRealisedPnl() {
     return unRealisedPnl;
   }
 
@@ -95,7 +95,7 @@ public class OpenPosition implements Serializable {
         + price
         + ", liquidationPrice="
         + liquidationPrice
-        + ", unRealisedPnL="
+        + ", unRealisedPnl="
         + unRealisedPnl
         + '}';
   }
@@ -119,7 +119,7 @@ public class OpenPosition implements Serializable {
           .type(openPosition.getType())
           .size(openPosition.getSize())
           .liquidationPrice(openPosition.getLiquidationPrice())
-          .unRealisedPnl(openPosition.getUnRealisedPnL())
+          .unRealisedPnl(openPosition.getUnRealisedPnl())
           .price(openPosition.getPrice());
     }
 
