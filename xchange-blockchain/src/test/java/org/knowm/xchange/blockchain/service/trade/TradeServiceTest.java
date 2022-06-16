@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -38,8 +39,9 @@ public class TradeServiceTest extends BlockchainBaseTest {
         stubGet(ORDERS_JSON, 200, URL_ORDERS);
         OpenOrders response = service.getOpenOrders();
         assertThat(response).isNotNull();
-        assertThat(response.getAllOpenOrders()).isNotEmpty();
-        Order order = response.getAllOpenOrders().get(0);
+        List<Order> allOrders = response.getAllOpenOrders();
+        assertThat(allOrders).isNotEmpty();
+        Order order = allOrders.get(0);
         assertThat(order).isNotNull();
         assertThat(order.getOriginalAmount()).isNotNull().isPositive();
         assertThat(order.getId()).isEqualTo(ORDER_ID);
@@ -95,8 +97,9 @@ public class TradeServiceTest extends BlockchainBaseTest {
         stubGet(ORDERS_JSON, 200, URL_TRADES);
         UserTrades response = service.getTradeHistory(params);
         assertThat(response).isNotNull();
-        assertThat(response.getUserTrades()).isNotEmpty();
-        UserTrade trade = response.getUserTrades().get(0);
+        List<UserTrade> userTrades = response.getUserTrades();
+        assertThat(userTrades).isNotEmpty();
+        UserTrade trade = userTrades.get(0);
         assertThat(trade).isNotNull();
         assertThat(trade.getOriginalAmount()).isNotNull().isPositive();
         assertThat(trade.getPrice()).isNotNull().isPositive();
