@@ -356,6 +356,40 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
+  public CoinmateTradeResponse buyCoinmateQuick(BigDecimal total, String currencyPair, String clientOrderId)
+      throws IOException {
+    CoinmateTradeResponse response =
+        coinmateAuthenticated.buyQuick(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            clientOrderId,
+            signatureCreator,
+            exchange.getNonceFactory(),
+            total,
+            currencyPair);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
+  public CoinmateTradeResponse sellCoinmateQuick(BigDecimal amount, String currencyPair, String clientOrderId)
+      throws IOException {
+    CoinmateTradeResponse response =
+        coinmateAuthenticated.sellQuick(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            clientOrderId,
+            signatureCreator,
+            exchange.getNonceFactory(),
+            amount,
+            currencyPair);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
   public CoinmateReplaceResponse coinmateReplaceByBuyInstant(
       String orderId, BigDecimal total, String currencyPair) throws IOException {
     CoinmateReplaceResponse response =
