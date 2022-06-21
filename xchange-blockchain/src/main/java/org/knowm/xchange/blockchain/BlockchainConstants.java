@@ -20,6 +20,8 @@ public class BlockchainConstants {
     public static final String GET_TRADES = "getTrades";
     public static final String CURRENCY_PAIR_SYMBOL_FORMAT = "%s-%s";
     public static final String X_API_TOKEN = "X-API-Token";
+    public static final String XCHANGE = "XChange";
+    public static final String X_API_INTEGRATION = "X_API_INTEGRATION";
     public static final String WITHDRAWAL_EXCEPTION = "Invalid WithdrawFundsParams parameter. Only DefaultWithdrawFundsParams is supported.";
     public static final String EXCEPTION_MESSAGE = "Operation failed without any error message";
     public static final String FUNDING_RECORD_TYPE_UNSUPPORTED =  "Invalid FundingRecord parameter. Only DefaultWithdrawFundsParams is supported.";

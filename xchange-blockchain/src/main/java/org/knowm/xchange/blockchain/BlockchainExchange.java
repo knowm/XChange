@@ -17,8 +17,7 @@ import javax.ws.rs.HeaderParam;
 import java.io.IOException;
 import java.util.Map;
 
-import static org.knowm.xchange.blockchain.BlockchainConstants.NOT_IMPLEMENTED_YET;
-import static org.knowm.xchange.blockchain.BlockchainConstants.X_API_TOKEN;
+import static org.knowm.xchange.blockchain.BlockchainConstants.*;
 
 /**
  * @author scuevas
@@ -33,10 +32,10 @@ public class BlockchainExchange extends BaseExchange {
     protected void initServices() {
         this.blockchain = ExchangeRestProxyBuilder
                 .forInterface(BlockchainAuthenticated.class, this.getExchangeSpecification())
-                .clientConfigCustomizer(clientConfig -> clientConfig.addDefaultParam(
-                        HeaderParam.class, X_API_TOKEN,
-                        this.getExchangeSpecification().getSecretKey())
-                ).build();
+                .clientConfigCustomizer(clientConfig -> {
+                    clientConfig.addDefaultParam(HeaderParam.class, X_API_TOKEN, this.getExchangeSpecification().getSecretKey());
+                    clientConfig.addDefaultParam(HeaderParam.class, X_API_INTEGRATION, XCHANGE);
+                }).build();
 
         this.accountService = new BlockchainAccountService(this, this.blockchain, this.getResilienceRegistries());
         this.tradeService = new BlockchainTradeService(this, this.blockchain, this.getResilienceRegistries());

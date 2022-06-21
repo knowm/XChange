@@ -38,6 +38,7 @@ public class BlockchainTradeDemo {
                         .limitPrice(STOP_LIMIT)
                         .build();
 
+        tradeService.verifyOrder(limitOrder);
         String tradeLimitOrder = tradeService.placeLimitOrder(limitOrder);
         System.out.println(OBJECT_MAPPER.writeValueAsString(tradeLimitOrder));
 
@@ -47,13 +48,14 @@ public class BlockchainTradeDemo {
                         .originalAmount(AMOUNT)
                         .build();
 
+        tradeService.verifyOrder(marketOrder);
         String tradeMarketOrder = tradeService.placeMarketOrder(marketOrder);
         System.out.println(OBJECT_MAPPER.writeValueAsString(tradeMarketOrder));
 
         System.out.println("===== placeStopOrder =====");
         StopOrder stopOrder =
-                new StopOrder.Builder(Order.OrderType.BID, CurrencyPair.ADA_USDT)
-                        .originalAmount(AMOUNT)
+                new StopOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_USDT)
+                        .originalAmount(AMOUNT_LIMIT)
                         .stopPrice(STOP_PRICE)
                         .limitPrice(STOP_LIMIT)
                         .build();
@@ -91,7 +93,7 @@ public class BlockchainTradeDemo {
         System.out.println(OBJECT_MAPPER.writeValueAsString(tradeHistory));
 
         System.out.println("===== getOrder =====");
-        Collection<Order> getOrder = tradeService.getOrder(tradeLimitOrder);
+        Collection<Order> getOrder = tradeService.getOrder(openOrders.getOpenOrders().get(0).getId());
         System.out.println(OBJECT_MAPPER.writeValueAsString(getOrder));
     }
 }

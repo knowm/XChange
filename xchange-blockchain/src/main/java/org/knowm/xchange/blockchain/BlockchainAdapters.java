@@ -229,13 +229,16 @@ public class BlockchainAdapters {
 
        for (Map.Entry<String, BlockchainSymbol> entry : markets.entrySet()) {
            CurrencyPair pair = BlockchainAdapters.toCurrencyPairBySymbol(entry.getValue());
-           BigDecimal min_scale = BigDecimal.valueOf(Math.pow(10, (entry.getValue().getMinOrderSizeScale())*-1));
-           BigDecimal minAmount = entry.getValue().getMinOrderSize().multiply(min_scale);
+           BigDecimal minScale = BigDecimal.valueOf(Math.pow(10, (entry.getValue().getMinOrderSizeScale())*-1));
+           BigDecimal minAmount = entry.getValue().getMinOrderSize().multiply(minScale);
+           BigDecimal maxScale = BigDecimal.valueOf(Math.pow(10, (entry.getValue().getMaxOrderSizeScale())*-1));
+           BigDecimal maxAmount = entry.getValue().getMaxOrderSize().multiply(maxScale);
            CurrencyPairMetaData currencyPairMetaData =
                    new CurrencyPairMetaData.Builder()
                            .baseScale(entry.getValue().getBaseCurrencyScale())
+                           .priceScale(entry.getValue().getCounterCurrencyScale())
                            .minimumAmount(minAmount)
-                           .maximumAmount(entry.getValue().getMaxOrderSize())
+                           .maximumAmount(maxAmount)
                            .build();
            currencyPairs.put(pair, currencyPairMetaData);
            currency.put(entry.getValue().getBaseCurrency(), null);

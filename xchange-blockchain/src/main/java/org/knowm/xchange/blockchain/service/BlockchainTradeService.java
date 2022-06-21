@@ -48,9 +48,8 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
         try {
             BlockchainOrder order = this.postOrder(BlockchainAdapters.toBlockchainLimitOrder(limitOrder));
-            Long id = order.getExOrdId();
-            if (id == null) throw new ExchangeException(order.getText());
-            return Long.toString(id);
+            if (order.getOrdStatus().equals(REJECTED)) throw new ExchangeException(order.getText());
+            return Long.toString(order.getExOrdId());
         } catch (BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);
         }
@@ -60,9 +59,8 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
         try {
            BlockchainOrder order = this.postOrder(BlockchainAdapters.toBlockchainMarketOrder(marketOrder));
-           Long id = order.getExOrdId();
-           if (id == null) throw new ExchangeException(order.getText());
-           return Long.toString(id);
+           if (order.getOrdStatus().equals(REJECTED)) throw new ExchangeException(order.getText());
+           return Long.toString(order.getExOrdId());
         } catch (BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);
         }
@@ -72,9 +70,8 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     public String placeStopOrder(StopOrder stopOrder) throws IOException {
         try {
             BlockchainOrder order = this.postOrder(BlockchainAdapters.toBlockchainStopOrder(stopOrder));
-            Long id = order.getExOrdId();
-            if (id == null) throw new ExchangeException(order.getText());
-            return Long.toString(id);
+            if (order.getOrdStatus().equals(REJECTED)) throw new ExchangeException(order.getText());
+            return Long.toString(order.getExOrdId());
         } catch (BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);
         }
