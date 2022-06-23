@@ -4,8 +4,7 @@ import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.BybitBalances;
-import org.knowm.xchange.bybit.dto.trade.BybitOrder;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
 
 import java.io.IOException;
 
@@ -23,7 +22,7 @@ public class BybitTradeServiceRawTest {
         bybitExchange.applySpecification(exchangeSpecification);
 
         BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange);
-        BybitResult<BybitOrder> order = bybitAccountServiceRaw.getBybitOrder("");
+        BybitResult<BybitOrderDetails> order = bybitAccountServiceRaw.getBybitOrder("");
         System.out.println(order);
     }
 }

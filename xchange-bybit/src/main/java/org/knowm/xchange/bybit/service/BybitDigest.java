@@ -29,7 +29,7 @@ public class BybitDigest extends BaseParamsDigest {
 
     @Override
     public String digestParams(RestInvocation restInvocation) {
-        final Params p = Params.of();
+        Params p = Params.of();
         Map<String, String> params = getInputParams(restInvocation);
         params.remove(SIGNATURE);
         Map<String, String> sortedParams = new TreeMap<>(params);

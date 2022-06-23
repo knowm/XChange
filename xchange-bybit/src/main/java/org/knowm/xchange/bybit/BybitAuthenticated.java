@@ -2,16 +2,14 @@ package org.knowm.xchange.bybit;
 
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitBalances;
-import org.knowm.xchange.bybit.dto.trade.BybitOrder;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.util.Map;
 
 @Path("/spot/v1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -27,13 +25,24 @@ public interface BybitAuthenticated {
 
     @GET
     @Path("/order")
-    BybitResult<BybitOrder> getOrder(
+    BybitResult<BybitOrderDetails> getOrder(
             @QueryParam("api_key") String apiKey,
             @QueryParam("orderId") String orderId,
             @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
             @QueryParam("sign") ParamsDigest signature
     ) throws IOException;
 
+    @POST
+    @Path("/order")
+    BybitResult<Map<String, String>> placeOrder(
+            @FormParam("api_key") String apiKey,
+            @FormParam("symbol") String symbol,
+            @FormParam("qty") long qty,
+            @FormParam("side") String side,
+            @FormParam("type") String type,
+            @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+            @FormParam("sign") ParamsDigest signature
+    ) throws IOException;
 
 
 

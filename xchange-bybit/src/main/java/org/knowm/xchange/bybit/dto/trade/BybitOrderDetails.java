@@ -3,7 +3,7 @@ package org.knowm.xchange.bybit.dto.trade;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BybitOrder {
+public class BybitOrderDetails {
 
     private final String accountId;
     private final String exchangeId;
@@ -28,7 +28,7 @@ public class BybitOrder {
     private final String locked;
 
     @JsonCreator
-    public BybitOrder(
+    public BybitOrderDetails(
             @JsonProperty("accountId") String accountId,
             @JsonProperty("exchangeId") String exchangeId,
             @JsonProperty("symbol") String symbol,

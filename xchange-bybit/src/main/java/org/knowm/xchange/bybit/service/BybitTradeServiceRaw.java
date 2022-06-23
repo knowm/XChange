@@ -2,7 +2,7 @@ package org.knowm.xchange.bybit.service;
 
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.trade.BybitOrder;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ public class BybitTradeServiceRaw extends BybitBaseService {
         super(exchange);
     }
 
-    public BybitResult<BybitOrder> getBybitOrder(String orderId) throws IOException {
+    public BybitResult<BybitOrderDetails> getBybitOrder(String orderId) throws IOException {
         return bybitAuthenticated.getOrder(apiKey, orderId, nonceFactory, signatureCreator);
     }
 
