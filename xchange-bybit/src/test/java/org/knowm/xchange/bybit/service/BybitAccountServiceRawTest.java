@@ -1,31 +1,58 @@
 package org.knowm.xchange.bybit.service;
 
 import org.junit.Test;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitBalances;
 
 import java.io.IOException;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 public class BybitAccountServiceRawTest {
 
     @Test
     public void testGetWalletBalances() throws IOException {
-        BybitExchange bybitExchange = new BybitExchange();
-        ExchangeSpecification exchangeSpecification = bybitExchange.getDefaultExchangeSpecification();
-        exchangeSpecification.setApiKey(System.getenv("API_KEY"));
-        exchangeSpecification.setSecretKey(System.getenv("SECRET_KEY"));
-        exchangeSpecification.setShouldLoadRemoteMetaData(false);
-        exchangeSpecification.setMetaDataJsonFileOverride(null);
-
-        bybitExchange.applySpecification(exchangeSpecification);
-
+        BybitExchange bybitExchange = BybitServiceTestUtils.createBybitExchange();
         BybitAccountServiceRaw bybitAccountServiceRaw = new BybitAccountServiceRaw(bybitExchange);
+
+        String orderDetailsResponse = "{\n" +
+                "   \"ret_code\":0,\n" +
+                "   \"ret_msg\":\"\",\n" +
+                "   \"ext_code\":null,\n" +
+                "   \"ext_info\":null,\n" +
+                "   \"result\":{\n" +
+                "      \"balances\":[\n" +
+                "         {\n" +
+                "            \"coin\":\"COIN\",\n" +
+                "            \"coinId\":\"COIN\",\n" +
+                "            \"coinName\":\"COIN\",\n" +
+                "            \"total\":\"66419.616666666666666666\",\n" +
+                "            \"free\":\"56583.326666666666666666\",\n" +
+                "            \"locked\":\"9836.29\"\n" +
+                "         },\n" +
+                "         {\n" +
+                "            \"coin\":\"USDT\",\n" +
+                "            \"coinId\":\"USDT\",\n" +
+                "            \"coinName\":\"USDT\",\n" +
+                "            \"total\":\"61.50059688096\",\n" +
+                "            \"free\":\"61.50059688096\",\n" +
+                "            \"locked\":\"0\"\n" +
+                "         }\n" +
+                "      ]\n" +
+                "   }\n" +
+                "}";
+
+//        stubFor(
+//                get(urlPathEqualTo("/order"))
+//                        .willReturn(
+//                                aResponse()
+//                                        .withStatus(200)
+//                                        .withHeader("Content-Type", "application/json")
+//                                        .withBody(orderDetailsResponse)));
+
         BybitResult<BybitBalances> walletBalances = bybitAccountServiceRaw.getWalletBalances();
         System.out.println(walletBalances);
-
     }
 
 }
