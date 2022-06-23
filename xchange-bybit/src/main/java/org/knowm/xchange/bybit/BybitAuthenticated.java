@@ -26,7 +26,7 @@ public interface BybitAuthenticated {
     ) throws IOException;
 
     @GET
-    @Path("/spot/v1/order")
+    @Path("/order")
     BybitResult<BybitOrder> getOrder(
             @QueryParam("api_key") String apiKey,
             @QueryParam("orderId") String orderId,

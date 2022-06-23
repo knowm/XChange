@@ -157,4 +157,31 @@ public class BybitOrder {
     public String getLocked() {
         return locked;
     }
+
+    @Override
+    public String toString() {
+        return "BybitOrder{" +
+                "accountId='" + accountId + '\'' +
+                ", exchangeId='" + exchangeId + '\'' +
+                ", symbol='" + symbol + '\'' +
+                ", symbolName='" + symbolName + '\'' +
+                ", orderLinkId='" + orderLinkId + '\'' +
+                ", orderId='" + orderId + '\'' +
+                ", price='" + price + '\'' +
+                ", origQty='" + origQty + '\'' +
+                ", executedQty='" + executedQty + '\'' +
+                ", cummulativeQuoteQty='" + cummulativeQuoteQty + '\'' +
+                ", avgPrice='" + avgPrice + '\'' +
+                ", status='" + status + '\'' +
+                ", timeInForce='" + timeInForce + '\'' +
+                ", type='" + type + '\'' +
+                ", side='" + side + '\'' +
+                ", stopPrice='" + stopPrice + '\'' +
+                ", icebergQty='" + icebergQty + '\'' +
+                ", time='" + time + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", isWorking=" + isWorking +
+                ", locked='" + locked + '\'' +
+                '}';
+    }
 }
