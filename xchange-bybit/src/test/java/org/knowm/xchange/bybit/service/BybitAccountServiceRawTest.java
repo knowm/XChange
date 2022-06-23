@@ -1,6 +1,7 @@
 package org.knowm.xchange.bybit.service;
 
 import org.junit.Test;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitBalances;
@@ -9,14 +10,14 @@ import java.io.IOException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-public class BybitAccountServiceRawTest {
+public class BybitAccountServiceRawTest extends BaseWiremockTest {
 
     @Test
     public void testGetWalletBalances() throws IOException {
-        BybitExchange bybitExchange = BybitServiceTestUtils.createBybitExchange();
+        Exchange bybitExchange = createExchange();
         BybitAccountServiceRaw bybitAccountServiceRaw = new BybitAccountServiceRaw(bybitExchange);
 
-        String orderDetailsResponse = "{\n" +
+        String walletBalanceDetails = "{\n" +
                 "   \"ret_code\":0,\n" +
                 "   \"ret_msg\":\"\",\n" +
                 "   \"ext_code\":null,\n" +
@@ -43,13 +44,15 @@ public class BybitAccountServiceRawTest {
                 "   }\n" +
                 "}";
 
-//        stubFor(
-//                get(urlPathEqualTo("/order"))
-//                        .willReturn(
-//                                aResponse()
-//                                        .withStatus(200)
-//                                        .withHeader("Content-Type", "application/json")
-//                                        .withBody(orderDetailsResponse)));
+        stubFor(
+                get(urlPathEqualTo("/spot/v1/account"))
+                        .willReturn(
+                                aResponse()
+                                        .withStatus(200)
+                                        .withHeader("Content-Type", "application/json")
+                                        .withBody(walletBalanceDetails)
+                        )
+        );
 
         BybitResult<BybitBalances> walletBalances = bybitAccountServiceRaw.getWalletBalances();
         System.out.println(walletBalances);

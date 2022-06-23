@@ -10,7 +10,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.Map;
 
 @Path("/spot/v1")
 @Produces(MediaType.APPLICATION_JSON)

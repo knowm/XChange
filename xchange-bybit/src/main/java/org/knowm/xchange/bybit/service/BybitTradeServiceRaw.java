@@ -1,5 +1,6 @@
 package org.knowm.xchange.bybit.service;
 
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
@@ -9,7 +10,7 @@ import java.io.IOException;
 
 public class BybitTradeServiceRaw extends BybitBaseService {
 
-    public BybitTradeServiceRaw(BybitExchange exchange) {
+    public BybitTradeServiceRaw(Exchange exchange) {
         super(exchange);
     }
 
