@@ -25,6 +25,13 @@ public class BlockchainTradeServiceRaw extends BlockchainBaseService {
                 .call();
     }
 
+    protected List<BlockchainOrder> getOrdersBySymbol(String symbol) throws IOException, BlockchainException {
+        return decorateApiCall(() -> this.blockchainApi.getOrdersBySymbol(symbol))
+                .withRetry(retry(GET_ORDERS))
+                .withRateLimiter(rateLimiter(ENDPOINT_RATE_LIMIT))
+                .call();
+    }
+
     protected BlockchainOrder getOrder(String orderId) throws IOException {
         try {
             return decorateApiCall(() -> this.blockchainApi.getOrder(orderId))

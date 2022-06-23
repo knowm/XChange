@@ -171,7 +171,7 @@ public class BlockchainAdapters {
         return BlockchainOrder.builder()
                 .ordType(LIMIT)
                 .symbol(toCurrencyPair(limitOrder.getInstrument()))
-                .side(Order.OrderType.BID.equals(limitOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
+                .side(orderType(limitOrder.getType()))
                 .orderQty(limitOrder.getOriginalAmount())
                 .price(limitOrder.getLimitPrice())
                 .clOrdId(generateClOrdId())
@@ -182,7 +182,7 @@ public class BlockchainAdapters {
         return BlockchainOrder.builder()
                 .ordType(MARKET)
                 .symbol(toCurrencyPair(marketOrder.getInstrument()))
-                .side(Order.OrderType.BID.equals(marketOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
+                .side(orderType(marketOrder.getType()))
                 .orderQty(marketOrder.getOriginalAmount())
                 .price(marketOrder.getCumulativeAmount())
                 .clOrdId(generateClOrdId())
@@ -193,7 +193,7 @@ public class BlockchainAdapters {
         return BlockchainOrder.builder()
                 .ordType(STOP)
                 .symbol(toCurrencyPair(stopOrder.getInstrument()))
-                .side(Order.OrderType.BID.equals(stopOrder.getType())? BUY.toUpperCase() : SELL.toUpperCase())
+                .side(orderType(stopOrder.getType()))
                 .orderQty(stopOrder.getOriginalAmount())
                 .price(stopOrder.getLimitPrice())
                 .stopPx(stopOrder.getStopPrice())
@@ -241,11 +241,15 @@ public class BlockchainAdapters {
                            .maximumAmount(maxAmount)
                            .build();
            currencyPairs.put(pair, currencyPairMetaData);
-           currency.put(entry.getValue().getBaseCurrency(), null);
+           currency.put(entry.getValue().getBaseCurrency(), new CurrencyMetaData(entry.getValue().getBaseCurrencyScale(),null));
        }
 
        RateLimit[] rateLimits = {new RateLimit(30, 1, TimeUnit.SECONDS)};
 
        return new ExchangeMetaData(currencyPairs, currency, rateLimits, rateLimits, false);
+    }
+
+    public static String orderType(Order.OrderType type){
+       return Order.OrderType.BID.equals(type)? BUY.toUpperCase() : SELL.toUpperCase();
     }
 }

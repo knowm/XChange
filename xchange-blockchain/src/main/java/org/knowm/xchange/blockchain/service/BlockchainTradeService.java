@@ -8,6 +8,7 @@ import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.blockchain.dto.trade.BlockchainOrder;
 import org.knowm.xchange.blockchain.params.BlockchainTradeHistoryParams;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.trade.*;
@@ -38,6 +39,14 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     @Override
     public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
         try {
+            CurrencyPair currencyPair = null;
+            if (params instanceof OpenOrdersParamCurrencyPair) {
+                currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+            }
+
+            if(currencyPair != null) {
+                return BlockchainAdapters.toOpenOrders(this.getOrdersBySymbol(BlockchainAdapters.toSymbol(currencyPair)));
+            }
             return BlockchainAdapters.toOpenOrders(this.getOrders());
         } catch (BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);
@@ -48,7 +57,7 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
         try {
             BlockchainOrder order = this.postOrder(BlockchainAdapters.toBlockchainLimitOrder(limitOrder));
-            if (order.getOrdStatus().equals(REJECTED)) throw new ExchangeException(order.getText());
+            if (REJECTED.equals(order.getOrdStatus())) throw new ExchangeException(order.getText());
             return Long.toString(order.getExOrdId());
         } catch (BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);
@@ -59,7 +68,7 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
         try {
            BlockchainOrder order = this.postOrder(BlockchainAdapters.toBlockchainMarketOrder(marketOrder));
-           if (order.getOrdStatus().equals(REJECTED)) throw new ExchangeException(order.getText());
+           if (REJECTED.equals(order.getOrdStatus())) throw new ExchangeException(order.getText());
            return Long.toString(order.getExOrdId());
         } catch (BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);
@@ -70,7 +79,7 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
     public String placeStopOrder(StopOrder stopOrder) throws IOException {
         try {
             BlockchainOrder order = this.postOrder(BlockchainAdapters.toBlockchainStopOrder(stopOrder));
-            if (order.getOrdStatus().equals(REJECTED)) throw new ExchangeException(order.getText());
+            if (REJECTED.equals(order.getOrdStatus())) throw new ExchangeException(order.getText());
             return Long.toString(order.getExOrdId());
         } catch (BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);
