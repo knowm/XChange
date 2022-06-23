@@ -33,12 +33,16 @@ public class BlockchainTradeDemo {
 
     private static void tradeServiceDemo() throws InterruptedException, IOException {
         System.out.println("===== placeLimitOrder =====");
-        String limitOrderId = limitOrder();
-        System.out.println("===== placeMarketOrder =====");
-        String marketOrderId = marketOrder();
-        System.out.println("===== placeStopOrder =====");
-        String stopOrderId = stopOrder();
+        executeOrder(limitOrder());
 
+        System.out.println("===== placeMarketOrder =====");
+        executeOrder(marketOrder());
+
+        System.out.println("===== placeStopOrder =====");
+        executeOrder(stopOrder());
+    }
+
+    public static void executeOrder(String orderId) throws InterruptedException, IOException{
         Thread.sleep(5000);
 
         System.out.println("===== getOpenOrders by symbol =====");
@@ -63,21 +67,17 @@ public class BlockchainTradeDemo {
         System.out.println(OBJECT_MAPPER.writeValueAsString(tradeHistory));
 
         System.out.println("===== getOrder =====");
-        getOrderById(limitOrderId);
-        getOrderById(marketOrderId);
-        getOrderById(stopOrderId);
+        Collection<Order> getOrder = tradeService.getOrder(orderId);
+        System.out.println(OBJECT_MAPPER.writeValueAsString(getOrder));
 
         System.out.println("===== cancelOrder by id =====");
-        System.out.println("Canceling returned " + cancelOrderById(limitOrderId));
-        System.out.println("Canceling returned " + cancelOrderById(marketOrderId));
-        System.out.println("Canceling returned " + cancelOrderById(stopOrderId));
+        System.out.println("Canceling returned " + tradeService.cancelOrder(orderId));
 
         System.out.println("===== cancelOrder by symbol =====");
         CancelOrderByCurrencyPair cancelOrderByCurrencyPair = () -> new CurrencyPair(SYMBOL);
         boolean cancelAllOrderByCurrency = tradeService.cancelOrder(cancelOrderByCurrencyPair);
         System.out.println("Canceling returned " + cancelAllOrderByCurrency);
     }
-
 
     public static String limitOrder() throws IOException {
         LimitOrder limitOrder =
@@ -118,14 +118,5 @@ public class BlockchainTradeDemo {
         System.out.println(OBJECT_MAPPER.writeValueAsString(tradeStopOrder));
 
         return tradeStopOrder;
-    }
-
-    public static void getOrderById(String idOrder) throws IOException {
-        Collection<Order> getOrder = tradeService.getOrder(idOrder);
-        System.out.println(OBJECT_MAPPER.writeValueAsString(getOrder));
-    }
-
-    public static Boolean cancelOrderById(String id) throws IOException {
-        return tradeService.cancelOrder(id);
     }
 }
