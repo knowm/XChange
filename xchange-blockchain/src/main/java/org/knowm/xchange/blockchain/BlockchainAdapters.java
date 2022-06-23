@@ -171,7 +171,7 @@ public class BlockchainAdapters {
         return BlockchainOrder.builder()
                 .ordType(LIMIT)
                 .symbol(toCurrencyPair(limitOrder.getInstrument()))
-                .side(orderType(limitOrder.getType()))
+                .side(getOrderType(limitOrder.getType()))
                 .orderQty(limitOrder.getOriginalAmount())
                 .price(limitOrder.getLimitPrice())
                 .clOrdId(generateClOrdId())
@@ -182,7 +182,7 @@ public class BlockchainAdapters {
         return BlockchainOrder.builder()
                 .ordType(MARKET)
                 .symbol(toCurrencyPair(marketOrder.getInstrument()))
-                .side(orderType(marketOrder.getType()))
+                .side(getOrderType(marketOrder.getType()))
                 .orderQty(marketOrder.getOriginalAmount())
                 .price(marketOrder.getCumulativeAmount())
                 .clOrdId(generateClOrdId())
@@ -193,7 +193,7 @@ public class BlockchainAdapters {
         return BlockchainOrder.builder()
                 .ordType(STOP)
                 .symbol(toCurrencyPair(stopOrder.getInstrument()))
-                .side(orderType(stopOrder.getType()))
+                .side(getOrderType(stopOrder.getType()))
                 .orderQty(stopOrder.getOriginalAmount())
                 .price(stopOrder.getLimitPrice())
                 .stopPx(stopOrder.getStopPrice())
@@ -249,7 +249,7 @@ public class BlockchainAdapters {
        return new ExchangeMetaData(currencyPairs, currency, rateLimits, rateLimits, false);
     }
 
-    public static String orderType(Order.OrderType type){
+    public static String getOrderType(Order.OrderType type){
        return Order.OrderType.BID.equals(type)? BUY.toUpperCase() : SELL.toUpperCase();
     }
 }

@@ -23,7 +23,7 @@ import static org.knowm.xchange.examples.blockchain.BlockchainDemoUtils.*;
 public class BlockchainTradeDemo {
     private static final Exchange BLOCKCHAIN_EXCHANGE = BlockchainDemoUtils.createExchange();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-    private static final CurrencyPair ustUsd = new CurrencyPair(Currency.USDT, Currency.USD);
+    private static final CurrencyPair usdtUsd = new CurrencyPair(Currency.USDT, Currency.USD);
     private static final TradeService tradeService = BLOCKCHAIN_EXCHANGE.getTradeService();
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -57,7 +57,7 @@ public class BlockchainTradeDemo {
         ((TradeHistoryParamsTimeSpan) params).setStartTime(
                 new Date(System.currentTimeMillis() - END_TIME));
 
-        params.setCurrencyPair(ustUsd);
+        params.setCurrencyPair(usdtUsd);
 
         UserTrades tradeHistory = tradeService.getTradeHistory(params);
         System.out.println(OBJECT_MAPPER.writeValueAsString(tradeHistory));
@@ -108,7 +108,7 @@ public class BlockchainTradeDemo {
 
     public static String stopOrder() throws IOException {
         StopOrder stopOrder =
-                new StopOrder.Builder(Order.OrderType.ASK, ustUsd)
+                new StopOrder.Builder(Order.OrderType.ASK, usdtUsd)
                         .originalAmount(AMOUNT_LIMIT)
                         .stopPrice(STOP_PRICE)
                         .limitPrice(STOP_LIMIT_PRICE)
