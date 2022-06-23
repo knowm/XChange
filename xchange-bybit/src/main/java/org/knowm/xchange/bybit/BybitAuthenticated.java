@@ -3,6 +3,7 @@ package org.knowm.xchange.bybit;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitBalances;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderRequest;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -34,7 +35,7 @@ public interface BybitAuthenticated {
 
     @POST
     @Path("/order")
-    BybitResult<Map<String, String>> placeOrder(
+    BybitResult<BybitOrderRequest> placeOrder(
             @FormParam("api_key") String apiKey,
             @FormParam("symbol") String symbol,
             @FormParam("qty") long qty,
