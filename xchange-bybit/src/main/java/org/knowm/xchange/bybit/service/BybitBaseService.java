@@ -2,7 +2,6 @@ package org.knowm.xchange.bybit.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.BybitAuthenticated;
-import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
@@ -23,8 +22,6 @@ public class BybitBaseService implements BaseService {
         signatureCreator = BybitDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
         apiKey = exchange.getExchangeSpecification().getApiKey();
     }
-
-
 
 
 }

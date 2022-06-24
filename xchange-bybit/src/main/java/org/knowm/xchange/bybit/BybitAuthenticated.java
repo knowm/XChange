@@ -45,5 +45,4 @@ public interface BybitAuthenticated {
     ) throws IOException;
 
 
-
 }

@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-public class BybitTradeServiceRawTest extends BaseWiremockTest{
+public class BybitTradeServiceRawTest extends BaseWiremockTest {
 
     @Test
     public void testGetBybitOrder() throws IOException {

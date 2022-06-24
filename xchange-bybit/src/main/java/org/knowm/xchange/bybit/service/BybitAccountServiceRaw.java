@@ -12,7 +12,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
         super(exchange);
     }
 
-    public BybitResult<BybitBalances>  getWalletBalances() throws IOException {
+    public BybitResult<BybitBalances> getWalletBalances() throws IOException {
         return bybitAuthenticated.getWalletBalances(apiKey, nonceFactory, signatureCreator);
     }
 
