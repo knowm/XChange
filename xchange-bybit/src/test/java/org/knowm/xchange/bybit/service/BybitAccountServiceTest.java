@@ -2,15 +2,11 @@ package org.knowm.xchange.bybit.service;
 
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.BybitBalances;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Collection;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;

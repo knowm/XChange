@@ -1,12 +1,7 @@
 package org.knowm.xchange.bybit.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
-import org.knowm.xchange.bybit.dto.trade.BybitOrderRequest;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.MarketOrder;
