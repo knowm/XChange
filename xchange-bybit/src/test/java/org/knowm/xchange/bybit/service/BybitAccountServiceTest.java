@@ -3,21 +3,24 @@ package org.knowm.xchange.bybit.service;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.BybitBalance;
 import org.knowm.xchange.bybit.dto.account.BybitBalances;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
 
 import java.io.IOException;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.Collection;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BybitAccountServiceRawTest extends BaseWiremockTest {
+public class BybitAccountServiceTest extends BaseWiremockTest {
 
     @Test
     public void testGetWalletBalances() throws IOException {
         Exchange bybitExchange = createExchange();
-        BybitAccountServiceRaw bybitAccountServiceRaw = new BybitAccountServiceRaw(bybitExchange);
+        BybitAccountService bybitAccountService = new BybitAccountService(bybitExchange);
 
         String walletBalanceDetails = "{\n" +
                 "   \"ret_code\":0,\n" +
@@ -56,24 +59,13 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
                         )
         );
 
-        BybitResult<BybitBalances> walletBalances = bybitAccountServiceRaw.getWalletBalances();
 
-        BybitBalances walletBalancesResult = walletBalances.getResult();
-        List<BybitBalance> balances = walletBalancesResult.getBalances();
+        AccountInfo accountInfo = bybitAccountService.getAccountInfo();
+        assertThat(accountInfo.getWallet().getBalance(new Currency("COIN")).getTotal()).isEqualTo(new BigDecimal("66419.616666666666666666"));
+        assertThat(accountInfo.getWallet().getBalance(new Currency("COIN")).getAvailable()).isEqualTo(new BigDecimal("56583.326666666666666666"));
 
-        assertThat(balances.get(0).getTotal()).isEqualTo("66419.616666666666666666");
-        assertThat(balances.get(0).getFree()).isEqualTo("56583.326666666666666666");
-        assertThat(balances.get(0).getLocked()).isEqualTo("9836.29");
-        assertThat(balances.get(0).getCoin()).isEqualTo("COIN");
-        assertThat(balances.get(0).getCoinId()).isEqualTo("COIN");
-        assertThat(balances.get(0).getCoinName()).isEqualTo("COIN");
-
-        assertThat(balances.get(1).getTotal()).isEqualTo("61.50059688096");
-        assertThat(balances.get(1).getFree()).isEqualTo("61.50059688096");
-        assertThat(balances.get(1).getLocked()).isEqualTo("0");
-        assertThat(balances.get(1).getCoin()).isEqualTo("USDT");
-        assertThat(balances.get(1).getCoinId()).isEqualTo("USDT");
-        assertThat(balances.get(1).getCoinName()).isEqualTo("USDT");
+        assertThat(accountInfo.getWallet().getBalance(new Currency("USDT")).getTotal()).isEqualTo(new BigDecimal("61.50059688096"));
+        assertThat(accountInfo.getWallet().getBalance(new Currency("USDT")).getAvailable()).isEqualTo(new BigDecimal("61.50059688096"));
     }
 
 }

@@ -29,6 +29,30 @@ public class BybitBalance {
         this.locked = locked;
     }
 
+    public String getCoin() {
+        return coin;
+    }
+
+    public String getCoinId() {
+        return coinId;
+    }
+
+    public String getCoinName() {
+        return coinName;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public String getFree() {
+        return free;
+    }
+
+    public String getLocked() {
+        return locked;
+    }
+
     @Override
     public String toString() {
         return "BybitBalance{" +
