@@ -49,6 +49,58 @@ public class BybitOrderRequest {
         this.side = side;
     }
 
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public String getSymbolName() {
+        return symbolName;
+    }
+
+    public String getOrderLinkId() {
+        return orderLinkId;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public String getTransactTime() {
+        return transactTime;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public String getOrigQty() {
+        return origQty;
+    }
+
+    public String getExecutedQty() {
+        return executedQty;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getTimeInForce() {
+        return timeInForce;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getSide() {
+        return side;
+    }
+
     @Override
     public String toString() {
         return "BybitOrderRequest{" +
