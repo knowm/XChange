@@ -28,16 +28,7 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinmate.CoinmateAuthenticated;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderWithInfoResponse;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOrderHistory;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOrders;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateReplaceResponse;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeHistory;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistory;
+import org.knowm.xchange.coinmate.dto.trade.*;
 
 /** @author Martin Stachon */
 public class CoinmateTradeServiceRaw extends CoinmateBaseService {
@@ -171,14 +162,28 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
-  public CoinmateOrders getCoinmateOrderById(String orderId) throws IOException {
-    CoinmateOrders response =
+  public CoinmateOrder getCoinmateOrderById(String orderId) throws IOException {
+    CoinmateOrder response =
         coinmateAuthenticated.getOrderById(
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getExchangeSpecification().getUserName(),
             signatureCreator,
             exchange.getNonceFactory(),
             orderId);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
+  public CoinmateOrders getCoinmateOrderByClientOrderId(String clientOrderId) throws IOException {
+    CoinmateOrders response =
+        coinmateAuthenticated.getOrderByClientOrderId(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            clientOrderId);
 
     throwExceptionIfError(response);
 

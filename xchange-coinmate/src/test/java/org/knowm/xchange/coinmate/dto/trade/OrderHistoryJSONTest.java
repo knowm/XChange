@@ -79,7 +79,7 @@ public class OrderHistoryJSONTest {
             "/org/knowm/xchange/coinmate/dto/trade/example-order_with_trades.json");
 
     ObjectMapper mapper = new ObjectMapper();
-    CoinmateOrders response = mapper.readValue(is, CoinmateOrders.class);
+    CoinmateOrder response = mapper.readValue(is, CoinmateOrder.class);
     CoinmateOrderHistoryEntry order = response.getData();
 
     assertThat(order.getId()).isEqualTo(2642);

@@ -3,14 +3,12 @@ package org.knowm.xchange.coinmate.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
 
-import java.util.List;
+public class CoinmateOrder extends CoinmateBaseResponse<CoinmateOrderHistoryEntry> {
 
-public class CoinmateOrders extends CoinmateBaseResponse<List<CoinmateOrderHistoryEntry>> {
-
-  public CoinmateOrders(
+  public CoinmateOrder(
       @JsonProperty("error") boolean error,
       @JsonProperty("errorMessage") String errorMessage,
-      @JsonProperty("data") List<CoinmateOrderHistoryEntry> data) {
+      @JsonProperty("data") CoinmateOrderHistoryEntry data) {
 
     super(error, errorMessage, data);
   }

@@ -28,7 +28,7 @@ import org.knowm.xchange.coinmate.CoinmateUtils;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOrderFlags;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOrders;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrder;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateReplaceResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeHistory;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
@@ -84,7 +84,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     ArrayList<Order> result = new ArrayList<>(orderQueryParams.length);
     for (OrderQueryParams orderQueryParam : orderQueryParams) {
-      CoinmateOrders response = this.getCoinmateOrderById(orderQueryParam.getOrderId());
+      CoinmateOrder response = this.getCoinmateOrderById(orderQueryParam.getOrderId());
       Order order =
           CoinmateAdapters.adaptOrder(
               response.getData(),
