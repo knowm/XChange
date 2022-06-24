@@ -2,7 +2,6 @@ package org.knowm.xchange.bybit.service;
 
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitBalances;
 
