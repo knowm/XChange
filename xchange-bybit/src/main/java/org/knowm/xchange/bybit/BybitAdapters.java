@@ -1,15 +1,18 @@
 package org.knowm.xchange.bybit;
 
 import org.knowm.xchange.bybit.dto.account.BybitBalance;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.trade.LimitOrder;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class BybitAdapters {
@@ -61,4 +64,19 @@ public class BybitAdapters {
 
     }
 
+    public static LimitOrder adaptBybitOrderDetails(BybitOrderDetails bybitOrderResult) {
+        LimitOrder limitOrder = new LimitOrder(
+                getOrderType(bybitOrderResult.getSide()),
+                new BigDecimal(bybitOrderResult.getOrigQty()),
+                new BigDecimal(bybitOrderResult.getExecutedQty()),
+                guessSymbol(bybitOrderResult.getSymbol()),
+                bybitOrderResult.getOrderId(),
+                new Date(Long.parseLong(bybitOrderResult.getTime())),
+                new BigDecimal(bybitOrderResult.getPrice())) {
+        };
+        BigDecimal averagePrice = new BigDecimal(bybitOrderResult.getAvgPrice());
+        limitOrder.setAveragePrice(averagePrice);
+        limitOrder.setOrderStatus(Order.OrderStatus.valueOf(bybitOrderResult.getStatus()));
+        return limitOrder;
+    }
 }
