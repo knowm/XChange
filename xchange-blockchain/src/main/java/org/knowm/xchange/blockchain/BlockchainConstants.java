@@ -18,6 +18,8 @@ public class BlockchainConstants {
     public static final String CANCEL_ALL_ORDERS = "cancelAllOrders";
     public static final String GET_SYMBOLS = "getSymbols";
     public static final String GET_TRADES = "getTrades";
+    public static final String GET_ORDER_BOOK_L3 = "getOrderBookL3";
+    public static final String GET_EXCHANGE_TRADES = "getExchangeTrades";
     public static final String CURRENCY_PAIR_SYMBOL_FORMAT = "%s-%s";
     public static final String X_API_TOKEN = "X-API-Token";
     public static final String XCHANGE = "XChange";

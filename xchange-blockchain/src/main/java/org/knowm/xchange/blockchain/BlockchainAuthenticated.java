@@ -157,6 +157,6 @@ public interface BlockchainAuthenticated extends Blockchain {
     List<BlockchainOrder> getTrades(@QueryParam("symbol") String symbol,
                                     @QueryParam("from") Long startTime,
                                     @QueryParam("to") Long endTime,
-                                    @QueryParam("limit") Integer limit);
+                                    @QueryParam("limit") Integer limit) throws IOException, BlockchainException;
 
 }

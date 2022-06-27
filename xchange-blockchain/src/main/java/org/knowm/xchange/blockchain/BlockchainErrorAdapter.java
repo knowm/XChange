@@ -21,6 +21,8 @@ public final class BlockchainErrorAdapter {
         return new ExchangeSecurityException(message, e);
       case 404:
         return new RateLimitExceededException(message, e);
+      case 500:
+        return new InternalServerException(message, e);
       default:
         return new ExchangeException(message, e);
     }

@@ -5,12 +5,12 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.blockchain.dto.account.BlockchainSymbol;
 import org.knowm.xchange.blockchain.service.BlockchainAccountService;
 import org.knowm.xchange.blockchain.service.BlockchainAccountServiceRaw;
+import org.knowm.xchange.blockchain.service.BlockchainMarketDataService;
 import org.knowm.xchange.blockchain.service.BlockchainTradeService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.service.marketdata.MarketDataService;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import javax.ws.rs.HeaderParam;
@@ -39,6 +39,7 @@ public class BlockchainExchange extends BaseExchange {
 
         this.accountService = new BlockchainAccountService(this, this.blockchain, this.getResilienceRegistries());
         this.tradeService = new BlockchainTradeService(this, this.blockchain, this.getResilienceRegistries());
+        this.marketDataService = new BlockchainMarketDataService(this, this.blockchain, this.getResilienceRegistries());
     }
 
     @Override
@@ -71,10 +72,5 @@ public class BlockchainExchange extends BaseExchange {
             RESILIENCE_REGISTRIES = BlockchainResilience.getResilienceRegistries();
         }
         return RESILIENCE_REGISTRIES;
-    }
-
-    @Override
-    public MarketDataService getMarketDataService() {
-        throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
     }
 }
