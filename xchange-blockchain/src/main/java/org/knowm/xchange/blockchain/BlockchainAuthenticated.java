@@ -98,6 +98,16 @@ public interface BlockchainAuthenticated extends Blockchain {
     List<BlockchainOrder> getOrders();
 
     /**
+     * Get a list orders by symbol
+     *
+     * @return live and historic orders, defaulting to live orders. Returns at most 100 results, use timestamp to
+     * paginate for further results
+     */
+    @Path("/orders")
+    @GET
+    List<BlockchainOrder> getOrdersBySymbol(@QueryParam("symbol") String symbol) throws IOException, BlockchainException;
+
+    /**
      * Get a specific order
      *
      * @param orderId
