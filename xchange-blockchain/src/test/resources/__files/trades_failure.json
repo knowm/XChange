@@ -1,7 +1,0 @@
-{
-  "timestamp": "2022-05-16T20:46:44.386+00:00",
-  "status": 400,
-  "error": "Bad Request",
-  "message": "Bad Request",
-  "path": "/trades/"
-}

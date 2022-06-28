@@ -28,7 +28,6 @@ public class BlockchainConstants {
     public static final String ORDERS_JSON = "orders.json";
     public static final String ORDERBOOK_JSON = "orderbook.json";
     public static final String ORDERBOOK_FAILURE_JSON = "orderbook_failure.json";
-    public static final String TRADES_FAILURE_JSON = "trades_failure.json";
     public static final String NEW_ORDER_MARKET_JSON = "new_order_market.json";
     public static final String NEW_ORDER_LIMIT_JSON = "new_order_limit.json";
     public static final String NEW_ORDER_STOP_JSON = "new_order_stop.json";
@@ -47,7 +46,6 @@ public class BlockchainConstants {
     public static final String MARKET_ORDER_ID = "22222222";
     public static final String STOP_ORDER_ID = "33333333";
     public static final Long END_TIME = 12 * 30 * 24 * 60 * 60 * 1000L;
-    public static final Long START_TIME = System.currentTimeMillis() - END_TIME;
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String APPLICATION = "application/json";
 }

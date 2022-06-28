@@ -61,38 +61,12 @@ public class BlockchainMarketDataService extends BlockchainMarketDataServiceRaw 
 
     @Override
     public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-        try {
-            Long startTime = null;
-            Long endTime = null;
-            Integer limit = null;
-            String symbol = BlockchainAdapters.toSymbol(currencyPair);
-
-            if (args != null) {
-                switch (args.length) {
-                    case 2:
-                        if (args[1] != null && args[1] instanceof Long) {
-                            endTime = (Long) args[1];
-                        }
-                    case 1:
-                        if (args[0] != null && args[0] instanceof Long) {
-                            startTime = (Long) args[0];
-                        }
-                }
-            }
-
-            return BlockchainAdapters.toTrades(
-                    this.getExchangeTrades(symbol, startTime, endTime, limit),
-                    currencyPair
-            );
-        }catch (BlockchainException e){
-            throw BlockchainErrorAdapter.adapt(e);
-        }
+        throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
     }
 
    @Override
     public Trades getTrades(Instrument instrument, Object... args) throws IOException {
-        CurrencyPair currencyPair = BlockchainAdapters.toCurrencyPair(instrument);
-        return getTrades(currencyPair,args);
+       throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
     }
 
 }

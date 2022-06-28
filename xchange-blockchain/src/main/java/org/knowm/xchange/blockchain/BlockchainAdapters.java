@@ -14,7 +14,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
@@ -270,22 +269,6 @@ public class BlockchainAdapters {
                 .limitPrice(blockchainMarketDataOrder.getPrice())
                 .originalAmount(blockchainMarketDataOrder.getQuantity())
                 .build();
-    }
-
-    public static Trades toTrades(List<BlockchainOrder> blockchainTrades, CurrencyPair currencyPair) {
-        List<Trade> trades = blockchainTrades.stream()
-                .map(blockchainTrade -> {
-                    Order.OrderType orderType = blockchainTrade.isBuyer() ? Order.OrderType.BID : Order.OrderType.ASK;
-                    return new Trade.Builder()
-                            .instrument(currencyPair)
-                            .type(orderType)
-                            .originalAmount(blockchainTrade.getCumQty())
-                            .price(blockchainTrade.getPrice())
-                            .timestamp(blockchainTrade.getTimestamp())
-                            .id(blockchainTrade.getClOrdId())
-                            .build();
-                }).collect(Collectors.toList());
-        return new Trades(trades, Trades.TradeSortType.SortByTimestamp);
     }
 
     public static String getOrderType(Order.OrderType type){
