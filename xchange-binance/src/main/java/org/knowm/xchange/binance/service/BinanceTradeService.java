@@ -150,6 +150,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
               type,
               tif,
               order.getOriginalAmount(),
+              null,
               limitPrice,
               getClientOrderId(order),
               stopPrice,

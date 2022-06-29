@@ -52,6 +52,7 @@ public interface BinanceAuthenticated extends Binance {
    * @param type
    * @param timeInForce
    * @param quantity
+   * @param quoteOrderQty optional
    * @param price optional, must be provided for limit orders only
    * @param newClientOrderId optional, a unique id for the order. Automatically generated if not
    *     sent.
@@ -64,6 +65,8 @@ public interface BinanceAuthenticated extends Binance {
    * @return
    * @throws IOException
    * @throws BinanceException
+   * @see <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">New order - Spot
+   *     API docs -</a>
    */
   @POST
   @Path("api/v3/order")
@@ -73,6 +76,7 @@ public interface BinanceAuthenticated extends Binance {
       @FormParam("type") OrderType type,
       @FormParam("timeInForce") TimeInForce timeInForce,
       @FormParam("quantity") BigDecimal quantity,
+      @FormParam("quoteOrderQty") BigDecimal quoteOrderQty,
       @FormParam("price") BigDecimal price,
       @FormParam("newClientOrderId") String newClientOrderId,
       @FormParam("stopPrice") BigDecimal stopPrice,
