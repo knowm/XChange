@@ -80,6 +80,7 @@ public interface BinanceAuthenticated extends Binance {
       @FormParam("price") BigDecimal price,
       @FormParam("newClientOrderId") String newClientOrderId,
       @FormParam("stopPrice") BigDecimal stopPrice,
+      @FormParam("trailingDelta") Long trailingDelta,
       @FormParam("icebergQty") BigDecimal icebergQty,
       @FormParam("newOrderRespType") BinanceNewOrder.NewOrderResponseType newOrderRespType,
       @FormParam("recvWindow") Long recvWindow,
