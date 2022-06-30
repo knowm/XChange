@@ -2,12 +2,11 @@ package org.knowm.xchange.mexc.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.mexc.MEXCExchange;
+import org.knowm.xchange.mexc.MEXCAdapters;
+import org.knowm.xchange.mexc.dto.trade.MEXCOrderRequestPayload;
 import org.knowm.xchange.service.trade.TradeService;
 
 import java.io.IOException;
-
-import static org.knowm.xchange.mexc.MEXCAdapters.convertToMEXCSymbol;
 
 public class MEXCTradeService extends MEXCTradeServiceRaw implements TradeService {
 
@@ -17,20 +16,8 @@ public class MEXCTradeService extends MEXCTradeServiceRaw implements TradeServic
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    // placeOrder(
-    //          String symbol,
-    //          long price,
-    //          long qty,
-    //          String side,
-    //          String type)
-    return placeOrder(
-            convertToMEXCSymbol(limitOrder.getInstrument().toString()),
-            limitOrder.getLimitPrice().longValue(),
-            limitOrder.getOriginalAmount().longValue(),
-            limitOrder.getType().toString(),
-            "LIMIT_ORDER"
-    ).getData();
-
+    MEXCOrderRequestPayload orderRequestPayload = MEXCAdapters.adaptOrder(limitOrder);
+    return placeOrder(orderRequestPayload).getData();
   }
 
 }

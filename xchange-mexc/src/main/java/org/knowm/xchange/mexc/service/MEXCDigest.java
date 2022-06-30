@@ -2,13 +2,13 @@ package org.knowm.xchange.mexc.service;
 
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;
+import si.mazi.rescu.HttpMethod;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
-import javax.ws.rs.QueryParam;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.TreeMap;
@@ -31,24 +31,31 @@ public class MEXCDigest extends BaseParamsDigest {
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
-    Params p = Params.of();
-    Map<String, String> params = getInputParams(restInvocation);
-    params.remove(SIGNATURE);
-    String apiKey = params.remove(API_KEY);
-    String reqTime = params.remove(REQ_TIME);
-    Map<String, String> sortedParams = new TreeMap<>(params);
-    sortedParams.forEach(p::add);
-    String input = apiKey + reqTime + p.asQueryString();
+    String input = getDigestInputParams(restInvocation);
     Mac mac = getMac();
     mac.update(input.getBytes(StandardCharsets.UTF_8));
     return bytesToHex(mac.doFinal());
   }
 
-  private Map<String, String> getInputParams(RestInvocation restInvocation) {
-    if ("GET".equals(restInvocation.getHttpMethod())) {
-      return restInvocation.getParamsMap().get(HeaderParam.class).asHttpHeaders();
+  private String getDigestInputParams(RestInvocation restInvocation) {
+    Map<String, String> params = restInvocation.getParamsMap().get(HeaderParam.class).asHttpHeaders();
+    params.remove(SIGNATURE);
+    String apiKey = params.remove(API_KEY);
+    String reqTime = params.remove(REQ_TIME);
+
+    if (HttpMethod.GET.name().equals(restInvocation.getHttpMethod()) ||
+            HttpMethod.DELETE.name().equals(restInvocation.getHttpMethod())) {
+      Params p = Params.of();
+
+      Map<String, String> sortedParams = new TreeMap<>(params);
+      sortedParams.forEach(p::add);
+      return apiKey + reqTime + p.asQueryString();
     }
-    throw new NotYetImplementedForExchangeException("Only GET and POST are supported in digest");
+
+    if (HttpMethod.POST.name().equals(restInvocation.getHttpMethod())) {
+      return apiKey + reqTime + restInvocation.getRequestBody();
+    }
+    throw new NotYetImplementedForExchangeException("Only GET, DELETE and POST are supported in digest");
   }
 
 }

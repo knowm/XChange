@@ -2,6 +2,7 @@ package org.knowm.xchange.mexc.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.mexc.dto.MEXCResult;
+import org.knowm.xchange.mexc.dto.trade.MEXCOrderRequestPayload;
 
 import java.io.IOException;
 
@@ -10,21 +11,12 @@ public class MEXCTradeServiceRaw extends MEXCBaseService {
     super(exchange);
   }
 
-  public MEXCResult<String> placeOrder(
-          String symbol,
-          long price,
-          long qty,
-          String side,
-          String type) throws IOException {
+  public MEXCResult<String> placeOrder(MEXCOrderRequestPayload orderRequestPayload) throws IOException {
     return mexcAuthenticated.placeOrder(
             apiKey,
-            symbol,
-            price,
-            qty,
-            side,
-            type,
             nonceFactory,
-            signatureCreator
+            signatureCreator,
+            orderRequestPayload
     );
   }
 

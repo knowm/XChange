@@ -2,13 +2,11 @@ package org.knowm.xchange.mexc;
 
 import org.knowm.xchange.mexc.dto.MEXCResult;
 import org.knowm.xchange.mexc.dto.account.MEXCBalance;
+import org.knowm.xchange.mexc.dto.trade.MEXCOrderRequestPayload;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.Map;
@@ -25,12 +23,12 @@ public interface MEXCAuthenticated {
           @HeaderParam("Signature") ParamsDigest signature
   ) throws IOException;
 
-  MEXCResult<String> placeOrder(String apiKey,
-                                String symbol,
-                                long price,
-                                long qty,
-                                String side,
-                                String type,
-                                SynchronizedValueFactory<Long> nonceFactory,
-                                ParamsDigest signature);
+  @POST
+  @Path("/order/place")
+  @Consumes(MediaType.APPLICATION_JSON)
+  MEXCResult<String> placeOrder(@HeaderParam("ApiKey") String apiKey,
+                                @HeaderParam("Request-Time") SynchronizedValueFactory<Long> timestamp,
+                                @HeaderParam("Signature") ParamsDigest signature,
+                                MEXCOrderRequestPayload orderRequestPayload);
+
 }
