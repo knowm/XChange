@@ -1,5 +1,6 @@
 package org.knowm.xchange.mexc.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MEXCBalance {
@@ -14,4 +15,11 @@ public class MEXCBalance {
     this.available = available;
   }
 
+  public String getFrozen() {
+    return frozen;
+  }
+
+  public String getAvailable() {
+    return available;
+  }
 }

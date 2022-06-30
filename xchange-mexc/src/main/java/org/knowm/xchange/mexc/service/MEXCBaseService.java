@@ -3,13 +3,14 @@ package org.knowm.xchange.mexc.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.mexc.MEXCAuthenticated;
+import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.util.concurrent.TimeUnit;
 
-public class MEXCBaseService {
+public class MEXCBaseService implements BaseService {
 
   protected final MEXCAuthenticated mexcAuthenticated;
   protected final ParamsDigest signatureCreator;
@@ -21,7 +22,5 @@ public class MEXCBaseService {
     signatureCreator = MEXCDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     apiKey = exchange.getExchangeSpecification().getApiKey();
   }
-
-
 
 }
