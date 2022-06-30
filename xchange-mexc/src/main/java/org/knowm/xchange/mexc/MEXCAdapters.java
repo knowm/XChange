@@ -67,12 +67,19 @@ public class MEXCAdapters {
             new Date(Long.parseLong(mexcOrder.getCreateTime())),
             new BigDecimal(mexcOrder.getPrice())) {
     };
-    BigDecimal averagePrice = new BigDecimal(mexcOrder.getDealAmount()).divide(dealQuantity, RoundingMode.UNNECESSARY);
+    BigDecimal dealAmount = new BigDecimal(mexcOrder.getDealAmount());
+    BigDecimal averagePrice = getAveragePrice(dealQuantity, dealAmount);
     limitOrder.setAveragePrice(averagePrice);
     limitOrder.setOrderStatus(Order.OrderStatus.valueOf(mexcOrder.getState()));
     return limitOrder;
 
   }
 
+  private static BigDecimal getAveragePrice(BigDecimal dealQuantity, BigDecimal dealAmount) {
+    if (dealQuantity.compareTo(BigDecimal.ZERO) == 0) {
+      return BigDecimal.ZERO;
+    }
+    return dealAmount.divide(dealQuantity, RoundingMode.UNNECESSARY);
+  }
 
 }

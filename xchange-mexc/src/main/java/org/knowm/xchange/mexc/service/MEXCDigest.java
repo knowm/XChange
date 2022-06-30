@@ -13,13 +13,11 @@ import javax.ws.rs.QueryParam;
 import java.lang.annotation.Annotation;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.TreeMap;
 
 import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
 
 public class MEXCDigest extends BaseParamsDigest {
 
-  private static final String SIGNATURE = "Signature";
   private static final String API_KEY = "ApiKey";
   private static final String REQ_TIME = "Request-Time";
 
