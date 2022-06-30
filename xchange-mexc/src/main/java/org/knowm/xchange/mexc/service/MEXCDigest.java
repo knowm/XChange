@@ -10,6 +10,7 @@ import si.mazi.rescu.RestInvocation;
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.QueryParam;
+import java.lang.annotation.Annotation;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.TreeMap;
@@ -39,13 +40,14 @@ public class MEXCDigest extends BaseParamsDigest {
   }
 
   private String getDigestInputParams(RestInvocation restInvocation) {
-    Params headerParams = restInvocation.getParamsMap().get(HeaderParam.class);
+    Map<Class<? extends Annotation>, Params> paramsMap = restInvocation.getParamsMap();
+    Params headerParams = paramsMap.get(HeaderParam.class);
     String apiKey = headerParams.getParamValue(API_KEY).toString();
     String reqTime = headerParams.getParamValue(REQ_TIME).toString();
 
     if (HttpMethod.GET.name().equals(restInvocation.getHttpMethod()) ||
             HttpMethod.DELETE.name().equals(restInvocation.getHttpMethod())) {
-      Params queryParamsMap = restInvocation.getParamsMap().get(QueryParam.class);
+      Params queryParamsMap = paramsMap.get(QueryParam.class);
       return apiKey + reqTime + queryParamsMap.asQueryString();
     }
 
