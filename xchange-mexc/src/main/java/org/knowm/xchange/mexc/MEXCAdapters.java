@@ -1,14 +1,20 @@
 package org.knowm.xchange.mexc;
 
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.mexc.dto.account.MEXCBalance;
+import org.knowm.xchange.mexc.dto.trade.MEXCOrder;
 import org.knowm.xchange.mexc.dto.trade.MEXCOrderRequestPayload;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +38,11 @@ public class MEXCAdapters {
     return instrumentName.replace("/", "_").toUpperCase();
   }
 
+  private static Instrument adaptSymbol(String symbol) {
+    String[] symbolTokenized = symbol.split("_");
+    return new CurrencyPair(symbolTokenized[0], symbolTokenized[1]);
+  }
+
   public static MEXCOrderRequestPayload adaptOrder(LimitOrder limitOrder) {
     return new MEXCOrderRequestPayload(
             convertToMEXCSymbol(limitOrder.getInstrument().toString()),
@@ -42,4 +53,26 @@ public class MEXCAdapters {
             null
     );
   }
+
+
+  public static Order adaptOrder(MEXCOrder mexcOrder) {
+
+    BigDecimal dealQuantity = new BigDecimal(mexcOrder.getDealQuantity());
+    LimitOrder limitOrder = new LimitOrder(
+            Order.OrderType.valueOf(mexcOrder.getType()),
+            new BigDecimal(mexcOrder.getQuantity()),
+            dealQuantity,
+            adaptSymbol(mexcOrder.getSymbol()),
+            mexcOrder.getId(),
+            new Date(Long.parseLong(mexcOrder.getCreateTime())),
+            new BigDecimal(mexcOrder.getPrice())) {
+    };
+    BigDecimal averagePrice = new BigDecimal(mexcOrder.getDealAmount()).divide(dealQuantity, RoundingMode.UNNECESSARY);
+    limitOrder.setAveragePrice(averagePrice);
+    limitOrder.setOrderStatus(Order.OrderStatus.valueOf(mexcOrder.getState()));
+    return limitOrder;
+
+  }
+
+
 }

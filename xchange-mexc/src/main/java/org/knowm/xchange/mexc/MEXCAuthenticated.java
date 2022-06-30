@@ -2,6 +2,7 @@ package org.knowm.xchange.mexc;
 
 import org.knowm.xchange.mexc.dto.MEXCResult;
 import org.knowm.xchange.mexc.dto.account.MEXCBalance;
+import org.knowm.xchange.mexc.dto.trade.MEXCOrder;
 import org.knowm.xchange.mexc.dto.trade.MEXCOrderRequestPayload;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -9,6 +10,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Path("/open/api/v2")
@@ -30,5 +32,13 @@ public interface MEXCAuthenticated {
                                 @HeaderParam("Request-Time") SynchronizedValueFactory<Long> timestamp,
                                 @HeaderParam("Signature") ParamsDigest signature,
                                 MEXCOrderRequestPayload orderRequestPayload);
+
+  @GET
+  @Path("/order/query")
+  MEXCResult<List<MEXCOrder>> getOrders(
+          @HeaderParam("ApiKey") String apiKey,
+          @HeaderParam("Request-Time") SynchronizedValueFactory<Long> timestamp,
+          @HeaderParam("Signature") ParamsDigest signature,
+          @QueryParam("order_ids") List<String> orderIds);
 
 }
