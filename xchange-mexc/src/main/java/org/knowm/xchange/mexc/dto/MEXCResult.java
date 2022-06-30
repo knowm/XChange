@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MEXCResult<T> {
 
-  public final int code;
-  public final T data;
+  private final int code;
+  private final T data;
 
   @JsonCreator
   public MEXCResult(
