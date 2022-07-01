@@ -64,7 +64,7 @@ public class MEXCAdapters {
             dealQuantity,
             adaptSymbol(mexcOrder.getSymbol()),
             mexcOrder.getId(),
-            new Date(Long.parseLong(mexcOrder.getCreateTime())),
+            new Date(mexcOrder.getCreateTime()),
             new BigDecimal(mexcOrder.getPrice())) {
     };
     BigDecimal dealAmount = new BigDecimal(mexcOrder.getDealAmount());

@@ -13,7 +13,7 @@ public class MEXCOrder {
   private final String type;
   private final String dealQuantity;
   private final String dealAmount;
-  private final String createTime;
+  private final long createTime;
 
   @JsonCreator
   public MEXCOrder(
@@ -25,7 +25,7 @@ public class MEXCOrder {
           @JsonProperty("type") String type,
           @JsonProperty("deal_quantity") String dealQuantity,
           @JsonProperty("deal_amount") String dealAmount,
-          @JsonProperty("create_time") String createTime) {
+          @JsonProperty("create_time") long createTime) {
     this.id = id;
     this.symbol = symbol;
     this.price = price;
@@ -69,7 +69,7 @@ public class MEXCOrder {
     return dealAmount;
   }
 
-  public String getCreateTime() {
+  public long getCreateTime() {
     return createTime;
   }
 }
