@@ -80,6 +80,17 @@ public class MEXCTradeServiceRawTest extends BaseWiremockTest {
     assertThat(responseObjectResult.get(0).get("deal_amount").textValue()).isEqualTo(orderResult.getDealAmount());
     assertThat(responseObjectResult.get(0).get("create_time").longValue()).isEqualTo(orderResult.getCreateTime());
 
+      orderResult = orderResults.get(1);
+
+      assertThat(responseObjectResult.get(1).get("id").textValue()).isEqualTo(orderResult.getId());
+      assertThat(responseObjectResult.get(1).get("symbol").textValue()).isEqualTo(orderResult.getSymbol());
+      assertThat(responseObjectResult.get(1).get("price").textValue()).isEqualTo(orderResult.getPrice());
+      assertThat(responseObjectResult.get(1).get("quantity").textValue()).isEqualTo(orderResult.getQuantity());
+      assertThat(responseObjectResult.get(1).get("state").textValue()).isEqualTo(orderResult.getState());
+      assertThat(responseObjectResult.get(1).get("type").textValue()).isEqualTo(orderResult.getType());
+      assertThat(responseObjectResult.get(1).get("deal_quantity").textValue()).isEqualTo(orderResult.getDealQuantity());
+      assertThat(responseObjectResult.get(1).get("deal_amount").textValue()).isEqualTo(orderResult.getDealAmount());
+      assertThat(responseObjectResult.get(1).get("create_time").longValue()).isEqualTo(orderResult.getCreateTime());
 
   }
 
