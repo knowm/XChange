@@ -3,21 +3,33 @@ package org.knowm.xchange.bitflyer.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitflyer.BitflyerAdapters;
+import org.knowm.xchange.bitflyer.BitflyerUtils;
+import org.knowm.xchange.bitflyer.dto.BitflyerException;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerAddress;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerCoinHistory;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerDepositOrWithdrawal;
+import org.knowm.xchange.bitflyer.dto.trade.results.BitflyerTradingCommission;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BitflyerAccountService extends BitflyerAccountServiceRaw implements AccountService {
+  private static final Logger LOG = LoggerFactory.getLogger(BitflyerAccountService.class);
+
   /**
    * Constructor
    *
@@ -25,6 +37,26 @@ public class BitflyerAccountService extends BitflyerAccountServiceRaw implements
    */
   public BitflyerAccountService(Exchange exchange) {
     super(exchange);
+  }
+
+  @Override
+  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
+    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
+
+    pairs.forEach(
+        pair -> {
+          try {
+            BitflyerTradingCommission commission =
+                getTradingCommission(BitflyerUtils.bitflyerProductCode(pair));
+
+            tradingFees.put(pair, BitflyerAdapters.adaptTradingCommission(commission));
+          } catch (IOException | BitflyerException | ExchangeException e) {
+            LOG.trace("Exception fetching trade commission for {}", pair, e);
+          }
+        });
+
+    return tradingFees;
   }
 
   @Override

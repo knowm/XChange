@@ -36,8 +36,7 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
       throw new IllegalArgumentException("Params must be instance of CurrencyPairsParam");
     }
     Collection<CurrencyPair> pairs = ((CurrencyPairsParam) params).getCurrencyPairs();
-    return getAllCexIOTickers()
-        .stream()
+    return getAllCexIOTickers().stream()
         .map(CexIOAdapters::adaptTicker)
         .filter(ticker -> pairs.contains(ticker.getCurrencyPair()))
         .collect(Collectors.toList());

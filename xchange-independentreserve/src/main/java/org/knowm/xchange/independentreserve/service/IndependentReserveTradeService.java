@@ -2,13 +2,13 @@ package org.knowm.xchange.independentreserve.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.independentreserve.IndependentReserveAdapters;
@@ -63,6 +63,12 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
   }
 
   @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    return independentReservePlaceMarketOrder(
+        marketOrder.getInstrument(), marketOrder.getType(), marketOrder.getOriginalAmount());
+  }
+
+  @Override
   public boolean cancelOrder(String orderId) throws IOException {
     return independentReserveCancelOrder(orderId);
   }
@@ -96,8 +102,8 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    List<Order> res = new ArrayList<>();
-    for (OrderQueryParams orderQueryParam : Arrays.asList(orderQueryParams)) {
+    List<Order> res = new ArrayList<>(orderQueryParams.length);
+    for (OrderQueryParams orderQueryParam : orderQueryParams) {
       IndependentReserveOrderDetailsResponse orderDetailsResponse =
           getOrderDetails(orderQueryParam.getOrderId());
       res.add(IndependentReserveAdapters.adaptOrderDetails(orderDetailsResponse));

@@ -120,6 +120,11 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
     return cancelOrder(currencyPair, paramId.getOrderId());
   }
 
+  @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[] {CancelOrderByIdParams.class, CancelOrderByCurrencyPair.class};
+  }
+
   private boolean cancelOrder(CurrencyPair currencyPair, String orderId)
       throws TheRockException, NumberFormatException, IOException {
     TheRockOrder cancelledOrder = cancelTheRockOrder(currencyPair, Long.parseLong(orderId));
@@ -137,8 +142,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     if (!(params instanceof TradeHistoryParamCurrencyPair)) {
-      throw new ExchangeException(
-          "TheRock API recquires " + TradeHistoryParamCurrencyPair.class.getName());
+      throw new ExchangeException("TheRock API recquires " + TradeHistoryParamCurrencyPair.class);
     }
 
     TradeHistoryParamCurrencyPair pairParams = (TradeHistoryParamCurrencyPair) params;

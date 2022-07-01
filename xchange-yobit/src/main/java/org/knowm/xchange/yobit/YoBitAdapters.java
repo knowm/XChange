@@ -124,13 +124,15 @@ public class YoBitAdapters {
       OrderType type = trade.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
 
       Trade t =
-          new Trade(
-              type,
-              trade.getAmount(),
-              currencyPair,
-              trade.getPrice(),
-              parseDate(trade.getTimestamp()),
-              String.valueOf(trade.getTid()));
+          new Trade.Builder()
+              .type(type)
+              .originalAmount(trade.getAmount())
+              .currencyPair(currencyPair)
+              .price(trade.getPrice())
+              .timestamp(parseDate(trade.getTimestamp()))
+              .id(String.valueOf(trade.getTid()))
+              .build();
+
       trades.add(t);
       lastTrade = i;
     }
@@ -237,17 +239,16 @@ public class YoBitAdapters {
     String pair = tradeData.get("pair").toString();
     String timestamp = tradeData.get("timestamp").toString();
 
-    Date time = DateUtils.fromUnixTime(Long.valueOf(timestamp));
+    Date time = DateUtils.fromUnixTime(Long.parseLong(timestamp));
 
-    return new UserTrade(
-        adaptType(type),
-        new BigDecimal(amount),
-        adaptCurrencyPair(pair),
-        new BigDecimal(rate),
-        time,
-        id,
-        orderId,
-        null,
-        null);
+    return new UserTrade.Builder()
+        .type(adaptType(type))
+        .originalAmount(new BigDecimal(amount))
+        .currencyPair(adaptCurrencyPair(pair))
+        .price(new BigDecimal(rate))
+        .timestamp(time)
+        .id(id)
+        .orderId(orderId)
+        .build();
   }
 }

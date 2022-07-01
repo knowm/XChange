@@ -78,13 +78,13 @@ public class LunoMarketDataService extends LunoBaseService implements MarketData
     List<Trade> list = new ArrayList<>();
     for (org.knowm.xchange.luno.dto.marketdata.LunoTrades.Trade lt : lunoTrades.getTrades()) {
       list.add(
-          new Trade(
-              lt.buy ? OrderType.BID : OrderType.ASK,
-              lt.volume,
-              currencyPair,
-              lt.price,
-              lt.getTimestamp(),
-              null));
+          new Trade.Builder()
+              .type(lt.buy ? OrderType.BID : OrderType.ASK)
+              .originalAmount(lt.volume)
+              .currencyPair(currencyPair)
+              .price(lt.price)
+              .timestamp(lt.getTimestamp())
+              .build());
     }
     return new Trades(list, TradeSortType.SortByTimestamp);
   }

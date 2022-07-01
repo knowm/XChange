@@ -6,7 +6,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCandlestickHistory;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCoinInfoWrapper;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairs;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
@@ -34,6 +37,10 @@ public interface Gateio {
   Map<String, GateioTicker> getTickers() throws IOException;
 
   @GET
+  @Path("coininfo")
+  GateioCoinInfoWrapper getCoinInfo() throws IOException;
+
+  @GET
   @Path("ticker/{ident}_{currency}")
   GateioTicker getTicker(
       @PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)
@@ -57,5 +64,13 @@ public interface Gateio {
       @PathParam("ident") String tradeableIdentifier,
       @PathParam("currency") String currency,
       @PathParam("tradeId") String tradeId)
+      throws IOException;
+
+  @GET
+  @Path("candlestick2/{currency_pair}")
+  GateioCandlestickHistory getKlinesGate(
+      @PathParam("currency_pair") String tradePair,
+      @QueryParam("range_hour") Integer hours,
+      @QueryParam("group_sec") Long interval)
       throws IOException;
 }

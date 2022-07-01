@@ -5,7 +5,9 @@ import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.QueryParam;
@@ -30,7 +32,8 @@ public class LivecoinDigest extends BaseParamsDigest {
   private static String buildQueryString(Map<String, String> args) {
     try {
       StringBuilder result = new StringBuilder();
-      for (String hashKey : args.keySet()) {
+      SortedSet<String> sortedKeys = new TreeSet<>(args.keySet());
+      for (String hashKey : sortedKeys) {
         if (result.length() > 0) result.append('&');
         result.append(hashKey).append("=").append(URLEncoder.encode(args.get(hashKey), "UTF-8"));
       }

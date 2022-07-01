@@ -1,6 +1,6 @@
 package org.knowm.xchange.bibox.service;
 
-import static org.knowm.xchange.bibox.dto.BiboxCommands.COIN_LIST_CMD;
+import static org.knowm.xchange.bibox.dto.BiboxCommands.ASSETS_CMD;
 
 import java.util.List;
 import org.knowm.xchange.Exchange;
@@ -9,7 +9,8 @@ import org.knowm.xchange.bibox.dto.BiboxCommands;
 import org.knowm.xchange.bibox.dto.BiboxPagedResponses;
 import org.knowm.xchange.bibox.dto.BiboxPagedResponses.BiboxPage;
 import org.knowm.xchange.bibox.dto.BiboxSingleResponse;
-import org.knowm.xchange.bibox.dto.account.BiboxCoin;
+import org.knowm.xchange.bibox.dto.account.BiboxAsset;
+import org.knowm.xchange.bibox.dto.account.BiboxAssetsResult;
 import org.knowm.xchange.bibox.dto.account.BiboxDeposit;
 import org.knowm.xchange.bibox.dto.account.BiboxFundsCommandBody;
 import org.knowm.xchange.bibox.dto.account.BiboxTransferCommandBody;
@@ -24,12 +25,13 @@ public class BiboxAccountServiceRaw extends BiboxBaseService {
     super(exchange);
   }
 
-  public List<BiboxCoin> getBiboxAccountInfo() {
+  public List<BiboxAsset> getBiboxAccountInfo() {
     try {
-      BiboxSingleResponse<List<BiboxCoin>> response =
-          bibox.coinList(COIN_LIST_CMD.json(), apiKey, signatureCreator);
+      BiboxSingleResponse<BiboxAssetsResult> response =
+          bibox.assets(ASSETS_CMD.json(), apiKey, signatureCreator);
+
       throwErrors(response);
-      return response.get().getResult();
+      return response.get().getResult().getAssets_list();
     } catch (BiboxException e) {
       throw new ExchangeException(e.getMessage());
     }

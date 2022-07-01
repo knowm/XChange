@@ -3,15 +3,12 @@ package org.knowm.xchange.cryptofacilities.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.knowm.xchange.cryptofacilities.Util;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
 /** @author Jean-Christophe Laruelle */
 public class CryptoFacilitiesOpenOrder extends CryptoFacilitiesResult {
-
-  private static final SimpleDateFormat DATE_FORMAT =
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
   private final Date receivedTime;
   private final String status;
@@ -41,7 +38,7 @@ public class CryptoFacilitiesOpenOrder extends CryptoFacilitiesResult {
 
     super(result, error);
 
-    this.receivedTime = strReceivedTime == null ? null : DATE_FORMAT.parse(strReceivedTime);
+    this.receivedTime = Util.parseDate(strReceivedTime);
     this.status = status;
     this.order_id = order_id;
     this.orderType = orderType;
@@ -119,8 +116,8 @@ public class CryptoFacilitiesOpenOrder extends CryptoFacilitiesResult {
         + limitPrice
         + ", stopPrice="
         + stopPrice
-        + ", timeStamp="
-        + DATE_FORMAT.format(receivedTime)
+        + ", receivedTime="
+        + receivedTime
         + "]";
   }
 }

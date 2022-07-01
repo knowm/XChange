@@ -34,7 +34,7 @@ public class Bl3pAdapters {
               bl3pWallet.getAvailable().value));
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adaptOpenOrders(

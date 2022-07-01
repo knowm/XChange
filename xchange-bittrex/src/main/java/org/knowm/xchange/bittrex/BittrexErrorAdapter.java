@@ -9,14 +9,19 @@ import org.knowm.xchange.exceptions.ExchangeException;
 public class BittrexErrorAdapter {
 
   public static ExchangeException adapt(BittrexException e) {
-    String message = e.getMessage();
-    if (StringUtils.isEmpty(message)) {
-      return new ExchangeException("Operation failed without any error message");
+    String code = e.getCode();
+    if (StringUtils.isEmpty(code)) {
+      return new ExchangeException("Operation failed without any error code", e);
     }
-    switch (message) {
-      case "INVALID_MARKET":
-        return new CurrencyPairNotValidException();
+    switch (code) {
+      case "MARKET_DOES_NOT_EXIST":
+        return new CurrencyPairNotValidException(e);
+      default:
+        String message = e.getDetails();
+        if (StringUtils.isEmpty(message)) {
+          message = "Operation failed with error code: " + code;
+        }
+        return new ExchangeException(message, e);
     }
-    return new ExchangeException(message);
   }
 }

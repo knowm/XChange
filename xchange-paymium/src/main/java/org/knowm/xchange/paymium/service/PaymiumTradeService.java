@@ -71,16 +71,16 @@ public class PaymiumTradeService extends PaymiumTradeServiceRaw implements Trade
       }
 
       UserTrade userTrade =
-          new UserTrade(
-              orderType,
-              order.getTradedCurrency(),
-              CurrencyPair.BTC_EUR,
-              order.getPrice(),
-              order.getUpdatedAt(),
-              order.getUuid(),
-              order.getUuid(),
-              fee,
-              currencyFee);
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(order.getTradedCurrency())
+              .currencyPair(CurrencyPair.BTC_EUR)
+              .price(order.getPrice())
+              .id(order.getUuid())
+              .orderId(order.getUuid())
+              .feeAmount(fee)
+              .feeCurrency(currencyFee)
+              .build();
 
       userTrades.add(userTrade);
     }

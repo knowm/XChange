@@ -3,6 +3,7 @@ package org.knowm.xchange.livecoin.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
+import java.util.List;
 import java.util.Map;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.livecoin.LivecoinExchange;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrder;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 
 public class MarketDataIntegration {
@@ -20,7 +22,7 @@ public class MarketDataIntegration {
 
   @BeforeClass
   public static void setUp() {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class);
     marketDataService = (LivecoinMarketDataService) exchange.getMarketDataService();
   }
 
@@ -48,9 +50,9 @@ public class MarketDataIntegration {
         .isNotNull()
         .containsKeys(CurrencyPair.BTC_USD, CurrencyPair.ETH_BTC);
     LivecoinOrderBook btcUsdOrderBook = orderBooksByPair.get(CurrencyPair.BTC_USD);
-    LivecoinAsksBidsData[] btcUsdAsks = btcUsdOrderBook.getAsks();
+    List<LivecoinOrder> btcUsdAsks = btcUsdOrderBook.getAsks();
     assertThat(btcUsdAsks).isNotEmpty();
-    LivecoinAsksBidsData firstBtcUsdAsk = btcUsdAsks[0];
+    LivecoinOrder firstBtcUsdAsk = btcUsdAsks.get(0);
     assertThat(firstBtcUsdAsk.getQuantity()).isNotNull().isPositive();
   }
 

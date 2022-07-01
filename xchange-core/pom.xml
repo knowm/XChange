@@ -1,10 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>4.4.0</version>
+		<version>5.0.14-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-core</artifactId>
@@ -23,46 +22,34 @@
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>
 
-		<!-- Third party dependencies -->
+        <!-- Third party dependencies -->
 
-		<dependency>
-			<groupId>com.github.mmazi</groupId>
-			<artifactId>rescu</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.github.mmazi</groupId>
+            <artifactId>rescu</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-		</dependency>
-		<!--For String Joining, etc. -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-	</dependencies>
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<finalName>${project.artifactId}-${project.version}</finalName>
-	</build>
-	<distributionManagement>
-		<repository>
-			<id>internal</id>
-			<url>file://${project.build.directory}/mvn-repo</url>
-			<uniqueVersion>false</uniqueVersion>
-		</repository>
-	</distributionManagement>
-	<properties>
-		<github.global.server>github</github.global.server>
-	</properties>
+        <!--For String Joining, etc. -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-all</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 </project>

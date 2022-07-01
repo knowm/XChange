@@ -1,7 +1,13 @@
 package org.knowm.xchange.hitbtc.v2;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -22,48 +28,49 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.hitbtc.v2.dto.*;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcLimitOrder;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderLimit;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcSide;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcUserTrade;
+import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataServiceRaw;
 
 public class HitbtcAdapters {
 
-  /** known counter currencies at HitBTC */
-  private static final Set<String> counters =
-      new HashSet<>(Arrays.asList("TUSD", "EURS", "USD", "BTC", "ETH", "DAI", "EOS"));
-  /**
-   * Known TUSD symbols. We use this because it is hard to parse such symbols as STRATUSD: is
-   * counter currency USD or TUSD?
-   */
-  private static final Set<String> TUSD_SYMBOLS =
-      new HashSet<>(
-          Arrays.asList(
-              "USDTUSD",
-              "XMRTUSD",
-              "BTCTUSD",
-              "LTCTUSD",
-              "NEOTUSD",
-              "ETHTUSD",
-              "DAITUSD",
-              "BCHTUSD",
-              "EURSTUSD",
-              "ZRXTUSD"));
+  private static Map<String, CurrencyPair> symbols = new HashMap<>();
 
   public static CurrencyPair adaptSymbol(String symbol) {
-    // In order to differentiate xxxTUSD and xxxUSD
-    String tempSymbol =
-        symbol.endsWith("USD") && !TUSD_SYMBOLS.contains(symbol) ? symbol + "T" : symbol;
-    return counters
-        .stream()
-        .map(counter -> "USD".equals(counter) ? "USDT" : counter)
-        .filter(tempSymbol::endsWith)
-        .map(
-            counter ->
-                counter.substring(0, counter.length() - tempSymbol.length() + symbol.length()))
-        .map(
-            counter ->
-                new CurrencyPair(symbol.substring(0, symbol.length() - counter.length()), counter))
-        .findAny()
-        // We try our best if the counter currency is not in the list
-        .orElse(new CurrencyPair(symbol.substring(0, symbol.length() - 3), symbol.substring(3)));
+    if (symbols.isEmpty()) {
+      try {
+        HitbtcExchange exchange = ExchangeFactory.INSTANCE.createExchange(HitbtcExchange.class);
+        symbols =
+            new HitbtcMarketDataServiceRaw(exchange)
+                .getHitbtcSymbols().stream()
+                    .collect(
+                        Collectors.toMap(
+                            hitbtcSymbol ->
+                                hitbtcSymbol.getBaseCurrency() + hitbtcSymbol.getQuoteCurrency(),
+                            hitbtcSymbol ->
+                                new CurrencyPair(
+                                    hitbtcSymbol.getBaseCurrency(),
+                                    hitbtcSymbol.getQuoteCurrency())));
+      } catch (Exception ignored) {
+      }
+    }
+
+    return symbols.containsKey(symbol) ? symbols.get(symbol) : guessSymbol(symbol);
+  }
+
+  static CurrencyPair guessSymbol(String symbol) {
+    int splitIndex = symbol.endsWith("USDT") ? symbol.lastIndexOf("USDT") : symbol.length() - 3;
+    return new CurrencyPair(symbol.substring(0, splitIndex), symbol.substring(splitIndex));
   }
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
@@ -120,19 +127,15 @@ public class HitbtcAdapters {
       HitbtcOrderLimit[] hitbtcOrders, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> orders = new ArrayList<>(hitbtcOrders.length);
+    final LimitOrder.Builder builder = new LimitOrder.Builder(orderType, currencyPair);
 
     for (HitbtcOrderLimit hitbtcOrderLimit : hitbtcOrders) {
-      LimitOrder limitOrder =
-          new LimitOrder(
-              orderType,
-              hitbtcOrderLimit.getSize(),
-              currencyPair,
-              null,
-              null,
-              hitbtcOrderLimit.getPrice());
-      orders.add(limitOrder);
+      orders.add(
+          builder
+              .originalAmount(hitbtcOrderLimit.getSize())
+              .limitPrice(hitbtcOrderLimit.getPrice())
+              .build());
     }
-
     return orders;
   }
 
@@ -165,7 +168,15 @@ public class HitbtcAdapters {
         lastTradeId = longTradeId;
       }
       OrderType orderType = adaptSide(hitbtcTrade.getSide());
-      Trade trade = new Trade(orderType, amount, currencyPair, price, timestamp, tid);
+      Trade trade =
+          new Trade.Builder()
+              .type(orderType)
+              .originalAmount(amount)
+              .currencyPair(currencyPair)
+              .price(price)
+              .timestamp(timestamp)
+              .id(tid)
+              .build();
       trades.add(trade);
     }
 
@@ -250,7 +261,7 @@ public class HitbtcAdapters {
           new Balance(currency, null, balanceRaw.getAvailable(), balanceRaw.getReserved());
       balances.add(balance);
     }
-    return new Wallet(name, name, balances);
+    return Wallet.Builder.from(balances).id(name).name(name).build();
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {

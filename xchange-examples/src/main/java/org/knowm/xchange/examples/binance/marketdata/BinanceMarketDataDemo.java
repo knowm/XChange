@@ -50,8 +50,7 @@ public class BinanceMarketDataDemo {
           }
         });
 
-    tickers
-        .stream()
+    tickers.stream()
         .forEach(
             t -> {
               System.out.println(
@@ -76,8 +75,7 @@ public class BinanceMarketDataDemo {
           }
         });
 
-    tickers
-        .stream()
+    tickers.stream()
         .forEach(
             t -> {
               System.out.println(

@@ -1,43 +1,4 @@
 DSX Exchange API specification
-==============================
+======================================
 
-Public API
-
-This api provides access to such information as tickers, trades, orderbooks and common statistics of currency pairs.
-
-Documentation
--------------
-https://dsx.uk/api_docs/public/
-
-Ticker
-------
-https://dsx.uk/mapi/ticker/btcusd
-
-Orders
-------
-https://dsx.uk/mapi/depth/btcusd
-
-Trades
-------
-https://dsx.uk/mapi/trades/btcusd
-
-=================================
-
-Private trading API
-
-This api provides access to org.knowm.xchange.dsx.dto.trade methods such as placing and cancelling orders and getting user org.knowm.xchange.dsx.dto.trade info (orders/deals/transactions).
-
-Documentation
--------------
-https://dsx.uk/api_docs/private/
-
-
-=================================
-
-Deposit/Withdraw API
-
-This api provides access to deposit and withdraw methods such as fiat deposit, crypto/fiat withdrawals and receiving transaction statuses.
-
-Documentation
--------------
-https://dsx.uk/api_docs/dw/
+https://api.dsxglobal.com/

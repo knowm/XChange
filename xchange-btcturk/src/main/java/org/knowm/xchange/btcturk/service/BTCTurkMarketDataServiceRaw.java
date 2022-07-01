@@ -1,44 +1,56 @@
 package org.knowm.xchange.btcturk.service;
 
 import java.io.IOException;
-import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.btcturk.BTCTurk;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOHLC;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOrderBook;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTicker;
-import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTrade;
+import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTrades;
 import org.knowm.xchange.currency.CurrencyPair;
-import si.mazi.rescu.RestProxyFactory;
 
-/** @author semihunaldi */
+/**
+ * @author semihunaldi
+ * @author mertguner
+ */
 public class BTCTurkMarketDataServiceRaw extends BTCTurkBaseService {
 
-  private final BTCTurk btcTurk;
-
   public BTCTurkMarketDataServiceRaw(Exchange exchange) {
-
     super(exchange);
-    this.btcTurk =
-        RestProxyFactory.createProxy(
-            BTCTurk.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
-  public BTCTurkTicker getBTCTurkTicker(@Nullable CurrencyPair pair) throws IOException {
-    return btcTurk.getTicker(new BTCTurk.Pair(pair));
+  public BTCTurkTicker getBTCTurkTicker(CurrencyPair pair) throws IOException {
+    return btcTurk.getTicker(pair.toString().replace("/", ""));
+  }
+
+  public List<BTCTurkTicker> getBTCTurkTicker() throws IOException {
+    return btcTurk.getTicker();
+  }
+
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>();
+
+    for (BTCTurkTicker ticker : getBTCTurkTicker()) {
+      pairs.add(ticker.getPair());
+    }
+
+    return pairs;
   }
 
   public BTCTurkOrderBook getBTCTurkOrderBook(CurrencyPair pair) throws IOException {
-    return btcTurk.getOrderBook(new BTCTurk.Pair(pair));
+    return btcTurk.getOrderBook(pair.toString().replace("/", ""));
   }
 
-  public BTCTurkTrade[] getBTCTurkTrades(CurrencyPair pair, @Nullable Integer last)
-      throws IOException {
-    return btcTurk.getTrades(new BTCTurk.Pair(pair), last);
+  public List<BTCTurkTrades> getBTCTurkTrades(CurrencyPair pair, Integer last) throws IOException {
+    return btcTurk.getTrades(pair.toString().replace("/", ""), last);
   }
 
-  public BTCTurkOHLC[] getBTCTurkOHLC(@Nullable CurrencyPair pair, @Nullable Integer last)
-      throws IOException {
-    return btcTurk.getOHLC(new BTCTurk.Pair(pair), last);
+  public List<BTCTurkOHLC> getBTCTurkOHLC(CurrencyPair pair) throws IOException {
+    return btcTurk.getOHLC(pair.toString().replace("/", ""));
+  }
+
+  public List<BTCTurkOHLC> getBTCTurkOHLC(CurrencyPair pair, Integer last) throws IOException {
+    return btcTurk.getOHLC(pair.toString().replace("/", ""), last);
   }
 }

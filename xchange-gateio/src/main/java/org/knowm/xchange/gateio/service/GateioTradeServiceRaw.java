@@ -118,9 +118,12 @@ public class GateioTradeServiceRaw extends GateioBaseService {
     return handleResponse(gateioOpenOrdersReturn);
   }
 
-  public GateioOrderStatus getGateioOrderStatus(String orderId) throws IOException {
+  public GateioOrderStatus getGateioOrderStatus(String orderId, CurrencyPair currencyPair)
+      throws IOException {
 
-    GateioOrderStatus orderStatus = bter.getOrderStatus(orderId, apiKey, signatureCreator);
+    GateioOrderStatus orderStatus =
+        bter.getOrderStatus(
+            orderId, GateioUtils.toPairString(currencyPair), apiKey, signatureCreator);
 
     return handleResponse(orderStatus);
   }

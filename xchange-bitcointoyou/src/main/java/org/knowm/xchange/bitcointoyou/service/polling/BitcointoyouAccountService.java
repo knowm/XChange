@@ -39,7 +39,7 @@ public class BitcointoyouAccountService extends BitcointoyouAccountServiceRaw
   public AccountInfo getAccountInfo() throws IOException {
 
     List<Balance> balances = getWallets();
-    return new AccountInfo(new Wallet(balances));
+    return new AccountInfo(Wallet.Builder.from(balances).build());
   }
 
   @Override

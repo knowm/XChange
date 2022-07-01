@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class BitstampOrderStatusResponse {
   private final BitstampOrderStatus status;
+  private final Long id;
   private final BitstampOrderTransaction[] transactions;
   private final String error;
 
@@ -17,16 +18,22 @@ public class BitstampOrderStatusResponse {
       @JsonProperty("status")
           @JsonDeserialize(using = BitstampOrderStatus.BitstampOrderStatusDeserializer.class)
           BitstampOrderStatus status,
+      @JsonProperty("id") Long id,
       @JsonProperty("transactions") BitstampOrderTransaction[] transactions,
       @JsonProperty("error") String error) {
 
     this.status = status;
+    this.id = id;
     this.transactions = transactions;
     this.error = error;
   }
 
   public BitstampOrderStatus getStatus() {
     return status;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public BitstampOrderTransaction[] getTransactions() {

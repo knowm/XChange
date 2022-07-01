@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinegg.CoinEggAuthenticated;
 import org.knowm.xchange.coinegg.dto.trade.CoinEggTradeAdd;
 import org.knowm.xchange.coinegg.dto.trade.CoinEggTradeCancel;
 import org.knowm.xchange.coinegg.dto.trade.CoinEggTradeView;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinEggTradeServiceRaw extends CoinEggBaseService {
@@ -30,8 +30,9 @@ public class CoinEggTradeServiceRaw extends CoinEggBaseService {
     this.tradePassword = spec.getPassword();
     this.nonceFactory = exchange.getNonceFactory();
     this.coinEggAuthenticated =
-        RestProxyFactory.createProxy(
-            CoinEggAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinEggAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   // TODO: Sort Out Method Grammar

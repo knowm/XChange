@@ -15,6 +15,7 @@ import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginStatus;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginTransaction;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerWithdrawRequest;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerWithdrawResponse;
+import org.knowm.xchange.bitflyer.dto.trade.results.BitflyerTradingCommission;
 
 public class BitflyerAccountServiceRaw extends BitflyerBaseService {
 
@@ -127,6 +128,15 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
 
     try {
       return bitflyer.getMarginHistory(apiKey, exchange.getNonceFactory(), signatureCreator);
+    } catch (BitflyerException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitflyerTradingCommission getTradingCommission(String productCode) throws IOException {
+    try {
+      return bitflyer.getTradingCommission(
+          apiKey, exchange.getNonceFactory(), signatureCreator, productCode);
     } catch (BitflyerException e) {
       throw handleError(e);
     }

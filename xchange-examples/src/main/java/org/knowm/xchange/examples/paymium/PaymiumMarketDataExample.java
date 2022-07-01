@@ -12,8 +12,7 @@ public class PaymiumMarketDataExample {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange btcCentralExchange =
-        ExchangeFactory.INSTANCE.createExchange(PaymiumExchange.class.getName());
+    Exchange btcCentralExchange = ExchangeFactory.INSTANCE.createExchange(PaymiumExchange.class);
     PaymiumMarketDataServiceRaw btcCentralMarketDataServiceRaw =
         (PaymiumMarketDataServiceRaw) btcCentralExchange.getMarketDataService();
 

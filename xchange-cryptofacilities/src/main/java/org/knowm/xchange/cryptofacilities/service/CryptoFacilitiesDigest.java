@@ -2,11 +2,13 @@ package org.knowm.xchange.cryptofacilities.service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.QueryParam;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
@@ -42,24 +44,32 @@ public class CryptoFacilitiesDigest extends BaseParamsDigest {
       sha256 = MessageDigest.getInstance("SHA-256");
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(
-          "Illegal algorithm for post body digest. Check the implementation.");
+          "Illegal algorithm (SHA-256) for post body digest. Check the implementation.");
     }
-
-    String decodedQuery = null;
-
     try {
-      decodedQuery = URLDecoder.decode(restInvocation.getQueryString(), "UTF-8");
+      String decodedQuery =
+          URLDecoder.decode(
+              restInvocation.getParamsMap().get(QueryParam.class).asQueryString(),
+              StandardCharsets.UTF_8.name());
+      sha256.update(decodedQuery.getBytes());
     } catch (UnsupportedEncodingException e) {
-      throw new IllegalArgumentException("Unsupported query encoding", e);
+      throw new RuntimeException(
+          "Bad encoding found on request query while hashing (SHA256) the POST data.", e);
+    }
+    try {
+      sha256.update(
+          URLDecoder.decode(restInvocation.getRequestBody(), StandardCharsets.UTF_8.name())
+              .getBytes());
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(
+          "Bad encoding found on request body while hashing (SHA256) the POST data.", e);
     }
 
-    sha256.update(decodedQuery.getBytes());
     sha256.update(restInvocation.getParamValue(HeaderParam.class, "Nonce").toString().getBytes());
-    sha256.update((restInvocation.getPath()).getBytes());
+    sha256.update(restInvocation.getPath().getBytes());
 
     Mac mac512 = getMac();
     mac512.update(sha256.digest());
-
     return Base64.getEncoder().encodeToString(mac512.doFinal()).trim();
   }
 }

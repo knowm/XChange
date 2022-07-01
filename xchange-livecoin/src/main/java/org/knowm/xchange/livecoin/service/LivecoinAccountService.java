@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.LivecoinErrorAdapter;
 import org.knowm.xchange.livecoin.LivecoinExchange;
@@ -22,14 +24,15 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class LivecoinAccountService extends LivecoinAccountServiceRaw implements AccountService {
-  public LivecoinAccountService(LivecoinExchange exchange) {
-    super(exchange);
+  public LivecoinAccountService(
+      LivecoinExchange exchange, Livecoin livecoin, ResilienceRegistries resilienceRegistries) {
+    super(exchange, livecoin, resilienceRegistries);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     try {
-      return new AccountInfo(balances(null));
+      return new AccountInfo(LivecoinAdapters.adaptWallet(balances(null)));
     } catch (LivecoinException e) {
       throw LivecoinErrorAdapter.adapt(e);
     }
@@ -84,8 +87,7 @@ public class LivecoinAccountService extends LivecoinAccountServiceRaw implements
       }
 
       List<Map> fundingRaw = funding(start, end, limit, offset);
-      return fundingRaw
-          .stream()
+      return fundingRaw.stream()
           .map(LivecoinAdapters::adaptFundingRecord)
           .collect(Collectors.toList());
     } catch (LivecoinException e) {

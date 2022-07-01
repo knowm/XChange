@@ -2,8 +2,12 @@ package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@Getter
+@ToString
 public class BitfinexPublicFundingTrade {
 
   private long tradeId;
@@ -22,47 +26,5 @@ public class BitfinexPublicFundingTrade {
     this.amount = amount;
     this.rate = rate;
     this.period = period;
-  }
-
-  public long getTradeId() {
-
-    return tradeId;
-  }
-
-  public long getTimestamp() {
-
-    return timestamp;
-  }
-
-  public BigDecimal getAmount() {
-
-    return amount;
-  }
-
-  public BigDecimal getRate() {
-
-    return rate;
-  }
-
-  public int getPeriod() {
-
-    return period;
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("BitfinexPublicFundingTrade [tradeId=");
-    builder.append(tradeId);
-    builder.append(", timestamp=");
-    builder.append(timestamp);
-    builder.append(", amount=");
-    builder.append(amount);
-    builder.append(", rate=");
-    builder.append(rate);
-    builder.append(", period=");
-    builder.append(period);
-    builder.append("]");
-    return builder.toString();
   }
 }

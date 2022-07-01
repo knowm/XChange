@@ -1,0 +1,48 @@
+{
+  "BTC": {
+    "opening_price": "4185000",
+    "closing_price": "4297000",
+    "min_price": "4137000",
+    "max_price": "4328000",
+    "average_price": "4252435.9159",
+    "units_traded": "3815.4174696",
+    "acc_trade_value" : "16878100",
+    "volume_1day": "3815.4174696",
+    "volume_7day": "31223.31245306",
+    "buy_price": "4296000",
+    "sell_price": "4297000",
+    "24H_fluctate": "112000",
+    "24H_fluctate_rate": "2.67"
+  },
+  "ETH": {
+    "opening_price": "151300",
+    "closing_price": "168800",
+    "min_price": "148600",
+    "max_price": "171600",
+    "average_price": "161367.1314",
+    "units_traded": "293890.84579871",
+    "acc_trade_value" : "16878100",
+    "volume_1day": "293890.84579871",
+    "volume_7day": "1276650.256763659925784183",
+    "buy_price": "168800",
+    "sell_price": "169000",
+    "24H_fluctate": "17500",
+    "24H_fluctate_rate": "11.56"
+  },
+  "DASH": {
+    "opening_price": "88400",
+    "closing_price": "91950",
+    "min_price": "86700",
+    "max_price": "93100",
+    "average_price": "90030.5538",
+    "units_traded": "4563043.53124542",
+    "acc_trade_value" : "16878100",
+    "volume_1day": "4563043.53124542",
+    "volume_7day": "34285008.99041726",
+    "buy_price": "91800",
+    "sell_price": "91950",
+    "24H_fluctate": "3550",
+    "24H_fluctate_rate": "4.01"
+  },
+  "date": "1546440191110"
+}

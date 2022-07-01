@@ -30,9 +30,9 @@ public class CoinbaseproTickerDemo {
 
   private static void raw(CoinbaseProMarketDataServiceRaw marketDataService) throws IOException {
 
-    CoinbaseProProductTicker gdaxTicker =
+    CoinbaseProProductTicker coinbaseProTicker =
         marketDataService.getCoinbaseProProductTicker(CurrencyPair.BTC_USD);
 
-    System.out.println(gdaxTicker.toString());
+    System.out.println(coinbaseProTicker.toString());
   }
 }

@@ -1,5 +1,7 @@
 package org.knowm.xchange.kraken;
 
+import static org.knowm.xchange.kraken.KrakenAdapters.adaptCurrencyPair;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.currency.Currency;
@@ -7,6 +9,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrderDescription;
+import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 
 /** @author timmolter */
 public class KrakenUtils {
@@ -16,6 +21,19 @@ public class KrakenUtils {
       new HashMap<CurrencyPair, String>();
   private static Map<String, Currency> assetsMap = new HashMap<String, Currency>();
   private static Map<Currency, String> assetsMapReverse = new HashMap<Currency, String>();
+
+  /** https://support.kraken.com/hc/en-us/articles/360001185506-How-to-interpret-asset-codes */
+  private static Map<String, String> discontinuedCurrencies;
+
+  static {
+    discontinuedCurrencies = new HashMap<>();
+    discontinuedCurrencies.put("XICN", "ICN");
+    discontinuedCurrencies.put("BSV", "BSV");
+    discontinuedCurrencies.put("XDAO", "DAO");
+    discontinuedCurrencies.put("XNMC", "NMC");
+    discontinuedCurrencies.put("XXVN", "XVN");
+    discontinuedCurrencies.put("ZKRW", "KRW");
+  }
 
   /** Private Constructor */
   private KrakenUtils() {}
@@ -53,22 +71,15 @@ public class KrakenUtils {
     CurrencyPair pair = assetPairMap.get(currencyPairIn);
     if (pair == null) {
       // kraken can give short pairs back from open orders ?
-      if (currencyPairIn.length() == 6) {
-        Currency base = Currency.getInstance(currencyPairIn.substring(0, 3));
+      if (currencyPairIn.length() >= 6 && currencyPairIn.length() <= 8) {
+        int firstCurrencyLength = currencyPairIn.length() - 3;
+        Currency base = Currency.getInstance(currencyPairIn.substring(0, firstCurrencyLength));
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
         }
-        Currency counter = Currency.getInstance(currencyPairIn.substring(3, 6));
-        if (counter.getCommonlyUsedCurrency() != null) {
-          counter = counter.getCommonlyUsedCurrency();
-        }
-        pair = new CurrencyPair(base, counter);
-      } else if (currencyPairIn.length() == 7) {
-        Currency base = Currency.getInstance(currencyPairIn.substring(0, 4));
-        if (base.getCommonlyUsedCurrency() != null) {
-          base = base.getCommonlyUsedCurrency();
-        }
-        Currency counter = Currency.getInstance(currencyPairIn.substring(4, 7));
+        Currency counter =
+            Currency.getInstance(
+                currencyPairIn.substring(firstCurrencyLength, currencyPairIn.length()));
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
@@ -94,10 +105,47 @@ public class KrakenUtils {
   }
 
   public static Currency translateKrakenCurrencyCode(String currencyIn) {
+    if (discontinuedCurrencies.containsKey(currencyIn)) {
+      return Currency.getInstance(discontinuedCurrencies.get(currencyIn));
+    }
     Currency currencyOut = assetsMap.get(currencyIn);
     if (currencyOut == null) {
       throw new ExchangeException("Kraken does not support the currency code " + currencyIn);
     }
     return currencyOut.getCommonlyUsedCurrency();
+  }
+
+  public static void clearAssets() {
+    assetPairMap.clear();
+    assetPairMapReverse.clear();
+    assetsMap.clear();
+    assetsMapReverse.clear();
+  }
+
+  public static Map<String, KrakenOrder> filterOpenOrdersByCurrencyPair(
+      Map<String, KrakenOrder> krakenOrders, CurrencyPair currencyPair) {
+    Map<String, KrakenOrder> filteredKrakenOrders = new HashMap<>();
+    for (Map.Entry<String, KrakenOrder> krakenOrderEntry : krakenOrders.entrySet()) {
+      KrakenOrder krakenOrder = krakenOrderEntry.getValue();
+      KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
+      if (currencyPair != null
+          && currencyPair.equals(
+              KrakenAdapters.adaptCurrencyPair(orderDescription.getAssetPair()))) {
+        filteredKrakenOrders.put(krakenOrderEntry.getKey(), krakenOrder);
+      }
+    }
+    return filteredKrakenOrders;
+  }
+
+  public static Map<String, KrakenTrade> filterTradeHistoryByCurrencyPair(
+      Map<String, KrakenTrade> krakenTrades, CurrencyPair currencyPair) {
+    Map<String, KrakenTrade> filteredTradeHistory = new HashMap<>();
+    for (Map.Entry<String, KrakenTrade> krakenTradeEntry : krakenTrades.entrySet()) {
+      if (currencyPair != null
+          && currencyPair.equals(adaptCurrencyPair(krakenTradeEntry.getValue().getAssetPair()))) {
+        filteredTradeHistory.put(krakenTradeEntry.getKey(), krakenTradeEntry.getValue());
+      }
+    }
+    return filteredTradeHistory;
   }
 }

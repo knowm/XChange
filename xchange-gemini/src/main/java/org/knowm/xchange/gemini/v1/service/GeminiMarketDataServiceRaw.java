@@ -1,18 +1,22 @@
 package org.knowm.xchange.gemini.v1.service;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gemini.v1.GeminiAdapters;
+import org.knowm.xchange.gemini.v1.GeminiUtils;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLend;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendDepth;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTicker;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
+import org.knowm.xchange.gemini.v2.dto.marketdata.GeminiCandle;
+import org.knowm.xchange.gemini.v2.dto.marketdata.GeminiTicker2;
 
 /**
  * Implementation of the market data service for Gemini
@@ -109,6 +113,27 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
         currencyPairs.add(GeminiAdapters.adaptCurrencyPair(symbol));
       }
       return currencyPairs;
+    } catch (GeminiException e) {
+      throw handleException(e);
+    }
+  }
+
+  public GeminiCandle[] getCandles(CurrencyPair pair, Duration interval) throws IOException {
+    try {
+      String timeFrame;
+      if (interval.toDays() > 0) timeFrame = interval.toDays() + "day";
+      else if (interval.toHours() > 0) timeFrame = interval.toHours() + "hr";
+      else timeFrame = interval.toMinutes() + "m";
+
+      return gemini2.getCandles(GeminiUtils.toPairString(pair), timeFrame);
+    } catch (GeminiException e) {
+      throw handleException(e);
+    }
+  }
+
+  public GeminiTicker2 getTicker2(CurrencyPair pair) throws IOException {
+    try {
+      return gemini2.getTicker(GeminiUtils.toPairString(pair));
     } catch (GeminiException e) {
       throw handleException(e);
     }

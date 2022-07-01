@@ -1,0 +1,47 @@
+{
+  "result": {
+    "asks": [
+      [
+        6998.05,
+        29.135199
+      ],
+      [
+        6998.76,
+        0.00207159
+      ],
+      [
+        6998.77,
+        0.00207167
+      ],
+      [
+        6998.78,
+        2.13838
+      ]
+    ],
+    "bids": [
+      [
+        6998.04,
+        16.102463
+      ],
+      [
+        6997.17,
+        0.001
+      ],
+      [
+        6996,
+        0.02
+      ],
+      [
+        6995,
+        0.01
+      ]
+    ],
+    "seqNum": 281684
+  },
+  "allowance": {
+    "cost": 4357666,
+    "remaining": 3999334252,
+    "remainingPaid": 0,
+    "upgrade": "Upgrade for a higher allowance, starting at $15/month for 16 seconds/hour. https://cryptowat.ch/pricing"
+  }
+}

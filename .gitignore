@@ -4,7 +4,6 @@
 *.iml
 *.ipr
 *.ips
-.idea/
 
 # Eclipse
 .settings/
@@ -14,6 +13,10 @@
 
 #NetBeans
 nb-configuration.xml
+nbactions.xml
+
+# VSCode
+.vscode
 
 # Generated
 target/
@@ -21,7 +24,6 @@ javadoc/
 bin/
 log/
 classes/
-META-INF/
 
 # Misc.
 .DS_Store

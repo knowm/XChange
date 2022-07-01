@@ -8,7 +8,7 @@ public class BinanceDemoUtils {
 
   public static Exchange createExchange() {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class);
     return exchange;
   }
 }

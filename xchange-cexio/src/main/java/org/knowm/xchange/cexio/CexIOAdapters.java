@@ -8,18 +8,26 @@ import java.math.RoundingMode;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.cexio.dto.account.CexIOBalance;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
+import org.knowm.xchange.cexio.dto.account.CexIOFeeInfo.FeeDetails;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
-import org.knowm.xchange.cexio.dto.trade.*;
+import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOFullOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
+import org.knowm.xchange.cexio.dto.trade.CexioPosition;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -49,7 +57,14 @@ public class CexIOAdapters {
     BigDecimal price = trade.getPrice();
     Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000L);
     OrderType type = trade.getType().equals(ORDER_TYPE_BUY) ? OrderType.BID : OrderType.ASK;
-    return new Trade(type, amount, currencyPair, price, date, String.valueOf(trade.getTid()));
+    return new Trade.Builder()
+        .type(type)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(String.valueOf(trade.getTid()))
+        .build();
   }
 
   /**
@@ -145,7 +160,7 @@ public class CexIOAdapters {
       balances.add(adaptBalance(Currency.getInstance(ccyName), cexIOBalance));
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Balance adaptBalance(Currency currency, CexIOBalance balance) {
@@ -222,8 +237,17 @@ public class CexIOAdapters {
               : Currency.getInstance(cexIOArchivedOrder.feeCcy);
       BigDecimal fee = cexIOArchivedOrder.feeValue;
 
-      return new UserTrade(
-          orderType, originalAmount, currencyPair, price, timestamp, id, orderId, fee, feeCcy);
+      return new UserTrade.Builder()
+          .type(orderType)
+          .originalAmount(originalAmount)
+          .currencyPair(currencyPair)
+          .price(price)
+          .timestamp(timestamp)
+          .id(id)
+          .orderId(orderId)
+          .feeAmount(fee)
+          .feeCurrency(feeCcy)
+          .build();
     } catch (InvalidFormatException e) {
       throw new IllegalStateException("Cannot format date " + cexIOArchivedOrder.time, e);
     }
@@ -355,5 +379,21 @@ public class CexIOAdapters {
   private static CurrencyPair adaptCurrencyPair(String pair) {
     // Currency pair is in the format: "BCH:USD"
     return new CurrencyPair(pair.replace(":", "/"));
+  }
+
+  private static Fee adaptFeeDetails(FeeDetails feeDetails) {
+    // It might be worth expanding the Fee structure in xchange-core to contain both buy and sell
+    // fees
+    return new Fee(
+        feeDetails.getBuyMaker().max(feeDetails.getSellMaker()),
+        feeDetails.getBuy().max(feeDetails.getSell()));
+  }
+
+  public static Map<CurrencyPair, Fee> adaptDynamicTradingFees(Map<CurrencyPair, FeeDetails> fees) {
+    Map<CurrencyPair, Fee> result = new HashMap<CurrencyPair, Fee>();
+    for (Map.Entry<CurrencyPair, FeeDetails> entry : fees.entrySet()) {
+      result.put(entry.getKey(), adaptFeeDetails(entry.getValue()));
+    }
+    return result;
   }
 }

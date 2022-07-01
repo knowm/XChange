@@ -10,13 +10,9 @@ import org.knowm.xchange.kraken.service.KrakenAccountService;
 import org.knowm.xchange.kraken.service.KrakenMarketDataService;
 import org.knowm.xchange.kraken.service.KrakenMarketDataServiceRaw;
 import org.knowm.xchange.kraken.service.KrakenTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author Benedikt Bünz */
 public class KrakenExchange extends BaseExchange implements Exchange {
-
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -28,8 +24,7 @@ public class KrakenExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.kraken.com");
     exchangeSpecification.setHost("api.kraken.com");
     exchangeSpecification.setPort(80);
@@ -40,19 +35,14 @@ public class KrakenExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-
-    return nonceFactory;
-  }
-
-  @Override
   public void remoteInit() throws IOException {
-
     KrakenAssetPairs assetPairs =
         ((KrakenMarketDataServiceRaw) marketDataService).getKrakenAssetPairs();
     KrakenAssets assets = ((KrakenMarketDataServiceRaw) marketDataService).getKrakenAssets();
-    // other endpoints?
-    // hard-coded meta data from json file not available at an endpoint?
+    KrakenUtils.clearAssets();
+
+    // Note: CurrencyPair Metadata will not contain accurate maker/taker fees
+    // Note: Currency Metadata will only contain price scale
     exchangeMetaData =
         KrakenAdapters.adaptToExchangeMetaData(
             exchangeMetaData, assetPairs.getAssetPairMap(), assets.getAssetPairMap());

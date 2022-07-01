@@ -3,12 +3,14 @@ package org.knowm.xchange.dto.marketdata;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 /** Immutable data object representing a Market Depth update. */
 public final class OrderBookUpdate implements Serializable {
+
+  private static final long serialVersionUID = -7283757982319511254L;
 
   private final LimitOrder limitOrder;
 
@@ -20,7 +22,7 @@ public final class OrderBookUpdate implements Serializable {
    *
    * @param type the order type (BID/ASK)
    * @param volume volume of the limit order in the base currency (i.e. BTC for BTC/USD)
-   * @param currencyPair the currencies traded (e.g. BTC/USD)
+   * @param instrument the instrument traded (e.g. BTC/USD)
    * @param limitPrice the price of this update in counter currency per base currency (i.e. $/BTC in
    *     BTC/USD)
    * @param timestamp the timestamp for the update
@@ -31,12 +33,12 @@ public final class OrderBookUpdate implements Serializable {
   public OrderBookUpdate(
       OrderType type,
       BigDecimal volume,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       BigDecimal limitPrice,
       Date timestamp,
       BigDecimal totalVolume) {
 
-    this.limitOrder = new LimitOrder(type, volume, currencyPair, "", timestamp, limitPrice);
+    this.limitOrder = new LimitOrder(type, volume, instrument, "", timestamp, limitPrice);
     this.totalVolume = totalVolume;
   }
 

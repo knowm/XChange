@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
-import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
+import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 

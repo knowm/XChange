@@ -1,0 +1,12 @@
+{
+  "payload": [
+    {
+      "time": "2019-07-25T07:16:21.600Z",
+      "reference": "0",
+      "type": "received",
+      "order_id": "156403898160000001"
+    }
+  ],
+  "type": "update",
+  "channel": "afr"
+}

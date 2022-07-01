@@ -6,10 +6,11 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
+import org.knowm.xchange.bitstamp.dto.marketdata.BitstampPairInfo;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTransaction;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author gnandiga */
 public class BitstampMarketDataServiceRaw extends BitstampBaseService {
@@ -20,13 +21,21 @@ public class BitstampMarketDataServiceRaw extends BitstampBaseService {
 
     super(exchange);
     this.bitstampV2 =
-        RestProxyFactory.createProxy(
-            BitstampV2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(BitstampV2.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   public BitstampTicker getBitstampTicker(CurrencyPair pair) throws IOException {
     try {
       return bitstampV2.getTicker(new BitstampV2.Pair(pair));
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampTicker getBitstampTickerHourly(CurrencyPair pair) throws IOException {
+    try {
+      return bitstampV2.getTickerHour(new BitstampV2.Pair(pair));
     } catch (BitstampException e) {
       throw handleError(e);
     }
@@ -46,6 +55,14 @@ public class BitstampMarketDataServiceRaw extends BitstampBaseService {
 
     try {
       return bitstampV2.getTransactions(new BitstampV2.Pair(pair), time);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampPairInfo[] getTradingPairsInfo() throws IOException {
+    try {
+      return bitstampV2.getTradingPairsInfo();
     } catch (BitstampException e) {
       throw handleError(e);
     }

@@ -14,8 +14,7 @@ public class CoinfloorExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification specification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification specification = new ExchangeSpecification(this.getClass());
     specification.setShouldLoadRemoteMetaData(false);
     specification.setSslUri("https://webapi.coinfloor.co.uk:8090/");
     specification.setExchangeName("Coinfloor");

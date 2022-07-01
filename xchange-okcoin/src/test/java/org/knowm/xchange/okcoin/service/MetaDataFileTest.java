@@ -1,8 +1,9 @@
 package org.knowm.xchange.okcoin.service;
 
-import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.InputStream;
-import org.apache.commons.io.IOUtils;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 import org.junit.Test;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
@@ -62,15 +63,12 @@ public class MetaDataFileTest {
   private void loadMetaDataFileContents(String metaDataFileName) {
     InputStream inputStream =
         BaseExchangeService.class.getClassLoader().getResourceAsStream(metaDataFileName + ".json");
-    byte[] contents = new byte[2048];
-    try {
-      IOUtils.read(inputStream, contents);
-    } catch (IOException e) {
-      e.printStackTrace();
-    } finally {
-      IOUtils.closeQuietly(inputStream);
-    }
 
-    System.out.println(new String(contents));
+    String strContents =
+        new BufferedReader(new InputStreamReader(inputStream))
+            .lines()
+            .collect(Collectors.joining("\n"));
+
+    System.out.println(strContents);
   }
 }

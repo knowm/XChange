@@ -9,6 +9,7 @@ import org.knowm.xchange.cexio.dto.CexIORequest;
 import org.knowm.xchange.cexio.dto.CexioCryptoAddressRequest;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.account.CexIOCryptoAddress;
+import org.knowm.xchange.cexio.dto.account.CexIOFeeInfo;
 import org.knowm.xchange.cexio.dto.account.GHashIOHashrate;
 import org.knowm.xchange.cexio.dto.account.GHashIOWorker;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -48,6 +49,7 @@ public class CexIOAccountServiceRaw extends CexIOBaseService {
   }
 
   public Map<CurrencyPair, FeeDetails> getMyFee() throws IOException {
-    return cexIOAuthenticated.getMyFee(signatureCreator, new CexIORequest()).getData();
+    CexIOFeeInfo feeInfo = cexIOAuthenticated.getMyFee(signatureCreator, new CexIORequest());
+    return feeInfo.getData();
   }
 }

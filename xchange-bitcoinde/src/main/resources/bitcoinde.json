@@ -1,19 +1,41 @@
 {
   "currency_pairs": {
     "BTC/EUR": {
-      "price_scale": 2,
-      "trading_fee": 0.5
+      "price_scale": 2
     },
     "BCH/EUR": {
-      "price_scale": 2,
-      "trading_fee": 0.5
+      "price_scale": 2
+    },
+    "BTG/EUR": {
+      "price_scale": 2
     },
     "ETH/EUR": {
-      "price_scale": 2,
-      "trading_fee": 0.5
+      "price_scale": 2
+    },
+    "BSV/EUR": {
+      "price_scale": 2
     }
   },
-  "currencies": {},
+  "currencies": {
+    "BTC": {
+      "scale": 8
+    },
+    "BCH": {
+      "scale": 8
+    },
+    "BTG": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "BSV": {
+      "scale": 8
+    },
+    "EUR": {
+      "scale": 2
+    }
+  },
   "public_rate_limits": [
     {
       "calls": 2,

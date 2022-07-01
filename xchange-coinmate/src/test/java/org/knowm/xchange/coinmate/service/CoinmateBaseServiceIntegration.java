@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinmate.CoinmateExchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -41,7 +42,7 @@ public class CoinmateBaseServiceIntegration {
   @Test
   public void tickerFetchTestBTC_EUR() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "EUR"));
     System.out.println(ticker.toString());
@@ -51,7 +52,7 @@ public class CoinmateBaseServiceIntegration {
   @Test
   public void tickerFetchTestBTC_CZK() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "CZK"));
     System.out.println(ticker.toString());
@@ -61,7 +62,7 @@ public class CoinmateBaseServiceIntegration {
   @Test
   public void tickerFetchTestLTC_BTC() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(CurrencyPair.LTC_BTC);
     System.out.println(ticker.toString());
@@ -71,7 +72,7 @@ public class CoinmateBaseServiceIntegration {
   @Test
   public void orderBookFetchTestBTC_EUR() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_EUR);
     System.out.println(orderBook.toString());
@@ -81,7 +82,7 @@ public class CoinmateBaseServiceIntegration {
   @Test
   public void orderBookFetchTestBTC_CZK() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CZK);
     System.out.println(orderBook.toString());
@@ -91,7 +92,7 @@ public class CoinmateBaseServiceIntegration {
   @Test
   public void orderBookFetchTestLTC_BTC() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.LTC_BTC);
     System.out.println(orderBook.toString());
@@ -101,7 +102,7 @@ public class CoinmateBaseServiceIntegration {
   @Test
   public void tradesFetchTestBTC_EUR() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
     System.out.println(trades.getTrades().toString());
@@ -111,7 +112,7 @@ public class CoinmateBaseServiceIntegration {
   @Test
   public void tradesFetchTestBTC_CZK() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CZK);
     System.out.println(trades.getTrades().toString());
@@ -121,9 +122,19 @@ public class CoinmateBaseServiceIntegration {
   @Test
   public void tradesFetchTestLTC_BTC() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(CurrencyPair.LTC_BTC);
+    System.out.println(trades.getTrades().toString());
+    assertThat(trades).isNotNull();
+  }
+
+  @Test
+  public void tradesFetchTestXRP_CZK() throws Exception {
+
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
+    MarketDataService marketDataService = exchange.getMarketDataService();
+    Trades trades = marketDataService.getTrades(new CurrencyPair(Currency.XRP, Currency.CZK));
     System.out.println(trades.getTrades().toString());
     assertThat(trades).isNotNull();
   }

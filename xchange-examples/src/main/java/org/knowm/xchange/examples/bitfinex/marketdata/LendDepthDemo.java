@@ -3,9 +3,9 @@ package org.knowm.xchange.examples.bitfinex.marketdata;
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
+import org.knowm.xchange.bitfinex.BitfinexExchange;
+import org.knowm.xchange.bitfinex.service.BitfinexMarketDataServiceRaw;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class LendDepthDemo {
@@ -13,7 +13,7 @@ public class LendDepthDemo {
   public static void main(String[] args) throws Exception {
 
     // Use the factory to get BFX exchange API using default settings
-    Exchange bfx = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
+    Exchange bfx = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = bfx.getMarketDataService();

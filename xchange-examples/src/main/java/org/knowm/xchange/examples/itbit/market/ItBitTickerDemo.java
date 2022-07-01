@@ -5,16 +5,16 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.itbit.v1.ItBitExchange;
-import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTicker;
-import org.knowm.xchange.itbit.v1.service.ItBitMarketDataServiceRaw;
+import org.knowm.xchange.itbit.ItBitExchange;
+import org.knowm.xchange.itbit.dto.marketdata.ItBitTicker;
+import org.knowm.xchange.itbit.service.ItBitMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** Created by joseph on 6/15/17. */
 public class ItBitTickerDemo {
   public static void main(String[] args) throws IOException {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class);
 
     MarketDataService marketDataService = exchange.getMarketDataService();
 

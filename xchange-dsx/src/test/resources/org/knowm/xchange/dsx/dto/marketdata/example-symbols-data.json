@@ -1,0 +1,139 @@
+{
+  "symbols": [
+    {
+      "symbol": "BCNBTC",
+      "step": "0.000000001",
+      "lot": "100",
+      "currency": "BTC",
+      "commodity": "BCN",
+      "takeLiquidityRate": "0.001",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "BTCEUR",
+      "step": "0.01",
+      "lot": "0.01",
+      "currency": "EUR",
+      "commodity": "BTC",
+      "takeLiquidityRate": "0.001",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "BTCUSD",
+      "step": "0.01",
+      "lot": "0.01",
+      "currency": "USD",
+      "commodity": "BTC",
+      "takeLiquidityRate": "0.001",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "DOGEBTC",
+      "step": "0.000000001",
+      "lot": "1000",
+      "currency": "BTC",
+      "commodity": "DOGE",
+      "takeLiquidityRate": "0.001",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "EURGBP",
+      "step": "0.0001",
+      "lot": "1",
+      "currency": "GBP",
+      "commodity": "EUR",
+      "takeLiquidityRate": "0.0002",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "EURUSD",
+      "step": "0.0001",
+      "lot": "1",
+      "currency": "USD",
+      "commodity": "EUR",
+      "takeLiquidityRate": "0.0002",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "FCNBTC",
+      "step": "0.000001",
+      "lot": "0.01",
+      "currency": "BTC",
+      "commodity": "FCN",
+      "takeLiquidityRate": "0.001",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "GBPUSD",
+      "step": "0.0001",
+      "lot": "1",
+      "currency": "USD",
+      "commodity": "GBP",
+      "takeLiquidityRate": "0.0002",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "LTCBTC",
+      "step": "0.00001",
+      "lot": "0.1",
+      "currency": "BTC",
+      "commodity": "LTC",
+      "takeLiquidityRate": "0.001",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "LTCEUR",
+      "step": "0.001",
+      "lot": "0.1",
+      "currency": "EUR",
+      "commodity": "LTC",
+      "takeLiquidityRate": "0.001",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "LTCUSD",
+      "step": "0.001",
+      "lot": "0.1",
+      "currency": "USD",
+      "commodity": "LTC",
+      "takeLiquidityRate": "0.001",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "NXTBTC",
+      "step": "0.00000001",
+      "lot": "1",
+      "currency": "BTC",
+      "commodity": "NXT",
+      "takeLiquidityRate": "0.001",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "QCNBTC",
+      "step": "0.000001",
+      "lot": "0.01",
+      "currency": "BTC",
+      "commodity": "QCN",
+      "takeLiquidityRate": "0.001",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "XDNBTC",
+      "step": "0.000000001",
+      "lot": "100",
+      "currency": "BTC",
+      "commodity": "XDN",
+      "takeLiquidityRate": "0.001",
+      "provideLiquidityRate": "-0.0001"
+    },
+    {
+      "symbol": "XMRBTC",
+      "step": "0.000001",
+      "lot": "0.01",
+      "currency": "BTC",
+      "commodity": "XMR",
+      "takeLiquidityRate": "0.001",
+      "provideLiquidityRate": "-0.0001"
+    }
+  ]
+}

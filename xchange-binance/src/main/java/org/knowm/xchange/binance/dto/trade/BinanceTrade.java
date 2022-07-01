@@ -7,6 +7,7 @@ import java.util.Date;
 public final class BinanceTrade {
 
   public final long id;
+  public final long tradeId;
   public final long orderId;
   public final BigDecimal price;
   public final BigDecimal qty;
@@ -19,6 +20,7 @@ public final class BinanceTrade {
 
   public BinanceTrade(
       @JsonProperty("id") long id,
+      @JsonProperty("tradeId") long tradeId,
       @JsonProperty("orderId") long orderId,
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("qty") BigDecimal qty,
@@ -29,6 +31,7 @@ public final class BinanceTrade {
       @JsonProperty("isMaker") boolean isMaker,
       @JsonProperty("isBestMatch") boolean isBestMatch) {
     this.id = id;
+    this.tradeId = tradeId;
     this.orderId = orderId;
     this.price = price;
     this.qty = qty;

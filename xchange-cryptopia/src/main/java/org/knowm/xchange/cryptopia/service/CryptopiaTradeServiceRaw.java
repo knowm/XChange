@@ -131,7 +131,18 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
 
       CurrencyPair pair = new CurrencyPair(map.get("Market").toString());
       Currency feeCcy = pair.counter;
-      results.add(new UserTrade(type, amount, pair, price, timestamp, id, orderId, fee, feeCcy));
+      results.add(
+          new UserTrade.Builder()
+              .type(type)
+              .originalAmount(amount)
+              .currencyPair(pair)
+              .price(price)
+              .timestamp(timestamp)
+              .id(id)
+              .orderId(orderId)
+              .feeAmount(fee)
+              .feeCurrency(feeCcy)
+              .build());
     }
 
     return results;

@@ -1,0 +1,34 @@
+{
+  "result": [
+    [
+      0,
+      1533402026,
+      6988.49,
+      0.01410133
+    ],
+    [
+      0,
+      1533402028,
+      6988.49,
+      0.13669667
+    ],
+    [
+      0,
+      1533402028,
+      6988.49,
+      1.9034213
+    ],
+    [
+      0,
+      1533402028,
+      6988.49,
+      0.00161
+    ]
+  ],
+  "allowance": {
+    "cost": 794213,
+    "remaining": 3999334252,
+    "remainingPaid": 0,
+    "upgrade": "Upgrade for a higher allowance, starting at $15/month for 16 seconds/hour. https://cryptowat.ch/pricing"
+  }
+}

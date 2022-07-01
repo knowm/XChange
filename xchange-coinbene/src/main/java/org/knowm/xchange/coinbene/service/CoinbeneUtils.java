@@ -20,9 +20,7 @@ public class CoinbeneUtils {
   public static void signParams(Map<String, String> params) {
 
     String requestString =
-        params
-            .entrySet()
-            .stream()
+        params.entrySet().stream()
             .sorted(Comparator.comparing(Map.Entry::getKey))
             .map(e -> e.getKey() + "=" + e.getValue())
             .map(String::toUpperCase)

@@ -11,12 +11,34 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cexio.dto.*;
-import org.knowm.xchange.cexio.dto.trade.*;
+import org.knowm.xchange.cexio.dto.ArchivedOrdersRequest;
+import org.knowm.xchange.cexio.dto.CexIOGetPositionRequest;
+import org.knowm.xchange.cexio.dto.CexIOOpenPositionRequest;
+import org.knowm.xchange.cexio.dto.CexIORequest;
+import org.knowm.xchange.cexio.dto.CexioCancelReplaceOrderRequest;
+import org.knowm.xchange.cexio.dto.CexioPlaceOrderRequest;
+import org.knowm.xchange.cexio.dto.CexioSingleOrderIdRequest;
+import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOCancelAllOrdersResponse;
+import org.knowm.xchange.cexio.dto.trade.CexIOCancelReplaceOrderResponse;
+import org.knowm.xchange.cexio.dto.trade.CexIOFullOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOrderTransactionsResponse;
+import org.knowm.xchange.cexio.dto.trade.CexIOOrderWithTransactions;
+import org.knowm.xchange.cexio.dto.trade.CexioClosePosition;
+import org.knowm.xchange.cexio.dto.trade.CexioClosePositionResponse;
+import org.knowm.xchange.cexio.dto.trade.CexioOpenPosition;
+import org.knowm.xchange.cexio.dto.trade.CexioOpenPositionResponse;
+import org.knowm.xchange.cexio.dto.trade.CexioOpenPositionsResponse;
+import org.knowm.xchange.cexio.dto.trade.CexioPosition;
+import org.knowm.xchange.cexio.dto.trade.CexioPositionResponse;
+import org.knowm.xchange.cexio.dto.trade.CexioPositionType;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.*;
 
@@ -47,10 +69,38 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
             signatureCreator,
             limitOrder.getCurrencyPair().base.getCurrencyCode(),
             limitOrder.getCurrencyPair().counter.getCurrencyCode(),
-            new PlaceOrderRequest(
+            new CexioPlaceOrderRequest(
                 (limitOrder.getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell),
                 limitOrder.getLimitPrice(),
-                limitOrder.getOriginalAmount()));
+                limitOrder.getOriginalAmount(),
+                "limit"));
+    if (order.getErrorMessage() != null) {
+      throw new ExchangeException(order.getErrorMessage());
+    }
+    return order;
+  }
+
+  /*
+  Presently, the exchange is designed in such way that placing market order we have to use amount either in base,
+  or counter currency depending on order type.
+
+  Example:
+      CurrencyPair.BCH_USD, Order.OrderType.ASK, Amount = 0.02 (BCH)
+      CurrencyPair.BCH_USD, Order.OrderType.BID, Amount = 20 (USD)
+
+  Because of this non-standard behaviour we cannot place this function into common interface
+  */
+  public CexIOOrder placeCexIOMarketOrder(MarketOrder marketOrder) throws IOException {
+    CexIOOrder order =
+        cexIOAuthenticated.placeOrder(
+            signatureCreator,
+            marketOrder.getCurrencyPair().base.getCurrencyCode(),
+            marketOrder.getCurrencyPair().counter.getCurrencyCode(),
+            new CexioPlaceOrderRequest(
+                (marketOrder.getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell),
+                null,
+                marketOrder.getOriginalAmount(),
+                "market"));
     if (order.getErrorMessage() != null) {
       throw new ExchangeException(order.getErrorMessage());
     }
@@ -199,9 +249,16 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
         (String) orderRaw.get("tfa:" + order.symbol2));
   }
 
-  public Map getOrderTransactions(String orderId) throws IOException {
-    return cexIOAuthenticated.getOrderTransactions(
-        signatureCreator, new CexioSingleIdRequest(orderId));
+  public CexIOOrderWithTransactions getOrderTransactions(String orderId) throws IOException {
+    CexIOOrderTransactionsResponse response =
+        cexIOAuthenticated.getOrderTransactions(
+            signatureCreator, new CexioSingleOrderIdRequest(orderId));
+
+    if (response.getError() != null) {
+      throw new ExchangeException(response.getError());
+    }
+
+    return response.getData();
   }
 
   public List<CexioPosition> getOpenPositions(CurrencyPair currencyPair) throws IOException {

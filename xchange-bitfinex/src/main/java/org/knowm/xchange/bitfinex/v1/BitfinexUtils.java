@@ -1,7 +1,9 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
+import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 /** A central place for shared Bitfinex properties */
 public final class BitfinexUtils {
@@ -9,21 +11,60 @@ public final class BitfinexUtils {
   /** private Constructor */
   private BitfinexUtils() {}
 
-  public static String adaptXchangeCurrency(String xchangeSymbol) {
-    String currency = xchangeSymbol.toLowerCase();
-    if (currency.equals("dash")) {
-      currency = "dsh";
+  private static final String USDT_SYMBOL_BITFINEX = "UST";
+  private static final String USDT_SYMBOL_XCHANGE = "USDT";
+
+  public static String adaptXchangeCurrency(Currency xchangeSymbol) {
+
+    if (xchangeSymbol == null) {
+      return null;
     }
-    if (currency.equals("qtum")) {
-      currency = "qtm";
+
+    if (USDT_SYMBOL_XCHANGE.equals(xchangeSymbol.toString())) {
+      return USDT_SYMBOL_BITFINEX;
     }
-    return currency;
+
+    return xchangeSymbol.toString(); // .toLowerCase();
   }
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return adaptXchangeCurrency(currencyPair.base.toString())
-        + adaptXchangeCurrency(currencyPair.counter.toString());
+    if (currencyPair == null) {
+      return null;
+    }
+
+    String base = adaptXchangeCurrency(currencyPair.base);
+    String counter = adaptXchangeCurrency(currencyPair.counter);
+    return "t"
+        + base
+        + currencySeparator(base, counter)
+        + adaptXchangeCurrency(currencyPair.counter);
+  }
+
+  public static String toPairStringV1(CurrencyPair currencyPair) {
+
+    if (currencyPair == null) {
+      return null;
+    }
+
+    String base = StringUtils.lowerCase(adaptXchangeCurrency(currencyPair.base));
+    String counter = StringUtils.lowerCase(adaptXchangeCurrency(currencyPair.counter));
+    return base + currencySeparator(base, counter) + adaptXchangeCurrency(currencyPair.counter);
+  }
+
+  /**
+   * Unfortunately we need to go this way, since the pairs at Bitfinex are not very consistent see
+   * dusk:xxx pairs at https://api.bitfinex.com/v1/symbols_details the same for xxx:cnht
+   *
+   * @param base currency to build string with
+   * @param counter currency to build string with
+   * @return string based on pair
+   */
+  private static String currencySeparator(String base, String counter) {
+    if (base.length() > 3 || counter.length() > 3) {
+      return ":";
+    }
+    return "";
   }
 
   /**
@@ -46,6 +87,8 @@ public final class BitfinexUtils {
         return "ethereum";
       case "ETC":
         return "ethereumc";
+      case "CLO":
+        return "clo";
       case "ZEC":
         return "zcash";
       case "XMR":
@@ -73,7 +116,7 @@ public final class BitfinexUtils {
       case "USDT":
         return "tetheruso";
       default:
-        throw new BitfinexException("Cannot determine withdrawal type.");
+        throw new ExchangeException("Cannot determine withdrawal type.");
     }
   }
 }

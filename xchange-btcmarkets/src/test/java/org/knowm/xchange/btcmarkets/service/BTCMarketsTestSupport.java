@@ -1,12 +1,16 @@
 package org.knowm.xchange.btcmarkets.service;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsDtoTestSupport;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransfer;
@@ -14,6 +18,7 @@ import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryRes
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
+import org.knowm.xchange.btcmarkets.dto.v3.marketdata.BTCMarketsTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -21,12 +26,15 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
-import org.powermock.reflect.Whitebox;
 
 /** Test utilities for btnmarkets tests. */
 public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
 
-  protected static final String SPECIFICATION_USERNAME = "admin";
+  static void setMock(Field field, Object instance, Object newValue) throws Exception {
+    field.setAccessible(true);
+    field.set(instance, newValue);
+  }
+
   protected static final String SPECIFICATION_API_KEY =
       Base64.getEncoder().encodeToString("publicKey".getBytes());
   protected static final String SPECIFICATION_SECRET_KEY =
@@ -34,6 +42,9 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
 
   protected static final Balance EXPECTED_BALANCE =
       new Balance(Currency.BTC, new BigDecimal("3.0E-7"), new BigDecimal("2.0E-7"));
+  protected static final Balance EXPECTED_BALANCE_V3 =
+      new Balance(
+          Currency.LTC, new BigDecimal("5.123"), new BigDecimal("5.123"), new BigDecimal("0.000"));
   protected static final Ticker EXPECTED_TICKER =
       new Ticker.Builder()
           .bid(new BigDecimal("137.00"))
@@ -50,6 +61,35 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
           "AUD",
           "BTC",
           new Date(1378878117000L));
+
+  protected static final List<BTCMarketsTrade> EXCPECTED_BTC_AUD_MARKET_TRADES =
+      Arrays.asList(
+          new BTCMarketsTrade(
+              Long.parseLong("4107372347"),
+              new BigDecimal("0.265"),
+              new BigDecimal("11.25"),
+              parseISO8601Date("2019-09-02T12:49:42.874000Z"),
+              "Ask"),
+          new BTCMarketsTrade(
+              Long.parseLong("4107297908"),
+              new BigDecimal("0.265"),
+              new BigDecimal("250"),
+              parseISO8601Date("2019-09-02T12:15:29.570000Z"),
+              "Bid"));
+
+  protected static final Date parseISO8601Date(String isoDate) {
+
+    SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    // set UTC time zone
+    iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
+    try {
+      return iso8601Format.parse(isoDate);
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return null;
+  }
 
   protected static LimitOrder[] expectedAsks() {
     return new LimitOrder[] {
@@ -117,56 +157,55 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
 
   protected static UserTrade[] expectedUserTrades() {
     return new UserTrade[] {
-      new UserTrade(
-          Order.OrderType.ASK,
-          new BigDecimal("20.00000000"),
-          CurrencyPair.BTC_AUD,
-          new BigDecimal("10.00000000"),
-          new Date(111111111L),
-          "1",
-          "null",
-          new BigDecimal("1"),
-          Currency.AUD),
-      new UserTrade(
-          Order.OrderType.ASK,
-          new BigDecimal("40.00000000"),
-          CurrencyPair.BTC_AUD,
-          new BigDecimal("30.00000000"),
-          new Date(222222222L),
-          "2",
-          "null",
-          new BigDecimal("2"),
-          Currency.AUD),
-      new UserTrade(
-          Order.OrderType.BID,
-          new BigDecimal("60.00000000"),
-          CurrencyPair.BTC_AUD,
-          new BigDecimal("50.00000000"),
-          new Date(333333333L),
-          "3",
-          "null",
-          new BigDecimal("3"),
-          Currency.AUD),
-      new UserTrade(
-          Order.OrderType.BID,
-          new BigDecimal("80.00000000"),
-          CurrencyPair.BTC_AUD,
-          new BigDecimal("70.00000000"),
-          new Date(444444444L),
-          "4",
-          "null",
-          new BigDecimal("4"),
-          Currency.AUD),
-      new UserTrade(
-          Order.OrderType.BID,
-          new BigDecimal("0"),
-          CurrencyPair.BTC_AUD,
-          new BigDecimal("90.00000000"),
-          new Date(555555555L),
-          "5",
-          "null",
-          new BigDecimal("5"),
-          Currency.AUD)
+      new UserTrade.Builder()
+          .type(Order.OrderType.ASK)
+          .originalAmount(new BigDecimal("20.00000000"))
+          .currencyPair(CurrencyPair.BTC_AUD)
+          .price(new BigDecimal("10.00000000"))
+          .timestamp(new Date(111111111L))
+          .id("1")
+          .feeAmount(BigDecimal.ONE)
+          .feeCurrency(Currency.AUD)
+          .build(),
+      new UserTrade.Builder()
+          .type(Order.OrderType.ASK)
+          .originalAmount(new BigDecimal("40.00000000"))
+          .currencyPair(CurrencyPair.BTC_AUD)
+          .price(new BigDecimal("30.00000000"))
+          .timestamp(new Date(222222222L))
+          .id("2")
+          .feeAmount(BigDecimal.valueOf(2))
+          .feeCurrency(Currency.AUD)
+          .build(),
+      new UserTrade.Builder()
+          .type(Order.OrderType.BID)
+          .originalAmount(new BigDecimal("60.00000000"))
+          .currencyPair(CurrencyPair.BTC_AUD)
+          .price(new BigDecimal("50.00000000"))
+          .timestamp(new Date(333333333L))
+          .id("3")
+          .feeAmount(BigDecimal.valueOf(3))
+          .feeCurrency(Currency.AUD)
+          .build(),
+      new UserTrade.Builder()
+          .type(Order.OrderType.BID)
+          .originalAmount(new BigDecimal("80.00000000"))
+          .currencyPair(CurrencyPair.BTC_AUD)
+          .price(new BigDecimal("70.00000000"))
+          .timestamp(new Date(444444444L))
+          .id("4")
+          .feeAmount(BigDecimal.valueOf(4))
+          .feeCurrency(Currency.AUD)
+          .build(),
+      new UserTrade.Builder()
+          .type(Order.OrderType.BID)
+          .originalAmount(BigDecimal.ZERO)
+          .currencyPair(CurrencyPair.BTC_AUD)
+          .price(new BigDecimal("90.00000000"))
+          .timestamp(new Date(555555555L))
+          .feeAmount(BigDecimal.valueOf(5))
+          .feeCurrency(Currency.AUD)
+          .build()
     };
   }
 
@@ -287,7 +326,7 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
           "BTC",
           BTCMarketsOrder.Side.Bid,
           BTCMarketsOrder.Type.Limit,
-          null,
+          "orderOne",
           new Date(1378862733366L),
           "Placed",
           null,
@@ -336,13 +375,13 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
       BTCMarketsOrder.Side side) {
 
     BTCMarketsUserTrade marketsUserTrade = new BTCMarketsUserTrade();
-    Whitebox.setInternalState(marketsUserTrade, "id", id);
-    Whitebox.setInternalState(marketsUserTrade, "description", description);
-    Whitebox.setInternalState(marketsUserTrade, "price", price);
-    Whitebox.setInternalState(marketsUserTrade, "volume", volume);
-    Whitebox.setInternalState(marketsUserTrade, "fee", fee);
-    Whitebox.setInternalState(marketsUserTrade, "creationTime", creationTime);
-    Whitebox.setInternalState(marketsUserTrade, "side", side);
+    //    Whitebox.setInternalState(marketsUserTrade, "id", id);
+    //    Whitebox.setInternalState(marketsUserTrade, "description", description);
+    //    Whitebox.setInternalState(marketsUserTrade, "price", price);
+    //    Whitebox.setInternalState(marketsUserTrade, "volume", volume);
+    //    Whitebox.setInternalState(marketsUserTrade, "fee", fee);
+    //    Whitebox.setInternalState(marketsUserTrade, "creationTime", creationTime);
+    //    Whitebox.setInternalState(marketsUserTrade, "side", side);
 
     return marketsUserTrade;
   }
@@ -365,12 +404,12 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
         new BTCMarketsOrder(
             volume, price, currency, instrument, orderSide, ordertype, clientRequestId);
 
-    Whitebox.setInternalState(order, "id", id);
-    Whitebox.setInternalState(order, "creationTime", creationTime);
-    Whitebox.setInternalState(order, "status", status);
-    Whitebox.setInternalState(order, "errorMessage", errorMessage);
-    Whitebox.setInternalState(order, "openVolume", openVolume);
-    Whitebox.setInternalState(order, "trades", trades);
+    //    Whitebox.setInternalState(order, "id", id);
+    //    Whitebox.setInternalState(order, "creationTime", creationTime);
+    //    Whitebox.setInternalState(order, "status", status);
+    //    Whitebox.setInternalState(order, "errorMessage", errorMessage);
+    //    Whitebox.setInternalState(order, "openVolume", openVolume);
+    //    Whitebox.setInternalState(order, "trades", trades);
 
     return order;
   }
@@ -379,9 +418,9 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
       BigDecimal pendingFunds, BigDecimal balance, String currency) {
 
     BTCMarketsBalance marketsBalance = new BTCMarketsBalance();
-    Whitebox.setInternalState(marketsBalance, "pendingFunds", pendingFunds);
-    Whitebox.setInternalState(marketsBalance, "balance", balance);
-    Whitebox.setInternalState(marketsBalance, "currency", currency);
+    //    Whitebox.setInternalState(marketsBalance, "pendingFunds", pendingFunds);
+    //    Whitebox.setInternalState(marketsBalance, "balance", balance);
+    //    Whitebox.setInternalState(marketsBalance, "currency", currency);
 
     return marketsBalance;
   }

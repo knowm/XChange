@@ -26,8 +26,7 @@ public class CoinbaseAccountJsonTest {
     Assert.assertEquals(4, accounts.size());
 
     CoinbaseAccount btcAccount =
-        accounts
-            .stream()
+        accounts.stream()
             .filter(t -> t.getName().equals("BTC Wallet"))
             .collect(Collectors.toList())
             .get(0);

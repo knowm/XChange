@@ -19,7 +19,7 @@ public class ZaifMarketDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    exchange = ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     System.out.println(Arrays.toString(exchange.getExchangeSymbols().toArray()));

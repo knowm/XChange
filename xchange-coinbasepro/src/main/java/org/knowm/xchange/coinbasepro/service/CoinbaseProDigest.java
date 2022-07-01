@@ -1,5 +1,6 @@
 package org.knowm.xchange.coinbasepro.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
@@ -35,7 +36,7 @@ public class CoinbaseProDigest extends BaseParamsDigest {
     Mac mac256 = getMac();
 
     try {
-      mac256.update(message.getBytes("UTF-8"));
+      mac256.update(message.getBytes(StandardCharsets.UTF_8));
     } catch (Exception e) {
       throw new ExchangeException("Digest encoding exception", e);
     }

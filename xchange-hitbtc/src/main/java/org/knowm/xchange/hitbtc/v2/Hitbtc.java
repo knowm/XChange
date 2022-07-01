@@ -1,6 +1,7 @@
 package org.knowm.xchange.hitbtc.v2;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -70,5 +71,35 @@ public interface Hitbtc {
       @PathParam("symbol") String symbol,
       @QueryParam("limit") int limit,
       @QueryParam("period") String period)
+      throws IOException;
+
+  @GET
+  @Path("public/candles/{symbol}")
+  List<HitbtcCandle> getHitbtcOHLC(
+      @PathParam("symbol") String symbol,
+      @QueryParam("limit") int limit,
+      @QueryParam("period") String period,
+      @QueryParam("sort") String sort)
+      throws IOException;
+
+  @GET
+  @Path("public/candles/{symbol}")
+  List<HitbtcCandle> getHitbtcOHLC(
+      @PathParam("symbol") String symbol,
+      @QueryParam("limit") int limit,
+      @QueryParam("period") String period,
+      @QueryParam("from") Date from,
+      @QueryParam("till") Date till,
+      @QueryParam("sort") String sort)
+      throws IOException;
+
+  @GET
+  @Path("public/candles/{symbol}")
+  List<HitbtcCandle> getHitbtcOHLC(
+      @PathParam("symbol") String symbol,
+      @QueryParam("limit") int limit,
+      @QueryParam("period") String period,
+      @QueryParam("offset") int offset,
+      @QueryParam("sort") String sort)
       throws IOException;
 }

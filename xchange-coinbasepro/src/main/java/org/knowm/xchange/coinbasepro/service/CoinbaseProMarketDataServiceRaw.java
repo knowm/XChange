@@ -1,195 +1,177 @@
 package org.knowm.xchange.coinbasepro.service;
 
+import static org.knowm.xchange.coinbasepro.CoinbaseProResilience.PUBLIC_REST_ENDPOINT_RATE_LIMITER;
+
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
-import lombok.extern.slf4j.Slf4j;
-import org.knowm.xchange.Exchange;
+import java.util.Map;
+import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCandle;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.InstrumentNotValidException;
 
-@Slf4j
 public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
-  public CoinbaseProMarketDataServiceRaw(Exchange exchange) {
-
-    super(exchange);
+  public CoinbaseProMarketDataServiceRaw(
+      CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
+  /** https://docs.pro.coinbase.com/#get-product-ticker */
   public CoinbaseProProductTicker getCoinbaseProProductTicker(CurrencyPair currencyPair)
       throws IOException {
 
     if (!checkProductExists(currencyPair)) {
-      return null;
+      throw new InstrumentNotValidException("Pair does not exist on CoinbasePro");
     }
     try {
-      CoinbaseProProductTicker tickerReturn =
-          coinbasePro.getProductTicker(
-              currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
-      return tickerReturn;
+      return decorateApiCall(
+              () ->
+                  coinbasePro.getProductTicker(
+                      currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()))
+          .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
+  /** https://docs.pro.coinbase.com/#get-24hr-stats */
   public CoinbaseProProductStats getCoinbaseProProductStats(CurrencyPair currencyPair)
       throws IOException {
 
     if (!checkProductExists(currencyPair)) {
-      return null;
+      throw new InstrumentNotValidException("Pair does not exist on CoinbasePro");
     }
     try {
-      CoinbaseProProductStats statsReturn =
-          coinbasePro.getProductStats(
-              currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
-      return statsReturn;
+      return decorateApiCall(
+              () ->
+                  coinbasePro.getProductStats(
+                      currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()))
+          .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
-  public CoinbaseProProductBook getCoinbaseProProductOrderBook(CurrencyPair currencyPair)
-      throws IOException {
-
-    if (!checkProductExists(currencyPair)) {
-      return null;
-    }
-
+  public Map<String, CoinbaseProStats> getCoinbaseProStats() throws IOException {
     try {
-      CoinbaseProProductBook book =
-          coinbasePro.getProductOrderBook(
-              currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "1");
-      return book;
+      return decorateApiCall(coinbasePro::getStats)
+          .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
+  /** https://docs.pro.coinbase.com/#get-product-order-book */
   public CoinbaseProProductBook getCoinbaseProProductOrderBook(CurrencyPair currencyPair, int level)
       throws IOException {
 
     try {
-      CoinbaseProProductBook book =
-          coinbasePro.getProductOrderBook(
-              currencyPair.base.getCurrencyCode(),
-              currencyPair.counter.getCurrencyCode(),
-              String.valueOf(level));
-      return book;
+      return decorateApiCall(
+              () ->
+                  coinbasePro.getProductOrderBook(
+                      currencyPair.base.getCurrencyCode(),
+                      currencyPair.counter.getCurrencyCode(),
+                      String.valueOf(level)))
+          .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
+  /** https://docs.pro.coinbase.com/#get-trades */
   public CoinbaseProTrade[] getCoinbaseProTrades(CurrencyPair currencyPair) throws IOException {
-
     try {
-      return coinbasePro.getTrades(
-          currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
-
+      return decorateApiCall(
+              () ->
+                  coinbasePro.getTrades(
+                      currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()))
+          .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
-  static Instant lastCall = null;
-  static boolean rateLimited = false;
-
-  public CoinbaseProTrades getCoinbaseProTradesExtended(
-      CurrencyPair currencyPair, Long after, Integer limit) throws IOException {
-
-    for (; ; ) {
-      try {
-        if (rateLimited) {
-          long delta = Duration.between(lastCall, Instant.now()).toMillis();
-          log.debug("Last call {} ms ago", delta);
-          if (delta < 333) {
-            try {
-              log.debug("Sleeping for {}ms", 333 - delta);
-              Thread.sleep(333 - delta);
-            } catch (InterruptedException e) {
-              log.debug("Unexpected exception in getCoinbaseProTradesExtended", e);
-            }
-          } else if (delta > 3000) {
-            log.debug("Clearing rate limiter");
-            rateLimited = false;
-          }
-        }
-        lastCall = Instant.now();
-        CoinbaseProTrades CoinbaseProTrades =
-            coinbasePro.getTradesPageable(
-                currencyPair.base.getCurrencyCode(),
-                currencyPair.counter.getCurrencyCode(),
-                after,
-                limit);
-        log.debug(
-            "CoinbaseProTrades: earliest={}, latest={}, {}",
-            CoinbaseProTrades.getEarliestTradeId(),
-            CoinbaseProTrades.getLatestTradeId(),
-            CoinbaseProTrades);
-        return CoinbaseProTrades;
-      } catch (CoinbaseProException e) {
-
-        if (e.getHttpStatusCode() != 429) {
-          throw handleError(e);
-        }
-
-        log.debug("Rate limit exceeded, sleeping for 1000ms");
-        rateLimited = true;
-        try {
-          Thread.sleep(1000);
-        } catch (InterruptedException e1) {
-          log.debug("Unexpected exception in getCoinbaseProTradesExtended", e1);
-        }
-        log.debug("Retrying");
-      }
-    }
-  }
-
+  /** https://docs.pro.coinbase.com/#get-historic-rates */
   public CoinbaseProCandle[] getCoinbaseProHistoricalCandles(
       CurrencyPair currencyPair, String start, String end, String granularity) throws IOException {
 
     try {
-      return coinbasePro.getHistoricalCandles(
-          currencyPair.base.getCurrencyCode(),
-          currencyPair.counter.getCurrencyCode(),
-          start,
-          end,
-          granularity);
+      return decorateApiCall(
+              () ->
+                  coinbasePro.getHistoricalCandles(
+                      currencyPair.base.getCurrencyCode(),
+                      currencyPair.counter.getCurrencyCode(),
+                      start,
+                      end,
+                      granularity))
+          .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
+  /** https://docs.pro.coinbase.com/#get-products */
+  public CoinbaseProProduct[] getCoinbaseProProducts() throws IOException {
+    try {
+      return decorateApiCall(coinbasePro::getProducts)
+          .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
+          .call();
+    } catch (CoinbaseProException e) {
+      throw handleError(e);
+    }
+  }
+
+  /** https://docs.pro.coinbase.com/#get-currencies */
+  public CoinbaseProCurrency[] getCoinbaseProCurrencies() throws IOException {
+    try {
+      return decorateApiCall(coinbasePro::getCurrencies)
+          .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
+          .call();
+    } catch (CoinbaseProException e) {
+      throw handleError(e);
+    }
+  }
+
+  /** https://docs.pro.coinbase.com/#get-trades */
+  public CoinbaseProTrades getCoinbaseProTradesExtended(
+      CurrencyPair currencyPair, Long after, Integer limit) throws IOException {
+    return decorateApiCall(
+            () ->
+                coinbasePro.getTradesPageable(
+                    currencyPair.base.getCurrencyCode(),
+                    currencyPair.counter.getCurrencyCode(),
+                    after,
+                    limit))
+        .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
+        .call();
+  }
+
   public boolean checkProductExists(CurrencyPair currencyPair) {
 
-    boolean currencyPairSupported = false;
     for (CurrencyPair cp : exchange.getExchangeSymbols()) {
       if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
           && cp.counter
               .getCurrencyCode()
               .equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
-
-        currencyPairSupported = true;
-        break;
+        return true;
       }
     }
-
-    return currencyPairSupported;
-  }
-
-  public CoinbaseProProduct[] getCoinbaseProProducts() throws IOException {
-
-    try {
-      return coinbasePro.getProducts();
-    } catch (CoinbaseProException e) {
-      throw handleError(e);
-    }
+    return false;
   }
 }

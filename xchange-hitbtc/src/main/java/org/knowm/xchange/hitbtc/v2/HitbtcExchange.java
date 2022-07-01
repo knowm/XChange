@@ -22,10 +22,8 @@ import org.knowm.xchange.hitbtc.v2.service.HitbtcAccountService;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataService;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataServiceRaw;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Exchange {
 
@@ -35,7 +33,6 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
     setupPatchSupport();
   }
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
   private HitbtcMetaData hitbtcMetaData;
 
   private static void setupPatchSupport() {
@@ -83,8 +80,7 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.hitbtc.com");
     exchangeSpecification.setHost("hitbtc.com");
     exchangeSpecification.setPort(80);
@@ -97,27 +93,18 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
   }
 
   @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-
-    return nonceFactory;
-  }
-
-  @Override
   public void remoteInit() throws IOException {
     HitbtcMarketDataServiceRaw dataService = ((HitbtcMarketDataServiceRaw) marketDataService);
     List<HitbtcSymbol> hitbtcSymbols = dataService.getHitbtcSymbols();
     Map<Currency, CurrencyMetaData> currencies =
-        dataService
-            .getHitbtcCurrencies()
-            .stream()
+        dataService.getHitbtcCurrencies().stream()
             .collect(
                 Collectors.toMap(
                     hitbtcCurrency -> new Currency(hitbtcCurrency.getId()),
                     hitbtcCurrency -> new CurrencyMetaData(null, hitbtcCurrency.getPayoutFee())));
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        hitbtcSymbols
-            .stream()
+        hitbtcSymbols.stream()
             .collect(
                 Collectors.toMap(
                     hitbtcSymbol ->

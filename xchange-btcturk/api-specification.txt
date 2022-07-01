@@ -3,7 +3,6 @@ The documentation for BTCTurk BTCTrader's white label exchange platform API.
 
 Public API
 
-
 Documentation
 -------------
 https://github.com/BTCTrader/broker-api-docs
@@ -12,16 +11,51 @@ https://github.com/BTCTrader/broker-api-docs
 Ticker
 ------
 https://www.btcturk.com/api/ticker
+https://www.btcturk.com/api/ticker?pairSymbol=BTCTRY
 
-
-Orders
+Order Book
 ------
 https://www.btcturk.com/api/orderbook?pairSymbol=BTCTRY
-
 
 Trades
 ------
 https://www.btcturk.com/api/trades?pairSymbol=BTCTRY&last=COUNT (Max. value for count parameter is 500)
+
+OHCL Data (Daily)
+------
+https://www.btcturk.com/api/ohlcdata?pairSymbol=BTCTRY (full daily data)
+https://www.btcturk.com/api/ohlcdata?pairSymbol=BTCTRY&last=COUNT (shows the last COUNT value)
+
+
+
+API Authentication
+------
+You need to provide 3 parameters to authenticate a request:
+
+    "X-PCK": API key
+    "X-Stamp": Nonce
+    "X-Signature": Signature
+
+
+Account Balance (Requires Authentication)
+------
+https://www.btcturk.com/api/balance
+
+User Transactions (Requires Authentication)
+------
+https://www.btcturk.com/api/userTransactions?offset=OFFSET&limit=LIMIT&sort=SORT
+
+Open Orders (Requires Authentication)
+------
+https://www.btcturk.com/api/openOrders?pairSymbol=BTCTRY
+
+Cancel Order (Requires Authentication)
+------
+https://www.btcturk.com/api/cancelOrder
+
+Buy Order (Requires Authentication)
+------
+https://www.btcturk.com/api/exchange
 
 
 REQUEST LIMITS
@@ -33,10 +67,15 @@ If you make more than 50 consequent unauthorized requests your IP address will b
 
 Trading Fees
 ------
-30 day trading volume in Turkish Lira |	Maker Fee              | Taker Fee
-0 - 100,000	                          | 0,20% (0.002) + KDV    | 0,35% (0.0035) + KDV
-100,000 - 500,000                     |	0,15% (0.0015) + KDV   | 0,30% (0.003) + KDV
-500,000 +                             | 0,10% (0.001) + KDV    | 0,20% (0.002) + KDV
+30 day trading volume		|	   Maker Fee		| 	  Taker Fee
+in Turkish Lira				|	  					|	   
+0 - 100.000					|	%0,20 (0,0020)		|	%0,30 (0,0030)
+100.000 - 500.000			|	%0,15 (0,0015)		|	%0,25 (0,0025)
+500.000 - 1.000.000			|	%0,10 (0,0010)		|	%0,20 (0,0020)
+1.000.000 - 5.000.000		|	%0,08 (0,0008)		|	%0,18 (0,0018)
+5.000.000 - 10.000.000		|	%0,06 (0,0006)		|	%0,12 (0,0012)
+10.000.000 - 50.000.000		|	%0,04 (0,0004)		|	%0,10 (0,0010)
+50.000.000+					|	%0,02 (0,0002)		|	%0,08 (0,0008)
 
 
 Testing

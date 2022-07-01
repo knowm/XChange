@@ -178,7 +178,7 @@ public class EXXAdapters {
       }
     }
 
-    return new AccountInfo(new Wallet(balances));
+    return new AccountInfo(Wallet.Builder.from(balances).build());
   }
 
   public static OpenOrders convertOpenOrders(

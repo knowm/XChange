@@ -1,85 +1,9 @@
 {
-  "currency_pairs": {
-    "BTC/USD": {
-      "price_scale": 2,
-      "trading_fee": 0.0025,
-      "min_amount": 0.00085000
-    },
-    "BTC/EUR": {
-      "price_scale": 2,
-      "trading_fee": 0.0025,
-      "min_amount": 0.00085000
-    },
-    "EUR/USD": {
-      "price_scale": 5,
-      "trading_fee": 0.0020,
-      "min_amount": 5.00
-    },
-    "XRP/USD": {
-      "price_scale": 5,
-      "trading_fee": 0.0025,
-      "min_amount": 10.00000000
-    },
-    "XRP/EUR": {
-      "price_scale": 5,
-      "trading_fee": 0.0025,
-      "min_amount": 11.00000000
-    },
-    "XRP/BTC": {
-      "price_scale": 8,
-      "trading_fee": 0.0025,
-      "min_amount": 15.00000000
-    },
-    "LTC/USD": {
-      "price_scale": 2,
-      "trading_fee": 0.0025,
-      "min_amount": 0.04000000
-    },
-    "LTC/EUR": {
-      "price_scale": 2,
-      "trading_fee": 0.0025,
-      "min_amount": 0.04500000
-    },
-    "LTC/BTC": {
-      "price_scale": 8,
-      "trading_fee": 0.0025,
-      "min_amount": 0.06000000
-    },
-    "ETH/EUR": {
-      "price_scale": 2,
-      "trading_fee": 0.0025,
-      "min_amount": 0.01500000
-    },
-    "ETH/USD": {
-      "price_scale": 2,
-      "trading_fee": 0.0025,
-      "min_amount": 0.01500000
-    },
-    "ETH/BTC": {
-      "price_scale": 8,
-      "trading_fee": 0.0025,
-      "min_amount": 0.02000000
-    },
-    "BCH/EUR": {
-      "price_scale": 2,
-      "trading_fee": 0.0025,
-      "min_amount": 0.00700000
-    },
-    "BCH/USD": {
-      "price_scale": 2,
-      "trading_fee": 0.0025,
-      "min_amount": 0.00600000
-    },
-    "BCH/BTC": {
-      "price_scale": 8,
-      "trading_fee": 0.0025,
-      "min_amount": 0.01000000
-    }
-  },
+  "currency_pairs": {},
   "currencies": {
     "BTC": {
       "scale": 8,
-      "withdrawal_fee": 0
+      "withdrawal_fee": 0.0005
     },
     "USD": {
       "scale": 2,
@@ -89,19 +13,79 @@
       "scale": 2,
       "withdrawal_fee": 0
     },
-    "XRP": {
-      "scale": 8,
+    "GBP": {
+      "scale": 2,
       "withdrawal_fee": 0
+    },
+    "XRP": {
+      "scale": 6,
+      "withdrawal_fee": 0.02
     },
     "LTC": {
       "scale": 8,
-      "withdrawal_fee": 0
+      "withdrawal_fee": 0.001
     },
     "ETH": {
       "scale": 8,
-      "withdrawal_fee": 0
+      "withdrawal_fee": 0.001
     },
     "BCH": {
+      "scale": 8,
+      "withdrawal_fee": 0.0001
+    },
+    "XLM": {
+      "scale": 8,
+      "withdrawal_fee": 0.005
+    },
+    "PAX": {
+      "scale": 8,
+      "withdrawal_fee": 20.0
+    },
+    "LINK": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
+    },
+    "OMG": {
+      "scale": 8,
+      "withdrawal_fee": 3.0
+    },
+    "USDC": {
+      "scale": 8,
+      "withdrawal_fee": 20.0
+    },
+    "AAVE": {
+      "scale": 8,
+      "withdrawal_fee": 0.07
+    },
+    "BAT": {
+      "scale": 8,
+      "withdrawal_fee": 5.0
+    },
+    "UMA": {
+      "scale": 8,
+      "withdrawal_fee": 0.2
+    },
+    "DAI": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
+    },
+    "KNC": {
+      "scale": 8,
+      "withdrawal_fee": 1.75
+    },
+    "MKR": {
+      "scale": 8,
+      "withdrawal_fee": 0.005
+    },
+    "ZRX": {
+      "scale": 8,
+      "withdrawal_fee": 3.0
+    },
+    "GUSD": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
+    },
+    "ETH2": {
       "scale": 8,
       "withdrawal_fee": 0
     }

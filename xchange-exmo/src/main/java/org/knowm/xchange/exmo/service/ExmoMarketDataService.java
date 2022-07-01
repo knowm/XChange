@@ -20,7 +20,7 @@ public class ExmoMarketDataService extends ExmoMarketDataServiceRaw implements M
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
     Map<CurrencyPair, Ticker> tickers = tickers();
-    List all = new ArrayList();
+    List<Ticker> all = new ArrayList<Ticker>();
     all.addAll(tickers.values());
     return all;
   }

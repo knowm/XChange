@@ -18,7 +18,7 @@ public class BitZTickerDemo {
   public static void main(String[] args) throws IOException {
 
     // Create Default BitZ Instance
-    Exchange bitZ = ExchangeFactory.INSTANCE.createExchange(BitZExchange.class.getName());
+    Exchange bitZ = ExchangeFactory.INSTANCE.createExchange(BitZExchange.class);
 
     // Get The Public Market Data Service
     MarketDataService marketDataService = bitZ.getMarketDataService();

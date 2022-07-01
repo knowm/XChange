@@ -3,6 +3,7 @@ package org.knowm.xchange.bleutrade.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.knowm.xchange.bleutrade.BleutradeAssert.assertEquals;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -373,7 +374,7 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
             Mockito.matches("ALL"),
             any(String.class),
             any(String.class),
-            any(Integer.class)))
+            isNull()))
         .thenReturn(response);
 
     // when

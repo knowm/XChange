@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinsuper.CoinsuperAuthenticated;
 import org.knowm.xchange.coinsuper.dto.CoinsuperResponse;
 import org.knowm.xchange.coinsuper.dto.trade.CoinsuperCancelOrder;
@@ -12,25 +13,23 @@ import org.knowm.xchange.coinsuper.dto.trade.OrderDetail;
 import org.knowm.xchange.coinsuper.dto.trade.OrderList;
 import org.knowm.xchange.coinsuper.utils.RestApiRequestHandler;
 import org.knowm.xchange.coinsuper.utils.RestRequestParam;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinsuperTradeServiceRaw extends CoinsuperBaseService {
   private final CoinsuperAuthenticated coinsuper;
 
-  private String apiKey;
-  private String secretKey;
-  private SynchronizedValueFactory<Long> nonceFactory;
+  private final String apiKey;
+  private final String secretKey;
+  private final SynchronizedValueFactory<Long> nonceFactory;
 
   public CoinsuperTradeServiceRaw(Exchange exchange) {
 
     super(exchange);
 
     this.coinsuper =
-        RestProxyFactory.createProxy(
-            CoinsuperAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinsuperAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
 
     this.apiKey = super.apiKey;
     this.secretKey = super.secretKey;
@@ -45,7 +44,7 @@ public class CoinsuperTradeServiceRaw extends CoinsuperBaseService {
   public CoinsuperResponse<CoinsuperOrder> createOrder(Map<String, String> order)
       throws IOException {
     RestRequestParam parameters =
-        parameters = RestApiRequestHandler.generateRequestParam(order, this.apiKey, this.secretKey);
+        RestApiRequestHandler.generateRequestParam(order, this.apiKey, this.secretKey);
     if (order.get("side") == "BID") {
       return coinsuper.createBuyOrder(parameters);
     } else if (order.get("side") == "ASK") {

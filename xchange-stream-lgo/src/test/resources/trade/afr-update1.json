@@ -1,0 +1,12 @@
+{
+  "payload": [
+    {
+      "reference": "plop",
+      "time": "2019-07-24T13:42:34.970Z",
+      "type": "received",
+      "order_id": "156397575497000001"
+    }
+  ],
+  "type": "update",
+  "channel": "afr"
+}

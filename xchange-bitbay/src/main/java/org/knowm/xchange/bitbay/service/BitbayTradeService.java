@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitbay.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
@@ -9,7 +8,6 @@ import org.knowm.xchange.bitbay.BitbayAdapters;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
 import org.knowm.xchange.bitbay.dto.trade.BitbayTradeResponse;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -92,10 +90,5 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) {
-    throw new NotAvailableFromExchangeException();
   }
 }

@@ -1,10 +1,17 @@
 package org.knowm.xchange.coinone;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import org.knowm.xchange.coinone.dto.CoinoneException;
 import org.knowm.xchange.coinone.dto.account.CoinoneBalancesResponse;
-import org.knowm.xchange.coinone.dto.marketdata.*;
+import org.knowm.xchange.coinone.dto.marketdata.CoinoneOrderBook;
+import org.knowm.xchange.coinone.dto.marketdata.CoinoneOrderBookData;
+import org.knowm.xchange.coinone.dto.marketdata.CoinoneTicker;
+import org.knowm.xchange.coinone.dto.marketdata.CoinoneTradeData;
+import org.knowm.xchange.coinone.dto.marketdata.CoinoneTrades;
 import org.knowm.xchange.coinone.dto.trade.CoinoneOrderInfo;
 import org.knowm.xchange.coinone.dto.trade.CoinoneOrderInfoResponse;
 import org.knowm.xchange.currency.Currency;
@@ -157,7 +164,7 @@ public final class CoinoneAdapters {
             Currency.getInstance("XRP"),
             coninoneResponse.getXrp().getBalance(),
             coninoneResponse.getXrp().getAvail()));
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Ticker adaptTicker(CoinoneTicker ticker) {
@@ -187,12 +194,12 @@ public final class CoinoneAdapters {
   }
 
   private static Trade adaptTrade(CoinoneTradeData trade, CurrencyPair currencyPair) {
-    return new Trade(
-        null,
-        trade.getQty(),
-        currencyPair,
-        trade.getPrice(),
-        DateUtils.fromMillisUtc(Long.valueOf(trade.getTimestamp()) * 1000),
-        "");
+    return new Trade.Builder()
+        .originalAmount(trade.getQty())
+        .currencyPair(currencyPair)
+        .price(trade.getPrice())
+        .timestamp(DateUtils.fromMillisUtc(Long.parseLong(trade.getTimestamp()) * 1000))
+        .id("")
+        .build();
   }
 }

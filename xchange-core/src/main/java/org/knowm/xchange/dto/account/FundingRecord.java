@@ -15,8 +15,13 @@ import org.knowm.xchange.currency.Currency;
  */
 public final class FundingRecord implements Serializable {
 
+  private static final long serialVersionUID = 3788398035845873448L;
+
   /** Crypto currency address for deposit/withdrawal */
   private final String address;
+
+  /** Crypto currency destination tag for deposit/withdrawal */
+  private final String addressTag;
 
   /** Date/Time of transaction */
   private final Date date;
@@ -106,6 +111,51 @@ public final class FundingRecord implements Serializable {
    * Constructs a {@link FundingRecord}.
    *
    * @param address Crypto currency address for deposit/withdrawal
+   * @param addressTag Crypto address destination tag for deposit/withdrawal
+   * @param date Date/Time of transaction
+   * @param currency The transaction currency
+   * @param amount Amount deposited/withdrawn (always positive)
+   * @param internalId Internal transaction identifier, specific to the Exchange
+   * @param blockchainTransactionHash Transaction hash/id that identifies the transaction within the
+   *     public ledger
+   * @param type Transaction Type {@link Type}
+   * @param status Status of the transaction whenever available
+   * @param balance Balance of the associated account after the transaction is performed
+   * @param fee Transaction Fee Amount (always positive)
+   * @param description Description of the transaction. It is a good idea to put here any extra info
+   *     sent back from the exchange that doesn't fit elsewhere so users can still access it.
+   */
+  public FundingRecord(
+      final String address,
+      final String addressTag,
+      final Date date,
+      final Currency currency,
+      final BigDecimal amount,
+      final String internalId,
+      final String blockchainTransactionHash,
+      final Type type,
+      final Status status,
+      final BigDecimal balance,
+      final BigDecimal fee,
+      final String description) {
+    this.address = address;
+    this.addressTag = addressTag == null || addressTag.isEmpty() ? null : addressTag;
+    this.date = date;
+    this.currency = currency;
+    this.amount = amount == null ? null : amount.abs();
+    this.internalId = internalId;
+    this.blockchainTransactionHash = blockchainTransactionHash;
+    this.type = type;
+    this.status = status;
+    this.balance = balance;
+    this.fee = fee == null ? null : fee.abs();
+    this.description = description;
+  }
+
+  /**
+   * Constructs a {@link FundingRecord}.
+   *
+   * @param address Crypto currency address for deposit/withdrawal
    * @param date Date/Time of transaction
    * @param currency The transaction currency
    * @param amount Amount deposited/withdrawn (always positive)
@@ -131,22 +181,28 @@ public final class FundingRecord implements Serializable {
       final BigDecimal balance,
       final BigDecimal fee,
       final String description) {
-    this.address = address;
-    this.date = date;
-    this.currency = currency;
-    this.amount = amount == null ? null : amount.abs();
-    this.internalId = internalId;
-    this.blockchainTransactionHash = blockchainTransactionHash;
-    this.type = type;
-    this.status = status;
-    this.balance = balance;
-    this.fee = fee == null ? null : fee.abs();
-    this.description = description;
+    this(
+        address,
+        null,
+        date,
+        currency,
+        amount,
+        internalId,
+        blockchainTransactionHash,
+        type,
+        status,
+        balance,
+        fee,
+        description);
   }
 
   /** @return Crypto currency address */
   public String getAddress() {
     return address;
+  }
+
+  public String getAddressTag() {
+    return addressTag;
   }
 
   /** @return Date/Time of transaction */
@@ -229,8 +285,32 @@ public final class FundingRecord implements Serializable {
 
   /** Enum representing funding transaction type */
   public enum Type {
-    WITHDRAWAL,
-    DEPOSIT;
+    WITHDRAWAL(false),
+    DEPOSIT(true),
+    AIRDROP(true),
+    /**
+     * Used for inflows that are not a regular users deposit and are either different the inflows
+     * defined above or their nature could not have been deduced from the exchanges response
+     */
+    OTHER_INFLOW(true),
+    /**
+     * Used for outflows that are not a regular users withdrawal and are either different the
+     * outflows defined above or their nature could not have been deduced from the exchanges
+     * response
+     */
+    OTHER_OUTFLOW(false),
+
+    /** Used for transfers between exchanges accounts */
+    INTERNAL_WITHDRAWAL(false),
+
+    /** Used for transfers between exchanges accounts */
+    INTERNAL_DEPOSIT(true),
+
+    /** Used for realised losses from derivatives */
+    REALISED_LOSS(false),
+
+    /** Used for realised profits from derivatives */
+    REALISED_PROFIT(true);
 
     private static final Map<String, Type> fromString = new HashMap<>();
 
@@ -238,8 +318,22 @@ public final class FundingRecord implements Serializable {
       for (Type type : values()) fromString.put(type.toString(), type);
     }
 
+    private final boolean inflow;
+
+    Type(final boolean inflow) {
+      this.inflow = inflow;
+    }
+
     public static Type fromString(String ledgerTypeString) {
       return fromString.get(ledgerTypeString.toUpperCase());
+    }
+
+    public boolean isInflowing() {
+      return this.inflow;
+    }
+
+    public boolean isOutflowing() {
+      return !this.inflow;
     }
   }
 
@@ -307,6 +401,7 @@ public final class FundingRecord implements Serializable {
   public static final class Builder {
 
     private String address;
+    private String addressTag;
     private Date date;
     private Currency currency;
     private BigDecimal amount;
@@ -318,8 +413,29 @@ public final class FundingRecord implements Serializable {
     private BigDecimal balance;
     private BigDecimal fee;
 
+    public static Builder from(FundingRecord record) {
+      return new Builder()
+          .setAddress(record.address)
+          .setAddressTag(record.addressTag)
+          .setBlockchainTransactionHash(record.blockchainTransactionHash)
+          .setDate(record.date)
+          .setCurrency(record.currency)
+          .setAmount(record.amount)
+          .setInternalId(record.internalId)
+          .setDescription(record.description)
+          .setType(record.type)
+          .setStatus(record.status)
+          .setBalance(record.balance)
+          .setFee(record.fee);
+    }
+
     public Builder setAddress(String address) {
       this.address = address;
+      return this;
+    }
+
+    public Builder setAddressTag(String addressTag) {
+      this.addressTag = addressTag;
       return this;
     }
 
@@ -376,6 +492,7 @@ public final class FundingRecord implements Serializable {
     public FundingRecord build() {
       return new FundingRecord(
           address,
+          addressTag,
           date,
           currency,
           amount,

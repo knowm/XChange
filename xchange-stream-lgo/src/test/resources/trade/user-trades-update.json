@@ -1,0 +1,33 @@
+{
+  "payload": [
+    {
+      "time": "2019-08-06T10:00:04.184Z",
+      "side": "S",
+      "type": "pending",
+      "order_type": "M",
+      "order_id": "156508560418400001",
+      "quantity": "0.50000000"
+    },
+    {
+      "liquidity": "M",
+      "time": "2019-08-06T10:00:05.658Z",
+      "order_id": "156508560418400001",
+      "remaining_quantity": "0.00000000",
+      "filled_quantity": "0.50000000",
+      "type": "match",
+      "price": "955.3000",
+      "trade_id": "4441691",
+      "fees": "0.2388"
+    },
+    {
+      "reason": "filled",
+      "type": "done",
+      "time": "2019-08-06T10:00:05.658Z",
+      "order_id": "156508560418400001"
+    }
+  ],
+  "batch_id": 7632137,
+  "type": "update",
+  "channel": "user",
+  "product_id": "BTC-USD"
+}

@@ -2,17 +2,17 @@ package org.knowm.xchange.bitmex.service;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.bitmex.BitmexAdapters;
-import org.knowm.xchange.bitmex.BitmexContract;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.BitmexPrompt;
-import org.knowm.xchange.bitmex.BitmexUtils;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.account.BitmexTickerList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexFundingList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexKline;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrderList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
@@ -40,16 +40,10 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
     super(exchange);
   }
 
-  public BitmexDepth getBitmexDepth(CurrencyPair pair, BitmexPrompt prompt, Object... args)
-      throws ExchangeException {
-
-    BitmexContract contract = new BitmexContract(pair, prompt);
-    String bitmexSymbol = BitmexUtils.translateBitmexContract(contract);
+  public BitmexDepth getBitmexDepth(String bitmexSymbol) throws ExchangeException {
 
     BitmexPublicOrderList result = updateRateLimit(() -> bitmex.getDepth(bitmexSymbol, 1000d));
-
-    if (pair != null && prompt != null) return BitmexAdapters.adaptDepth(result, pair);
-    return null;
+    return BitmexAdapters.adaptDepth(result);
   }
 
   public List<BitmexPublicTrade> getBitmexTrades(String bitmexSymbol, Integer limit, Long start)
@@ -99,18 +93,27 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
   }
 
   public List<BitmexKline> getBucketedTrades(
-      String binSize,
-      Boolean partial,
-      CurrencyPair pair,
-      BitmexPrompt prompt,
-      long count,
-      Boolean reverse)
+      String binSize, Boolean partial, CurrencyPair pair, long count, Boolean reverse)
       throws ExchangeException {
 
-    BitmexContract contract = new BitmexContract(pair, prompt);
-    String bitmexSymbol = BitmexUtils.translateBitmexContract(contract);
+    String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(pair);
 
     return updateRateLimit(
         () -> bitmex.getBucketedTrades(binSize, partial, bitmexSymbol, count, reverse));
+  }
+
+  public BitmexFundingList getFundingHistory(
+      String symbol,
+      String filter,
+      String columns,
+      Integer count,
+      Long start,
+      Boolean reverse,
+      Date startTime,
+      Date endTime) {
+    return updateRateLimit(
+        () ->
+            bitmex.getFundingHistory(
+                symbol, filter, columns, count, start, reverse, startTime, endTime));
   }
 }

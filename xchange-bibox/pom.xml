@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>4.4.0-SNAPSHOT</version>
+		<version>5.0.14-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-bibox</artifactId>
@@ -27,7 +27,11 @@
 		<dependency>
 			<groupId>org.knowm.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>4.4.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 </project>

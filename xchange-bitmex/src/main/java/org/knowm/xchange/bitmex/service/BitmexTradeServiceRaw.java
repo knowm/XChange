@@ -11,6 +11,7 @@ import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.HttpResponseAwareList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
+import org.knowm.xchange.bitmex.dto.trade.BitmexCancelAll;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
@@ -42,7 +43,10 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     return updateRateLimit(
         () ->
             bitmex.getPositions(
-                apiKey, exchange.getNonceFactory(), signatureCreator, symbol, null));
+                apiKey,
+                exchange.getNonceFactory(),
+                signatureCreator,
+                "{\"symbol\":\"" + symbol + "\"}"));
   }
 
   /**
@@ -267,5 +271,12 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
                 reverse,
                 startTime,
                 endTime));
+  }
+
+  public BitmexCancelAll cancelAllAfter(long timeoutMillis) throws ExchangeException {
+    return updateRateLimit(
+        () ->
+            bitmex.cancelAllAfter(
+                apiKey, exchange.getNonceFactory(), signatureCreator, timeoutMillis));
   }
 }

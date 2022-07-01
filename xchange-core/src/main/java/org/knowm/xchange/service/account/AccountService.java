@@ -8,11 +8,13 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -44,7 +46,7 @@ public interface AccountService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default AccountInfo getAccountInfo() throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getAccountInfo");
   }
 
   /**
@@ -68,6 +70,26 @@ public interface AccountService extends BaseService {
   }
 
   /**
+   * Convenience method, typically just delegates to withdrawFunds(WithdrawFundsParams params)
+   *
+   * @param currency The currency to withdraw
+   * @param amount The amount to withdraw
+   * @param address The destination address
+   * @return The result of the withdrawal (usually a transaction ID)
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address)
+      throws IOException {
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+  }
+
+  /**
    * Withdraw funds from this account. Allows to withdraw digital currency funds from the exchange
    * account to an external address
    *
@@ -82,7 +104,7 @@ public interface AccountService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("withdrawFunds");
   }
 
   /**
@@ -101,7 +123,26 @@ public interface AccountService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default String requestDepositAddress(Currency currency, String... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("requestDepositAddress");
+  }
+
+  /**
+   * Request a digital currency address to fund this account. Allows to fund the exchange account
+   * with digital currency from an external address
+   *
+   * @param currency The digital currency that corresponds to the desired deposit address.
+   * @return the internal deposit address to send funds to
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default AddressWithTag requestDepositAddressData(Currency currency, String... args)
+      throws IOException {
+    throw new NotYetImplementedForExchangeException("requestDepositAddressData");
   }
 
   /**
@@ -111,7 +152,7 @@ public interface AccountService extends BaseService {
    * the same class as the createFundingHistoryParams that created the object.
    */
   default TradeHistoryParams createFundingHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("createFundingHistoryParams");
   }
 
   /**
@@ -126,8 +167,27 @@ public interface AccountService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getFundingHistory");
   }
+
+  /**
+   * Get the trading fees per instrument as determined by the given exchange's rules for adjusting
+   * fees by recent volume traded. Some exchanges will provide the current fees per currency via a
+   * single API request, while others require more logic to compute by hand.
+   *
+   * @return map between currency pairs and their fees at the time of invocation.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
+    throw new NotYetImplementedForExchangeException("getDynamicTradingFeesByInstrument");
+  }
+
   /**
    * Get the trading fees per currency pair as determined by the given exchange's rules for
    * adjusting fees by recent volume traded. Some exchanges will provide the current fees per
@@ -142,7 +202,7 @@ public interface AccountService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public default Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
-    throw new NotYetImplementedForExchangeException();
+  default Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    throw new NotYetImplementedForExchangeException("getDynamicTradingFees");
   }
 }

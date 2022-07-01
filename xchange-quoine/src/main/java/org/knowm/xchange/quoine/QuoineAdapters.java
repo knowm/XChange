@@ -86,7 +86,7 @@ public class QuoineAdapters {
           new Balance(Currency.getInstance(info.getFundingCurrency()), info.getFreeMargin()));
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Wallet adaptFiatAccountWallet(FiatAccount[] fiatAccounts) {
@@ -102,7 +102,7 @@ public class QuoineAdapters {
       balances.add(fiatBalance);
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Wallet adaptWallet(QuoineAccountInfo quoineWallet) {
@@ -126,7 +126,7 @@ public class QuoineAdapters {
       balances.add(fiatBalance);
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adapteOpenOrders(QuoineOrdersList quoineOrdersList) {
@@ -163,42 +163,45 @@ public class QuoineAdapters {
     return new OpenOrders(openOrders);
   }
 
-  public static List<Wallet> adapt(FiatAccount[] balances) {
-    List<Wallet> res = new ArrayList<>();
-    for (FiatAccount nativeBalance : balances) {
-      Balance balance =
+  public static Wallet adapt(FiatAccount[] fiatBalances, BitcoinAccount[] cryptoBalances) {
+    List<Balance> balanceList = new ArrayList<>();
+
+    for (FiatAccount nativeBalance : fiatBalances) {
+      balanceList.add(
           new Balance(
-              Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance());
-      res.add(new Wallet(String.valueOf(nativeBalance.getId()), balance));
+              Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance()));
     }
-    return res;
+    for (BitcoinAccount cryptoBalance : cryptoBalances) {
+      balanceList.add(
+          new Balance(
+              Currency.getInstance(cryptoBalance.getCurrency()), cryptoBalance.getBalance()));
+    }
+    return Wallet.Builder.from(balanceList).build();
   }
 
-  public static List<Wallet> adapt(BitcoinAccount[] balances) {
-    List<Wallet> res = new ArrayList<>();
-    for (BitcoinAccount nativeBalance : balances) {
-      Balance balance =
-          new Balance(
-              Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance());
-      res.add(new Wallet(String.valueOf(nativeBalance.getId()), balance));
-    }
-    return res;
-  }
+  //  public static Wallet adapt(BitcoinAccount[] balances) {
+  //    List<Balance> balanceList = new ArrayList<>();
+  //    for (BitcoinAccount nativeBalance : balances) {
+  //     balanceList.add(
+  //          new Balance(
+  //              Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance()));
+  //    }
+  //    return new Wallet("crypto",balanceList);
+  //  }
 
   public static List<UserTrade> adapt(List<QuoineExecution> executions, CurrencyPair currencyPair) {
     List<UserTrade> res = new ArrayList<>();
     for (QuoineExecution execution : executions) {
       res.add(
-          new UserTrade(
-              execution.mySide.equals("sell") ? OrderType.ASK : OrderType.BID,
-              execution.quantity,
-              currencyPair,
-              execution.price,
-              DateUtils.fromUnixTime(execution.createdAt),
-              execution.id,
-              execution.orderId,
-              null,
-              null));
+          new UserTrade.Builder()
+              .type(execution.mySide.equals("sell") ? OrderType.ASK : OrderType.BID)
+              .originalAmount(execution.quantity)
+              .currencyPair(currencyPair)
+              .price(execution.price)
+              .timestamp(DateUtils.fromUnixTime(execution.createdAt))
+              .id(execution.id)
+              .orderId(execution.orderId)
+              .build());
     }
     return res;
   }

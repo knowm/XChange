@@ -4,17 +4,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.bitmex.BitmexAuthenticated;
+import org.knowm.xchange.bitmex.BitmexException;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.RateLimitUpdateListener;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.InternalServerException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
+import org.knowm.xchange.exceptions.SystemOverloadException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.HttpResponseAware;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class BitmexBaseService extends BaseExchangeService<BitmexExchange> implements BaseService {
@@ -31,13 +33,11 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
    * @param exchange
    */
   public BitmexBaseService(BitmexExchange exchange) {
-
     super(exchange);
     bitmex =
-        RestProxyFactory.createProxy(
-            BitmexAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BitmexAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     signatureCreator =
         BitmexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
@@ -50,6 +50,8 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
         return new RateLimitExceededException(exception);
       } else if (exception.getMessage().contains("Internal server error")) {
         return new InternalServerException(exception);
+      } else if (exception.getMessage().contains("The system is currently overloaded")) {
+        return new SystemOverloadException(exception);
       } else {
         return new ExchangeException(exception.getMessage(), exception);
       }
@@ -57,10 +59,11 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
     return new ExchangeException(exception);
   }
 
+  /** see https://www.bitmex.com/app/restAPI#Request-Rate-Limits */
   protected <T extends HttpResponseAware> T updateRateLimit(Supplier<T> httpResponseAwareSupplier) {
     if (rateLimitReset != null) {
       long waitMillis = rateLimitReset * 1000 - System.currentTimeMillis();
-      if (rateLimitRemaining <= 0 && waitMillis > 0) {
+      if (rateLimitRemaining <= 0 && waitMillis >= 0) {
         throw new ExchangeException(
             "The request is not executed due to rate limit, please wait for "
                 + (waitMillis / 1000)
@@ -68,24 +71,62 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
                 + rateLimit
                 + ", reset: "
                 + new Date(rateLimitReset * 1000));
+      } else {
+        rateLimitRemaining--;
       }
     }
-    T result;
+    HttpResponseAware responseAware = null;
+    boolean rateLimitsUpdated = false;
     try {
-      result = httpResponseAwareSupplier.get();
+      T result = httpResponseAwareSupplier.get();
+      responseAware = result;
+      return result;
+    } catch (BitmexException e) {
+      if (e.getHttpStatusCode() == 429) {
+        // we are warned !
+        try {
+          Integer retryAfter = Integer.valueOf(e.getResponseHeaders().get("Retry-After").get(0));
+          rateLimitRemaining = 0;
+          rateLimitReset = System.currentTimeMillis() / 1000 + retryAfter;
+          rateLimitsUpdated = true;
+        } catch (Throwable ignored) {
+        }
+      } else if (e.getHttpStatusCode() == 403) {
+        // we are banned now !
+        rateLimitRemaining = 0;
+        rateLimitReset = System.currentTimeMillis() / 1000 + 5; // lets be quiet for 5 sec
+      }
+      responseAware = e;
+      throw handleError(e);
     } catch (Exception e) {
       throw handleError(e);
-    }
-    Map<String, List<String>> responseHeaders = result.getResponseHeaders();
-    rateLimit = Integer.valueOf(responseHeaders.get("X-RateLimit-Limit").get(0));
-    rateLimitRemaining = Integer.valueOf(responseHeaders.get("X-RateLimit-Remaining").get(0));
-    rateLimitReset = Long.valueOf(responseHeaders.get("X-RateLimit-Reset").get(0));
+    } finally {
+      if (responseAware != null && !rateLimitsUpdated) {
+        Map<String, List<String>> responseHeaders = responseAware.getResponseHeaders();
 
-    RateLimitUpdateListener rateLimitUpdateListener = exchange.getRateLimitUpdateListener();
-    if (rateLimitUpdateListener != null) {
-      rateLimitUpdateListener.rateLimitUpdate(rateLimit, rateLimitRemaining, rateLimitReset);
+        List<String> limitList = responseHeaders.get("x-ratelimit-limit");
+        List<String> remainingList = responseHeaders.get("x-ratelimit-remaining");
+        List<String> resetList = responseHeaders.get("x-ratelimit-reset");
+
+        if (limitList != null
+            && !limitList.isEmpty()
+            && remainingList != null
+            && !remainingList.isEmpty()
+            && resetList != null
+            && !resetList.isEmpty()) {
+          rateLimit = Integer.valueOf(limitList.get(0));
+          rateLimitRemaining = Integer.valueOf(remainingList.get(0));
+          rateLimitReset = Long.valueOf(resetList.get(0));
+          rateLimitsUpdated = true;
+        }
+      }
+      if (rateLimitsUpdated) {
+        RateLimitUpdateListener rateLimitUpdateListener = exchange.getRateLimitUpdateListener();
+        if (rateLimitUpdateListener != null) {
+          rateLimitUpdateListener.rateLimitUpdate(rateLimit, rateLimitRemaining, rateLimitReset);
+        }
+      }
     }
-    return result;
   }
 
   public int getRateLimit() {

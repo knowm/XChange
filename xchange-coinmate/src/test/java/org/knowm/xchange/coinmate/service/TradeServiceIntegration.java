@@ -24,7 +24,7 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 public class TradeServiceIntegration {
 
   @Test
-  public void transactionHistoryTest() throws Exception {
+  public void tradeHistoryTest() throws Exception {
     Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
     if (exchange == null) {
       return; // forces pass if not configuration is available

@@ -8,6 +8,7 @@ import org.knowm.xchange.coingi.CoingiAdapters;
 import org.knowm.xchange.coingi.CoingiErrorAdapter;
 import org.knowm.xchange.coingi.dto.CoingiException;
 import org.knowm.xchange.coingi.dto.account.CoingiBalances;
+import org.knowm.xchange.coingi.dto.account.CoingiDepositWalletRequest;
 import org.knowm.xchange.coingi.dto.account.CoingiUserTransactionList;
 import org.knowm.xchange.coingi.dto.account.CoingiWithdrawalRequest;
 import org.knowm.xchange.coingi.dto.trade.CoingiTransactionHistoryRequest;
@@ -73,8 +74,14 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
    * return the same.
    */
   @Override
-  public String requestDepositAddress(Currency currency, String... arguments) {
-    throw new NotYetImplementedForExchangeException();
+  public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
+    try {
+      CoingiDepositWalletRequest request =
+          new CoingiDepositWalletRequest().setCurrency(currency.getCurrencyCode().toUpperCase());
+      return depositWallet(request).getAddress();
+    } catch (CoingiException e) {
+      throw CoingiErrorAdapter.adapt(e);
+    }
   }
 
   @Override

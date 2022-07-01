@@ -3,6 +3,16 @@
   ],
   "result": {
     "ledger": {
+      "LDVXGZ-2FJSK-FJWOGJ": {
+        "refid": "LAJSKG3-35JF4-JF0JG3",
+        "time": 1549990357.125,
+        "type": "adjustment",
+        "aclass": "currency",
+        "asset": "XICN",
+        "amount": "-350.0000000000",
+        "fee": "0.0000000000",
+        "balance": "0.0000000000"
+      },
       "LQY6IE-WNT47-JRBOJV": {
         "refid": "QGBJIZV-4F6SPK-ZCBT5O",
         "time": 1391400160.0679,
@@ -52,8 +62,28 @@
         "amount": "0.5000000000",
         "fee": "0.0000000000",
         "balance": "0.5000000000"
+      },
+      "L23XKW-ZZHEP-FJINZ3": {
+        "refid": "TPYCPK-GLBCV-NGPDDI",
+        "time": 1388739905.0371,
+        "type": "settled",
+        "aclass": "currency",
+        "asset": "XETH",
+        "amount": "0.5000000000",
+        "fee": "0.0000000000",
+        "balance": "0.5000000000"
+      },
+      "LKEGD3-PO6FF-3CCK7Z": {
+        "refid": "Unknown",
+        "time": 1388739925.0371,
+        "type": "staking",
+        "aclass": "currency",
+        "asset": "XTZ",
+        "amount": "0.01847200",
+        "fee": "0.0000000000",
+        "balance": "130.44704300"
       }
     },
-    "count": "5"
+    "count": "8"
   }
 }

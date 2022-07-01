@@ -6,15 +6,15 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.itbit.v1.ItBitExchange;
-import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitDepth;
-import org.knowm.xchange.itbit.v1.service.ItBitMarketDataServiceRaw;
+import org.knowm.xchange.itbit.ItBitExchange;
+import org.knowm.xchange.itbit.dto.marketdata.ItBitDepth;
+import org.knowm.xchange.itbit.service.ItBitMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** Created by joseph on 6/15/17. */
 public class ItBitOrderBookDemo {
   public static void main(String[] args) throws IOException {
-    Exchange xchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
+    Exchange xchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class);
 
     MarketDataService marketDataService = xchange.getMarketDataService();
 

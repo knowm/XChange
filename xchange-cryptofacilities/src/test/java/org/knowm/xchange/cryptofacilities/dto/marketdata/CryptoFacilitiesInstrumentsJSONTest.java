@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 import org.junit.Test;
+import org.knowm.xchange.cryptofacilities.Util;
 
 /** @author Neil Panchen */
 public class CryptoFacilitiesInstrumentsJSONTest {
@@ -45,7 +45,6 @@ public class CryptoFacilitiesInstrumentsJSONTest {
     assertThat(ct.getTickSize()).isEqualTo(new BigDecimal("0.01"));
 
     // 2016-04-29 17:00:00
-    SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-    assertThat(ct.getLastTradingTime()).isEqualTo(DATE_FORMAT.parse("2016-04-29T16:00:00.000Z"));
+    assertThat(ct.getLastTradingTime()).isEqualTo(Util.parseDate("2016-04-29T16:00:00.000Z"));
   }
 }

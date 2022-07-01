@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -132,13 +134,14 @@ public final class MercadoBitcoinAdapters {
         lastTradeId = tradeId;
       }
       trades.add(
-          new Trade(
-              toOrderType(tx.getType()),
-              tx.getAmount(),
-              currencyPair,
-              tx.getPrice(),
-              DateUtils.fromMillisUtc(tx.getDate() * 1000L),
-              String.valueOf(tradeId)));
+          new Trade.Builder()
+              .type(toOrderType(tx.getType()))
+              .originalAmount(tx.getAmount())
+              .currencyPair(currencyPair)
+              .price(tx.getPrice())
+              .timestamp(DateUtils.fromMillisUtc(tx.getDate() * 1000L))
+              .id(String.valueOf(tradeId))
+              .build());
     }
 
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByID);
@@ -159,7 +162,11 @@ public final class MercadoBitcoinAdapters {
     Balance btcBalance = new Balance(Currency.BTC, accountInfo.getTheReturn().getFunds().getBtc());
     Balance ltcBalance = new Balance(Currency.LTC, accountInfo.getTheReturn().getFunds().getLtc());
 
-    return new AccountInfo(userName, new Wallet(brlBalance, btcBalance, ltcBalance));
+    return new AccountInfo(
+        userName,
+        Wallet.Builder.from(
+                Stream.of(brlBalance, btcBalance, ltcBalance).collect(Collectors.toList()))
+            .build());
   }
 
   public static List<LimitOrder> adaptOrders(

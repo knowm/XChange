@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.4.0</version>
+        <version>5.0.14-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-poloniex</artifactId>
@@ -30,26 +30,5 @@
         </dependency>
 
     </dependencies>
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <finalName>${project.artifactId}-${project.version}</finalName>
-    </build>
-    <distributionManagement>
-        <repository>
-            <id>internal</id>
-            <url>file://${project.build.directory}/mvn-repo</url>
-            <uniqueVersion>false</uniqueVersion>
-        </repository>
-    </distributionManagement>
+
 </project>

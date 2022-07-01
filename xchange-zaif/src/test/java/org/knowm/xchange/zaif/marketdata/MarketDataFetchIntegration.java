@@ -15,7 +15,7 @@ public class MarketDataFetchIntegration {
   @Test
   public void depthFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_JPY);

@@ -3,8 +3,10 @@ package org.knowm.xchange.coinbasepro;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
@@ -13,13 +15,14 @@ import java.math.MathContext;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
-import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -106,7 +109,8 @@ public class CoinbaseProAdaptersTest {
     InputStream is =
         getClass()
             .getResourceAsStream("/org/knowm/xchange/coinbasepro/dto/trade/example-fills.json");
-    CoinbaseProFill[] fills = mapper.readValue(is, CoinbaseProFill[].class);
+    List<CoinbaseProFill> fills =
+        mapper.readValue(is, new TypeReference<List<CoinbaseProFill>>() {});
 
     UserTrades trades = CoinbaseProAdapters.adaptTradeHistory(fills);
 
@@ -345,18 +349,18 @@ public class CoinbaseProAdaptersTest {
 
     InputStream is =
         new SequenceInputStream(
-            IOUtils.toInputStream("[", StandardCharsets.UTF_8),
+            new ByteArrayInputStream("[".getBytes(StandardCharsets.UTF_8)),
             new SequenceInputStream(
                 getClass()
                     .getResourceAsStream(
                         "/org/knowm/xchange/coinbasepro/dto/order/example-limit-order-pending.json"),
                 new SequenceInputStream(
-                    IOUtils.toInputStream(", ", StandardCharsets.UTF_8),
+                    new ByteArrayInputStream(", ".getBytes(StandardCharsets.UTF_8)),
                     new SequenceInputStream(
                         getClass()
                             .getResourceAsStream(
                                 "/org/knowm/xchange/coinbasepro/dto/order/example-stop-order-filled.json"),
-                        IOUtils.toInputStream("]", StandardCharsets.UTF_8)))));
+                        new ByteArrayInputStream("]".getBytes(StandardCharsets.UTF_8))))));
 
     final CoinbaseProOrder[] coinbaseProOrders = mapper.readValue(is, CoinbaseProOrder[].class);
 
@@ -366,6 +370,20 @@ public class CoinbaseProAdaptersTest {
     assertThat(openOrders.getHiddenOrders()).hasSize(1);
     assertStopOrderFilled(openOrders.getHiddenOrders().get(0));
     assertLimitOrderPending(openOrders.getOpenOrders().get(0));
+  }
+
+  @Test
+  public void testAdaptProductID() {
+    String productID = CoinbaseProAdapters.adaptProductID(CurrencyPair.ETH_BTC);
+
+    assertThat(productID).isEqualTo(Currency.ETH + "-" + Currency.BTC);
+  }
+
+  @Test
+  public void testAdaptProductIDHandlesNull() {
+    String productID = CoinbaseProAdapters.adaptProductID(null);
+
+    assertThat(productID).isEqualTo(null);
   }
 
   private void assertStopOrderFilled(final Order order) {

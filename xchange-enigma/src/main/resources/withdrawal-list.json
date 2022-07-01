@@ -1,0 +1,9 @@
+[
+  {
+    "withdrawal_type": "cash",
+    "amount": 1,
+    "currency": "USD",
+    "sent_at": "2019-07-10 09:07:27",
+    "withdrawal_key": "5d25aacfbfcf1-5d25aacfbfcf3-5d25aacfbfcf4"
+  }
+]

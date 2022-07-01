@@ -16,7 +16,13 @@ import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
@@ -48,15 +54,24 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
     return placeLimitOrderRaw(limitOrder).id;
   }
 
+  /**
+   * @param orderParams - {@link CancelOrderParams} of type {@link CancelOrderByUserReferenceParams}
+   */
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (orderParams instanceof CancelOrderByIdParams) {
-      String clientOrderId = ((CancelOrderByIdParams) orderParams).getOrderId();
+    if (orderParams instanceof CancelOrderByUserReferenceParams) {
+      String clientOrderId = ((CancelOrderByUserReferenceParams) orderParams).getUserReference();
       HitbtcOrder cancelOrderRaw = cancelOrderRaw(clientOrderId);
       return "canceled".equals(cancelOrderRaw.status);
     } else {
-      return false;
+      throw new ExchangeException(
+          "Need userReference for cancelling orders. Use CancelOrderByUserReferenceParams.");
     }
+  }
+
+  @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[] {CancelOrderByUserReferenceParams.class};
   }
 
   /** Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair} */
@@ -93,6 +108,11 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
+  }
+
+  @Override
+  public Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParamCurrencyPair.class;
   }
 
   @Override

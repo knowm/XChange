@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
+import org.knowm.xchange.bitfinex.BitfinexExchange;
+import org.knowm.xchange.bitfinex.service.BitfinexMarketDataServiceRaw;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -17,7 +17,7 @@ public class TradesDemo {
   public static void main(String[] args) throws Exception {
 
     // Use the factory to get BTC-E exchange API using default settings
-    Exchange bitfinex = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
+    Exchange bitfinex = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = bitfinex.getMarketDataService();

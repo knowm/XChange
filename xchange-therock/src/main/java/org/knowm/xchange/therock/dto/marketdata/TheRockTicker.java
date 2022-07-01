@@ -9,7 +9,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 /** @author Matija Mazi */
-@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class TheRockTicker {
 
   @JsonDeserialize(using = CurrencyPairDeserializer.class)

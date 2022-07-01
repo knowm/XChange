@@ -2,6 +2,7 @@ package org.knowm.xchange.coinegg;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -106,13 +107,15 @@ public class CoinEggAdapters {
 
     String userName = exchange.getExchangeSpecification().getUserName();
     Wallet btcWallet =
-        new Wallet(
-            Currency.BTC.getCurrencyCode(),
-            new Balance(Currency.BTC, coinEggBalance.getBTCBalance()));
+        Wallet.Builder.from(
+                Arrays.asList(new Balance(Currency.BTC, coinEggBalance.getBTCBalance())))
+            .id(Currency.BTC.getCurrencyCode())
+            .build();
     Wallet ethWallet =
-        new Wallet(
-            Currency.ETH.getCurrencyCode(),
-            new Balance(Currency.ETH, coinEggBalance.getETHBalance()));
+        Wallet.Builder.from(
+                Arrays.asList(new Balance(Currency.ETH, coinEggBalance.getETHBalance())))
+            .id(Currency.ETH.getCurrencyCode())
+            .build();
     // Wallet xasWallet = new Wallet(new Balance(Currency.XAS, coinEggBalance.getXASBalance()));
 
     Set<Wallet> wallets = new HashSet<Wallet>();

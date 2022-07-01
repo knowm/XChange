@@ -43,16 +43,11 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
     // need to make 2 calls
 
     FiatAccount[] quoineFiatAccountInfo = getQuoineFiatAccountInfo();
-    List<Wallet> fiatBalances = QuoineAdapters.adapt(quoineFiatAccountInfo);
+    BitcoinAccount[] cryptoBalances = getQuoineCryptoAccountInfo();
 
-    BitcoinAccount[] cyptoBalances = getQuoineCryptoAccountInfo();
-    List<Wallet> cryptoWallets = QuoineAdapters.adapt(cyptoBalances);
+    Wallet allBalances = QuoineAdapters.adapt(quoineFiatAccountInfo, cryptoBalances);
 
-    List<Wallet> all = new ArrayList<>();
-    all.addAll(fiatBalances);
-    all.addAll(cryptoWallets);
-
-    return new AccountInfo(all);
+    return new AccountInfo(allBalances);
   }
 
   @Override

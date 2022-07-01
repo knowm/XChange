@@ -23,6 +23,7 @@ public interface CoinEgg {
   CoinEggTrade[] getTrades(@PathParam("symbol") String symbol) throws IOException;
 
   @GET
-  @Path("depth?coin={symbol}")
-  CoinEggOrders getOrders(@PathParam("symbol") String symbol) throws IOException;
+  @Path("depth/region/{region}?coin={symbol}")
+  CoinEggOrders getOrders(@PathParam("region") String region, @PathParam("symbol") String symbol)
+      throws IOException;
 }

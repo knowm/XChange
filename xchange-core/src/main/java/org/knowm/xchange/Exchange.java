@@ -1,10 +1,14 @@
 package org.knowm.xchange;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
@@ -41,6 +45,16 @@ public interface Exchange {
   List<CurrencyPair> getExchangeSymbols();
 
   /**
+   * Returns a list of Instrument objects. This list can either come originally from a loaded json
+   * file or from a remote call if the implementation override's the `remoteInit` method.
+   *
+   * @return The exchange's instruments
+   */
+  default List<Instrument> getExchangeInstruments() {
+    return new ArrayList<>(getExchangeSymbols());
+  }
+
+  /**
    * The nonce factory used to create a nonce value. Allows services to accept a placeholder that is
    * replaced with generated value just before message is serialized and sent. If a method of a rest
    * accepts ValueFactory as a parameter, it's evaluated, the message is serialized and sent in a
@@ -49,6 +63,17 @@ public interface Exchange {
    * @return Synchronized value factory
    */
   SynchronizedValueFactory<Long> getNonceFactory();
+
+  /**
+   * resilience4j registries with retry strategies, rate limiters, etc. used for this exchange.
+   *
+   * @return resilience4j registries
+   * @throws NotYetImplementedForExchangeException if the exchange module does not support
+   *     resilience features
+   */
+  default ResilienceRegistries getResilienceRegistries() {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * @return A default ExchangeSpecification to use during the creation process if one is not

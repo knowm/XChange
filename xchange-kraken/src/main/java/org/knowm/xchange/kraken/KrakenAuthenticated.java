@@ -18,6 +18,7 @@ import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenWebsocketTokenResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawInfoResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawStatusResult;
@@ -40,6 +41,17 @@ public interface KrakenAuthenticated extends Kraken {
   @Path("private/Balance")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   KrakenBalanceResult balance(
+      @HeaderParam("API-Key") String apiKey,
+      @HeaderParam("API-Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws IOException;
+
+  @POST
+  @Path("private/GetWebSocketsToken")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  KrakenWebsocketTokenResult getWebsocketToken(
+      @FormParam("validity") String assetClass,
+      @FormParam("permissions") String asset,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
@@ -98,6 +110,7 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("expiretm") String expireTime,
       @FormParam("userref") String userRefId,
       @FormParam("close") Map<String, String> closeOrder,
+      @FormParam("timeInForce") String timeInForce,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
@@ -121,6 +134,7 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("userref") String userRefId,
       @FormParam("validate") boolean validateOnly,
       @FormParam("close") Map<String, String> closeOrder,
+      @FormParam("timeInForce") String timeInForce,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
@@ -192,8 +206,8 @@ public interface KrakenAuthenticated extends Kraken {
   KrakenTradeHistoryResult tradeHistory(
       @FormParam("type") String type,
       @FormParam("trades") boolean includeTrades,
-      @FormParam("start") Long start,
-      @FormParam("end") Long end,
+      @FormParam("start") String start,
+      @FormParam("end") String end,
       @FormParam("ofs") Long offset,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
@@ -239,7 +253,7 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("aclass") String assetPairs,
       @FormParam("asset") String assets,
       @FormParam("method") String method,
-      @FormParam("new") boolean newAddress,
+      @FormParam("new") Boolean newAddress,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)

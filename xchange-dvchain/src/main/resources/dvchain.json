@@ -1,0 +1,60 @@
+{
+  "currency_pairs": {
+    "BTC/USD": {
+      "price_scale": 2,
+      "min_amount": 0.00001,
+      "max_amount": 10
+    },
+    "ETH/USD": {
+      "price_scale": 2,
+      "min_amount": 0.01,
+      "max_amount": 250
+    },
+    "BCH/USD": {
+      "price_scale": 2,
+      "min_amount": 0.01,
+      "max_amount": 150
+    },
+    "XMR/USD": {
+      "price_scale": 2,
+      "min_amount": 0.1,
+      "max_amount": 500
+    },
+    "LTC/USD": {
+      "price_scale": 2,
+      "min_amount": 0.1,
+      "max_amount": 800
+    },
+    "XRP/USD": {
+      "price_scale": 2,
+      "min_amount": 100,
+      "max_amount": 65000
+    }
+  },
+  "currencies": {
+    "BTC": {
+      "scale": 8
+    },
+    "USD": {
+      "scale": 2
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "ZEC": {
+      "scale": 8
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "BCH": {
+      "scale": 8
+    },
+    "XRP": {
+      "scale": 8
+    },
+    "XMR": {
+      "scale": 8
+    }
+  }
+}

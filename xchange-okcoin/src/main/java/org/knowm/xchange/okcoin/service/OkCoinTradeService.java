@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -151,9 +150,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
             ordersData);
     StringBuilder builder = new StringBuilder();
     if (result.isStatus()) {
-      result
-          .getOrderInfo()
-          .stream()
+      result.getOrderInfo().stream()
           .forEach(
               p -> {
                 if (-1L != Long.valueOf((long) p.get("order_id"))) {
@@ -229,8 +226,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
     Map<LimitOrder, Boolean> results = new HashMap<>(limitOrders.size());
     requestResults.forEach(
         (id, result) ->
-            limitOrders
-                .stream()
+            limitOrders.stream()
                 .filter(order -> order.getId().equals(id))
                 .findAny()
                 .ifPresent(limitOrder -> results.put(limitOrder, requestResults.get(id))));
@@ -287,11 +283,6 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return new DefaultOpenOrdersParamCurrencyPair();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

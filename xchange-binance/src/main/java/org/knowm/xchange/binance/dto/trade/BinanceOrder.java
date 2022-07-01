@@ -12,6 +12,7 @@ public final class BinanceOrder {
   public final BigDecimal price;
   public final BigDecimal origQty;
   public final BigDecimal executedQty;
+  public final BigDecimal cummulativeQuoteQty;
   public final OrderStatus status;
   public final TimeInForce timeInForce;
   public final OrderType type;
@@ -27,6 +28,7 @@ public final class BinanceOrder {
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("origQty") BigDecimal origQty,
       @JsonProperty("executedQty") BigDecimal executedQty,
+      @JsonProperty("cummulativeQuoteQty") BigDecimal cummulativeQuoteQty,
       @JsonProperty("status") OrderStatus status,
       @JsonProperty("timeInForce") TimeInForce timeInForce,
       @JsonProperty("type") OrderType type,
@@ -40,6 +42,7 @@ public final class BinanceOrder {
     this.price = price;
     this.origQty = origQty;
     this.executedQty = executedQty;
+    this.cummulativeQuoteQty = cummulativeQuoteQty;
     this.status = status;
     this.timeInForce = timeInForce;
     this.type = type;

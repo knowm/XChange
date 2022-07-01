@@ -1,0 +1,5085 @@
+{
+  "result": [
+    {
+      "id": 404,
+      "symbol": "1st",
+      "name": "FirstBlood",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/1st"
+    },
+    {
+      "id": 3733,
+      "symbol": "1wo",
+      "name": "1World",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/1wo"
+    },
+    {
+      "id": 1189,
+      "symbol": "abbc",
+      "name": "ABBC Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/abbc"
+    },
+    {
+      "id": 1113,
+      "symbol": "abt",
+      "name": "Arcblock",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/abt"
+    },
+    {
+      "id": 517,
+      "symbol": "abyss",
+      "name": "The Abyss",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/abyss"
+    },
+    {
+      "id": 502,
+      "symbol": "acat",
+      "name": "Alphacat",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/acat"
+    },
+    {
+      "id": 484,
+      "symbol": "act",
+      "name": "Achain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/act"
+    },
+    {
+      "id": 166,
+      "symbol": "ada",
+      "name": "Cardano",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ada"
+    },
+    {
+      "id": 695,
+      "symbol": "adh",
+      "name": "AdHive",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/adh"
+    },
+    {
+      "id": 1095,
+      "symbol": "adm",
+      "name": "ADAMANT Messenger",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/adm"
+    },
+    {
+      "id": 316,
+      "symbol": "adt",
+      "name": "adToken",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/adt"
+    },
+    {
+      "id": 286,
+      "symbol": "adx",
+      "name": "AdEx",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/adx"
+    },
+    {
+      "id": 409,
+      "symbol": "ae",
+      "name": "Aeternity",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ae"
+    },
+    {
+      "id": 311,
+      "symbol": "aeon",
+      "name": "Aeon",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/aeon"
+    },
+    {
+      "id": 1420,
+      "symbol": "aergo",
+      "name": "Aergo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/aergo"
+    },
+    {
+      "id": 291,
+      "symbol": "agi",
+      "name": "SingularityNET",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/agi"
+    },
+    {
+      "id": 2212,
+      "symbol": "aid",
+      "name": "AIDUS TOKEN",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/aid"
+    },
+    {
+      "id": 3400,
+      "symbol": "aidoc",
+      "name": "AI Doctor",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/aidoc"
+    },
+    {
+      "id": 521,
+      "symbol": "aion",
+      "name": "Aion",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/aion"
+    },
+    {
+      "id": 3369,
+      "symbol": "akro",
+      "name": "Akropolis ",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/akro"
+    },
+    {
+      "id": 2773,
+      "symbol": "algo",
+      "name": "Algorand",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/algo"
+    },
+    {
+      "id": 434,
+      "symbol": "amb",
+      "name": "Ambrosus",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/amb"
+    },
+    {
+      "id": 1166,
+      "symbol": "amlt",
+      "name": "AMLT",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/amlt"
+    },
+    {
+      "id": 112,
+      "symbol": "amp",
+      "name": "Synereo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/amp"
+    },
+    {
+      "id": 3863,
+      "symbol": "anct",
+      "name": "Anchor",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/anct"
+    },
+    {
+      "id": 1651,
+      "symbol": "ankr",
+      "name": "Ankr Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ankr"
+    },
+    {
+      "id": 270,
+      "symbol": "ant",
+      "name": "Aragon",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ant"
+    },
+    {
+      "id": 1020,
+      "symbol": "apis",
+      "name": "APIS",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/apis"
+    },
+    {
+      "id": 522,
+      "symbol": "appc",
+      "name": "AppCoins",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/appc"
+    },
+    {
+      "id": 90,
+      "symbol": "ardr",
+      "name": "Ardor",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ardr"
+    },
+    {
+      "id": 245,
+      "symbol": "ark",
+      "name": "Ark",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ark"
+    },
+    {
+      "id": 452,
+      "symbol": "arn",
+      "name": "Aeron",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/arn"
+    },
+    {
+      "id": 3730,
+      "symbol": "arpa",
+      "name": "ARPA Chain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/arpa"
+    },
+    {
+      "id": 444,
+      "symbol": "art",
+      "name": "Maecenas",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/art"
+    },
+    {
+      "id": 520,
+      "symbol": "ast",
+      "name": "AirSwap",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ast"
+    },
+    {
+      "id": 2443,
+      "symbol": "at",
+      "name": "Artfinity",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/at"
+    },
+    {
+      "id": 447,
+      "symbol": "atm",
+      "name": "ATMChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/atm"
+    },
+    {
+      "id": 1981,
+      "symbol": "atom",
+      "name": "Cosmos",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/atom"
+    },
+    {
+      "id": 3473,
+      "symbol": "atp",
+      "name": "Atlas Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/atp"
+    },
+    {
+      "id": 10,
+      "symbol": "aud",
+      "name": "Australian Dollar",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/aud"
+    },
+    {
+      "id": 489,
+      "symbol": "auto",
+      "name": "Cube",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/auto"
+    },
+    {
+      "id": 58,
+      "symbol": "avt",
+      "name": "Aventus",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/avt"
+    },
+    {
+      "id": 595,
+      "symbol": "axp",
+      "name": "aXpire",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/axp"
+    },
+    {
+      "id": 3367,
+      "symbol": "axpr",
+      "name": "aXpire",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/axpr"
+    },
+    {
+      "id": 1099,
+      "symbol": "b2g",
+      "name": "Bitcoiin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/b2g"
+    },
+    {
+      "id": 488,
+      "symbol": "banca",
+      "name": "Banca",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/banca"
+    },
+    {
+      "id": 3697,
+      "symbol": "band",
+      "name": "Band Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/band"
+    },
+    {
+      "id": 14,
+      "symbol": "bat",
+      "name": "Basic Attention Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bat"
+    },
+    {
+      "id": 280,
+      "symbol": "bay",
+      "name": "BitBay",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bay"
+    },
+    {
+      "id": 1058,
+      "symbol": "bbc",
+      "name": "TraDove B2BCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bbc"
+    },
+    {
+      "id": 3235,
+      "symbol": "bcac",
+      "name": "Business Credit Alliance Chain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bcac"
+    },
+    {
+      "id": 34,
+      "symbol": "bcc",
+      "name": "Bitcoin Core Chain Split Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bcc"
+    },
+    {
+      "id": 523,
+      "symbol": "bcd",
+      "name": "Bitcoin Diamond",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bcd"
+    },
+    {
+      "id": 22,
+      "symbol": "bch",
+      "name": "Bitcoin Cash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bch"
+    },
+    {
+      "id": 368,
+      "symbol": "bci",
+      "name": "Bitcoin Interest",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bci"
+    },
+    {
+      "id": 96,
+      "symbol": "bcn",
+      "name": "Bytecoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bcn"
+    },
+    {
+      "id": 319,
+      "symbol": "bcpt",
+      "name": "BlockMason Credit Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bcpt"
+    },
+    {
+      "id": 51,
+      "symbol": "bcu",
+      "name": "Bitcoin Unlimited Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bcu"
+    },
+    {
+      "id": 1028,
+      "symbol": "bcv",
+      "name": "BitCapitalVendor",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bcv"
+    },
+    {
+      "id": 7,
+      "symbol": "bcy",
+      "name": "Bitcrystals",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bcy"
+    },
+    {
+      "id": 665,
+      "symbol": "bdg",
+      "name": "BitDegree",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bdg"
+    },
+    {
+      "id": 1458,
+      "symbol": "beam",
+      "name": "Beam",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/beam"
+    },
+    {
+      "id": 4193,
+      "symbol": "bear",
+      "name": "3X Short Bitcoin Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bear"
+    },
+    {
+      "id": 1950,
+      "symbol": "beet",
+      "name": "Beetle Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/beet"
+    },
+    {
+      "id": 25,
+      "symbol": "bela",
+      "name": "Bela",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bela"
+    },
+    {
+      "id": 679,
+      "symbol": "berry",
+      "name": "Rentberry",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/berry"
+    },
+    {
+      "id": 3202,
+      "symbol": "bet",
+      "name": "DAO.Casino",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bet"
+    },
+    {
+      "id": 478,
+      "symbol": "betr",
+      "name": "BetterBetting",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/betr"
+    },
+    {
+      "id": 481,
+      "symbol": "bez",
+      "name": "Bezop",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bez"
+    },
+    {
+      "id": 296,
+      "symbol": "bft",
+      "name": "BnkToTheFuture",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bft"
+    },
+    {
+      "id": 52,
+      "symbol": "bfx",
+      "name": "BFX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bfx"
+    },
+    {
+      "id": 3666,
+      "symbol": "bhd",
+      "name": "BitcoinHD",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bhd"
+    },
+    {
+      "id": 3471,
+      "symbol": "bht",
+      "name": "BHEX Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bht"
+    },
+    {
+      "id": 327,
+      "symbol": "bitb",
+      "name": "Bean Cash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bitb"
+    },
+    {
+      "id": 1114,
+      "symbol": "bix",
+      "name": "Bibox Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bix"
+    },
+    {
+      "id": 688,
+      "symbol": "bkx",
+      "name": "Bankex",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bkx"
+    },
+    {
+      "id": 44,
+      "symbol": "blk",
+      "name": "BlackCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/blk"
+    },
+    {
+      "id": 238,
+      "symbol": "block",
+      "name": "Blocknet",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/block"
+    },
+    {
+      "id": 321,
+      "symbol": "blt",
+      "name": "Bloom",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/blt"
+    },
+    {
+      "id": 524,
+      "symbol": "blz",
+      "name": "Bluzelle",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/blz"
+    },
+    {
+      "id": 428,
+      "symbol": "bmc",
+      "name": "Blackmoon",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bmc"
+    },
+    {
+      "id": 398,
+      "symbol": "bnb",
+      "name": "Binance Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bnb"
+    },
+    {
+      "id": 3467,
+      "symbol": "bnk",
+      "name": "Bankera",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bnk"
+    },
+    {
+      "id": 247,
+      "symbol": "bnt",
+      "name": "Bancor",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bnt"
+    },
+    {
+      "id": 3599,
+      "symbol": "bora",
+      "name": "BORA",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bora"
+    },
+    {
+      "id": 406,
+      "symbol": "bos",
+      "name": "BOScoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bos"
+    },
+    {
+      "id": 994,
+      "symbol": "box",
+      "name": "BOX Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/box"
+    },
+    {
+      "id": 525,
+      "symbol": "brd",
+      "name": "Bread",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/brd"
+    },
+    {
+      "id": 331,
+      "symbol": "bsd",
+      "name": "BitSend",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bsd"
+    },
+    {
+      "id": 860,
+      "symbol": "bsv",
+      "name": "BitcoinSV",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bsv"
+    },
+    {
+      "id": 55,
+      "symbol": "bt1",
+      "name": "BT1",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bt1"
+    },
+    {
+      "id": 113,
+      "symbol": "bt2",
+      "name": "BT2",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bt2"
+    },
+    {
+      "id": 60,
+      "symbol": "btc",
+      "name": "Bitcoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/btc"
+    },
+    {
+      "id": 35,
+      "symbol": "btcd",
+      "name": "BitcoinDark",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/btcd"
+    },
+    {
+      "id": 232,
+      "symbol": "btcfx",
+      "name": "Bitcoin Forex",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/btcfx"
+    },
+    {
+      "id": 504,
+      "symbol": "btcp",
+      "name": "Bitcoin Private",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/btcp"
+    },
+    {
+      "id": 107,
+      "symbol": "btg",
+      "name": "Bitcoin Gold",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/btg"
+    },
+    {
+      "id": 19,
+      "symbol": "btm",
+      "name": "Bitmark",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/btm"
+    },
+    {
+      "id": 1031,
+      "symbol": "btn",
+      "name": "BitNewChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/btn"
+    },
+    {
+      "id": 1018,
+      "symbol": "bto",
+      "name": "Bottos",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bto"
+    },
+    {
+      "id": 12,
+      "symbol": "bts",
+      "name": "BitShares",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bts"
+    },
+    {
+      "id": 1123,
+      "symbol": "btt",
+      "name": "BitTorrent",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/btt"
+    },
+    {
+      "id": 1258,
+      "symbol": "btu",
+      "name": "BTU Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/btu"
+    },
+    {
+      "id": 454,
+      "symbol": "btx",
+      "name": "Bitcore",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/btx"
+    },
+    {
+      "id": 4192,
+      "symbol": "bull",
+      "name": "3X Long Bitcoin Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bull"
+    },
+    {
+      "id": 93,
+      "symbol": "burst",
+      "name": "Burst",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/burst"
+    },
+    {
+      "id": 3664,
+      "symbol": "busd",
+      "name": "Binance USD",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/busd"
+    },
+    {
+      "id": 2146,
+      "symbol": "bwx",
+      "name": "Blue Whale Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bwx"
+    },
+    {
+      "id": 1019,
+      "symbol": "bz",
+      "name": "Bit-Z Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/bz"
+    },
+    {
+      "id": 464,
+      "symbol": "c20",
+      "name": "CRYPTO20",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/c20"
+    },
+    {
+      "id": 37,
+      "symbol": "cad",
+      "name": "Canadian dollar",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/cad"
+    },
+    {
+      "id": 469,
+      "symbol": "cas",
+      "name": "Cashaa",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cas"
+    },
+    {
+      "id": 680,
+      "symbol": "cat",
+      "name": "BitClave",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cat"
+    },
+    {
+      "id": 678,
+      "symbol": "cbc",
+      "name": "CashBet Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cbc"
+    },
+    {
+      "id": 401,
+      "symbol": "cbt",
+      "name": "CommerceBlock",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cbt"
+    },
+    {
+      "id": 430,
+      "symbol": "cdt",
+      "name": "Blox",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cdt"
+    },
+    {
+      "id": 1652,
+      "symbol": "celr",
+      "name": "Celer Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/celr"
+    },
+    {
+      "id": 661,
+      "symbol": "cennz",
+      "name": "Centrality",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cennz"
+    },
+    {
+      "id": 306,
+      "symbol": "cfi",
+      "name": "Cofound.it",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cfi"
+    },
+    {
+      "id": 1686,
+      "symbol": "chat",
+      "name": "ChatCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/chat"
+    },
+    {
+      "id": 3995,
+      "symbol": "chf",
+      "name": "Swiss franc",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/chf"
+    },
+    {
+      "id": 483,
+      "symbol": "chp",
+      "name": "CoinPoker",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/chp"
+    },
+    {
+      "id": 473,
+      "symbol": "chsb",
+      "name": "SwissBorg",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/chsb"
+    },
+    {
+      "id": 1098,
+      "symbol": "chx",
+      "name": "Own",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/chx"
+    },
+    {
+      "id": 3479,
+      "symbol": "chz",
+      "name": "Chiliz",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/chz"
+    },
+    {
+      "id": 4159,
+      "symbol": "ckb",
+      "name": "Nervos Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ckb"
+    },
+    {
+      "id": 41,
+      "symbol": "clam",
+      "name": "Clams",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/clam"
+    },
+    {
+      "id": 677,
+      "symbol": "cln",
+      "name": "Colu Local Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cln"
+    },
+    {
+      "id": 1100,
+      "symbol": "clo",
+      "name": "Callisto Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/clo"
+    },
+    {
+      "id": 292,
+      "symbol": "cloak",
+      "name": "CloakCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cloak"
+    },
+    {
+      "id": 400,
+      "symbol": "cmct",
+      "name": "Crowd Machine",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cmct"
+    },
+    {
+      "id": 526,
+      "symbol": "cmt",
+      "name": "CyberMiles",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cmt"
+    },
+    {
+      "id": 429,
+      "symbol": "cnd",
+      "name": "Cindicator",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cnd"
+    },
+    {
+      "id": 993,
+      "symbol": "cnn",
+      "name": "Content Neutrality Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cnn"
+    },
+    {
+      "id": 446,
+      "symbol": "cnx",
+      "name": "Cryptonex",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cnx"
+    },
+    {
+      "id": 105,
+      "symbol": "cny",
+      "name": "Chinese yuan",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/cny"
+    },
+    {
+      "id": 3477,
+      "symbol": "cocos",
+      "name": "Cocos-BCX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cocos"
+    },
+    {
+      "id": 3169,
+      "symbol": "cos",
+      "name": "COS",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cos"
+    },
+    {
+      "id": 1103,
+      "symbol": "cosm",
+      "name": "Cosmo Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cosm"
+    },
+    {
+      "id": 419,
+      "symbol": "coss",
+      "name": "COSS",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/coss"
+    },
+    {
+      "id": 466,
+      "symbol": "cov",
+      "name": "Covesting",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cov"
+    },
+    {
+      "id": 1783,
+      "symbol": "cova",
+      "name": "COVA",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cova"
+    },
+    {
+      "id": 514,
+      "symbol": "cpt",
+      "name": "Cryptaur",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cpt"
+    },
+    {
+      "id": 1023,
+      "symbol": "cpx",
+      "name": "Apex",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cpx"
+    },
+    {
+      "id": 3470,
+      "symbol": "cre",
+      "name": "Carry",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cre"
+    },
+    {
+      "id": 1321,
+      "symbol": "cro",
+      "name": "Crypto.com Chain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cro"
+    },
+    {
+      "id": 492,
+      "symbol": "crpt",
+      "name": "Crypterium",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/crpt"
+    },
+    {
+      "id": 334,
+      "symbol": "crw",
+      "name": "Crown",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/crw"
+    },
+    {
+      "id": 1459,
+      "symbol": "cs",
+      "name": "Credits",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cs"
+    },
+    {
+      "id": 930,
+      "symbol": "ctxc",
+      "name": "Cortex",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ctxc"
+    },
+    {
+      "id": 92,
+      "symbol": "cvc",
+      "name": "Civic",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cvc"
+    },
+    {
+      "id": 694,
+      "symbol": "cvcoin",
+      "name": "CVCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cvcoin"
+    },
+    {
+      "id": 1121,
+      "symbol": "cvnt",
+      "name": "Content Value Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cvnt"
+    },
+    {
+      "id": 499,
+      "symbol": "cvt",
+      "name": "CyberVein",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/cvt"
+    },
+    {
+      "id": 1222,
+      "symbol": "dac",
+      "name": "Davinci Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dac"
+    },
+    {
+      "id": 1013,
+      "symbol": "dacs",
+      "name": "DACSEE",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dacs"
+    },
+    {
+      "id": 485,
+      "symbol": "dadi",
+      "name": "DADI",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dadi"
+    },
+    {
+      "id": 2641,
+      "symbol": "dag",
+      "name": "Constellation",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dag"
+    },
+    {
+      "id": 3961,
+      "symbol": "dai",
+      "name": "Multi Collateral DAI",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dai"
+    },
+    {
+      "id": 43,
+      "symbol": "dao",
+      "name": "Decentralized Autonomous Organization",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dao"
+    },
+    {
+      "id": 3631,
+      "symbol": "dapp",
+      "name": "LiquidApps",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dapp"
+    },
+    {
+      "id": 72,
+      "symbol": "dash",
+      "name": "Dash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dash"
+    },
+    {
+      "id": 99,
+      "symbol": "dat",
+      "name": "Data",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dat"
+    },
+    {
+      "id": 32,
+      "symbol": "data",
+      "name": "Data",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/data"
+    },
+    {
+      "id": 486,
+      "symbol": "datx",
+      "name": "DATx",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/datx"
+    },
+    {
+      "id": 1456,
+      "symbol": "dbc",
+      "name": "DeepBrain Chain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dbc"
+    },
+    {
+      "id": 479,
+      "symbol": "dbet",
+      "name": "DecentBet",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dbet"
+    },
+    {
+      "id": 455,
+      "symbol": "dbix",
+      "name": "DubaiCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dbix"
+    },
+    {
+      "id": 440,
+      "symbol": "dcn",
+      "name": "Dentacoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dcn"
+    },
+    {
+      "id": 39,
+      "symbol": "dcr",
+      "name": "decred",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dcr"
+    },
+    {
+      "id": 314,
+      "symbol": "dct",
+      "name": "DECENT",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dct"
+    },
+    {
+      "id": 1454,
+      "symbol": "ddd",
+      "name": "Scry.info",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ddd"
+    },
+    {
+      "id": 415,
+      "symbol": "dent",
+      "name": "Dent",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dent"
+    },
+    {
+      "id": 79,
+      "symbol": "dgb",
+      "name": "DigiByte",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dgb"
+    },
+    {
+      "id": 402,
+      "symbol": "dgd",
+      "name": "DigixDAO",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dgd"
+    },
+    {
+      "id": 1106,
+      "symbol": "dgtx",
+      "name": "Digitex Futures",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dgtx"
+    },
+    {
+      "id": 992,
+      "symbol": "dgx",
+      "name": "Digix Gold Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dgx"
+    },
+    {
+      "id": 413,
+      "symbol": "dice",
+      "name": "Etheroll",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dice"
+    },
+    {
+      "id": 461,
+      "symbol": "dim",
+      "name": "DIMCOIN",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dim"
+    },
+    {
+      "id": 421,
+      "symbol": "dlt",
+      "name": "Agrello",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dlt"
+    },
+    {
+      "id": 329,
+      "symbol": "dmd",
+      "name": "Diamond",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dmd"
+    },
+    {
+      "id": 342,
+      "symbol": "dmt",
+      "name": "DMarket",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dmt"
+    },
+    {
+      "id": 287,
+      "symbol": "dnt",
+      "name": "district0x",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dnt"
+    },
+    {
+      "id": 996,
+      "symbol": "dock",
+      "name": "Dock",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dock"
+    },
+    {
+      "id": 62,
+      "symbol": "doge",
+      "name": "Dogecoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/doge"
+    },
+    {
+      "id": 1466,
+      "symbol": "dpy",
+      "name": "Delphy",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dpy"
+    },
+    {
+      "id": 3600,
+      "symbol": "dream",
+      "name": "DreamTeam Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dream"
+    },
+    {
+      "id": 3436,
+      "symbol": "drg",
+      "name": "Dragon Coins",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/drg"
+    },
+    {
+      "id": 929,
+      "symbol": "drgn",
+      "name": "Dragonchain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/drgn"
+    },
+    {
+      "id": 628,
+      "symbol": "drt",
+      "name": "DomRaider",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/drt"
+    },
+    {
+      "id": 692,
+      "symbol": "dta",
+      "name": "DATA",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dta"
+    },
+    {
+      "id": 335,
+      "symbol": "dtb",
+      "name": "Databits",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dtb"
+    },
+    {
+      "id": 1107,
+      "symbol": "dtr",
+      "name": "Dynamic Trading Rights",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dtr"
+    },
+    {
+      "id": 3104,
+      "symbol": "dusk",
+      "name": "Dusk Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dusk"
+    },
+    {
+      "id": 1464,
+      "symbol": "dx",
+      "name": "DxChain Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dx"
+    },
+    {
+      "id": 673,
+      "symbol": "dyn",
+      "name": "Dynamic",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/dyn"
+    },
+    {
+      "id": 1024,
+      "symbol": "ecom",
+      "name": "Omnitude",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ecom"
+    },
+    {
+      "id": 1619,
+      "symbol": "edc",
+      "name": "EDC Blockchain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/edc"
+    },
+    {
+      "id": 80,
+      "symbol": "edg",
+      "name": "Edgeless",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/edg"
+    },
+    {
+      "id": 61,
+      "symbol": "edo",
+      "name": "Eidoo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/edo"
+    },
+    {
+      "id": 932,
+      "symbol": "edr",
+      "name": "Endor Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/edr"
+    },
+    {
+      "id": 3004,
+      "symbol": "egt",
+      "name": "Egretia",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/egt"
+    },
+    {
+      "id": 462,
+      "symbol": "eko",
+      "name": "EchoLink",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/eko"
+    },
+    {
+      "id": 1030,
+      "symbol": "ekt",
+      "name": "EDUCare",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ekt"
+    },
+    {
+      "id": 1027,
+      "symbol": "ela",
+      "name": "Elastos",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ela"
+    },
+    {
+      "id": 562,
+      "symbol": "elec",
+      "name": "Electrify.Asia",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/elec"
+    },
+    {
+      "id": 200,
+      "symbol": "elf",
+      "name": "aelf",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/elf"
+    },
+    {
+      "id": 3864,
+      "symbol": "em",
+      "name": "Eminer",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/em"
+    },
+    {
+      "id": 240,
+      "symbol": "emc",
+      "name": "Emercoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/emc"
+    },
+    {
+      "id": 45,
+      "symbol": "emc2",
+      "name": "Einsteinium",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/emc2"
+    },
+    {
+      "id": 252,
+      "symbol": "eng",
+      "name": "Enigma",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/eng"
+    },
+    {
+      "id": 442,
+      "symbol": "enj",
+      "name": "Enjin Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/enj"
+    },
+    {
+      "id": 88,
+      "symbol": "eos",
+      "name": "EOS",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/eos"
+    },
+    {
+      "id": 1463,
+      "symbol": "eosdac",
+      "name": "eosDAC",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/eosdac"
+    },
+    {
+      "id": 3137,
+      "symbol": "erd",
+      "name": "Elrond",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/erd"
+    },
+    {
+      "id": 84,
+      "symbol": "etc",
+      "name": "Ethereum Classic",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/etc"
+    },
+    {
+      "id": 77,
+      "symbol": "eth",
+      "name": "Ethereum",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/eth"
+    },
+    {
+      "id": 4195,
+      "symbol": "ethbear",
+      "name": "3X Short Ethereum Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ethbear"
+    },
+    {
+      "id": 4194,
+      "symbol": "ethbull",
+      "name": "3X Long Ethereum Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ethbull"
+    },
+    {
+      "id": 931,
+      "symbol": "etn",
+      "name": "Electroneum",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/etn"
+    },
+    {
+      "id": 67,
+      "symbol": "etp",
+      "name": "Metaverse ETP",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/etp"
+    },
+    {
+      "id": 108,
+      "symbol": "eur",
+      "name": "euro",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/eur"
+    },
+    {
+      "id": 1102,
+      "symbol": "eurs",
+      "name": "STASIS EURS",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/eurs"
+    },
+    {
+      "id": 892,
+      "symbol": "eurt",
+      "name": "Tether Euro",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/eurt"
+    },
+    {
+      "id": 477,
+      "symbol": "evn",
+      "name": "Envion",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/evn"
+    },
+    {
+      "id": 420,
+      "symbol": "evx",
+      "name": "Everex",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/evx"
+    },
+    {
+      "id": 16,
+      "symbol": "exp",
+      "name": "Expanse",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/exp"
+    },
+    {
+      "id": 1116,
+      "symbol": "fair",
+      "name": "FairCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fair"
+    },
+    {
+      "id": 111,
+      "symbol": "fct",
+      "name": "Factom",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fct"
+    },
+    {
+      "id": 511,
+      "symbol": "fdz",
+      "name": "Friendz",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fdz"
+    },
+    {
+      "id": 1520,
+      "symbol": "fet",
+      "name": "Fetch",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fet"
+    },
+    {
+      "id": 56,
+      "symbol": "fldc",
+      "name": "FoldingCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fldc"
+    },
+    {
+      "id": 3895,
+      "symbol": "fleta",
+      "name": "FLETA",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fleta"
+    },
+    {
+      "id": 4126,
+      "symbol": "flixx",
+      "name": "Flixxo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/flixx"
+    },
+    {
+      "id": 74,
+      "symbol": "flo",
+      "name": "FlorinCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/flo"
+    },
+    {
+      "id": 1093,
+      "symbol": "fluz",
+      "name": "Fluz Fluz",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fluz"
+    },
+    {
+      "id": 3796,
+      "symbol": "fnb",
+      "name": "FNB Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fnb"
+    },
+    {
+      "id": 1012,
+      "symbol": "foam",
+      "name": "FOAM",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/foam"
+    },
+    {
+      "id": 3476,
+      "symbol": "for",
+      "name": "Force Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/for"
+    },
+    {
+      "id": 498,
+      "symbol": "fota",
+      "name": "Fortuna",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fota"
+    },
+    {
+      "id": 399,
+      "symbol": "fsn",
+      "name": "Fusion",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fsn"
+    },
+    {
+      "id": 277,
+      "symbol": "ftc",
+      "name": "Feathercoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ftc"
+    },
+    {
+      "id": 2344,
+      "symbol": "fti",
+      "name": "FansTime",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fti"
+    },
+    {
+      "id": 2575,
+      "symbol": "ftm",
+      "name": "Fantom",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ftm"
+    },
+    {
+      "id": 3472,
+      "symbol": "ftt",
+      "name": "FTX Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ftt"
+    },
+    {
+      "id": 1585,
+      "symbol": "ftx",
+      "name": "FintruX Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ftx"
+    },
+    {
+      "id": 432,
+      "symbol": "fuel",
+      "name": "Etherparty",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fuel"
+    },
+    {
+      "id": 167,
+      "symbol": "fun",
+      "name": "FunFair",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fun"
+    },
+    {
+      "id": 2444,
+      "symbol": "fx",
+      "name": "Function X",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fx"
+    },
+    {
+      "id": 3474,
+      "symbol": "fxc",
+      "name": "Flexacoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fxc"
+    },
+    {
+      "id": 509,
+      "symbol": "fxt",
+      "name": "FuzeX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/fxt"
+    },
+    {
+      "id": 20,
+      "symbol": "game",
+      "name": "GameCredits",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/game"
+    },
+    {
+      "id": 1621,
+      "symbol": "gard",
+      "name": "Hashgard",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gard"
+    },
+    {
+      "id": 71,
+      "symbol": "gas",
+      "name": "Gas",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gas"
+    },
+    {
+      "id": 1038,
+      "symbol": "gbc",
+      "name": "Gold Bits Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gbc"
+    },
+    {
+      "id": 59,
+      "symbol": "gbp",
+      "name": "British Pound",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/gbp"
+    },
+    {
+      "id": 671,
+      "symbol": "gbx",
+      "name": "GoByte",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gbx"
+    },
+    {
+      "id": 246,
+      "symbol": "gbyte",
+      "name": "Byteball Bytes",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gbyte"
+    },
+    {
+      "id": 2245,
+      "symbol": "gcc",
+      "name": "Global Cryptocurrency",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gcc"
+    },
+    {
+      "id": 1015,
+      "symbol": "gen",
+      "name": "DAOstack",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gen"
+    },
+    {
+      "id": 1042,
+      "symbol": "get",
+      "name": "GET Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/get"
+    },
+    {
+      "id": 2179,
+      "symbol": "glc",
+      "name": "GoldCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/glc"
+    },
+    {
+      "id": 999,
+      "symbol": "gld",
+      "name": "GoldCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gld"
+    },
+    {
+      "id": 3368,
+      "symbol": "gmat",
+      "name": "GoWithMi",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gmat"
+    },
+    {
+      "id": 40,
+      "symbol": "gno",
+      "name": "Gnosis",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gno"
+    },
+    {
+      "id": 33,
+      "symbol": "gnt",
+      "name": "Golem",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gnt"
+    },
+    {
+      "id": 472,
+      "symbol": "gnx",
+      "name": "Genaro Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gnx"
+    },
+    {
+      "id": 958,
+      "symbol": "go",
+      "name": "GoChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/go"
+    },
+    {
+      "id": 1092,
+      "symbol": "got",
+      "name": "ParkinGo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/got"
+    },
+    {
+      "id": 3,
+      "symbol": "grc",
+      "name": "GridCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/grc"
+    },
+    {
+      "id": 1163,
+      "symbol": "grin",
+      "name": "Grin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/grin"
+    },
+    {
+      "id": 278,
+      "symbol": "grs",
+      "name": "Groestlcoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/grs"
+    },
+    {
+      "id": 1717,
+      "symbol": "gsc",
+      "name": "Global Social Chain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gsc"
+    },
+    {
+      "id": 3601,
+      "symbol": "gt",
+      "name": "Gatechain Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gt"
+    },
+    {
+      "id": 1115,
+      "symbol": "gtc",
+      "name": "Game.com",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gtc"
+    },
+    {
+      "id": 344,
+      "symbol": "gto",
+      "name": "Gifto",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gto"
+    },
+    {
+      "id": 338,
+      "symbol": "gup",
+      "name": "Matchpool",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gup"
+    },
+    {
+      "id": 827,
+      "symbol": "gusd",
+      "name": "Gemini Dollar",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gusd"
+    },
+    {
+      "id": 453,
+      "symbol": "gvt",
+      "name": "Genesis Vision",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gvt"
+    },
+    {
+      "id": 1090,
+      "symbol": "gxc",
+      "name": "GXChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gxc"
+    },
+    {
+      "id": 527,
+      "symbol": "gxs",
+      "name": "GXChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/gxs"
+    },
+    {
+      "id": 3532,
+      "symbol": "hbar",
+      "name": "Hedera Hashgraph",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hbar"
+    },
+    {
+      "id": 3302,
+      "symbol": "hbt",
+      "name": "Hubii Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hbt"
+    },
+    {
+      "id": 760,
+      "symbol": "hc",
+      "name": "HyperCash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hc"
+    },
+    {
+      "id": 3433,
+      "symbol": "hedg",
+      "name": "HedgeTrade",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hedg"
+    },
+    {
+      "id": 15,
+      "symbol": "hkd",
+      "name": "Hong Kong Dollar",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/hkd"
+    },
+    {
+      "id": 313,
+      "symbol": "hmq",
+      "name": "Humaniq",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hmq"
+    },
+    {
+      "id": 691,
+      "symbol": "hot",
+      "name": "Holochain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hot"
+    },
+    {
+      "id": 1026,
+      "symbol": "hpb",
+      "name": "High Performance Blockchain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hpb"
+    },
+    {
+      "id": 1288,
+      "symbol": "hpc",
+      "name": "Happycoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hpc"
+    },
+    {
+      "id": 3732,
+      "symbol": "hpt",
+      "name": "Huobi Pool Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hpt"
+    },
+    {
+      "id": 1622,
+      "symbol": "hsc",
+      "name": "HashCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hsc"
+    },
+    {
+      "id": 457,
+      "symbol": "hsr",
+      "name": "Hshare",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hsr"
+    },
+    {
+      "id": 1816,
+      "symbol": "hst",
+      "name": "Decision Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hst"
+    },
+    {
+      "id": 682,
+      "symbol": "ht",
+      "name": "Huobi Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ht"
+    },
+    {
+      "id": 518,
+      "symbol": "html",
+      "name": "HTMLCOIN",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/html"
+    },
+    {
+      "id": 49,
+      "symbol": "huc",
+      "name": "HunterCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/huc"
+    },
+    {
+      "id": 431,
+      "symbol": "hvn",
+      "name": "Hive Project",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hvn"
+    },
+    {
+      "id": 2014,
+      "symbol": "hxro",
+      "name": "Hxro",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hxro"
+    },
+    {
+      "id": 1025,
+      "symbol": "hyc",
+      "name": "HYCON",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hyc"
+    },
+    {
+      "id": 3370,
+      "symbol": "hydra",
+      "name": "Hydro Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hydra"
+    },
+    {
+      "id": 1002,
+      "symbol": "hydro",
+      "name": "Hydro",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/hydro"
+    },
+    {
+      "id": 42,
+      "symbol": "icn",
+      "name": "Iconomi",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/icn"
+    },
+    {
+      "id": 663,
+      "symbol": "icos",
+      "name": "ICOS",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/icos"
+    },
+    {
+      "id": 202,
+      "symbol": "icx",
+      "name": "ICON",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/icx"
+    },
+    {
+      "id": 465,
+      "symbol": "idh",
+      "name": "indaHash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/idh"
+    },
+    {
+      "id": 27,
+      "symbol": "idr",
+      "name": "Indonesian Rupiah",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/idr"
+    },
+    {
+      "id": 424,
+      "symbol": "ift",
+      "name": "InvestFeed",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ift"
+    },
+    {
+      "id": 288,
+      "symbol": "ignis",
+      "name": "Ignis",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ignis"
+    },
+    {
+      "id": 2410,
+      "symbol": "ihf",
+      "name": "Invictus Hyperion Fund",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ihf"
+    },
+    {
+      "id": 493,
+      "symbol": "iht",
+      "name": "IHT Real Estate Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/iht"
+    },
+    {
+      "id": 1949,
+      "symbol": "ilc",
+      "name": "ILCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ilc"
+    },
+    {
+      "id": 336,
+      "symbol": "incnt",
+      "name": "Incent",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/incnt"
+    },
+    {
+      "id": 1257,
+      "symbol": "ind",
+      "name": "Indorse Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ind"
+    },
+    {
+      "id": 515,
+      "symbol": "ink",
+      "name": "Ink",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ink"
+    },
+    {
+      "id": 69,
+      "symbol": "inr",
+      "name": "Indian Rupee",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/inr"
+    },
+    {
+      "id": 528,
+      "symbol": "ins",
+      "name": "INS Ecosystem",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ins"
+    },
+    {
+      "id": 995,
+      "symbol": "int",
+      "name": "Internet Node Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/int"
+    },
+    {
+      "id": 326,
+      "symbol": "ioc",
+      "name": "I/O Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ioc"
+    },
+    {
+      "id": 283,
+      "symbol": "ion",
+      "name": "ION",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ion"
+    },
+    {
+      "id": 516,
+      "symbol": "iost",
+      "name": "IOST",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/iost"
+    },
+    {
+      "id": 31,
+      "symbol": "iota",
+      "name": "IOTA",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/iota"
+    },
+    {
+      "id": 529,
+      "symbol": "iotx",
+      "name": "IoTeX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/iotx"
+    },
+    {
+      "id": 2542,
+      "symbol": "iris",
+      "name": "IRISnet",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/iris"
+    },
+    {
+      "id": 1111,
+      "symbol": "itc",
+      "name": "IoT Chain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/itc"
+    },
+    {
+      "id": 670,
+      "symbol": "ivy",
+      "name": "Ivy",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ivy"
+    },
+    {
+      "id": 417,
+      "symbol": "ixt",
+      "name": "iXledger",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ixt"
+    },
+    {
+      "id": 471,
+      "symbol": "jnt",
+      "name": "Jibrel Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/jnt"
+    },
+    {
+      "id": 104,
+      "symbol": "jpy",
+      "name": "Japanese Yen",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/jpy"
+    },
+    {
+      "id": 1112,
+      "symbol": "kan",
+      "name": "BitKan",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/kan"
+    },
+    {
+      "id": 3765,
+      "symbol": "kava",
+      "name": "Kava",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/kava"
+    },
+    {
+      "id": 3468,
+      "symbol": "kbc",
+      "name": "Karatgold Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/kbc"
+    },
+    {
+      "id": 1552,
+      "symbol": "kcash",
+      "name": "Kcash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/kcash"
+    },
+    {
+      "id": 667,
+      "symbol": "key",
+      "name": "Selfkey",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/key"
+    },
+    {
+      "id": 438,
+      "symbol": "kick",
+      "name": "KickCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/kick"
+    },
+    {
+      "id": 497,
+      "symbol": "kin",
+      "name": "Kin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/kin"
+    },
+    {
+      "id": 244,
+      "symbol": "kmd",
+      "name": "Komodo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/kmd"
+    },
+    {
+      "id": 299,
+      "symbol": "knc",
+      "name": "Kyber Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/knc"
+    },
+    {
+      "id": 2047,
+      "symbol": "kore",
+      "name": "Kore",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/kore"
+    },
+    {
+      "id": 675,
+      "symbol": "krm",
+      "name": "Karma",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/krm"
+    },
+    {
+      "id": 106,
+      "symbol": "krw",
+      "name": "South Korean Won",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/krw"
+    },
+    {
+      "id": 450,
+      "symbol": "la",
+      "name": "LATOKEN",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/la"
+    },
+    {
+      "id": 1120,
+      "symbol": "lamb",
+      "name": "Lambda",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lamb"
+    },
+    {
+      "id": 546,
+      "symbol": "latx",
+      "name": "LatiumX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/latx"
+    },
+    {
+      "id": 1009,
+      "symbol": "lba",
+      "name": "Cred",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lba"
+    },
+    {
+      "id": 30,
+      "symbol": "lbc",
+      "name": "LBRY Credits",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lbc"
+    },
+    {
+      "id": 676,
+      "symbol": "lcc",
+      "name": "Litecoin Cash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lcc"
+    },
+    {
+      "id": 458,
+      "symbol": "lend",
+      "name": "ETHLend",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lend"
+    },
+    {
+      "id": 2411,
+      "symbol": "leo",
+      "name": "UNUS SED LEO",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/leo"
+    },
+    {
+      "id": 1033,
+      "symbol": "leoc",
+      "name": "LEOcoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/leoc"
+    },
+    {
+      "id": 1354,
+      "symbol": "let",
+      "name": "LinkEye",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/let"
+    },
+    {
+      "id": 448,
+      "symbol": "life",
+      "name": "LIFE",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/life"
+    },
+    {
+      "id": 4060,
+      "symbol": "like",
+      "name": "LikeCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/like"
+    },
+    {
+      "id": 267,
+      "symbol": "link",
+      "name": "ChainLink",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/link"
+    },
+    {
+      "id": 333,
+      "symbol": "lmc",
+      "name": "LoMoCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lmc"
+    },
+    {
+      "id": 1036,
+      "symbol": "lml",
+      "name": "Lisk Machine Learning",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lml"
+    },
+    {
+      "id": 664,
+      "symbol": "lnc",
+      "name": "Linker Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lnc"
+    },
+    {
+      "id": 1039,
+      "symbol": "lnd",
+      "name": "Lendingblock",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lnd"
+    },
+    {
+      "id": 459,
+      "symbol": "loc",
+      "name": "LockTrip",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/loc"
+    },
+    {
+      "id": 530,
+      "symbol": "loom",
+      "name": "Loom Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/loom"
+    },
+    {
+      "id": 1040,
+      "symbol": "lpt",
+      "name": "Livepeer",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lpt"
+    },
+    {
+      "id": 254,
+      "symbol": "lrc",
+      "name": "Loopring",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lrc"
+    },
+    {
+      "id": 1462,
+      "symbol": "lrn",
+      "name": "Loopring [NEO]",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lrn"
+    },
+    {
+      "id": 73,
+      "symbol": "lsk",
+      "name": "Lisk",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lsk"
+    },
+    {
+      "id": 28,
+      "symbol": "ltc",
+      "name": "Litecoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ltc"
+    },
+    {
+      "id": 302,
+      "symbol": "lun",
+      "name": "Lunyr",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lun"
+    },
+    {
+      "id": 3698,
+      "symbol": "luna",
+      "name": "LUNA",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/luna"
+    },
+    {
+      "id": 1752,
+      "symbol": "lxt",
+      "name": "Litex",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lxt"
+    },
+    {
+      "id": 365,
+      "symbol": "lym",
+      "name": "Lympo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/lym"
+    },
+    {
+      "id": 70,
+      "symbol": "maid",
+      "name": "MaidSafe",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/maid"
+    },
+    {
+      "id": 508,
+      "symbol": "man",
+      "name": "Matrix AI Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/man"
+    },
+    {
+      "id": 265,
+      "symbol": "mana",
+      "name": "Decentraland",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mana"
+    },
+    {
+      "id": 2147,
+      "symbol": "matic",
+      "name": "Matic Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/matic"
+    },
+    {
+      "id": 2806,
+      "symbol": "mbl",
+      "name": "MovieBloc",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mbl"
+    },
+    {
+      "id": 266,
+      "symbol": "mco",
+      "name": "Monaco",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mco"
+    },
+    {
+      "id": 531,
+      "symbol": "mda",
+      "name": "Moeda Loyalty Points",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mda"
+    },
+    {
+      "id": 1110,
+      "symbol": "mds",
+      "name": "MediShares",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mds"
+    },
+    {
+      "id": 1455,
+      "symbol": "mdt",
+      "name": "Measurable Data Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mdt"
+    },
+    {
+      "id": 1457,
+      "symbol": "med",
+      "name": "MediBloc [QRC20]",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/med"
+    },
+    {
+      "id": 1008,
+      "symbol": "medx",
+      "name": "MediBloc [ERC20]",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/medx"
+    },
+    {
+      "id": 341,
+      "symbol": "mer",
+      "name": "Mercury",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mer"
+    },
+    {
+      "id": 1004,
+      "symbol": "met",
+      "name": "Metronome",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/met"
+    },
+    {
+      "id": 1164,
+      "symbol": "meta",
+      "name": "Metadium",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/meta"
+    },
+    {
+      "id": 686,
+      "symbol": "mft",
+      "name": "Mainframe",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mft"
+    },
+    {
+      "id": 828,
+      "symbol": "mgo",
+      "name": "MobileGo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mgo"
+    },
+    {
+      "id": 1915,
+      "symbol": "mhc",
+      "name": "#MetaHash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mhc"
+    },
+    {
+      "id": 3862,
+      "symbol": "min",
+      "name": "MINDOL",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/min"
+    },
+    {
+      "id": 500,
+      "symbol": "mith",
+      "name": "Mithril",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mith"
+    },
+    {
+      "id": 1091,
+      "symbol": "mitx",
+      "name": "Morpheus Labs",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mitx"
+    },
+    {
+      "id": 295,
+      "symbol": "mkr",
+      "name": "Maker",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mkr"
+    },
+    {
+      "id": 48,
+      "symbol": "mln",
+      "name": "waterMelon",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mln"
+    },
+    {
+      "id": 1104,
+      "symbol": "mnx",
+      "name": "MinexCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mnx"
+    },
+    {
+      "id": 1035,
+      "symbol": "moac",
+      "name": "MOAC",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/moac"
+    },
+    {
+      "id": 1010,
+      "symbol": "mobi",
+      "name": "Mobius",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mobi"
+    },
+    {
+      "id": 1007,
+      "symbol": "moc",
+      "name": "Moss Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/moc"
+    },
+    {
+      "id": 532,
+      "symbol": "mod",
+      "name": "Modum",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mod"
+    },
+    {
+      "id": 237,
+      "symbol": "mona",
+      "name": "MonaCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mona"
+    },
+    {
+      "id": 513,
+      "symbol": "morph",
+      "name": "Morpheus Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/morph"
+    },
+    {
+      "id": 1016,
+      "symbol": "mrk",
+      "name": "MARK.SPACE",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mrk"
+    },
+    {
+      "id": 3480,
+      "symbol": "mrph",
+      "name": "Morpheus.Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mrph"
+    },
+    {
+      "id": 416,
+      "symbol": "msp",
+      "name": "Mothership",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/msp"
+    },
+    {
+      "id": 506,
+      "symbol": "mtc",
+      "name": "Docademic",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mtc"
+    },
+    {
+      "id": 436,
+      "symbol": "mth",
+      "name": "Monetha",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mth"
+    },
+    {
+      "id": 533,
+      "symbol": "mtl",
+      "name": "Metal",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mtl"
+    },
+    {
+      "id": 307,
+      "symbol": "mtn",
+      "name": "Medicalchain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mtn"
+    },
+    {
+      "id": 674,
+      "symbol": "mtx",
+      "name": "Matryx",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mtx"
+    },
+    {
+      "id": 328,
+      "symbol": "mue",
+      "name": "MonetaryUnit",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mue"
+    },
+    {
+      "id": 3763,
+      "symbol": "mx",
+      "name": "MX Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mx"
+    },
+    {
+      "id": 1119,
+      "symbol": "mxc",
+      "name": "Machine Xchange Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mxc"
+    },
+    {
+      "id": 1101,
+      "symbol": "mxm",
+      "name": "Maximine Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/mxm"
+    },
+    {
+      "id": 83,
+      "symbol": "mxn",
+      "name": "Mexican Peso",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/mxn"
+    },
+    {
+      "id": 268,
+      "symbol": "myr",
+      "name": "Malaysian Ringgit",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/myr"
+    },
+    {
+      "id": 505,
+      "symbol": "nanj",
+      "name": "NANJCOIN",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nanj"
+    },
+    {
+      "id": 276,
+      "symbol": "nano",
+      "name": "Nano",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nano"
+    },
+    {
+      "id": 669,
+      "symbol": "nas",
+      "name": "Nebulas",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nas"
+    },
+    {
+      "id": 95,
+      "symbol": "naut",
+      "name": "NautilusCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/naut"
+    },
+    {
+      "id": 85,
+      "symbol": "nav",
+      "name": "NAV Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nav"
+    },
+    {
+      "id": 534,
+      "symbol": "ncash",
+      "name": "Nucleus Vision",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ncash"
+    },
+    {
+      "id": 1097,
+      "symbol": "nct",
+      "name": "PolySwarm",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nct"
+    },
+    {
+      "id": 451,
+      "symbol": "nebl",
+      "name": "Neblio",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nebl"
+    },
+    {
+      "id": 2872,
+      "symbol": "nec",
+      "name": "Nectar",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nec"
+    },
+    {
+      "id": 66,
+      "symbol": "neo",
+      "name": "NEO",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/neo"
+    },
+    {
+      "id": 82,
+      "symbol": "neos",
+      "name": "NeosCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/neos"
+    },
+    {
+      "id": 474,
+      "symbol": "neu",
+      "name": "Neumark",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/neu"
+    },
+    {
+      "id": 2113,
+      "symbol": "new",
+      "name": "Newton",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/new"
+    },
+    {
+      "id": 510,
+      "symbol": "nexo",
+      "name": "Nexo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nexo"
+    },
+    {
+      "id": 322,
+      "symbol": "ngc",
+      "name": "NAGA",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ngc"
+    },
+    {
+      "id": 269,
+      "symbol": "ngn",
+      "name": "Nigerian Naira",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/ngn"
+    },
+    {
+      "id": 1165,
+      "symbol": "nim",
+      "name": "Nimiq",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nim"
+    },
+    {
+      "id": 1162,
+      "symbol": "nkn",
+      "name": "NKN",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nkn"
+    },
+    {
+      "id": 547,
+      "symbol": "nlc2",
+      "name": "NoLimitCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nlc2"
+    },
+    {
+      "id": 309,
+      "symbol": "nlg",
+      "name": "Gulden",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nlg"
+    },
+    {
+      "id": 89,
+      "symbol": "nmc",
+      "name": "Namecoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nmc"
+    },
+    {
+      "id": 339,
+      "symbol": "nmr",
+      "name": "Numeraire",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nmr"
+    },
+    {
+      "id": 689,
+      "symbol": "noah",
+      "name": "Noah Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/noah"
+    },
+    {
+      "id": 68,
+      "symbol": "note",
+      "name": "DNotes",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/note"
+    },
+    {
+      "id": 1255,
+      "symbol": "nplc",
+      "name": "Plus-Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nplc"
+    },
+    {
+      "id": 687,
+      "symbol": "npxs",
+      "name": "Pundi X",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/npxs"
+    },
+    {
+      "id": 507,
+      "symbol": "ntk",
+      "name": "Neurotoken",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ntk"
+    },
+    {
+      "id": 397,
+      "symbol": "nuls",
+      "name": "Nuls",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nuls"
+    },
+    {
+      "id": 693,
+      "symbol": "nvc",
+      "name": "Novacoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nvc"
+    },
+    {
+      "id": 6,
+      "symbol": "nxc",
+      "name": "Nexium",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nxc"
+    },
+    {
+      "id": 239,
+      "symbol": "nxs",
+      "name": "Nexus",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nxs"
+    },
+    {
+      "id": 53,
+      "symbol": "nxt",
+      "name": "NXT",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/nxt"
+    },
+    {
+      "id": 412,
+      "symbol": "oax",
+      "name": "OAX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/oax"
+    },
+    {
+      "id": 2377,
+      "symbol": "ocean",
+      "name": "Ocean Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ocean"
+    },
+    {
+      "id": 364,
+      "symbol": "ocn",
+      "name": "Odyssey",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ocn"
+    },
+    {
+      "id": 308,
+      "symbol": "ode",
+      "name": "ODEM",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ode"
+    },
+    {
+      "id": 2839,
+      "symbol": "ogo",
+      "name": "Origo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ogo"
+    },
+    {
+      "id": 2476,
+      "symbol": "ok",
+      "name": "OKCash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ok"
+    },
+    {
+      "id": 2906,
+      "symbol": "okb",
+      "name": "OKB",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/okb"
+    },
+    {
+      "id": 109,
+      "symbol": "omg",
+      "name": "OmiseGo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/omg"
+    },
+    {
+      "id": 18,
+      "symbol": "omni",
+      "name": "Omni",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/omni"
+    },
+    {
+      "id": 2740,
+      "symbol": "one",
+      "name": "Harmony",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/one"
+    },
+    {
+      "id": 1519,
+      "symbol": "onot",
+      "name": "ONOToken",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/onot"
+    },
+    {
+      "id": 503,
+      "symbol": "ont",
+      "name": "Ontology",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ont"
+    },
+    {
+      "id": 1982,
+      "symbol": "orbs",
+      "name": "Orbs",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/orbs"
+    },
+    {
+      "id": 437,
+      "symbol": "orme",
+      "name": "Ormeus Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/orme"
+    },
+    {
+      "id": 3334,
+      "symbol": "ors",
+      "name": "Origin Sport",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ors"
+    },
+    {
+      "id": 535,
+      "symbol": "ost",
+      "name": "OST",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ost"
+    },
+    {
+      "id": 672,
+      "symbol": "otn",
+      "name": "Open Trading Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/otn"
+    },
+    {
+      "id": 2971,
+      "symbol": "oxy",
+      "name": "Oxycoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/oxy"
+    },
+    {
+      "id": 684,
+      "symbol": "pai",
+      "name": "PCHAIN",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pai"
+    },
+    {
+      "id": 1387,
+      "symbol": "pal",
+      "name": "Pal Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pal"
+    },
+    {
+      "id": 249,
+      "symbol": "part",
+      "name": "Particl",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/part"
+    },
+    {
+      "id": 65,
+      "symbol": "pasc",
+      "name": "Pascal Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pasc"
+    },
+    {
+      "id": 548,
+      "symbol": "pat",
+      "name": "Patron",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pat"
+    },
+    {
+      "id": 826,
+      "symbol": "pax",
+      "name": "Paxos Standard",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pax"
+    },
+    {
+      "id": 3731,
+      "symbol": "paxg",
+      "name": "PAX Gold",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/paxg"
+    },
+    {
+      "id": 248,
+      "symbol": "pay",
+      "name": "TenX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pay"
+    },
+    {
+      "id": 2905,
+      "symbol": "pbt",
+      "name": "Primalbase Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pbt"
+    },
+    {
+      "id": 629,
+      "symbol": "pcl",
+      "name": "Peculium",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pcl"
+    },
+    {
+      "id": 3478,
+      "symbol": "perl",
+      "name": "Perlin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/perl"
+    },
+    {
+      "id": 17,
+      "symbol": "php",
+      "name": "Philippine Peso",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/php"
+    },
+    {
+      "id": 997,
+      "symbol": "phx",
+      "name": "Red Pulse Phoenix",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/phx"
+    },
+    {
+      "id": 1618,
+      "symbol": "pi",
+      "name": "PCHAIN",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pi"
+    },
+    {
+      "id": 97,
+      "symbol": "pink",
+      "name": "PinkCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pink"
+    },
+    {
+      "id": 241,
+      "symbol": "pivx",
+      "name": "PIVX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pivx"
+    },
+    {
+      "id": 662,
+      "symbol": "pkt",
+      "name": "Playkey",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pkt"
+    },
+    {
+      "id": 1157,
+      "symbol": "pla",
+      "name": "PlayChip",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pla"
+    },
+    {
+      "id": 410,
+      "symbol": "plbt",
+      "name": "Polybius",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/plbt"
+    },
+    {
+      "id": 234,
+      "symbol": "pln",
+      "name": "Polish Złoty",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/pln"
+    },
+    {
+      "id": 418,
+      "symbol": "plr",
+      "name": "Pillar",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/plr"
+    },
+    {
+      "id": 1029,
+      "symbol": "ply",
+      "name": "PlayCoin [ERC20]",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ply"
+    },
+    {
+      "id": 1006,
+      "symbol": "pma",
+      "name": "PumaPay",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pma"
+    },
+    {
+      "id": 1021,
+      "symbol": "pnt",
+      "name": "Penta",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pnt"
+    },
+    {
+      "id": 300,
+      "symbol": "poa",
+      "name": "POA Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/poa"
+    },
+    {
+      "id": 433,
+      "symbol": "poe",
+      "name": "Po.et",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/poe"
+    },
+    {
+      "id": 274,
+      "symbol": "poly",
+      "name": "Polymath",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/poly"
+    },
+    {
+      "id": 4,
+      "symbol": "pot",
+      "name": "PotCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pot"
+    },
+    {
+      "id": 251,
+      "symbol": "powr",
+      "name": "Power Ledger",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/powr"
+    },
+    {
+      "id": 11,
+      "symbol": "ppc",
+      "name": "Peercoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ppc"
+    },
+    {
+      "id": 435,
+      "symbol": "ppt",
+      "name": "Populous",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ppt"
+    },
+    {
+      "id": 3106,
+      "symbol": "pra",
+      "name": "ProChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pra"
+    },
+    {
+      "id": 456,
+      "symbol": "pre",
+      "name": "Presearch",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pre"
+    },
+    {
+      "id": 668,
+      "symbol": "prg",
+      "name": "Paragon",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/prg"
+    },
+    {
+      "id": 320,
+      "symbol": "pro",
+      "name": "Propy",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pro"
+    },
+    {
+      "id": 1453,
+      "symbol": "pst",
+      "name": "Primas",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pst"
+    },
+    {
+      "id": 1684,
+      "symbol": "pton",
+      "name": "PTON",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pton"
+    },
+    {
+      "id": 3303,
+      "symbol": "pvt",
+      "name": "Pivot Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pvt"
+    },
+    {
+      "id": 1108,
+      "symbol": "pxg",
+      "name": "PlayGame",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/pxg"
+    },
+    {
+      "id": 926,
+      "symbol": "qash",
+      "name": "QASH",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/qash"
+    },
+    {
+      "id": 422,
+      "symbol": "qau",
+      "name": "Quantum",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/qau"
+    },
+    {
+      "id": 536,
+      "symbol": "qkc",
+      "name": "QuarkChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/qkc"
+    },
+    {
+      "id": 537,
+      "symbol": "qlc",
+      "name": "QLINK",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/qlc"
+    },
+    {
+      "id": 1057,
+      "symbol": "qnt",
+      "name": "Quant",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/qnt"
+    },
+    {
+      "id": 1022,
+      "symbol": "qntu",
+      "name": "Quanta Utility Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/qntu"
+    },
+    {
+      "id": 285,
+      "symbol": "qrl",
+      "name": "Quantum Resistant Ledger",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/qrl"
+    },
+    {
+      "id": 538,
+      "symbol": "qsp",
+      "name": "Quantstamp",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/qsp"
+    },
+    {
+      "id": 5,
+      "symbol": "qtum",
+      "name": "Qtum",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/qtum"
+    },
+    {
+      "id": 1388,
+      "symbol": "qun",
+      "name": "QunQun",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/qun"
+    },
+    {
+      "id": 476,
+      "symbol": "r",
+      "name": "Revain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/r"
+    },
+    {
+      "id": 9,
+      "symbol": "rads",
+      "name": "Radium",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rads"
+    },
+    {
+      "id": 3301,
+      "symbol": "rating",
+      "name": "DPRating",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rating"
+    },
+    {
+      "id": 1037,
+      "symbol": "rblx",
+      "name": "Rublix",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rblx"
+    },
+    {
+      "id": 928,
+      "symbol": "rbtc",
+      "name": "Smart Bitcoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rbtc"
+    },
+    {
+      "id": 324,
+      "symbol": "rby",
+      "name": "Rubycoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rby"
+    },
+    {
+      "id": 133,
+      "symbol": "rcn",
+      "name": "Ripio Credit Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rcn"
+    },
+    {
+      "id": 236,
+      "symbol": "rdd",
+      "name": "ReddCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rdd"
+    },
+    {
+      "id": 290,
+      "symbol": "rdn",
+      "name": "Raiden Network Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rdn"
+    },
+    {
+      "id": 1460,
+      "symbol": "rem",
+      "name": "Remme",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rem"
+    },
+    {
+      "id": 998,
+      "symbol": "ren",
+      "name": "Republic Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ren"
+    },
+    {
+      "id": 21,
+      "symbol": "rep",
+      "name": "Augur",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rep"
+    },
+    {
+      "id": 273,
+      "symbol": "req",
+      "name": "Request Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/req"
+    },
+    {
+      "id": 3037,
+      "symbol": "rfox",
+      "name": "RedFOX Labs",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rfox"
+    },
+    {
+      "id": 1001,
+      "symbol": "rfr",
+      "name": "Refereum",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rfr"
+    },
+    {
+      "id": 102,
+      "symbol": "ric",
+      "name": "Riecoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ric"
+    },
+    {
+      "id": 1685,
+      "symbol": "rif",
+      "name": "RIF Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rif"
+    },
+    {
+      "id": 233,
+      "symbol": "rlc",
+      "name": "iExec RLC",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rlc"
+    },
+    {
+      "id": 480,
+      "symbol": "rntb",
+      "name": "BitRent",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rntb"
+    },
+    {
+      "id": 3994,
+      "symbol": "roobee",
+      "name": "ROOBEE",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/roobee"
+    },
+    {
+      "id": 1105,
+      "symbol": "rox",
+      "name": "Robotina",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rox"
+    },
+    {
+      "id": 496,
+      "symbol": "rpx",
+      "name": "Red Pulse",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rpx"
+    },
+    {
+      "id": 2674,
+      "symbol": "rsr",
+      "name": "Reserve Rights",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rsr"
+    },
+    {
+      "id": 87,
+      "symbol": "rub",
+      "name": "Russian Ruble",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/rub"
+    },
+    {
+      "id": 1109,
+      "symbol": "ruff",
+      "name": "Ruff",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ruff"
+    },
+    {
+      "id": 830,
+      "symbol": "rvn",
+      "name": "Ravencoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rvn"
+    },
+    {
+      "id": 330,
+      "symbol": "rvr",
+      "name": "RevolutionVR",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rvr"
+    },
+    {
+      "id": 426,
+      "symbol": "rvt",
+      "name": "Rivetz",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/rvt"
+    },
+    {
+      "id": 305,
+      "symbol": "sai",
+      "name": "Single Collateral DAI",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sai"
+    },
+    {
+      "id": 250,
+      "symbol": "salt",
+      "name": "SALT",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/salt"
+    },
+    {
+      "id": 91,
+      "symbol": "san",
+      "name": "Santinent Network Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/san"
+    },
+    {
+      "id": 13,
+      "symbol": "sbd",
+      "name": "Steem Dollars",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sbd"
+    },
+    {
+      "id": 1,
+      "symbol": "sc",
+      "name": "Siacoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sc"
+    },
+    {
+      "id": 1289,
+      "symbol": "scc",
+      "name": "StockChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/scc"
+    },
+    {
+      "id": 63,
+      "symbol": "sdc",
+      "name": "ShadowCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sdc"
+    },
+    {
+      "id": 1256,
+      "symbol": "seele",
+      "name": "Seele",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/seele"
+    },
+    {
+      "id": 991,
+      "symbol": "sen",
+      "name": "Consensus",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sen"
+    },
+    {
+      "id": 467,
+      "symbol": "sent",
+      "name": "Sentinel",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sent"
+    },
+    {
+      "id": 2413,
+      "symbol": "sexc",
+      "name": "ShareX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sexc"
+    },
+    {
+      "id": 78,
+      "symbol": "sgd",
+      "name": "Singapore Dollar",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/sgd"
+    },
+    {
+      "id": 1094,
+      "symbol": "sgn",
+      "name": "Signals Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sgn"
+    },
+    {
+      "id": 312,
+      "symbol": "shift",
+      "name": "Shift",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/shift"
+    },
+    {
+      "id": 495,
+      "symbol": "ship",
+      "name": "ShipChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ship"
+    },
+    {
+      "id": 332,
+      "symbol": "sib",
+      "name": "SIBCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sib"
+    },
+    {
+      "id": 1422,
+      "symbol": "six",
+      "name": "SIX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/six"
+    },
+    {
+      "id": 64,
+      "symbol": "sjcx",
+      "name": "Storjcoin X",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sjcx"
+    },
+    {
+      "id": 1486,
+      "symbol": "skm",
+      "name": "Skrumble Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/skm"
+    },
+    {
+      "id": 539,
+      "symbol": "sky",
+      "name": "Skycoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sky"
+    },
+    {
+      "id": 323,
+      "symbol": "slr",
+      "name": "SolarCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/slr"
+    },
+    {
+      "id": 281,
+      "symbol": "sls",
+      "name": "SaluS",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sls"
+    },
+    {
+      "id": 1467,
+      "symbol": "slt",
+      "name": "Smartlands",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/slt"
+    },
+    {
+      "id": 3764,
+      "symbol": "slv",
+      "name": "Silverway",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/slv"
+    },
+    {
+      "id": 449,
+      "symbol": "smart",
+      "name": "SmartCash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/smart"
+    },
+    {
+      "id": 468,
+      "symbol": "smt",
+      "name": "SmartMesh",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/smt"
+    },
+    {
+      "id": 414,
+      "symbol": "snc",
+      "name": "SunContract",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/snc"
+    },
+    {
+      "id": 3602,
+      "symbol": "snet",
+      "name": "Snetwork",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/snet"
+    },
+    {
+      "id": 403,
+      "symbol": "sngls",
+      "name": "SingularDTV",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sngls"
+    },
+    {
+      "id": 411,
+      "symbol": "snm",
+      "name": "SONM",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/snm"
+    },
+    {
+      "id": 134,
+      "symbol": "snt",
+      "name": "Status",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/snt"
+    },
+    {
+      "id": 2278,
+      "symbol": "snx",
+      "name": "Synthetix Network Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/snx"
+    },
+    {
+      "id": 490,
+      "symbol": "soc",
+      "name": "All Sports",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/soc"
+    },
+    {
+      "id": 1159,
+      "symbol": "solve",
+      "name": "SOLVE",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/solve"
+    },
+    {
+      "id": 1849,
+      "symbol": "soul",
+      "name": "Phantasma",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/soul"
+    },
+    {
+      "id": 690,
+      "symbol": "spc",
+      "name": "SpaceChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/spc"
+    },
+    {
+      "id": 2311,
+      "symbol": "spd",
+      "name": "SPINDLE",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/spd"
+    },
+    {
+      "id": 1259,
+      "symbol": "sphr",
+      "name": "Sphere",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sphr"
+    },
+    {
+      "id": 1017,
+      "symbol": "sphtx",
+      "name": "SophiaTX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sphtx"
+    },
+    {
+      "id": 1161,
+      "symbol": "spnd",
+      "name": "Spendcoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/spnd"
+    },
+    {
+      "id": 927,
+      "symbol": "spnk",
+      "name": "SpankChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/spnk"
+    },
+    {
+      "id": 253,
+      "symbol": "srn",
+      "name": "SIRIN LABS Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/srn"
+    },
+    {
+      "id": 1117,
+      "symbol": "ssp",
+      "name": "Smartshare",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ssp"
+    },
+    {
+      "id": 1223,
+      "symbol": "stacs",
+      "name": "STACS",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/stacs"
+    },
+    {
+      "id": 50,
+      "symbol": "steem",
+      "name": "Steem",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/steem"
+    },
+    {
+      "id": 86,
+      "symbol": "storj",
+      "name": "Storj",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/storj"
+    },
+    {
+      "id": 303,
+      "symbol": "storm",
+      "name": "Storm",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/storm"
+    },
+    {
+      "id": 2707,
+      "symbol": "stpt",
+      "name": "STPT",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/stpt"
+    },
+    {
+      "id": 491,
+      "symbol": "stq",
+      "name": "Storiqa",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/stq"
+    },
+    {
+      "id": 81,
+      "symbol": "str",
+      "name": "Stellar",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/str"
+    },
+    {
+      "id": 94,
+      "symbol": "strat",
+      "name": "Stratis",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/strat"
+    },
+    {
+      "id": 425,
+      "symbol": "stx",
+      "name": "Stox",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/stx"
+    },
+    {
+      "id": 304,
+      "symbol": "sub",
+      "name": "substratum",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sub"
+    },
+    {
+      "id": 3434,
+      "symbol": "susd",
+      "name": "sUSD",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/susd"
+    },
+    {
+      "id": 460,
+      "symbol": "swftc",
+      "name": "SwftCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/swftc"
+    },
+    {
+      "id": 666,
+      "symbol": "swm",
+      "name": "Swarm",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/swm"
+    },
+    {
+      "id": 343,
+      "symbol": "swt",
+      "name": "Swarm City",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/swt"
+    },
+    {
+      "id": 3070,
+      "symbol": "swth",
+      "name": "Switcheo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/swth"
+    },
+    {
+      "id": 75,
+      "symbol": "sys",
+      "name": "Syscoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/sys"
+    },
+    {
+      "id": 407,
+      "symbol": "taas",
+      "name": "TaaS",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/taas"
+    },
+    {
+      "id": 475,
+      "symbol": "tau",
+      "name": "Lamden",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tau"
+    },
+    {
+      "id": 1465,
+      "symbol": "tct",
+      "name": "TokenClub",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tct"
+    },
+    {
+      "id": 494,
+      "symbol": "tel",
+      "name": "Telcoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tel"
+    },
+    {
+      "id": 3105,
+      "symbol": "temco",
+      "name": "TEMCO",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/temco"
+    },
+    {
+      "id": 1948,
+      "symbol": "tfuel",
+      "name": "Theta Fuel",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tfuel"
+    },
+    {
+      "id": 325,
+      "symbol": "thc",
+      "name": "HempCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/thc"
+    },
+    {
+      "id": 540,
+      "symbol": "theta",
+      "name": "Theta Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/theta"
+    },
+    {
+      "id": 3475,
+      "symbol": "thx",
+      "name": "ThoreNext",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/thx"
+    },
+    {
+      "id": 405,
+      "symbol": "time",
+      "name": "Chronobank",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/time"
+    },
+    {
+      "id": 463,
+      "symbol": "tio",
+      "name": "Trade Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tio"
+    },
+    {
+      "id": 340,
+      "symbol": "tix",
+      "name": "Blocktix",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tix"
+    },
+    {
+      "id": 408,
+      "symbol": "tkn",
+      "name": "TokenCard",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tkn"
+    },
+    {
+      "id": 501,
+      "symbol": "tky",
+      "name": "THEKEY",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tky"
+    },
+    {
+      "id": 168,
+      "symbol": "tnb",
+      "name": "Time New Bank",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tnb"
+    },
+    {
+      "id": 1623,
+      "symbol": "tnc",
+      "name": "Trinity Network Credit",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tnc"
+    },
+    {
+      "id": 423,
+      "symbol": "tnt",
+      "name": "Tierion",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tnt"
+    },
+    {
+      "id": 1461,
+      "symbol": "tomo",
+      "name": "TomoChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tomo"
+    },
+    {
+      "id": 1882,
+      "symbol": "top",
+      "name": "TOP",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/top"
+    },
+    {
+      "id": 1014,
+      "symbol": "tpay",
+      "name": "TokenPay",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tpay"
+    },
+    {
+      "id": 470,
+      "symbol": "trac",
+      "name": "OriginTrail",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/trac"
+    },
+    {
+      "id": 541,
+      "symbol": "trig",
+      "name": "Triggers",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/trig"
+    },
+    {
+      "id": 1118,
+      "symbol": "trio",
+      "name": "Tripio",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/trio"
+    },
+    {
+      "id": 4027,
+      "symbol": "troy",
+      "name": "TROY",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/troy"
+    },
+    {
+      "id": 337,
+      "symbol": "trst",
+      "name": "WeTrust",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/trst"
+    },
+    {
+      "id": 487,
+      "symbol": "true",
+      "name": "True Chain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/true"
+    },
+    {
+      "id": 199,
+      "symbol": "trx",
+      "name": "TRON",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/trx"
+    },
+    {
+      "id": 2608,
+      "symbol": "tt",
+      "name": "Thunder Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tt"
+    },
+    {
+      "id": 1421,
+      "symbol": "ttc",
+      "name": "TTC Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ttc"
+    },
+    {
+      "id": 683,
+      "symbol": "ttu",
+      "name": "TaTaTu",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ttu"
+    },
+    {
+      "id": 367,
+      "symbol": "tube",
+      "name": "BitTube",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tube"
+    },
+    {
+      "id": 271,
+      "symbol": "tusd",
+      "name": "True USD",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/tusd"
+    },
+    {
+      "id": 3766,
+      "symbol": "uah",
+      "name": "Ukrainian hryvnia",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/uah"
+    },
+    {
+      "id": 282,
+      "symbol": "ubq",
+      "name": "Ubiq",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ubq"
+    },
+    {
+      "id": 1158,
+      "symbol": "ubt",
+      "name": "Unibright",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ubt"
+    },
+    {
+      "id": 1983,
+      "symbol": "ugas",
+      "name": "UGAS",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ugas"
+    },
+    {
+      "id": 3103,
+      "symbol": "uip",
+      "name": "UnlimitedIP",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/uip"
+    },
+    {
+      "id": 318,
+      "symbol": "ukg",
+      "name": "Unikoin Gold",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ukg"
+    },
+    {
+      "id": 3928,
+      "symbol": "uos",
+      "name": "Ultra",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/uos"
+    },
+    {
+      "id": 293,
+      "symbol": "up",
+      "name": "UpToken",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/up"
+    },
+    {
+      "id": 1003,
+      "symbol": "upp",
+      "name": "Sentinel Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/upp"
+    },
+    {
+      "id": 98,
+      "symbol": "usd",
+      "name": "United States dollar",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/usd"
+    },
+    {
+      "id": 793,
+      "symbol": "usdc",
+      "name": "USD//Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/usdc"
+    },
+    {
+      "id": 1160,
+      "symbol": "usds",
+      "name": "StableUSD",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/usds"
+    },
+    {
+      "id": 2,
+      "symbol": "usdt",
+      "name": "Tether",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/usdt"
+    },
+    {
+      "id": 2938,
+      "symbol": "usk",
+      "name": "UpSkills",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/usk"
+    },
+    {
+      "id": 366,
+      "symbol": "utk",
+      "name": "UTRUST",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/utk"
+    },
+    {
+      "id": 482,
+      "symbol": "utnp",
+      "name": "Universa",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/utnp"
+    },
+    {
+      "id": 685,
+      "symbol": "utt",
+      "name": "United Traders Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/utt"
+    },
+    {
+      "id": 519,
+      "symbol": "uuu",
+      "name": "U Network",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/uuu"
+    },
+    {
+      "id": 2509,
+      "symbol": "vbk",
+      "name": "VeriBlock",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vbk"
+    },
+    {
+      "id": 3466,
+      "symbol": "vdx",
+      "name": "Vodi X",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vdx"
+    },
+    {
+      "id": 289,
+      "symbol": "vee",
+      "name": "BLOCKv",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vee"
+    },
+    {
+      "id": 298,
+      "symbol": "ven",
+      "name": "VeChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/ven"
+    },
+    {
+      "id": 1156,
+      "symbol": "veo",
+      "name": "Amoveo",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/veo"
+    },
+    {
+      "id": 427,
+      "symbol": "veri",
+      "name": "Veritaseum",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/veri"
+    },
+    {
+      "id": 727,
+      "symbol": "vet",
+      "name": "VeChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vet"
+    },
+    {
+      "id": 3499,
+      "symbol": "vex",
+      "name": "Vexanium",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vex"
+    },
+    {
+      "id": 38,
+      "symbol": "via",
+      "name": "Viacoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/via"
+    },
+    {
+      "id": 317,
+      "symbol": "vib",
+      "name": "Viberate",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vib"
+    },
+    {
+      "id": 441,
+      "symbol": "vibe",
+      "name": "VIBE",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vibe"
+    },
+    {
+      "id": 3829,
+      "symbol": "vidy",
+      "name": "VIDY",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vidy"
+    },
+    {
+      "id": 1011,
+      "symbol": "vite",
+      "name": "VITE",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vite"
+    },
+    {
+      "id": 169,
+      "symbol": "vox",
+      "name": "Voxels",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vox"
+    },
+    {
+      "id": 2609,
+      "symbol": "vra",
+      "name": "Verasity",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vra"
+    },
+    {
+      "id": 8,
+      "symbol": "vrc",
+      "name": "VeriCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vrc"
+    },
+    {
+      "id": 103,
+      "symbol": "vrm",
+      "name": "Verium",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vrm"
+    },
+    {
+      "id": 3136,
+      "symbol": "vsys",
+      "name": "V Systems",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vsys"
+    },
+    {
+      "id": 100,
+      "symbol": "vtc",
+      "name": "Vertcoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/vtc"
+    },
+    {
+      "id": 542,
+      "symbol": "wabi",
+      "name": "WaBi",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/wabi"
+    },
+    {
+      "id": 543,
+      "symbol": "wan",
+      "name": "Wanchain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/wan"
+    },
+    {
+      "id": 242,
+      "symbol": "waves",
+      "name": "Waves",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/waves"
+    },
+    {
+      "id": 272,
+      "symbol": "wax",
+      "name": "WAX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/wax"
+    },
+    {
+      "id": 3565,
+      "symbol": "waxp",
+      "name": "WAX",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/waxp"
+    },
+    {
+      "id": 2907,
+      "symbol": "wbtc",
+      "name": "Wrapped Bitcoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/wbtc"
+    },
+    {
+      "id": 1487,
+      "symbol": "wet",
+      "name": "WeShow Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/wet"
+    },
+    {
+      "id": 2148,
+      "symbol": "wib",
+      "name": "Wibson",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/wib"
+    },
+    {
+      "id": 1041,
+      "symbol": "wicc",
+      "name": "WaykiChain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/wicc"
+    },
+    {
+      "id": 3435,
+      "symbol": "win",
+      "name": "WINk",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/win"
+    },
+    {
+      "id": 284,
+      "symbol": "wings",
+      "name": "Wings",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/wings"
+    },
+    {
+      "id": 544,
+      "symbol": "wpr",
+      "name": "WePower",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/wpr"
+    },
+    {
+      "id": 445,
+      "symbol": "wtc",
+      "name": "Waltonchain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/wtc"
+    },
+    {
+      "id": 1032,
+      "symbol": "wwb",
+      "name": "Wowbit",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/wwb"
+    },
+    {
+      "id": 3665,
+      "symbol": "wxt",
+      "name": "Wirex Token",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/wxt"
+    },
+    {
+      "id": 1034,
+      "symbol": "xas",
+      "name": "Asch",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xas"
+    },
+    {
+      "id": 1096,
+      "symbol": "xaur",
+      "name": "Xaurum",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xaur"
+    },
+    {
+      "id": 101,
+      "symbol": "xbc",
+      "name": "Bitcoin Plus",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xbc"
+    },
+    {
+      "id": 2412,
+      "symbol": "xcon",
+      "name": "Connect Coin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xcon"
+    },
+    {
+      "id": 47,
+      "symbol": "xcp",
+      "name": "Counterparty",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xcp"
+    },
+    {
+      "id": 279,
+      "symbol": "xdn",
+      "name": "DigitalNote",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xdn"
+    },
+    {
+      "id": 315,
+      "symbol": "xel",
+      "name": "Elastic",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xel"
+    },
+    {
+      "id": 24,
+      "symbol": "xem",
+      "name": "NEM",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xem"
+    },
+    {
+      "id": 1005,
+      "symbol": "xhv",
+      "name": "Haven Protocol",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xhv"
+    },
+    {
+      "id": 275,
+      "symbol": "xin",
+      "name": "Mixin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xin"
+    },
+    {
+      "id": 171,
+      "symbol": "xlm",
+      "name": "Stellar",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xlm"
+    },
+    {
+      "id": 3598,
+      "symbol": "xmc",
+      "name": "Monero Classic",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xmc"
+    },
+    {
+      "id": 76,
+      "symbol": "xmr",
+      "name": "Monero",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xmr"
+    },
+    {
+      "id": 1751,
+      "symbol": "xmx",
+      "name": "XMax",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xmx"
+    },
+    {
+      "id": 345,
+      "symbol": "xmy",
+      "name": "Myriad",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xmy"
+    },
+    {
+      "id": 46,
+      "symbol": "xpm",
+      "name": "Primecoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xpm"
+    },
+    {
+      "id": 3469,
+      "symbol": "xrc",
+      "name": "Bitcoin Rhodium",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xrc"
+    },
+    {
+      "id": 110,
+      "symbol": "xrp",
+      "name": "Ripple",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xrp"
+    },
+    {
+      "id": 4093,
+      "symbol": "xsr",
+      "name": "Xensor",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xsr"
+    },
+    {
+      "id": 1000,
+      "symbol": "xst",
+      "name": "Stealth",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xst"
+    },
+    {
+      "id": 4225,
+      "symbol": "xtp",
+      "name": "Tap",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xtp"
+    },
+    {
+      "id": 29,
+      "symbol": "xtz",
+      "name": "Tezos",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xtz"
+    },
+    {
+      "id": 26,
+      "symbol": "xvc",
+      "name": "Vcash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xvc"
+    },
+    {
+      "id": 170,
+      "symbol": "xvg",
+      "name": "Verge",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xvg"
+    },
+    {
+      "id": 310,
+      "symbol": "xwc",
+      "name": "WhiteCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xwc"
+    },
+    {
+      "id": 2080,
+      "symbol": "xyo",
+      "name": "XYO",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xyo"
+    },
+    {
+      "id": 243,
+      "symbol": "xzc",
+      "name": "ZCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/xzc"
+    },
+    {
+      "id": 1750,
+      "symbol": "yee",
+      "name": "YEE",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/yee"
+    },
+    {
+      "id": 925,
+      "symbol": "yeed",
+      "name": "YGGDRASH",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/yeed"
+    },
+    {
+      "id": 439,
+      "symbol": "yoyow",
+      "name": "YOYOW",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/yoyow"
+    },
+    {
+      "id": 57,
+      "symbol": "zar",
+      "name": "South African rand",
+      "fiat": true,
+      "route": "https://api.cryptowat.ch/assets/zar"
+    },
+    {
+      "id": 294,
+      "symbol": "zcl",
+      "name": "ZClassic",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/zcl"
+    },
+    {
+      "id": 681,
+      "symbol": "zcn",
+      "name": "0chain",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/zcn"
+    },
+    {
+      "id": 1043,
+      "symbol": "zco",
+      "name": "Zebi",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/zco"
+    },
+    {
+      "id": 23,
+      "symbol": "zec",
+      "name": "Zcash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/zec"
+    },
+    {
+      "id": 36,
+      "symbol": "zen",
+      "name": "ZenCash",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/zen"
+    },
+    {
+      "id": 301,
+      "symbol": "zil",
+      "name": "Zilliqa",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/zil"
+    },
+    {
+      "id": 3371,
+      "symbol": "zla",
+      "name": "Zilla",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/zla"
+    },
+    {
+      "id": 1620,
+      "symbol": "zpr",
+      "name": "ZPER",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/zpr"
+    },
+    {
+      "id": 512,
+      "symbol": "zpt",
+      "name": "Zeepin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/zpt"
+    },
+    {
+      "id": 545,
+      "symbol": "zrc",
+      "name": "ZrCoin",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/zrc"
+    },
+    {
+      "id": 54,
+      "symbol": "zrx",
+      "name": "0x",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/zrx"
+    },
+    {
+      "id": 443,
+      "symbol": "zsc",
+      "name": "Zeusshield",
+      "fiat": false,
+      "route": "https://api.cryptowat.ch/assets/zsc"
+    }
+  ],
+  "allowance": {
+    "cost": 665748,
+    "remaining": 3999334252,
+    "remainingPaid": 0,
+    "upgrade": "Upgrade for a higher allowance, starting at $15/month for 16 seconds/hour. https://cryptowat.ch/pricing"
+  }
+}

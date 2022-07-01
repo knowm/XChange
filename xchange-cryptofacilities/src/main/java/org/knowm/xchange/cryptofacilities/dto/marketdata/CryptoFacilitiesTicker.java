@@ -3,15 +3,12 @@ package org.knowm.xchange.cryptofacilities.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.knowm.xchange.cryptofacilities.Util;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
 /** @author Jean-Christophe Laruelle */
 public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
-
-  private static final SimpleDateFormat DATE_FORMAT =
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
   private final BigDecimal bid;
   private final BigDecimal ask;
@@ -27,6 +24,10 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
   private final BigDecimal markPrice;
   private final BigDecimal lastSize;
   private final BigDecimal vol24H;
+  private final String tag;
+  private final String pair;
+  private final BigDecimal fundingRate;
+  private final BigDecimal fundingRatePrediction;
 
   public CryptoFacilitiesTicker(
       @JsonProperty("result") String result,
@@ -44,7 +45,11 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
       @JsonProperty("high24h") BigDecimal high24H,
       @JsonProperty("markPrice") BigDecimal markPrice,
       @JsonProperty("lastSize") BigDecimal lastSize,
-      @JsonProperty("vol24h") BigDecimal vol24H)
+      @JsonProperty("vol24h") BigDecimal vol24H,
+      @JsonProperty("tag") String tag,
+      @JsonProperty("pair") String pair,
+      @JsonProperty("fundingRate") BigDecimal fundingRate,
+      @JsonProperty("fundingRatePrediction") BigDecimal fundingRatePrediction)
       throws ParseException {
 
     super(result, error);
@@ -54,7 +59,7 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
     this.last = last;
     this.askSize = askSize;
     this.symbol = symbol;
-    this.lastTime = strLastTime == null ? null : DATE_FORMAT.parse(strLastTime);
+    this.lastTime = Util.parseDate(strLastTime);
     this.low24H = low24H;
     this.bidSize = bidSize;
     this.suspended = suspended;
@@ -63,6 +68,10 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
     this.markPrice = markPrice;
     this.lastSize = lastSize;
     this.vol24H = vol24H;
+    this.tag = tag;
+    this.pair = pair;
+    this.fundingRate = fundingRate;
+    this.fundingRatePrediction = fundingRatePrediction;
   }
 
   public BigDecimal getBid() {
@@ -121,6 +130,22 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
     return vol24H;
   }
 
+  public String getTag() {
+    return tag;
+  }
+
+  public String getPair() {
+    return pair;
+  }
+
+  public BigDecimal getFundingRate() {
+    return fundingRate;
+  }
+
+  public BigDecimal getFundingRatePrediction() {
+    return fundingRatePrediction;
+  }
+
   @Override
   public String toString() {
 
@@ -140,7 +165,7 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
         + ", lastSize="
         + lastSize
         + ", lastTime="
-        + (lastTime == null ? "null" : DATE_FORMAT.format(lastTime))
+        + lastTime
         + ", open24H="
         + open24H
         + ", low24H="
@@ -153,6 +178,14 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
         + markPrice
         + ", suspended="
         + suspended
+        + ", tag="
+        + tag
+        + ", pair="
+        + pair
+        + ", fundingRate="
+        + fundingRate
+        + ", fundingRatePrediction="
+        + fundingRatePrediction
         + "]";
   }
 }

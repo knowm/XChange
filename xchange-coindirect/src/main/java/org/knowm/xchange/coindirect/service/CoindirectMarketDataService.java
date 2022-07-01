@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindirect.CoindirectAdapters;
-import org.knowm.xchange.coindirect.dto.marketdata.*;
+import org.knowm.xchange.coindirect.dto.marketdata.CoindirectMarket;
+import org.knowm.xchange.coindirect.dto.marketdata.CoindirectOrderbook;
+import org.knowm.xchange.coindirect.dto.marketdata.CoindirectTicker;
+import org.knowm.xchange.coindirect.dto.marketdata.CoindirectTickerData;
+import org.knowm.xchange.coindirect.dto.marketdata.CoindirectTrades;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -51,18 +55,17 @@ public class CoindirectMarketDataService extends CoindirectMarketDataServiceRaw
       trades = new ArrayList<>();
     } else {
       trades =
-          coindirectTrades
-              .data
-              .stream()
+          coindirectTrades.data.stream()
               .map(
                   at ->
-                      new Trade(
-                          Order.OrderType.BID,
-                          at.volume,
-                          pair,
-                          at.price,
-                          new Date(at.time),
-                          Long.toString(at.time)))
+                      new Trade.Builder()
+                          .type(Order.OrderType.BID)
+                          .originalAmount(at.volume)
+                          .currencyPair(pair)
+                          .price(at.price)
+                          .timestamp(new Date(at.time))
+                          .id(Long.toString(at.time))
+                          .build())
               .collect(Collectors.toList());
     }
 

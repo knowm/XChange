@@ -1,11 +1,11 @@
 package org.knowm.xchange.yobit.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.yobit.YoBit;
 import org.knowm.xchange.yobit.YoBitDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class YoBitBaseService<T extends YoBit> extends BaseExchangeService implements BaseService {
   protected final T service;
@@ -19,7 +19,6 @@ public class YoBitBaseService<T extends YoBit> extends BaseExchangeService imple
             exchange.getExchangeSpecification().getSecretKey(),
             exchange.getExchangeSpecification().getApiKey());
     this.service =
-        RestProxyFactory.createProxy(
-            type, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(type, exchange.getExchangeSpecification()).build();
   }
 }

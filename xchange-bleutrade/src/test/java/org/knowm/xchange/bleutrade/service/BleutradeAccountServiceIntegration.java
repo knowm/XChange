@@ -151,7 +151,7 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
     // then
     assertThat(accountInfo.getWallets()).hasSize(1);
 
-    Map<Currency, Balance> balances = accountInfo.getWallet(null).getBalances();
+    Map<Currency, Balance> balances = accountInfo.getWallet().getBalances();
     assertThat(balances).hasSize(3);
 
     BleutradeAssert.assertEquals(balances.get(Currency.AUD), expectedAccountBalances[0]);

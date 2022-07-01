@@ -1,5 +1,6 @@
 package org.knowm.xchange.coinbasepro;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -16,6 +17,15 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class CoinbaseProExchangeIntegration {
+
+  @Test
+  public void testCreateExchangeShouldApplyDefaultSpecification() {
+    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
+
+    assertThat(exchange.getExchangeSpecification().getSslUri())
+        .isEqualTo("https://api.pro.coinbase.com");
+    assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("api.pro.coinbase.com");
+  }
 
   @Test
   public void coinbaseShouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {
@@ -44,7 +54,7 @@ public class CoinbaseProExchangeIntegration {
     final CurrencyPair currencyPair = new CurrencyPair("BTC", "EUR");
     final Exchange exchange;
 
-    exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
     marketDataService = exchange.getMarketDataService();
     marketDataServiceRaw = (CoinbaseProMarketDataServiceRaw) exchange.getMarketDataService();
 
@@ -52,7 +62,7 @@ public class CoinbaseProExchangeIntegration {
     CoinbaseProTrades trades1 =
         marketDataServiceRaw.getCoinbaseProTradesExtended(
             currencyPair, new Long(Integer.MAX_VALUE), null);
-    assertEquals("Unexpected trades list length (100)", 100, trades1.size());
+    assertEquals("Unexpected trades list length (1000)", 1000, trades1.size());
 
     // get latest 10 trades
     CoinbaseProTrades trades2 =
@@ -67,7 +77,7 @@ public class CoinbaseProExchangeIntegration {
   @Test
   public void testExchangeMetaData() {
     final Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
+        ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
 
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
 

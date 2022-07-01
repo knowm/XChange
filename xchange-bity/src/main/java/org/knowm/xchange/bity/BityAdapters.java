@@ -2,7 +2,11 @@ package org.knowm.xchange.bity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.bity.dto.account.BityInputTransaction;
 import org.knowm.xchange.bity.dto.account.BityOrder;
 import org.knowm.xchange.bity.dto.account.BityOutputTransaction;
@@ -51,8 +55,17 @@ public final class BityAdapters {
     Date date = order.getTimestampCreated();
     String orderId = order.getResourceUri();
 
-    return new UserTrade(
-        orderType, amount, currencyPair, price, date, orderId, orderId, fee, currencyPair.counter);
+    return new UserTrade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(orderId)
+        .orderId(orderId)
+        .feeAmount(fee)
+        .feeCurrency(currencyPair.counter)
+        .build();
   }
 
   public static ExchangeMetaData adaptMetaData(

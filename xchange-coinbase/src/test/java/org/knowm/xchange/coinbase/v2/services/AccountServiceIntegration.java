@@ -24,7 +24,7 @@ public class AccountServiceIntegration {
 
   @BeforeClass
   public static void beforeClass() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class);
     AuthUtils.setApiAndSecretKey(exchange.getExchangeSpecification());
     accountService = exchange.getAccountService();
   }
@@ -39,8 +39,7 @@ public class AccountServiceIntegration {
     Assert.assertTrue(accounts.size() > 0);
 
     CoinbaseAccount btcAccount =
-        accounts
-            .stream()
+        accounts.stream()
             .filter(t -> t.getName().equals("BTC Wallet"))
             .collect(Collectors.toList())
             .get(0);

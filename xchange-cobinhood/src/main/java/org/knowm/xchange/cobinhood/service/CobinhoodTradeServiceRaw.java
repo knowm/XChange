@@ -3,7 +3,7 @@ package org.knowm.xchange.cobinhood.service;
 import java.io.IOException;
 import java.util.Collection;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cobinhood.dto.CobinhoodAdapters;
+import org.knowm.xchange.cobinhood.CobinhoodAdapters;
 import org.knowm.xchange.cobinhood.dto.CobinhoodOrderSide;
 import org.knowm.xchange.cobinhood.dto.CobinhoodOrderType;
 import org.knowm.xchange.cobinhood.dto.CobinhoodResponse;

@@ -13,7 +13,9 @@ public final class BinanceAccountInformation {
   public final boolean canTrade;
   public final boolean canWithdraw;
   public final boolean canDeposit;
+  public final long updateTime;
   public List<BinanceBalance> balances;
+  public List<String> permissions;
 
   public BinanceAccountInformation(
       @JsonProperty("makerCommission") BigDecimal makerCommission,
@@ -23,7 +25,9 @@ public final class BinanceAccountInformation {
       @JsonProperty("canTrade") boolean canTrade,
       @JsonProperty("canWithdraw") boolean canWithdraw,
       @JsonProperty("canDeposit") boolean canDeposit,
-      @JsonProperty("balances") List<BinanceBalance> balances) {
+      @JsonProperty("updateTime") long updateTime,
+      @JsonProperty("balances") List<BinanceBalance> balances,
+      @JsonProperty("permissions") List<String> permissions) {
     this.makerCommission = makerCommission;
     this.takerCommission = takerCommission;
     this.buyerCommission = buyerCommission;
@@ -31,6 +35,8 @@ public final class BinanceAccountInformation {
     this.canTrade = canTrade;
     this.canWithdraw = canWithdraw;
     this.canDeposit = canDeposit;
+    this.updateTime = updateTime;
     this.balances = balances;
+    this.permissions = permissions;
   }
 }

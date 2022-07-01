@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.independentreserve.IndependentReserveAdapters;
@@ -43,6 +46,11 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
     return new AccountInfo(
         exchange.getExchangeSpecification().getUserName(),
         IndependentReserveAdapters.adaptWallet(getIndependentReserveBalance()));
+  }
+
+  @Override
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+    return getDigitalCurrencyDepositAddress(currency.getCurrencyCode());
   }
 
   @Override
@@ -91,9 +99,11 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
         (IndependentReserveTradeHistoryParams) params;
     final IndependentReserveBalance bal = getIndependentReserveBalance();
     final Currency currency = historyParams.getCurrency();
-    return bal.getIndependentReserveAccounts()
-        .stream()
-        .filter(acc -> currency == null || currency.getCurrencyCode().equals(acc.getCurrencyCode()))
+    return bal.getIndependentReserveAccounts().stream()
+        .filter(
+            acc ->
+                currency == null
+                    || currency.getCurrencyCode().equalsIgnoreCase(acc.getCurrencyCode()))
         .map(
             acc -> {
               try {
@@ -113,6 +123,15 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
             })
         .flatMap(Function.identity())
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    return super.getBrokerageFees().getIndependentReserveBrokerageFees().stream()
+        .collect(
+            Collectors.toMap(
+                IndependentReserveAdapters::adaptBrokerageCurrencyPair,
+                IndependentReserveAdapters::adaptBrokerageFee));
   }
 
   public static class IndependentReserveTradeHistoryParams extends DefaultTradeHistoryParamPaging

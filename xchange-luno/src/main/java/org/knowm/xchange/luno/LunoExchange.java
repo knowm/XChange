@@ -23,8 +23,7 @@ public class LunoExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.mybitx.com");
     exchangeSpecification.setHost("api.mybitx.com");
     exchangeSpecification.setPort(443);

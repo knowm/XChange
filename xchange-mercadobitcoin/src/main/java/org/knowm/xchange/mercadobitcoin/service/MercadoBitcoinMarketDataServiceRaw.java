@@ -3,6 +3,7 @@ package org.knowm.xchange.mercadobitcoin.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoin;
@@ -10,7 +11,6 @@ import org.knowm.xchange.mercadobitcoin.MercadoBitcoinUtils;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author Felipe Micaroni Lalli */
 public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseService {
@@ -23,13 +23,11 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
    * @param exchange
    */
   public MercadoBitcoinMarketDataServiceRaw(Exchange exchange) {
-
     super(exchange);
     this.mercadoBitcoin =
-        RestProxyFactory.createProxy(
-            MercadoBitcoin.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                MercadoBitcoin.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   public MercadoBitcoinOrderBook getMercadoBitcoinOrderBook(CurrencyPair currencyPair)

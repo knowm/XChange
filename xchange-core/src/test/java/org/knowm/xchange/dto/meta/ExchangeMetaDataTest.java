@@ -1,9 +1,16 @@
 package org.knowm.xchange.dto.meta;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 import org.junit.Test;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 
 public class ExchangeMetaDataTest {
 
@@ -41,5 +48,23 @@ public class ExchangeMetaDataTest {
   @Test
   public void testGetPollDelayMillisEmpty() {
     assertEquals(null, ExchangeMetaData.getPollDelayMillis(new RateLimit[0]));
+  }
+
+  @Test
+  public void shouldDeserialize() throws IOException {
+    InputStream is =
+        ExchangeMetaDataTest.class.getResourceAsStream(
+            "/org/knowm/xchange/core/meta/exchange-metadata.json");
+
+    ObjectMapper mapper = new ObjectMapper();
+    ExchangeMetaData metaData = mapper.readValue(is, ExchangeMetaData.class);
+
+    assertThat(metaData.getCurrencyPairs().get(CurrencyPair.BTC_USD).getTradingFeeCurrency())
+        .isEqualTo(Currency.USD);
+    assertThat(metaData.getCurrencyPairs().get(CurrencyPair.BTC_USD).getPriceScale()).isEqualTo(2);
+    assertThat(metaData.getCurrencyPairs().get(CurrencyPair.BTC_USD).getMinimumAmount())
+        .isEqualTo(new BigDecimal("0.0001"));
+    assertThat(metaData.getCurrencyPairs().get(CurrencyPair.BTC_USD).getMaximumAmount())
+        .isEqualTo(new BigDecimal("100"));
   }
 }

@@ -1,8 +1,7 @@
 CoinMarketCap API specification
 ================================
 
-Public API
-
 Documentation
 -------------
-https://coinmarketcap.com/api/
+https://api.coinmarketcap.com - old depracated API
+https://coinmarketcap.com/api/documentation/v1/ - current API

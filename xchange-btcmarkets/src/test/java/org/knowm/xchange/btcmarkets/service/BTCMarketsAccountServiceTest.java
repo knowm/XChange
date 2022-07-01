@@ -1,82 +1,46 @@
 package org.knowm.xchange.btcmarkets.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
-import org.knowm.xchange.btcmarkets.BTCMarketsExchange;
 import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransfer;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoResponse;
+import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsAddressesResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(RestProxyFactory.class)
-public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
-
-  private BTCMarketsAuthenticated btcm;
-  private BTCMarketsAccountService accountService;
-
-  @Before
-  public void setUp() {
-    btcm = mock(BTCMarketsAuthenticated.class);
-    PowerMockito.mockStatic(RestProxyFactory.class);
-    given(RestProxyFactory.createProxy(eq(BTCMarketsAuthenticated.class), any(), any(), any()))
-        .willReturn(btcm);
-    BTCMarketsExchange exchange =
-        (BTCMarketsExchange)
-            ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getCanonicalName());
-    ExchangeSpecification specification = exchange.getExchangeSpecification();
-    specification.setUserName(SPECIFICATION_USERNAME);
-    specification.setApiKey(SPECIFICATION_API_KEY);
-    specification.setSecretKey(SPECIFICATION_SECRET_KEY);
-
-    accountService = new BTCMarketsAccountService(exchange);
-  }
+public class BTCMarketsAccountServiceTest extends BTCMarketsServiceTest {
 
   @Test
   public void shouldCreateAccountInfo() throws IOException {
     // given
     BTCMarketsBalance balance = parse(BTCMarketsBalance.class);
 
-    PowerMockito.when(
-            btcm.getBalance(
-                Mockito.eq(SPECIFICATION_API_KEY),
-                Mockito.any(SynchronizedValueFactory.class),
-                Mockito.any(BTCMarketsDigest.class)))
+    when(btcMarketsAuthenticated.getBalance(
+            Mockito.eq(SPECIFICATION_API_KEY),
+            Mockito.any(SynchronizedValueFactory.class),
+            Mockito.any(BTCMarketsDigest.class)))
         .thenReturn(Arrays.asList(balance));
 
     // when
-    AccountInfo accountInfo = accountService.getAccountInfo();
+    AccountInfo accountInfo = btcMarketsAccountService.getAccountInfo();
 
     // then
-    assertThat(accountInfo.getUsername()).isEqualTo(SPECIFICATION_USERNAME);
     assertThat(accountInfo.getTradingFee()).isNull();
     assertThat(accountInfo.getWallets()).hasSize(1);
 
@@ -92,28 +56,63 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
         new BTCMarketsWithdrawCryptoResponse(
             true, null, null, status, "id", "desc", "ccy", BigDecimal.ONE, BigDecimal.ONE, 0L);
 
-    PowerMockito.when(
-            btcm.withdrawCrypto(
-                Mockito.eq(SPECIFICATION_API_KEY),
-                Mockito.any(SynchronizedValueFactory.class),
-                Mockito.any(BTCMarketsDigest.class),
-                Mockito.any(BTCMarketsWithdrawCryptoRequest.class)))
+    when(btcMarketsAuthenticated.withdrawCrypto(
+            Mockito.eq(SPECIFICATION_API_KEY),
+            Mockito.any(SynchronizedValueFactory.class),
+            Mockito.any(BTCMarketsDigest.class),
+            Mockito.any(BTCMarketsWithdrawCryptoRequest.class)))
         .thenReturn(response);
 
     // when
-    String result = accountService.withdrawFunds(Currency.BTC, BigDecimal.TEN, "any address");
+    String result =
+        btcMarketsAccountService.withdrawFunds(Currency.BTC, BigDecimal.TEN, "any address");
 
-    assertThat(result).isNull();
+    assertThat(result).isNotNull();
   }
 
-  @Test(expected = NotYetImplementedForExchangeException.class)
-  public void shouldFailWhenRequestDepositAddress() throws IOException {
+  @Test
+  public void withdrawFundsShouldAppendRippleTag() throws IOException {
+
+    String status = "the-status"; // maybe the id would be more useful?
+    BTCMarketsWithdrawCryptoResponse response =
+        new BTCMarketsWithdrawCryptoResponse(
+            true, null, null, status, "id", "desc", "ccy", BigDecimal.ONE, BigDecimal.ONE, 0L);
+    ArgumentCaptor<BTCMarketsWithdrawCryptoRequest> captor =
+        ArgumentCaptor.forClass(BTCMarketsWithdrawCryptoRequest.class);
+
+    when(btcMarketsAuthenticated.withdrawCrypto(
+            Mockito.eq(SPECIFICATION_API_KEY),
+            Mockito.any(SynchronizedValueFactory.class),
+            Mockito.any(BTCMarketsDigest.class),
+            captor.capture()))
+        .thenReturn(response);
+
     // when
-    accountService.requestDepositAddress(Currency.BTC);
+    RippleWithdrawFundsParams params =
+        new RippleWithdrawFundsParams("any address", Currency.BTC, BigDecimal.TEN, "12345");
+    String result = btcMarketsAccountService.withdrawFunds(params);
+    assertThat(captor.getValue().address).isEqualTo("any address?dt=12345");
+    assertThat(result).isNotNull();
+  }
+
+  @Test
+  public void shouldRequestDepositAddress() throws IOException {
+    BTCMarketsAddressesResponse response = new BTCMarketsAddressesResponse("address");
+
+    ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+
+    when(btcMarketsAuthenticatedV3.depositAddress(
+            Mockito.eq(SPECIFICATION_API_KEY),
+            Mockito.any(SynchronizedValueFactory.class),
+            Mockito.any(BTCMarketsDigestV3.class),
+            captor.capture()))
+        .thenReturn(response);
+    // when
+    String address = btcMarketsAccountService.requestDepositAddress(Currency.BTC);
 
     // then
-    fail(
-        "BTCMarketsAccountService should throw NotYetImplementedForExchangeException when call requestDepositAddress");
+    assertThat(captor.getValue()).isEqualTo("BTC");
+    assertThat(address).isEqualTo("address");
   }
 
   @Test
@@ -142,16 +141,16 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
             Arrays.asList(fundtransfer),
             new BTCMarketsFundtransferHistoryResponse.Paging("12345", "12345"));
 
-    PowerMockito.when(
-            btcm.fundtransferHistory(
-                Mockito.eq(SPECIFICATION_API_KEY),
-                Mockito.any(SynchronizedValueFactory.class),
-                Mockito.any(BTCMarketsDigest.class)))
+    when(btcMarketsAuthenticated.fundtransferHistory(
+            Mockito.eq(SPECIFICATION_API_KEY),
+            Mockito.any(SynchronizedValueFactory.class),
+            Mockito.any(BTCMarketsDigest.class)))
         .thenReturn(response);
 
     // when
     List<FundingRecord> result =
-        accountService.getFundingHistory(accountService.createFundingHistoryParams());
+        btcMarketsAccountService.getFundingHistory(
+            btcMarketsAccountService.createFundingHistoryParams());
     assertThat(result).hasSize(1);
     assertThat(result.get(0).getType()).isEqualTo(FundingRecord.Type.DEPOSIT);
     assertThat(result.get(0).getStatus()).isEqualTo(FundingRecord.Status.COMPLETE);

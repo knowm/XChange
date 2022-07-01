@@ -15,6 +15,7 @@ import org.knowm.xchange.kraken.dto.account.KrakenDepositMethods;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
+import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
 import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.kraken.dto.account.Withdraw;
 import org.knowm.xchange.kraken.dto.account.WithdrawInfo;
@@ -27,6 +28,7 @@ import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenWebsocketTokenResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawInfoResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawStatusResult;
@@ -69,7 +71,7 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
             null,
             currency,
             method,
-            newAddress,
+            newAddress ? true : null, // must be sent as NULL and not as false!
             exchange.getExchangeSpecification().getApiKey(),
             signatureCreator,
             exchange.getNonceFactory());
@@ -266,6 +268,18 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
       fullLedgerMap.putAll(lastLedgerMap);
     }
     return fullLedgerMap;
+  }
+
+  public KrakenWebsocketToken getKrakenWebsocketToken() throws IOException {
+    KrakenWebsocketTokenResult tokenResult =
+        kraken.getWebsocketToken(
+            null,
+            null,
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory());
+
+    return checkResult(tokenResult);
   }
 
   public Map<String, KrakenLedger> queryKrakenLedger(String... ledgerIds) throws IOException {

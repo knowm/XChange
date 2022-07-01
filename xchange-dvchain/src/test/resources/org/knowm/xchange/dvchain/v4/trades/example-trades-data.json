@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "_id": "5bbd1c6709ac22627841ad32",
+      "createdAt": "2018-10-09T21:23:51.757Z",
+      "price": 513.3,
+      "quantity": 0.1,
+      "side": "Buy",
+      "user": {
+        "_id": "5ab545a4b933aa1f78e25f34",
+        "firstName": "Roger",
+        "lastName": "Ver"
+      },
+      "asset": "BCH",
+      "status": "Complete"
+    }
+  ],
+  "total": 1,
+  "pageCount": 1
+}

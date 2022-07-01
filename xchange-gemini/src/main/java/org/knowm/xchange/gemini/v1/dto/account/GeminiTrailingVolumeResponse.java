@@ -6,14 +6,38 @@ import java.math.BigInteger;
 import java.util.Date;
 
 public class GeminiTrailingVolumeResponse {
-  @JsonProperty("maker_fee_bps")
-  public BigDecimal MakerFeeBPS;
+  @JsonProperty("web_maker_fee_bps")
+  public BigDecimal webMakerFeeBps;
 
-  @JsonProperty("taker_fee_bps")
-  public BigDecimal TakerFeeBPS;
+  @JsonProperty("web_taker_fee_bps")
+  public BigDecimal webTakerFeeBps;
 
-  @JsonProperty("auction_fee_bps")
-  public BigDecimal AuctionFeeBPS;
+  @JsonProperty("web_auction_fee_bps")
+  public BigDecimal webAuctionFeeBps;
+
+  @JsonProperty("api_maker_fee_bps")
+  public BigDecimal apiMakerFeeBPS;
+
+  @JsonProperty("api_taker_fee_bps")
+  public BigDecimal apiTakerFeeBPS;
+
+  @JsonProperty("api_auction_fee_bps")
+  public BigDecimal apiAuctionFeeBPS;
+
+  @JsonProperty("fix_maker_fee_bps")
+  public BigDecimal fixMakerFeeBps;
+
+  @JsonProperty("fix_taker_fee_bps")
+  public BigDecimal fixTakerFeeBps;
+
+  @JsonProperty("fix_auction_fee_bps")
+  public BigDecimal fixAuctionFeeBps;
+
+  @JsonProperty("block_maker_fee_bps")
+  public BigDecimal blockMakerFeeBps;
+
+  @JsonProperty("block_taker_fee_bps")
+  public BigDecimal blockTakerFeeBps;
 
   @JsonProperty("notional_30d_volume")
   public BigDecimal Notional30DayVolume;

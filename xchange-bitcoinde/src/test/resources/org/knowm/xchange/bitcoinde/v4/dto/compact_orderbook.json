@@ -1,0 +1,9111 @@
+{
+  "trading_pair":"btceur",
+  "orders": {
+    "asks": [
+      {
+        "price": 2461.61,
+        "amount_currency_to_trade": 0.0406218
+      },
+      {
+        "price": 2529.29,
+        "amount_currency_to_trade": 0.03953483
+      },
+      {
+        "price": 2545.45,
+        "amount_currency_to_trade": 0.03928383
+      },
+      {
+        "price": 2561.61,
+        "amount_currency_to_trade": 0.039036
+      },
+      {
+        "price": 2616.16,
+        "amount_currency_to_trade": 0.03822206
+      },
+      {
+        "price": 2632.32,
+        "amount_currency_to_trade": 0.03798741
+      },
+      {
+        "price": 2709.09,
+        "amount_currency_to_trade": 0.03691093
+      },
+      {
+        "price": 2981.81,
+        "amount_currency_to_trade": 0.0335351
+      },
+      {
+        "price": 2965.65,
+        "amount_currency_to_trade": 0.03371776
+      },
+      {
+        "price": 2948.48,
+        "amount_currency_to_trade": 0.03391409
+      },
+      {
+        "price": 2934.34,
+        "amount_currency_to_trade": 0.03407751
+      },
+      {
+        "price": 2908.08,
+        "amount_currency_to_trade": 0.03438525
+      },
+      {
+        "price": 2897.97,
+        "amount_currency_to_trade": 0.03450519
+      },
+      {
+        "price": 2869.69,
+        "amount_currency_to_trade": 0.03484525
+      },
+      {
+        "price": 2849.49,
+        "amount_currency_to_trade": 0.03509225
+      },
+      {
+        "price": 2834.34,
+        "amount_currency_to_trade": 0.03527982
+      },
+      {
+        "price": 2818.18,
+        "amount_currency_to_trade": 0.03548215
+      },
+      {
+        "price": 2785.85,
+        "amount_currency_to_trade": 0.0358939
+      },
+      {
+        "price": 2745.45,
+        "amount_currency_to_trade": 0.0364221
+      },
+      {
+        "price": 2734.34,
+        "amount_currency_to_trade": 0.0365701
+      },
+      {
+        "price": 2808.08,
+        "amount_currency_to_trade": 0.03560975
+      },
+      {
+        "price": 3029.29,
+        "amount_currency_to_trade": 0.03300939
+      },
+      {
+        "price": 3061.61,
+        "amount_currency_to_trade": 0.03266093
+      },
+      {
+        "price": 3093.93,
+        "amount_currency_to_trade": 0.03231974
+      },
+      {
+        "price": 3126.26,
+        "amount_currency_to_trade": 0.03198551
+      },
+      {
+        "price": 3158.58,
+        "amount_currency_to_trade": 0.03165822
+      },
+      {
+        "price": 3013.13,
+        "amount_currency_to_trade": 0.03318643
+      },
+      {
+        "price": 3045.45,
+        "amount_currency_to_trade": 0.03283423
+      },
+      {
+        "price": 3077.77,
+        "amount_currency_to_trade": 0.03248944
+      },
+      {
+        "price": 3142.42,
+        "amount_currency_to_trade": 0.03182102
+      },
+      {
+        "price": 3174.74,
+        "amount_currency_to_trade": 0.03149707
+      },
+      {
+        "price": 3195.95,
+        "amount_currency_to_trade": 0.03128804
+      },
+      {
+        "price": 3248.48,
+        "amount_currency_to_trade": 0.0307821
+      },
+      {
+        "price": 3296.96,
+        "amount_currency_to_trade": 0.03032947
+      },
+      {
+        "price": 3348.48,
+        "amount_currency_to_trade": 0.02986281
+      },
+      {
+        "price": 3397.97,
+        "amount_currency_to_trade": 0.02942787
+      },
+      {
+        "price": 3448.48,
+        "amount_currency_to_trade": 0.02899684
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 3337.87,
+        "amount_currency_to_trade": 0.051
+      },
+      {
+        "price": 2784,
+        "amount_currency_to_trade": 0.28215
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.512864
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.259
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.2948
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.1839
+      },
+      {
+        "price": 2695,
+        "amount_currency_to_trade": 0.02227228
+      },
+      {
+        "price": 2498,
+        "amount_currency_to_trade": 9
+      },
+      {
+        "price": 2711.86,
+        "amount_currency_to_trade": 5.98535857
+      },
+      {
+        "price": 2737.7,
+        "amount_currency_to_trade": 0.0211
+      },
+      {
+        "price": 2568.98,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2690,
+        "amount_currency_to_trade": 0.743
+      },
+      {
+        "price": 2710,
+        "amount_currency_to_trade": 0.738
+      },
+      {
+        "price": 2570,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2680,
+        "amount_currency_to_trade": 0.7462
+      },
+      {
+        "price": 2970,
+        "amount_currency_to_trade": 0.6734
+      },
+      {
+        "price": 2960,
+        "amount_currency_to_trade": 0.2109
+      },
+      {
+        "price": 4025.85,
+        "amount_currency_to_trade": 0.056
+      },
+      {
+        "price": 3535.85,
+        "amount_currency_to_trade": 0.064
+      },
+      {
+        "price": 3337.85,
+        "amount_currency_to_trade": 0.051
+      },
+      {
+        "price": 3157.9,
+        "amount_currency_to_trade": 0.021
+      },
+      {
+        "price": 3000.01,
+        "amount_currency_to_trade": 0.024
+      },
+      {
+        "price": 2850,
+        "amount_currency_to_trade": 1.58
+      },
+      {
+        "price": 2799.99,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2970,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 3038,
+        "amount_currency_to_trade": 0.0198
+      },
+      {
+        "price": 2644.98,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 3795.85,
+        "amount_currency_to_trade": 0.045
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.02931801
+      },
+      {
+        "price": 3795.85,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.0682758
+      },
+      {
+        "price": 2465.99,
+        "amount_currency_to_trade": 0.027
+      },
+      {
+        "price": 3010,
+        "amount_currency_to_trade": 0.87296
+      },
+      {
+        "price": 2650,
+        "amount_currency_to_trade": 0.30143774
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.021
+      },
+      {
+        "price": 3999.9,
+        "amount_currency_to_trade": 0.015
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.13138966
+      },
+      {
+        "price": 2499.06,
+        "amount_currency_to_trade": 0.02400703
+      },
+      {
+        "price": 2548,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2448.86,
+        "amount_currency_to_trade": 0.2282
+      },
+      {
+        "price": 2464.98,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2519.87,
+        "amount_currency_to_trade": 0.07100438
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 4200,
+        "amount_currency_to_trade": 0.01462343
+      },
+      {
+        "price": 2429.29,
+        "amount_currency_to_trade": 0.04116226
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.2727739
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2440.29,
+        "amount_currency_to_trade": 0.0245852
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2497.97,
+        "amount_currency_to_trade": 0.14651741
+      },
+      {
+        "price": 2475,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.02357056
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2649.99,
+        "amount_currency_to_trade": 0.022
+      },
+      {
+        "price": 3250,
+        "amount_currency_to_trade": 0.30568825
+      },
+      {
+        "price": 2642,
+        "amount_currency_to_trade": 0.757
+      },
+      {
+        "price": 2690,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2790,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2890,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2990,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2695.9,
+        "amount_currency_to_trade": 0.0225
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.1984
+      },
+      {
+        "price": 2448.48,
+        "amount_currency_to_trade": 0.04083966
+      },
+      {
+        "price": 2750,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2900,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2650,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.07525
+      },
+      {
+        "price": 2492,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2499,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 2490,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2590,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.025
+      },
+      {
+        "price": 2478.05,
+        "amount_currency_to_trade": 0.024
+      },
+      {
+        "price": 2749.95,
+        "amount_currency_to_trade": 0.021
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.1488
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2485,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 6
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 3500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2708,
+        "amount_currency_to_trade": 0.02216
+      },
+      {
+        "price": 2511,
+        "amount_currency_to_trade": 0.84
+      },
+      {
+        "price": 4340,
+        "amount_currency_to_trade": 0.16418061
+      },
+      {
+        "price": 2478.95,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2507.9,
+        "amount_currency_to_trade": 0.0235
+      },
+      {
+        "price": 4000,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 1.98
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 4400,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.11
+      },
+      {
+        "price": 2710,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2444.44,
+        "amount_currency_to_trade": 0.024544
+      },
+      {
+        "price": 2488.99,
+        "amount_currency_to_trade": 0.024105
+      },
+      {
+        "price": 3000.01,
+        "amount_currency_to_trade": 0.019
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.992
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.0200001
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.399
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.399
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2737.66,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2540,
+        "amount_currency_to_trade": 0.8925
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.12532023
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.2976
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 0.3968
+      },
+      {
+        "price": 2998,
+        "amount_currency_to_trade": 0.125
+      },
+      {
+        "price": 2498,
+        "amount_currency_to_trade": 0.125
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.28215
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.12375
+      },
+      {
+        "price": 2502.29,
+        "amount_currency_to_trade": 0.08398907
+      },
+      {
+        "price": 2484.84,
+        "amount_currency_to_trade": 0.08457894
+      },
+      {
+        "price": 2467.51,
+        "amount_currency_to_trade": 0.0795954
+      },
+      {
+        "price": 2450.3,
+        "amount_currency_to_trade": 0.08577117
+      },
+      {
+        "price": 2433.21,
+        "amount_currency_to_trade": 0.17274706
+      },
+      {
+        "price": 2505.95,
+        "amount_currency_to_trade": 0.023
+      },
+      {
+        "price": 2505.87,
+        "amount_currency_to_trade": 0.092
+      },
+      {
+        "price": 2505.87,
+        "amount_currency_to_trade": 0.023
+      },
+      {
+        "price": 2609.87,
+        "amount_currency_to_trade": 0.022
+      },
+      {
+        "price": 2609.87,
+        "amount_currency_to_trade": 0.022
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.026
+      },
+      {
+        "price": 2635,
+        "amount_currency_to_trade": 0.02277
+      },
+      {
+        "price": 2630,
+        "amount_currency_to_trade": 0.393768
+      },
+      {
+        "price": 2735.85,
+        "amount_currency_to_trade": 0.021
+      },
+      {
+        "price": 2735.85,
+        "amount_currency_to_trade": 0.063
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.022
+      },
+      {
+        "price": 2700,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.09
+      },
+      {
+        "price": 2580,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2999,
+        "amount_currency_to_trade": 0.0839718
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.055
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.022
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.024
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.027
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.6277
+      },
+      {
+        "price": 3200,
+        "amount_currency_to_trade": 0.24
+      },
+      {
+        "price": 2499,
+        "amount_currency_to_trade": 0.053
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.042
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.025
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2480,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2510,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2540,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2605,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2640,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2667,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 3500,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2525,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2430,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2498.5,
+        "amount_currency_to_trade": 0.14
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.099
+      },
+      {
+        "price": 3500,
+        "amount_currency_to_trade": 0.01759899
+      },
+      {
+        "price": 2497,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2490,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2540,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2590,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2440,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2430,
+        "amount_currency_to_trade": 0.279744
+      },
+      {
+        "price": 2560,
+        "amount_currency_to_trade": 0.02772
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.1985
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 3423,
+        "amount_currency_to_trade": 0.01761563
+      },
+      {
+        "price": 3769.96,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2834,
+        "amount_currency_to_trade": 3.6
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.031
+      },
+      {
+        "price": 3500,
+        "amount_currency_to_trade": 0.0179
+      },
+      {
+        "price": 2900,
+        "amount_currency_to_trade": 0.020394
+      },
+      {
+        "price": 2649,
+        "amount_currency_to_trade": 2.5
+      },
+      {
+        "price": 2799.9,
+        "amount_currency_to_trade": 0.02143
+      },
+      {
+        "price": 2499,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2501,
+        "amount_currency_to_trade": 0.799
+      },
+      {
+        "price": 2599.99,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 3500,
+        "amount_currency_to_trade": 0.169504
+      },
+      {
+        "price": 2986,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2480,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2480,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2505.84,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2609.83,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2735.83,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 3500,
+        "amount_currency_to_trade": 0.198
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.8426
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 0.099
+      },
+      {
+        "price": 2609.85,
+        "amount_currency_to_trade": 0.022
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.025
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.815
+      },
+      {
+        "price": 2750,
+        "amount_currency_to_trade": 0.63045818
+      },
+      {
+        "price": 2465,
+        "amount_currency_to_trade": 0.4926085
+      },
+      {
+        "price": 2899.98,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2999.98,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2849.98,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.026
+      },
+      {
+        "price": 3600,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 3750,
+        "amount_currency_to_trade": 0.016
+      },
+      {
+        "price": 2505.85,
+        "amount_currency_to_trade": 0.0234
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2857.5,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2857.2,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.059
+      },
+      {
+        "price": 3200,
+        "amount_currency_to_trade": 0.018
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.08
+      },
+      {
+        "price": 4444,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 4431,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 2470,
+        "amount_currency_to_trade": 0.992
+      },
+      {
+        "price": 2499.95,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.025
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.023
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.026
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.028
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.032
+      },
+      {
+        "price": 3799.9,
+        "amount_currency_to_trade": 0.015
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.198
+      },
+      {
+        "price": 2499.95,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 4400,
+        "amount_currency_to_trade": 0.013
+      },
+      {
+        "price": 3535.85,
+        "amount_currency_to_trade": 0.017
+      },
+      {
+        "price": 3749.95,
+        "amount_currency_to_trade": 0.016
+      },
+      {
+        "price": 4400,
+        "amount_currency_to_trade": 0.013
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.022
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.029
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.032
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.033
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 3109.09,
+        "amount_currency_to_trade": 0.03216215
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.46993761
+      },
+      {
+        "price": 2499,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2816,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2735.82,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.023
+      },
+      {
+        "price": 3547.47,
+        "amount_currency_to_trade": 0.0281877
+      },
+      {
+        "price": 3648.48,
+        "amount_currency_to_trade": 0.02740731
+      },
+      {
+        "price": 3747.47,
+        "amount_currency_to_trade": 0.02668335
+      },
+      {
+        "price": 3848.48,
+        "amount_currency_to_trade": 0.025983
+      },
+      {
+        "price": 3948.48,
+        "amount_currency_to_trade": 0.02532495
+      },
+      {
+        "price": 4049.49,
+        "amount_currency_to_trade": 0.02469324
+      },
+      {
+        "price": 2498.99,
+        "amount_currency_to_trade": 1.49792
+      },
+      {
+        "price": 2431,
+        "amount_currency_to_trade": 2.2
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2735.8,
+        "amount_currency_to_trade": 0.042
+      },
+      {
+        "price": 3224.24,
+        "amount_currency_to_trade": 0.03101352
+      },
+      {
+        "price": 3274.74,
+        "amount_currency_to_trade": 0.03053525
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.099
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 3462,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.028
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 2.71312
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.19751
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2657.1,
+        "amount_currency_to_trade": 1.8
+      },
+      {
+        "price": 2539,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2850,
+        "amount_currency_to_trade": 0.022
+      },
+      {
+        "price": 2468.1,
+        "amount_currency_to_trade": 0.43
+      },
+      {
+        "price": 3769.93,
+        "amount_currency_to_trade": 0.015
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.028
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2999.99,
+        "amount_currency_to_trade": 8.3
+      },
+      {
+        "price": 3495.95,
+        "amount_currency_to_trade": 0.0286031
+      },
+      {
+        "price": 3595.95,
+        "amount_currency_to_trade": 0.0278077
+      },
+      {
+        "price": 3696.96,
+        "amount_currency_to_trade": 0.02704792
+      },
+      {
+        "price": 4148.48,
+        "amount_currency_to_trade": 0.02410401
+      },
+      {
+        "price": 3324.24,
+        "amount_currency_to_trade": 0.03008056
+      },
+      {
+        "price": 3374.74,
+        "amount_currency_to_trade": 0.02963044
+      },
+      {
+        "price": 2889,
+        "amount_currency_to_trade": 0.02091721
+      },
+      {
+        "price": 2850,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2499.98,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.0222
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.49536497
+      },
+      {
+        "price": 3797.97,
+        "amount_currency_to_trade": 0.02632855
+      },
+      {
+        "price": 3898.98,
+        "amount_currency_to_trade": 0.02564646
+      },
+      {
+        "price": 3998.98,
+        "amount_currency_to_trade": 0.02500513
+      },
+      {
+        "price": 4098.98,
+        "amount_currency_to_trade": 0.0243951
+      },
+      {
+        "price": 4197.97,
+        "amount_currency_to_trade": 0.02381985
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2735.77,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.02574
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.027
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.17791415
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2890,
+        "amount_currency_to_trade": 0.0208497
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 2732.99,
+        "amount_currency_to_trade": 0.063
+      },
+      {
+        "price": 2608.96,
+        "amount_currency_to_trade": 0.066
+      },
+      {
+        "price": 2502.95,
+        "amount_currency_to_trade": 0.069
+      },
+      {
+        "price": 3811,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2487.11,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 3157.9,
+        "amount_currency_to_trade": 0.022
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 2530,
+        "amount_currency_to_trade": 0.79
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.033
+      },
+      {
+        "price": 2510,
+        "amount_currency_to_trade": 2.5
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2700,
+        "amount_currency_to_trade": 0.0297
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.033
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.025
+      },
+      {
+        "price": 2498,
+        "amount_currency_to_trade": 0.516
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.08511543
+      },
+      {
+        "price": 3157.9,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.06811
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.021
+      },
+      {
+        "price": 2640,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2590,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2758,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2858,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2958,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2816.7,
+        "amount_currency_to_trade": 0.3218
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2510,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2880,
+        "amount_currency_to_trade": 0.14135198
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.14799892
+      },
+      {
+        "price": 3157.9,
+        "amount_currency_to_trade": 0.018
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.43
+      },
+      {
+        "price": 2486,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 3000.01,
+        "amount_currency_to_trade": 0.019
+      },
+      {
+        "price": 3000.01,
+        "amount_currency_to_trade": 0.019
+      },
+      {
+        "price": 3535.82,
+        "amount_currency_to_trade": 0.016
+      },
+      {
+        "price": 3157.9,
+        "amount_currency_to_trade": 0.018
+      },
+      {
+        "price": 3000.01,
+        "amount_currency_to_trade": 0.019
+      },
+      {
+        "price": 2729.87,
+        "amount_currency_to_trade": 0.021
+      },
+      {
+        "price": 2729.87,
+        "amount_currency_to_trade": 0.021
+      },
+      {
+        "price": 3100,
+        "amount_currency_to_trade": 0.64511
+      },
+      {
+        "price": 3400,
+        "amount_currency_to_trade": 0.588
+      },
+      {
+        "price": 2999,
+        "amount_currency_to_trade": 0.11502001
+      },
+      {
+        "price": 2540,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.02376
+      },
+      {
+        "price": 2474,
+        "amount_currency_to_trade": 1.98
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2499,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.07124655
+      },
+      {
+        "price": 2725,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2728.74,
+        "amount_currency_to_trade": 0.042
+      },
+      {
+        "price": 2608.7,
+        "amount_currency_to_trade": 0.022
+      },
+      {
+        "price": 2500.99,
+        "amount_currency_to_trade": 0.023
+      },
+      {
+        "price": 2855,
+        "amount_currency_to_trade": 0.025
+      },
+      {
+        "price": 2750,
+        "amount_currency_to_trade": 0.0219
+      },
+      {
+        "price": 2665,
+        "amount_currency_to_trade": 0.106144
+      },
+      {
+        "price": 3535.8,
+        "amount_currency_to_trade": 0.017
+      },
+      {
+        "price": 3337.8,
+        "amount_currency_to_trade": 0.018
+      },
+      {
+        "price": 2640,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.0228
+      },
+      {
+        "price": 2499,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2700,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2597.87,
+        "amount_currency_to_trade": 0.48807616
+      },
+      {
+        "price": 2520,
+        "amount_currency_to_trade": 1.17454681
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 4000,
+        "amount_currency_to_trade": 0.992
+      },
+      {
+        "price": 4000,
+        "amount_currency_to_trade": 1.0912
+      },
+      {
+        "price": 4000,
+        "amount_currency_to_trade": 1.6751
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.09019354
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.099
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2490,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.024
+      },
+      {
+        "price": 2499,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.465
+      },
+      {
+        "price": 2555,
+        "amount_currency_to_trade": 0.9
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.197208
+      },
+      {
+        "price": 2498,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2474,
+        "amount_currency_to_trade": 0.298
+      },
+      {
+        "price": 4125,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2499.95,
+        "amount_currency_to_trade": 0.025
+      },
+      {
+        "price": 2958,
+        "amount_currency_to_trade": 0.07919208
+      },
+      {
+        "price": 2543,
+        "amount_currency_to_trade": 0.112
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 3535.79,
+        "amount_currency_to_trade": 0.034
+      },
+      {
+        "price": 2590,
+        "amount_currency_to_trade": 0.042656
+      },
+      {
+        "price": 2650,
+        "amount_currency_to_trade": 0.92292602
+      },
+      {
+        "price": 3999.89,
+        "amount_currency_to_trade": 0.015
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.1522067
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.028
+      },
+      {
+        "price": 2700,
+        "amount_currency_to_trade": 0.156
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 0.034672
+      },
+      {
+        "price": 2675,
+        "amount_currency_to_trade": 0.28648513
+      },
+      {
+        "price": 2594,
+        "amount_currency_to_trade": 0.33
+      },
+      {
+        "price": 2510,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 1.67
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 9.5
+      },
+      {
+        "price": 2555,
+        "amount_currency_to_trade": 0.782
+      },
+      {
+        "price": 2599.99,
+        "amount_currency_to_trade": 9.5
+      },
+      {
+        "price": 2600.01,
+        "amount_currency_to_trade": 5.07291263
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.666
+      },
+      {
+        "price": 2644,
+        "amount_currency_to_trade": 0.95
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2530,
+        "amount_currency_to_trade": 0.79
+      },
+      {
+        "price": 2522.82,
+        "amount_currency_to_trade": 2.7171
+      },
+      {
+        "price": 2452,
+        "amount_currency_to_trade": 0.2475
+      },
+      {
+        "price": 3099.98,
+        "amount_currency_to_trade": 1.61911893
+      },
+      {
+        "price": 2499.98,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2700,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 2580,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2588.88,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2499.97,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.247005
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 1.161
+      },
+      {
+        "price": 2444,
+        "amount_currency_to_trade": 1.25
+      },
+      {
+        "price": 2440,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2857.15,
+        "amount_currency_to_trade": 0.020999
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.02436056
+      },
+      {
+        "price": 2537,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2900,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 3100,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 3333,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 3200,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 3333,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 3500,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2400,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 6.975
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 2570,
+        "amount_currency_to_trade": 1.77077786
+      },
+      {
+        "price": 4000,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2448,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2498,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2548,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2598,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2491,
+        "amount_currency_to_trade": 0.496
+      },
+      {
+        "price": 2534,
+        "amount_currency_to_trade": 2.1
+      },
+      {
+        "price": 2506,
+        "amount_currency_to_trade": 0.8432
+      },
+      {
+        "price": 2449.95,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2518.9,
+        "amount_currency_to_trade": 0.07
+      },
+      {
+        "price": 2650,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2451,
+        "amount_currency_to_trade": 0.51
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.769
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.085
+      },
+      {
+        "price": 2700,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2478.89,
+        "amount_currency_to_trade": 0.344
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 2699,
+        "amount_currency_to_trade": 0.246016
+      },
+      {
+        "price": 2455,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2486,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2645,
+        "amount_currency_to_trade": 0.1946304
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.44
+      },
+      {
+        "price": 2510,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 10
+      },
+      {
+        "price": 2448,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 3500,
+        "amount_currency_to_trade": 0.198
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2650,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2700,
+        "amount_currency_to_trade": 1.61135485
+      },
+      {
+        "price": 2480.1,
+        "amount_currency_to_trade": 0.20295
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2518.16,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2545.1,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2547.64,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2540,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2497.97,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2497.96,
+        "amount_currency_to_trade": 0.6
+      },
+      {
+        "price": 2497.95,
+        "amount_currency_to_trade": 0.40017462
+      },
+      {
+        "price": 2649.5,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2750,
+        "amount_currency_to_trade": 0.23312
+      },
+      {
+        "price": 2477,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2446.99,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2440,
+        "amount_currency_to_trade": 0.3377
+      },
+      {
+        "price": 2498.1,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.594
+      },
+      {
+        "price": 2465,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2499.99,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2514,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2584.1,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2700,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.59961379
+      },
+      {
+        "price": 2470,
+        "amount_currency_to_trade": 0.99
+      },
+      {
+        "price": 2528.55,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.06306362
+      },
+      {
+        "price": 2700,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2570,
+        "amount_currency_to_trade": 0.778
+      },
+      {
+        "price": 2474.89,
+        "amount_currency_to_trade": 0.79
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2450.99,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 4.95
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2489,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2940,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2460,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.13186606
+      },
+      {
+        "price": 2460,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2996,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2499.2,
+        "amount_currency_to_trade": 0.905
+      },
+      {
+        "price": 2418.66,
+        "amount_currency_to_trade": 0.19
+      },
+      {
+        "price": 2438.86,
+        "amount_currency_to_trade": 0.105804
+      },
+      {
+        "price": 2449,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2445,
+        "amount_currency_to_trade": 0.06965068
+      },
+      {
+        "price": 2449.99,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2576.43,
+        "amount_currency_to_trade": 1.067328
+      },
+      {
+        "price": 2627.32,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.223
+      },
+      {
+        "price": 2453.87,
+        "amount_currency_to_trade": 0.85200594
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.295
+      },
+      {
+        "price": 2445,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2432,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2449.99,
+        "amount_currency_to_trade": 0.082
+      },
+      {
+        "price": 2460,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.75
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.20999187
+      },
+      {
+        "price": 2589.9,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2489.25,
+        "amount_currency_to_trade": 0.34224
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.0495
+      },
+      {
+        "price": 2680,
+        "amount_currency_to_trade": 0.59932996
+      },
+      {
+        "price": 2575,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2439.9,
+        "amount_currency_to_trade": 0.025
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2749.92,
+        "amount_currency_to_trade": 8.35089391
+      },
+      {
+        "price": 2449,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 2470,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 3200,
+        "amount_currency_to_trade": 0.19
+      },
+      {
+        "price": 2646,
+        "amount_currency_to_trade": 3.0537472
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.157
+      },
+      {
+        "price": 2456,
+        "amount_currency_to_trade": 0.3071763
+      },
+      {
+        "price": 2715,
+        "amount_currency_to_trade": 1.65
+      },
+      {
+        "price": 2443,
+        "amount_currency_to_trade": 0.123008
+      },
+      {
+        "price": 2625,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2509.99,
+        "amount_currency_to_trade": 0.22608
+      },
+      {
+        "price": 2434.5,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2435,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2435,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2425,
+        "amount_currency_to_trade": 0.0396192
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.6
+      },
+      {
+        "price": 2455,
+        "amount_currency_to_trade": 0.68539977
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2568,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 7.41024
+      },
+      {
+        "price": 3500,
+        "amount_currency_to_trade": 1.4
+      },
+      {
+        "price": 2454.08,
+        "amount_currency_to_trade": 0.11385
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.12563997
+      },
+      {
+        "price": 2498,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2510,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.049
+      },
+      {
+        "price": 2676,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2584,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2599,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 2459,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.2965
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.22
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.5445
+      },
+      {
+        "price": 2495,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2439.55,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2439.55,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2439.55,
+        "amount_currency_to_trade": 0.40079797
+      },
+      {
+        "price": 2488,
+        "amount_currency_to_trade": 0.675
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.07486396
+      },
+      {
+        "price": 3124,
+        "amount_currency_to_trade": 0.081
+      },
+      {
+        "price": 2480,
+        "amount_currency_to_trade": 0.44
+      },
+      {
+        "price": 2480,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2567,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2650,
+        "amount_currency_to_trade": 6.24195
+      },
+      {
+        "price": 3157.9,
+        "amount_currency_to_trade": 0.05325
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.24213493
+      },
+      {
+        "price": 2510,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 2630,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 3500,
+        "amount_currency_to_trade": 0.0992
+      },
+      {
+        "price": 4248.48,
+        "amount_currency_to_trade": 0.02353666
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.198
+      },
+      {
+        "price": 2498,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2598,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2459.99,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2640,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2488.88,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2585,
+        "amount_currency_to_trade": 0.033
+      },
+      {
+        "price": 4444.44,
+        "amount_currency_to_trade": 0.0224989
+      },
+      {
+        "price": 4343.43,
+        "amount_currency_to_trade": 0.02302213
+      },
+      {
+        "price": 3998,
+        "amount_currency_to_trade": 0.094
+      },
+      {
+        "price": 4646.46,
+        "amount_currency_to_trade": 0.02152069
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2894,
+        "amount_currency_to_trade": 0.0207348
+      },
+      {
+        "price": 2449,
+        "amount_currency_to_trade": 0.143325
+      },
+      {
+        "price": 4298.98,
+        "amount_currency_to_trade": 0.02326017
+      },
+      {
+        "price": 4397.97,
+        "amount_currency_to_trade": 0.02273663
+      },
+      {
+        "price": 4177,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2700,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 4545.45,
+        "amount_currency_to_trade": 0.21999912
+      },
+      {
+        "price": 4498.98,
+        "amount_currency_to_trade": 0.02222615
+      },
+      {
+        "price": 4545.45,
+        "amount_currency_to_trade": 0.02199893
+      },
+      {
+        "price": 4597.97,
+        "amount_currency_to_trade": 0.02174765
+      },
+      {
+        "price": 4141.41,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 4545.45,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 3999.99,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 4400,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2900,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 4687.33,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.1456
+      },
+      {
+        "price": 2599.99,
+        "amount_currency_to_trade": 0.036
+      },
+      {
+        "price": 2449.98,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2459.98,
+        "amount_currency_to_trade": 0.18448
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.02
+      },
+      {
+        "price": 2599.27,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.024
+      },
+      {
+        "price": 2499.99,
+        "amount_currency_to_trade": 0.026
+      },
+      {
+        "price": 4444,
+        "amount_currency_to_trade": 0.028
+      },
+      {
+        "price": 2485.35,
+        "amount_currency_to_trade": 0.399
+      },
+      {
+        "price": 2513.65,
+        "amount_currency_to_trade": 0.67
+      },
+      {
+        "price": 2799.99,
+        "amount_currency_to_trade": 0.438624
+      },
+      {
+        "price": 2890,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.341248
+      },
+      {
+        "price": 2400,
+        "amount_currency_to_trade": 0.0259
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 1.9941431
+      },
+      {
+        "price": 2542.95,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2445,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2440,
+        "amount_currency_to_trade": 0.777
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.7936
+      },
+      {
+        "price": 4500,
+        "amount_currency_to_trade": 1.80477
+      },
+      {
+        "price": 2482,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2597.1,
+        "amount_currency_to_trade": 0.45
+      },
+      {
+        "price": 2499,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2425.3,
+        "amount_currency_to_trade": 0.07361321
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2449.99,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.035
+      },
+      {
+        "price": 2498.89,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 2498.89,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 2498.89,
+        "amount_currency_to_trade": 2.0300964
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.992
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.05952
+      },
+      {
+        "price": 2499.9,
+        "amount_currency_to_trade": 0.024
+      },
+      {
+        "price": 2999,
+        "amount_currency_to_trade": 0.07
+      },
+      {
+        "price": 2900,
+        "amount_currency_to_trade": 0.06961686
+      },
+      {
+        "price": 2461.47,
+        "amount_currency_to_trade": 0.71095839
+      },
+      {
+        "price": 2765,
+        "amount_currency_to_trade": 0.091264
+      },
+      {
+        "price": 2720,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 3600,
+        "amount_currency_to_trade": 2.07398906
+      },
+      {
+        "price": 2640,
+        "amount_currency_to_trade": 0.727
+      },
+      {
+        "price": 2489,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2503,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2440,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2543,
+        "amount_currency_to_trade": 0.22
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 0.78
+      },
+      {
+        "price": 2514,
+        "amount_currency_to_trade": 0.79736119
+      },
+      {
+        "price": 2999.88,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2510,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 4285.5,
+        "amount_currency_to_trade": 0.014
+      },
+      {
+        "price": 2530,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2499.9,
+        "amount_currency_to_trade": 0.048
+      },
+      {
+        "price": 2486,
+        "amount_currency_to_trade": 0.21659328
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2490,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2499.97,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2699.98,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2467,
+        "amount_currency_to_trade": 0.17
+      },
+      {
+        "price": 2699.91,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 2430,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2430,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 4060,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2436,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2462,
+        "amount_currency_to_trade": 0.06039
+      },
+      {
+        "price": 2445,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2545,
+        "amount_currency_to_trade": 0.75
+      },
+      {
+        "price": 2645,
+        "amount_currency_to_trade": 0.75
+      },
+      {
+        "price": 2449.9,
+        "amount_currency_to_trade": 0.48
+      },
+      {
+        "price": 2700,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.258416
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.022
+      },
+      {
+        "price": 2490,
+        "amount_currency_to_trade": 0.08152134
+      },
+      {
+        "price": 2469,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2774,
+        "amount_currency_to_trade": 0.02163
+      },
+      {
+        "price": 2499.95,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2490,
+        "amount_currency_to_trade": 4.8
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 1.77217044
+      },
+      {
+        "price": 2430,
+        "amount_currency_to_trade": 0.99
+      },
+      {
+        "price": 2435,
+        "amount_currency_to_trade": 0.193
+      },
+      {
+        "price": 2471.7,
+        "amount_currency_to_trade": 0.29959048
+      },
+      {
+        "price": 2699,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2474.85,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2465,
+        "amount_currency_to_trade": 0.07300426
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 4.19616
+      },
+      {
+        "price": 2799.99,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 2460,
+        "amount_currency_to_trade": 0.49
+      },
+      {
+        "price": 4696.96,
+        "amount_currency_to_trade": 0.02128931
+      },
+      {
+        "price": 4726.26,
+        "amount_currency_to_trade": 0.02115733
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.2475
+      },
+      {
+        "price": 3000,
+        "amount_currency_to_trade": 0.02011341
+      },
+      {
+        "price": 2459.38,
+        "amount_currency_to_trade": 0.04554
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2448.5,
+        "amount_currency_to_trade": 3.2249448
+      },
+      {
+        "price": 2497,
+        "amount_currency_to_trade": 0.198
+      },
+      {
+        "price": 2650,
+        "amount_currency_to_trade": 0.49
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2544,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2756,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2469,
+        "amount_currency_to_trade": 0.1126
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 2.95485923
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2500,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 2810,
+        "amount_currency_to_trade": 0.493344
+      },
+      {
+        "price": 2460,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2490,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2445,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 4756.98,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 2539.2,
+        "amount_currency_to_trade": 0.0992
+      },
+      {
+        "price": 4500,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 2440,
+        "amount_currency_to_trade": 0.048
+      },
+      {
+        "price": 4200,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2445,
+        "amount_currency_to_trade": 1.98
+      },
+      {
+        "price": 2539.2,
+        "amount_currency_to_trade": 0.496
+      },
+      {
+        "price": 2430,
+        "amount_currency_to_trade": 1.035
+      },
+      {
+        "price": 2420,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2444,
+        "amount_currency_to_trade": 0.616
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.99
+      },
+      {
+        "price": 2440,
+        "amount_currency_to_trade": 0.297
+      },
+      {
+        "price": 2484.99,
+        "amount_currency_to_trade": 4.26796
+      },
+      {
+        "price": 2460,
+        "amount_currency_to_trade": 0.99
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.98208
+      },
+      {
+        "price": 2550,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2449,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 0.82212755
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.17
+      },
+      {
+        "price": 2467,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2494.1,
+        "amount_currency_to_trade": 0.400946
+      },
+      {
+        "price": 2800,
+        "amount_currency_to_trade": 0.49
+      },
+      {
+        "price": 2428,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2459,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2444,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2750,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2430,
+        "amount_currency_to_trade": 10
+      },
+      {
+        "price": 2532.6,
+        "amount_currency_to_trade": 0.099
+      },
+      {
+        "price": 2450,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 2600,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2543.99,
+        "amount_currency_to_trade": 0.025
+      },
+      {
+        "price": 2458.71,
+        "amount_currency_to_trade": 0.052
+      },
+      {
+        "price": 2439.75,
+        "amount_currency_to_trade": 0.6222
+      },
+      {
+        "price": 2460.88,
+        "amount_currency_to_trade": 3.78
+      },
+      {
+        "price": 2461.13,
+        "amount_currency_to_trade": 1.6
+      },
+      {
+        "price": 2474.36,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 2430.22,
+        "amount_currency_to_trade": 0.05
+      }
+    ],
+    "bids": [
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 8.333
+      },
+      {
+        "price": 1208.5,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1250,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1203,
+        "amount_currency_to_trade": 1.6
+      },
+      {
+        "price": 1288.88,
+        "amount_currency_to_trade": 20
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1160,
+        "amount_currency_to_trade": 0.859
+      },
+      {
+        "price": 1177,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1060.4,
+        "amount_currency_to_trade": 0.056
+      },
+      {
+        "price": 1250,
+        "amount_currency_to_trade": 0.048
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1420,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1040,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 1280,
+        "amount_currency_to_trade": 0.65
+      },
+      {
+        "price": 1055,
+        "amount_currency_to_trade": 0.9
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1411.11,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 0.08
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 0.08
+      },
+      {
+        "price": 1057,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1250,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1027,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1075,
+        "amount_currency_to_trade": 0.65
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1120,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1120,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1467.8,
+        "amount_currency_to_trade": 0.125
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1117,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1125,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1150,
+        "amount_currency_to_trade": 0.869
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.83
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1106,
+        "amount_currency_to_trade": 0.9
+      },
+      {
+        "price": 1125,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.34
+      },
+      {
+        "price": 1111,
+        "amount_currency_to_trade": 1.1
+      },
+      {
+        "price": 1090,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1090,
+        "amount_currency_to_trade": 0.45
+      },
+      {
+        "price": 1090,
+        "amount_currency_to_trade": 2.293578
+      },
+      {
+        "price": 1150,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1150,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 1.666
+      },
+      {
+        "price": 1170,
+        "amount_currency_to_trade": 0.85
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1250,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1245,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1108,
+        "amount_currency_to_trade": 0.054
+      },
+      {
+        "price": 1122,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1198,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1102,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1379.4,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1502.6,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1020,
+        "amount_currency_to_trade": 0.6
+      },
+      {
+        "price": 1012.75,
+        "amount_currency_to_trade": 1.974
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1053.53,
+        "amount_currency_to_trade": 40
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1050,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1051,
+        "amount_currency_to_trade": 1.2
+      },
+      {
+        "price": 1060,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1054,
+        "amount_currency_to_trade": 0.948
+      },
+      {
+        "price": 1051.51,
+        "amount_currency_to_trade": 500
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 1051,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1052,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1033.33,
+        "amount_currency_to_trade": 999
+      },
+      {
+        "price": 1025,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1135,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1365,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1206,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 977.69,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1503,
+        "amount_currency_to_trade": 6
+      },
+      {
+        "price": 1517,
+        "amount_currency_to_trade": 6.591
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1477,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1377,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 950,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.666
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 1.2
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 895,
+        "amount_currency_to_trade": 1.1
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1450,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1510,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1520,
+        "amount_currency_to_trade": 0.35
+      },
+      {
+        "price": 1230,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1440,
+        "amount_currency_to_trade": 0.09
+      },
+      {
+        "price": 1505,
+        "amount_currency_to_trade": 1.2
+      },
+      {
+        "price": 1485,
+        "amount_currency_to_trade": 1.3
+      },
+      {
+        "price": 1500.06,
+        "amount_currency_to_trade": 0.21
+      },
+      {
+        "price": 1489,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1410,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1210,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1510,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1210,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 931,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1501,
+        "amount_currency_to_trade": 0.07
+      },
+      {
+        "price": 1310,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 999,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.125
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.125
+      },
+      {
+        "price": 1500.01,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1204,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 890,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1530,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1350,
+        "amount_currency_to_trade": 1.1
+      },
+      {
+        "price": 1311,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.13
+      },
+      {
+        "price": 1522,
+        "amount_currency_to_trade": 0.181
+      },
+      {
+        "price": 1289,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1525,
+        "amount_currency_to_trade": 0.10644766
+      },
+      {
+        "price": 1495,
+        "amount_currency_to_trade": 0.12296927
+      },
+      {
+        "price": 1465,
+        "amount_currency_to_trade": 0.1421124
+      },
+      {
+        "price": 1435,
+        "amount_currency_to_trade": 0.16430453
+      },
+      {
+        "price": 1405,
+        "amount_currency_to_trade": 0.19004522
+      },
+      {
+        "price": 1375,
+        "amount_currency_to_trade": 0.21991883
+      },
+      {
+        "price": 1345,
+        "amount_currency_to_trade": 0.25460953
+      },
+      {
+        "price": 1315,
+        "amount_currency_to_trade": 0.29491919
+      },
+      {
+        "price": 1285,
+        "amount_currency_to_trade": 0.34178853
+      },
+      {
+        "price": 1255,
+        "amount_currency_to_trade": 0.39632249
+      },
+      {
+        "price": 1225,
+        "amount_currency_to_trade": 0.45982035
+      },
+      {
+        "price": 1195,
+        "amount_currency_to_trade": 0.53381185
+      },
+      {
+        "price": 1426,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1505,
+        "amount_currency_to_trade": 1.1
+      },
+      {
+        "price": 999,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 999,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1565.5,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 900,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 900,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 900,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 900,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 900,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 900,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1510,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1101.4,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1250,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1274,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1503.33,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1451,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1280,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.11
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1050,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.1528
+      },
+      {
+        "price": 1501,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 831,
+        "amount_currency_to_trade": 5.5
+      },
+      {
+        "price": 820,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1485,
+        "amount_currency_to_trade": 3.9
+      },
+      {
+        "price": 1499,
+        "amount_currency_to_trade": 0.08
+      },
+      {
+        "price": 1423,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1323,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.094
+      },
+      {
+        "price": 1223,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1411,
+        "amount_currency_to_trade": 0.175
+      },
+      {
+        "price": 1450,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1430.7,
+        "amount_currency_to_trade": 0.11
+      },
+      {
+        "price": 1555.02,
+        "amount_currency_to_trade": 0.763845
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1485,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1488,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1225,
+        "amount_currency_to_trade": 1.011
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 815,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.102
+      },
+      {
+        "price": 1446,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1456,
+        "amount_currency_to_trade": 15
+      },
+      {
+        "price": 1442,
+        "amount_currency_to_trade": 15
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1506,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1201,
+        "amount_currency_to_trade": 2.5
+      },
+      {
+        "price": 1510,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1476,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1410,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 810,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1551,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 950,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1150,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1413,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 900,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1540,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1425,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1501.11,
+        "amount_currency_to_trade": 0.06376619
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 1.4
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500.11,
+        "amount_currency_to_trade": 10
+      },
+      {
+        "price": 1551,
+        "amount_currency_to_trade": 0.46692153
+      },
+      {
+        "price": 1520,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1560,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1551,
+        "amount_currency_to_trade": 0.23668149
+      },
+      {
+        "price": 1497,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 1501,
+        "amount_currency_to_trade": 0.66
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1470,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1504.74,
+        "amount_currency_to_trade": 0.13896753
+      },
+      {
+        "price": 1555.03,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1515.31,
+        "amount_currency_to_trade": 0.13799817
+      },
+      {
+        "price": 1525.95,
+        "amount_currency_to_trade": 0.13703594
+      },
+      {
+        "price": 1536.67,
+        "amount_currency_to_trade": 0.13607997
+      },
+      {
+        "price": 1510,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1547.46,
+        "amount_currency_to_trade": 0.13513112
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1558.33,
+        "amount_currency_to_trade": 0.1343297
+      },
+      {
+        "price": 1569.27,
+        "amount_currency_to_trade": 0.13325304
+      },
+      {
+        "price": 1580.29,
+        "amount_currency_to_trade": 0.13232381
+      },
+      {
+        "price": 830,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1501,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1490.01,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 1570,
+        "amount_currency_to_trade": 0.0995223
+      },
+      {
+        "price": 1390.01,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1540,
+        "amount_currency_to_trade": 0.12175325
+      },
+      {
+        "price": 1290.01,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 1510,
+        "amount_currency_to_trade": 0.14486755
+      },
+      {
+        "price": 1190.01,
+        "amount_currency_to_trade": 6
+      },
+      {
+        "price": 1480,
+        "amount_currency_to_trade": 0.16891892
+      },
+      {
+        "price": 1450,
+        "amount_currency_to_trade": 0.19396552
+      },
+      {
+        "price": 1420,
+        "amount_currency_to_trade": 0.22007043
+      },
+      {
+        "price": 1090.01,
+        "amount_currency_to_trade": 6
+      },
+      {
+        "price": 1390,
+        "amount_currency_to_trade": 0.24730216
+      },
+      {
+        "price": 1360,
+        "amount_currency_to_trade": 0.2757353
+      },
+      {
+        "price": 1330,
+        "amount_currency_to_trade": 0.30545113
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 0.33653847
+      },
+      {
+        "price": 1000.01,
+        "amount_currency_to_trade": 10
+      },
+      {
+        "price": 1270,
+        "amount_currency_to_trade": 0.36909449
+      },
+      {
+        "price": 1240,
+        "amount_currency_to_trade": 0.40322581
+      },
+      {
+        "price": 1210,
+        "amount_currency_to_trade": 0.43904959
+      },
+      {
+        "price": 1180,
+        "amount_currency_to_trade": 0.47669492
+      },
+      {
+        "price": 1520,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1599,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1511,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1585,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1450,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.4285
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1570,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 790.09,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 1.4
+      },
+      {
+        "price": 820,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1510,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1503.75,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1527.2,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 800,
+        "amount_currency_to_trade": 2.5
+      },
+      {
+        "price": 1541.11,
+        "amount_currency_to_trade": 0.13
+      },
+      {
+        "price": 803,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1201,
+        "amount_currency_to_trade": 1.47
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1503,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1158,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1592,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1492,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1392,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1591.39,
+        "amount_currency_to_trade": 0.13426627
+      },
+      {
+        "price": 1602.57,
+        "amount_currency_to_trade": 0.13048416
+      },
+      {
+        "price": 1613.82,
+        "amount_currency_to_trade": 0.12957455
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.08
+      },
+      {
+        "price": 1613.93,
+        "amount_currency_to_trade": 0.03965785
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1509,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1502,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1402,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1302,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 1450,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 1503,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1600.91,
+        "amount_currency_to_trade": 0.11243915
+      },
+      {
+        "price": 1512.03,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1630,
+        "amount_currency_to_trade": 0.039
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 840,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1605,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1625.15,
+        "amount_currency_to_trade": 0.6
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1526,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.71
+      },
+      {
+        "price": 1530,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.09
+      },
+      {
+        "price": 1450,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1611,
+        "amount_currency_to_trade": 0.6344
+      },
+      {
+        "price": 1530,
+        "amount_currency_to_trade": 0.1305
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1101,
+        "amount_currency_to_trade": 1.81
+      },
+      {
+        "price": 1510,
+        "amount_currency_to_trade": 1.324
+      },
+      {
+        "price": 1480,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1632,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1477.6,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1425,
+        "amount_currency_to_trade": 0.14
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1639,
+        "amount_currency_to_trade": 1.8
+      },
+      {
+        "price": 1601,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1633,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1001,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 1699.5,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1601.02,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1600.1,
+        "amount_currency_to_trade": 0.6
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 1649,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 1655,
+        "amount_currency_to_trade": 15
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1725,
+        "amount_currency_to_trade": 0.85
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1707.07,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1116,
+        "amount_currency_to_trade": 4.06
+      },
+      {
+        "price": 1749,
+        "amount_currency_to_trade": 1.1
+      },
+      {
+        "price": 1710.1,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1250,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1510,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.315
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1620,
+        "amount_currency_to_trade": 1.2
+      },
+      {
+        "price": 1649,
+        "amount_currency_to_trade": 13.117
+      },
+      {
+        "price": 900,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1710,
+        "amount_currency_to_trade": 0.9
+      },
+      {
+        "price": 1660,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1610,
+        "amount_currency_to_trade": 1.1
+      },
+      {
+        "price": 1560,
+        "amount_currency_to_trade": 1.2
+      },
+      {
+        "price": 895,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1510,
+        "amount_currency_to_trade": 1.3
+      },
+      {
+        "price": 895,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1460,
+        "amount_currency_to_trade": 1.4
+      },
+      {
+        "price": 1410,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1360,
+        "amount_currency_to_trade": 1.6
+      },
+      {
+        "price": 1310,
+        "amount_currency_to_trade": 1.7
+      },
+      {
+        "price": 1260,
+        "amount_currency_to_trade": 1.8
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1660,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 1651,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1611.11,
+        "amount_currency_to_trade": 10
+      },
+      {
+        "price": 1450,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.065
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.07
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 950,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1610,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1503.03,
+        "amount_currency_to_trade": 2.5
+      },
+      {
+        "price": 1703,
+        "amount_currency_to_trade": 0.35
+      },
+      {
+        "price": 1599,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1610,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.7142
+      },
+      {
+        "price": 1610,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1501.11,
+        "amount_currency_to_trade": 0.427
+      },
+      {
+        "price": 1496,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 0.061
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.065
+      },
+      {
+        "price": 1625,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1450,
+        "amount_currency_to_trade": 0.069
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1585,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1580,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1525,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1431.1,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 1748,
+        "amount_currency_to_trade": 0.05050505
+      },
+      {
+        "price": 1350,
+        "amount_currency_to_trade": 0.0741
+      },
+      {
+        "price": 1250,
+        "amount_currency_to_trade": 0.08
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1701,
+        "amount_currency_to_trade": 7
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 1720,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1725,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1.33
+      },
+      {
+        "price": 1586.56,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1550.05,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1709,
+        "amount_currency_to_trade": 0.09
+      },
+      {
+        "price": 1719,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1638,
+        "amount_currency_to_trade": 0.09
+      },
+      {
+        "price": 1671,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1510,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1711,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1701.01,
+        "amount_currency_to_trade": 0.0776
+      },
+      {
+        "price": 1711.01,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.048
+      },
+      {
+        "price": 1602,
+        "amount_currency_to_trade": 0.037
+      },
+      {
+        "price": 1506,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1660,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1760,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 900,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1721,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1749,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1555,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1430,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 905,
+        "amount_currency_to_trade": 0.65
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.125
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 0.35
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1652,
+        "amount_currency_to_trade": 6.05
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.13
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1758,
+        "amount_currency_to_trade": 0.26
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1780,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.3529
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1386,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1665,
+        "amount_currency_to_trade": 0.14
+      },
+      {
+        "price": 1709.83,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1760,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 1756,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1715,
+        "amount_currency_to_trade": 0.035
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1815,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1675,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1820,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1010,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 910,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1840,
+        "amount_currency_to_trade": 0.11
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1806,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1801,
+        "amount_currency_to_trade": 0.12
+      },
+      {
+        "price": 1701,
+        "amount_currency_to_trade": 0.12
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 950,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1505,
+        "amount_currency_to_trade": 0.3322
+      },
+      {
+        "price": 925,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1837.06,
+        "amount_currency_to_trade": 0.05282655
+      },
+      {
+        "price": 1555,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1801,
+        "amount_currency_to_trade": 3.89
+      },
+      {
+        "price": 1730,
+        "amount_currency_to_trade": 0.75
+      },
+      {
+        "price": 1790,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1792,
+        "amount_currency_to_trade": 0.05050505
+      },
+      {
+        "price": 1827.5,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1830,
+        "amount_currency_to_trade": 0.032
+      },
+      {
+        "price": 1050,
+        "amount_currency_to_trade": 0.52
+      },
+      {
+        "price": 1665,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1808,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1579,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1677,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1701,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1860,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1837.11,
+        "amount_currency_to_trade": 0.34
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1562.64,
+        "amount_currency_to_trade": 0.6
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1858,
+        "amount_currency_to_trade": 1.076
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1800.99,
+        "amount_currency_to_trade": 0.2935
+      },
+      {
+        "price": 1780,
+        "amount_currency_to_trade": 7.3
+      },
+      {
+        "price": 1860,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1720,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1680,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 1.25
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.55
+      },
+      {
+        "price": 946,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1720,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1680,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.433
+      },
+      {
+        "price": 1787,
+        "amount_currency_to_trade": 0.33
+      },
+      {
+        "price": 1758.88,
+        "amount_currency_to_trade": 0.34
+      },
+      {
+        "price": 1708,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1770,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 970,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1910,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1905.01,
+        "amount_currency_to_trade": 0.308
+      },
+      {
+        "price": 1830.03,
+        "amount_currency_to_trade": 1.908
+      },
+      {
+        "price": 961,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1934,
+        "amount_currency_to_trade": 0.032
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1707,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1657,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1607,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1557,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1507,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1457,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1407,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1706,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 1850.01,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1214.04,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1196.68,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.0375
+      },
+      {
+        "price": 1720,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1867,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1811,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1628,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1935.1,
+        "amount_currency_to_trade": 0.032
+      },
+      {
+        "price": 1428,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1320,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1028.04,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 961,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1932,
+        "amount_currency_to_trade": 0.031055
+      },
+      {
+        "price": 1836,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 1912.12,
+        "amount_currency_to_trade": 0.05230058
+      },
+      {
+        "price": 1922.22,
+        "amount_currency_to_trade": 0.05202578
+      },
+      {
+        "price": 1932.32,
+        "amount_currency_to_trade": 0.05175385
+      },
+      {
+        "price": 1940.4,
+        "amount_currency_to_trade": 0.05153834
+      },
+      {
+        "price": 1933.01,
+        "amount_currency_to_trade": 0.068
+      },
+      {
+        "price": 1934.1,
+        "amount_currency_to_trade": 0.032
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1836,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1620,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1489,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1523,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1911,
+        "amount_currency_to_trade": 0.29
+      },
+      {
+        "price": 1840.04,
+        "amount_currency_to_trade": 0.11
+      },
+      {
+        "price": 1050,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1.33333
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 1901,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1790,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1711.11,
+        "amount_currency_to_trade": 0.0584445
+      },
+      {
+        "price": 1789.89,
+        "amount_currency_to_trade": 0.111741
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.08
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.075
+      },
+      {
+        "price": 1911,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1751.1,
+        "amount_currency_to_trade": 1.99
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1909.76,
+        "amount_currency_to_trade": 0.03351468
+      },
+      {
+        "price": 1880,
+        "amount_currency_to_trade": 0.32
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1250,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1650.01,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1640.01,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 0.035
+      },
+      {
+        "price": 1540,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1900.01,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1711,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1050,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1807,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 2.4
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1880,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1760,
+        "amount_currency_to_trade": 0.1136
+      },
+      {
+        "price": 1762,
+        "amount_currency_to_trade": 0.04040404
+      },
+      {
+        "price": 1780,
+        "amount_currency_to_trade": 1.02
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 1.02
+      },
+      {
+        "price": 1710,
+        "amount_currency_to_trade": 0.87
+      },
+      {
+        "price": 1690,
+        "amount_currency_to_trade": 1.02
+      },
+      {
+        "price": 1645,
+        "amount_currency_to_trade": 0.56
+      },
+      {
+        "price": 1630,
+        "amount_currency_to_trade": 1.02
+      },
+      {
+        "price": 1820,
+        "amount_currency_to_trade": 1.05
+      },
+      {
+        "price": 1801.03,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 4.5
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1702.03,
+        "amount_currency_to_trade": 0.145
+      },
+      {
+        "price": 1045.05,
+        "amount_currency_to_trade": 0.24
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1772.34,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1702.61,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1641.33,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1591.33,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1531.33,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.33
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1801,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1760,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1828,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1715,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1028,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1527,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1820,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1751,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1910,
+        "amount_currency_to_trade": 0.13
+      },
+      {
+        "price": 1756,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1880,
+        "amount_currency_to_trade": 0.1095
+      },
+      {
+        "price": 1017.88,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1016.99,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1799,
+        "amount_currency_to_trade": 0.833
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 1.1
+      },
+      {
+        "price": 1050,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.16
+      },
+      {
+        "price": 1890,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1501,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1150,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.6
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1625.15,
+        "amount_currency_to_trade": 0.12306556
+      },
+      {
+        "price": 1202,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1636.56,
+        "amount_currency_to_trade": 0.12220756
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1648.05,
+        "amount_currency_to_trade": 0.14094233
+      },
+      {
+        "price": 1920,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1896,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1860,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1899,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 1752,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1659.62,
+        "amount_currency_to_trade": 0.12050951
+      },
+      {
+        "price": 1671.28,
+        "amount_currency_to_trade": 0.13141425
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.13
+      },
+      {
+        "price": 1683.02,
+        "amount_currency_to_trade": 0.118834
+      },
+      {
+        "price": 1694.84,
+        "amount_currency_to_trade": 0.12338038
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1706.74,
+        "amount_currency_to_trade": 0.12810387
+      },
+      {
+        "price": 1718.73,
+        "amount_currency_to_trade": 0.12733821
+      },
+      {
+        "price": 1730.8,
+        "amount_currency_to_trade": 0.1155535
+      },
+      {
+        "price": 1742.96,
+        "amount_currency_to_trade": 0.12901042
+      },
+      {
+        "price": 1755.2,
+        "amount_currency_to_trade": 0.13869644
+      },
+      {
+        "price": 1767.53,
+        "amount_currency_to_trade": 0.11315225
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1779.94,
+        "amount_currency_to_trade": 0.11236334
+      },
+      {
+        "price": 1936.6,
+        "amount_currency_to_trade": 0.032
+      },
+      {
+        "price": 1180,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1792.44,
+        "amount_currency_to_trade": 0.11157975
+      },
+      {
+        "price": 1915,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1805.03,
+        "amount_currency_to_trade": 0.11888445
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 990,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1350,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1817.71,
+        "amount_currency_to_trade": 0.11002855
+      },
+      {
+        "price": 1450,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1830.48,
+        "amount_currency_to_trade": 0.1142378
+      },
+      {
+        "price": 1504,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1843.34,
+        "amount_currency_to_trade": 0.1084987
+      },
+      {
+        "price": 1250,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1856.29,
+        "amount_currency_to_trade": 0.11264942
+      },
+      {
+        "price": 1640,
+        "amount_currency_to_trade": 0.51
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1869.33,
+        "amount_currency_to_trade": 0.11186361
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 2.25
+      },
+      {
+        "price": 1158,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1882.46,
+        "amount_currency_to_trade": 0.10624396
+      },
+      {
+        "price": 1895.68,
+        "amount_currency_to_trade": 0.1103087
+      },
+      {
+        "price": 1908.99,
+        "amount_currency_to_trade": 0.10964961
+      },
+      {
+        "price": 1923,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1922.4,
+        "amount_currency_to_trade": 0.10403662
+      },
+      {
+        "price": 1760,
+        "amount_currency_to_trade": 0.6
+      },
+      {
+        "price": 1710,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1410,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1949.5,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1920.02,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.035
+      },
+      {
+        "price": 1940,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 6.5
+      },
+      {
+        "price": 1805,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1956.5,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1701,
+        "amount_currency_to_trade": 0.52
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1970,
+        "amount_currency_to_trade": 0.2538
+      },
+      {
+        "price": 1760,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1920,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1525,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.055
+      },
+      {
+        "price": 1968,
+        "amount_currency_to_trade": 0.03125
+      },
+      {
+        "price": 1660,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 1.25
+      },
+      {
+        "price": 1935.93,
+        "amount_currency_to_trade": 0.31
+      },
+      {
+        "price": 1963,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 1975,
+        "amount_currency_to_trade": 1.012
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.6
+      },
+      {
+        "price": 1980,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 1979,
+        "amount_currency_to_trade": 0.033
+      },
+      {
+        "price": 1977,
+        "amount_currency_to_trade": 0.036
+      },
+      {
+        "price": 1971,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1903,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1883,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1760,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2015,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2001,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1087,
+        "amount_currency_to_trade": 0.07
+      },
+      {
+        "price": 1885,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1952,
+        "amount_currency_to_trade": 6.6
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 1999,
+        "amount_currency_to_trade": 0.033
+      },
+      {
+        "price": 1627,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1727,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1827,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1021,
+        "amount_currency_to_trade": 1.958
+      },
+      {
+        "price": 1537,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1951.5,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2003,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1896.06,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.21
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1990,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1501,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.05050506
+      },
+      {
+        "price": 1025,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1903.51,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2015.01,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 1952.9,
+        "amount_currency_to_trade": 7
+      },
+      {
+        "price": 1600.15,
+        "amount_currency_to_trade": 0.6
+      },
+      {
+        "price": 2000.02,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1990.01,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2019.85,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1025,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1990,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2020,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2012.02,
+        "amount_currency_to_trade": 0.0536
+      },
+      {
+        "price": 1905,
+        "amount_currency_to_trade": 13
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2020,
+        "amount_currency_to_trade": 0.055
+      },
+      {
+        "price": 2026.7,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2023.3,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2030,
+        "amount_currency_to_trade": 10
+      },
+      {
+        "price": 1506.1,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1880,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2080.05,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2036,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2081.1,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2060,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2060,
+        "amount_currency_to_trade": 6
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2104,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2001.89,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.048
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.462
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1960,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2010,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1910,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1810,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1710,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2011,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2010.12,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.325
+      },
+      {
+        "price": 1911,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2050,
+        "amount_currency_to_trade": 0.27
+      },
+      {
+        "price": 2090,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1695,
+        "amount_currency_to_trade": 0.55
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.14
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.14
+      },
+      {
+        "price": 2118,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2136,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1250,
+        "amount_currency_to_trade": 0.21
+      },
+      {
+        "price": 1990,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2105.05,
+        "amount_currency_to_trade": 2.35
+      },
+      {
+        "price": 2148,
+        "amount_currency_to_trade": 0.039
+      },
+      {
+        "price": 1990,
+        "amount_currency_to_trade": 1.25025
+      },
+      {
+        "price": 2157,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2100.02,
+        "amount_currency_to_trade": 1.009
+      },
+      {
+        "price": 2160,
+        "amount_currency_to_trade": 0.0505
+      },
+      {
+        "price": 2150,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2179.78,
+        "amount_currency_to_trade": 0.05225
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 2.148
+      },
+      {
+        "price": 1100,
+        "amount_currency_to_trade": 0.75
+      },
+      {
+        "price": 1880,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1813,
+        "amount_currency_to_trade": 1.045
+      },
+      {
+        "price": 1550.52,
+        "amount_currency_to_trade": 0.125
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 0.51
+      },
+      {
+        "price": 1637.89,
+        "amount_currency_to_trade": 0.125
+      },
+      {
+        "price": 1730.2,
+        "amount_currency_to_trade": 0.125
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2058,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2002,
+        "amount_currency_to_trade": 4.9
+      },
+      {
+        "price": 2115,
+        "amount_currency_to_trade": 0.45
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 4.9
+      },
+      {
+        "price": 2050,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 2125,
+        "amount_currency_to_trade": 0.47
+      },
+      {
+        "price": 2117,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1935.9,
+        "amount_currency_to_trade": 0.10894674
+      },
+      {
+        "price": 1949.5,
+        "amount_currency_to_trade": 0.10259041
+      },
+      {
+        "price": 1976.98,
+        "amount_currency_to_trade": 0.10466469
+      },
+      {
+        "price": 1990.87,
+        "amount_currency_to_trade": 0.10513996
+      },
+      {
+        "price": 2150.03,
+        "amount_currency_to_trade": 0.6
+      },
+      {
+        "price": 2004.85,
+        "amount_currency_to_trade": 0.10440681
+      },
+      {
+        "price": 2018.93,
+        "amount_currency_to_trade": 0.10367868
+      },
+      {
+        "price": 2033.11,
+        "amount_currency_to_trade": 0.10434753
+      },
+      {
+        "price": 2047.39,
+        "amount_currency_to_trade": 0.10223748
+      },
+      {
+        "price": 2061.77,
+        "amount_currency_to_trade": 0.10152442
+      },
+      {
+        "price": 2076.25,
+        "amount_currency_to_trade": 0.10081638
+      },
+      {
+        "price": 2105.52,
+        "amount_currency_to_trade": 0.09498841
+      },
+      {
+        "price": 1920,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2131,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2096,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.9
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 2150,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 2050,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 2021,
+        "amount_currency_to_trade": 4.9
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2029,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1902,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1602,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2071.23,
+        "amount_currency_to_trade": 10
+      },
+      {
+        "price": 2111.12,
+        "amount_currency_to_trade": 1.417
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2119,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2005,
+        "amount_currency_to_trade": 1.3
+      },
+      {
+        "price": 2050,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2106,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 2.5
+      },
+      {
+        "price": 1938,
+        "amount_currency_to_trade": 0.51
+      },
+      {
+        "price": 1612.43,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1455.77,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1795,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2129,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1702,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2022.22,
+        "amount_currency_to_trade": 0.49450851
+      },
+      {
+        "price": 2098,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2156,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2020,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2098,
+        "amount_currency_to_trade": 0.75
+      },
+      {
+        "price": 2040,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1999.99,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2162,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2092.09,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2110,
+        "amount_currency_to_trade": 11.8
+      },
+      {
+        "price": 2196,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2032,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 2171,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2051,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2135.2,
+        "amount_currency_to_trade": 0.09803297
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 2160,
+        "amount_currency_to_trade": 0.49284775
+      },
+      {
+        "price": 1963.19,
+        "amount_currency_to_trade": 0.12103261
+      },
+      {
+        "price": 2090.83,
+        "amount_currency_to_trade": 0.10001291
+      },
+      {
+        "price": 2120.31,
+        "amount_currency_to_trade": 0.09432583
+      },
+      {
+        "price": 2049,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2226.5,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.22
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1866,
+        "amount_currency_to_trade": 0.26
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 6
+      },
+      {
+        "price": 1910,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 2087,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2108,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1934,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2136.06,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2170.07,
+        "amount_currency_to_trade": 0.028
+      },
+      {
+        "price": 2160.06,
+        "amount_currency_to_trade": 0.493
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1890,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2030,
+        "amount_currency_to_trade": 0.5050505
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.75
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2083,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2186,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2050,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2250,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 2050,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2050,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2150,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2204,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2229,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2201.08,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2141.18,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2101.05,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2021.1,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1954.15,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1861.05,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1801.1,
+        "amount_currency_to_trade": 0.3928
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1990,
+        "amount_currency_to_trade": 1.005
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1755,
+        "amount_currency_to_trade": 0.03846
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2102,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2056,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 1666,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 10
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.34
+      },
+      {
+        "price": 2201,
+        "amount_currency_to_trade": 0.45
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.07
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1550,
+        "amount_currency_to_trade": 1.2
+      },
+      {
+        "price": 2150,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 1995.02,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1655,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1655,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2200.02,
+        "amount_currency_to_trade": 1.20099898
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 5.7
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 1646,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2130,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1930,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1730,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1530,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1330,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2224,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.562
+      },
+      {
+        "price": 2150,
+        "amount_currency_to_trade": 0.29
+      },
+      {
+        "price": 2150.2,
+        "amount_currency_to_trade": 0.14707004
+      },
+      {
+        "price": 2165.3,
+        "amount_currency_to_trade": 0.10107606
+      },
+      {
+        "price": 2180.51,
+        "amount_currency_to_trade": 0.09325341
+      },
+      {
+        "price": 2195.83,
+        "amount_currency_to_trade": 0.04204333
+      },
+      {
+        "price": 2050,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1755.6,
+        "amount_currency_to_trade": 0.1817
+      },
+      {
+        "price": 1995.78,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2113.77,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1325.81,
+        "amount_currency_to_trade": 2.24
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 1980,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.08
+      },
+      {
+        "price": 1510,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1210,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2200.55,
+        "amount_currency_to_trade": 0.13
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2059,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1999,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2111,
+        "amount_currency_to_trade": 0.11
+      },
+      {
+        "price": 2001,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2201,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2100.09,
+        "amount_currency_to_trade": 7.05
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1975,
+        "amount_currency_to_trade": 8.55
+      },
+      {
+        "price": 2180,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2186.06,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1997,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1999,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1400,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1523,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2190,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2099.02,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2155.02,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 0.625
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2199.02,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.57
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.33
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1300,
+        "amount_currency_to_trade": 0.33
+      },
+      {
+        "price": 2049,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 1.009
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2239.39,
+        "amount_currency_to_trade": 0.04465725
+      },
+      {
+        "price": 2219.19,
+        "amount_currency_to_trade": 0.04506373
+      },
+      {
+        "price": 2196.96,
+        "amount_currency_to_trade": 0.04551971
+      },
+      {
+        "price": 2188.88,
+        "amount_currency_to_trade": 0.04568774
+      },
+      {
+        "price": 2178.78,
+        "amount_currency_to_trade": 0.04589954
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 0.165
+      },
+      {
+        "price": 1600,
+        "amount_currency_to_trade": 1.25
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 0.089
+      },
+      {
+        "price": 1940.3,
+        "amount_currency_to_trade": 0.67
+      },
+      {
+        "price": 2009,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1950,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.6
+      },
+      {
+        "price": 1809,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1760,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1660,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.108
+      },
+      {
+        "price": 1570,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2101,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2060,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.04
+      },
+      {
+        "price": 1740,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1675,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2009,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1970,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1902,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1987,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1632.66,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2151,
+        "amount_currency_to_trade": 0.11
+      },
+      {
+        "price": 2250,
+        "amount_currency_to_trade": 0.11
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 1.1
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 1.1
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.825
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1670,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1650,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.47
+      },
+      {
+        "price": 1630,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 1.1
+      },
+      {
+        "price": 1700,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1750,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2180.09,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 1827.7,
+        "amount_currency_to_trade": 0.125
+      },
+      {
+        "price": 2201,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2212.54,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1910.28,
+        "amount_currency_to_trade": 0.03350555
+      },
+      {
+        "price": 2055.81,
+        "amount_currency_to_trade": 0.03113371
+      },
+      {
+        "price": 2077.91,
+        "amount_currency_to_trade": 0.03080258
+      },
+      {
+        "price": 2088.06,
+        "amount_currency_to_trade": 0.03065285
+      },
+      {
+        "price": 2050,
+        "amount_currency_to_trade": 0.08
+      },
+      {
+        "price": 2105.08,
+        "amount_currency_to_trade": 0.03040502
+      },
+      {
+        "price": 2103.49,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2124.09,
+        "amount_currency_to_trade": 0.0301329
+      },
+      {
+        "price": 2107.28,
+        "amount_currency_to_trade": 0.03037327
+      },
+      {
+        "price": 2156.29,
+        "amount_currency_to_trade": 0.02968292
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2189.99,
+        "amount_currency_to_trade": 0.779
+      },
+      {
+        "price": 2102,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2027,
+        "amount_currency_to_trade": 0.2375
+      },
+      {
+        "price": 2105,
+        "amount_currency_to_trade": 0.43
+      },
+      {
+        "price": 2000.5,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 1820,
+        "amount_currency_to_trade": 0.0857
+      },
+      {
+        "price": 1800,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 1.0416564
+      },
+      {
+        "price": 2248,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1940,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2035,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 1855,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1625,
+        "amount_currency_to_trade": 3
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.07
+      },
+      {
+        "price": 1242,
+        "amount_currency_to_trade": 0.563607
+      },
+      {
+        "price": 2001,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1147,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 1902,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1560,
+        "amount_currency_to_trade": 0.192307
+      },
+      {
+        "price": 1418,
+        "amount_currency_to_trade": 0.352609
+      },
+      {
+        "price": 2120,
+        "amount_currency_to_trade": 0.055
+      },
+      {
+        "price": 1907,
+        "amount_currency_to_trade": 1.04876769
+      },
+      {
+        "price": 2250.55,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1880,
+        "amount_currency_to_trade": 0.612
+      },
+      {
+        "price": 2250,
+        "amount_currency_to_trade": 0.027108
+      },
+      {
+        "price": 2110,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2195,
+        "amount_currency_to_trade": 1.095
+      },
+      {
+        "price": 2050,
+        "amount_currency_to_trade": 1.6
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 1206,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2245,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 1975,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2220,
+        "amount_currency_to_trade": 0.45045
+      },
+      {
+        "price": 2246,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2180,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.49
+      },
+      {
+        "price": 1856,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 2250,
+        "amount_currency_to_trade": 2.69
+      },
+      {
+        "price": 2250,
+        "amount_currency_to_trade": 6
+      },
+      {
+        "price": 2222,
+        "amount_currency_to_trade": 0.446
+      },
+      {
+        "price": 2230,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 2280,
+        "amount_currency_to_trade": 1.02
+      },
+      {
+        "price": 2255,
+        "amount_currency_to_trade": 0.027
+      },
+      {
+        "price": 2250,
+        "amount_currency_to_trade": 0.17756905
+      },
+      {
+        "price": 2280.01,
+        "amount_currency_to_trade": 0.3175
+      },
+      {
+        "price": 2230,
+        "amount_currency_to_trade": 0.1004
+      },
+      {
+        "price": 2247,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2100.1,
+        "amount_currency_to_trade": 0.1004
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.8
+      },
+      {
+        "price": 2255,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2222,
+        "amount_currency_to_trade": 0.2884
+      },
+      {
+        "price": 1901,
+        "amount_currency_to_trade": 1.05
+      },
+      {
+        "price": 1901,
+        "amount_currency_to_trade": 1.05
+      },
+      {
+        "price": 1901,
+        "amount_currency_to_trade": 1.05
+      },
+      {
+        "price": 1901,
+        "amount_currency_to_trade": 1.05
+      },
+      {
+        "price": 1901,
+        "amount_currency_to_trade": 1.05
+      },
+      {
+        "price": 2300,
+        "amount_currency_to_trade": 0.03
+      },
+      {
+        "price": 1901,
+        "amount_currency_to_trade": 5.2
+      },
+      {
+        "price": 2290,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2317.98,
+        "amount_currency_to_trade": 0.9
+      },
+      {
+        "price": 2319.57,
+        "amount_currency_to_trade": 0.180544
+      },
+      {
+        "price": 2320,
+        "amount_currency_to_trade": 0.26303452
+      },
+      {
+        "price": 2300,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2300,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2310,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2315,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1850,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2250,
+        "amount_currency_to_trade": 0.44
+      },
+      {
+        "price": 1500,
+        "amount_currency_to_trade": 0.7
+      },
+      {
+        "price": 2260,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2300.05,
+        "amount_currency_to_trade": 0.027
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 0.25
+      },
+      {
+        "price": 2105,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 1780,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2306,
+        "amount_currency_to_trade": 1.9
+      },
+      {
+        "price": 2215,
+        "amount_currency_to_trade": 0.75
+      },
+      {
+        "price": 2313,
+        "amount_currency_to_trade": 0.065
+      },
+      {
+        "price": 2249,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 1970,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2306.5,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2286,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2256,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2050,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2000,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2316,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 2300,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2307,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 0.436
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.443
+      },
+      {
+        "price": 2250,
+        "amount_currency_to_trade": 1.8666
+      },
+      {
+        "price": 1600.34,
+        "amount_currency_to_trade": 4.046
+      },
+      {
+        "price": 2358,
+        "amount_currency_to_trade": 0.07364865
+      },
+      {
+        "price": 2359,
+        "amount_currency_to_trade": 0.63
+      },
+      {
+        "price": 2359.51,
+        "amount_currency_to_trade": 0.24866806
+      },
+      {
+        "price": 2360.87,
+        "amount_currency_to_trade": 0.1455638
+      },
+      {
+        "price": 2315,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2369,
+        "amount_currency_to_trade": 0.8304
+      },
+      {
+        "price": 2251,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 2207,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 2151,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 2370,
+        "amount_currency_to_trade": 0.49
+      },
+      {
+        "price": 2316.03,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 2303.83,
+        "amount_currency_to_trade": 6
+      },
+      {
+        "price": 2351,
+        "amount_currency_to_trade": 1.4
+      },
+      {
+        "price": 2360.8,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2323.2,
+        "amount_currency_to_trade": 1.123
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2320,
+        "amount_currency_to_trade": 10
+      },
+      {
+        "price": 2350,
+        "amount_currency_to_trade": 0.165
+      },
+      {
+        "price": 2270,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 1780,
+        "amount_currency_to_trade": 0.13
+      },
+      {
+        "price": 2345.8,
+        "amount_currency_to_trade": 5
+      },
+      {
+        "price": 2351.99,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2279.79,
+        "amount_currency_to_trade": 0.04386588
+      },
+      {
+        "price": 2287.87,
+        "amount_currency_to_trade": 0.04371096
+      },
+      {
+        "price": 2305.05,
+        "amount_currency_to_trade": 0.04338517
+      },
+      {
+        "price": 2323.23,
+        "amount_currency_to_trade": 0.04304567
+      },
+      {
+        "price": 2327.27,
+        "amount_currency_to_trade": 0.04297094
+      },
+      {
+        "price": 2351.11,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2305.8,
+        "amount_currency_to_trade": 20
+      },
+      {
+        "price": 2375.1,
+        "amount_currency_to_trade": 4.21
+      },
+      {
+        "price": 2375.6,
+        "amount_currency_to_trade": 2.52
+      },
+      {
+        "price": 2333.33,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1760,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2350,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2009,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2002,
+        "amount_currency_to_trade": 0.389
+      },
+      {
+        "price": 1991,
+        "amount_currency_to_trade": 1.35
+      },
+      {
+        "price": 2250,
+        "amount_currency_to_trade": 0.031
+      },
+      {
+        "price": 1450,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2260,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2306.55,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2256.06,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2376,
+        "amount_currency_to_trade": 0.03524083
+      },
+      {
+        "price": 2200,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2150,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2050,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2160,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2377,
+        "amount_currency_to_trade": 0.841394
+      },
+      {
+        "price": 2347.15,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2250,
+        "amount_currency_to_trade": 0.15
+      },
+      {
+        "price": 2250.21,
+        "amount_currency_to_trade": 0.08888
+      },
+      {
+        "price": 2320,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2100,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2222.22,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 2301,
+        "amount_currency_to_trade": 0.05
+      },
+      {
+        "price": 2323.22,
+        "amount_currency_to_trade": 1.5
+      },
+      {
+        "price": 2367,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2356,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2300,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 2362,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2348.11,
+        "amount_currency_to_trade": 1
+      },
+      {
+        "price": 2272,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2356.6,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2375.75,
+        "amount_currency_to_trade": 1.84499898
+      },
+      {
+        "price": 2360.88,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 1200,
+        "amount_currency_to_trade": 2
+      },
+      {
+        "price": 2300,
+        "amount_currency_to_trade": 0.065
+      },
+      {
+        "price": 2311,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2300,
+        "amount_currency_to_trade": 0.027
+      },
+      {
+        "price": 2352.85,
+        "amount_currency_to_trade": 5.3
+      },
+      {
+        "price": 2350,
+        "amount_currency_to_trade": 0.0506
+      },
+      {
+        "price": 2365,
+        "amount_currency_to_trade": 0.6342494
+      },
+      {
+        "price": 2346,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 2300,
+        "amount_currency_to_trade": 2.06
+      },
+      {
+        "price": 2401,
+        "amount_currency_to_trade": 4
+      },
+      {
+        "price": 2390,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2371.11,
+        "amount_currency_to_trade": 0.2
+      },
+      {
+        "price": 2300,
+        "amount_currency_to_trade": 0.06
+      },
+      {
+        "price": 2405,
+        "amount_currency_to_trade": 1.6
+      },
+      {
+        "price": 2316.04,
+        "amount_currency_to_trade": 7.7038
+      },
+      {
+        "price": 2360,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2105.06,
+        "amount_currency_to_trade": 10
+      },
+      {
+        "price": 2402,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2376.11,
+        "amount_currency_to_trade": 0.1
+      },
+      {
+        "price": 2390.12,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 1900,
+        "amount_currency_to_trade": 0.13158
+      },
+      {
+        "price": 2390.1,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2376.22,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2406,
+        "amount_currency_to_trade": 0.3
+      },
+      {
+        "price": 2406,
+        "amount_currency_to_trade": 0.4
+      },
+      {
+        "price": 2405.16,
+        "amount_currency_to_trade": 0.9
+      },
+      {
+        "price": 2406.11,
+        "amount_currency_to_trade": 1.745
+      },
+      {
+        "price": 2399.79,
+        "amount_currency_to_trade": 0.30243
+      },
+      {
+        "price": 2406.02,
+        "amount_currency_to_trade": 0.9
+      },
+      {
+        "price": 2390.13,
+        "amount_currency_to_trade": 0.5
+      },
+      {
+        "price": 2392.6,
+        "amount_currency_to_trade": 0.27
+      }
+    ]
+  },
+  "errors": [],
+  "credits": 17
+}

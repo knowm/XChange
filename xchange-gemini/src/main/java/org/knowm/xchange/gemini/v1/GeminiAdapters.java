@@ -1,6 +1,7 @@
 package org.knowm.xchange.gemini.v1;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -63,10 +64,10 @@ public final class GeminiAdapters {
     return currencyPairs;
   }
 
-  public static CurrencyPair adaptCurrencyPair(String GeminiSymbol) {
+  public static CurrencyPair adaptCurrencyPair(String symbol) {
 
-    String tradableIdentifier = GeminiSymbol.substring(0, 3).toUpperCase();
-    String transactionCurrency = GeminiSymbol.substring(3).toUpperCase();
+    String tradableIdentifier = symbol.substring(0, symbol.length() - 3).toUpperCase();
+    String transactionCurrency = symbol.substring(symbol.length() - 3).toUpperCase();
     return new CurrencyPair(tradableIdentifier, transactionCurrency);
   }
 
@@ -119,7 +120,22 @@ public final class GeminiAdapters {
     OrderType orderType =
         (geminiOrderStatusResponse.getSide().equals("buy")) ? OrderType.BID : OrderType.ASK;
     OrderStatus orderStatus = adaptOrderstatus(geminiOrderStatusResponse);
-    Date timestamp = new Date(geminiOrderStatusResponse.getTimestampms() / 1000);
+    Date timestamp = new Date(geminiOrderStatusResponse.getTimestampms());
+
+    // Calculate Fees in counter currency
+    BigDecimal fee = null;
+
+    if (geminiOrderStatusResponse.getTrades() != null
+        && geminiOrderStatusResponse.getTrades().length > 0) {
+      for (GeminiOrderStatusResponse.OrderStatusTradeDetails trade :
+          geminiOrderStatusResponse.getTrades()) {
+        if (fee == null) {
+          fee = trade.getFeeAmount();
+        } else {
+          fee.add(trade.getFeeAmount());
+        }
+      }
+    }
 
     if (geminiOrderStatusResponse.getType().contains("limit")) {
 
@@ -134,8 +150,9 @@ public final class GeminiAdapters {
           limitPrice,
           averageExecutionPrice,
           executedAmount,
-          null,
-          orderStatus);
+          fee,
+          orderStatus,
+          geminiOrderStatusResponse.getClientOrderId());
 
     } else if (geminiOrderStatusResponse.getType().contains("market")) {
 
@@ -147,8 +164,9 @@ public final class GeminiAdapters {
           timestamp,
           averageExecutionPrice,
           executedAmount,
-          null,
-          orderStatus);
+          fee,
+          orderStatus,
+          geminiOrderStatusResponse.getClientOrderId());
     }
 
     throw new NotYetImplementedForExchangeException();
@@ -157,6 +175,9 @@ public final class GeminiAdapters {
   private static OrderStatus adaptOrderstatus(GeminiOrderStatusResponse geminiOrderStatusResponse) {
 
     if (geminiOrderStatusResponse.isCancelled()) return OrderStatus.CANCELED;
+
+    if (geminiOrderStatusResponse.getExecutedAmount().equals(new BigDecimal(0.0)))
+      return OrderStatus.OPEN;
 
     if (geminiOrderStatusResponse.getRemainingAmount().equals(new BigDecimal(0.0)))
       return OrderStatus.FILLED;
@@ -263,7 +284,14 @@ public final class GeminiAdapters {
     Date date =
         DateUtils.fromMillisUtc(trade.getTimestamp() * 1000L); // Gemini uses Unix timestamps
     final String tradeId = String.valueOf(trade.getTradeId());
-    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   public static Trades adaptTrades(GeminiTrade[] trades, CurrencyPair currencyPair) {
@@ -326,16 +354,26 @@ public final class GeminiAdapters {
       balances.add(new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adaptOrders(GeminiOrderStatusResponse[] activeOrders) {
+    return adaptOrders(activeOrders, null);
+  }
+
+  public static OpenOrders adaptOrders(
+      GeminiOrderStatusResponse[] activeOrders, CurrencyPair currencyPair) {
 
     List<LimitOrder> limitOrders = new ArrayList<>(activeOrders.length);
 
     for (GeminiOrderStatusResponse order : activeOrders) {
+      CurrencyPair currentCurrencyPair = adaptCurrencyPair(order.getSymbol());
+
+      if (currencyPair != null && !currentCurrencyPair.equals(currencyPair)) {
+        continue;
+      }
+
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
-      CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(new BigDecimal(order.getTimestamp()));
 
       OrderStatus status = OrderStatus.NEW;
@@ -353,7 +391,7 @@ public final class GeminiAdapters {
           new LimitOrder(
               orderType,
               order.getOriginalAmount(),
-              currencyPair,
+              currentCurrencyPair,
               String.valueOf(order.getId()),
               timestamp,
               order.getPrice(),
@@ -376,18 +414,19 @@ public final class GeminiAdapters {
     for (GeminiTradeResponse trade : trades) {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
-      final BigDecimal fee = trade.getFeeAmount() == null ? null : trade.getFeeAmount();
+      final BigDecimal fee = trade.getFeeAmount();
       pastTrades.add(
-          new UserTrade(
-              orderType,
-              trade.getAmount(),
-              currencyPair,
-              trade.getPrice(),
-              timestamp,
-              trade.getTradeId(),
-              trade.getOrderId(),
-              fee,
-              Currency.getInstance(trade.getFeeCurrency())));
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(trade.getAmount())
+              .currencyPair(currencyPair)
+              .price(trade.getPrice())
+              .timestamp(timestamp)
+              .id(trade.getTradeId())
+              .orderId(trade.getOrderId())
+              .feeAmount(fee)
+              .feeCurrency(Currency.getInstance(trade.getFeeCurrency()))
+              .build());
     }
 
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
@@ -420,12 +459,13 @@ public final class GeminiAdapters {
 
   public static Map<CurrencyPair, Fee> AdaptDynamicTradingFees(
       GeminiTrailingVolumeResponse volumeResponse, List<CurrencyPair> currencyPairs) {
-    Map<CurrencyPair, Fee> result = new Hashtable<CurrencyPair, Fee>();
-    BigDecimal bpsToFraction = BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(4));
+    Map<CurrencyPair, Fee> result = new Hashtable<>();
+    BigDecimal bpsToFraction =
+        BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(4), 4, RoundingMode.HALF_EVEN);
     Fee feeAcrossCurrencies =
         new Fee(
-            volumeResponse.MakerFeeBPS.multiply(bpsToFraction),
-            volumeResponse.TakerFeeBPS.multiply(bpsToFraction));
+            volumeResponse.apiMakerFeeBPS.multiply(bpsToFraction),
+            volumeResponse.apiTakerFeeBPS.multiply(bpsToFraction));
     for (CurrencyPair currencyPair : currencyPairs) {
       result.put(currencyPair, feeAcrossCurrencies);
     }

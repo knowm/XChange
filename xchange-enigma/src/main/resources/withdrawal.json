@@ -1,0 +1,9 @@
+{
+  "result": true,
+  "message": "withdrawal inserted",
+  "withdrawal_type": "cash",
+  "amount": 1,
+  "currency": "USD",
+  "sent_at": "2019-07-15 07:54:38",
+  "withdrawal_key": "5d2c313e8fd25-5d2c313e8fd27-5d2c313e8fd28"
+}

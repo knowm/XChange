@@ -1,0 +1,559 @@
+{
+  "trading_pair":"btceur",
+  "trades": [
+    {
+      "date": 1500718454,
+      "price": 2391.48,
+      "amount_currency_to_trade": "0.90000000",
+      "tid": 2844384
+    },
+    {
+      "date": 1500718452,
+      "price": 2400,
+      "amount_currency_to_trade": "0.19751033",
+      "tid": 2844381
+    },
+    {
+      "date": 1500718401,
+      "price": 2400,
+      "amount_currency_to_trade": "0.83300000",
+      "tid": 2844378
+    },
+    {
+      "date": 1500718347,
+      "price": 2400,
+      "amount_currency_to_trade": "0.50403226",
+      "tid": 2844375
+    },
+    {
+      "date": 1500718307,
+      "price": 2400,
+      "amount_currency_to_trade": "0.04870000",
+      "tid": 2844372
+    },
+    {
+      "date": 1500718274,
+      "price": 2400,
+      "amount_currency_to_trade": "0.07000000",
+      "tid": 2844369
+    },
+    {
+      "date": 1500718247,
+      "price": 2399.99,
+      "amount_currency_to_trade": "0.08333400",
+      "tid": 2844366
+    },
+    {
+      "date": 1500718241,
+      "price": 2400,
+      "amount_currency_to_trade": "0.12800000",
+      "tid": 2844363
+    },
+    {
+      "date": 1500718234,
+      "price": 2400,
+      "amount_currency_to_trade": "0.19800000",
+      "tid": 2844360
+    },
+    {
+      "date": 1500718230,
+      "price": 2399.99,
+      "amount_currency_to_trade": "0.02600000",
+      "tid": 2844357
+    },
+    {
+      "date": 1500718229,
+      "price": 2399.99,
+      "amount_currency_to_trade": "0.10416700",
+      "tid": 2844354
+    },
+    {
+      "date": 1500718210,
+      "price": 2399.99,
+      "amount_currency_to_trade": "0.10000000",
+      "tid": 2844351
+    },
+    {
+      "date": 1500718208,
+      "price": 2399.99,
+      "amount_currency_to_trade": "0.03000000",
+      "tid": 2844348
+    },
+    {
+      "date": 1500718190,
+      "price": 2399.99,
+      "amount_currency_to_trade": "0.03000000",
+      "tid": 2844345
+    },
+    {
+      "date": 1500718186,
+      "price": 2395,
+      "amount_currency_to_trade": "0.15000000",
+      "tid": 2844342
+    },
+    {
+      "date": 1500718182,
+      "price": 2399.99,
+      "amount_currency_to_trade": "0.04166700",
+      "tid": 2844339
+    },
+    {
+      "date": 1500718175,
+      "price": 2399.95,
+      "amount_currency_to_trade": "0.10000000",
+      "tid": 2844336
+    },
+    {
+      "date": 1500718127,
+      "price": 2391.27,
+      "amount_currency_to_trade": "0.63589680",
+      "tid": 2844333
+    },
+    {
+      "date": 1500718126,
+      "price": 2399.99,
+      "amount_currency_to_trade": "0.03000000",
+      "tid": 2844330
+    },
+    {
+      "date": 1500718106,
+      "price": 2399.95,
+      "amount_currency_to_trade": "0.05000000",
+      "tid": 2844327
+    },
+    {
+      "date": 1500718104,
+      "price": 2399.99,
+      "amount_currency_to_trade": "0.05000000",
+      "tid": 2844324
+    },
+    {
+      "date": 1500718103,
+      "price": 2393,
+      "amount_currency_to_trade": "1.50000000",
+      "tid": 2844321
+    },
+    {
+      "date": 1500718086,
+      "price": 2400,
+      "amount_currency_to_trade": "0.40000000",
+      "tid": 2844318
+    },
+    {
+      "date": 1500718083,
+      "price": 2400,
+      "amount_currency_to_trade": "1.00000000",
+      "tid": 2844315
+    },
+    {
+      "date": 1500718071,
+      "price": 2399.8,
+      "amount_currency_to_trade": "0.02600000",
+      "tid": 2844312
+    },
+    {
+      "date": 1500718049,
+      "price": 2399.39,
+      "amount_currency_to_trade": "0.08585531",
+      "tid": 2844309
+    },
+    {
+      "date": 1500718040,
+      "price": 2400,
+      "amount_currency_to_trade": "0.46000000",
+      "tid": 2844306
+    },
+    {
+      "date": 1500718031,
+      "price": 2399.2,
+      "amount_currency_to_trade": "0.10000000",
+      "tid": 2844303
+    },
+    {
+      "date": 1500718029,
+      "price": 2400,
+      "amount_currency_to_trade": "3.00000000",
+      "tid": 2844300
+    },
+    {
+      "date": 1500718009,
+      "price": 2399,
+      "amount_currency_to_trade": "0.12978295",
+      "tid": 2844297
+    },
+    {
+      "date": 1500718006,
+      "price": 2399.99,
+      "amount_currency_to_trade": "0.20833400",
+      "tid": 2844294
+    },
+    {
+      "date": 1500717998,
+      "price": 2399,
+      "amount_currency_to_trade": "0.20000000",
+      "tid": 2844291
+    },
+    {
+      "date": 1500717992,
+      "price": 2399,
+      "amount_currency_to_trade": "0.16000000",
+      "tid": 2844288
+    },
+    {
+      "date": 1500717968,
+      "price": 2390.22,
+      "amount_currency_to_trade": "0.10000000",
+      "tid": 2844285
+    },
+    {
+      "date": 1500717938,
+      "price": 2395,
+      "amount_currency_to_trade": "0.06632000",
+      "tid": 2844282
+    },
+    {
+      "date": 1500717917,
+      "price": 2395,
+      "amount_currency_to_trade": "0.04900000",
+      "tid": 2844279
+    },
+    {
+      "date": 1500717841,
+      "price": 2399.99,
+      "amount_currency_to_trade": "0.41666800",
+      "tid": 2844276
+    },
+    {
+      "date": 1500717839,
+      "price": 2399,
+      "amount_currency_to_trade": "0.04000000",
+      "tid": 2844273
+    },
+    {
+      "date": 1500717823,
+      "price": 2399.5,
+      "amount_currency_to_trade": "0.49600000",
+      "tid": 2844270
+    },
+    {
+      "date": 1500717807,
+      "price": 2399.78,
+      "amount_currency_to_trade": "0.54822189",
+      "tid": 2844267
+    },
+    {
+      "date": 1500717801,
+      "price": 2390.33,
+      "amount_currency_to_trade": "0.10000000",
+      "tid": 2844264
+    },
+    {
+      "date": 1500717791,
+      "price": 2399.75,
+      "amount_currency_to_trade": "1.00000000",
+      "tid": 2844261
+    },
+    {
+      "date": 1500717782,
+      "price": 2399,
+      "amount_currency_to_trade": "0.19017657",
+      "tid": 2844258
+    },
+    {
+      "date": 1500717780,
+      "price": 2399,
+      "amount_currency_to_trade": "0.10000000",
+      "tid": 2844255
+    },
+    {
+      "date": 1500717777,
+      "price": 2399,
+      "amount_currency_to_trade": "0.05585807",
+      "tid": 2844252
+    },
+    {
+      "date": 1500717774,
+      "price": 2399,
+      "amount_currency_to_trade": "0.50000000",
+      "tid": 2844249
+    },
+    {
+      "date": 1500717771,
+      "price": 2399,
+      "amount_currency_to_trade": "0.10000000",
+      "tid": 2844246
+    },
+    {
+      "date": 1500717770,
+      "price": 2399.75,
+      "amount_currency_to_trade": "1.00000000",
+      "tid": 2844243
+    },
+    {
+      "date": 1500717769,
+      "price": 2398.99,
+      "amount_currency_to_trade": "0.41684200",
+      "tid": 2844240
+    },
+    {
+      "date": 1500717766,
+      "price": 2398.99,
+      "amount_currency_to_trade": "0.10421100",
+      "tid": 2844237
+    },
+    {
+      "date": 1500717766,
+      "price": 2395,
+      "amount_currency_to_trade": "0.77913000",
+      "tid": 2844234
+    },
+    {
+      "date": 1500717763,
+      "price": 2398.99,
+      "amount_currency_to_trade": "0.08336800",
+      "tid": 2844231
+    },
+    {
+      "date": 1500717760,
+      "price": 2398.99,
+      "amount_currency_to_trade": "0.04168400",
+      "tid": 2844228
+    },
+    {
+      "date": 1500717758,
+      "price": 2398.98,
+      "amount_currency_to_trade": "0.04168230",
+      "tid": 2844225
+    },
+    {
+      "date": 1500717755,
+      "price": 2398.8,
+      "amount_currency_to_trade": "0.25792000",
+      "tid": 2844222
+    },
+    {
+      "date": 1500717753,
+      "price": 2398.5,
+      "amount_currency_to_trade": "0.30000000",
+      "tid": 2844219
+    },
+    {
+      "date": 1500717750,
+      "price": 2397.9,
+      "amount_currency_to_trade": "0.02600000",
+      "tid": 2844216
+    },
+    {
+      "date": 1500717741,
+      "price": 2399,
+      "amount_currency_to_trade": "1.00000000",
+      "tid": 2844213
+    },
+    {
+      "date": 1500717733,
+      "price": 2390,
+      "amount_currency_to_trade": "0.06000000",
+      "tid": 2844210
+    },
+    {
+      "date": 1500717727,
+      "price": 2397.85,
+      "amount_currency_to_trade": "0.39680000",
+      "tid": 2844207
+    },
+    {
+      "date": 1500717718,
+      "price": 2399,
+      "amount_currency_to_trade": "0.80000000",
+      "tid": 2844204
+    },
+    {
+      "date": 1500717706,
+      "price": 2397.66,
+      "amount_currency_to_trade": "0.04500000",
+      "tid": 2844201
+    },
+    {
+      "date": 1500717698,
+      "price": 2301,
+      "amount_currency_to_trade": "0.45000000",
+      "tid": 2844198
+    },
+    {
+      "date": 1500717688,
+      "price": 2399,
+      "amount_currency_to_trade": "0.78000000",
+      "tid": 2844195
+    },
+    {
+      "date": 1500717668,
+      "price": 2396.93,
+      "amount_currency_to_trade": "0.04172000",
+      "tid": 2844192
+    },
+    {
+      "date": 1500717664,
+      "price": 2397.99,
+      "amount_currency_to_trade": "0.41701600",
+      "tid": 2844189
+    },
+    {
+      "date": 1500717645,
+      "price": 2389,
+      "amount_currency_to_trade": "0.10000000",
+      "tid": 2844186
+    },
+    {
+      "date": 1500717640,
+      "price": 2396.72,
+      "amount_currency_to_trade": "0.03000000",
+      "tid": 2844183
+    },
+    {
+      "date": 1500717636,
+      "price": 2398,
+      "amount_currency_to_trade": "0.63974579",
+      "tid": 2844180
+    },
+    {
+      "date": 1500717616,
+      "price": 2396.94,
+      "amount_currency_to_trade": "0.10430000",
+      "tid": 2844177
+    },
+    {
+      "date": 1500717608,
+      "price": 2396.11,
+      "amount_currency_to_trade": "0.03500000",
+      "tid": 2844174
+    },
+    {
+      "date": 1500717598,
+      "price": 2398,
+      "amount_currency_to_trade": "1.81000000",
+      "tid": 2844171
+    },
+    {
+      "date": 1500717582,
+      "price": 2398,
+      "amount_currency_to_trade": "2.06770000",
+      "tid": 2844168
+    },
+    {
+      "date": 1500717577,
+      "price": 2396,
+      "amount_currency_to_trade": "0.05000000",
+      "tid": 2844165
+    },
+    {
+      "date": 1500717565,
+      "price": 2398.99,
+      "amount_currency_to_trade": "0.20842100",
+      "tid": 2844162
+    },
+    {
+      "date": 1500717562,
+      "price": 2397,
+      "amount_currency_to_trade": "0.69440000",
+      "tid": 2844159
+    },
+    {
+      "date": 1500717521,
+      "price": 2396,
+      "amount_currency_to_trade": "0.04880000",
+      "tid": 2844156
+    },
+    {
+      "date": 1500717516,
+      "price": 2397,
+      "amount_currency_to_trade": "0.29700000",
+      "tid": 2844153
+    },
+    {
+      "date": 1500717487,
+      "price": 2396.69,
+      "amount_currency_to_trade": "1.00000000",
+      "tid": 2844150
+    },
+    {
+      "date": 1500717484,
+      "price": 2390.11,
+      "amount_currency_to_trade": "0.60000000",
+      "tid": 2844147
+    },
+    {
+      "date": 1500717482,
+      "price": 2396,
+      "amount_currency_to_trade": "1.89146678",
+      "tid": 2844144
+    },
+    {
+      "date": 1500717463,
+      "price": 2394.96,
+      "amount_currency_to_trade": "0.20000000",
+      "tid": 2844141
+    },
+    {
+      "date": 1500717447,
+      "price": 2338,
+      "amount_currency_to_trade": "0.10000000",
+      "tid": 2844138
+    },
+    {
+      "date": 1500717440,
+      "price": 2395,
+      "amount_currency_to_trade": "0.81600000",
+      "tid": 2844135
+    },
+    {
+      "date": 1500717424,
+      "price": 2395,
+      "amount_currency_to_trade": "0.98000000",
+      "tid": 2844132
+    },
+    {
+      "date": 1500717406,
+      "price": 2395,
+      "amount_currency_to_trade": "1.77000000",
+      "tid": 2844129
+    },
+    {
+      "date": 1500717304,
+      "price": 2396,
+      "amount_currency_to_trade": "0.06260434",
+      "tid": 2844126
+    },
+    {
+      "date": 1500717274,
+      "price": 2395.11,
+      "amount_currency_to_trade": "0.03000000",
+      "tid": 2844123
+    },
+    {
+      "date": 1500717225,
+      "price": 2395,
+      "amount_currency_to_trade": "0.04722364",
+      "tid": 2844120
+    },
+    {
+      "date": 1500717211,
+      "price": 2390,
+      "amount_currency_to_trade": "0.47000000",
+      "tid": 2844117
+    },
+    {
+      "date": 1500717169,
+      "price": 2390,
+      "amount_currency_to_trade": "0.80000000",
+      "tid": 2844114
+    },
+    {
+      "date": 1500717160,
+      "price": 2395,
+      "amount_currency_to_trade": "0.08064516",
+      "tid": 2844111
+    }
+  ],
+  "errors": [],
+  "credits": 17
+}

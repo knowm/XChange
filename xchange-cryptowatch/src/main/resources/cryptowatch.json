@@ -1,0 +1,9964 @@
+{
+  "currency_pairs" : {
+    "PAXG/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "FSN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "TIME/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ART/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SNX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "QTUM/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "TUSD/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/LTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XTZ/TRX" : {
+      "marketOrderEnabled" : true
+    },
+    "DACS/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "BUSD/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RVN/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "ARPA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BHT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SGN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PRG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LML/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "BAT/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/LTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AMLT/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/DASH" : {
+      "marketOrderEnabled" : true
+    },
+    "ARK/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "UTT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "OMG/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "WAVES/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "IOST/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "NCASH/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "LINK/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "CVNT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GARD/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "REQ/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "FUN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FUEL/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "UIP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DATA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GTO/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "VEE/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BLZ/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SPC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PAI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "OST/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "HPB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CNN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DADI/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "QRL/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "REP/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "LEO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GXC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "RDN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GUP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LEO/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "GBX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SKY/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SWM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PVT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EOSDAC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "NTK/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "OMNI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "PST/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TIO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GXS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BNT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SBD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BETR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LINK/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "WRX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XDN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ELEC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LET/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "AGI/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NXT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ELF/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "LRN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "QUN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TRST/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VIDY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ONT/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "NCT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ENJ/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "WET/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "XZC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SPD/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RCN/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "TPAY/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NAUT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GMAT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WAX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DBC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "FLIXX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "USDC/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "ENG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BRC/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZSC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "WTC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VIDY/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "RATING/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IOST/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LYM/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "YEED/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "OKB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NLG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "PAL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZPR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WWB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BOX/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "ELEC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PBT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CELR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DATA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "STQ/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NMR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XMC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SC/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "NXT/XMR" : {
+      "marketOrderEnabled" : true
+    },
+    "GTO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "THETA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/INR" : {
+      "marketOrderEnabled" : true
+    },
+    "ANT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RBLX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MKR/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "NULS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MDS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "VIBE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "USDC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GCC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCPT/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "CMCT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PRO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "OST/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LAMB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RLC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "TFUEL/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "EVX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CVC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MATIC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/ANCT" : {
+      "marketOrderEnabled" : true
+    },
+    "WIN/TRX" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "ZPT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "COSS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MDT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "VOX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NOAH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DREP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NANO/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "IOST/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "SOC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "UFR/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "SWFTC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ERD/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "ERD/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BMC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "VERI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AKRO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZRX/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "GUSD/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "STR/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "DOGE/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "HYDRA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VTC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/GUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "FOR/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "MNX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NEC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CPT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NANO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WICC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GTC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ENJ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CMT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RCN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USK/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SNT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "NCASH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WAN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "APIS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WAXP/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "AXP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TEL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GT/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "CFI/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "IGNIS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BURST/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TROY/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "YEE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "CLO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AE/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "DICE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DGB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "CHSB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GLC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BERRY/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/ZAR" : {
+      "marketOrderEnabled" : true
+    },
+    "HSC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "VEN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "MX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "XVC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EURS/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "SWT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "TRUE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GAS/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DPY/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NIM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CLN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTA/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/XMR" : {
+      "marketOrderEnabled" : true
+    },
+    "BTG/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "QAU/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "QTUM/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "PAX/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "BBC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FUN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PAI/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "POA/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/PHP" : {
+      "marketOrderEnabled" : true
+    },
+    "TNB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "KNC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "PRG/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SNGLS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "IQ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STEEM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DLT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ERD/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "EKO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DGD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BEAR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LXT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DDD/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ABYSS/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/CNY" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTA/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "BCI/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "ZIL/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "ACAT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "COSM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MED/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LBA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BRD/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "BCPT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "TIX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CPX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PAT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MRK/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "RLC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USDC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "GLD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VSYS/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "MGO/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DOCK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SNX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GNO/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "ZIL/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "AE/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "OKB/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "HSR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HYC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SPND/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "OKB/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "ODE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VERI/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCPT/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ORME/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "BTT/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "TPAY/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "IOST/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PROM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XEM/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "TUSD/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "ATM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TNC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LBC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XVG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MIN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ELAMA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SSP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "IND/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WAX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "OST/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LSK/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "FDZ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "DBET/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XIN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DTA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ATP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "YOYOW/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XMY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DATX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "EM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MITH/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ICX/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "HST/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BEAM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "QUN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "KAN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "TT/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "PAY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "NOAH/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GNT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "CELR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NCT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BRD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XZC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "WABI/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "ETHBEAR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "WRX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTMX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "GXS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CRE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XMX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/IDR" : {
+      "marketOrderEnabled" : true
+    },
+    "SWM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "VET/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "PVT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PAX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CEL/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/SGD" : {
+      "marketOrderEnabled" : true
+    },
+    "SBD/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "OKB/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "SWTH/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "TIO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LEND/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "KMD/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BRC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ONE/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "IVY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ENJ/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "XVG/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "VET/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "PKT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HOT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "BFT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LAMB/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PIVX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BEET/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MFT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "RCN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SGN/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "DTB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XRC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MTN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "SOC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ICX/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "OGN/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "LAMB/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "FX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "APPC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EKT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MORPH/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RPX/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "PNT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DBIX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FTM/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "MOD/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "AMLT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "EVX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "KCASH/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTA/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "SHIP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TAAS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TROY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "INK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CMCT/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/ZEC" : {
+      "marketOrderEnabled" : true
+    },
+    "DAPP/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "GTO/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "STACS/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "MIOTA/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "AUTO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XEM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XZC/XRP" : {
+      "marketOrderEnabled" : true
+    },
+    "ANKR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GTO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MBL/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LSK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LOOM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZCO/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "HTML/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DACS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MOF/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "UUU/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "LOC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XEL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PAT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CND/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BIX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VIB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SOUL/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "BTT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "RLC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/HKD" : {
+      "marketOrderEnabled" : true
+    },
+    "MED/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ACAT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TOMO/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "MX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LBA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DENT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ACT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "OGN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DAI/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "CELR/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "VIA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CHR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZRX/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "PLBT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DGD/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "CKB/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "USDS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CHAT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MIN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SUB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SPNK/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "MSP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VDX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CVT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TAU/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "HOT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MRK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "TKN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BULL/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCPT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "BCU/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "NEU/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CRO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MER/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/INR" : {
+      "marketOrderEnabled" : true
+    },
+    "ONE/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "CHZ/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "UOS/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "STEEM/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "TROY/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DGTX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "COVA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "IQ/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CLO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "POA/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "DGB/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "OGO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GAME/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RPX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEU/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "BET/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZPR/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "PAX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PCL/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "JNT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "MORPH/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "DOGE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USDC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "MET/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/MXN" : {
+      "marketOrderEnabled" : true
+    },
+    "AID/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BSV/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "EM/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "DTA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "AION/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BRC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MANA/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BTT/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "CHX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BUSD/ZAR" : {
+      "marketOrderEnabled" : true
+    },
+    "GTO/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "STEEM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "EGT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PAY/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "HEDG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "IRIS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SNX/TRX" : {
+      "marketOrderEnabled" : true
+    },
+    "HOT-2/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "EDO/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "SKM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BTS/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "FLUZ/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "BAT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "XIN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BEET/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DCR/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "RDD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "INS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TNC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "HBAR/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTA/XLM" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "AST/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "POWR/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "BHD/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "BLOCK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CBT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DAO/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "EDR/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "XVG/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/AUD" : {
+      "marketOrderEnabled" : true
+    },
+    "FDZ/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "MAN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CHZ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BZ/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BEAM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ABT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "OXT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ITC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "AE/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EUR/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "GRIN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETN/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "WPR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WICC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ALGO/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "EM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "KICK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTA/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/GUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/MYR" : {
+      "marketOrderEnabled" : true
+    },
+    "ETP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "BSV/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "TTC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LSK/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BANCA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DCN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LOC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SYS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CAS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VERI/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FLIXX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "WINGS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SBD/TRX" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "UUU/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IOST/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "DRGN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "OMG/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WAVES/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "NPLC/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "FSN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "OCN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NAS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CDT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "INT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LUNA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ELA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XTZ/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "INK/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "AMP/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "ZCL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WICC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "REM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GEN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NMC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SPND/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "ARPA/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "OTN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CRPT/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "TNT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WAVES/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PLA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "POA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "REN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NULS/BZ" : {
+      "marketOrderEnabled" : true
+    },
+    "IOST/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BELA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MHC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "XEM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "AERGO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SEN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "FET/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "OXY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BCAC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ZCO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MEDX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GAME/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DUSK/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "DTR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PNT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BITB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "THETA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "REQ/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RBLX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MLN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "SEELE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZRX/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "RFOX/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CAT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HXRO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FTT/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "ZCN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MXC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ANKR/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "COSS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SKY/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ORS/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "TFUEL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BNK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CNN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SCC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RNTB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "REP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DOGE/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BEZ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ANKR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "RDN/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "OMG/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "EUR/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "BOX/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "XAS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FTT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "TKY/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "OGO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CVCOIN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "NKN/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "NANO/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "RSR/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "FNB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RPX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SGN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "REP/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "RUFF/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "ZLA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEXO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "POE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "QSP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HOT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "AGI/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "VEE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SEXC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "KIN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HBAR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DAT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "NAV/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GVT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ELF/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "DREP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BAT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DCR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "APIS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DICE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PPP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TIME/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XTZ/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "QNTU/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BOX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GBP/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "ORBS/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "QKC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MANA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WTC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "SWTH/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BIX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "HPB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "YEED/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "ORBS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SPNK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NOAH/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SAI/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "SC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "GET/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "CHAT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SXP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "TOMO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LINK/TRX" : {
+      "marketOrderEnabled" : true
+    },
+    "USK/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "OGN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IXT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/SGD" : {
+      "marketOrderEnabled" : true
+    },
+    "VRA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DCT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LYM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LAMB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MIX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/USDS" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "TAAS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCPT/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "OXT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SPC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AST/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "YOYOW/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "KMD/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "SOUL/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ICOS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "QNTU/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "THETA/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "BAY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "DREAM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "MTC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BULL/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "UIP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "QRL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "CLOAK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NPXS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CVC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ZRX/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "CHSB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STACS/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "RDN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "UTK/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "GUP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FLDC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HPC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ABYSS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SKY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TFUEL/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "COSM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ABT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "FET/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CHZ/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MAN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PPT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HYDRA/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "USK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "STACS/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "KCASH/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/NGN" : {
+      "marketOrderEnabled" : true
+    },
+    "PST/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EUR/DOGE" : {
+      "marketOrderEnabled" : true
+    },
+    "BNT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ADH/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "TOMO/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "SAN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "GRS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "UFR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "USD/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "SKM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ONT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "SC/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "BCD/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MXM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TOMO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "XNS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RUFF/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MATIC/TRX" : {
+      "marketOrderEnabled" : true
+    },
+    "BAT/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "MKR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XWC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ICN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/GUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "LIKE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "KAVA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SPD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FAIR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CMT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "LRC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "AGI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "MANA/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "MET/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DREP/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "CHX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GAS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WTC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HXRO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTG/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DAPP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DMT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DATX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RBTC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "CFI/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "IOC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BNK/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SERO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTA/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "XIN/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/SGD" : {
+      "marketOrderEnabled" : true
+    },
+    "BEZ/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "AUTO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STACS/SGD" : {
+      "marketOrderEnabled" : true
+    },
+    "SC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BHT/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCC/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "UTNP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ANKR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AION/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "VEN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "USDC/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ONT/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "AT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PBT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AION/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "ZPR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "POA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MGO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "STQ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MOBI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "INT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DLT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "XCON/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GNO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LUN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BLK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/XRP" : {
+      "marketOrderEnabled" : true
+    },
+    "LEO/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DOGE/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "CBC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "IFT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "TNT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MNX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "KNC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DOGE/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "STRAT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LCC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CVC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TUSD/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "DCN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "USDC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GAS/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SENT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FLIXX/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "CLAM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DOGE/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTG/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "TUSD/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "NVC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DIM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/LTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZIL/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NANO/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "OCN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/SGD" : {
+      "marketOrderEnabled" : true
+    },
+    "NMR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CDT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MTH/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZPT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "PLR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "AXP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AMLT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "SENT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DGTX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "UTNP/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "RADS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LATX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EDC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WAXP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HBAR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GOT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/EURS" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "BSD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HBAR/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "STX/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "NPLC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CMT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TTU/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PAY/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "CVCOIN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DRGN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DACS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GNO/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "TCT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCN/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "BSV/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "IOST/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "CHAT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NPXS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LSK/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DENT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BAT/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "XBC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CTXC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "OMG/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "NPXS/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "DCR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BAT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "WXT/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "ICX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/AUD" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ALGO/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "NIM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "AVT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "QAU/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BBC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MTL/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "YEE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LTO/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "MITH/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "POT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AMB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VET/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BTM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "ICX/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "SNET/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DLT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EKO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MANA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ALGO/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BCN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LXT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DDD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "REP/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "STACS/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "STX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PST/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EDG/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GNT/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "WXT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DYN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MFT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "UBT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WAVES/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/EURS" : {
+      "marketOrderEnabled" : true
+    },
+    "BNT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "RIC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XNS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "STRAT/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "KAN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ATM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STACS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GNT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GEN/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "DAC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PXG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MTN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NXT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BTO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DRG/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "UKG/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETN/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "TEMCO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HYC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RIF/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MCO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SNT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "USD/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "ODE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RFOX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEXO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "FET/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BAT/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "ADT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ANKR/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "SOLVE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "QNT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CRE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RDN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MBL/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "SPC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "WBTC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HMQ/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "OMG/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "UIP/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ICOS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BOA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "KEY/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FUEL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZPT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "HPT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "ATP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NMR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "STQ/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTCP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "AIDOC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MOC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SALT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETHBULL/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "MATIC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "VIA/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "RBLX/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "STR/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "AXPR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "CEL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ION/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GNX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LTO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/GUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "STR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IHF/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DAG/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CRPT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MNX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "KMD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "SC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CND/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "BTT/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "BFT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FLETA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/XMR" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "GBC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FLUZ/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MRPH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MFT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DAI/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "PVT/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "ADX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VTC/BZ" : {
+      "marketOrderEnabled" : true
+    },
+    "MBL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GSC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FSN/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETHBEAR/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "EKT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SMT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DBET/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CVC/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "DAI/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TOP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MOD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BUSD/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "CVC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "WTC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "FTI/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PKT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STACS/AUD" : {
+      "marketOrderEnabled" : true
+    },
+    "EURT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "CKB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "AID/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "BCV/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "YEE/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CMCT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PAI/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "IXT/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "1WO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FUN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DPY/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SWFTC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "HOT-2/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "EDO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BWX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BT1/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "OK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "DOCK/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EURS/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "FXT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "BLK/XMR" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "COCOS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EURS/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "UGAS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MOF/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "APM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MKR/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/TRX" : {
+      "marketOrderEnabled" : true
+    },
+    "MOBI/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EXP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AKRO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "C20/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CENNZ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ALGO/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "CMT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "VIB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RVN/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTA/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "WAVES/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "EGT/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "GTO/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "BUSD/NGN" : {
+      "marketOrderEnabled" : true
+    },
+    "MED/QTUM" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "SLR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EMC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ACT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VDX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LINK/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "SPHTX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GAME/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "MTX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VIA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "POWR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PMA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CVT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BT2/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SWM/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "GET/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "FTM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CND/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SUB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PHX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BFX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HUC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/SGD" : {
+      "marketOrderEnabled" : true
+    },
+    "QTUM/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "SYS/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "HIT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ADH/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "SDC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "OMG/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "LAMB/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "BST/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SLT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SENT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NEU/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DAO/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "AVA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NAS/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "CRO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "IRIS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HYC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "MHC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LEND/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCPT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GRC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HVN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "BOA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BAT/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "CBT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "EDR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "OKB/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "KICK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DAO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PPC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "IOST/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "NCASH/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "WAX/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "XSR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NOTE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TKN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DGTX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CEL/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "XTZ/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "REN/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "DOGE/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "CRE/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SLS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "JNT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ORS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BSV/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WPR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "OMNI/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "SLV/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DGB/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "COTI/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DRT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DOGE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DMD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEW/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SEN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ITC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ICOS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "TRIG/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "PXG/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MATIC/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "NEXO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ANT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "EGT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WXT/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "WXT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LXT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DDD/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "IDH/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "EKO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "XTZ/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "UTNP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DREAM/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XST/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ATM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "STX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "RFR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "REP/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "MHC/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "PCL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "MX/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "DAT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LPT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "EKT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "WAVES/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RVN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/CNY" : {
+      "marketOrderEnabled" : true
+    },
+    "MLN/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "MOBI/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "INCNT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/EURS" : {
+      "marketOrderEnabled" : true
+    },
+    "TOP/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "QLC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LOOM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "OCEAN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "FTT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MGO/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "HIVE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BZ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ELA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BFT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PNK/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "REM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EUR/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "APPC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LOOM/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "TTC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ENJ/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BEAM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "USDC/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RCN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "GRIN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "QSP/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "MLN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SPHTX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NAV/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "MITX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MBL/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "FAIR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "TTU/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "MFT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CLO/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "FCT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LTO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "KMD/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DATA/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "DGB/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "KBC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/SGD" : {
+      "marketOrderEnabled" : true
+    },
+    "SYS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "OMG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LIKE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FSN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ATP/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SNC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MDA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WIN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NAS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MITH/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "RLC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "CAT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MXC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "PAX/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "GEN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTCP/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CRPT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IHT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HPT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PLA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FAIR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "NPXS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PLBT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "REN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NGC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SAI/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CAS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "INK/QTUM" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "SUB/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "RVR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "UTK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WBTC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "CVT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CRW/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "NKN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BLT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "OAX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CND/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "FTX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "REQ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XVG/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "VEE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VDX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "RFOX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "COCOS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "EM/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BOS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XBX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SAI/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "CNN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VIB/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "COV/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "1ST/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZRX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "YOU/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "REP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MTN/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "EMRX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TNB/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "KCASH/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ENJ/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "MATIC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "YOYOW/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "RVT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "MOF/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GO/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "SMART/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LEO/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "DNT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "APL/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "TKY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DUSK/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "SAN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GET/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EURS/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTA/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "XIN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "HTML/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SRN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "QSP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DATA/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "KIN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZRX/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "AAC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NLC2/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NAV/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LINK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "POA/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "GVT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ELF/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "BCC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "APM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LRC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NEBL/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ACT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "MIOTA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "KICK/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PPP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MCO/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "BOX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ONT/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "DRG/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "VITE/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "QKC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TRIG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "JNT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "UKG/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/BZ" : {
+      "marketOrderEnabled" : true
+    },
+    "ETN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BSV/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "ONT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NEW/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "VRA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AION/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PAX/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BSV/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "HT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BSV/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IXT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VEN/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "BDG/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LYM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "DTA/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "PAY/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "NEBL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ITC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PPC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/CHF" : {
+      "marketOrderEnabled" : true
+    },
+    "QTUM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BLZ/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "NPLC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "UBT/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "COCOS/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "MTC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WINGS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PAXG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STRAT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "MKR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "ICN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MONA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GBX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CRO/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "VRC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TUSD/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "COTI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "REV/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CRO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "IRIS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ZIL/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "EGT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MATIC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BUSD/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "UP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NEU/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BORA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USDC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DRGN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GUSD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/OKB" : {
+      "marketOrderEnabled" : true
+    },
+    "PLA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GRS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SNM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "QTUM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ADH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "OGO/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/EURS" : {
+      "marketOrderEnabled" : true
+    },
+    "EUR/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "TRAC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MXM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/AUD" : {
+      "marketOrderEnabled" : true
+    },
+    "REN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CAS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LEO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BTCD/XMR" : {
+      "marketOrderEnabled" : true
+    },
+    "NAS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "TFUEL/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "LIFE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LSK/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "GARD/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FSN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GRIN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "OMG/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GXC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "TUSD/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "FSN/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "WABI/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ARPA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PPT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GRIN/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "TCT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/CNY" : {
+      "marketOrderEnabled" : true
+    },
+    "MXC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CAT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BZ/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "1WO/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "TTC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "FXC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DAO/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "AVT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETP/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DMT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CTXC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FUEL/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CRPT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FOR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CFI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RATING/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "QTUM/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "ILC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "GOT/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "BTCP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ICX/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "VEO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LND/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SKM/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "ARK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PAXG/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BETR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CNX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "POLY/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "QTUM/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/BZ" : {
+      "marketOrderEnabled" : true
+    },
+    "RVN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "WAVES/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GOT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "UTT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SNGLS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AKRO/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "OCEAN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DBC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ADK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VEN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZSC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VET/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "REM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GAS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "KORE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WAVES/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "ELA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ORBS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AMB/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "MAID/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NAV/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EURS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ARN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BKX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USD/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GNO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TRIO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LUN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BCN/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "QSP/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "VITE/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CBC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BCC/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "TTU/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NXT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LRN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "KNC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "KAVA/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/CNY" : {
+      "marketOrderEnabled" : true
+    },
+    "FLUZ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ELF/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "COTI/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "B2G/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VSYS/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "GT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GNT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/EURS" : {
+      "marketOrderEnabled" : true
+    },
+    "DIM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "REP/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "NTK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XDN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VSYS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "NXS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MTH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "MGO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BAT/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "HOT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "USDS/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "LET/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PRA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZIL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DREAM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BMC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HYDRO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ALGO/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "LINK/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EDC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WAXP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VITE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "SJCX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LEOC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VSYS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "OXT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "REP/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LINK/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "WAN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GAS/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "SIB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/PHP" : {
+      "marketOrderEnabled" : true
+    },
+    "BSV/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "TCT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SPHTX/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "AMLT/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "USD/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "BCI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ABBC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CVCOIN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "KIN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "USDK/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ROX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PLR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MCO/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "DENT/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "REQ/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ALGO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "REV/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "AMB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CENNZ/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "MAN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/ZAR" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/ANCT" : {
+      "marketOrderEnabled" : true
+    },
+    "GCC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CHZ/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "TFUEL/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "SEELE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ICX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MEDX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MDT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LIKE/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/USDS" : {
+      "marketOrderEnabled" : true
+    },
+    "PI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEOS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "INT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "KAN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ARDR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MAID/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/TRX" : {
+      "marketOrderEnabled" : true
+    },
+    "VET/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TFUEL/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "AST/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "XMC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "UBQ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TUBE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TRIO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SNT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MKR/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "GTC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "THETA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "VRM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MTL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "R/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "POLY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PRE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "BTS/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/ZAR" : {
+      "marketOrderEnabled" : true
+    },
+    "MKR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/ZEC" : {
+      "marketOrderEnabled" : true
+    },
+    "BCC/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "MDS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WAVES/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEN/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "MTC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "UBT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LYM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EURT/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "BUSD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "BCN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EDG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SNX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "STORJ/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BANCA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ADX/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "POA/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "NMC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "GNT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EURS/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "WABI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TUSD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "QKC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ZRC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DAC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VIDY/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MTN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "TT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "IDH/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "EOSDAC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PRG/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LMC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "ZRX/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "TRST/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FTC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VEN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "HSC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ROOBEE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "UKG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DUSK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BEAR/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "SOLVE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PLY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "ONE/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "FUN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XAUR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTG/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ADT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GAS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "WIN/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "HMQ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ILC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GUSD/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ZCN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "THC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DADI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FOR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "MAID/XMR" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "DGX/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "XTP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USD/CHF" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "KEY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DRG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MCO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FOTA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TOMO/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "SPND/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AMONET/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ANKR/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "USDS/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BTT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "KAVA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BETR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTCD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PPT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SWM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GSC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GXS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LINK/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "BTG/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "SMT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PTON/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ADX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STACS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GNX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PAI/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FTT/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "XCP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "IHF/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DAG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BCD/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ARPA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "USK/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GRS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "NEU/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "PHX/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "BTS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTG/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "BAT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "XZC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DCR/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "QUN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "STORM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ONT/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "HBAR/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "FTM/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "NCT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "QTUM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WAX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TCT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BUSD/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "GT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCPT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/CHF" : {
+      "marketOrderEnabled" : true
+    },
+    "PLR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ONT/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "MOAC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XPM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/EURS" : {
+      "marketOrderEnabled" : true
+    },
+    "PAXG/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ENG/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCU/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STORM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SBD/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "KRM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IPX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EDC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DAI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TIO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CTXC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BSV/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "BTU/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ANCT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "WWB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "UOS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "OKB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BAND/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "XTZ/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "NCASH/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FTI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ONT/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "VITAE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DIM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "USD/CNY" : {
+      "marketOrderEnabled" : true
+    },
+    "ZIL/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LML/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EDO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PAXG/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "AID/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ONE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DOGE/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "BTX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ANT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZIL/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTCFX/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "1WO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FXT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "QTUM/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "HC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TRIG/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "GTO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FTX/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "AIDOC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "AXPR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LUN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ADM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "KNC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "BKX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/KRW" : {
+      "marketOrderEnabled" : true
+    },
+    "APPC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WIB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PRO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PERL/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SHIFT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "RDN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "OST/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CBC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/XMR" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BAT/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "UTNP/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/BZ" : {
+      "marketOrderEnabled" : true
+    },
+    "C20/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EVX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TTU/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "TPAY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CKB/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MITX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DADI/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "BCV/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "B2G/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/EURS" : {
+      "marketOrderEnabled" : true
+    },
+    "KCASH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MTN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "QLC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "GNT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "COS/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "REP/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "ARPA/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "FTT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "SOC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HYDRA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "POWR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SMART/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EMC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BCY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CBT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USDC/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "EDR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PERL/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ALGO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MTX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BCN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SUSD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/IDR" : {
+      "marketOrderEnabled" : true
+    },
+    "PMA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BEAM/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "OMG/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "ALGO/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "EDG/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "APPC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "FTM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PHX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ALGO/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "TEL/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ENJ/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RCN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SNET/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "AGI/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "VTC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PI/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BNT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "SMART/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "TT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MTL/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "WTC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "RBTC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "MHC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HVN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AMP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WIN/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "LINK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "META/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CLO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BHD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "CS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PART/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AVA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "VET/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DREP/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DGB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/CNY" : {
+      "marketOrderEnabled" : true
+    },
+    "AMB/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DAO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SWT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETHBULL/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "PNK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SALT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "CLN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GNT/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "LINK/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "ICX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "KAN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "HIT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XTZ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "UGAS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "IGNIS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SALT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/SGD" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/LTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NKN/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ORS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STPT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "LTC/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "BTS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DRT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DATA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SEN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BCN/XMR" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EUR/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "DGD/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TNB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NULS/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "BTT/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "STR/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "NEC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DNA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "POWR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BNT/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "IDH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/HKD" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/PHP" : {
+      "marketOrderEnabled" : true
+    },
+    "NVC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BTT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MED/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LBA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "LND/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "CPX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BERRY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PAT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ARDR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "RFR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "IPX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DAI/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "RLC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MAID/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CVNT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SMT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ZRX/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ADX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "TIX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DAO/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "STORM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "NANJ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "COS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "QLC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FTT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XVG/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "HSR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TRIO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XTZ/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "VEX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SIX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "KEY/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MCO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IHT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SSP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MLN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MATIC/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "NANO/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "MIN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NEBL/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GNX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IND/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DRGN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TNC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XVG/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DAT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NXC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AION/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FDZ/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "XEM/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "KBC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "SWFTC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BRC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "DTA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BMC/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "SNC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MDA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CTXC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "BCC/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "CKB/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MITH/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "PAY/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ONE/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "AE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GUSD/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "EDO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "BAND/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USDS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "WIN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LSK/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "ABBC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SNGLS/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "ONT/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ONE/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ELEC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "AION/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "MHC/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "XIN/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "USDS/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "NGC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "SAI/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WXT/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "MTX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "SEELE/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PAX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FTM/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "FCT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "XMX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PNT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HBT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NKN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DAI/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "RSR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BLZ/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ONOT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CRE/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "BLT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "OAX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FTX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "IVY/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ATM/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "UTK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MUE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NANO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DUSK/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "FTI/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "FOAM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTG/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "EOS/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "BRD/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "STORJ/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DUSK/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "COV/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "DADI/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CMCT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ATP/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "MORPH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/GBP" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "1ST/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZRX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "YOU/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "HC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PAY/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "XTZ/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "OMG/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "AVA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/IDR" : {
+      "marketOrderEnabled" : true
+    },
+    "STRAT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TFUEL/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "DNT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "UUU/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "AMP/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "XEM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "SPHR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BANCA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SAN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HIT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "INK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ONT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LSK/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "TOP/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "WABI/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TUSD/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HPT/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "SRN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EUR/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "THX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EMC2/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MHC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CHP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "AAC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ODE/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "LRC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LSK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BHD/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LOC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RIF/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "PHX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "XAUR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CTXC/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "EUR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PMA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MITH/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ALGO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BIX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PMA/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "FTM/USDK" : {
+      "marketOrderEnabled" : true
+    },
+    "ECOM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NULS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FTM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BOX/EURS" : {
+      "marketOrderEnabled" : true
+    },
+    "MIX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PIVX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CTC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "KMD/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "XTZ/CAD" : {
+      "marketOrderEnabled" : true
+    },
+    "POLY/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BAND/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "HT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BTT/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "QTUM/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "AMO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "BDG/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XYO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EDR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "EMC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MITH/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BLZ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DOCK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RPX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BSV/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "ABYSS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETC/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "USDT/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "HOT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MRK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "PIVX/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "PASC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GBX/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LEO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "VBK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GBYTE/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/EURS" : {
+      "marketOrderEnabled" : true
+    },
+    "FTT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "OGN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VIBE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "QLC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "NXS/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "COS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IHT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LEND/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "UP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BFT/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "EUR/CHF" : {
+      "marketOrderEnabled" : true
+    },
+    "ERD/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "SKM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GMAT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GNT/PLN" : {
+      "marketOrderEnabled" : true
+    },
+    "BHT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ORBS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SNM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BT1/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BET/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MIOTA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FTM/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "RBY/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WAXP/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "PERL/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MEDX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ORS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "IOTX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "UTT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STPT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WAN/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "MET/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TRAC/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RFR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "PERL/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/NGN" : {
+      "marketOrderEnabled" : true
+    },
+    "DRT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "GXC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TRUE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "LOOM/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ONE/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ARK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "FLO/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ARDR/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CLOAK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "USDS/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "DBET/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "GBYTE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/ANCT" : {
+      "marketOrderEnabled" : true
+    },
+    "AEON/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ALGO/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/EOS" : {
+      "marketOrderEnabled" : true
+    },
+    "HOT-2/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "YOU/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CELR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "FOTA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "QNTU/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "AST/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "QTUM/SGD" : {
+      "marketOrderEnabled" : true
+    },
+    "STPT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ATOM/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "AVT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "INS/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RSR/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "NKN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CRO/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "LND/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "SPNK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MKR/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "ZRX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "TRX/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "ZSC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ARDR/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "LOOM/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "OAX/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "CHX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BT2/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "UTK/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DBC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "CND/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BFX/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/SAI" : {
+      "marketOrderEnabled" : true
+    },
+    "LNC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NULS/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "EGT/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "WAVES/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "TNT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NGC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "BNB/RUB" : {
+      "marketOrderEnabled" : true
+    },
+    "ARN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DCN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NEU/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "SAI/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "NXT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "TRUE/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/ZAR" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/EURS" : {
+      "marketOrderEnabled" : true
+    },
+    "UPP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ABT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SAI/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "QASH/INR" : {
+      "marketOrderEnabled" : true
+    },
+    "PPC/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "WIN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "MAN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XHV/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "NTK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "INT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SNC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "NEW/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "KBC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "NXS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STEEM/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NEO/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "MDA/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "FOAM/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "ZEC/EURS" : {
+      "marketOrderEnabled" : true
+    },
+    "BTC/HKD" : {
+      "marketOrderEnabled" : true
+    },
+    "WIN/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "LET/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/BUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "PRA/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HYDRO/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "TKN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "BTT/TRX" : {
+      "marketOrderEnabled" : true
+    },
+    "XDN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "STRAT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "LINK/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "POA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XVG/JPY" : {
+      "marketOrderEnabled" : true
+    },
+    "SHIP/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BSV/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "MITX/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "BEZ/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BERRY/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "WPR/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "STORJ/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "DGX/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "WAN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "MANA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "IOST/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "DTR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "VIDY/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "ZCO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SNT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GTC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ANKR/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "XMR/BCH" : {
+      "marketOrderEnabled" : true
+    },
+    "XLM/PAX" : {
+      "marketOrderEnabled" : true
+    },
+    "OCN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XRP/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "CDT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "NANO/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "ACAT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "CURE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "PINK/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "TOMO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SERO/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "HTML/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "GAME/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "ERD/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BMC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "BNK/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ZCN/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/ZEC" : {
+      "marketOrderEnabled" : true
+    },
+    "ENJ/QASH" : {
+      "marketOrderEnabled" : true
+    },
+    "BAT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "BCH/DAI" : {
+      "marketOrderEnabled" : true
+    },
+    "DCR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "GCC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "HT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DENT/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "SRN/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "DASH/EUR" : {
+      "marketOrderEnabled" : true
+    },
+    "MDT/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "WRX/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "DNT/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "ADA/TUSD" : {
+      "marketOrderEnabled" : true
+    },
+    "GEN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "COVA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "LRC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "WAVES/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "ETH/IDR" : {
+      "marketOrderEnabled" : true
+    },
+    "ZLA/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "R/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ONT/USDC" : {
+      "marketOrderEnabled" : true
+    },
+    "STORM/BNB" : {
+      "marketOrderEnabled" : true
+    },
+    "ETP/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "PRE/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "AAC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "FSN/HT" : {
+      "marketOrderEnabled" : true
+    },
+    "XMC/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "POE/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "MDS/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "EVN/BTC" : {
+      "marketOrderEnabled" : true
+    },
+    "ONT/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "HBAR/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "RVN/USD" : {
+      "marketOrderEnabled" : true
+    },
+    "CTC/USDT" : {
+      "marketOrderEnabled" : true
+    },
+    "RUFF/ETH" : {
+      "marketOrderEnabled" : true
+    },
+    "XZC/BNB" : {
+      "marketOrderEnabled" : true
+    }
+  },
+  "currencies" : {
+    "SPHR" : {
+      "scale" : 2
+    },
+    "STPT" : {
+      "scale" : 2
+    },
+    "BBC" : {
+      "scale" : 2
+    },
+    "COVA" : {
+      "scale" : 2
+    },
+    "SDC" : {
+      "scale" : 2
+    },
+    "AION" : {
+      "scale" : 2
+    },
+    "DGB" : {
+      "scale" : 2
+    },
+    "YOYOW" : {
+      "scale" : 2
+    },
+    "DGD" : {
+      "scale" : 2
+    },
+    "ONOT" : {
+      "scale" : 2
+    },
+    "BCD" : {
+      "scale" : 2
+    },
+    "BCC" : {
+      "scale" : 2
+    },
+    "AE" : {
+      "scale" : 2
+    },
+    "BCH" : {
+      "scale" : 2
+    },
+    "SERO" : {
+      "scale" : 2
+    },
+    "BCI" : {
+      "scale" : 2
+    },
+    "HOT" : {
+      "scale" : 2
+    },
+    "BCN" : {
+      "scale" : 2
+    },
+    "AT" : {
+      "scale" : 2
+    },
+    "DGX" : {
+      "scale" : 2
+    },
+    "BCV" : {
+      "scale" : 2
+    },
+    "BCU" : {
+      "scale" : 2
+    },
+    "BCY" : {
+      "scale" : 2
+    },
+    "HPC" : {
+      "scale" : 2
+    },
+    "HPB" : {
+      "scale" : 2
+    },
+    "UIP" : {
+      "scale" : 2
+    },
+    "SEN" : {
+      "scale" : 2
+    },
+    "QASH" : {
+      "scale" : 2
+    },
+    "BLK" : {
+      "scale" : 2
+    },
+    "QAU" : {
+      "scale" : 2
+    },
+    "BDG" : {
+      "scale" : 2
+    },
+    "FLO" : {
+      "scale" : 2
+    },
+    "LXT" : {
+      "scale" : 2
+    },
+    "HPT" : {
+      "scale" : 2
+    },
+    "R" : {
+      "scale" : 2
+    },
+    "BZ" : {
+      "scale" : 2
+    },
+    "LYM" : {
+      "scale" : 2
+    },
+    "ARDR" : {
+      "scale" : 2
+    },
+    "CLOAK" : {
+      "scale" : 2
+    },
+    "NEBL" : {
+      "scale" : 2
+    },
+    "AXPR" : {
+      "scale" : 2
+    },
+    "DIM" : {
+      "scale" : 2
+    },
+    "SNET" : {
+      "scale" : 2
+    },
+    "UKG" : {
+      "scale" : 2
+    },
+    "SALT" : {
+      "scale" : 2
+    },
+    "CS" : {
+      "scale" : 2
+    },
+    "BET" : {
+      "scale" : 2
+    },
+    "SGD" : {
+      "scale" : 2
+    },
+    "BEZ" : {
+      "scale" : 2
+    },
+    "SGN" : {
+      "scale" : 2
+    },
+    "FNB" : {
+      "scale" : 2
+    },
+    "YEED" : {
+      "scale" : 2
+    },
+    "UTNP" : {
+      "scale" : 2
+    },
+    "BFT" : {
+      "scale" : 2
+    },
+    "WAVES" : {
+      "scale" : 2
+    },
+    "DX" : {
+      "scale" : 2
+    },
+    "BFX" : {
+      "scale" : 2
+    },
+    "WPR" : {
+      "scale" : 2
+    },
+    "HSC" : {
+      "scale" : 2
+    },
+    "SEXC" : {
+      "scale" : 2
+    },
+    "HSR" : {
+      "scale" : 2
+    },
+    "HST" : {
+      "scale" : 2
+    },
+    "FOR" : {
+      "scale" : 2
+    },
+    "EM" : {
+      "scale" : 2
+    },
+    "SIB" : {
+      "scale" : 2
+    },
+    "TUSD" : {
+      "scale" : 2
+    },
+    "WABI" : {
+      "scale" : 2
+    },
+    "RBTC" : {
+      "scale" : 2
+    },
+    "BHD" : {
+      "scale" : 2
+    },
+    "SIX" : {
+      "scale" : 2
+    },
+    "OAX" : {
+      "scale" : 2
+    },
+    "LEND" : {
+      "scale" : 2
+    },
+    "DLT" : {
+      "scale" : 2
+    },
+    "EMRX" : {
+      "scale" : 2
+    },
+    "BHT" : {
+      "scale" : 2
+    },
+    "SHIFT" : {
+      "scale" : 2
+    },
+    "FX" : {
+      "scale" : 2
+    },
+    "HUC" : {
+      "scale" : 2
+    },
+    "DMD" : {
+      "scale" : 2
+    },
+    "WRX" : {
+      "scale" : 2
+    },
+    "GO" : {
+      "scale" : 2
+    },
+    "DMT" : {
+      "scale" : 2
+    },
+    "SWFTC" : {
+      "scale" : 2
+    },
+    "NCASH" : {
+      "scale" : 2
+    },
+    "GT" : {
+      "scale" : 2
+    },
+    "BIX" : {
+      "scale" : 2
+    },
+    "SKM" : {
+      "scale" : 2
+    },
+    "SPND" : {
+      "scale" : 2
+    },
+    "DNA" : {
+      "scale" : 2
+    },
+    "UOS" : {
+      "scale" : 2
+    },
+    "OCN" : {
+      "scale" : 2
+    },
+    "HC" : {
+      "scale" : 2
+    },
+    "SPNK" : {
+      "scale" : 2
+    },
+    "SKY" : {
+      "scale" : 2
+    },
+    "HVN" : {
+      "scale" : 2
+    },
+    "WTC" : {
+      "scale" : 2
+    },
+    "BTCFX" : {
+      "scale" : 2
+    },
+    "DNT" : {
+      "scale" : 2
+    },
+    "HT" : {
+      "scale" : 2
+    },
+    "BULL" : {
+      "scale" : 2
+    },
+    "ODE" : {
+      "scale" : 2
+    },
+    "UPP" : {
+      "scale" : 2
+    },
+    "SLR" : {
+      "scale" : 2
+    },
+    "SLT" : {
+      "scale" : 2
+    },
+    "SLS" : {
+      "scale" : 2
+    },
+    "SMART" : {
+      "scale" : 2
+    },
+    "SLV" : {
+      "scale" : 2
+    },
+    "AEON" : {
+      "scale" : 2
+    },
+    "FSN" : {
+      "scale" : 2
+    },
+    "IQ" : {
+      "scale" : 2
+    },
+    "CENNZ" : {
+      "scale" : 2
+    },
+    "SJCX" : {
+      "scale" : 2
+    },
+    "LEOC" : {
+      "scale" : 2
+    },
+    "BKX" : {
+      "scale" : 2
+    },
+    "FTC" : {
+      "scale" : 2
+    },
+    "BERRY" : {
+      "scale" : 2
+    },
+    "FTI" : {
+      "scale" : 2
+    },
+    "SMT" : {
+      "scale" : 2
+    },
+    "MAN" : {
+      "scale" : 2
+    },
+    "FTM" : {
+      "scale" : 2
+    },
+    "POWR" : {
+      "scale" : 2
+    },
+    "ANCT" : {
+      "scale" : 2
+    },
+    "FTT" : {
+      "scale" : 2
+    },
+    "SNC" : {
+      "scale" : 2
+    },
+    "FTX" : {
+      "scale" : 2
+    },
+    "BLT" : {
+      "scale" : 2
+    },
+    "DPY" : {
+      "scale" : 2
+    },
+    "MOBI" : {
+      "scale" : 2
+    },
+    "ATOM" : {
+      "scale" : 2
+    },
+    "BLZ" : {
+      "scale" : 2
+    },
+    "SNM" : {
+      "scale" : 2
+    },
+    "PINK" : {
+      "scale" : 2
+    },
+    "HYC" : {
+      "scale" : 2
+    },
+    "MBL" : {
+      "scale" : 2
+    },
+    "SNT" : {
+      "scale" : 2
+    },
+    "BMC" : {
+      "scale" : 2
+    },
+    "SNX" : {
+      "scale" : 2
+    },
+    "FUN" : {
+      "scale" : 2
+    },
+    "MOAC" : {
+      "scale" : 2
+    },
+    "WWB" : {
+      "scale" : 2
+    },
+    "SOC" : {
+      "scale" : 2
+    },
+    "CVNT" : {
+      "scale" : 2
+    },
+    "USD" : {
+      "scale" : 2
+    },
+    "QKC" : {
+      "scale" : 2
+    },
+    "USK" : {
+      "scale" : 2
+    },
+    "LA" : {
+      "scale" : 2
+    },
+    "OGO" : {
+      "scale" : 2
+    },
+    "OGN" : {
+      "scale" : 2
+    },
+    "CELR" : {
+      "scale" : 2
+    },
+    "BNB" : {
+      "scale" : 2
+    },
+    "QNTU" : {
+      "scale" : 2
+    },
+    "MCO" : {
+      "scale" : 2
+    },
+    "DRG" : {
+      "scale" : 2
+    },
+    "TOMO" : {
+      "scale" : 2
+    },
+    "BNK" : {
+      "scale" : 2
+    },
+    "SPD" : {
+      "scale" : 2
+    },
+    "SPC" : {
+      "scale" : 2
+    },
+    "DRT" : {
+      "scale" : 2
+    },
+    "APIS" : {
+      "scale" : 2
+    },
+    "QLC" : {
+      "scale" : 2
+    },
+    "BNT" : {
+      "scale" : 2
+    },
+    "MDA" : {
+      "scale" : 2
+    },
+    "UTK" : {
+      "scale" : 2
+    },
+    "WXT" : {
+      "scale" : 2
+    },
+    "UTT" : {
+      "scale" : 2
+    },
+    "BOA" : {
+      "scale" : 2
+    },
+    "FUEL" : {
+      "scale" : 2
+    },
+    "MDT" : {
+      "scale" : 2
+    },
+    "MDS" : {
+      "scale" : 2
+    },
+    "AERGO" : {
+      "scale" : 2
+    },
+    "BOS" : {
+      "scale" : 2
+    },
+    "TEMCO" : {
+      "scale" : 2
+    },
+    "BOX" : {
+      "scale" : 2
+    },
+    "MX" : {
+      "scale" : 2
+    },
+    "MED" : {
+      "scale" : 2
+    },
+    "FXC" : {
+      "scale" : 2
+    },
+    "DTA" : {
+      "scale" : 2
+    },
+    "DBET" : {
+      "scale" : 2
+    },
+    "DTB" : {
+      "scale" : 2
+    },
+    "UUU" : {
+      "scale" : 2
+    },
+    "KAN" : {
+      "scale" : 2
+    },
+    "MER" : {
+      "scale" : 2
+    },
+    "MET" : {
+      "scale" : 2
+    },
+    "KCASH" : {
+      "scale" : 2
+    },
+    "C20" : {
+      "scale" : 2
+    },
+    "FXT" : {
+      "scale" : 2
+    },
+    "DTR" : {
+      "scale" : 2
+    },
+    "GBYTE" : {
+      "scale" : 2
+    },
+    "FLUZ" : {
+      "scale" : 2
+    },
+    "KBC" : {
+      "scale" : 2
+    },
+    "SRN" : {
+      "scale" : 2
+    },
+    "QNT" : {
+      "scale" : 2
+    },
+    "ETHBEAR" : {
+      "scale" : 2
+    },
+    "MFT" : {
+      "scale" : 2
+    },
+    "OK" : {
+      "scale" : 2
+    },
+    "OKB" : {
+      "scale" : 2
+    },
+    "LAMB" : {
+      "scale" : 2
+    },
+    "SSP" : {
+      "scale" : 2
+    },
+    "BRC" : {
+      "scale" : 2
+    },
+    "MGO" : {
+      "scale" : 2
+    },
+    "BRD" : {
+      "scale" : 2
+    },
+    "SPHTX" : {
+      "scale" : 2
+    },
+    "PI" : {
+      "scale" : 2
+    },
+    "BUSD" : {
+      "scale" : 2
+    },
+    "ARPA" : {
+      "scale" : 2
+    },
+    "NEOS" : {
+      "scale" : 2
+    },
+    "IOTX" : {
+      "scale" : 2
+    },
+    "MHC" : {
+      "scale" : 2
+    },
+    "ZAR" : {
+      "scale" : 2
+    },
+    "STR" : {
+      "scale" : 2
+    },
+    "STQ" : {
+      "scale" : 2
+    },
+    "BSD" : {
+      "scale" : 2
+    },
+    "DOCK" : {
+      "scale" : 2
+    },
+    "STX" : {
+      "scale" : 2
+    },
+    "SHIP" : {
+      "scale" : 2
+    },
+    "VIBE" : {
+      "scale" : 2
+    },
+    "BT1" : {
+      "scale" : 2
+    },
+    "SUB" : {
+      "scale" : 2
+    },
+    "BT2" : {
+      "scale" : 2
+    },
+    "BST" : {
+      "scale" : 2
+    },
+    "BSV" : {
+      "scale" : 2
+    },
+    "IOST" : {
+      "scale" : 2
+    },
+    "OMG" : {
+      "scale" : 2
+    },
+    "INCNT" : {
+      "scale" : 2
+    },
+    "BTC" : {
+      "scale" : 2
+    },
+    "IOTA" : {
+      "scale" : 2
+    },
+    "DBIX" : {
+      "scale" : 2
+    },
+    "MIN" : {
+      "scale" : 2
+    },
+    "BTG" : {
+      "scale" : 2
+    },
+    "RATING" : {
+      "scale" : 2
+    },
+    "BTM" : {
+      "scale" : 2
+    },
+    "BTO" : {
+      "scale" : 2
+    },
+    "MIX" : {
+      "scale" : 2
+    },
+    "BTN" : {
+      "scale" : 2
+    },
+    "KEY" : {
+      "scale" : 2
+    },
+    "BTS" : {
+      "scale" : 2
+    },
+    "ZCL" : {
+      "scale" : 2
+    },
+    "BTU" : {
+      "scale" : 2
+    },
+    "BTT" : {
+      "scale" : 2
+    },
+    "ZCN" : {
+      "scale" : 2
+    },
+    "ZCO" : {
+      "scale" : 2
+    },
+    "ONE" : {
+      "scale" : 2
+    },
+    "BTX" : {
+      "scale" : 2
+    },
+    "QRL" : {
+      "scale" : 2
+    },
+    "CLAM" : {
+      "scale" : 2
+    },
+    "ANKR" : {
+      "scale" : 2
+    },
+    "ALGO" : {
+      "scale" : 2
+    },
+    "SC" : {
+      "scale" : 2
+    },
+    "1ST" : {
+      "scale" : 2
+    },
+    "ONT" : {
+      "scale" : 2
+    },
+    "DYN" : {
+      "scale" : 2
+    },
+    "PIVX" : {
+      "scale" : 2
+    },
+    "KICK" : {
+      "scale" : 2
+    },
+    "SWM" : {
+      "scale" : 2
+    },
+    "QSP" : {
+      "scale" : 2
+    },
+    "SWT" : {
+      "scale" : 2
+    },
+    "MKR" : {
+      "scale" : 2
+    },
+    "ICN" : {
+      "scale" : 2
+    },
+    "ZEC" : {
+      "scale" : 2
+    },
+    "APPC" : {
+      "scale" : 2
+    },
+    "ICX" : {
+      "scale" : 2
+    },
+    "TT" : {
+      "scale" : 2
+    },
+    "ZEN" : {
+      "scale" : 2
+    },
+    "HOT-2" : {
+      "scale" : 2
+    },
+    "DUSK" : {
+      "scale" : 2
+    },
+    "DOGE" : {
+      "scale" : 2
+    },
+    "SXP" : {
+      "scale" : 2
+    },
+    "HBAR" : {
+      "scale" : 2
+    },
+    "XAS" : {
+      "scale" : 2
+    },
+    "NANJ" : {
+      "scale" : 2
+    },
+    "IDH" : {
+      "scale" : 2
+    },
+    "MLN" : {
+      "scale" : 2
+    },
+    "NANO" : {
+      "scale" : 2
+    },
+    "FOAM" : {
+      "scale" : 2
+    },
+    "IDR" : {
+      "scale" : 2
+    },
+    "XBC" : {
+      "scale" : 2
+    },
+    "LATX" : {
+      "scale" : 2
+    },
+    "UP" : {
+      "scale" : 2
+    },
+    "NPLC" : {
+      "scale" : 2
+    },
+    "VIDY" : {
+      "scale" : 2
+    },
+    "BWX" : {
+      "scale" : 2
+    },
+    "NLC2" : {
+      "scale" : 2
+    },
+    "QUN" : {
+      "scale" : 2
+    },
+    "SYS" : {
+      "scale" : 2
+    },
+    "CRPT" : {
+      "scale" : 2
+    },
+    "XBX" : {
+      "scale" : 2
+    },
+    "KIN" : {
+      "scale" : 2
+    },
+    "KORE" : {
+      "scale" : 2
+    },
+    "CVCOIN" : {
+      "scale" : 2
+    },
+    "GAS" : {
+      "scale" : 2
+    },
+    "VSYS" : {
+      "scale" : 2
+    },
+    "THETA" : {
+      "scale" : 2
+    },
+    "XCP" : {
+      "scale" : 2
+    },
+    "PTON" : {
+      "scale" : 2
+    },
+    "GBC" : {
+      "scale" : 2
+    },
+    "BURST" : {
+      "scale" : 2
+    },
+    "1WO" : {
+      "scale" : 2
+    },
+    "PERL" : {
+      "scale" : 2
+    },
+    "NEXO" : {
+      "scale" : 2
+    },
+    "ORS" : {
+      "scale" : 2
+    },
+    "GBP" : {
+      "scale" : 2
+    },
+    "MNX" : {
+      "scale" : 2
+    },
+    "IFT" : {
+      "scale" : 2
+    },
+    "RADS" : {
+      "scale" : 2
+    },
+    "GBX" : {
+      "scale" : 2
+    },
+    "ECOM" : {
+      "scale" : 2
+    },
+    "MOC" : {
+      "scale" : 2
+    },
+    "XDN" : {
+      "scale" : 2
+    },
+    "MOD" : {
+      "scale" : 2
+    },
+    "MOF" : {
+      "scale" : 2
+    },
+    "GCC" : {
+      "scale" : 2
+    },
+    "TIME" : {
+      "scale" : 2
+    },
+    "OST" : {
+      "scale" : 2
+    },
+    "MONA" : {
+      "scale" : 2
+    },
+    "ZIL" : {
+      "scale" : 2
+    },
+    "XEL" : {
+      "scale" : 2
+    },
+    "XEM" : {
+      "scale" : 2
+    },
+    "CTXC" : {
+      "scale" : 2
+    },
+    "IHF" : {
+      "scale" : 2
+    },
+    "TRAC" : {
+      "scale" : 2
+    },
+    "OTN" : {
+      "scale" : 2
+    },
+    "ABYSS" : {
+      "scale" : 2
+    },
+    "IHT" : {
+      "scale" : 2
+    },
+    "VBK" : {
+      "scale" : 2
+    },
+    "KMD" : {
+      "scale" : 2
+    },
+    "BORA" : {
+      "scale" : 2
+    },
+    "GEN" : {
+      "scale" : 2
+    },
+    "GET" : {
+      "scale" : 2
+    },
+    "VITAE" : {
+      "scale" : 2
+    },
+    "KNC" : {
+      "scale" : 2
+    },
+    "PROM" : {
+      "scale" : 2
+    },
+    "MRK" : {
+      "scale" : 2
+    },
+    "CHAT" : {
+      "scale" : 2
+    },
+    "BANCA" : {
+      "scale" : 2
+    },
+    "ZLA" : {
+      "scale" : 2
+    },
+    "SNGLS" : {
+      "scale" : 2
+    },
+    "XHV" : {
+      "scale" : 2
+    },
+    "WAXP" : {
+      "scale" : 2
+    },
+    "VDX" : {
+      "scale" : 2
+    },
+    "PLBT" : {
+      "scale" : 2
+    },
+    "MSP" : {
+      "scale" : 2
+    },
+    "GRIN" : {
+      "scale" : 2
+    },
+    "VEE" : {
+      "scale" : 2
+    },
+    "TAAS" : {
+      "scale" : 2
+    },
+    "XIN" : {
+      "scale" : 2
+    },
+    "MTC" : {
+      "scale" : 2
+    },
+    "VEN" : {
+      "scale" : 2
+    },
+    "MTH" : {
+      "scale" : 2
+    },
+    "VEO" : {
+      "scale" : 2
+    },
+    "ILC" : {
+      "scale" : 2
+    },
+    "USDK" : {
+      "scale" : 2
+    },
+    "VET" : {
+      "scale" : 2
+    },
+    "MTL" : {
+      "scale" : 2
+    },
+    "EDC" : {
+      "scale" : 2
+    },
+    "MTN" : {
+      "scale" : 2
+    },
+    "DICE" : {
+      "scale" : 2
+    },
+    "VEX" : {
+      "scale" : 2
+    },
+    "USDT" : {
+      "scale" : 2
+    },
+    "TAU" : {
+      "scale" : 2
+    },
+    "EDG" : {
+      "scale" : 2
+    },
+    "USDS" : {
+      "scale" : 2
+    },
+    "OXT" : {
+      "scale" : 2
+    },
+    "MTX" : {
+      "scale" : 2
+    },
+    "OXY" : {
+      "scale" : 2
+    },
+    "EDO" : {
+      "scale" : 2
+    },
+    "EDR" : {
+      "scale" : 2
+    },
+    "TPAY" : {
+      "scale" : 2
+    },
+    "MUE" : {
+      "scale" : 2
+    },
+    "ELEC" : {
+      "scale" : 2
+    },
+    "CAD" : {
+      "scale" : 2
+    },
+    "BEAR" : {
+      "scale" : 2
+    },
+    "BEAM" : {
+      "scale" : 2
+    },
+    "CAS" : {
+      "scale" : 2
+    },
+    "NAUT" : {
+      "scale" : 2
+    },
+    "CAT" : {
+      "scale" : 2
+    },
+    "AMONET" : {
+      "scale" : 2
+    },
+    "USDC" : {
+      "scale" : 2
+    },
+    "IND" : {
+      "scale" : 2
+    },
+    "TCT" : {
+      "scale" : 2
+    },
+    "CBC" : {
+      "scale" : 2
+    },
+    "KRM" : {
+      "scale" : 2
+    },
+    "INK" : {
+      "scale" : 2
+    },
+    "INR" : {
+      "scale" : 2
+    },
+    "INT" : {
+      "scale" : 2
+    },
+    "INS" : {
+      "scale" : 2
+    },
+    "KRW" : {
+      "scale" : 2
+    },
+    "GAME" : {
+      "scale" : 2
+    },
+    "CBT" : {
+      "scale" : 2
+    },
+    "PART" : {
+      "scale" : 2
+    },
+    "XLM" : {
+      "scale" : 2
+    },
+    "IOC" : {
+      "scale" : 2
+    },
+    "ZPR" : {
+      "scale" : 2
+    },
+    "ZPT" : {
+      "scale" : 2
+    },
+    "ION" : {
+      "scale" : 2
+    },
+    "VIB" : {
+      "scale" : 2
+    },
+    "XMC" : {
+      "scale" : 2
+    },
+    "VIA" : {
+      "scale" : 2
+    },
+    "EGT" : {
+      "scale" : 2
+    },
+    "MXC" : {
+      "scale" : 2
+    },
+    "TEL" : {
+      "scale" : 2
+    },
+    "XMR" : {
+      "scale" : 2
+    },
+    "GLD" : {
+      "scale" : 2
+    },
+    "SWTH" : {
+      "scale" : 2
+    },
+    "GLC" : {
+      "scale" : 2
+    },
+    "XMX" : {
+      "scale" : 2
+    },
+    "MXN" : {
+      "scale" : 2
+    },
+    "TRIO" : {
+      "scale" : 2
+    },
+    "MXM" : {
+      "scale" : 2
+    },
+    "XMY" : {
+      "scale" : 2
+    },
+    "DREAM" : {
+      "scale" : 2
+    },
+    "MEDX" : {
+      "scale" : 2
+    },
+    "ZRC" : {
+      "scale" : 2
+    },
+    "IPX" : {
+      "scale" : 2
+    },
+    "CDT" : {
+      "scale" : 2
+    },
+    "SUSD" : {
+      "scale" : 2
+    },
+    "NPXS" : {
+      "scale" : 2
+    },
+    "XNS" : {
+      "scale" : 2
+    },
+    "BTCP" : {
+      "scale" : 2
+    },
+    "ZRX" : {
+      "scale" : 2
+    },
+    "AAC" : {
+      "scale" : 2
+    },
+    "PASC" : {
+      "scale" : 2
+    },
+    "MYR" : {
+      "scale" : 2
+    },
+    "RBY" : {
+      "scale" : 2
+    },
+    "ZSC" : {
+      "scale" : 2
+    },
+    "CEL" : {
+      "scale" : 2
+    },
+    "BTCD" : {
+      "scale" : 2
+    },
+    "BEET" : {
+      "scale" : 2
+    },
+    "IRIS" : {
+      "scale" : 2
+    },
+    "TRIG" : {
+      "scale" : 2
+    },
+    "RCN" : {
+      "scale" : 2
+    },
+    "OMNI" : {
+      "scale" : 2
+    },
+    "IGNIS" : {
+      "scale" : 2
+    },
+    "BCAC" : {
+      "scale" : 2
+    },
+    "ABBC" : {
+      "scale" : 2
+    },
+    "AIDOC" : {
+      "scale" : 2
+    },
+    "CFI" : {
+      "scale" : 2
+    },
+    "GNO" : {
+      "scale" : 2
+    },
+    "VITE" : {
+      "scale" : 2
+    },
+    "GNT" : {
+      "scale" : 2
+    },
+    "THC" : {
+      "scale" : 2
+    },
+    "GNX" : {
+      "scale" : 2
+    },
+    "RDD" : {
+      "scale" : 2
+    },
+    "ABT" : {
+      "scale" : 2
+    },
+    "XPM" : {
+      "scale" : 2
+    },
+    "ICOS" : {
+      "scale" : 2
+    },
+    "RDN" : {
+      "scale" : 2
+    },
+    "SEELE" : {
+      "scale" : 2
+    },
+    "ELAMA" : {
+      "scale" : 2
+    },
+    "THX" : {
+      "scale" : 2
+    },
+    "EKO" : {
+      "scale" : 2
+    },
+    "GOT" : {
+      "scale" : 2
+    },
+    "EKT" : {
+      "scale" : 2
+    },
+    "STORM" : {
+      "scale" : 2
+    },
+    "ACT" : {
+      "scale" : 2
+    },
+    "PAI" : {
+      "scale" : 2
+    },
+    "ITC" : {
+      "scale" : 2
+    },
+    "REN" : {
+      "scale" : 2
+    },
+    "PAL" : {
+      "scale" : 2
+    },
+    "TIO" : {
+      "scale" : 2
+    },
+    "REM" : {
+      "scale" : 2
+    },
+    "ELA" : {
+      "scale" : 2
+    },
+    "REP" : {
+      "scale" : 2
+    },
+    "ELF" : {
+      "scale" : 2
+    },
+    "ADA" : {
+      "scale" : 2
+    },
+    "STORJ" : {
+      "scale" : 2
+    },
+    "REQ" : {
+      "scale" : 2
+    },
+    "CHF" : {
+      "scale" : 2
+    },
+    "TIX" : {
+      "scale" : 2
+    },
+    "REV" : {
+      "scale" : 2
+    },
+    "PAT" : {
+      "scale" : 2
+    },
+    "PAXG" : {
+      "scale" : 2
+    },
+    "ADH" : {
+      "scale" : 2
+    },
+    "PAX" : {
+      "scale" : 2
+    },
+    "XRC" : {
+      "scale" : 2
+    },
+    "ADK" : {
+      "scale" : 2
+    },
+    "PAY" : {
+      "scale" : 2
+    },
+    "MORPH" : {
+      "scale" : 2
+    },
+    "CHP" : {
+      "scale" : 2
+    },
+    "ADM" : {
+      "scale" : 2
+    },
+    "CHR" : {
+      "scale" : 2
+    },
+    "ADT" : {
+      "scale" : 2
+    },
+    "CHX" : {
+      "scale" : 2
+    },
+    "CHZ" : {
+      "scale" : 2
+    },
+    "ADX" : {
+      "scale" : 2
+    },
+    "XRP" : {
+      "scale" : 2
+    },
+    "EMC" : {
+      "scale" : 2
+    },
+    "RFR" : {
+      "scale" : 2
+    },
+    "PBT" : {
+      "scale" : 2
+    },
+    "OCEAN" : {
+      "scale" : 2
+    },
+    "SOLVE" : {
+      "scale" : 2
+    },
+    "GARD" : {
+      "scale" : 2
+    },
+    "XSR" : {
+      "scale" : 2
+    },
+    "TKN" : {
+      "scale" : 2
+    },
+    "XST" : {
+      "scale" : 2
+    },
+    "PCL" : {
+      "scale" : 2
+    },
+    "GRC" : {
+      "scale" : 2
+    },
+    "VOX" : {
+      "scale" : 2
+    },
+    "ENG" : {
+      "scale" : 2
+    },
+    "ENJ" : {
+      "scale" : 2
+    },
+    "TKY" : {
+      "scale" : 2
+    },
+    "GRS" : {
+      "scale" : 2
+    },
+    "TFUEL" : {
+      "scale" : 2
+    },
+    "IVY" : {
+      "scale" : 2
+    },
+    "TROY" : {
+      "scale" : 2
+    },
+    "XTP" : {
+      "scale" : 2
+    },
+    "GSC" : {
+      "scale" : 2
+    },
+    "FOTA" : {
+      "scale" : 2
+    },
+    "CKB" : {
+      "scale" : 2
+    },
+    "XTZ" : {
+      "scale" : 2
+    },
+    "LUNA" : {
+      "scale" : 2
+    },
+    "AGI" : {
+      "scale" : 2
+    },
+    "BELA" : {
+      "scale" : 2
+    },
+    "EOS" : {
+      "scale" : 2
+    },
+    "BITB" : {
+      "scale" : 2
+    },
+    "RIC" : {
+      "scale" : 2
+    },
+    "RIF" : {
+      "scale" : 2
+    },
+    "GTC" : {
+      "scale" : 2
+    },
+    "NAS" : {
+      "scale" : 2
+    },
+    "NAV" : {
+      "scale" : 2
+    },
+    "GTO" : {
+      "scale" : 2
+    },
+    "XVC" : {
+      "scale" : 2
+    },
+    "VRA" : {
+      "scale" : 2
+    },
+    "MITX" : {
+      "scale" : 2
+    },
+    "IXT" : {
+      "scale" : 2
+    },
+    "CLN" : {
+      "scale" : 2
+    },
+    "VRC" : {
+      "scale" : 2
+    },
+    "CLO" : {
+      "scale" : 2
+    },
+    "XVG" : {
+      "scale" : 2
+    },
+    "TNC" : {
+      "scale" : 2
+    },
+    "TNB" : {
+      "scale" : 2
+    },
+    "VERI" : {
+      "scale" : 2
+    },
+    "VRM" : {
+      "scale" : 2
+    },
+    "FLETA" : {
+      "scale" : 2
+    },
+    "STEEM" : {
+      "scale" : 2
+    },
+    "TNT" : {
+      "scale" : 2
+    },
+    "ROOBEE" : {
+      "scale" : 2
+    },
+    "AID" : {
+      "scale" : 2
+    },
+    "GUP" : {
+      "scale" : 2
+    },
+    "XWC" : {
+      "scale" : 2
+    },
+    "CMT" : {
+      "scale" : 2
+    },
+    "TOP" : {
+      "scale" : 2
+    },
+    "MITH" : {
+      "scale" : 2
+    },
+    "ERD" : {
+      "scale" : 2
+    },
+    "CND" : {
+      "scale" : 2
+    },
+    "NCT" : {
+      "scale" : 2
+    },
+    "CNN" : {
+      "scale" : 2
+    },
+    "WINGS" : {
+      "scale" : 2
+    },
+    "VTC" : {
+      "scale" : 2
+    },
+    "GVT" : {
+      "scale" : 2
+    },
+    "RLC" : {
+      "scale" : 2
+    },
+    "CNX" : {
+      "scale" : 2
+    },
+    "CNY" : {
+      "scale" : 2
+    },
+    "ORBS" : {
+      "scale" : 2
+    },
+    "PHP" : {
+      "scale" : 2
+    },
+    "PHX" : {
+      "scale" : 2
+    },
+    "BTMX" : {
+      "scale" : 2
+    },
+    "COS" : {
+      "scale" : 2
+    },
+    "COV" : {
+      "scale" : 2
+    },
+    "CHSB" : {
+      "scale" : 2
+    },
+    "NEC" : {
+      "scale" : 2
+    },
+    "XYO" : {
+      "scale" : 2
+    },
+    "GXC" : {
+      "scale" : 2
+    },
+    "ETC" : {
+      "scale" : 2
+    },
+    "TRST" : {
+      "scale" : 2
+    },
+    "ETH" : {
+      "scale" : 2
+    },
+    "NEO" : {
+      "scale" : 2
+    },
+    "FLIXX" : {
+      "scale" : 2
+    },
+    "ETN" : {
+      "scale" : 2
+    },
+    "NEU" : {
+      "scale" : 2
+    },
+    "XZC" : {
+      "scale" : 2
+    },
+    "ETP" : {
+      "scale" : 2
+    },
+    "NEW" : {
+      "scale" : 2
+    },
+    "GXS" : {
+      "scale" : 2
+    },
+    "CPT" : {
+      "scale" : 2
+    },
+    "LBA" : {
+      "scale" : 2
+    },
+    "CPX" : {
+      "scale" : 2
+    },
+    "RNTB" : {
+      "scale" : 2
+    },
+    "NOAH" : {
+      "scale" : 2
+    },
+    "MAID" : {
+      "scale" : 2
+    },
+    "LBC" : {
+      "scale" : 2
+    },
+    "AMB" : {
+      "scale" : 2
+    },
+    "DREP" : {
+      "scale" : 2
+    },
+    "TRX" : {
+      "scale" : 2
+    },
+    "EUR" : {
+      "scale" : 2
+    },
+    "AMO" : {
+      "scale" : 2
+    },
+    "AMP" : {
+      "scale" : 2
+    },
+    "TRUE" : {
+      "scale" : 2
+    },
+    "NULS" : {
+      "scale" : 2
+    },
+    "NGC" : {
+      "scale" : 2
+    },
+    "LCC" : {
+      "scale" : 2
+    },
+    "AUTO" : {
+      "scale" : 2
+    },
+    "DACS" : {
+      "scale" : 2
+    },
+    "NGN" : {
+      "scale" : 2
+    },
+    "CRE" : {
+      "scale" : 2
+    },
+    "PKT" : {
+      "scale" : 2
+    },
+    "ROX" : {
+      "scale" : 2
+    },
+    "EVN" : {
+      "scale" : 2
+    },
+    "CRO" : {
+      "scale" : 2
+    },
+    "TTC" : {
+      "scale" : 2
+    },
+    "PLA" : {
+      "scale" : 2
+    },
+    "EVX" : {
+      "scale" : 2
+    },
+    "ANT" : {
+      "scale" : 2
+    },
+    "CRW" : {
+      "scale" : 2
+    },
+    "PLN" : {
+      "scale" : 2
+    },
+    "TTU" : {
+      "scale" : 2
+    },
+    "SOUL" : {
+      "scale" : 2
+    },
+    "DRGN" : {
+      "scale" : 2
+    },
+    "PLR" : {
+      "scale" : 2
+    },
+    "RPX" : {
+      "scale" : 2
+    },
+    "PLY" : {
+      "scale" : 2
+    },
+    "DADI" : {
+      "scale" : 2
+    },
+    "PMA" : {
+      "scale" : 2
+    },
+    "NIM" : {
+      "scale" : 2
+    },
+    "CTC" : {
+      "scale" : 2
+    },
+    "LEO" : {
+      "scale" : 2
+    },
+    "LET" : {
+      "scale" : 2
+    },
+    "EXP" : {
+      "scale" : 2
+    },
+    "APL" : {
+      "scale" : 2
+    },
+    "APM" : {
+      "scale" : 2
+    },
+    "MATIC" : {
+      "scale" : 2
+    },
+    "PNK" : {
+      "scale" : 2
+    },
+    "PNT" : {
+      "scale" : 2
+    },
+    "B2G" : {
+      "scale" : 2
+    },
+    "DENT" : {
+      "scale" : 2
+    },
+    "BCPT" : {
+      "scale" : 2
+    },
+    "BETR" : {
+      "scale" : 2
+    },
+    "META" : {
+      "scale" : 2
+    },
+    "XCON" : {
+      "scale" : 2
+    },
+    "POA" : {
+      "scale" : 2
+    },
+    "POE" : {
+      "scale" : 2
+    },
+    "BAND" : {
+      "scale" : 2
+    },
+    "RSR" : {
+      "scale" : 2
+    },
+    "NKN" : {
+      "scale" : 2
+    },
+    "CVC" : {
+      "scale" : 2
+    },
+    "POT" : {
+      "scale" : 2
+    },
+    "CURE" : {
+      "scale" : 2
+    },
+    "ARK" : {
+      "scale" : 2
+    },
+    "ARN" : {
+      "scale" : 2
+    },
+    "CVT" : {
+      "scale" : 2
+    },
+    "PPC" : {
+      "scale" : 2
+    },
+    "ART" : {
+      "scale" : 2
+    },
+    "CMCT" : {
+      "scale" : 2
+    },
+    "NLG" : {
+      "scale" : 2
+    },
+    "PPP" : {
+      "scale" : 2
+    },
+    "WBTC" : {
+      "scale" : 2
+    },
+    "PPT" : {
+      "scale" : 2
+    },
+    "DGTX" : {
+      "scale" : 2
+    },
+    "RUB" : {
+      "scale" : 2
+    },
+    "HEDG" : {
+      "scale" : 2
+    },
+    "AST" : {
+      "scale" : 2
+    },
+    "UGAS" : {
+      "scale" : 2
+    },
+    "MANA" : {
+      "scale" : 2
+    },
+    "RUFF" : {
+      "scale" : 2
+    },
+    "NMC" : {
+      "scale" : 2
+    },
+    "NMR" : {
+      "scale" : 2
+    },
+    "MRPH" : {
+      "scale" : 2
+    },
+    "ATM" : {
+      "scale" : 2
+    },
+    "ATP" : {
+      "scale" : 2
+    },
+    "PRA" : {
+      "scale" : 2
+    },
+    "PRE" : {
+      "scale" : 2
+    },
+    "LOOM" : {
+      "scale" : 2
+    },
+    "PRG" : {
+      "scale" : 2
+    },
+    "RVN" : {
+      "scale" : 2
+    },
+    "PRO" : {
+      "scale" : 2
+    },
+    "RVR" : {
+      "scale" : 2
+    },
+    "AUD" : {
+      "scale" : 2
+    },
+    "RVT" : {
+      "scale" : 2
+    },
+    "WICC" : {
+      "scale" : 2
+    },
+    "HBT" : {
+      "scale" : 2
+    },
+    "ORME" : {
+      "scale" : 2
+    },
+    "KAVA" : {
+      "scale" : 2
+    },
+    "TUBE" : {
+      "scale" : 2
+    },
+    "AMLT" : {
+      "scale" : 2
+    },
+    "AVA" : {
+      "scale" : 2
+    },
+    "COCOS" : {
+      "scale" : 2
+    },
+    "PST" : {
+      "scale" : 2
+    },
+    "YEE" : {
+      "scale" : 2
+    },
+    "STRAT" : {
+      "scale" : 2
+    },
+    "AVT" : {
+      "scale" : 2
+    },
+    "WAN" : {
+      "scale" : 2
+    },
+    "STACS" : {
+      "scale" : 2
+    },
+    "WAX" : {
+      "scale" : 2
+    },
+    "EURS" : {
+      "scale" : 2
+    },
+    "EURT" : {
+      "scale" : 2
+    },
+    "EMC2" : {
+      "scale" : 2
+    },
+    "LIFE" : {
+      "scale" : 2
+    },
+    "HYDRA" : {
+      "scale" : 2
+    },
+    "LMC" : {
+      "scale" : 2
+    },
+    "LML" : {
+      "scale" : 2
+    },
+    "HYDRO" : {
+      "scale" : 2
+    },
+    "AXP" : {
+      "scale" : 2
+    },
+    "LNC" : {
+      "scale" : 2
+    },
+    "LND" : {
+      "scale" : 2
+    },
+    "FAIR" : {
+      "scale" : 2
+    },
+    "PVT" : {
+      "scale" : 2
+    },
+    "KFEE" : {
+      "scale" : 2
+    },
+    "LOC" : {
+      "scale" : 2
+    },
+    "DAPP" : {
+      "scale" : 2
+    },
+    "FCT" : {
+      "scale" : 2
+    },
+    "RFOX" : {
+      "scale" : 2
+    },
+    "UAH" : {
+      "scale" : 2
+    },
+    "PXG" : {
+      "scale" : 2
+    },
+    "NTK" : {
+      "scale" : 2
+    },
+    "WET" : {
+      "scale" : 2
+    },
+    "LPT" : {
+      "scale" : 2
+    },
+    "HIVE" : {
+      "scale" : 2
+    },
+    "FDZ" : {
+      "scale" : 2
+    },
+    "XAUT" : {
+      "scale" : 2
+    },
+    "UBQ" : {
+      "scale" : 2
+    },
+    "UBT" : {
+      "scale" : 2
+    },
+    "DAC" : {
+      "scale" : 2
+    },
+    "DAG" : {
+      "scale" : 2
+    },
+    "DAI" : {
+      "scale" : 2
+    },
+    "XAUR" : {
+      "scale" : 2
+    },
+    "HXRO" : {
+      "scale" : 2
+    },
+    "HIT" : {
+      "scale" : 2
+    },
+    "DAO" : {
+      "scale" : 2
+    },
+    "FET" : {
+      "scale" : 2
+    },
+    "ETHBULL" : {
+      "scale" : 2
+    },
+    "DAT" : {
+      "scale" : 2
+    },
+    "NVC" : {
+      "scale" : 2
+    },
+    "LRC" : {
+      "scale" : 2
+    },
+    "DBC" : {
+      "scale" : 2
+    },
+    "LRN" : {
+      "scale" : 2
+    },
+    "HTML" : {
+      "scale" : 2
+    },
+    "DASH" : {
+      "scale" : 2
+    },
+    "JNT" : {
+      "scale" : 2
+    },
+    "RBLX" : {
+      "scale" : 2
+    },
+    "GUSD" : {
+      "scale" : 2
+    },
+    "HKD" : {
+      "scale" : 2
+    },
+    "LSK" : {
+      "scale" : 2
+    },
+    "BLOCK" : {
+      "scale" : 2
+    },
+    "DCN" : {
+      "scale" : 2
+    },
+    "WIB" : {
+      "scale" : 2
+    },
+    "DCR" : {
+      "scale" : 2
+    },
+    "LIKE" : {
+      "scale" : 2
+    },
+    "DCT" : {
+      "scale" : 2
+    },
+    "DATA" : {
+      "scale" : 2
+    },
+    "NXC" : {
+      "scale" : 2
+    },
+    "GMAT" : {
+      "scale" : 2
+    },
+    "SAI" : {
+      "scale" : 2
+    },
+    "LTC" : {
+      "scale" : 2
+    },
+    "WIN" : {
+      "scale" : 2
+    },
+    "SENT" : {
+      "scale" : 2
+    },
+    "MIOTA" : {
+      "scale" : 2
+    },
+    "SAN" : {
+      "scale" : 2
+    },
+    "DDD" : {
+      "scale" : 2
+    },
+    "LTO" : {
+      "scale" : 2
+    },
+    "NXS" : {
+      "scale" : 2
+    },
+    "NXT" : {
+      "scale" : 2
+    },
+    "ACAT" : {
+      "scale" : 2
+    },
+    "JPY" : {
+      "scale" : 2
+    },
+    "COSS" : {
+      "scale" : 2
+    },
+    "SBD" : {
+      "scale" : 2
+    },
+    "NOTE" : {
+      "scale" : 2
+    },
+    "LINK" : {
+      "scale" : 2
+    },
+    "COSM" : {
+      "scale" : 2
+    },
+    "QTUM" : {
+      "scale" : 2
+    },
+    "DATX" : {
+      "scale" : 2
+    },
+    "UFR" : {
+      "scale" : 2
+    },
+    "EOSDAC" : {
+      "scale" : 2
+    },
+    "LUN" : {
+      "scale" : 2
+    },
+    "FLDC" : {
+      "scale" : 2
+    },
+    "POLY" : {
+      "scale" : 2
+    },
+    "HMQ" : {
+      "scale" : 2
+    },
+    "SCC" : {
+      "scale" : 2
+    },
+    "BAT" : {
+      "scale" : 2
+    },
+    "AKRO" : {
+      "scale" : 2
+    },
+    "BAY" : {
+      "scale" : 2
+    },
+    "YOU" : {
+      "scale" : 2
+    },
+    "COTI" : {
+      "scale" : 2
+    }
+  },
+  "share_rate_limits" : false
+}

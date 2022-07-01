@@ -1,0 +1,14 @@
+{
+  "currencies": [
+    {
+      "name": "Bitcoin",
+      "code": "BTC",
+      "decimals": 8
+    },
+    {
+      "name": "United States Dollar",
+      "code": "USD",
+      "decimals": 4
+    }
+  ]
+}

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.4.0-SNAPSHOT</version>
+        <version>5.0.14-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-btcmarkets</artifactId>
@@ -30,14 +30,9 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- PowerMockito for unit tests -->
         <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito2</artifactId>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
         </dependency>
 
     </dependencies>

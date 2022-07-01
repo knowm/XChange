@@ -1,5 +1,10 @@
 package org.knowm.xchange.coinbene.dto;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -19,12 +24,14 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
@@ -36,11 +43,17 @@ public class CoinbeneAdapters {
   }
 
   private static CurrencyPair adaptSymbol(String symbol) {
-    try {
-      return new CurrencyPair(symbol.substring(0, 3), symbol.substring(3));
-    } catch (RuntimeException e) {
-      throw new IllegalArgumentException("Not supported Coinbene symbol: " + symbol, e);
+    // Iterate by base currency priority at Coinbene.
+    for (Currency base :
+        Arrays.asList(Currency.BTC, Currency.ETH, Currency.USDT, Currency.getInstance("BR"))) {
+      String counter = symbol.replace(base.toString(), "");
+      if (symbol.startsWith(base.toString())) {
+        return new CurrencyPair(base, new Currency(counter));
+      } else if (symbol.endsWith(base.toString())) {
+        return new CurrencyPair(new Currency(counter), base);
+      }
     }
+    throw new IllegalArgumentException("Could not parse currency pair from '" + symbol + "'");
   }
 
   public static String adaptOrderType(OrderType type) {
@@ -54,9 +67,7 @@ public class CoinbeneAdapters {
     }
   }
 
-  public static Ticker adaptTicker(CoinbeneTicker.Container container) {
-    CoinbeneTicker ticker = container.getTicker();
-
+  private static Ticker adaptCoinbeneTicker(CoinbeneTicker ticker, long timestamp) {
     return new Ticker.Builder()
         .currencyPair(adaptSymbol(ticker.getSymbol()))
         .bid(ticker.getBid())
@@ -65,8 +76,23 @@ public class CoinbeneAdapters {
         .low(ticker.getDayLow())
         .last(ticker.getLast())
         .volume(ticker.getDayVolume())
-        .timestamp(new Date(container.getTimestamp()))
+        .timestamp(new Date(timestamp))
         .build();
+  }
+
+  public static Ticker adaptTicker(CoinbeneTicker.Container container) {
+    return adaptCoinbeneTicker(container.getTicker(), container.getTimestamp());
+  }
+
+  public static List<Ticker> adaptTickers(CoinbeneTicker.Container container) {
+    long timestamp = container.getTimestamp();
+
+    return container.getTickers().stream()
+        .filter(
+            coinbeneTicker ->
+                !coinbeneTicker.getSymbol().endsWith("BRL")) // DASHBRL, EOSBRL unsupported
+        .map(coinbeneTicker -> adaptCoinbeneTicker(coinbeneTicker, timestamp))
+        .collect(Collectors.toList());
   }
 
   public static OrderBook adaptOrderBook(
@@ -94,29 +120,29 @@ public class CoinbeneAdapters {
 
   public static OpenOrders adaptOpenOrders(CoinbeneOrders orders) {
 
+    if (orders == null) {
+      return new OpenOrders(Collections.EMPTY_LIST);
+    }
+
     return new OpenOrders(
-        orders
-            .getOrders()
-            .stream()
+        orders.getOrders().stream()
             .map(CoinbeneAdapters::adaptLimitOrder)
             .collect(Collectors.toList()));
   }
 
   public static AccountInfo adaptAccountInfo(CoinbeneCoinBalances balances) {
     Wallet wallet =
-        new Wallet(
-            null,
-            balances
-                .getBalances()
-                .stream()
-                .map(
-                    balance ->
-                        new Balance(
-                            new Currency(balance.getAsset()),
-                            balance.getTotal(),
-                            balance.getAvailable(),
-                            balance.getReserved()))
-                .collect(Collectors.toList()));
+        Wallet.Builder.from(
+                balances.getBalances().stream()
+                    .map(
+                        balance ->
+                            new Balance(
+                                new Currency(balance.getAsset()),
+                                balance.getTotal(),
+                                balance.getAvailable(),
+                                balance.getReserved()))
+                    .collect(Collectors.toList()))
+            .build();
 
     return new AccountInfo(wallet);
   }
@@ -145,7 +171,17 @@ public class CoinbeneAdapters {
     for (CoinbeneSymbol ticker : markets) {
       pairMeta.put(
           new CurrencyPair(ticker.getBaseAsset(), ticker.getQuoteAsset()),
-          new CurrencyPairMetaData(null, ticker.getMinQuantity(), null, null, null));
+          new CurrencyPairMetaData(
+              ticker.getTakerFee(),
+              ticker.getMinQuantity(),
+              null,
+              ticker.getTickSize(),
+              new FeeTier[] {
+                new FeeTier(BigDecimal.ZERO, new Fee(ticker.getMakerFee(), ticker.getTakerFee()))
+              },
+              new BigDecimal(
+                  Math.pow(10.0, -ticker.getLotStepSize()),
+                  new MathContext(Math.max(0, ticker.getLotStepSize()), RoundingMode.HALF_UP))));
     }
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }

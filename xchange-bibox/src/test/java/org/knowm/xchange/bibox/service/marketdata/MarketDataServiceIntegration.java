@@ -16,7 +16,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 public class MarketDataServiceIntegration {
 
   private static final Exchange BIBOX =
-      ExchangeFactory.INSTANCE.createExchange(BiboxExchange.class.getName());
+      ExchangeFactory.INSTANCE.createExchange(BiboxExchange.class);
   private static final CurrencyPair BIX_BTC = new CurrencyPair("BIX", "BTC");
 
   @Test

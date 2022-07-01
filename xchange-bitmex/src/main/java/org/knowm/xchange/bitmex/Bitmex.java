@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitmex;
 
 import java.io.IOException;
+import java.util.Date;
 import javax.annotation.Nullable;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -8,12 +9,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitmex.dto.account.BitmexTickerList;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexFundingList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexKlineList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrderList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTradeList;
 import org.knowm.xchange.bitmex.dto.marketdata.results.BitmexSymbolsAndPromptsResult;
 
-@Path("/api/v1")
+@Path("api/v1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bitmex {
 
@@ -62,4 +64,17 @@ public interface Bitmex {
   @GET
   @Path("instrument/activeIntervals")
   BitmexSymbolsAndPromptsResult getPromptsAndSymbols() throws IOException, BitmexException;
+
+  @GET
+  @Path("funding")
+  BitmexFundingList getFundingHistory(
+      @Nullable @QueryParam("symbol") String symbol,
+      @Nullable @QueryParam("filter") String filter,
+      @Nullable @QueryParam("columns") String columns,
+      @Nullable @QueryParam("count") Integer count,
+      @Nullable @QueryParam("start") Long start,
+      @Nullable @QueryParam("reverse") Boolean reverse,
+      @Nullable @QueryParam("startTime") Date startTime,
+      @Nullable @QueryParam("endTime") Date endTime)
+      throws IOException, BitmexException;
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.knowm.xchange.bibox.dto.account.BiboxCoin;
+import org.knowm.xchange.bibox.dto.account.BiboxAsset;
 import org.knowm.xchange.bibox.dto.account.BiboxDeposit;
 import org.knowm.xchange.bibox.dto.account.BiboxWithdrawal;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxMarket;
@@ -64,37 +64,33 @@ public class BiboxAdapters {
         .build();
   }
 
-  public static AccountInfo adaptAccountInfo(List<BiboxCoin> coins) {
+  public static AccountInfo adaptAccountInfo(List<BiboxAsset> coins) {
     Wallet wallet = adaptWallet(coins);
     return new AccountInfo(wallet);
   }
 
-  private static Wallet adaptWallet(List<BiboxCoin> coins) {
+  private static Wallet adaptWallet(List<BiboxAsset> coins) {
     List<Balance> balances =
         coins.stream().map(BiboxAdapters::adaptBalance).collect(Collectors.toList());
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
-  private static Balance adaptBalance(BiboxCoin coin) {
+  private static Balance adaptBalance(BiboxAsset asset) {
     return new Balance.Builder()
-        .currency(Currency.getInstance(coin.getSymbol()))
-        .available(coin.getBalance())
-        .frozen(coin.getFreeze())
-        .total(coin.getBalance().add(coin.getFreeze()))
+        .currency(asset.getCoin_symbol())
+        .available(asset.getBalance())
+        .frozen(asset.getFreeze())
+        .total(asset.getBalance().add(asset.getFreeze()))
         .build();
   }
 
   public static OrderBook adaptOrderBook(BiboxOrderBook orderBook, CurrencyPair currencyPair) {
     return new OrderBook(
         new Date(orderBook.getUpdateTime()),
-        orderBook
-            .getAsks()
-            .stream()
+        orderBook.getAsks().stream()
             .map(e -> adaptOrderBookOrder(e, OrderType.ASK, currencyPair))
             .collect(Collectors.toList()),
-        orderBook
-            .getBids()
-            .stream()
+        orderBook.getBids().stream()
             .map(e -> adaptOrderBookOrder(e, OrderType.BID, currencyPair))
             .collect(Collectors.toList()));
   }
@@ -109,9 +105,7 @@ public class BiboxAdapters {
 
   public static OpenOrders adaptOpenOrders(BiboxOrders biboxOpenOrders) {
     return new OpenOrders(
-        biboxOpenOrders
-            .getItems()
-            .stream()
+        biboxOpenOrders.getItems().stream()
             .map(BiboxAdapters::adaptLimitOpenOrder)
             .collect(Collectors.toList()));
   }
@@ -142,9 +136,7 @@ public class BiboxAdapters {
 
   public static UserTrades adaptUserTrades(BiboxOrders biboxOrderHistory) {
     List<UserTrade> trades =
-        biboxOrderHistory
-            .getItems()
-            .stream()
+        biboxOrderHistory.getItems().stream()
             .map(BiboxAdapters::adaptUserTrade)
             .collect(Collectors.toList());
     return new UserTrades(trades, TradeSortType.SortByID);
@@ -152,8 +144,8 @@ public class BiboxAdapters {
 
   private static UserTrade adaptUserTrade(BiboxOrder order) {
     return new UserTrade.Builder()
-        .orderId(Long.toString(order.getId()))
-        .id(Long.toString(order.getId()))
+        .orderId(order.getId())
+        .id(order.getId())
         .currencyPair(new CurrencyPair(order.getCoinSymbol(), order.getCurrencySymbol()))
         .price(order.getPrice())
         .originalAmount(order.getAmount())
@@ -165,8 +157,7 @@ public class BiboxAdapters {
   }
 
   public static List<OrderBook> adaptAllOrderBooks(List<BiboxOrderBook> biboxOrderBooks) {
-    return biboxOrderBooks
-        .stream()
+    return biboxOrderBooks.stream()
         .map(ob -> BiboxAdapters.adaptOrderBook(ob, adaptCurrencyPair(ob.getPair())))
         .collect(Collectors.toList());
   }
@@ -224,17 +215,17 @@ public class BiboxAdapters {
 
   public static Trades adaptDeals(List<BiboxDeals> biboxDeals, CurrencyPair currencyPair) {
     List<Trade> trades =
-        biboxDeals
-            .stream()
+        biboxDeals.stream()
             .map(
                 d ->
-                    new Trade(
-                        convertSide(d.getSide()),
-                        d.getAmount(),
-                        currencyPair,
-                        d.getPrice(),
-                        new Date(d.getTime()),
-                        d.getId()))
+                    new Trade.Builder()
+                        .type(convertSide(d.getSide()))
+                        .originalAmount(d.getAmount())
+                        .currencyPair(currencyPair)
+                        .price(d.getPrice())
+                        .timestamp(new Date(d.getTime()))
+                        .id(d.getId())
+                        .build())
             .collect(Collectors.toList());
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }

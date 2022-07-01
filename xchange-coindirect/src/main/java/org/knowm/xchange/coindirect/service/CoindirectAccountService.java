@@ -38,10 +38,10 @@ public class CoindirectAccountService extends CoindirectAccountServiceRaw
               CoindirectAdapters.toCurrency(coindirectWallet.currency.code),
               coindirectWallet.balance);
       wallet =
-          new Wallet(
-              String.valueOf(coindirectWallet.id),
-              coindirectWallet.description,
-              Arrays.asList(balance));
+          Wallet.Builder.from(Arrays.asList(balance))
+              .id(String.valueOf(coindirectWallet.id))
+              .name(coindirectWallet.description)
+              .build();
       wallets.add(wallet);
     }
 

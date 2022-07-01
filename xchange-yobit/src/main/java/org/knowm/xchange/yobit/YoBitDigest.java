@@ -2,6 +2,8 @@ package org.knowm.xchange.yobit;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
+import java.util.Random;
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
 import org.knowm.xchange.service.BaseParamsDigest;
@@ -16,7 +18,9 @@ public class YoBitDigest extends BaseParamsDigest {
 
   public static YoBitDigest createInstance(String secretKeyBase64, String apiKey) {
     try {
-      return new YoBitDigest(secretKeyBase64, apiKey);
+      String checkedSecretKeyBase64 =
+          secretKeyBase64 != null ? secretKeyBase64 : getRandomSecretKey();
+      return new YoBitDigest(checkedSecretKeyBase64, apiKey);
     } catch (Exception e) {
       throw new IllegalStateException("cannot create digest", e);
     }
@@ -33,5 +37,11 @@ public class YoBitDigest extends BaseParamsDigest {
     byte[] source = mac.doFinal(queryString.toString().getBytes());
 
     return String.format("%0128x", new BigInteger(1, source));
+  }
+
+  private static String getRandomSecretKey() {
+    byte[] array = new byte[7];
+    new Random().nextBytes(array);
+    return new String(array, Charset.forName("UTF-8"));
   }
 }

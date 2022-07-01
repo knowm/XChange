@@ -39,7 +39,7 @@ public class BitfinexPublicTrade {
 
   public OrderType getType() {
 
-    return getAmount().signum() == -1 ? OrderType.BID : OrderType.ASK;
+    return getAmount().signum() == -1 ? OrderType.ASK : OrderType.BID;
   }
 
   public BigDecimal getPrice() {

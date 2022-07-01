@@ -1,5 +1,6 @@
 package org.knowm.xchange.idex;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 import javax.net.ssl.HttpsURLConnection;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -20,43 +22,44 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.idex.dto.*;
+import org.knowm.xchange.idex.dto.IdexBuySell;
+import org.knowm.xchange.idex.dto.Market;
+import org.knowm.xchange.idex.dto.OrderBookReq;
+import org.knowm.xchange.idex.dto.ReturnCurrenciesResponse;
+import org.knowm.xchange.idex.dto.ReturnOrderBookResponse;
+import org.knowm.xchange.idex.dto.ReturnTickerRequestedWithNull;
+import org.knowm.xchange.idex.dto.ReturnTickerResponse;
+import org.knowm.xchange.idex.dto.TradeHistoryReq;
 import org.knowm.xchange.idex.service.ReturnOrderBookApi;
 import org.knowm.xchange.idex.service.ReturnTickerApi;
 import org.knowm.xchange.idex.service.ReturnTradeHistoryApi;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class IdexMarketDataService extends BaseExchangeService implements MarketDataService {
 
-  private ReturnTickerApi returnTickerApi;
-
-  private ReturnOrderBookApi returnOrderBookApi;
-
-  private ReturnTradeHistoryApi returnTradeHistoryApi;
+  private final ReturnTickerApi returnTickerApi;
+  private final ReturnOrderBookApi returnOrderBookApi;
+  private final ReturnTradeHistoryApi returnTradeHistoryApi;
 
   public IdexMarketDataService(IdexExchange idexExchange) {
 
     super(idexExchange);
 
     returnTickerApi =
-        RestProxyFactory.createProxy(
-            ReturnTickerApi.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                ReturnTickerApi.class, exchange.getExchangeSpecification())
+            .build();
 
     returnOrderBookApi =
-        RestProxyFactory.createProxy(
-            ReturnOrderBookApi.class,
-            exchange.getDefaultExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                ReturnOrderBookApi.class, exchange.getExchangeSpecification())
+            .build();
 
     returnTradeHistoryApi =
-        RestProxyFactory.createProxy(
-            ReturnTradeHistoryApi.class,
-            exchange.getDefaultExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                ReturnTradeHistoryApi.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   @Override
@@ -101,9 +104,7 @@ public class IdexMarketDataService extends BaseExchangeService implements Market
       ret =
           new OrderBook(
               new Date(),
-              returnOrderBookResponse
-                  .getAsks()
-                  .stream()
+              returnOrderBookResponse.getAsks().stream()
                   .map(
                       ask -> {
                         BigDecimal limitPrice = IdexExchange.Companion.safeParse(ask.getPrice());
@@ -116,9 +117,7 @@ public class IdexMarketDataService extends BaseExchangeService implements Market
                             .id(orderHash)
                             .build();
                       }),
-              returnOrderBookResponse
-                  .getBids()
-                  .stream()
+              returnOrderBookResponse.getBids().stream()
                   .map(
                       bid -> {
                         BigDecimal limitPrice = IdexExchange.Companion.safeParse(bid.getPrice());
@@ -180,9 +179,7 @@ public class IdexMarketDataService extends BaseExchangeService implements Market
     static final List<Currency> getAllBase() {
       if (null == Companion.allBase)
         Companion.allBase =
-            Companion.allTickers
-                .keySet()
-                .stream()
+            Companion.allTickers.keySet().stream()
                 .map(it -> it.split("_")[1])
                 .distinct()
                 .sorted()
@@ -194,9 +191,7 @@ public class IdexMarketDataService extends BaseExchangeService implements Market
     public List<Currency> getAllCounter() {
       if (allCounter == null)
         allCounter =
-            Companion.allTickers
-                .keySet()
-                .stream()
+            Companion.allTickers.keySet().stream()
                 .map((String key) -> key.split("_")[0])
                 .distinct()
                 .sorted()
@@ -247,6 +242,7 @@ public class IdexMarketDataService extends BaseExchangeService implements Market
       try (InputStreamReader inputStreamReader =
           new InputStreamReader(new GZIPInputStream(c.getInputStream()))) {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return objectMapper.readerFor(ReturnCurrenciesResponse.class).readValue(inputStreamReader);
       }
     }

@@ -7,6 +7,7 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dragonex.dto.marketdata.Depth;
 import org.knowm.xchange.dragonex.dto.marketdata.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -42,16 +43,11 @@ public class DragonexMarketDataService extends DragonexMarketDataServiceRaw
     long symbolId = exchange.symbolId(pair);
     BiFunction<OrderType, Order, LimitOrder> f =
         (t, o) -> new LimitOrder(t, o.volume, pair, null, null, o.price);
+    Depth d = super.marketDepth(symbolId, 50); // currently the max count of orders: 50
     List<LimitOrder> bids =
-        super.marketBuyOrders(symbolId)
-            .stream()
-            .map(o -> f.apply(OrderType.BID, o))
-            .collect(Collectors.toList());
+        d.getBuys().stream().map(o -> f.apply(OrderType.BID, o)).collect(Collectors.toList());
     List<LimitOrder> asks =
-        super.marketSellOrders(symbolId)
-            .stream()
-            .map(o -> f.apply(OrderType.ASK, o))
-            .collect(Collectors.toList());
+        d.getSells().stream().map(o -> f.apply(OrderType.ASK, o)).collect(Collectors.toList());
     return new OrderBook(null, asks, bids);
   }
 }

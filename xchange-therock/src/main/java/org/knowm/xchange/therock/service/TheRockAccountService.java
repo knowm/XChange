@@ -3,6 +3,7 @@ package org.knowm.xchange.therock.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
@@ -11,8 +12,10 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.dto.account.TheRockWithdrawalResponse;
@@ -80,40 +83,57 @@ public class TheRockAccountService extends TheRockAccountServiceRaw implements A
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotAvailableFromExchangeException();
+    return new TheRockFundingHistoryParams();
   }
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
 
     Currency currency = null;
+    Date after = null;
+    Date before = null;
+    FundingRecord.Type type = null;
+
     if (params instanceof TradeHistoryParamCurrency) {
       TradeHistoryParamCurrency tradeHistoryParamCurrency = (TradeHistoryParamCurrency) params;
       currency = tradeHistoryParamCurrency.getCurrency();
     }
 
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) params;
+      after = tradeHistoryParamsTimeSpan.getStartTime();
+      before = tradeHistoryParamsTimeSpan.getEndTime();
+    }
+
+    if (params instanceof HistoryParamsFundingType) {
+      HistoryParamsFundingType historyParamsFundingType = (HistoryParamsFundingType) params;
+      type = historyParamsFundingType.getType();
+    }
+
     List<FundingRecord> all = new ArrayList<>();
 
-    int page = 1;
-    while (true) {
-      TheRockTransactions txns = deposits(currency, null, null, page++);
-      if (txns.getTransactions().length == 0) break;
+    if (type == null || type == FundingRecord.Type.DEPOSIT) {
+      int page = 1;
+      while (true) {
+        TheRockTransactions txns = deposits(currency, after, before, page++);
+        if (txns.getTransactions().length == 0) break;
 
-      for (TheRockTransaction txn : txns.getTransactions()) {
-        all.add(adapt(txn, FundingRecord.Type.DEPOSIT));
+        for (TheRockTransaction txn : txns.getTransactions()) {
+          all.add(adapt(txn, FundingRecord.Type.DEPOSIT));
+        }
       }
     }
+    if (type == null || type == FundingRecord.Type.WITHDRAWAL) {
+      int page = 1;
+      while (true) {
+        TheRockTransactions txns = withdrawls(currency, after, before, page++);
+        if (txns.getTransactions().length == 0) break;
 
-    page = 1;
-    while (true) {
-      TheRockTransactions txns = withdrawls(currency, null, null, page++);
-      if (txns.getTransactions().length == 0) break;
-
-      for (TheRockTransaction txn : txns.getTransactions()) {
-        all.add(adapt(txn, FundingRecord.Type.WITHDRAWAL));
+        for (TheRockTransaction txn : txns.getTransactions()) {
+          all.add(adapt(txn, FundingRecord.Type.WITHDRAWAL));
+        }
       }
     }
-
     return all;
   }
 }

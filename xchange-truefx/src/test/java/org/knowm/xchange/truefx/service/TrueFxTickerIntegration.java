@@ -16,7 +16,7 @@ public class TrueFxTickerIntegration {
 
   @Test
   public void fetchTickerTest() throws IOException {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TrueFxExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TrueFxExchange.class);
     MarketDataService service = exchange.getMarketDataService();
 
     Ticker ticker = service.getTicker(CurrencyPair.GBP_USD);

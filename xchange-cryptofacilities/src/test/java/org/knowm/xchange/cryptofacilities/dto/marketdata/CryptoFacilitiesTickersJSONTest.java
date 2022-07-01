@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import org.junit.Test;
+import org.knowm.xchange.cryptofacilities.Util;
 
 /** @author Neil Panchen */
 public class CryptoFacilitiesTickersJSONTest {
@@ -53,9 +53,9 @@ public class CryptoFacilitiesTickersJSONTest {
         .isEqualTo(new BigDecimal("5"));
 
     // 2016-04-04 18:19:56 UTC
-    SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+
     assertThat(cryptoFacilitiesTickers.getTicker("F-XBT:USD-Apr16-W5").getLastTime())
-        .isEqualTo(DATE_FORMAT.parse("2016-04-04T18:19:56.000Z"));
+        .isEqualTo(Util.parseDate("2016-04-04T18:19:56.000Z"));
 
     // Verify that the example data was unmarshalled correctly for vol index contract
     assertThat(cryptoFacilitiesTickers.isSuccess()).isTrue();
@@ -64,7 +64,7 @@ public class CryptoFacilitiesTickersJSONTest {
 
     // 2016-04-05 08:49:41.116 UTC
     assertThat(cryptoFacilitiesTickers.getTicker("CF-Bpi-V").getLastTime())
-        .isEqualTo(DATE_FORMAT.parse("2016-04-05T08:49:41.116Z"));
+        .isEqualTo(Util.parseDate("2016-04-05T08:49:41.116Z"));
   }
 
   @Test

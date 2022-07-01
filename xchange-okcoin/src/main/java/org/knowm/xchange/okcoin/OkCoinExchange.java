@@ -113,8 +113,7 @@ public class OkCoinExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://www.okex.com/api");
     exchangeSpecification.setHost("www.okex.com");
     exchangeSpecification.setExchangeName("OKCoin");

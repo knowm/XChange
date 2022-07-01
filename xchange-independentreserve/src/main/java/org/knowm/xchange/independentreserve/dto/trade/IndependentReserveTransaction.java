@@ -110,6 +110,8 @@ public class IndependentReserveTransaction {
         + bitcoinTransactionId
         + ", bitcoinTransactionOutputIndex="
         + bitcoinTransactionOutputIndex
+        + ", ethereumTransactionId="
+        + ethereumTransactionId
         + ", comment="
         + comment
         + ", createdTimestamp="

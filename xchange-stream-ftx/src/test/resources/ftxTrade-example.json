@@ -1,0 +1,23 @@
+{
+  "channel": "fills",
+  "type": "update",
+  "data": {
+    "id": 7840169726,
+    "market": "BTC-PERP",
+    "future": "BTC-PERP",
+    "baseCurrency": null,
+    "quoteCurrency": null,
+    "type": "order",
+    "side": "buy",
+    "price": 38754.0,
+    "size": 0.001,
+    "orderId": 142505221156,
+    "time": "2022-05-04T08:02:17.497494+00:00",
+    "tradeId": 3887024143,
+    "feeRate": 0.0007,
+    "fee": 0.0271278,
+    "feeCurrency": "USD",
+    "liquidity": "taker",
+    "clientOrderId": "381ba32f-deff-4791-851f-30efd8c858a9"
+  }
+}

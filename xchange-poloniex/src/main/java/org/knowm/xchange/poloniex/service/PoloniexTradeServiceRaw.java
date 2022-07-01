@@ -32,7 +32,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
         apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexAuthenticated.AllPairs.all);
   }
 
-  PoloniexUserTrade[] returnOrderTrades(String orderId) throws IOException {
+  public PoloniexUserTrade[] returnOrderTrades(String orderId) throws IOException {
     return poloniexAuthenticated.returnOrderTrades(
         apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
   }

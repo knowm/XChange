@@ -27,7 +27,7 @@ public class BitcoindeOpenOrdersTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcoindeMyOpenOrdersWrapper bitcoindeOpenOrdersWrapper =
         mapper.readValue(is, BitcoindeMyOpenOrdersWrapper.class);
-    System.out.println("bitcoindeTradesWrapper = " + bitcoindeOpenOrdersWrapper);
+    //    System.out.println("bitcoindeTradesWrapper = " + bitcoindeOpenOrdersWrapper);
 
     // Make sure trade values are correct
 

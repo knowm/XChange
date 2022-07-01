@@ -4,10 +4,15 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
 import org.knowm.xchange.independentreserve.dto.IndependentReserveHttpStatusException;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
+import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBrokerageFeeRequest;
+import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBrokerageFeeResponse;
+import org.knowm.xchange.independentreserve.dto.account.IndependentReserveDepositAddressRequest;
+import org.knowm.xchange.independentreserve.dto.account.IndependentReserveDepositAddressResponse;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveWithdrawDigitalCurrencyRequest;
 import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest;
@@ -16,7 +21,6 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransact
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsResponse;
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
-import si.mazi.rescu.RestProxyFactory;
 
 /** Author: Kamil Zbikowski Date: 4/10/15 */
 public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseService {
@@ -34,10 +38,9 @@ public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseS
     super(exchange);
 
     this.independentReserveAuthenticated =
-        RestProxyFactory.createProxy(
-            IndependentReserveAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                IndependentReserveAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.signatureCreator =
         IndependentReserveDigest.createInstance(
             exchange.getExchangeSpecification().getSecretKey(),
@@ -74,6 +77,23 @@ public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseS
             nonce,
             req.getParameters()));
     return independentReserveAuthenticated.synchDigitalCurrencyDepositAddressWithBlockchain(req);
+  }
+
+  public String getDigitalCurrencyDepositAddress(String currency) throws ExchangeException {
+    Long nonce = exchange.getNonceFactory().createValue();
+    IndependentReserveDepositAddressRequest request =
+        new IndependentReserveDepositAddressRequest(
+            exchange.getExchangeSpecification().getApiKey(), nonce, currency);
+    request.setSignature(
+        signatureCreator.digestParamsToString(
+            ExchangeEndpoint.GET_DIGITAL_CURRENCY_DEPOSIT_ADDRESS, nonce, request.getParameters()));
+    try {
+      IndependentReserveDepositAddressResponse response =
+          independentReserveAuthenticated.getDigitalCurrencyDepositAddress(request);
+      return response.getDepositAddress();
+    } catch (IOException e) {
+      throw new ExchangeException(e.getMessage(), e);
+    }
   }
 
   public void withdrawDigitalCurrency(
@@ -124,5 +144,16 @@ public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseS
             ExchangeEndpoint.GET_TRANSACTIONS, nonce, req.getParameters()));
 
     return independentReserveAuthenticated.getTransactions(req);
+  }
+
+  public IndependentReserveBrokerageFeeResponse getBrokerageFees() throws IOException {
+    Long nonce = exchange.getNonceFactory().createValue();
+    IndependentReserveBrokerageFeeRequest req =
+        new IndependentReserveBrokerageFeeRequest(
+            exchange.getExchangeSpecification().getApiKey(), nonce);
+    req.setSignature(
+        signatureCreator.digestParamsToString(
+            ExchangeEndpoint.GET_BROKER_FEES, nonce, req.getParameters()));
+    return independentReserveAuthenticated.getBrokerageFees(req);
   }
 }

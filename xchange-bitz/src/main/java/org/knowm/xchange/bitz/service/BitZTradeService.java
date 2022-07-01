@@ -1,9 +1,7 @@
 package org.knowm.xchange.bitz.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
@@ -18,11 +16,6 @@ public class BitZTradeService extends BitZTradeServiceRaw implements TradeServic
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 

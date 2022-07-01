@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
-import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
-import org.knowm.xchange.itbit.v1.dto.trade.ItBitUserTrade;
+import org.knowm.xchange.itbit.dto.trade.ItBitTradeHistory;
+import org.knowm.xchange.itbit.dto.trade.ItBitUserTrade;
 
 /** Test Transaction[] JSON parsing */
 public class JsonTest {

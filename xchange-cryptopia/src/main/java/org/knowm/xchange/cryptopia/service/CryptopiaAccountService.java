@@ -12,7 +12,11 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implements AccountService {
 
@@ -31,7 +35,7 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
   public AccountInfo getAccountInfo() throws IOException {
     try {
       List<Balance> balances = getBalances();
-      return new AccountInfo(new Wallet(balances));
+      return new AccountInfo(Wallet.Builder.from(balances).build());
     } catch (CryptopiaException e) {
       throw CryptopiaErrorAdapter.adapt(e);
     }

@@ -1,0 +1,17 @@
+{
+	"pairId": 502,
+	"symbol": "LAETH",
+	"spread": 0.07,
+	"asks": [
+			{
+				"price": 136.3,
+				"amount": 7.024
+			}
+		],
+	"bids": [
+			{
+				"price": 136.2,
+				"amount": 6.554
+			}
+		]
+}

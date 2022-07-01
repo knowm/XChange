@@ -74,16 +74,12 @@ public class CoindirectAdapters {
   public static OrderBook adaptOrderBook(
       CurrencyPair currencyPair, CoindirectOrderbook coindirectOrderbook) {
     List<LimitOrder> bids =
-        coindirectOrderbook
-            .bids
-            .stream()
+        coindirectOrderbook.bids.stream()
             .map(
                 e -> new LimitOrder(Order.OrderType.BID, e.size, currencyPair, null, null, e.price))
             .collect(Collectors.toList());
     List<LimitOrder> asks =
-        coindirectOrderbook
-            .asks
-            .stream()
+        coindirectOrderbook.asks.stream()
             .map(
                 e -> new LimitOrder(Order.OrderType.ASK, e.size, currencyPair, null, null, e.price))
             .collect(Collectors.toList());

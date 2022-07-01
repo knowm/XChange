@@ -1,0 +1,71 @@
+{
+	"orders": [
+		{
+			"order_id": "VNSP86",
+			"trading_pair": "btceur",
+			"is_external_wallet_order": false, 
+			"type": "buy",
+			"max_amount_currency_to_trade": 0.01,
+			"min_amount_currency_to_trade": 0.01,
+			"price": 6000,
+			"max_volume_currency_to_pay": 60,
+			"min_volume_currency_to_pay": 60,
+			"order_requirements": {
+				"min_trust_level": "silver",
+				"only_kyc_full": false,
+				"seat_of_bank": [
+					"AT",
+					"BE",
+					"BG",
+					"CH",
+					"CY",
+					"CZ",
+					"DE",
+					"DK",
+					"EE",
+					"ES",
+					"FI",
+					"FR",
+					"GB",
+					"GR",
+					"HR",
+					"HU",
+					"IE",
+					"IS",
+					"IT",
+					"LI",
+					"LT",
+					"LU",
+					"LV",
+					"MQ",
+					"MT",
+					"NL",
+					"NO",
+					"PL",
+					"PT",
+					"RO",
+					"SE",
+					"SI",
+					"SK"
+				],
+				"payment_option": 3
+			},
+			"new_order_for_remaining_amount": false,
+			"state": 0,
+			"end_datetime": "2018-01-30T23:45:00+01:00",
+			"created_at": "2018-01-25T17:35:19+01:00"
+		}
+	],
+	"page": {
+		"current": 1,
+		"last": 1
+	},
+	"errors": [
+	],
+	"credits": 13,
+	"maintenance": {
+		"message": "*** Scheduled maintainance on 2017\/01\/26 at 04:00 am until approx. 06:00 am (CEST)*** Due to network infrastructure maintenance Bitcoin.de will be unavailable between 04:00 am and approx. 06:00 am (CEST). ***",
+		"start": "2018-01-26T04:00:00+01:00",
+		"end": "2018-01-26T06:00:00+01:00"
+	}
+}

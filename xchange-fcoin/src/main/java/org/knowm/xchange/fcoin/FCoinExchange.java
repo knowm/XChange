@@ -21,8 +21,7 @@ public class FCoinExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.fcoin.com");
     exchangeSpecification.setHost("api.fcoin.com");
     exchangeSpecification.setExchangeName("FCoin");

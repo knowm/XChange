@@ -6,13 +6,13 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.itbit.v1.ItBitExchange;
+import org.knowm.xchange.itbit.ItBitExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** Created by joseph on 6/15/17. */
 public class ItBitTradesDemo {
   public static void main(String[] args) throws IOException {
-    Exchange xchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
+    Exchange xchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class);
 
     MarketDataService marketDataService = xchange.getMarketDataService();
 

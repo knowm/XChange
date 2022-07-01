@@ -2,18 +2,17 @@ package org.knowm.xchange.livecoin.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-import java.util.Map;
 
-public class LivecoinPaginatedResponse extends LivecoinBaseResponse {
+public class LivecoinPaginatedResponse<T> extends LivecoinBaseResponse {
 
-  private final List<Map> data;
+  private final List<T> data;
   private final int totalRows;
   private final int startRow;
   private final int endRow;
 
   public LivecoinPaginatedResponse(
       @JsonProperty("success") Boolean success,
-      @JsonProperty("data") List<Map> data,
+      @JsonProperty("data") List<T> data,
       @JsonProperty("totalRows") int totalRows,
       @JsonProperty("startRow") int startRow,
       @JsonProperty("endRow") int endRow) {
@@ -24,7 +23,7 @@ public class LivecoinPaginatedResponse extends LivecoinBaseResponse {
     this.endRow = endRow;
   }
 
-  public List<Map> getData() {
+  public List<T> getData() {
     return data;
   }
 

@@ -1,0 +1,14 @@
+{
+  "credits": -3,
+  "errors": [
+    {
+      "message": "Order not found",
+      "code": 13,
+      "field": "order_id"
+    },
+    {
+      "message": "Made up Error",
+      "code": 99
+    }
+  ]
+}

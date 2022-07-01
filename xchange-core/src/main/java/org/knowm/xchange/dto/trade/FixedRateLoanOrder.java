@@ -13,6 +13,8 @@ import org.knowm.xchange.dto.Order.OrderType;
  */
 public final class FixedRateLoanOrder extends LoanOrder implements Comparable<FixedRateLoanOrder> {
 
+  private static final long serialVersionUID = 2627042395091155053L;
+
   /** The fixed rate of return for a day */
   private final BigDecimal rate;
 

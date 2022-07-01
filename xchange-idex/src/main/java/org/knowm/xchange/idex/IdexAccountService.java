@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -15,7 +16,12 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.idex.dto.*;
+import org.knowm.xchange.idex.dto.CompleteBalancesReq;
+import org.knowm.xchange.idex.dto.DepositsWithdrawalsReq;
+import org.knowm.xchange.idex.dto.ReturnCompleteBalancesResponse;
+import org.knowm.xchange.idex.dto.ReturnDepositsWithdrawalsResponse;
+import org.knowm.xchange.idex.dto.WithdrawReq;
+import org.knowm.xchange.idex.dto.WithdrawResponse;
 import org.knowm.xchange.idex.service.ReturnCompleteBalancesApi;
 import org.knowm.xchange.idex.service.ReturnDepositsWithdrawalsApi;
 import org.knowm.xchange.idex.service.WithdrawApi;
@@ -23,43 +29,37 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-import si.mazi.rescu.RestProxyFactory;
 
 public class IdexAccountService extends BaseExchangeService implements AccountService {
 
-  private ReturnCompleteBalancesApi returnCompleteBalancesApi;
-
-  private ReturnDepositsWithdrawalsApi returnDepositsWithdrawalsApi;
-
-  private WithdrawApi withdrawApi;
-
-  private String apiKey;
+  private final ReturnCompleteBalancesApi returnCompleteBalancesApi;
+  private final ReturnDepositsWithdrawalsApi returnDepositsWithdrawalsApi;
+  private final WithdrawApi withdrawApi;
+  private final String apiKey;
 
   public IdexAccountService(IdexExchange idexExchange) {
 
     super(idexExchange);
 
     returnCompleteBalancesApi =
-        RestProxyFactory.createProxy(
-            ReturnCompleteBalancesApi.class,
-            idexExchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                ReturnCompleteBalancesApi.class, idexExchange.getExchangeSpecification())
+            .build();
 
     returnDepositsWithdrawalsApi =
-        RestProxyFactory.createProxy(
-            ReturnDepositsWithdrawalsApi.class,
-            idexExchange.getDefaultExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                ReturnDepositsWithdrawalsApi.class, idexExchange.getExchangeSpecification())
+            .build();
 
     withdrawApi =
-        RestProxyFactory.createProxy(
-            WithdrawApi.class,
-            idexExchange.getDefaultExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                WithdrawApi.class, idexExchange.getExchangeSpecification())
+            .build();
 
     apiKey = exchange.getExchangeSpecification().getApiKey();
   }
 
+  @Override
   public AccountInfo getAccountInfo() {
     AccountInfo ret = null;
     try {
@@ -71,19 +71,18 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
 
       ret =
           new AccountInfo(
-              new Wallet(
-                  s,
-                  returnBalancesPost
-                      .entrySet()
-                      .stream()
-                      .map(
-                          entry ->
-                              new Balance(
-                                  new Currency(entry.getKey()),
-                                  null,
-                                  entry.getValue().getAvailable(),
-                                  entry.getValue().getOnOrders()))
-                      .collect(Collectors.toList())));
+              Wallet.Builder.from(
+                      returnBalancesPost.entrySet().stream()
+                          .map(
+                              entry ->
+                                  new Balance(
+                                      new Currency(entry.getKey()),
+                                      null,
+                                      entry.getValue().getAvailable(),
+                                      entry.getValue().getOnOrders()))
+                          .collect(Collectors.toList()))
+                  .id(s)
+                  .build());
 
     } catch (Exception ignored) {
       ignored.printStackTrace();
@@ -91,6 +90,7 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
     return ret;
   }
 
+  @Override
   public String requestDepositAddress(Currency currency, String... args) {
     return exchange.getExchangeSpecification().getApiKey();
   }
@@ -113,13 +113,11 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
     return ret;
   }
 
-  private final List<FundingRecord> mutableList(
+  private List<FundingRecord> mutableList(
       ReturnDepositsWithdrawalsResponse returnDepositsWithdrawalsPost) {
 
     return Arrays.asList(
-            returnDepositsWithdrawalsPost
-                .getWithdrawals()
-                .stream()
+            returnDepositsWithdrawalsPost.getWithdrawals().stream()
                 .map(
                     fundingLedger ->
                         new FundingRecord(
@@ -135,9 +133,7 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
                             BigDecimal.ZERO,
                             ""))
                 .collect(Collectors.toList()),
-            returnDepositsWithdrawalsPost
-                .getDeposits()
-                .stream()
+            returnDepositsWithdrawalsPost.getDeposits().stream()
                 .map(
                     fundingLedger1 ->
                         new FundingRecord(
@@ -159,10 +155,12 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
         .collect(Collectors.toList());
   }
 
+  @Override
   public TradeHistoryParams createFundingHistoryParams() {
     return new IdexDepositsWithdrawalsParams(apiKey);
   }
 
+  @Override
   public String withdrawFunds(WithdrawFundsParams w) {
     String ret = "error";
     if (w instanceof IdexWithdraw) {

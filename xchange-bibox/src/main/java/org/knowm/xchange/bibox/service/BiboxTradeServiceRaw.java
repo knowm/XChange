@@ -1,6 +1,5 @@
 package org.knowm.xchange.bibox.service;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
@@ -26,11 +25,11 @@ import org.knowm.xchange.exceptions.ExchangeException;
 /** @author odrotleff */
 public class BiboxTradeServiceRaw extends BiboxBaseService {
 
-  protected BiboxTradeServiceRaw(Exchange exchange) {
+  public BiboxTradeServiceRaw(Exchange exchange) {
     super(exchange);
   }
 
-  public Integer placeBiboxLimitOrder(LimitOrder limitOrder) {
+  public String placeBiboxLimitOrder(LimitOrder limitOrder) {
     try {
       BiboxTradeCommand cmd =
           new BiboxTradeCommand(
@@ -42,7 +41,7 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
               limitOrder.getLimitPrice(),
               limitOrder.getOriginalAmount(),
               null);
-      BiboxSingleResponse<Integer> response =
+      BiboxSingleResponse<String> response =
           bibox.trade(BiboxCommands.of(cmd).json(), apiKey, signatureCreator);
       throwErrors(response);
       return response.get().getResult();
@@ -51,7 +50,7 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
     }
   }
 
-  public Integer placeBiboxMarketOrder(MarketOrder marketOrder) {
+  public String placeBiboxMarketOrder(MarketOrder marketOrder) {
     try {
       BiboxTradeCommand cmd =
           new BiboxTradeCommand(
@@ -63,7 +62,7 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
               null,
               marketOrder.getOriginalAmount(),
               null);
-      BiboxSingleResponse<Integer> response =
+      BiboxSingleResponse<String> response =
           bibox.trade(BiboxCommands.of(cmd).json(), apiKey, signatureCreator);
       throwErrors(response);
       return response.get().getResult();
@@ -74,7 +73,7 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
 
   public void cancelBiboxOrder(String orderId) {
     try {
-      BiboxCancelTradeCommand cmd = new BiboxCancelTradeCommand(new BigInteger(orderId));
+      BiboxCancelTradeCommand cmd = new BiboxCancelTradeCommand(orderId);
       BiboxSingleResponse<String> response =
           bibox.cancelTrade(BiboxCommands.of(cmd).json(), apiKey, signatureCreator);
       throwErrors(response);
@@ -84,10 +83,14 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
   }
 
   public BiboxOrders getBiboxOpenOrders() {
+    return getBiboxOpenOrders(null);
+  }
+
+  public BiboxOrders getBiboxOpenOrders(Integer page) {
     try {
       BiboxOrderPendingListCommandBody body =
           new BiboxOrderPendingListCommandBody(
-              1, Integer.MAX_VALUE); // wonder if this actually works
+              page == null ? 1 : page, Integer.MAX_VALUE); // wonder if this actually works
       BiboxOrderPendingListCommand cmd = new BiboxOrderPendingListCommand(body);
       BiboxSingleResponse<BiboxOrders> response =
           bibox.orderPendingList(BiboxCommands.of(cmd).json(), apiKey, signatureCreator);
@@ -116,11 +119,7 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
   public void cancelBiboxOrders(List<String> orderIds) {
     try {
       List<BiboxCommand<?>> cmds =
-          orderIds
-              .stream()
-              .map(BigInteger::new)
-              .map(BiboxCancelTradeCommand::new)
-              .collect(Collectors.toList());
+          orderIds.stream().map(BiboxCancelTradeCommand::new).collect(Collectors.toList());
       BiboxMultipleResponses<String> response =
           bibox.cancelTrades(BiboxCommands.of(cmds).json(), apiKey, signatureCreator);
       throwErrors(response);

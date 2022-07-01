@@ -3,6 +3,8 @@ package org.knowm.xchange.service.trade;
 import java.io.IOException;
 import java.util.Collection;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.OpenPositions;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -12,6 +14,9 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.BaseService;
+import org.knowm.xchange.service.trade.params.CancelAllOrders;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -28,6 +33,7 @@ import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
  *   <li>Cancel user's open orders on the exchange
  *   <li>Place market orders on the exchange
  *   <li>Place limit orders on the exchange
+ *   <li>Change limit orders on the exchange
  * </ul>
  *
  * <p>The implementation of this service is expected to be based on a client polling mechanism of
@@ -49,7 +55,7 @@ public interface TradeService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default OpenOrders getOpenOrders() throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getOpenOrders");
   }
 
   /**
@@ -69,11 +75,36 @@ public interface TradeService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getOpenOrders");
+  }
+
+  /**
+   * Returns required cancel order parameter as classes
+   *
+   * <p>Different trading services requires different parameters for order cancellation. To provide
+   * generic operation of the trade service interface. This method returns {@link Class} of the
+   * parameter objects as an array. This class information can be utilized by the caller of {@link
+   * #cancelOrder(CancelOrderParams)} to create instances of the required parameters such as {@link
+   * CancelOrderByIdParams}, {@link CancelOrderByInstrument} etc...
+   *
+   * @return Class types for the required parameter classes. Default implementation returns an array
+   *     with a single {@link CancelOrderByIdParams} element
+   */
+  default Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[] {CancelOrderByIdParams.class};
+  }
+
+  /** Get all openPositions of the exchange */
+  default OpenPositions getOpenPositions() throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
   /**
    * Place a market order
+   *
+   * <p>If your orders amount does to meet the restrictions dictated by {@link CurrencyPairMetaData}
+   * then the exchange will reject your order. Use {@link org.knowm.xchange.utils.OrderValuesHelper}
+   * to validate and / or adjust it while you'r building an order.
    *
    * @param marketOrder
    * @return the order ID
@@ -84,13 +115,19 @@ public interface TradeService extends BaseService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   * @see org.knowm.xchange.utils.OrderValuesHelper
    */
   default String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("placeMarketOrder");
   }
 
   /**
    * Place a limit order
+   *
+   * <p>If your orders amount or limit price does to meet the restrictions dictated by {@link
+   * CurrencyPairMetaData} then the exchange will reject your order. Use {@link
+   * org.knowm.xchange.utils.OrderValuesHelper} to validate and / or adjust those values while you'r
+   * building an order.
    *
    * @param limitOrder
    * @return the order ID
@@ -101,13 +138,19 @@ public interface TradeService extends BaseService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   * @see org.knowm.xchange.utils.OrderValuesHelper
    */
   default String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("placeLimitOrder");
   }
 
   /**
    * Place a stop order
+   *
+   * <p>If your orders amount or spot price does to meet the restrictions dictated by {@link
+   * CurrencyPairMetaData} then the exchange will reject your order. Use {@link
+   * org.knowm.xchange.utils.OrderValuesHelper} to validate and / or adjust those values while you'r
+   * building an order.
    *
    * @param stopOrder
    * @return the order ID
@@ -118,9 +161,40 @@ public interface TradeService extends BaseService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   * @see org.knowm.xchange.utils.OrderValuesHelper
    */
   default String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("placeStopOrder");
+  }
+
+  /**
+   * Modify or cancel/replace an existing limit order
+   *
+   * @implNote Some exchanges have API methods that allow to modify an order or cancel an existing
+   *     one and create a new one in one request.
+   *     <p>Based on exchange API there are 3 ways, how this function works:
+   *     <ol>
+   *       <li>Exchange supports existing order modify operation. Then function returns {@code
+   *           limitOrder} order ID.
+   *       <li>Exchange supports order cancel/replace by one request. Then function returns new
+   *           order ID.
+   *       <li>Exchange doesn't support any of these operations. Then function performs
+   *           cancel/replace by two separate requests, and returns new order ID (default behavior)
+   *     </ol>
+   *
+   * @param limitOrder Order's data to change
+   * @return Order ID
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException Indication that a networking error occurred while fetching JSON data
+   */
+  default String changeOrder(LimitOrder limitOrder) throws IOException {
+    cancelOrder(limitOrder.getId());
+    return placeLimitOrder(limitOrder);
   }
 
   /**
@@ -155,7 +229,11 @@ public interface TradeService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("cancelOrder");
+  }
+
+  default Collection<String> cancelAllOrders(CancelAllOrders orderParams) throws IOException {
+    throw new NotYetImplementedForExchangeException("cancelAllOpenOrders");
   }
 
   /**
@@ -194,7 +272,7 @@ public interface TradeService extends BaseService {
    * @see TradeHistoryParamsAll
    */
   default UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getTradeHistory");
   }
 
   /**
@@ -204,7 +282,7 @@ public interface TradeService extends BaseService {
    * same class as the createTradeHistoryParams that created the object.
    */
   default TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("createTradeHistoryParams");
   }
 
   /**
@@ -214,7 +292,7 @@ public interface TradeService extends BaseService {
    * createOpenOrdersParams that created the object.
    */
   default OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("createOpenOrdersParams");
   }
 
   /**
@@ -222,7 +300,7 @@ public interface TradeService extends BaseService {
    * org.knowm.xchange.Exchange#remoteInit()} be called before this method
    */
   default void verifyOrder(LimitOrder limitOrder) {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("verifyOrder");
   }
 
   /**
@@ -230,7 +308,7 @@ public interface TradeService extends BaseService {
    * org.knowm.xchange.Exchange#remoteInit()} be called before this method
    */
   default void verifyOrder(MarketOrder marketOrder) {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("verifyOrder");
   }
 
   /**
@@ -258,6 +336,32 @@ public interface TradeService extends BaseService {
     return res;
   }
 
+  static String[] toOrderIds(OrderQueryParams... orderQueryParams) {
+    String[] orderIds = new String[orderQueryParams.length];
+    int index = 0;
+    for (OrderQueryParams orderQueryParam : orderQueryParams) {
+      orderIds[index++] = orderQueryParam.getOrderId();
+    }
+    return orderIds;
+  }
+
+  /**
+   * Returns required get order parameter as classes
+   *
+   * <p>Different trading services requires different parameters for order querying. To provide
+   * generic operation of the trade service interface, This method returns {@link Class} of the
+   * parameter objects as an array. This class information can be utilized by the caller of {@link
+   * #getOrder(OrderQueryParams...)} to create instances of the required parameter such as {@link
+   * org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair}, {@link
+   * org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument} etc...
+   *
+   * @return Class type for the required parameter class. Default implementation returns an instance
+   *     of {@link OrderQueryParams} element
+   */
+  default Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParams.class;
+  }
+
   /**
    * get's the latest order form the order book that with matching orderQueryParams
    *
@@ -271,6 +375,6 @@ public interface TradeService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    throw new NotAvailableFromExchangeException();
+    throw new NotAvailableFromExchangeException("getOrder");
   }
 }

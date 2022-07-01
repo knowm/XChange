@@ -1,0 +1,25 @@
+{
+  "timestamp": "1546443196974",
+  "payment_currency": "KRW",
+  "order_currency": "ETH",
+  "bids": [
+    {
+      "quantity": "28.0241",
+      "price": "168400"
+    },
+    {
+      "quantity": "837.4",
+      "price": "168300"
+    }
+  ],
+  "asks": [
+    {
+      "quantity": "49.5577",
+      "price": "168500"
+    },
+    {
+      "quantity": "70.57378019",
+      "price": "168600"
+    }
+  ]
+}

@@ -35,7 +35,7 @@ public class HuobiFundingRecord {
     // type must be 'deposit' or 'withdraw'.
     // Don't use FundingRecord.Type.fromString as it expects 'withdrawal' and not 'withdraw'
     this.type =
-        type.toLowerCase() == "deposit"
+        "deposit".equals(type.toLowerCase())
             ? FundingRecord.Type.DEPOSIT
             : FundingRecord.Type.WITHDRAWAL;
     this.currency = currency;
