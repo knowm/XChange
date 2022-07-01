@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.mexc.dto.MEXCResult;
 import org.knowm.xchange.mexc.dto.trade.MEXCOrder;
+import org.knowm.xchange.mexc.dto.trade.MEXCOrderRequestPayload;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -83,78 +84,45 @@ public class MEXCTradeServiceRawTest extends BaseWiremockTest {
   }
 
 
-//  @Test
-//  public void testPlaceMEXCTradeServiceRawOrder() throws IOException {
-//    Exchange mexcExchange = createExchange();
-//    MEXCTradeServiceRawTradeServiceRaw mexcAccountServiceRaw = new MEXCTradeServiceRawTradeServiceRaw(mexcExchange);
-//
-//    String orderPlacementResponse = "{\n" +
-//            "   \"ret_code\":0,\n" +
-//            "   \"ret_msg\":\"\",\n" +
-//            "   \"ext_code\":null,\n" +
-//            "   \"ext_info\":null,\n" +
-//            "   \"result\":{\n" +
-//            "      \"accountId\":\"28649557\",\n" +
-//            "      \"exchangeId\":\"301\",\n" +
-//            "      \"symbol\":\"COINUSDT\",\n" +
-//            "      \"symbolName\":\"COINUSDT\",\n" +
-//            "      \"orderLinkId\":\"1655997749596563\",\n" +
-//            "      \"orderId\":\"1184989442799045889\",\n" +
-//            "      \"price\":\"0\",\n" +
-//            "      \"origQty\":\"352\",\n" +
-//            "      \"executedQty\":\"352\",\n" +
-//            "      \"cummulativeQuoteQty\":\"0.569888\",\n" +
-//            "      \"avgPrice\":\"0.001619\",\n" +
-//            "      \"status\":\"FILLED\",\n" +
-//            "      \"timeInForce\":\"GTC\",\n" +
-//            "      \"type\":\"MARKET\",\n" +
-//            "      \"side\":\"SELL\",\n" +
-//            "      \"stopPrice\":\"0.0\",\n" +
-//            "      \"icebergQty\":\"0.0\",\n" +
-//            "      \"time\":\"1655997749601\",\n" +
-//            "      \"updateTime\":\"1655997749662\",\n" +
-//            "      \"isWorking\":true,\n" +
-//            "      \"locked\":\"0\"\n" +
-//            "   }\n" +
-//            "}";
-//
-//    stubFor(
-//            post(urlPathEqualTo("/spot/v1/order"))
-//                    .willReturn(
-//                            aResponse()
-//                                    .withStatus(200)
-//                                    .withHeader("Content-Type", "application/json")
-//                                    .withBody(orderPlacementResponse)
-//                    )
-//    );
-//
-//    MEXCTradeServiceRawResult<MEXCTradeServiceRawOrderRequest> order = mexcAccountServiceRaw.placeOrder(
-//            "COINUSDT",
-//            300,
-//            "SELL",
-//            "MARKET"
-//    );
-//
-//    ObjectMapper mapper = new ObjectMapper();
-//    JsonNode responseObject = mapper.readTree(orderPlacementResponse);
-//
-//    MEXCTradeServiceRawOrderRequest orderRequestResult = order.getResult();
-//    JsonNode responseObjectResult = responseObject.get("result");
-//
-//    assertThat(responseObjectResult.get("accountId").textValue()).isEqualTo(orderRequestResult.getAccountId());
-//    assertThat(responseObjectResult.get("symbol").textValue()).isEqualTo(orderRequestResult.getSymbol());
-//    assertThat(responseObjectResult.get("symbolName").textValue()).isEqualTo(orderRequestResult.getSymbolName());
-//    assertThat(responseObjectResult.get("orderLinkId").textValue()).isEqualTo(orderRequestResult.getOrderLinkId());
-//    assertThat(responseObjectResult.get("orderId").textValue()).isEqualTo(orderRequestResult.getOrderId());
-//    assertThat(responseObjectResult.get("price").textValue()).isEqualTo(orderRequestResult.getPrice());
-//    assertThat(responseObjectResult.get("origQty").textValue()).isEqualTo(orderRequestResult.getOrigQty());
-//    assertThat(responseObjectResult.get("executedQty").textValue()).isEqualTo(orderRequestResult.getExecutedQty());
-//    assertThat(responseObjectResult.get("status").textValue()).isEqualTo(orderRequestResult.getStatus());
-//    assertThat(responseObjectResult.get("timeInForce").textValue()).isEqualTo(orderRequestResult.getTimeInForce());
-//    assertThat(responseObjectResult.get("type").textValue()).isEqualTo(orderRequestResult.getType());
-//    assertThat(responseObjectResult.get("side").textValue()).isEqualTo(orderRequestResult.getSide());
-//
-//    System.out.println(order);
-//  }
+  @Test
+  public void testPlaceMEXCTradeServiceRawOrder() throws IOException {
+    Exchange mexcExchange = createExchange();
+    MEXCTradeServiceRaw mexcTradeServiceRaw = new MEXCTradeServiceRaw(mexcExchange);
+
+    String orderPlacementResponse = "{\n" +
+            "    \"code\": 200,\n" +
+            "    \"data\": \"c8663a12a2fc457fbfdd55307b463495\"\n" +
+            "}";
+
+    stubFor(
+            post(urlPathEqualTo("/open/api/v2/order/place"))
+                    .willReturn(
+                            aResponse()
+                                    .withStatus(200)
+                                    .withHeader("Content-Type", "application/json")
+                                    .withBody(orderPlacementResponse)
+                    )
+    );
+
+    MEXCResult<String> orderPlacementResult = mexcTradeServiceRaw.placeOrder(new MEXCOrderRequestPayload(
+            "COINUSDT",
+            "1.0",
+            "1.0",
+            "BID",
+            "LIMIT_ORDER",
+            null
+    ));
+
+
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode responseObject = mapper.readTree(orderPlacementResponse);
+
+    String orderId = orderPlacementResult.getData();
+    JsonNode responseObjectResult = responseObject.get("data");
+
+    assertThat(orderId).isEqualTo("c8663a12a2fc457fbfdd55307b463495");
+    assertThat(responseObjectResult.textValue()).isEqualTo("c8663a12a2fc457fbfdd55307b463495");
+
+  }
 
 }
