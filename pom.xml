@@ -35,7 +35,7 @@
     <version.commons.lang3>3.12.0</version.commons.lang3>
     <version.fasterxml>2.13.2</version.fasterxml>
     <version.github.mmazi>2.1.0</version.github.mmazi>
-    <version.resilience4j>1.7.0</version.resilience4j>
+    <version.resilience4j>1.7.1</version.resilience4j>
     <version.junit>4.13.2</version.junit>
     <version.lombok>1.18.22</version.lombok>
     <version.knowm.xchart>3.8.1</version.knowm.xchart>
@@ -359,7 +359,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.77.Final</version>
+            <version>4.1.78.Final</version>
         </dependency>
 
     </dependencies>
@@ -535,7 +535,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M6</version>
+        <version>3.0.0-M7</version>
       </plugin>
 
       <plugin>
