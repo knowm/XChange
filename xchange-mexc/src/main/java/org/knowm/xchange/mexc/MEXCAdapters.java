@@ -79,7 +79,7 @@ public class MEXCAdapters {
     if (dealQuantity.compareTo(BigDecimal.ZERO) == 0) {
       return BigDecimal.ZERO;
     }
-    return dealAmount.divide(dealQuantity, RoundingMode.UNNECESSARY);
+    return dealAmount.divide(dealQuantity, RoundingMode.HALF_EVEN);
   }
 
 }
