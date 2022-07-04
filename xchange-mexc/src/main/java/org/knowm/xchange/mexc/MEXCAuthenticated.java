@@ -4,6 +4,7 @@ import org.knowm.xchange.mexc.dto.MEXCResult;
 import org.knowm.xchange.mexc.dto.account.MEXCBalance;
 import org.knowm.xchange.mexc.dto.trade.MEXCOrder;
 import org.knowm.xchange.mexc.dto.trade.MEXCOrderRequestPayload;
+import org.knowm.xchange.mexc.service.MEXCException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -23,7 +24,7 @@ public interface MEXCAuthenticated {
           @HeaderParam("ApiKey") String apiKey,
           @HeaderParam("Request-Time") SynchronizedValueFactory<Long> timestamp,
           @HeaderParam("Signature") ParamsDigest signature
-  ) throws IOException;
+  ) throws IOException, MEXCException;
 
   @POST
   @Path("/order/place")
@@ -31,7 +32,7 @@ public interface MEXCAuthenticated {
   MEXCResult<String> placeOrder(@HeaderParam("ApiKey") String apiKey,
                                 @HeaderParam("Request-Time") SynchronizedValueFactory<Long> timestamp,
                                 @HeaderParam("Signature") ParamsDigest signature,
-                                MEXCOrderRequestPayload orderRequestPayload);
+                                MEXCOrderRequestPayload orderRequestPayload) throws IOException, MEXCException;
 
   @GET
   @Path("/order/query")
@@ -39,6 +40,6 @@ public interface MEXCAuthenticated {
           @HeaderParam("ApiKey") String apiKey,
           @HeaderParam("Request-Time") SynchronizedValueFactory<Long> timestamp,
           @HeaderParam("Signature") ParamsDigest signature,
-          @QueryParam("order_ids") List<String> orderIds);
+          @QueryParam("order_ids") List<String> orderIds) throws IOException, MEXCException;
 
 }

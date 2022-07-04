@@ -2,6 +2,7 @@ package org.knowm.xchange.mexc.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.mexc.MEXCAdapters;
 import org.knowm.xchange.mexc.dto.MEXCResult;
 import org.knowm.xchange.mexc.dto.account.MEXCBalance;
@@ -18,9 +19,13 @@ public class MEXCAccountService extends MEXCAccountServiceRaw implements Account
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    MEXCResult<Map<String, MEXCBalance>> walletBalances = getWalletBalances();
-    Map<String, MEXCBalance> walletBalancesResult = walletBalances.getData();
-    return new AccountInfo(MEXCAdapters.adaptMEXCBalances(walletBalancesResult));
+    try {
+      MEXCResult<Map<String, MEXCBalance>> walletBalances = getWalletBalances();
+      Map<String, MEXCBalance> walletBalancesResult = walletBalances.getData();
+      return new AccountInfo(MEXCAdapters.adaptMEXCBalances(walletBalancesResult));
+    } catch (MEXCException e) {
+      throw new ExchangeException(e);
+    }
   }
 
 }

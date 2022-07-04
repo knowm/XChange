@@ -20,4 +20,7 @@ public class MEXCResult<T> {
     return data;
   }
 
+  public int getCode() {
+    return code;
+  }
 }
