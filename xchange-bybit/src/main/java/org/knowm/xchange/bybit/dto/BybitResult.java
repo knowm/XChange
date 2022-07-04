@@ -24,8 +24,28 @@ public class BybitResult<V> {
         this.result = result;
     }
 
+    public int getRetCode() {
+        return retCode;
+    }
+
+    public String getRetMsg() {
+        return retMsg;
+    }
+
+    public String getExtCode() {
+        return extCode;
+    }
+
+    public String getExtInfo() {
+        return extInfo;
+    }
+
     public V getResult() {
         return result;
+    }
+
+    public boolean isSuccess() {
+        return retCode == 0;
     }
 
     @Override
