@@ -4,6 +4,7 @@ import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitBalances;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderRequest;
+import org.knowm.xchange.bybit.service.BybitException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -21,7 +22,7 @@ public interface BybitAuthenticated {
             @QueryParam("api_key") String apiKey,
             @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
             @QueryParam("sign") ParamsDigest signature
-    ) throws IOException;
+    ) throws IOException, BybitException;
 
     @GET
     @Path("/order")
@@ -30,7 +31,7 @@ public interface BybitAuthenticated {
             @QueryParam("orderId") String orderId,
             @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
             @QueryParam("sign") ParamsDigest signature
-    ) throws IOException;
+    ) throws IOException, BybitException;
 
     @POST
     @Path("/order")
@@ -42,7 +43,7 @@ public interface BybitAuthenticated {
             @FormParam("type") String type,
             @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
             @FormParam("sign") ParamsDigest signature
-    ) throws IOException;
+    ) throws IOException, BybitException;
 
 
 }
