@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.Currency;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @Jacksonized
@@ -26,11 +28,11 @@ public class BlockchainSymbol {
     @JsonProperty("min_price_increment_scale")
     private final Integer minPriceIncrementScale;
     @JsonProperty("min_order_size")
-    private final Long minOrderSize;
+    private final BigDecimal minOrderSize;
     @JsonProperty("min_order_size_scale")
     private final Integer minOrderSizeScale;
     @JsonProperty("max_order_size")
-    private final Integer maxOrderSize;
+    private final BigDecimal maxOrderSize;
     @JsonProperty("max_order_size_scale")
     private final Integer maxOrderSizeScale;
     @JsonProperty("lot_size")
