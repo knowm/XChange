@@ -28,10 +28,9 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
   /**
    * Constructor
    *
-   * @param exchange
+   * @param exchange Exchange instance for the service
    */
   public PoloniexMarketDataServiceRaw(Exchange exchange) {
-
     super(exchange);
   }
 
@@ -117,6 +116,6 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
 
     String command = "returnChartData";
     String pairString = PoloniexUtils.toPairString(currencyPair);
-    return poloniex.getChartData(command, pairString, startTime, endTime, period.getPeriod());
+    return poloniex.getChartData(command, pairString, startTime, endTime, period.getPeriodInSecs());
   }
 }

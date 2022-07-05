@@ -33,7 +33,7 @@
     <version.java>1.8</version.java>
     <version.assertj>3.22.0</version.assertj>
     <version.commons.lang3>3.12.0</version.commons.lang3>
-    <version.fasterxml>2.13.2</version.fasterxml>
+    <version.fasterxml>2.13.3</version.fasterxml>
     <version.github.mmazi>2.1.0</version.github.mmazi>
     <version.resilience4j>1.7.0</version.resilience4j>
     <version.junit>4.13.2</version.junit>
@@ -43,7 +43,7 @@
     <version.reflections>0.10.2</version.reflections>
     <version.slf4j>1.7.36</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>3.19.1</version.java-jwt>
+    <version.java-jwt>3.19.2</version.java-jwt>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
@@ -117,6 +117,7 @@
     <module>xchange-btcmarkets</module>
     <module>xchange-btctrade</module>
     <module>xchange-btcturk</module>
+    <module>xchange-bybit</module>
     <module>xchange-ccex</module>
     <module>xchange-cexio</module>
     <module>xchange-cobinhood</module>
@@ -169,6 +170,7 @@
     <module>xchange-luno</module>
     <module>xchange-lykke</module>
     <module>xchange-mercadobitcoin</module>
+    <module>xchange-mexc</module>
     <module>xchange-okcoin</module>
     <module>xchange-okex</module>
     <module>xchange-openexchangerates</module>
@@ -317,7 +319,7 @@
       <dependency>
         <groupId>com.github.tomakehurst</groupId>
         <artifactId>wiremock-jre8</artifactId>
-        <version>2.32.0</version>
+        <version>2.33.2</version>
         <scope>test</scope>
       </dependency>
 
@@ -358,7 +360,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.75.Final</version>
+            <version>4.1.78.Final</version>
         </dependency>
 
     </dependencies>
@@ -534,13 +536,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M6</version>
+        <version>3.0.0-M7</version>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>3.0.0-M6</version>
+        <version>3.0.0-M7</version>
         <executions>
           <execution>
             <goals>
