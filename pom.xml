@@ -43,7 +43,7 @@
     <version.reflections>0.10.2</version.reflections>
     <version.slf4j>1.7.36</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>3.19.2</version.java-jwt>
+    <version.java-jwt>4.0.0</version.java-jwt>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
@@ -360,7 +360,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.77.Final</version>
+            <version>4.1.78.Final</version>
         </dependency>
 
     </dependencies>
