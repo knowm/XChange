@@ -2,6 +2,6 @@ package org.knowm.xchange.ftx.dto.trade;
 
 public enum FtxConditionalOrderType {
   stop,
-  trailingStop,
-  takeProfit
+  trailing_stop,
+  take_profit
 }
