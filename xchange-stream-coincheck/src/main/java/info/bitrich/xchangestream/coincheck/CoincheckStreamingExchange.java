@@ -21,6 +21,7 @@ public class CoincheckStreamingExchange extends CoincheckExchange implements Str
   protected void initServices() {
     super.initServices();
     this.streamingService = new CoincheckStreamingService(WS_API_URI);
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     this.streamingMarketDataService =
         new CoincheckStreamingMarketDataService(this.streamingService, this.onApiCall);
     this.onApiCall = Events.onApiCall(exchangeSpecification);
