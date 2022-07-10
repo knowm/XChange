@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import javax.ws.rs.core.Response.Status;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -27,7 +28,7 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
         get(urlPathEqualTo("/v2/public/tickers"))
             .willReturn(
                 aResponse()
-                    .withStatus(200)
+                    .withStatus(Status.OK.getStatusCode())
                     .withHeader("Content-Type", "application/json")
                     .withBody(IOUtils.resourceToString("/getTicker.json5", StandardCharsets.UTF_8))
             )
