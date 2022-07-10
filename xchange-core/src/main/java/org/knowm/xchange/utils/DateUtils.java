@@ -168,4 +168,9 @@ public class DateUtils {
   public static Date fromUnixTime(long unix) {
     return new Date(unix * 1000);
   }
+
+  /** Convert unix time with milliseconds to Java Date */
+  public static Date fromUnixTimeWithMilliseconds(long milliseconds) {
+    return new Date(milliseconds);
+  }
 }
