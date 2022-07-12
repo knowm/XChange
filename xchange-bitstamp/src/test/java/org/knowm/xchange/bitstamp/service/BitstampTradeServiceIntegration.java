@@ -40,7 +40,7 @@ public class BitstampTradeServiceIntegration {
     final BitstampTradeHistoryParams tradeHistoryParams =
         (BitstampTradeHistoryParams) bitstampTradeService.createTradeHistoryParams();
     final List<UserTrade> userTrades =
-        bitstampTradeService.getTradeHistory(tradeHistoryParams).getUserTrades();
+        bitstampTradeService.getTradeHistory(tradeHistoryParams).userTrades();
     assertThat(userTrades).isNotNull();
 
     int numberOfLastTradesToLoad = 2;
@@ -50,7 +50,7 @@ public class BitstampTradeServiceIntegration {
       tradeHistoryParams.setStartId(referenceTrade.getId());
 
       final List<UserTrade> userTradesSinceTradeId =
-          bitstampTradeService.getTradeHistory(tradeHistoryParams).getUserTrades();
+          bitstampTradeService.getTradeHistory(tradeHistoryParams).userTrades();
 
       assertThat(userTradesSinceTradeId).hasSize(numberOfLastTradesToLoad);
     }

@@ -174,14 +174,14 @@ public class BitstampAdapterTest {
 
     UserTrades userTradeHistory = BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
 
-    assertThat(userTradeHistory.getUserTrades().get(0).getId()).isEqualTo("1296712");
-    assertThat(userTradeHistory.getUserTrades().get(0).getType()).isEqualTo(OrderType.BID);
-    assertThat(userTradeHistory.getUserTrades().get(0).getPrice().toString()).isEqualTo("131.50");
-    assertThat(userTradeHistory.getUserTrades().get(0).getFeeAmount().toString()).isEqualTo("0.06");
+    assertThat(userTradeHistory.userTrades().get(0).getId()).isEqualTo("1296712");
+    assertThat(userTradeHistory.userTrades().get(0).getType()).isEqualTo(OrderType.BID);
+    assertThat(userTradeHistory.userTrades().get(0).getPrice().toString()).isEqualTo("131.50");
+    assertThat(userTradeHistory.userTrades().get(0).getFeeAmount().toString()).isEqualTo("0.06");
 
-    assertThat(userTradeHistory.getUserTrades().get(1).getPrice().toString()).isEqualTo("131.50");
-    assertThat(userTradeHistory.getUserTrades().get(1).getType()).isEqualTo(OrderType.ASK);
-    assertThat(userTradeHistory.getUserTrades().get(1).getFeeAmount().toString()).isEqualTo("0.06");
+    assertThat(userTradeHistory.userTrades().get(1).getPrice().toString()).isEqualTo("131.50");
+    assertThat(userTradeHistory.userTrades().get(1).getType()).isEqualTo(OrderType.ASK);
+    assertThat(userTradeHistory.userTrades().get(1).getFeeAmount().toString()).isEqualTo("0.06");
 
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));

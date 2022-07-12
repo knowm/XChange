@@ -83,8 +83,8 @@ public class TradeMockedIntegrationTest extends BaseMockedIntegrationTest {
     TradeHistoryParams params = tradeService.createTradeHistoryParams();
     UserTrades tradeHistory = tradeService.getTradeHistory(params);
     assertThat(tradeHistory).isNotNull();
-    assertThat(tradeHistory.getUserTrades()).isNotEmpty();
-    UserTrade trade = tradeHistory.getUserTrades().get(0);
+    assertThat(tradeHistory.userTrades()).isNotEmpty();
+    UserTrade trade = tradeHistory.userTrades().get(0);
     assertThat(trade).isNotNull();
     assertThat(trade.getType()).isNotNull();
     assertThat(trade.getOriginalAmount()).isNotNull().isPositive();

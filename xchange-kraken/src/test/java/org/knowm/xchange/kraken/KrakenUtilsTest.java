@@ -66,7 +66,7 @@ public class KrakenUtilsTest {
 
     UserTrades userTrades = KrakenAdapters.adaptTradesHistory(filteredKrakenTradeMap);
 
-    UserTrade trade0 = userTrades.getUserTrades().get(0);
+    UserTrade trade0 = userTrades.userTrades().get(0);
     assertThat(trade0).isInstanceOf(KrakenUserTrade.class);
     assertThat(trade0.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD-2");
     assertThat(trade0.getPrice()).isEqualTo("32.07562");
@@ -78,7 +78,7 @@ public class KrakenUtilsTest {
     assertThat(trade0.getFeeCurrency()).isEqualTo(Currency.USD);
     assertThat(((KrakenUserTrade) trade0).getCost()).isEqualTo("16.03781");
 
-    UserTrade trade1 = userTrades.getUserTrades().get(1);
+    UserTrade trade1 = userTrades.userTrades().get(1);
     assertThat(trade1).isInstanceOf(KrakenUserTrade.class);
     assertThat(trade1.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD-3");
     assertThat(trade1.getPrice()).isEqualTo("32.07562");

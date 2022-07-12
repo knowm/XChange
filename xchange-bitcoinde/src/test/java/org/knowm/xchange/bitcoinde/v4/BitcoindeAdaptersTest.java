@@ -356,10 +356,10 @@ public class BitcoindeAdaptersTest {
     final UserTrades userTrades = BitcoindeAdapters.adaptTradeHistory(myTradesWrapper);
 
     // Make sure trade values are correct
-    assertThat(userTrades.getUserTrades()).isNotEmpty();
-    assertThat(userTrades.getUserTrades().size()).isEqualTo(1);
+    assertThat(userTrades.userTrades()).isNotEmpty();
+    assertThat(userTrades.userTrades().size()).isEqualTo(1);
 
-    UserTrade trade = userTrades.getUserTrades().get(0);
+    UserTrade trade = userTrades.userTrades().get(0);
     assertThat(trade.getType()).isEqualByComparingTo(OrderType.ASK);
     assertThat(trade.getOriginalAmount()).isEqualByComparingTo("0.5");
     assertThat(trade.getCurrencyPair()).isEqualByComparingTo(CurrencyPair.BTC_EUR);

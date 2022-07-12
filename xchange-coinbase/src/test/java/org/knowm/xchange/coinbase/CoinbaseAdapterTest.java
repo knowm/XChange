@@ -88,7 +88,7 @@ public class CoinbaseAdapterTest {
     CoinbaseTransfers transfers = mapper.readValue(is, CoinbaseTransfers.class);
 
     UserTrades trades = CoinbaseAdapters.adaptTrades(transfers);
-    List<UserTrade> tradeList = trades.getUserTrades();
+    List<UserTrade> tradeList = trades.userTrades();
     assertThat(tradeList.size()).isEqualTo(1);
 
     UserTrade trade = tradeList.get(0);

@@ -34,7 +34,7 @@ public class TradeServiceIntegration {
     assertNotNull(service);
     UserTrades trades = service.getTradeHistory(service.createTradeHistoryParams());
     assertNotNull(trades);
-    System.out.println("Got " + trades.getUserTrades().size() + " trades.");
+    System.out.println("Got " + trades.userTrades().size() + " trades.");
     for (Trade trade : trades.getTrades()) {
       System.out.println(trade.toString());
     }

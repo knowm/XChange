@@ -39,8 +39,8 @@ public class IndependentReserveTradeServiceIntegration {
     Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
 
     UserTrades userTrades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
-    if (userTrades.getUserTrades().size() > 0) {
-      UserTrade userTrade = userTrades.getUserTrades().get(0);
+    if (userTrades.userTrades().size() > 0) {
+      UserTrade userTrade = userTrades.userTrades().get(0);
       String orderId = userTrade.getOrderId();
       Collection<Order> orders = tradeService.getOrder(orderId);
     }

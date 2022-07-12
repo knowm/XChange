@@ -26,7 +26,7 @@ public class UserTrades extends Trades {
     super((List) trades, lastID, tradeSortType, nextPageCursor);
   }
 
-  public List<UserTrade> getUserTrades() {
+  public List<UserTrade> userTrades() {
 
     return (List) getTrades();
   }

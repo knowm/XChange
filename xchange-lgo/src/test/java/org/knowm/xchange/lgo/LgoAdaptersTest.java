@@ -215,8 +215,8 @@ public class LgoAdaptersTest {
     UserTrades userTrades = LgoAdapters.adaptUserTrades(lastTrades);
 
     assertThat(userTrades.getNextPageCursor()).isEqualTo("aGVsbG8=");
-    assertThat(userTrades.getUserTrades()).hasSize(2);
-    assertThat(userTrades.getUserTrades().get(0))
+    assertThat(userTrades.userTrades()).hasSize(2);
+    assertThat(userTrades.userTrades().get(0))
         .isEqualToComparingFieldByField(
             new UserTrade.Builder()
                 .type(OrderType.ASK)
@@ -229,7 +229,7 @@ public class LgoAdaptersTest {
                 .feeAmount(new BigDecimal("0.0096"))
                 .feeCurrency(Currency.USD)
                 .build());
-    assertThat(userTrades.getUserTrades().get(1))
+    assertThat(userTrades.userTrades().get(1))
         .isEqualToComparingFieldByField(
             new UserTrade.Builder()
                 .type(OrderType.BID)

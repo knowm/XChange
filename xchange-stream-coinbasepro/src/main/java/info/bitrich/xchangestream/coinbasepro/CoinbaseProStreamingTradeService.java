@@ -52,7 +52,7 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
         .filter((CoinbaseProWebSocketTransaction s) -> s.getUserId() != null)
         .map((CoinbaseProWebSocketTransaction s) -> s.toCoinbaseProFill())
         .map((CoinbaseProFill f) -> adaptTradeHistory(Collections.singletonList(f)))
-        .map((UserTrades h) -> h.getUserTrades().get(0));
+        .map((UserTrades h) -> h.userTrades().get(0));
   }
 
   private boolean orderChangesWarningLogged;

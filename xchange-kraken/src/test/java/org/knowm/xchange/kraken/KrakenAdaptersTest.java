@@ -294,7 +294,7 @@ public class KrakenAdaptersTest {
     Map<String, KrakenTrade> krakenTradeHistoryMap = krakenTradeHistory.getTrades();
 
     UserTrades trades = KrakenAdapters.adaptTradesHistory(krakenTradeHistoryMap);
-    return trades.getUserTrades();
+    return trades.userTrades();
   }
 
   @Test
