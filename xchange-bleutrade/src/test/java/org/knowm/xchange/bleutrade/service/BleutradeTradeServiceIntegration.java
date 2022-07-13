@@ -379,7 +379,7 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
 
     // when
     UserTrades tradeHistory = tradeService.getTradeHistory(null);
-    assertThat(tradeHistory.userTrades()).hasSize(1);
+    assertThat(tradeHistory.getUserTrades()).hasSize(1);
   }
 
   @Test
@@ -404,7 +404,7 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
         tradeService.getTradeHistory(
             new BleutradeTradeServiceRaw.BleutradeTradeHistoryParams(
                 CurrencyPair.BTC_AUD, "status", "type", 100));
-    assertThat(tradeHistory.userTrades()).hasSize(1);
+    assertThat(tradeHistory.getUserTrades()).hasSize(1);
   }
 
   @Test(expected = NotAvailableFromExchangeException.class)

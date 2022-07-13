@@ -105,6 +105,6 @@ public class TradeServiceIntegration {
     DefaultTradeHistoryParamCurrencyPair currencyPair = new DefaultTradeHistoryParamCurrencyPair();
     currencyPair.setCurrencyPair(CurrencyPair.ETH_BTC);
     UserTrades trades = tradeService.getTradeHistory(currencyPair);
-    logger.info("Response: {}", trades.userTrades());
+    logger.info("Response: {}", trades.getUserTrades());
   }
 }

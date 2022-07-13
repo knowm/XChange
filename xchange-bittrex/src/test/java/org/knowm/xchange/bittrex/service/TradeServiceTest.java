@@ -122,8 +122,8 @@ public class TradeServiceTest extends BaseWiremockTest {
     TradeHistoryParams params = tradeService.createTradeHistoryParams();
     UserTrades tradeHistory = tradeService.getTradeHistory(params);
     assertThat(tradeHistory).isNotNull();
-    assertThat(tradeHistory.userTrades()).isNotEmpty();
-    UserTrade trade = tradeHistory.userTrades().get(0);
+    assertThat(tradeHistory.getUserTrades()).isNotEmpty();
+    UserTrade trade = tradeHistory.getUserTrades().get(0);
     assertThat(trade).isNotNull();
     assertThat(trade.getOriginalAmount()).isNotNull().isPositive();
     assertThat(trade.getPrice()).isNotNull().isPositive();

@@ -30,7 +30,7 @@ public class KucoinTradeHistoryDemo {
     KucoinTradeHistoryParams tradeHistoryParams =
         (KucoinTradeHistoryParams) tradeService.createTradeHistoryParams();
     UserTrades tradeHistory = tradeService.getTradeHistory(tradeHistoryParams);
-    tradeHistory.userTrades().forEach(System.out::println);
+    tradeHistory.getUserTrades().forEach(System.out::println);
   }
 
   private static void getHistoricalTrades(TradeService tradeService) throws IOException {
@@ -43,7 +43,7 @@ public class KucoinTradeHistoryDemo {
             LocalDate.of(2019, 2, 1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     tradeHistoryParams.setEndTime(aWhileBack);
     UserTrades tradeHistory = tradeService.getTradeHistory(tradeHistoryParams);
-    tradeHistory.userTrades().forEach(System.out::println);
+    tradeHistory.getUserTrades().forEach(System.out::println);
   }
 
   private static void getPagedTrades(TradeService tradeService) throws IOException {
@@ -60,11 +60,11 @@ public class KucoinTradeHistoryDemo {
 
     UserTrades tradeHistory = tradeService.getTradeHistory(tradeHistoryParams);
 
-    tradeHistory.userTrades().forEach(System.out::println);
+    tradeHistory.getUserTrades().forEach(System.out::println);
     while (tradeHistory.getNextPageCursor() != null) {
       tradeHistoryParams.setNextPageCursor(tradeHistory.getNextPageCursor());
       tradeHistory = tradeService.getTradeHistory(tradeHistoryParams);
-      tradeHistory.userTrades().forEach(System.out::println);
+      tradeHistory.getUserTrades().forEach(System.out::println);
     }
   }
 }

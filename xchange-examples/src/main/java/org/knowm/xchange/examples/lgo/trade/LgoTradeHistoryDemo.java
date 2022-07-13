@@ -27,6 +27,6 @@ public class LgoTradeHistoryDemo {
   }
 
   private static void print(UserTrades tradeHistory) {
-    tradeHistory.userTrades().stream().map(UserTrade::toString).forEach(System.out::println);
+    tradeHistory.getUserTrades().stream().map(UserTrade::toString).forEach(System.out::println);
   }
 }

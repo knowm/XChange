@@ -113,14 +113,14 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
     UserTrades userTrades = classUnderTest.getTradeHistory(tradeHistoryParams);
 
     assertThat(userTrades).isNotNull();
-    assertThat(userTrades.userTrades()).hasSize(jsonRoot.get("result").get("trades").size());
-    UserTrade firstUserTrade = userTrades.userTrades().get(0);
+    assertThat(userTrades.getUserTrades()).hasSize(jsonRoot.get("result").get("trades").size());
+    UserTrade firstUserTrade = userTrades.getUserTrades().get(0);
     assertThat(firstUserTrade).isNotNull();
     assertThat(firstUserTrade.getOriginalAmount()).isNotNull().isPositive();
     assertThat(firstUserTrade.getId()).isNotBlank();
     assertThat(firstUserTrade.getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
 
-    UserTrade secondUserTrade = userTrades.userTrades().get(1);
+    UserTrade secondUserTrade = userTrades.getUserTrades().get(1);
     assertThat(secondUserTrade).isNotNull();
     assertThat(secondUserTrade.getOriginalAmount()).isNotNull().isPositive();
     assertThat(secondUserTrade.getId()).isNotBlank();

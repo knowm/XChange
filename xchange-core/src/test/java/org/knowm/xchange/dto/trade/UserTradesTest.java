@@ -50,8 +50,8 @@ public class UserTradesTest {
     UserTrades result = new ObjectMapper().readValue(json, UserTrades.class);
 
     assertThat(result).isInstanceOf(UserTrades.class);
-    assertThat(result.userTrades().size()).isEqualTo(userTradeList.size());
-    assertThat(result.userTrades().get(0)).isInstanceOf(UserTrade.class);
+    assertThat(result.getUserTrades().size()).isEqualTo(userTradeList.size());
+    assertThat(result.getUserTrades().get(0)).isInstanceOf(UserTrade.class);
     System.out.println(result);
   }
 }

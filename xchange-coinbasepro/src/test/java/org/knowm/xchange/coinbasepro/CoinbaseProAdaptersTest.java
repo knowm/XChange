@@ -114,9 +114,9 @@ public class CoinbaseProAdaptersTest {
 
     UserTrades trades = CoinbaseProAdapters.adaptTradeHistory(fills);
 
-    assertThat(trades.userTrades()).hasSize(1);
+    assertThat(trades.getUserTrades()).hasSize(1);
 
-    UserTrade trade = trades.userTrades().get(0);
+    UserTrade trade = trades.getUserTrades().get(0);
 
     assertThat(trade.getId()).isEqualTo("470768");
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.ETH_BTC);

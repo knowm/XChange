@@ -28,8 +28,8 @@ public class LgoExchangeTradeIntegration {
     LgoExchange lgoExchange = exchangeWithCredentials(false);
     LgoTradeService tradeService = lgoExchange.getTradeService();
     UserTrades tradeHistory = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
-    assertThat(tradeHistory.userTrades()).isNotEmpty();
-    System.out.println(tradeHistory.userTrades().size());
+    assertThat(tradeHistory.getUserTrades()).isNotEmpty();
+    System.out.println(tradeHistory.getUserTrades().size());
   }
 
   @Test

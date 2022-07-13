@@ -77,6 +77,6 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
               return CoinmateStreamingAdapter.adaptWebSocketUserTrades(
                   webSocketUserTrades, currencyPair);
             })
-        .concatMapIterable(UserTrades::userTrades);
+        .concatMapIterable(UserTrades::getUserTrades);
   }
 }
