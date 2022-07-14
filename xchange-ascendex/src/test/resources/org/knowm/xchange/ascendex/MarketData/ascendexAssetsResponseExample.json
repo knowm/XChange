@@ -1,0 +1,39 @@
+{
+  "code": 0,
+  "data": [
+    {
+      "assetCode":      "USDT",
+      "assetName":      "Tether",
+      "precisionScale":  9,
+      "nativeScale":     4,
+      "blockChain": [
+        {
+          "chainName":        "Omni",
+          "withdrawFee":      "30.0",
+          "allowDeposit":      true,
+          "allowWithdraw":     true,
+          "minDepositAmt":    "0.0",
+          "minWithdrawal":    "50.0",
+          "numConfirmations":  3
+        },
+        {
+          "chainName":        "ERC20",
+          "withdrawFee":      "10.0",
+          "allowDeposit":      true,
+          "allowWithdraw":     true,
+          "minDepositAmt":    "0.0",
+          "minWithdrawal":    "20.0",
+          "numConfirmations":  12
+        }
+      ]
+    },
+    {
+      "assetCode" : "CSPR-S",
+      "assetName" : "CasperLabs Staking",
+      "precisionScale" : 8,
+      "nativeScale" : 3,
+      "blockChain" : [
+      ]
+    }
+  ]
+}

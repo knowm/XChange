@@ -19,6 +19,7 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
 
   public AscendexOrderResponse placeAscendexOrder(AscendexPlaceOrderRequestPayload payload)
       throws AscendexException, IOException {
+
     return checkResult(
         ascendexAuthenticated.placeOrder(
             exchange.getExchangeSpecification().getApiKey(),

@@ -16,24 +16,6 @@ import org.knowm.xchange.ascendex.dto.marketdata.AscendexProductDto;
 
 public class AscendexMarketDataJSONTest {
 
-  @Test
-  public void ascendexAssetDtoTest() throws IOException {
-
-    // Read in the JSON from the example resources
-    InputStream is =
-        AscendexMarketDataJSONTest.class.getResourceAsStream(
-            "/org/knowm/xchange/ascendex/ascendexAssetsResponseExample.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    AscendexResponse<List<AscendexAssetDto>> ascendexAssets =
-        mapper.readValue(is, new TypeReference<AscendexResponse<List<AscendexAssetDto>>>() {});
-
-    // Verify that the example data was unmarshalled correctly
-    assertThat(ascendexAssets.getData().size()).isEqualTo(1);
-    assertThat(ascendexAssets.getData().get(0).getStatus())
-        .isEqualTo(AscendexAssetDto.AscendexAssetStatus.Normal);
-  }
 
   @Test
   public void ascendexProductDtoTest() throws IOException {
