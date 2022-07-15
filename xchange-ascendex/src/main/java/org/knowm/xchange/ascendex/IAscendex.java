@@ -30,11 +30,9 @@ public interface IAscendex {
   @Path("/v1/{accountCategory}/products")
   AscendexResponse<List<AscendexProductKindDto>> getAllProducts(@PathParam("accountCategory") AccountCategory accountCategory) throws IOException;
 
-
   @GET
   @Path("/v1/spot/ticker")
   AscendexResponse<AscendexTickerDto> getTicker( @QueryParam("symbol") String symbol) throws IOException;
-
 
   @GET
   @Path("/v1/barhist")
@@ -45,7 +43,6 @@ public interface IAscendex {
           @QueryParam("from") Long from,
           @QueryParam("n") Integer noOfBars)
           throws IOException;
-
 
   @GET
   @Path("/v1/depth")

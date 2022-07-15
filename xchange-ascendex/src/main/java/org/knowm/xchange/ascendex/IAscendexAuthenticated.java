@@ -13,19 +13,29 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.ascendex.dto.AscendexResponse;
+import org.knowm.xchange.ascendex.dto.account.AscendexAccountInfoDto;
 import org.knowm.xchange.ascendex.dto.account.AscendexCashAccountBalanceDto;
 import org.knowm.xchange.ascendex.dto.trade.AscendexOpenOrdersResponse;
 import org.knowm.xchange.ascendex.dto.trade.AscendexOrderResponse;
 import org.knowm.xchange.ascendex.dto.trade.AscendexPlaceOrderRequestPayload;
 import si.mazi.rescu.ParamsDigest;
 
-@Path("api/pro/v1")
+@Path("api/pro")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface IAscendexAuthenticated extends IAscendex {
+  /**=========================Account======================================**/
+  @GET
+  @Path("/v1/info")
+  AscendexResponse<AscendexAccountInfoDto> getAccountInfo(
+          @HeaderParam("x-auth-key") String apiKey,
+          @HeaderParam("x-auth-timestamp") Long nonce,
+          @HeaderParam("x-auth-signature") ParamsDigest signature)
+          throws IOException;
+
 
   @GET
-  @Path("/cash/balance")
+  @Path("/v1/cash/balance")
   AscendexResponse<List<AscendexCashAccountBalanceDto>> getCashAccountBalance(
       @HeaderParam("x-auth-key") String apiKey,
       @HeaderParam("x-auth-timestamp") Long nonce,
@@ -33,7 +43,7 @@ public interface IAscendexAuthenticated extends IAscendex {
       throws IOException;
 
   @POST
-  @Path("/{account-category}/order")
+  @Path("/v1/{account-category}/order")
   AscendexResponse<AscendexOrderResponse> placeOrder(
       @HeaderParam("x-auth-key") String apiKey,
       @HeaderParam("x-auth-timestamp") Long nonce,
@@ -43,7 +53,7 @@ public interface IAscendexAuthenticated extends IAscendex {
       throws IOException;
 
   @DELETE
-  @Path("/{account-category}/order")
+  @Path("/v1/{account-category}/order")
   AscendexResponse<AscendexOrderResponse> cancelOrder(
       @HeaderParam("x-auth-key") String apiKey,
       @HeaderParam("x-auth-timestamp") Long nonce,
@@ -55,7 +65,7 @@ public interface IAscendexAuthenticated extends IAscendex {
       throws IOException;
 
   @DELETE
-  @Path("/{account-category}/order/all")
+  @Path("/v1/{account-category}/order/all")
   AscendexResponse<AscendexOrderResponse> cancelAllOrders(
       @HeaderParam("x-auth-key") String apiKey,
       @HeaderParam("x-auth-timestamp") Long nonce,
@@ -65,7 +75,7 @@ public interface IAscendexAuthenticated extends IAscendex {
       throws IOException;
 
   @GET
-  @Path("/{account-category}/order/open")
+  @Path("/v1/{account-category}/order/open")
   AscendexResponse<List<AscendexOpenOrdersResponse>> getOpenOrders(
       @HeaderParam("x-auth-key") String apiKey,
       @HeaderParam("x-auth-timestamp") Long nonce,
@@ -75,7 +85,7 @@ public interface IAscendexAuthenticated extends IAscendex {
       throws IOException;
 
   @GET
-  @Path("/{account-category}/order/status")
+  @Path("/v1/{account-category}/order/status")
   AscendexResponse<AscendexOpenOrdersResponse> getOrderById(
       @HeaderParam("x-auth-key") String apiKey,
       @HeaderParam("x-auth-timestamp") Long nonce,
@@ -85,7 +95,7 @@ public interface IAscendexAuthenticated extends IAscendex {
       throws IOException;
 
   @GET
-  @Path("/{account-category}/order/hist/current")
+  @Path("/v1/{account-category}/order/hist/current")
   AscendexResponse<List<AscendexOpenOrdersResponse>> getOrdersHistory(
       @HeaderParam("x-auth-key") String apiKey,
       @HeaderParam("x-auth-timestamp") Long nonce,
