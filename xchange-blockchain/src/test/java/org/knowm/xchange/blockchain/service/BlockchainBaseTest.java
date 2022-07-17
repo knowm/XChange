@@ -6,6 +6,11 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.blockchain.BlockchainExchange;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.APPLICATION;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.CONTENT_TYPE;
+
 public class BlockchainBaseTest {
 
     @ClassRule
@@ -22,5 +27,34 @@ public class BlockchainBaseTest {
         specification.setHttpReadTimeout(1000);
         exchange.applySpecification(specification);
         return exchange;
+    }
+
+    protected void stubPost(String fileName, int statusCode, String url) {
+        stubFor(
+                post(urlPathEqualTo(url))
+                        .willReturn(
+                                aResponse()
+                                        .withStatus(statusCode)
+                                        .withHeader(CONTENT_TYPE, APPLICATION)
+                                        .withBodyFile(fileName)));
+    }
+
+    protected void stubGet(String fileName, int statusCode, String url) {
+        stubFor(
+                get(urlPathEqualTo(url))
+                        .willReturn(
+                                aResponse()
+                                        .withStatus(statusCode)
+                                        .withHeader(CONTENT_TYPE, APPLICATION)
+                                        .withBodyFile(fileName)));
+    }
+
+    protected void stubDelete(int statusCode, String url) {
+        stubFor(
+                delete(urlPathEqualTo(url))
+                        .willReturn(
+                                aResponse()
+                                        .withStatus(statusCode)
+                                        .withHeader(CONTENT_TYPE, APPLICATION)));
     }
 }

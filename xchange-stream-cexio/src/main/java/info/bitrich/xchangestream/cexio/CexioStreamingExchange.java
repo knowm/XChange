@@ -55,6 +55,7 @@ public class CexioStreamingExchange extends CexIOExchange implements StreamingEx
   public void applySpecification(ExchangeSpecification specification) {
     super.applySpecification(specification);
     ExchangeSpecification finalSpec = getExchangeSpecification();
+    applyStreamingSpecification(getExchangeSpecification(), streamingOrderDataService);
     String apiKey = finalSpec.getApiKey();
     String secretKey = finalSpec.getSecretKey();
     if (apiKey != null && secretKey != null) {
