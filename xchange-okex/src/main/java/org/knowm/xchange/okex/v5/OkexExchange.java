@@ -74,7 +74,7 @@ public class OkexExchange extends BaseExchange {
     exchangeSpecification.setExchangeSpecificParametersItem(
         Parameters.PARAM_AWS_HOST, "aws.okx.com");
 
-    exchangeSpecification.setExchangeSpecificParametersItem(Parameters.PARAM_SIMULATED_TRADING, "1");
+//    exchangeSpecification.setExchangeSpecificParametersItem(Parameters.PARAM_SIMULATED_TRADING, "1");
 
     return exchangeSpecification;
   }
