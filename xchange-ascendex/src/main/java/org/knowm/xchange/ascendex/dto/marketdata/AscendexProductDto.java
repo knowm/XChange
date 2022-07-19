@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.knowm.xchange.ascendex.dto.enums.AscendexAssetStatus;
 
 
 @EqualsAndHashCode(callSuper = true)
@@ -17,13 +18,9 @@ public class AscendexProductDto extends AscendexProductBaseDto {
 
   private String quoteAsset;
 
-  private AscendexAssetDto.AscendexAssetStatus status;
+  private AscendexAssetStatus status;
 
   private boolean marginTradable;
 
-  public enum AscendexProductCommissionType {
-    Base,
-    Quote,
-    Received
-  }
+
 }

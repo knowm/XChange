@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.junit.Test;
 import org.knowm.xchange.ascendex.dto.AscendexResponse;
+import org.knowm.xchange.ascendex.dto.enums.AscendexAssetStatus;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexAssetDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexOrderbookDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexProductDto;
@@ -33,7 +34,7 @@ public class AscendexMarketDataJSONTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(ascendexAssets.getData().size()).isEqualTo(1);
     assertThat(ascendexAssets.getData().get(0).getStatus())
-        .isEqualTo(AscendexAssetDto.AscendexAssetStatus.Normal);
+        .isEqualTo(AscendexAssetStatus.Normal);
   }
 
   @Test

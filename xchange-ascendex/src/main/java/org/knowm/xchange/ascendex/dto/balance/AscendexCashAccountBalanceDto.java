@@ -1,16 +1,21 @@
-package org.knowm.xchange.ascendex.dto.account;
+package org.knowm.xchange.ascendex.dto.balance;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AscendexCashAccountBalanceDto {
 
-  private final String asset;
+  private String asset;
 
-  private final BigDecimal totalBalance;
+  private BigDecimal totalBalance;
 
-  private final BigDecimal availableBalance;
-
+  private BigDecimal availableBalance;
+/*
   public AscendexCashAccountBalanceDto(
       @JsonProperty("asset") String asset,
       @JsonProperty("totalBalance") BigDecimal totalBalance,
@@ -43,5 +48,5 @@ public class AscendexCashAccountBalanceDto {
         + ", availableBalance="
         + availableBalance
         + '}';
-  }
+  }*/
 }

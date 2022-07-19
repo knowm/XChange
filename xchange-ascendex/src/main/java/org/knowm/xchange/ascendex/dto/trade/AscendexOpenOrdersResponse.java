@@ -1,6 +1,9 @@
 package org.knowm.xchange.ascendex.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.ascendex.dto.enums.AscendexOrderType;
+import org.knowm.xchange.ascendex.dto.enums.AscendexSide;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
@@ -23,13 +26,13 @@ public class AscendexOpenOrdersResponse {
 
   private final BigDecimal orderQty;
 
-  private final AscendexPlaceOrderRequestPayload.AscendexOrderType orderType;
+  private final AscendexOrderType orderType;
 
   private final BigDecimal price;
 
   private final Long seqNum;
 
-  private final AscendexPlaceOrderRequestPayload.AscendexSide side;
+  private final AscendexSide side;
 
   private final String status;
 
@@ -65,10 +68,10 @@ public class AscendexOpenOrdersResponse {
     this.orderId = orderId;
     this.orderQty = orderQty;
     this.orderType =
-        AscendexPlaceOrderRequestPayload.AscendexOrderType.valueOf(orderType.toLowerCase());
+        AscendexOrderType.valueOf(orderType.toLowerCase());
     this.price = price;
     this.seqNum = seqNum;
-    this.side = AscendexPlaceOrderRequestPayload.AscendexSide.valueOf(side.toLowerCase());
+    this.side = AscendexSide.valueOf(side.toLowerCase());
     this.status = status;
     this.stopPrice = stopPrice;
     this.symbol = symbol;
@@ -107,7 +110,7 @@ public class AscendexOpenOrdersResponse {
     return orderQty;
   }
 
-  public AscendexPlaceOrderRequestPayload.AscendexOrderType getOrderType() {
+  public AscendexOrderType getOrderType() {
     return orderType;
   }
 
@@ -119,7 +122,7 @@ public class AscendexOpenOrdersResponse {
     return seqNum;
   }
 
-  public AscendexPlaceOrderRequestPayload.AscendexSide getSide() {
+  public AscendexSide getSide() {
     return side;
   }
 

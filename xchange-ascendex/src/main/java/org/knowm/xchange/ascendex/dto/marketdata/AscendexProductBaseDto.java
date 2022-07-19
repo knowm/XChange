@@ -4,6 +4,7 @@ package org.knowm.xchange.ascendex.dto.marketdata;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.knowm.xchange.ascendex.dto.enums.AscendexProductCommissionType;
 
 import java.math.BigDecimal;
 
@@ -23,6 +24,6 @@ public class AscendexProductBaseDto {
     private BigDecimal	maxNotional;
     private BigDecimal	tickSize;
     private BigDecimal	lotSize;
-    private AscendexProductDto.AscendexProductCommissionType	commissionType;
+    private AscendexProductCommissionType commissionType;
     private BigDecimal	commissionReserveRate;
 }

@@ -1,6 +1,8 @@
 package org.knowm.xchange.ascendex.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.knowm.xchange.ascendex.dto.enums.AscendexOrderType;
+import org.knowm.xchange.ascendex.dto.enums.AscendexSide;
 
 public class AscendexPlaceOrderRequestPayload {
 
@@ -128,15 +130,7 @@ public class AscendexPlaceOrderRequestPayload {
         + '}';
   }
 
-  public enum AscendexOrderType {
-    market,
-    limit,
-    stop_market,
-    stop_limit
-  }
 
-  public enum AscendexSide {
-    buy,
-    sell
-  }
+
+
 }

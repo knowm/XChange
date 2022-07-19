@@ -8,6 +8,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ascendex.AscendexExchange;
 import org.knowm.xchange.ascendex.dto.AscendexResponse;
+import org.knowm.xchange.ascendex.dto.enums.AscendexAssetStatus;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexAssetDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexBarHistDto;
 import org.knowm.xchange.ascendex.service.AscendexMarketDataService;
@@ -38,7 +39,7 @@ public class AscendexMarketDataJSONTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(ascendexAssets.getData().size()).isEqualTo(2);
     assertThat(ascendexAssets.getData().get(0).getStatus())
-            .isEqualTo(AscendexAssetDto.AscendexAssetStatus.Normal);
+            .isEqualTo(AscendexAssetStatus.Normal);
     assertThat(ascendexAssets.getData().get(0).getWithdrawFee())
             .isEqualTo(new BigDecimal("30.0"));
   }

@@ -5,9 +5,8 @@ import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.ascendex.dto.AscendexResponse;
+import org.knowm.xchange.ascendex.dto.enums.AccountCategory;
 import org.knowm.xchange.ascendex.dto.marketdata.*;
-import org.knowm.xchange.ascendex.dto.trade.AscendexOrderResponse;
-import si.mazi.rescu.ParamsDigest;
 
 @Path("api/pro")
 @Produces(MediaType.APPLICATION_JSON)

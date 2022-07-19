@@ -3,6 +3,7 @@ package org.knowm.xchange.ascendex.dto.marketdata;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.knowm.xchange.ascendex.dto.enums.AscendexAssetStatus;
 
 
 import java.math.BigDecimal;
@@ -52,14 +53,7 @@ public class AscendexAssetDto {
   }
 
 
-  public enum AscendexAssetStatus {
-    Normal,
-    NoDeposit,
-    NoTrading,
-    NoWithdraw,
-    InternalTrading,
-    NoTransaction
-  }
+
   @Data
   @NoArgsConstructor
   @AllArgsConstructor

@@ -3,7 +3,7 @@ package org.knowm.xchange.ascendex.service;
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ascendex.AccountCategory;
+import org.knowm.xchange.ascendex.dto.enums.AccountCategory;
 import org.knowm.xchange.ascendex.AscendexException;
 import org.knowm.xchange.ascendex.dto.marketdata.*;
 
@@ -31,19 +31,19 @@ public class AscendexMarketDataServiceRaw extends AscendexBaseService {
 
 
   public  AscendexTickerDto getTicker(String symbol) throws AscendexException, IOException {
-    return checkResult(ascendex.getTicker(symbol));
+    return checkResult(ascendex.getTicker(symbol.toUpperCase()));
   }
 
 
 
   public AscendexOrderbookDto getAscendexOrderbook(String symbol)
       throws AscendexException, IOException {
-    return checkResult(ascendex.getOrderbookDepth(symbol));
+    return checkResult(ascendex.getOrderbookDepth(symbol.toUpperCase()));
   }
 
   public AscendexMarketTradesDto getAscendexTrades(String symbol)
       throws AscendexException, IOException {
-    return getAscendexTrades(symbol,10);
+    return getAscendexTrades(symbol.toUpperCase(),10);
   }
 
   /**
@@ -56,12 +56,12 @@ public class AscendexMarketDataServiceRaw extends AscendexBaseService {
    */
   public AscendexMarketTradesDto getAscendexTrades(String symbol,Integer n)
           throws AscendexException, IOException {
-    return checkResult(ascendex.getTrades(symbol,Math.min(n,100)));
+    return checkResult(ascendex.getTrades(symbol.toUpperCase(),Math.min(n,100)));
   }
 
   public List<AscendexBarHistDto> getBarHistoryData(
       String symbol, String interval, Long to, Long from, Integer noOfBars)
       throws AscendexException, IOException {
-    return checkResult(ascendex.getHistoricalBarData(symbol, interval, to, from, noOfBars));
+    return checkResult(ascendex.getHistoricalBarData(symbol.toUpperCase(), interval, to, from, noOfBars));
   }
 }

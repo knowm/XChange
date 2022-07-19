@@ -1,4 +1,4 @@
-package org.knowm.xchange.ascendex;
+package org.knowm.xchange.ascendex.dto.enums;
 
 /**
  * Package:org.knowm.xchange.ascendex

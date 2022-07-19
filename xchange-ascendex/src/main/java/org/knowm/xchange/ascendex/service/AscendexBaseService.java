@@ -19,7 +19,6 @@ import si.mazi.rescu.ParamsDigest;
  * getExchangeSpecification.getExchangeSpecificParameters Map
  */
 public class AscendexBaseService extends BaseExchangeService implements BaseService {
-
   protected IAscendex ascendex;
   protected IAscendexAuthenticated ascendexAuthenticated;
   protected ParamsDigest signatureCreator;
@@ -36,12 +35,16 @@ public class AscendexBaseService extends BaseExchangeService implements BaseServ
         .getExchangeSpecificParameters()
         .containsKey("account-group")) {
       ExchangeSpecification specWithAccountGroup = exchange.getDefaultExchangeSpecification();
-      specWithAccountGroup.setSslUri(
+      specWithAccountGroup.setSslUri(exchange.getExchangeSpecification().getSslUri());
+
+    /*  not all  api  that auth need <account-group>
+    like :/api/pro/v1/info  api/pro/data/v2/order/hist
+    specWithAccountGroup.setSslUri(
           exchange.getExchangeSpecification().getSslUri()
               + exchange
                   .getExchangeSpecification()
                   .getExchangeSpecificParametersItem("account-group")
-              + "/");
+              + "/");*/
       ascendexAuthenticated =
           ExchangeRestProxyBuilder.forInterface(IAscendexAuthenticated.class, specWithAccountGroup)
               .build();

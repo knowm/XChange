@@ -1,4 +1,4 @@
-package org.knowm.xchange.ascendex.dto.trade;
+package org.knowm.xchange.ascendex.dto.enums;
 
 import org.knowm.xchange.dto.Order;
 

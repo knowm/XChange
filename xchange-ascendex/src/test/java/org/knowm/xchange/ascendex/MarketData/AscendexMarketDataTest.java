@@ -1,17 +1,14 @@
 package org.knowm.xchange.ascendex.MarketData;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.ascendex.AccountCategory;
+import org.knowm.xchange.ascendex.dto.enums.AccountCategory;
 import org.knowm.xchange.ascendex.AscendexExchange;
 import org.knowm.xchange.ascendex.dto.marketdata.*;
-import org.knowm.xchange.ascendex.service.AscendexMarketDataService;
 import org.knowm.xchange.ascendex.service.AscendexMarketDataServiceRaw;
-import org.knowm.xchange.service.marketdata.MarketDataService;
 
 import java.io.IOException;
 import java.util.List;
