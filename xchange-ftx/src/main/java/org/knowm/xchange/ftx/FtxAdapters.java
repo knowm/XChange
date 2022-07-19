@@ -234,28 +234,26 @@ public class FtxAdapters {
     return new Trades(trades);
   }
 
-  public static UserTrades adaptUserTrades(List<FtxOrderDto> ftxUserTrades) {
+  public static UserTrades adaptUserTrades(List<FtxFillDto> ftxUserTrades) {
     List<UserTrade> userTrades = new ArrayList<>();
 
     ftxUserTrades.forEach(
-        ftxOrderDto -> {
-          if (ftxOrderDto.getFilledSize().compareTo(BigDecimal.ZERO) != 0) {
+        ftxFillDto -> {
+          if (ftxFillDto.getSize().compareTo(BigDecimal.ZERO) != 0) {
             userTrades.add(
                 new UserTrade.Builder()
                     .instrument(
-                        CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+                        CurrencyPairDeserializer.getCurrencyPairFromString(ftxFillDto.getMarket()))
                     .currencyPair(
-                        CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
-                    .timestamp(ftxOrderDto.getCreatedAt())
-                    .id(ftxOrderDto.getId())
-                    .orderId(ftxOrderDto.getId())
-                    .orderUserReference(ftxOrderDto.getClientId())
-                    .originalAmount(ftxOrderDto.getFilledSize())
-                    .type(adaptFtxOrderSideToOrderType(ftxOrderDto.getSide()))
-                    .price(
-                        ftxOrderDto.getAvgFillPrice() == null
-                            ? ftxOrderDto.getPrice()
-                            : ftxOrderDto.getAvgFillPrice())
+                        CurrencyPairDeserializer.getCurrencyPairFromString(ftxFillDto.getMarket()))
+                    .timestamp(ftxFillDto.getTime())
+                    .id(ftxFillDto.getId())
+                    .orderId(ftxFillDto.getOrderId())
+                    .originalAmount(ftxFillDto.getSize())
+                    .type(adaptFtxOrderSideToOrderType(ftxFillDto.getSide()))
+                    .feeAmount(ftxFillDto.getFee())
+                    .feeCurrency(Currency.getInstance(ftxFillDto.getFeeCurrency()))
+                    .price(ftxFillDto.getPrice())
                     .build());
           }
         });
