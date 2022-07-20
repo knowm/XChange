@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class AscendexOrderTest {
     private AscendexTradeService serviceRaw;
-    @Before
+    // // @Before
     public void getAccountServiceRaw() throws IOException {
         InputStream is =
                 org.knowm.xchange.ascendex.AscendexMarketDataJSONTest.class.getResourceAsStream(
@@ -45,7 +45,7 @@ public class AscendexOrderTest {
         serviceRaw = (AscendexTradeService)exchange.getTradeService();
 
     }
-    @Test
+    // @Test
     public void testPlaceOrder()throws IOException{
         AscendexPlaceOrderRequestPayload paylod = new AscendexPlaceOrderRequestPayload(
                 "TRX/USDT",new Date().getTime(),"100", AscendexOrderType.limit, AscendexSide.buy,
@@ -54,7 +54,7 @@ public class AscendexOrderTest {
         AscendexOrderResponse ascendexOrderResponse = serviceRaw.placeAscendexOrder(paylod);
         Assert.assertNotNull(ascendexOrderResponse);
     }
-    @Test
+    // @Test
     public void testCancelOrder()throws IOException{
         AscendexCancelOrderRequestPayload payload = new AscendexCancelOrderRequestPayload(
                 "a1821a8c3afbU2171064316LjoPeBWda",
@@ -67,31 +67,31 @@ public class AscendexOrderTest {
 
     }
 
-    @Test
+    // @Test
     public void testCancelOrderAll()throws IOException{
         AscendexOrderResponse ascendexOrderResponse = serviceRaw.cancelAllAscendexOrdersBySymbol(AccountCategory.cash,null);
         Assert.assertNotNull(ascendexOrderResponse);
 
     }
 
-    @Test
+    // @Test
     public void testGetOrderById()throws  IOException   {
         AscendexOpenOrdersResponse ascendexOrderById = serviceRaw.getAscendexOrderById(AccountCategory.cash,"r1821b163db0U2171064316WI9qpS5zs");
         Assert.assertNotNull(ascendexOrderById);
     }
-    @Test
+    // @Test
     public void testOpenOrders()throws  IOException   {
         List<AscendexOpenOrdersResponse> ascendexOpenOrders = serviceRaw.getAscendexOpenOrders(AccountCategory.cash,"TRX/USDT");
         Assert.assertNotNull(ascendexOpenOrders);
     }
 
-    @Test
+    // @Test
     public void testOrdersHistory()throws  IOException   {
         List<AscendexOpenOrdersResponse> ascendexUserTrades = serviceRaw.getAscendexUserTrades(AccountCategory.cash,"TRX/USDT",1,true);
         Assert.assertNotNull(ascendexUserTrades);
     }
 
-    @Test
+    // @Test
     public void testOrdersHistoryV2()throws  IOException   {
         List<AscendexHistoryOrderResponse> cash = serviceRaw.getAscendexOrdersHistoryV2(AccountCategory.cash);
         Assert.assertNotNull(cash);

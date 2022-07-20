@@ -25,7 +25,7 @@ import java.io.InputStream;
 public class AscendexAccountTest {
 
     private AscendexAccountServiceRaw serviceRaw;
-    @Before
+    // @Before
     public void getAccountServiceRaw() throws IOException {
         InputStream is =
                 org.knowm.xchange.ascendex.AscendexMarketDataJSONTest.class.getResourceAsStream(
@@ -42,30 +42,30 @@ public class AscendexAccountTest {
         serviceRaw = (AscendexAccountServiceRaw)exchange.getAccountService();
 
     }
-    @Test
+    // @Test
     public void testAscendexAccount()throws IOException {
         AscendexAccountInfoDto info = serviceRaw.getAscendexAccountInfo();
         Assert.assertTrue(info!=null&&info.getEmail()!=null);
     }
 
-    @Test
+    // @Test
     public void testVIPFeeSchedule()throws IOException {
         AscendexVIPFeeScheduleDto vipFeeSchedule = serviceRaw.getAscendexVIPFeeSchedule();
         Assert.assertTrue(vipFeeSchedule!=null&&vipFeeSchedule.getUserUID()!=null);
 
     }
 
-    @Test
+    // @Test
     public void testSymbolFee()throws IOException {
         AscendexSymbolFeeDto symbolFee = serviceRaw.getAscendexSymbolFee();
         Assert.assertTrue(symbolFee!=null&&symbolFee.getProductFee().size()>10);
     }
-    @Test
+    // @Test
     public void testRiskLimitInfo()throws IOException {
         AscendexRiskLimitInfoDto riskLimitInfo = serviceRaw.getAscendexRiskLimitInfo();
         Assert.assertTrue(riskLimitInfo!=null&&riskLimitInfo.getWebSocket()!=null);
     }
-    @Test
+    // @Test
     public void testExchangeLatencyInfoDto()throws IOException {
         long sendTime = System.currentTimeMillis();
         AscendexExchangeLatencyInfoDto exchangeLatencyInfoDto = serviceRaw.getAscendexExchangeLatencyInfo(sendTime);

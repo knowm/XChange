@@ -26,7 +26,7 @@ public class AscendexMarketDataTest {
   return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 
-  @Test
+  // @Test
   public void testAllAsset() throws IOException{
     Exchange asdx = getExchange();
     AscendexMarketDataServiceRaw marketData = (AscendexMarketDataServiceRaw) asdx.getMarketDataService();
@@ -41,7 +41,7 @@ public class AscendexMarketDataTest {
   System.out.println();
   }
 
-  @Test
+  // @Test
   public void testAllProducts() throws IOException{
     Exchange asdx = getExchange();
     // allProducts
@@ -64,7 +64,7 @@ public class AscendexMarketDataTest {
     assertThat(margins.get(0).getSymbol()).isEqualTo("BTC/USDT");
 
   }
-  @Test
+  // @Test
   public void testTicker()throws IOException{
     Exchange asdx = getExchange();
     AscendexMarketDataServiceRaw marketData = (AscendexMarketDataServiceRaw) asdx.getMarketDataService();
@@ -77,7 +77,7 @@ public class AscendexMarketDataTest {
    }
 
 
-  @Test
+  // @Test
   public void testBarHist() throws IOException {
     Exchange asdx = getExchange();
     AscendexMarketDataServiceRaw marketData = (AscendexMarketDataServiceRaw) asdx.getMarketDataService();
@@ -92,7 +92,7 @@ public class AscendexMarketDataTest {
             .getBarHistoryData("BTC/USDT", "15", null, null, 100);*/
     Assert.assertTrue(Objects.nonNull(barHistDtos) && !barHistDtos.isEmpty());
   }
-  @Test
+  // @Test
   public void getOrderbookDepth() throws IOException {
     Exchange asdx = getExchange();
     AscendexMarketDataServiceRaw marketData = (AscendexMarketDataServiceRaw) asdx.getMarketDataService();
@@ -101,7 +101,7 @@ public class AscendexMarketDataTest {
     Assert.assertTrue(Objects.nonNull(orderbook) && !orderbook.getData().getAsks().isEmpty());
   }
 
-  @Test
+  // @Test
   public void getMarketTrades() throws IOException {
     Exchange asdx = getExchange();
     AscendexMarketDataServiceRaw marketData = (AscendexMarketDataServiceRaw) asdx.getMarketDataService();

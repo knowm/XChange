@@ -27,7 +27,7 @@ import java.io.InputStream;
  */
 public class AscendexWalletTest {
     private AscendexAccountServiceRaw serviceRaw;
-    @Before
+    // @Before
     public void getAccountServiceRaw() throws IOException {
         InputStream is =
                 org.knowm.xchange.ascendex.AscendexMarketDataJSONTest.class.getResourceAsStream(
@@ -45,7 +45,7 @@ public class AscendexWalletTest {
 
     }
 
-    @Test
+    // @Test
     public void testAscendDepositAddresses()throws IOException{
         AscendDepositAddressesDto sdt = serviceRaw.getAscendDepositAddresses("USDT");
         Assert.assertTrue(sdt.getAddress().size()>2);
@@ -53,7 +53,7 @@ public class AscendexWalletTest {
         Assert.assertEquals(1, usdtErc20.getAddress().size());
     }
 
-    @Test
+    // @Test
     public void testAscendexWalletTransactionHistory()throws IOException{
 
         AscendexWalletTransactionHistoryDto allHistory = serviceRaw.getAscendexWalletTransactionHistory();

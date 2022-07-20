@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class AscendexBalanceTest {
     private AscendexAccountServiceRaw serviceRaw;
-    @Before
+    // @Before
     public void getAccountServiceRaw() throws IOException {
         InputStream is =
                 org.knowm.xchange.ascendex.AscendexMarketDataJSONTest.class.getResourceAsStream(
@@ -44,7 +44,7 @@ public class AscendexBalanceTest {
 
     }
 
-    @Test
+    // @Test
     public void testCashAccountBalance()throws IOException{
         List<AscendexCashAccountBalanceDto> cash = serviceRaw.getAscendexCashAccountBalance();
         List<AscendexCashAccountBalanceDto> cash1 = serviceRaw.getAscendexCashAccountBalance("TRX",true);
@@ -53,7 +53,7 @@ public class AscendexBalanceTest {
 
     }
 
-    @Test
+    // @Test
     public void testMarginAccountBalance()throws IOException{
         List<AscendexMarginAccountBalanceDto> cash = serviceRaw.getAscendexMarginAccountBalance();
         List<AscendexMarginAccountBalanceDto> cash1 = serviceRaw.getAscendexMarginAccountBalance("TRX",false);
@@ -61,13 +61,13 @@ public class AscendexBalanceTest {
 
     }
 
-    @Test
+    // @Test
     public void testAscendexMarginRiskDto()throws IOException{
         AscendexMarginRiskDto ascendexMarginRiskDto = serviceRaw.getAscendexMarginRisk();
         Assert.assertNotNull(ascendexMarginRiskDto);
     }
 
-    @Test
+    // @Test
     public void testAscendexBalanceTransfer()throws IOException{
         AscendexBalanceTransferRequestPayload payload= new AscendexBalanceTransferRequestPayload(   "100",
                 "ABCD",
@@ -77,13 +77,13 @@ public class AscendexBalanceTest {
         Assert.assertFalse(transfer);
     }
 
-    @Test
+    // @Test
     public void testAscendexBalanceSnapshot()throws IOException{
         AscendexBalanceSnapshotDto cashSnapshot = serviceRaw.getAscendexBalanceSnapshot("2022-07-16",AccountCategory.margin);
         Assert.assertNotNull(cashSnapshot);
     }
 
-    @Test
+    // @Test
     public void testAscendexOrderAndBalanceDetail()throws IOException{
         /**
          * TODO https://github.com/ascendex/ascendex-pro-api-demo/blob/4aac308813f0dabd5765f1ad1641537c595ba1d4/python/query_balance_and_order_fills.py
