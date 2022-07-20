@@ -2,26 +2,33 @@ package org.knowm.xchange.ascendex.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.knowm.xchange.ascendex.dto.enums.AscendexOrderType;
 
+import java.util.Date;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AscendexOrderResponse {
 
-  private final String ac;
+  private String ac;
 
-  private final String accountId;
+  private String accountId;
 
-  private final String action;
+  private String action;
 
-  private final AscendexPlaceOrderInfo info;
+  private AscendexPlaceOrderInfo info;
 
-  private final String status;
+  private String status;
 
-  private final String message;
+  private String message;
 
-  private final String reason;
+  private String reason;
 
-  private final String code;
-
+  private String code;
+/*
   public AscendexOrderResponse(
       @JsonProperty("ac") String ac,
       @JsonProperty("accountId") String accountId,
@@ -100,20 +107,21 @@ public class AscendexOrderResponse {
         + code
         + '\''
         + '}';
-  }
+  }*/
+  @Data
 
   public static class AscendexPlaceOrderInfo {
-    private final String id;
+    private  String id;
 
-    private final String orderId;
+    private  String orderId;
 
-    private final String orderType;
+    private  String orderType;
 
-    private final String symbol;
+    private  String symbol;
+    @JsonProperty("timestamp") @JsonAlias({"lastExecTime"})
+    private  Date timestamp;
 
-    private final Date timestamp;
-
-    public AscendexPlaceOrderInfo(
+   /* public AscendexPlaceOrderInfo(
         @JsonProperty("id") String id,
         @JsonProperty("orderId") String orderId,
         @JsonProperty("orderType") String orderType,
@@ -164,6 +172,6 @@ public class AscendexOrderResponse {
           + ", timestamp="
           + timestamp
           + '}';
-    }
+    }*/
   }
 }

@@ -1,4 +1,4 @@
-package org.knowm.xchange.ascendex.wallet;
+package org.knowm.xchange.ascendex.Wallet;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

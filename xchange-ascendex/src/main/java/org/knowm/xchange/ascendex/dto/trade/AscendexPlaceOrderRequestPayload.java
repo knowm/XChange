@@ -2,7 +2,9 @@ package org.knowm.xchange.ascendex.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.knowm.xchange.ascendex.dto.enums.AscendexOrderType;
+import org.knowm.xchange.ascendex.dto.enums.AscendexRespInst;
 import org.knowm.xchange.ascendex.dto.enums.AscendexSide;
+import org.knowm.xchange.ascendex.dto.enums.AscendexTimeInForce;
 
 public class AscendexPlaceOrderRequestPayload {
 
@@ -21,13 +23,15 @@ public class AscendexPlaceOrderRequestPayload {
   private final String orderPrice;
 
   @JsonIgnore private final String stopPrice;
-
+  /**
+   * 只挂单
+   */
   private final boolean postOnly;
 
   // GTC or OIC, default GTC
-  @JsonIgnore private final String timeInForce;
+  @JsonIgnore private final AscendexTimeInForce timeInForce;
 
-  private final String respInst;
+  private final AscendexRespInst respInst;
 
   public AscendexPlaceOrderRequestPayload(
       String symbol,
@@ -39,9 +43,9 @@ public class AscendexPlaceOrderRequestPayload {
       String orderPrice,
       String stopPrice,
       boolean postOnly,
-      String timeInForce,
-      String respInst) {
-    this.symbol = symbol;
+      AscendexTimeInForce timeInForce,
+      AscendexRespInst respInst) {
+    this.symbol = symbol==null?null:symbol.toUpperCase();
     this.time = time;
     this.orderQty = orderQty;
     this.orderType = orderType;
@@ -90,11 +94,11 @@ public class AscendexPlaceOrderRequestPayload {
     return postOnly;
   }
 
-  public String getTimeInForce() {
+  public AscendexTimeInForce getTimeInForce() {
     return timeInForce;
   }
 
-  public String getRespInst() {
+  public AscendexRespInst getRespInst() {
     return respInst;
   }
 

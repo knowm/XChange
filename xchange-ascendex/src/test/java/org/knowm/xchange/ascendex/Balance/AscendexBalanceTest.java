@@ -1,4 +1,4 @@
-package org.knowm.xchange.ascendex.balance;
+package org.knowm.xchange.ascendex.Balance;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

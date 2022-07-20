@@ -9,9 +9,7 @@ import org.knowm.xchange.ascendex.dto.account.*;
 import org.knowm.xchange.ascendex.dto.balance.*;
 import org.knowm.xchange.ascendex.dto.enums.AccountCategory;
 import org.knowm.xchange.ascendex.dto.enums.AscendexTransactionType;
-import org.knowm.xchange.ascendex.dto.trade.AscendexOpenOrdersResponse;
-import org.knowm.xchange.ascendex.dto.trade.AscendexOrderResponse;
-import org.knowm.xchange.ascendex.dto.trade.AscendexPlaceOrderRequestPayload;
+import org.knowm.xchange.ascendex.dto.trade.*;
 import org.knowm.xchange.ascendex.dto.wallet.AscendDepositAddressesDto;
 import org.knowm.xchange.ascendex.dto.wallet.AscendexWalletTransactionHistoryDto;
 import si.mazi.rescu.ParamsDigest;
@@ -149,67 +147,92 @@ AscendexBalanceSnapshotDto getAscendexBalanceSnapshot(
             @HeaderParam("x-auth-key") String apiKey,
             @HeaderParam("x-auth-timestamp") Long nonce,
             @HeaderParam("x-auth-signature") ParamsDigest signature)throws IOException;
+
+
+    /**=========================Order======================================**/
   @POST
-  @Path("api/pro/v1/{account-category}/order")
+  @Path("{account-group}/api/pro/v1/{account-category}/order")
   AscendexResponse<AscendexOrderResponse> placeOrder(
+          @PathParam("account-group") String accountGroup,
       @HeaderParam("x-auth-key") String apiKey,
       @HeaderParam("x-auth-timestamp") Long nonce,
       @HeaderParam("x-auth-signature") ParamsDigest signature,
-      @PathParam("account-category") String accountCategory,
+      @PathParam("account-category") AccountCategory accountCategory,
       AscendexPlaceOrderRequestPayload payload)
       throws IOException;
 
   @DELETE
-  @Path("api/pro/v1/{account-category}/order")
+  @Path("{account-group}/api/pro/v1/{account-category}/order")
   AscendexResponse<AscendexOrderResponse> cancelOrder(
+          @PathParam("account-group") String accountGroup,
       @HeaderParam("x-auth-key") String apiKey,
       @HeaderParam("x-auth-timestamp") Long nonce,
       @HeaderParam("x-auth-signature") ParamsDigest signature,
-      @PathParam("account-category") String accountCategory,
-      @QueryParam("orderId") String orderId,
-      @QueryParam("symbol") String symbol,
-      @QueryParam("time") Long time)
+      @PathParam("account-category") AccountCategory accountCategory,
+          AscendexCancelOrderRequestPayload payload)
       throws IOException;
 
   @DELETE
-  @Path("api/pro/v1/{account-category}/order/all")
+  @Path("{account-group}/api/pro/v1/{account-category}/order/all")
   AscendexResponse<AscendexOrderResponse> cancelAllOrders(
+          @PathParam("account-group") String accountGroup,
       @HeaderParam("x-auth-key") String apiKey,
       @HeaderParam("x-auth-timestamp") Long nonce,
       @HeaderParam("x-auth-signature") ParamsDigest signature,
-      @PathParam("account-category") String accountCategory,
+      @PathParam("account-category") AccountCategory accountCategory,
       @QueryParam("symbol") String symbol)
       throws IOException;
 
+  // TODO Place Batch Orders Cancel Batch Orders
+
+    @GET
+    @Path("{account-group}/api/pro/v1/{account-category}/order/status")
+    AscendexResponse<AscendexOpenOrdersResponse> getOrderById(
+            @PathParam("account-group") String accountGroup,
+            @HeaderParam("x-auth-key") String apiKey,
+            @HeaderParam("x-auth-timestamp") Long nonce,
+            @HeaderParam("x-auth-signature") ParamsDigest signature,
+            @PathParam("account-category") AccountCategory accountCategory,
+            @QueryParam("orderId") String orderId)
+            throws IOException;
+
   @GET
-  @Path("api/pro/v1/{account-category}/order/open")
+  @Path("{account-group}/api/pro/v1/{account-category}/order/open")
   AscendexResponse<List<AscendexOpenOrdersResponse>> getOpenOrders(
+          @PathParam("account-group") String accountGroup,
       @HeaderParam("x-auth-key") String apiKey,
       @HeaderParam("x-auth-timestamp") Long nonce,
       @HeaderParam("x-auth-signature") ParamsDigest signature,
-      @PathParam("account-category") String accountCategory,
+      @PathParam("account-category") AccountCategory accountCategory,
       @QueryParam("symbol") String symbol)
       throws IOException;
 
-  @GET
-  @Path("api/pro/v1/{account-category}/order/status")
-  AscendexResponse<AscendexOpenOrdersResponse> getOrderById(
-      @HeaderParam("x-auth-key") String apiKey,
-      @HeaderParam("x-auth-timestamp") Long nonce,
-      @HeaderParam("x-auth-signature") ParamsDigest signature,
-      @PathParam("account-category") String accountCategory,
-      @QueryParam("orderId") String orderId)
-      throws IOException;
+
 
   @GET
-  @Path("api/pro/v1/{account-category}/order/hist/current")
+  @Path("{account-group}/api/pro/v1/{account-category}/order/hist/current")
   AscendexResponse<List<AscendexOpenOrdersResponse>> getOrdersHistory(
+          @PathParam("account-group") String accountGroup,
       @HeaderParam("x-auth-key") String apiKey,
       @HeaderParam("x-auth-timestamp") Long nonce,
       @HeaderParam("x-auth-signature") ParamsDigest signature,
-      @PathParam("account-category") String accountCategory,
+      @PathParam("account-category") AccountCategory accountCategory,
       @QueryParam("n") int numberOfRecords,
       @QueryParam("symbol") String symbol,
       @QueryParam("executedOnly") boolean executedOnly)
       throws IOException;
+
+    @GET
+    @Path("api/pro/data/v2/order/hist")
+    AscendexResponse<List<AscendexHistoryOrderResponse>> getOrdersHistoryV2(
+            @HeaderParam("x-auth-key") String apiKey,
+            @HeaderParam("x-auth-timestamp") Long nonce,
+            @HeaderParam("x-auth-signature") ParamsDigest signature,
+            @QueryParam("account") AccountCategory accountCategory,
+            @QueryParam("symbol") String symbol,
+            @QueryParam("startTime") Long startTime,
+            @QueryParam("endTime") Long endTime,
+            @QueryParam("seqNum") Long seqNum,
+            @QueryParam("limit") Integer limit)
+            throws IOException;
 }

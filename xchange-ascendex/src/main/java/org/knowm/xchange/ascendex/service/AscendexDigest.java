@@ -99,7 +99,7 @@ public class AscendexDigest extends BaseParamsDigest {
         if (path.contains("api/pro/v1/margin/risk")){
             return "margin/risk";
         }
-        if (path.startsWith("api/pro/data/v1")){
+        if (path.startsWith("api/pro/data/")){
             return path.substring(8);
         }
         if (path.startsWith("api/pro/v1/wallet")){

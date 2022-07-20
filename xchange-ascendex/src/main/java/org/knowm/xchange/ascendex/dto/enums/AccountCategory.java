@@ -9,5 +9,7 @@ package org.knowm.xchange.ascendex.dto.enums;
  */
 public enum AccountCategory {
     cash,
-    margin;
+    Cash,
+    margin,
+    Margin;
 }
