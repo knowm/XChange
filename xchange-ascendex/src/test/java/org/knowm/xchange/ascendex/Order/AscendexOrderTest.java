@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class AscendexOrderTest {
     private AscendexTradeService serviceRaw;
-    // // @Before
+      @Before
     public void getAccountServiceRaw() throws IOException {
         InputStream is =
                 org.knowm.xchange.ascendex.AscendexMarketDataJSONTest.class.getResourceAsStream(
@@ -47,10 +47,12 @@ public class AscendexOrderTest {
     }
     // @Test
     public void testPlaceOrder()throws IOException{
-        AscendexPlaceOrderRequestPayload paylod = new AscendexPlaceOrderRequestPayload(
+     /*   AscendexPlaceOrderRequestPayload paylod = new AscendexPlaceOrderRequestPayload(
                 "TRX/USDT",new Date().getTime(),"100", AscendexOrderType.limit, AscendexSide.buy,
                 null,"0.07",null,false, AscendexTimeInForce.GTC, AscendexRespInst.ACK
-        );
+        );*/
+         AscendexPlaceOrderRequestPayload paylod = new AscendexPlaceOrderRequestPayload("TRX/USDT",
+                 "100","0.06",AscendexOrderType.limit, AscendexSide.sell);
         AscendexOrderResponse ascendexOrderResponse = serviceRaw.placeAscendexOrder(paylod);
         Assert.assertNotNull(ascendexOrderResponse);
     }

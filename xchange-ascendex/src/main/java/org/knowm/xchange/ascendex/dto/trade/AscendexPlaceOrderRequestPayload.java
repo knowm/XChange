@@ -1,140 +1,50 @@
 package org.knowm.xchange.ascendex.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.knowm.xchange.ascendex.dto.enums.AscendexOrderType;
 import org.knowm.xchange.ascendex.dto.enums.AscendexRespInst;
 import org.knowm.xchange.ascendex.dto.enums.AscendexSide;
 import org.knowm.xchange.ascendex.dto.enums.AscendexTimeInForce;
 
+import java.util.Date;
+
+@Data
+@AllArgsConstructor
 public class AscendexPlaceOrderRequestPayload {
 
-  private final String symbol;
+  private String symbol;
 
-  private final Long time;
+  private Long time;
 
-  private final String orderQty;
+  private String orderQty;
 
-  private final AscendexOrderType orderType;
+  private AscendexOrderType orderType;
 
-  private final AscendexSide side;
+  private AscendexSide side;
 
-  @JsonIgnore private final String id;
+  @JsonIgnore private String id;
 
-  private final String orderPrice;
+  private String orderPrice;
 
-  @JsonIgnore private final String stopPrice;
+  @JsonIgnore private String stopPrice;
   /**
    * 只挂单
    */
-  private final boolean postOnly;
+  private boolean postOnly;
 
   // GTC or OIC, default GTC
-  @JsonIgnore private final AscendexTimeInForce timeInForce;
+  @JsonIgnore private  AscendexTimeInForce timeInForce;
 
-  private final AscendexRespInst respInst;
+  private  AscendexRespInst respInst;
 
-  public AscendexPlaceOrderRequestPayload(
-      String symbol,
-      Long time,
-      String orderQty,
-      AscendexOrderType orderType,
-      AscendexSide side,
-      String id,
-      String orderPrice,
-      String stopPrice,
-      boolean postOnly,
-      AscendexTimeInForce timeInForce,
-      AscendexRespInst respInst) {
-    this.symbol = symbol==null?null:symbol.toUpperCase();
-    this.time = time;
+  public AscendexPlaceOrderRequestPayload(String symbol,  String orderQty,String orderPrice ,AscendexOrderType orderType, AscendexSide side) {
+    this.symbol = symbol;
+    this.time = new Date().getTime();
+    this.orderPrice = orderPrice;
     this.orderQty = orderQty;
     this.orderType = orderType;
     this.side = side;
-    this.id = id;
-    this.orderPrice = orderPrice;
-    this.stopPrice = stopPrice;
-    this.postOnly = postOnly;
-    this.timeInForce = timeInForce;
-    this.respInst = respInst;
   }
-
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public Long getTime() {
-    return time;
-  }
-
-  public String getOrderQty() {
-    return orderQty;
-  }
-
-  public AscendexOrderType getOrderType() {
-    return orderType;
-  }
-
-  public AscendexSide getSide() {
-    return side;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public String getOrderPrice() {
-    return orderPrice;
-  }
-
-  public String getStopPrice() {
-    return stopPrice;
-  }
-
-  public boolean isPostOnly() {
-    return postOnly;
-  }
-
-  public AscendexTimeInForce getTimeInForce() {
-    return timeInForce;
-  }
-
-  public AscendexRespInst getRespInst() {
-    return respInst;
-  }
-
-  @Override
-  public String toString() {
-    return "AscendexPlaceOrderRequestPayload{"
-        + "symbol='"
-        + symbol
-        + '\''
-        + ", time="
-        + time
-        + ", orderQty="
-        + orderQty
-        + ", orderType="
-        + orderType
-        + ", side="
-        + side
-        + ", id='"
-        + id
-        + '\''
-        + ", orderPrice="
-        + orderPrice
-        + ", stopPrice="
-        + stopPrice
-        + ", postOnly="
-        + postOnly
-        + ", timeInForce='"
-        + timeInForce
-        + '\''
-        + ", respInst='"
-        + respInst
-        + '\''
-        + '}';
-  }
-
-
-
-
 }

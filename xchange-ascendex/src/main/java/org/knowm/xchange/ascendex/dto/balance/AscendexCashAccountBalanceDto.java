@@ -15,38 +15,4 @@ public class AscendexCashAccountBalanceDto {
   private BigDecimal totalBalance;
 
   private BigDecimal availableBalance;
-/*
-  public AscendexCashAccountBalanceDto(
-      @JsonProperty("asset") String asset,
-      @JsonProperty("totalBalance") BigDecimal totalBalance,
-      @JsonProperty("availableBalance") BigDecimal availableBalance) {
-    this.asset = asset;
-    this.totalBalance = totalBalance;
-    this.availableBalance = availableBalance;
-  }
-
-  public String getAsset() {
-    return asset;
-  }
-
-  public BigDecimal getTotalBalance() {
-    return totalBalance;
-  }
-
-  public BigDecimal getAvailableBalance() {
-    return availableBalance;
-  }
-
-  @Override
-  public String toString() {
-    return "AscendexCashAccountBalanceDto{"
-        + "asset='"
-        + asset
-        + '\''
-        + ", totalBalance="
-        + totalBalance
-        + ", availableBalance="
-        + availableBalance
-        + '}';
-  }*/
 }

@@ -1,190 +1,49 @@
 package org.knowm.xchange.ascendex.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.knowm.xchange.ascendex.dto.enums.AscendexOrderType;
 import org.knowm.xchange.ascendex.dto.enums.AscendexSide;
-
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.Date;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AscendexOpenOrdersResponse {
 
-  private final BigDecimal avgPx;
+  private BigDecimal avgPx;
 
-  private final BigDecimal cumFee;
+  private BigDecimal cumFee;
 
-  private final BigDecimal cumFilledQty;
+  private BigDecimal cumFilledQty;
 
-  private final String errorCode;
+  private String errorCode;
 
-  private final String feeAsset;
+  private String feeAsset;
 
-  private final Date lastExecTime;
+  private Date lastExecTime;
 
-  private final String orderId;
+  private String orderId;
 
-  private final BigDecimal orderQty;
+  private BigDecimal orderQty;
 
-  private final AscendexOrderType orderType;
+  private AscendexOrderType orderType;
 
-  private final BigDecimal price;
+  private BigDecimal price;
 
-  private final Long seqNum;
+  private Long seqNum;
 
-  private final AscendexSide side;
+  private AscendexSide side;
 
-  private final String status;
+  private String status;
 
-  private final BigDecimal stopPrice;
+  private BigDecimal stopPrice;
 
-  private final String symbol;
+  private String symbol;
 
-  private final String execInst;
+  private String execInst;
 
-  public AscendexOpenOrdersResponse(
-      @JsonProperty("avgPx") BigDecimal avgPx,
-      @JsonProperty("cumFee") BigDecimal cumFee,
-      @JsonProperty("cumFilledQty") BigDecimal cumFilledQty,
-      @JsonProperty("errorCode") String errorCode,
-      @JsonProperty("feeAsset") String feeAsset,
-      @JsonProperty("lastExecTime") Long lastExecTime,
-      @JsonProperty("orderId") String orderId,
-      @JsonProperty("orderQty") BigDecimal orderQty,
-      @JsonProperty("orderType") String orderType,
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("seqNum") Long seqNum,
-      @JsonProperty("side") String side,
-      @JsonProperty("status") String status,
-      @JsonProperty("stopPrice") BigDecimal stopPrice,
-      @JsonProperty("symbol") String symbol,
-      @JsonProperty("execInst") String execInst) {
-    this.avgPx = avgPx;
-    this.cumFee = cumFee;
-    this.cumFilledQty = cumFilledQty;
-    this.errorCode = errorCode;
-    this.feeAsset = feeAsset;
-    this.lastExecTime = Date.from(Instant.ofEpochMilli(lastExecTime));
-    this.orderId = orderId;
-    this.orderQty = orderQty;
-    this.orderType =
-        AscendexOrderType.valueOf(orderType.toLowerCase());
-    this.price = price;
-    this.seqNum = seqNum;
-    this.side = AscendexSide.valueOf(side.toLowerCase());
-    this.status = status;
-    this.stopPrice = stopPrice;
-    this.symbol = symbol;
-    this.execInst = execInst;
-  }
-
-  public BigDecimal getAvgPx() {
-    return avgPx;
-  }
-
-  public BigDecimal getCumFee() {
-    return cumFee;
-  }
-
-  public BigDecimal getCumFilledQty() {
-    return cumFilledQty;
-  }
-
-  public String getErrorCode() {
-    return errorCode;
-  }
-
-  public String getFeeAsset() {
-    return feeAsset;
-  }
-
-  public Date getLastExecTime() {
-    return lastExecTime;
-  }
-
-  public String getOrderId() {
-    return orderId;
-  }
-
-  public BigDecimal getOrderQty() {
-    return orderQty;
-  }
-
-  public AscendexOrderType getOrderType() {
-    return orderType;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public Long getSeqNum() {
-    return seqNum;
-  }
-
-  public AscendexSide getSide() {
-    return side;
-  }
-
-  public String getStatus() {
-    return status;
-  }
-
-  public BigDecimal getStopPrice() {
-    return stopPrice;
-  }
-
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public String getExecInst() {
-    return execInst;
-  }
-
-  @Override
-  public String toString() {
-    return "AscendexOpenOrdersResponse{"
-        + "avgPx="
-        + avgPx
-        + ", cumFee="
-        + cumFee
-        + ", cumFilledQty="
-        + cumFilledQty
-        + ", errorCode='"
-        + errorCode
-        + '\''
-        + ", feeAsset='"
-        + feeAsset
-        + '\''
-        + ", lastExecTime="
-        + lastExecTime
-        + ", orderId='"
-        + orderId
-        + '\''
-        + ", orderQty="
-        + orderQty
-        + ", orderType='"
-        + orderType
-        + '\''
-        + ", price="
-        + price
-        + ", seqNum="
-        + seqNum
-        + ", side='"
-        + side
-        + '\''
-        + ", status='"
-        + status
-        + '\''
-        + ", stopPrice="
-        + stopPrice
-        + ", symbol='"
-        + symbol
-        + '\''
-        + ", execInst='"
-        + execInst
-        + '\''
-        + '}';
-  }
 }
