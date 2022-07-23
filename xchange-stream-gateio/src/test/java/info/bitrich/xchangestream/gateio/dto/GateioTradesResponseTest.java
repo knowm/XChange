@@ -1,7 +1,7 @@
-package dto;
+package info.bitrich.xchangestream.gateio.dto;
 
 import com.google.common.io.CharStreams;
-import dto.response.GateioTradesResponse;
+import info.bitrich.xchangestream.gateio.dto.response.GateioTradesResponse;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import java.io.IOException;
 import java.io.InputStream;

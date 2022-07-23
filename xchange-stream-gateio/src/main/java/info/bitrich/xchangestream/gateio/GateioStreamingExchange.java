@@ -1,3 +1,5 @@
+package info.bitrich.xchangestream.gateio;
+
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
