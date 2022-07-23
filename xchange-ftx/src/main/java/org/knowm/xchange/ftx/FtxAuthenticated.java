@@ -36,14 +36,7 @@ import org.knowm.xchange.ftx.dto.account.FtxSubAccountTranferDto;
 import org.knowm.xchange.ftx.dto.account.FtxSubAccountTransferPOJO;
 import org.knowm.xchange.ftx.dto.account.FtxSubmitLendingOfferParams;
 import org.knowm.xchange.ftx.dto.account.FtxWalletBalanceDto;
-import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
-import org.knowm.xchange.ftx.dto.trade.FtxConditionalOrderDto;
-import org.knowm.xchange.ftx.dto.trade.FtxConditionalOrderRequestPayload;
-import org.knowm.xchange.ftx.dto.trade.FtxModifyConditionalOrderRequestPayload;
-import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
-import org.knowm.xchange.ftx.dto.trade.FtxTriggerDto;
+import org.knowm.xchange.ftx.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/api")
@@ -267,6 +260,18 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-SIGN") ParamsDigest signature,
       @HeaderParam("FTX-SUBACCOUNT") String subaccount,
       @PathParam("client_order_id") String clientOrderId)
+      throws IOException, FtxException;
+
+  @GET
+  @Path("/fills")
+  FtxResponse<List<FtxFillDto>> fills(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @QueryParam("market") String market,
+      @QueryParam("start_time") Long startTime,
+      @QueryParam("end_time") Long endTime)
       throws IOException, FtxException;
 
   @POST
