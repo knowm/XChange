@@ -151,9 +151,7 @@ public class OkexAdapters {
         .getBids()
         .forEach(
             okexBid ->
-                bids.add(
-                    adaptOrderbookOrder(
-                        okexBid.getVolume(), okexBid.getPrice(), instrument, OrderType.BID)));
+                bids.add(adaptLimitOrder(okexBid, instrument, OrderType.BID)));
 
     return new OrderBook(Date.from(Instant.now()), asks, bids);
   }
