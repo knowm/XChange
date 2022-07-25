@@ -3,17 +3,25 @@ package info.bitrich.xchangestream.okcoin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.okcoin.dto.okx.OkxLoginMessage;
-import info.bitrich.xchangestream.okcoin.dto.okx.OkxStreamingAuthenticator;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.service.BaseParamsDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
 public class OkxStreamingService extends JsonNettyStreamingService {
@@ -53,12 +61,18 @@ public class OkxStreamingService extends JsonNettyStreamingService {
     }
 
     public void login() throws JsonProcessingException {
-        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
-        String sign = OkxStreamingAuthenticator.generateSignature(xSpec.getSecretKey(), timestamp, LOGIN_SIGN_METHOD, LOGIN_SIGN_REQUEST_PATH);
-        if (sign == null) {
-            LOG.error(String.format("Failed to get signature"));
-            return;
+        Mac mac;
+        try {
+            mac = Mac.getInstance(BaseParamsDigest.HMAC_SHA_256);
+            final SecretKey secretKey =
+                    new SecretKeySpec(xSpec.getSecretKey().getBytes(StandardCharsets.UTF_8), BaseParamsDigest.HMAC_SHA_256);
+            mac.init(secretKey);
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            throw new ExchangeException("Invalid API secret", e);
         }
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String toSign = timestamp + LOGIN_SIGN_METHOD + LOGIN_SIGN_REQUEST_PATH;
+        String sign = Base64.getEncoder().encodeToString(mac.doFinal(toSign.getBytes(StandardCharsets.UTF_8)));
 
         OkxLoginMessage message = new OkxLoginMessage();
         String passphrase = (String)xSpec.getExchangeSpecificParametersItem("passphrase");
