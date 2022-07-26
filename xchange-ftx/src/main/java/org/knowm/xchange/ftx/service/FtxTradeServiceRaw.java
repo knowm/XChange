@@ -172,43 +172,49 @@ public class FtxTradeServiceRaw extends FtxBaseService {
     }
   }
 
-  public OpenOrders getOrderHistoryForSubaccount(String subaccount, TradeHistoryParams params)
-          throws IOException {
-    if (params instanceof TradeHistoryParamCurrencyPair) {
+  public OpenOrders getOrderHistoryForSubaccount(String subaccount, TradeHistoryParams params) throws IOException {
+    if (params instanceof TradeHistoryParamsAll) {
       return FtxAdapters.adaptOpenOrders(
               getFtxOrderHistory(
                       subaccount,
                       FtxAdapters.adaptCurrencyPairToFtxMarket(
-                              ((TradeHistoryParamCurrencyPair) params).getCurrencyPair()),
-                      ((TradeHistoryParamsAll) params).getStartTime().getTime(),
-                      ((TradeHistoryParamsAll) params).getEndTime().getTime())
+                      ((TradeHistoryParamCurrencyPair) params).getCurrencyPair()),
+                      ((TradeHistoryParamsAll) params).getStartTime().getTime() / 1000,
+                      ((TradeHistoryParamsAll) params).getEndTime().getTime() / 1000)
+      );
+    } else if (params instanceof TradeHistoryParamCurrencyPair) {
+      return FtxAdapters.adaptOpenOrders(
+              getFtxOrderHistory(
+                      subaccount,
+                      FtxAdapters.adaptCurrencyPairToFtxMarket(
+                      ((TradeHistoryParamCurrencyPair) params).getCurrencyPair()),
+                      null,
+                      null)
       );
     } else if (params instanceof TradeHistoryParamInstrument) {
-      CurrencyPair currencyPair =
-              new CurrencyPair(((TradeHistoryParamInstrument) params).getInstrument().toString());
+      CurrencyPair currencyPair = new CurrencyPair(((TradeHistoryParamInstrument) params).getInstrument().toString());
       return FtxAdapters.adaptOpenOrders(
               getFtxOrderHistory(
                       subaccount,
                       FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair),
                       null,
-                      null));
+                      null)
+      );
     } else {
       throw new IOException(
-              "TradeHistoryParams must implement TradeHistoryParamCurrencyPair or TradeHistoryParamInstrument interface.");
+              "TradeHistoryParams must implement TradeHistoryParamsAll, TradeHistoryParamCurrencyPair or TradeHistoryParamInstrument interface.");
     }
   }
 
-  public UserTrades getTradeHistoryForSubaccount(String subaccount, TradeHistoryParams params)
-          throws IOException {
+  public UserTrades getTradeHistoryForSubaccount(String subaccount, TradeHistoryParams params) throws IOException {
     if (params instanceof TradeHistoryParamsAll) {
-      CurrencyPair currencyPair =
-              new CurrencyPair(((TradeHistoryParamsAll) params).getInstrument().toString());
+      CurrencyPair currencyPair = new CurrencyPair(((TradeHistoryParamsAll) params).getInstrument().toString());
       return FtxAdapters.adaptUserTrades(
               getFtxFills(
                       subaccount,
                       FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair),
-                      ((TradeHistoryParamsAll) params).getStartTime().getTime(),
-                      ((TradeHistoryParamsAll) params).getEndTime().getTime())
+                      ((TradeHistoryParamsAll) params).getStartTime().getTime() / 1000,
+                      ((TradeHistoryParamsAll) params).getEndTime().getTime() / 1000)
                       .getResult());
     } else if (params instanceof TradeHistoryParamCurrencyPair) {
       return FtxAdapters.adaptUserTrades(
@@ -219,14 +225,13 @@ public class FtxTradeServiceRaw extends FtxBaseService {
                       null)
                       .getResult());
     } else if (params instanceof TradeHistoryParamInstrument) {
-      CurrencyPair currencyPair =
-              new CurrencyPair(((TradeHistoryParamInstrument) params).getInstrument().toString());
+      CurrencyPair currencyPair = new CurrencyPair(((TradeHistoryParamInstrument) params).getInstrument().toString());
       return FtxAdapters.adaptUserTrades(
               getFtxFills(subaccount, FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair), null, null)
                       .getResult());
     } else {
       throw new IOException(
-              "TradeHistoryParams must implement TradeHistoryParamCurrencyPair or TradeHistoryParamInstrument interface.");
+              "TradeHistoryParams must implement TradeHistoryParamsAll, TradeHistoryParamCurrencyPair or TradeHistoryParamInstrument interface.");
     }
   }
 
