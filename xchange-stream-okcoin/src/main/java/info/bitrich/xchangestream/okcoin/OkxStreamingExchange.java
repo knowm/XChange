@@ -6,7 +6,19 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.okex.v5.OkexAdapters;
 import org.knowm.xchange.okex.v5.OkexExchange;
+import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
+import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
+import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
+import org.knowm.xchange.okex.v5.service.OkexAccountService;
+import org.knowm.xchange.okex.v5.service.OkexMarketDataServiceRaw;
+
+import java.io.IOException;
+import java.util.List;
+
+import static org.knowm.xchange.okex.v5.service.OkexMarketDataService.SPOT;
+import static org.knowm.xchange.okex.v5.service.OkexMarketDataService.SWAP;
 
 public class OkxStreamingExchange extends OkexExchange implements StreamingExchange {
     // Production URIs
@@ -26,6 +38,32 @@ public class OkxStreamingExchange extends OkexExchange implements StreamingExcha
 
     public OkxStreamingExchange() {}
 
+    @Override
+    public void remoteInit() throws IOException {
+        List<OkexInstrument> instruments =
+                ((OkexMarketDataServiceRaw) marketDataService)
+                        .getOkexInstruments(SWAP, null, null)
+                        .getData();
+        instruments.addAll(((OkexMarketDataServiceRaw) marketDataService)
+                        .getOkexInstruments(SPOT, null, null)
+                        .getData());
+
+        // Currency data and trade fee is only retrievable through a private endpoint
+        List<OkexCurrency> currencies = null;
+        List<OkexTradeFee> tradeFee = null;
+        if (exchangeSpecification.getApiKey() != null
+                && exchangeSpecification.getSecretKey() != null
+                && exchangeSpecification.getExchangeSpecificParametersItem("passphrase") != null) {
+            currencies = ((OkexMarketDataServiceRaw) marketDataService).getOkexCurrencies().getData();
+            String accountLevel =
+                    ((OkexAccountService) accountService).getOkexAccountConfiguration().getData().get(0).getAccountLevel();
+            tradeFee = ((OkexAccountService) accountService).getTradeFee(
+                    SPOT, null, null, accountLevel).getData();
+        }
+
+        exchangeMetaData =
+                OkexAdapters.adaptToExchangeMetaData(exchangeMetaData, instruments, currencies, tradeFee);
+    }
 
     @Override
     public Completable connect(ProductSubscription... args) {
@@ -68,6 +106,7 @@ public class OkxStreamingExchange extends OkexExchange implements StreamingExcha
         OkxStreamingService service = this.publicStreamingService;
         this.publicStreamingService = null;
         this.streamingMarketDataService = null;
+        service.pingPongSubscriptionDispose();
         return service.disconnect();
     }
 
@@ -77,12 +116,15 @@ public class OkxStreamingExchange extends OkexExchange implements StreamingExcha
     }
 
     @Override
-    public StreamingMarketDataService getStreamingMarketDataService() {
+    public OkxStreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
     }
 
     @Override
     public void useCompressedMessages(boolean compressedMessages) {
         throw new NotYetImplementedForExchangeException("useCompressedMessage");
+    }
+    public OkxStreamingService getPublicStreamingService() {
+        return publicStreamingService;
     }
 }

@@ -10,10 +10,12 @@ import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
 public class OkxStreamingService extends JsonNettyStreamingService {
@@ -31,6 +33,24 @@ public class OkxStreamingService extends JsonNettyStreamingService {
   public OkxStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
     super(apiUrl);
     this.xSpec = exchangeSpecification;
+  }
+
+  public void pingPongSubscriptionDispose() {
+    if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
+      pingPongSubscription.dispose();
+    }
+  }
+
+  public void unsubscribeChannel(final String channelId, Object... args) {
+    if (channels.remove(channelId) != null) {
+      try {
+        sendMessage(getUnsubscribeMessage(channelId,args));
+      } catch (IOException e) {
+        LOG.debug("Failed to unsubscribe channel: {} {}", channelId, e.toString());
+      } catch (Exception e) {
+        LOG.warn("Failed to unsubscribe channel: {}", channelId, e);
+      }
+    }
   }
 
   @Override
@@ -51,6 +71,7 @@ public class OkxStreamingService extends JsonNettyStreamingService {
                       }
                     });
   }
+
 
   public void login() throws JsonProcessingException {
     String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
@@ -101,13 +122,16 @@ public class OkxStreamingService extends JsonNettyStreamingService {
     if (message.has("event")) {
       String event = message.get("event").asText();
       if (event.equals("subscribe"))
-        LOG.info("Stream {} has been successfully subscribed to chanel {}", message.get("arg").get("instId").asText(),
+        LOG.info("Stream {} has been successfully subscribed to channel {}", message.get("arg").get("instId").asText(),
                 message.get("arg").get("channel").asText());
       if (event.equals("error"))
         LOG.info("Subscribe error code: {}, msg: {}", message.get("code").asText(),message.get("msg").asText());
+      if (event.equals("unsubscribe"))
+        LOG.info("Stream {} has been successfully unsubscribed from channel {}", message.get("arg").get("instId").asText(),
+              message.get("arg").get("channel").asText());
       return "";
     }
-    return  message.get("arg").get("instId").asText() + "-"+message.get("arg").get("channel").asText();
+    return  message.get("arg").get("instId").asText();
   }
 
   @Override

@@ -44,8 +44,6 @@ public class OkexPublicOrder {
         + price
         + ", volume="
         + volume
-        + ", liquidatedOrders="
-        + liquidatedOrders
         + ", activeOrders="
         + activeOrders
         + '}';
@@ -62,7 +60,8 @@ public class OkexPublicOrder {
       if (node.isArray()) {
         BigDecimal price = new BigDecimal(node.path(0).asText());
         BigDecimal volume = new BigDecimal(node.path(1).asText());
-        Integer liquidatedOrders = new Integer(node.path(2).asText());
+        //Deprecated
+        Integer liquidatedOrders = new Integer(0);
         Integer activeOrders = new Integer(node.path(3).asText());
 
         return new OkexPublicOrder(price, volume, liquidatedOrders, activeOrders);

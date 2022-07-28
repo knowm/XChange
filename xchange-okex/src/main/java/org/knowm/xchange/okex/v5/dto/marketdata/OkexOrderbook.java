@@ -2,6 +2,8 @@ package org.knowm.xchange.okex.v5.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Collections;
 import java.util.List;
 
 public class OkexOrderbook {
@@ -23,11 +25,11 @@ public class OkexOrderbook {
   }
 
   public List<OkexPublicOrder> getAsks() {
-    return asks;
+    return Collections.synchronizedList(asks);
   }
 
   public List<OkexPublicOrder> getBids() {
-    return bids;
+    return Collections.synchronizedList(bids);
   }
 
   @Override

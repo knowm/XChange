@@ -47,22 +47,23 @@ public class OkexAdapters {
     List<UserTrade> userTradeList = new ArrayList<>();
 
     okexTradeHistory.forEach(
-        okexOrderDetails -> userTradeList.add(
-            new UserTrade.Builder()
-                .originalAmount(new BigDecimal(okexOrderDetails.getAmount()))
-                .instrument(new CurrencyPair(okexOrderDetails.getInstrumentId()))
-                .currencyPair(new CurrencyPair(okexOrderDetails.getInstrumentId()))
-                .price(new BigDecimal(okexOrderDetails.getAverageFilledPrice()))
-                .type(adaptOkexOrderSideToOrderType(okexOrderDetails.getSide()))
-                .id(okexOrderDetails.getOrderId())
-                .orderId(okexOrderDetails.getOrderId())
-                .timestamp(
-                    Date.from(
-                        Instant.ofEpochMilli(Long.parseLong(okexOrderDetails.getUpdateTime()))))
-                .feeAmount(new BigDecimal(okexOrderDetails.getFee()))
-                .feeCurrency(new Currency(okexOrderDetails.getFeeCurrency()))
-                .orderUserReference(okexOrderDetails.getClientOrderId())
-                .build()));
+        okexOrderDetails ->
+            userTradeList.add(
+                new UserTrade.Builder()
+                    .originalAmount(new BigDecimal(okexOrderDetails.getAmount()))
+                    .instrument(new CurrencyPair(okexOrderDetails.getInstrumentId()))
+                    .currencyPair(new CurrencyPair(okexOrderDetails.getInstrumentId()))
+                    .price(new BigDecimal(okexOrderDetails.getAverageFilledPrice()))
+                    .type(adaptOkexOrderSideToOrderType(okexOrderDetails.getSide()))
+                    .id(okexOrderDetails.getOrderId())
+                    .orderId(okexOrderDetails.getOrderId())
+                    .timestamp(
+                        Date.from(
+                            Instant.ofEpochMilli(Long.parseLong(okexOrderDetails.getUpdateTime()))))
+                    .feeAmount(new BigDecimal(okexOrderDetails.getFee()))
+                    .feeCurrency(new Currency(okexOrderDetails.getFeeCurrency()))
+                    .orderUserReference(okexOrderDetails.getClientOrderId())
+                    .build()));
 
     return new UserTrades(userTradeList, Trades.TradeSortType.SortByTimestamp);
   }
@@ -135,30 +136,69 @@ public class OkexAdapters {
         .build();
   }
 
-  public static LimitOrder adaptLimitOrder(OkexPublicOrder okexPublicOrder, Instrument instrument, OrderType orderType) {
-    return adaptOrderbookOrder(okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType);
+  public static LimitOrder adaptLimitOrder(
+      OkexPublicOrder okexPublicOrder, Instrument instrument, OrderType orderType) {
+    return adaptOrderbookOrder(
+        okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType);
+  }
+  public static LimitOrder adaptLimitOrder(
+          OkexPublicOrder okexPublicOrder, Instrument instrument, OrderType orderType,BigDecimal multiplier) {
+    return adaptOrderbookOrder(
+            okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType,multiplier);
   }
 
-  public static OrderBook adaptOrderBook(List<OkexOrderbook> okexOrderbooks, Instrument instrument) {
-    List<LimitOrder> asks = new ArrayList<>();
-    List<LimitOrder> bids = new ArrayList<>();
-
-    okexOrderbooks
-        .get(0)
-        .getAsks()
-        .forEach(
-            okexAsk ->
-                asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK)));
-
-    okexOrderbooks
-        .get(0)
-        .getBids()
-        .forEach(
-            okexBid ->
-                bids.add(
-                    adaptOrderbookOrder(
-                        okexBid.getVolume(), okexBid.getPrice(), instrument, OrderType.BID)));
-
+  public static OrderBook adaptOrderBook(
+      List<OkexOrderbook> okexOrderbooks, Instrument instrument) {
+    List<LimitOrder> asks = Collections.synchronizedList(new ArrayList<>());
+    List<LimitOrder> bids = Collections.synchronizedList(new ArrayList<>());
+    synchronized (asks) {
+      okexOrderbooks
+          .get(0)
+          .getAsks()
+          .forEach(
+              okexAsk ->
+                  asks.add(
+                      adaptOrderbookOrder(
+                          okexAsk.getVolume(), okexAsk.getPrice(), instrument, OrderType.ASK)));
+      //                  asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK)));
+    }
+    synchronized (bids) {
+      okexOrderbooks
+          .get(0)
+          .getBids()
+          .forEach(
+              okexBid ->
+                  bids.add(
+                      adaptOrderbookOrder(
+                          okexBid.getVolume(), okexBid.getPrice(), instrument, OrderType.BID)));
+    }
+    return new OrderBook(Date.from(Instant.now()), asks, bids);
+  }
+  public static OrderBook adaptOrderBook(
+          List<OkexOrderbook> okexOrderbooks, Instrument instrument, BigDecimal multiplier) {
+    List<LimitOrder> asks = Collections.synchronizedList(new ArrayList<>());
+    List<LimitOrder> bids = Collections.synchronizedList(new ArrayList<>());
+    synchronized (asks) {
+      okexOrderbooks
+              .get(0)
+              .getAsks()
+              .forEach(
+                      okexAsk ->
+                              asks.add(
+                                      adaptOrderbookOrder(
+                                              okexAsk.getVolume().multiply(multiplier), okexAsk.getPrice(), instrument, OrderType.ASK)));
+      //                  asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK)));
+    }
+    synchronized (bids) {
+      okexOrderbooks
+              .get(0)
+              .getBids()
+              .forEach(
+                      okexBid ->
+                              bids.add(
+                                      adaptOrderbookOrder(
+                                              okexBid.getVolume().multiply(multiplier), okexBid.getPrice(), instrument, OrderType.BID)));
+    }
     return new OrderBook(Date.from(Instant.now()), asks, bids);
   }
 
@@ -172,24 +212,29 @@ public class OkexAdapters {
 
     return new LimitOrder(orderType, amount, instrument, "", null, price);
   }
+  public static LimitOrder adaptOrderbookOrder(
+          BigDecimal amount, BigDecimal price, Instrument instrument, Order.OrderType orderType,BigDecimal multiplier) {
+
+    return new LimitOrder(orderType, amount.multiply(multiplier), instrument, "", null, price);
+  }
 
   public static Ticker adaptTicker(OkexTicker okexTicker) {
     return new Ticker.Builder()
-            .instrument(adaptInstrument(okexTicker.getInstrumentId()))
-            .open(okexTicker.getOpen24h())
-            .last(okexTicker.getLast())
-            .bid(okexTicker.getBidPrice())
-            .ask(okexTicker.getAskPrice())
-            .high(okexTicker.getHigh24h())
-            .low(okexTicker.getLow24h())
-            // .vwap(null)
-            .volume(okexTicker.getVolume24h())
-            .quoteVolume(okexTicker.getVolumeCurrency24h())
-            .timestamp(okexTicker.getTimestamp())
-            .bidSize(okexTicker.getBidSize())
-            .askSize(okexTicker.getAskSize())
-            .percentageChange(null)
-            .build();
+        .instrument(adaptInstrument(okexTicker.getInstrumentId()))
+        .open(okexTicker.getOpen24h())
+        .last(okexTicker.getLast())
+        .bid(okexTicker.getBidPrice())
+        .ask(okexTicker.getAskPrice())
+        .high(okexTicker.getHigh24h())
+        .low(okexTicker.getLow24h())
+        // .vwap(null)
+        .volume(okexTicker.getVolume24h())
+        .quoteVolume(okexTicker.getVolumeCurrency24h())
+        .timestamp(okexTicker.getTimestamp())
+        .bidSize(okexTicker.getBidSize())
+        .askSize(okexTicker.getAskSize())
+        .percentageChange(null)
+        .build();
   }
 
   public static Instrument adaptInstrument(String instrumentId) {
@@ -247,7 +292,15 @@ public class OkexAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(OkexInstrument instrument) {
-    return new CurrencyPair(instrument.getBaseCurrency(), instrument.getQuoteCurrency());
+    if (!instrument.getBaseCurrency().isEmpty())
+      return new CurrencyPair(instrument.getBaseCurrency(), instrument.getQuoteCurrency());
+    // for futurecurrency
+    else {
+      int index = instrument.getInstrumentId().indexOf("-");
+      return new CurrencyPair(
+          instrument.getInstrumentId().substring(0, index),
+          instrument.getInstrumentId().substring(index + 1));
+    }
   }
 
   private static int numberOfDecimals(BigDecimal value) {
@@ -256,10 +309,10 @@ public class OkexAdapters {
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
-          ExchangeMetaData exchangeMetaData,
-          List<OkexInstrument> instruments,
-          List<OkexCurrency> currs,
-          List<OkexTradeFee> tradeFee) {
+      ExchangeMetaData exchangeMetaData,
+      List<OkexInstrument> instruments,
+      List<OkexCurrency> currs,
+      List<OkexTradeFee> tradeFee) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         exchangeMetaData.getCurrencyPairs() == null
@@ -297,7 +350,9 @@ public class OkexAdapters {
               priceScale,
               null,
               staticMetaData != null ? staticMetaData.getFeeTiers() : null,
-              null,
+              instrument.getContractValue().isEmpty()
+                  ? null
+                  : new BigDecimal(instrument.getContractValue()),
               pair.counter,
               true));
     }
@@ -372,12 +427,14 @@ public class OkexAdapters {
     return StringUtils.isEmpty(value) ? null : new BigDecimal(value);
   }
 
-  public static CandleStickData adaptCandleStickData(List<OkexCandleStick> okexCandleStickList, CurrencyPair currencyPair) {
+  public static CandleStickData adaptCandleStickData(
+      List<OkexCandleStick> okexCandleStickList, CurrencyPair currencyPair) {
     CandleStickData candleStickData = null;
     if (!okexCandleStickList.isEmpty()) {
       List<CandleStick> candleStickList = new ArrayList<>();
       for (OkexCandleStick okexCandleStick : okexCandleStickList) {
-        candleStickList.add(new CandleStick.Builder()
+        candleStickList.add(
+            new CandleStick.Builder()
                 .timestamp(new Date(okexCandleStick.getTimestamp()))
                 .open(new BigDecimal(okexCandleStick.getOpenPrice()))
                 .high(new BigDecimal(okexCandleStick.getHighPrice()))

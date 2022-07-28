@@ -3,6 +3,7 @@ package org.knowm.xchange.okex.v5.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.knowm.xchange.instrument.Instrument;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 /** https://www.okex.com/docs-v5/en/#rest-api-public-data-get-instruments * */
@@ -35,6 +36,9 @@ public class OkexInstrument {
 
   @JsonProperty("ctMult")
   private String contractMultiplier;
+
+  @JsonProperty("ctValCcy")
+  private String contractValueCurrency;
 
   @JsonProperty("optType")
   private String optionType;

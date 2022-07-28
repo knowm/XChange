@@ -27,10 +27,10 @@ public class BinanceFutureStreamingExchange extends BinanceFutureExchange implem
     //    private static final String WS_API_BASE_URI = "wss://fstream-auth.binance.com/";
     private static final String WS_API_BASE_URI = "wss://fstream.binance.com/";
     private static final String WS_SANDBOX_API_BASE_URI = "wss://stream.binancefuture.com";
-    protected static final String USE_HIGHER_UPDATE_FREQUENCY =
+    public static final String USE_HIGHER_UPDATE_FREQUENCY =
             "Binance_Orderbook_Use_Higher_Frequency";
-    protected static final String USE_REALTIME_BOOK_TICKER = "Binance_Ticker_Use_Realtime";
-    protected static final String FETCH_ORDER_BOOK_LIMIT = "Binance_Fetch_Order_Book_Limit";
+    public static final String USE_REALTIME_BOOK_TICKER = "Binance_Ticker_Use_Realtime";
+    public static final String FETCH_ORDER_BOOK_LIMIT = "Binance_Fetch_Order_Book_Limit";
 
     private BinanceStreamingService streamingService;
     private BinanceFutureUserDataChannel userDataChannel;
