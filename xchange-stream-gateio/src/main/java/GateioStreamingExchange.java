@@ -23,6 +23,7 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
       throw new UnsupportedOperationException("The ProductSubscription must be defined!");
 
     this.streamingService = new GateioStreamingService(V4_URL, exchangeSpecification);
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     this.streamingMarketDataService = new GateioStreamingMarketDataService(streamingService);
 
     streamingService.subscribeMultipleCurrencyPairs(args);

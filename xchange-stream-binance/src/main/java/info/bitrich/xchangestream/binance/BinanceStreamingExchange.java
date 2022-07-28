@@ -129,6 +129,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   private Completable createAndConnectUserDataService(String listenKey) {
     userDataStreamingService =
         BinanceUserDataStreamingService.create(getStreamingBaseUri(), listenKey);
+    applyStreamingSpecification(getExchangeSpecification(), userDataStreamingService);
     return userDataStreamingService
         .connect()
         .doOnComplete(
@@ -208,7 +209,9 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   protected BinanceStreamingService createStreamingService(ProductSubscription subscription) {
     String path =
         getStreamingBaseUri() + "stream?streams=" + buildSubscriptionStreams(subscription);
-    return new BinanceStreamingService(path, subscription);
+    BinanceStreamingService streamingService = new BinanceStreamingService(path, subscription);
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
+    return streamingService;
   }
 
   protected String getStreamingBaseUri() {
