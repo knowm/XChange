@@ -11,6 +11,7 @@ import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
+import org.knowm.xchange.okex.v5.dto.meta.OkexExchangeInfo;
 import org.knowm.xchange.okex.v5.service.OkexAccountService;
 import org.knowm.xchange.okex.v5.service.OkexMarketDataServiceRaw;
 
@@ -33,7 +34,7 @@ public class OkxStreamingExchange extends OkexExchange implements StreamingExcha
     public static final String SANDBOX_WS_PRIVATE_CHANNEL_URI = "wss://wspap.okx.com:8443/ws/v5/private?brokerId=9999";
 
     private OkxStreamingService publicStreamingService;
-
+    protected OkexExchangeInfo exchangeInfo;
     private OkxStreamingMarketDataService streamingMarketDataService;
 
     public OkxStreamingExchange() {}
@@ -127,4 +128,5 @@ public class OkxStreamingExchange extends OkexExchange implements StreamingExcha
     public OkxStreamingService getPublicStreamingService() {
         return publicStreamingService;
     }
+
 }

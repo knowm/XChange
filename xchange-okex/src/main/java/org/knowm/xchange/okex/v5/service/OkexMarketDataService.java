@@ -11,6 +11,7 @@ import org.knowm.xchange.okex.v5.OkexAdapters;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCandleStick;
+import org.knowm.xchange.okex.v5.dto.meta.OkexTime;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
@@ -18,6 +19,7 @@ import org.knowm.xchange.service.trade.params.DefaultCandleStickParamWithLimit;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
@@ -81,5 +83,8 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
             String.valueOf(defaultCandleStickParam.getStartDate().getTime()),
             periodType.getFieldValue(), limit);
     return OkexAdapters.adaptCandleStickData(historyCandle.getData(), currencyPair);
+  }
+  public Long getOkexTime() throws IOException {
+    return okex.getTime().getData().get(0).getServerTime();
   }
 }

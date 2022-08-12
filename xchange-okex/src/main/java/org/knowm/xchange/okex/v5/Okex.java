@@ -20,6 +20,7 @@ import org.knowm.xchange.okex.v5.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexOrderbook;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexTrade;
+import org.knowm.xchange.okex.v5.dto.meta.OkexTime;
 
 @Path("/api/v5")
 @Produces(APPLICATION_JSON)
@@ -70,4 +71,8 @@ public interface Okex {
       @QueryParam("limit") String limit,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
       throws IOException, OkexException;
+
+  @GET
+  @Path("/public/time")
+  OkexResponse<List<OkexTime>> getTime() throws IOException;
 }

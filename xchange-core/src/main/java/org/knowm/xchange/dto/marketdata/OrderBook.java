@@ -217,7 +217,7 @@ public final class OrderBook implements Serializable {
 
   // Replace timeStamp if the provided date is non-null and in the future
   // TODO should this raise an exception if the order timestamp is in the past?
-  private void updateDate(Date updateDate) {
+  public void updateDate(Date updateDate) {
 
     if (updateDate != null && (timeStamp == null || updateDate.after(timeStamp))) {
       this.timeStamp = updateDate;

@@ -19,10 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OkxStreamingMarketDataService implements StreamingMarketDataService {
 
@@ -135,6 +132,7 @@ public class OkxStreamingMarketDataService implements StreamingMarketDataService
                         List<OkexPublicOrder> bids = mapper.treeToValue(jsonNode.get("data").get(0).get("bids"), mapper.getTypeFactory().constructCollectionType(List.class, OkexPublicOrder.class));
                         bids.stream().forEach( okexPublicOrder -> {orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.BID));});
 
+                        orderBook.updateDate(Date.from(java.time.Instant.ofEpochMilli(Long.parseLong(jsonNode.get("data").get(0).get("ts").asText()))));
                         return Observable.just(orderBook);
 
                     } else {
@@ -176,12 +174,13 @@ public class OkxStreamingMarketDataService implements StreamingMarketDataService
                             LOG.error(String.format("Failed to get orderBook, instId=%s.", instId));
                             return Observable.fromIterable(new LinkedList<>());
                         }
+
                         List<OkexPublicOrder> asks = mapper.treeToValue(jsonNode.get("data").get(0).get("asks"), mapper.getTypeFactory().constructCollectionType(List.class, OkexPublicOrder.class));
                         asks.stream().forEach( okexPublicOrder -> {orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.ASK, multiplier));});
 
                         List<OkexPublicOrder> bids = mapper.treeToValue(jsonNode.get("data").get(0).get("bids"), mapper.getTypeFactory().constructCollectionType(List.class, OkexPublicOrder.class));
                         bids.stream().forEach( okexPublicOrder -> {orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.BID, multiplier));});
-
+                        orderBook.updateDate(Date.from(java.time.Instant.ofEpochMilli(Long.parseLong(jsonNode.get("data").get(0).get("ts").asText()))));
                         return Observable.just(orderBook);
 
                     } else {
@@ -228,6 +227,8 @@ public class OkxStreamingMarketDataService implements StreamingMarketDataService
 
                         List<OkexPublicOrder> bids = mapper.treeToValue(jsonNode.get("data").get(0).get("bids"), mapper.getTypeFactory().constructCollectionType(List.class, OkexPublicOrder.class));
                         bids.stream().forEach( okexPublicOrder -> {orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.BID, multiplier));});
+
+                        orderBook.updateDate(Date.from(java.time.Instant.ofEpochMilli(Long.parseLong(jsonNode.get("data").get(0).get("ts").asText()))));
 
                         return Observable.just(orderBook);
 

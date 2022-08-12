@@ -172,7 +172,7 @@ public class OkexAdapters {
                       adaptOrderbookOrder(
                           okexBid.getVolume(), okexBid.getPrice(), instrument, OrderType.BID)));
     }
-    return new OrderBook(Date.from(Instant.now()), asks, bids);
+    return new OrderBook(Date.from(java.time.Instant.ofEpochMilli(Long.parseLong(okexOrderbooks.get(0).getTs()))), asks, bids);
   }
   public static OrderBook adaptOrderBook(
           List<OkexOrderbook> okexOrderbooks, Instrument instrument, BigDecimal multiplier) {
@@ -199,7 +199,7 @@ public class OkexAdapters {
                                       adaptOrderbookOrder(
                                               okexBid.getVolume().multiply(multiplier), okexBid.getPrice(), instrument, OrderType.BID)));
     }
-    return new OrderBook(Date.from(Instant.now()), asks, bids);
+    return new OrderBook(Date.from(java.time.Instant.ofEpochMilli(Long.parseLong(okexOrderbooks.get(0).getTs()))), asks, bids);
   }
 
   public static OrderBook adaptOrderBook(

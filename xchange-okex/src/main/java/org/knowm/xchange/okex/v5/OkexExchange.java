@@ -8,6 +8,8 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
+import org.knowm.xchange.okex.v5.dto.meta.OkexExchangeInfo;
+import org.knowm.xchange.okex.v5.dto.meta.OkexTime;
 import org.knowm.xchange.okex.v5.service.OkexAccountService;
 import org.knowm.xchange.okex.v5.service.OkexMarketDataService;
 import org.knowm.xchange.okex.v5.service.OkexMarketDataServiceRaw;
@@ -15,6 +17,7 @@ import org.knowm.xchange.okex.v5.service.OkexTradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import static org.knowm.xchange.okex.v5.service.OkexMarketDataService.SPOT;
@@ -22,6 +25,7 @@ import static org.knowm.xchange.okex.v5.service.OkexMarketDataService.SPOT;
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexExchange extends BaseExchange {
 
+  private Long OkexServerTime;
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
   /** Adjust host parameters depending on exchange specific parameters */
@@ -112,9 +116,12 @@ public class OkexExchange extends BaseExchange {
       tradeFee = ((OkexAccountService) accountService).getTradeFee(
               SPOT, null, null, accountLevel).getData();
     }
-
     exchangeMetaData =
         OkexAdapters.adaptToExchangeMetaData(exchangeMetaData, instruments, currencies, tradeFee);
+  }
+
+  public Long getOkexTime() throws IOException {
+    return ((OkexMarketDataService)marketDataService).getOkexTime();
   }
 
   @NoArgsConstructor(access = AccessLevel.PRIVATE)

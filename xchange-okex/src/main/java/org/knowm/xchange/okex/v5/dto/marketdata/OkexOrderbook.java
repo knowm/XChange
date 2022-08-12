@@ -11,6 +11,7 @@ public class OkexOrderbook {
   private final List<OkexPublicOrder> asks;
 
   private final List<OkexPublicOrder> bids;
+
   private final String ts;
 
   @JsonCreator
@@ -30,6 +31,10 @@ public class OkexOrderbook {
 
   public List<OkexPublicOrder> getBids() {
     return Collections.synchronizedList(bids);
+  }
+
+  public String getTs() {
+    return ts;
   }
 
   @Override
