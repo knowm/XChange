@@ -18,7 +18,6 @@ public class HuobiMarketDataTest {
         Exchange exchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class);
 
         List<Trade> trades = exchange.getMarketDataService().getTrades(new CurrencyPair("BTC/USDT")).getTrades();
-        trades.forEach(System.out::println);
         assertThat(trades.get(0).getTimestamp()).isAfterOrEqualTo(trades.get(1).getTimestamp());
     }
 }
