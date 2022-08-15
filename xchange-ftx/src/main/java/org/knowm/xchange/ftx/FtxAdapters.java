@@ -155,7 +155,7 @@ public class FtxAdapters {
                       .amountStepSize(ftxMarketDto.getSizeIncrement())
                       .minimumAmount(ftxMarketDto.getSizeIncrement())
                       .priceScale(ftxMarketDto.getPriceIncrement().scale())
-                      .volumeScale(ftxMarketDto.getSizeIncrement().scale())
+                      .volumeScale(Math.max(0,ftxMarketDto.getSizeIncrement().stripTrailingZeros().scale()))
                       .baseScale(ftxMarketDto.getSizeIncrement().scale())
                       .build();
 
