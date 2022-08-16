@@ -2,11 +2,7 @@ package org.knowm.xchange.huobi;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -375,13 +371,24 @@ public class HuobiAdapters {
     return orders;
   }
 
-  public static UserTrades adaptTradeHistory(HuobiOrder[] openOrders) {
-    OpenOrders orders = adaptOpenOrders(openOrders);
-    List<UserTrade> trades = new ArrayList<>();
-    for (LimitOrder order : orders.getOpenOrders()) {
-      trades.add(adaptTrade(order));
-    }
-    return new UserTrades(trades, TradeSortType.SortByTimestamp);
+  public static List<UserTrade> adaptUserTradeList(HuobiOrder[] tradeHistory){
+    return Arrays.stream(tradeHistory).sequential()
+            .map(huobiOrder -> new UserTrade.Builder()
+                    .id(Long.toString(huobiOrder.getId()))
+                    .instrument(adaptCurrencyPair(huobiOrder.getSymbol()))
+                    .orderUserReference(huobiOrder.getClOrdId())
+                    .originalAmount(huobiOrder.getFieldAmount())
+                    .price(huobiOrder.getPrice())
+                    .timestamp(huobiOrder.getFinishedAt())
+                    .type(adaptOrderType(huobiOrder.getType()))
+                    .feeAmount(huobiOrder.getFieldFees())
+                    .build()).collect(Collectors.toList());
+  }
+
+  public static UserTrades adaptTradeHistory(HuobiOrder[] tradeHistoryOrders) {
+    UserTrades userTrades = new UserTrades(adaptUserTradeList(tradeHistoryOrders), TradeSortType.SortByTimestamp);
+    Collections.reverse(userTrades.getUserTrades());
+    return userTrades;
   }
 
   public static List<FundingRecord> adaptFundingHistory(HuobiFundingRecord[] fundingRecords) {
