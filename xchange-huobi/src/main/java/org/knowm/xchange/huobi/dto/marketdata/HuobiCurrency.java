@@ -2,6 +2,8 @@ package org.knowm.xchange.huobi.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
+
 public class HuobiCurrency {
 
   private String chain;
@@ -17,7 +19,7 @@ public class HuobiCurrency {
   private String minWithdrawAmt;
   private int numOfConfirmations;
   private int numOfFastConfirmations;
-  private String transactFeeWithdraw;
+  private BigDecimal transactFeeWithdraw;
   private String withdrawFeeType;
   private int withdrawPrecision;
   private String withdrawQuotaPerDay;
@@ -39,7 +41,7 @@ public class HuobiCurrency {
       @JsonProperty("minWithdrawAmt") String minWithdrawAmt,
       @JsonProperty("numOfConfirmations") int numOfConfirmations,
       @JsonProperty("numOfFastConfirmations") int numOfFastConfirmations,
-      @JsonProperty("transactFeeWithdraw") String transactFeeWithdraw,
+      @JsonProperty("transactFeeWithdraw") BigDecimal transactFeeWithdraw,
       @JsonProperty("withdrawFeeType") String withdrawFeeType,
       @JsonProperty("withdrawPrecision") int withdrawPrecision,
       @JsonProperty("withdrawQuotaPerDay") String withdrawQuotaPerDay,
@@ -120,7 +122,7 @@ public class HuobiCurrency {
     return numOfFastConfirmations;
   }
 
-  public String getTransactFeeWithdraw() {
+  public BigDecimal getTransactFeeWithdraw() {
     return transactFeeWithdraw;
   }
 
