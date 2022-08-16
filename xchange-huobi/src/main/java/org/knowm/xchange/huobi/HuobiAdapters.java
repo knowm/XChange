@@ -382,6 +382,7 @@ public class HuobiAdapters {
                     .timestamp(huobiOrder.getFinishedAt())
                     .type(adaptOrderType(huobiOrder.getType()))
                     .feeAmount(huobiOrder.getFieldFees())
+                    .orderId(Long.toString(huobiOrder.getId()))
                     .build()).collect(Collectors.toList());
   }
 
