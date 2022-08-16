@@ -137,7 +137,7 @@ public class HuobiAdapters {
   private static CurrencyMetaData getCurrencyMetaData(
       HuobiCurrency huobiCurrency, boolean isDelisted) {
     int withdrawPrecision = huobiCurrency.getWithdrawPrecision();
-    BigDecimal transactFeeWithdraw = new BigDecimal(huobiCurrency.getTransactFeeWithdraw());
+    BigDecimal transactFeeWithdraw = huobiCurrency.getTransactFeeWithdraw();
     BigDecimal minWithdrawAmt = new BigDecimal(huobiCurrency.getMinWithdrawAmt());
     WalletHealth walletHealthStatus =
         isDelisted ? WalletHealth.OFFLINE : getWalletHealthStatus(huobiCurrency);
