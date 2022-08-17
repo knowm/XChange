@@ -43,7 +43,7 @@ public class HuobiAdapters {
   private static final String ONLINE = "allowed";
   private static final String DELISTED = "delisted";
   private static final String TARGET_NETWORK = "ERC20";
-  private static BigDecimal fee = new BigDecimal("0.002"); // Trading fee at Huobi is 0.2 %
+  private static final BigDecimal fee = new BigDecimal("0.002"); // Trading fee at Huobi is 0.2 %
 
   public static Ticker adaptTicker(HuobiTicker huobiTicker, CurrencyPair currencyPair) {
     Ticker.Builder builder = new Ticker.Builder();
@@ -133,7 +133,7 @@ public class HuobiAdapters {
   private static CurrencyMetaData getCurrencyMetaData(
       HuobiCurrency huobiCurrency, boolean isDelisted) {
     int withdrawPrecision = huobiCurrency.getWithdrawPrecision();
-    BigDecimal transactFeeWithdraw = (huobiCurrency.getTransactFeeWithdraw() != null) ? new BigDecimal(huobiCurrency.getTransactFeeWithdraw()): BigDecimal.ZERO;
+    BigDecimal transactFeeWithdraw = huobiCurrency.getTransactFeeWithdraw();
     BigDecimal minWithdrawAmt = new BigDecimal(huobiCurrency.getMinWithdrawAmt());
     WalletHealth walletHealthStatus =
         isDelisted ? WalletHealth.OFFLINE : getWalletHealthStatus(huobiCurrency);
@@ -171,8 +171,8 @@ public class HuobiAdapters {
         null,
         null,
         null,
-        new Integer(pair.getAmountPrecision()),
-        new Integer(pair.getPricePrecision()),
+            pair.getAmountPrecision(),
+            pair.getPricePrecision(),
         null,
         feeTiers,
         null,
@@ -247,7 +247,7 @@ public class HuobiAdapters {
       openOrderAvgPrice =
           openOrder
               .getFieldCashAmount()
-              .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN);
+              .divide(openOrder.getFieldAmount(), 8, RoundingMode.DOWN);
     }
     if (openOrder.isMarket()) {
       order =
