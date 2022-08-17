@@ -1,13 +1,5 @@
 package org.knowm.xchange.huobi;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -42,6 +34,15 @@ import org.knowm.xchange.huobi.dto.marketdata.HuobiCurrency;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiCurrencyWrapper;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiTicker;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class HuobiAdapters {
   private static final String ONLINE = "allowed";
@@ -137,7 +138,7 @@ public class HuobiAdapters {
   private static CurrencyMetaData getCurrencyMetaData(
       HuobiCurrency huobiCurrency, boolean isDelisted) {
     int withdrawPrecision = huobiCurrency.getWithdrawPrecision();
-    BigDecimal transactFeeWithdraw = new BigDecimal(huobiCurrency.getTransactFeeWithdraw());
+    BigDecimal transactFeeWithdraw = huobiCurrency.getTransactFeeWithdraw() != null ? new BigDecimal(huobiCurrency.getTransactFeeWithdraw()) : BigDecimal.ZERO;
     BigDecimal minWithdrawAmt = new BigDecimal(huobiCurrency.getMinWithdrawAmt());
     WalletHealth walletHealthStatus =
         isDelisted ? WalletHealth.OFFLINE : getWalletHealthStatus(huobiCurrency);
