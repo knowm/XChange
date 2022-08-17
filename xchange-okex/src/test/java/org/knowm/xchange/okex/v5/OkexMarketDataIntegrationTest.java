@@ -28,12 +28,4 @@ public class OkexMarketDataIntegrationTest {
             .getHistoryCandle("BTC-USDC", null, null, null, null);
     Assert.assertTrue(Objects.nonNull(barHistDtos) && !barHistDtos.getData().isEmpty());
   }
-
-  @Test
-  public void checkTradesSortingByDate() throws IOException {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(OkexExchange.class);
-
-    List<Trade> trades = exchange.getMarketDataService().getTrades(new CurrencyPair("BTC/USDT")).getTrades();
-    assertThat(trades.get(0).getTimestamp()).isAfterOrEqualTo(trades.get(1).getTimestamp());
-  }
 }
