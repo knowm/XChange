@@ -11,5 +11,7 @@ public enum AccountCategory {
     cash,
     Cash,
     margin,
-    Margin;
+    Margin,
+    futures,
+    Futures;
 }
