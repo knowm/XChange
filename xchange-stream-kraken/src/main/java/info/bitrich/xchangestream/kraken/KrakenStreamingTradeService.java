@@ -117,6 +117,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                 .id(orderId)
                 .originalAmount(dto.vol)
                 .cumulativeAmount(dto.vol_exec)
+                .averagePrice(dto.avg_price)
                 .orderStatus(
                     dto.status == null
                         ? null
