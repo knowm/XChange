@@ -88,11 +88,11 @@ public class DeribitExchange extends BaseExchange implements Exchange {
           futures.put(
               DeribitAdapters.adaptFuturesContract(deribitInstrument),
               DeribitAdapters.adaptMeta(deribitInstrument));
-        } else {
+        } else if (deribitInstrument.getKind() == Kind.option) {
           options.put(
               DeribitAdapters.adaptOptionsContract(deribitInstrument),
               DeribitAdapters.adaptMeta(deribitInstrument));
-        }
+        } // deals with spreads
       }
     }
   }
