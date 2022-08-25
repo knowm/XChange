@@ -3,8 +3,13 @@ package org.knowm.xchange.dto.account;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.instrument.Instrument;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OpenPosition implements Serializable {
   /** The instrument */
   private final Instrument instrument;
@@ -12,14 +17,27 @@ public class OpenPosition implements Serializable {
   private final Type type;
   /** The size of the position */
   private final BigDecimal size;
-  /** The avarage entry price for the position */
-  private final BigDecimal price;
+  /** The average entry price for the position */
+  @JsonIgnore private final BigDecimal price;
+  /** The estimatedLiquidationPrice */
+  @JsonIgnore private final BigDecimal liquidationPrice;
 
-  public OpenPosition(Instrument instrument, Type type, BigDecimal size, BigDecimal price) {
+  /** The unrealised pnl of the position */
+  @JsonIgnore private final BigDecimal unRealisedPnl;
+
+  public OpenPosition(
+      @JsonProperty("instrument") Instrument instrument,
+      @JsonProperty("type") Type type,
+      @JsonProperty("size") BigDecimal size,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("liquidationPrice") BigDecimal liquidationPrice,
+      @JsonProperty("unRealisedPnl") BigDecimal unRealisedPnl) {
     this.instrument = instrument;
     this.type = type;
     this.size = size;
     this.price = price;
+    this.liquidationPrice = liquidationPrice;
+    this.unRealisedPnl = unRealisedPnl;
   }
 
   public Instrument getInstrument() {
@@ -38,6 +56,14 @@ public class OpenPosition implements Serializable {
     return price;
   }
 
+  public BigDecimal getLiquidationPrice() {
+    return liquidationPrice;
+  }
+
+  public BigDecimal getUnRealisedPnl() {
+    return unRealisedPnl;
+  }
+
   @Override
   public boolean equals(final Object o) {
     if (this == o) return true;
@@ -46,12 +72,14 @@ public class OpenPosition implements Serializable {
     return Objects.equals(instrument, that.instrument)
         && type == that.type
         && Objects.equals(size, that.size)
-        && Objects.equals(price, that.price);
+        && Objects.equals(price, that.price)
+        && Objects.equals(liquidationPrice, that.liquidationPrice)
+        && Objects.equals(unRealisedPnl, that.unRealisedPnl);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(instrument, type, size, price);
+    return Objects.hash(instrument, type, size, price, liquidationPrice, unRealisedPnl);
   }
 
   @Override
@@ -65,12 +93,16 @@ public class OpenPosition implements Serializable {
         + size
         + ", price="
         + price
+        + ", liquidationPrice="
+        + liquidationPrice
+        + ", unRealisedPnl="
+        + unRealisedPnl
         + '}';
   }
 
   public enum Type {
     LONG,
-    SHORT;
+    SHORT
   }
 
   public static class Builder {
@@ -78,12 +110,16 @@ public class OpenPosition implements Serializable {
     private Type type;
     private BigDecimal size;
     private BigDecimal price;
+    private BigDecimal liquidationPrice;
+    private BigDecimal unRealisedPnl;
 
     public static Builder from(OpenPosition openPosition) {
       return new Builder()
           .instrument(openPosition.getInstrument())
           .type(openPosition.getType())
           .size(openPosition.getSize())
+          .liquidationPrice(openPosition.getLiquidationPrice())
+          .unRealisedPnl(openPosition.getUnRealisedPnl())
           .price(openPosition.getPrice());
     }
 
@@ -107,8 +143,18 @@ public class OpenPosition implements Serializable {
       return this;
     }
 
+    public Builder liquidationPrice(final BigDecimal liquidationPrice) {
+      this.liquidationPrice = liquidationPrice;
+      return this;
+    }
+
+    public Builder unRealisedPnl(final BigDecimal unRealisedPnl) {
+      this.unRealisedPnl = unRealisedPnl;
+      return this;
+    }
+
     public OpenPosition build() {
-      return new OpenPosition(instrument, type, size, price);
+      return new OpenPosition(instrument, type, size, price, liquidationPrice, unRealisedPnl);
     }
   }
 }

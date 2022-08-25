@@ -21,6 +21,7 @@ public class CoinjarStreamingExchange extends CoinjarExchange implements Streami
 
     this.streamingService =
         new CoinjarStreamingService(API_URI, this.exchangeSpecification.getApiKey());
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     this.streamingMarketDataService = new CoinjarStreamingMarketDataService(streamingService);
     this.streamingTradeService = new CoinjarStreamingTradeService(streamingService);
   }

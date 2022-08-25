@@ -22,6 +22,7 @@ public class SerumStreamingExchange extends SerumExchange implements StreamingEx
                 String.valueOf(getExchangeSpecification().getExchangeSpecificParametersItem("Env")))
             .wsUrl();
     this.streamingService = new SerumStreamingService(url);
+    applyStreamingSpecification(getExchangeSpecification(), this.streamingService);
     return this.streamingService.connect();
   }
 

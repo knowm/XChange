@@ -59,9 +59,11 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
       OrderType type,
       TimeInForce timeInForce,
       BigDecimal quantity,
+      BigDecimal quoteOrderQty,
       BigDecimal price,
       String newClientOrderId,
       BigDecimal stopPrice,
+      Long trailingDelta,
       BigDecimal icebergQty,
       BinanceNewOrder.NewOrderResponseType newOrderRespType)
       throws IOException, BinanceException {
@@ -73,9 +75,11 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
                     type,
                     timeInForce,
                     quantity,
+                    quoteOrderQty,
                     price,
                     newClientOrderId,
                     stopPrice,
+                    trailingDelta,
                     icebergQty,
                     newOrderRespType,
                     getRecvWindow(),
@@ -95,9 +99,11 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
       OrderType type,
       TimeInForce timeInForce,
       BigDecimal quantity,
+      BigDecimal quoteOrderQty,
       BigDecimal price,
       String newClientOrderId,
       BigDecimal stopPrice,
+      Long trailingDelta,
       BigDecimal icebergQty)
       throws IOException, BinanceException {
     decorateApiCall(
@@ -108,9 +114,11 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
                     type,
                     timeInForce,
                     quantity,
+                    quoteOrderQty,
                     price,
                     newClientOrderId,
                     stopPrice,
+                    trailingDelta,
                     icebergQty,
                     getRecvWindow(),
                     getTimestampFactory(),

@@ -1,5 +1,6 @@
 package org.knowm.xchange.ftx;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
@@ -16,6 +17,7 @@ import java.util.regex.Pattern;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.OpenPosition;
@@ -32,6 +34,7 @@ import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.ftx.dto.FtxResponse;
@@ -43,12 +46,7 @@ import org.knowm.xchange.ftx.dto.marketdata.FtxMarketDto;
 import org.knowm.xchange.ftx.dto.marketdata.FtxMarketsDto;
 import org.knowm.xchange.ftx.dto.marketdata.FtxOrderbookDto;
 import org.knowm.xchange.ftx.dto.marketdata.FtxTradeDto;
-import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderFlags;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderSide;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderType;
+import org.knowm.xchange.ftx.dto.trade.*;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class FtxAdapters {
@@ -154,9 +152,10 @@ public class FtxAdapters {
             ftxMarketDto -> {
               CurrencyPairMetaData currencyPairMetaData =
                   new CurrencyPairMetaData.Builder()
-                      .amountStepSize(ftxMarketDto.getPriceIncrement())
+                      .amountStepSize(ftxMarketDto.getSizeIncrement())
                       .minimumAmount(ftxMarketDto.getSizeIncrement())
                       .priceScale(ftxMarketDto.getPriceIncrement().scale())
+                      .volumeScale(Math.max(0,ftxMarketDto.getSizeIncrement().stripTrailingZeros().scale()))
                       .baseScale(ftxMarketDto.getSizeIncrement().scale())
                       .build();
 
@@ -235,28 +234,26 @@ public class FtxAdapters {
     return new Trades(trades);
   }
 
-  public static UserTrades adaptUserTrades(List<FtxOrderDto> ftxUserTrades) {
+  public static UserTrades adaptUserTrades(List<FtxFillDto> ftxUserTrades) {
     List<UserTrade> userTrades = new ArrayList<>();
 
     ftxUserTrades.forEach(
-        ftxOrderDto -> {
-          if (ftxOrderDto.getFilledSize().compareTo(BigDecimal.ZERO) != 0) {
+        ftxFillDto -> {
+          if (ftxFillDto.getSize().compareTo(BigDecimal.ZERO) != 0) {
             userTrades.add(
                 new UserTrade.Builder()
                     .instrument(
-                        CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+                        CurrencyPairDeserializer.getCurrencyPairFromString(ftxFillDto.getMarket()))
                     .currencyPair(
-                        CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
-                    .timestamp(ftxOrderDto.getCreatedAt())
-                    .id(ftxOrderDto.getId())
-                    .orderId(ftxOrderDto.getId())
-                    .orderUserReference(ftxOrderDto.getClientId())
-                    .originalAmount(ftxOrderDto.getFilledSize())
-                    .type(adaptFtxOrderSideToOrderType(ftxOrderDto.getSide()))
-                    .price(
-                        ftxOrderDto.getAvgFillPrice() == null
-                            ? ftxOrderDto.getPrice()
-                            : ftxOrderDto.getAvgFillPrice())
+                        CurrencyPairDeserializer.getCurrencyPairFromString(ftxFillDto.getMarket()))
+                    .timestamp(ftxFillDto.getTime())
+                    .id(ftxFillDto.getId())
+                    .orderId(ftxFillDto.getOrderId())
+                    .originalAmount(ftxFillDto.getSize())
+                    .type(adaptFtxOrderSideToOrderType(ftxFillDto.getSide()))
+                    .feeAmount(ftxFillDto.getFee())
+                    .feeCurrency(Currency.getInstance(ftxFillDto.getFeeCurrency()))
+                    .price(ftxFillDto.getPrice())
                     .build());
           }
         });
@@ -281,8 +278,32 @@ public class FtxAdapters {
                         (ftxOrderDto.isIoc() ? FtxOrderFlags.IOC : null),
                         (ftxOrderDto.isPostOnly() ? FtxOrderFlags.POST_ONLY : null),
                         (ftxOrderDto.isReduceOnly() ? FtxOrderFlags.REDUCE_ONLY : null)))))
+        .cumulativeAmount(ftxOrderDto.getFilledSize())
         .remainingAmount(ftxOrderDto.getRemainingSize())
-        .orderStatus(ftxOrderDto.getStatus())
+        .orderStatus(adaptFtxOrderStatusToOrderStatus(ftxOrderDto.getStatus()))
+        .id(ftxOrderDto.getId())
+        .build();
+  }
+
+  public static LimitOrder adaptConditionalLimitOrder(FtxConditionalOrderDto ftxOrderDto) {
+
+    return new LimitOrder.Builder(
+            adaptFtxOrderSideToOrderType(ftxOrderDto.getSide()),
+            CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+        .originalAmount(ftxOrderDto.getSize())
+        .limitPrice(ftxOrderDto.getTriggerPrice())
+        .averagePrice(ftxOrderDto.getAvgFillPrice())
+        .timestamp(ftxOrderDto.getCreatedAt())
+        .flags(
+            Collections.unmodifiableSet(
+                new HashSet<>(
+                    Arrays.asList(
+                        (ftxOrderDto.isRetryUntilFilled()
+                            ? FtxOrderFlags.RETRY_UNTIL_FILLED
+                            : null),
+                        (ftxOrderDto.isReduceOnly() ? FtxOrderFlags.REDUCE_ONLY : null)))))
+        .cumulativeAmount(ftxOrderDto.getFilledSize())
+        .orderStatus(adaptFtxOrderStatusToOrderStatus(ftxOrderDto.getStatus()))
         .id(ftxOrderDto.getId())
         .build();
   }
@@ -293,6 +314,17 @@ public class FtxAdapters {
     ftxOpenOrdersResponse
         .getResult()
         .forEach(ftxOrderDto -> openOrders.add(adaptLimitOrder(ftxOrderDto)));
+
+    return new OpenOrders(openOrders);
+  }
+
+  public static OpenOrders adaptTriggerOpenOrders(
+      FtxResponse<List<FtxConditionalOrderDto>> ftxOpenOrdersResponse) {
+    List<LimitOrder> openOrders = new ArrayList<>();
+
+    ftxOpenOrdersResponse
+        .getResult()
+        .forEach(ftxOrderDto -> openOrders.add(adaptConditionalLimitOrder(ftxOrderDto)));
 
     return new OpenOrders(openOrders);
   }
@@ -318,6 +350,23 @@ public class FtxAdapters {
     return ftxOrderSide == FtxOrderSide.buy ? Order.OrderType.BID : Order.OrderType.ASK;
   }
 
+  public static OrderStatus adaptFtxOrderStatusToOrderStatus(FtxOrderStatus ftxOrderStatus) {
+
+    switch (ftxOrderStatus) {
+      case NEW:
+      case TRIGGERED:
+        return OrderStatus.NEW;
+      case CLOSED:
+        return OrderStatus.CLOSED;
+      case CANCELLED:
+        return OrderStatus.CANCELED;
+      case OPEN:
+        return OrderStatus.OPEN;
+      default:
+        return OrderStatus.UNKNOWN;
+    }
+  }
+
   private static final Pattern FUTURES_PATTERN = Pattern.compile("PERP|[0-9]+");
 
   public static String adaptCurrencyPairToFtxMarket(CurrencyPair currencyPair) {
@@ -337,12 +386,14 @@ public class FtxAdapters {
             openPositionList.add(
                 new OpenPosition.Builder()
                     .instrument(new CurrencyPair(ftxPositionDto.getFuture()))
-                    .price(ftxPositionDto.getEntryPrice())
+                    .price(ftxPositionDto.getRecentBreakEvenPrice())
                     .size(ftxPositionDto.getSize())
                     .type(
                         ftxPositionDto.getSide() == FtxOrderSide.buy
                             ? OpenPosition.Type.LONG
                             : OpenPosition.Type.SHORT)
+                    .liquidationPrice(ftxPositionDto.getEstimatedLiquidationPrice())
+                    .unRealisedPnl(ftxPositionDto.getRecentPnl())
                     .build());
           }
         });
@@ -381,5 +432,47 @@ public class FtxAdapters {
         .volume(volume)
         .timestamp(timestamp)
         .build();
+  }
+
+  public static FtxConditionalOrderRequestPayload adaptStopOrderToFtxOrderPayload(
+      StopOrder stopOrder) throws IOException {
+    return adaptConditionalOrderToFtxOrderPayload(
+        adaptTriggerOrderIntention((stopOrder.getIntention() == null) ? StopOrder.Intention.STOP_LOSS : stopOrder.getIntention()),
+        stopOrder,
+        stopOrder.getLimitPrice(),
+        stopOrder.getStopPrice(),
+        null);
+  }
+
+  public static FtxConditionalOrderType adaptTriggerOrderIntention(StopOrder.Intention stopOrderIntention) throws IOException {
+    switch (stopOrderIntention){
+      case STOP_LOSS: return FtxConditionalOrderType.stop;
+      case TAKE_PROFIT: return FtxConditionalOrderType.take_profit;
+      default: throw new IOException("StopOrder Intention is not supported.");
+    }
+  }
+
+  public static FtxModifyConditionalOrderRequestPayload
+      adaptModifyConditionalOrderToFtxOrderPayload(StopOrder stopOrder) {
+    return new FtxModifyConditionalOrderRequestPayload(
+        stopOrder.getLimitPrice(), stopOrder.getStopPrice(), null, stopOrder.getOriginalAmount());
+  }
+
+  private static FtxConditionalOrderRequestPayload adaptConditionalOrderToFtxOrderPayload(
+      FtxConditionalOrderType type,
+      Order order,
+      BigDecimal price,
+      BigDecimal triggerPrice,
+      BigDecimal trailValue) {
+    return new FtxConditionalOrderRequestPayload(
+        adaptCurrencyPairToFtxMarket(order.getCurrencyPair()),
+        adaptOrderTypeToFtxOrderSide(order.getType()),
+        order.getOriginalAmount(),
+        type,
+        order.hasFlag(FtxOrderFlags.REDUCE_ONLY),
+        order.hasFlag(FtxOrderFlags.RETRY_UNTIL_FILLED),
+        price,
+        triggerPrice,
+        trailValue);
   }
 }

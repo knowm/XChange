@@ -3,14 +3,13 @@ package info.bitrich.xchangestream.binance;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Copied from BinanceLiveSubscriptionExample and replaced with BinanceFutureStreamingExchange from
@@ -18,7 +17,8 @@ import java.util.List;
  */
 public class BinanceLiveFutureSubscriptionExample {
 
-  private static final Logger LOG = LoggerFactory.getLogger(BinanceLiveFutureSubscriptionExample.class);
+  private static final Logger LOG =
+      LoggerFactory.getLogger(BinanceLiveFutureSubscriptionExample.class);
 
   public static void main(String[] args) throws InterruptedException {
     ExchangeSpecification spec =

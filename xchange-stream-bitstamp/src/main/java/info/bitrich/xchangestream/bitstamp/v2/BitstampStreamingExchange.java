@@ -26,6 +26,7 @@ public class BitstampStreamingExchange extends BitstampExchange implements Strea
   @Override
   protected void initServices() {
     super.initServices();
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     streamingMarketDataService = new BitstampStreamingMarketDataService(streamingService);
   }
 

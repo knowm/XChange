@@ -53,6 +53,7 @@ public class dydxStreamingExchange extends dydxExchange implements StreamingExch
         break;
     }
 
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     streamingService.subscribeMultipleCurrencyPairs(args);
     return streamingService.connect();
   }

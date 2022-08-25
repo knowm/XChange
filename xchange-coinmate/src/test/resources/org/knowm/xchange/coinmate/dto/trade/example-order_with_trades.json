@@ -1,0 +1,39 @@
+{
+  "error":false,
+  "errorMessage":null,
+  "data": {
+    "id":2642,
+    "timestamp":1651824240630,
+    "trailingUpdatedTimestamp":null,
+    "type":"SELL",
+    "price":null,
+    "remainingAmount":0,
+    "originalAmount":1,
+    "cumulativeAmount":1,
+    "stopPrice":null,
+    "originalStopPrice":null,
+    "marketPriceAtLastUpdate":null,
+    "marketPriceAtOrderCreation":null,
+    "status":"FILLED",
+    "orderTradeType":"QUICK",
+    "hidden":false,
+    "avgPrice":200000,
+    "trailing":false,
+    "stopLossOrderId":null,
+    "originalOrderId":null,
+    "trades" : [
+      {
+        "transactionId":11620,
+        "createdTimestamp":1651824240638,
+        "currencyPair":"BTC_CZK",
+        "type":"SELL",
+        "orderType":"QUICK",
+        "orderId":2642,
+        "amount":1,
+        "price":205825.242,
+        "fee":0,
+        "feeType":"TAKER"
+      }
+    ]
+  }
+}

@@ -33,6 +33,7 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
     }
 
     streamingService = new CoinmateStreamingService(API_BASE, authParams);
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
   }
 
   @Override

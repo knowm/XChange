@@ -1,12 +1,9 @@
 package org.knowm.xchange.kraken.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.IOrderFlags;
+import java.math.*;
+import java.util.*;
+import org.knowm.xchange.currency.*;
+import org.knowm.xchange.dto.Order.*;
 
 public class KrakenStandardOrder {
 
@@ -24,6 +21,7 @@ public class KrakenStandardOrder {
   private final String userRefId;
   private final boolean validateOnly;
   private final Map<String, String> closeOrder;
+  private final TimeInForce timeInForce;
 
   private KrakenStandardOrder(
       CurrencyPair currencyPair,
@@ -39,7 +37,8 @@ public class KrakenStandardOrder {
       String expireTime,
       String userRefId,
       boolean validateOnly,
-      Map<String, String> closeOrder) {
+      Map<String, String> closeOrder,
+      TimeInForce timeInForce) {
 
     this.currencyPair = currencyPair;
     this.type = type;
@@ -55,6 +54,7 @@ public class KrakenStandardOrder {
     this.userRefId = userRefId;
     this.validateOnly = validateOnly;
     this.closeOrder = closeOrder;
+    this.timeInForce = timeInForce;
   }
 
   public static KrakenOrderBuilder getMarketOrderBuilder(
@@ -242,6 +242,11 @@ public class KrakenStandardOrder {
     return closeOrder;
   }
 
+  public TimeInForce getTimeInForce() {
+
+    return timeInForce;
+  }
+
   @Override
   public String toString() {
 
@@ -273,6 +278,8 @@ public class KrakenStandardOrder {
         + validateOnly
         + ", closeOrder="
         + closeOrder
+        + ", timeInForce="
+        + timeInForce
         + "]";
   }
 
@@ -292,6 +299,7 @@ public class KrakenStandardOrder {
     private String userRefId;
     private boolean validateOnly;
     private Map<String, String> closeOrder;
+    private TimeInForce timeInForce;
 
     private KrakenOrderBuilder(
         CurrencyPair currencyPair, KrakenType type, KrakenOrderType orderType, BigDecimal volume) {
@@ -374,6 +382,11 @@ public class KrakenStandardOrder {
       return this;
     }
 
+    public KrakenOrderBuilder withTimeInForce(TimeInForce timeInForce) {
+      this.timeInForce = timeInForce;
+      return this;
+    }
+
     public KrakenStandardOrder buildOrder() {
 
       return new KrakenStandardOrder(
@@ -390,7 +403,8 @@ public class KrakenStandardOrder {
           expireTime,
           userRefId,
           validateOnly,
-          closeOrder == null ? new HashMap<>() : closeOrder);
+          closeOrder == null ? new HashMap<>() : closeOrder,
+          timeInForce);
     }
 
     @Override
@@ -424,6 +438,8 @@ public class KrakenStandardOrder {
           + validateOnly
           + ", closeOrder="
           + closeOrder
+          + ", timeInForce="
+          + timeInForce
           + "]";
     }
 
@@ -495,6 +511,11 @@ public class KrakenStandardOrder {
     public Map<String, String> getCloseOrder() {
 
       return closeOrder;
+    }
+
+    public TimeInForce getTimeInForce() {
+
+      return timeInForce;
     }
   }
 }

@@ -36,7 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 import org.junit.Test;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOrders;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -83,9 +83,9 @@ public class CoinmateAdapterTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    CoinmateOrders coinmateOrders = mapper.readValue(is, CoinmateOrders.class);
+    CoinmateOrder coinmateOrder = mapper.readValue(is, CoinmateOrder.class);
 
-    Order order = CoinmateAdapters.adaptOrder(coinmateOrders.getData(), id -> null);
+    Order order = CoinmateAdapters.adaptOrder(coinmateOrder.getData(), id -> null);
 
     assertThat(order.getType() == Order.OrderType.ASK);
     assertThat(order.getId().equals("1"));
@@ -109,9 +109,9 @@ public class CoinmateAdapterTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    CoinmateOrders coinmateOrders = mapper.readValue(is, CoinmateOrders.class);
+    CoinmateOrder coinmateOrder = mapper.readValue(is, CoinmateOrder.class);
 
-    Order order = CoinmateAdapters.adaptOrder(coinmateOrders.getData(), id -> null);
+    Order order = CoinmateAdapters.adaptOrder(coinmateOrder.getData(), id -> null);
 
     assertThat(order.getType() == Order.OrderType.ASK);
     assertThat(order.getId().equals("2"));
