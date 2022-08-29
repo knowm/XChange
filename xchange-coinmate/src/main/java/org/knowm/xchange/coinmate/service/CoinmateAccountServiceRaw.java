@@ -32,6 +32,7 @@ import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistory;
 
 /** @author Martin Stachon */
 public class CoinmateAccountServiceRaw extends CoinmateBaseService {
@@ -260,5 +261,35 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
     throwExceptionIfError(tradeHistory);
 
     return tradeHistory;
+  }
+
+  public CoinmateTransferHistory getTransfersData(Integer limit, Long timestampFrom, Long timestampTo) throws IOException {
+    return getCoinmateTransferHistory(limit, null, null, timestampFrom, timestampTo, null);
+  }
+
+  public CoinmateTransferHistory getCoinmateTransferHistory(
+          Integer limit,
+          Integer lastId,
+          String sort,
+          Long timestampFrom,
+          Long timestampTo,
+          String currency)
+          throws IOException {
+    CoinmateTransferHistory transferHistory =
+            coinmateAuthenticated.getTransferHistory(
+                    exchange.getExchangeSpecification().getApiKey(),
+                    exchange.getExchangeSpecification().getUserName(),
+                    signatureCreator,
+                    exchange.getNonceFactory(),
+                    limit,
+                    lastId,
+                    sort,
+                    timestampFrom,
+                    timestampTo,
+                    currency);
+
+    throwExceptionIfError(transferHistory);
+
+    return transferHistory;
   }
 }

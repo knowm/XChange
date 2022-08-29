@@ -57,8 +57,8 @@ public class HuobiTradeService extends HuobiTradeServiceRaw implements TradeServ
       startId = null;
     }
 
-    HuobiOrder[] openOrders = getHuobiTradeHistory(currencyPair, startDate, endDate, startId);
-    return HuobiAdapters.adaptTradeHistory(openOrders);
+    HuobiOrder[] tradeHistory = getHuobiTradeHistory(currencyPair, startDate, endDate, startId);
+    return HuobiAdapters.adaptTradeHistory(tradeHistory);
   }
 
   @Override
