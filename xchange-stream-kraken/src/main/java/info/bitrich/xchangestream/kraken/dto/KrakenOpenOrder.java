@@ -55,8 +55,8 @@ public class KrakenOpenOrder {
     public BigDecimal price;
     /** secondary price */
     public BigDecimal price2;
-    /** amount of leverage */
-    public Double leverage;
+    /** amount of leverage, could be string like "5:1" */
+    public String leverage;
     /** order description */
     public String order;
     /** conditional close order description (if conditional close set) */
