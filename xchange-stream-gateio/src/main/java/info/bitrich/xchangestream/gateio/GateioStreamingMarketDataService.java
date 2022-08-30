@@ -1,5 +1,7 @@
-import dto.response.GateioOrderBookResponse;
-import dto.response.GateioTradesResponse;
+package info.bitrich.xchangestream.gateio;
+
+import info.bitrich.xchangestream.gateio.dto.response.GateioOrderBookResponse;
+import info.bitrich.xchangestream.gateio.dto.response.GateioTradesResponse;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
 import java.util.List;

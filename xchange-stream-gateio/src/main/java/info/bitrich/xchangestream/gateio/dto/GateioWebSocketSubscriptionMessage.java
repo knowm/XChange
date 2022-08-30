@@ -1,4 +1,4 @@
-package dto;
+package info.bitrich.xchangestream.gateio.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;
