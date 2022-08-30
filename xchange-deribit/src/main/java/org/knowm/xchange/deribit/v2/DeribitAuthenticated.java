@@ -171,6 +171,17 @@ public interface DeribitAuthenticated {
       throws DeribitException, IOException;
 
   /**
+   * This method cancels all users orders and trigger orders within all currencies and instrument kinds.
+   *
+   * @see <a href="https://docs.deribit.com/#private-cancel_all">docs.deribit.com</a>
+   */
+  @GET
+  @Path("cancel_all")
+  DeribitResponse<Integer> cancelAll(
+          @HeaderParam("Authorization") ParamsDigest auth)
+          throws DeribitException, IOException;
+
+  /**
    * Retrieves list of user's open orders.
    *
    * @param currency required, The currency symbol
