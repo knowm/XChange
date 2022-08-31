@@ -47,13 +47,13 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     KrakenAccountServiceRaw accountService = (KrakenAccountServiceRaw) getAccountService();
 
     this.streamingService =
-        new KrakenStreamingService(false, pickUri(false, useBeta), () -> authData(accountService));
+        new KrakenStreamingService(this, false, pickUri(false, useBeta), () -> authData(accountService));
     applyStreamingSpecification(getExchangeSpecification(), streamingService);
     this.streamingMarketDataService = new KrakenStreamingMarketDataService(streamingService);
 
     if (StringUtils.isNotEmpty(exchangeSpecification.getApiKey())) {
       this.privateStreamingService =
-          new KrakenStreamingService(true, pickUri(true, useBeta), () -> authData(accountService));
+          new KrakenStreamingService(this, true, pickUri(true, useBeta), () -> authData(accountService));
       applyStreamingSpecification(getExchangeSpecification(), privateStreamingService);
     }
 
