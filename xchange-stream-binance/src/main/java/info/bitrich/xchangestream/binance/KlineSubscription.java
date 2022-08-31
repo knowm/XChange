@@ -4,6 +4,7 @@ import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
 import org.knowm.xchange.currency.CurrencyPair;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public class KlineSubscription {
@@ -21,5 +22,11 @@ public class KlineSubscription {
 
   public boolean hasUnauthenticated() {
     return !isEmpty();
+  }
+
+  public boolean contains(CurrencyPair currencyPair, KlineInterval interval) {
+    return Optional.ofNullable(klines.get(currencyPair))
+        .filter(intervals -> intervals.contains(interval))
+        .isPresent();
   }
 }

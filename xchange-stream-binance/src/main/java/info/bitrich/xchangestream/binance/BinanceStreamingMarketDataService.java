@@ -148,8 +148,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   public Observable<BinanceKline> getKlines(CurrencyPair currencyPair, KlineInterval interval) {
     if (!service.isLiveSubscriptionEnabled()
-        && !service.getKlineSubscription().getKlines().containsKey(currencyPair)
-        && !service.getKlineSubscription().getKlines().get(currencyPair).contains(interval)) {
+        && !service.getKlineSubscription().contains(currencyPair, interval)) {
       throw new UpFrontSubscriptionRequiredException();
     }
     return klineSubscriptions.compute(
