@@ -3,6 +3,7 @@ package org.knowm.xchange.huobi.service;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
@@ -82,7 +83,7 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
 
     HuobiTradeWrapper[] huobiTrades = getHuobiTrades(currencyPair, size);
     List<Trade> trades =
-        Arrays.asList(huobiTrades).stream()
+        Arrays.stream(huobiTrades)
             .map(t -> t.getData()[0])
             .map(
                 t ->
@@ -95,8 +96,10 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
                         .id(t.getId())
                         .build())
             .collect(Collectors.toList());
+    Trades sortedTrades =  new Trades(trades);
+    Collections.reverse(sortedTrades.getTrades());
 
-    return new Trades(trades);
+    return sortedTrades;
   }
 
   @Override

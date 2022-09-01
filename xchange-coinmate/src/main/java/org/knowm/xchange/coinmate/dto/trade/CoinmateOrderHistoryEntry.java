@@ -2,6 +2,7 @@ package org.knowm.xchange.coinmate.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class CoinmateOrderHistoryEntry {
 
@@ -11,6 +12,7 @@ public class CoinmateOrderHistoryEntry {
   private final BigDecimal price;
   private final BigDecimal remainingAmount;
   private final BigDecimal originalAmount;
+  private final BigDecimal cumulativeAmount;
   private final String status;
   private final String orderTradeType;
   private final BigDecimal stopPrice;
@@ -23,6 +25,7 @@ public class CoinmateOrderHistoryEntry {
   private final BigDecimal avgPrice;
   private final String stopLossOrderId;
   private final String originalOrderId;
+  private final List<CoinmateTradeHistoryEntry> trades;
 
   public CoinmateOrderHistoryEntry(
       @JsonProperty("id") long id,
@@ -31,6 +34,7 @@ public class CoinmateOrderHistoryEntry {
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("remainingAmount") BigDecimal remainingAmount,
       @JsonProperty("originalAmount") BigDecimal originalAmount,
+      @JsonProperty("cumulativeAmount") BigDecimal cumulativeAmount,
       @JsonProperty("status") String status,
       @JsonProperty("orderTradeType") String orderTradeType,
       @JsonProperty("stopPrice") BigDecimal stopPrice,
@@ -42,7 +46,8 @@ public class CoinmateOrderHistoryEntry {
       @JsonProperty("hidden") boolean hidden,
       @JsonProperty("avgPrice") BigDecimal avgPrice,
       @JsonProperty("stopLossOrderId") String stopLossOrderId,
-      @JsonProperty("originalOrderId") String originalOrderId) {
+      @JsonProperty("originalOrderId") String originalOrderId,
+      @JsonProperty("trades") List<CoinmateTradeHistoryEntry> trades) {
 
     this.id = id;
     this.timestamp = timestamp;
@@ -50,6 +55,7 @@ public class CoinmateOrderHistoryEntry {
     this.price = price;
     this.remainingAmount = remainingAmount;
     this.originalAmount = originalAmount;
+    this.cumulativeAmount = cumulativeAmount;
     this.status = status;
     this.orderTradeType = orderTradeType;
     this.stopPrice = stopPrice;
@@ -62,6 +68,7 @@ public class CoinmateOrderHistoryEntry {
     this.avgPrice = avgPrice;
     this.stopLossOrderId = stopLossOrderId;
     this.originalOrderId = originalOrderId;
+    this.trades = trades;
   }
 
   public long getId() {
@@ -134,5 +141,13 @@ public class CoinmateOrderHistoryEntry {
 
   public String getOrderTradeType() {
     return orderTradeType;
+  }
+
+  public BigDecimal getCumulativeAmount() {
+    return cumulativeAmount;
+  }
+
+  public List<CoinmateTradeHistoryEntry> getTrades() {
+    return trades;
   }
 }

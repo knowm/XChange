@@ -41,24 +41,22 @@ public class OkexAdapters {
     List<UserTrade> userTradeList = new ArrayList<>();
 
     okexTradeHistory.forEach(
-        okexOrderDetails -> {
-          userTradeList.add(
-              new UserTrade.Builder()
-                  .originalAmount(new BigDecimal(okexOrderDetails.getAmount()))
-                  .instrument(new CurrencyPair(okexOrderDetails.getInstrumentId()))
-                  .currencyPair(new CurrencyPair(okexOrderDetails.getInstrumentId()))
-                  .price(new BigDecimal(okexOrderDetails.getAverageFilledPrice()))
-                  .type(adaptOkexOrderSideToOrderType(okexOrderDetails.getSide()))
-                  .id(okexOrderDetails.getOrderId())
-                  .orderId(okexOrderDetails.getOrderId())
-                  .timestamp(
-                      Date.from(
-                          Instant.ofEpochMilli(Long.parseLong(okexOrderDetails.getUpdateTime()))))
-                  .feeAmount(new BigDecimal(okexOrderDetails.getFee()))
-                  .feeCurrency(new Currency(okexOrderDetails.getFeeCurrency()))
-                  .orderUserReference(okexOrderDetails.getClientOrderId())
-                  .build());
-        });
+        okexOrderDetails -> userTradeList.add(
+            new UserTrade.Builder()
+                .originalAmount(new BigDecimal(okexOrderDetails.getAmount()))
+                .instrument(new CurrencyPair(okexOrderDetails.getInstrumentId()))
+                .currencyPair(new CurrencyPair(okexOrderDetails.getInstrumentId()))
+                .price(new BigDecimal(okexOrderDetails.getAverageFilledPrice()))
+                .type(adaptOkexOrderSideToOrderType(okexOrderDetails.getSide()))
+                .id(okexOrderDetails.getOrderId())
+                .orderId(okexOrderDetails.getOrderId())
+                .timestamp(
+                    Date.from(
+                        Instant.ofEpochMilli(Long.parseLong(okexOrderDetails.getUpdateTime()))))
+                .feeAmount(new BigDecimal(okexOrderDetails.getFee()))
+                .feeCurrency(new Currency(okexOrderDetails.getFeeCurrency()))
+                .orderUserReference(okexOrderDetails.getClientOrderId())
+                .build()));
 
     return new UserTrades(userTradeList, Trades.TradeSortType.SortByTimestamp);
   }
@@ -337,13 +335,13 @@ public class OkexAdapters {
       List<CandleStick> candleStickList = new ArrayList<>();
       for (OkexCandleStick okexCandleStick : okexCandleStickList) {
         candleStickList.add(new CandleStick.Builder()
-                .date(new Date(okexCandleStick.getTimestamp()))
+                .timestamp(new Date(okexCandleStick.getTimestamp()))
                 .open(new BigDecimal(okexCandleStick.getOpenPrice()))
                 .high(new BigDecimal(okexCandleStick.getHighPrice()))
                 .low(new BigDecimal(okexCandleStick.getLowPrice()))
                 .close(new BigDecimal(okexCandleStick.getClosePrice()))
                 .volume(new BigDecimal(okexCandleStick.getVolume()))
-                .currencyVolume(new BigDecimal(okexCandleStick.getVolumeCcy()))
+                .quotaVolume(new BigDecimal(okexCandleStick.getVolumeCcy()))
                 .build());
       }
       candleStickData = new CandleStickData(currencyPair, candleStickList);

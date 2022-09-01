@@ -1,10 +1,5 @@
 package org.knowm.xchange.poloniex.service;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.CandleStickData;
@@ -13,6 +8,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
 import org.knowm.xchange.poloniex.PoloniexUtils;
@@ -23,6 +19,14 @@ import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
+import org.knowm.xchange.service.trade.params.CandleStickDataParams;
+import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /** @author Zach Holmes */
 public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw
@@ -31,10 +35,9 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw
   /**
    * Constructor
    *
-   * @param exchange
+   * @param exchange Exchange instance for the service
    */
   public PoloniexMarketDataService(Exchange exchange) {
-
     super(exchange);
   }
 
@@ -71,8 +74,7 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw
       throws ExchangeException, IOException {
 
     try {
-      PoloniexDepth depth = null;
-
+      PoloniexDepth depth;
       int depthLimit = 999999; // ~full order book
       if (args != null && args.length > 0) {
         if (args[0] instanceof Integer) {
@@ -112,7 +114,7 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw
             }
         }
       }
-      PoloniexPublicTrade[] poloniexPublicTrades = null;
+      PoloniexPublicTrade[] poloniexPublicTrades;
       if (startTime == null && endTime == null) {
         poloniexPublicTrades = getPoloniexPublicTrades(currencyPair);
       } else {
@@ -125,19 +127,24 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw
   }
 
   @Override
-  public CandleStickData getCandleStickData(CurrencyPair currencyPair, Date startDate, Date endDate, Object... args)
+  public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params)
           throws IOException {
-
+    if (!(params instanceof DefaultCandleStickParam)) {
+      throw new NotYetImplementedForExchangeException("Only DefaultCandleStickParam is supported");
+    }
     try {
-      String period = null;
-      if (args != null && args.length == 1) {
-        if (args[0] != null && args[0] instanceof String) {
-          period = (String) args[0];
-        }
+      DefaultCandleStickParam defaultCandleStickParam = (DefaultCandleStickParam) params;
+      PoloniexChartDataPeriodType periodType =
+              PoloniexChartDataPeriodType.getPeriodTypeFromSecs(defaultCandleStickParam.getPeriodInSecs());
+      if (periodType == null) {
+        throw new NotYetImplementedForExchangeException("Only discrete period values are " +
+                "supported;" + Arrays.toString(PoloniexChartDataPeriodType.getSupportedPeriodsInSecs()));
       }
-      PoloniexChartDataPeriodType periodType = period != null ? PoloniexChartDataPeriodType.valueOf(period) : PoloniexChartDataPeriodType.PERIOD_300;
 
-      PoloniexChartData[] poloniexChartData = getPoloniexChartData(currencyPair, TimeUnit.MILLISECONDS.toSeconds(startDate.getTime()), TimeUnit.MILLISECONDS.toSeconds(endDate.getTime()), periodType);
+      PoloniexChartData[] poloniexChartData = getPoloniexChartData(currencyPair,
+              TimeUnit.MILLISECONDS.toSeconds(defaultCandleStickParam.getStartDate().getTime()),
+              TimeUnit.MILLISECONDS.toSeconds(defaultCandleStickParam.getEndDate().getTime()),
+              periodType);
       return PoloniexAdapters.adaptPoloniexCandleStickData(poloniexChartData, currencyPair);
     } catch (PoloniexException e) {
       throw PoloniexErrorAdapter.adapt(e);

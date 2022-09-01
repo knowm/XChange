@@ -17,21 +17,17 @@ public class OpenPositionsTest {
   public void openPositionJsonMarchallTest() throws JsonProcessingException {
 
     List<OpenPosition> openPositionList = new ArrayList<>();
-    openPositionList.add(
-        new OpenPosition(
-            CurrencyPair.BTC_USD,
-            OpenPosition.Type.LONG,
-            BigDecimal.ONE,
-            BigDecimal.ONE,
-            BigDecimal.TEN));
+    OpenPosition openPosition =
+        new OpenPosition.Builder()
+            .instrument(CurrencyPair.BTC_USD)
+            .type(OpenPosition.Type.LONG)
+            .price(BigDecimal.ONE)
+            .size(BigDecimal.ONE)
+            .liquidationPrice(BigDecimal.TEN)
+            .build();
+    openPositionList.add(openPosition);
     openPositionList.add(new OpenPosition.Builder().instrument(CurrencyPair.BTC_USD).build());
-    openPositionList.add(
-        new OpenPosition(
-            CurrencyPair.BTC_USD,
-            OpenPosition.Type.LONG,
-            BigDecimal.ONE,
-            BigDecimal.ONE,
-            BigDecimal.TEN));
+    openPositionList.add(openPosition);
     OpenPositions openPositions = new OpenPositions(openPositionList);
 
     String json = new ObjectMapper().writeValueAsString(openPositions);

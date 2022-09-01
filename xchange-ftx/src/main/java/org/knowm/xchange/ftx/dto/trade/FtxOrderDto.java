@@ -1,10 +1,10 @@
 package org.knowm.xchange.ftx.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-import org.knowm.xchange.dto.Order;
 
 public class FtxOrderDto {
 
@@ -28,7 +28,7 @@ public class FtxOrderDto {
 
   private final BigDecimal size;
 
-  private final Order.OrderStatus status;
+  private final FtxOrderStatus status;
 
   private final FtxOrderType type;
 
@@ -39,6 +39,8 @@ public class FtxOrderDto {
   private final boolean postOnly;
 
   private final String clientId;
+
+  @JsonIgnore private final boolean liquidation;
 
   @JsonCreator
   public FtxOrderDto(
@@ -52,11 +54,12 @@ public class FtxOrderDto {
       @JsonProperty("avgFillPrice") BigDecimal avgFillPrice,
       @JsonProperty("side") FtxOrderSide side,
       @JsonProperty("size") BigDecimal size,
-      @JsonProperty("status") String status,
+      @JsonProperty("status") FtxOrderStatus status,
       @JsonProperty("type") FtxOrderType type,
       @JsonProperty("reduceOnly") boolean reduceOnly,
       @JsonProperty("ioc") boolean ioc,
       @JsonProperty("postOnly") boolean postOnly,
+      @JsonProperty("liquidation") boolean liquidation,
       @JsonProperty("clientId") String clientId) {
     this.createdAt = createdAt;
     this.filledSize = filledSize;
@@ -68,11 +71,12 @@ public class FtxOrderDto {
     this.avgFillPrice = avgFillPrice;
     this.side = side;
     this.size = size;
-    this.status = Order.OrderStatus.valueOf(status.toUpperCase());
+    this.status = status;
     this.type = type;
     this.reduceOnly = reduceOnly;
     this.ioc = ioc;
     this.postOnly = postOnly;
+    this.liquidation = liquidation;
     this.clientId = clientId;
   }
 
@@ -116,7 +120,7 @@ public class FtxOrderDto {
     return size;
   }
 
-  public Order.OrderStatus getStatus() {
+  public FtxOrderStatus getStatus() {
     return status;
   }
 
@@ -134,6 +138,10 @@ public class FtxOrderDto {
 
   public boolean isPostOnly() {
     return postOnly;
+  }
+
+  public boolean isLiquidation() {
+    return liquidation;
   }
 
   public String getClientId() {
@@ -179,6 +187,8 @@ public class FtxOrderDto {
         + ", clientId='"
         + clientId
         + '\''
+        + ", liquidation="
+        + liquidation
         + '}';
   }
 }
