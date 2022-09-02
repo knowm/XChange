@@ -33,7 +33,7 @@ class LgoTradeBatchSubscription {
     Observable<Trade> observable =
         service
             .subscribeChannel(LgoAdapter.channelName("trades", currencyPair))
-            .map(s -> mapper.readValue(s.toString(), LgoTradesUpdate.class))
+            .map(s -> mapper.treeToValue(s, LgoTradesUpdate.class))
             .scan(
                 new LgoGroupedTradeUpdate(currencyPair),
                 (acc, s) -> {
