@@ -189,6 +189,54 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     }
   }
 
+
+  public List<FundingRecord> getStakingHistory(TradeHistoryParams params) throws IOException {
+
+    Date startTime = null;
+    Date endTime = null;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
+      startTime = timeSpanParam.getStartTime();
+      endTime = timeSpanParam.getEndTime();
+    }
+
+    Long offset = null;
+    if (params instanceof TradeHistoryParamOffset) {
+      offset = ((TradeHistoryParamOffset) params).getOffset();
+    }
+
+    Currency[] currencies = null;
+    if (params instanceof TradeHistoryParamCurrencies) {
+      final TradeHistoryParamCurrencies currenciesParam = (TradeHistoryParamCurrencies) params;
+      if (currenciesParam.getCurrencies() != null) {
+        currencies = currenciesParam.getCurrencies();
+      }
+    }
+
+    LedgerType ledgerType = null;
+    if (params instanceof HistoryParamsFundingType) {
+      final FundingRecord.Type type = ((HistoryParamsFundingType) params).getType();
+      ledgerType =
+              type == FundingRecord.Type.DEPOSIT
+                      ? LedgerType.DEPOSIT
+                      : type == FundingRecord.Type.WITHDRAWAL ? LedgerType.WITHDRAWAL : null;
+    }
+
+    if (ledgerType == null) {
+      Map<String, KrakenLedger> ledgerEntries =
+              getKrakenLedgerInfo(LedgerType.DEPOSIT, startTime, endTime, offset, currencies);
+      ledgerEntries.putAll(
+              getKrakenLedgerInfo(LedgerType.WITHDRAWAL, startTime, endTime, offset, currencies));
+      return KrakenAdapters.adaptFundingHistory(ledgerEntries);
+    } else {
+      return KrakenAdapters.adaptFundingHistory(
+              getKrakenLedgerInfo(ledgerType, startTime, endTime, offset, currencies));
+    }
+  }
+
+
+
+
   public static class KrakenFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan
       implements TradeHistoryParamOffset, TradeHistoryParamCurrencies, HistoryParamsFundingType {
 

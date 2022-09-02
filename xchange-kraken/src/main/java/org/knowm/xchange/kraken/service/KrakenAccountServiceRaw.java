@@ -26,6 +26,8 @@ import org.knowm.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenDepositMethodsResults;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenStakingTransactionsResult;
+import org.knowm.xchange.kraken.dto.account.KrakenStaking;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenWebsocketTokenResult;
@@ -224,6 +226,18 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
             exchange.getNonceFactory());
     return checkResult(ledgerResult).getLedgerMap();
   }
+
+
+  public KrakenStaking[] getKrakenStaking() throws IOException {
+    KrakenStakingTransactionsResult result =
+            kraken.getStakingTransactions(
+                    exchange.getExchangeSpecification().getApiKey(),
+                    signatureCreator,
+                    exchange.getNonceFactory()
+            );
+    return checkResult(result).getStakings();
+  }
+
 
   /**
    * Retrieves all ledger entries between the start date and the end date. This method iterates over

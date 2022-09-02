@@ -18,6 +18,7 @@ import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenStakingTransactionsResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenWebsocketTokenResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawInfoResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawResult;
@@ -319,4 +320,18 @@ public interface KrakenAuthenticated extends Kraken {
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
       throws IOException;
+
+
+  /**
+   * Get STAKING transactions
+   */
+  @POST
+  @Path("private/Staking/Transactions")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  KrakenStakingTransactionsResult getStakingTransactions(
+          @HeaderParam("API-Key") String apiKey,
+          @HeaderParam("API-Sign") ParamsDigest signer,
+          @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+          throws IOException;
+
 }
