@@ -3,6 +3,7 @@ package org.knowm.xchange.huobi.service;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
@@ -11,12 +12,15 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.huobi.HuobiAdapters;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiDepth;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiTradeWrapper;
 import org.knowm.xchange.huobi.dto.marketdata.KlineInterval;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
+import org.knowm.xchange.service.trade.params.CandleStickDataParams;
+import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
 
 public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements MarketDataService {
 
@@ -82,7 +86,7 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
 
     HuobiTradeWrapper[] huobiTrades = getHuobiTrades(currencyPair, size);
     List<Trade> trades =
-        Arrays.asList(huobiTrades).stream()
+        Arrays.stream(huobiTrades)
             .map(t -> t.getData()[0])
             .map(
                 t ->
@@ -95,25 +99,32 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
                         .id(t.getId())
                         .build())
             .collect(Collectors.toList());
+    Trades sortedTrades =  new Trades(trades);
+    Collections.reverse(sortedTrades.getTrades());
 
-    return new Trades(trades);
+    return sortedTrades;
   }
 
   @Override
-  public CandleStickData getCandleStickData(CurrencyPair currencyPair, Date startDate, Date endDate, Object... args) throws IOException {
-    String period = null;
+  public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params) throws IOException {
 
-    if (args != null) {
-      if (args.length > 0) {
-        if (args[0] != null && args[0] instanceof String) {
-          period = (String) args[0];
-        }
-      }
+
+    if (!(params instanceof DefaultCandleStickParam)) {
+      throw new NotYetImplementedForExchangeException("Only DefaultCandleStickParam is supported");
     }
 
-    long timeDifferenceInMilis = Math.abs(new Date().getTime() - startDate.getTime());
-    int size = Math.min((int) (timeDifferenceInMilis / KlineInterval.valueOf(period).getMillis()), MAX_NUMBER_OF_KLINE_RETURNS);
+    DefaultCandleStickParam defaultCandleStickParam = (DefaultCandleStickParam) params;
+    KlineInterval klineInterval = KlineInterval.valueOf(String.valueOf(defaultCandleStickParam.getPeriodInSecs()));
+    Long period = klineInterval.getMillis();
+    if (period == null) {
+      throw new NotYetImplementedForExchangeException("Only discrete period values are supported;" +
+              Arrays.toString(KlineInterval.getSupportedPeriodsInSecs()));
+    }
 
-    return HuobiAdapters.adaptCandleStickData(getKlines(currencyPair, KlineInterval.valueOf(period), size), currencyPair, endDate);
+
+    long timeDifferenceInMilis = Math.abs(new Date().getTime() - defaultCandleStickParam.getStartDate().getTime());
+    int size = Math.min((int) (timeDifferenceInMilis / period), MAX_NUMBER_OF_KLINE_RETURNS);
+
+    return HuobiAdapters.adaptCandleStickData(getKlines(currencyPair, klineInterval, size), currencyPair, defaultCandleStickParam.getEndDate());
   }
 }

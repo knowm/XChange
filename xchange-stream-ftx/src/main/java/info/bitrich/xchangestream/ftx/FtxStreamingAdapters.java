@@ -11,20 +11,24 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrade.Builder;
 import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.ftx.dto.marketdata.FtxTradeDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderFlags;
@@ -35,12 +39,15 @@ public class FtxStreamingAdapters {
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
   private static final ThreadLocal<DecimalFormat> dfp =
-      ThreadLocal.withInitial(() -> new DecimalFormat("0.0#######"));
+      ThreadLocal.withInitial(
+          () -> new DecimalFormat("0.0#######", new DecimalFormatSymbols(Locale.US)));
 
   private static final ThreadLocal<DecimalFormat> dfs =
-      ThreadLocal.withInitial(() -> new DecimalFormat("0.####E00"));
+      ThreadLocal.withInitial(
+          () -> new DecimalFormat("0.####E00", new DecimalFormatSymbols(Locale.US)));
   private static final ThreadLocal<DecimalFormat> dfq =
-      ThreadLocal.withInitial(() -> new DecimalFormat("0.0#######"));
+      ThreadLocal.withInitial(
+          () -> new DecimalFormat("0.0#######", new DecimalFormatSymbols(Locale.US)));
 
   static Ticker NULL_TICKER =
       new Ticker.Builder().build(); // not need to create a new one each time
@@ -110,7 +117,17 @@ public class FtxStreamingAdapters {
                     getOrderbookChecksum(orderBook.getAsks(), orderBook.getBids());
 
                 if (!calculatedChecksum.equals(message.getChecksum())) {
-                  throw new IllegalStateException("Checksum is not correct!");
+                  final OrderBook sortedOrderBook =
+                      new OrderBook(
+                          Date.from(Instant.now()),
+                          new ArrayList<>(orderBook.getAsks()),
+                          new ArrayList<>(orderBook.getBids()),
+                          true);
+                  calculatedChecksum =
+                      getOrderbookChecksum(sortedOrderBook.getAsks(), sortedOrderBook.getBids());
+                  if (!calculatedChecksum.equals(message.getChecksum())) {
+                    throw new IllegalStateException("Checksum is not correct!");
+                  }
                 }
               }
             });
@@ -150,11 +167,11 @@ public class FtxStreamingAdapters {
       }
     }
 
-    String s = data.toString().replace("E", "e"); // strip last :
+    String s = data.toString().replace("E", "e");
 
     CRC32 crc32 = new CRC32();
     byte[] toBytes = s.getBytes(StandardCharsets.UTF_8);
-    crc32.update(toBytes, 0, toBytes.length - 1);
+    crc32.update(toBytes, 0, toBytes.length - 1); // strip last :
 
     return crc32.getValue();
   }
@@ -204,22 +221,34 @@ public class FtxStreamingAdapters {
   public static UserTrade adaptUserTrade(JsonNode jsonNode) {
     JsonNode data = jsonNode.get("data");
 
-    return new UserTrade.Builder()
-        .currencyPair(new CurrencyPair(data.get("market").asText()))
-        .type("buy".equals(data.get("side").asText()) ? Order.OrderType.BID : Order.OrderType.ASK)
-        .instrument(new CurrencyPair(data.get("market").asText()))
-        .originalAmount(data.get("size").decimalValue())
-        .price(data.get("price").decimalValue())
-        .timestamp(Date.from(Instant.ofEpochMilli(data.get("time").asLong())))
-        .id(data.get("id").asText())
-        .orderId(data.get("orderId").asText())
-        .feeAmount(data.get("fee").decimalValue())
-        .feeCurrency(new Currency(data.get("feeCurrency").asText()))
-        .build();
+    Builder userTradeBuilder =
+        new Builder()
+            .currencyPair(new CurrencyPair(data.get("market").asText()))
+            .type("buy".equals(data.get("side").asText()) ? OrderType.BID : OrderType.ASK)
+            .instrument(new CurrencyPair(data.get("market").asText()))
+            .originalAmount(data.get("size").decimalValue())
+            .price(data.get("price").decimalValue())
+            .timestamp(Date.from(Instant.ofEpochMilli(data.get("time").asLong())))
+            .id(data.get("id").asText())
+            .orderId(data.get("orderId").asText())
+            .feeAmount(data.get("fee").decimalValue())
+            .feeCurrency(new Currency(data.get("feeCurrency").asText()));
+
+    if (data.has("clientOrderId")) {
+      userTradeBuilder.orderUserReference(data.get("clientOrderId").asText());
+    }
+    return userTradeBuilder.build();
   }
 
   public static Order adaptOrders(JsonNode jsonNode) {
     JsonNode data = jsonNode.get("data");
+
+    // FTX reduces the remaining size on closed orders to 0 even though it's not filled.
+    // Without any trade this results in a cumulative quantity equal to the size of the order,
+    // which is wrong. We therefore calculate the remaining quantity manually.
+    BigDecimal size = data.get("size").decimalValue();
+    BigDecimal filledSize = data.get("filledSize").decimalValue();
+    BigDecimal remainingSize = size.subtract(filledSize);
 
     LimitOrder.Builder order =
         new LimitOrder.Builder(
@@ -230,13 +259,20 @@ public class FtxStreamingAdapters {
             .limitPrice(data.get("price").decimalValue())
             .originalAmount(data.get("size").decimalValue())
             .userReference(data.get("clientId").asText())
-            .remainingAmount(data.get("remainingSize").decimalValue())
+            .remainingAmount(remainingSize)
+            .cumulativeAmount(data.get("filledSize").decimalValue())
             .averagePrice(data.get("avgFillPrice").decimalValue())
             .orderStatus(Order.OrderStatus.valueOf(data.get("status").asText().toUpperCase()));
 
-    if (data.get("ioc").asBoolean()) order.flag(FtxOrderFlags.IOC);
-    if (data.get("postOnly").asBoolean()) order.flag(FtxOrderFlags.POST_ONLY);
-    if (data.get("reduceOnly").asBoolean()) order.flag(FtxOrderFlags.REDUCE_ONLY);
+    if (data.get("ioc").asBoolean()) {
+      order.flag(FtxOrderFlags.IOC);
+    }
+    if (data.get("postOnly").asBoolean()) {
+      order.flag(FtxOrderFlags.POST_ONLY);
+    }
+    if (data.get("reduceOnly").asBoolean()) {
+      order.flag(FtxOrderFlags.REDUCE_ONLY);
+    }
 
     return order.build();
   }

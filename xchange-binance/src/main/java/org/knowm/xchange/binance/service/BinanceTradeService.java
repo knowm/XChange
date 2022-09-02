@@ -98,7 +98,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public String placeMarketOrder(MarketOrder mo) throws IOException {
-    return placeOrder(OrderType.MARKET, mo, null, null, null);
+    return placeOrder(OrderType.MARKET, mo, null, null, null, null, null);
   }
 
   @Override
@@ -111,7 +111,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     } else {
       type = OrderType.LIMIT;
     }
-    return placeOrder(type, limitOrder, limitOrder.getLimitPrice(), null, tif);
+    return placeOrder(type, limitOrder, limitOrder.getLimitPrice(), null, null, null, tif);
   }
 
   @Override
@@ -126,7 +126,8 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
     OrderType orderType = BinanceAdapters.adaptOrderType(order);
 
-    return placeOrder(orderType, order, order.getLimitPrice(), order.getStopPrice(), tif);
+    return placeOrder(
+        orderType, order, order.getLimitPrice(), order.getStopPrice(), null, null, tif);
   }
 
   private Optional<TimeInForce> timeInForceFromOrder(Order order) {
@@ -137,7 +138,13 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   private String placeOrder(
-      OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif)
+      OrderType type,
+      Order order,
+      BigDecimal limitPrice,
+      BigDecimal stopPrice,
+      BigDecimal quoteOrderQty,
+      Long trailingDelta,
+      TimeInForce tif)
       throws IOException {
     try {
       Long recvWindow =
@@ -150,9 +157,11 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
               type,
               tif,
               order.getOriginalAmount(),
+              quoteOrderQty, // TODO (BigDecimal)order.getExtraValue("quoteOrderQty")
               limitPrice,
               getClientOrderId(order),
               stopPrice,
+              trailingDelta, // TODO (Long)order.getExtraValue("trailingDelta")
               null,
               null);
       return Long.toString(newOrder.orderId);
@@ -163,6 +172,17 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   public void placeTestOrder(
       OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice) throws IOException {
+    placeTestOrder(type, order, limitPrice, stopPrice, null, null);
+  }
+
+  public void placeTestOrder(
+      OrderType type,
+      Order order,
+      BigDecimal limitPrice,
+      BigDecimal stopPrice,
+      BigDecimal quoteOrderQty,
+      Long trailingDelta)
+      throws IOException {
     try {
       TimeInForce tif = timeInForceFromOrder(order).orElse(null);
       Long recvWindow =
@@ -174,9 +194,11 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
           type,
           tif,
           order.getOriginalAmount(),
+          quoteOrderQty,
           limitPrice,
           getClientOrderId(order),
           stopPrice,
+          trailingDelta,
           null);
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
@@ -360,6 +382,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Value
   static final class ClientIdFlag implements BinanceOrderFlags {
+
     private final String clientId;
   }
 }

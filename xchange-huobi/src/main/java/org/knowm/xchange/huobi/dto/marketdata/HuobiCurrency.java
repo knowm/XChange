@@ -2,28 +2,30 @@ package org.knowm.xchange.huobi.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
+
 public class HuobiCurrency {
 
-  private String chain;
-  private String displayName;
-  private String baseChain;
-  private String baseChainProtocol;
-  private boolean isDynamic;
-  private String depositStatus;
-  private String maxTransactFeeWithdraw;
-  private String maxWithdrawAmt;
-  private String minDepositAmt;
-  private String minTransactFeeWithdraw;
-  private String minWithdrawAmt;
-  private int numOfConfirmations;
-  private int numOfFastConfirmations;
-  private String transactFeeWithdraw;
-  private String withdrawFeeType;
-  private int withdrawPrecision;
-  private String withdrawQuotaPerDay;
-  private String withdrawQuotaPerYear;
-  private String withdrawQuotaTotal;
-  private String withdrawStatus;
+  private final String chain;
+  private final String displayName;
+  private final String baseChain;
+  private final String baseChainProtocol;
+  private final boolean isDynamic;
+  private final String depositStatus;
+  private final String maxTransactFeeWithdraw;
+  private final String maxWithdrawAmt;
+  private final String minDepositAmt;
+  private final String minTransactFeeWithdraw;
+  private final String minWithdrawAmt;
+  private final int numOfConfirmations;
+  private final int numOfFastConfirmations;
+  private final BigDecimal transactFeeWithdraw;
+  private final String withdrawFeeType;
+  private final int withdrawPrecision;
+  private final String withdrawQuotaPerDay;
+  private final String withdrawQuotaPerYear;
+  private final String withdrawQuotaTotal;
+  private final String withdrawStatus;
 
   public HuobiCurrency(
       @JsonProperty("chain") String chain,
@@ -39,7 +41,7 @@ public class HuobiCurrency {
       @JsonProperty("minWithdrawAmt") String minWithdrawAmt,
       @JsonProperty("numOfConfirmations") int numOfConfirmations,
       @JsonProperty("numOfFastConfirmations") int numOfFastConfirmations,
-      @JsonProperty("transactFeeWithdraw") String transactFeeWithdraw,
+      @JsonProperty("transactFeeWithdraw") BigDecimal transactFeeWithdraw,
       @JsonProperty("withdrawFeeType") String withdrawFeeType,
       @JsonProperty("withdrawPrecision") int withdrawPrecision,
       @JsonProperty("withdrawQuotaPerDay") String withdrawQuotaPerDay,
@@ -120,7 +122,7 @@ public class HuobiCurrency {
     return numOfFastConfirmations;
   }
 
-  public String getTransactFeeWithdraw() {
+  public BigDecimal getTransactFeeWithdraw() {
     return transactFeeWithdraw;
   }
 

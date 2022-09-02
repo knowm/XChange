@@ -14,5 +14,6 @@ public class ExchangeInitIntegration {
 
     assertThat(ftx.getExchangeSymbols().isEmpty()).isFalse();
     assertThat(ftx.getExchangeInstruments().isEmpty()).isFalse();
+    assertThat(ftx.getExchangeMetaData().getCurrencyPairs().isEmpty()).isFalse();
   }
 }

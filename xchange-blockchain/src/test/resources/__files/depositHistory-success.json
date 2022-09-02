@@ -1,0 +1,11 @@
+[
+  {
+    "depositId": "string",
+    "amount": 12.23,
+    "currency": "BTC",
+    "address": "string",
+    "txHash": "string",
+    "state": "REJECTED",
+    "timestamp": 1592830770594
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "channel": "orders",
+  "type": "update",
+  "data": {
+    "id": 142267498271,
+    "clientId": "f138c9fb-1498-4c10-b3f0-e8deb6617ea0",
+    "market": "BTC-PERP",
+    "type": "market",
+    "side": "buy",
+    "price": null,
+    "size": 0.001,
+    "status": "closed",
+    "filledSize": 0.001,
+    "remainingSize": 0.0,
+    "reduceOnly": false,
+    "liquidation": false,
+    "avgFillPrice": 38520.0,
+    "postOnly": false,
+    "ioc": true,
+    "createdAt": "2022-05-03T12:55:42.945263+00:00"
+  }
+}

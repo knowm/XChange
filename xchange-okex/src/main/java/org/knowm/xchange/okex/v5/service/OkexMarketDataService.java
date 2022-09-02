@@ -1,20 +1,24 @@
 package org.knowm.xchange.okex.v5.service;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.OkexAdapters;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.trade.params.CandleStickDataParams;
+import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
+import org.knowm.xchange.service.trade.params.DefaultCandleStickParamWithLimit;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexMarketDataService extends OkexMarketDataServiceRaw implements MarketDataService {
@@ -50,29 +54,33 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
         getOkexTrades(OkexAdapters.adaptCurrencyPairId(currencyPair), 100).getData(), currencyPair);
   }
 
+
+
   @Override
-  public CandleStickData getCandleStickData(CurrencyPair currencyPair, Date startDate, Date endDate, Object... args)
+  public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params)
           throws IOException {
 
-    String limit = null;
-    String period = null;
+    if (!(params instanceof DefaultCandleStickParam)) {
+      throw new NotYetImplementedForExchangeException("Only DefaultCandleStickParam is supported");
+    }
+    DefaultCandleStickParam defaultCandleStickParam = (DefaultCandleStickParam) params;
+    OkexCandleStickPeriodType periodType =
+            OkexCandleStickPeriodType.getPeriodTypeFromSecs(defaultCandleStickParam.getPeriodInSecs());
+    if (periodType == null) {
+      throw new NotYetImplementedForExchangeException("Only discrete period values are supported;" +
+              Arrays.toString(OkexCandleStickPeriodType.getSupportedPeriodsInSecs()));
+    }
 
-    if (args != null) {
-      switch (args.length) {
-        case 2:
-          if (args[1] != null && args[1] instanceof String) {
-            limit = (String) args[1];
-          }
-        case 1:
-          if (args[0] != null && args[0] instanceof String) {
-            period = (String) args[0];
-          }
-      }
+    String limit = null;
+    if (params instanceof DefaultCandleStickParamWithLimit) {
+      limit = String.valueOf(((DefaultCandleStickParamWithLimit) params).getLimit());
     }
 
     OkexResponse<List<OkexCandleStick>> historyCandle = getHistoryCandle(
-            OkexAdapters.adaptCurrencyPairId(currencyPair), String.valueOf(endDate.getTime()), String.valueOf(startDate.getTime()), period, limit);
+            OkexAdapters.adaptCurrencyPairId(currencyPair),
+            String.valueOf(defaultCandleStickParam.getEndDate().getTime()),
+            String.valueOf(defaultCandleStickParam.getStartDate().getTime()),
+            periodType.getFieldValue(), limit);
     return OkexAdapters.adaptCandleStickData(historyCandle.getData(), currencyPair);
   }
-
 }

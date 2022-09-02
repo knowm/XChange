@@ -410,13 +410,13 @@ public class PoloniexAdapters {
       List<CandleStick> candleSticks = new ArrayList<>();
       for (PoloniexChartData chartData : poloniexChartData) {
         candleSticks.add(new CandleStick.Builder()
-                .date(chartData.getDate())
+                .timestamp(chartData.getDate())
                 .open(chartData.getOpen())
                 .high(chartData.getHigh())
                 .low(chartData.getLow())
                 .close(chartData.getClose())
                 .volume(chartData.getVolume())
-                .currencyVolume(chartData.getQuoteVolume())
+                .quotaVolume(chartData.getQuoteVolume())
                 .build()
         );
       }
