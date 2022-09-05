@@ -7,6 +7,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.gateio.GateioAdapters;
@@ -20,6 +21,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class GateioAccountService extends GateioAccountServiceRaw implements AccountService {
+
+ private static final String SPACE = " ";
 
   /**
    * Constructor
@@ -40,6 +43,14 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
+    return withdraw(currency.getCurrencyCode(), amount, address);
+  }
+
+  @Override
+  public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag addressWithTag)
+          throws IOException {
+    //Transaction MEMO can be entered after the address separated by a space, format: Address MEMO
+    String address = new StringBuilder().append(addressWithTag.getAddress()).append(SPACE).append(addressWithTag.getAddressTag()).toString();
     return withdraw(currency.getCurrencyCode(), amount, address);
   }
 
