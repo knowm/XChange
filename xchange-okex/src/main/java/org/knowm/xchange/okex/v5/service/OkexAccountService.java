@@ -7,6 +7,7 @@ import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
 import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
+import org.knowm.xchange.okex.v5.dto.account.OkexWithdrawRequest;
 import org.knowm.xchange.okex.v5.dto.account.WithdrawalInfo;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -51,13 +52,17 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
 
         String address = addressTagFromParams != null ? addressFromParams + COLON + addressTagFromParams : addressFromParams;
 
-        OkexResponse<List<WithdrawalInfo>> withdraw = withdraw(
-                defaultParams.getCurrency().getCurrencyCode(),
-                defaultParams.getAmount(),
-                address,
-                defaultParams.getCommission(),
-                defaultParams.getChain(),
-                null);
+        OkexWithdrawRequest okexWithdrawRequest = OkexWithdrawRequest.builder()
+                .currency(defaultParams.getCurrency().getCurrencyCode())
+                .withdrawalAmount(defaultParams.getAmount().toString())
+                .destination("4")
+                .toAddress(address)
+                .transactionFee(defaultParams.getCommission().toString())
+                .chain(defaultParams.getChain())
+                .build();
+
+
+        OkexResponse<List<WithdrawalInfo>> withdraw = withdraw(okexWithdrawRequest);
 
         return withdraw.getData().get(0).getWithdrawalId();
     }

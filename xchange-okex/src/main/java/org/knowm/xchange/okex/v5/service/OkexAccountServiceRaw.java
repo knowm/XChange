@@ -220,7 +220,7 @@ public class OkexAccountServiceRaw extends OkexBaseService {
         .call();
   }
 
-  public OkexResponse<List<WithdrawalInfo>> withdraw(String currency, BigDecimal amount, String address, BigDecimal transactionFee, String chain, String clientId) throws IOException {
+  public OkexResponse<List<WithdrawalInfo>> withdraw(OkexWithdrawRequest okexWithdrawRequest) throws IOException {
     return decorateApiCall(
             () ->
                     this.okexAuthenticated.withdrawal(
@@ -235,13 +235,7 @@ public class OkexAccountServiceRaw extends OkexBaseService {
                                     exchange
                                             .getExchangeSpecification()
                                             .getExchangeSpecificParametersItem("simulated"),
-                            currency,
-                            amount.toString(),
-                            "4",
-                            address,
-                            transactionFee.toString(),
-                            chain,
-                            clientId))
+                            okexWithdrawRequest))
             .withRateLimiter(rateLimiter(subAccountList))
             .call();
   }

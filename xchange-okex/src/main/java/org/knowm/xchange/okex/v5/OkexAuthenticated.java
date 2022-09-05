@@ -237,13 +237,7 @@ public interface OkexAuthenticated extends Okex {
           @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
           @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
           @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
-          @QueryParam("ccy") String currency,
-          @QueryParam("amt") String withdrawalAmount,
-          @QueryParam("dest") String destination,
-          @QueryParam("toAddr") String toAddress,
-          @QueryParam("fee") String transactionFee,
-          @QueryParam("chain") String chain,
-          @QueryParam("clientId") String clientId)
+          OkexWithdrawRequest requestPayload)
           throws OkexException, IOException;
 
   @POST
