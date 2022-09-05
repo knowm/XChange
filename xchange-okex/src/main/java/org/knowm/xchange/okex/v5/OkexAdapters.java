@@ -135,25 +135,27 @@ public class OkexAdapters {
     List<LimitOrder> asks = new ArrayList<>();
     List<LimitOrder> bids = new ArrayList<>();
 
-    okexOrderbook
-        .getData()
-        .get(0)
-        .getAsks()
-        .forEach(
-            okexAsk ->
-                asks.add(
-                    adaptOrderbookOrder(
-                        okexAsk.getVolume(), okexAsk.getPrice(), instrument, OrderType.ASK)));
+    if(!okexOrderbook.getData().isEmpty()) {
+      okexOrderbook
+              .getData()
+              .get(0)
+              .getAsks()
+              .forEach(
+                      okexAsk ->
+                              asks.add(
+                                      adaptOrderbookOrder(
+                                              okexAsk.getVolume(), okexAsk.getPrice(), instrument, OrderType.ASK)));
 
-    okexOrderbook
-        .getData()
-        .get(0)
-        .getBids()
-        .forEach(
-            okexBid ->
-                bids.add(
-                    adaptOrderbookOrder(
-                        okexBid.getVolume(), okexBid.getPrice(), instrument, OrderType.BID)));
+      okexOrderbook
+              .getData()
+              .get(0)
+              .getBids()
+              .forEach(
+                      okexBid ->
+                              bids.add(
+                                      adaptOrderbookOrder(
+                                              okexBid.getVolume(), okexBid.getPrice(), instrument, OrderType.BID)));
+    }
 
     return new OrderBook(Date.from(Instant.now()), asks, bids);
   }
