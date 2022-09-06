@@ -10,12 +10,16 @@ public class WithdrawalInfo {
 
     @JsonProperty("ccy")
     private String currency;
+
     @JsonProperty("chain")
     private String chain;
+
     @JsonProperty("amt")
     private String withdrawalAmount;
+
     @JsonProperty("wdId")
     private String withdrawalId;
+
     @JsonProperty("clientId")
     private String clientId;
 }
