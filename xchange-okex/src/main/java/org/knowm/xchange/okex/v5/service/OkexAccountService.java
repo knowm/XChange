@@ -49,9 +49,7 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
 
         String addressFromParams = defaultParams.getAddress();
         String addressTagFromParams = defaultParams.getAddressTag();
-
         String address = addressTagFromParams != null ? addressFromParams + COLON + addressTagFromParams : addressFromParams;
-
         OkexWithdrawRequest okexWithdrawRequest = OkexWithdrawRequest.builder()
                 .currency(defaultParams.getCurrency().getCurrencyCode())
                 .withdrawalAmount(defaultParams.getAmount().toString())
@@ -60,8 +58,6 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
                 .transactionFee(defaultParams.getCommission().toString())
                 .chain(defaultParams.getChain())
                 .build();
-
-
         OkexResponse<List<WithdrawalInfo>> withdraw = withdraw(okexWithdrawRequest);
 
         return withdraw.getData().get(0).getWithdrawalId();
