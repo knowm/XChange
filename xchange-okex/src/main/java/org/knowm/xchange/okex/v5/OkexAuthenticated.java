@@ -232,13 +232,13 @@ public interface OkexAuthenticated extends Okex {
   @Path(withdrawal)
   @Consumes(MediaType.APPLICATION_JSON)
   OkexResponse<List<WithdrawalInfo>> withdrawal(
-          @HeaderParam("OK-ACCESS-KEY") String apiKey,
-          @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
-          @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
-          @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
-          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
-          OkexWithdrawRequest requestPayload)
-          throws OkexException, IOException;
+      @HeaderParam("OK-ACCESS-KEY") String apiKey,
+      @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+      @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
+      OkexWithdrawRequest requestPayload)
+      throws OkexException, IOException;
 
   @POST
   @Path(placeOrderPath)

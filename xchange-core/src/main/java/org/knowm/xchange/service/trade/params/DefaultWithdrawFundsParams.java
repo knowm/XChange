@@ -47,12 +47,7 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
   }
 
   public DefaultWithdrawFundsParams(
-          String address,
-          String addressTag,
-          Currency currency,
-          BigDecimal amount,
-          BigDecimal commission,
-          String chain) {
+          String address, String addressTag, Currency currency, BigDecimal amount, BigDecimal commission, String chain) {
     this.address = address;
     this.addressTag = addressTag;
     this.currency = currency;
