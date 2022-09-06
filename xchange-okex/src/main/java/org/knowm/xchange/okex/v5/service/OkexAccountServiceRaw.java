@@ -7,6 +7,7 @@ import static org.knowm.xchange.okex.v5.OkexAuthenticated.subAccountList;
 import static org.knowm.xchange.okex.v5.OkexAuthenticated.tradeFeePath;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.client.ResilienceRegistries;
@@ -217,5 +218,25 @@ public class OkexAccountServiceRaw extends OkexBaseService {
                     ccy))
         .withRateLimiter(rateLimiter(subAccountList))
         .call();
+  }
+
+  public OkexResponse<List<WithdrawalInfo>> withdraw(OkexWithdrawRequest okexWithdrawRequest) throws IOException {
+    return decorateApiCall(
+            () ->
+                    this.okexAuthenticated.withdrawal(
+                            exchange.getExchangeSpecification().getApiKey(),
+                            signatureCreator,
+                            DateUtils.toUTCISODateString(new Date()),
+                            (String)
+                                    exchange
+                                            .getExchangeSpecification()
+                                            .getExchangeSpecificParametersItem("passphrase"),
+                            (String)
+                                    exchange
+                                            .getExchangeSpecification()
+                                            .getExchangeSpecificParametersItem("simulated"),
+                            okexWithdrawRequest))
+            .withRateLimiter(rateLimiter(subAccountList))
+            .call();
   }
 }

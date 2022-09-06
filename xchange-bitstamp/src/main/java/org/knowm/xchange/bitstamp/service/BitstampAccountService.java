@@ -57,7 +57,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   public String withdrawFunds(
       Currency currency, BigDecimal amount, String address, String addressTag) throws IOException {
     return withdrawFunds(
-        new DefaultWithdrawFundsParams(address, addressTag, currency, amount, null));
+        new DefaultWithdrawFundsParams(address, addressTag, currency, amount, null, null));
   }
 
   @Override

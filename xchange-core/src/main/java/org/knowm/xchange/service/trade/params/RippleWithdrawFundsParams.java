@@ -13,7 +13,7 @@ public class RippleWithdrawFundsParams extends DefaultWithdrawFundsParams {
 
   public RippleWithdrawFundsParams(
       String address, Currency currency, BigDecimal amount, String tag) {
-    super(address, tag, currency, amount, null);
+    super(address, tag, currency, amount, null, null);
     this.tag = tag;
   }
 
