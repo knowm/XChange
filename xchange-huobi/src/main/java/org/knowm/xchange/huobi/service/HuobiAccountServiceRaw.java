@@ -147,7 +147,7 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
   }
 
   public long createWithdraw(
-          String currency, BigDecimal amount, BigDecimal fee, String address, String addressTag, String chain)
+      String currency, BigDecimal amount, BigDecimal fee, String address, String addressTag, String chain)
       throws IOException {
     HuobiCreateWithdrawRequest createWithdrawRequest =
         new HuobiCreateWithdrawRequest(address, amount, currency.toLowerCase(), fee, addressTag, chain);

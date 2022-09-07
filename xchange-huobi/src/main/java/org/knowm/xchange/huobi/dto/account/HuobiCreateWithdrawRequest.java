@@ -28,7 +28,7 @@ public class HuobiCreateWithdrawRequest {
   private String chain;
 
   public HuobiCreateWithdrawRequest(
-          String address, BigDecimal amount, String currency, BigDecimal fee, String addressTag, String chain) {
+      String address, BigDecimal amount, String currency, BigDecimal fee, String addressTag, String chain) {
     this.address = address;
     this.amount = amount;
     this.currency = currency;
