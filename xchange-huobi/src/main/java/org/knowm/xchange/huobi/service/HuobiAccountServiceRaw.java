@@ -118,7 +118,7 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
     return checkResult(depositAddressWithTagResult);
   }
 
-  public HuobiFundingRecord[] getDepositWithdrawalHistory(String currency, String type, String from)
+  public HuobiFundingRecord[] getDepositWithdrawalHistory(String currency, String type, String from, String direct)
       throws IOException {
     HuobiFundingHistoryResult fundingHistoryResult =
         huobi.getFundingHistory(
@@ -126,6 +126,7 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
             type.toLowerCase(),
             from,
             "100",
+            direct,
             exchange.getExchangeSpecification().getApiKey(),
             HuobiDigest.HMAC_SHA_256,
             2,
