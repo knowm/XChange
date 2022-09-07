@@ -30,8 +30,10 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(
-          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
+      return String.valueOf(
+              createWithdraw(
+                      defaultParams.getCurrency().getCurrencyCode(), defaultParams.getAmount(), defaultParams.getCommission(),
+                      defaultParams.getAddress(), defaultParams.getAddressTag(), defaultParams.getChain()));
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
@@ -41,13 +43,13 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
       throws IOException {
     return String.valueOf(
         createWithdraw(
-            currency.toString(), amount, null, address.getAddress(), address.getAddressTag()));
+            currency.toString(), amount, null, address.getAddress(), address.getAddressTag(), null));
   }
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    return String.valueOf(createWithdraw(currency.toString(), amount, null, address, null));
+    return String.valueOf(createWithdraw(currency.toString(), amount, null, address, null, null));
   }
 
   @Override
@@ -106,8 +108,6 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
   public AddressWithTag requestDepositAddressData(Currency currency, String... args)
       throws IOException {
     HuobiDepositAddress huobiAddrWithTag = getDepositAddressV2(currency.toString())[0];
-    AddressWithTag addressWithTag =
-        new AddressWithTag(huobiAddrWithTag.getAddress(), huobiAddrWithTag.getAddressTag());
-    return addressWithTag;
+    return new AddressWithTag(huobiAddrWithTag.getAddress(), huobiAddrWithTag.getAddressTag());
   }
 }

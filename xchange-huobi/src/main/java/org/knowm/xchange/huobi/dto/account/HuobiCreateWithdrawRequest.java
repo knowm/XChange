@@ -23,13 +23,18 @@ public class HuobiCreateWithdrawRequest {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private String addressTag;
 
+  @JsonProperty("chain")
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  private String chain;
+
   public HuobiCreateWithdrawRequest(
-      String address, BigDecimal amount, String currency, BigDecimal fee, String addressTag) {
+      String address, BigDecimal amount, String currency, BigDecimal fee, String addressTag, String chain) {
     this.address = address;
     this.amount = amount;
     this.currency = currency;
     this.fee = fee;
     this.addressTag = addressTag;
+    this.chain = chain;
   }
 
   public String getAddress() {
@@ -50,5 +55,9 @@ public class HuobiCreateWithdrawRequest {
 
   public String getAddressTag() {
     return addressTag;
+  }
+
+  public String getChain() {
+    return chain;
   }
 }
