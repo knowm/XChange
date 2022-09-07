@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 
@@ -24,7 +25,9 @@ public class TradeHistoryParamsAll
         TradeHistoryParamMultiCurrencyPair,
         TradeHistoryParamInstrument,
         TradeHistoryParamMultiInstrument,
-        TradeHistoryParamLimit {
+        TradeHistoryParamLimit,
+        HistoryParamsFundingType,
+        TradeHistoryParamsSorted {
 
   private Integer pageLength;
   private Integer pageNumber;
@@ -36,6 +39,8 @@ public class TradeHistoryParamsAll
   private Instrument instrument;
   private Collection<Instrument> instruments = Collections.emptySet();
   private Integer limit;
+  private FundingRecord.Type type;
+  private Order order;
 
   @Override
   public Integer getPageLength() {
@@ -180,5 +185,25 @@ public class TradeHistoryParamsAll
   @Override
   public void setLimit(Integer limit) {
     this.limit = limit;
+  }
+
+  @Override
+  public FundingRecord.Type getType() {
+    return type;
+  }
+
+  @Override
+  public void setType(FundingRecord.Type type) {
+    this.type = type;
+  }
+
+  @Override
+  public Order getOrder() {
+    return order;
+  }
+
+  @Override
+  public void setOrder(Order order) {
+    this.order = order;
   }
 }

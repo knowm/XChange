@@ -13,12 +13,7 @@ import org.knowm.xchange.huobi.HuobiAdapters;
 import org.knowm.xchange.huobi.dto.account.HuobiAccount;
 import org.knowm.xchange.huobi.dto.account.HuobiDepositAddress;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
 
 public class HuobiAccountService extends HuobiAccountServiceRaw implements AccountService {
 
@@ -93,10 +88,18 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
           "Type 'deposit' or 'withdraw' must be supplied using FundingRecord.Type");
     }
 
+    TradeHistoryParamsSorted.Order order = null;
+    if(params instanceof TradeHistoryParamsSorted
+        && ((TradeHistoryParamsSorted) params).getOrder() != null) {
+      order = ((TradeHistoryParamsSorted) params).getOrder();
+    }
+
     // Adapt type out (replace withdrawal -> withdraw)
     String fundingRecordType = type == FundingRecord.Type.WITHDRAWAL ? "withdraw" : "deposit";
+    // Adapt direct out (replace asc -> prev 'default', desc -> next)
+    String sortingStyle = order == TradeHistoryParamsSorted.Order.desc ? "next" : "prev";
     return HuobiAdapters.adaptFundingHistory(
-        getDepositWithdrawalHistory(currency, fundingRecordType, from));
+        getDepositWithdrawalHistory(currency, fundingRecordType, from, sortingStyle));
   }
 
   @Override

@@ -137,6 +137,7 @@ public interface Huobi {
       @QueryParam("type") String type,
       @QueryParam("from") String from,
       @QueryParam("size") String size,
+      @QueryParam("direct") String direct,
       @QueryParam("AccessKeyId") String apiKey,
       @QueryParam("SignatureMethod") String signatureMethod,
       @QueryParam("SignatureVersion") int signatureVersion,
