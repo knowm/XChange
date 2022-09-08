@@ -316,20 +316,4 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     }
     return null;
   }
-
-  public static void main(String[] args)
-  {
-    RateLimiter rateLimiter = RateLimiter.of("websocket rate limiter", RateLimiterConfig.custom()
-            .limitRefreshPeriod(Duration.ofSeconds(1))
-            .limitForPeriod(10)
-//                    .timeoutDuration(Duration.ofSeconds(1))
-            .build());
-
-    long prev = System.currentTimeMillis();
-    for (int i = 0; i < 30; i++) {
-      System.out.println(i + ": " + (System.currentTimeMillis() - prev));
-      prev = System.currentTimeMillis();
-      RateLimiter.waitForPermission(rateLimiter);
-    }
-  }
 }
