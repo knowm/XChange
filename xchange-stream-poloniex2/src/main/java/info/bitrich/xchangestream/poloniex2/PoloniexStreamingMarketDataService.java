@@ -52,8 +52,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
                     .map(
                         s -> {
                           PoloniexWebSocketTickerTransaction ticker =
-                              mapper.readValue(
-                                  s.toString(), PoloniexWebSocketTickerTransaction.class);
+                              mapper.treeToValue(s, PoloniexWebSocketTickerTransaction.class);
                           CurrencyPair currencyPair = currencyIdMap.get(ticker.getPairId());
                           return adaptPoloniexTicker(
                               ticker.toPoloniexTicker(currencyPair), currencyPair);

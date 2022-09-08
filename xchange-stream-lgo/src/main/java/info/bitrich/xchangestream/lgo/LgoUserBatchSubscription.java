@@ -47,7 +47,7 @@ class LgoUserBatchSubscription {
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return streamingService
         .subscribeChannel(LgoAdapter.channelName("user", currencyPair))
-        .map(s -> mapper.readValue(s.toString(), LgoUserMessage.class))
+        .map(s -> mapper.treeToValue(s, LgoUserMessage.class))
         .scan(
             new LgoGroupedUserUpdate(),
             (acc, s) -> {
