@@ -39,7 +39,7 @@ public class HitbtcStreamingMarketDataService implements StreamingMarketDataServ
 
     Observable<JsonNode> jsonNodeObservable = service.subscribeChannel(channelName);
     return jsonNodeObservable
-        .map(s -> mapper.readValue(s.toString(), HitbtcWebSocketOrderBookTransaction.class))
+        .map(s -> mapper.treeToValue(s, HitbtcWebSocketOrderBookTransaction.class))
         .map(
             s -> {
               HitbtcWebSocketOrderBook hitbtcOrderBook =
@@ -58,7 +58,7 @@ public class HitbtcStreamingMarketDataService implements StreamingMarketDataServ
 
     return service
         .subscribeChannel(channelName)
-        .map(s -> mapper.readValue(s.toString(), HitbtcWebSocketTradesTransaction.class))
+        .map(s -> mapper.treeToValue(s, HitbtcWebSocketTradesTransaction.class))
         .map(HitbtcWebSocketTradesTransaction::getParams)
         .filter(Objects::nonNull)
         .map(HitbtcWebSocketTradeParams::getData)
@@ -79,7 +79,7 @@ public class HitbtcStreamingMarketDataService implements StreamingMarketDataServ
 
     return service
         .subscribeChannel(channelName)
-        .map(s -> mapper.readValue(s.toString(), HitbtcWebSocketTickerTransaction.class))
+        .map(s -> mapper.treeToValue(s, HitbtcWebSocketTickerTransaction.class))
         .map(s -> HitbtcAdapters.adaptTicker(s.getParams(), currencyPair));
   }
 
