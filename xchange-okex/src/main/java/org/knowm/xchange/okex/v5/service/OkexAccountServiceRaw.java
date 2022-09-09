@@ -239,4 +239,31 @@ public class OkexAccountServiceRaw extends OkexBaseService {
             .withRateLimiter(rateLimiter(subAccountList))
             .call();
   }
+
+  public OkexResponse<List<OkexDepositHistory>> getDepositHistory(
+      OkexDepositHistoryRequest okexDepositHistoryRequest) throws IOException {
+    return decorateApiCall(
+            () ->
+                this.okexAuthenticated.getDepositHistory(
+                    exchange.getExchangeSpecification().getApiKey(),
+                    signatureCreator,
+                    DateUtils.toUTCISODateString(new Date()),
+                    (String)
+                        exchange
+                            .getExchangeSpecification()
+                            .getExchangeSpecificParametersItem("passphrase"),
+                    (String)
+                        exchange
+                            .getExchangeSpecification()
+                            .getExchangeSpecificParametersItem("simulated"),
+                    okexDepositHistoryRequest.getCurrency(),
+                    okexDepositHistoryRequest.getDepId(),
+                    okexDepositHistoryRequest.getTxId(),
+                    okexDepositHistoryRequest.getState(),
+                    okexDepositHistoryRequest.getAfter(),
+                    okexDepositHistoryRequest.getBefore(),
+                    okexDepositHistoryRequest.getLimit()))
+        .withRateLimiter(rateLimiter(subAccountList))
+        .call();
+  }
 }
