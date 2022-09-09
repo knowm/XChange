@@ -4,6 +4,7 @@ import static io.netty.util.internal.StringUtil.isNullOrEmpty;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProOrderBookMode;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
@@ -30,17 +31,17 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
   private ProductSubscription product = null;
   private final Supplier<CoinbaseProWebsocketAuthData> authData;
-  private final boolean subscribeL3Orderbook;
+  private final CoinbaseProOrderBookMode orderBookMode;
 
   private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
   public CoinbaseProStreamingService(
       String apiUrl,
       Supplier<CoinbaseProWebsocketAuthData> authData,
-      boolean subscribeL3Orderbook) {
+      CoinbaseProOrderBookMode orderBookMode) {
     super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 60);
     this.authData = authData;
-    this.subscribeL3Orderbook = subscribeL3Orderbook;
+    this.orderBookMode = orderBookMode;
   }
 
   public CoinbaseProStreamingService(
@@ -50,10 +51,10 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
       Duration retryDuration,
       int idleTimeoutSeconds,
       Supplier<CoinbaseProWebsocketAuthData> authData,
-      boolean subscribeL3Orderbook) {
+      CoinbaseProOrderBookMode orderBookMode) {
     super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.authData = authData;
-    this.subscribeL3Orderbook = subscribeL3Orderbook;
+    this.orderBookMode = orderBookMode;
   }
 
   public ProductSubscription getProduct() {
@@ -112,7 +113,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
     CoinbaseProWebSocketSubscriptionMessage subscribeMessage =
         new CoinbaseProWebSocketSubscriptionMessage(
-            SUBSCRIBE, product, subscribeL3Orderbook, authData.get());
+            SUBSCRIBE, product, orderBookMode, authData.get());
     return objectMapper.writeValueAsString(subscribeMessage);
   }
 
