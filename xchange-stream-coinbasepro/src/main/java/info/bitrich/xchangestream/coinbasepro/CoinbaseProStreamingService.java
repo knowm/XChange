@@ -15,9 +15,12 @@ import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensio
 import io.reactivex.Observable;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
+
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
@@ -28,6 +31,10 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   private static final String SUBSCRIBE = "subscribe";
   private static final String UNSUBSCRIBE = "unsubscribe";
   private static final String SHARE_CHANNEL_NAME = "ALL";
+  private static final String[] ALL_CHANNEL_NAMES = Stream.concat(
+          Stream.of("matches", "ticker"),
+          Arrays.stream(CoinbaseProOrderBookMode.values()).map(CoinbaseProOrderBookMode::getName)
+  ).toArray(String[]::new);
   private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
   private ProductSubscription product = null;
   private final Supplier<CoinbaseProWebsocketAuthData> authData;
@@ -121,7 +128,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     CoinbaseProWebSocketSubscriptionMessage subscribeMessage =
         new CoinbaseProWebSocketSubscriptionMessage(
-            UNSUBSCRIBE, new String[] {"level2", "matches", "ticker", "full"}, authData.get());
+            UNSUBSCRIBE, ALL_CHANNEL_NAMES, authData.get());
     return objectMapper.writeValueAsString(subscribeMessage);
   }
 
