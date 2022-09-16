@@ -53,6 +53,7 @@ public interface OkexAuthenticated extends Okex {
   String subAccountBalance = "/account/subaccount/balances"; // Stated as 2 req/2 sec
   String piggyBalance = "/asset/piggy-balance"; // Stated as 6 req/1 sec
   String withdrawal = "/asset/withdrawal"; // Stated as 6 req/1 sec
+  String depositHistory = "/asset/deposit-history"; // Stated as 6 req/1 sec
 
   // To avoid 429s, actual req/second may need to be lowered!
   Map<String, List<Integer>> privatePathRateLimits =
@@ -77,6 +78,7 @@ public interface OkexAuthenticated extends Okex {
           put(subAccountBalance, Arrays.asList(2, 2));
           put(piggyBalance, Arrays.asList(6, 1));
           put(withdrawal, Arrays.asList(6, 1));
+          put(depositHistory, Arrays.asList(6, 1));
         }
       };
 
@@ -227,6 +229,22 @@ public interface OkexAuthenticated extends Okex {
       @QueryParam("ccy") String ccy)
       throws OkexException, IOException;
 
+  @GET
+  @Path(depositHistory)
+  OkexResponse<List<OkexDepositHistory>> getDepositHistory(
+      @HeaderParam("OK-ACCESS-KEY") String apiKey,
+      @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+      @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
+      @QueryParam("ccy") String ccy,
+      @QueryParam("depId") String depId,
+      @QueryParam("txId") String txId,
+      @QueryParam("state") String state,
+      @QueryParam("after") String after,
+      @QueryParam("before") String before,
+      @QueryParam("limit") String limit)
+      throws OkexException, IOException;
 
   @POST
   @Path(withdrawal)

@@ -2,16 +2,13 @@ package org.knowm.xchange.okex.v5.service;
 
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.okex.v5.OkexAdapters;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
-import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
-import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
-import org.knowm.xchange.okex.v5.dto.account.OkexWithdrawRequest;
-import org.knowm.xchange.okex.v5.dto.account.WithdrawalInfo;
+import org.knowm.xchange.okex.v5.dto.account.*;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -62,4 +59,42 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
 
         return withdraw.getData().get(0).getWithdrawalId();
     }
+
+  @Override
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+    String currency = null;
+    if (params instanceof TradeHistoryParamCurrency
+        && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
+      currency = ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode();
+    }
+
+    String start = null;
+    String end = null;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
+      start =
+          String.valueOf(
+              timeSpanParam.getStartTime() != null ? timeSpanParam.getStartTime().getTime() : null);
+
+      end =
+          String.valueOf(
+              timeSpanParam.getEndTime() != null ? timeSpanParam.getEndTime().getTime() : null);
+    }
+
+    String limit = null;
+    if (params instanceof TradeHistoryParamLimit) {
+      limit = String.valueOf(((TradeHistoryParamLimit) params).getLimit());
+    }
+
+    OkexDepositHistoryRequest okexDepositHistoryRequest =
+        OkexDepositHistoryRequest.builder()
+            .currency(currency)
+            .after(end)
+            .before(start)
+            .limit(limit)
+            .build();
+
+    return OkexAdapters.adaptOkexDepositHistory(
+        getDepositHistory(okexDepositHistoryRequest).getData());
+  }
 }
