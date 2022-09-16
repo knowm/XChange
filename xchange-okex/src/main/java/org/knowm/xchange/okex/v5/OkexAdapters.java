@@ -6,6 +6,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.DepositAddress;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.*;
@@ -19,10 +20,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
-import org.knowm.xchange.okex.v5.dto.account.OkexAssetBalance;
-import org.knowm.xchange.okex.v5.dto.account.OkexDepositHistory;
-import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
-import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
+import org.knowm.xchange.okex.v5.dto.account.*;
 import org.knowm.xchange.okex.v5.dto.marketdata.*;
 import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
@@ -403,5 +401,22 @@ public class OkexAdapters {
       result = FundingRecord.Status.FAILED;
     }
     return result;
+  }
+
+  public static List<DepositAddress> adaptOkexDepositAddresses(
+      List<OkexDepositAddress> okexDepositAddressList) {
+    List<DepositAddress> depositAddressList = new ArrayList<>();
+    okexDepositAddressList.forEach(
+        okexDepositAddress -> {
+          DepositAddress depositAddress =
+              new DepositAddress(
+                  okexDepositAddress.getCurrency(),
+                  okexDepositAddress.getAddress(),
+                  okexDepositAddress.getTag(),
+                  okexDepositAddress.getChain());
+          depositAddressList.add(depositAddress);
+        });
+
+    return depositAddressList;
   }
 }

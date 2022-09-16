@@ -14,6 +14,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.DepositAddress;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
@@ -31,8 +32,10 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
+import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
+import org.knowm.xchange.gateio.dto.account.GateioMultiChainAddress;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCoin;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioFeeInfo;
@@ -335,5 +338,25 @@ public final class GateioAdapters {
       default:
         return Status.PROCESSING; // @TODO which statusses are possible at gate.io?
     }
+  }
+
+  public static List<DepositAddress> adaptMultiChainAddresses(
+      Currency currency, GateioDepositAddress gateioDepositAddress) {
+
+    List<DepositAddress> depositAddressList = new ArrayList<>();
+    gateioDepositAddress
+        .getMultiChainAddresses()
+        .forEach(
+            multiChainAddress -> {
+              DepositAddress depositAddress =
+                  new DepositAddress(
+                      currency.getCurrencyCode(),
+                      multiChainAddress.getAddress(),
+                      multiChainAddress.getPaymentId(),
+                      multiChainAddress.getChain());
+              depositAddressList.add(depositAddress);
+            });
+
+    return depositAddressList;
   }
 }

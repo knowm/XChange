@@ -8,9 +8,12 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
+import org.knowm.xchange.dto.account.DepositAddress;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.gateio.Gateio;
 import org.knowm.xchange.gateio.GateioAdapters;
+import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -80,8 +83,7 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-
-    return super.getGateioDepositAddress(currency).getBaseAddress();
+    return super.getGateioDepositAddress(currency).getAddr();
   }
 
   @Override
@@ -100,5 +102,11 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
     }
     GateioDepositsWithdrawals depositsWithdrawals = getDepositsWithdrawals(start, end);
     return GateioAdapters.adaptDepositsWithdrawals(depositsWithdrawals);
+  }
+
+  @Override
+  public List<DepositAddress> getDepositAddresses(Currency currency) throws IOException {
+    GateioDepositAddress gateioDepositAddress = super.getGateioDepositAddress(currency);
+    return GateioAdapters.adaptMultiChainAddresses(currency, gateioDepositAddress);
   }
 }

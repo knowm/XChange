@@ -7,6 +7,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
+import org.knowm.xchange.dto.account.DepositAddress;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.HuobiAdapters;
@@ -112,5 +113,11 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
       throws IOException {
     HuobiDepositAddress huobiAddrWithTag = getDepositAddressV2(currency.toString())[0];
     return new AddressWithTag(huobiAddrWithTag.getAddress(), huobiAddrWithTag.getAddressTag());
+  }
+
+  @Override
+  public List<DepositAddress> getDepositAddresses(Currency currency) throws IOException {
+    HuobiDepositAddress[] depositAddressV2 = getDepositAddressV2(currency.getCurrencyCode());
+    return HuobiAdapters.adaptDepositAddresses(depositAddressV2);
   }
 }
