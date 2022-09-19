@@ -9,11 +9,9 @@ import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import java.io.IOException;
-import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
 import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
@@ -163,47 +161,5 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     logger.debug("Resubscribing channels");
     streamingService.resubscribeChannels();
     if (privateStreamingService != null) privateStreamingService.resubscribeChannels();
-  }
-
-  public static void main(String[] args)
-  {
-    KrakenStreamingExchange exchange = new KrakenStreamingExchange();
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(KrakenStreamingExchange.class);
-    exchangeSpecification.setExchangeSpecificParametersItem("Auto_Reconnect", false);
-//    exchangeSpecification.setExchangeSpecificParametersItem("OrderBook_Mode", "Batch");
-    exchangeSpecification.setExchangeSpecificParametersItem("Spread_For_Ticker", true);
-    exchange.applySpecification(exchangeSpecification);
-
-    ProductSubscription.ProductSubscriptionBuilder subscriptionBuilder = ProductSubscription.create();
-    subscriptionBuilder.addTicker(new CurrencyPair("RUNE/EUR"));
-    ProductSubscription productSubscription = subscriptionBuilder.build();
-
-    exchange.connect(productSubscription)
-            .doOnComplete(() -> System.out.println("Connection completed"))
-            .doOnSubscribe(e -> System.out.println(new Date() + ": Connection subscribed"))
-            .doOnTerminate(() -> System.out.println("Connection terminated"))
-            .doOnError(e -> System.out.println("Connection error: " + e.getMessage()))
-            .blockingAwait();
-
-//    exchange.connectionSuccess().subscribe(o -> System.out.println("Connection success"));
-//    exchange.reconnectFailure().subscribe(e -> System.out.println("Reconnect failure: " + e.getMessage()));
-//    exchange.connectionStateObservable().subscribe(s -> System.out.println("Connection status: " + s));
-//    exchange.connectionIdle().subscribe(e -> System.out.println("Connection idle"));
-//    exchange.setChannelInactiveHandler(message -> System.out.println("Connection inactive: " + message));
-
-    exchange.getStreamingMarketDataService().getTicker(new CurrencyPair("RUNE/EUR"))
-            .subscribe(
-                    t -> { System.out.println(new Date() + ":" + t); } ,
-                    e -> System.out.println("Subscription error: " + e.getMessage()),
-                    () -> System.out.println("Subscription complete")
-            );
-
-    exchange.getStreamingMarketDataService().getTicker(new CurrencyPair("BLA/EUR"))
-            .subscribe(
-                    t -> { System.out.println(new Date() + ":" + t); } ,
-                    e -> System.out.println("Subscription error: " + e.getMessage()),
-                    () -> System.out.println("Subscription complete")
-            );
-
   }
 }
