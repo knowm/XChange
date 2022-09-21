@@ -39,6 +39,13 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
 
   KrakenStreamingTradeService(KrakenStreamingService streamingService) {
     this.streamingService = streamingService;
+
+    streamingService.subscribeDisconnect().subscribe(o -> {
+      synchronized (this) {
+        ownTradesObservableSet = false;
+        userTradeObservableSet = false;
+      }
+    });
   }
 
   private String getChannelName(KrakenSubscriptionName subscriptionName) {
