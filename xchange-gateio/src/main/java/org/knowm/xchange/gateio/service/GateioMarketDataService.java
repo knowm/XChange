@@ -1,23 +1,24 @@
 package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gateio.GateioAdapters;
-import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
+import org.knowm.xchange.gateio.dto.marketdata.*;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 import org.knowm.xchange.service.marketdata.params.Params;
+import org.knowm.xchange.service.trade.params.CandleStickDataParams;
+import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class GateioMarketDataService extends GateioMarketDataServiceRaw
     implements MarketDataService {
@@ -91,5 +92,31 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
                 currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
 
     return GateioAdapters.adaptTrades(tradeHistory, currencyPair);
+  }
+
+  @Override
+  public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params)
+      throws IOException {
+
+    if (!(params instanceof DefaultCandleStickParam)) {
+      throw new NotYetImplementedForExchangeException("Only DefaultCandleStickParam is supported");
+    }
+
+    DefaultCandleStickParam defaultCandleStickParam = (DefaultCandleStickParam) params;
+
+    long periodInSecs = defaultCandleStickParam.getPeriodInSecs();
+    GateioKlineInterval interval = GateioKlineInterval.m30;
+    for (GateioKlineInterval gateioKlineInterval : GateioKlineInterval.values()) {
+      if (gateioKlineInterval.getSeconds() == periodInSecs) {
+        interval = gateioKlineInterval;
+      }
+    }
+
+    Date startDate = defaultCandleStickParam.getStartDate();
+    Date endDate = defaultCandleStickParam.getEndDate();
+    long hours = MILLISECONDS.toHours(Math.abs(startDate.getTime() - endDate.getTime()));
+
+    List<GateioKline> klines = getKlines(currencyPair, interval, Math.toIntExact(hours));
+    return GateioAdapters.adaptCandleStickData(klines, currencyPair);
   }
 }

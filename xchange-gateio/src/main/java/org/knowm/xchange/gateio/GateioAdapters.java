@@ -18,10 +18,7 @@ import org.knowm.xchange.dto.account.DepositAddress;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
@@ -36,13 +33,8 @@ import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
 import org.knowm.xchange.gateio.dto.account.GateioMultiChainAddress;
-import org.knowm.xchange.gateio.dto.marketdata.GateioCoin;
-import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
-import org.knowm.xchange.gateio.dto.marketdata.GateioFeeInfo;
+import org.knowm.xchange.gateio.dto.marketdata.*;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
-import org.knowm.xchange.gateio.dto.marketdata.GateioPublicOrder;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrder;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
@@ -358,5 +350,26 @@ public final class GateioAdapters {
             });
 
     return depositAddressList;
+  }
+
+  public static CandleStickData adaptCandleStickData(
+      List<GateioKline> klines, CurrencyPair currencyPair) {
+    CandleStickData candleStickData = null;
+    if (!klines.isEmpty()) {
+      List<CandleStick> candleStickList = new ArrayList<>();
+      for (GateioKline kline : klines) {
+        candleStickList.add(
+            new CandleStick.Builder()
+                .timestamp(new Date(kline.getId()))
+                .open(kline.getOpen())
+                .high(kline.getHigh())
+                .low(kline.getLow())
+                .close(kline.getClose())
+                .volume(kline.getVol())
+                .build());
+      }
+      candleStickData = new CandleStickData(currencyPair, candleStickList);
+    }
+    return candleStickData;
   }
 }
