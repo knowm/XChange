@@ -109,6 +109,7 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
     for (GateioKlineInterval gateioKlineInterval : GateioKlineInterval.values()) {
       if (gateioKlineInterval.getSeconds() == periodInSecs) {
         interval = gateioKlineInterval;
+        break;
       }
     }
 
