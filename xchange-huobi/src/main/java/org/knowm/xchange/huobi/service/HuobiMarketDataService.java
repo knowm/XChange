@@ -21,6 +21,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements MarketDataService {
 
@@ -106,25 +107,33 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
   }
 
   @Override
-  public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params) throws IOException {
-
+  public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params)
+      throws IOException {
 
     if (!(params instanceof DefaultCandleStickParam)) {
       throw new NotYetImplementedForExchangeException("Only DefaultCandleStickParam is supported");
     }
 
     DefaultCandleStickParam defaultCandleStickParam = (DefaultCandleStickParam) params;
-    KlineInterval klineInterval = KlineInterval.valueOf(String.valueOf(defaultCandleStickParam.getPeriodInSecs()));
-    Long period = klineInterval.getMillis();
-    if (period == null) {
-      throw new NotYetImplementedForExchangeException("Only discrete period values are supported;" +
-              Arrays.toString(KlineInterval.getSupportedPeriodsInSecs()));
+    long periodInSecs = defaultCandleStickParam.getPeriodInSecs();
+
+    KlineInterval klineInterval = KlineInterval.m30;
+    for (KlineInterval value : KlineInterval.values()) {
+      if (value.getMillis() == SECONDS.toMillis(periodInSecs)) {
+        klineInterval = value;
+        break;
+      }
     }
 
+    long timeDifferenceInMilis =
+        Math.abs(new Date().getTime() - defaultCandleStickParam.getStartDate().getTime());
+    int size =
+        Math.min(
+            (int) (timeDifferenceInMilis / klineInterval.getMillis()), MAX_NUMBER_OF_KLINE_RETURNS);
 
-    long timeDifferenceInMilis = Math.abs(new Date().getTime() - defaultCandleStickParam.getStartDate().getTime());
-    int size = Math.min((int) (timeDifferenceInMilis / period), MAX_NUMBER_OF_KLINE_RETURNS);
-
-    return HuobiAdapters.adaptCandleStickData(getKlines(currencyPair, klineInterval, size), currencyPair, defaultCandleStickParam.getEndDate());
+    return HuobiAdapters.adaptCandleStickData(
+        getKlines(currencyPair, klineInterval, size),
+        currencyPair,
+        defaultCandleStickParam.getEndDate());
   }
 }
