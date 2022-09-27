@@ -12,7 +12,7 @@ public enum OkexCandleStickPeriodType {
   private final long periodInSecs;
   private final String fieldValue;
   OkexCandleStickPeriodType(long periodInMinutes, String fieldValue) {
-    this.periodInSecs = periodInMinutes * 1000;
+    this.periodInSecs = periodInMinutes * 60;
     this.fieldValue = fieldValue;
   }
   static OkexCandleStickPeriodType getPeriodTypeFromSecs(long periodInSecs) {
