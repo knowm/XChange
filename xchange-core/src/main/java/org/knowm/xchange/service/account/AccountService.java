@@ -7,10 +7,7 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.AddressWithTag;
-import org.knowm.xchange.dto.account.Fee;
-import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -168,6 +165,15 @@ public interface AccountService extends BaseService {
    */
   default List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException("getFundingHistory");
+  }
+
+  /**
+   * @return list of deposit addresses. This should never return null.
+   * @param currency The digital currency that corresponds to the desired deposit address.
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default List<DepositAddress> getDepositAddresses(Currency currency) throws IOException {
+    throw new NotYetImplementedForExchangeException("getDepositAddresses");
   }
 
   /**

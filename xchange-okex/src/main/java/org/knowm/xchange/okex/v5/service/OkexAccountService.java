@@ -1,7 +1,9 @@
 package org.knowm.xchange.okex.v5.service;
 
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.DepositAddress;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.okex.v5.OkexAdapters;
 import org.knowm.xchange.okex.v5.OkexExchange;
@@ -96,5 +98,12 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
 
     return OkexAdapters.adaptOkexDepositHistory(
         getDepositHistory(okexDepositHistoryRequest).getData());
+  }
+
+  @Override
+  public List<DepositAddress> getDepositAddresses(Currency currency) throws IOException {
+    OkexResponse<List<OkexDepositAddress>> okexDepositAddressResponse =
+        getDepositAddress(currency.getCurrencyCode());
+    return OkexAdapters.adaptOkexDepositAddresses(okexDepositAddressResponse.getData());
   }
 }

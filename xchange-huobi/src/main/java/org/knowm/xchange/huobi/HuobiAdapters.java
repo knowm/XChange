@@ -11,6 +11,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.DepositAddress;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
@@ -33,6 +34,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceRecord;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceSum;
+import org.knowm.xchange.huobi.dto.account.HuobiDepositAddress;
 import org.knowm.xchange.huobi.dto.account.HuobiFundingRecord;
 import org.knowm.xchange.huobi.dto.marketdata.*;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
@@ -490,5 +492,21 @@ public class HuobiAdapters {
       candleStickData = new CandleStickData(currencyPair, candleStickList);
     }
     return candleStickData;
+  }
+
+  public static List<DepositAddress> adaptDepositAddresses(HuobiDepositAddress[] depositAddressV2) {
+    List<DepositAddress> depositAddressList = new ArrayList<>();
+    Iterator<HuobiDepositAddress> iterator = Arrays.stream(depositAddressV2).iterator();
+    while (iterator.hasNext()) {
+      HuobiDepositAddress huobiDepositAddress = iterator.next();
+      DepositAddress depositAddress =
+          new DepositAddress(
+              huobiDepositAddress.getCurrency(),
+              huobiDepositAddress.getAddress(),
+              huobiDepositAddress.getAddressTag(),
+              huobiDepositAddress.getChain());
+      depositAddressList.add(depositAddress);
+    }
+    return depositAddressList;
   }
 }
