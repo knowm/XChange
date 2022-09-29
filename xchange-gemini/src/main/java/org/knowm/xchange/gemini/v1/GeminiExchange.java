@@ -3,6 +3,7 @@ package org.knowm.xchange.gemini.v1;
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.BaseExchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -31,7 +32,7 @@ public class GeminiExchange extends BaseExchange {
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)) {
+      if (exchangeSpecification.getExchangeSpecificParametersItem(Exchange.USE_SANDBOX).equals(true)) {
         exchangeSpecification.setSslUri("https://api.sandbox.gemini.com");
         exchangeSpecification.setHost("api.sandbox.gemini.com");
       }
@@ -48,7 +49,7 @@ public class GeminiExchange extends BaseExchange {
     exchangeSpecification.setExchangeName("Gemini");
     exchangeSpecification.setExchangeDescription("Gemini is a bitcoin exchange.");
 
-    exchangeSpecification.setExchangeSpecificParametersItem("Use_Sandbox", false);
+    exchangeSpecification.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, false);
 
     return exchangeSpecification;
   }

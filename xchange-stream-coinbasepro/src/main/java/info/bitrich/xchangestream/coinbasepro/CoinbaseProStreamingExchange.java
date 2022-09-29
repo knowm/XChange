@@ -62,7 +62,7 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
 
     boolean useSandbox =
         Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_SANDBOX));
+            exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX));
     boolean usePrime =
         Boolean.TRUE.equals(
             exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_PRIME));

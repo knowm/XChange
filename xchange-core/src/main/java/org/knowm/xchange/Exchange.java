@@ -24,6 +24,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
  * <p>The consumer is given a choice of a default (no-args) or configured accessor
  */
 public interface Exchange {
+  String USE_SANDBOX = "Use_Sandbox";
 
   /** @return The ExchangeSpecification in use for this exchange */
   ExchangeSpecification getExchangeSpecification();
