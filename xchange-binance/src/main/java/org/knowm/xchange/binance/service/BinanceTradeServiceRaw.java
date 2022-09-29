@@ -358,6 +358,42 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
             .call();
   }
 
+  public BinanceListenKey startMarginUserDataStream() throws IOException {
+    return decorateApiCall(() -> binance.startMarginUserDataStream(apiKey))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+  }
+
+  public void keepMarginAliveDataStream(String listenKey) throws IOException {
+    decorateApiCall(() -> binance.keepAliveMarginUserDataStream(apiKey, listenKey))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+  }
+
+  public void closeMarginDataStream(String listenKey) throws IOException {
+    decorateApiCall(() -> binance.closeMarginUserDataStream(apiKey, listenKey))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+  }
+
+  public BinanceListenKey startIsolatedMarginUserDataStream() throws IOException {
+    return decorateApiCall(() -> binance.startIsolatedMarginUserDataStream(apiKey))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+  }
+
+  public void keepAliveIsolatedMarginDataStream(String listenKey) throws IOException {
+    decorateApiCall(() -> binance.keepAliveIsolatedMarginUserDataStream(apiKey, listenKey))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+  }
+
+  public void closeIsolatedMarginDataStream(String listenKey) throws IOException {
+    decorateApiCall(() -> binance.closeIsolatedMarginUserDataStream(apiKey, listenKey))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+  }
+
   protected int openOrdersPermits(CurrencyPair pair) {
     return pair != null ? 1 : 40;
   }

@@ -16,6 +16,7 @@ import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.OrderStatus;
+import org.knowm.xchange.binance.dto.trade.margin.MarginAccountType;
 import org.knowm.xchange.binance.service.BinanceTradeService.BinanceOrderFlags;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -108,6 +109,15 @@ public class BinanceAdapters {
     }
   }
 
+  public static String placedOrderId(long orderId, MarginAccountType marginAccountType) {
+    return orderId + (marginAccountType != null ? "-" + marginAccountType.name() : "");
+  }
+
+  public static MarginAccountType getMarginAccountTypeFromOrderId(String orderId) {
+    int hyphenIndex = orderId.indexOf('-');
+    return hyphenIndex > 0 ? MarginAccountType.valueOf(orderId.substring(hyphenIndex + 1)) : null;
+  }
+
   public static Order.OrderStatus adaptOrderStatus(OrderStatus orderStatus) {
     switch (orderStatus) {
       case NEW:
@@ -151,7 +161,7 @@ public class BinanceAdapters {
     }
   }
 
-  public static Order adaptOrder(BinanceOrder order) {
+  public static Order adaptOrder(BinanceOrder order, MarginAccountType marginAccountType) {
     OrderType type = convert(order.side);
     CurrencyPair currencyPair = adaptSymbol(order.symbol);
     Order.Builder builder;
@@ -166,7 +176,7 @@ public class BinanceAdapters {
     builder
         .orderStatus(adaptOrderStatus(order.status))
         .originalAmount(order.origQty)
-        .id(Long.toString(order.orderId))
+        .id(BinanceAdapters.placedOrderId(order.orderId, marginAccountType))
         .timestamp(order.getTime())
         .cumulativeAmount(order.executedQty);
     if (order.executedQty.signum() != 0 && order.cummulativeQuoteQty.signum() != 0) {

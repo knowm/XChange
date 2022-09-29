@@ -675,4 +675,90 @@ public interface BinanceAuthenticated extends Binance {
           @HeaderParam(X_MBX_APIKEY) String apiKey,
           @QueryParam(SIGNATURE) ParamsDigest signature)
           throws IOException, BinanceException;
+
+  /**
+   * Returns a listen key for margin websocket login.
+   *
+   * @param apiKey the api key
+   * @return
+   * @throws BinanceException
+   * @throws IOException
+   */
+  @POST
+  @Path("/sapi/v1/userDataStream")
+  BinanceListenKey startMarginUserDataStream(@HeaderParam(X_MBX_APIKEY) String apiKey)
+          throws IOException, BinanceException;
+
+  /**
+   * Keeps the authenticated margin websocket session alive.
+   *
+   * @param apiKey the api key
+   * @param listenKey the api secret
+   * @return
+   * @throws BinanceException
+   * @throws IOException
+   */
+  @PUT
+  @Path("/sapi/v1/userDataStream?listenKey={listenKey}")
+  Map<?, ?> keepAliveMarginUserDataStream(
+          @HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey)
+          throws IOException, BinanceException;
+
+  /**
+   * Closes the authenticated margin connection.
+   *
+   * @param apiKey the api key
+   * @param listenKey the api secret
+   * @return
+   * @throws BinanceException
+   * @throws IOException
+   */
+  @DELETE
+  @Path("/sapi/v1/userDataStream?listenKey={listenKey}")
+  Map<?, ?> closeMarginUserDataStream(
+          @HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey)
+          throws IOException, BinanceException;
+
+  /**
+   * Returns a listen key for isolated margin websocket login.
+   *
+   * @param apiKey the api key
+   * @return
+   * @throws BinanceException
+   * @throws IOException
+   */
+  @POST
+  @Path("/sapi/v1/userDataStream/isolated")
+  BinanceListenKey startIsolatedMarginUserDataStream(@HeaderParam(X_MBX_APIKEY) String apiKey)
+          throws IOException, BinanceException;
+
+  /**
+   * Keeps the authenticated isolated margin websocket session alive.
+   *
+   * @param apiKey the api key
+   * @param listenKey the api secret
+   * @return
+   * @throws BinanceException
+   * @throws IOException
+   */
+  @PUT
+  @Path("/sapi/v1/userDataStream/isolated?listenKey={listenKey}")
+  Map<?, ?> keepAliveIsolatedMarginUserDataStream(
+          @HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey)
+          throws IOException, BinanceException;
+
+  /**
+   * Closes the authenticated isolated margin connection.
+   *
+   * @param apiKey the api key
+   * @param listenKey the api secret
+   * @return
+   * @throws BinanceException
+   * @throws IOException
+   */
+  @DELETE
+  @Path("/sapi/v1/userDataStream/isolated?listenKey={listenKey}")
+  Map<?, ?> closeIsolatedMarginUserDataStream(
+          @HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey)
+          throws IOException, BinanceException;
 }

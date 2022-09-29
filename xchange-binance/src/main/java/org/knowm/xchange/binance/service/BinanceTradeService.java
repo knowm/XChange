@@ -38,8 +38,8 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       ResilienceRegistries resilienceRegistries) {
     super(exchange, binance, resilienceRegistries);
 
-    Boolean includeMarginAccountTypeInOrderId = (Boolean) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("Include_Margin_Account_Type_In_OrderId");
-    this.includeMarginAccountTypeInOrderId = includeMarginAccountTypeInOrderId != null && includeMarginAccountTypeInOrderId;
+    this.includeMarginAccountTypeInOrderId = Boolean.TRUE.equals(
+            exchange.getExchangeSpecification().getExchangeSpecificParametersItem(BinanceExchange.SPECIFIC_PARAM_INCLUDE_MARGIN_ACCOUNT_TYPE_IN_ORDER_ID));
   }
 
   @Override
@@ -67,7 +67,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       List<Order> otherOrders = new ArrayList<>();
       binanceOpenOrders.forEach(
           binanceOrder -> {
-            Order order = BinanceAdapters.adaptOrder(binanceOrder);
+            Order order = BinanceAdapters.adaptOrder(binanceOrder, null);
             if (order instanceof LimitOrder) {
               limitOrders.add((LimitOrder) order);
             } else {
@@ -153,7 +153,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         trailingDelta, // TODO (Long)order.getExtraValue("trailingDelta")
                         null,
                         null);
-        return Long.toString(newOrder.orderId);
+        return BinanceAdapters.placedOrderId(newOrder.orderId, null);
       } else {
         MarginSideEffectType marginSideEffect = IOrderFlags.getOrderFlagOfType(orderFlags, MarginSideEffectType.class);
 
@@ -172,7 +172,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         null,
                         marginSideEffect);
 
-        return newOrder.orderId + (includeMarginAccountTypeInOrderId ? "-" + marginAccountType.name() : "");
+        return BinanceAdapters.placedOrderId(newOrder.orderId, includeMarginAccountTypeInOrderId ? marginAccountType : null);
       }
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
@@ -237,8 +237,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       String orderId = paramId.getOrderId();
       MarginAccountType marginAccountType =
               params instanceof BinanceCancelOrderParams ? ((BinanceCancelOrderParams) params).getMarginAccountType()
-                      : includeMarginAccountTypeInOrderId ? getMarginAccountTypeFromOrderId(orderId)
-                      : null;
+                      : BinanceAdapters.getMarginAccountTypeFromOrderId(orderId);
       if (marginAccountType == null) {
         super.cancelOrder(
                 paramCurrencyPair.getCurrencyPair(),
@@ -257,11 +256,6 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
-  }
-
-  private MarginAccountType getMarginAccountTypeFromOrderId(String orderId) {
-    int hyphenIndex = orderId.indexOf('-');
-    return hyphenIndex > 0 ? MarginAccountType.valueOf(orderId.substring(hyphenIndex + 1)) : null;
   }
 
   @Override
@@ -379,8 +373,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
         MarginAccountType marginAccountType =
                 param instanceof BinanceQueryOrderParams ? ((BinanceQueryOrderParams) param).getMarginAccountType()
-                        : includeMarginAccountTypeInOrderId ? getMarginAccountTypeFromOrderId(orderId)
-                        : null;
+                        : BinanceAdapters.getMarginAccountTypeFromOrderId(orderId);
 
         BinanceOrder binanceOrder;
         if (marginAccountType == null) {
@@ -395,7 +388,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                   BinanceAdapters.id(orderId),
                   null);
         }
-        orders.add(BinanceAdapters.adaptOrder(binanceOrder));
+        orders.add(BinanceAdapters.adaptOrder(binanceOrder, includeMarginAccountTypeInOrderId ? marginAccountType : null));
       }
       return orders;
     } catch (BinanceException e) {

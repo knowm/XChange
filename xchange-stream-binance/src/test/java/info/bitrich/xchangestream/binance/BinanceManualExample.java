@@ -71,17 +71,17 @@ public class BinanceManualExample {
       // Level 1 (generic) APIs
       orderChanges =
           exchange
-              .getStreamingTradeService()
+              .getStreamingSpotTradeService()
               .getOrderChanges()
               .subscribe(oc -> LOG.info("Order change: {}", oc));
       userTrades =
           exchange
-              .getStreamingTradeService()
+              .getStreamingSpotTradeService()
               .getUserTrades()
               .subscribe(trade -> LOG.info("User trade: {}", trade));
       balances =
           exchange
-              .getStreamingAccountService()
+              .getStreamingSpotAccountService()
               .getBalanceChanges()
               .subscribe(
                   trade -> LOG.info("Balance: {}", trade),
@@ -90,12 +90,12 @@ public class BinanceManualExample {
       // Level 2 (exchange-specific) APIs
       executionReports =
           exchange
-              .getStreamingTradeService()
+              .getStreamingSpotTradeService()
               .getRawExecutionReports()
               .subscribe(report -> LOG.info("Subscriber got execution report: {}", report));
       accountInfo =
           exchange
-              .getStreamingAccountService()
+              .getStreamingSpotAccountService()
               .getRawAccountInfo()
               .subscribe(
                   accInfo ->

@@ -2,7 +2,9 @@ package info.bitrich.xchangestream.binance;
 
 import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannelException;
 import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.Completable;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
+import org.knowm.xchange.binance.dto.trade.margin.MarginAccountType;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -28,14 +31,27 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
       "Binance_Orderbook_Use_Higher_Frequency";
   protected static final String USE_REALTIME_BOOK_TICKER = "Binance_Ticker_Use_Realtime";
   protected static final String FETCH_ORDER_BOOK_LIMIT = "Binance_Fetch_Order_Book_Limit";
+  protected static final String SUBSCRIBE_TO_MARGIN_TRADING = "Binance_Subscribe_To_Margin_Trading";
+  protected static final String SUBSCRIBE_TO_ISOLATED_MARGIN_TRADING = "Binance_Subscribe_To_Isolated_Margin_Trading";
+
   private BinanceStreamingService streamingService;
-  private BinanceUserDataStreamingService userDataStreamingService;
+  private BinanceUserDataStreamingService spotUserDataStreamingService;
+  private BinanceUserDataStreamingService marginUserDataStreamingService;
+  private BinanceUserDataStreamingService isolatedMarginUserDataStreamingService;
 
   private BinanceStreamingMarketDataService streamingMarketDataService;
-  private BinanceStreamingAccountService streamingAccountService;
-  private BinanceStreamingTradeService streamingTradeService;
+  private StreamingAccountService streamingAccountService;
+  private BinanceStreamingAccountService streamingSpotAccountService;
+  private BinanceStreamingAccountService streamingMarginAccountService;
+  private BinanceStreamingAccountService streamingIsolatedMarginAccountService;
+  private StreamingTradeService streamingTradeService;
+  private BinanceStreamingTradeService streamingSpotTradeService;
+  private BinanceStreamingTradeService streamingMarginTradeService;
+  private BinanceStreamingTradeService streamingIsolatedMarginTradeService;
 
-  private BinanceUserDataChannel userDataChannel;
+  private BinanceUserDataChannel spotUserDataChannel;
+  private BinanceUserDataChannel marginUserDataChannel;
+  private BinanceUserDataChannel isolatedMarginUserDataChannel;
   private Runnable onApiCall;
   private String orderBookUpdateFrequencyParameter = "";
   private int oderBookFetchLimitParameter = 1000;
@@ -99,12 +115,48 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
           ExchangeRestProxyBuilder.forInterface(
                   BinanceAuthenticated.class, getExchangeSpecification())
               .build();
-      userDataChannel =
+      spotUserDataChannel =
           new BinanceUserDataChannel(binance, exchangeSpecification.getApiKey(), onApiCall);
       try {
-        completables.add(createAndConnectUserDataService(userDataChannel.getListenKey()));
+        completables.add(createAndConnectSpotUserDataService(spotUserDataChannel.getListenKey()));
       } catch (NoActiveChannelException e) {
         throw new IllegalStateException("Failed to establish user data channel", e);
+      }
+
+      if (Boolean.TRUE.equals(
+              exchangeSpecification.getExchangeSpecificParametersItem(SUBSCRIBE_TO_MARGIN_TRADING))) {
+        LOG.info("Connecting to authenticated margin web socket");
+        marginUserDataChannel =
+                new BinanceMarginUserDataChannel(binance, exchangeSpecification.getApiKey(), onApiCall);
+        try {
+          Completable marginUserDataServiceCompletable = createAndConnectMarginUserDataService(marginUserDataChannel.getListenKey());
+          streamingMarginAccountService = new BinanceStreamingAccountService(marginUserDataStreamingService);
+          streamingMarginTradeService = new BinanceStreamingTradeService(this, marginUserDataStreamingService, MarginAccountType.CROSS);
+          completables.add(marginUserDataServiceCompletable
+                  .doOnComplete(() -> streamingMarginAccountService.openSubscriptions())
+                  .doOnComplete(() -> streamingMarginTradeService.openSubscriptions())
+          );
+        } catch (NoActiveChannelException e) {
+          throw new IllegalStateException("Failed to establish margin user data channel", e);
+        }
+      }
+
+      if (Boolean.TRUE.equals(
+              exchangeSpecification.getExchangeSpecificParametersItem(SUBSCRIBE_TO_ISOLATED_MARGIN_TRADING))) {
+        LOG.info("Connecting to authenticated isolated margin web socket");
+        isolatedMarginUserDataChannel =
+                new BinanceIsolatedMarginUserDataChannel(binance, exchangeSpecification.getApiKey(), onApiCall);
+        try {
+          Completable isolatedMarginUserDataServiceCompletable = createAndConnectIsolatedMarginUserDataService(isolatedMarginUserDataChannel.getListenKey());
+          streamingIsolatedMarginAccountService = new BinanceStreamingAccountService(isolatedMarginUserDataStreamingService);
+          streamingIsolatedMarginTradeService = new BinanceStreamingTradeService(this, isolatedMarginUserDataStreamingService, MarginAccountType.ISOLATED);
+          completables.add(isolatedMarginUserDataServiceCompletable
+                  .doOnComplete(() -> streamingIsolatedMarginAccountService.openSubscriptions())
+                  .doOnComplete(() -> streamingIsolatedMarginTradeService.openSubscriptions())
+          );
+        } catch (NoActiveChannelException e) {
+          throw new IllegalStateException("Failed to establish isolated margin user data channel", e);
+        }
       }
     }
 
@@ -116,41 +168,105 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             orderBookUpdateFrequencyParameter,
             realtimeOrderBookTicker,
             oderBookFetchLimitParameter);
-    streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService);
-    streamingTradeService = new BinanceStreamingTradeService(userDataStreamingService);
+    streamingSpotAccountService = new BinanceStreamingAccountService(spotUserDataStreamingService);
+    streamingSpotTradeService = new BinanceStreamingTradeService(this, spotUserDataStreamingService, null);
+
+    streamingAccountService = streamingMarginAccountService != null || streamingIsolatedMarginAccountService != null
+            ? new CompositeStreamingAccountService(streamingSpotAccountService, streamingMarginAccountService, streamingIsolatedMarginAccountService)
+            : streamingSpotAccountService;
+
+    streamingTradeService = streamingMarginTradeService != null || streamingIsolatedMarginTradeService != null
+            ? new CompositeStreamingTradeService(streamingSpotTradeService, streamingMarginTradeService, streamingIsolatedMarginTradeService)
+            : streamingSpotTradeService;
 
     return Completable.concat(completables)
-        .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions))
-        .doOnComplete(() -> streamingAccountService.openSubscriptions())
-        .doOnComplete(() -> streamingTradeService.openSubscriptions());
+            .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions))
+            .doOnComplete(() -> streamingSpotAccountService.openSubscriptions())
+            .doOnComplete(() -> streamingSpotTradeService.openSubscriptions());
   }
 
-  private Completable createAndConnectUserDataService(String listenKey) {
-    userDataStreamingService =
+  private Completable createAndConnectSpotUserDataService(String listenKey) {
+    spotUserDataStreamingService =
         BinanceUserDataStreamingService.create(getStreamingBaseUri(), listenKey);
-    applyStreamingSpecification(getExchangeSpecification(), userDataStreamingService);
-    return userDataStreamingService
+    applyStreamingSpecification(getExchangeSpecification(), spotUserDataStreamingService);
+    return spotUserDataStreamingService
         .connect()
         .doOnComplete(
             () -> {
               LOG.info("Connected to authenticated web socket");
-              userDataChannel.onChangeListenKey(
+              spotUserDataChannel.onChangeListenKey(
                   newListenKey -> {
-                    userDataStreamingService
+                    spotUserDataStreamingService
                         .disconnect()
                         .doOnComplete(
                             () -> {
-                              createAndConnectUserDataService(newListenKey)
+                              createAndConnectSpotUserDataService(newListenKey)
                                   .doOnComplete(
                                       () -> {
-                                        streamingAccountService.setUserDataStreamingService(
-                                            userDataStreamingService);
-                                        streamingTradeService.setUserDataStreamingService(
-                                            userDataStreamingService);
+                                        streamingSpotAccountService.setUserDataStreamingService(
+                                                spotUserDataStreamingService);
+                                        streamingSpotTradeService.setUserDataStreamingService(
+                                                spotUserDataStreamingService);
                                       });
                             });
                   });
             });
+  }
+
+  private Completable createAndConnectMarginUserDataService(String listenKey) {
+    marginUserDataStreamingService =
+        BinanceUserDataStreamingService.create(getStreamingBaseUri(), listenKey);
+    applyStreamingSpecification(getExchangeSpecification(), marginUserDataStreamingService);
+    return marginUserDataStreamingService
+        .connect()
+        .doOnComplete(
+            () -> {
+              LOG.info("Connected to margin authenticated web socket");
+              marginUserDataChannel.onChangeListenKey(
+                  newListenKey -> {
+                    marginUserDataStreamingService
+                        .disconnect()
+                        .doOnComplete(
+                            () -> {
+                              createAndConnectMarginUserDataService(newListenKey)
+                                  .doOnComplete(
+                                      () -> {
+                                        streamingMarginAccountService.setUserDataStreamingService(
+                                                marginUserDataStreamingService);
+                                        streamingMarginTradeService.setUserDataStreamingService(
+                                                marginUserDataStreamingService);
+                                      });
+                            });
+                  });
+            });
+  }
+
+  private Completable createAndConnectIsolatedMarginUserDataService(String listenKey) {
+    isolatedMarginUserDataStreamingService =
+            BinanceUserDataStreamingService.create(getStreamingBaseUri(), listenKey);
+    applyStreamingSpecification(getExchangeSpecification(), isolatedMarginUserDataStreamingService);
+    return isolatedMarginUserDataStreamingService
+            .connect()
+            .doOnComplete(
+                    () -> {
+                      LOG.info("Connected to margin authenticated web socket");
+                      isolatedMarginUserDataChannel.onChangeListenKey(
+                              newListenKey -> {
+                                isolatedMarginUserDataStreamingService
+                                        .disconnect()
+                                        .doOnComplete(
+                                                () -> {
+                                                  createAndConnectIsolatedMarginUserDataService(newListenKey)
+                                                          .doOnComplete(
+                                                                  () -> {
+                                                                    streamingIsolatedMarginAccountService.setUserDataStreamingService(
+                                                                            isolatedMarginUserDataStreamingService);
+                                                                    streamingIsolatedMarginTradeService.setUserDataStreamingService(
+                                                                            isolatedMarginUserDataStreamingService);
+                                                                  });
+                                                });
+                              });
+                    });
   }
 
   @Override
@@ -158,13 +274,29 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     List<Completable> completables = new ArrayList<>();
     completables.add(streamingService.disconnect());
     streamingService = null;
-    if (userDataStreamingService != null) {
-      completables.add(userDataStreamingService.disconnect());
-      userDataStreamingService = null;
+    if (spotUserDataStreamingService != null) {
+      completables.add(spotUserDataStreamingService.disconnect());
+      spotUserDataStreamingService = null;
     }
-    if (userDataChannel != null) {
-      userDataChannel.close();
-      userDataChannel = null;
+    if (marginUserDataStreamingService != null) {
+      completables.add(marginUserDataStreamingService.disconnect());
+      marginUserDataStreamingService = null;
+    }
+    if (isolatedMarginUserDataStreamingService != null) {
+      completables.add(isolatedMarginUserDataStreamingService.disconnect());
+      isolatedMarginUserDataStreamingService = null;
+    }
+    if (spotUserDataChannel != null) {
+      spotUserDataChannel.close();
+      spotUserDataChannel = null;
+    }
+    if (marginUserDataChannel != null) {
+      marginUserDataChannel.close();
+      marginUserDataChannel = null;
+    }
+    if (isolatedMarginUserDataChannel != null) {
+      isolatedMarginUserDataChannel.close();
+      isolatedMarginUserDataChannel = null;
     }
     streamingMarketDataService = null;
     return Completable.concat(completables);
@@ -196,13 +328,37 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   @Override
-  public BinanceStreamingAccountService getStreamingAccountService() {
+  public StreamingAccountService getStreamingAccountService() {
     return streamingAccountService;
   }
 
+  public BinanceStreamingAccountService getStreamingSpotAccountService() {
+    return streamingSpotAccountService;
+  }
+
+  public BinanceStreamingAccountService getStreamingMarginAccountService() {
+    return streamingMarginAccountService;
+  }
+
+  public BinanceStreamingAccountService getStreamingIsolatedMarginAccountService() {
+    return streamingIsolatedMarginAccountService;
+  }
+
   @Override
-  public BinanceStreamingTradeService getStreamingTradeService() {
+  public StreamingTradeService getStreamingTradeService() {
     return streamingTradeService;
+  }
+
+  public BinanceStreamingTradeService getStreamingSpotTradeService() {
+    return streamingSpotTradeService;
+  }
+
+  public BinanceStreamingTradeService getStreamingMarginTradeService() {
+    return streamingMarginTradeService;
+  }
+
+  public BinanceStreamingTradeService getStreamingIsolatedMarginTradeService() {
+    return streamingIsolatedMarginTradeService;
   }
 
   protected BinanceStreamingService createStreamingService(ProductSubscription subscription) {

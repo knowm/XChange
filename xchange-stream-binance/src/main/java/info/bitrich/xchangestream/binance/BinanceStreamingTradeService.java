@@ -12,6 +12,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 import java.io.IOException;
+
+import org.knowm.xchange.binance.BinanceExchange;
+import org.knowm.xchange.binance.dto.trade.margin.MarginAccountType;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -25,12 +28,20 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
 
   private volatile Disposable executionReports;
   private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
+  private final MarginAccountType marginAccountType;
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
   public BinanceStreamingTradeService(
-      BinanceUserDataStreamingService binanceUserDataStreamingService) {
+      BinanceExchange exchange,
+      BinanceUserDataStreamingService binanceUserDataStreamingService,
+      MarginAccountType marginAccountType) {
     this.binanceUserDataStreamingService = binanceUserDataStreamingService;
+
+    boolean includeMarginAccountTypeInOrderId = Boolean.TRUE.equals(
+            exchange.getExchangeSpecification().getExchangeSpecificParametersItem(BinanceExchange.SPECIFIC_PARAM_INCLUDE_MARGIN_ACCOUNT_TYPE_IN_ORDER_ID));
+    // ignore margin account type if it doesn't have to be included in order ID
+    this.marginAccountType = includeMarginAccountTypeInOrderId ? marginAccountType : null;
   }
 
   public Observable<ExecutionReportBinanceUserTransaction> getRawExecutionReports() {
@@ -42,7 +53,7 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
   public Observable<Order> getOrderChanges() {
     return getRawExecutionReports()
         .filter(r -> !r.getExecutionType().equals(ExecutionType.REJECTED))
-        .map(ExecutionReportBinanceUserTransaction::toOrder);
+        .map((ExecutionReportBinanceUserTransaction transaction) -> transaction.toOrder(marginAccountType));
   }
 
   @Override
@@ -53,7 +64,7 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
   public Observable<UserTrade> getUserTrades() {
     return getRawExecutionReports()
         .filter(r -> r.getExecutionType().equals(ExecutionType.TRADE))
-        .map(ExecutionReportBinanceUserTransaction::toUserTrade);
+        .map((ExecutionReportBinanceUserTransaction transaction) -> transaction.toUserTrade(marginAccountType));
   }
 
   @Override
