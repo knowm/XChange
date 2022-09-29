@@ -129,6 +129,27 @@ public class OkexAdapters {
         .build();
   }
 
+  public static List<Ticker> adapterTickers (List<OkexTicker> tickerList){
+    List<Ticker> tickers = new ArrayList<>();
+    for (OkexTicker okexTicker : tickerList) {
+      tickers.add(new Ticker.Builder()
+              .open(new BigDecimal(okexTicker.getOpen24h()))
+              .last(new BigDecimal(okexTicker.getLast()))
+              .high(new BigDecimal(okexTicker.getHigh24h()))
+              .low(new BigDecimal(okexTicker.getLow24h()))
+              .volume(new BigDecimal(okexTicker.getVol24h()))
+              .quoteVolume(new BigDecimal(okexTicker.getVolCcy24h()))
+              .instrument(new CurrencyPair(okexTicker.getInstrumentId()))
+              .timestamp(new Date(Long.valueOf(okexTicker.getTs())))
+              .ask(StringUtils.isNotBlank(okexTicker.getAskPx())?new BigDecimal(okexTicker.getAskPx()):null)
+              .askSize(StringUtils.isNotBlank(okexTicker.getAskSz())?new BigDecimal(okexTicker.getAskSz()):null)
+              .bid(StringUtils.isNotBlank(okexTicker.getBidPx())?new BigDecimal(okexTicker.getBidPx()):null)
+              .bidSize(StringUtils.isNotBlank(okexTicker.getBidSz())?new BigDecimal(okexTicker.getBidSz()):null)
+              .build());
+    }
+    return tickers;
+  }
+
   public static OrderBook adaptOrderBook(
       OkexResponse<List<OkexOrderbook>> okexOrderbook, Instrument instrument) {
 

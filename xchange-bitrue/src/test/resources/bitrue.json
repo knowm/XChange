@@ -1,0 +1,526 @@
+{
+  "currency_pairs": {},
+  "currencies": {
+    "BNB": {
+      "scale": 8,
+      "withdrawal_fee": 0.0
+    },
+    "BTC": {
+      "scale": 8,
+      "withdrawal_fee": 0.00050
+    },
+    "NEO": {
+      "scale": 8,
+      "withdrawal_fee": 0.0
+    },
+    "ETH": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "LTC": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "QTUM": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "EOS": {
+      "scale": 8,
+      "withdrawal_fee": 0.4
+    },
+    "SNT": {
+      "scale": 8,
+      "withdrawal_fee": 38.0
+    },
+    "BNT": {
+      "scale": 8,
+      "withdrawal_fee": 0.9
+    },
+    "GAS": {
+      "scale": 8,
+      "withdrawal_fee": 0.0
+    },
+    "BCH": {
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "BTM": {
+      "scale": 8,
+      "withdrawal_fee": 5.0
+    },
+    "USDT": {
+      "scale": 8,
+      "withdrawal_fee": 3.9
+    },
+    "HCC": {
+      "scale": 8,
+      "withdrawal_fee": 0.00050
+    },
+    "HSR": {
+      "scale": 8,
+      "withdrawal_fee": 0.00010
+    },
+    "OAX": {
+      "scale": 8,
+      "withdrawal_fee": 4.9
+    },
+    "DNT": {
+      "scale": 8,
+      "withdrawal_fee": 42.0
+    },
+    "MCO": {
+      "scale": 8,
+      "withdrawal_fee": 0.47
+    },
+    "ICN": {
+      "scale": 8,
+      "withdrawal_fee": 2.8
+    },
+    "ZRX": {
+      "scale": 8,
+      "withdrawal_fee": 4.3
+    },
+    "OMG": {
+      "scale": 8,
+      "withdrawal_fee": 0.33
+    },
+    "WTC": {
+      "scale": 8,
+      "withdrawal_fee": 0.3
+    },
+    "LRC": {
+      "scale": 8,
+      "withdrawal_fee": 5.7
+    },
+    "LLT": {
+      "scale": 8,
+      "withdrawal_fee": 67.8
+    },
+    "YOYO": {
+      "scale": 8,
+      "withdrawal_fee": 30.0
+    },
+    "TRX": {
+      "scale": 8,
+      "withdrawal_fee": 72.0
+    },
+    "STRAT": {
+      "scale": 8,
+      "withdrawal_fee": 0.1
+    },
+    "SNGLS": {
+      "scale": 8,
+      "withdrawal_fee": 30.0
+    },
+    "BQX": {
+      "scale": 8,
+      "withdrawal_fee": 1.3
+    },
+    "KNC": {
+      "scale": 8,
+      "withdrawal_fee": 2.4
+    },
+    "SNM": {
+      "scale": 8,
+      "withdrawal_fee": 23.0
+    },
+    "FUN": {
+      "scale": 8,
+      "withdrawal_fee": 78.0
+    },
+    "LINK": {
+      "scale": 8,
+      "withdrawal_fee": 7.2
+    },
+    "XVG": {
+      "scale": 8,
+      "withdrawal_fee": 0.1
+    },
+    "CTR": {
+      "scale": 8,
+      "withdrawal_fee": 35.0
+    },
+    "SALT": {
+      "scale": 8,
+      "withdrawal_fee": 1.2
+    },
+    "MDA": {
+      "scale": 8,
+      "withdrawal_fee": 3.3
+    },
+    "IOTA": {
+      "scale": 8,
+      "withdrawal_fee": 0.5
+    },
+    "SUB": {
+      "scale": 8,
+      "withdrawal_fee": 6.3
+    },
+    "IOT": {
+      "scale": 8,
+      "withdrawal_fee": 0.5
+    },
+    "ETC": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "MTL": {
+      "scale": 8,
+      "withdrawal_fee": 0.8
+    },
+    "MTH": {
+      "scale": 8,
+      "withdrawal_fee": 33.0
+    },
+    "ENG": {
+      "scale": 8,
+      "withdrawal_fee": 1.8
+    },
+    "AST": {
+      "scale": 8,
+      "withdrawal_fee": 8.9
+    },
+    "DASH": {
+      "scale": 8,
+      "withdrawal_fee": 0.002
+    },
+    "BTG": {
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "EVX": {
+      "scale": 8,
+      "withdrawal_fee": 2.5
+    },
+    "REQ": {
+      "scale": 8,
+      "withdrawal_fee": 15.5
+    },
+    "VIB": {
+      "scale": 8,
+      "withdrawal_fee": 18.0
+    },
+    "POWR": {
+      "scale": 8,
+      "withdrawal_fee": 8.1
+    },
+    "ARK": {
+      "scale": 8,
+      "withdrawal_fee": 0.1
+    },
+    "XRP": {
+      "scale": 8,
+      "withdrawal_fee": 0.25
+    },
+    "MOD": {
+      "scale": 8,
+      "withdrawal_fee": 2.0
+    },
+    "ENJ": {
+      "scale": 8,
+      "withdrawal_fee": 26.0
+    },
+    "STORJ": {
+      "scale": 8,
+      "withdrawal_fee": 3.4
+    },
+    "VEN": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
+    },
+    "KMD": {
+      "scale": 8,
+      "withdrawal_fee": 0.002
+    },
+    "RCN": {
+      "scale": 8,
+      "withdrawal_fee": 26.0
+    },
+    "NULS": {
+      "scale": 8,
+      "withdrawal_fee": 1.3
+    },
+    "RDN": {
+      "scale": 8,
+      "withdrawal_fee": 2.0
+    },
+    "XMR": {
+      "scale": 8,
+      "withdrawal_fee": 0.04
+    },
+    "DLT": {
+      "scale": 8,
+      "withdrawal_fee": 15.8
+    },
+    "AMB": {
+      "scale": 8,
+      "withdrawal_fee": 8.9
+    },
+    "BAT": {
+      "scale": 8,
+      "withdrawal_fee": 13.0
+    },
+    "ZEC": {
+      "scale": 8,
+      "withdrawal_fee": 0.005
+    },
+    "BCPT": {
+      "scale": 8,
+      "withdrawal_fee": 6.7
+    },
+    "ARN": {
+      "scale": 8,
+      "withdrawal_fee": 2.6
+    },
+    "GVT": {
+      "scale": 8,
+      "withdrawal_fee": 0.15
+    },
+    "CDT": {
+      "scale": 8,
+      "withdrawal_fee": 71.0
+    },
+    "GXS": {
+      "scale": 8,
+      "withdrawal_fee": 0.3
+    },
+    "POE": {
+      "scale": 8,
+      "withdrawal_fee": 86.0
+    },
+    "QSP": {
+      "scale": 8,
+      "withdrawal_fee": 21.0
+    },
+    "BTS": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
+    },
+    "XZC": {
+      "scale": 8,
+      "withdrawal_fee": 0.02
+    },
+    "LSK": {
+      "scale": 8,
+      "withdrawal_fee": 0.1
+    },
+    "TNT": {
+      "scale": 8,
+      "withdrawal_fee": 36.0
+    },
+    "FUEL": {
+      "scale": 8,
+      "withdrawal_fee": 41.0
+    },
+    "MANA": {
+      "scale": 8,
+      "withdrawal_fee": 33.0
+    },
+    "BCD": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
+    },
+    "DGD": {
+      "scale": 8,
+      "withdrawal_fee": 0.02
+    },
+    "ADX": {
+      "scale": 8,
+      "withdrawal_fee": 4.1
+    },
+    "ADA": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
+    },
+    "PPT": {
+      "scale": 8,
+      "withdrawal_fee": 0.22
+    },
+    "CMT": {
+      "scale": 8,
+      "withdrawal_fee": 30.0
+    },
+    "XLM": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "CND": {
+      "scale": 8,
+      "withdrawal_fee": 39.0
+    },
+    "LEND": {
+      "scale": 8,
+      "withdrawal_fee": 60.0
+    },
+    "WABI": {
+      "scale": 8,
+      "withdrawal_fee": 3.6
+    },
+    "SBTC": {
+      "scale": 8,
+      "withdrawal_fee": 0.00050
+    },
+    "BCX": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
+    },
+    "WAVES": {
+      "scale": 8,
+      "withdrawal_fee": 0.002
+    },
+    "TNB": {
+      "scale": 8,
+      "withdrawal_fee": 86.0
+    },
+    "GTO": {
+      "scale": 8,
+      "withdrawal_fee": 15.0
+    },
+    "ICX": {
+      "scale": 8,
+      "withdrawal_fee": 1.2
+    },
+    "OST": {
+      "scale": 8,
+      "withdrawal_fee": 17.0
+    },
+    "ELF": {
+      "scale": 8,
+      "withdrawal_fee": 2.9
+    },
+    "AION": {
+      "scale": 8,
+      "withdrawal_fee": 1.2
+    },
+    "ETF": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
+    },
+    "BRD": {
+      "scale": 8,
+      "withdrawal_fee": 6.0
+    },
+    "NEBL": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "VIBE": {
+      "scale": 8,
+      "withdrawal_fee": 15.3
+    },
+    "LUN": {
+      "scale": 8,
+      "withdrawal_fee": 0.31
+    },
+    "CHAT": {
+      "scale": 8,
+      "withdrawal_fee": 36.0
+    },
+    "RLC": {
+      "scale": 8,
+      "withdrawal_fee": 2.8
+    },
+    "INS": {
+      "scale": 8,
+      "withdrawal_fee": 2.4
+    },
+    "IOST": {
+      "scale": 8,
+      "withdrawal_fee": 84.9
+    },
+    "STEEM": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "NANO": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "AE": {
+      "scale": 8,
+      "withdrawal_fee": 1.8
+    },
+    "VIA": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "BLZ": {
+      "scale": 8,
+      "withdrawal_fee": 7.0
+    },
+    "SYS": {
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "RPX": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
+    },
+    "NCASH": {
+      "scale": 8,
+      "withdrawal_fee": 81.3
+    },
+    "POA": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "ONT": {
+      "scale": 8,
+      "withdrawal_fee": 0.1
+    },
+    "ZIL": {
+      "scale": 8,
+      "withdrawal_fee": 100.0
+    },
+    "STORM": {
+      "scale": 8,
+      "withdrawal_fee": 86.0
+    },
+    "XEM": {
+      "scale": 8,
+      "withdrawal_fee": 4.0
+    },
+    "WAN": {
+      "scale": 8,
+      "withdrawal_fee": 0.1
+    },
+    "WPR": {
+      "scale": 8,
+      "withdrawal_fee": 29.5
+    },
+    "QLC": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
+    },
+    "GRS": {
+      "scale": 8,
+      "withdrawal_fee": 0.2
+    },
+    "EDO": {
+      "scale": 8,
+      "withdrawal_fee": 1.7
+    },
+    "WINGS": {
+      "scale": 8,
+      "withdrawal_fee": 6.1
+    },
+    "NAV": {
+      "scale": 8,
+      "withdrawal_fee": 0.2
+    },
+    "TRIG": {
+      "scale": 8,
+      "withdrawal_fee": 17.7
+    },
+    "APPC": {
+      "scale": 8,
+      "withdrawal_fee": 7.7
+    },
+    "PIVX": {
+      "scale": 8,
+      "withdrawal_fee": 0.02
+    }
+  }
+}
+

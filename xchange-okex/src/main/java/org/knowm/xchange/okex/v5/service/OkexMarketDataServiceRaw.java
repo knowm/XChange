@@ -10,11 +10,7 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexCandleStick;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexOrderbook;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexTrade;
+import org.knowm.xchange.okex.v5.dto.marketdata.*;
 import org.knowm.xchange.utils.DateUtils;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
@@ -66,6 +62,12 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
     } catch (OkexException e) {
       throw handleError(e);
     }
+  }
+
+  public OkexResponse<List<OkexTicker>> getTickers(String instrumentType, String underlying) throws IOException, OkexException{
+    return decorateApiCall(()->
+            okex.getTickers(instrumentType, underlying)
+    ).call();
   }
 
   public OkexResponse<List<OkexTrade>> getOkexTrades(String instrument, int limit)
