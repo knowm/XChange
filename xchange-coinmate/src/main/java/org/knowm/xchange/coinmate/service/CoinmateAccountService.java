@@ -75,6 +75,8 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
       response = coinmateRippleWithdrawal(amount, address);
     } else if (currency.equals(Currency.DASH)) {
       response = coinmateDashWithdrawal(amount, address);
+    }else if (currency.equals(Currency.ADA)) {
+      response = coinmateCardanoWithdrawal(amount, address);
     } else {
       throw new IOException(
           "Wallet for currency" + currency.getCurrencyCode() + " is currently not supported");
@@ -108,6 +110,8 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
       addresses = coinmateRippleDepositAddresses();
     } else if (currency.equals(Currency.DASH)) {
       addresses = coinmateDashDepositAddresses();
+    }else if (currency.equals(Currency.ADA)) {
+      addresses = coinmateCardanoDepositAddresses();
     } else {
       throw new IOException(
           "Wallet for currency" + currency.getCurrencyCode() + " is currently not supported");

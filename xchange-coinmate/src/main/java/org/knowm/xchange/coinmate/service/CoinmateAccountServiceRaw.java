@@ -242,6 +242,35 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
     return addresses;
   }
 
+  public CoinmateTradeResponse coinmateCardanoWithdrawal(BigDecimal amount, String address)
+          throws IOException {
+    CoinmateTradeResponse response =
+            coinmateAuthenticated.cardanoWithdrawal(
+                    exchange.getExchangeSpecification().getApiKey(),
+                    exchange.getExchangeSpecification().getUserName(),
+                    signatureCreator,
+                    exchange.getNonceFactory(),
+                    amount,
+                    address);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
+  public CoinmateDepositAddresses coinmateCardanoDepositAddresses() throws IOException {
+    CoinmateDepositAddresses addresses =
+            coinmateAuthenticated.cardanoDepositAddresses(
+                    exchange.getExchangeSpecification().getApiKey(),
+                    exchange.getExchangeSpecification().getUserName(),
+                    signatureCreator,
+                    exchange.getNonceFactory());
+
+    throwExceptionIfError(addresses);
+
+    return addresses;
+  }
+
   public CoinmateTransactionHistory getCoinmateTransactionHistory(
       int offset, Integer limit, String sort, Long timestampFrom, Long timestampTo, String orderId)
       throws IOException {

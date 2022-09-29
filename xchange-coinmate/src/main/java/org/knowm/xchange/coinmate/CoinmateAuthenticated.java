@@ -335,6 +335,28 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
       throws IOException;
 
+  // cardano
+
+  @POST
+  @Path("cardanoWithdrawal")
+  CoinmateTradeResponse cardanoWithdrawal(
+          @FormParam("publicKey") String publicKey,
+          @FormParam("clientId") String clientId,
+          @FormParam("signature") ParamsDigest signer,
+          @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+          @FormParam("amount") BigDecimal amount,
+          @FormParam("address") String address)
+          throws IOException;
+
+  @POST
+  @Path("cardanoDepositAddresses")
+  CoinmateDepositAddresses cardanoDepositAddresses(
+          @FormParam("publicKey") String publicKey,
+          @FormParam("clientId") String clientId,
+          @FormParam("signature") ParamsDigest signer,
+          @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+          throws IOException;
+
   // new in version 1.5
   // trade
   @POST
