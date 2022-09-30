@@ -11,7 +11,6 @@ import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.DepositAddress;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.gateio.Gateio;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
@@ -51,9 +50,12 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag addressWithTag)
-          throws IOException {
-    //Transaction MEMO can be entered after the address separated by a space, format: Address MEMO
-    String address = new StringBuilder().append(addressWithTag.getAddress()).append(SPACE).append(addressWithTag.getAddressTag()).toString();
+      throws IOException {
+    // Transaction MEMO can be entered after the address separated by a space, format: Address MEMO
+    String address =
+        addressWithTag.getAddressTag() != null
+            ? addressWithTag.getAddress() + SPACE + addressWithTag.getAddressTag()
+            : addressWithTag.getAddress();
     return withdraw(currency.getCurrencyCode(), amount, address);
   }
 
@@ -75,8 +77,9 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
           xmrParams.getPaymentId());
     } else if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(
-          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
+      AddressWithTag addressWithTag =
+          new AddressWithTag(defaultParams.getAddress(), defaultParams.getAddressTag());
+      return withdrawFunds(defaultParams.getCurrency(), defaultParams.getAmount(), addressWithTag);
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
