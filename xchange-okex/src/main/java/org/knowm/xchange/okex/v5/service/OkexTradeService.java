@@ -1,11 +1,13 @@
 package org.knowm.xchange.okex.v5.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -16,6 +18,8 @@ import org.knowm.xchange.okex.v5.OkexAdapters;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
+import org.knowm.xchange.okex.v5.dto.trade.OkexFundsTransferRequest;
+import org.knowm.xchange.okex.v5.dto.trade.OkexFundsTransferResponse;
 import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderResponse;
@@ -219,5 +223,20 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
         .stream()
         .map(result -> "0".equals(result.getCode()))
         .collect(Collectors.toList());
+  }
+
+  public boolean fundsTransfer(Currency currency, BigDecimal amount, String from, String to)
+      throws IOException {
+    OkexFundsTransferRequest fundsTransferRequest =
+        OkexFundsTransferRequest.builder()
+            .ccy(currency.getCurrencyCode())
+            .amt(String.valueOf(amount))
+            .from(from)
+            .to(to)
+            .build();
+
+    OkexResponse<List<OkexFundsTransferResponse>> listOkexResponse =
+        fundsTransfer(fundsTransferRequest);
+    return listOkexResponse.isSuccess();
   }
 }
