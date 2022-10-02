@@ -234,7 +234,8 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
    * @return true if operation is successful.
    * @throws IOException Indication that a networking error occurred while fetching JSON data
    */
-  public boolean fundsTransfer(Currency currency, BigDecimal amount, OkexAccountType fromAccount, OkexAccountType toAccount)
+  public boolean fundsTransfer(
+      Currency currency, BigDecimal amount, OkexAccountType fromAccount, OkexAccountType toAccount)
       throws IOException {
     OkexFundsTransferRequest fundsTransferRequest =
         OkexFundsTransferRequest.builder()
