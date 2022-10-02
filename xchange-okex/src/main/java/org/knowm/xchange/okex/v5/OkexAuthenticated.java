@@ -24,11 +24,7 @@ import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
 import org.knowm.xchange.okex.v5.dto.account.PiggyBalance;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.subaccount.OkexSubAccountDetails;
-import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
-import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
-import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
-import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
-import org.knowm.xchange.okex.v5.dto.trade.OkexOrderResponse;
+import org.knowm.xchange.okex.v5.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/api/v5")
@@ -54,6 +50,7 @@ public interface OkexAuthenticated extends Okex {
   String piggyBalance = "/asset/piggy-balance"; // Stated as 6 req/1 sec
   String withdrawal = "/asset/withdrawal"; // Stated as 6 req/1 sec
   String depositHistory = "/asset/deposit-history"; // Stated as 6 req/1 sec
+  String fundsTransferPath = "/asset/transfer"; // Stated as 1 req/1 sec
 
   // To avoid 429s, actual req/second may need to be lowered!
   Map<String, List<Integer>> privatePathRateLimits =
@@ -79,6 +76,7 @@ public interface OkexAuthenticated extends Okex {
           put(piggyBalance, Arrays.asList(6, 1));
           put(withdrawal, Arrays.asList(6, 1));
           put(depositHistory, Arrays.asList(6, 1));
+          put(fundsTransferPath, Arrays.asList(1, 1));
         }
       };
 
@@ -328,5 +326,17 @@ public interface OkexAuthenticated extends Okex {
       @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
       List<OkexAmendOrderRequest> requestPayload)
+      throws OkexException, IOException;
+
+  @POST
+  @Path(fundsTransferPath)
+  @Consumes(MediaType.APPLICATION_JSON)
+  OkexResponse<List<OkexFundsTransferResponse>> fundsTransfer(
+      @HeaderParam("OK-ACCESS-KEY") String apiKey,
+      @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+      @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
+      OkexFundsTransferRequest requestPayload)
       throws OkexException, IOException;
 }
