@@ -18,11 +18,8 @@ import org.knowm.xchange.okex.v5.OkexAdapters;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
-import org.knowm.xchange.okex.v5.dto.trade.OkexFundsTransferRequest;
-import org.knowm.xchange.okex.v5.dto.trade.OkexFundsTransferResponse;
-import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
-import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
-import org.knowm.xchange.okex.v5.dto.trade.OkexOrderResponse;
+import org.knowm.xchange.okex.v5.dto.account.OkexAccountType;
+import org.knowm.xchange.okex.v5.dto.trade.*;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
@@ -38,6 +35,8 @@ import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexTradeService extends OkexTradeServiceRaw implements TradeService {
+  private static final String TRANSFER_WITHIN_ACCOUNT = "0";
+
   public OkexTradeService(OkexExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
@@ -225,14 +224,25 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
         .collect(Collectors.toList());
   }
 
-  public boolean fundsTransfer(Currency currency, BigDecimal amount, String from, String to)
+  /**
+   * Transfers assets within account.
+   *
+   * @param currency Currency
+   * @param amount Amount to be transferred
+   * @param fromAccount The remitting account
+   * @param toAccount The beneficiary account
+   * @return true if operation is successful.
+   * @throws IOException Indication that a networking error occurred while fetching JSON data
+   */
+  public boolean fundsTransfer(Currency currency, BigDecimal amount, OkexAccountType fromAccount, OkexAccountType toAccount)
       throws IOException {
     OkexFundsTransferRequest fundsTransferRequest =
         OkexFundsTransferRequest.builder()
             .ccy(currency.getCurrencyCode())
             .amt(String.valueOf(amount))
-            .from(from)
-            .to(to)
+            .from(fromAccount.getValue())
+            .to(toAccount.getValue())
+            .type(TRANSFER_WITHIN_ACCOUNT)
             .build();
 
     OkexResponse<List<OkexFundsTransferResponse>> listOkexResponse =
