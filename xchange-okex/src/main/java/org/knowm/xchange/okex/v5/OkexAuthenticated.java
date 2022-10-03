@@ -39,6 +39,8 @@ public interface OkexAuthenticated extends Okex {
   String configPath = "/account/config"; // Stated as 5 req/2 sec
   String currenciesPath = "/asset/currencies"; // Stated as 6 req/sec
   String assetBalancesPath = "/asset/balances"; // Stated as 6 req/sec
+  String positionsPath = "/account/positions"; // Stated as 10 req/2 sec
+  String setLeveragePath = "/account/set-leverage"; // Stated as 20 req/2 sec
   String pendingOrdersPath = "/trade/orders-pending"; // Stated as 20 req/2 sec
   String orderDetailsPath = "/trade/order";
   String placeOrderPath = "/trade/order"; // Stated as 60 req/2 sec
@@ -60,6 +62,8 @@ public interface OkexAuthenticated extends Okex {
           put(balancePath, Arrays.asList(5, 1));
           put(currenciesPath, Arrays.asList(6, 1));
           put(assetBalancesPath, Arrays.asList(6, 1));
+          put(positionsPath, Arrays.asList(5, 1));
+          put(setLeveragePath, Arrays.asList(20, 2));
           put(pendingOrdersPath, Arrays.asList(20, 2));
           put(orderDetailsPath, Arrays.asList(60, 2));
           put(placeOrderPath, Arrays.asList(60, 2));
@@ -159,6 +163,31 @@ public interface OkexAuthenticated extends Okex {
       @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
       throws OkexException, IOException;
+
+  @GET
+  @Path(positionsPath)
+  OkexResponse<List<OkexPosition>> getPositions(
+          @QueryParam("instType") String instrumentType,
+          @QueryParam("instId") String instrumentId,
+          @QueryParam("posId") String positionId,
+          @HeaderParam("OK-ACCESS-KEY") String apiKey,
+          @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+          @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+          @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+  throws IOException, OkexException;
+
+  @POST
+  @Path(setLeveragePath)
+  @Consumes(MediaType.APPLICATION_JSON)
+  OkexResponse<List<OkexSetLeverageResponse>> setLeverage(
+          @HeaderParam("OK-ACCESS-KEY") String apiKey,
+          @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+          @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+          @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
+          OkexSetLeverageRequest requestPayload)
+          throws IOException, OkexException;
 
   @GET
   @Path(pendingOrdersPath)
