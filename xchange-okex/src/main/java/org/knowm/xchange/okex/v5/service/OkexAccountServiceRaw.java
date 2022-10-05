@@ -213,6 +213,93 @@ public class OkexAccountServiceRaw extends OkexBaseService {
     }
   }
 
+  public OkexResponse<List<OkexBillDetails>> getBills(
+          String instrumentType,
+          String currency,
+          String marginMode,
+          String contractType,
+          String billType,
+          String billSubType,
+          String afterBillId,
+          String beforeBillId,
+          String beginTimestamp,
+          String endTimestamp,
+          String maxNumberOfResults)
+          throws OkexException, IOException {
+    try {
+      return decorateApiCall(
+              () ->
+                      okexAuthenticated.getBills(
+                              instrumentType,
+                              currency,
+                              marginMode,
+                              contractType,
+                              billType,
+                              billSubType,
+                              afterBillId,
+                              beforeBillId,
+                              beginTimestamp,
+                              endTimestamp,
+                              maxNumberOfResults,
+                              exchange.getExchangeSpecification().getApiKey(),
+                              signatureCreator,
+                              DateUtils.toUTCISODateString(new Date()),
+                              (String)
+                                      exchange
+                                              .getExchangeSpecification()
+                                              .getExchangeSpecificParametersItem("passphrase"),
+                              (String)
+                                      exchange
+                                              .getExchangeSpecification()
+                                              .getExchangeSpecificParametersItem("simulated")))
+              .withRateLimiter(rateLimiter(okexAuthenticated.currenciesPath))
+              .call();
+    } catch (OkexException e) {
+      throw handleError(e);
+    }
+  }
+
+  public OkexResponse<List<OkexChangeMarginResponse>> changeMargin(
+          String instrumentId,
+          String positionSide,
+          String type,
+          String amount,
+          String currency,
+          boolean auto,
+          boolean loadTrans)
+          throws OkexException, IOException {
+    try {
+      OkexChangeMarginRequest requestPayload = OkexChangeMarginRequest.builder()
+              .instrumentId(instrumentId)
+              .posSide(positionSide)
+              .type(type)
+              .amount(amount)
+              .currency(currency)
+              .auto(auto)
+              .loanTrans(loadTrans)
+              .build();
+      return decorateApiCall(
+              () ->
+                      okexAuthenticated.changeMargin(
+                              exchange.getExchangeSpecification().getApiKey(),
+                              signatureCreator,
+                              DateUtils.toUTCISODateString(new Date()),
+                              (String)
+                                      exchange
+                                              .getExchangeSpecification()
+                                              .getExchangeSpecificParametersItem("passphrase"),
+                              (String)
+                                      exchange
+                                              .getExchangeSpecification()
+                                              .getExchangeSpecificParametersItem("simulated"),
+                              requestPayload))
+              .withRateLimiter(rateLimiter(okexAuthenticated.currenciesPath))
+              .call();
+    } catch (OkexException e) {
+      throw handleError(e);
+    }
+  }
+
   public OkexResponse<List<OkexSubAccountDetails>> getSubAccounts(Boolean enable, String subAcct)
       throws IOException {
     return decorateApiCall(

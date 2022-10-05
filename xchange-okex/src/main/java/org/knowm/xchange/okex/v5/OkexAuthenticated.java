@@ -37,6 +37,8 @@ public interface OkexAuthenticated extends Okex {
   String balancePath = "/account/balance"; // Stated as 10 req/2 sec
   String tradeFeePath = "/account/trade-fee"; // Stated as 5 req/2 sec
   String configPath = "/account/config"; // Stated as 5 req/2 sec
+  String getBillsPath = "/account/bills"; // Stated as 6 req/sec
+  String changeMarginPath = "/account/position/margin-balance"; // Stated as 20 req/2 sec
   String currenciesPath = "/asset/currencies"; // Stated as 6 req/sec
   String assetBalancesPath = "/asset/balances"; // Stated as 6 req/sec
   String positionsPath = "/account/positions"; // Stated as 10 req/2 sec
@@ -76,6 +78,8 @@ public interface OkexAuthenticated extends Okex {
           put(ordersHistoryPath, Arrays.asList(40, 2));
           put(tradeFeePath, Arrays.asList(5, 2));
           put(configPath, Arrays.asList(5, 2));
+          put(getBillsPath, Arrays.asList(6, 1));
+          put(changeMarginPath, Arrays.asList(20, 2));
           put(subAccountList, Arrays.asList(2, 2));
           put(subAccountBalance, Arrays.asList(2, 2));
           put(piggyBalance, Arrays.asList(6, 1));
@@ -103,6 +107,39 @@ public interface OkexAuthenticated extends Okex {
           @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
           @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
           @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+          throws OkexException, IOException;
+
+  @GET
+  @Path(getBillsPath)
+  OkexResponse<List<OkexBillDetails>> getBills(
+          @QueryParam("instType") String instrumentType,
+          @QueryParam("ccy") String currency,
+          @QueryParam("mgnMode") String marginMode,
+          @QueryParam("ctType") String contractType,
+          @QueryParam("type") String billType,
+          @QueryParam("subType") String billSubType,
+          @QueryParam("after") String afterBillId,
+          @QueryParam("before") String beforeBillId,
+          @QueryParam("begin") String beginTimestamp,
+          @QueryParam("end") String endTimestamp,
+          @QueryParam("limit") String maxNumberOfResults,
+          @HeaderParam("OK-ACCESS-KEY") String apiKey,
+          @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+          @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+          @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+          throws OkexException, IOException;
+
+  @POST
+  @Path(changeMarginPath)
+  @Consumes(MediaType.APPLICATION_JSON)
+  OkexResponse<List<OkexChangeMarginResponse>> changeMargin(
+          @HeaderParam("OK-ACCESS-KEY") String apiKey,
+          @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+          @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+          @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
+          OkexChangeMarginRequest requestPayload)
           throws OkexException, IOException;
 
   @GET
