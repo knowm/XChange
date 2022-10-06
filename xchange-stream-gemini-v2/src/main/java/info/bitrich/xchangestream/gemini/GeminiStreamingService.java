@@ -39,7 +39,7 @@ public class GeminiStreamingService extends JsonNettyStreamingService {
     String channelName = currencyPair.base.toString() + currencyPair.counter.toString();
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return subscribeChannel(channelName)
-        .map(s -> mapper.readValue(s.toString(), GeminiWebSocketTransaction.class))
+        .map(s -> mapper.treeToValue(s, GeminiWebSocketTransaction.class))
         .filter(t -> channelName.equals(t.getSymbol()))
         .filter(t -> !StringUtil.isNullOrEmpty(t.getType()));
   }

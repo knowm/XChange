@@ -90,7 +90,7 @@ public class dydxStreamingService extends JsonNettyStreamingService {
                   return handleOrderbookMessage(currencyPairChannelName, objectMapper, msg);
               }
 
-              return mapper.readValue(msg.toString(), dydxWebSocketTransaction.class);
+              return mapper.treeToValue(msg, dydxWebSocketTransaction.class);
             })
         .filter(t -> currencyPair.equals(new CurrencyPair(t.getId())))
         .filter(t -> baseChannelName.equals(t.getChannel()));
@@ -101,24 +101,24 @@ public class dydxStreamingService extends JsonNettyStreamingService {
     if (orderBookChannel.contains(V3_ORDERBOOK)) {
       switch (msg.get("type").asText()) {
         case SUBSCRIBED:
-          return mapper.readValue(msg.toString(), dydxInitialOrderBookMessage.class);
+          return mapper.treeToValue(msg, dydxInitialOrderBookMessage.class);
         case CHANNEL_DATA:
-          return mapper.readValue(msg.toString(), dydxUpdateOrderBookMessage.class);
+          return mapper.treeToValue(msg, dydxUpdateOrderBookMessage.class);
       }
     }
     if (orderBookChannel.contains(V1_ORDERBOOK)) {
       switch (msg.get("type").asText()) {
         case SUBSCRIBED:
-          return mapper.readValue(
-              msg.toString(),
+          return mapper.treeToValue(
+              msg,
               info.bitrich.xchangestream.dydx.dto.v1.dydxInitialOrderBookMessage.class);
         case CHANNEL_DATA:
-          return mapper.readValue(
-              msg.toString(),
+          return mapper.treeToValue(
+              msg,
               info.bitrich.xchangestream.dydx.dto.v1.dydxUpdateOrderBookMessage.class);
       }
     }
-    return mapper.readValue(msg.toString(), dydxWebSocketTransaction.class);
+    return mapper.treeToValue(msg, dydxWebSocketTransaction.class);
   }
 
   @Override

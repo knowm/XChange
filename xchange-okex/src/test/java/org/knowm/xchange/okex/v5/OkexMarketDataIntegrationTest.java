@@ -7,9 +7,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.okex.v5.service.OkexMarketDataService;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class OkexMarketDataIntegrationTest {
 
