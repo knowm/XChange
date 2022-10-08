@@ -131,7 +131,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
     afrSubscription =
         streamingService
             .subscribeChannel("afr")
-            .map(s -> mapper.readValue(s.toString(), LgoAckUpdate.class))
+            .map(s -> mapper.treeToValue(s, LgoAckUpdate.class))
             .map(LgoAckUpdate::getData)
             .flatMap(Observable::<LgoOrderEvent>fromIterable)
             .share();

@@ -33,15 +33,15 @@
     <version.java>1.8</version.java>
     <version.assertj>3.23.1</version.assertj>
     <version.commons.lang3>3.12.0</version.commons.lang3>
-    <version.fasterxml>2.13.3</version.fasterxml>
+    <version.fasterxml>2.13.4</version.fasterxml>
     <version.github.mmazi>2.1.0</version.github.mmazi>
     <version.resilience4j>1.7.0</version.resilience4j>
     <version.junit>4.13.2</version.junit>
     <version.lombok>1.18.22</version.lombok>
-    <version.knowm.xchart>3.8.1</version.knowm.xchart>
-    <version.qos.logback>1.2.11</version.qos.logback>
+    <version.knowm.xchart>3.8.2</version.knowm.xchart>
+    <version.qos.logback>1.4.1</version.qos.logback>
     <version.reflections>0.10.2</version.reflections>
-    <version.slf4j>1.7.36</version.slf4j>
+    <version.slf4j>2.0.2</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
     <version.java-jwt>3.19.2</version.java-jwt>
 
@@ -319,7 +319,7 @@
       <dependency>
         <groupId>com.github.tomakehurst</groupId>
         <artifactId>wiremock-jre8</artifactId>
-        <version>2.33.2</version>
+        <version>2.34.0</version>
         <scope>test</scope>
       </dependency>
 
@@ -360,7 +360,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.79.Final</version>
+            <version>4.1.82.Final</version>
         </dependency>
 
     </dependencies>
@@ -458,7 +458,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.3.2</version>
+            <version>3.4.1</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -518,7 +518,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.3.2</version>
+        <version>3.4.1</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>

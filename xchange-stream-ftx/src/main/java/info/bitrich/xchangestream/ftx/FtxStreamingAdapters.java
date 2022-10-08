@@ -60,7 +60,7 @@ public class FtxStreamingAdapters {
         .map(
             res -> {
               try {
-                return mapper.readValue(res.toString(), FtxOrderbookResponse.class);
+                return mapper.treeToValue(res, FtxOrderbookResponse.class);
               } catch (IOException e) {
                 throw new IllegalStateException(e);
               }
@@ -182,7 +182,7 @@ public class FtxStreamingAdapters {
         .map(
             res -> {
               try {
-                return mapper.readValue(res.toString(), FtxTickerResponse.class);
+                return mapper.treeToValue(res, FtxTickerResponse.class);
               } catch (IOException e) {
                 throw new RuntimeException(e);
               }
@@ -200,7 +200,7 @@ public class FtxStreamingAdapters {
         .map(
             tradeNode -> {
               try {
-                return mapper.readValue(tradeNode.toString(), FtxTradeDto.class);
+                return mapper.treeToValue(tradeNode, FtxTradeDto.class);
               } catch (IOException e) {
                 throw new RuntimeException(e);
               }

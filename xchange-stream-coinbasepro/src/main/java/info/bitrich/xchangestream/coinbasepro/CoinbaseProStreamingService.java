@@ -94,7 +94,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
     String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return subscribeChannel(channelName)
-        .map(s -> mapper.readValue(s.toString(), CoinbaseProWebSocketTransaction.class))
+        .map(s -> mapper.treeToValue(s, CoinbaseProWebSocketTransaction.class))
         .filter(t -> channelName.equals(t.getProductId()))
         .filter(t -> !isNullOrEmpty(t.getType()));
   }
