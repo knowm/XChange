@@ -3,9 +3,11 @@ package org.knowm.xchange.okex.v5.dto.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class OkexBillDetails {
   @JsonProperty("instType")
   String instType;
