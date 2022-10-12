@@ -8,6 +8,7 @@ import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.OrderStatus;
 import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.trade.margin.MarginAccountType;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -185,7 +186,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     return cumulativeQuoteAssetTransactedQuantity;
   }
 
-  public UserTrade toUserTrade() {
+  public UserTrade toUserTrade(MarginAccountType marginAccountType) {
     if (executionType != ExecutionType.TRADE) throw new IllegalStateException("Not a trade");
     return new UserTrade.Builder()
         .type(BinanceAdapters.convert(side))
@@ -194,13 +195,13 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
         .price(lastExecutedPrice)
         .timestamp(getEventTime())
         .id(Long.toString(tradeId))
-        .orderId(Long.toString(orderId))
+        .orderId(BinanceAdapters.placedOrderId(orderId, marginAccountType))
         .feeAmount(commissionAmount)
         .feeCurrency(Currency.getInstance(commissionAsset))
         .build();
   }
 
-  public Order toOrder() {
+  public Order toOrder(MarginAccountType marginAccountType) {
     return BinanceAdapters.adaptOrder(
         new BinanceOrder(
             BinanceAdapters.toSymbol(getCurrencyPair()),
@@ -216,7 +217,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
             side,
             stopPrice,
             BigDecimal.ZERO,
-            timestamp));
+            timestamp), marginAccountType);
   }
 
   @Override

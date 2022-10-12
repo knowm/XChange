@@ -24,6 +24,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange {
   public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
+  public static final String SPECIFIC_PARAM_INCLUDE_MARGIN_ACCOUNT_TYPE_IN_ORDER_ID =
+          "Include_Margin_Account_Type_In_OrderId";
 
   protected static ResilienceRegistries RESILIENCE_REGISTRIES;
 

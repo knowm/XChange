@@ -22,7 +22,7 @@ public class BinanceAdaptersTest {
             BinanceAdaptersTest.class.getResource(
                 "/org/knowm/xchange/binance/filled-market-order.json"),
             BinanceOrder.class);
-    Order order = BinanceAdapters.adaptOrder(binanceOrder);
+    Order order = BinanceAdapters.adaptOrder(binanceOrder, null);
     assertThat(order).isInstanceOf(MarketOrder.class);
     MarketOrder marketOrder = (MarketOrder) order;
     assertThat(marketOrder.getStatus()).isEqualByComparingTo(Order.OrderStatus.FILLED);
