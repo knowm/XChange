@@ -62,6 +62,7 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
 
   @Override
   public Completable connect(ProductSubscription... args) {
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     if (privateStreamingService != null)
       return privateStreamingService.connect().mergeWith(streamingService.connect());
     return streamingService.connect();

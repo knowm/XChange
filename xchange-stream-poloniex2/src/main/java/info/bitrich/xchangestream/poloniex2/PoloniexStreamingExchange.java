@@ -65,6 +65,7 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
 
   @Override
   public Completable connect(ProductSubscription... args) {
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     return streamingService.connect();
   }
 

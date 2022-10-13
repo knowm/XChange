@@ -60,7 +60,11 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
     Channel ch = ctx.channel();
     if (!handshaker.isHandshakeComplete()) {
       try {
-        handshaker.finishHandshake(ch, (FullHttpResponse) msg);
+          if (handshaker instanceof ProxyFriendlyWebSocketClientHandshaker) {
+            ((ProxyFriendlyWebSocketClientHandshaker)handshaker).fixedFinishHandshake(ch, (FullHttpResponse) msg);
+          } else {
+            handshaker.finishHandshake(ch, (FullHttpResponse) msg);
+          }
         LOG.info("WebSocket Client connected! {}", ctx.channel());
         handshakeFuture.setSuccess();
       } catch (WebSocketHandshakeException e) {

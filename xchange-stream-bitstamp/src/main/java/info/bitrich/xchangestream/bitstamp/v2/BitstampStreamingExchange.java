@@ -32,6 +32,7 @@ public class BitstampStreamingExchange extends BitstampExchange implements Strea
 
   @Override
   public Completable connect(ProductSubscription... args) {
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     return streamingService.connect();
   }
 
