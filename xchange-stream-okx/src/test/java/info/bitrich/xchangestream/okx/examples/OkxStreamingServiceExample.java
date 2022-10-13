@@ -1,8 +1,8 @@
-package info.bitrich.xchangestream.okcoin.examples;
+package info.bitrich.xchangestream.okx.examples;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import info.bitrich.xchangestream.okcoin.OkxStreamingExchange;
-import info.bitrich.xchangestream.okcoin.OkxStreamingService;
+import info.bitrich.xchangestream.okx.OkxStreamingExchange;
+import info.bitrich.xchangestream.okx.OkxStreamingService;
 import org.knowm.xchange.ExchangeSpecification;
 
 public class OkxStreamingServiceExample {

@@ -1,8 +1,8 @@
-package info.bitrich.xchangestream.okcoin;
+package info.bitrich.xchangestream.okx;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import info.bitrich.xchangestream.okcoin.dto.okx.OkxLoginMessage;
+import info.bitrich.xchangestream.okx.dto.okx.OkxLoginMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
@@ -110,7 +110,7 @@ public class OkxStreamingService extends JsonNettyStreamingService {
     }
 
     @Override
-    protected String getChannelNameFromMessage(JsonNode message) throws IOException {
+    protected String getChannelNameFromMessage(JsonNode message) {
         if (message.has("event")) return message.get("event").asText();
         return message.has("arg") ?
                 (message.get("arg").has("channel") ? message.get("arg").get("channel").asText() : "")

@@ -1,8 +1,8 @@
-package info.bitrich.xchangestream.okcoin;
+package info.bitrich.xchangestream.okx;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.okcoin.dto.okx.OkxSubscribeMessage;
+import info.bitrich.xchangestream.okx.dto.okx.OkxSubscribeMessage;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.dto.Order;

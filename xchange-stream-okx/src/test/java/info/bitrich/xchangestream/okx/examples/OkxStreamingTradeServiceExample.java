@@ -1,13 +1,12 @@
-package info.bitrich.xchangestream.okcoin.examples;
+package info.bitrich.xchangestream.okx.examples;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import info.bitrich.xchangestream.okcoin.OkxStreamingExchange;
-import info.bitrich.xchangestream.okcoin.OkxStreamingService;
-import info.bitrich.xchangestream.okcoin.OkxStreamingTradeService;
-import info.bitrich.xchangestream.okcoin.dto.okx.enums.OkxInstType;
+import info.bitrich.xchangestream.okx.OkxStreamingExchange;
+import info.bitrich.xchangestream.okx.OkxStreamingService;
+import info.bitrich.xchangestream.okx.OkxStreamingTradeService;
+import info.bitrich.xchangestream.okx.dto.okx.enums.OkxInstType;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.OkexAdapters;
 

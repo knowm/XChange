@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.okcoin.dto.okx;
+package info.bitrich.xchangestream.okx.dto.okx;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.okcoin;
+package info.bitrich.xchangestream.okx;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;

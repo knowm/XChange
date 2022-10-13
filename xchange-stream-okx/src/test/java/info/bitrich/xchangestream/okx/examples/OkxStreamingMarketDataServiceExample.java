@@ -1,7 +1,7 @@
-package info.bitrich.xchangestream.okcoin.examples;
+package info.bitrich.xchangestream.okx.examples;
 
-import info.bitrich.xchangestream.okcoin.OkxStreamingMarketDataService;
-import info.bitrich.xchangestream.okcoin.OkxStreamingService;
+import info.bitrich.xchangestream.okx.OkxStreamingMarketDataService;
+import info.bitrich.xchangestream.okx.OkxStreamingService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 
