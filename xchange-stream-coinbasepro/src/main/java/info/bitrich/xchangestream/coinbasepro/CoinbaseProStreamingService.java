@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.coinbasepro;
 
 import static io.netty.util.internal.StringUtil.isNullOrEmpty;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProOrderBookMode;
@@ -102,7 +103,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
     String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return subscribeChannel(channelName)
-        .map(s -> mapper.treeToValue(s, CoinbaseProWebSocketTransaction.class))
+        .map(s -> mapToTransaction(mapper, s))
         .filter(t -> channelName.equals(t.getProductId()))
         .filter(t -> !isNullOrEmpty(t.getType()));
   }
@@ -162,6 +163,46 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
     } else {
       super.handleChannelMessage(channel, message);
     }
+  }
+
+  private static CoinbaseProWebSocketTransaction mapToTransaction(ObjectMapper mapper, JsonNode node) throws JsonProcessingException {
+    String type = getText(node.get("type"));
+    // use manual JSON to object conversion for the heaviest transaction types
+    if (type != null && (type.equals("l2update") || type.equals("snapshot"))) {
+      return new CoinbaseProWebSocketTransaction(type,
+              null, null, null, null, null, null, null, null, null, null, null, null, null,
+              getL2Array(node.get("bids")),
+              getL2Array(node.get("asks")),
+              getL2Array(node.get("changes")),
+              null,
+              getText(node.get("product_id")),
+              0,
+              getText(node.get("time")),
+              null, 0, null, null, null, null, null, null
+      );
+    }
+    return mapper.treeToValue(node, CoinbaseProWebSocketTransaction.class);
+  }
+
+  private static String getText(JsonNode node) {
+    return node != null ? node.asText() : null;
+  }
+
+  private static String[][] getL2Array(JsonNode node) {
+    if (node == null)
+      return null;
+
+    String[][] result = new String[node.size()][];
+    for (int i = 0; i < result.length; i++)
+      result[i] = getArray(node.get(i));
+    return result;
+  }
+
+  private static String[] getArray(JsonNode node) {
+    String[] result = new String[node.size()];
+    for (int i = 0; i < result.length; i++)
+      result[i] = node.get(i).asText();
+    return result;
   }
 
   /**
