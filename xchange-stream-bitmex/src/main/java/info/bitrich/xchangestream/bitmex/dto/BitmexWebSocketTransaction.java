@@ -75,7 +75,7 @@ public class BitmexWebSocketTransaction {
       JsonNode jsonOrder = this.data.get(i);
 
       try {
-        orders[i] = mapper.readValue(jsonOrder.toString(), BitmexOrder.class);
+        orders[i] = mapper.treeToValue(jsonOrder, BitmexOrder.class);
       } catch (IOException e) {
         log.error("orders mapping exception", e);
       }
@@ -87,7 +87,7 @@ public class BitmexWebSocketTransaction {
   public BitmexFunding toBitmexFunding() {
     BitmexFunding funding = null;
     try {
-      funding = mapper.readValue(this.data.get(0).toString(), BitmexFunding.class);
+      funding = mapper.treeToValue(this.data.get(0), BitmexFunding.class);
     } catch (IOException e) {
       log.error("funding mapping exception", e);
     }

@@ -46,7 +46,7 @@ public class LgoStreamingAccountService implements StreamingAccountService {
     subscription =
         service
             .subscribeChannel(CHANNEL_NAME)
-            .map(s -> mapper.readValue(s.toString(), LgoBalanceUpdate.class))
+            .map(s -> mapper.treeToValue(s, LgoBalanceUpdate.class))
             .scan(
                 new LgoGroupedBalanceUpdate(),
                 (acc, s) -> {

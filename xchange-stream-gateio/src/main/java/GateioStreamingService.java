@@ -54,11 +54,11 @@ public class GateioStreamingService extends JsonNettyStreamingService {
             msg -> {
               switch (channelName) {
                 case SPOT_ORDERBOOK_CHANNEL:
-                  return mapper.readValue(msg.toString(), GateioOrderBookResponse.class);
+                  return mapper.treeToValue(msg, GateioOrderBookResponse.class);
                 case SPOT_TRADES_CHANNEL:
-                  return mapper.readValue(msg.toString(), GateioTradesResponse.class);
+                  return mapper.treeToValue(msg, GateioTradesResponse.class);
               }
-              return mapper.readValue(msg.toString(), GateioWebSocketTransaction.class);
+              return mapper.treeToValue(msg, GateioWebSocketTransaction.class);
             })
         .filter(t -> currencyPair.equals(t.getCurrencyPair()));
   }

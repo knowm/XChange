@@ -18,12 +18,6 @@ import org.knowm.xchange.kucoin.dto.response.WebsocketResponse;
 
 public class KucoinExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Use with {@link ExchangeSpecification#getExchangeSpecificParametersItem(String)} to specify
-   * that connection should be made to the Kucoin sandbox instead of the live API.
-   */
-  public static final String PARAM_SANDBOX = "Use_Sandbox";
-
   static final String SANDBOX_URI = "https://openapi-sandbox.kucoin.com";
   static final String PROD_URI = "https://api.kucoin.com";
 
@@ -32,7 +26,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   private void concludeHostParams(ExchangeSpecification exchangeSpecification) {
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       if (Boolean.TRUE.equals(
-          exchangeSpecification.getExchangeSpecificParametersItem(PARAM_SANDBOX))) {
+          exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
         logger.debug("Connecting to sandbox");
         exchangeSpecification.setSslUri(KucoinExchange.SANDBOX_URI);
         try {

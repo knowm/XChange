@@ -5,10 +5,7 @@ import static info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType.subscr
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.kraken.dto.KrakenSubscriptionConfig;
-import info.bitrich.xchangestream.kraken.dto.KrakenSubscriptionMessage;
-import info.bitrich.xchangestream.kraken.dto.KrakenSubscriptionStatusMessage;
-import info.bitrich.xchangestream.kraken.dto.KrakenSystemStatus;
+import info.bitrich.xchangestream.kraken.dto.*;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
@@ -27,6 +24,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -44,6 +44,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   private final boolean isPrivate;
   private final Supplier<KrakenWebsocketToken> authData;
   private final Map<Integer, String> subscriptionRequestMap = new ConcurrentHashMap<>();
+  private final Map<String, ObservableEmitter<KrakenEvent>> systemChannels = new ConcurrentHashMap<>();
   private final RateLimiter rateLimiter;
   static final int ORDER_BOOK_SIZE_DEFAULT = 25;
   private static final int[] KRAKEN_VALID_ORDER_BOOK_SIZES = {10, 25, 100, 500, 1000};
@@ -97,6 +98,12 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     return WebSocketClientCompressionAllowClientNoContextHandler.INSTANCE;
   }
 
+  public Observable<KrakenEvent> subscribeSystemChannel(String channelName) {
+    return Observable.<KrakenEvent>create(e -> systemChannels.computeIfAbsent(channelName, cid -> e))
+            .doOnDispose(() -> systemChannels.remove(channelName))
+            .share();
+  }
+
   @Override
   protected void handleMessage(JsonNode message) {
     String channelName = getChannel(message);
@@ -118,6 +125,10 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
           case systemStatus:
             KrakenSystemStatus systemStatus = mapper.treeToValue(message, KrakenSystemStatus.class);
             LOG.info("System status: {}", systemStatus);
+            // send to subscribers if any
+            ObservableEmitter<KrakenEvent> emitter = systemChannels.get(krakenEvent.name());
+            if (emitter != null)
+              emitter.onNext(systemStatus);
             break;
           case subscriptionStatus:
             LOG.debug("Received subscriptionStatus message {}", message);

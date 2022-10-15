@@ -22,7 +22,7 @@ public class KucoinExamplesUtils {
     exSpec.setExchangeSpecificParametersItem(
         "passphrase", System.getProperty("kucoin-api-passphrase"));
     exSpec.setExchangeSpecificParametersItem(
-        KucoinExchange.PARAM_SANDBOX, Boolean.valueOf(System.getProperty("kucoin-sandbox")));
+        Exchange.USE_SANDBOX, Boolean.valueOf(System.getProperty("kucoin-sandbox")));
 
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }

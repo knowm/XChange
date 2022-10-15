@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.coinbasepro;
 
+import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProOrderBookMode;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
@@ -13,6 +14,8 @@ import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
+import java.util.*;
+
 /** CoinbasePro Streaming Exchange. Connects to live WebSocket feed. */
 public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements StreamingExchange {
   private static final String API_URI = "wss://ws-feed.pro.coinbase.com";
@@ -20,6 +23,7 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
   private static final String PRIME_API_URI = "wss://ws-feed.exchange.coinbase.com";
   private static final String PRIME_SANDBOX_API_URI =
       "wss://ws-feed-public.sandbox.exchange.coinbase.com";
+  private static final String PARAM_ORDER_BOOK_MODE = "OrderBook_Mode";
 
   private CoinbaseProStreamingService streamingService;
   private CoinbaseProStreamingMarketDataService streamingMarketDataService;
@@ -40,14 +44,26 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
 
     String apiUri = getApiUri();
 
-    boolean subscribeToL3Orderbook =
-        Boolean.TRUE.equals(
+    CoinbaseProOrderBookMode orderBookMode = CoinbaseProOrderBookMode.Default;
+    Object orderBookModeParameter = exchangeSpecification.getExchangeSpecificParametersItem(PARAM_ORDER_BOOK_MODE);
+    if (orderBookModeParameter != null) {
+      try {
+        orderBookMode = CoinbaseProOrderBookMode.valueOf(orderBookModeParameter.toString());
+      } catch (IllegalArgumentException e) {
+        throw new RuntimeException("Order book mode '" + orderBookModeParameter + "' is not supported, use one of " + Arrays.toString(CoinbaseProOrderBookMode.values()));
+      }
+    }
+    if (Boolean.TRUE.equals(
             exchangeSpecification.getExchangeSpecificParametersItem(
-                StreamingExchange.L3_ORDERBOOK));
+                    StreamingExchange.L3_ORDERBOOK))) {
+      if (orderBookMode != CoinbaseProOrderBookMode.Default)
+        throw new RuntimeException("Parameter " + StreamingExchange.L3_ORDERBOOK + " cannot be specified along with " + PARAM_ORDER_BOOK_MODE);
+      orderBookMode = CoinbaseProOrderBookMode.Full;
+    }
 
     this.streamingService =
         new CoinbaseProStreamingService(
-            apiUri, () -> authData(exchangeSpec), subscribeToL3Orderbook);
+            apiUri, () -> authData(exchangeSpec), orderBookMode);
     applyStreamingSpecification(exchangeSpecification, this.streamingService);
 
     this.streamingMarketDataService = new CoinbaseProStreamingMarketDataService(streamingService);
@@ -62,7 +78,7 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
 
     boolean useSandbox =
         Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_SANDBOX));
+            exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX));
     boolean usePrime =
         Boolean.TRUE.equals(
             exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_PRIME));

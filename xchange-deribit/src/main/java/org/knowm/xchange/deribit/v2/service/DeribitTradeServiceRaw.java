@@ -128,6 +128,10 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
     return deribitAuthenticated.cancelByLabel(label, deribitAuth).getResult();
   }
 
+  public Integer cancelAll() throws IOException {
+    return deribitAuthenticated.cancelAll(deribitAuth).getResult();
+  }
+
   public List<Order> getOpenOrdersByCurrency(String currency, Kind kind, String type)
       throws IOException {
     return deribitAuthenticated
