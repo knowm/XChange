@@ -5,6 +5,8 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
+import info.bitrich.xchangestream.kraken.dto.KrakenSystemStatus;
+import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -161,5 +163,14 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     logger.debug("Resubscribing channels");
     streamingService.resubscribeChannels();
     if (privateStreamingService != null) privateStreamingService.resubscribeChannels();
+  }
+
+  public Observable<KrakenSystemStatus> getSystemStatusChanges() {
+    String channelName = KrakenEventType.systemStatus.name();
+    return streamingService
+            .subscribeSystemChannel(channelName)
+            .filter(e -> e instanceof KrakenSystemStatus)
+            .map(e -> ((KrakenSystemStatus) e))
+            .share();
   }
 }
