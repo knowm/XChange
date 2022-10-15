@@ -9,6 +9,7 @@ import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import java.io.IOException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kraken.KrakenExchange;
@@ -22,6 +23,7 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
 
   private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingExchange.class);
   private static final String USE_BETA = "Use_Beta";
+  private static final String USE_SPREAD_FOR_TICKER = "Spread_For_Ticker";
   private static final String API_URI = "wss://ws.kraken.com";
   private static final String API_AUTH_URI = "wss://ws-auth.kraken.com";
   private static final String API_BETA_URI = "wss://beta-ws.kraken.com";
@@ -43,13 +45,17 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
         MoreObjects.firstNonNull(
             (Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_BETA),
             Boolean.FALSE);
+    Boolean spreadForTicker =
+            MoreObjects.firstNonNull(
+                    (Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_SPREAD_FOR_TICKER),
+                    Boolean.FALSE);
 
     KrakenAccountServiceRaw accountService = (KrakenAccountServiceRaw) getAccountService();
 
     this.streamingService =
         new KrakenStreamingService(false, pickUri(false, useBeta), () -> authData(accountService));
     applyStreamingSpecification(getExchangeSpecification(), streamingService);
-    this.streamingMarketDataService = new KrakenStreamingMarketDataService(streamingService);
+    this.streamingMarketDataService = new KrakenStreamingMarketDataService(streamingService, spreadForTicker);
 
     if (StringUtils.isNotEmpty(exchangeSpecification.getApiKey())) {
       this.privateStreamingService =
