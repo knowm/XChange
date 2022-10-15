@@ -40,8 +40,8 @@ public class GateioWebSocketSubscriptionMessage {
     this.payload =
         Arrays.asList(
                 currencyPair.toString().replace('/', '_'),
-                depth != null ? Integer.toString(depth) : null,
-                interval != null ? interval + "ms" : null)
+                        (depth != null && channelName.contains("order_book")) ? Integer.toString(depth) : null,
+                        (interval != null  && channelName.contains("order_book")) ? interval + "ms" : null)
             .stream()
             .filter(Objects::nonNull)
             .collect(Collectors.toList())

@@ -19,6 +19,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** Created by luca on 4/3/17. */
 public class CoinbaseProStreamingMarketDataService implements StreamingMarketDataService {
@@ -30,9 +31,9 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
 
   private final CoinbaseProStreamingService service;
 
-  private final Map<CurrencyPair, SortedMap<BigDecimal, BigDecimal>> bids =
+  private final Map<CurrencyPair, SortedMap<BigDecimal, LimitOrder>> bids =
       new ConcurrentHashMap<>();
-  private final Map<CurrencyPair, SortedMap<BigDecimal, BigDecimal>> asks =
+  private final Map<CurrencyPair, SortedMap<BigDecimal, LimitOrder>> asks =
       new ConcurrentHashMap<>();
 
   CoinbaseProStreamingMarketDataService(CoinbaseProStreamingService service) {
