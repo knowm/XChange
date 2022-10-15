@@ -309,7 +309,7 @@ public class KrakenStandardOrder {
       this.orderType = orderType;
       this.volume = volume;
       this.orderFlags = new HashSet<>();
-      this.startTime = "0";
+      this.startTime = null;
       this.positionTxId = "0";
       this.validateOnly = false;
     }
