@@ -11,7 +11,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public interface StreamingExchange extends Exchange {
-  String USE_SANDBOX = "Use_Sandbox";
   String ACCEPT_ALL_CERITICATES = "Accept_All_Ceriticates";
   String ENABLE_LOGGING_HANDLER = "Enable_Logging_Handler";
   String SOCKS_PROXY_HOST = "SOCKS_Proxy_Host";

@@ -6,6 +6,7 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import java.math.BigDecimal;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataService;
@@ -31,7 +32,7 @@ public class BitmexDeadManSwitchTest {
             ExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class);
     ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
 
-    defaultExchangeSpecification.setExchangeSpecificParametersItem("Use_Sandbox", true);
+    defaultExchangeSpecification.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, true);
 
     defaultExchangeSpecification.setApiKey("QW8Ao_gx38e-8KFvDkFn-Ym4");
     defaultExchangeSpecification.setSecretKey("tn7rpzvOXSKThZD0f-xXehtydt4OTHZVf42gCCyxPixiiVOb");

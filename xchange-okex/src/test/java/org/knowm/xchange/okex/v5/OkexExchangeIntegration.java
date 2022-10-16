@@ -24,9 +24,9 @@ import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstr
 @Slf4j
 public class OkexExchangeIntegration {
   // Enter your authentication details here to run private endpoint tests
-  private static final String API_KEY = "";
-  private static final String SECRET_KEY = "";
-  private static final String PASSPHRASE = "";
+  private static final String API_KEY = System.getenv("okx_apikey");
+  private static final String SECRET_KEY = System.getenv("okx_secretkey");
+  private static final String PASSPHRASE = System.getenv("okx_passphrase");
 
   @Test
   public void testCreateExchangeShouldApplyDefaultSpecification() {

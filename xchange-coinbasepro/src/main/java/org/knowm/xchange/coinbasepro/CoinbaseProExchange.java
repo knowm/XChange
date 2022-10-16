@@ -7,10 +7,10 @@ import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM
 import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM_SANDBOX_PRIME_SSL_URI;
 import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM_SANDBOX_SSL_URI;
 import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM_USE_PRIME;
-import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM_USE_SANDBOX;
 
 import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
@@ -30,7 +30,7 @@ public class CoinbaseProExchange extends BaseExchange {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       final boolean useSandbox =
-          exchangeSpecification.getExchangeSpecificParametersItem(PARAM_USE_SANDBOX).equals(true);
+          exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX).equals(true);
       final boolean usePrime =
           Boolean.TRUE.equals(
               exchangeSpecification.getExchangeSpecificParametersItem(PARAM_USE_PRIME));
@@ -89,7 +89,7 @@ public class CoinbaseProExchange extends BaseExchange {
     exchangeSpecification.setExchangeDescription(
         "CoinbasePro Exchange is a Bitcoin exchange, re-branded from GDAX in 2018");
 
-    exchangeSpecification.setExchangeSpecificParametersItem(PARAM_USE_SANDBOX, false);
+    exchangeSpecification.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, false);
     exchangeSpecification.setExchangeSpecificParametersItem(
         PARAM_SANDBOX_SSL_URI, "https://api-public.sandbox.pro.coinbase.com");
     exchangeSpecification.setExchangeSpecificParametersItem(
@@ -132,7 +132,6 @@ public class CoinbaseProExchange extends BaseExchange {
   // @NoArgsConstructor(access = AccessLevel.PRIVATE)
   // TODO: I don't know why this fails with `mvn install` yet
   public static final class Parameters {
-    public static final String PARAM_USE_SANDBOX = "Use_Sandbox";
     public static final String PARAM_SANDBOX_SSL_URI = "SandboxSslUri";
     public static final String PARAM_SANDBOX_HOST = "SandboxHost";
     public static final String PARAM_USE_PRIME = "Use_Prime";

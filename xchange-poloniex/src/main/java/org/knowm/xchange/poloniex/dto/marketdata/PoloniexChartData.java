@@ -20,7 +20,7 @@ public class PoloniexChartData {
   @JsonCreator
   public PoloniexChartData(
       @JsonProperty(value = "date", required = true)
-          @JsonDeserialize(using = PoloniexUtils.UnixTimestampDeserializer.class)
+          @JsonDeserialize(using = PoloniexUtils.TimestampDeserializer.class)
           Date date,
       @JsonProperty(value = "high", required = true) BigDecimal high,
       @JsonProperty(value = "low", required = true) BigDecimal low,
