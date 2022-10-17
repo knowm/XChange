@@ -322,7 +322,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                                 completable.onComplete();
                               });
                     });
-          } else if (webSocketChannel != null) {
+          } else if (webSocketChannel != null) { // web socket is closed already
             channels.clear();
             eventLoopGroup
                 .shutdownGracefully(2, idleTimeoutSeconds, TimeUnit.SECONDS)
