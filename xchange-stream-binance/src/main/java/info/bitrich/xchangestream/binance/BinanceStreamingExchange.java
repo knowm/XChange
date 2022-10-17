@@ -134,7 +134,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             () -> {
               LOG.info("Connected to authenticated web socket");
               userDataChannel.onChangeListenKey(
-                  newListenKey -> {
+                  newListenKey ->
                     userDataStreamingService
                         .disconnect()
                         .doOnComplete(
@@ -147,8 +147,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
                                         streamingTradeService.setUserDataStreamingService(
                                             userDataStreamingService);
                                       });
-                            });
-                  });
+                            })
+                  );
             });
   }
 
