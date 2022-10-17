@@ -154,7 +154,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             () -> {
               LOG.info("Connected to authenticated web socket");
               userDataChannel.onChangeListenKey(
-                  newListenKey -> {
+                  newListenKey ->
                     userDataStreamingService
                         .disconnect()
                         .doOnComplete(
@@ -167,16 +167,18 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
                                         streamingTradeService.setUserDataStreamingService(
                                             userDataStreamingService);
                                       });
-                            });
-                  });
+                            })
+                  );
             });
   }
 
   @Override
   public Completable disconnect() {
     List<Completable> completables = new ArrayList<>();
-    completables.add(streamingService.disconnect());
-    streamingService = null;
+    if (streamingService != null) {
+      completables.add(streamingService.disconnect());
+      streamingService = null;
+    }
     if (userDataStreamingService != null) {
       completables.add(userDataStreamingService.disconnect());
       userDataStreamingService = null;
