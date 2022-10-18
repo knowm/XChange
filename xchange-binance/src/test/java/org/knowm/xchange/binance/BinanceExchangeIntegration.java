@@ -8,6 +8,7 @@ import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
@@ -36,9 +37,8 @@ public class BinanceExchangeIntegration {
     ExchangeSpecification spec = exchange.getDefaultExchangeSpecification();
     boolean useSandbox =
         Boolean.parseBoolean(
-            System.getProperty(
-                BinanceExchange.SPECIFIC_PARAM_USE_SANDBOX, Boolean.FALSE.toString()));
-    spec.setExchangeSpecificParametersItem(BinanceExchange.SPECIFIC_PARAM_USE_SANDBOX, useSandbox);
+            System.getProperty(Exchange.USE_SANDBOX, Boolean.FALSE.toString()));
+    spec.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, useSandbox);
     exchange.applySpecification(spec);
   }
 

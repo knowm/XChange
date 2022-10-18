@@ -8,7 +8,6 @@ import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM
 import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM_SANDBOX_PRIME_SSL_URI;
 import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM_SANDBOX_SSL_URI;
 import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM_USE_PRIME;
-import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM_USE_SANDBOX;
 
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -22,7 +21,7 @@ public class CoinbaseProExchangeTest {
     final CoinbaseProExchange coinbaseProExchange = new CoinbaseProExchange();
     final ExchangeSpecification sandboxExchangeSpecification =
         coinbaseProExchange.getDefaultExchangeSpecification();
-    sandboxExchangeSpecification.setExchangeSpecificParametersItem(PARAM_USE_SANDBOX, true);
+    sandboxExchangeSpecification.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, true);
     sandboxExchangeSpecification.setShouldLoadRemoteMetaData(false);
 
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(sandboxExchangeSpecification);
@@ -55,7 +54,7 @@ public class CoinbaseProExchangeTest {
     final ExchangeSpecification sandboxPrimeExchangeSpecification =
         coinbaseProExchange.getDefaultExchangeSpecification();
     sandboxPrimeExchangeSpecification.setExchangeSpecificParametersItem(PARAM_USE_PRIME, true);
-    sandboxPrimeExchangeSpecification.setExchangeSpecificParametersItem(PARAM_USE_SANDBOX, true);
+    sandboxPrimeExchangeSpecification.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, true);
     sandboxPrimeExchangeSpecification.setShouldLoadRemoteMetaData(false);
 
     final Exchange exchange =
@@ -90,7 +89,7 @@ public class CoinbaseProExchangeTest {
     final ExchangeSpecification customExchangeSpecification =
         coinbaseProExchange.getDefaultExchangeSpecification();
     customExchangeSpecification.setShouldLoadRemoteMetaData(false);
-    customExchangeSpecification.setExchangeSpecificParametersItem(PARAM_USE_SANDBOX, true);
+    customExchangeSpecification.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, true);
     customExchangeSpecification.setExchangeSpecificParametersItem(
         PARAM_SANDBOX_SSL_URI, "https://custom-server.sandbox.pro.coinbase.com");
     customExchangeSpecification.setExchangeSpecificParametersItem(
@@ -131,7 +130,7 @@ public class CoinbaseProExchangeTest {
         coinbaseProExchange.getDefaultExchangeSpecification();
     customExchangeSpecification.setShouldLoadRemoteMetaData(false);
     customExchangeSpecification.setExchangeSpecificParametersItem(PARAM_USE_PRIME, true);
-    customExchangeSpecification.setExchangeSpecificParametersItem(PARAM_USE_SANDBOX, true);
+    customExchangeSpecification.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, true);
     customExchangeSpecification.setExchangeSpecificParametersItem(
         PARAM_SANDBOX_PRIME_SSL_URI, "https://custom-server.sandbox.prime.pro.coinbase.com");
     customExchangeSpecification.setExchangeSpecificParametersItem(
