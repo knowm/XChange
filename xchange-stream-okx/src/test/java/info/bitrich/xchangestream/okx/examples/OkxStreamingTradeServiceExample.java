@@ -1,9 +1,8 @@
 package info.bitrich.xchangestream.okx.examples;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.okx.OkxStreamingExchange;
-import info.bitrich.xchangestream.okx.OkxStreamingService;
-import info.bitrich.xchangestream.okx.OkxStreamingTradeService;
 import info.bitrich.xchangestream.okx.dto.enums.OkxInstType;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,29 +11,27 @@ import org.knowm.xchange.okex.v5.OkexAdapters;
 
 public class OkxStreamingTradeServiceExample {
 
-    public static void main(String[] args) throws JsonProcessingException, InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         // Enter your authentication details here to run private endpoint tests
         final String API_KEY = System.getenv("okx_apikey");
         final String SECRET_KEY = System.getenv("okx_secretkey");
         final String PASSPHRASE = System.getenv("okx_passphrase");
 
-        String url = "wss://wspap.okx.com:8443/ws/v5/private?brokerId=9999";
         ExchangeSpecification spec = new OkxStreamingExchange().getDefaultExchangeSpecification();
         spec.setApiKey(API_KEY);
         spec.setSecretKey(SECRET_KEY);
         spec.setExchangeSpecificParametersItem("passphrase", PASSPHRASE);
 
-        OkxStreamingService service = new OkxStreamingService(url, spec);
+        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(OkxStreamingExchange.class);
+        exchange.applySpecification(spec);
 
-        service.connect().blockingAwait();
-
-        service.login();
+        exchange.connect().blockingAwait();
 
         Thread.sleep(3000);
 
-        OkxStreamingTradeService tradeService = new OkxStreamingTradeService(service);
+
         Instrument instrument = CurrencyPair.BTC_USDT;
-        tradeService.getUserTrades(
+        exchange.getStreamingTradeService().getUserTrades(
                 instrument
                 , OkxInstType.SPOT
                 , OkexAdapters.adaptCurrencyPairId(instrument)

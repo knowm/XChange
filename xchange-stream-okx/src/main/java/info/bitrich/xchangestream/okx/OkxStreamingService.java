@@ -48,6 +48,10 @@ public class OkxStreamingService extends JsonNettyStreamingService {
             (CompletableSource)
                 (completable) -> {
                 try {
+                    if(xSpec.getApiKey() != null){
+                        login();
+                    }
+
                     if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
                         pingPongSubscription.dispose();
                     }
