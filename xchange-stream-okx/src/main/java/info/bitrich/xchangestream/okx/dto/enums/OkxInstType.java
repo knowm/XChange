@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.okx.dto.okx.enums;
+package info.bitrich.xchangestream.okx.dto.enums;
 
 public enum OkxInstType {
 

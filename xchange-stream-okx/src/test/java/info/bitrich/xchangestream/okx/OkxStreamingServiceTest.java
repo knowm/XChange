@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.okx;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.okx.dto.okx.OkxSubscribeMessage;
+import info.bitrich.xchangestream.okx.dto.OkxSubscribeMessage;
 import org.junit.Before;
 import org.junit.Test;
 

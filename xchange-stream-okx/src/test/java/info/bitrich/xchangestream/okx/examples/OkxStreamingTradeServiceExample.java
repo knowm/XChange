@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import info.bitrich.xchangestream.okx.OkxStreamingExchange;
 import info.bitrich.xchangestream.okx.OkxStreamingService;
 import info.bitrich.xchangestream.okx.OkxStreamingTradeService;
-import info.bitrich.xchangestream.okx.dto.okx.enums.OkxInstType;
+import info.bitrich.xchangestream.okx.dto.enums.OkxInstType;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;

@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.okx.dto.okx;
+package info.bitrich.xchangestream.okx.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

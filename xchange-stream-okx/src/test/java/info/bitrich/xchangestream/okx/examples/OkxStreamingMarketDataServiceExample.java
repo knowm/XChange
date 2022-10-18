@@ -1,7 +1,9 @@
 package info.bitrich.xchangestream.okx.examples;
 
+import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingExchangeFactory;
+import info.bitrich.xchangestream.okx.OkxStreamingExchange;
 import info.bitrich.xchangestream.okx.OkxStreamingMarketDataService;
-import info.bitrich.xchangestream.okx.OkxStreamingService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -24,9 +26,9 @@ public class OkxStreamingMarketDataServiceExample {
     }
 
     public static void setUp() {
-        OkxStreamingService okxStreamingService = new OkxStreamingService("wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999", null);
-        okxStreamingService.connect().blockingAwait();
-        okxStreamingMarketDataService = new OkxStreamingMarketDataService(okxStreamingService);
+        StreamingExchange okxExchange = StreamingExchangeFactory.INSTANCE.createExchange(OkxStreamingExchange.class);
+        okxExchange.connect().blockingAwait();
+        okxStreamingMarketDataService = (OkxStreamingMarketDataService) okxExchange.getStreamingMarketDataService();
     }
 
     public static void testGetTrades() throws InterruptedException {

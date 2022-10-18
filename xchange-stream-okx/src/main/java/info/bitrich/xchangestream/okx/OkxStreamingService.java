@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.okx;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import info.bitrich.xchangestream.okx.dto.okx.OkxLoginMessage;
+import info.bitrich.xchangestream.okx.dto.OkxLoginMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;

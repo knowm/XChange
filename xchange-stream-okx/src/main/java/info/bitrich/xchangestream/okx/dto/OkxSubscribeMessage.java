@@ -1,6 +1,6 @@
-package info.bitrich.xchangestream.okx.dto.okx;
+package info.bitrich.xchangestream.okx.dto;
 
-import info.bitrich.xchangestream.okx.dto.okx.enums.OkxInstType;
+import info.bitrich.xchangestream.okx.dto.enums.OkxInstType;
 import lombok.*;
 
 import java.util.LinkedList;

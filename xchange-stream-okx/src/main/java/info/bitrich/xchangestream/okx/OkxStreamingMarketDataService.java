@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.okx;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.okx.dto.okx.OkxSubscribeMessage;
+import info.bitrich.xchangestream.okx.dto.OkxSubscribeMessage;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.dto.Order;
@@ -98,15 +98,15 @@ public class OkxStreamingMarketDataService implements StreamingMarketDataService
                             return Observable.fromIterable(new LinkedList<>());
                         }
                         List<OkexPublicOrder> asks = mapper.treeToValue(jsonNode.get("data").get(0).get("asks"), mapper.getTypeFactory().constructCollectionType(List.class, OkexPublicOrder.class));
-                        asks.stream().forEach( okexPublicOrder -> {orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.ASK));});
+                        asks.forEach(okexPublicOrder -> orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.ASK)));
 
                         List<OkexPublicOrder> bids = mapper.treeToValue(jsonNode.get("data").get(0).get("bids"), mapper.getTypeFactory().constructCollectionType(List.class, OkexPublicOrder.class));
-                        bids.stream().forEach( okexPublicOrder -> {orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.BID));});
+                        bids.forEach(okexPublicOrder -> orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.BID)));
 
                         return Observable.just(orderBook);
 
                     } else {
-                        LOG.error(String.format("Unexpected books action=%s, message=%s", action, jsonNode.toString()));
+                        LOG.error(String.format("Unexpected books action=%s, message=%s", action, jsonNode));
                         return Observable.fromIterable(new LinkedList<>());
                     }
                 });
