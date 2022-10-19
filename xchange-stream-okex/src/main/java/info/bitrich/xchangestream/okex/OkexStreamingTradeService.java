@@ -8,8 +8,8 @@ import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.instrument.Instrument;
-import org.knowm.xchange.okex.v5.OkexAdapters;
-import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
+import org.knowm.xchange.okex.OkexAdapters;
+import org.knowm.xchange.okex.dto.trade.OkexOrderDetails;
 
 import java.util.List;
 

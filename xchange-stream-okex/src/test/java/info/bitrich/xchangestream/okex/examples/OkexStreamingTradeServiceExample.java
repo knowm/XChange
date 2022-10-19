@@ -7,7 +7,7 @@ import info.bitrich.xchangestream.okex.dto.enums.OkexInstType;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
-import org.knowm.xchange.okex.v5.OkexAdapters;
+import org.knowm.xchange.okex.OkexAdapters;
 
 public class OkexStreamingTradeServiceExample {
 
