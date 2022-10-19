@@ -1,15 +1,15 @@
-package info.bitrich.xchangestream.okx.examples;
+package info.bitrich.xchangestream.okex.examples;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import info.bitrich.xchangestream.okx.OkxStreamingExchange;
-import info.bitrich.xchangestream.okx.OkxStreamingMarketDataService;
+import info.bitrich.xchangestream.okex.OkexStreamingExchange;
+import info.bitrich.xchangestream.okex.OkexStreamingMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 
-public class OkxStreamingMarketDataServiceExample {
+public class OkexStreamingMarketDataServiceExample {
 
-    private static OkxStreamingMarketDataService okxStreamingMarketDataService;
+    private static OkexStreamingMarketDataService okexStreamingMarketDataService;
 
     public static void main(String[] args) throws InterruptedException {
         setUp();
@@ -26,26 +26,26 @@ public class OkxStreamingMarketDataServiceExample {
     }
 
     public static void setUp() {
-        StreamingExchange okxExchange = StreamingExchangeFactory.INSTANCE.createExchange(OkxStreamingExchange.class);
+        StreamingExchange okxExchange = StreamingExchangeFactory.INSTANCE.createExchange(OkexStreamingExchange.class);
         okxExchange.connect().blockingAwait();
-        okxStreamingMarketDataService = (OkxStreamingMarketDataService) okxExchange.getStreamingMarketDataService();
+        okexStreamingMarketDataService = (OkexStreamingMarketDataService) okxExchange.getStreamingMarketDataService();
     }
 
     public static void testGetTrades() throws InterruptedException {
         Instrument instrument = CurrencyPair.BTC_USDT;
-        okxStreamingMarketDataService.getTrades(instrument).forEach(System.out::println);
+        okexStreamingMarketDataService.getTrades(instrument).forEach(System.out::println);
         Thread.sleep(3000);
     }
 
     public static  void testGetTicker() throws InterruptedException {
         Instrument instrument = CurrencyPair.BTC_USDT;
-        okxStreamingMarketDataService.getTicker(instrument).forEach(System.out::println);
+        okexStreamingMarketDataService.getTicker(instrument).forEach(System.out::println);
         Thread.sleep(3000);
     }
 
     public static void testGetOrderBook() throws InterruptedException {
         Instrument instrument = CurrencyPair.BTC_USDT;
-        okxStreamingMarketDataService.getOrderBook(instrument, "books5").forEach(System.out::println);
+        okexStreamingMarketDataService.getOrderBook(instrument, "books5").forEach(System.out::println);
         Thread.sleep(3000);
     }
 

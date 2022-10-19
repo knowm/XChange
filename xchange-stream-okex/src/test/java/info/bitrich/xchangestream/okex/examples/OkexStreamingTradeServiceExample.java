@@ -1,15 +1,15 @@
-package info.bitrich.xchangestream.okx.examples;
+package info.bitrich.xchangestream.okex.examples;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import info.bitrich.xchangestream.okx.OkxStreamingExchange;
-import info.bitrich.xchangestream.okx.dto.enums.OkxInstType;
+import info.bitrich.xchangestream.okex.OkexStreamingExchange;
+import info.bitrich.xchangestream.okex.dto.enums.OkexInstType;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.OkexAdapters;
 
-public class OkxStreamingTradeServiceExample {
+public class OkexStreamingTradeServiceExample {
 
     public static void main(String[] args) throws InterruptedException {
         // Enter your authentication details here to run private endpoint tests
@@ -17,12 +17,12 @@ public class OkxStreamingTradeServiceExample {
         final String SECRET_KEY = System.getenv("okx_secretkey");
         final String PASSPHRASE = System.getenv("okx_passphrase");
 
-        ExchangeSpecification spec = new OkxStreamingExchange().getDefaultExchangeSpecification();
+        ExchangeSpecification spec = new OkexStreamingExchange().getDefaultExchangeSpecification();
         spec.setApiKey(API_KEY);
         spec.setSecretKey(SECRET_KEY);
         spec.setExchangeSpecificParametersItem("passphrase", PASSPHRASE);
 
-        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(OkxStreamingExchange.class);
+        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(OkexStreamingExchange.class);
         exchange.applySpecification(spec);
 
         exchange.connect().blockingAwait();
@@ -33,7 +33,7 @@ public class OkxStreamingTradeServiceExample {
         Instrument instrument = CurrencyPair.BTC_USDT;
         exchange.getStreamingTradeService().getUserTrades(
                 instrument
-                , OkxInstType.SPOT
+                , OkexInstType.SPOT
                 , OkexAdapters.adaptCurrencyPairId(instrument)
                 , OkexAdapters.adaptInstrumentId(instrument)
         ).forEach(System.out::println);

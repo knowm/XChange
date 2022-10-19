@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.okx.dto;
+package info.bitrich.xchangestream.okex.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Data
-public class OkxLoginMessage {
+public class OkexLoginMessage {
     private String op = "login";
 
     List<LoginArg> args = new LinkedList<>();

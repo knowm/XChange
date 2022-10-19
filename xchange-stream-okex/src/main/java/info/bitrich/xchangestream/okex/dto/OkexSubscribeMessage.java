@@ -1,6 +1,6 @@
-package info.bitrich.xchangestream.okx.dto;
+package info.bitrich.xchangestream.okex.dto;
 
-import info.bitrich.xchangestream.okx.dto.enums.OkxInstType;
+import info.bitrich.xchangestream.okex.dto.enums.OkexInstType;
 import lombok.*;
 
 import java.util.LinkedList;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @RequiredArgsConstructor
-public class OkxSubscribeMessage {
+public class OkexSubscribeMessage {
     private String op;
     List<SubscriptionTopic> args = new LinkedList<>();
 
@@ -17,7 +17,7 @@ public class OkxSubscribeMessage {
     public static class SubscriptionTopic {
         private String channel;
 
-        private OkxInstType instType;
+        private OkexInstType instType;
 
         private String uly;
 

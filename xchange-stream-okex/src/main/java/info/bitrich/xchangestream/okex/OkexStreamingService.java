@@ -1,8 +1,8 @@
-package info.bitrich.xchangestream.okx;
+package info.bitrich.xchangestream.okex;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import info.bitrich.xchangestream.okx.dto.OkxLoginMessage;
+import info.bitrich.xchangestream.okex.dto.OkexLoginMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
@@ -24,9 +24,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
-public class OkxStreamingService extends JsonNettyStreamingService {
+public class OkexStreamingService extends JsonNettyStreamingService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OkxStreamingService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OkexStreamingService.class);
     private static final String LOGIN_SIGN_METHOD = "GET";
     private static final String LOGIN_SIGN_REQUEST_PATH = "/users/self/verify";
 
@@ -36,7 +36,7 @@ public class OkxStreamingService extends JsonNettyStreamingService {
 
     private final ExchangeSpecification xSpec;
 
-    public OkxStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
+    public OkexStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
         super(apiUrl);
         this.xSpec = exchangeSpecification;
     }
@@ -78,9 +78,9 @@ public class OkxStreamingService extends JsonNettyStreamingService {
         String toSign = timestamp + LOGIN_SIGN_METHOD + LOGIN_SIGN_REQUEST_PATH;
         String sign = Base64.getEncoder().encodeToString(mac.doFinal(toSign.getBytes(StandardCharsets.UTF_8)));
 
-        OkxLoginMessage message = new OkxLoginMessage();
+        OkexLoginMessage message = new OkexLoginMessage();
         String passphrase = (String)xSpec.getExchangeSpecificParametersItem("passphrase");
-        OkxLoginMessage.LoginArg loginArg = new OkxLoginMessage.LoginArg(xSpec.getApiKey(), passphrase, timestamp, sign);
+        OkexLoginMessage.LoginArg loginArg = new OkexLoginMessage.LoginArg(xSpec.getApiKey(), passphrase, timestamp, sign);
         message.getArgs().add(loginArg);
 
         this.sendMessage(objectMapper.writeValueAsString(message));

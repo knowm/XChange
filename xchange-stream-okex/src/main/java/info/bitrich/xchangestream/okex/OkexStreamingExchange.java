@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.okx;
+package info.bitrich.xchangestream.okex;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
@@ -9,7 +9,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okex.v5.OkexExchange;
 
-public class OkxStreamingExchange extends OkexExchange implements StreamingExchange {
+public class OkexStreamingExchange extends OkexExchange implements StreamingExchange {
     // Production URIs
     public static final String WS_PUBLIC_CHANNEL_URI = "wss://ws.okx.com:8443/ws/v5/public";
     public static final String WS_PRIVATE_CHANNEL_URI = "wss://ws.okx.com:8443/ws/v5/private";
@@ -21,20 +21,20 @@ public class OkxStreamingExchange extends OkexExchange implements StreamingExcha
     public static final String SANDBOX_WS_PUBLIC_CHANNEL_URI = "wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999";
     public static final String SANDBOX_WS_PRIVATE_CHANNEL_URI = "wss://wspap.okx.com:8443/ws/v5/private?brokerId=9999";
 
-    private OkxStreamingService streamingService;
+    private OkexStreamingService streamingService;
 
-    private OkxStreamingMarketDataService streamingMarketDataService;
+    private OkexStreamingMarketDataService streamingMarketDataService;
 
-    private OkxStreamingTradeService streamingTradeService;
-    public OkxStreamingExchange() {}
+    private OkexStreamingTradeService streamingTradeService;
+    public OkexStreamingExchange() {}
 
 
     @Override
     public Completable connect(ProductSubscription... args) {
 
-        this.streamingService = new OkxStreamingService(getApiUrl(), this.exchangeSpecification);
-        this.streamingMarketDataService = new OkxStreamingMarketDataService(streamingService);
-        this.streamingTradeService = new OkxStreamingTradeService(streamingService);
+        this.streamingService = new OkexStreamingService(getApiUrl(), this.exchangeSpecification);
+        this.streamingMarketDataService = new OkexStreamingMarketDataService(streamingService);
+        this.streamingTradeService = new OkexStreamingTradeService(streamingService);
 
         return streamingService.connect();
     }

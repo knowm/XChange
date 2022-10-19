@@ -1,8 +1,8 @@
-package info.bitrich.xchangestream.okx;
+package info.bitrich.xchangestream.okex;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.okx.dto.OkxSubscribeMessage;
+import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.dto.Order;
@@ -23,15 +23,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class OkxStreamingMarketDataService implements StreamingMarketDataService {
+public class OkexStreamingMarketDataService implements StreamingMarketDataService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OkxStreamingMarketDataService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OkexStreamingMarketDataService.class);
 
-    private final OkxStreamingService service;
+    private final OkexStreamingService service;
 
     private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-    public OkxStreamingMarketDataService(OkxStreamingService service) {
+    public OkexStreamingMarketDataService(OkexStreamingService service) {
         this.service = service;
     }
 
@@ -41,8 +41,8 @@ public class OkxStreamingMarketDataService implements StreamingMarketDataService
         String channelName = "tickers";
 
         String instId = OkexAdapters.adaptInstrumentId(instrument);
-        OkxSubscribeMessage.SubscriptionTopic topic = new OkxSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
-        OkxSubscribeMessage osm = new OkxSubscribeMessage();
+        OkexSubscribeMessage.SubscriptionTopic topic = new OkexSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
+        OkexSubscribeMessage osm = new OkexSubscribeMessage();
         osm.setOp("subscribe");
         osm.getArgs().add(topic);
 
@@ -59,8 +59,8 @@ public class OkxStreamingMarketDataService implements StreamingMarketDataService
         String channelName = "trades";
 
         String instId = OkexAdapters.adaptInstrumentId(instrument);
-        OkxSubscribeMessage.SubscriptionTopic topic = new OkxSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
-        OkxSubscribeMessage osm = new OkxSubscribeMessage();
+        OkexSubscribeMessage.SubscriptionTopic topic = new OkexSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
+        OkexSubscribeMessage osm = new OkexSubscribeMessage();
         osm.setOp("subscribe");
         osm.getArgs().add(topic);
 
@@ -76,8 +76,8 @@ public class OkxStreamingMarketDataService implements StreamingMarketDataService
     public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
         String channelName = args.length >= 1 ? args[0].toString() : "books";
         String instId = OkexAdapters.adaptInstrumentId(instrument);
-        OkxSubscribeMessage.SubscriptionTopic topic = new OkxSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
-        OkxSubscribeMessage osm = new OkxSubscribeMessage();
+        OkexSubscribeMessage.SubscriptionTopic topic = new OkexSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
+        OkexSubscribeMessage osm = new OkexSubscribeMessage();
         osm.setOp("subscribe");
         osm.getArgs().add(topic);
 

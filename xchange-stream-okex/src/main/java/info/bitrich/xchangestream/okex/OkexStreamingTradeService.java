@@ -1,9 +1,9 @@
-package info.bitrich.xchangestream.okx;
+package info.bitrich.xchangestream.okex;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import info.bitrich.xchangestream.okx.dto.OkxSubscribeMessage;
-import info.bitrich.xchangestream.okx.dto.enums.OkxInstType;
+import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
+import info.bitrich.xchangestream.okex.dto.enums.OkexInstType;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -13,13 +13,13 @@ import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 
 import java.util.List;
 
-public class OkxStreamingTradeService implements StreamingTradeService {
+public class OkexStreamingTradeService implements StreamingTradeService {
 
-    private final OkxStreamingService service;
+    private final OkexStreamingService service;
 
     private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-    public OkxStreamingTradeService(OkxStreamingService service) {
+    public OkexStreamingTradeService(OkexStreamingService service) {
         this.service = service;
     }
 
@@ -28,9 +28,9 @@ public class OkxStreamingTradeService implements StreamingTradeService {
 
         String channelName = "orders";
 
-        OkxSubscribeMessage message = new OkxSubscribeMessage();
+        OkexSubscribeMessage message = new OkexSubscribeMessage();
         message.setOp("subscribe");
-        message.getArgs().add(new OkxSubscribeMessage.SubscriptionTopic(channelName, OkxInstType.ANY, null, OkexAdapters.adaptInstrumentId(instrument)));
+        message.getArgs().add(new OkexSubscribeMessage.SubscriptionTopic(channelName, OkexInstType.ANY, null, OkexAdapters.adaptInstrumentId(instrument)));
 
         return service.subscribeChannel(channelName, message).flatMap(
                 jsonNode -> {
