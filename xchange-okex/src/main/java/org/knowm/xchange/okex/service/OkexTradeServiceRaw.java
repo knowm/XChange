@@ -8,6 +8,7 @@ import org.knowm.xchange.okex.OkexAuthenticated;
 import org.knowm.xchange.okex.OkexExchange;
 import org.knowm.xchange.okex.dto.OkexException;
 import org.knowm.xchange.okex.dto.OkexResponse;
+import org.knowm.xchange.okex.dto.account.OkexPosition;
 import org.knowm.xchange.okex.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.dto.trade.OkexCancelOrderRequest;
 import org.knowm.xchange.okex.dto.trade.OkexOrderDetails;
@@ -55,6 +56,33 @@ public class OkexTradeServiceRaw extends OkexBaseService {
                       before,
                       limit))
           .call();
+    } catch (OkexException e) {
+      throw handleError(e);
+    }
+  }
+
+  public OkexResponse<List<OkexPosition>> getPositions(String instrumentType, String instrumentId, String positionId)
+          throws OkexException, IOException {
+    try {
+      return decorateApiCall(
+              () ->
+                      okexAuthenticated.getPositions(
+                              instrumentType,
+                              instrumentId,
+                              positionId,
+                              exchange.getExchangeSpecification().getApiKey(),
+                              signatureCreator,
+                              DateUtils.toUTCISODateString(new Date()),
+                              (String)
+                                      exchange
+                                              .getExchangeSpecification()
+                                              .getExchangeSpecificParametersItem("passphrase"),
+                              (String)
+                                      exchange
+                                              .getExchangeSpecification()
+                                              .getExchangeSpecificParametersItem("simulated")))
+              .withRateLimiter(rateLimiter(OkexAuthenticated.positionsPath))
+              .call();
     } catch (OkexException e) {
       throw handleError(e);
     }

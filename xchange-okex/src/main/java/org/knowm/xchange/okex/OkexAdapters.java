@@ -8,6 +8,8 @@ import org.knowm.xchange.derivative.OptionsContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.OpenPosition;
+import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -20,6 +22,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.dto.account.OkexAssetBalance;
+import org.knowm.xchange.okex.dto.account.OkexPosition;
 import org.knowm.xchange.okex.dto.account.OkexTradeFee;
 import org.knowm.xchange.okex.dto.account.OkexWalletBalance;
 import org.knowm.xchange.okex.dto.marketdata.*;
@@ -297,7 +300,7 @@ public class OkexAdapters {
     }
 
     if (currs != null) {
-      currs.stream()
+      currs
           .forEach(
               currency ->
                   currencies.put(
@@ -384,5 +387,28 @@ public class OkexAdapters {
       candleStickData = new CandleStickData(currencyPair, candleStickList);
     }
     return candleStickData;
+  }
+
+  public static OpenPositions adaptOpenPositions(OkexResponse<List<OkexPosition>> positions) {
+    List<OpenPosition> openPositions = new ArrayList<>();
+
+    positions.getData().forEach(okexPosition -> openPositions.add(new OpenPosition.Builder()
+            .instrument(adaptInstrument(okexPosition.getInstrumentId()))
+                    .liquidationPrice(okexPosition.getLiquidationPrice())
+                    .price(okexPosition.getAverageOpenPrice())
+                    //TODO: Okx size needs a fixed ctVal in order to be correct. This ctVal needs to be saved for every pair when calling metadata
+                    .type(adaptOpenPositionType(okexPosition))
+                    .unRealisedPnl(okexPosition.getUnrealizedPnL())
+            .build()));
+    return new OpenPositions(openPositions);
+  }
+
+  public static OpenPosition.Type adaptOpenPositionType(OkexPosition okexPosition){
+    switch(okexPosition.getPositionSide()){
+      case "long": return OpenPosition.Type.LONG;
+      case "short": return OpenPosition.Type.SHORT;
+      case "net": return (okexPosition.getPosition().compareTo(BigDecimal.ZERO) >= 0) ? OpenPosition.Type.LONG : OpenPosition.Type.SHORT;
+      default: throw new UnsupportedOperationException();
+    }
   }
 }

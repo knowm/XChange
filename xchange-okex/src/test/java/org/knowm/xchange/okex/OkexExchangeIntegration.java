@@ -59,6 +59,23 @@ public class OkexExchangeIntegration {
   }
 
   @Test
+  public void testOpenPosition() throws Exception {
+    if (!API_KEY.isEmpty() && !SECRET_KEY.isEmpty() && !PASSPHRASE.isEmpty()) {
+      ExchangeSpecification spec =
+              ExchangeFactory.INSTANCE
+                      .createExchange(OkexExchange.class)
+                      .getDefaultExchangeSpecification();
+      spec.setApiKey(API_KEY);
+      spec.setSecretKey(SECRET_KEY);
+      spec.setExchangeSpecificParametersItem("passphrase", PASSPHRASE);
+
+      final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
+
+      exchange.getTradeService().getOpenPositions().getOpenPositions().forEach(System.out::println);
+    }
+  }
+
+  @Test
   public void testOrderActions() throws Exception {
     if (!API_KEY.isEmpty() && !SECRET_KEY.isEmpty() && !PASSPHRASE.isEmpty()) {
       ExchangeSpecification spec =

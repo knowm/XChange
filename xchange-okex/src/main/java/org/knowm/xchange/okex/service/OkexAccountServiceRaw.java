@@ -74,33 +74,6 @@ public class OkexAccountServiceRaw extends OkexBaseService {
     }
   }
 
-  public OkexResponse<List<OkexPosition>> getPositions(String instrumentType, String instrumentId, String positionId)
-      throws OkexException, IOException {
-    try {
-      return decorateApiCall(
-              () ->
-                  okexAuthenticated.getPositions(
-                      instrumentType,
-                      instrumentId,
-                      positionId,
-                      exchange.getExchangeSpecification().getApiKey(),
-                      signatureCreator,
-                      DateUtils.toUTCISODateString(new Date()),
-                      (String)
-                          exchange
-                              .getExchangeSpecification()
-                              .getExchangeSpecificParametersItem("passphrase"),
-                      (String)
-                          exchange
-                              .getExchangeSpecification()
-                              .getExchangeSpecificParametersItem("simulated")))
-          .withRateLimiter(rateLimiter(OkexAuthenticated.positionsPath))
-          .call();
-    } catch (OkexException e) {
-      throw handleError(e);
-    }
-  }
-
   public OkexResponse<List<OkexSetLeverageResponse>> setLeverage(String instrumentId, String currency, String leverage, String marginMode, String positionSide)
       throws OkexException, IOException {
     try {

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -36,6 +37,11 @@ import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 public class OkexTradeService extends OkexTradeServiceRaw implements TradeService {
   public OkexTradeService(OkexExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
+  }
+
+  @Override
+  public OpenPositions getOpenPositions() throws IOException {
+    return OkexAdapters.adaptOpenPositions(getPositions(null,null,null));
   }
 
   @Override

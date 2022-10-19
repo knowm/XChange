@@ -26,7 +26,7 @@ public class OkexPosition {
   private String positionSide;
 
   @JsonProperty("pos")
-  private String position;
+  private BigDecimal position;
 
   @JsonProperty("baseBal")
   private String baseCurrencyBalance;
@@ -41,13 +41,13 @@ public class OkexPosition {
   private String availablePosition;
 
   @JsonProperty("avgPx")
-  private String averageOpenPrice;
+  private BigDecimal averageOpenPrice;
 
   @JsonProperty("markPx")
-  private String markPrice;
+  private BigDecimal markPrice;
 
   @JsonProperty("upl")
-  private String unrealizedPnL;
+  private BigDecimal unrealizedPnL;
 
   @JsonProperty("uplRatio")
   private String unrealizedPnLRatio;
@@ -59,7 +59,7 @@ public class OkexPosition {
   private String leverage;
 
   @JsonProperty("liqPx")
-  private String liquidationPrice;
+  private BigDecimal liquidationPrice;
 
   @JsonProperty("imr")
   private String initialMarginRequirement;
@@ -98,7 +98,7 @@ public class OkexPosition {
   private String currency;
 
   @JsonProperty("last")
-  private String lastPrice;
+  private BigDecimal lastPrice;
 
   @JsonProperty("cTime")
   private String creationTime;
