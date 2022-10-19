@@ -33,8 +33,8 @@ public class OkexExchangeIntegration {
     ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
 
-    assertThat(exchange.getExchangeSpecification().getSslUri()).isEqualTo("https://www.okex.com");
-    assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("okex.com");
+    assertThat(exchange.getExchangeSpecification().getSslUri()).isEqualTo("https://www.okx.com");
+    assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("okx.com");
     assertThat(exchange.getExchangeSpecification().getResilience().isRateLimiterEnabled())
         .isEqualTo(false);
     assertThat(exchange.getExchangeSpecification().getResilience().isRetryEnabled())
@@ -72,8 +72,8 @@ public class OkexExchangeIntegration {
       final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
       final OkexTradeService okexTradeService = (OkexTradeService) exchange.getTradeService();
 
-      assertThat(exchange.getExchangeSpecification().getSslUri()).isEqualTo("https://www.okex.com");
-      assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("okex.com");
+      assertThat(exchange.getExchangeSpecification().getSslUri()).isEqualTo("https://www.okx.com");
+      assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("okx.com");
 
       // Place a single order
       LimitOrder limitOrder =
