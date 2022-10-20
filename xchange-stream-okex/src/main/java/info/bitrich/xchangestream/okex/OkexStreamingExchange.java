@@ -5,9 +5,12 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.Completable;
+import lombok.SneakyThrows;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okex.OkexExchange;
+
+import java.io.IOException;
 
 public class OkexStreamingExchange extends OkexExchange implements StreamingExchange {
     // Production URIs
@@ -29,12 +32,13 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
     public OkexStreamingExchange() {}
 
 
+    @SneakyThrows(IOException.class)
     @Override
     public Completable connect(ProductSubscription... args) {
-
+        remoteInit();
         this.streamingService = new OkexStreamingService(getApiUrl(), this.exchangeSpecification);
-        this.streamingMarketDataService = new OkexStreamingMarketDataService(streamingService);
-        this.streamingTradeService = new OkexStreamingTradeService(streamingService);
+        this.streamingMarketDataService = new OkexStreamingMarketDataService(streamingService, exchangeMetaData);
+        this.streamingTradeService = new OkexStreamingTradeService(streamingService, exchangeMetaData);
 
         return streamingService.connect();
     }

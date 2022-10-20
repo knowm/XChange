@@ -9,6 +9,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.OkexAdapters;
 import org.knowm.xchange.okex.dto.marketdata.OkexOrderbook;
@@ -29,10 +30,13 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
 
     private final OkexStreamingService service;
 
+    private final ExchangeMetaData exchangeMetaData;
+
     private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-    public OkexStreamingMarketDataService(OkexStreamingService service) {
+    public OkexStreamingMarketDataService(OkexStreamingService service, ExchangeMetaData exchangeMetaData) {
         this.service = service;
+        this.exchangeMetaData = exchangeMetaData;
     }
 
     private final Map<String, OrderBook> orderBookMap = new HashMap<>();
@@ -68,7 +72,7 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
             .subscribeChannel(channelName, osm)
             .flatMap(jsonNode -> {
                 List<OkexTrade> okexTradeList = mapper.treeToValue(jsonNode.get("data"), mapper.getTypeFactory().constructCollectionType(List.class, OkexTrade.class));
-                return Observable.fromIterable(OkexAdapters.adaptTrades(okexTradeList, instrument).getTrades());
+                return Observable.fromIterable(OkexAdapters.adaptTrades(okexTradeList, instrument, exchangeMetaData).getTrades());
             });
     }
 
@@ -88,7 +92,7 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                     String action = channelName.equals("books5") ? "snapshot" : jsonNode.get("action").asText();
                     if ("snapshot".equalsIgnoreCase(action)) {
                         List<OkexOrderbook> okexOrderbooks = mapper.treeToValue(jsonNode.get("data"), mapper.getTypeFactory().constructCollectionType(List.class, OkexOrderbook.class));
-                        OrderBook orderBook = OkexAdapters.adaptOrderBook(okexOrderbooks, instrument);
+                        OrderBook orderBook = OkexAdapters.adaptOrderBook(okexOrderbooks, instrument, exchangeMetaData);
                         orderBookMap.put(instId, orderBook);
                         return Observable.just(orderBook);
                     } else if ("update".equalsIgnoreCase(action)) {
@@ -98,10 +102,10 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                             return Observable.fromIterable(new LinkedList<>());
                         }
                         List<OkexPublicOrder> asks = mapper.treeToValue(jsonNode.get("data").get(0).get("asks"), mapper.getTypeFactory().constructCollectionType(List.class, OkexPublicOrder.class));
-                        asks.forEach(okexPublicOrder -> orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.ASK)));
+                        asks.forEach(okexPublicOrder -> orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.ASK, exchangeMetaData)));
 
                         List<OkexPublicOrder> bids = mapper.treeToValue(jsonNode.get("data").get(0).get("bids"), mapper.getTypeFactory().constructCollectionType(List.class, OkexPublicOrder.class));
-                        bids.forEach(okexPublicOrder -> orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.BID)));
+                        bids.forEach(okexPublicOrder -> orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.BID, exchangeMetaData)));
 
                         return Observable.just(orderBook);
 

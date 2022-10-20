@@ -6,6 +6,7 @@ import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
 import info.bitrich.xchangestream.okex.dto.enums.OkexInstType;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.OkexAdapters;
@@ -16,11 +17,13 @@ import java.util.List;
 public class OkexStreamingTradeService implements StreamingTradeService {
 
     private final OkexStreamingService service;
+    private final ExchangeMetaData exchangeMetaData;
 
     private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-    public OkexStreamingTradeService(OkexStreamingService service) {
+    public OkexStreamingTradeService(OkexStreamingService service, ExchangeMetaData exchangeMetaData) {
         this.service = service;
+        this.exchangeMetaData = exchangeMetaData;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class OkexStreamingTradeService implements StreamingTradeService {
         return service.subscribeChannel(channelName, message).flatMap(
                 jsonNode -> {
                     List<OkexOrderDetails> okexOrderDetails = mapper.treeToValue(jsonNode.get("data"), mapper.getTypeFactory().constructCollectionType(List.class, OkexOrderDetails.class));
-                    return Observable.fromIterable(OkexAdapters.adaptUserTrades(okexOrderDetails).getUserTrades());
+                    return Observable.fromIterable(OkexAdapters.adaptUserTrades(okexOrderDetails, exchangeMetaData).getUserTrades());
                 }
         );
     }
