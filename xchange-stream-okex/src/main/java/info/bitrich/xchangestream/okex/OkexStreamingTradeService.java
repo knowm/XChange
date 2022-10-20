@@ -30,7 +30,7 @@ public class OkexStreamingTradeService implements StreamingTradeService {
 
         OkexSubscribeMessage message = new OkexSubscribeMessage();
         message.setOp("subscribe");
-        message.getArgs().add(new OkexSubscribeMessage.SubscriptionTopic(channelName, OkexInstType.ANY, null, OkexAdapters.adaptInstrumentId(instrument)));
+        message.getArgs().add(new OkexSubscribeMessage.SubscriptionTopic(channelName, OkexInstType.ANY, null, OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument)));
 
         return service.subscribeChannel(channelName, message).flatMap(
                 jsonNode -> {

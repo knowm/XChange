@@ -50,7 +50,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
       return OkexAdapters.adaptUserTrades(
           getOrderHistory(
                   "SPOT",
-                  OkexAdapters.adaptInstrumentId(
+                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
                       ((TradeHistoryParamInstrument) params).getInstrument()),
                   null,
                   null,
@@ -61,7 +61,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
       return OkexAdapters.adaptUserTrades(
           getOrderHistory(
                   "SPOT",
-                  OkexAdapters.adaptInstrumentId(
+                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
                       ((TradeHistoryParamCurrencyPair) params).getCurrencyPair()),
                   null,
                   null,
@@ -87,7 +87,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
           getOkexPendingOrder(
                   null,
                   null,
-                  OkexAdapters.adaptInstrumentId(
+                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
                       ((OpenOrdersParamCurrencyPair) params).getCurrencyPair()),
                   null,
                   null,
@@ -100,7 +100,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
           getOkexPendingOrder(
                   null,
                   null,
-                  OkexAdapters.adaptInstrumentId(
+                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
                       ((OpenOrdersParamInstrument) params).getInstrument()),
                   null,
                   null,
@@ -126,7 +126,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
       String orderId = orderQueryParams.getOrderId();
 
       List<OkexOrderDetails> orderResults =
-          getOkexOrder(OkexAdapters.adaptInstrumentId(instrument), orderId).getData();
+          getOkexOrder(OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument), orderId).getData();
 
       if (!orderResults.isEmpty()) {
         result = OkexAdapters.adaptOrder(orderResults.get(0));
@@ -192,7 +192,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
       String id = ((CancelOrderByIdParams) params).getOrderId();
       String instrumentId =
-          OkexAdapters.adaptInstrumentId(((CancelOrderByInstrument) params).getInstrument());
+          OkexAdapters.adaptInstrumentToOkexInstrumentId(((CancelOrderByInstrument) params).getInstrument());
 
       OkexCancelOrderRequest req =
           OkexCancelOrderRequest.builder().instrumentId(instrumentId).orderId(id).build();
@@ -217,7 +217,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
                         OkexCancelOrderRequest.builder()
                             .orderId(((CancelOrderByIdParams) param).getOrderId())
                             .instrumentId(
-                                OkexAdapters.adaptInstrumentId(
+                                OkexAdapters.adaptInstrumentToOkexInstrumentId(
                                     ((CancelOrderByInstrument) param).getInstrument()))
                             .build())
                 .collect(Collectors.toList()))

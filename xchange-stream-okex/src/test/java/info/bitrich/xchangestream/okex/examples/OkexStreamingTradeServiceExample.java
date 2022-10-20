@@ -3,11 +3,9 @@ package info.bitrich.xchangestream.okex.examples;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.okex.OkexStreamingExchange;
-import info.bitrich.xchangestream.okex.dto.enums.OkexInstType;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
-import org.knowm.xchange.okex.OkexAdapters;
 
 public class OkexStreamingTradeServiceExample {
 
@@ -33,9 +31,6 @@ public class OkexStreamingTradeServiceExample {
         Instrument instrument = CurrencyPair.BTC_USDT;
         exchange.getStreamingTradeService().getUserTrades(
                 instrument
-                , OkexInstType.SPOT
-                , OkexAdapters.adaptCurrencyPairId(instrument)
-                , OkexAdapters.adaptInstrumentId(instrument)
         ).forEach(System.out::println);
     }
 }
