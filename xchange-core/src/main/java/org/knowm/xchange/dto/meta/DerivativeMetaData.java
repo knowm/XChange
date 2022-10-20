@@ -40,6 +40,10 @@ public class DerivativeMetaData implements Serializable {
   @JsonProperty("price_step_size")
   private final BigDecimal priceStepSize;
 
+  /** The value in currency that every 1 contract has*/
+  @JsonProperty("contract_value")
+  private final BigDecimal contractValue;
+
   public DerivativeMetaData(
       @JsonProperty("trading_fee") BigDecimal tradingFee,
       @JsonProperty("min_amount") BigDecimal minimumAmount,
@@ -48,7 +52,8 @@ public class DerivativeMetaData implements Serializable {
       @JsonProperty("price_scale") Integer priceScale,
       @JsonProperty("fee_tiers") FeeTier[] feeTiers,
       @JsonProperty("amount_step_size") BigDecimal amountStepSize,
-      @JsonProperty("price_step_size") BigDecimal priceStepSize) {
+      @JsonProperty("price_step_size") BigDecimal priceStepSize,
+      @JsonProperty("contract_value") BigDecimal contractValue) {
 
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
@@ -61,6 +66,7 @@ public class DerivativeMetaData implements Serializable {
     this.feeTiers = feeTiers;
     this.amountStepSize = amountStepSize;
     this.priceStepSize = priceStepSize;
+    this.contractValue = contractValue;
   }
 
   public BigDecimal getTradingFee() {
@@ -94,6 +100,9 @@ public class DerivativeMetaData implements Serializable {
   public BigDecimal getPriceStepSize() {
     return priceStepSize;
   }
+  public BigDecimal getContractValue() {
+    return contractValue;
+  }
 
   public static final class Builder {
     private BigDecimal tradingFee;
@@ -104,6 +113,7 @@ public class DerivativeMetaData implements Serializable {
     private Integer priceScale;
     private BigDecimal amountStepSize;
     private BigDecimal priceStepSize;
+    private BigDecimal contractValue;
 
     public Builder() {}
 
@@ -146,7 +156,10 @@ public class DerivativeMetaData implements Serializable {
       priceStepSize = val;
       return this;
     }
-
+    public Builder contractValue(BigDecimal val){
+      contractValue = val;
+      return this;
+    }
     public DerivativeMetaData build() {
 
       return new DerivativeMetaData(
@@ -157,26 +170,23 @@ public class DerivativeMetaData implements Serializable {
           priceScale,
           feeTiers,
           amountStepSize,
-          priceStepSize);
+          priceStepSize,
+          contractValue);
     }
   }
 
   @Override
   public String toString() {
-    return "DerivativeMetaData [tradingFee="
-        + tradingFee
-        + ", minimumAmount="
-        + minimumAmount
-        + ", maximumAmount="
-        + maximumAmount
-        + ", amountScale="
-        + amountScale
-        + ", priceScale="
-        + priceScale
-        + ", amountStepSize="
-        + amountStepSize
-        + ", priceStepSize="
-        + priceStepSize
-        + "]";
+    return "DerivativeMetaData{" +
+            "tradingFee=" + tradingFee +
+            ", feeTiers=" + Arrays.toString(feeTiers) +
+            ", minimumAmount=" + minimumAmount +
+            ", maximumAmount=" + maximumAmount +
+            ", amountScale=" + amountScale +
+            ", priceScale=" + priceScale +
+            ", amountStepSize=" + amountStepSize +
+            ", priceStepSize=" + priceStepSize +
+            ", contractValue=" + contractValue +
+            '}';
   }
 }

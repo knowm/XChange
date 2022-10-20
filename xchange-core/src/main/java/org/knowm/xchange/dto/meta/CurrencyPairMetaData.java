@@ -50,6 +50,10 @@ public class CurrencyPairMetaData implements Serializable {
   @JsonProperty("amount_step_size")
   private final BigDecimal amountStepSize;
 
+  /** The value in currency that every 1 contract has*/
+  @JsonProperty("contract_value")
+  private final BigDecimal contractValue;
+
   /** Currency that will be used to change for this trade. */
   private final Currency tradingFeeCurrency;
 
@@ -82,7 +86,8 @@ public class CurrencyPairMetaData implements Serializable {
         feeTiers,
         null,
         null,
-        true);
+        true,
+            null);
   }
 
   /**
@@ -113,7 +118,8 @@ public class CurrencyPairMetaData implements Serializable {
         feeTiers,
         amountStepSize,
         null,
-        true);
+        true,
+            null);
   }
 
   public CurrencyPairMetaData(
@@ -136,7 +142,8 @@ public class CurrencyPairMetaData implements Serializable {
         feeTiers,
         null,
         tradingFeeCurrency,
-        true);
+        true,
+            null);
   }
 
   /**
@@ -160,7 +167,8 @@ public class CurrencyPairMetaData implements Serializable {
       @JsonProperty("fee_tiers") FeeTier[] feeTiers,
       @JsonProperty("amount_step_size") BigDecimal amountStepSize,
       @JsonProperty("trading_fee_currency") Currency tradingFeeCurrency,
-      @JsonProperty("market_order_enabled") boolean marketOrderEnabled) {
+      @JsonProperty("market_order_enabled") boolean marketOrderEnabled,
+      @JsonProperty("contract_value") BigDecimal contractValue) {
 
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
@@ -177,6 +185,7 @@ public class CurrencyPairMetaData implements Serializable {
     this.amountStepSize = amountStepSize;
     this.tradingFeeCurrency = tradingFeeCurrency;
     this.marketOrderEnabled = marketOrderEnabled;
+    this.contractValue = contractValue;
   }
 
   public BigDecimal getTradingFee() {
@@ -232,6 +241,10 @@ public class CurrencyPairMetaData implements Serializable {
     return marketOrderEnabled;
   }
 
+  public BigDecimal getContractValue() {
+    return contractValue;
+  }
+
   public static class Builder {
 
     private BigDecimal tradingFee;
@@ -246,6 +259,7 @@ public class CurrencyPairMetaData implements Serializable {
     private BigDecimal amountStepSize;
     private Currency tradingFeeCurrency;
     private boolean marketOrderEnabled;
+    private BigDecimal contractValue;
 
     public static Builder from(CurrencyPairMetaData metaData) {
       return new Builder()
@@ -260,7 +274,8 @@ public class CurrencyPairMetaData implements Serializable {
           .volumeScale(metaData.getVolumeScale())
           .amountStepSize(metaData.getAmountStepSize())
           .tradingFee(metaData.getTradingFee())
-          .tradingFeeCurrency(metaData.getTradingFeeCurrency());
+          .tradingFeeCurrency(metaData.getTradingFeeCurrency())
+          .contractValue(metaData.getContractValue());
     }
 
     public Builder tradingFee(BigDecimal tradingFee) {
@@ -323,6 +338,11 @@ public class CurrencyPairMetaData implements Serializable {
       return this;
     }
 
+    public Builder contractValue(BigDecimal contractValue) {
+      this.contractValue = contractValue;
+      return this;
+    }
+
     public CurrencyPairMetaData build() {
       return new CurrencyPairMetaData(
           tradingFee,
@@ -336,29 +356,27 @@ public class CurrencyPairMetaData implements Serializable {
           feeTiers,
           amountStepSize,
           tradingFeeCurrency,
-          marketOrderEnabled);
+          marketOrderEnabled,
+          contractValue);
     }
   }
 
   @Override
   public String toString() {
-
-    return "CurrencyPairMetaData [tradingFee="
-        + tradingFee
-        + ", minimumAmount="
-        + minimumAmount
-        + ", maximumAmount="
-        + maximumAmount
-        + ", baseScale="
-        + baseScale
-        + ", priceScale="
-        + priceScale
-        + ", volumeScale="
-        + volumeScale
-        + ", amountStepSize="
-        + amountStepSize
-        + ", tradingFeeCurrency="
-        + tradingFeeCurrency
-        + "]";
+    return "CurrencyPairMetaData{" +
+            "tradingFee=" + tradingFee +
+            ", feeTiers=" + Arrays.toString(feeTiers) +
+            ", minimumAmount=" + minimumAmount +
+            ", maximumAmount=" + maximumAmount +
+            ", counterMinimumAmount=" + counterMinimumAmount +
+            ", counterMaximumAmount=" + counterMaximumAmount +
+            ", baseScale=" + baseScale +
+            ", priceScale=" + priceScale +
+            ", volumeScale=" + volumeScale +
+            ", amountStepSize=" + amountStepSize +
+            ", contractValue=" + contractValue +
+            ", tradingFeeCurrency=" + tradingFeeCurrency +
+            ", marketOrderEnabled=" + marketOrderEnabled +
+            '}';
   }
 }

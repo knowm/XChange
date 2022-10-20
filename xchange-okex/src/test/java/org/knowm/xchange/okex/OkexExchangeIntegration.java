@@ -59,6 +59,13 @@ public class OkexExchangeIntegration {
   }
 
   @Test
+  public void testMetaData() throws Exception {
+      final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(OkexExchange.class);
+
+      exchange.getExchangeMetaData().getCurrencyPairs().entrySet().forEach(System.out::println);
+  }
+
+  @Test
   public void testOpenPosition() throws Exception {
     if (!API_KEY.isEmpty() && !SECRET_KEY.isEmpty() && !PASSPHRASE.isEmpty()) {
       ExchangeSpecification spec =

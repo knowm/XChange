@@ -3,8 +3,6 @@ package org.knowm.xchange.okex;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.derivative.FuturesContract;
-import org.knowm.xchange.derivative.OptionsContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -190,18 +188,19 @@ public class OkexAdapters {
   }
 
   public static Instrument adaptOkexInstrumentIdToInstrument(String instrumentId) {
-    String[] tokens = instrumentId.split("-");
-    if (tokens.length == 2) {
-      // SPOT or Margin
-      return new CurrencyPair(tokens[0], tokens[1]);
-    } else if (tokens.length == 3) {
-      // Future Or Swap
-      return new FuturesContract(instrumentId.replace("-", "/"));
-    } else if (tokens.length == 5) {
-      // Option
-      return new OptionsContract(instrumentId.replace("-", "/"));
-    }
-    return null;
+    return new CurrencyPair(instrumentId.replace("-","/"));
+//    String[] tokens = instrumentId.split("-");
+//    if (tokens.length == 2) {
+//      // SPOT or Margin
+//      return new CurrencyPair(tokens[0], tokens[1]);
+//    } else if (tokens.length == 3) {
+//      // Future Or Swap
+//      return new FuturesContract(instrumentId.replace("-", "/"));
+//    } else if (tokens.length == 5) {
+//      // Option
+//      return new OptionsContract(instrumentId.replace("-", "/"));
+//    }
+//    return null;
   }
 
   public static String adaptInstrumentToOkexInstrumentId(Instrument instrument) {
@@ -235,10 +234,6 @@ public class OkexAdapters {
     return new Currency(currency.getCurrency());
   }
 
-  public static CurrencyPair adaptCurrencyPair(OkexInstrument instrument) {
-    return new CurrencyPair(instrument.getBaseCurrency(), instrument.getQuoteCurrency());
-  }
-
   private static int numberOfDecimals(BigDecimal value) {
     double d = value.doubleValue();
     return -(int) Math.round(Math.log10(d));
@@ -269,26 +264,25 @@ public class OkexAdapters {
       if (!"live".equals(instrument.getState())) {
         continue;
       }
-      CurrencyPair pair = adaptCurrencyPair(instrument);
+      CurrencyPair pair = (CurrencyPair) adaptOkexInstrumentIdToInstrument(instrument.getInstrumentId());
 
       CurrencyPairMetaData staticMetaData = currencyPairs.get(pair);
       int priceScale = numberOfDecimals(new BigDecimal(instrument.getTickSize()));
+      int volumeScale = Math.max(numberOfDecimals(new BigDecimal(instrument.getMinSize())),0);
 
       currencyPairs.put(
-          pair,
-          new CurrencyPairMetaData(
-              new BigDecimal(makerFee).negate(),
-              new BigDecimal(instrument.getMinSize()),
-              null,
-              null,
-              null,
-              null,
-              priceScale,
-              null,
-              staticMetaData != null ? staticMetaData.getFeeTiers() : null,
-              null,
-              pair.counter,
-              true));
+              pair,
+              new CurrencyPairMetaData.Builder()
+                      .tradingFee(new BigDecimal(makerFee).negate())
+                      .minimumAmount(new BigDecimal(instrument.getMinSize()))
+                      .priceScale(priceScale)
+                      .volumeScale(volumeScale)
+                      .feeTiers(staticMetaData != null ? staticMetaData.getFeeTiers() : null)
+                      .tradingFeeCurrency(new Currency(instrument.getSettleCurrency()))
+                      .marketOrderEnabled(true)
+                      .contractValue((instrument.getContractValue() != null && !instrument.getContractValue().isEmpty()) ? BigDecimal.valueOf(Double.parseDouble(instrument.getContractValue())) : null)
+                      .build()
+              );
     }
 
     if (currs != null) {
