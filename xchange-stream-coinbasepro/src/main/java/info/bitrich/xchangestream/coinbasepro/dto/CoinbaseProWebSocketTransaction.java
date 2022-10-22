@@ -4,13 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.coinbasepro.CoinbaseProStreamingAdapters;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
@@ -116,19 +112,19 @@ public class CoinbaseProWebSocketTransaction {
     this.profileId = profileId;
   }
 
-  private List<LimitOrder> coinbaseProOrderBookChanges(
+  private Stream<LimitOrder> coinbaseProOrderBookChanges(
       String side,
       OrderType orderType,
       CurrencyPair currencyPair,
       String[][] changes,
-      SortedMap<BigDecimal, BigDecimal> sideEntries,
+      SortedMap<BigDecimal, LimitOrder> sideEntries,
       int maxDepth) {
     if (changes.length == 0) {
-      return Collections.emptyList();
+      return Stream.empty();
     }
 
     if (sideEntries == null) {
-      return Collections.emptyList();
+      return Stream.empty();
     }
 
     for (String[] level : changes) {
@@ -138,30 +134,30 @@ public class CoinbaseProWebSocketTransaction {
 
       BigDecimal price = new BigDecimal(level[level.length - 2]);
       BigDecimal volume = new BigDecimal(level[level.length - 1]);
-      sideEntries.put(price, volume);
+      if (volume.compareTo(BigDecimal.ZERO) == 0) {
+        sideEntries.remove(price);
+      } else {
+        LimitOrder order = new LimitOrder(orderType, volume, currencyPair, "0", null, price);
+        sideEntries.put(price, order);
+      }
     }
 
-    Stream<Entry<BigDecimal, BigDecimal>> stream =
-        sideEntries.entrySet().stream()
-            .filter(level -> level.getValue().compareTo(BigDecimal.ZERO) != 0);
+    Stream<LimitOrder> stream = sideEntries.values().stream();
+
     if (maxDepth != 0) {
       stream = stream.limit(maxDepth);
     }
-    return stream
-        .map(
-            level ->
-                new LimitOrder(
-                    orderType, level.getValue(), currencyPair, "0", null, level.getKey()))
-        .collect(Collectors.toList());
+
+    return stream;
   }
 
   public OrderBook toOrderBook(
-      SortedMap<BigDecimal, BigDecimal> bids,
-      SortedMap<BigDecimal, BigDecimal> asks,
+      SortedMap<BigDecimal, LimitOrder> bids,
+      SortedMap<BigDecimal, LimitOrder> asks,
       int maxDepth,
       CurrencyPair currencyPair) {
     // For efficiency, we go straight to XChange format
-    List<LimitOrder> gdaxOrderBookBids =
+    Stream<LimitOrder> gdaxOrderBookBids =
         coinbaseProOrderBookChanges(
             "buy",
             OrderType.BID,
@@ -169,7 +165,7 @@ public class CoinbaseProWebSocketTransaction {
             changes != null ? changes : this.bids,
             bids,
             maxDepth);
-    List<LimitOrder> gdaxOrderBookAsks =
+    Stream<LimitOrder> gdaxOrderBookAsks =
         coinbaseProOrderBookChanges(
             "sell",
             OrderType.ASK,
