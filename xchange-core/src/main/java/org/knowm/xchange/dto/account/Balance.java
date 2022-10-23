@@ -561,7 +561,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
       if (frozen == null) {
         if (total == null || available == null) {
           frozen = BigDecimal.ZERO;
-        } else if (total != null) {
+        } else {
           frozen = total.subtract(available);
         }
       }
