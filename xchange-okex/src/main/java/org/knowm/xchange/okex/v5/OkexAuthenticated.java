@@ -41,6 +41,7 @@ public interface OkexAuthenticated extends Okex {
   String changeMarginPath = "/account/position/margin-balance"; // Stated as 20 req/2 sec
   String currenciesPath = "/asset/currencies"; // Stated as 6 req/sec
   String assetBalancesPath = "/asset/balances"; // Stated as 6 req/sec
+  String assetTransferPath = "/asset/transfer"; // Stated as 1 req/sec
   String positionsPath = "/account/positions"; // Stated as 10 req/2 sec
   String setLeveragePath = "/account/set-leverage"; // Stated as 20 req/2 sec
   String pendingOrdersPath = "/trade/orders-pending"; // Stated as 20 req/2 sec
@@ -64,6 +65,7 @@ public interface OkexAuthenticated extends Okex {
           put(balancePath, Arrays.asList(5, 1));
           put(currenciesPath, Arrays.asList(6, 1));
           put(assetBalancesPath, Arrays.asList(6, 1));
+          put(assetTransferPath, Arrays.asList(1, 1));
           put(positionsPath, Arrays.asList(5, 1));
           put(setLeveragePath, Arrays.asList(20, 2));
           put(pendingOrdersPath, Arrays.asList(20, 2));
@@ -200,6 +202,19 @@ public interface OkexAuthenticated extends Okex {
       @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
       throws OkexException, IOException;
+
+  @POST
+  @Path(assetTransferPath)
+  @Consumes(MediaType.APPLICATION_JSON)
+  OkexResponse<OkexAssetTransferResponse> postAssetTransfer(
+          @QueryParam("ccy") List<Currency> currencies,
+          @HeaderParam("OK-ACCESS-KEY") String apiKey,
+          @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+          @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+          @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
+          OkexAssetTransferRequest requestPayload)
+          throws OkexException, IOException;
 
   @GET
   @Path(positionsPath)
