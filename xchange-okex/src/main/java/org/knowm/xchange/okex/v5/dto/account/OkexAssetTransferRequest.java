@@ -26,7 +26,7 @@ public class OkexAssetTransferRequest {
     private String type;
 
     @JsonProperty("loanTrans")
-    private boolean loanTrans;
+    private Boolean loanTrans;
 
     @JsonProperty("clientId")
     private String clientId;

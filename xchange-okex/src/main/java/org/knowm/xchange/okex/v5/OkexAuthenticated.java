@@ -206,8 +206,7 @@ public interface OkexAuthenticated extends Okex {
   @POST
   @Path(assetTransferPath)
   @Consumes(MediaType.APPLICATION_JSON)
-  OkexResponse<OkexAssetTransferResponse> postAssetTransfer(
-          @QueryParam("ccy") List<Currency> currencies,
+  OkexResponse<List<OkexAssetTransferResponse>> postAssetTransfer(
           @HeaderParam("OK-ACCESS-KEY") String apiKey,
           @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
           @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,

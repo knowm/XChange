@@ -362,4 +362,35 @@ public class OkexAccountServiceRaw extends OkexBaseService {
         .withRateLimiter(rateLimiter(subAccountList))
         .call();
   }
+  public OkexResponse<List<OkexAssetTransferResponse>> postAssetTransfer(String ccy, String amt, String from, String to,
+                                                                   String subAccount, String type, Boolean loanTrans,
+                                                                   String clientId, String omitPosRisk) throws IOException {
+    return decorateApiCall(
+            () ->
+                    this.okexAuthenticated.postAssetTransfer(
+                            exchange.getExchangeSpecification().getApiKey(),
+                            signatureCreator,
+                            DateUtils.toUTCISODateString(new Date()),
+                            (String)
+                                    exchange
+                                            .getExchangeSpecification()
+                                            .getExchangeSpecificParametersItem("passphrase"),
+                            (String)
+                                    exchange
+                                            .getExchangeSpecification()
+                                            .getExchangeSpecificParametersItem("simulated"),
+                            OkexAssetTransferRequest.builder()
+                                    .currency(ccy)
+                                    .amount(amt)
+                                    .from(from)
+                                    .to(to)
+                                    .subAccount(subAccount)
+                                    .type(type)
+                                    .loanTrans(loanTrans)
+                                    .clientId(clientId)
+                                    .omitPosRisk(omitPosRisk)
+                                    .build()))
+            .withRateLimiter(rateLimiter(assetTransferPath))
+            .call();
+  }
 }
