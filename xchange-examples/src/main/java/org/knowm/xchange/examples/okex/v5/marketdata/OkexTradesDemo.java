@@ -7,7 +7,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.okex.v5.OkexExchange;
+import org.knowm.xchange.okex.OkexExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class OkexTradesDemo {
