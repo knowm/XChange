@@ -331,6 +331,8 @@ public class OkexAdapters {
                           .currency(new Currency(detail.getCurrency()))
                           .total(new BigDecimal(detail.getCashBalance()))
                           .available(checkForEmpty(detail.getAvailableBalance()))
+                          .frozen(checkForEmpty(detail.getFrozenBalance()))  // TODO: add together?
+                          .frozen(checkForEmpty(detail.getMarginFrozen()))
                           .timestamp(new Date())
                           .build())
               .collect(Collectors.toList());
