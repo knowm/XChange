@@ -18,6 +18,8 @@ import org.knowm.xchange.okex.dto.account.PiggyBalance;
 import org.knowm.xchange.okex.dto.subaccount.OkexSubAccountDetails;
 import org.knowm.xchange.utils.DateUtils;
 
+import static org.knowm.xchange.okex.OkexAuthenticated.assetTransferPath;
+
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAccountServiceRaw extends OkexBaseService {
   public OkexAccountServiceRaw(OkexExchange exchange, ResilienceRegistries resilienceRegistries) {
@@ -334,9 +336,9 @@ public class OkexAccountServiceRaw extends OkexBaseService {
         .withRateLimiter(rateLimiter(OkexAuthenticated.subAccountList))
         .call();
   }
-  public OkexResponse<List<OkexAssetTransferResponse>> postAssetTransfer(String ccy, String amt, String from, String to,
-                                                                   String subAccount, String type, Boolean loanTrans,
-                                                                   String clientId, String omitPosRisk) throws IOException {
+  public OkexResponse<List<org.knowm.xchange.okex.v5.dto.account.OkexAssetTransferResponse>> postAssetTransfer(String ccy, String amt, String from, String to,
+                                                                                                               String subAccount, String type, Boolean loanTrans,
+                                                                                                               String clientId, String omitPosRisk) throws IOException {
     return decorateApiCall(
             () ->
                     this.okexAuthenticated.postAssetTransfer(
@@ -351,7 +353,7 @@ public class OkexAccountServiceRaw extends OkexBaseService {
                                     exchange
                                             .getExchangeSpecification()
                                             .getExchangeSpecificParametersItem("simulated"),
-                            OkexAssetTransferRequest.builder()
+                            org.knowm.xchange.okex.v5.dto.account.OkexAssetTransferRequest.builder()
                                     .currency(ccy)
                                     .amount(amt)
                                     .from(from)
