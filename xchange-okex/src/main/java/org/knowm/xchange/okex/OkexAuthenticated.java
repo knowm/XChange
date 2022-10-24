@@ -201,13 +201,13 @@ public interface OkexAuthenticated extends Okex {
   @POST
   @Path(assetTransferPath)
   @Consumes(MediaType.APPLICATION_JSON)
-  OkexResponse<List<OkexAssetTransferResponse>> postAssetTransfer(
+  OkexResponse<List<org.knowm.xchange.okex.v5.dto.account.OkexAssetTransferResponse>> postAssetTransfer(
           @HeaderParam("OK-ACCESS-KEY") String apiKey,
           @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
           @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
           @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
           @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
-          OkexAssetTransferRequest requestPayload)
+          org.knowm.xchange.okex.v5.dto.account.OkexAssetTransferRequest requestPayload)
           throws OkexException, IOException;
 
   @GET
