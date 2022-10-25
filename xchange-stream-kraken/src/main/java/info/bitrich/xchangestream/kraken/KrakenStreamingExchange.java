@@ -5,6 +5,7 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
+import info.bitrich.xchangestream.kraken.dto.KrakenSubscriptionStatusMessage;
 import info.bitrich.xchangestream.kraken.dto.KrakenSystemStatus;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
@@ -187,11 +188,26 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
   }
 
   public Observable<KrakenSystemStatus> getSystemStatusChanges() {
-    String channelName = KrakenEventType.systemStatus.name();
     return streamingService
-            .subscribeSystemChannel(channelName)
+            .subscribeSystemChannel(KrakenEventType.systemStatus)
             .filter(e -> e instanceof KrakenSystemStatus)
             .map(e -> ((KrakenSystemStatus) e))
+            .share();
+  }
+
+  public Observable<KrakenSubscriptionStatusMessage> getPublicSubscriptionStatusChanges() {
+    return streamingService
+            .subscribeSystemChannel(KrakenEventType.subscriptionStatus)
+            .filter(e -> e instanceof KrakenSubscriptionStatusMessage)
+            .map(e -> ((KrakenSubscriptionStatusMessage) e))
+            .share();
+  }
+
+  public Observable<KrakenSubscriptionStatusMessage> getPrivateSubscriptionStatusChanges() {
+    return privateStreamingService
+            .subscribeSystemChannel(KrakenEventType.subscriptionStatus)
+            .filter(e -> e instanceof KrakenSubscriptionStatusMessage)
+            .map(e -> ((KrakenSubscriptionStatusMessage) e))
             .share();
   }
 }

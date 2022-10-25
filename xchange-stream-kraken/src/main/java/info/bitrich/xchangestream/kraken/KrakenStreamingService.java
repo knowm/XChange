@@ -25,6 +25,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import org.apache.commons.lang3.ArrayUtils;
@@ -98,10 +99,17 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     return WebSocketClientCompressionAllowClientNoContextHandler.INSTANCE;
   }
 
-  public Observable<KrakenEvent> subscribeSystemChannel(String channelName) {
+  public Observable<KrakenEvent> subscribeSystemChannel(KrakenEventType eventType) {
+    String channelName = eventType.name();
     return Observable.<KrakenEvent>create(e -> systemChannels.computeIfAbsent(channelName, cid -> e))
             .doOnDispose(() -> systemChannels.remove(channelName))
             .share();
+  }
+
+  @Override
+  public Completable disconnect() {
+    systemChannels.clear();
+    return super.disconnect();
   }
 
   @Override
@@ -136,6 +144,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
                 mapper.treeToValue(message, KrakenSubscriptionStatusMessage.class);
             Integer reqid = statusMessage.getReqid();
             if (!isPrivate && reqid != null) channelName = subscriptionRequestMap.remove(reqid);
+            statusMessage.setChannelName(channelName);
 
             switch (statusMessage.getStatus()) {
               case subscribed:
@@ -156,6 +165,10 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
                   throw new ExchangeException("Issue with session validity");
                 }
             }
+            // send to subscribers if any
+            emitter = systemChannels.get(krakenEvent.name());
+            if (emitter != null)
+              emitter.onNext(statusMessage);
             break;
           case error:
             LOG.error(
