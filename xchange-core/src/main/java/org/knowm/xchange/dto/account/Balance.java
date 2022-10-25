@@ -3,12 +3,13 @@ package org.knowm.xchange.dto.account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
 import org.knowm.xchange.currency.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * DTO representing a balance in a currency
@@ -561,7 +562,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
       if (frozen == null) {
         if (total == null || available == null) {
           frozen = BigDecimal.ZERO;
-        } else {
+        } else if (total != null && available != null) {
           frozen = total.subtract(available);
         }
       }
