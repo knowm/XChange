@@ -12,6 +12,8 @@ import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
@@ -36,23 +38,30 @@ import org.slf4j.LoggerFactory;
 public class KrakenStreamingService extends JsonNettyStreamingService {
   private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingService.class);
   private static final String EVENT = "event";
+  private static final String WEBSOCKET_REQUESTS_PER_SECOND = "Kraken_Websocket_Requests_Per_Second";
   private final Map<Integer, String> channels = new ConcurrentHashMap<>();
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private final boolean isPrivate;
   private final Supplier<KrakenWebsocketToken> authData;
   private final Map<Integer, String> subscriptionRequestMap = new ConcurrentHashMap<>();
   private final Map<String, ObservableEmitter<KrakenEvent>> systemChannels = new ConcurrentHashMap<>();
+  private final RateLimiter rateLimiter;
   static final int ORDER_BOOK_SIZE_DEFAULT = 10;
   private static final int[] KRAKEN_VALID_ORDER_BOOK_SIZES = {10, 25, 100, 500, 1000};
 
   public KrakenStreamingService(
-      boolean isPrivate, String uri, final Supplier<KrakenWebsocketToken> authData) {
+      KrakenStreamingExchange exchange,
+      boolean isPrivate,
+      String uri,
+      final Supplier<KrakenWebsocketToken> authData) {
     super(uri, Integer.MAX_VALUE);
     this.isPrivate = isPrivate;
     this.authData = authData;
+    rateLimiter = initRateLimiter(exchange);
   }
 
   public KrakenStreamingService(
+      KrakenStreamingExchange exchange,
       boolean isPrivate,
       String uri,
       int maxFramePayloadLength,
@@ -63,6 +72,20 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     super(uri, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.isPrivate = isPrivate;
     this.authData = authData;
+    rateLimiter = initRateLimiter(exchange);
+  }
+
+  private static RateLimiter initRateLimiter(KrakenStreamingExchange exchange) {
+    RateLimiter rateLimiter = null;
+    Integer requestsPerSecond = (Integer) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(WEBSOCKET_REQUESTS_PER_SECOND);
+    if (requestsPerSecond != null) {
+      // N messages per second
+      rateLimiter = RateLimiter.of("websocket rate limiter", RateLimiterConfig.custom()
+              .limitForPeriod(requestsPerSecond)
+              .limitRefreshPeriod(Duration.ofSeconds(1))
+              .build());
+    }
+    return rateLimiter;
   }
 
   @Override
@@ -240,6 +263,14 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
               new KrakenSubscriptionConfig(subscriptionName, parseOrderBookSize(args), null));
       return objectMapper.writeValueAsString(subscriptionMessage);
     }
+  }
+
+  @Override
+  public void sendMessage(String message) {
+      if (rateLimiter != null)
+        RateLimiter.waitForPermission(rateLimiter);
+
+      super.sendMessage(message);
   }
 
   @Override
