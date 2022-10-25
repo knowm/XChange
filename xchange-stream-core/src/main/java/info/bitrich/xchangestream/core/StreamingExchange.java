@@ -3,7 +3,6 @@ package info.bitrich.xchangestream.core;
 import info.bitrich.xchangestream.service.ConnectableService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.service.netty.NettyStreamingService;
-import io.netty.channel.ChannelHandlerContext;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.Exchange;
@@ -55,7 +54,7 @@ public interface StreamingExchange extends Exchange {
    * Observable for connection success event. When this happens, it usually indicates that the
    * server or the network is down.
    *
-   * @return Observable with the exception during reconnection.
+   * @return Observable
    */
   default Observable<Object> connectionSuccess() {
     throw new NotYetImplementedForExchangeException("connectionSuccess");
@@ -64,9 +63,9 @@ public interface StreamingExchange extends Exchange {
   /**
    * Observable for disconnection event.
    *
-   * @return Observable with ChannelHandlerContext
+   * @return Observable
    */
-  default Observable<ChannelHandlerContext> disconnectObservable() {
+  default Observable<Object> disconnectObservable() {
     throw new NotYetImplementedForExchangeException("disconnectObservable");
   }
 
