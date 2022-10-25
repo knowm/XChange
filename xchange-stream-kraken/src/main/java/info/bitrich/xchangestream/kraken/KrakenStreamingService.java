@@ -46,7 +46,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   private final Map<Integer, String> subscriptionRequestMap = new ConcurrentHashMap<>();
   private final Map<String, ObservableEmitter<KrakenEvent>> systemChannels = new ConcurrentHashMap<>();
   private final RateLimiter rateLimiter;
-  static final int ORDER_BOOK_SIZE_DEFAULT = 25;
+  static final int ORDER_BOOK_SIZE_DEFAULT = 10;
   private static final int[] KRAKEN_VALID_ORDER_BOOK_SIZES = {10, 25, 100, 500, 1000};
 
   public KrakenStreamingService(
