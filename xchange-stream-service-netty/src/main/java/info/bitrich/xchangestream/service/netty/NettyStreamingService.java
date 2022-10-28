@@ -329,6 +329,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                 .addListener(
                     f -> {
                       connectionStateModel.setState(State.CLOSED);
+                      disconnectEmitters.onNext(new Object());
                       completable.onComplete();
                     });
           } else {
