@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Set;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.instrument.Instrument;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Set;
 
 /**
  * DTO representing a limit order
@@ -357,9 +358,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
               timestamp,
               limitPrice,
               averagePrice,
-              originalAmount == null || remainingAmount == null
-                  ? cumulativeAmount
-                  : originalAmount.subtract(remainingAmount),
+              cumulativeAmount,
               fee,
               status,
               userReference);
