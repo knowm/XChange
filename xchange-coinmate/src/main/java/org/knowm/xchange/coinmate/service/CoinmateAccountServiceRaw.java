@@ -263,30 +263,31 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
     return tradeHistory;
   }
 
-  public CoinmateTransferHistory getTransfersData(Integer limit, Long timestampFrom, Long timestampTo) throws IOException {
+  public CoinmateTransferHistory getTransfersData(
+      Integer limit, Long timestampFrom, Long timestampTo) throws IOException {
     return getCoinmateTransferHistory(limit, null, null, timestampFrom, timestampTo, null);
   }
 
   public CoinmateTransferHistory getCoinmateTransferHistory(
-          Integer limit,
-          Integer lastId,
-          String sort,
-          Long timestampFrom,
-          Long timestampTo,
-          String currency)
-          throws IOException {
+      Integer limit,
+      Integer lastId,
+      String sort,
+      Long timestampFrom,
+      Long timestampTo,
+      String currency)
+      throws IOException {
     CoinmateTransferHistory transferHistory =
-            coinmateAuthenticated.getTransferHistory(
-                    exchange.getExchangeSpecification().getApiKey(),
-                    exchange.getExchangeSpecification().getUserName(),
-                    signatureCreator,
-                    exchange.getNonceFactory(),
-                    limit,
-                    lastId,
-                    sort,
-                    timestampFrom,
-                    timestampTo,
-                    currency);
+        coinmateAuthenticated.getTransferHistory(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            limit,
+            lastId,
+            sort,
+            timestampFrom,
+            timestampTo,
+            currency);
 
     throwExceptionIfError(transferHistory);
 

@@ -5,18 +5,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.okcoin.dto.okx.OkxLoginMessage;
 import info.bitrich.xchangestream.okcoin.dto.okx.OkxStreamingAuthenticator;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.concurrent.TimeUnit;
 
 public class OkxStreamingService extends JsonNettyStreamingService {
 
@@ -25,7 +25,7 @@ public class OkxStreamingService extends JsonNettyStreamingService {
   private static final String LOGIN_SIGN_REQUEST_PATH = "/users/self/verify";
 
   private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
-
+  private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
   private Disposable pingPongSubscription;
 
   private final ExchangeSpecification xSpec;
@@ -33,6 +33,44 @@ public class OkxStreamingService extends JsonNettyStreamingService {
   public OkxStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
     super(apiUrl);
     this.xSpec = exchangeSpecification;
+  }
+
+  @Override
+  protected WebSocketClientHandler getWebSocketClientHandler(
+      WebSocketClientHandshaker handshaker,
+      WebSocketClientHandler.WebSocketMessageHandler handler) {
+    LOG.info("Registering OkxWebSocketClientHandler");
+    return new OkxWebSocketClientHandler(handshaker, handler);
+  }
+
+  public void setChannelInactiveHandler(
+      WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+    this.channelInactiveHandler = channelInactiveHandler;
+  }
+
+  /**
+   * Custom client handler in order to execute an external, user-provided handler on channel events.
+   */
+  class OkxWebSocketClientHandler extends NettyWebSocketClientHandler {
+
+    public OkxWebSocketClientHandler(
+        WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
+      super(handshaker, handler);
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) {
+      super.channelActive(ctx);
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) {
+      super.channelInactive(ctx);
+      if (channelInactiveHandler != null) {
+        channelInactiveHandler.onMessage("WebSocket Client disconnected!");
+        LOG.info("channelInactive catch");
+      }
+    }
   }
 
   public void pingPongSubscriptionDispose() {
@@ -44,7 +82,7 @@ public class OkxStreamingService extends JsonNettyStreamingService {
   public void unsubscribeChannel(final String channelId, Object... args) {
     if (channels.remove(channelId) != null) {
       try {
-        sendMessage(getUnsubscribeMessage(channelId,args));
+        sendMessage(getUnsubscribeMessage(channelId, args));
       } catch (IOException e) {
         LOG.debug("Failed to unsubscribe channel: {} {}", channelId, e.toString());
       } catch (Exception e) {
@@ -57,25 +95,26 @@ public class OkxStreamingService extends JsonNettyStreamingService {
   public Completable connect() {
     Completable conn = super.connect();
     return conn.andThen(
-            (CompletableSource)
-                    (completable) -> {
-                      try {
-                        if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
-                          pingPongSubscription.dispose();
-                        }
+        (CompletableSource)
+            (completable) -> {
+              try {
+                if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
+                  pingPongSubscription.dispose();
+                }
 
-                        pingPongSubscription = pingPongSrc.subscribe(o -> this.sendMessage("ping"));
-                        completable.onComplete();
-                      } catch (Exception e) {
-                        completable.onError(e);
-                      }
-                    });
+                pingPongSubscription = pingPongSrc.subscribe(o -> this.sendMessage("ping"));
+                completable.onComplete();
+              } catch (Exception e) {
+                completable.onError(e);
+              }
+            });
   }
-
 
   public void login() throws JsonProcessingException {
     String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
-    String sign = OkxStreamingAuthenticator.generateSignature(xSpec.getSecretKey(), timestamp, LOGIN_SIGN_METHOD, LOGIN_SIGN_REQUEST_PATH);
+    String sign =
+        OkxStreamingAuthenticator.generateSignature(
+            xSpec.getSecretKey(), timestamp, LOGIN_SIGN_METHOD, LOGIN_SIGN_REQUEST_PATH);
     if (sign == null) {
       LOG.error(String.format("Failed to get signature"));
       return;
@@ -83,7 +122,8 @@ public class OkxStreamingService extends JsonNettyStreamingService {
 
     OkxLoginMessage message = new OkxLoginMessage();
     String passphrase = (String) xSpec.getExchangeSpecificParametersItem("passphrase");
-    OkxLoginMessage.LoginArg loginArg = new OkxLoginMessage.LoginArg(xSpec.getApiKey(), passphrase, timestamp, sign);
+    OkxLoginMessage.LoginArg loginArg =
+        new OkxLoginMessage.LoginArg(xSpec.getApiKey(), passphrase, timestamp, sign);
     message.getArgs().add(loginArg);
 
     this.sendMessage(objectMapper.writeValueAsString(message));
@@ -122,16 +162,24 @@ public class OkxStreamingService extends JsonNettyStreamingService {
     if (message.has("event")) {
       String event = message.get("event").asText();
       if (event.equals("subscribe"))
-        LOG.info("Stream {} has been successfully subscribed to channel {}", message.get("arg").get("instId").asText(),
-                message.get("arg").get("channel").asText());
+        LOG.info(
+            "Stream {} has been successfully subscribed to channel {}",
+            message.get("arg").get("instId").asText(),
+            message.get("arg").get("channel").asText());
       if (event.equals("error"))
-        LOG.info("Subscribe error code: {}, msg: {}", message.get("code").asText(),message.get("msg").asText());
+        LOG.info(
+            "Subscribe error code: {}, msg: {}",
+            message.get("code").asText(),
+            message.get("msg").asText());
       if (event.equals("unsubscribe"))
-        LOG.info("Stream {} has been successfully unsubscribed from channel {}", message.get("arg").get("instId").asText(),
-              message.get("arg").get("channel").asText());
+        LOG.info(
+            "Stream {} has been successfully unsubscribed from channel {}",
+            message.get("arg").get("instId").asText(),
+            message.get("arg").get("channel").asText());
       return "";
     }
-    return  message.get("arg").get("instId").asText();
+    JsonNode node = message.get("arg");
+    return node.get("instId").asText() + "-" + node.get("channel").asText();
   }
 
   @Override

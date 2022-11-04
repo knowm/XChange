@@ -36,7 +36,7 @@ public class MarketDataServiceIntegration {
     CoinbaseMarketDataService coinbaseService = (CoinbaseMarketDataService) marketDataService;
     List<CoinbaseCurrency> currencies = coinbaseService.getCoinbaseCurrencies();
     assertThat(currencies).contains(new CoinbaseCurrency("Euro", "EUR"));
-//    assertThat(currencies).contains(new CoinbaseCurrency("Bitcoin", "BTC"));
+    //    assertThat(currencies).contains(new CoinbaseCurrency("Bitcoin", "BTC"));
   }
 
   @Test

@@ -13,6 +13,7 @@ import org.knowm.xchange.bitmex.BitmexPrompt;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
 @Ignore("Какая то проблема с запросом ETH")
 public class BitmexOrderBookFetchIntegration {
 

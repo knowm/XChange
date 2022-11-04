@@ -16,7 +16,7 @@ public class ZaifExchangeIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     ExchangeFactory.INSTANCE.createExchange(spec);
-//    ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class.getCanonicalName());
+    //    ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class.getCanonicalName());
   }
 
   @Test
@@ -25,7 +25,8 @@ public class ZaifExchangeIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange ex = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange ex = ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class.getCanonicalName());
+    //    Exchange ex =
+    // ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class.getCanonicalName());
     // ex.remoteInit();
 
     Assert.assertTrue(

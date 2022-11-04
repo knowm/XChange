@@ -1,8 +1,6 @@
 package org.knowm.xchange.bitbay.v3.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
 import java.util.UUID;
 import lombok.Builder;

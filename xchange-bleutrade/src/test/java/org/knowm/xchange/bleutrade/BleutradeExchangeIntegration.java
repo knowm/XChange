@@ -31,6 +31,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.IRestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
 @Ignore("Dead or Portugal IP only")
 @RunWith(MockitoJUnitRunner.class)
 public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {

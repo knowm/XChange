@@ -21,7 +21,7 @@ public class BitflyerTickerIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitflyerExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitflyerExchange.class);
     MarketDataService service = exchange.getMarketDataService();
 
     Ticker ticker = service.getTicker(CurrencyPair.BTC_JPY);

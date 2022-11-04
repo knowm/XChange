@@ -38,7 +38,8 @@ public class TickerFetchIntegration {
     assertThat(ticker).isNotNull();
   }
 
-  @Ignore("The number of currency pairs should be the same as the requested number of currency pairs expected:<236> but was:<171>")
+  @Ignore(
+      "The number of currency pairs should be the same as the requested number of currency pairs expected:<236> but was:<171>")
   @Test
   public void tickerFetchAllTest() throws Exception {
     Set<CurrencyPair> allCurrencyPairs = exchange.getExchangeMetaData().getCurrencyPairs().keySet();

@@ -37,7 +37,7 @@ public final class OrderBook implements Serializable {
   @JsonCreator
   public OrderBook(
       @JsonProperty("timeStamp") Date timeStamp,
-      @JsonProperty("asks") List<LimitOrder> asks ,
+      @JsonProperty("asks") List<LimitOrder> asks,
       @JsonProperty("bids") List<LimitOrder> bids) {
 
     this(timeStamp, Collections.synchronizedList(asks), Collections.synchronizedList(bids), false);
@@ -76,8 +76,12 @@ public final class OrderBook implements Serializable {
    * @param sort True if the asks and bids need to be sorted
    * @param orderIsNewArray True to create new arrays asks and bids
    */
-  public OrderBook(Date timeStamp, List<LimitOrder> asks, List<LimitOrder> bids, boolean sort,
-                   boolean orderIsNewArray) {
+  public OrderBook(
+      Date timeStamp,
+      List<LimitOrder> asks,
+      List<LimitOrder> bids,
+      boolean sort,
+      boolean orderIsNewArray) {
 
     this.timeStamp = timeStamp;
     if (sort) {
@@ -197,22 +201,22 @@ public final class OrderBook implements Serializable {
    * @param orderBookUpdate the new OrderBookUpdate
    */
   public void update(OrderBookUpdate orderBookUpdate) {
-    synchronized (asks) {
-      LimitOrder limitOrder = orderBookUpdate.getLimitOrder();
-      List<LimitOrder> limitOrders = getOrders(limitOrder.getType());
-      int idx = Collections.binarySearch(limitOrders, limitOrder);
-      if (idx >= 0) {
-        limitOrders.remove(idx);
-      } else {
-        idx = -idx - 1;
-      }
-
-      if (orderBookUpdate.getTotalVolume().compareTo(BigDecimal.ZERO) != 0) {
-        LimitOrder updatedOrder = withAmount(limitOrder, orderBookUpdate.getTotalVolume());
-        limitOrders.add(idx, updatedOrder);
-      }
-    updateDate(limitOrder.getTimestamp());
+    //    synchronized (asks) {
+    LimitOrder limitOrder = orderBookUpdate.getLimitOrder();
+    List<LimitOrder> limitOrders = getOrders(limitOrder.getType());
+    int idx = Collections.binarySearch(limitOrders, limitOrder);
+    if (idx >= 0) {
+      limitOrders.remove(idx);
+    } else {
+      idx = -idx - 1;
     }
+
+    if (orderBookUpdate.getTotalVolume().compareTo(BigDecimal.ZERO) != 0) {
+      LimitOrder updatedOrder = withAmount(limitOrder, orderBookUpdate.getTotalVolume());
+      limitOrders.add(idx, updatedOrder);
+    }
+    updateDate(limitOrder.getTimestamp());
+    //    }
   }
 
   // Replace timeStamp if the provided date is non-null and in the future

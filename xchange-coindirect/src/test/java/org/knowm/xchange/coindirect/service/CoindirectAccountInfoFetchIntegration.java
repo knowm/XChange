@@ -9,6 +9,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindirect.ExchangeUtils;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
+
 @Ignore("no configuration.properties file")
 public class CoindirectAccountInfoFetchIntegration {
   private Exchange exchange;

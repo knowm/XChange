@@ -155,7 +155,8 @@ public class FtxAdapters {
                       .amountStepSize(ftxMarketDto.getSizeIncrement())
                       .minimumAmount(ftxMarketDto.getSizeIncrement())
                       .priceScale(ftxMarketDto.getPriceIncrement().scale())
-                      .volumeScale(Math.max(0,ftxMarketDto.getSizeIncrement().stripTrailingZeros().scale()))
+                      .volumeScale(
+                          Math.max(0, ftxMarketDto.getSizeIncrement().stripTrailingZeros().scale()))
                       .baseScale(ftxMarketDto.getSizeIncrement().scale())
                       .build();
 
@@ -437,18 +438,25 @@ public class FtxAdapters {
   public static FtxConditionalOrderRequestPayload adaptStopOrderToFtxOrderPayload(
       StopOrder stopOrder) throws IOException {
     return adaptConditionalOrderToFtxOrderPayload(
-        adaptTriggerOrderIntention((stopOrder.getIntention() == null) ? StopOrder.Intention.STOP_LOSS : stopOrder.getIntention()),
+        adaptTriggerOrderIntention(
+            (stopOrder.getIntention() == null)
+                ? StopOrder.Intention.STOP_LOSS
+                : stopOrder.getIntention()),
         stopOrder,
         stopOrder.getLimitPrice(),
         stopOrder.getStopPrice(),
         null);
   }
 
-  public static FtxConditionalOrderType adaptTriggerOrderIntention(StopOrder.Intention stopOrderIntention) throws IOException {
-    switch (stopOrderIntention){
-      case STOP_LOSS: return FtxConditionalOrderType.stop;
-      case TAKE_PROFIT: return FtxConditionalOrderType.take_profit;
-      default: throw new IOException("StopOrder Intention is not supported.");
+  public static FtxConditionalOrderType adaptTriggerOrderIntention(
+      StopOrder.Intention stopOrderIntention) throws IOException {
+    switch (stopOrderIntention) {
+      case STOP_LOSS:
+        return FtxConditionalOrderType.stop;
+      case TAKE_PROFIT:
+        return FtxConditionalOrderType.take_profit;
+      default:
+        throw new IOException("StopOrder Intention is not supported.");
     }
   }
 

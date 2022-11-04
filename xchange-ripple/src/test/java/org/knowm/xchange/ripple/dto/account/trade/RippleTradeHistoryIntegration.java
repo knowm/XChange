@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Calendar;
 import java.util.Date;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -23,7 +22,7 @@ public class RippleTradeHistoryIntegration {
   // example
   // account. The important result is that is does not throw an exception, even if no trades are
   // found.
-@Ignore("SSL Read timed out")
+  @Ignore("SSL Read timed out")
   @Test
   public void getTradeHistoryTest() throws Exception {
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);

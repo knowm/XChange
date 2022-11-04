@@ -8,6 +8,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+
 @Ignore("Dead")
 public class IdexExchangeIntegration {
 

@@ -3,13 +3,13 @@ package org.knowm.xchange.bitz.service.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitz.BitZExchange;
 import org.knowm.xchange.bitz.service.BitZMarketDataService;
 import org.knowm.xchange.dto.marketdata.Ticker;
+
 @Ignore("Dead")
 public class BitzTickerAllFetchIntegration {
 

@@ -14,6 +14,7 @@ import org.knowm.xchange.ripple.dto.RippleException;
 import org.knowm.xchange.ripple.dto.trade.RippleLimitOrder;
 import org.knowm.xchange.ripple.service.params.RippleMarketDataParams;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
 @Ignore("SSL Read timed out")
 public class RippleOrderBookIntegration {
 

@@ -291,12 +291,16 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
 
   @Override
   public String toString() {
-    return "StopOrder{" +
-            "stopPrice=" + stopPrice +
-            ", limitPrice=" + limitPrice +
-            ", intention=" + intention +
-            ", trailValue=" + trailValue +
-            '}';
+    return "StopOrder{"
+        + "stopPrice="
+        + stopPrice
+        + ", limitPrice="
+        + limitPrice
+        + ", intention="
+        + intention
+        + ", trailValue="
+        + trailValue
+        + '}';
   }
 
   @Override

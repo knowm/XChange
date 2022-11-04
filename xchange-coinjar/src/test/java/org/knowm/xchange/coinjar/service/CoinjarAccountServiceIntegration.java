@@ -3,7 +3,6 @@ package org.knowm.xchange.coinjar.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -22,7 +21,6 @@ public class CoinjarAccountServiceIntegration {
   public CoinjarAccountServiceIntegration() {
     exchange = ExchangeUtils.createExchangeFromProperties();
   }
-
 
   @Test
   public void testGetAccountInfo() throws IOException {

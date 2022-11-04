@@ -352,7 +352,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
     LOG.debug("Sending message: {}", message);
 
     if (webSocketChannel == null || !webSocketChannel.isOpen()) {
-      LOG.warn("WebSocket is not open! Call connect first. message {}",message);
+      LOG.warn("WebSocket is not open! Call connect first. message {}", message);
       return;
     }
 

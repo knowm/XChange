@@ -3,8 +3,6 @@ package org.knowm.xchange.latoken.service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
-
 import org.junit.*;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;

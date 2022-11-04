@@ -19,7 +19,7 @@ public class MarketDataFetchIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_JPY);

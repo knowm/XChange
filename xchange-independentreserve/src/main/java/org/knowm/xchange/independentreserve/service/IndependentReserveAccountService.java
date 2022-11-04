@@ -114,8 +114,7 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
                         historyParams.transactionTypes,
                         historyParams.getPageNumber(),
                         historyParams.getPageLength())
-                    .getIndependentReserveTranasactions()
-                    .stream()
+                    .getIndependentReserveTranasactions().stream()
                     .map(IndependentReserveAdapters::adaptTransaction);
               } catch (IndependentReserveHttpStatusException | IOException e) {
                 throw new ExchangeException(e);

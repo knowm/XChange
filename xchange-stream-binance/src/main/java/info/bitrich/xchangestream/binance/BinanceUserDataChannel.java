@@ -51,9 +51,6 @@ class BinanceUserDataChannel implements AutoCloseable {
     this.keepAlive = Observable.interval(30, TimeUnit.MINUTES).subscribe(x -> keepAlive());
   }
 
-
-
-
   /**
    * Set this callback to get notified if the current listen key is revoked.
    *

@@ -157,7 +157,7 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
       }
     }
     CoinmateTransferHistory coinmateTransferHistory =
-            getTransfersData(limit, timestampFrom, timestampTo);
+        getTransfersData(limit, timestampFrom, timestampTo);
 
     CoinmateTransactionHistory coinmateTransactionHistory =
         getCoinmateTransactionHistory(
@@ -167,7 +167,8 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
             timestampFrom,
             timestampTo,
             null);
-    return CoinmateAdapters.adaptFundingHistory(coinmateTransactionHistory, coinmateTransferHistory);
+    return CoinmateAdapters.adaptFundingHistory(
+        coinmateTransactionHistory, coinmateTransferHistory);
   }
 
   public static class CoinmateFundingHistoryParams

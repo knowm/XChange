@@ -4,7 +4,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.knowm.xchange.Exchange;

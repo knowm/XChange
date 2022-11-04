@@ -11,7 +11,6 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
 
 @Ignore("Need api key")
-
 public class AccountInfoFetchIntegration {
 
   private Exchange exchange;

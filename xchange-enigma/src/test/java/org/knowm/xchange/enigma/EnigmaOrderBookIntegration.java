@@ -16,6 +16,7 @@ import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProductMarketData;
 import org.knowm.xchange.enigma.service.EnigmaAccountService;
 import org.knowm.xchange.enigma.service.EnigmaMarketDataService;
+
 @Ignore("Need registration")
 public class EnigmaOrderBookIntegration {
 

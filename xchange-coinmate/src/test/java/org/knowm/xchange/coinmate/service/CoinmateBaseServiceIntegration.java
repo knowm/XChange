@@ -46,7 +46,7 @@ public class CoinmateBaseServiceIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "EUR"));
     System.out.println(ticker.toString());
@@ -59,7 +59,7 @@ public class CoinmateBaseServiceIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "CZK"));
     System.out.println(ticker.toString());
@@ -72,7 +72,7 @@ public class CoinmateBaseServiceIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(CurrencyPair.LTC_BTC);
     System.out.println(ticker.toString());
@@ -85,7 +85,7 @@ public class CoinmateBaseServiceIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_EUR);
     System.out.println(orderBook.toString());
@@ -98,7 +98,7 @@ public class CoinmateBaseServiceIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CZK);
     System.out.println(orderBook.toString());
@@ -111,7 +111,7 @@ public class CoinmateBaseServiceIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.LTC_BTC);
     System.out.println(orderBook.toString());
@@ -124,7 +124,7 @@ public class CoinmateBaseServiceIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
     System.out.println(trades.getTrades().toString());
@@ -137,7 +137,7 @@ public class CoinmateBaseServiceIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CZK);
     System.out.println(trades.getTrades().toString());
@@ -150,7 +150,7 @@ public class CoinmateBaseServiceIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(CurrencyPair.LTC_BTC);
     System.out.println(trades.getTrades().toString());
@@ -163,7 +163,7 @@ public class CoinmateBaseServiceIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(new CurrencyPair(Currency.XRP, Currency.CZK));
     System.out.println(trades.getTrades().toString());

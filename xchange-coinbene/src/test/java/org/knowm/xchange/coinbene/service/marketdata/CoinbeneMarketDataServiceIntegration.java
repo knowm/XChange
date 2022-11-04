@@ -5,7 +5,6 @@ import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;

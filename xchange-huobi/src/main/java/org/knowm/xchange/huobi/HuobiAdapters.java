@@ -171,8 +171,8 @@ public class HuobiAdapters {
         null,
         null,
         null,
-            pair.getAmountPrecision(),
-            pair.getPricePrecision(),
+        pair.getAmountPrecision(),
+        pair.getPricePrecision(),
         null,
         feeTiers,
         null,
@@ -245,9 +245,7 @@ public class HuobiAdapters {
       openOrderAvgPrice = BigDecimal.ZERO;
     } else {
       openOrderAvgPrice =
-          openOrder
-              .getFieldCashAmount()
-              .divide(openOrder.getFieldAmount(), 8, RoundingMode.DOWN);
+          openOrder.getFieldCashAmount().divide(openOrder.getFieldAmount(), 8, RoundingMode.DOWN);
     }
     if (openOrder.isMarket()) {
       order =
@@ -281,18 +279,21 @@ public class HuobiAdapters {
     if (openOrder.isStop()) {
       order =
           new StopOrder.Builder(orderType, currencyPair)
-                  .originalAmount(openOrder.getAmount())
-                  .id(String.valueOf(openOrder.getId()))
-                  .timestamp(openOrder.getCreatedAt())
-                  .stopPrice(openOrder.getStopPrice())
-                  .limitPrice(openOrder.getPrice())
-                  .averagePrice(openOrderAvgPrice)
-                  .cumulativeAmount(openOrder.getFieldAmount())
-                  .fee(openOrder.getFieldFees())
-                  .orderStatus(adaptOrderStatus(openOrder.getState()))
-                  .userReference(openOrder.getClOrdId())
-                  .intention(openOrder.getOperator().equals("lte") ? Intention.STOP_LOSS : Intention.TAKE_PROFIT)
-                  .build();
+              .originalAmount(openOrder.getAmount())
+              .id(String.valueOf(openOrder.getId()))
+              .timestamp(openOrder.getCreatedAt())
+              .stopPrice(openOrder.getStopPrice())
+              .limitPrice(openOrder.getPrice())
+              .averagePrice(openOrderAvgPrice)
+              .cumulativeAmount(openOrder.getFieldAmount())
+              .fee(openOrder.getFieldFees())
+              .orderStatus(adaptOrderStatus(openOrder.getState()))
+              .userReference(openOrder.getClOrdId())
+              .intention(
+                  openOrder.getOperator().equals("lte")
+                      ? Intention.STOP_LOSS
+                      : Intention.TAKE_PROFIT)
+              .build();
     }
 
     order.setAveragePrice(openOrderAvgPrice);
@@ -371,9 +372,12 @@ public class HuobiAdapters {
     return orders;
   }
 
-  public static List<UserTrade> adaptUserTradeList(HuobiOrder[] tradeHistory){
-    return Arrays.stream(tradeHistory).sequential()
-            .map(huobiOrder -> new UserTrade.Builder()
+  public static List<UserTrade> adaptUserTradeList(HuobiOrder[] tradeHistory) {
+    return Arrays.stream(tradeHistory)
+        .sequential()
+        .map(
+            huobiOrder ->
+                new UserTrade.Builder()
                     .id(Long.toString(huobiOrder.getId()))
                     .instrument(adaptCurrencyPair(huobiOrder.getSymbol()))
                     .orderUserReference(huobiOrder.getClOrdId())
@@ -383,11 +387,13 @@ public class HuobiAdapters {
                     .type(adaptOrderType(huobiOrder.getType()))
                     .feeAmount(huobiOrder.getFieldFees())
                     .orderId(Long.toString(huobiOrder.getId()))
-                    .build()).collect(Collectors.toList());
+                    .build())
+        .collect(Collectors.toList());
   }
 
   public static UserTrades adaptTradeHistory(HuobiOrder[] tradeHistoryOrders) {
-    UserTrades userTrades = new UserTrades(adaptUserTradeList(tradeHistoryOrders), TradeSortType.SortByTimestamp);
+    UserTrades userTrades =
+        new UserTrades(adaptUserTradeList(tradeHistoryOrders), TradeSortType.SortByTimestamp);
     Collections.reverse(userTrades.getUserTrades());
     return userTrades;
   }

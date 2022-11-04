@@ -12,6 +12,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.lgo.LgoEnv;
 import org.knowm.xchange.lgo.LgoEnv.SignatureService;
 import org.knowm.xchange.lgo.dto.key.LgoKey;
+
 @Ignore("Need registration")
 public class LgoKeyServiceIntegration {
 

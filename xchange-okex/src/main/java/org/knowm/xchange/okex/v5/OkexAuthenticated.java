@@ -94,12 +94,12 @@ public interface OkexAuthenticated extends Okex {
   @GET
   @Path(configPath)
   OkexResponse<List<OkexAccountConfig>> getAccountConfiguration(
-          @HeaderParam("OK-ACCESS-KEY") String apiKey,
-          @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
-          @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
-          @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
-          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
-          throws OkexException, IOException;
+      @HeaderParam("OK-ACCESS-KEY") String apiKey,
+      @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+      @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+      throws OkexException, IOException;
 
   @GET
   @Path(ordersHistoryPath)

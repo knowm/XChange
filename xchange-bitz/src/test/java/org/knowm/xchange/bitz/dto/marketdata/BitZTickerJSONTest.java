@@ -5,10 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.bitz.dto.marketdata.result.BitZKlineResult;
+
 @Ignore("Dead")
 public class BitZTickerJSONTest {
 

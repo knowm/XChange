@@ -1,10 +1,9 @@
 package org.knowm.xchange.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import static org.knowm.xchange.dto.marketdata.Trades.TradeSortType.SortByID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -43,8 +42,9 @@ public class Trades implements Serializable {
    * @param tradeSortType Trade sort type
    */
   @JsonCreator
-  public Trades(@JsonProperty("trades") List<Trade> trades,
-                @JsonProperty("tradeSortType") TradeSortType tradeSortType) {
+  public Trades(
+      @JsonProperty("trades") List<Trade> trades,
+      @JsonProperty("tradeSortType") TradeSortType tradeSortType) {
 
     this(trades, 0L, tradeSortType);
   }

@@ -5,12 +5,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.ExchangeUtils;
 import org.knowm.xchange.btcmarkets.dto.v3.BTCMarketsExceptionV3;
 import org.knowm.xchange.currency.Currency;

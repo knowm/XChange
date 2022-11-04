@@ -159,8 +159,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
       throws IOException, FundsExceededException {
     return placeOkexOrder(
             limitOrders.stream().map(OkexAdapters::adaptOrder).collect(Collectors.toList()))
-        .getData()
-        .stream()
+        .getData().stream()
         .map(OkexOrderResponse::getOrderId)
         .collect(Collectors.toList());
   }
@@ -174,8 +173,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
       throws IOException, FundsExceededException {
     return amendOkexOrder(
             limitOrders.stream().map(OkexAdapters::adaptAmendOrder).collect(Collectors.toList()))
-        .getData()
-        .stream()
+        .getData().stream()
         .map(OkexOrderResponse::getOrderId)
         .collect(Collectors.toList());
   }
@@ -215,8 +213,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
                                     ((CancelOrderByInstrument) param).getInstrument()))
                             .build())
                 .collect(Collectors.toList()))
-        .getData()
-        .stream()
+        .getData().stream()
         .map(result -> "0".equals(result.getCode()))
         .collect(Collectors.toList());
   }

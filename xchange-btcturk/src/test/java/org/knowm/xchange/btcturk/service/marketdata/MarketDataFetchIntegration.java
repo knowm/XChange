@@ -35,7 +35,6 @@ public class MarketDataFetchIntegration {
   public void InitExchange() throws IOException {
     if (BTCTurkDemoUtilsTest.BTCTURK_APIKEY.isEmpty())
       btcTurk = ExchangeFactory.INSTANCE.createExchange(BTCTurkExchange.class);
-
     else {
       ExchangeSpecification exSpec = new BTCTurkExchange().getDefaultExchangeSpecification();
       exSpec.setApiKey(BTCTurkDemoUtilsTest.BTCTURK_APIKEY);

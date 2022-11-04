@@ -2,7 +2,6 @@ package org.knowm.xchange.bitstamp.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -21,7 +20,7 @@ public class TickerFetchIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
     System.out.println(ticker.toString());

@@ -72,7 +72,6 @@ public class CoinbaseProExchangeIntegration {
             currencyPair, new Long(Integer.MAX_VALUE), 10);
     assertEquals("Unexpected trades list length (10)", 10, trades2.size());
 
-
     Trades trades3 = marketDataService.getTrades(currencyPair, new Long(0), new Long(1005));
     assertEquals("Unexpected trades list length (100)", 1004, trades3.getTrades().size());
   }

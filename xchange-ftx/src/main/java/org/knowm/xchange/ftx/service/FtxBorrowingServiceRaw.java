@@ -125,8 +125,7 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
               exchange.getExchangeSpecification().getApiKey(),
               exchange.getNonceFactory().createValue(),
               signatureCreator)
-          .getResult()
-          .stream()
+          .getResult().stream()
           .filter(lendingRates -> lendingRates.getCoin().equalsIgnoreCase(coin))
           .findFirst()
           .orElse(null);

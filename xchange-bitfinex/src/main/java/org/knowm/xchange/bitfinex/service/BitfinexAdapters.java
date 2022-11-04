@@ -685,7 +685,8 @@ public final class BitfinexAdapters {
 
     final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         exchangeMetaData.getCurrencyPairs();
-    symbolDetails.parallelStream()
+    symbolDetails
+        .parallelStream()
         .forEach(
             bitfinexSymbolDetail -> {
               final CurrencyPair currencyPair = adaptCurrencyPair(bitfinexSymbolDetail.getPair());
@@ -761,7 +762,9 @@ public final class BitfinexAdapters {
     final CurrencyPairMetaData metaData =
         new CurrencyPairMetaData(
             bitfinexAccountInfos[0].getTakerFees().movePointLeft(2), null, null, null, null);
-    currencyPairs.keySet().parallelStream()
+    currencyPairs
+        .keySet()
+        .parallelStream()
         .forEach(
             currencyPair ->
                 currencyPairs.merge(

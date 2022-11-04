@@ -1,5 +1,9 @@
 package org.knowm.xchange.okex.v5;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -31,11 +35,6 @@ import org.knowm.xchange.okex.v5.dto.marketdata.*;
 import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
-
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAdapters {
@@ -141,10 +140,14 @@ public class OkexAdapters {
     return adaptOrderbookOrder(
         okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType);
   }
+
   public static LimitOrder adaptLimitOrder(
-          OkexPublicOrder okexPublicOrder, Instrument instrument, OrderType orderType,BigDecimal multiplier) {
+      OkexPublicOrder okexPublicOrder,
+      Instrument instrument,
+      OrderType orderType,
+      BigDecimal multiplier) {
     return adaptOrderbookOrder(
-            okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType,multiplier);
+        okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType, multiplier);
   }
 
   public static OrderBook adaptOrderBook(
@@ -172,34 +175,47 @@ public class OkexAdapters {
                       adaptOrderbookOrder(
                           okexBid.getVolume(), okexBid.getPrice(), instrument, OrderType.BID)));
     }
-    return new OrderBook(Date.from(java.time.Instant.ofEpochMilli(Long.parseLong(okexOrderbooks.get(0).getTs()))), asks, bids);
+    return new OrderBook(
+        Date.from(java.time.Instant.ofEpochMilli(Long.parseLong(okexOrderbooks.get(0).getTs()))),
+        asks,
+        bids);
   }
+
   public static OrderBook adaptOrderBook(
-          List<OkexOrderbook> okexOrderbooks, Instrument instrument, BigDecimal multiplier) {
+      List<OkexOrderbook> okexOrderbooks, Instrument instrument, BigDecimal multiplier) {
     List<LimitOrder> asks = Collections.synchronizedList(new ArrayList<>());
     List<LimitOrder> bids = Collections.synchronizedList(new ArrayList<>());
     synchronized (asks) {
       okexOrderbooks
-              .get(0)
-              .getAsks()
-              .forEach(
-                      okexAsk ->
-                              asks.add(
-                                      adaptOrderbookOrder(
-                                              okexAsk.getVolume().multiply(multiplier), okexAsk.getPrice(), instrument, OrderType.ASK)));
+          .get(0)
+          .getAsks()
+          .forEach(
+              okexAsk ->
+                  asks.add(
+                      adaptOrderbookOrder(
+                          okexAsk.getVolume().multiply(multiplier),
+                          okexAsk.getPrice(),
+                          instrument,
+                          OrderType.ASK)));
       //                  asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK)));
     }
     synchronized (bids) {
       okexOrderbooks
-              .get(0)
-              .getBids()
-              .forEach(
-                      okexBid ->
-                              bids.add(
-                                      adaptOrderbookOrder(
-                                              okexBid.getVolume().multiply(multiplier), okexBid.getPrice(), instrument, OrderType.BID)));
+          .get(0)
+          .getBids()
+          .forEach(
+              okexBid ->
+                  bids.add(
+                      adaptOrderbookOrder(
+                          okexBid.getVolume().multiply(multiplier),
+                          okexBid.getPrice(),
+                          instrument,
+                          OrderType.BID)));
     }
-    return new OrderBook(Date.from(java.time.Instant.ofEpochMilli(Long.parseLong(okexOrderbooks.get(0).getTs()))), asks, bids);
+    return new OrderBook(
+        Date.from(java.time.Instant.ofEpochMilli(Long.parseLong(okexOrderbooks.get(0).getTs()))),
+        asks,
+        bids);
   }
 
   public static OrderBook adaptOrderBook(
@@ -212,8 +228,13 @@ public class OkexAdapters {
 
     return new LimitOrder(orderType, amount, instrument, "", null, price);
   }
+
   public static LimitOrder adaptOrderbookOrder(
-          BigDecimal amount, BigDecimal price, Instrument instrument, Order.OrderType orderType,BigDecimal multiplier) {
+      BigDecimal amount,
+      BigDecimal price,
+      Instrument instrument,
+      Order.OrderType orderType,
+      BigDecimal multiplier) {
 
     return new LimitOrder(orderType, amount.multiply(multiplier), instrument, "", null, price);
   }

@@ -23,6 +23,5 @@ public interface CoinjarData {
   @Path("/products/{product}/book")
   CoinjarOrderBook getOrderBook(
       @PathParam("product") String product, @QueryParam("level") int level)
-      throws CoinjarException, IOException;
-  ;
+      throws CoinjarException, IOException;;
 }

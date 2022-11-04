@@ -18,8 +18,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
  * @author Danilo Guimaraes
  * @author Jonathas Carrijo
  */
-@Ignore("We are under maintenance, we are going back soon." +
-        "Web server is down")
+@Ignore("We are under maintenance, we are going back soon." + "Web server is down")
 public class TickerFetchIntegration {
 
   private static Ticker ticker;

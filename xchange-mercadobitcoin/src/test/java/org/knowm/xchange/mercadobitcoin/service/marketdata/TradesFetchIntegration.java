@@ -20,7 +20,7 @@ public class TradesFetchIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     Trades trades;

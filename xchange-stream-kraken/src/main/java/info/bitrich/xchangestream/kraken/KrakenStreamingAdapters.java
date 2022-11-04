@@ -1,9 +1,15 @@
 package info.bitrich.xchangestream.kraken;
 
+import static info.bitrich.xchangestream.kraken.KrakenStreamingChecksum.*;
+
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
-import com.google.common.collect.Streams;
 import com.google.common.collect.*;
+import com.google.common.collect.Streams;
+import java.math.*;
+import java.util.*;
+import java.util.concurrent.atomic.*;
+import java.util.stream.*;
 import org.knowm.xchange.dto.*;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.trade.*;
@@ -12,13 +18,6 @@ import org.knowm.xchange.kraken.*;
 import org.knowm.xchange.kraken.dto.trade.*;
 import org.knowm.xchange.utils.*;
 import org.slf4j.*;
-
-import java.math.*;
-import java.util.*;
-import java.util.concurrent.atomic.*;
-import java.util.stream.*;
-
-import static info.bitrich.xchangestream.kraken.KrakenStreamingChecksum.*;
 
 /** Kraken streaming adapters */
 public class KrakenStreamingAdapters {

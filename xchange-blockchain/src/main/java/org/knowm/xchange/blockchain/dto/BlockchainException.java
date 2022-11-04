@@ -1,11 +1,10 @@
 package org.knowm.xchange.blockchain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import si.mazi.rescu.HttpResponseAware;
-import si.mazi.rescu.HttpStatusExceptionSupport;
-
 import java.util.List;
 import java.util.Map;
+import si.mazi.rescu.HttpResponseAware;
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class BlockchainException extends HttpStatusExceptionSupport implements HttpResponseAware {
 
@@ -13,7 +12,8 @@ public class BlockchainException extends HttpStatusExceptionSupport implements H
 
   private Map<String, List<String>> headers;
 
-  public BlockchainException(@JsonProperty("status") int status, @JsonProperty("message") String message) {
+  public BlockchainException(
+      @JsonProperty("status") int status, @JsonProperty("message") String message) {
     super(message);
     this.status = status;
   }

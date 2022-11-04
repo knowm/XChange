@@ -1,8 +1,7 @@
 package org.knowm.xchange.dto.trade;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import org.knowm.xchange.dto.marketdata.Trades;
 
 public class UserTrades extends Trades {

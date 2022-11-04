@@ -60,7 +60,7 @@ public class OkexPublicOrder {
       if (node.isArray()) {
         BigDecimal price = new BigDecimal(node.path(0).asText());
         BigDecimal volume = new BigDecimal(node.path(1).asText());
-        //Deprecated
+        // Deprecated
         Integer liquidatedOrders = new Integer(0);
         Integer activeOrders = new Integer(node.path(3).asText());
 

@@ -403,13 +403,14 @@ public class PoloniexAdapters {
   }
 
   public static CandleStickData adaptPoloniexCandleStickData(
-          PoloniexChartData[] poloniexChartData, CurrencyPair currencyPair) {
+      PoloniexChartData[] poloniexChartData, CurrencyPair currencyPair) {
 
     CandleStickData candleStickData = null;
     if (poloniexChartData.length != 0) {
       List<CandleStick> candleSticks = new ArrayList<>();
       for (PoloniexChartData chartData : poloniexChartData) {
-        candleSticks.add(new CandleStick.Builder()
+        candleSticks.add(
+            new CandleStick.Builder()
                 .timestamp(chartData.getDate())
                 .open(chartData.getOpen())
                 .high(chartData.getHigh())
@@ -417,8 +418,7 @@ public class PoloniexAdapters {
                 .close(chartData.getClose())
                 .volume(chartData.getVolume())
                 .quotaVolume(chartData.getQuoteVolume())
-                .build()
-        );
+                .build());
       }
       candleStickData = new CandleStickData(currencyPair, candleSticks);
     }

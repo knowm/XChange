@@ -2,7 +2,6 @@ package org.knowm.xchange.bl3p.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;

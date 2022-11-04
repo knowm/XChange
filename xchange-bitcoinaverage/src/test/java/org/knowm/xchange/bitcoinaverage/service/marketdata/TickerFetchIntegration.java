@@ -14,7 +14,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** @author timmolter */
 public class TickerFetchIntegration {
-@Ignore("Need to register")
+  @Ignore("Need to register")
   @Test
   public void tickerFetchTest() throws Exception {
 

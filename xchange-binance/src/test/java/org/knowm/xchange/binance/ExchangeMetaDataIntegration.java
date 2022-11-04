@@ -25,7 +25,6 @@ public class ExchangeMetaDataIntegration extends BinanceExchangeIntegration {
     assertThat(pairMetaData.getMinimumAmount()).isEqualByComparingTo("0.0001");
     assertThat(pairMetaData.getMaximumAmount().longValueExact()).isEqualTo(100000);
     assertThat(pairMetaData.getAmountStepSize()).isEqualByComparingTo("0.0001");
-
   }
 
   @Test

@@ -20,7 +20,7 @@ public class OrderBookFetchIntegration {
     spec.setProxyHost("localhost");
     spec.setProxyPort(1080);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-//    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class);
+    //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair("XBT", "USD"));
     //    System.out.println(orderBook.toString());

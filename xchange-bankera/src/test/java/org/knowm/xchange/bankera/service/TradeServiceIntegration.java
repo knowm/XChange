@@ -3,9 +3,7 @@ package org.knowm.xchange.bankera.service;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
-
 import org.junit.*;
-import org.junit.runners.MethodSorters;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bankera.ExchangeUtils;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -31,7 +29,6 @@ public class TradeServiceIntegration {
 
   @BeforeClass
   public static void init() {
-
 
     Exchange exchange = ExchangeUtils.createExchangeFromProperties();
     tradeService = exchange.getTradeService();

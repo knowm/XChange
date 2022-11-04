@@ -10,6 +10,4 @@ public class OkexExchangeInfo {
   public void setServerTime(String serverTime) {
     this.serverTime = serverTime;
   }
-
-
 }

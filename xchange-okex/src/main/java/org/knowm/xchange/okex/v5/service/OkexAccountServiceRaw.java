@@ -133,24 +133,25 @@ public class OkexAccountServiceRaw extends OkexBaseService {
     }
   }
 
-  public OkexResponse<List<OkexAccountConfig>> getOkexAccountConfiguration() throws OkexException, IOException {
+  public OkexResponse<List<OkexAccountConfig>> getOkexAccountConfiguration()
+      throws OkexException, IOException {
     try {
       return decorateApiCall(
               () ->
-                      okexAuthenticated.getAccountConfiguration(
-                              exchange.getExchangeSpecification().getApiKey(),
-                              signatureCreator,
-                              DateUtils.toUTCISODateString(new Date()),
-                              (String)
-                                      exchange
-                                              .getExchangeSpecification()
-                                              .getExchangeSpecificParametersItem("passphrase"),
-                              (String)
-                                      exchange
-                                              .getExchangeSpecification()
-                                              .getExchangeSpecificParametersItem("simulated")))
-              .withRateLimiter(rateLimiter(okexAuthenticated.currenciesPath))
-              .call();
+                  okexAuthenticated.getAccountConfiguration(
+                      exchange.getExchangeSpecification().getApiKey(),
+                      signatureCreator,
+                      DateUtils.toUTCISODateString(new Date()),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("passphrase"),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("simulated")))
+          .withRateLimiter(rateLimiter(okexAuthenticated.currenciesPath))
+          .call();
     } catch (OkexException e) {
       throw handleError(e);
     }

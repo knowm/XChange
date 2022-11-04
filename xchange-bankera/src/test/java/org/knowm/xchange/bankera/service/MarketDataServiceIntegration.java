@@ -16,7 +16,6 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 @Ignore("Need api key")
 public class MarketDataServiceIntegration {
 

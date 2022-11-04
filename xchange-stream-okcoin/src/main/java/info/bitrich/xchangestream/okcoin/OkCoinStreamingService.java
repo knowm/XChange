@@ -107,7 +107,9 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
     public void channelInactive(ChannelHandlerContext ctx) {
       if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
         pingPongSubscription.dispose();
+        LOG.info("channelInactive pingPongSubscription.dispose()");
       }
+      LOG.info("channelInactive");
       super.channelInactive(ctx);
     }
 

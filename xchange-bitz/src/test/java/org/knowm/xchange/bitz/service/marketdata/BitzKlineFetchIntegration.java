@@ -9,6 +9,7 @@ import org.knowm.xchange.bitz.BitZExchange;
 import org.knowm.xchange.bitz.dto.marketdata.BitZKline;
 import org.knowm.xchange.bitz.service.BitZMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
+
 @Ignore("Dead")
 public class BitzKlineFetchIntegration {
 

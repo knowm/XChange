@@ -1,5 +1,9 @@
 package org.knowm.xchange.okex.v5;
 
+import static org.knowm.xchange.okex.v5.service.OkexMarketDataService.SPOT;
+
+import java.io.IOException;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.knowm.xchange.BaseExchange;
@@ -8,23 +12,17 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.okex.v5.dto.account.OkexTradeFee;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
-import org.knowm.xchange.okex.v5.dto.meta.OkexExchangeInfo;
-import org.knowm.xchange.okex.v5.dto.meta.OkexTime;
 import org.knowm.xchange.okex.v5.service.OkexAccountService;
 import org.knowm.xchange.okex.v5.service.OkexMarketDataService;
 import org.knowm.xchange.okex.v5.service.OkexMarketDataServiceRaw;
 import org.knowm.xchange.okex.v5.service.OkexTradeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
-import static org.knowm.xchange.okex.v5.service.OkexMarketDataService.SPOT;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexExchange extends BaseExchange {
-
+  private static final Logger LOG = LoggerFactory.getLogger(OkexExchange.class);
   private Long OkexServerTime;
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
@@ -32,8 +30,9 @@ public class OkexExchange extends BaseExchange {
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       final boolean useAWS =
-          Boolean.TRUE.equals(
-              exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_AWS));
+          exchangeSpecification
+              .getExchangeSpecificParametersItem(Parameters.PARAM_USE_AWS)
+              .equals("true");
       if (useAWS) {
         exchangeSpecification.setSslUri(
             (String)
@@ -78,7 +77,8 @@ public class OkexExchange extends BaseExchange {
     exchangeSpecification.setExchangeSpecificParametersItem(
         Parameters.PARAM_AWS_HOST, "aws.okx.com");
 
-    exchangeSpecification.setExchangeSpecificParametersItem(Parameters.PARAM_SIMULATED_TRADING, "1");
+    exchangeSpecification.setExchangeSpecificParametersItem(
+        Parameters.PARAM_SIMULATED_TRADING, "1");
 
     return exchangeSpecification;
   }
@@ -112,16 +112,22 @@ public class OkexExchange extends BaseExchange {
         && exchangeSpecification.getExchangeSpecificParametersItem("passphrase") != null) {
       currencies = ((OkexMarketDataServiceRaw) marketDataService).getOkexCurrencies().getData();
       String accountLevel =
-              ((OkexAccountService) accountService).getOkexAccountConfiguration().getData().get(0).getAccountLevel();
-      tradeFee = ((OkexAccountService) accountService).getTradeFee(
-              SPOT, null, null, accountLevel).getData();
+          ((OkexAccountService) accountService)
+              .getOkexAccountConfiguration()
+              .getData()
+              .get(0)
+              .getAccountLevel();
+      tradeFee =
+          ((OkexAccountService) accountService)
+              .getTradeFee(SPOT, null, null, accountLevel)
+              .getData();
     }
     exchangeMetaData =
         OkexAdapters.adaptToExchangeMetaData(exchangeMetaData, instruments, currencies, tradeFee);
   }
 
   public Long getOkexTime() throws IOException {
-    return ((OkexMarketDataService)marketDataService).getOkexTime();
+    return ((OkexMarketDataService) marketDataService).getOkexTime();
   }
 
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
