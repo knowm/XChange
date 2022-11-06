@@ -1,43 +1,14 @@
 package org.knowm.xchange.ftx;
 
-import java.io.IOException;
-import java.util.List;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.ftx.dto.FtxResponse;
-import org.knowm.xchange.ftx.dto.account.FtxAccountDto;
-import org.knowm.xchange.ftx.dto.account.FtxBorrowingHistoryDto;
-import org.knowm.xchange.ftx.dto.account.FtxBorrowingInfoDto;
-import org.knowm.xchange.ftx.dto.account.FtxBorrowingRatesDto;
-import org.knowm.xchange.ftx.dto.account.FtxChangeSubAccountNamePOJO;
-import org.knowm.xchange.ftx.dto.account.FtxConvertAcceptPayloadRequestDto;
-import org.knowm.xchange.ftx.dto.account.FtxConvertAcceptRequestDto;
-import org.knowm.xchange.ftx.dto.account.FtxConvertDto;
-import org.knowm.xchange.ftx.dto.account.FtxConvertSimulatePayloadRequestDto;
-import org.knowm.xchange.ftx.dto.account.FtxConvertSimulatetDto;
-import org.knowm.xchange.ftx.dto.account.FtxFundingPaymentsDto;
-import org.knowm.xchange.ftx.dto.account.FtxLendingHistoryDto;
-import org.knowm.xchange.ftx.dto.account.FtxLendingInfoDto;
-import org.knowm.xchange.ftx.dto.account.FtxLendingRatesDto;
-import org.knowm.xchange.ftx.dto.account.FtxLeverageDto;
-import org.knowm.xchange.ftx.dto.account.FtxPositionDto;
-import org.knowm.xchange.ftx.dto.account.FtxSubAccountBalanceDto;
-import org.knowm.xchange.ftx.dto.account.FtxSubAccountDto;
-import org.knowm.xchange.ftx.dto.account.FtxSubAccountRequestPOJO;
-import org.knowm.xchange.ftx.dto.account.FtxSubAccountTranferDto;
-import org.knowm.xchange.ftx.dto.account.FtxSubAccountTransferPOJO;
-import org.knowm.xchange.ftx.dto.account.FtxSubmitLendingOfferParams;
-import org.knowm.xchange.ftx.dto.account.FtxWalletBalanceDto;
+import org.knowm.xchange.ftx.dto.account.*;
 import org.knowm.xchange.ftx.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -254,7 +225,7 @@ public interface FtxAuthenticated extends Ftx {
 
   @DELETE
   @Path("/orders/by_client_id/{client_order_id}")
-  FtxResponse<FtxOrderDto> cancelOrderByClientId(
+  FtxResponse cancelOrderByClientId(
       @HeaderParam("FTX-KEY") String apiKey,
       @HeaderParam("FTX-TS") Long nonce,
       @HeaderParam("FTX-SIGN") ParamsDigest signature,
