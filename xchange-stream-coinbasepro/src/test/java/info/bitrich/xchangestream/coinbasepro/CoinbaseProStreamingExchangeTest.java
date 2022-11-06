@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import org.junit.Test;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 
 public class CoinbaseProStreamingExchangeTest {
@@ -185,7 +186,7 @@ public class CoinbaseProStreamingExchangeTest {
   }
 
   public static final class Parameters {
-    public static final String PARAM_USE_SANDBOX = "Use_Sandbox";
+    public static final String PARAM_USE_SANDBOX = Exchange.USE_SANDBOX;
     public static final String PARAM_USE_PRIME = "Use_Prime";
   }
 }

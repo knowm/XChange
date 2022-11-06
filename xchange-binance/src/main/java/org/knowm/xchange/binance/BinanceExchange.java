@@ -23,8 +23,6 @@ import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange {
-  public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
-
   protected static ResilienceRegistries RESILIENCE_REGISTRIES;
 
   protected BinanceExchangeInfo exchangeInfo;
@@ -225,6 +223,6 @@ public class BinanceExchange extends BaseExchange {
 
   private static boolean enabledSandbox(ExchangeSpecification exchangeSpecification) {
     return Boolean.TRUE.equals(
-        exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX));
+        exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX));
   }
 }

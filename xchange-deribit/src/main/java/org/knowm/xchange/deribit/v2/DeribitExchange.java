@@ -8,7 +8,6 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.deribit.v2.dto.Kind;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitCurrency;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitInstrument;
 import org.knowm.xchange.deribit.v2.service.DeribitAccountService;
@@ -84,14 +83,20 @@ public class DeribitExchange extends BaseExchange implements Exchange {
               .getDeribitInstruments(deribitCurrency.getCurrency(), null, null);
 
       for (DeribitInstrument deribitInstrument : deribitInstruments) {
-        if (deribitInstrument.getKind() == Kind.future) {
-          futures.put(
-              DeribitAdapters.adaptFuturesContract(deribitInstrument),
-              DeribitAdapters.adaptMeta(deribitInstrument));
-        } else {
-          options.put(
-              DeribitAdapters.adaptOptionsContract(deribitInstrument),
-              DeribitAdapters.adaptMeta(deribitInstrument));
+        switch (deribitInstrument.getKind()) {
+          case future:
+            futures.put(
+                DeribitAdapters.adaptFuturesContract(deribitInstrument),
+                DeribitAdapters.adaptMeta(deribitInstrument));
+            break;
+          case option:
+            options.put(
+                DeribitAdapters.adaptOptionsContract(deribitInstrument),
+                DeribitAdapters.adaptMeta(deribitInstrument));
+            break;
+          case future_combo:
+          case option_combo:
+            break;
         }
       }
     }

@@ -14,6 +14,7 @@ public class KrakenSubscriptionStatusMessage extends KrakenEvent {
   private final String pair;
   private final KrakenSubscriptionConfig krakenSubscriptionConfig;
   private final String errorMessage;
+  private String channelName;
 
   @JsonCreator
   public KrakenSubscriptionStatusMessage(
@@ -55,5 +56,13 @@ public class KrakenSubscriptionStatusMessage extends KrakenEvent {
 
   public String getErrorMessage() {
     return errorMessage;
+  }
+
+  public String getChannelName() {
+    return channelName;
+  }
+
+  public void setChannelName(String channelName) {
+    this.channelName = channelName;
   }
 }

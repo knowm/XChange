@@ -26,9 +26,11 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
   public static final String KRAKEN_CHANNEL_DELIMITER = "-";
 
   private final KrakenStreamingService service;
+  private final boolean spreadForTicker;
 
-  public KrakenStreamingMarketDataService(KrakenStreamingService service) {
+  public KrakenStreamingMarketDataService(KrakenStreamingService service, boolean spreadForTicker) {
     this.service = service;
+    this.spreadForTicker = spreadForTicker;
   }
 
   @Override
@@ -64,9 +66,15 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    String channelName = getChannelName(KrakenSubscriptionName.ticker, currencyPair);
-    return subscribe(channelName, MIN_DATA_ARRAY_SIZE, null)
-        .map(arrayNode -> KrakenStreamingAdapters.adaptTickerMessage(currencyPair, arrayNode));
+    if (spreadForTicker) {
+      String channelName = getChannelName(KrakenSubscriptionName.spread, currencyPair);
+      return subscribe(channelName, MIN_DATA_ARRAY_SIZE, null)
+          .map(arrayNode -> KrakenStreamingAdapters.adaptSpreadMessage(currencyPair, arrayNode));
+    } else {
+      String channelName = getChannelName(KrakenSubscriptionName.ticker, currencyPair);
+      return subscribe(channelName, MIN_DATA_ARRAY_SIZE, null)
+          .map(arrayNode -> KrakenStreamingAdapters.adaptTickerMessage(currencyPair, arrayNode));
+    }
   }
 
   @Override

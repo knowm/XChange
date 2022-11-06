@@ -1,148 +1,51 @@
 package org.knowm.xchange.bybit.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
+@Builder
+@Jacksonized
+@Value
 public class BybitOrderRequest {
 
-  private final String accountId;
-  private final String symbol;
-  private final String symbolName;
-  private final String orderLinkId;
-  private final String orderId;
-  private final String transactTime;
-  private final String price;
-  private final String origQty;
-  private final String executedQty;
-  private final String status;
-  private final String timeInForce;
-  private final String type;
-  private final String side;
+  @JsonProperty("accountId")
+  String accountId;
 
-  @JsonCreator
-  public BybitOrderRequest(
-      @JsonProperty("accountId") String accountId,
-      @JsonProperty("symbol") String symbol,
-      @JsonProperty("symbolName") String symbolName,
-      @JsonProperty("orderLinkId") String orderLinkId,
-      @JsonProperty("orderId") String orderId,
-      @JsonProperty("transactTime") String transactTime,
-      @JsonProperty("price") String price,
-      @JsonProperty("origQty") String origQty,
-      @JsonProperty("executedQty") String executedQty,
-      @JsonProperty("status") String status,
-      @JsonProperty("timeInForce") String timeInForce,
-      @JsonProperty("type") String type,
-      @JsonProperty("side") String side) {
-    this.accountId = accountId;
-    this.symbol = symbol;
-    this.symbolName = symbolName;
-    this.orderLinkId = orderLinkId;
-    this.orderId = orderId;
-    this.transactTime = transactTime;
-    this.price = price;
-    this.origQty = origQty;
-    this.executedQty = executedQty;
-    this.status = status;
-    this.timeInForce = timeInForce;
-    this.type = type;
-    this.side = side;
-  }
+  @JsonProperty("symbol")
+  String symbol;
 
-  public String getAccountId() {
-    return accountId;
-  }
+  @JsonProperty("symbolName")
+  String symbolName;
 
-  public String getSymbol() {
-    return symbol;
-  }
+  @JsonProperty("orderLinkId")
+  String orderLinkId;
 
-  public String getSymbolName() {
-    return symbolName;
-  }
+  @JsonProperty("orderId")
+  String orderId;
 
-  public String getOrderLinkId() {
-    return orderLinkId;
-  }
+  @JsonProperty("transactTime")
+  String transactTime;
 
-  public String getOrderId() {
-    return orderId;
-  }
+  @JsonProperty("price")
+  String price;
 
-  public String getTransactTime() {
-    return transactTime;
-  }
+  @JsonProperty("origQty")
+  String origQty;
 
-  public String getPrice() {
-    return price;
-  }
+  @JsonProperty("executedQty")
+  String executedQty;
 
-  public String getOrigQty() {
-    return origQty;
-  }
+  @JsonProperty("status")
+  String status;
 
-  public String getExecutedQty() {
-    return executedQty;
-  }
+  @JsonProperty("timeInForce")
+  String timeInForce;
 
-  public String getStatus() {
-    return status;
-  }
+  @JsonProperty("type")
+  String type;
 
-  public String getTimeInForce() {
-    return timeInForce;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public String getSide() {
-    return side;
-  }
-
-  @Override
-  public String toString() {
-    return "BybitOrderRequest{"
-        + "accountId='"
-        + accountId
-        + '\''
-        + ", symbol='"
-        + symbol
-        + '\''
-        + ", symbolName='"
-        + symbolName
-        + '\''
-        + ", orderLinkId='"
-        + orderLinkId
-        + '\''
-        + ", orderId='"
-        + orderId
-        + '\''
-        + ", transactTime='"
-        + transactTime
-        + '\''
-        + ", price='"
-        + price
-        + '\''
-        + ", origQty='"
-        + origQty
-        + '\''
-        + ", executedQty='"
-        + executedQty
-        + '\''
-        + ", status='"
-        + status
-        + '\''
-        + ", timeInForce='"
-        + timeInForce
-        + '\''
-        + ", type='"
-        + type
-        + '\''
-        + ", side='"
-        + side
-        + '\''
-        + '}';
-  }
+  @JsonProperty("side")
+  String side;
 }

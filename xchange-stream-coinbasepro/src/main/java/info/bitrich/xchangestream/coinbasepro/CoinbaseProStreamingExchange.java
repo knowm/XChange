@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.coinbasepro;
 
+import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProOrderBookMode;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
@@ -7,6 +8,7 @@ import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import java.util.*;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
@@ -20,6 +22,7 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
   private static final String PRIME_API_URI = "wss://ws-feed.exchange.coinbase.com";
   private static final String PRIME_SANDBOX_API_URI =
       "wss://ws-feed-public.sandbox.exchange.coinbase.com";
+  private static final String PARAM_ORDER_BOOK_MODE = "OrderBook_Mode";
 
   private CoinbaseProStreamingService streamingService;
   private CoinbaseProStreamingMarketDataService streamingMarketDataService;
@@ -40,14 +43,33 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
 
     String apiUri = getApiUri();
 
-    boolean subscribeToL3Orderbook =
-        Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(
-                StreamingExchange.L3_ORDERBOOK));
+    CoinbaseProOrderBookMode orderBookMode = CoinbaseProOrderBookMode.Default;
+    Object orderBookModeParameter =
+        exchangeSpecification.getExchangeSpecificParametersItem(PARAM_ORDER_BOOK_MODE);
+    if (orderBookModeParameter != null) {
+      try {
+        orderBookMode = CoinbaseProOrderBookMode.valueOf(orderBookModeParameter.toString());
+      } catch (IllegalArgumentException e) {
+        throw new RuntimeException(
+            "Order book mode '"
+                + orderBookModeParameter
+                + "' is not supported, use one of "
+                + Arrays.toString(CoinbaseProOrderBookMode.values()));
+      }
+    }
+    if (Boolean.TRUE.equals(
+        exchangeSpecification.getExchangeSpecificParametersItem(StreamingExchange.L3_ORDERBOOK))) {
+      if (orderBookMode != CoinbaseProOrderBookMode.Default)
+        throw new RuntimeException(
+            "Parameter "
+                + StreamingExchange.L3_ORDERBOOK
+                + " cannot be specified along with "
+                + PARAM_ORDER_BOOK_MODE);
+      orderBookMode = CoinbaseProOrderBookMode.Full;
+    }
 
     this.streamingService =
-        new CoinbaseProStreamingService(
-            apiUri, () -> authData(exchangeSpec), subscribeToL3Orderbook);
+        new CoinbaseProStreamingService(apiUri, () -> authData(exchangeSpec), orderBookMode);
     applyStreamingSpecification(exchangeSpecification, this.streamingService);
 
     this.streamingMarketDataService = new CoinbaseProStreamingMarketDataService(streamingService);
@@ -61,8 +83,7 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
     ExchangeSpecification exchangeSpec = getExchangeSpecification();
 
     boolean useSandbox =
-        Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_SANDBOX));
+        Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX));
     boolean usePrime =
         Boolean.TRUE.equals(
             exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_PRIME));
@@ -100,7 +121,7 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
     CoinbaseProStreamingService service = streamingService;
     streamingService = null;
     streamingMarketDataService = null;
-    return service.disconnect();
+    return service != null ? service.disconnect() : Completable.complete();
   }
 
   @Override

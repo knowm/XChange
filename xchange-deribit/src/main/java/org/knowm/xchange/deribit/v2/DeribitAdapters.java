@@ -66,6 +66,7 @@ public class DeribitAdapters {
 
   public static String adaptInstrumentName(FuturesContract future) {
     return future.getCurrencyPair().base
+        + (future.getCurrencyPair().counter == Currency.USDC ? "_USDC" : "")
         + "-"
         + (future.getPrompt() == null ? PERPETUAL : (future.getPrompt()));
   }
@@ -283,8 +284,14 @@ public class DeribitAdapters {
     String[] parts = instrumentName.split("-");
     if (parts.length == 2) {
       DeribitInstrument future = new DeribitInstrument();
-      future.setBaseCurrency(parts[0]);
-      future.setQuoteCurrency(IMPLIED_COUNTER);
+      if (parts[0].contains("_")) {
+        String[] subParts = parts[0].split("_");
+        future.setBaseCurrency(subParts[0]);
+        future.setQuoteCurrency(subParts[1]);
+      } else {
+        future.setBaseCurrency(parts[0]);
+        future.setQuoteCurrency(IMPLIED_COUNTER);
+      }
       if (PERPETUAL.equalsIgnoreCase(parts[1])) {
         future.setSettlementPeriod(PERPETUAL);
       } else {

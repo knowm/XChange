@@ -182,6 +182,21 @@ public class KrakenStreamingAdapters {
         .orElse(null);
   }
 
+  /** Adapt an ArrayNode containing a spread message into a Ticker */
+  public static Ticker adaptSpreadMessage(Instrument instrument, ArrayNode arrayNode) {
+    ArrayNode data = (ArrayNode) arrayNode.get(1);
+
+    return new Ticker.Builder()
+        .ask(arrayNodeItemAsDecimal(data, 1))
+        .bid(arrayNodeItemAsDecimal(data, 0))
+        .askSize(arrayNodeItemAsDecimal(data, 4))
+        .bidSize(arrayNodeItemAsDecimal(data, 3))
+        .timestamp(
+            DateUtils.fromMillisUtc((long) (Double.parseDouble(data.get(2).textValue()) * 1000)))
+        .instrument(instrument)
+        .build();
+  }
+
   /** Adapt an JsonNode into a list of Trade */
   public static List<Trade> adaptTrades(Instrument instrument, JsonNode arrayNode) {
     return Streams.stream(arrayNode.elements())
@@ -242,8 +257,7 @@ public class KrakenStreamingAdapters {
     if (iterator == null || !iterator.hasNext()) {
       return null;
     }
-    return DateUtils.fromMillisUtc(
-        new BigDecimal(iterator.next().textValue()).multiply(new BigDecimal(1000)).longValue());
+    return DateUtils.fromMillisUtc((long) (Double.parseDouble(iterator.next().textValue()) * 1000));
   }
 
   /**
