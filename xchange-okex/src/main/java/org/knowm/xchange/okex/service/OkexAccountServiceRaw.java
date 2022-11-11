@@ -20,6 +20,10 @@ import org.knowm.xchange.utils.DateUtils;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAccountServiceRaw extends OkexBaseService {
+
+  public static final String INTERNAL_METHOD = "3";
+  public static final String ON_CHAIN_METHOD = "4";
+
   public OkexAccountServiceRaw(OkexExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
@@ -69,6 +73,42 @@ public class OkexAccountServiceRaw extends OkexBaseService {
                               .getExchangeSpecificParametersItem("simulated")))
           .withRateLimiter(rateLimiter(OkexAuthenticated.balancePath))
           .call();
+    } catch (OkexException e) {
+      throw handleError(e);
+    }
+  }
+
+  public OkexResponse<List<OkexWithdrawalResponse>> assetWithdrawal(String currency, String amount, String method, String address, String fee, String chain, String clientId)
+          throws OkexException, IOException {
+    try {
+      OkexWithdrawalRequest requestPayload = OkexWithdrawalRequest.builder()
+              .currency(currency)
+              .amount(amount)
+              .method(method)
+              .address(address)
+              .fee(fee)
+              .chain(chain)
+              .clientId(clientId)
+              .build();
+      return decorateApiCall(
+              () ->
+                      okexAuthenticated.assetWithdrawal(
+                              exchange.getExchangeSpecification().getApiKey(),
+                              signatureCreator,
+                              DateUtils.toUTCISODateString(new Date()),
+                              (String)
+                                      exchange
+                                              .getExchangeSpecification()
+                                              .getExchangeSpecificParametersItem("passphrase"),
+                              (String)
+                                      exchange
+                                              .getExchangeSpecification()
+                                              .getExchangeSpecificParametersItem("simulated"),
+                              requestPayload)
+
+      )
+              .withRateLimiter(rateLimiter(OkexAuthenticated.assetWithdrawalPath))
+              .call();
     } catch (OkexException e) {
       throw handleError(e);
     }
