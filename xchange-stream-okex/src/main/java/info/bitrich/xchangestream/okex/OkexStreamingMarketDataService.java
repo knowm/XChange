@@ -2,16 +2,19 @@ package info.bitrich.xchangestream.okex;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.instrument.Instrument;
@@ -30,9 +33,11 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
   private final OkexStreamingService service;
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+  private final Map<Instrument, PublishSubject<OrderBookUpdate>> orderBookUpdatesSubscriptions;
 
   public OkexStreamingMarketDataService(OkexStreamingService service) {
     this.service = service;
+    this.orderBookUpdatesSubscriptions = new ConcurrentHashMap<>();
   }
 
   //    public void unsubscribe(Instrument instrument, String subscriptionType) {
@@ -62,14 +67,9 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
     String channelName = "tickers";
     String instId = OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument);
     String subscriptionName = instId + "-" + channelName;
-    OkexSubscribeMessage.SubscriptionTopic topic =
-        new OkexSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
-    OkexSubscribeMessage osm = new OkexSubscribeMessage();
-    osm.setOp("subscribe");
-    osm.getArgs().add(topic);
 
     return service
-        .subscribeChannel(subscriptionName, osm)
+        .subscribeChannel(instId, channelName)
         .flatMap(
             jsonNode -> {
               List<OkexTicker> okexTickers =
@@ -87,14 +87,9 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
     String channelName = "trades";
     String instId = OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument);
     String subscriptionName = instId + "-" + channelName;
-    OkexSubscribeMessage.SubscriptionTopic topic =
-        new OkexSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
-    OkexSubscribeMessage osm = new OkexSubscribeMessage();
-    osm.setOp("subscribe");
-    osm.getArgs().add(topic);
 
     return service
-        .subscribeChannel(subscriptionName, osm)
+        .subscribeChannel(instId, channelName)
         .flatMap(
             jsonNode -> {
               List<OkexTrade> okexTradeList =
@@ -109,34 +104,19 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
   // instrument - BTC/USDT | BTC/USD-SWAP
   // args - books | books5 | bbo-tbt
   // instId - BTC-USDT | BTC-USD-SWAP
-  // SubscriptionName - BTC-USD-books | BTC-USD-SWAP-books
   // channelName - books | books5 | bbo-tbt
   @Override
   public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
     String channelName = args.length >= 1 ? args[0].toString() : "books";
     String instId = OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument);
-    String subscriptionName = "";
-    if (args.length >= 1) {
-      subscriptionName = instId + "-" + args[0].toString();
-      LOG.debug("channelName unique id {}", subscriptionName);
-    } else {
-      subscriptionName = instId + "-books";
-      LOG.debug("channelName unique id {}", subscriptionName);
-    }
-
-    OkexSubscribeMessage.SubscriptionTopic topic =
-        new OkexSubscribeMessage.SubscriptionTopic(channelName, null, null, instId);
-    OkexSubscribeMessage osm = new OkexSubscribeMessage();
-    osm.setOp("subscribe");
-    osm.getArgs().add(topic);
+    String subscriptionName = OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument, args);
 
     return service
-        .subscribeChannel(subscriptionName, osm)
+        .subscribeChannel(instId, channelName)
         .flatMap(
             jsonNode -> {
               // "books5" channel pushes 5 depth levels every time.
-              String action =
-                  channelName.equals("books5") ? "snapshot" : jsonNode.get("action").asText();
+              String action = jsonNode.get("action").asText();
               if ("snapshot".equalsIgnoreCase(action)) {
                 List<OkexOrderbook> okexOrderbooks =
                     mapper.treeToValue(
@@ -180,11 +160,16 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                               OkexAdapters.adaptLimitOrder(
                                   okexPublicOrder, instrument, Order.OrderType.BID));
                         });
-
+                if (orderBookUpdatesSubscriptions.get(instrument) != null) {
+                  orderBookUpdatesSubscriptions(
+                      instrument,
+                      asks,
+                      bids,
+                      new Timestamp(
+                          Long.parseLong(jsonNode.get("data").get(0).get("ts").asText())));
+                }
                 orderBook.updateDate(
-                    Date.from(
-                        java.time.Instant.ofEpochMilli(
-                            Long.parseLong(jsonNode.get("data").get(0).get("ts").asText()))));
+                    new Timestamp(Long.parseLong(jsonNode.get("data").get(0).get("ts").asText())));
                 return Observable.just(orderBook);
 
               } else {
@@ -193,5 +178,39 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                 return Observable.fromIterable(new LinkedList<>());
               }
             });
+  }
+
+  public Observable<OrderBookUpdate> getOrderBookUpdates(Instrument instrument) {
+    return orderBookUpdatesSubscriptions.computeIfAbsent(instrument, v -> PublishSubject.create());
+  }
+
+  private void orderBookUpdatesSubscriptions(
+      Instrument instrument, List<OkexPublicOrder> asks, List<OkexPublicOrder> bids, Date date) {
+    List<OrderBookUpdate> orderBookUpdate = new ArrayList<>();
+    for (OkexPublicOrder ask : asks) {
+      OrderBookUpdate o =
+          new OrderBookUpdate(
+              Order.OrderType.ASK,
+              ask.getVolume(),
+              instrument,
+              ask.getPrice(),
+              date,
+              ask.getVolume());
+      orderBookUpdate.add(o);
+    }
+    for (OkexPublicOrder bid : bids) {
+      OrderBookUpdate o =
+          new OrderBookUpdate(
+              Order.OrderType.BID,
+              bid.getVolume(),
+              instrument,
+              bid.getPrice(),
+              date,
+              bid.getVolume());
+      orderBookUpdate.add(o);
+    }
+    for (OrderBookUpdate o : orderBookUpdate)
+      orderBookUpdatesSubscriptions.get(instrument).onNext(o);
+    LOG.debug("instrument {} orderBookUpdate size {}", instrument, orderBookUpdate.size());
   }
 }

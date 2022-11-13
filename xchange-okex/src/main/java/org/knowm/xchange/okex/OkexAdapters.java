@@ -16,10 +16,7 @@ import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.*;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.WalletHealth;
+import org.knowm.xchange.dto.meta.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -182,6 +179,26 @@ public class OkexAdapters {
   }
 
   public static OrderBook adaptOrderBook(
+      List<OkexPublicOrder> okexAsks,
+      List<OkexPublicOrder> okexBids,
+      Instrument instrument,
+      Date date) {
+    List<LimitOrder> asks = Collections.synchronizedList(new ArrayList<>());
+    List<LimitOrder> bids = Collections.synchronizedList(new ArrayList<>());
+    okexAsks.forEach(
+        okexAsk ->
+            asks.add(
+                adaptOrderbookOrder(
+                    okexAsk.getVolume(), okexAsk.getPrice(), instrument, OrderType.ASK)));
+    okexBids.forEach(
+        okexBid ->
+            bids.add(
+                adaptOrderbookOrder(
+                    okexBid.getVolume(), okexBid.getPrice(), instrument, OrderType.BID)));
+    return new OrderBook(date, asks, bids);
+  }
+
+  public static OrderBook adaptOrderBook(
       List<OkexOrderbook> okexOrderbooks, Instrument instrument, BigDecimal multiplier) {
     List<LimitOrder> asks = Collections.synchronizedList(new ArrayList<>());
     List<LimitOrder> bids = Collections.synchronizedList(new ArrayList<>());
@@ -277,6 +294,14 @@ public class OkexAdapters {
     return instrument.toString().replace('/', '-');
   }
 
+  public static String adaptInstrumentToOkexInstrumentId(Instrument instrument, Object args) {
+    return instrument.toString().replace('/', '-') + "-" + args.toString();
+  }
+
+  public static String subscriptionName(Instrument instrument) {
+    return instrument.toString().replace('/', '-');
+  }
+
   public static Trades adaptTrades(List<OkexTrade> okexTrades, Instrument instrument) {
     List<Trade> trades = new ArrayList<>();
 
@@ -332,6 +357,10 @@ public class OkexAdapters {
             ? new HashMap<>()
             : exchangeMetaData.getCurrencyPairs();
 
+    Map<FuturesContract, DerivativeMetaData> futures =
+        exchangeMetaData.getFutures() == null ? new HashMap<>() : exchangeMetaData.getFutures();
+
+    Map<OptionsContract, DerivativeMetaData> options = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies =
         exchangeMetaData.getCurrencies() == null
             ? new HashMap<>()
@@ -346,28 +375,44 @@ public class OkexAdapters {
       if (!"live".equals(instrument.getState())) {
         continue;
       }
-      CurrencyPair pair = adaptCurrencyPair(instrument);
-
-      CurrencyPairMetaData staticMetaData = currencyPairs.get(pair);
       int priceScale = numberOfDecimals(new BigDecimal(instrument.getTickSize()));
-
-      currencyPairs.put(
-          pair,
-          new CurrencyPairMetaData(
-              new BigDecimal(makerFee).negate(),
-              new BigDecimal(instrument.getMinSize()),
-              null,
-              null,
-              null,
-              null,
-              priceScale,
-              null,
-              staticMetaData != null ? staticMetaData.getFeeTiers() : null,
-              instrument.getContractValue().isEmpty()
-                  ? null
-                  : new BigDecimal(instrument.getContractValue()),
-              pair.counter,
-              true));
+      CurrencyPair pair = adaptCurrencyPair(instrument);
+      CurrencyPairMetaData staticMetaData = currencyPairs.get(pair);
+      if (instrument.getInstrumentType().equalsIgnoreCase("swap")) {
+        DerivativeMetaData derivativeMetaData =
+            new DerivativeMetaData(
+                new BigDecimal(makerFee).negate(),
+                new BigDecimal(instrument.getMinSize()),
+                null,
+                null,
+                priceScale,
+                staticMetaData != null ? staticMetaData.getFeeTiers() : null,
+                instrument.getContractValue().isEmpty()
+                    ? null
+                    : new BigDecimal(instrument.getContractValue()),
+                null);
+        String[] parts = instrument.getInstrumentId().split("-");
+        String p = parts[0] + "/" + parts[1] + "/SWAP";
+        futures.put(new FuturesContract(p), derivativeMetaData);
+      } else {
+        currencyPairs.put(
+            pair,
+            new CurrencyPairMetaData(
+                new BigDecimal(makerFee).negate(),
+                new BigDecimal(instrument.getMinSize()),
+                null,
+                null,
+                null,
+                null,
+                priceScale,
+                null,
+                staticMetaData != null ? staticMetaData.getFeeTiers() : null,
+                instrument.getContractValue().isEmpty()
+                    ? null
+                    : new BigDecimal(instrument.getContractValue()),
+                pair.counter,
+                true));
+      }
     }
 
     if (currs != null) {
@@ -383,13 +428,17 @@ public class OkexAdapters {
                           ? WalletHealth.ONLINE
                           : WalletHealth.OFFLINE)));
     }
-
     return new ExchangeMetaData(
         currencyPairs,
         currencies,
+        futures,
+        options,
         exchangeMetaData.getPublicRateLimits(),
         exchangeMetaData.getPrivateRateLimits(),
         true);
+    //    return new ExchangeMetaData(currencyPairs, currencies,
+    // exchangeMetaData.getPublicRateLimits(), exchangeMetaData.getPrivateRateLimits(),
+    //            true);
   }
 
   public static Wallet adaptOkexBalances(List<OkexWalletBalance> okexWalletBalanceList) {

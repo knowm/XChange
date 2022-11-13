@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.okex;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.okex.dto.OkexLoginMessage;
+import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -185,8 +186,12 @@ public class OkexStreamingService extends JsonNettyStreamingService {
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
     if (args.length != 1) throw new IOException("SubscribeMessage: Insufficient arguments");
-
-    return objectMapper.writeValueAsString(args[0]);
+    OkexSubscribeMessage.SubscriptionTopic topic =
+        new OkexSubscribeMessage.SubscriptionTopic(args[0].toString(), null, null, channelName);
+    OkexSubscribeMessage osm = new OkexSubscribeMessage();
+    osm.setOp("subscribe");
+    osm.getArgs().add(topic);
+    return objectMapper.writeValueAsString(osm);
   }
 
   @Override
@@ -194,5 +199,10 @@ public class OkexStreamingService extends JsonNettyStreamingService {
     if (args.length != 1) throw new IOException("UnsubscribeMessage: Insufficient arguments");
 
     return objectMapper.writeValueAsString(args[0]);
+  }
+
+  @Override
+  public String getSubscriptionUniqueId(String channelName, Object... args) {
+    return channelName + "-" + args[0];
   }
 }
