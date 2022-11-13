@@ -5,8 +5,6 @@ import static org.knowm.xchange.okex.service.OkexMarketDataService.SWAP;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
 import java.io.IOException;
@@ -136,7 +134,7 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
   }
 
   @Override
-  public StreamingMarketDataService getStreamingMarketDataService() {
+  public OkexStreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
   }
 
@@ -145,7 +143,7 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
   }
 
   @Override
-  public StreamingTradeService getStreamingTradeService() {
+  public OkexStreamingTradeService getStreamingTradeService() {
     return streamingTradeService;
   }
 

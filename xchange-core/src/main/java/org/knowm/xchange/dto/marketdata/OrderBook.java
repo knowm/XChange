@@ -172,24 +172,21 @@ public final class OrderBook implements Serializable {
    * @param limitOrder the new LimitOrder
    */
   public void update(LimitOrder limitOrder) {
-
     update(getOrders(limitOrder.getType()), limitOrder);
     updateDate(limitOrder.getTimestamp());
   }
 
   // Replace the amount for limitOrder's price in the provided list.
   private void update(List<LimitOrder> asks, LimitOrder limitOrder) {
-    synchronized (asks) {
-      int idx = Collections.binarySearch(asks, limitOrder);
-      if (idx >= 0) {
-        asks.remove(idx);
-      } else {
-        idx = -idx - 1;
-      }
+    int idx = Collections.binarySearch(asks, limitOrder);
+    if (idx >= 0) {
+      asks.remove(idx);
+    } else {
+      idx = -idx - 1;
+    }
 
-      if (limitOrder.getRemainingAmount().compareTo(BigDecimal.ZERO) != 0) {
-        asks.add(idx, limitOrder);
-      }
+    if (limitOrder.getRemainingAmount().compareTo(BigDecimal.ZERO) != 0) {
+      asks.add(idx, limitOrder);
     }
   }
 

@@ -2,6 +2,7 @@ package org.knowm.xchange.binance;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -12,8 +13,11 @@ import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.DerivativeMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -127,6 +131,7 @@ public class BinanceFutureExchange extends BaseExchange {
     // populate currency pair keys only, exchange does not provide any other metadata for download
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
+    Map<FuturesContract, DerivativeMetaData> futures = new HashMap<>();
 
     // Clear all hardcoded currencies when loading dynamically from exchange.
     if (assetDetailMap != null) {
@@ -197,6 +202,21 @@ public class BinanceFutureExchange extends BaseExchange {
             BinanceAdapters.adaptCurrencyMetaData(
                 currencies, counterCurrency, assetDetailMap, counterPrecision);
         currencies.put(counterCurrency, counterCurrencyMetaData);
+        // futures
+        DerivativeMetaData derivativeMetaData =
+            new DerivativeMetaData(
+                new BigDecimal("0.1"), minQty, maxQty, null, null, null, stepSize, null);
+        String p = symbol.getBaseAsset() + "/" + symbol.getQuoteAsset() + "/SWAP";
+        futures.put(new FuturesContract(p), derivativeMetaData);
+        exchangeMetaData =
+            new ExchangeMetaData(
+                currencyPairs,
+                currencies,
+                futures,
+                null,
+                exchangeMetaData.getPublicRateLimits(),
+                exchangeMetaData.getPrivateRateLimits(),
+                true);
       }
     }
   }
