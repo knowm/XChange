@@ -36,7 +36,7 @@ public class KlineBinanceWebSocketTransactionTest extends TestCase {
     BinanceKline binanceKline = klineBinanceWebSocketTransaction.getBinanceKline();
     assertThat(binanceKline.getOpenTime()).isEqualTo(123400000L);
     assertThat(binanceKline.getCloseTime()).isEqualTo(123460000L);
-    assertThat(binanceKline.getCurrencyPair()).isEqualTo(CurrencyPair.XMR_USDT);
+    assertThat(binanceKline.getInstrument()).isEqualTo(CurrencyPair.XMR_USDT);
     assertThat(binanceKline.getInterval()).isEqualTo(KlineInterval.m1);
     assertThat(binanceKline.getOpenPrice()).isEqualTo(new BigDecimal("0.0010"));
     assertThat(binanceKline.getClosePrice()).isEqualTo(new BigDecimal("0.0020"));

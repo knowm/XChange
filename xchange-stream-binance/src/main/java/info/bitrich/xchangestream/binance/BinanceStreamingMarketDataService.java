@@ -171,7 +171,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .subscribeChannel(
             getChannelPrefix(currencyPair) + "@" + KLINE.getType() + "_" + interval.code())
         .map(it -> this.<KlineBinanceWebSocketTransaction>readTransaction(it, KLINE_TYPE, "kline"))
-        .filter(transaction -> transaction.getData().getBinanceKline().getCurrencyPair().equals(currencyPair)
+        .filter(transaction -> transaction.getData().getBinanceKline().getInstrument().equals(currencyPair)
             && transaction.getData().getBinanceKline().getInterval().equals(interval))
         .map(transaction -> transaction.getData().getBinanceKline());
   }

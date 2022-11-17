@@ -38,9 +38,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BinanceAdapters {
   private static final DateTimeFormatter DATE_TIME_FMT =
@@ -74,7 +73,7 @@ public class BinanceAdapters {
     } else {
       symbol = ((CurrencyPair)pair).base.getCurrencyCode() + ((CurrencyPair)pair).counter.getCurrencyCode();
     }
-    return pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+    return symbol;
   }
 
   public static String toSymbol(Currency currency) {
@@ -119,7 +118,7 @@ public class BinanceAdapters {
 
   public static long id(String id) {
     try {
-      return Long.valueOf(id);
+      return Long.parseLong(id);
     } catch (Throwable e) {
       throw new IllegalArgumentException("Binance id must be a valid long number.", e);
     }
