@@ -11,9 +11,9 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.okex.v5.OkexExchange;
-import org.knowm.xchange.okex.v5.dto.trade.OkexTradeParams;
-import org.knowm.xchange.okex.v5.dto.trade.OkexTradeParams.OkexCancelOrderParams;
+import org.knowm.xchange.okex.OkexExchange;
+import org.knowm.xchange.okex.dto.trade.OkexTradeParams;
+import org.knowm.xchange.okex.dto.trade.OkexTradeParams.OkexCancelOrderParams;
 import org.knowm.xchange.service.trade.TradeService;
 
 public class OkexOrdersDemo {

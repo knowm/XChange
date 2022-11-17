@@ -6,13 +6,16 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
 import org.knowm.xchange.binance.dto.account.futures.BinancePosition;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
+import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceTrade;
@@ -28,13 +31,16 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.marketdata.CandleStick;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
-import org.knowm.xchange.dto.trade.*;
-import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.StopOrder;
 
 public class BinanceAdapters {
   private static final DateTimeFormatter DATE_TIME_FMT =
@@ -68,8 +74,7 @@ public class BinanceAdapters {
     } else {
       symbol = ((CurrencyPair)pair).base.getCurrencyCode() + ((CurrencyPair)pair).counter.getCurrencyCode();
     }
-
-    return symbol;
+    return pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
   }
 
   public static String toSymbol(Currency currency) {
@@ -371,5 +376,34 @@ public class BinanceAdapters {
                                             .build())
                     .collect(Collectors.toList());
     return new Trades(trades, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  /**
+   * @param klines
+   * @param currencyPair
+   * @return
+   */
+  public static CandleStickData adaptBinanceCandleStickData(
+      List<BinanceKline> klines, CurrencyPair currencyPair) {
+
+    CandleStickData candleStickData = null;
+    if (klines.size() != 0) {
+      List<CandleStick> candleSticks = new ArrayList<>();
+      for (BinanceKline chartData : klines) {
+        candleSticks.add(
+            new CandleStick.Builder()
+                .timestamp(new Date(chartData.getCloseTime()))
+                .open(chartData.getOpenPrice())
+                .high(chartData.getHighPrice())
+                .low(chartData.getLowPrice())
+                .close(chartData.getClosePrice())
+                .volume(chartData.getVolume())
+                .quotaVolume(chartData.getQuoteAssetVolume())
+                .build());
+      }
+      candleStickData = new CandleStickData(currencyPair, candleSticks);
+    }
+
+    return candleStickData;
   }
 }
