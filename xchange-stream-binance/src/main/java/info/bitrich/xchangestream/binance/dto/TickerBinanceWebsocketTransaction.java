@@ -58,7 +58,7 @@ public class TickerBinanceWebsocketTransaction extends ProductBinanceWebSocketTr
             lastId,
             count,
             symbol);
-    ticker.setCurrencyPair(currencyPair);
+    ticker.setInstrument(instrument);
   }
 
   public BinanceTicker24h getTicker() {

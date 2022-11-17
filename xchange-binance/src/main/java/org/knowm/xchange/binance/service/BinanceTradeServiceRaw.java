@@ -9,40 +9,43 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+
 import org.knowm.xchange.binance.BinanceAdapters;
-import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceDustLog;
-import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
-import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceTrade;
-import org.knowm.xchange.binance.dto.trade.OrderSide;
-import org.knowm.xchange.binance.dto.trade.OrderType;
-import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.account.futures.BinancePosition;
+import org.knowm.xchange.binance.dto.trade.*;
+import org.knowm.xchange.binance.dto.trade.futures.BinanceFutureNewOrder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BinanceTradeServiceRaw extends BinanceBaseService {
 
   protected BinanceTradeServiceRaw(
       BinanceExchange exchange,
-      BinanceAuthenticated binance,
       ResilienceRegistries resilienceRegistries) {
-    super(exchange, binance, resilienceRegistries);
+    super(exchange, resilienceRegistries);
   }
 
   public List<BinanceOrder> openOrders() throws BinanceException, IOException {
     return openOrders(null);
   }
 
-  public List<BinanceOrder> openOrders(CurrencyPair pair) throws BinanceException, IOException {
+  public List<BinanceOrder> openOrders(Instrument pair) throws BinanceException, IOException {
     return decorateApiCall(
             () ->
-                binance.openOrders(
+                    (pair instanceof FuturesContract)
+            ? binanceFutures.futureOpenOrders(
+                            Optional.ofNullable(pair).map(BinanceAdapters::toSymbol).orElse(null),
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            apiKey,
+                            signatureCreator
+                    )
+            : binance.openOrders(
                     Optional.ofNullable(pair).map(BinanceAdapters::toSymbol).orElse(null),
                     getRecvWindow(),
                     getTimestampFactory(),
@@ -54,7 +57,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
   }
 
   public BinanceNewOrder newOrder(
-      CurrencyPair pair,
+      Instrument pair,
       OrderSide side,
       OrderType type,
       TimeInForce timeInForce,
@@ -93,8 +96,50 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
+  public BinanceFutureNewOrder newFutureOrder(
+          Instrument pair,
+          OrderSide side,
+          OrderType type,
+          TimeInForce timeInForce,
+          BigDecimal quantity,
+          boolean reduceOnly,
+          BigDecimal price,
+          String newClientOrderId,
+          BigDecimal stopPrice,
+          boolean closePosition,
+          BigDecimal activationPrice,
+          BigDecimal callbackRate,
+          BinanceNewOrder.NewOrderResponseType newOrderRespType)
+          throws IOException, BinanceException {
+    return decorateApiCall(
+            () ->
+                    binanceFutures.newOrder(
+                            BinanceAdapters.toSymbol(pair),
+                            side,
+                            type,
+                            timeInForce,
+                            quantity,
+                            reduceOnly,
+                            price,
+                            newClientOrderId,
+                            stopPrice,
+                            closePosition,
+                            activationPrice,
+                            callbackRate,
+                            newOrderRespType,
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            apiKey,
+                            signatureCreator))
+            .withRetry(retry("newFutureOrder", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
+            .withRateLimiter(rateLimiter(ORDERS_PER_SECOND_RATE_LIMITER))
+            .withRateLimiter(rateLimiter(ORDERS_PER_DAY_RATE_LIMITER))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+  }
+
   public void testNewOrder(
-      CurrencyPair pair,
+      Instrument pair,
       OrderSide side,
       OrderType type,
       TimeInForce timeInForce,
@@ -129,11 +174,21 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public BinanceOrder orderStatus(CurrencyPair pair, Long orderId, String origClientOrderId)
+  public BinanceOrder orderStatus(Instrument pair, Long orderId, String origClientOrderId)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
-                binance.orderStatus(
+                    (pair instanceof FuturesContract)
+            ? binanceFutures.futureOrderStatus(
+                            BinanceAdapters.toSymbol(pair),
+                            orderId,
+                            origClientOrderId,
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            super.apiKey,
+                            super.signatureCreator
+                    )
+            :   binance.orderStatus(
                     BinanceAdapters.toSymbol(pair),
                     orderId,
                     origClientOrderId,
@@ -147,11 +202,21 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
   }
 
   public BinanceCancelledOrder cancelOrder(
-      CurrencyPair pair, Long orderId, String origClientOrderId, String newClientOrderId)
+      Instrument pair, Long orderId, String origClientOrderId, String newClientOrderId)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
-                binance.cancelOrder(
+                    (pair instanceof FuturesContract)
+            ? binanceFutures.cancelFutureOrder(
+                            BinanceAdapters.toSymbol(pair),
+                            orderId,
+                            origClientOrderId,
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            super.apiKey,
+                            super.signatureCreator
+                    )
+            :   binance.cancelOrder(
                     BinanceAdapters.toSymbol(pair),
                     orderId,
                     origClientOrderId,
@@ -165,11 +230,19 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public List<BinanceCancelledOrder> cancelAllOpenOrders(CurrencyPair pair)
+  public List<BinanceCancelledOrder> cancelAllOpenOrders(Instrument pair)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
-                binance.cancelAllOpenOrders(
+                    (pair instanceof FuturesContract)
+            ? binanceFutures.cancelAllFutureOpenOrders(
+                            BinanceAdapters.toSymbol(pair),
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            super.apiKey,
+                            super.signatureCreator
+                    )
+            : binance.cancelAllOpenOrders(
                     BinanceAdapters.toSymbol(pair),
                     getRecvWindow(),
                     getTimestampFactory(),
@@ -197,8 +270,29 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
+  public List<BinanceTrade> myFutureTrades(
+          Instrument pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit)
+          throws BinanceException, IOException {
+    return decorateApiCall(
+            () ->
+                    binanceFutures.myFutureTrades(
+                            BinanceAdapters.toSymbol(pair),
+                            orderId,
+                            startTime,
+                            endTime,
+                            fromId,
+                            limit,
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            apiKey,
+                            signatureCreator))
+            .withRetry(retry("myTrades"))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), myTradesPermits(limit))
+            .call();
+  }
+
   public List<BinanceTrade> myTrades(
-      CurrencyPair pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit)
+      Instrument pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit)
       throws BinanceException, IOException {
     return decorateApiCall(
             () ->
@@ -216,6 +310,14 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .withRetry(retry("myTrades"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), myTradesPermits(limit))
         .call();
+  }
+
+  public List<BinancePosition> openPositions() throws BinanceException, IOException {
+    return decorateApiCall(
+            () -> binanceFutures.futuresAccount(getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
+            .withRetry(retry("futures-account"))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
+            .call().getPositions();
   }
 
   /**
@@ -269,7 +371,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  protected int openOrdersPermits(CurrencyPair pair) {
+  protected int openOrdersPermits(Instrument pair) {
     return pair != null ? 1 : 40;
   }
 

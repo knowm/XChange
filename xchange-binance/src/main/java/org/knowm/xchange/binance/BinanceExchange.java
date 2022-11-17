@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 import org.knowm.xchange.BaseExchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
@@ -12,7 +13,6 @@ import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
-import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -22,27 +22,21 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class BinanceExchange extends BaseExchange {
+public class BinanceExchange extends BaseExchange implements Exchange {
   public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
 
+  private static final String SPOT_URL = "https://api.binance.com";
   protected static ResilienceRegistries RESILIENCE_REGISTRIES;
 
   protected BinanceExchangeInfo exchangeInfo;
-  protected BinanceAuthenticated binance;
   protected SynchronizedValueFactory<Long> timestampFactory;
 
   @Override
   protected void initServices() {
-    this.binance =
-        ExchangeRestProxyBuilder.forInterface(
-                BinanceAuthenticated.class, getExchangeSpecification())
-            .build();
-    this.timestampFactory =
-        new BinanceTimestampFactory(
-            binance, getExchangeSpecification().getResilience(), getResilienceRegistries());
-    this.marketDataService = new BinanceMarketDataService(this, binance, getResilienceRegistries());
-    this.tradeService = new BinanceTradeService(this, binance, getResilienceRegistries());
-    this.accountService = new BinanceAccountService(this, binance, getResilienceRegistries());
+    this.timestampFactory = new BinanceTimestampFactory(getExchangeSpecification().getResilience(), getResilienceRegistries());
+    this.marketDataService = new BinanceMarketDataService(this, getResilienceRegistries());
+    this.tradeService = new BinanceTradeService(this, getResilienceRegistries());
+    this.accountService = new BinanceAccountService(this, getResilienceRegistries());
   }
 
   public SynchronizedValueFactory<Long> getTimestampFactory() {
@@ -71,7 +65,7 @@ public class BinanceExchange extends BaseExchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification spec = new ExchangeSpecification(this.getClass());
-    spec.setSslUri("https://api.binance.com");
+    spec.setSslUri(SPOT_URL);
     spec.setHost("www.binance.com");
     spec.setPort(80);
     spec.setExchangeName("Binance");

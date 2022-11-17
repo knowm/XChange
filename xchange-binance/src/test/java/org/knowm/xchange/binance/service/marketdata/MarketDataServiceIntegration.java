@@ -32,7 +32,7 @@ public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
   }
 
   @Test
-  public void testTimestamp() throws Exception {
+  public void testTimestamp() {
 
     long serverTime = exchange.getTimestampFactory().createValue();
     Assert.assertTrue(0 < serverTime);
@@ -55,12 +55,10 @@ public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
 
     tickers.stream()
         .forEach(
-            t -> {
-              System.out.println(
-                  t.getCurrencyPair()
-                      + " => "
-                      + String.format("%+.2f%%", t.getPriceChangePercent()));
-            });
+            t -> System.out.println(
+                t.getInstrument()
+                    + " => "
+                    + String.format("%+.2f%%", t.getPriceChangePercent())));
   }
 
   private BinanceTicker24h getBinanceTicker24h(CurrencyPair pair) throws IOException {

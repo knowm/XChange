@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.binance.BinanceAdapters;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.instrument.Instrument;
 
 public final class BinanceTicker24h {
 
@@ -32,7 +32,7 @@ public final class BinanceTicker24h {
   private final String symbol;
 
   // The curency pair that is unfortunately not returned in the response
-  private CurrencyPair pair;
+  private Instrument pair;
 
   // The cached ticker
   private Ticker ticker;
@@ -86,11 +86,11 @@ public final class BinanceTicker24h {
     return symbol;
   }
 
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return pair;
   }
 
-  public void setCurrencyPair(CurrencyPair pair) {
+  public void setInstrument(Instrument pair) {
     this.pair = pair;
   }
 
@@ -175,14 +175,14 @@ public final class BinanceTicker24h {
   }
 
   public synchronized Ticker toTicker() {
-    CurrencyPair currencyPair = pair;
+    Instrument currencyPair = pair;
     if (currencyPair == null) {
       currencyPair = BinanceAdapters.adaptSymbol(symbol);
     }
     if (ticker == null) {
       ticker =
           new Ticker.Builder()
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .open(openPrice)
               .ask(askPrice)
               .bid(bidPrice)

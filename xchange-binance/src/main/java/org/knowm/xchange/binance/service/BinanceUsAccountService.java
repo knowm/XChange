@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
@@ -29,9 +28,8 @@ public class BinanceUsAccountService extends BinanceAccountService {
 
   public BinanceUsAccountService(
       BinanceExchange exchange,
-      BinanceAuthenticated binance,
       ResilienceRegistries resilienceRegistries) {
-    super(exchange, binance, resilienceRegistries);
+    super(exchange, resilienceRegistries);
   }
 
   @Override
@@ -67,13 +65,12 @@ public class BinanceUsAccountService extends BinanceAccountService {
   }
 
   @Override
-  public AddressWithTag requestDepositAddressData(Currency currency, String... args)
-      throws IOException {
+  public AddressWithTag requestDepositAddressData(Currency currency, String... args) {
     return new AddressWithTag(NOT_SUPPORTED, NOT_SUPPORTED);
   }
 
   @Override
-  public Map<String, AssetDetail> getAssetDetails() throws IOException {
+  public Map<String, AssetDetail> getAssetDetails() {
     LOG.warn("getAssetDetails: {}", NOT_SUPPORTED);
     return new HashMap<>();
   }
@@ -84,13 +81,13 @@ public class BinanceUsAccountService extends BinanceAccountService {
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) {
     LOG.warn("getFundingHistory: {}", NOT_SUPPORTED);
     return new ArrayList<>();
   }
 
   @Override
-  public BinanceSystemStatus getSystemStatus() throws IOException {
+  public BinanceSystemStatus getSystemStatus() {
     LOG.warn("getSystemStatus: {}", NOT_SUPPORTED);
     return new BinanceSystemStatus();
   }

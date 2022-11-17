@@ -7,7 +7,6 @@ import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.binance.service.BinanceUsAccountService;
-import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.utils.AuthUtils;
 
 public class BinanceUsExchange extends BinanceExchange {
@@ -27,16 +26,10 @@ public class BinanceUsExchange extends BinanceExchange {
 
   @Override
   protected void initServices() {
-    this.binance =
-        ExchangeRestProxyBuilder.forInterface(
-                BinanceAuthenticated.class, getExchangeSpecification())
-            .build();
-    this.timestampFactory =
-        new BinanceTimestampFactory(
-            binance, getExchangeSpecification().getResilience(), getResilienceRegistries());
-    this.marketDataService = new BinanceMarketDataService(this, binance, getResilienceRegistries());
-    this.tradeService = new BinanceTradeService(this, binance, getResilienceRegistries());
-    this.accountService = new BinanceUsAccountService(this, binance, getResilienceRegistries());
+    this.timestampFactory = new BinanceTimestampFactory(getExchangeSpecification().getResilience(), getResilienceRegistries());
+    this.marketDataService = new BinanceMarketDataService(this, getResilienceRegistries());
+    this.tradeService = new BinanceTradeService(this, getResilienceRegistries());
+    this.accountService = new BinanceUsAccountService(this, getResilienceRegistries());
   }
 
   @Override

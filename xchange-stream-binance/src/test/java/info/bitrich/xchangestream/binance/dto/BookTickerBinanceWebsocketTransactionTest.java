@@ -38,7 +38,7 @@ public class BookTickerBinanceWebsocketTransactionTest {
     assertThat(tickerTransaction.eventType).isEqualTo(BOOK_TICKER);
     assertThat(tickerTransaction.getEventTime().getTime())
         .isLessThanOrEqualTo(new Date().getTime());
-    assertThat(tickerTransaction.getCurrencyPair())
+    assertThat(tickerTransaction.getInstrument())
         .isEqualTo(BinanceAdapters.adaptSymbol("BNBUSDT"));
 
     BinanceBookTicker ticker = tickerTransaction.getTicker();

@@ -5,10 +5,11 @@ import java.math.BigDecimal;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.instrument.Instrument;
 
 public final class BinanceBookTicker {
   public long updateId;
-  private CurrencyPair pair;
+  private Instrument pair;
   private final BigDecimal bidPrice;
   private final BigDecimal bidQty;
   private final BigDecimal askPrice;
@@ -39,11 +40,11 @@ public final class BinanceBookTicker {
     this.updateId = updateId;
   }
 
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return pair;
   }
 
-  public void setCurrencyPair(CurrencyPair pair) {
+  public void setInstrument(Instrument pair) {
     this.pair = pair;
   }
 
@@ -68,14 +69,15 @@ public final class BinanceBookTicker {
   }
 
   public synchronized Ticker toTicker() {
-    CurrencyPair currencyPair = pair;
-    if (currencyPair == null) {
-      currencyPair = BinanceAdapters.adaptSymbol(symbol);
+    Instrument instrument = pair;
+    if (instrument == null) {
+      instrument = BinanceAdapters.adaptSymbol(symbol);
     }
     if (ticker == null) {
       ticker =
           new Ticker.Builder()
-              .currencyPair(currencyPair)
+              .currencyPair((instrument instanceof CurrencyPair) ? (CurrencyPair) instrument: null)
+              .instrument(instrument)
               .ask(askPrice)
               .bid(bidPrice)
               .askSize(askQty)

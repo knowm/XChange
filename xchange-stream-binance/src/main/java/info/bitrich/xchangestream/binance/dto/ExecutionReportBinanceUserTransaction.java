@@ -9,6 +9,7 @@ import org.knowm.xchange.binance.dto.trade.OrderStatus;
 import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 
@@ -190,7 +191,8 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     return new UserTrade.Builder()
         .type(BinanceAdapters.convert(side))
         .originalAmount(lastExecutedQuantity)
-        .currencyPair(currencyPair)
+        .currencyPair((instrument instanceof CurrencyPair) ? (CurrencyPair) instrument: null)
+        .instrument(instrument)
         .price(lastExecutedPrice)
         .timestamp(getEventTime())
         .id(Long.toString(tradeId))
@@ -203,7 +205,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
   public Order toOrder() {
     return BinanceAdapters.adaptOrder(
         new BinanceOrder(
-            BinanceAdapters.toSymbol(getCurrencyPair()),
+            BinanceAdapters.toSymbol(getInstrument()),
             orderId,
             clientOrderId,
             orderPrice,
@@ -224,7 +226,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     return "ExecutionReportBinanceUserTransaction [eventTime="
         + getEventTime()
         + ", currencyPair="
-        + getCurrencyPair()
+        + getInstrument()
         + ", clientOrderId="
         + clientOrderId
         + ", side="

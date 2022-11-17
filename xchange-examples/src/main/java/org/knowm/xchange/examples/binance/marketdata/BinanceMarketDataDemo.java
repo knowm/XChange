@@ -52,12 +52,10 @@ public class BinanceMarketDataDemo {
 
     tickers.stream()
         .forEach(
-            t -> {
-              System.out.println(
-                  t.getCurrencyPair()
-                      + " => "
-                      + String.format("%+.2f%%", t.getPriceChangePercent()));
-            });
+            t -> System.out.println(
+                t.getInstrument()
+                    + " => "
+                    + String.format("%+.2f%%", t.getPriceChangePercent())));
     System.out.println("raw out end");
   }
 
@@ -77,9 +75,7 @@ public class BinanceMarketDataDemo {
 
     tickers.stream()
         .forEach(
-            t -> {
-              System.out.println(
-                  t.getSymbol() + " => " + String.format("%+.2f%%", t.getLastPrice()));
-            });
+            t -> System.out.println(
+                t.getSymbol() + " => " + String.format("%+.2f%%", t.getLastPrice())));
   }
 }

@@ -292,7 +292,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .map(
             it ->
                 this.<TickerBinanceWebsocketTransaction>readTransaction(it, TICKER_TYPE, "ticker"))
-        .filter(transaction -> transaction.getData().getCurrencyPair().equals(currencyPair))
+        .filter(transaction -> transaction.getData().getInstrument().equals(currencyPair))
         .map(transaction -> transaction.getData().getTicker());
   }
 
@@ -304,7 +304,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
             it ->
                 this.<BookTickerBinanceWebSocketTransaction>readTransaction(
                     it, BOOK_TICKER_TYPE, "book ticker"))
-        .filter(transaction -> transaction.getData().getCurrencyPair().equals(currencyPair))
+        .filter(transaction -> transaction.getData().getInstrument().equals(currencyPair))
         .map(transaction -> transaction.getData().getTicker());
   }
 
@@ -378,7 +378,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                 this.<DepthBinanceWebSocketTransaction>readTransaction(
                     it, DEPTH_TYPE, "order book"))
         .map(BinanceWebsocketTransaction::getData)
-        .filter(data -> data.getCurrencyPair().equals(currencyPair));
+        .filter(data -> data.getInstrument().equals(currencyPair));
   }
 
   private Observable<OrderBook> createOrderBookObservable(CurrencyPair currencyPair) {
@@ -455,7 +455,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .subscribeChannel(
             channelFromCurrency(currencyPair, BinanceSubscriptionType.TRADE.getType()))
         .map(it -> this.<TradeBinanceWebsocketTransaction>readTransaction(it, TRADE_TYPE, "trade"))
-        .filter(transaction -> transaction.getData().getCurrencyPair().equals(currencyPair))
+        .filter(transaction -> transaction.getData().getInstrument().equals(currencyPair))
         .map(transaction -> transaction.getData().getRawTrade());
   }
 
