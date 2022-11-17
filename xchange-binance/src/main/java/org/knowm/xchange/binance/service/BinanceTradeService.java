@@ -121,7 +121,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     try {
       String orderId;
 
-      if(order.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.FUTURES_ORDER) || order.getInstrument() instanceof FuturesContract){
+      if(order.getInstrument() instanceof FuturesContract){
         orderId = newFutureOrder(
                 order.getInstrument(),
                 BinanceAdapters.convert(order.getType()),
