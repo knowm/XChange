@@ -151,10 +151,10 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
     }
 
     @Override
-    public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
         try {
             BlockchainFees fees = this.getFees();
-            Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
+            Map<Instrument, Fee> tradingFees = new HashMap<>();
             List<CurrencyPair> pairs = this.getExchangeSymbols();
 
             pairs.forEach(pair -> tradingFees.put(pair, new Fee(fees.getMakerRate(), fees.getTakerRate())));
@@ -162,12 +162,5 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw implem
         } catch (BlockchainException e) {
             throw BlockchainErrorAdapter.adapt(e);
         }
-    }
-
-    @Override
-    public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
-        Map<CurrencyPair, Fee> dynamicTradingFees = getDynamicTradingFees();
-        return dynamicTradingFees.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

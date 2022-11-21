@@ -23,13 +23,14 @@ import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.poloniex.dto.LoanInfo;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
@@ -265,8 +266,8 @@ public class PoloniexAdapters {
       currencyMetaDataMap.put(ccy, currencyMetaDataUpdated);
     }
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
-    CurrencyPairMetaData marketArchetype = marketMetaDataMap.values().iterator().next();
+    Map<Instrument, InstrumentMetaData> marketMetaDataMap = exchangeMetaData.getInstruments();
+    InstrumentMetaData marketArchetype = marketMetaDataMap.values().iterator().next();
 
     for (String market : poloniexMarketData.keySet()) {
       CurrencyPair currencyPair = PoloniexUtils.toCurrencyPair(market);

@@ -19,9 +19,10 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
@@ -130,7 +131,7 @@ public final class CryptopiaAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(
       List<CryptopiaCurrency> cryptopiaCurrencies, List<CryptopiaTradePair> tradePairs) {
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> marketMetaDataMap = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<>();
 
     for (CryptopiaCurrency cryptopiaCurrency : cryptopiaCurrencies) {
@@ -141,15 +142,13 @@ public final class CryptopiaAdapters {
     for (CryptopiaTradePair cryptopiaTradePair : tradePairs) {
       CurrencyPair currencyPair =
           CurrencyPairDeserializer.getCurrencyPairFromString(cryptopiaTradePair.getLabel());
-      CurrencyPairMetaData currencyPairMetaData =
-          new CurrencyPairMetaData(
-              cryptopiaTradePair.getTradeFee(),
-              cryptopiaTradePair.getMinimumTrade(),
-              cryptopiaTradePair.getMaximumTrade(),
-              8,
-              null);
 
-      marketMetaDataMap.put(currencyPair, currencyPairMetaData);
+      marketMetaDataMap.put(currencyPair, new InstrumentMetaData.Builder()
+                      .tradingFee(cryptopiaTradePair.getTradeFee())
+                      .minimumAmount(cryptopiaTradePair.getMinimumTrade())
+                      .maximumAmount(cryptopiaTradePair.getMaximumTrade())
+                      .priceScale(8)
+              .build());
     }
 
     return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null);

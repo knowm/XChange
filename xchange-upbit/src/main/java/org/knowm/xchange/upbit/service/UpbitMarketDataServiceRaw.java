@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.upbit.UpbitUtils;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitMarket;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBooks;
@@ -36,7 +37,7 @@ public class UpbitMarketDataServiceRaw extends UpbitBaseService {
     super(exchange);
   }
 
-  public UpbitTickers getTickers(List<CurrencyPair> currencyPair) throws IOException {
+  public UpbitTickers getTickers(List<Instrument> currencyPair) throws IOException {
     return upbit.getTicker(
         currencyPair.stream().map(UpbitUtils::toPairString).collect(Collectors.joining(",")));
   }

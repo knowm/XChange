@@ -37,11 +37,9 @@ public class BybitExchange extends BaseExchange {
   public void remoteInit() throws IOException, ExchangeException {
     //initialize currency pairs
     List<BybitSymbol> symbols = ((BybitMarketDataServiceRaw) marketDataService).getSymbols().getResult();
-    symbols.forEach(bybitSymbol -> {
-          exchangeMetaData.getCurrencyPairs().put(
-              MarketDataMapper.symbolToCurrencyPair(bybitSymbol),
-              MarketDataMapper.symbolToCurrencyPairMetaData(bybitSymbol));
-        }
+    symbols.forEach(bybitSymbol -> exchangeMetaData.getInstruments().put(
+        MarketDataMapper.symbolToCurrencyPair(bybitSymbol),
+        MarketDataMapper.symbolToCurrencyPairMetaData(bybitSymbol))
     );
   }
 }

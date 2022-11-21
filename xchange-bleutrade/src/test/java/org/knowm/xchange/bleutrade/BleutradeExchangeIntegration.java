@@ -24,7 +24,8 @@ import org.knowm.xchange.bleutrade.service.BleutradeServiceTestSupport;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 import org.mockito.runners.MockitoJUnitRunner;
 import si.mazi.rescu.ClientConfig;
@@ -166,8 +167,8 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     assertThat(currencyMetaDataMap.get(Currency.BTC).getScale()).isEqualTo(8);
     assertThat(currencyMetaDataMap.get(Currency.LTC).getScale()).isEqualTo(8);
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap =
-        mockExchange.getExchangeMetaData().getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> marketMetaDataMap =
+        mockExchange.getExchangeMetaData().getInstruments();
     assertThat(marketMetaDataMap).hasSize(2);
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString())
         .isEqualTo(

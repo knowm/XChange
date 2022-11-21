@@ -12,7 +12,7 @@ import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -271,7 +271,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   private String buildSubscriptionStrings(
-      List<CurrencyPair> currencyPairs, String subscriptionType) {
+          List<Instrument> currencyPairs, String subscriptionType) {
     if (BinanceSubscriptionType.DEPTH.getType().equals(subscriptionType)) {
       return subscriptionStrings(currencyPairs)
           .map(s -> s + "@" + subscriptionType + orderBookUpdateFrequencyParameter)
@@ -283,12 +283,12 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     }
   }
 
-  private static Stream<String> subscriptionStrings(List<CurrencyPair> currencyPairs) {
+  private static Stream<String> subscriptionStrings(List<Instrument> currencyPairs) {
     return currencyPairs.stream()
         .map(BinanceStreamingExchange::getPrefix);
   }
 
-  private static String getPrefix(CurrencyPair pair) {
+  private static String getPrefix(Instrument pair) {
     return String.join("", pair.toString().split("/")).toLowerCase();
   }
 

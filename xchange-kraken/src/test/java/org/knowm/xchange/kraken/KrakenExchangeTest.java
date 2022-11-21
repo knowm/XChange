@@ -13,7 +13,8 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 
 @Ignore
 public class KrakenExchangeTest {
@@ -29,8 +30,8 @@ public class KrakenExchangeTest {
   @Test
   public void minimumOrderSizeTest() throws IOException {
     exchange.remoteInit();
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        exchange.getExchangeMetaData().getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> currencyPairs =
+        exchange.getExchangeMetaData().getInstruments();
 
     Map<Currency, CurrencyMetaData> currencies = exchange.getExchangeMetaData().getCurrencies();
 

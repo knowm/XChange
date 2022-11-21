@@ -28,6 +28,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 
 /** Tests the BitstampAdapter class */
 public class BitstampAdapterTest {
@@ -201,7 +202,7 @@ public class BitstampAdapterTest {
     BitstampOrderStatusResponse bitstampOrder =
         mapper.readValue(order, BitstampOrderStatusResponse.class);
 
-    List<CurrencyPair> currencyPairs = new ArrayList<>();
+    List<Instrument> currencyPairs = new ArrayList<>();
     currencyPairs.add(CurrencyPair.BTC_USD);
     currencyPairs.add(CurrencyPair.LTC_USD);
     currencyPairs.add(CurrencyPair.ETH_USD);

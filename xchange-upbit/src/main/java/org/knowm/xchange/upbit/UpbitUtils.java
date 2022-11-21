@@ -3,16 +3,17 @@ package org.knowm.xchange.upbit;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 
 public class UpbitUtils {
 
   public static final String MARKET_NAME_SEPARATOR = "-";
 
-  public static String toPairString(CurrencyPair currencyPair) {
+  public static String toPairString(Instrument currencyPair) {
     if (currencyPair == null) return null;
-    return currencyPair.counter.getCurrencyCode().toUpperCase()
+    return currencyPair.getCounter().getCurrencyCode().toUpperCase()
         + MARKET_NAME_SEPARATOR
-        + currencyPair.base.getCurrencyCode().toUpperCase();
+        + currencyPair.getBase().getCurrencyCode().toUpperCase();
   }
 
   public static CurrencyPair toCurrencyPair(String pairString) {

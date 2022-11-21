@@ -22,7 +22,7 @@ public class DsxCandlesDemo {
 
     dsxExchange.remoteInit();
     System.out.println(
-        "Market metadata: " + dsxExchange.getExchangeMetaData().getCurrencyPairs().toString());
+        "Market metadata: " + dsxExchange.getExchangeMetaData().getInstruments().toString());
 
     MarketDataService marketDataService = dsxExchange.getMarketDataService();
     DsxMarketDataServiceRaw dsxMarketDataService =

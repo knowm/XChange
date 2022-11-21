@@ -1,17 +1,18 @@
 package org.knowm.xchange.bitcointoyou;
 
-import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.util.Map;
 
 /**
  * Testes the {@link BitcointoyouExchange} class
@@ -51,7 +52,7 @@ public class BitcointoyouExchangeTest {
 
     softly.assertThat(exchangeMetaData.getCurrencies()).size().isEqualTo(1);
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> currencyPairs = exchangeMetaData.getInstruments();
     softly.assertThat(currencyPairs).size().isEqualTo(1);
     softly.assertThat(currencyPairs).size().isEqualTo(1);
 

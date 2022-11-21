@@ -22,7 +22,7 @@ public class CobinhoodMarketDataDemo {
     CobinhoodExchange.remoteInit();
     System.out.println(
         "Market metadata: "
-            + CobinhoodExchange.getExchangeMetaData().getCurrencyPairs().toString());
+            + CobinhoodExchange.getExchangeMetaData().getInstruments().toString());
 
     MarketDataService marketDataService = CobinhoodExchange.getMarketDataService();
 
