@@ -24,12 +24,11 @@
 package org.knowm.xchange.coinmate;
 
 import java.io.IOException;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import java.math.BigDecimal;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
+import org.knowm.xchange.coinmate.dto.marketdata.CoinmateQuickRate;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -60,4 +59,16 @@ public interface Coinmate {
   @GET
   @Path("xchange")
   ExchangeMetaData getMetadata() throws IOException;
+
+  @GET
+  @Path("buyQuickRate")
+  CoinmateQuickRate buyQuickRate(
+      @FormParam("total") BigDecimal amount,
+      @FormParam("currencyPair") String currencyPair) throws IOException;
+
+  @GET
+  @Path("sellQuickRate")
+  CoinmateQuickRate sellQuickRate(
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("currencyPair") String currencyPair) throws IOException;
 }

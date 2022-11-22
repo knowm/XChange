@@ -204,6 +204,52 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("currencyPair") String currencyPair)
       throws IOException;
 
+  @POST
+  @Path("buyQuickFixRate")
+  CoinmateFixRateResponse buyQuickFixRate(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("total") BigDecimal total,
+      @FormParam("amountReceived") BigDecimal amountReceived,
+      @FormParam("currencyPair") String currencyPair)
+      throws IOException;
+
+  @POST
+  @Path("sellQuickFixRate")
+  CoinmateFixRateResponse sellQuickFixRate(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("totalReceived") BigDecimal totalReceived,
+      @FormParam("currencyPair") String currencyPair)
+      throws IOException;
+
+  @POST
+  @Path("buyQuickFix")
+  CoinmateTradeResponse buyQuickFix(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("clientOrderId") String clientOrderId,
+      @FormParam("rateId") String rateId)
+      throws IOException;
+
+  @POST
+  @Path("sellQuickFix")
+  CoinmateTradeResponse sellQuickFix(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("clientOrderId") String clientOrderId,
+      @FormParam("rateId") String rateId)
+      throws IOException;
+
   // withdrawal and deposits
   // bitcoin
   @POST
