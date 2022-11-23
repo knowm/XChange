@@ -39,7 +39,7 @@
     <version.junit>4.13.2</version.junit>
     <version.lombok>1.18.22</version.lombok>
     <version.knowm.xchart>3.8.2</version.knowm.xchart>
-    <version.qos.logback>1.4.4</version.qos.logback>
+    <version.qos.logback>1.4.5</version.qos.logback>
     <version.reflections>0.10.2</version.reflections>
     <version.slf4j>2.0.3</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
