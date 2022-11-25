@@ -62,13 +62,13 @@ public interface Coinmate {
 
   @GET
   @Path("buyQuickRate")
-  CoinmateQuickRate buyQuickRate(
-      @FormParam("total") BigDecimal amount,
+  CoinmateQuickRate getBuyQuickRate(
+      @FormParam("total") BigDecimal total,
       @FormParam("currencyPair") String currencyPair) throws IOException;
 
   @GET
   @Path("sellQuickRate")
-  CoinmateQuickRate sellQuickRate(
+  CoinmateQuickRate getSellQuickRate(
       @FormParam("amount") BigDecimal amount,
       @FormParam("currencyPair") String currencyPair) throws IOException;
 }

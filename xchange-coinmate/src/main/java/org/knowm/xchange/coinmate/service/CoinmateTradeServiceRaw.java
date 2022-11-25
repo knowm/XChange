@@ -405,6 +405,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
+  // TODO: quick fix rate methods
+
   public CoinmateReplaceResponse coinmateReplaceByBuyInstant(
       String orderId, BigDecimal total, String currencyPair, String clientOrderId) throws IOException {
     CoinmateReplaceResponse response =
