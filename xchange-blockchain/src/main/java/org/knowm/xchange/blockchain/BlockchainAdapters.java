@@ -16,8 +16,8 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.instrument.Instrument;
@@ -227,7 +227,7 @@ public class BlockchainAdapters {
     }
 
    public static ExchangeMetaData adaptMetaData(Map<String, BlockchainSymbol> markets) {
-       Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+       Map<Instrument, InstrumentMetaData> currencyPairs = new HashMap<>();
        Map<Currency, CurrencyMetaData> currency = new HashMap<>();
 
        for (Map.Entry<String, BlockchainSymbol> entry : markets.entrySet()) {
@@ -236,9 +236,9 @@ public class BlockchainAdapters {
            BigDecimal minAmount = entry.getValue().getMinOrderSize().multiply(minScale);
            BigDecimal maxScale = BigDecimal.valueOf(Math.pow(10, (entry.getValue().getMaxOrderSizeScale())*-1));
            BigDecimal maxAmount = entry.getValue().getMaxOrderSize().multiply(maxScale);
-           CurrencyPairMetaData currencyPairMetaData =
-                   new CurrencyPairMetaData.Builder()
-                           .baseScale(entry.getValue().getBaseCurrencyScale())
+           InstrumentMetaData currencyPairMetaData =
+                   new InstrumentMetaData.Builder()
+                           .volumeScale(entry.getValue().getBaseCurrencyScale())
                            .priceScale(entry.getValue().getCounterCurrencyScale())
                            .minimumAmount(minAmount)
                            .maximumAmount(maxAmount)

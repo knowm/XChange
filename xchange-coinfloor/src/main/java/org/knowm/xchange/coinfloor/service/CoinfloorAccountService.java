@@ -8,9 +8,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinfloor.CoinfloorAdapters;
 import org.knowm.xchange.coinfloor.dto.account.CoinfloorBalance;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
@@ -23,7 +23,7 @@ public class CoinfloorAccountService extends CoinfloorAccountServiceRaw implemen
   public AccountInfo getAccountInfo() throws IOException {
 
     Collection<CoinfloorBalance> rawBalances = new ArrayList<>();
-    for (CurrencyPair pair : exchange.getExchangeSymbols()) {
+    for (Instrument pair : exchange.getExchangeInstruments()) {
       CoinfloorBalance balance = getCoinfloorBalance(pair);
       rawBalances.add(balance);
     }
@@ -38,7 +38,7 @@ public class CoinfloorAccountService extends CoinfloorAccountServiceRaw implemen
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
+  public String withdrawFunds(WithdrawFundsParams params) {
     throw new NotAvailableFromExchangeException();
   }
 

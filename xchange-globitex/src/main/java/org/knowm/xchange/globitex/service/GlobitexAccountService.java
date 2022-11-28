@@ -3,12 +3,9 @@ package org.knowm.xchange.globitex.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.globitex.GlobitexAdapters;
@@ -29,18 +26,17 @@ public class GlobitexAccountService extends GlobitexAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-      throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) {
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
+  public String withdrawFunds(WithdrawFundsParams params) {
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+  public String requestDepositAddress(Currency currency, String... args) {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -50,12 +46,7 @@ public class GlobitexAccountService extends GlobitexAccountServiceRaw implements
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) {
     throw new NotYetImplementedForExchangeException();
   }
 }

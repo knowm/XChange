@@ -37,7 +37,7 @@ public class CoinbaseProMetadataTest {
     exchangeMetaData =
         CoinbaseProAdapters.adaptToExchangeMetaData(
             exchangeMetaData, products, new CoinbaseProCurrency[] {});
-    assertThat(exchangeMetaData.getCurrencyPairs().get(CurrencyPair.ETC_BTC).getPriceScale())
+    assertThat(exchangeMetaData.getInstruments().get(CurrencyPair.ETC_BTC).getPriceScale())
         .isEqualTo(5);
   }
 }

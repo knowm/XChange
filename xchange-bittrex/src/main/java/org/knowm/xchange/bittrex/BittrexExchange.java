@@ -16,9 +16,9 @@ import org.knowm.xchange.bittrex.service.BittrexMarketDataServiceRaw;
 import org.knowm.xchange.bittrex.service.BittrexTradeService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,9 +81,9 @@ public class BittrexExchange extends BaseExchange implements Exchange {
           bittrexSymbols = ((BittrexMarketDataServiceRaw) marketDataService).getBittrexSymbols();
           List<BittrexCurrency> bittrexCurrencies =
               ((BittrexMarketDataServiceRaw) marketDataService).getBittrexCurrencies();
-          Map<CurrencyPair, Fee> dynamicTradingFees = null;
+          Map<Instrument, Fee> dynamicTradingFees = null;
           try {
-            dynamicTradingFees = accountService.getDynamicTradingFees();
+            dynamicTradingFees = accountService.getDynamicTradingFeesByInstrument();
           } catch (BittrexException | ExchangeException | IOException e) {
             EXCHANGE_LOGGER.warn(
                 "Error during remote init, can not fetch trading fees. May be missing auth tokens ?",

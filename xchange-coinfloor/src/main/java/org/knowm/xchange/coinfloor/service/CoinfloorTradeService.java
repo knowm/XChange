@@ -14,6 +14,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -25,6 +26,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamMultiCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamMultiInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements TradeService {
@@ -32,12 +34,14 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
   private static final CurrencyPair NO_CURRENCY_PAIR = null;
   private static final Collection<CurrencyPair> NO_CURRENCY_PAIR_COLLECTION =
       Collections.emptySet();
+  private static final Collection<Instrument> NO_INSTRUMENT_COLLECTION =
+          Collections.emptySet();
 
-  private final Collection<CurrencyPair> allConfiguredCurrencyPairs;
+  private final Collection<Instrument> allConfiguredCurrencyPairs;
 
   public CoinfloorTradeService(Exchange exchange) {
     super(exchange);
-    allConfiguredCurrencyPairs = exchange.getExchangeMetaData().getCurrencyPairs().keySet();
+    allConfiguredCurrencyPairs = exchange.getExchangeMetaData().getInstruments().keySet();
   }
 
   @Override
@@ -55,17 +59,17 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
       pair = NO_CURRENCY_PAIR;
     }
 
-    Collection<CurrencyPair> pairs;
+    Collection<Instrument> pairs;
     if (params instanceof OpenOrdersParamMultiCurrencyPair) {
-      pairs = ((OpenOrdersParamMultiCurrencyPair) params).getCurrencyPairs();
+      pairs = ((OpenOrdersParamMultiInstrument) params).getInstruments();
     } else {
-      pairs = NO_CURRENCY_PAIR_COLLECTION;
+      pairs = NO_INSTRUMENT_COLLECTION;
     }
 
     return getOpenOrders(pair, pairs);
   }
 
-  private OpenOrders getOpenOrders(CurrencyPair pair, Collection<CurrencyPair> pairs)
+  private OpenOrders getOpenOrders(CurrencyPair pair, Collection<Instrument> pairs)
       throws IOException {
     Collection<CoinfloorOrder> orders = new ArrayList<>();
 
@@ -82,10 +86,10 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
       }
     }
 
-    for (CurrencyPair currencyPair : pairs) {
-      CoinfloorOrder[] orderArray = getOpenOrders(currencyPair);
+    for (Instrument currencyPair : pairs) {
+      CoinfloorOrder[] orderArray = getOpenOrders((CurrencyPair) currencyPair);
       for (CoinfloorOrder order : orderArray) {
-        order.setCurrencyPair(currencyPair);
+        order.setCurrencyPair((CurrencyPair) currencyPair);
         orders.add(order);
       }
     }
@@ -144,10 +148,10 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
     if (pair == NO_CURRENCY_PAIR) {
       if (pairs.isEmpty()) {
         // no currency pairs have been supplied - search them all
-        pairs = allConfiguredCurrencyPairs;
+        allConfiguredCurrencyPairs.forEach(instrument -> pairs.add((CurrencyPair) instrument));
       }
 
-      for (CurrencyPair currencyPair : pairs) {
+      for (Instrument currencyPair : pairs) {
         transactions.addAll(Arrays.asList(getUserTransactions(currencyPair, limit, offset, sort)));
       }
     } else {

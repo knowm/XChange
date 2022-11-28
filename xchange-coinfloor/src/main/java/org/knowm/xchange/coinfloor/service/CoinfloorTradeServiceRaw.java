@@ -11,6 +11,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import si.mazi.rescu.HttpStatusIOException;
 
@@ -24,15 +25,15 @@ public class CoinfloorTradeServiceRaw extends CoinfloorAuthenticatedService {
   }
 
   public CoinfloorUserTransaction[] getUserTransactions(
-      CurrencyPair pair,
+      Instrument pair,
       Integer numberOfTransactions,
       Long offset,
       TradeHistoryParamsSorted.Order sort)
       throws IOException {
     try {
       return coinfloor.getUserTransactions(
-          normalise(pair.base),
-          normalise(pair.counter),
+          normalise(pair.getBase()),
+          normalise(pair.getCounter()),
           numberOfTransactions,
           offset,
           sort == null ? null : sort.toString());

@@ -12,6 +12,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.itbit.ItBitAdapters;
 import org.knowm.xchange.itbit.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.dto.trade.ItBitTradeHistory;
@@ -48,9 +49,9 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
     // In case of no currency pair - return all currency pairs.
     if (currencyPair == null) {
       List<ItBitOrder> orders = new ArrayList<>();
-      for (CurrencyPair tmpCurrencyPair :
-          this.exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
-        orders.addAll(Arrays.asList(getItBitOpenOrders(tmpCurrencyPair)));
+      for (Instrument tmpCurrencyPair :
+          this.exchange.getExchangeMetaData().getInstruments().keySet()) {
+        orders.addAll(Arrays.asList(getItBitOpenOrders((CurrencyPair) tmpCurrencyPair)));
       }
       ItBitOrder[] empty = {};
       return ItBitAdapters.adaptPrivateOrders(

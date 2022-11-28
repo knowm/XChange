@@ -107,10 +107,10 @@ public class CryptopiaAdaptersTest {
 
     assertThat(exchangeMetaData.getCurrencies()).containsKey(Currency.ETH);
     assertThat(exchangeMetaData.getCurrencies().get(Currency.ETH).getScale()).isEqualTo(8);
-    assertThat(exchangeMetaData.getCurrencyPairs()).containsKey(CurrencyPair.ETH_BTC);
+    assertThat(exchangeMetaData.getInstruments()).containsKey(CurrencyPair.ETH_BTC);
     assertThat(
             exchangeMetaData
-                .getCurrencyPairs()
+                .getInstruments()
                 .get(CurrencyPair.ETH_BTC)
                 .getTradingFee()
                 .toString())

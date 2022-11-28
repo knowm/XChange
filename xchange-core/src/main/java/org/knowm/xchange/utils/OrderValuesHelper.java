@@ -3,19 +3,19 @@ package org.knowm.xchange.utils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 
 /**
  * Helps you to validate and / or adjust order values like price and amount to the restrictions
- * dictated by {@link CurrencyPairMetaData}
+ * dictated by {@link InstrumentMetaData}
  *
  * @author walec51
  */
 public class OrderValuesHelper {
 
-  private final CurrencyPairMetaData metaData;
+  private final InstrumentMetaData metaData;
 
-  public OrderValuesHelper(CurrencyPairMetaData metaData) {
+  public OrderValuesHelper(InstrumentMetaData metaData) {
     this.metaData = metaData;
   }
 
@@ -32,15 +32,15 @@ public class OrderValuesHelper {
   }
 
   /**
-   * Adjusts the given amount to the restrictions dictated by {@link CurrencyPairMetaData}.
+   * Adjusts the given amount to the restrictions dictated by {@link InstrumentMetaData}.
    *
-   * <p>This mainly does rounding based on {@link CurrencyPairMetaData#getBaseScale()} and {@link
-   * CurrencyPairMetaData#getAmountStepSize()} if they are present in the metadata. It will also
-   * return the maximum allowed amount if {@link CurrencyPairMetaData#getMaximumAmount() ()} is set
+   * <p>This mainly does rounding based on {@link InstrumentMetaData#getVolumeScale()} and {@link
+   * InstrumentMetaData#getAmountStepSize()} if they are present in the metadata. It will also
+   * return the maximum allowed amount if {@link InstrumentMetaData#getMaximumAmount() ()} is set
    * and your amount is greater.
    *
    * @param amount the amount your derived from your users input or your calculations
-   * @return amount adjusted to the restrictions dictated by {@link CurrencyPairMetaData}
+   * @return amount adjusted to the restrictions dictated by {@link InstrumentMetaData}
    */
   public BigDecimal adjustAmount(BigDecimal amount) {
     BigDecimal maximumAmount = metaData.getMaximumAmount();
@@ -52,7 +52,7 @@ public class OrderValuesHelper {
     if (stepSize != null && stepSize.compareTo(BigDecimal.ZERO) != 0) {
       result = BigDecimalUtils.roundToStepSize(result, stepSize, RoundingMode.FLOOR);
     }
-    Integer baseScale = metaData.getBaseScale();
+    Integer baseScale = metaData.getVolumeScale();
     if (baseScale != null) {
       result = result.setScale(baseScale, RoundingMode.FLOOR);
     }
@@ -60,7 +60,7 @@ public class OrderValuesHelper {
   }
 
   /**
-   * Adjusts the given price to the restrictions dictated by {@link CurrencyPairMetaData}.
+   * Adjusts the given price to the restrictions dictated by {@link InstrumentMetaData}.
    *
    * <p>Convenience method that chooses the adequate rounding mode for you order type. See {@link
    * #adjustPrice(java.math.BigDecimal, java.math.RoundingMode)} for more information.
@@ -76,13 +76,13 @@ public class OrderValuesHelper {
   }
 
   /**
-   * Adjusts the given price to the restrictions dictated by {@link CurrencyPairMetaData}.
+   * Adjusts the given price to the restrictions dictated by {@link InstrumentMetaData}.
    *
-   * <p>This mainly does rounding based on {@link CurrencyPairMetaData#getPriceScale()} if it is
+   * <p>This mainly does rounding based on {@link InstrumentMetaData#getPriceScale()} if it is
    * present in the metadata.
    *
    * @param price the price your derived from your users input or your calculations
-   * @return price adjusted to the restrictions dictated by {@link CurrencyPairMetaData}
+   * @return price adjusted to the restrictions dictated by {@link InstrumentMetaData}
    */
   public BigDecimal adjustPrice(BigDecimal price, RoundingMode roundingMode) {
     BigDecimal result = price;
