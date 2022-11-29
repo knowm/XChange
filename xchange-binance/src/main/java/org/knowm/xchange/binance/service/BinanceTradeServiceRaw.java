@@ -30,16 +30,16 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
     super(exchange, resilienceRegistries);
   }
 
-  public List<BinanceOrder> openOrders() throws BinanceException, IOException {
-    return openOrders(null);
+  public List<BinanceOrder> openOrdersAllProducts() throws BinanceException, IOException {
+    return openOrdersAllProducts(null);
   }
 
-  public List<BinanceOrder> openOrders(Instrument pair) throws BinanceException, IOException {
+  public List<BinanceOrder> openOrdersAllProducts(Instrument pair) throws BinanceException, IOException {
     return decorateApiCall(
             () ->
                     (pair instanceof FuturesContract)
             ? binanceFutures.futureOpenOrders(
-                            Optional.ofNullable(pair).map(BinanceAdapters::toSymbol).orElse(null),
+                            Optional.of(pair).map(BinanceAdapters::toSymbol).orElse(null),
                             getRecvWindow(),
                             getTimestampFactory(),
                             apiKey,
@@ -174,7 +174,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public BinanceOrder orderStatus(Instrument pair, Long orderId, String origClientOrderId)
+  public BinanceOrder orderStatusAllProducts(Instrument pair, Long orderId, String origClientOrderId)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
@@ -201,7 +201,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public BinanceCancelledOrder cancelOrder(
+  public BinanceCancelledOrder cancelOrderAllProducts(
       Instrument pair, Long orderId, String origClientOrderId, String newClientOrderId)
       throws IOException, BinanceException {
     return decorateApiCall(
@@ -230,7 +230,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public List<BinanceCancelledOrder> cancelAllOpenOrders(Instrument pair)
+  public List<BinanceCancelledOrder> cancelAllOpenOrdersAllProducts(Instrument pair)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
@@ -270,12 +270,21 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public List<BinanceTrade> myFutureTrades(
-          Instrument pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit)
-          throws BinanceException, IOException {
+  public List<BinanceTrade> myTradesAllProducts(Instrument pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit) throws BinanceException, IOException{
     return decorateApiCall(
-            () ->
-                    binanceFutures.myFutureTrades(
+            () -> (pair instanceof FuturesContract)
+                    ? binanceFutures.myFutureTrades(
+                            BinanceAdapters.toSymbol(pair),
+                            orderId,
+                            startTime,
+                            endTime,
+                            fromId,
+                            limit,
+                            getRecvWindow(),
+                            getTimestampFactory(),
+                            apiKey,
+                            signatureCreator)
+                    : binance.myTrades(
                             BinanceAdapters.toSymbol(pair),
                             orderId,
                             startTime,
@@ -289,27 +298,6 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
             .withRetry(retry("myTrades"))
             .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), myTradesPermits(limit))
             .call();
-  }
-
-  public List<BinanceTrade> myTrades(
-      Instrument pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit)
-      throws BinanceException, IOException {
-    return decorateApiCall(
-            () ->
-                binance.myTrades(
-                    BinanceAdapters.toSymbol(pair),
-                    orderId,
-                    startTime,
-                    endTime,
-                    fromId,
-                    limit,
-                    getRecvWindow(),
-                    getTimestampFactory(),
-                    apiKey,
-                    signatureCreator))
-        .withRetry(retry("myTrades"))
-        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), myTradesPermits(limit))
-        .call();
   }
 
   public List<BinancePosition> openPositions() throws BinanceException, IOException {

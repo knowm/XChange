@@ -1,6 +1,8 @@
 package org.knowm.xchange.binance.service;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -11,7 +13,6 @@ import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -32,35 +33,9 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair pair, Object... args) throws IOException {
-    return getBinanceOrderBook(pair,args);
-  }
-
-  public static OrderBook convertOrderBook(BinanceOrderbook ob, Instrument pair) {
-    List<LimitOrder> bids =
-        ob.bids.entrySet().stream()
-            .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey()))
-            .collect(Collectors.toList());
-    List<LimitOrder> asks =
-        ob.asks.entrySet().stream()
-            .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey()))
-            .collect(Collectors.toList());
-    return new OrderBook(null, asks, bids);
-  }
-
-  @Override
-  public Ticker getTicker(CurrencyPair pair, Object... args) throws IOException {
-    try {
-      return ticker24h(pair).toTicker();
-    } catch (BinanceException e) {
-      throw BinanceErrorAdapter.adapt(e);
-    }
-  }
-
-  @Override
   public List<Ticker> getTickers(Params params) throws IOException {
     try {
-      return ticker24h().stream().map(BinanceTicker24h::toTicker).collect(Collectors.toList());
+      return ticker24hAllProducts().stream().map(BinanceTicker24h::toTicker).collect(Collectors.toList());
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -79,14 +54,13 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
    * <p>
    */
   @Override
-  public Trades getTrades(CurrencyPair pair, Object... args) throws IOException {
-    return getBinanceTrades(pair,args);
+  public Trades getTrades(Instrument instrument, Object... args) throws IOException {
+    return getBinanceTrades(instrument,args);
   }
-
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
     try {
-      return ticker24h(instrument).toTicker();
+      return ticker24hAllProducts(instrument).toTicker();
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -97,11 +71,6 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
     return getBinanceOrderBook(instrument,args);
   }
 
-  @Override
-  public Trades getTrades(Instrument instrument, Object... args) throws IOException {
-    return getBinanceTrades(instrument,args);
-  }
-
   private Trades getBinanceTrades(Instrument instrument, Object... args) throws IOException{
     try {
       Long fromId = tradesArgument(args, 0, Long::valueOf);
@@ -109,7 +78,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
       Long endTime = tradesArgument(args, 2, Long::valueOf);
       Integer limit = tradesArgument(args, 3, Integer::valueOf);
 
-      return BinanceAdapters.adaptTrades(aggTrades(instrument, fromId, startTime, endTime, limit), instrument);
+      return BinanceAdapters.adaptTrades(aggTradesAllProducts(instrument, fromId, startTime, endTime, limit), instrument);
 
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
@@ -128,11 +97,23 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
           limitDepth = (Integer) arg0;
         }
       }
-      BinanceOrderbook binanceOrderbook = getBinanceOrderbook(instrument, limitDepth);
+      BinanceOrderbook binanceOrderbook = getBinanceOrderbookAllProducts(instrument, limitDepth);
       return convertOrderBook(binanceOrderbook, instrument);
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
+  }
+
+  public static OrderBook convertOrderBook(BinanceOrderbook ob, Instrument pair) {
+    List<LimitOrder> bids =
+            ob.bids.entrySet().stream()
+                    .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey()))
+                    .collect(Collectors.toList());
+    List<LimitOrder> asks =
+            ob.asks.entrySet().stream()
+                    .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey()))
+                    .collect(Collectors.toList());
+    return new OrderBook(Date.from(Instant.now()), asks, bids);
   }
 
   private <T extends Number> T tradesArgument(

@@ -38,7 +38,7 @@ public class BinanceMarketDataDemo {
     List<BinanceTicker24h> tickers = new ArrayList<>();
     for (Instrument cp : exchange.getExchangeMetaData().getInstruments().keySet()) {
       if (cp.getCounter() == Currency.USDT) {
-        tickers.add(marketDataService.ticker24h((CurrencyPair) cp));
+        tickers.add(marketDataService.ticker24hAllProducts((CurrencyPair) cp));
       }
     }
 
@@ -64,7 +64,7 @@ public class BinanceMarketDataDemo {
       throws IOException {
 
     List<BinanceTicker24h> tickers = new ArrayList<>();
-    tickers.addAll(marketDataService.ticker24h());
+    tickers.addAll(marketDataService.ticker24hAllProducts());
     Collections.sort(
         tickers,
         new Comparator<BinanceTicker24h>() {

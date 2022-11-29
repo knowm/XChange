@@ -2,7 +2,6 @@ package org.knowm.xchange.binance.service.marketdata;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -13,7 +12,6 @@ import org.knowm.xchange.binance.BinanceExchangeIntegration;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -62,6 +60,6 @@ public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
 
   private BinanceTicker24h getBinanceTicker24h(Instrument pair) throws IOException {
     BinanceMarketDataService service = (BinanceMarketDataService) marketService;
-    return service.ticker24h(pair);
+    return service.ticker24hAllProducts(pair);
   }
 }

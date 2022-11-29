@@ -60,7 +60,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         pair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
       }
 
-      return BinanceAdapters.adaptOpenOrders(openOrders(pair));
+      return BinanceAdapters.adaptOpenOrders(openOrdersAllProducts(pair));
 
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
@@ -69,7 +69,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public String placeMarketOrder(MarketOrder mo) throws IOException {
-    return placeOrder(OrderType.MARKET, mo, null, null, null, null, null,null);
+    return placeOrderAllProducts(OrderType.MARKET, mo, null, null, null, null, null,null);
   }
 
   @Override
@@ -82,7 +82,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     } else {
       type = OrderType.LIMIT;
     }
-    return placeOrder(type, limitOrder, limitOrder.getLimitPrice(), null, null, null,null, tif);
+    return placeOrderAllProducts(type, limitOrder, limitOrder.getLimitPrice(), null, null, null,null, tif);
   }
 
   @Override
@@ -97,7 +97,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
     OrderType orderType = BinanceAdapters.adaptOrderType(order);
 
-    return placeOrder(
+    return placeOrderAllProducts(
         orderType, order, order.getLimitPrice(), order.getStopPrice(), null, null, order.getTrailValue(), tif);
   }
 
@@ -108,7 +108,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         .findFirst();
   }
 
-  private String placeOrder(
+  private String placeOrderAllProducts(
       OrderType type,
       Order order,
       BigDecimal limitPrice,
@@ -215,7 +215,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       assert params instanceof CancelOrderByInstrument;
       CancelOrderByInstrument paramInstrument = (CancelOrderByInstrument) params;
       CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
-      cancelOrder(
+      cancelOrderAllProducts(
                 paramInstrument.getInstrument(),
                 BinanceAdapters.id(paramId.getOrderId()),
                 null,
@@ -279,9 +279,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         limit = limitParams.getLimit();
       }
 
-      List<BinanceTrade> binanceTrades = (pair instanceof FuturesContract)
-              ? myFutureTrades(pair, orderId, startTime, endTime, fromId, limit)
-              : myTrades(pair, orderId, startTime, endTime, fromId, limit);
+      List<BinanceTrade> binanceTrades = myTradesAllProducts(pair, orderId, startTime, endTime, fromId, limit);
 
       return BinanceAdapters.adaptUserTrades(binanceTrades);
     } catch (BinanceException e) {
@@ -308,7 +306,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
         orders.add(
                 BinanceAdapters.adaptOrder(
-                        orderStatus(
+                        orderStatusAllProducts(
                                 orderQueryParamInstrument.getInstrument(),
                                 BinanceAdapters.id(orderQueryParamInstrument.getOrderId()),
                                 null)));
@@ -333,7 +331,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
     Instrument instrument = ((CancelOrderByInstrument) orderParams).getInstrument();
 
-    return cancelAllOpenOrders(instrument)
+    return cancelAllOpenOrdersAllProducts(instrument)
             .stream()
             .map(binanceCancelledOrder -> Long.toString(binanceCancelledOrder.orderId))
             .collect(Collectors.toList());
