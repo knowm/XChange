@@ -405,7 +405,25 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
-  // TODO: quick fix rate methods
+  // quick fix rate methods
+
+  public CoinmateFixRateResponse coinmateBuyQuickFixRate(BigDecimal total, BigDecimal amountReceived,  String currencyPair)
+      throws IOException {
+    CoinmateFixRateResponse response =
+        coinmateAuthenticated.buyQuickFixRate(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            total,
+            amountReceived,
+            currencyPair
+        );
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
 
   public CoinmateReplaceResponse coinmateReplaceByBuyInstant(
       String orderId, BigDecimal total, String currencyPair, String clientOrderId) throws IOException {
