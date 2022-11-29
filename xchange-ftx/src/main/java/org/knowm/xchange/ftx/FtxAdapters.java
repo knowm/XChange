@@ -28,8 +28,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -47,6 +47,7 @@ import org.knowm.xchange.ftx.dto.marketdata.FtxMarketsDto;
 import org.knowm.xchange.ftx.dto.marketdata.FtxOrderbookDto;
 import org.knowm.xchange.ftx.dto.marketdata.FtxTradeDto;
 import org.knowm.xchange.ftx.dto.trade.*;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class FtxAdapters {
@@ -143,20 +144,19 @@ public class FtxAdapters {
 
   public static ExchangeMetaData adaptExchangeMetaData(FtxMarketsDto marketsDto) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currency = new HashMap<>();
 
     marketsDto
         .getMarketList()
         .forEach(
             ftxMarketDto -> {
-              CurrencyPairMetaData currencyPairMetaData =
-                  new CurrencyPairMetaData.Builder()
+              InstrumentMetaData currencyPairMetaData =
+                  new InstrumentMetaData.Builder()
                       .amountStepSize(ftxMarketDto.getSizeIncrement())
                       .minimumAmount(ftxMarketDto.getSizeIncrement())
                       .priceScale(ftxMarketDto.getPriceIncrement().scale())
                       .volumeScale(Math.max(0,ftxMarketDto.getSizeIncrement().stripTrailingZeros().scale()))
-                      .baseScale(ftxMarketDto.getSizeIncrement().scale())
                       .build();
 
               if ("spot".equals(ftxMarketDto.getType())) {

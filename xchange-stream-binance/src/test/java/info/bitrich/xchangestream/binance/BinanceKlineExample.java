@@ -4,7 +4,7 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -27,16 +27,15 @@ public class BinanceKlineExample {
 
   private static KlineSubscription getKlineSubscription(BinanceStreamingExchange exchange) {
     Set<KlineInterval> klineIntervals = Arrays.stream(KlineInterval.values()).collect(Collectors.toSet());
-    Map<CurrencyPair, Set<KlineInterval>> klineSubscriptionMap = exchange.getExchangeSymbols().stream()
+    Map<Instrument, Set<KlineInterval>> klineSubscriptionMap = exchange.getExchangeInstruments().stream()
         .limit(50)
         .collect(Collectors.toMap(Function.identity(), c-> klineIntervals));
 
-    KlineSubscription klineSubscription = new KlineSubscription(klineSubscriptionMap);
-    return klineSubscription;
+    return new KlineSubscription(klineSubscriptionMap);
   }
 
   private static ProductSubscription getProductSubscription(BinanceStreamingExchange exchange) {
-    return exchange.getExchangeSymbols().stream()
+    return exchange.getExchangeInstruments().stream()
         .limit(50)
         .reduce(
             ProductSubscription.create(),

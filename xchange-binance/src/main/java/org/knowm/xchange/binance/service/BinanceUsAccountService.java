@@ -11,11 +11,11 @@ import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.slf4j.Logger;
@@ -38,8 +38,8 @@ public class BinanceUsAccountService extends BinanceAccountService {
   }
 
   @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
-    return super.getDynamicTradingFees();
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
+    return super.getDynamicTradingFeesByInstrument();
   }
 
   @Override

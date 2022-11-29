@@ -12,6 +12,7 @@ import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.examples.binance.BinanceDemoUtils;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BinanceMarketDataDemo {
@@ -35,9 +36,9 @@ public class BinanceMarketDataDemo {
       throws IOException {
 
     List<BinanceTicker24h> tickers = new ArrayList<>();
-    for (CurrencyPair cp : exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
-      if (cp.counter == Currency.USDT) {
-        tickers.add(marketDataService.ticker24h(cp));
+    for (Instrument cp : exchange.getExchangeMetaData().getInstruments().keySet()) {
+      if (cp.getCounter() == Currency.USDT) {
+        tickers.add(marketDataService.ticker24h((CurrencyPair) cp));
       }
     }
 

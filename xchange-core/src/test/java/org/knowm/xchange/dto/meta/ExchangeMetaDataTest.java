@@ -3,6 +3,7 @@ package org.knowm.xchange.dto.meta;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 
 public class ExchangeMetaDataTest {
 
@@ -41,13 +43,13 @@ public class ExchangeMetaDataTest {
   /** null for an unknown value */
   @Test
   public void testGetPollDelayMillisNull() {
-    assertEquals(null, ExchangeMetaData.getPollDelayMillis(null));
+    assertNull(ExchangeMetaData.getPollDelayMillis(null));
   }
 
   /** null for an unknown value */
   @Test
   public void testGetPollDelayMillisEmpty() {
-    assertEquals(null, ExchangeMetaData.getPollDelayMillis(new RateLimit[0]));
+    assertNull(ExchangeMetaData.getPollDelayMillis(new RateLimit[0]));
   }
 
   @Test
@@ -58,13 +60,15 @@ public class ExchangeMetaDataTest {
 
     ObjectMapper mapper = new ObjectMapper();
     ExchangeMetaData metaData = mapper.readValue(is, ExchangeMetaData.class);
-
-    assertThat(metaData.getCurrencyPairs().get(CurrencyPair.BTC_USD).getTradingFeeCurrency())
+    assertThat(metaData.getInstruments().get(CurrencyPair.BTC_USD).getTradingFeeCurrency())
         .isEqualTo(Currency.USD);
-    assertThat(metaData.getCurrencyPairs().get(CurrencyPair.BTC_USD).getPriceScale()).isEqualTo(2);
-    assertThat(metaData.getCurrencyPairs().get(CurrencyPair.BTC_USD).getMinimumAmount())
+    assertThat(metaData.getInstruments().get(CurrencyPair.BTC_USD).getPriceScale()).isEqualTo(2);
+    assertThat(metaData.getInstruments().get(CurrencyPair.BTC_USD).getMinimumAmount())
         .isEqualTo(new BigDecimal("0.0001"));
-    assertThat(metaData.getCurrencyPairs().get(CurrencyPair.BTC_USD).getMaximumAmount())
-        .isEqualTo(new BigDecimal("100"));
+    assertThat(metaData.getInstruments().get(CurrencyPair.BTC_USD).getMaximumAmount())
+        .isEqualByComparingTo(new BigDecimal("100"));
+
+    assertThat(metaData.getInstruments().get(new FuturesContract("BTC/USD/USDT")).getMaximumAmount())
+            .isEqualByComparingTo(BigDecimal.valueOf(1));
   }
 }

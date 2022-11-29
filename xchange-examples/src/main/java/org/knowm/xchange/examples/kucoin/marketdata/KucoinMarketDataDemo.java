@@ -28,7 +28,7 @@ public class KucoinMarketDataDemo {
     exchange = ExchangeFactory.INSTANCE.createExchange(KucoinExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
-    System.out.println(Arrays.toString(exchange.getExchangeSymbols().toArray()));
+    System.out.println(Arrays.toString(exchange.getExchangeInstruments().toArray()));
 
     generic(marketDataService);
     raw((KucoinMarketDataService) marketDataService);

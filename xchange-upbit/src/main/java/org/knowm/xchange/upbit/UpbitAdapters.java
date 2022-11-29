@@ -20,9 +20,10 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.upbit.dto.account.UpbitBalances;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitMarket;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBook;
@@ -128,13 +129,11 @@ public final class UpbitAdapters {
     List<Balance> balances = new ArrayList<>();
     Arrays.stream(wallets.getBalances())
         .forEach(
-            balance -> {
-              balances.add(
-                  new Balance(
-                      Currency.getInstance(balance.getCurrency()),
-                      balance.getBalance().add(balance.getLocked()),
-                      balance.getBalance()));
-            });
+            balance -> balances.add(
+                new Balance(
+                    Currency.getInstance(balance.getCurrency()),
+                    balance.getBalance().add(balance.getLocked()),
+                    balance.getBalance())));
     return Wallet.Builder.from(balances).build();
   }
 
@@ -167,13 +166,13 @@ public final class UpbitAdapters {
   }
 
   public static ExchangeMetaData adaptMetadata(List<UpbitMarket> markets) {
-    Map<CurrencyPair, CurrencyPairMetaData> pairMeta =
+    Map<Instrument, InstrumentMetaData> pairMeta =
         markets.stream()
             .map(UpbitMarket::getMarket)
             .map(UpbitUtils::toCurrencyPair)
             .collect(
                 Collectors.toMap(
-                    Function.identity(), cp -> new CurrencyPairMetaData.Builder().build()));
+                    Function.identity(), cp -> new InstrumentMetaData.Builder().build()));
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }
 }

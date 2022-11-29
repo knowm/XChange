@@ -20,6 +20,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 /** Created by luca on 4/3/17. */
 public class CoinbaseProStreamingMarketDataService implements StreamingMarketDataService {
@@ -40,9 +41,9 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
     this.service = service;
   }
 
-  private boolean containsPair(List<CurrencyPair> pairs, CurrencyPair pair) {
-    for (CurrencyPair item : pairs) {
-      if (item.compareTo(pair) == 0) {
+  private boolean containsPair(List<Instrument> pairs, CurrencyPair pair) {
+    for (Instrument item : pairs) {
+      if (pair.compareTo((CurrencyPair) item) == 0) {
         return true;
       }
     }

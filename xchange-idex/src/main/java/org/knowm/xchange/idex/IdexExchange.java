@@ -15,8 +15,8 @@ import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.idex.IdexExchange.Companion.IdexCurrencyMeta;
 import org.knowm.xchange.idex.dto.NextNonceReq;
@@ -24,15 +24,16 @@ import org.knowm.xchange.idex.dto.ReturnCurrenciesResponse;
 import org.knowm.xchange.idex.dto.ReturnNextNonceResponse;
 import org.knowm.xchange.idex.dto.ReturnTickerRequestedWithNull;
 import org.knowm.xchange.idex.service.ReturnNextNonceApi;
+import org.knowm.xchange.instrument.Instrument;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class IdexExchange extends BaseExchange {
 
   private ReturnCurrenciesResponse allCurrenciesStatic;
 
-  CurrencyPairMetaData unavailableCPMeta = new CurrencyPairMetaData(ZERO, ZERO, ZERO, 0, null);
+  InstrumentMetaData unavailableCPMeta = new InstrumentMetaData.Builder().build();
 
-  public final CurrencyPairMetaData getUnavailableCPMeta() {
+  public final InstrumentMetaData getUnavailableCPMeta() {
     return unavailableCPMeta;
   }
 
@@ -47,7 +48,7 @@ public class IdexExchange extends BaseExchange {
       e.printStackTrace();
     }
 
-    LinkedHashMap<CurrencyPair, CurrencyPairMetaData> currencyPairs = new LinkedHashMap<>();
+    LinkedHashMap<Instrument, InstrumentMetaData> currencyPairs = new LinkedHashMap<>();
     ReturnTickerRequestedWithNull allTickers = IdexMarketDataService.Companion.allTickers;
 
     allTickers

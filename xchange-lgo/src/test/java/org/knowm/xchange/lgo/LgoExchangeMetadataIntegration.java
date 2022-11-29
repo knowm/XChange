@@ -20,7 +20,7 @@ public class LgoExchangeMetadataIntegration {
   public void fetchRemoteMetadata() throws IOException {
     Exchange exchange = exchangeWithCredentials();
 
-    assertThat(exchange.getExchangeMetaData().getCurrencyPairs()).hasSize(1);
+    assertThat(exchange.getExchangeMetaData().getInstruments()).hasSize(1);
   }
 
   // api key and secret key are expected to be in test resources under

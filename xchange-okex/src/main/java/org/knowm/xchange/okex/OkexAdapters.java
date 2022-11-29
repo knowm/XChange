@@ -13,8 +13,8 @@ import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -250,10 +250,10 @@ public class OkexAdapters {
           List<OkexCurrency> currs,
           List<OkexTradeFee> tradeFee) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        exchangeMetaData.getCurrencyPairs() == null
+    Map<Instrument, InstrumentMetaData> currencyPairs =
+        exchangeMetaData.getInstruments() == null
             ? new HashMap<>()
-            : exchangeMetaData.getCurrencyPairs();
+            : exchangeMetaData.getInstruments();
 
     Map<Currency, CurrencyMetaData> currencies =
         exchangeMetaData.getCurrencies() == null
@@ -271,24 +271,19 @@ public class OkexAdapters {
       }
       CurrencyPair pair = adaptCurrencyPair(instrument);
 
-      CurrencyPairMetaData staticMetaData = currencyPairs.get(pair);
+      InstrumentMetaData staticMetaData = currencyPairs.get(pair);
       int priceScale = numberOfDecimals(new BigDecimal(instrument.getTickSize()));
 
       currencyPairs.put(
           pair,
-          new CurrencyPairMetaData(
-              new BigDecimal(makerFee).negate(),
-              new BigDecimal(instrument.getMinSize()),
-              null,
-              null,
-              null,
-              null,
-              priceScale,
-              null,
-              staticMetaData != null ? staticMetaData.getFeeTiers() : null,
-              null,
-              pair.counter,
-              true));
+          new InstrumentMetaData.Builder()
+                  .tradingFee(new BigDecimal(makerFee).negate())
+                  .minimumAmount(new BigDecimal(instrument.getMinSize()))
+                  .priceScale(priceScale)
+                  .feeTiers(staticMetaData != null ? staticMetaData.getFeeTiers() : null)
+                  .tradingFeeCurrency(pair.counter)
+                  .marketOrderEnabled(true)
+                  .build());
     }
 
     if (currs != null) {
