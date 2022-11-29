@@ -14,6 +14,7 @@ import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
@@ -42,18 +43,16 @@ public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
   public void testBinanceTicker24h() throws Exception {
 
     List<BinanceTicker24h> tickers = new ArrayList<>();
-    for (CurrencyPair cp : exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
-      if (cp.counter == Currency.USDT) {
+    for (Instrument cp : exchange.getExchangeMetaData().getInstruments().keySet()) {
+      if (cp.getCounter() == Currency.USDT) {
         tickers.add(getBinanceTicker24h(cp));
       }
     }
 
-    Collections.sort(
-        tickers,
-        (BinanceTicker24h t1, BinanceTicker24h t2) ->
+    tickers.sort((BinanceTicker24h t1, BinanceTicker24h t2) ->
             t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent()));
 
-    tickers.stream()
+    tickers
         .forEach(
             t -> System.out.println(
                 t.getInstrument()
@@ -61,7 +60,7 @@ public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
                     + String.format("%+.2f%%", t.getPriceChangePercent())));
   }
 
-  private BinanceTicker24h getBinanceTicker24h(CurrencyPair pair) throws IOException {
+  private BinanceTicker24h getBinanceTicker24h(Instrument pair) throws IOException {
     BinanceMarketDataService service = (BinanceMarketDataService) marketService;
     return service.ticker24h(pair);
   }

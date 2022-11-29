@@ -23,6 +23,7 @@ import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
@@ -109,16 +110,16 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   }
 
   @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
     try {
       BinanceAccountInformation acc = account();
       BigDecimal makerFee =
-          acc.makerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
+              acc.makerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
       BigDecimal takerFee =
-          acc.takerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
+              acc.takerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
 
-      Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
-      List<CurrencyPair> pairs = exchange.getExchangeSymbols();
+      Map<Instrument, Fee> tradingFees = new HashMap<>();
+      List<Instrument> pairs = exchange.getExchangeInstruments();
 
       pairs.forEach(pair -> tradingFees.put(pair, new Fee(makerFee, takerFee)));
 
