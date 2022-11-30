@@ -82,6 +82,13 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
         .call();
   }
 
+  public BinanceExchangeInfo getFutureExchangeInfo() throws IOException {
+    return decorateApiCall(binanceFutures::exchangeInfo)
+            .withRetry(retry("exchangeInfo"))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+  }
+
   public BinanceSystemStatus getSystemStatus() throws IOException {
     return decorateApiCall(binance::systemStatus).call();
   }
