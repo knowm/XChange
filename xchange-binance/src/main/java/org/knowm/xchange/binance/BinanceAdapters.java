@@ -282,12 +282,12 @@ public class BinanceAdapters {
     switch (order.getIntention()) {
       case STOP_LOSS:
         return order.getLimitPrice() == null
-            ? org.knowm.xchange.binance.dto.trade.OrderType.STOP_LOSS
-            : org.knowm.xchange.binance.dto.trade.OrderType.STOP_LOSS_LIMIT;
+            ? (order.getInstrument() instanceof CurrencyPair) ? org.knowm.xchange.binance.dto.trade.OrderType.STOP_LOSS: org.knowm.xchange.binance.dto.trade.OrderType.STOP_MARKET
+            : (order.getInstrument() instanceof CurrencyPair) ? org.knowm.xchange.binance.dto.trade.OrderType.STOP_LOSS_LIMIT: org.knowm.xchange.binance.dto.trade.OrderType.STOP;
       case TAKE_PROFIT:
         return order.getLimitPrice() == null
-            ? org.knowm.xchange.binance.dto.trade.OrderType.TAKE_PROFIT
-            : org.knowm.xchange.binance.dto.trade.OrderType.TAKE_PROFIT_LIMIT;
+            ? (order.getInstrument() instanceof CurrencyPair) ? org.knowm.xchange.binance.dto.trade.OrderType.TAKE_PROFIT : org.knowm.xchange.binance.dto.trade.OrderType.TAKE_PROFIT_MARKET
+            : (order.getInstrument() instanceof CurrencyPair) ? org.knowm.xchange.binance.dto.trade.OrderType.TAKE_PROFIT_LIMIT : org.knowm.xchange.binance.dto.trade.OrderType.TAKE_PROFIT;
       default:
         throw new IllegalStateException("Unexpected value: " + order.getIntention());
     }
