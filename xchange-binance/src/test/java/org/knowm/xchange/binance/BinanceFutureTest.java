@@ -44,7 +44,7 @@ public class BinanceFutureTest {
 
         spec.setApiKey(prop.getProperty("apikey"));
         spec.setSecretKey(prop.getProperty("secret"));
-
+        spec.setExchangeSpecificParametersItem(BinanceExchange.SPECIFIC_PARAM_USE_FUTURES_SANDBOX, true);
         exchange.applySpecification(spec);
 
         binanceExchange = exchange;

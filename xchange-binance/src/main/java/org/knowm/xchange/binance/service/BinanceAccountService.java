@@ -16,11 +16,7 @@ import org.knowm.xchange.binance.dto.account.BinanceSubAccountTransferHistoryPar
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.AddressWithTag;
-import org.knowm.xchange.dto.account.Fee;
-import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.instrument.Instrument;
@@ -95,13 +91,30 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     try {
-      BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
-      BinanceAccountInformation binanceAccountInformation = account();
+      List<Wallet> wallets = new ArrayList<>();
+      List<OpenPosition> openPositions = new ArrayList<>();
+
+      if(exchange.usingSandbox()){
+        if(exchange.isFuturesSandbox()){
+          BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
+          wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
+          openPositions.addAll(BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
+
+        } else {
+          wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
+        }
+      } else {
+        BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
+        wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
+        wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
+        openPositions.addAll(BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
+
+      }
       return new AccountInfo(
               exchange.getExchangeSpecification().getUserName(),
               null,
-              BinanceAdapters.adaptBinanceWallets(futureAccountInformation, binanceAccountInformation),
-              BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()),
+              wallets,
+              openPositions,
               Date.from(Instant.now())
       );
     } catch (BinanceException e) {

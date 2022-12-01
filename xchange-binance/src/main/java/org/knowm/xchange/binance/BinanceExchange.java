@@ -15,9 +15,11 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange implements Exchange {
   public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
-  public static final String SPECIFIC_PARAM_USE_SANDBOX_FUTURES = "Use_Sandbox_Futures";
+  public static final String SPECIFIC_PARAM_USE_FUTURES_SANDBOX = "Use_Sandbox_Futures";
 
   private static final String SPOT_URL = "https://api.binance.com";
+  public static final String FUTURES_URL = "https://fapi.binance.com";
+  public static final String SANDBOX_FUTURES_URL = "https://testnet.binancefuture.com";
   protected static ResilienceRegistries RESILIENCE_REGISTRIES;
   protected SynchronizedValueFactory<Long> timestampFactory;
 
@@ -70,8 +72,13 @@ public class BinanceExchange extends BaseExchange implements Exchange {
     super.applySpecification(exchangeSpecification);
   }
 
+  public boolean isFuturesSandbox(){
+    return Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_FUTURES_SANDBOX));
+  }
+
   public boolean usingSandbox() {
-    return enabledSandbox(exchangeSpecification) || enabledFuturesSandbox(exchangeSpecification);
+    return enabledSandbox(exchangeSpecification);
   }
 
   @Override
@@ -106,20 +113,15 @@ public class BinanceExchange extends BaseExchange implements Exchange {
       if (enabledSandbox(exchangeSpecification)) {
         exchangeSpecification.setSslUri("https://testnet.binance.vision");
         exchangeSpecification.setHost("testnet.binance.vision");
-      } else if(enabledFuturesSandbox(exchangeSpecification)){
-        exchangeSpecification.setSslUri("https://testnet.binancefuture.com");
-        exchangeSpecification.setHost("testnet.binancefuture.com");
       }
     }
   }
 
   private static boolean enabledSandbox(ExchangeSpecification exchangeSpecification) {
     return Boolean.TRUE.equals(
-        exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX));
+        exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX)) ||
+            Boolean.TRUE.equals(
+                    exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_FUTURES_SANDBOX));
   }
 
-  private static boolean enabledFuturesSandbox(ExchangeSpecification exchangeSpecification) {
-    return Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX_FUTURES));
-  }
 }

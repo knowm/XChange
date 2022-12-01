@@ -292,36 +292,34 @@ public class BinanceAdapters {
         throw new IllegalStateException("Unexpected value: " + order.getIntention());
     }
   }
-
-  public static List<Wallet> adaptBinanceWallets(BinanceFutureAccountInformation futureAccountInformation, BinanceAccountInformation binanceAccountInformation){
-    List<Wallet> wallets = new ArrayList<>();
-
+  public static Wallet adaptBinanceFutureWallet(BinanceFutureAccountInformation futureAccountInformation){
     BigDecimal totalPositionsInUsd = BigDecimal.ZERO;
 
     for (BinancePosition position : futureAccountInformation.getPositions()) {
-        if(position.getPositionAmt().abs().compareTo(BigDecimal.ZERO) > 0){
-          totalPositionsInUsd = totalPositionsInUsd.add(position.getPositionAmt().abs().multiply(position.getEntryPrice()));
-        }
+      if(position.getPositionAmt().abs().compareTo(BigDecimal.ZERO) > 0){
+        totalPositionsInUsd = totalPositionsInUsd.add(position.getPositionAmt().abs().multiply(position.getEntryPrice()));
+      }
     }
+
+    return new Wallet.Builder()
+            .balances(Collections.singletonList(new Balance.Builder().total(futureAccountInformation.getTotalWalletBalance()).build()))
+            .id("futures")
+            .currentLeverage(totalPositionsInUsd.divide(futureAccountInformation.getTotalWalletBalance(),MathContext.DECIMAL32))
+            .features(Collections.singleton(Wallet.WalletFeature.FUTURES_TRADING))
+            .build();
+  }
+  public static Wallet adaptBinanceSpotWallet(BinanceAccountInformation binanceAccountInformation){
 
     List<Balance> balances =
             binanceAccountInformation.balances.stream()
                     .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
                     .collect(Collectors.toList());
 
-    wallets.add(Wallet.Builder.from(balances)
+    return new Wallet.Builder()
+            .balances(balances)
             .id("spot")
             .features(Collections.singleton(Wallet.WalletFeature.TRADING))
-            .build());
-
-    wallets.add(new Wallet.Builder()
-            .balances(Collections.singletonList(new Balance.Builder().total(futureAccountInformation.getTotalWalletBalance()).build()))
-            .id("futures")
-            .currentLeverage(totalPositionsInUsd.divide(futureAccountInformation.getTotalWalletBalance(),MathContext.DECIMAL32))
-            .features(Collections.singleton(Wallet.WalletFeature.FUTURES_TRADING))
-            .build());
-
-    return wallets;
+            .build();
   }
 
   public static List<OpenPosition> adaptOpenPositions(List<BinancePosition> binancePositions) {

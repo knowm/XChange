@@ -20,8 +20,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceBaseService extends BaseResilientExchangeService<BinanceExchange> {
 
-  private static final String FUTURES_URL = "https://fapi.binance.com";
-
   protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
   protected final String apiKey;
@@ -38,7 +36,7 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
                             BinanceAuthenticated.class, exchange.getExchangeSpecification())
             .build();
     ExchangeSpecification futuresSpec = exchange.getDefaultExchangeSpecification();
-    futuresSpec.setSslUri(FUTURES_URL);
+    futuresSpec.setSslUri((exchange.usingSandbox()) ? BinanceExchange.SANDBOX_FUTURES_URL: BinanceExchange.FUTURES_URL);
     this.binanceFutures = ExchangeRestProxyBuilder.forInterface(
                     BinanceFuturesAuthenticated.class, futuresSpec)
             .build();
