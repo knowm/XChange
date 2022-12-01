@@ -15,6 +15,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange implements Exchange {
   public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
+  public static final String SPECIFIC_PARAM_USE_SANDBOX_FUTURES = "Use_Sandbox_Futures";
 
   private static final String SPOT_URL = "https://api.binance.com";
   protected static ResilienceRegistries RESILIENCE_REGISTRIES;
@@ -105,6 +106,10 @@ public class BinanceExchange extends BaseExchange implements Exchange {
       if (enabledSandbox(exchangeSpecification)) {
         exchangeSpecification.setSslUri("https://testnet.binance.vision");
         exchangeSpecification.setHost("testnet.binance.vision");
+      } else if(Boolean.TRUE.equals(
+              exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX_FUTURES))){
+        exchangeSpecification.setSslUri("https://testnet.binancefuture.com");
+        exchangeSpecification.setHost("testnet.binancefuture.com");
       }
     }
   }
