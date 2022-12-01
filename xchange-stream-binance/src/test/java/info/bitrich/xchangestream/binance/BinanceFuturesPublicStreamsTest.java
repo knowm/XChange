@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.binance;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
+import io.reactivex.disposables.Disposable;
 import org.junit.Test;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.instrument.Instrument;
@@ -20,11 +21,12 @@ public class BinanceFuturesPublicStreamsTest {
     public void checkOrderBookStream() throws InterruptedException {
         exchange.connect(ProductSubscription.create().addOrderbook(instrument).build()).blockingAwait();
 
-        exchange.getStreamingMarketDataService().getOrderBook(instrument).subscribe(orderBook -> {
+        Disposable dis = exchange.getStreamingMarketDataService().getOrderBook(instrument).subscribe(orderBook -> {
             System.out.println(orderBook.toString());
             assertThat(orderBook.getBids().get(0).getLimitPrice()).isLessThan(orderBook.getAsks().get(0).getLimitPrice());
         });
 
         TimeUnit.SECONDS.sleep(3);
+        dis.dispose();
     }
 }
