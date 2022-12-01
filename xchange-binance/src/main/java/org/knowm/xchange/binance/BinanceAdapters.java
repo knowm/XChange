@@ -302,7 +302,10 @@ public class BinanceAdapters {
     }
 
     return new Wallet.Builder()
-            .balances(Collections.singletonList(new Balance.Builder().total(futureAccountInformation.getTotalWalletBalance()).build()))
+            .balances(Collections.singletonList(new Balance.Builder()
+                    .currency(Currency.USD)
+                    .total(futureAccountInformation.getTotalWalletBalance())
+                    .build()))
             .id("futures")
             .currentLeverage(totalPositionsInUsd.divide(futureAccountInformation.getTotalWalletBalance(),MathContext.DECIMAL32))
             .features(Collections.singleton(Wallet.WalletFeature.FUTURES_TRADING))
