@@ -114,37 +114,96 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     return orderbookSubscriptions.computeIfAbsent(currencyPair, this::initOrderBookIfAbsent);
   }
 
+  @Override
+  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+    if (realtimeOrderBookTicker) {
+      return getRawBookTicker(currencyPair).map(BinanceBookTicker::toTicker);
+    }
+    return getRawTicker(currencyPair).map(BinanceTicker24h::toTicker);
+  }
+
+  @Override
+  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+    return getRawTrades(currencyPair, args)
+            .map(
+                    rawTrade ->
+                            new Trade.Builder()
+                                    .type(BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()))
+                                    .originalAmount(rawTrade.getQuantity())
+                                    .instrument(currencyPair)
+                                    .price(rawTrade.getPrice())
+                                    .makerOrderId(getMakerOrderId(rawTrade))
+                                    .takerOrderId(getTakerOrderId(rawTrade))
+                                    .timestamp(new Date(rawTrade.getTimestamp()))
+                                    .id(String.valueOf(rawTrade.getTradeId()))
+                                    .build());
+  }
+
+  @Override
+  public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
+    if (!service.isLiveSubscriptionEnabled()
+            && !service.getProductSubscription().getOrderBook().contains(instrument)) {
+      throw new UpFrontSubscriptionRequiredException();
+    }
+    return orderbookSubscriptions.computeIfAbsent(instrument, this::initOrderBookIfAbsent);
+  }
+
+  @Override
+  public Observable<Ticker> getTicker(Instrument instrument, Object... args) {
+    if (realtimeOrderBookTicker) {
+      return getRawBookTicker(instrument).map(BinanceBookTicker::toTicker);
+    }
+    return getRawTicker(instrument).map(BinanceTicker24h::toTicker);
+  }
+
+  @Override
+  public Observable<Trade> getTrades(Instrument instrument, Object... args) {
+    return getRawTrades(instrument, args)
+            .map(
+                    rawTrade ->
+                            new Trade.Builder()
+                                    .type(BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()))
+                                    .originalAmount(rawTrade.getQuantity())
+                                    .instrument(instrument)
+                                    .price(rawTrade.getPrice())
+                                    .makerOrderId(getMakerOrderId(rawTrade))
+                                    .takerOrderId(getTakerOrderId(rawTrade))
+                                    .timestamp(new Date(rawTrade.getTimestamp()))
+                                    .id(String.valueOf(rawTrade.getTradeId()))
+                                    .build());
+  }
+
   private Observable<OrderBook> initOrderBookIfAbsent(Instrument currencyPair) {
     orderBookRawUpdatesSubscriptions.computeIfAbsent(
         currencyPair, s -> triggerObservableBody(rawOrderBookUpdates(currencyPair)));
     return createOrderBookObservable(currencyPair);
   }
 
-  public Observable<BinanceTicker24h> getRawTicker(CurrencyPair currencyPair, Object... args) {
+  public Observable<BinanceTicker24h> getRawTicker(Instrument instrument, Object... args) {
     if (!service.isLiveSubscriptionEnabled()
-        && !service.getProductSubscription().getTicker().contains(currencyPair)) {
+        && !service.getProductSubscription().getTicker().contains(instrument)) {
       throw new UpFrontSubscriptionRequiredException();
     }
     return tickerSubscriptions.computeIfAbsent(
-        currencyPair, s -> triggerObservableBody(rawTickerStream(currencyPair)).share());
+        instrument, s -> triggerObservableBody(rawTickerStream(instrument)).share());
   }
 
-  public Observable<BinanceBookTicker> getRawBookTicker(CurrencyPair currencyPair, Object... args) {
+  public Observable<BinanceBookTicker> getRawBookTicker(Instrument instrument, Object... args) {
     if (!service.isLiveSubscriptionEnabled()
-        && !service.getProductSubscription().getTicker().contains(currencyPair)) {
+        && !service.getProductSubscription().getTicker().contains(instrument)) {
       throw new UpFrontSubscriptionRequiredException();
     }
     return bookTickerSubscriptions.computeIfAbsent(
-        currencyPair, s -> triggerObservableBody(rawBookTickerStream(currencyPair)).share());
+        instrument, s -> triggerObservableBody(rawBookTickerStream(instrument)).share());
   }
 
-  public Observable<BinanceRawTrade> getRawTrades(CurrencyPair currencyPair, Object... args) {
+  public Observable<BinanceRawTrade> getRawTrades(Instrument instrument, Object... args) {
     if (!service.isLiveSubscriptionEnabled()
-        && !service.getProductSubscription().getTrades().contains(currencyPair)) {
+        && !service.getProductSubscription().getTrades().contains(instrument)) {
       throw new UpFrontSubscriptionRequiredException();
     }
     return tradeSubscriptions.computeIfAbsent(
-        currencyPair, s -> triggerObservableBody(rawTradeStream(currencyPair)).share());
+        instrument, s -> triggerObservableBody(rawTradeStream(instrument)).share());
   }
 
   public Observable<BinanceKline> getKlines(CurrencyPair currencyPair, KlineInterval interval) {
@@ -198,31 +257,6 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     orderBookRawUpdatesSubscriptions.computeIfAbsent(
         currencyPair, s -> triggerObservableBody(rawOrderBookUpdates(currencyPair)));
     return createOrderBookUpdatesObservable(currencyPair);
-  }
-
-  @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    if (realtimeOrderBookTicker) {
-      return getRawBookTicker(currencyPair).map(BinanceBookTicker::toTicker);
-    }
-    return getRawTicker(currencyPair).map(BinanceTicker24h::toTicker);
-  }
-
-  @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    return getRawTrades(currencyPair, args)
-        .map(
-            rawTrade ->
-                new Trade.Builder()
-                    .type(BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()))
-                    .originalAmount(rawTrade.getQuantity())
-                    .instrument(currencyPair)
-                    .price(rawTrade.getPrice())
-                    .makerOrderId(getMakerOrderId(rawTrade))
-                    .takerOrderId(getTakerOrderId(rawTrade))
-                    .timestamp(new Date(rawTrade.getTimestamp()))
-                    .id(String.valueOf(rawTrade.getTradeId()))
-                    .build());
   }
 
   private String getMakerOrderId(BinanceRawTrade trade) {

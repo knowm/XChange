@@ -17,6 +17,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BinanceStreamingTradeService implements StreamingTradeService {
 
@@ -47,18 +48,28 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
 
   @Override
   public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
-    return getOrderChanges().filter(oc -> currencyPair.equals(oc.getCurrencyPair()));
+    return getOrderChanges().filter(oc -> currencyPair.equals(oc.getInstrument()));
+  }
+
+  @Override
+  public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+    return getUserTrades().filter(t -> t.getInstrument().equals(currencyPair));
+  }
+
+  @Override
+  public Observable<Order> getOrderChanges(Instrument instrument, Object... args) {
+    return getOrderChanges().filter(oc -> instrument.equals(oc.getInstrument()));
+  }
+
+  @Override
+  public Observable<UserTrade> getUserTrades(Instrument instrument, Object... args) {
+    return getUserTrades().filter(t -> t.getInstrument().equals(instrument));
   }
 
   public Observable<UserTrade> getUserTrades() {
     return getRawExecutionReports()
         .filter(r -> r.getExecutionType().equals(ExecutionType.TRADE))
         .map(ExecutionReportBinanceUserTransaction::toUserTrade);
-  }
-
-  @Override
-  public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
-    return getUserTrades().filter(t -> t.getCurrencyPair().equals(currencyPair));
   }
 
   /** Registers subsriptions with the streaming service for the given products. */
