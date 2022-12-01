@@ -93,8 +93,16 @@ public class BinanceExchange extends BaseExchange implements Exchange {
       if (!usingSandbox() && isAuthenticated()) {
         assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
       }
-      exchangeMetaData = BinanceAdapters.adaptExchangeMetaData(marketDataService.getExchangeInfo(), assetDetailMap);
-      BinanceAdapters.adaptFutureExchangeMetaData(exchangeMetaData, marketDataService.getFutureExchangeInfo());
+      if(usingSandbox()){
+        if(isFuturesSandbox()){
+          BinanceAdapters.adaptFutureExchangeMetaData(exchangeMetaData, marketDataService.getFutureExchangeInfo());
+        } else {
+          exchangeMetaData = BinanceAdapters.adaptExchangeMetaData(marketDataService.getExchangeInfo(), assetDetailMap);
+        }
+      } else {
+        exchangeMetaData = BinanceAdapters.adaptExchangeMetaData(marketDataService.getExchangeInfo(), assetDetailMap);
+        BinanceAdapters.adaptFutureExchangeMetaData(exchangeMetaData, marketDataService.getFutureExchangeInfo());
+      }
 
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
