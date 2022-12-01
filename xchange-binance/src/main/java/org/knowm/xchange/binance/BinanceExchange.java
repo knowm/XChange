@@ -71,7 +71,7 @@ public class BinanceExchange extends BaseExchange implements Exchange {
   }
 
   public boolean usingSandbox() {
-    return enabledSandbox(exchangeSpecification);
+    return enabledSandbox(exchangeSpecification) || enabledFuturesSandbox(exchangeSpecification);
   }
 
   @Override
@@ -106,8 +106,7 @@ public class BinanceExchange extends BaseExchange implements Exchange {
       if (enabledSandbox(exchangeSpecification)) {
         exchangeSpecification.setSslUri("https://testnet.binance.vision");
         exchangeSpecification.setHost("testnet.binance.vision");
-      } else if(Boolean.TRUE.equals(
-              exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX_FUTURES))){
+      } else if(enabledFuturesSandbox(exchangeSpecification)){
         exchangeSpecification.setSslUri("https://testnet.binancefuture.com");
         exchangeSpecification.setHost("testnet.binancefuture.com");
       }
@@ -117,5 +116,10 @@ public class BinanceExchange extends BaseExchange implements Exchange {
   private static boolean enabledSandbox(ExchangeSpecification exchangeSpecification) {
     return Boolean.TRUE.equals(
         exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX));
+  }
+
+  private static boolean enabledFuturesSandbox(ExchangeSpecification exchangeSpecification) {
+    return Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX_FUTURES));
   }
 }
