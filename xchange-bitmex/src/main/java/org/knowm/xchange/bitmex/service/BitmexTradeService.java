@@ -27,9 +27,18 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.CancelAllOrders;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParam;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeService {
 
@@ -146,7 +155,8 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws ExchangeException {
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    String[] orderIds = TradeService.toOrderIds(orderQueryParams);
 
     String filter = "{\"orderID\": [\"" + String.join("\",\"", orderIds) + "\"]}";
 
@@ -186,8 +196,13 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
       }
     }
 
+    boolean reverse =
+        (params instanceof TradeHistoryParamsSorted)
+            && ((TradeHistoryParamsSorted) params).getOrder()
+                == TradeHistoryParamsSorted.Order.desc;
+
     List<UserTrade> userTrades =
-        getTradeHistory(symbol, null, null, count, start, false, startTime, endTime).stream()
+        getTradeHistory(symbol, null, null, count, start, reverse, startTime, endTime).stream()
             .map(BitmexAdapters::adoptUserTrade)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());

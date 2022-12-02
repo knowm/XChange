@@ -2,7 +2,10 @@ package info.bitrich.xchangestream.binance.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import org.knowm.xchange.dto.account.Balance;
 
 public class OutboundAccountInfoBinanceWebsocketTransaction
     extends BaseBinanceWebSocketTransaction {
@@ -16,6 +19,7 @@ public class OutboundAccountInfoBinanceWebsocketTransaction
   private final boolean canDeposit;
   private final long lastUpdateTimestamp;
   private final List<BinanceWebsocketBalance> balances;
+  private List<String> permissions;
 
   public OutboundAccountInfoBinanceWebsocketTransaction(
       @JsonProperty("e") String eventType,
@@ -28,7 +32,8 @@ public class OutboundAccountInfoBinanceWebsocketTransaction
       @JsonProperty("W") boolean canWithdraw,
       @JsonProperty("D") boolean canDeposit,
       @JsonProperty("u") long lastUpdateTimestamp,
-      @JsonProperty("B") List<BinanceWebsocketBalance> balances) {
+      @JsonProperty("B") List<BinanceWebsocketBalance> balances,
+      @JsonProperty("P") List<String> permissions) {
     super(eventType, eventTime);
     this.makerCommissionRate = makerCommissionRate;
     this.takerCommissionRate = takerCommissionRate;
@@ -39,6 +44,7 @@ public class OutboundAccountInfoBinanceWebsocketTransaction
     this.canDeposit = canDeposit;
     this.lastUpdateTimestamp = lastUpdateTimestamp;
     this.balances = balances;
+    this.permissions = permissions;
   }
 
   public BigDecimal getMakerCommissionRate() {
@@ -77,6 +83,27 @@ public class OutboundAccountInfoBinanceWebsocketTransaction
     return balances;
   }
 
+  public List<String> getPermissions() {
+    return permissions;
+  }
+
+  public List<Balance> toBalanceList() {
+    return balances.stream()
+        .map(
+            b ->
+                new Balance(
+                    b.getCurrency(),
+                    b.getTotal(),
+                    b.getAvailable(),
+                    b.getLocked(),
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    new Date(lastUpdateTimestamp)))
+        .collect(Collectors.toList());
+  }
+
   @Override
   public String toString() {
     return "OutboundAccountInfoBinanceWebsocketTransaction [makerCommissionRate="
@@ -97,6 +124,8 @@ public class OutboundAccountInfoBinanceWebsocketTransaction
         + lastUpdateTimestamp
         + ", balances="
         + balances
+        + ", permissions="
+        + permissions
         + "]";
   }
 }

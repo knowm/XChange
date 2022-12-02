@@ -3,9 +3,35 @@
   ],
   "result": {
     "trades": {
-      "TY5BYV-WJUQF-XPYEYD": {
-        "ordertxid": "ONRNOX-DVI4W-76DL6Q",
+      "TY5BYV-WJUQF-XPYEYD-1": {
+        "ordertxid": "ONRNOX-DVI4W-76DL6Q-1",
         "pair": "XLTCXXBT",
+        "time": 1389071942.2089,
+        "type": "sell",
+        "ordertype": "market",
+        "price": "32.07562",
+        "cost": "16.03781",
+        "fee": "0.03208",
+        "vol": "0.50000000",
+        "margin": "0.00000",
+        "misc": ""
+      },
+      "TY5BYV-WJUQF-XPYEYD-2": {
+        "ordertxid": "ONRNOX-DVI4W-76DL6Q-2",
+        "pair": "XBTUSD",
+        "time": 1389071942.2089,
+        "type": "sell",
+        "ordertype": "market",
+        "price": "32.07562",
+        "cost": "16.03781",
+        "fee": "0.03208",
+        "vol": "0.50000000",
+        "margin": "0.00000",
+        "misc": ""
+      },
+      "TY5BYV-WJUQF-XPYEYD-3": {
+        "ordertxid": "ONRNOX-DVI4W-76DL6Q-3",
+        "pair": "XBTUSD",
         "time": 1389071942.2089,
         "type": "sell",
         "ordertype": "market",
@@ -17,6 +43,6 @@
         "misc": ""
       }
     },
-    "count": "1"
+    "count": "3"
   }
 }

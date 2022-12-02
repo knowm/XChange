@@ -11,10 +11,17 @@ public final class BitfinexUtils {
   /** private Constructor */
   private BitfinexUtils() {}
 
+  private static final String USDT_SYMBOL_BITFINEX = "UST";
+  private static final String USDT_SYMBOL_XCHANGE = "USDT";
+
   public static String adaptXchangeCurrency(Currency xchangeSymbol) {
 
     if (xchangeSymbol == null) {
       return null;
+    }
+
+    if (USDT_SYMBOL_XCHANGE.equals(xchangeSymbol.toString())) {
+      return USDT_SYMBOL_BITFINEX;
     }
 
     return xchangeSymbol.toString(); // .toLowerCase();
@@ -46,11 +53,12 @@ public final class BitfinexUtils {
   }
 
   /**
-   * unfortunatelly we need to go this way, since the pairs at bitfinex are not very consequent see
+   * Unfortunately we need to go this way, since the pairs at Bitfinex are not very consistent see
    * dusk:xxx pairs at https://api.bitfinex.com/v1/symbols_details the same for xxx:cnht
    *
-   * @param base
-   * @return
+   * @param base currency to build string with
+   * @param counter currency to build string with
+   * @return string based on pair
    */
   private static String currencySeparator(String base, String counter) {
     if (base.length() > 3 || counter.length() > 3) {
@@ -79,6 +87,8 @@ public final class BitfinexUtils {
         return "ethereum";
       case "ETC":
         return "ethereumc";
+      case "CLO":
+        return "clo";
       case "ZEC":
         return "zcash";
       case "XMR":

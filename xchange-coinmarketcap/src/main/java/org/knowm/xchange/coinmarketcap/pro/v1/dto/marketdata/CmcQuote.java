@@ -13,7 +13,12 @@ public final class CmcQuote {
   private BigDecimal percentChange1h;
   private BigDecimal percentChange7d;
   private BigDecimal percentChange24h;
+  private BigDecimal percentChange30d;
+  private BigDecimal percentChange60d;
+  private BigDecimal percentChange90d;
   private BigDecimal marketCap;
+  private BigDecimal marketCapDominance;
+  private BigDecimal fullyDilutedMarketCap;
   private Date lastUpdated;
 
   public CmcQuote(
@@ -22,7 +27,12 @@ public final class CmcQuote {
       @JsonProperty("percent_change_1h") BigDecimal percentChange1h,
       @JsonProperty("percent_change_7d") BigDecimal percentChange7d,
       @JsonProperty("percent_change_24h") BigDecimal percentChange24h,
+      @JsonProperty("percent_change_30d") BigDecimal percentChange30d,
+      @JsonProperty("percent_change_60d") BigDecimal percentChange60d,
+      @JsonProperty("percent_change_90d") BigDecimal percentChange90d,
       @JsonProperty("market_cap") BigDecimal marketCap,
+      @JsonProperty("market_cap_dominance") BigDecimal marketCapDominance,
+      @JsonProperty("fully_diluted_market_cap") BigDecimal fullyDilutedMarketCap,
       @JsonProperty("last_updated") @JsonDeserialize(using = ISO8601DateDeserializer.class)
           Date lastUpdated) {
 
@@ -31,7 +41,12 @@ public final class CmcQuote {
     this.percentChange1h = percentChange1h;
     this.percentChange7d = percentChange7d;
     this.percentChange24h = percentChange24h;
+    this.percentChange30d = percentChange30d;
+    this.percentChange60d = percentChange60d;
+    this.percentChange90d = percentChange90d;
     this.marketCap = marketCap;
+    this.marketCapDominance = marketCapDominance;
+    this.fullyDilutedMarketCap = fullyDilutedMarketCap;
     this.lastUpdated = lastUpdated;
   }
 
@@ -55,8 +70,28 @@ public final class CmcQuote {
     return percentChange24h;
   }
 
+  public BigDecimal getPercentChange30d() {
+    return percentChange30d;
+  }
+
+  public BigDecimal getPercentChange60d() {
+    return percentChange60d;
+  }
+
+  public BigDecimal getPercentChange90d() {
+    return percentChange90d;
+  }
+
   public BigDecimal getMarketCap() {
     return marketCap;
+  }
+
+  public BigDecimal getMarketCapDominance() {
+    return marketCapDominance;
+  }
+
+  public BigDecimal getFullyDilutedMarketCap() {
+    return fullyDilutedMarketCap;
   }
 
   public Date getLastUpdated() {
@@ -76,8 +111,18 @@ public final class CmcQuote {
         + percentChange7d
         + ", percentChange24h="
         + percentChange24h
+        + ", percentChange30d="
+        + percentChange30d
+        + ", percentChange60d="
+        + percentChange60d
+        + ", percentChange90d="
+        + percentChange90d
         + ", marketCap="
         + marketCap
+        + ", marketCapDominance="
+        + marketCapDominance
+        + ", fullyDilutedMarketCap="
+        + fullyDilutedMarketCap
         + ", lastUpdated='"
         + lastUpdated
         + '\''
@@ -105,9 +150,24 @@ public final class CmcQuote {
     if (getPercentChange24h() != null
         ? !getPercentChange24h().equals(that.getPercentChange24h())
         : that.getPercentChange24h() != null) return false;
+    if (getPercentChange30d() != null
+        ? !getPercentChange30d().equals(that.getPercentChange30d())
+        : that.getPercentChange30d() != null) return false;
+    if (getPercentChange60d() != null
+        ? !getPercentChange60d().equals(that.getPercentChange60d())
+        : that.getPercentChange60d() != null) return false;
+    if (getPercentChange90d() != null
+        ? !getPercentChange90d().equals(that.getPercentChange90d())
+        : that.getPercentChange90d() != null) return false;
     if (getMarketCap() != null
         ? !getMarketCap().equals(that.getMarketCap())
         : that.getMarketCap() != null) return false;
+    if (getMarketCapDominance() != null
+        ? !getMarketCapDominance().equals(that.getMarketCapDominance())
+        : that.getMarketCapDominance() != null) return false;
+    if (getFullyDilutedMarketCap() != null
+        ? !getFullyDilutedMarketCap().equals(that.getFullyDilutedMarketCap())
+        : that.getFullyDilutedMarketCap() != null) return false;
     return getLastUpdated() != null
         ? getLastUpdated().equals(that.getLastUpdated())
         : that.getLastUpdated() == null;
@@ -120,7 +180,15 @@ public final class CmcQuote {
     result = 31 * result + (getPercentChange1h() != null ? getPercentChange1h().hashCode() : 0);
     result = 31 * result + (getPercentChange7d() != null ? getPercentChange7d().hashCode() : 0);
     result = 31 * result + (getPercentChange24h() != null ? getPercentChange24h().hashCode() : 0);
+    result = 31 * result + (getPercentChange30d() != null ? getPercentChange30d().hashCode() : 0);
+    result = 31 * result + (getPercentChange60d() != null ? getPercentChange60d().hashCode() : 0);
+    result = 31 * result + (getPercentChange90d() != null ? getPercentChange90d().hashCode() : 0);
     result = 31 * result + (getMarketCap() != null ? getMarketCap().hashCode() : 0);
+    result =
+        31 * result + (getMarketCapDominance() != null ? getMarketCapDominance().hashCode() : 0);
+    result =
+        31 * result
+            + (getFullyDilutedMarketCap() != null ? getFullyDilutedMarketCap().hashCode() : 0);
     result = 31 * result + (getLastUpdated() != null ? getLastUpdated().hashCode() : 0);
     return result;
   }

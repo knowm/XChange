@@ -113,7 +113,7 @@ public class MarketDataServiceIntegration {
   }
 
   private static Exchange getExchange() throws IOException {
-    Exchange exx = ExchangeFactory.INSTANCE.createExchange(EXXExchange.class.getName());
+    Exchange exx = ExchangeFactory.INSTANCE.createExchange(EXXExchange.class);
 
     return exx;
   }

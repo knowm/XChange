@@ -3,11 +3,19 @@ package org.knowm.xchange.kraken.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.*;
+import java.util.Date;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Fee;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.kraken.KrakenAdapters;
+import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
@@ -58,9 +66,20 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
   }
 
   @Override
+  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    return KrakenAdapters.adaptFees(
+        super.getTradeVolume(
+            exchange
+                .getExchangeMetaData()
+                .getCurrencyPairs()
+                .keySet()
+                .toArray(new CurrencyPair[0])));
+  }
+
+  @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    return withdraw(null, currency.toString(), address, amount).getRefid();
+    return withdraw(null, KrakenUtils.getKrakenCurrencyCode(currency), address, amount).getRefid();
   }
 
   @Override
@@ -77,43 +96,43 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
     KrakenDepositAddress[] depositAddresses;
     if (Currency.BTC.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin");
+      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin", false);
     } else if (Currency.LTC.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Litecoin");
+      depositAddresses = getDepositAddresses(currency.toString(), "Litecoin", false);
     } else if (Currency.ETH.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Ether (Hex)");
+      depositAddresses = getDepositAddresses(currency.toString(), "Ether (Hex)", false);
     } else if (Currency.ZEC.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Zcash (Transparent)");
+      depositAddresses = getDepositAddresses(currency.toString(), "Zcash (Transparent)", false);
     } else if (Currency.ADA.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "ADA");
+      depositAddresses = getDepositAddresses(currency.toString(), "ADA", false);
     } else if (Currency.XMR.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Monero");
+      depositAddresses = getDepositAddresses(currency.toString(), "Monero", false);
     } else if (Currency.XRP.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Ripple XRP");
+      depositAddresses = getDepositAddresses(currency.toString(), "Ripple XRP", false);
     } else if (Currency.XLM.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Stellar XLM");
+      depositAddresses = getDepositAddresses(currency.toString(), "Stellar XLM", false);
     } else if (Currency.BCH.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin Cash");
+      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin Cash", false);
     } else if (Currency.REP.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "REP");
+      depositAddresses = getDepositAddresses(currency.toString(), "REP", false);
     } else if (Currency.USD.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "SynapsePay (US Wire)");
+      depositAddresses = getDepositAddresses(currency.toString(), "SynapsePay (US Wire)", false);
     } else if (Currency.XDG.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Dogecoin");
+      depositAddresses = getDepositAddresses(currency.toString(), "Dogecoin", false);
     } else if (Currency.MLN.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "MLN");
+      depositAddresses = getDepositAddresses(currency.toString(), "MLN", false);
     } else if (Currency.GNO.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "GNO");
+      depositAddresses = getDepositAddresses(currency.toString(), "GNO", false);
     } else if (Currency.QTUM.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "QTUM");
+      depositAddresses = getDepositAddresses(currency.toString(), "QTUM", false);
     } else if (Currency.XTZ.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "XTZ");
+      depositAddresses = getDepositAddresses(currency.toString(), "XTZ", false);
     } else if (Currency.ATOM.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Cosmos");
+      depositAddresses = getDepositAddresses(currency.toString(), "Cosmos", false);
     } else if (Currency.EOS.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "EOS");
+      depositAddresses = getDepositAddresses(currency.toString(), "EOS", false);
     } else if (Currency.DASH.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Dash");
+      depositAddresses = getDepositAddresses(currency.toString(), "Dash", false);
     } else {
       throw new RuntimeException("Not implemented yet, Kraken works only for BTC and LTC");
     }

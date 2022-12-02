@@ -50,8 +50,7 @@ public class BitmexOrderIT {
         PropsLoader.loadKeys("bitmex.secret.keys", "bitmex.secret.keys.origin", "bitmex");
     exchange =
         (BitmexStreamingExchange)
-            StreamingExchangeFactory.INSTANCE.createExchange(
-                BitmexStreamingExchange.class.getName());
+            StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class);
 
     exchange.applySpecification(
         BitmexTestsCommons.getExchangeSpecification(

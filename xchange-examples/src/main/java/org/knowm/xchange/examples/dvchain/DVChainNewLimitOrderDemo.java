@@ -17,7 +17,7 @@ public class DVChainNewLimitOrderDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get DVChain exchange API using default settings
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class);
 
     // Interested in the public market data feed (no authentication)
     TradeService tradeService = exchange.getTradeService();

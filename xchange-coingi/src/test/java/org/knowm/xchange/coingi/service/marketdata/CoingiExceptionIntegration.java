@@ -14,7 +14,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 public class CoingiExceptionIntegration {
   @Test
   public void invalidCurrencyPairForTradesFetchTest() throws Exception {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoingiExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoingiExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     Throwable exception =

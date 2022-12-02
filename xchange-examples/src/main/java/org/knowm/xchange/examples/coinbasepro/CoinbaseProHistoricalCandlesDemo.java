@@ -12,8 +12,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 public class CoinbaseProHistoricalCandlesDemo {
 
   public static void main(String[] args) throws IOException {
-    Exchange coinbasePro =
-        ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
+    Exchange coinbasePro = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
     CoinbaseProMarketDataService mds =
         (CoinbaseProMarketDataService) coinbasePro.getMarketDataService();
     CoinbaseProCandle[] candles =

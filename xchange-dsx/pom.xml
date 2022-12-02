@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>5.0.2-SNAPSHOT</version>
+        <version>5.0.15-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-dsx</artifactId>
@@ -34,12 +34,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <scope>test</scope>
         </dependency>
 
     </dependencies>

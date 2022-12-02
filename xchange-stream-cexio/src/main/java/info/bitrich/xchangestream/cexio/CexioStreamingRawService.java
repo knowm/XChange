@@ -3,7 +3,16 @@ package info.bitrich.xchangestream.cexio;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.cexio.dto.*;
+import info.bitrich.xchangestream.cexio.dto.CexioWebSocketAuth;
+import info.bitrich.xchangestream.cexio.dto.CexioWebSocketAuthMessage;
+import info.bitrich.xchangestream.cexio.dto.CexioWebSocketAuthResponse;
+import info.bitrich.xchangestream.cexio.dto.CexioWebSocketOrderBookSubscribeResponse;
+import info.bitrich.xchangestream.cexio.dto.CexioWebSocketOrderBookSubscriptionData;
+import info.bitrich.xchangestream.cexio.dto.CexioWebSocketOrderMessage;
+import info.bitrich.xchangestream.cexio.dto.CexioWebSocketPongMessage;
+import info.bitrich.xchangestream.cexio.dto.CexioWebSocketSubscriptionRequest;
+import info.bitrich.xchangestream.cexio.dto.CexioWebSocketTransaction;
+import info.bitrich.xchangestream.cexio.dto.CexioWebSocketTransactionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Completable;
@@ -56,7 +65,7 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
       final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
       JsonNode dataNode = message.get("data");
       CexioWebSocketOrderBookSubscribeResponse orderBookSubResp =
-          mapper.readValue(dataNode.toString(), CexioWebSocketOrderBookSubscribeResponse.class);
+          mapper.treeToValue(dataNode, CexioWebSocketOrderBookSubscribeResponse.class);
       CurrencyPair currencyPair = CexioAdapters.adaptCurrencyPair(orderBookSubResp.pair);
       return GetOrderBookChannelForCurrencyPair(currencyPair);
     } else {
@@ -73,7 +82,11 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
       case ORDERBOOK:
         {
           CurrencyPair currencyPair = (CurrencyPair) args[0];
-          return new CexioWebSocketOrderBookSubscriptionData(currencyPair, isSubscribe);
+          int depth = 0;
+          if (args.length > 1 && args[1] instanceof Integer) {
+            depth = (int) args[1];
+          }
+          return new CexioWebSocketOrderBookSubscriptionData(currencyPair, isSubscribe, depth);
         }
       default:
         {
@@ -100,7 +113,7 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     String eventName = getEventNameFromChannel(channelName);
 
     CurrencyPair currencyPairForChannel = null;

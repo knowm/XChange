@@ -8,10 +8,14 @@ import org.knowm.xchange.bitz.BitZ;
 import org.knowm.xchange.bitz.BitZAuthenticated;
 import org.knowm.xchange.bitz.dto.account.result.BitZUserAssetsResult;
 import org.knowm.xchange.bitz.dto.marketdata.BitZPublicOrder;
-import org.knowm.xchange.bitz.dto.trade.result.*;
+import org.knowm.xchange.bitz.dto.trade.result.BitZEntrustSheetInfoResult;
+import org.knowm.xchange.bitz.dto.trade.result.BitZTradeAddResult;
+import org.knowm.xchange.bitz.dto.trade.result.BitZTradeCancelListResult;
+import org.knowm.xchange.bitz.dto.trade.result.BitZTradeCancelResult;
+import org.knowm.xchange.bitz.dto.trade.result.BitZUserHistoryResult;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitZTradeServiceRaw extends BitZBaseService {
@@ -29,10 +33,12 @@ public class BitZTradeServiceRaw extends BitZBaseService {
     super(exchange);
 
     this.bitz =
-        RestProxyFactory.createProxy(BitZ.class, exchange.getExchangeSpecification().getSslUri());
+        ExchangeRestProxyBuilder.forInterface(BitZ.class, exchange.getExchangeSpecification())
+            .build();
     this.bitzAuthenticated =
-        RestProxyFactory.createProxy(
-            BitZAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+        ExchangeRestProxyBuilder.forInterface(
+                BitZAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
 
     // TODO: Implement Password
     this.tradePwd = "";

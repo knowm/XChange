@@ -57,8 +57,7 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
     if (order instanceof RippleLimitOrder) {
       return placeOrder((RippleLimitOrder) order, ripple.validateOrderRequests());
     } else {
-      throw new IllegalArgumentException(
-          "order must be of type: " + RippleLimitOrder.class.getName());
+      throw new IllegalArgumentException("order must be of type: " + RippleLimitOrder.class);
     }
   }
 

@@ -1,12 +1,21 @@
 package org.knowm.xchange.dsx.service;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.DsxAdapters;
-import org.knowm.xchange.dsx.dto.*;
+import org.knowm.xchange.dsx.dto.DsxCandle;
+import org.knowm.xchange.dsx.dto.DsxCurrency;
+import org.knowm.xchange.dsx.dto.DsxOrderBook;
+import org.knowm.xchange.dsx.dto.DsxSort;
+import org.knowm.xchange.dsx.dto.DsxSymbol;
+import org.knowm.xchange.dsx.dto.DsxTicker;
+import org.knowm.xchange.dsx.dto.DsxTrade;
+import org.knowm.xchange.dsx.dto.DsxTradesSortBy;
 
 public class DsxMarketDataServiceRaw extends DsxBaseService {
 

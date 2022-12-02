@@ -1,6 +1,7 @@
 package org.knowm.xchange.kraken;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,6 +21,8 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.OpenPosition;
+import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -38,6 +41,8 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
+import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
+import org.knowm.xchange.kraken.dto.account.KrakenVolumeFee;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
@@ -45,6 +50,7 @@ import org.knowm.xchange.kraken.dto.marketdata.KrakenFee;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrade;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
+import org.knowm.xchange.kraken.dto.trade.KrakenOpenPosition;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderDescription;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
@@ -84,6 +90,36 @@ public class KrakenAdapters {
     return new OrdersContainer(
         (String.valueOf(maxTimestamp).length() >= 13) ? maxTimestamp : maxTimestamp * 1000,
         limitOrders);
+  }
+
+  public static OpenPositions adaptOpenPositions(
+      Map<String, KrakenOpenPosition> krakenOpenPositionMap) {
+    List<OpenPosition> openPositionsList = new ArrayList<>();
+
+    krakenOpenPositionMap
+        .values()
+        .forEach(
+            krakenOpenPosition -> {
+              openPositionsList.add(
+                  new OpenPosition.Builder()
+                      .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
+                      .type(
+                          krakenOpenPosition.getType() == KrakenType.BUY
+                              ? OpenPosition.Type.LONG
+                              : OpenPosition.Type.SHORT)
+                      .size(krakenOpenPosition.getCost())
+                      .price(
+                          krakenOpenPosition
+                              .getCost()
+                              .divide(
+                                  krakenOpenPosition
+                                      .getVolume()
+                                      .subtract(krakenOpenPosition.getVolumeClosed()),
+                                  RoundingMode.HALF_EVEN))
+                      .build());
+            });
+
+    return new OpenPositions(openPositionsList);
   }
 
   public static List<Order> adaptOrders(Map<String, KrakenOrder> krakenOrdersMap) {
@@ -144,11 +180,8 @@ public class KrakenAdapters {
 
   public static LimitOrder adaptOrder(
       KrakenPublicOrder order, OrderType orderType, CurrencyPair currencyPair) {
-    // if lenght is bigger or equal to 13 then the timstamp is from streaming orderbook
-    Date timeStamp =
-        (String.valueOf(order.getTimestamp()).length() >= 13)
-            ? new Date(order.getTimestamp())
-            : new Date(order.getTimestamp() * 1000);
+
+    Date timeStamp = new Date(order.getTimestamp() * 1000);
     BigDecimal volume = order.getVolume();
 
     return new LimitOrder(orderType, volume, currencyPair, "", timeStamp, order.getPrice());
@@ -169,9 +202,9 @@ public class KrakenAdapters {
     return builder.build();
   }
 
-  public static List<Ticker> adaptTickers(Map<String, KrakenTicker> krackenTickers) {
+  public static List<Ticker> adaptTickers(Map<String, KrakenTicker> krakenTickers) {
     List<Ticker> tickers = new ArrayList<>();
-    for (Map.Entry<String, KrakenTicker> ticker : krackenTickers.entrySet()) {
+    for (Entry<String, KrakenTicker> ticker : krakenTickers.entrySet()) {
       CurrencyPair pair = KrakenUtils.translateKrakenCurrencyPair(ticker.getKey());
       tickers.add(adaptTicker(ticker.getValue(), pair));
     }
@@ -318,7 +351,6 @@ public class KrakenAdapters {
     KrakenUtils.setKrakenAssets(krakenAssets);
     KrakenUtils.setKrakenAssetPairs(krakenPairs);
 
-    pairs.putAll(originalMetaData.getCurrencyPairs());
     for (String krakenPairCode : krakenPairs.keySet()) {
       //  skip dark markets!
       if (!krakenPairCode.endsWith(".d")) {
@@ -330,15 +362,10 @@ public class KrakenAdapters {
     }
 
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
-    currencies.putAll(originalMetaData.getCurrencies());
     for (String krakenAssetCode : krakenAssets.keySet()) {
       KrakenAsset krakenAsset = krakenAssets.get(krakenAssetCode);
       Currency currencyCode = KrakenAdapters.adaptCurrency(krakenAssetCode);
-      BigDecimal withdrawalFee =
-          originalMetaData.getCurrencies().get(currencyCode) == null
-              ? null
-              : originalMetaData.getCurrencies().get(currencyCode).getWithdrawalFee();
-      currencies.put(currencyCode, new CurrencyMetaData(krakenAsset.getScale(), withdrawalFee));
+      currencies.put(currencyCode, new CurrencyMetaData(krakenAsset.getScale(), null));
     }
 
     return new ExchangeMetaData(
@@ -347,6 +374,32 @@ public class KrakenAdapters {
         originalMetaData == null ? null : originalMetaData.getPublicRateLimits(),
         originalMetaData == null ? null : originalMetaData.getPrivateRateLimits(),
         originalMetaData == null ? null : originalMetaData.isShareRateLimits());
+  }
+
+  public static Map<CurrencyPair, Fee> adaptFees(KrakenTradeVolume krakenTradeVolume) {
+    Map<CurrencyPair, Fee> feeMap = new HashMap<>();
+
+    // Compute Taker Fees
+    for (Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFees().entrySet()) {
+      feeMap.computeIfAbsent(
+          KrakenUtils.translateKrakenCurrencyPair(entry.getKey()),
+          currencyPair -> new Fee(null, entry.getValue().getFee().divide(new BigDecimal(100))));
+    }
+
+    // Compute Maker Fees
+    for (Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFeesMaker().entrySet()) {
+      feeMap.computeIfPresent(
+          KrakenUtils.translateKrakenCurrencyPair(entry.getKey()),
+          (currencyPair, fee) ->
+              fee =
+                  new Fee(
+                      entry.getValue().getFee().divide(new BigDecimal(100)), fee.getTakerFee()));
+      feeMap.computeIfAbsent(
+          KrakenUtils.translateKrakenCurrencyPair(entry.getKey()),
+          currencyPair -> new Fee(entry.getValue().getFee().divide(new BigDecimal(100)), null));
+    }
+
+    return feeMap;
   }
 
   protected static FeeTier[] adaptFeeTiers(List<KrakenFee> makerFees, List<KrakenFee> takerFees) {
@@ -410,21 +463,14 @@ public class KrakenAdapters {
 
   private static CurrencyPairMetaData adaptPair(
       KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
-    if (OriginalMeta != null) {
-      return new CurrencyPairMetaData(
-          krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
-          OriginalMeta.getMinimumAmount(),
-          OriginalMeta.getMaximumAmount(),
-          krakenPair.getPairScale(),
-          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()));
-    } else {
-      return new CurrencyPairMetaData(
-          krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
-          null,
-          null,
-          krakenPair.getPairScale(),
-          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()));
-    }
+    return new CurrencyPairMetaData(
+        krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
+        krakenPair.getOrderMin(),
+        null,
+        krakenPair.getPairScale(),
+        krakenPair.getVolumeLotScale(),
+        adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()),
+        KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()));
   }
 
   public static List<FundingRecord> adaptFundingHistory(

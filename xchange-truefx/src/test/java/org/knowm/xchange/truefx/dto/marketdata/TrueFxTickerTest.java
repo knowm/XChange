@@ -18,7 +18,7 @@ public class TrueFxTickerTest {
 
   @Test
   public void unmarshalTest1() throws IOException {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TrueFxExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TrueFxExchange.class);
     TrueFxMarketDataServiceRaw rawService =
         (TrueFxMarketDataServiceRaw) exchange.getMarketDataService();
     ObjectMapper mapper = rawService.createObjectMapper();

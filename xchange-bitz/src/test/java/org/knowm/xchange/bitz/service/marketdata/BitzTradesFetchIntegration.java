@@ -13,7 +13,7 @@ public class BitzTradesFetchIntegration {
   @Test
   public void tradesFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitZExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitZExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(new CurrencyPair("LTC", "BTC"));
 

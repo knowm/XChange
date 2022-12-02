@@ -14,7 +14,7 @@ public class SymbolsDemo {
   public static void main(String[] args) throws Exception {
 
     // Use the factory to get Bitfinex exchange API using default settings
-    Exchange bitfinex = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
+    Exchange bitfinex = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = bitfinex.getMarketDataService();

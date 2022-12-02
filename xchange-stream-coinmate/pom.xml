@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>5.0.2-SNAPSHOT</version>
+        <version>5.0.15-SNAPSHOT</version>
     </parent>
 
     <name>XChange Coinmate Stream</name>
@@ -27,10 +27,6 @@
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-coinmate</artifactId>
             <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>

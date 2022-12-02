@@ -66,6 +66,10 @@ public class UserTrade extends Trade {
     this.orderUserReference = orderUserReference;
   }
 
+  public static UserTrade.Builder builder() {
+    return new UserTrade.Builder();
+  }
+
   public String getOrderId() {
 
     return orderId;

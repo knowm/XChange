@@ -1,6 +1,6 @@
 package org.knowm.xchange.coindeal.dto.trade;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 public class CoindealTradeHistory {

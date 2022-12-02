@@ -6,13 +6,19 @@ import java.util.Collections;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindeal.CoindealAdapters;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public final class CoindealTradeService extends CoindealTradeServiceRaw implements TradeService {
 
@@ -57,9 +63,9 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     return Collections.singletonList(
-        CoindealAdapters.adaptOrder(getCoindealOrderById(orderIds[0])));
+        CoindealAdapters.adaptOrder(getCoindealOrderById(orderQueryParams[0].getOrderId())));
   }
 
   @Override

@@ -9,13 +9,28 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.trade.*;
-import org.knowm.xchange.kucoin.dto.response.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.kucoin.dto.response.HistOrdersResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderCancelResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderResponse;
+import org.knowm.xchange.kucoin.dto.response.Pagination;
+import org.knowm.xchange.kucoin.dto.response.TradeResponse;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamNextPageCursor;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -34,8 +49,8 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   // Although API doc says 7 days max timespan, KuCoin actually allows (almost) 8 days :)
   private static final long oneWeekMillis = (8 * 24 * 60 * 60 * 1000) - 1000;
 
-  KucoinTradeService(KucoinExchange exchange) {
-    super(exchange);
+  protected KucoinTradeService(KucoinExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   @Override
@@ -141,7 +156,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
     String nextPageCursor = null;
     if (startTime != null && startTime >= cutoffHistOrdersMillis) {
       Pagination<TradeResponse> fills =
-          getKucoinFills(symbol, page, TRADE_HISTORIES_TO_FETCH, startTime, endTime);
+          getKucoinFills(symbol, null, page, TRADE_HISTORIES_TO_FETCH, startTime, endTime);
       userTrades =
           fills.getItems().stream()
               .map(KucoinAdapters::adaptUserTrade)

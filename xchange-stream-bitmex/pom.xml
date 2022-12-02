@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>5.0.2-SNAPSHOT</version>
+        <version>5.0.15-SNAPSHOT</version>
     </parent>
 
     <name>XChange Bitmex Stream</name>
@@ -22,7 +22,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.0.0-M5</version>
+                        <version>3.0.0-M7</version>
                         <configuration>
                             <excludes>
                                 <exclude>**/*IT.java</exclude>
@@ -38,7 +38,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.0.0-M5</version>
+                        <version>3.0.0-M7</version>
                         <configuration>
                             <includes>
                                 <include>**/*IT.java</include>
@@ -65,11 +65,6 @@
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-bitmex</artifactId>
             <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>fluent-hc</artifactId>
-            <version>4.5.12</version>
         </dependency>
     </dependencies>
 </project>

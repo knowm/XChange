@@ -66,7 +66,7 @@ public class BitcoiniumRealtimeOrderbookDemo {
   private void go() throws IOException {
 
     ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(BitcoiniumExchange.class.getName());
+        new ExchangeSpecification(BitcoiniumExchange.class);
     // exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
     exchangeSpecification.setApiKey("42djci5kmbtyzrvglfdw3e2dgmh5mr37");
     System.out.println(exchangeSpecification.toString());

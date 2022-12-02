@@ -7,9 +7,18 @@ import static java.util.stream.Collectors.toList;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
-import com.google.common.collect.*;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Deque;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -335,31 +344,31 @@ final class MatchingEngine {
         .collect(toList());
   }
 
-  public synchronized OrderBook level2() {
-    return new OrderBook(new Date(), accumulateBookSide(asks), accumulateBookSide(bids));
+  public synchronized OrderBook getLevel2OrderBook() {
+    return new OrderBook(new Date(), accumulateBookSide(ASK, asks), accumulateBookSide(BID, bids));
   }
 
-  private List<LimitOrder> accumulateBookSide(List<BookLevel> book) {
+  private List<LimitOrder> accumulateBookSide(OrderType orderType, List<BookLevel> book) {
     BigDecimal price = null;
     BigDecimal amount = ZERO;
     List<LimitOrder> result = new ArrayList<>();
     Iterator<BookOrder> iter = book.stream().flatMap(v -> v.getOrders().stream()).iterator();
     while (iter.hasNext()) {
       BookOrder bookOrder = iter.next();
-      amount = amount.add(bookOrder.getRemainingAmount());
       if (price != null && bookOrder.getLimitPrice().compareTo(price) != 0) {
         result.add(
-            new LimitOrder.Builder(ASK, currencyPair)
+            new LimitOrder.Builder(orderType, currencyPair)
                 .originalAmount(amount)
                 .limitPrice(price)
                 .build());
         amount = ZERO;
       }
+      amount = amount.add(bookOrder.getRemainingAmount());
       price = bookOrder.getLimitPrice();
     }
     if (price != null) {
       result.add(
-          new LimitOrder.Builder(ASK, currencyPair)
+          new LimitOrder.Builder(orderType, currencyPair)
               .originalAmount(amount)
               .limitPrice(price)
               .build());

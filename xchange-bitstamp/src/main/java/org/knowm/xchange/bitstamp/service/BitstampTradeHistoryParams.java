@@ -5,6 +5,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
@@ -13,12 +14,14 @@ public class BitstampTradeHistoryParams
         TradeHistoryParamsSorted,
         TradeHistoryParamOffset,
         TradeHistoryParamPaging,
-        TradeHistoryParamsTimeSpan {
+        TradeHistoryParamsTimeSpan,
+        TradeHistoryParamsIdSpan {
   private CurrencyPair currencyPair;
   private Order order;
   private Integer offset;
   private Integer pageLength;
   private Date startTime;
+  private String startId;
 
   public BitstampTradeHistoryParams(CurrencyPair currencyPair, Integer pageLength) {
     this.currencyPair = currencyPair;
@@ -50,6 +53,7 @@ public class BitstampTradeHistoryParams
     return offset == null ? null : Long.valueOf(offset);
   }
 
+  @Override
   public void setOffset(Long offset) {
     this.offset = offset == null ? null : offset.intValue();
   }
@@ -101,5 +105,25 @@ public class BitstampTradeHistoryParams
     } else if (pageLength != null) {
       this.offset = pageNumber * pageLength;
     }
+  }
+
+  @Override
+  public String getStartId() {
+    return startId;
+  }
+
+  @Override
+  public void setStartId(String startId) {
+    this.startId = startId;
+  }
+
+  @Override
+  public String getEndId() {
+    return null;
+  }
+
+  @Override
+  public void setEndId(String endId) {
+    throw new UnsupportedOperationException("Bitstamp doesn't support end id.");
   }
 }

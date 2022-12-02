@@ -38,12 +38,19 @@ public class HuobiDepositAddress {
 
   @Override
   public String toString() {
-    return "HuobiDepositAddress [" +
-            "currency='" + currency + '\'' +
-            ", address='" + address + '\'' +
-            ", addressTag='" + addressTag + '\'' +
-            ", chain='" + chain + '\'' +
-            ']';
+    return "HuobiDepositAddress ["
+        + "currency='"
+        + currency
+        + '\''
+        + ", address='"
+        + address
+        + '\''
+        + ", addressTag='"
+        + addressTag
+        + '\''
+        + ", chain='"
+        + chain
+        + '\''
+        + ']';
   }
-
 }

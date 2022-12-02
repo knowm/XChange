@@ -43,9 +43,15 @@ public class BitbayAdapters {
               .currencyPair(pair)
               .price(trade.getRate())
               .timestamp(timestamp)
+              .feeAmount(trade.getCommissionValue())
+              .feeCurrency(trade.getCommissionValue() == null ? null : pair.base)
               .build());
     }
     return new UserTrades(
         trades, 0L, Trades.TradeSortType.SortByTimestamp, response.getNextPageCursor());
+  }
+
+  public static String adaptCurrencyPair(CurrencyPair currencyPair) {
+    return currencyPair.base + "-" + currencyPair.counter;
   }
 }

@@ -2,12 +2,13 @@ package org.knowm.xchange.poloniex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
@@ -25,6 +26,8 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 /** @author Zach Holmes */
 public class PoloniexAccountService extends PoloniexAccountServiceRaw implements AccountService {
 
+  private static final String TRADING_WALLET_ID = "trading";
+
   /**
    * Constructor
    *
@@ -38,8 +41,12 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     try {
-      List<Balance> balances = PoloniexAdapters.adaptPoloniexBalances(getExchangeWallet());
-      return new AccountInfo(Wallet.Builder.from(balances).build());
+      Wallet build =
+          Wallet.Builder.from(PoloniexAdapters.adaptPoloniexBalances(getExchangeWallet()))
+              .id(TRADING_WALLET_ID)
+              .features(new HashSet<>(Collections.singletonList(Wallet.WalletFeature.TRADING)))
+              .build();
+      return new AccountInfo(build);
     } catch (PoloniexException e) {
       throw PoloniexErrorAdapter.adapt(e);
     }

@@ -238,7 +238,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     public static Builder from(Order order) {
 
       Builder builder =
-          new Builder(order.getType(), order.getCurrencyPair())
+          new Builder(order.getType(), order.getInstrument())
               .originalAmount(order.getOriginalAmount())
               .cumulativeAmount(order.getCumulativeAmount())
               .timestamp(order.getTimestamp())

@@ -31,8 +31,7 @@ public class BitmexTest {
 
   @Before
   public void setup() {
-    exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
+    exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class);
     awaitCompletable(exchange.connect());
     streamingMarketDataService =
         (BitmexStreamingMarketDataService) exchange.getStreamingMarketDataService();

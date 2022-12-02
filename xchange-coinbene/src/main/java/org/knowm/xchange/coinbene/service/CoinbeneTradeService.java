@@ -13,6 +13,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class CoinbeneTradeService extends CoinbeneTradeServiceRaw implements TradeService {
   public CoinbeneTradeService(Exchange exchange) {
@@ -30,8 +31,8 @@ public class CoinbeneTradeService extends CoinbeneTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    CoinbeneLimitOrder order = getCoinbeneOrder(orderIds[0]).getOrder();
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    CoinbeneLimitOrder order = getCoinbeneOrder(orderQueryParams[0].getOrderId()).getOrder();
     return Collections.singletonList(CoinbeneAdapters.adaptLimitOrder(order));
   }
 

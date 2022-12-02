@@ -14,7 +14,7 @@ public class CoinoneTickerDemo {
   public static void main(String[] args) throws IOException {
 
     // Create Default BitZ Instance
-    Exchange coinEgg = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class.getName());
+    Exchange coinEgg = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class);
 
     // Get The Public Market Data Service
     MarketDataService marketDataService = coinEgg.getMarketDataService();

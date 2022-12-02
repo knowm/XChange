@@ -10,8 +10,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.ripple.service.RippleAccountService;
 import org.knowm.xchange.ripple.service.RippleMarketDataService;
 import org.knowm.xchange.ripple.service.RippleTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class RippleExchange extends BaseExchange implements Exchange {
 
@@ -26,7 +24,6 @@ public class RippleExchange extends BaseExchange implements Exchange {
   public static final int DEFAULT_ROUNDING_SCALE = 50;
   private static final String README =
       "https://github.com/timmolter/XChange/tree/develop/xchange-ripple";
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   /**
    * Converts a datetime string as returned from the Ripple REST API into a java date object. The
@@ -65,8 +62,7 @@ public class RippleExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    final ExchangeSpecification specification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    final ExchangeSpecification specification = new ExchangeSpecification(this.getClass());
     specification.setSslUri(REST_API_RIPPLE_LABS);
     specification.setExchangeName("Ripple");
     specification.setExchangeDescription(
@@ -88,11 +84,6 @@ public class RippleExchange extends BaseExchange implements Exchange {
         PARAMETER_ROUNDING_SCALE, DEFAULT_ROUNDING_SCALE);
 
     return specification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   public int getRoundingScale() {

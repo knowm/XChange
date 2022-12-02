@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>5.0.2-SNAPSHOT</version>
+        <version>5.0.15-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-kraken</artifactId>
@@ -29,7 +29,15 @@
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-jre8</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

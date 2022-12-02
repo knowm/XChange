@@ -12,8 +12,7 @@ public class TheRockMarketDataDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get TheRock exchange API using default settings
-    Exchange theRockExchange =
-        ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class.getName());
+    Exchange theRockExchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class);
 
     generic(theRockExchange);
   }

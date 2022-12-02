@@ -97,6 +97,10 @@ public final class BitstampUserTransaction {
     return type == TransactionType.trade;
   }
 
+  public boolean isSubAccountTransfer() {
+    return type == TransactionType.subAccountTransfer;
+  }
+
   public BigDecimal getCounterAmount() {
     return amounts.get(counter);
   }
@@ -158,7 +162,12 @@ public final class BitstampUserTransaction {
     trade,
     rippleWithdrawal,
     rippleDeposit,
-    subAccountTransfer;
+    subAccountTransfer,
+    creditedWithStakedAssets,
+    sentAssetsToStaking,
+    stakingReward,
+    referralReward,
+    interAccountTransfer;
 
     @JsonCreator
     public static TransactionType fromString(int type) {
@@ -175,6 +184,16 @@ public final class BitstampUserTransaction {
           return rippleDeposit;
         case 14:
           return subAccountTransfer;
+        case 25:
+          return creditedWithStakedAssets;
+        case 26:
+          return sentAssetsToStaking;
+        case 27:
+          return stakingReward;
+        case 32:
+          return referralReward;
+        case 35:
+          return interAccountTransfer;
         default:
           throw new IllegalArgumentException(type + " has no corresponding value");
       }

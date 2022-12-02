@@ -26,9 +26,9 @@ package org.knowm.xchange.coinmate.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinmate.CoinmateAuthenticated;
 import org.knowm.xchange.coinmate.dto.trade.*;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author Martin Stachon */
 public class CoinmateTradeServiceRaw extends CoinmateBaseService {
@@ -40,10 +40,9 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     super(exchange);
 
     this.coinmateAuthenticated =
-        RestProxyFactory.createProxy(
-            CoinmateAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinmateAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.signatureCreator =
         CoinmateDigest.createInstance(
             exchange.getExchangeSpecification().getSecretKey(),
@@ -52,7 +51,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateTransactionHistory getCoinmateTransactionHistory(
-      int offset, Integer limit, String sort) throws IOException {
+      int offset, Integer limit, String sort, Long timestampFrom, Long timestampTo, String orderId)
+      throws IOException {
     CoinmateTransactionHistory transactionHistory =
         coinmateAuthenticated.getTransactionHistory(
             exchange.getExchangeSpecification().getApiKey(),
@@ -61,14 +61,24 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             exchange.getNonceFactory(),
             offset,
             limit,
-            sort);
+            sort,
+            timestampFrom,
+            timestampTo,
+            orderId);
 
     throwExceptionIfError(transactionHistory);
 
     return transactionHistory;
   }
 
-  public CoinmateTradeHistory getCoinmateTradeHistory(String currencyPair, int limit, String order)
+  public CoinmateTradeHistory getCoinmateTradeHistory(
+      String currencyPair,
+      int limit,
+      String order,
+      String startId,
+      Long timestampFrom,
+      Long timestampTo,
+      String orderId)
       throws IOException {
     CoinmateTradeHistory tradeHistory =
         coinmateAuthenticated.getTradeHistory(
@@ -77,12 +87,12 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             signatureCreator,
             exchange.getNonceFactory(),
             limit,
-            null,
+            startId,
             order,
-            null,
-            null,
+            timestampFrom,
+            timestampTo,
             currencyPair,
-            null);
+            orderId);
 
     throwExceptionIfError(tradeHistory);
 
@@ -108,7 +118,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return transferHistory;
   }
 
-  public CoinmateOrderHistory getCoinmateOrderHistory(String currencyPair, int limit)
+  public CoinmateOrderHistory getCoinmateOrderHistory(String currencyPair, Integer limit)
       throws IOException {
     CoinmateOrderHistory orderHistory =
         coinmateAuthenticated.getOrderHistory(
@@ -152,6 +162,34 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
+  public CoinmateOrder getCoinmateOrderById(String orderId) throws IOException {
+    CoinmateOrder response =
+        coinmateAuthenticated.getOrderById(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            orderId);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
+  public CoinmateOrders getCoinmateOrderByClientOrderId(String clientOrderId) throws IOException {
+    CoinmateOrders response =
+        coinmateAuthenticated.getOrderByClientOrderId(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            clientOrderId);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
   public CoinmateCancelOrderWithInfoResponse cancelCoinmateOrderWithInfo(String orderId)
       throws IOException {
     CoinmateCancelOrderWithInfoResponse response =
@@ -173,8 +211,10 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
-      Integer trailing)
+      Integer trailing,
+      String clientOrderId)
       throws IOException {
     CoinmateTradeResponse response =
         coinmateAuthenticated.buyLimit(
@@ -187,8 +227,10 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             currencyPair,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
-            trailing);
+            trailing,
+            clientOrderId);
 
     throwExceptionIfError(response);
 
@@ -201,8 +243,10 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
-      Integer trailing)
+      Integer trailing,
+      String clientOrderId)
       throws IOException {
     CoinmateTradeResponse response =
         coinmateAuthenticated.sellLimit(
@@ -215,8 +259,10 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             currencyPair,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
-            trailing);
+            trailing,
+            clientOrderId);
 
     throwExceptionIfError(response);
 
@@ -230,8 +276,10 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
-      Integer trailing)
+      Integer trailing,
+      String clientOrderId)
       throws IOException {
     CoinmateReplaceResponse response =
         coinmateAuthenticated.replaceByBuyLimit(
@@ -245,8 +293,10 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             orderId,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
-            trailing);
+            trailing,
+            clientOrderId);
 
     throwExceptionIfError(response);
 
@@ -260,8 +310,10 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
-      Integer trailing)
+      Integer trailing,
+      String clientOrderId)
       throws IOException {
     CoinmateReplaceResponse response =
         coinmateAuthenticated.replaceBySellLimit(
@@ -275,15 +327,17 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             orderId,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
-            trailing);
+            trailing,
+            clientOrderId);
 
     throwExceptionIfError(response);
 
     return response;
   }
 
-  public CoinmateTradeResponse buyCoinmateInstant(BigDecimal total, String currencyPair)
+  public CoinmateTradeResponse buyCoinmateInstant(BigDecimal total, String currencyPair, String clientOrderId)
       throws IOException {
     CoinmateTradeResponse response =
         coinmateAuthenticated.buyInstant(
@@ -292,14 +346,15 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             signatureCreator,
             exchange.getNonceFactory(),
             total,
-            currencyPair);
+            currencyPair,
+            clientOrderId);
 
     throwExceptionIfError(response);
 
     return response;
   }
 
-  public CoinmateTradeResponse sellCoinmateInstant(BigDecimal total, String currencyPair)
+  public CoinmateTradeResponse sellCoinmateInstant(BigDecimal total, String currencyPair, String clientOrderId)
       throws IOException {
     CoinmateTradeResponse response =
         coinmateAuthenticated.sellInstant(
@@ -308,6 +363,41 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             signatureCreator,
             exchange.getNonceFactory(),
             total,
+            currencyPair,
+            clientOrderId);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
+  public CoinmateTradeResponse buyCoinmateQuick(BigDecimal total, String currencyPair, String clientOrderId)
+      throws IOException {
+    CoinmateTradeResponse response =
+        coinmateAuthenticated.buyQuick(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            clientOrderId,
+            signatureCreator,
+            exchange.getNonceFactory(),
+            total,
+            currencyPair);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
+  public CoinmateTradeResponse sellCoinmateQuick(BigDecimal amount, String currencyPair, String clientOrderId)
+      throws IOException {
+    CoinmateTradeResponse response =
+        coinmateAuthenticated.sellQuick(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            clientOrderId,
+            signatureCreator,
+            exchange.getNonceFactory(),
+            amount,
             currencyPair);
 
     throwExceptionIfError(response);
@@ -316,7 +406,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateReplaceResponse coinmateReplaceByBuyInstant(
-      String orderId, BigDecimal total, String currencyPair) throws IOException {
+      String orderId, BigDecimal total, String currencyPair, String clientOrderId) throws IOException {
     CoinmateReplaceResponse response =
         coinmateAuthenticated.replaceByBuyInstant(
             exchange.getExchangeSpecification().getApiKey(),
@@ -325,7 +415,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             exchange.getNonceFactory(),
             total,
             currencyPair,
-            orderId);
+            orderId,
+            clientOrderId);
 
     throwExceptionIfError(response);
 
@@ -333,7 +424,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateReplaceResponse coinmateReplaceBySellInstant(
-      String orderId, BigDecimal total, String currencyPair) throws IOException {
+      String orderId, BigDecimal total, String currencyPair, String clientOrderId) throws IOException {
     CoinmateReplaceResponse response =
         coinmateAuthenticated.replaceBySellInstant(
             exchange.getExchangeSpecification().getApiKey(),
@@ -342,7 +433,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             exchange.getNonceFactory(),
             total,
             currencyPair,
-            orderId);
+            orderId,
+            clientOrderId);
 
     throwExceptionIfError(response);
 

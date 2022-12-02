@@ -17,7 +17,7 @@ public class CoinfloorOrderBookIntegration {
 
   @Test
   public void fetchOrderBookTest() throws IOException {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinfloorExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinfloorExchange.class);
     MarketDataService service = exchange.getMarketDataService();
 
     OrderBook orderBook = service.getOrderBook(CurrencyPair.BTC_GBP);

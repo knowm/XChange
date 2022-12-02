@@ -23,7 +23,7 @@ public class BitcoindeErrorTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     BitcoindeException bitcoindeException = mapper.readValue(is, BitcoindeException.class);
-    System.out.println(bitcoindeException);
+    //    System.out.println(bitcoindeException);
 
     assertThat(bitcoindeException.getMessage()).isEqualTo("Order not found (-3 credits)");
 

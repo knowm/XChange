@@ -7,7 +7,6 @@ import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeException;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class BitcoindeBaseService extends BaseExchangeService<BitcoindeExchange>
     implements BaseService {
@@ -19,10 +18,8 @@ public class BitcoindeBaseService extends BaseExchangeService<BitcoindeExchange>
   protected BitcoindeBaseService(BitcoindeExchange exchange) {
     super(exchange);
     this.bitcoinde =
-        RestProxyFactory.createProxy(
-            Bitcoinde.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            ExchangeRestProxyBuilder.createClientConfig(exchange.getExchangeSpecification()));
+        ExchangeRestProxyBuilder.forInterface(Bitcoinde.class, exchange.getExchangeSpecification())
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         BitcoindeDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), apiKey);

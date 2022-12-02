@@ -15,7 +15,7 @@ public class PoloniexExchangeInfoDemo {
 
     CertHelper.trustAllCerts();
 
-    Exchange poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
+    Exchange poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class);
 
     final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         poloniex.getExchangeMetaData().getCurrencyPairs();

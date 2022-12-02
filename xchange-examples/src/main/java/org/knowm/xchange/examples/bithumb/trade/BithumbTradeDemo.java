@@ -13,7 +13,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.examples.bithumb.BithumbDemoUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByPairAndIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
@@ -36,6 +37,9 @@ public class BithumbTradeDemo {
     raw((BithumbTradeServiceRaw) tradeService);
   }
 
+  public interface CancelOrderByPairAndIdParams
+      extends CancelOrderByIdParams, CancelOrderByCurrencyPair {}
+
   private static void generic(TradeService tradeService) throws IOException, InterruptedException {
 
     log.debug("{}", "----------GENERIC----------");
@@ -47,7 +51,8 @@ public class BithumbTradeDemo {
       log.debug("", e);
     }
 
-    final TradeHistoryParams tradeHistoryParams = new DefaultTradeHistoryParamCurrencyPair();
+    final TradeHistoryParams tradeHistoryParams =
+        new DefaultTradeHistoryParamCurrencyPair(CURRENCY_PAIR);
     log.debug("{}", tradeService.getTradeHistory(tradeHistoryParams));
 
     final LimitOrder limitOrderBuy =

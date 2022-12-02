@@ -16,13 +16,14 @@ import org.knowm.xchange.kucoin.dto.request.CreateAccountRequest;
 import org.knowm.xchange.kucoin.dto.request.InnerTransferRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
 import org.knowm.xchange.kucoin.dto.response.AccountLedgersResponse;
+import org.knowm.xchange.kucoin.dto.response.AccountResponse;
 import org.knowm.xchange.kucoin.dto.response.InternalTransferResponse;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.Pagination;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-@Path("/api/v1/accounts")
+@Path("api")
 @Produces(MediaType.APPLICATION_JSON)
 public interface AccountAPI {
 
@@ -39,6 +40,7 @@ public interface AccountAPI {
    * @throws KucoinApiException when errors are returned from the exchange.
    */
   @GET
+  @Path("v1/accounts")
   KucoinResponse<List<AccountBalancesResponse>> getAccountList(
       @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
       @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
@@ -49,6 +51,7 @@ public interface AccountAPI {
       throws IOException;
 
   @POST
+  @Path("v1/accounts")
   @Consumes(MediaType.APPLICATION_JSON)
   KucoinResponse<Void> createAccount(
       @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
@@ -59,7 +62,7 @@ public interface AccountAPI {
       throws IOException;
 
   @POST
-  @Path("inner-transfer")
+  @Path("v2/accounts/inner-transfer")
   @Consumes(MediaType.APPLICATION_JSON)
   KucoinResponse<InternalTransferResponse> innerTransfer(
       @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
@@ -70,7 +73,7 @@ public interface AccountAPI {
       throws IOException;
 
   @GET
-  @Path("{accountId}/ledgers")
+  @Path("v1/accounts/{accountId}/ledgers")
   KucoinResponse<Pagination<AccountLedgersResponse>> getAccountLedgers(
       @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
       @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
@@ -81,5 +84,31 @@ public interface AccountAPI {
       @QueryParam("endAt") Long endAt,
       @QueryParam("pageSize") Integer pageSize,
       @QueryParam("currentPage") Integer currentPage)
+      throws IOException;
+
+  @GET
+  @Path("v1/accounts/ledgers")
+  KucoinResponse<Pagination<AccountLedgersResponse>> getAccountLedgersWithParams(
+      @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
+      @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
+      @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @QueryParam("currency") String currency,
+      @QueryParam("direction") String direction,
+      @QueryParam("bizType") String bizType,
+      @QueryParam("startAt") Long startAt,
+      @QueryParam("endAt") Long endAt,
+      @QueryParam("pageSize") Integer pageSize,
+      @QueryParam("currentPage") Integer currentPage)
+      throws IOException;
+
+  @GET
+  @Path("v1/accounts/{accountId}")
+  KucoinResponse<AccountResponse> getAccount(
+      @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
+      @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
+      @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @PathParam("accountId") String accountId)
       throws IOException;
 }

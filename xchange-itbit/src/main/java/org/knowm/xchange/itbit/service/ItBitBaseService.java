@@ -1,12 +1,12 @@
 package org.knowm.xchange.itbit.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.itbit.ItBit;
 import org.knowm.xchange.itbit.ItBitAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class ItBitBaseService extends BaseExchangeService implements BaseService {
 
@@ -28,20 +28,21 @@ public class ItBitBaseService extends BaseExchangeService implements BaseService
 
     super(exchange);
 
+    final String baseUrl =
+        (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("authHost");
     this.itBitAuthenticated =
-        RestProxyFactory.createProxy(
-            ItBitAuthenticated.class,
-            (String)
-                exchange.getExchangeSpecification().getExchangeSpecificParametersItem("authHost"),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                ItBitAuthenticated.class, exchange.getExchangeSpecification())
+            .baseUrl(baseUrl)
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         ItBitHmacPostBodyDigest.createInstance(
             apiKey, exchange.getExchangeSpecification().getSecretKey());
 
     this.itBitPublic =
-        RestProxyFactory.createProxy(
-            ItBit.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(ItBit.class, exchange.getExchangeSpecification())
+            .build();
 
     this.userId =
         (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("userId");

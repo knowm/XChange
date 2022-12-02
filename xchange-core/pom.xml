@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>5.0.2-SNAPSHOT</version>
+		<version>5.0.15-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-core</artifactId>
@@ -22,29 +22,6 @@
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>
 
-		<!-- Third party dependencies -->
-
-		<dependency>
-			<groupId>com.github.mmazi</groupId>
-			<artifactId>rescu</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-		</dependency>
-		<!--For String Joining, etc. -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-                
-                <dependency>
-                    <groupId>org.mockito</groupId>
-                    <artifactId>mockito-core</artifactId>
-                    <scope>test</scope>
-                </dependency>
-
         <!-- Third party dependencies -->
 
         <dependency>
@@ -52,11 +29,6 @@
             <artifactId>rescu</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
-        
         <!--For String Joining, etc. -->
         <dependency>
             <groupId>org.apache.commons</groupId>

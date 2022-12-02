@@ -10,7 +10,13 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.enigma.dto.BaseResponse;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaOpenOrders;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
-import org.knowm.xchange.enigma.dto.trade.*;
+import org.knowm.xchange.enigma.dto.trade.EnigmaExecuteQuoteRequest;
+import org.knowm.xchange.enigma.dto.trade.EnigmaExecutedQuote;
+import org.knowm.xchange.enigma.dto.trade.EnigmaLimitOrderRequest;
+import org.knowm.xchange.enigma.dto.trade.EnigmaNewOrderRequest;
+import org.knowm.xchange.enigma.dto.trade.EnigmaOrderSubmission;
+import org.knowm.xchange.enigma.dto.trade.EnigmaQuote;
+import org.knowm.xchange.enigma.dto.trade.EnigmaQuoteRequest;
 import org.knowm.xchange.enigma.model.EnigmaException;
 
 public class EnigmaTradeServiceRaw extends EnigmaBaseService {

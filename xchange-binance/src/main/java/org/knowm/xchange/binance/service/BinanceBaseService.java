@@ -5,6 +5,7 @@ import static org.knowm.xchange.binance.BinanceResilience.REQUEST_WEIGHT_RATE_LI
 import java.io.IOException;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
+import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.service.BaseResilientExchangeService;
@@ -34,18 +35,41 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
   }
 
   public Long getRecvWindow() {
-    return (Long)
+    Object obj =
         exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    if (obj == null) return null;
+    if (obj instanceof Number) {
+      long value = ((Number) obj).longValue();
+      if (value < 0 || value > 60000) {
+        throw new IllegalArgumentException(
+            "Exchange-specific parameter \"recvWindow\" must be in the range [0, 60000].");
+      }
+      return value;
+    }
+    if (obj.getClass().equals(String.class)) {
+      try {
+        return Long.parseLong((String) obj, 10);
+      } catch (NumberFormatException e) {
+        throw new IllegalArgumentException(
+            "Exchange-specific parameter \"recvWindow\" could not be parsed.", e);
+      }
+    }
+    throw new IllegalArgumentException(
+        "Exchange-specific parameter \"recvWindow\" could not be parsed.");
   }
 
   public SynchronizedValueFactory<Long> getTimestampFactory() {
-    return ((BinanceExchange) exchange).getTimestampFactory();
+    return exchange.getTimestampFactory();
   }
 
   public BinanceExchangeInfo getExchangeInfo() throws IOException {
-    return decorateApiCall(() -> binance.exchangeInfo())
+    return decorateApiCall(binance::exchangeInfo)
         .withRetry(retry("exchangeInfo"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
         .call();
+  }
+
+  public BinanceSystemStatus getSystemStatus() throws IOException {
+    return decorateApiCall(binance::systemStatus).call();
   }
 }

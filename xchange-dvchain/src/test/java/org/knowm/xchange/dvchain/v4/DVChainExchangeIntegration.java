@@ -38,7 +38,7 @@ public class DVChainExchangeIntegration {
   @Test
   public void testExchangeMarketData() {
     final Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
+        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class, secret, secret);
     ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
     exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
     exchangeSpecification.setHost("sandbox.trade.dvchain.co");
@@ -61,7 +61,7 @@ public class DVChainExchangeIntegration {
   public void testMarketOrder() {
 
     final Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
+        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class, secret, secret);
     ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
     exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
     exchangeSpecification.setHost("sandbox.trade.dvchain.co");
@@ -82,7 +82,7 @@ public class DVChainExchangeIntegration {
   @Test
   public void testLimitOrder() {
     final Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
+        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class, secret, secret);
     ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
     exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
     exchangeSpecification.setHost("sandbox.trade.dvchain.co");
@@ -108,7 +108,7 @@ public class DVChainExchangeIntegration {
   @Test
   public void testOrders() {
     final Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
+        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class, secret, secret);
     ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
     exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
     exchangeSpecification.setHost("sandbox.trade.dvchain.co");
@@ -126,7 +126,7 @@ public class DVChainExchangeIntegration {
   @Test
   public void testTrades() {
     final Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
+        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class, secret, secret);
     ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
     exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
     exchangeSpecification.setHost("sandbox.trade.dvchain.co");

@@ -6,17 +6,12 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinde.v4.service.BitcoindeAccountService;
 import org.knowm.xchange.bitcoinde.v4.service.BitcoindeMarketDataService;
 import org.knowm.xchange.bitcoinde.v4.service.BitcoindeTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitcoindeExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
-
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    final ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    final ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.bitcoin.de/");
     exchangeSpecification.setHost("bitcoin.de");
     exchangeSpecification.setPort(80);
@@ -32,10 +27,5 @@ public class BitcoindeExchange extends BaseExchange implements Exchange {
     this.marketDataService = new BitcoindeMarketDataService(this);
     this.tradeService = new BitcoindeTradeService(this);
     this.accountService = new BitcoindeAccountService(this);
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 }

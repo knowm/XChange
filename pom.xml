@@ -9,7 +9,7 @@
 
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-parent</artifactId>
-  <version>5.0.2-SNAPSHOT</version>
+  <version>5.0.15-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>XChange</name>
@@ -19,6 +19,7 @@
 
   <url>http://knowm.org/open-source/xchange</url>
   <inceptionYear>2012</inceptionYear>
+
 
   <organization>
     <name>Knowm Inc.</name>
@@ -30,21 +31,19 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <version.java>1.8</version.java>
-    <version.assertj>3.16.1</version.assertj>
-    <version.commons.io>2.7</version.commons.io>
-    <version.commons.lang3>3.11</version.commons.lang3>
-    <version.fasterxml>2.11.1</version.fasterxml>
-    <version.github.mmazi>2.0.2</version.github.mmazi>
-    <version.resilience4j>1.5.0</version.resilience4j>
-    <version.junit>4.13</version.junit>
-    <version.lombok>1.18.12</version.lombok>
-    <version.knowm.xchart>3.6.4</version.knowm.xchart>
-    <version.powermock>2.0.7</version.powermock>
-    <version.qos.logback>1.2.3</version.qos.logback>
-    <version.reflections>0.9.12</version.reflections>
-    <version.slf4j>1.7.30</version.slf4j>
+    <version.assertj>3.23.1</version.assertj>
+    <version.commons.lang3>3.12.0</version.commons.lang3>
+    <version.fasterxml>2.13.4</version.fasterxml>
+    <version.github.mmazi>2.1.0</version.github.mmazi>
+    <version.resilience4j>1.7.0</version.resilience4j>
+    <version.junit>4.13.2</version.junit>
+    <version.lombok>1.18.22</version.lombok>
+    <version.knowm.xchart>3.8.2</version.knowm.xchart>
+    <version.qos.logback>1.4.4</version.qos.logback>
+    <version.reflections>0.10.2</version.reflections>
+    <version.slf4j>2.0.3</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>3.10.3</version.java-jwt>
+    <version.java-jwt>3.19.2</version.java-jwt>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
@@ -90,12 +89,7 @@
     <tag>HEAD</tag>
   </scm>
 
-  <ciManagement>
-    <url>https://travis-ci.org/timmolter/XChange</url>
-  </ciManagement>
-
   <modules>
-    <module>xchange-anx</module>
     <module>xchange-bankera</module>
     <module>xchange-bibox</module>
     <module>xchange-binance</module>
@@ -109,11 +103,11 @@
     <module>xchange-bitfinex</module>
     <module>xchange-bitflyer</module>
     <module>xchange-bithumb</module>
+    <module>xchange-ascendex</module>
     <module>xchange-bitmex</module>
     <module>xchange-bitso</module>
     <module>xchange-bitstamp</module>
     <module>xchange-bittrex</module>
-    <module>xchange-bittrexV3</module>
     <module>xchange-bity</module>
     <module>xchange-bitz</module>
     <module>xchange-bl3p</module>
@@ -123,13 +117,13 @@
     <module>xchange-btcmarkets</module>
     <module>xchange-btctrade</module>
     <module>xchange-btcturk</module>
-    <module>xchange-bx</module>
-    <module>xchange-campbx</module>
+    <module>xchange-bybit</module>
     <module>xchange-ccex</module>
     <module>xchange-cexio</module>
     <module>xchange-cobinhood</module>
     <module>xchange-coinbase</module>
     <module>xchange-coinbasepro</module>
+    <module>xchange-coincheck</module>
     <module>xchange-coindeal</module>
     <module>xchange-coindirect</module>
     <module>xchange-coinbene</module>
@@ -143,7 +137,6 @@
     <module>xchange-coinmate</module>
     <module>xchange-core</module>
     <module>xchange-cryptofacilities</module>
-    <module>xchange-cryptonit</module>
     <module>xchange-cryptopia</module>
     <module>xchange-coinsuper</module>
     <module>xchange-cryptowatch</module>
@@ -151,10 +144,12 @@
     <module>xchange-dragonex</module>
     <module>xchange-dsx</module>
     <module>xchange-dvchain</module>
+    <module>xchange-dydx</module>
     <module>xchange-exmo</module>
     <module>xchange-exx</module>
     <module>xchange-examples</module>
     <module>xchange-fcoin</module>
+    <module>xchange-ftx</module>
     <module>xchange-gateio</module>
     <module>xchange-globitex</module>
     <module>xchange-gemini</module>
@@ -175,13 +170,16 @@
     <module>xchange-luno</module>
     <module>xchange-lykke</module>
     <module>xchange-mercadobitcoin</module>
+    <module>xchange-mexc</module>
     <module>xchange-okcoin</module>
+    <module>xchange-okex</module>
     <module>xchange-openexchangerates</module>
     <module>xchange-paribu</module>
     <module>xchange-paymium</module>
     <module>xchange-poloniex</module>
     <module>xchange-quoine</module>
     <module>xchange-ripple</module>
+    <module>xchange-serum</module>
     <module>xchange-simulated</module>
     <module>xchange-therock</module>
     <module>xchange-tradeogre</module>
@@ -202,23 +200,31 @@
     <module>xchange-stream-btcmarkets</module>
     <module>xchange-stream-cexio</module>
     <module>xchange-stream-coinbasepro</module>
+    <module>xchange-stream-coinjar</module>
     <module>xchange-stream-coinmate</module>
     <module>xchange-stream-core</module>
+    <module>xchange-stream-dydx</module>
+    <module>xchange-stream-ftx</module>
+    <module>xchange-stream-gateio</module>
     <module>xchange-stream-gemini</module>
+    <module>xchange-stream-gemini-v2</module>
     <module>xchange-stream-hitbtc</module>
+    <module>xchange-stream-huobi</module>
     <module>xchange-stream-kraken</module>
     <module>xchange-stream-lgo</module>
     <module>xchange-stream-okcoin</module>
-    <module>xchange-stream-poloniex</module>
+    <module>xchange-stream-okex</module>
     <module>xchange-stream-poloniex2</module>
+    <module>xchange-stream-serum</module>
     <module>xchange-stream-service-core</module>
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
-    <module>xchange-stream-service-pusher</module>
-    <module>xchange-stream-service-wamp</module>
-    <module>xchange-stream-huobi</module>
-
+    <module>xchange-stream-coincheck</module>
   </modules>
+
+  <ciManagement>
+    <url>https://travis-ci.org/github/knowm/XChange</url>
+  </ciManagement>
 
   <repositories>
     <repository>
@@ -247,12 +253,6 @@
             <artifactId>commons-codec</artifactId>
           </exclusion>
         </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>${version.commons.io}</version>
       </dependency>
 
       <dependency>
@@ -293,7 +293,11 @@
         <artifactId>jackson-databind</artifactId>
         <version>${version.fasterxml}</version>
       </dependency>
-
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${version.fasterxml}</version>
+        </dependency>
       <dependency>
         <groupId>org.web3j</groupId>
         <artifactId>crypto</artifactId>
@@ -303,41 +307,20 @@
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>29.0-jre</version>
+        <version>31.1-jre</version>
       </dependency>
 
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.4.4</version>
+        <version>3.12.4</version>
         <scope>test</scope>
       </dependency>
 
       <dependency>
         <groupId>com.github.tomakehurst</groupId>
-        <artifactId>wiremock</artifactId>
-        <version>2.27.1</version>
-        <scope>test</scope>
-      </dependency>
-
-      <!-- PowerMockito for unit tests -->
-      <!-- when removing powermock, please upgrade mockito -->
-      <dependency>
-        <groupId>org.powermock</groupId>
-        <artifactId>powermock-module-junit4</artifactId>
-        <version>${version.powermock}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.powermock</groupId>
-        <artifactId>powermock-api-mockito2</artifactId>
-        <version>${version.powermock}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.powermock</groupId>
-        <artifactId>powermock-reflect</artifactId>
-        <version>${version.powermock}</version>
+        <artifactId>wiremock-jre8</artifactId>
+        <version>2.34.0</version>
         <scope>test</scope>
       </dependency>
 
@@ -347,12 +330,15 @@
         <artifactId>logback-classic</artifactId>
         <version>${version.qos.logback}</version>
       </dependency>
+
+      <!-- Lombok for boilerplate -->
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>${version.lombok}</version>
         <scope>provided</scope>
       </dependency>
+
       <!-- jwt for auth -->
       <dependency>
         <groupId>com.auth0</groupId>
@@ -360,28 +346,23 @@
         <version>${version.java-jwt}</version>
       </dependency>
 
-
       <!-- for streaming-->
       <dependency>
         <groupId>io.reactivex.rxjava2</groupId>
         <artifactId>rxjava</artifactId>
-        <version>2.2.19</version>
+        <version>2.2.21</version>
       </dependency>
       <dependency>
         <groupId>com.pubnub</groupId>
         <artifactId>pubnub-gson</artifactId>
         <version>4.31.3</version>
       </dependency>
-      <dependency>
-        <groupId>com.pusher</groupId>
-        <artifactId>pusher-java-client</artifactId>
-        <version>2.2.3</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>2.3.1</version>
-      </dependency>
+        <!-- Netty version compatible with service-wamp -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.84.Final</version>
+        </dependency>
 
     </dependencies>
 
@@ -401,12 +382,6 @@
       <groupId>javax.annotation</groupId>
       <artifactId>javax.annotation-api</artifactId>
       <version>1.3.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.1.1</version>
     </dependency>
 
     <!-- SLF4J implementation for use in examples -->
@@ -437,7 +412,7 @@
       <id>release-sign-artifacts</id>
       <activation>
         <property>
-          <name>performRelease</name>
+            <name>gpg.passphrase</name>
           <value>true</value>
         </property>
       </activation>
@@ -446,7 +421,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
+            <version>3.0.1</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -454,8 +429,16 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                  <configuration>
+                      <gpgArguments>
+                          <arg>--pinentry-mode</arg>
+                          <arg>loopback</arg>
+                      </gpgArguments>
+                  </configuration>
               </execution>
             </executions>
+
+
           </plugin>
 
           <!-- Generates a source code JAR during package -->
@@ -476,7 +459,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.2.0</version>
+            <version>3.4.1</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -502,7 +485,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.10.1</version>
         <configuration>
           <source>${version.java}</source>
           <target>${version.java}</target>
@@ -532,14 +515,11 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <skipSource>false</skipSource>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.4.1</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>
@@ -550,7 +530,6 @@
         </executions>
         <configuration>
           <quiet>true</quiet>
-          <skip>false</skip>
           <doclint>none</doclint>
           <source>${version.java}</source>
         </configuration>
@@ -558,13 +537,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.0.0-M7</version>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.0.0-M7</version>
         <executions>
           <execution>
             <goals>
@@ -583,7 +562,7 @@
       <plugin>
         <groupId>com.coveo</groupId>
         <artifactId>fmt-maven-plugin</artifactId>
-        <version>2.10</version>
+        <version>2.13</version>
         <configuration>
           <filesNamePattern>.*\.java</filesNamePattern>
           <skip>false</skip>
@@ -591,7 +570,7 @@
         <executions>
           <execution>
             <goals>
-              <goal>format</goal>
+<!--              <goal>format</goal>-->
             </goals>
           </execution>
         </executions>

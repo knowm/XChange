@@ -8,7 +8,14 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
-import org.knowm.xchange.dsx.dto.*;
+import org.knowm.xchange.dsx.dto.DsxCandle;
+import org.knowm.xchange.dsx.dto.DsxCurrency;
+import org.knowm.xchange.dsx.dto.DsxOrderBook;
+import org.knowm.xchange.dsx.dto.DsxSort;
+import org.knowm.xchange.dsx.dto.DsxSymbol;
+import org.knowm.xchange.dsx.dto.DsxTicker;
+import org.knowm.xchange.dsx.dto.DsxTrade;
+import org.knowm.xchange.dsx.dto.DsxTradesSortBy;
 
 /** Version 2 of Dsx API. See https://api.dsx.com/api/2/explore/ */
 @Path("/api/2/")

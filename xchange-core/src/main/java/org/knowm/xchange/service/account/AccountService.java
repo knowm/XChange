@@ -46,7 +46,7 @@ public interface AccountService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default AccountInfo getAccountInfo() throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getAccountInfo");
   }
 
   /**
@@ -104,7 +104,7 @@ public interface AccountService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("withdrawFunds");
   }
 
   /**
@@ -123,7 +123,7 @@ public interface AccountService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default String requestDepositAddress(Currency currency, String... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("requestDepositAddress");
   }
 
   /**
@@ -142,7 +142,7 @@ public interface AccountService extends BaseService {
    */
   default AddressWithTag requestDepositAddressData(Currency currency, String... args)
       throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("requestDepositAddressData");
   }
 
   /**
@@ -152,7 +152,7 @@ public interface AccountService extends BaseService {
    * the same class as the createFundingHistoryParams that created the object.
    */
   default TradeHistoryParams createFundingHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("createFundingHistoryParams");
   }
 
   /**
@@ -167,7 +167,7 @@ public interface AccountService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getFundingHistory");
   }
 
   /**
@@ -185,7 +185,7 @@ public interface AccountService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getDynamicTradingFeesByInstrument");
   }
 
   /**
@@ -202,7 +202,7 @@ public interface AccountService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public default Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
-    throw new NotYetImplementedForExchangeException();
+  default Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    throw new NotYetImplementedForExchangeException("getDynamicTradingFees");
   }
 }

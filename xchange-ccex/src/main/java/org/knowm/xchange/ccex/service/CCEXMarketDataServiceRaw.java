@@ -10,8 +10,8 @@ import org.knowm.xchange.ccex.dto.marketdata.CCEXMarkets;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXTrades;
 import org.knowm.xchange.ccex.dto.ticker.CCEXPriceResponse;
 import org.knowm.xchange.ccex.dto.ticker.CCEXTickerResponse;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author Andraž Prinčič */
 public class CCEXMarketDataServiceRaw extends CCEXBaseService {
@@ -21,8 +21,8 @@ public class CCEXMarketDataServiceRaw extends CCEXBaseService {
   public CCEXMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
     this.ccex =
-        RestProxyFactory.createProxy(
-            CCEX.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(CCEX.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   public CCEXGetorderbook getCCEXOrderBook(CurrencyPair pair, int depth) throws IOException {

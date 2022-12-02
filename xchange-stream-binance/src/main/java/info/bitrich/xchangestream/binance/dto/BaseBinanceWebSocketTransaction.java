@@ -8,10 +8,11 @@ public class BaseBinanceWebSocketTransaction {
   public enum BinanceWebSocketTypes {
     DEPTH_UPDATE("depthUpdate"),
     TICKER_24_HR("24hrTicker"),
+    BOOK_TICKER("bookTicker"),
     KLINE("kline"),
     AGG_TRADE("aggTrade"),
     TRADE("trade"),
-    OUTBOUND_ACCOUNT_INFO("outboundAccountInfo"),
+    OUTBOUND_ACCOUNT_POSITION("outboundAccountPosition"),
     EXECUTION_REPORT("executionReport");
 
     /**
@@ -45,8 +46,14 @@ public class BaseBinanceWebSocketTransaction {
 
   public BaseBinanceWebSocketTransaction(
       @JsonProperty("e") String _eventType, @JsonProperty("E") String _eventTime) {
-    eventType = BinanceWebSocketTypes.fromTransactionValue(_eventType);
-    eventTime = new Date(Long.parseLong(_eventTime));
+    this(
+        BinanceWebSocketTypes.fromTransactionValue(_eventType),
+        new Date(Long.parseLong(_eventTime)));
+  }
+
+  BaseBinanceWebSocketTransaction(BinanceWebSocketTypes eventType, Date eventTime) {
+    this.eventType = eventType;
+    this.eventTime = eventTime;
   }
 
   public BinanceWebSocketTypes getEventType() {

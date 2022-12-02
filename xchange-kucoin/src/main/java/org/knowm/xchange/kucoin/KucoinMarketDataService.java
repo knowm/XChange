@@ -3,6 +3,7 @@ package org.knowm.xchange.kucoin;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -19,8 +20,15 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
    */
   public static final String PARAM_FULL_ORDERBOOK = "Full_Orderbook";
 
-  KucoinMarketDataService(KucoinExchange exchange) {
-    super(exchange);
+  /**
+   * Set on calls to {@link #getOrderBook(CurrencyPair, Object...)} to return the shallow partial
+   * orderbook depth of 20.
+   */
+  public static final String PARAM_PARTIAL_SHALLOW_ORDERBOOK = "Shallow_Orderbook";
+
+  protected KucoinMarketDataService(
+      KucoinExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   @Override
@@ -38,6 +46,10 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
     if (Arrays.asList(args).contains(PARAM_FULL_ORDERBOOK)) {
       return KucoinAdapters.adaptOrderBook(currencyPair, getKucoinOrderBookFull(currencyPair));
     } else {
+      if (Arrays.asList(args).contains(PARAM_PARTIAL_SHALLOW_ORDERBOOK)) {
+        return KucoinAdapters.adaptOrderBook(
+            currencyPair, getKucoinOrderBookPartialShallow(currencyPair));
+      }
       return KucoinAdapters.adaptOrderBook(currencyPair, getKucoinOrderBookPartial(currencyPair));
     }
   }

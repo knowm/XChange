@@ -20,7 +20,7 @@ public class DepthDemoEth {
 
     // Use the factory to get IndependentReserve exchange API using default settings
     Exchange independentReserve =
-        ExchangeFactory.INSTANCE.createExchange(IndependentReserveExchange.class.getName());
+        ExchangeFactory.INSTANCE.createExchange(IndependentReserveExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = independentReserve.getMarketDataService();

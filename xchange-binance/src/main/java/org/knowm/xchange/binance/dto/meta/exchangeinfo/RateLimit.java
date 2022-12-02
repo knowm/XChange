@@ -5,6 +5,8 @@ public class RateLimit {
 
   private String interval;
 
+  private String intervalNum;
+
   private String rateLimitType;
 
   public String getLimit() {
@@ -23,6 +25,14 @@ public class RateLimit {
     this.interval = interval;
   }
 
+  public String getIntervalNum() {
+    return intervalNum;
+  }
+
+  public void setIntervalNum(String intervalNum) {
+    this.intervalNum = intervalNum;
+  }
+
   public String getRateLimitType() {
     return rateLimitType;
   }
@@ -37,6 +47,8 @@ public class RateLimit {
         + limit
         + ", interval = "
         + interval
+        + ", intervalNum = "
+        + intervalNum
         + ", rateLimitType = "
         + rateLimitType
         + "]";

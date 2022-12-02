@@ -6,7 +6,9 @@ import org.knowm.xchange.bity.dto.BityResponse;
 import org.knowm.xchange.bity.dto.account.BityOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 public final class BityTradeService extends BityTradeServiceRaw implements TradeService {
 

@@ -15,7 +15,7 @@ public class CoinEggTradesFetchIntegration {
   @Test
   public void tradesFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(CurrencyPair.ETH_BTC);
 

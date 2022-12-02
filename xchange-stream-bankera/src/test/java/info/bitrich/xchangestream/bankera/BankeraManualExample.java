@@ -11,7 +11,7 @@ public class BankeraManualExample {
 
   public static void main(String[] args) {
     StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(BankeraStreamingExchange.class.getName());
+        StreamingExchangeFactory.INSTANCE.createExchange(BankeraStreamingExchange.class);
 
     exchange.connect().blockingAwait();
     exchange

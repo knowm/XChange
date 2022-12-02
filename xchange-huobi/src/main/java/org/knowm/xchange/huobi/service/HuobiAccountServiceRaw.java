@@ -60,25 +60,25 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
 
   public HuobiFeeRate[] getFeeRate(String symbols) throws IOException {
     HuobiFeeRateResult transactFeeRateResult =
-            huobi.getFeeRate(
-                    symbols.toLowerCase(),
-                    exchange.getExchangeSpecification().getApiKey(),
-                    HuobiDigest.HMAC_SHA_256,
-                    2,
-                    HuobiUtils.createUTCDate(exchange.getNonceFactory()),
-                    signatureCreator);
+        huobi.getFeeRate(
+            symbols.toLowerCase(),
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
     return checkResult(transactFeeRateResult);
   }
 
   public HuobiTransactFeeRate[] getTransactFeeRate(String currency) throws IOException {
     HuobiTransactFeeRateResult transactFeeRateResult =
-            huobi.getTransactFeeRate(
-                    currency.toLowerCase(),
-                    exchange.getExchangeSpecification().getApiKey(),
-                    HuobiDigest.HMAC_SHA_256,
-                    2,
-                    HuobiUtils.createUTCDate(exchange.getNonceFactory()),
-                    signatureCreator);
+        huobi.getTransactFeeRate(
+            currency.toLowerCase(),
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
     return checkResult(transactFeeRateResult);
   }
 
@@ -96,13 +96,13 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
 
   public HuobiDepositAddress[] getDepositAddressV2(String currency) throws IOException {
     HuobiDepositAddressV2Result depositAddressResult =
-            huobi.getDepositAddressV2(
-                    currency != null ? currency.toLowerCase() : null,
-                    exchange.getExchangeSpecification().getApiKey(),
-                    HuobiDigest.HMAC_SHA_256,
-                    2,
-                    HuobiUtils.createUTCDate(exchange.getNonceFactory()),
-                    signatureCreator);
+        huobi.getDepositAddressV2(
+            currency != null ? currency.toLowerCase() : null,
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
     return checkResult(depositAddressResult);
   }
 

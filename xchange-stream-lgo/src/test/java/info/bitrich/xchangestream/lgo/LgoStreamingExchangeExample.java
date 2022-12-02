@@ -1,16 +1,22 @@
 package info.bitrich.xchangestream.lgo;
 
-import java.io.*;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
-import org.apache.commons.io.IOUtils;
-import org.junit.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Date;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.currency.*;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.lgo.LgoEnv;
 
 @Ignore
@@ -33,8 +39,13 @@ public class LgoStreamingExchangeExample {
   }
 
   private String readResource(String path) throws IOException {
-    InputStream stream = LgoStreamingExchangeExample.class.getResourceAsStream(path);
-    return IOUtils.toString(stream, StandardCharsets.UTF_8);
+    try {
+      return new String(
+          Files.readAllBytes(Paths.get(getClass().getResource(path).toURI())),
+          StandardCharsets.UTF_8);
+    } catch (URISyntaxException e) {
+      return null;
+    }
   }
 
   @Test

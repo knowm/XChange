@@ -15,7 +15,7 @@ public class CoingiOrderBookFetchIntegration {
 
   @Test
   public void orderBookFetchTest() throws Exception {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoingiExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoingiExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     CurrencyPair pair = CurrencyPair.BTC_EUR;

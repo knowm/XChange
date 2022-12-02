@@ -1,10 +1,12 @@
 package org.knowm.xchange.upbit;
 
 import java.io.IOException;
+import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import org.knowm.xchange.upbit.dto.UpbitException;
+import org.knowm.xchange.upbit.dto.marketdata.UpbitMarket;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBooks;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitTickers;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitTrades;
@@ -15,6 +17,10 @@ public interface Upbit {
   @GET
   @Path("ticker")
   UpbitTickers getTicker(@QueryParam("markets") String markets) throws IOException, UpbitException;
+
+  @GET
+  @Path("market/all")
+  List<UpbitMarket> getMarketAll() throws IOException, UpbitException;
 
   @GET
   @Path("orderbook")

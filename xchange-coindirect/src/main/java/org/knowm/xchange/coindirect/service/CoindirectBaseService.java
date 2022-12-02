@@ -1,13 +1,13 @@
 package org.knowm.xchange.coindirect.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coindirect.CoindirectAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class CoindirectBaseService extends BaseExchangeService implements BaseService {
   protected final Logger LOG = LoggerFactory.getLogger(getClass());
@@ -24,10 +24,9 @@ public class CoindirectBaseService extends BaseExchangeService implements BaseSe
     super(exchange);
 
     this.coindirect =
-        RestProxyFactory.createProxy(
-            CoindirectAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoindirectAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         CoindirectHawkDigest.createInstance(

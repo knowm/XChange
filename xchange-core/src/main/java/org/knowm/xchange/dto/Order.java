@@ -26,6 +26,7 @@ import org.knowm.xchange.instrument.Instrument;
 public abstract class Order implements Serializable {
 
   private static final long serialVersionUID = -8132103343647993249L;
+  private static final Random random = new Random();
 
   /** Order type i.e. bid or ask */
   private final OrderType type;
@@ -55,7 +56,7 @@ public abstract class Order implements Serializable {
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
-   * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
+   * @param instrument instrument The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if
    *     not provided
@@ -98,7 +99,7 @@ public abstract class Order implements Serializable {
         cumulativeAmount,
         fee,
         status,
-        100000000 + new Random().nextInt(100000000) + "");
+        Integer.toString(100000000 + random.nextInt(100000000)));
   }
 
   /**
@@ -228,7 +229,11 @@ public abstract class Order implements Serializable {
    *     <p>use {@link #getInstrument()} instead
    */
   @Deprecated
+  @JsonIgnore
   public CurrencyPair getCurrencyPair() {
+    if (instrument == null) {
+      return null;
+    }
     if (!(instrument instanceof CurrencyPair)) {
       throw new IllegalStateException(
           "The instrument of this order is not a currency pair: " + instrument);
@@ -426,6 +431,10 @@ public abstract class Order implements Serializable {
     REJECTED,
     /** Order has expired it's time to live or trading session and been removed from order book */
     EXPIRED,
+    /** Order is open and waiting to be filled */
+    OPEN,
+    /** Order has been either filled or cancelled */
+    CLOSED,
     /**
      * The exchange returned a state which is not in the exchange's API documentation. The state of
      * the order cannot be confirmed.
@@ -442,6 +451,7 @@ public abstract class Order implements Serializable {
         case STOPPED:
         case REJECTED:
         case EXPIRED:
+        case CLOSED: // Filled or Cancelled
           return true;
         default:
           return false;
@@ -454,6 +464,7 @@ public abstract class Order implements Serializable {
         case PENDING_NEW:
         case NEW:
         case PARTIALLY_FILLED:
+        case OPEN:
           return true;
         default:
           return false;

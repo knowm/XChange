@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>5.0.2-SNAPSHOT</version>
+        <version>5.0.15-SNAPSHOT</version>
     </parent>
 
     <name>XChange Bitstamp Stream</name>
@@ -16,11 +16,6 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-stream-core</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-stream-service-pusher</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

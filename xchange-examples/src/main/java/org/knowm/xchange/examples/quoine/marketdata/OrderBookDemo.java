@@ -15,8 +15,7 @@ public class OrderBookDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Quoine exchange API using default settings
-    Exchange quoineExchange =
-        ExchangeFactory.INSTANCE.createExchange(QuoineExchange.class.getName());
+    Exchange quoineExchange = ExchangeFactory.INSTANCE.createExchange(QuoineExchange.class);
 
     generic(quoineExchange);
     raw(quoineExchange);

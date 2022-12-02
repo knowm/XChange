@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xchange-parent</artifactId>
+        <groupId>org.knowm.xchange</groupId>
+        <version>5.0.15-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>xchange-serum</artifactId>
+
+    <name>XChange Serum</name>
+    <description>XChange implementation for the Serum DEX</description>
+
+    <url>http://knowm.org/open-source/xchange/</url>
+    <inceptionYear>2012</inceptionYear>
+
+    <organization>
+        <name>Knowm Inc.</name>
+        <url>http://knowm.org/open-source/xchange/</url>
+    </organization>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.igormaznitsa</groupId>
+            <artifactId>jbbp</artifactId>
+            <version>2.0.4</version>
+        </dependency>
+    </dependencies>
+
+</project>

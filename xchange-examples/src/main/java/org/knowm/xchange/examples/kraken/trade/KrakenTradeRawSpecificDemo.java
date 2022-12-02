@@ -54,7 +54,7 @@ public class KrakenTradeRawSpecificDemo {
     System.out.println(
         tradeService.queryKrakenTrades(tradeIds.toArray(new String[tradeIds.size()])));
 
-    Map<String, KrakenOpenPosition> openPositions = tradeService.getOpenPositions();
+    Map<String, KrakenOpenPosition> openPositions = tradeService.getKrakenOpenPositions();
     System.out.println(openPositions);
   }
 

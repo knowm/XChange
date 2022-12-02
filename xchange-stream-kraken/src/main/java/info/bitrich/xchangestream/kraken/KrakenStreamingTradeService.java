@@ -7,8 +7,14 @@ import info.bitrich.xchangestream.kraken.dto.KrakenOwnTrade;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -16,30 +22,32 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.kraken.KrakenAdapters;
-import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderStatus;
 import org.knowm.xchange.kraken.dto.trade.KrakenType;
-import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class KrakenStreamingTradeService implements StreamingTradeService {
   private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingTradeService.class);
 
-  private KrakenAccountServiceRaw rawKrakenAcctService;
-  private KrakenStreamingService streamingService;
-  private KrakenWebsocketToken token;
-  private long tokenExpires = 0L;
+  private final KrakenStreamingService streamingService;
 
   private volatile boolean ownTradesObservableSet, userTradeObservableSet;
   private Observable<Order> ownTradesObservable;
   private Observable<UserTrade> userTradeObservable;
 
-  KrakenStreamingTradeService(
-      KrakenStreamingService streamingService, KrakenAccountServiceRaw rawKrakenAcctService) {
+  KrakenStreamingTradeService(KrakenStreamingService streamingService) {
     this.streamingService = streamingService;
-    this.rawKrakenAcctService = rawKrakenAcctService;
+
+    if (streamingService != null) {
+      streamingService.subscribeDisconnect().subscribe(o -> {
+        synchronized (this) {
+          ownTradesObservableSet = false;
+          userTradeObservableSet = false;
+        }
+      });
+    }
   }
 
   private String getChannelName(KrakenSubscriptionName subscriptionName) {
@@ -50,16 +58,6 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
 
   private static class KrakenDtoUserTradeHolder extends HashMap<String, KrakenOwnTrade> {}
 
-  private KrakenWebsocketToken renewToken() throws IOException {
-    if (System.currentTimeMillis() >= tokenExpires) {
-      token = rawKrakenAcctService.getKrakenWebsocketToken();
-      tokenExpires =
-          System.currentTimeMillis()
-              + (token.getExpiresInSeconds() * 900L); // 900L instead of a 1000L for 90%
-    }
-    return token;
-  }
-
   @Override
   public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
     try {
@@ -69,7 +67,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
             String channelName = getChannelName(KrakenSubscriptionName.openOrders);
             ownTradesObservable =
                 streamingService
-                    .subscribeChannel(channelName, renewToken().getToken())
+                    .subscribeChannel(channelName)
                     .filter(JsonNode::isArray)
                     .filter(Objects::nonNull)
                     .map(jsonNode -> jsonNode.get(0))
@@ -94,7 +92,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                               || order.getCurrencyPair().compareTo(currencyPair) == 0)
                   .subscribe(emit::onNext, emit::onError, emit::onComplete));
 
-    } catch (IOException e) {
+    } catch (Exception e) {
       return Observable.error(e);
     }
   }
@@ -128,6 +126,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                 .id(orderId)
                 .originalAmount(dto.vol)
                 .cumulativeAmount(dto.vol_exec)
+                .averagePrice(dto.avg_price)
                 .orderStatus(
                     dto.status == null
                         ? null
@@ -168,7 +167,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
             String channelName = getChannelName(KrakenSubscriptionName.ownTrades);
             userTradeObservable =
                 streamingService
-                    .subscribeChannel(channelName, renewToken().getToken())
+                    .subscribeChannel(channelName)
                     .filter(JsonNode::isArray)
                     .filter(Objects::nonNull)
                     .map(jsonNode -> jsonNode.get(0))
@@ -192,7 +191,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                               || order.getCurrencyPair().compareTo(currencyPair) == 0)
                   .subscribe(emit::onNext, emit::onError, emit::onComplete));
 
-    } catch (IOException e) {
+    } catch (Exception e) {
       return Observable.error(e);
     }
   }
@@ -208,14 +207,15 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
         CurrencyPair currencyPair = new CurrencyPair(dto.pair);
         result.add(
             new UserTrade.Builder()
-                .id(dto.postxid)
+                .id(tradeId) // The tradeId should be the key of the map, postxid can be null and is
+                // not unique as required for a tradeId
                 .orderId(dto.ordertxid)
                 .currencyPair(currencyPair)
                 .timestamp(dto.time == null ? null : new Date((long) (dto.time * 1000L)))
                 .type(KrakenAdapters.adaptOrderType(KrakenType.fromString(dto.type)))
                 .price(dto.price)
                 .feeAmount(dto.fee)
-                .feeCurrency(currencyPair.base)
+                .feeCurrency(currencyPair.counter)
                 .originalAmount(dto.vol)
                 .build());
       }

@@ -16,13 +16,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
-import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CryptopiaExchange extends BaseExchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory =
-      new AtomicLongCurrentTimeIncrementalNonceFactory();
   private Map<CurrencyPair, CryptopiaTradePair> lookupByCcyPair;
   private Map<Long, CryptopiaTradePair> lookupById;
 
@@ -34,14 +30,8 @@ public class CryptopiaExchange extends BaseExchange {
   }
 
   @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
-  }
-
-  @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://www.cryptopia.co.nz");
     exchangeSpecification.setHost("www.cryptopia.co.nz");
     exchangeSpecification.setPort(80);

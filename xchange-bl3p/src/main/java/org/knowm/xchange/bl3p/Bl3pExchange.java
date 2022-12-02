@@ -29,8 +29,7 @@ public class Bl3pExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.bl3p.eu/");
     exchangeSpecification.setHost("api.bl3p.eu");
     exchangeSpecification.setPort(80);

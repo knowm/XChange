@@ -16,7 +16,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitflyerExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory =
+  private final SynchronizedValueFactory<Long> nonceFactory =
       new AtomicLongIncrementalTime2014NonceFactory();
 
   @Override
@@ -29,8 +29,7 @@ public class BitflyerExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.bitflyer.jp/");
     exchangeSpecification.setHost("api.bitflyer.jp");
     exchangeSpecification.setPort(80);

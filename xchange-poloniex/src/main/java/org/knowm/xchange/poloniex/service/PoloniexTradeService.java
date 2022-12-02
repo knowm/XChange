@@ -2,13 +2,7 @@ package org.knowm.xchange.poloniex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -41,6 +35,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -240,8 +235,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
     return new DefaultOpenOrdersParamCurrencyPair();
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
+  public Collection<Order> getOrderImpl(String... orderIds) throws IOException {
 
     List<String> orderIdList = Arrays.asList(orderIds);
 
@@ -253,8 +247,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
     returnValue.addAll(
         orderIdList.stream()
-            .filter(
-                f -> !returnValue.stream().filter(a -> a.getId().equals(f)).findFirst().isPresent())
+            .filter(f -> returnValue.stream().noneMatch(a -> a.getId().equals(f)))
             .map(
                 f -> {
                   try {
@@ -264,10 +257,15 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
                   }
                   return null;
                 })
-            .filter(f -> f != null)
+            .filter(Objects::nonNull)
             .collect(Collectors.toList()));
 
     return returnValue;
+  }
+
+  @Override
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    return getOrderImpl(TradeService.toOrderIds(orderQueryParams));
   }
 
   public final UserTrades getOrderTrades(Order order) throws IOException {

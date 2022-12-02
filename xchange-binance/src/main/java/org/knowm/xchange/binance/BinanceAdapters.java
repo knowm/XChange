@@ -2,9 +2,19 @@ package org.knowm.xchange.binance;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.binance.dto.account.AssetDetail;
+import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
@@ -14,6 +24,8 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.CandleStick;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
@@ -22,8 +34,24 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 
 public class BinanceAdapters {
+  private static final DateTimeFormatter DATE_TIME_FMT =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   private BinanceAdapters() {}
+
+  /**
+   * Converts a datetime as string in time zone UTC to a Date object
+   *
+   * @param dateTime String that represents datetime in zone UTC
+   * @return Date Object in time zone UTC
+   */
+  public static Date toDate(String dateTime) {
+    return java.util.Date.from(Instant.from(toLocalDateTime(dateTime).atZone(ZoneId.of("UTC"))));
+  }
+
+  public static LocalDateTime toLocalDateTime(String dateTime) {
+    return LocalDateTime.parse(dateTime, DATE_TIME_FMT);
+  }
 
   public static String toSymbol(CurrencyPair pair) {
     if (pair.equals(CurrencyPair.IOTA_BTC)) {
@@ -115,6 +143,8 @@ public class BinanceAdapters {
       return new CurrencyPair(symbol.substring(0, pairLength - 4), "TUSD");
     } else if (symbol.endsWith("USDS")) {
       return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDS");
+    } else if (symbol.endsWith("BUSD")) {
+      return new CurrencyPair(symbol.substring(0, pairLength - 4), "BUSD");
     } else {
       return new CurrencyPair(
           symbol.substring(0, pairLength - 3), symbol.substring(pairLength - 3));
@@ -223,5 +253,34 @@ public class BinanceAdapters {
       default:
         throw new IllegalStateException("Unexpected value: " + order.getIntention());
     }
+  }
+
+  /**
+   * @param klines
+   * @param currencyPair
+   * @return
+   */
+  public static CandleStickData adaptBinanceCandleStickData(
+      List<BinanceKline> klines, CurrencyPair currencyPair) {
+
+    CandleStickData candleStickData = null;
+    if (klines.size() != 0) {
+      List<CandleStick> candleSticks = new ArrayList<>();
+      for (BinanceKline chartData : klines) {
+        candleSticks.add(
+            new CandleStick.Builder()
+                .timestamp(new Date(chartData.getCloseTime()))
+                .open(chartData.getOpenPrice())
+                .high(chartData.getHighPrice())
+                .low(chartData.getLowPrice())
+                .close(chartData.getClosePrice())
+                .volume(chartData.getVolume())
+                .quotaVolume(chartData.getQuoteAssetVolume())
+                .build());
+      }
+      candleStickData = new CandleStickData(currencyPair, candleSticks);
+    }
+
+    return candleStickData;
   }
 }

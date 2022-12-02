@@ -11,8 +11,7 @@ public class LakeBTCExamplesUtils {
 
   public static Exchange createTestExchange() {
 
-    Exchange lakeBtcExchange =
-        ExchangeFactory.INSTANCE.createExchange(LakeBTCExchange.class.getName());
+    Exchange lakeBtcExchange = ExchangeFactory.INSTANCE.createExchange(LakeBTCExchange.class);
 
     //    lakeBtcExchange.getExchangeSpecification().setSslUri("https://www.LakeBTC.com");
     //    lakeBtcExchange.getExchangeSpecification().setHost("https://lakebtc.com");

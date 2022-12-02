@@ -8,7 +8,8 @@ import io.reactivex.Observable;
 import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class LgoLevel2BatchSubscription {
 
@@ -35,7 +36,7 @@ class LgoLevel2BatchSubscription {
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return service
         .subscribeChannel(LgoAdapter.channelName("level2", currencyPair))
-        .map(s -> mapper.readValue(s.toString(), LgoLevel2Update.class))
+        .map(s -> mapper.treeToValue(s, LgoLevel2Update.class))
         .scan(
             new LgoGroupedLevel2Update(),
             (acc, s) -> {

@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.lgo;
 
-import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.*;
+import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.lgo.dto.LgoSubscription;
@@ -36,7 +36,7 @@ public class LgoStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     return getObjectMapper().writeValueAsString(LgoSubscription.unsubscribe(channelName));
   }
 

@@ -6102,7 +6102,8 @@
       ],
       "fee_volume_currency": "ZUSD",
       "margin_call": 80,
-      "margin_stop": 40
+      "margin_stop": 40,
+      "ordermin": "0.002"
     },
     "XXBTZUSD.d": {
       "altname": "XBTUSD.d",

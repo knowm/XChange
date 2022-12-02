@@ -124,7 +124,7 @@ public class RippleUserTrade extends UserTrade {
           new RippleUserTrade(
               type,
               originalAmount,
-              (CurrencyPair)instrument,
+              (CurrencyPair) instrument,
               price,
               timestamp,
               id,

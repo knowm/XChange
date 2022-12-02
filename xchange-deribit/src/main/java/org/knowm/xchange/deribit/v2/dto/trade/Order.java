@@ -17,7 +17,15 @@ public class Order {
   @JsonProperty("profit_loss")
   private BigDecimal profitLoss;
   /** Price in base currency */
-  private BigDecimal price;
+  private String price;
+
+  public BigDecimal getPrice() {
+    try {
+      return new BigDecimal(price);
+    } catch (NumberFormatException e) {
+      return null;
+    }
+  }
   /** true for post-only orders only */
   @JsonProperty("post_only")
   private boolean postOnly;
@@ -33,6 +41,12 @@ public class Order {
   /** Unique order identifier */
   @JsonProperty("order_id")
   private String orderId;
+  /**
+   * Id of the stop order that was triggered to create the order (Only for orders that were created
+   * by triggered stop orders)
+   */
+  @JsonProperty("stop_order_id")
+  private String stopOrderId;
   /** Maximum amount within an order to be shown to other traders, 0 for invisible order. */
   @JsonProperty("max_show")
   private BigDecimal maxShow;

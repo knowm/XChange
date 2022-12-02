@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.google.common.collect.ImmutableSet;
 import info.bitrich.xchangestream.bitmex.dto.BitmexMarketDataEvent;
 import info.bitrich.xchangestream.bitmex.dto.BitmexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.bitmex.dto.BitmexWebSocketTransaction;
@@ -19,8 +20,16 @@ import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.bitmex.service.BitmexDigest;
 import org.slf4j.Logger;
@@ -28,9 +37,13 @@ import org.slf4j.LoggerFactory;
 
 /** Created by Lukas Zaoralek on 13.11.17. */
 public class BitmexStreamingService extends JsonNettyStreamingService {
+
   private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingService.class);
+  private static final Set<String> SIMPLE_TABLES =
+      ImmutableSet.of("order", "funding", "settlement", "position", "wallet", "margin");
+
   private final ObjectMapper mapper = new ObjectMapper();
-  private List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
+  private final List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
   private final String apiKey;
   private final String secretKey;
@@ -38,12 +51,25 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
   public static final int DMS_CANCEL_ALL_IN = 60000;
   public static final int DMS_RESUBSCRIBE = 15000;
   /** deadman's cancel time */
-  private long dmsCancelTime;
+  private volatile long dmsCancelTime;
 
-  private Disposable dmsDisposable;
+  private volatile Disposable dmsDisposable;
 
   public BitmexStreamingService(String apiUrl, String apiKey, String secretKey) {
     super(apiUrl, Integer.MAX_VALUE);
+    this.apiKey = apiKey;
+    this.secretKey = secretKey;
+  }
+
+  public BitmexStreamingService(
+      String apiUrl,
+      String apiKey,
+      String secretKey,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds) {
+    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.apiKey = apiKey;
     this.secretKey = secretKey;
   }
@@ -54,11 +80,9 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
     String signature =
         BitmexAuthenticator.generateSignature(secretKey, "GET", path, String.valueOf(expires), "");
 
-    List<Object> args = Arrays.asList(apiKey, expires, signature);
-
     Map<String, Object> cmd = new HashMap<>();
     cmd.put("op", "authKey");
-    cmd.put("args", args);
+    cmd.put("args", Arrays.asList(apiKey, expires, signature));
     this.sendMessage(mapper.writeValueAsString(cmd));
   }
 
@@ -130,10 +154,9 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
   }
 
   private void handleDeadMansSwitchMessage(JsonNode message) {
-    // handle dead man's switch confirmation
     try {
       String cancelTime = message.get("cancelTime").asText();
-      if (cancelTime.equals("0")) {
+      if ("0".equals(cancelTime)) {
         LOG.info("Dead man's switch disabled");
         dmsDisposable.dispose();
         dmsDisposable = null;
@@ -141,13 +164,11 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
       } else {
         SimpleDateFormat sdf = new SimpleDateFormat(BitmexMarketDataEvent.BITMEX_TIMESTAMP_FORMAT);
         sdf.setTimeZone(TimeZone.getTimeZone(ZoneOffset.UTC));
-        long now = sdf.parse(message.get("now").asText()).getTime();
         dmsCancelTime = sdf.parse(cancelTime).getTime();
       }
     } catch (ParseException e) {
       LOG.error("Error parsing deadman's confirmation ");
     }
-    return;
   }
 
   @Override
@@ -157,12 +178,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
 
   public Observable<BitmexWebSocketTransaction> subscribeBitmexChannel(String channelName) {
     return subscribeChannel(channelName)
-        .map(
-            s -> {
-              BitmexWebSocketTransaction transaction =
-                  objectMapper.treeToValue(s, BitmexWebSocketTransaction.class);
-              return transaction;
-            })
+        .map(s -> objectMapper.treeToValue(s, BitmexWebSocketTransaction.class))
         .share();
   }
 
@@ -186,7 +202,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
   @Override
   protected String getChannelNameFromMessage(JsonNode message) throws IOException {
     String table = message.get("table").asText();
-    if (table.equals("order") || table.equals("funding") || table.equals("position")) {
+    if (SIMPLE_TABLES.contains(table)) {
       return table;
     }
     JsonNode data = message.get("data");
@@ -205,7 +221,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     BitmexWebSocketSubscriptionMessage subscribeMessage =
         new BitmexWebSocketSubscriptionMessage("unsubscribe", new String[] {channelName});
     return objectMapper.writeValueAsString(subscribeMessage);

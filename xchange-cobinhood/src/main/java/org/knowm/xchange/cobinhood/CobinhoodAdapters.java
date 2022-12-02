@@ -1,7 +1,11 @@
 package org.knowm.xchange.cobinhood;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.cobinhood.dto.CobinhoodResponse;
 import org.knowm.xchange.cobinhood.dto.account.CobinhoodCoinBalances;

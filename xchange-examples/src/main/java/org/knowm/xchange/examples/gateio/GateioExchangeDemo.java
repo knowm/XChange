@@ -9,7 +9,7 @@ public class GateioExchangeDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GateioExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GateioExchange.class);
 
     System.out.println("ExchangeMetaData toString(): " + exchange.getExchangeMetaData().toString());
     System.out.println(

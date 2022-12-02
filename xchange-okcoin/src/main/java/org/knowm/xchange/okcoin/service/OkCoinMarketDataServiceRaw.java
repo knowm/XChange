@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.okcoin.FuturesContract;
 import org.knowm.xchange.okcoin.OkCoin;
@@ -16,7 +17,6 @@ import org.knowm.xchange.okcoin.dto.marketdata.OkCoinKline;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinKlineType;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinTickerResponse;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinTrade;
-import si.mazi.rescu.RestProxyFactory;
 
 public class OkCoinMarketDataServiceRaw extends OkCoinBaseService {
 
@@ -32,8 +32,8 @@ public class OkCoinMarketDataServiceRaw extends OkCoinBaseService {
     super(exchange);
 
     okCoin =
-        RestProxyFactory.createProxy(
-            OkCoin.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(OkCoin.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   /**

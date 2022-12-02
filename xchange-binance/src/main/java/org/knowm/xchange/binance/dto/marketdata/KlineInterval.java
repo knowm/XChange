@@ -40,4 +40,15 @@ public enum KlineInterval {
   public String code() {
     return code;
   }
+
+  public static KlineInterval getPeriodTypeFromSecs(long periodInSecs) {
+    KlineInterval result = null;
+    for (KlineInterval period : KlineInterval.values()) {
+      if (period.millis == periodInSecs * 1000) {
+        result = period;
+        break;
+      }
+    }
+    return result;
+  }
 }

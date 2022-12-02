@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.bitfinex;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.apache.commons.lang3.StringUtils;
@@ -61,6 +62,11 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
   @Override
   public Observable<Object> connectionSuccess() {
     return streamingService.subscribeConnectionSuccess();
+  }
+
+  @Override
+  public Observable<State> connectionStateObservable() {
+    return streamingService.subscribeConnectionState();
   }
 
   @Override

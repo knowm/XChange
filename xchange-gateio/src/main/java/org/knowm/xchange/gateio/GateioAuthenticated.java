@@ -2,6 +2,7 @@ package org.knowm.xchange.gateio;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
@@ -13,6 +14,7 @@ import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
+import org.knowm.xchange.gateio.dto.marketdata.GateioFeeInfo;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioOrderStatus;
 import org.knowm.xchange.gateio.dto.trade.GateioPlaceOrderReturn;
@@ -111,8 +113,15 @@ public interface GateioAuthenticated extends Gateio {
   @POST
   @Path("private/getorder")
   GateioOrderStatus getOrderStatus(
-      @FormParam("order_id") String orderId,
+      @FormParam("orderNumber") String orderNumber,
+      @FormParam("currencyPair") String currencyPair,
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("SIGN") ParamsDigest signer)
+      throws IOException;
+
+  @POST
+  @Path("private/feelist")
+  Map<String, GateioFeeInfo> getFeeList(
+      @HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer)
       throws IOException;
 }

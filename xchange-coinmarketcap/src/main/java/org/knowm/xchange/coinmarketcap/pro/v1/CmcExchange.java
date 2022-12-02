@@ -7,12 +7,8 @@ import org.knowm.xchange.coinmarketcap.pro.v1.service.CmcMarketDataService;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CmcExchange extends BaseExchange implements Exchange {
-
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -61,10 +57,5 @@ public class CmcExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws ExchangeException {
     initServices();
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 }

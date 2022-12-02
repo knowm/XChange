@@ -15,7 +15,7 @@ public class BitzTickerFetchIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitZExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitZExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(CurrencyPair.LTC_BTC);
 

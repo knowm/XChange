@@ -1,11 +1,11 @@
 package org.knowm.xchange.fcoin.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.fcoin.FCoin;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class FCoinBaseService extends BaseExchangeService implements BaseService {
 
@@ -23,8 +23,8 @@ public class FCoinBaseService extends BaseExchangeService implements BaseService
     super(exchange);
     apiKey = exchange.getExchangeSpecification().getApiKey();
     fcoin =
-        RestProxyFactory.createProxy(
-            FCoin.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(FCoin.class, exchange.getExchangeSpecification())
+            .build();
     signatureCreator =
         FCoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), apiKey);
   }

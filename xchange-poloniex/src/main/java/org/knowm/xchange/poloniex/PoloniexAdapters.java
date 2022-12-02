@@ -1,8 +1,11 @@
 package org.knowm.xchange.poloniex;
 
-import static org.knowm.xchange.dto.account.FundingRecord.Type.*;
+import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
+import static org.knowm.xchange.dto.account.FundingRecord.Type.OTHER_INFLOW;
+import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,14 +20,12 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -32,11 +33,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.poloniex.dto.LoanInfo;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
+import org.knowm.xchange.poloniex.dto.marketdata.*;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexAdjustment;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDeposit;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
@@ -65,6 +62,7 @@ public class PoloniexAdapters {
     BigDecimal high = marketData.getHigh24hr();
     BigDecimal low = marketData.getLow24hr();
     BigDecimal volume = marketData.getQuoteVolume();
+    BigDecimal percentageChange = marketData.getPercentChange();
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
@@ -74,6 +72,7 @@ public class PoloniexAdapters {
         .high(high)
         .low(low)
         .volume(volume)
+        .percentageChange(percentageChange.multiply(new BigDecimal("100"), new MathContext(8)))
         .build();
   }
 
@@ -249,7 +248,21 @@ public class PoloniexAdapters {
 
       Currency ccy = Currency.getInstance(entry.getKey());
 
-      if (!currencyMetaDataMap.containsKey(ccy)) currencyMetaDataMap.put(ccy, currencyArchetype);
+      if (!currencyMetaDataMap.containsKey(ccy)) {
+        currencyMetaDataMap.put(ccy, currencyArchetype);
+      }
+      CurrencyMetaData currencyMetaData = currencyMetaDataMap.get(ccy);
+      WalletHealth walletHealth = WalletHealth.ONLINE;
+      if (entry.getValue().isDelisted() || entry.getValue().isDisabled()) {
+        walletHealth = WalletHealth.OFFLINE;
+      }
+      CurrencyMetaData currencyMetaDataUpdated =
+          new CurrencyMetaData(
+              currencyMetaData.getScale(),
+              entry.getValue().getTxFee(),
+              currencyMetaData.getMinWithdrawalAmount(),
+              walletHealth);
+      currencyMetaDataMap.put(ccy, currencyMetaDataUpdated);
     }
 
     Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
@@ -387,5 +400,29 @@ public class PoloniexAdapters {
         amount,
         null,
         Order.OrderStatus.UNKNOWN);
+  }
+
+  public static CandleStickData adaptPoloniexCandleStickData(
+          PoloniexChartData[] poloniexChartData, CurrencyPair currencyPair) {
+
+    CandleStickData candleStickData = null;
+    if (poloniexChartData.length != 0) {
+      List<CandleStick> candleSticks = new ArrayList<>();
+      for (PoloniexChartData chartData : poloniexChartData) {
+        candleSticks.add(new CandleStick.Builder()
+                .timestamp(chartData.getDate())
+                .open(chartData.getOpen())
+                .high(chartData.getHigh())
+                .low(chartData.getLow())
+                .close(chartData.getClose())
+                .volume(chartData.getVolume())
+                .quotaVolume(chartData.getQuoteVolume())
+                .build()
+        );
+      }
+      candleStickData = new CandleStickData(currencyPair, candleSticks);
+    }
+
+    return candleStickData;
   }
 }

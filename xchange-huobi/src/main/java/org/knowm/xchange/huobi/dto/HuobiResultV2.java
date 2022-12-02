@@ -11,9 +11,7 @@ public class HuobiResultV2<V> {
 
   @JsonCreator
   public HuobiResultV2(
-      @JsonProperty("code") String code,
-      @JsonProperty("message") String message,
-      V result) {
+      @JsonProperty("code") String code, @JsonProperty("message") String message, V result) {
     this.code = code;
     this.message = message;
     this.result = result;
@@ -40,5 +38,4 @@ public class HuobiResultV2<V> {
     return String.format(
         "HuobiResult [%s, %s]", code, isSuccess() ? getResult().toString() : getMessage());
   }
-
 }

@@ -1,6 +1,0 @@
-Bittrex Exchange API specification
-================================
-
-Documentation
--------------
-https://bittrex.com/home/api

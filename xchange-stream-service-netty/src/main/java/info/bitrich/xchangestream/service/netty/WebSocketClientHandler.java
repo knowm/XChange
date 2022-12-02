@@ -91,7 +91,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
     } else if (frame instanceof PongWebSocketFrame) {
       LOG.debug("WebSocket Client received pong");
     } else if (frame instanceof CloseWebSocketFrame) {
-      LOG.info("WebSocket Client {} received closing", ctx.channel());
+      LOG.info("WebSocket Client received closing! {}", ctx.channel());
       ch.close();
     }
   }
@@ -118,7 +118,8 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         "WebSocket client {} encountered exception ({} - {}). Closing",
         ctx.channel(),
         cause.getClass().getSimpleName(),
-        cause.getMessage());
+        cause.getMessage(),
+        cause);
     if (!handshakeFuture.isDone()) {
       handshakeFuture.setFailure(cause);
     }

@@ -15,8 +15,7 @@ public class CoinbaseProDepthDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Coinbase Pro exchange API using default settings
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = exchange.getMarketDataService();

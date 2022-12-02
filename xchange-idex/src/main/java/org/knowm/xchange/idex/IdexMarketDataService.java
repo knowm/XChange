@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 import javax.net.ssl.HttpsURLConnection;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -21,43 +22,44 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.idex.dto.*;
+import org.knowm.xchange.idex.dto.IdexBuySell;
+import org.knowm.xchange.idex.dto.Market;
+import org.knowm.xchange.idex.dto.OrderBookReq;
+import org.knowm.xchange.idex.dto.ReturnCurrenciesResponse;
+import org.knowm.xchange.idex.dto.ReturnOrderBookResponse;
+import org.knowm.xchange.idex.dto.ReturnTickerRequestedWithNull;
+import org.knowm.xchange.idex.dto.ReturnTickerResponse;
+import org.knowm.xchange.idex.dto.TradeHistoryReq;
 import org.knowm.xchange.idex.service.ReturnOrderBookApi;
 import org.knowm.xchange.idex.service.ReturnTickerApi;
 import org.knowm.xchange.idex.service.ReturnTradeHistoryApi;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class IdexMarketDataService extends BaseExchangeService implements MarketDataService {
 
-  private ReturnTickerApi returnTickerApi;
-
-  private ReturnOrderBookApi returnOrderBookApi;
-
-  private ReturnTradeHistoryApi returnTradeHistoryApi;
+  private final ReturnTickerApi returnTickerApi;
+  private final ReturnOrderBookApi returnOrderBookApi;
+  private final ReturnTradeHistoryApi returnTradeHistoryApi;
 
   public IdexMarketDataService(IdexExchange idexExchange) {
 
     super(idexExchange);
 
     returnTickerApi =
-        RestProxyFactory.createProxy(
-            ReturnTickerApi.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                ReturnTickerApi.class, exchange.getExchangeSpecification())
+            .build();
 
     returnOrderBookApi =
-        RestProxyFactory.createProxy(
-            ReturnOrderBookApi.class,
-            exchange.getDefaultExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                ReturnOrderBookApi.class, exchange.getExchangeSpecification())
+            .build();
 
     returnTradeHistoryApi =
-        RestProxyFactory.createProxy(
-            ReturnTradeHistoryApi.class,
-            exchange.getDefaultExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                ReturnTradeHistoryApi.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   @Override

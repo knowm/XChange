@@ -1,21 +1,17 @@
 package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.*;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
-import org.knowm.xchange.kraken.dto.trade.KrakenOpenPosition;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
-import org.knowm.xchange.kraken.dto.trade.KrakenStandardOrder;
+import org.knowm.xchange.kraken.dto.trade.*;
 import org.knowm.xchange.kraken.dto.trade.KrakenStandardOrder.KrakenOrderBuilder;
-import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
-import org.knowm.xchange.kraken.dto.trade.KrakenType;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenCancelOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenCancelOrderResult.KrakenCancelOrderResponse;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenClosedOrdersResult;
@@ -123,12 +119,12 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
   }
 
   public KrakenTradeHistory getKrakenTradeHistory() throws IOException {
-
     return getKrakenTradeHistory(null, false, null, null, null);
   }
 
   public KrakenTradeHistory getKrakenTradeHistory(
-      String type, boolean includeTrades, Long start, Long end, Long offset) throws IOException {
+      String type, boolean includeTrades, String start, String end, Long offset)
+      throws IOException {
 
     KrakenTradeHistoryResult result =
         kraken.tradeHistory(
@@ -163,13 +159,13 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
     return checkResult(result);
   }
 
-  public Map<String, KrakenOpenPosition> getOpenPositions() throws IOException {
+  public Map<String, KrakenOpenPosition> getKrakenOpenPositions() throws IOException {
 
-    return getOpenPositions(false);
+    return getKrakenOpenPositions(false);
   }
 
-  public Map<String, KrakenOpenPosition> getOpenPositions(boolean doCalcs, String... transactionIds)
-      throws IOException {
+  public Map<String, KrakenOpenPosition> getKrakenOpenPositions(
+      boolean doCalcs, String... transactionIds) throws IOException {
 
     KrakenOpenPositionsResult result =
         kraken.openPositions(
@@ -208,7 +204,6 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
   }
 
   public KrakenOrderResponse placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
-
     KrakenType type = KrakenType.fromOrderType(limitOrder.getType());
     KrakenOrderBuilder krakenOrderBuilder =
         KrakenStandardOrder.getLimitOrderBuilder(
@@ -218,9 +213,17 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
                 limitOrder.getOriginalAmount())
             .withUserRefId(limitOrder.getUserReference())
             .withOrderFlags(limitOrder.getOrderFlags())
-            .withLeverage(limitOrder.getLeverage());
+            .withLeverage(limitOrder.getLeverage())
+            .withTimeInForce(timeInForceFromOrder(limitOrder).orElse(null));
 
     return placeKrakenOrder(krakenOrderBuilder.buildOrder());
+  }
+
+  private Optional<TimeInForce> timeInForceFromOrder(Order order) {
+    return order.getOrderFlags().stream()
+        .filter(flag -> flag instanceof TimeInForce)
+        .map(flag -> (TimeInForce) flag)
+        .findFirst();
   }
 
   public KrakenOrderResponse placeKrakenOrder(KrakenStandardOrder krakenStandardOrder)
@@ -243,6 +246,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
               krakenStandardOrder.getExpireTime(),
               krakenStandardOrder.getUserRefId(),
               krakenStandardOrder.getCloseOrder(),
+              nullSafeToString(krakenStandardOrder.getTimeInForce()),
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory());
@@ -263,6 +267,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
               krakenStandardOrder.getUserRefId(),
               true,
               krakenStandardOrder.getCloseOrder(),
+              nullSafeToString(krakenStandardOrder.getTimeInForce()),
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory());
@@ -309,5 +314,9 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
             exchange.getNonceFactory());
 
     return checkResult(krakenOrderResult);
+  }
+
+  private String nullSafeToString(Object value) {
+    return value == null ? null : value.toString();
   }
 }

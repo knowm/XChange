@@ -22,6 +22,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 /**
  * {@link TradeService} implementation for Bitcointoyou Exchange.
@@ -101,13 +102,10 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
-
-    if (orderIds.length == 1) {
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    if (orderQueryParams.length == 1) {
       return BitcointoyouAdapters.adaptBitcointoyouOrderToOrdersCollection(
-          returnOrderById(orderIds[0]));
+          returnOrderById(orderQueryParams[0].getOrderId()));
     }
 
     // Bitcointoyou API doesn't support multiple-orders ID.

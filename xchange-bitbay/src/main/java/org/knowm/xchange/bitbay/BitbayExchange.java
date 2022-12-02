@@ -1,24 +1,25 @@
 package org.knowm.xchange.bitbay;
 
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitbay.service.BitbayAccountService;
 import org.knowm.xchange.bitbay.service.BitbayMarketDataService;
 import org.knowm.xchange.bitbay.service.BitbayTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author kpysniak */
 public class BitbayExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://bitbay.net/API/");
     exchangeSpecification.setHost("bitbay.net");
     exchangeSpecification.setPort(80);

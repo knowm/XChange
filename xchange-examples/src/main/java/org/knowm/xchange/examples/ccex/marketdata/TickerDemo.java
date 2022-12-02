@@ -13,7 +13,7 @@ public class TickerDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange ccexExchange = ExchangeFactory.INSTANCE.createExchange(CCEXExchange.class.getName());
+    Exchange ccexExchange = ExchangeFactory.INSTANCE.createExchange(CCEXExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = ccexExchange.getMarketDataService();

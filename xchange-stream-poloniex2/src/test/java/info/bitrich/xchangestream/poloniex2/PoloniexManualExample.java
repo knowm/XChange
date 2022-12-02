@@ -17,7 +17,7 @@ public class PoloniexManualExample {
     //
     //        CertHelper.trustAllCerts();
     StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(PoloniexStreamingExchange.class.getName());
+        StreamingExchangeFactory.INSTANCE.createExchange(PoloniexStreamingExchange.class);
     ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
     //
     // defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.SOCKS_PROXY_HOST, "localhost");

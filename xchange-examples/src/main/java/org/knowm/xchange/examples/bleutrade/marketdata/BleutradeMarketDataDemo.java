@@ -17,7 +17,7 @@ public class BleutradeMarketDataDemo {
 
     //    Exchange bleutrade = BleutradeDemoUtils.getExchange();
     ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(BleutradeExchange.class.getName());
+        new ExchangeSpecification(BleutradeExchange.class);
     Exchange bleutrade = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     MarketDataService dataService = bleutrade.getMarketDataService();

@@ -1,6 +1,11 @@
 package org.knowm.xchange.coingi.dto.account;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /** Base class for result lists. */
 class CoingiResultList<T> extends ArrayList<T> {

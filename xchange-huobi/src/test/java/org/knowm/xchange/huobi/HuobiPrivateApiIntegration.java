@@ -6,7 +6,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
@@ -34,7 +38,7 @@ public class HuobiPrivateApiIntegration {
 
     exchange =
         ExchangeFactory.INSTANCE.createExchange(
-            HuobiExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
+            HuobiExchange.class, properties.getApiKey(), properties.getSecretKey());
   }
 
   @After
