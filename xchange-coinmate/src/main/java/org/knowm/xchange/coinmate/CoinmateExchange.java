@@ -23,9 +23,6 @@
  */
 package org.knowm.xchange.coinmate;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -34,8 +31,8 @@ import org.knowm.xchange.coinmate.service.CoinmateMarketDataService;
 import org.knowm.xchange.coinmate.service.CoinmateMetadataServiceRaw;
 import org.knowm.xchange.coinmate.service.CoinmateTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
 
 /** @author Martin Stachon */
 public class CoinmateExchange extends BaseExchange implements Exchange {

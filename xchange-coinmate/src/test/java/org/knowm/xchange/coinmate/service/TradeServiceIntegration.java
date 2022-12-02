@@ -100,22 +100,12 @@ public class TradeServiceIntegration {
         new MarketOrder(Order.OrderType.ASK, new BigDecimal("0.001"), CurrencyPair.BTC_EUR));
   }
 
-  @Test
-  public void limitBuyTest() throws Exception {
-    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
-    if (exchange ==
-        null) {
-      return; // forces pass if not configuration is available
-      }
-    assertNotNull(exchange);
-    TradeService service = exchange.getTradeService();
-      assertNotNull(service);
-      String id = service.placeLimitOrder(new LimitOrder(Order.OrderType.BID, new BigDecimal("1.0"), CurrencyPair.BTC_EUR,
-          null, null, new BigDecimal("1.0")));
-      System.out.println("Limit buy order id = " + id);
-      service.getOrder(id);
-      service.cancelOrder(id);
-    }
+  /*
+   * @Test public void limitBuyTest() throws Exception { Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration(); if (exchange ==
+   * null) { return; // forces pass if not configuration is available } assertNotNull(exchange); TradeService service = exchange.getTradeService();
+   * assertNotNull(service); String id = service.placeLimitOrder(new LimitOrder(Order.OrderType.BID, new BigDecimal("1.0"), CurrencyPair.BTC_EUR,
+   * null, null, new BigDecimal("1.0"))); System.out.println("Limit buy order id = " + id); }
+   */
 
   /*
    * @Test public void limitSellTest() throws Exception { Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration(); if (exchange ==
