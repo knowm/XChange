@@ -67,14 +67,16 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
       response = coinmateBitcoinWithdrawal(amount, address);
     } else if (currency.equals(Currency.LTC)) {
       response = coinmateLitecoinWithdrawal(amount, address);
-    } else if (currency.equals(Currency.BCH)) {
-      response = coinmateBitcoinCashWithdrawal(amount, address);
     } else if (currency.equals(Currency.ETH)) {
       response = coinmateEthereumWithdrawal(amount, address);
     } else if (currency.equals(Currency.XRP)) {
       response = coinmateRippleWithdrawal(amount, address);
     } else if (currency.equals(Currency.DASH)) {
       response = coinmateDashWithdrawal(amount, address);
+    } else if (currency.equals(Currency.ADA)) {
+      response = coinmateCardanoWithdrawal(amount, address);
+    } else if (currency.equals(Currency.SOL)) {
+      response = coinmateSolanaWithdrawal(amount, address);
     } else {
       throw new IOException(
           "Wallet for currency" + currency.getCurrencyCode() + " is currently not supported");
@@ -100,14 +102,16 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
       addresses = coinmateBitcoinDepositAddresses();
     } else if (currency.equals(Currency.LTC)) {
       addresses = coinmateLitecoinDepositAddresses();
-    } else if (currency.equals(Currency.BCH)) {
-      addresses = coinmateBitcoinCashDepositAddresses();
     } else if (currency.equals(Currency.ETH)) {
       addresses = coinmateEthereumDepositAddresses();
     } else if (currency.equals(Currency.XRP)) {
       addresses = coinmateRippleDepositAddresses();
     } else if (currency.equals(Currency.DASH)) {
       addresses = coinmateDashDepositAddresses();
+    } else if (currency.equals(Currency.ADA)) {
+      addresses = coinmateCardanoDepositAddresses();
+    } else if (currency.equals(Currency.SOL)) {
+      addresses = coinmateSolanalDepositAddresses();
     } else {
       throw new IOException(
           "Wallet for currency" + currency.getCurrencyCode() + " is currently not supported");
