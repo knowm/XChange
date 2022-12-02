@@ -206,7 +206,7 @@ public interface CoinmateAuthenticated extends Coinmate {
 
   @POST
   @Path("buyQuickFixRate")
-  CoinmateFixRateResponse buyQuickFixRate(
+  CoinmateBuyFixRateResponse buyQuickFixRate(
       @FormParam("publicKey") String publicKey,
       @FormParam("clientId") String clientId,
       @FormParam("signature") ParamsDigest signer,
@@ -218,7 +218,7 @@ public interface CoinmateAuthenticated extends Coinmate {
 
   @POST
   @Path("sellQuickFixRate")
-  CoinmateFixRateResponse sellQuickFixRate(
+  CoinmateSellFixRateResponse sellQuickFixRate(
       @FormParam("publicKey") String publicKey,
       @FormParam("clientId") String clientId,
       @FormParam("signature") ParamsDigest signer,

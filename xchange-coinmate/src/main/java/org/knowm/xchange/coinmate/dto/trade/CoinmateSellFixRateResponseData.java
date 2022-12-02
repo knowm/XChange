@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
 
-public class CoinmateFixRateResponseData {
+public class CoinmateSellFixRateResponseData {
   private final String rateId;
 
-  private final BigDecimal total;
+  private final BigDecimal totalReceived;
+
+  private final BigDecimal amount;
 
   private final BigDecimal rate;
 
@@ -15,14 +17,17 @@ public class CoinmateFixRateResponseData {
 
   private final Long expiresAt;
 
-  public CoinmateFixRateResponseData(
+  public CoinmateSellFixRateResponseData(
       @JsonProperty("rateId") String rateId,
-      @JsonProperty("total") BigDecimal total,
+      @JsonProperty("totalReceived") BigDecimal totalReceived,
       @JsonProperty("rate") BigDecimal rate,
       @JsonProperty("currencyPair") String currencyPair,
-      @JsonProperty("expiresAt") Long expiresAt) {
+      @JsonProperty("expiresAt") Long expiresAt,
+      @JsonProperty("amount") BigDecimal amount
+  ) {
     this.rateId = rateId;
-    this.total = total;
+    this.totalReceived = totalReceived;
+    this.amount = amount;
     this.rate = rate;
     this.currencyPair = currencyPair;
     this.expiresAt = expiresAt;
@@ -32,8 +37,8 @@ public class CoinmateFixRateResponseData {
     return rateId;
   }
 
-  public BigDecimal getTotal() {
-    return total;
+  public BigDecimal getTotalReceived() {
+    return totalReceived;
   }
 
   public BigDecimal getRate() {
@@ -46,5 +51,9 @@ public class CoinmateFixRateResponseData {
 
   public Long getExpiresAt() {
     return expiresAt;
+  }
+
+  public BigDecimal getAmount() {
+    return amount;
   }
 }
