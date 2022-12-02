@@ -53,7 +53,7 @@ public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
     tickers
         .forEach(
             t -> System.out.println(
-                t.getInstrument()
+                t.getSymbol()
                     + " => "
                     + String.format("%+.2f%%", t.getPriceChangePercent())));
   }

@@ -44,9 +44,7 @@ public class BinanceManualExample {
             .getStreamingMarketDataService()
             .getTicker(CurrencyPair.ETH_BTC)
             .subscribe(
-                ticker -> {
-                  LOG.info("Ticker: {}", ticker);
-                },
+                ticker -> LOG.info("Ticker: {}", ticker),
                 throwable -> LOG.error("ERROR in getting ticker: ", throwable));
 
     Disposable trades =
@@ -54,9 +52,7 @@ public class BinanceManualExample {
             .getStreamingMarketDataService()
             .getTrades(CurrencyPair.BTC_USDT)
             .subscribe(
-                trade -> {
-                  LOG.info("Trade: {}", trade);
-                });
+                trade -> LOG.info("Trade: {}", trade));
 
     Disposable orderChanges = null;
     Disposable userTrades = null;
@@ -72,12 +68,12 @@ public class BinanceManualExample {
       orderChanges =
           exchange
               .getStreamingTradeService()
-              .getOrderChanges()
+              .getOrderChanges(false)
               .subscribe(oc -> LOG.info("Order change: {}", oc));
       userTrades =
           exchange
               .getStreamingTradeService()
-              .getUserTrades()
+              .getUserTrades(false)
               .subscribe(trade -> LOG.info("User trade: {}", trade));
       balances =
           exchange
@@ -134,17 +130,15 @@ public class BinanceManualExample {
         .getStreamingMarketDataService()
         .getOrderBook(CurrencyPair.LTC_BTC)
         .subscribe(
-            orderBook -> {
-              LOG.info(
-                  "Order Book ({}): askDepth={} ask={} askSize={} bidDepth={}. bid={}, bidSize={}",
-                  identifier,
-                  orderBook.getAsks().size(),
-                  orderBook.getAsks().get(0).getLimitPrice(),
-                  orderBook.getAsks().get(0).getRemainingAmount(),
-                  orderBook.getBids().size(),
-                  orderBook.getBids().get(0).getLimitPrice(),
-                  orderBook.getBids().get(0).getRemainingAmount());
-            },
+            orderBook -> LOG.info(
+                "Order Book ({}): askDepth={} ask={} askSize={} bidDepth={}. bid={}, bidSize={}",
+                identifier,
+                orderBook.getAsks().size(),
+                orderBook.getAsks().get(0).getLimitPrice(),
+                orderBook.getAsks().get(0).getRemainingAmount(),
+                orderBook.getBids().size(),
+                orderBook.getBids().get(0).getLimitPrice(),
+                orderBook.getBids().get(0).getRemainingAmount()),
             throwable -> LOG.error("ERROR in getting order book: ", throwable));
   }
 

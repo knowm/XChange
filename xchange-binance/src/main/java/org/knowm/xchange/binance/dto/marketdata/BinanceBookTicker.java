@@ -2,14 +2,14 @@ package org.knowm.xchange.binance.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import org.knowm.xchange.binance.BinanceAdapters;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.instrument.Instrument;
 
+import lombok.Getter;
+import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.dto.marketdata.Ticker;
+
+@Getter
 public final class BinanceBookTicker {
   public long updateId;
-  private Instrument pair;
   private final BigDecimal bidPrice;
   private final BigDecimal bidQty;
   private final BigDecimal askPrice;
@@ -32,52 +32,15 @@ public final class BinanceBookTicker {
     this.symbol = symbol;
   }
 
-  public long getUpdateId() {
-    return updateId;
-  }
-
   public void setUpdateId(long updateId) {
     this.updateId = updateId;
   }
 
-  public Instrument getInstrument() {
-    return pair;
-  }
-
-  public void setInstrument(Instrument pair) {
-    this.pair = pair;
-  }
-
-  public BigDecimal getBidPrice() {
-    return bidPrice;
-  }
-
-  public BigDecimal getBidQty() {
-    return bidQty;
-  }
-
-  public BigDecimal getAskPrice() {
-    return askPrice;
-  }
-
-  public BigDecimal getAskQty() {
-    return askQty;
-  }
-
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public synchronized Ticker toTicker() {
-    Instrument instrument = pair;
-    if (instrument == null) {
-      instrument = BinanceAdapters.adaptSymbol(symbol);
-    }
+  public synchronized Ticker toTicker(boolean isFuture) {
     if (ticker == null) {
       ticker =
           new Ticker.Builder()
-              .currencyPair((instrument instanceof CurrencyPair) ? (CurrencyPair) instrument: null)
-              .instrument(instrument)
+              .instrument(BinanceAdapters.adaptSymbol(symbol, isFuture))
               .ask(askPrice)
               .bid(bidPrice)
               .askSize(askQty)

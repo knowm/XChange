@@ -28,6 +28,7 @@ import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
@@ -117,14 +118,14 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     if (realtimeOrderBookTicker) {
-      return getRawBookTicker(currencyPair).map(BinanceBookTicker::toTicker);
+      return getRawBookTicker(currencyPair).map(raw-> raw.toTicker(false));
     }
-    return getRawTicker(currencyPair).map(BinanceTicker24h::toTicker);
+    return getRawTicker(currencyPair).map(raw-> raw.toTicker(false));
   }
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    return getRawTrades(currencyPair, args)
+    return getRawTrades(currencyPair)
             .map(
                     rawTrade ->
                             new Trade.Builder()
@@ -151,14 +152,14 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   @Override
   public Observable<Ticker> getTicker(Instrument instrument, Object... args) {
     if (realtimeOrderBookTicker) {
-      return getRawBookTicker(instrument).map(BinanceBookTicker::toTicker);
+      return getRawBookTicker(instrument).map(raw-> raw.toTicker(instrument instanceof FuturesContract));
     }
-    return getRawTicker(instrument).map(BinanceTicker24h::toTicker);
+    return getRawTicker(instrument).map(raw-> raw.toTicker(instrument instanceof FuturesContract));
   }
 
   @Override
   public Observable<Trade> getTrades(Instrument instrument, Object... args) {
-    return getRawTrades(instrument, args)
+    return getRawTrades(instrument)
             .map(
                     rawTrade ->
                             new Trade.Builder()
@@ -173,13 +174,13 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                                     .build());
   }
 
-  private Observable<OrderBook> initOrderBookIfAbsent(Instrument currencyPair) {
+  private Observable<OrderBook> initOrderBookIfAbsent(Instrument instrument) {
     orderBookRawUpdatesSubscriptions.computeIfAbsent(
-        currencyPair, s -> triggerObservableBody(rawOrderBookUpdates(currencyPair)));
-    return createOrderBookObservable(currencyPair);
+        instrument, s -> triggerObservableBody(rawOrderBookUpdates(instrument)));
+    return createOrderBookObservable(instrument);
   }
 
-  public Observable<BinanceTicker24h> getRawTicker(Instrument instrument, Object... args) {
+  public Observable<BinanceTicker24h> getRawTicker(Instrument instrument) {
     if (!service.isLiveSubscriptionEnabled()
         && !service.getProductSubscription().getTicker().contains(instrument)) {
       throw new UpFrontSubscriptionRequiredException();
@@ -188,7 +189,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         instrument, s -> triggerObservableBody(rawTickerStream(instrument)).share());
   }
 
-  public Observable<BinanceBookTicker> getRawBookTicker(Instrument instrument, Object... args) {
+  public Observable<BinanceBookTicker> getRawBookTicker(Instrument instrument) {
     if (!service.isLiveSubscriptionEnabled()
         && !service.getProductSubscription().getTicker().contains(instrument)) {
       throw new UpFrontSubscriptionRequiredException();
@@ -197,7 +198,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         instrument, s -> triggerObservableBody(rawBookTickerStream(instrument)).share());
   }
 
-  public Observable<BinanceRawTrade> getRawTrades(Instrument instrument, Object... args) {
+  public Observable<BinanceRawTrade> getRawTrades(Instrument instrument) {
     if (!service.isLiveSubscriptionEnabled()
         && !service.getProductSubscription().getTrades().contains(instrument)) {
       throw new UpFrontSubscriptionRequiredException();
@@ -226,14 +227,13 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     return map == null ? new ConcurrentHashMap<>() : map;
   }
 
-  private Observable<BinanceKline> klinesStream(Instrument currencyPair, KlineInterval interval) {
+  private Observable<BinanceKline> klinesStream(Instrument instrument, KlineInterval interval) {
     return service
         .subscribeChannel(
-            getChannelPrefix(currencyPair) + "@" + KLINE.getType() + "_" + interval.code())
-        .map(it -> this.<KlineBinanceWebSocketTransaction>readTransaction(it, KLINE_TYPE, "kline"))
-        .filter(transaction -> transaction.getData().getBinanceKline().getInstrument().equals(currencyPair)
-            && transaction.getData().getBinanceKline().getInterval().equals(interval))
-        .map(transaction -> transaction.getData().getBinanceKline());
+            getChannelPrefix(instrument) + "@" + KLINE.getType() + "_" + interval.code())
+        .map(it -> this.<KlineBinanceWebSocketTransaction>readTransaction(it, KLINE_TYPE, "kline").getData().toBinanceKline(instrument instanceof FuturesContract))
+        .filter(binanceKline -> binanceKline.getInstrument().equals(instrument)
+            && binanceKline.getInterval().equals(interval));
   }
 
   /**
@@ -244,7 +244,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
    * subscribe to this api and {@link #getOrderBook(CurrencyPair, Object...)} at the same time.
    */
   public Observable<OrderBookUpdate> getOrderBookUpdates(
-      CurrencyPair currencyPair, Object... args) {
+      CurrencyPair currencyPair) {
     if (!service.isLiveSubscriptionEnabled()
         && !service.getProductSubscription().getOrderBook().contains(currencyPair)) {
       throw new UpFrontSubscriptionRequiredException();
@@ -289,8 +289,10 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
   }
 
-  private String getChannelPrefix(Instrument currencyPair) {
-    return String.join("", currencyPair.toString().split("/")).toLowerCase();
+  private String getChannelPrefix(Instrument instrument) {
+    return (instrument instanceof FuturesContract)
+            ? ((FuturesContract) instrument).getCurrencyPair().toString().replace("/","").toLowerCase()
+            : instrument.toString().replace("/","").toLowerCase();
   }
 
   /**
@@ -398,26 +400,26 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         currencyPair, triggerObservableBody(rawOrderBookUpdates(currencyPair)));
   }
 
-  private Observable<BinanceTicker24h> rawTickerStream(Instrument currencyPair) {
+  private Observable<BinanceTicker24h> rawTickerStream(Instrument instrument) {
     return service
         .subscribeChannel(
-            channelFromCurrency(currencyPair, BinanceSubscriptionType.TICKER.getType()))
+            channelFromCurrency(instrument, BinanceSubscriptionType.TICKER.getType()))
         .map(
             it ->
                 this.<TickerBinanceWebsocketTransaction>readTransaction(it, TICKER_TYPE, "ticker"))
-        .filter(transaction -> transaction.getData().getInstrument().equals(currencyPair))
+        .filter(transaction -> BinanceAdapters.adaptSymbol(transaction.getData().getSymbol(), instrument instanceof FuturesContract).equals(instrument))
         .map(transaction -> transaction.getData().getTicker());
   }
 
-  private Observable<BinanceBookTicker> rawBookTickerStream(Instrument currencyPair) {
+  private Observable<BinanceBookTicker> rawBookTickerStream(Instrument instrument) {
     return service
         .subscribeChannel(
-            channelFromCurrency(currencyPair, BinanceSubscriptionType.BOOK_TICKER.getType()))
+            channelFromCurrency(instrument, BinanceSubscriptionType.BOOK_TICKER.getType()))
         .map(
             it ->
                 this.<BookTickerBinanceWebSocketTransaction>readTransaction(
                     it, BOOK_TICKER_TYPE, "book ticker"))
-        .filter(transaction -> transaction.getData().getInstrument().equals(currencyPair))
+        .filter(transaction -> BinanceAdapters.adaptSymbol(transaction.getData().getTicker().getSymbol(), instrument instanceof FuturesContract).equals(instrument))
         .map(transaction -> transaction.getData().getTicker());
   }
 
@@ -482,16 +484,16 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   private Observable<DepthBinanceWebSocketTransaction> rawOrderBookUpdates(
-          Instrument currencyPair) {
+          Instrument instrument) {
     return service
         .subscribeChannel(
-            channelFromCurrency(currencyPair, BinanceSubscriptionType.DEPTH.getType()))
+            channelFromCurrency(instrument, BinanceSubscriptionType.DEPTH.getType()))
         .map(
             it ->
                 this.<DepthBinanceWebSocketTransaction>readTransaction(
                     it, DEPTH_TYPE, "order book"))
         .map(BinanceWebsocketTransaction::getData)
-        .filter(data -> data.getInstrument().equals(currencyPair));
+        .filter(data -> BinanceAdapters.adaptSymbol(data.getSymbol(), instrument instanceof FuturesContract).equals(instrument));
   }
 
   private Observable<OrderBook> createOrderBookObservable(Instrument currencyPair) {
@@ -563,12 +565,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .share();
   }
 
-  private Observable<BinanceRawTrade> rawTradeStream(Instrument currencyPair) {
+  private Observable<BinanceRawTrade> rawTradeStream(Instrument instrument) {
     return service
         .subscribeChannel(
-            channelFromCurrency(currencyPair, BinanceSubscriptionType.TRADE.getType()))
+            channelFromCurrency(instrument, BinanceSubscriptionType.TRADE.getType()))
         .map(it -> this.<TradeBinanceWebsocketTransaction>readTransaction(it, TRADE_TYPE, "trade"))
-        .filter(transaction -> transaction.getData().getInstrument().equals(currencyPair))
+        .filter(transaction -> BinanceAdapters.adaptSymbol(transaction.getData().getSymbol(), instrument instanceof FuturesContract).equals(instrument))
         .map(transaction -> transaction.getData().getRawTrade());
   }
 

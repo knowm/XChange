@@ -60,7 +60,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         pair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
       }
 
-      return BinanceAdapters.adaptOpenOrders(openOrdersAllProducts(pair));
+      return BinanceAdapters.adaptOpenOrders(openOrdersAllProducts(pair), pair instanceof FuturesContract);
 
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
@@ -281,7 +281,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
       List<BinanceTrade> binanceTrades = myTradesAllProducts(pair, orderId, startTime, endTime, fromId, limit);
 
-      return BinanceAdapters.adaptUserTrades(binanceTrades);
+      return BinanceAdapters.adaptUserTrades(binanceTrades, pair instanceof FuturesContract);
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -309,7 +309,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         orderStatusAllProducts(
                                 orderQueryParamInstrument.getInstrument(),
                                 BinanceAdapters.id(orderQueryParamInstrument.getOrderId()),
-                                null)));
+                                null), orderQueryParamInstrument.getInstrument() instanceof FuturesContract));
       }
       return orders;
     } catch (BinanceException e) {

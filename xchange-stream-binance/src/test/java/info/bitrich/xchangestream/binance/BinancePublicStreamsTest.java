@@ -6,30 +6,33 @@ import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
 import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class BinanceFuturesPublicStreamsTest {
+public class BinancePublicStreamsTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BinancePublicStreamsTest.class);
     StreamingExchange exchange;
-    Instrument instrument = new FuturesContract("BTC/USDT/PERP");
+    Instrument instrument = new CurrencyPair("BTC/USDT");
 
     @Before
     public void setup(){
-        exchange = StreamingExchangeFactory.INSTANCE.createExchange(BinanceFutureStreamingExchange.class);
+        exchange = StreamingExchangeFactory.INSTANCE.createExchange(BinanceStreamingExchange.class);
         exchange.connect(ProductSubscription.create().addOrderbook(instrument).addTicker(instrument).addTrades(instrument).build()).blockingAwait();
     }
     @Test
     public void checkOrderBookStream() throws InterruptedException {
 
         Disposable dis = exchange.getStreamingMarketDataService().getOrderBook(instrument).subscribe(orderBook -> {
-            System.out.println(orderBook.toString());
             assertThat(orderBook.getBids().get(0).getLimitPrice()).isLessThan(orderBook.getAsks().get(0).getLimitPrice());
-            assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(new FuturesContract("BTC/USDT/PERP"));
+            assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(new CurrencyPair("BTC/USDT"));
+            LOGGER.info(orderBook.toString());
         });
 
         TimeUnit.SECONDS.sleep(3);
@@ -39,9 +42,10 @@ public class BinanceFuturesPublicStreamsTest {
     @Test
     public void checkTickerStream() throws InterruptedException {
 
-        Disposable dis = exchange.getStreamingMarketDataService().getTicker(instrument).subscribe(orderBook -> {
-            System.out.println(orderBook.toString());
-            assertThat(orderBook.getInstrument()).isEqualTo(new FuturesContract("BTC/USDT/PERP"));
+        Disposable dis = exchange.getStreamingMarketDataService().getTicker(instrument)
+                .subscribe(ticker -> {
+            assertThat(ticker.getInstrument()).isEqualTo(new CurrencyPair("BTC/USDT"));
+            LOGGER.info(ticker.toString());
         });
 
         TimeUnit.SECONDS.sleep(3);
@@ -51,12 +55,13 @@ public class BinanceFuturesPublicStreamsTest {
     @Test
     public void checkTradesStream() throws InterruptedException {
 
-        Disposable dis = exchange.getStreamingMarketDataService().getTrades(instrument).subscribe(orderBook -> {
-            System.out.println(orderBook.toString());
-            assertThat(orderBook.getInstrument()).isEqualTo(new FuturesContract("BTC/USDT/PERP"));
+        Disposable dis = exchange.getStreamingMarketDataService().getTrades(instrument).subscribe(trade -> {
+            LOGGER.info(trade.toString());
+            assertThat(trade.getInstrument()).isEqualTo(new CurrencyPair("BTC/USDT"));
         });
 
         TimeUnit.SECONDS.sleep(3);
         dis.dispose();
     }
 }
+

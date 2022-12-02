@@ -154,30 +154,33 @@ public class BinanceAdapters {
     return isBuyer ? OrderType.BID : OrderType.ASK;
   }
 
-  public static Instrument adaptSymbol(String symbol) {
+  public static Instrument adaptSymbol(String symbol, boolean isFuture) {
     int pairLength = symbol.length();
+    CurrencyPair currencyPair;
     if (symbol.endsWith("USDT")) {
-      return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDT");
+      currencyPair = new CurrencyPair(symbol.substring(0, pairLength - 4), "USDT");
     } else if (symbol.endsWith("USDC")) {
-      return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDC");
+      currencyPair = new CurrencyPair(symbol.substring(0, pairLength - 4), "USDC");
     } else if (symbol.endsWith("TUSD")) {
-      return new CurrencyPair(symbol.substring(0, pairLength - 4), "TUSD");
+      currencyPair = new CurrencyPair(symbol.substring(0, pairLength - 4), "TUSD");
     } else if (symbol.endsWith("USDS")) {
-      return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDS");
+      currencyPair = new CurrencyPair(symbol.substring(0, pairLength - 4), "USDS");
     } else if (symbol.endsWith("BUSD")) {
-      return new CurrencyPair(symbol.substring(0, pairLength - 4), "BUSD");
+      currencyPair = new CurrencyPair(symbol.substring(0, pairLength - 4), "BUSD");
     } else {
-      return new CurrencyPair(
+      currencyPair = new CurrencyPair(
           symbol.substring(0, pairLength - 3), symbol.substring(pairLength - 3));
     }
+
+    return (isFuture) ? new FuturesContract(currencyPair,"PERP") : currencyPair;
   }
 
-  public static OpenOrders adaptOpenOrders(List<BinanceOrder> binanceOrders){
+  public static OpenOrders adaptOpenOrders(List<BinanceOrder> binanceOrders, boolean isFuture){
     List<LimitOrder> limitOrders = new ArrayList<>();
     List<Order> otherOrders = new ArrayList<>();
     binanceOrders.forEach(
             binanceOrder -> {
-              Order order = BinanceAdapters.adaptOrder(binanceOrder);
+              Order order = BinanceAdapters.adaptOrder(binanceOrder, isFuture);
               if (order instanceof LimitOrder) {
                 limitOrders.add((LimitOrder) order);
               } else {
@@ -188,9 +191,9 @@ public class BinanceAdapters {
     return new OpenOrders(limitOrders, otherOrders);
   }
 
-  public static Order adaptOrder(BinanceOrder order) {
+  public static Order adaptOrder(BinanceOrder order, boolean isFuture) {
     OrderType type = convert(order.side);
-    Instrument instrument = adaptSymbol(order.symbol);
+    Instrument instrument = adaptSymbol(order.symbol, isFuture);
     Order.Builder builder;
     if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
       builder = new MarketOrder.Builder(type, instrument);
@@ -216,10 +219,9 @@ public class BinanceAdapters {
     return builder.build();
   }
 
-  private static Ticker adaptPriceQuantity(BinancePriceQuantity priceQuantity) {
+  private static Ticker adaptPriceQuantity(BinancePriceQuantity priceQuantity, boolean isFuture) {
     return new Ticker.Builder()
-        .currencyPair((CurrencyPair) adaptSymbol(priceQuantity.symbol))
-        .instrument(adaptSymbol(priceQuantity.symbol))
+        .instrument(adaptSymbol(priceQuantity.symbol, isFuture))
         .ask(priceQuantity.askPrice)
         .askSize(priceQuantity.askQty)
         .bid(priceQuantity.bidPrice)
@@ -227,9 +229,9 @@ public class BinanceAdapters {
         .build();
   }
 
-  public static List<Ticker> adaptPriceQuantities(List<BinancePriceQuantity> priceQuantities) {
+  public static List<Ticker> adaptPriceQuantities(List<BinancePriceQuantity> priceQuantities, boolean isFuture) {
     return priceQuantities.stream()
-        .map(BinanceAdapters::adaptPriceQuantity)
+        .map(binancePriceQuantity -> adaptPriceQuantity(binancePriceQuantity, isFuture))
         .collect(Collectors.toList());
   }
 
@@ -335,7 +337,7 @@ public class BinanceAdapters {
                 .type((position.getPositionAmt().compareTo(BigDecimal.ZERO) > 0) ? OpenPosition.Type.LONG : OpenPosition.Type.SHORT)
                 .unRealisedPnl(position.getUnrealizedProfit())
                 .price(position.getEntryPrice())
-                .instrument(adaptSymbol(position.getSymbol()))
+                .instrument(adaptSymbol(position.getSymbol(), true))
                 .build());
       }
     }
@@ -343,7 +345,7 @@ public class BinanceAdapters {
     return openPositions;
   }
 
-  public static UserTrades adaptUserTrades(List<BinanceTrade> binanceTrades) {
+  public static UserTrades adaptUserTrades(List<BinanceTrade> binanceTrades, boolean isFuture) {
     List<UserTrade> trades =
             binanceTrades.stream()
                     .map(
@@ -351,9 +353,7 @@ public class BinanceAdapters {
                                     new UserTrade.Builder()
                                             .type(BinanceAdapters.convertType(t.isBuyer))
                                             .originalAmount(t.qty)
-                                            .instrument(adaptSymbol(t.symbol))
-                                            .currencyPair((CurrencyPair) adaptSymbol(t.symbol))
-                                            .instrument(adaptSymbol(t.symbol))
+                                            .instrument(adaptSymbol(t.symbol, isFuture))
                                             .price(t.price)
                                             .timestamp(t.getTime())
                                             .id(Long.toString(t.id))
@@ -398,10 +398,10 @@ public class BinanceAdapters {
         candleSticks.add(
             new CandleStick.Builder()
                 .timestamp(new Date(chartData.getCloseTime()))
-                .open(chartData.getOpenPrice())
-                .high(chartData.getHighPrice())
-                .low(chartData.getLowPrice())
-                .close(chartData.getClosePrice())
+                .open(chartData.getOpen())
+                .high(chartData.getHigh())
+                .low(chartData.getLow())
+                .close(chartData.getClose())
                 .volume(chartData.getVolume())
                 .quotaVolume(chartData.getQuoteAssetVolume())
                 .build());

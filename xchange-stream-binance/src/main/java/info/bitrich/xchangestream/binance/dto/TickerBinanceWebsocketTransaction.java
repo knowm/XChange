@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.binance.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 
 public class TickerBinanceWebsocketTransaction extends ProductBinanceWebSocketTransaction {
@@ -58,7 +59,6 @@ public class TickerBinanceWebsocketTransaction extends ProductBinanceWebSocketTr
             lastId,
             count,
             symbol);
-    ticker.setInstrument(instrument);
   }
 
   public BinanceTicker24h getTicker() {
