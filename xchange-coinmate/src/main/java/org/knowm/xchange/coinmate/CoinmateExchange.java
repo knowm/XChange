@@ -40,9 +40,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 /** @author Martin Stachon */
 public class CoinmateExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory =
-      new CurrentTimeIncrementalNonceFactory(TimeUnit.MILLISECONDS);
-
   @Override
   protected void initServices() {
     this.marketDataService = new CoinmateMarketDataService(this);
@@ -67,14 +64,5 @@ public class CoinmateExchange extends BaseExchange implements Exchange {
   public void remoteInit() throws IOException, ExchangeException {
     CoinmateMetadataServiceRaw metadataService = new CoinmateMetadataServiceRaw(this);
     exchangeMetaData = metadataService.getMetadata();
-  }
-
-  public void setNonceFactory(SynchronizedValueFactory<Long> nonceFactory) {
-    this.nonceFactory = nonceFactory;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 }
