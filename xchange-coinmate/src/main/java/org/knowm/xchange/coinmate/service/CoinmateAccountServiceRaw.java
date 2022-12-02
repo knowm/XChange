@@ -258,7 +258,7 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
     return response;
   }
 
-  public CoinmateDepositAddresses coinmateSolanalDepositAddresses() throws IOException {
+  public CoinmateDepositAddresses coinmateSolanaDepositAddresses() throws IOException {
     CoinmateDepositAddresses addresses =
         coinmateAuthenticated.solDepositAddresses(
             exchange.getExchangeSpecification().getApiKey(),

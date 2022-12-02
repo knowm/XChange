@@ -111,7 +111,7 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
     } else if (currency.equals(Currency.ADA)) {
       addresses = coinmateCardanoDepositAddresses();
     } else if (currency.equals(Currency.SOL)) {
-      addresses = coinmateSolanalDepositAddresses();
+      addresses = coinmateSolanaDepositAddresses();
     } else {
       throw new IOException(
           "Wallet for currency" + currency.getCurrencyCode() + " is currently not supported");
