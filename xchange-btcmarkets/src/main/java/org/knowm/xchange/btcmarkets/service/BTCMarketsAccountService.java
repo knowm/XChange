@@ -13,6 +13,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
@@ -71,9 +72,9 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
   }
 
   @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
     BTCMarketsTradingFeesResponse response = tradingFees();
-    Map<CurrencyPair, Fee> dynamicTradingFees = new HashMap<>();
+    Map<Instrument, Fee> dynamicTradingFees = new HashMap<>();
     for (BTCMarketsTradingFeesResponse.FeeByMarket feeByMarket : response.feeByMarkets) {
       String[] splitMarketId = feeByMarket.marketId.split("-"); // BTC-AUD
       CurrencyPair cp = new CurrencyPair(splitMarketId[0], splitMarketId[1]);

@@ -29,11 +29,12 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.instrument.Instrument;
 
 public class CoinbeneAdapters {
 
@@ -167,21 +168,21 @@ public class CoinbeneAdapters {
   }
 
   public static ExchangeMetaData adaptMetadata(List<CoinbeneSymbol> markets) {
-    Map<CurrencyPair, CurrencyPairMetaData> pairMeta = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> pairMeta = new HashMap<>();
     for (CoinbeneSymbol ticker : markets) {
       pairMeta.put(
           new CurrencyPair(ticker.getBaseAsset(), ticker.getQuoteAsset()),
-          new CurrencyPairMetaData(
-              ticker.getTakerFee(),
-              ticker.getMinQuantity(),
-              null,
-              ticker.getTickSize(),
-              new FeeTier[] {
-                new FeeTier(BigDecimal.ZERO, new Fee(ticker.getMakerFee(), ticker.getTakerFee()))
-              },
-              new BigDecimal(
-                  Math.pow(10.0, -ticker.getLotStepSize()),
-                  new MathContext(Math.max(0, ticker.getLotStepSize()), RoundingMode.HALF_UP))));
+          new InstrumentMetaData.Builder()
+                  .tradingFee(ticker.getTakerFee())
+                  .minimumAmount(ticker.getMinQuantity())
+                  .priceScale(ticker.getTickSize())
+                  .feeTiers(new FeeTier[] {
+                          new FeeTier(BigDecimal.ZERO, new Fee(ticker.getMakerFee(), ticker.getTakerFee()))
+                  })
+                  .priceStepSize(new BigDecimal(
+                          Math.pow(10.0, -ticker.getLotStepSize()),
+                          new MathContext(Math.max(0, ticker.getLotStepSize()), RoundingMode.HALF_UP)))
+                  .build());
     }
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }

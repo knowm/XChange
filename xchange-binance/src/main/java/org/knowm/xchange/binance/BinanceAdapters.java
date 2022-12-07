@@ -32,6 +32,7 @@ import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BinanceAdapters {
   private static final DateTimeFormatter DATE_TIME_FMT =
@@ -53,11 +54,11 @@ public class BinanceAdapters {
     return LocalDateTime.parse(dateTime, DATE_TIME_FMT);
   }
 
-  public static String toSymbol(CurrencyPair pair) {
+  public static String toSymbol(Instrument pair) {
     if (pair.equals(CurrencyPair.IOTA_BTC)) {
       return "IOTABTC";
     }
-    return pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+    return pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode();
   }
 
   public static String toSymbol(Currency currency) {

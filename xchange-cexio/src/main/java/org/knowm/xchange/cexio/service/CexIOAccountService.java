@@ -13,6 +13,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
@@ -45,19 +46,18 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Accou
   }
 
   @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
     Map<CurrencyPair, FeeDetails> dynamicTradingFees = getMyFee();
     return CexIOAdapters.adaptDynamicTradingFees(dynamicTradingFees);
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
+  public String withdrawFunds(WithdrawFundsParams params) {
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-      throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) {
 
     throw new NotAvailableFromExchangeException();
   }

@@ -29,6 +29,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
@@ -65,7 +66,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
     }
   }
 
-  public static OrderBook convertOrderBook(BinanceOrderbook ob, CurrencyPair pair) {
+  public static OrderBook convertOrderBook(BinanceOrderbook ob, Instrument pair) {
     List<LimitOrder> bids =
         ob.bids.entrySet().stream()
             .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey()))

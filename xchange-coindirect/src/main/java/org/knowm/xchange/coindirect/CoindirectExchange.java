@@ -10,7 +10,8 @@ import org.knowm.xchange.coindirect.service.CoindirectAccountService;
 import org.knowm.xchange.coindirect.service.CoindirectMarketDataService;
 import org.knowm.xchange.coindirect.service.CoindirectTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.AuthUtils;
 
 public class CoindirectExchange extends BaseExchange {
@@ -36,7 +37,7 @@ public class CoindirectExchange extends BaseExchange {
 
   @Override
   public void remoteInit() {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> currencyPairs = exchangeMetaData.getInstruments();
 
     CoindirectMarketDataService coindirectMarketDataService =
         (CoindirectMarketDataService) marketDataService;
@@ -47,15 +48,14 @@ public class CoindirectExchange extends BaseExchange {
 
       for (CoindirectMarket market : coindirectMarketList) {
         CurrencyPair currencyPair = CoindirectAdapters.toCurrencyPair(market.symbol);
-        CurrencyPairMetaData staticMeta = currencyPairs.get(currencyPair);
-        CurrencyPairMetaData adaptedMeta =
-            new CurrencyPairMetaData(
-                staticMeta.getTradingFee(),
-                market.minimumQuantity,
-                market.maximumQuantity,
-                staticMeta.getPriceScale(),
-                staticMeta.getFeeTiers());
-        currencyPairs.put(currencyPair, adaptedMeta);
+        InstrumentMetaData staticMeta = currencyPairs.get(currencyPair);
+        currencyPairs.put(currencyPair, new InstrumentMetaData.Builder()
+                        .tradingFee(staticMeta.getTradingFee())
+                        .minimumAmount(market.minimumQuantity)
+                        .maximumAmount(market.maximumQuantity)
+                        .priceScale(staticMeta.getPriceScale())
+                        .feeTiers(staticMeta.getFeeTiers())
+                .build());
       }
 
     } catch (IOException exception) {

@@ -13,6 +13,7 @@ import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioOrderStatus;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamCurrencyPair;
@@ -44,7 +45,7 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     GateioOpenOrders openOrders = super.getGateioOpenOrders();
-    Collection<CurrencyPair> currencyPairs = exchange.getExchangeSymbols();
+    Collection<Instrument> currencyPairs = exchange.getExchangeInstruments();
 
     return GateioAdapters.adaptOpenOrders(openOrders, currencyPairs);
   }

@@ -13,8 +13,9 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 
 /** Various adapters for converting from BitcoinAverage DTOs to XChange DTOs */
 public final class BitcoinAverageAdapters {
@@ -50,7 +51,7 @@ public final class BitcoinAverageAdapters {
   public static ExchangeMetaData adaptMetaData(
       BitcoinAverageTickers tickers, ExchangeMetaData bAMetaData) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> currencyPairs = new HashMap<>();
     for (String currency : tickers.getTickers().keySet()) {
       if (!currency.startsWith("BTC")) {
         throw new IllegalStateException("Unsupported currency: " + currency);

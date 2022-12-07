@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
+import org.knowm.xchange.instrument.Instrument;
 
 public class GateioMarketDataJsonTest {
 
@@ -52,7 +53,7 @@ public class GateioMarketDataJsonTest {
     ObjectMapper mapper = new ObjectMapper();
     GateioCurrencyPairs currencyPairs = mapper.readValue(is, GateioCurrencyPairs.class);
 
-    Collection<CurrencyPair> pairs = currencyPairs.getPairs();
+    Collection<Instrument> pairs = currencyPairs.getPairs();
     assertThat(pairs).hasSize(83);
 
     assertThat(pairs.contains(new CurrencyPair("TIPS", "CNY"))).isTrue();

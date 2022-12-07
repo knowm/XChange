@@ -5,6 +5,7 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
+import info.bitrich.xchangestream.kraken.dto.KrakenSubscriptionStatusMessage;
 import info.bitrich.xchangestream.kraken.dto.KrakenSystemStatus;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
@@ -55,13 +56,13 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     KrakenAccountServiceRaw accountService = (KrakenAccountServiceRaw) getAccountService();
 
     this.streamingService =
-        new KrakenStreamingService(false, pickUri(false, useBeta), () -> authData(accountService));
+        new KrakenStreamingService(this, false, pickUri(false, useBeta), () -> authData(accountService));
     applyStreamingSpecification(getExchangeSpecification(), streamingService);
     this.streamingMarketDataService = new KrakenStreamingMarketDataService(streamingService, spreadForTicker);
 
     if (StringUtils.isNotEmpty(exchangeSpecification.getApiKey())) {
       this.privateStreamingService =
-          new KrakenStreamingService(true, pickUri(true, useBeta), () -> authData(accountService));
+          new KrakenStreamingService(this, true, pickUri(true, useBeta), () -> authData(accountService));
       applyStreamingSpecification(getExchangeSpecification(), privateStreamingService);
     }
 
@@ -94,6 +95,11 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
   }
 
   @Override
+  public Observable<Object> disconnectObservable() {
+    return streamingService.subscribeDisconnect();
+  }
+
+  @Override
   public Observable<Throwable> reconnectFailure() {
     return streamingService.subscribeReconnectFailure();
   }
@@ -101,6 +107,22 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
   @Override
   public Observable<State> connectionStateObservable() {
     return streamingService.subscribeConnectionState();
+  }
+
+  public Observable<Object> privateConnectionSuccess() {
+    return privateStreamingService.subscribeConnectionSuccess();
+  }
+
+  public Observable<Throwable> privateReconnectFailure() {
+    return privateStreamingService.subscribeReconnectFailure();
+  }
+
+  public Observable<State> privateConnectionStateObservable() {
+    return privateStreamingService.subscribeConnectionState();
+  }
+
+  public Observable<Object> privateDisconnectObservable() {
+    return privateStreamingService.subscribeDisconnect();
   }
 
   @Override
@@ -166,11 +188,26 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
   }
 
   public Observable<KrakenSystemStatus> getSystemStatusChanges() {
-    String channelName = KrakenEventType.systemStatus.name();
     return streamingService
-            .subscribeSystemChannel(channelName)
+            .subscribeSystemChannel(KrakenEventType.systemStatus)
             .filter(e -> e instanceof KrakenSystemStatus)
             .map(e -> ((KrakenSystemStatus) e))
+            .share();
+  }
+
+  public Observable<KrakenSubscriptionStatusMessage> getPublicSubscriptionStatusChanges() {
+    return streamingService
+            .subscribeSystemChannel(KrakenEventType.subscriptionStatus)
+            .filter(e -> e instanceof KrakenSubscriptionStatusMessage)
+            .map(e -> ((KrakenSubscriptionStatusMessage) e))
+            .share();
+  }
+
+  public Observable<KrakenSubscriptionStatusMessage> getPrivateSubscriptionStatusChanges() {
+    return privateStreamingService
+            .subscribeSystemChannel(KrakenEventType.subscriptionStatus)
+            .filter(e -> e instanceof KrakenSubscriptionStatusMessage)
+            .map(e -> ((KrakenSubscriptionStatusMessage) e))
             .share();
   }
 }

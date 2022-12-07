@@ -5,8 +5,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.instrument.Instrument;
 
 public class IdexExchangeIntegration {
 
@@ -22,7 +22,7 @@ public class IdexExchangeIntegration {
   public void shouldRunWithoutExceptionWhenCallGetExchangeSymbols() {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(IdexExchange.class);
 
-    List<CurrencyPair> marketCurrencyPairs = exchange.getExchangeSymbols();
+    List<Instrument> marketCurrencyPairs = exchange.getExchangeInstruments();
     Assert.assertNotNull(marketCurrencyPairs);
   }
 }

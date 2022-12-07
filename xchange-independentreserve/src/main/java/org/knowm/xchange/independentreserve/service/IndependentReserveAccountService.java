@@ -9,7 +9,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -18,6 +17,7 @@ import org.knowm.xchange.independentreserve.IndependentReserveAdapters;
 import org.knowm.xchange.independentreserve.dto.IndependentReserveHttpStatusException;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -104,7 +104,7 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
             acc ->
                 currency == null
                     || currency.getCurrencyCode().equalsIgnoreCase(acc.getCurrencyCode()))
-        .map(
+        .flatMap(
             acc -> {
               try {
                 return getTransactions(
@@ -121,12 +121,11 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
                 throw new ExchangeException(e);
               }
             })
-        .flatMap(Function.identity())
         .collect(Collectors.toList());
   }
 
   @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
     return super.getBrokerageFees().getIndependentReserveBrokerageFees().stream()
         .collect(
             Collectors.toMap(

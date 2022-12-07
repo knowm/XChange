@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import java.util.ArrayList;
 import java.util.List;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 
 /** Adapted from V1 by Max Gao on 01-09-2021 */
 public class GeminiWebSocketSubscriptionMessage {
@@ -47,12 +47,12 @@ public class GeminiWebSocketSubscriptionMessage {
     List<Subscription> subscriptions = new ArrayList<>();
     List<String> L2Symbols = new ArrayList<>();
 
-    for (CurrencyPair currencyPair : productSubscription.getOrderBook()) {
-      L2Symbols.add(currencyPair.base.toString() + currencyPair.counter.toString());
+    for (Instrument currencyPair : productSubscription.getOrderBook()) {
+      L2Symbols.add(currencyPair.getBase().toString() + currencyPair.getCounter().toString());
     }
 
-    subscriptions.add(new Subscription(L2, L2Symbols.stream().toArray(String[]::new)));
+    subscriptions.add(new Subscription(L2, L2Symbols.toArray(new String[0])));
 
-    return subscriptions.stream().toArray(Subscription[]::new);
+    return subscriptions.toArray(new Subscription[0]);
   }
 }
