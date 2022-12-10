@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.binance;
 
+import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
@@ -49,9 +50,7 @@ public class BinanceLiveFutureSubscriptionExample {
                         .getStreamingMarketDataService()
                         .unsubscribe(CurrencyPair.BTC_USDT, BinanceSubscriptionType.TRADE))
             .subscribe(
-                trade -> {
-                  LOG.info("Trade: {}", trade);
-                });
+                trade -> LOG.info("Trade: {}", trade));
 
     Disposable orderBooksBtc =
         exchange
@@ -63,9 +62,7 @@ public class BinanceLiveFutureSubscriptionExample {
                         .getStreamingMarketDataService()
                         .unsubscribe(CurrencyPair.BTC_USDT, BinanceSubscriptionType.DEPTH))
             .subscribe(
-                orderBook -> {
-                  LOG.info("Order book: {}", orderBook);
-                });
+                orderBook -> LOG.info("Order book: {}", orderBook));
 
     Thread.sleep(5000);
 
@@ -97,9 +94,7 @@ public class BinanceLiveFutureSubscriptionExample {
                           .getStreamingMarketDataService()
                           .unsubscribe(currencyPair, BinanceSubscriptionType.TRADE))
               .subscribe(
-                  trade -> {
-                    LOG.info("Trade: {}", trade);
-                  });
+                  trade -> LOG.info("Trade: {}", trade));
       disposableTrades.add(tradeDisposable);
     }
     Thread.sleep(5000);
