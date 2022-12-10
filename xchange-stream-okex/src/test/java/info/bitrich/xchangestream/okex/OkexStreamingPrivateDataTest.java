@@ -1,15 +1,25 @@
-package info.bitrich.xchangestream.okex.examples;
+package info.bitrich.xchangestream.okex;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import info.bitrich.xchangestream.okex.OkexStreamingExchange;
+import io.reactivex.disposables.Disposable;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.instrument.Instrument;
 
-public class OkexStreamingTradeServiceExample {
+import java.util.concurrent.TimeUnit;
 
-    public static void main(String[] args) throws InterruptedException {
+@Ignore
+public class OkexStreamingPrivateDataTest {
+
+    StreamingExchange exchange;
+    private final Instrument instrument = new FuturesContract("BTC/USDT/SWAP");
+
+    @Before
+    public void setUp() {
         // Enter your authentication details here to run private endpoint tests
         final String API_KEY = System.getenv("okx_apikey");
         final String SECRET_KEY = System.getenv("okx_secretkey");
@@ -20,17 +30,17 @@ public class OkexStreamingTradeServiceExample {
         spec.setSecretKey(SECRET_KEY);
         spec.setExchangeSpecificParametersItem("passphrase", PASSPHRASE);
 
-        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(OkexStreamingExchange.class);
+        exchange = StreamingExchangeFactory.INSTANCE.createExchange(OkexStreamingExchange.class);
         exchange.applySpecification(spec);
 
         exchange.connect().blockingAwait();
+    }
 
-        Thread.sleep(3000);
+    @Test
+    public void checkUserTradesStream() throws InterruptedException {
+        Disposable dis = exchange.getStreamingTradeService().getUserTrades(instrument).subscribe(System.out::println);
+        TimeUnit.SECONDS.sleep(3);
 
-
-        Instrument instrument = CurrencyPair.BTC_USDT;
-        exchange.getStreamingTradeService().getUserTrades(
-                instrument
-        ).forEach(System.out::println);
+        dis.dispose();
     }
 }

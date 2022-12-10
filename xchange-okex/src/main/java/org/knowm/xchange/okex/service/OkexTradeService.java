@@ -41,7 +41,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
   @Override
   public OpenPositions getOpenPositions() throws IOException {
-    return OkexAdapters.adaptOpenPositions(getPositions(null,null,null), exchange.getExchangeMetaData());
+    return OkexAdapters.adaptOpenPositions(getPositions(null,null,null));
   }
 
   @Override
@@ -50,34 +50,34 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
       return OkexAdapters.adaptUserTrades(
           getOrderHistory(
                   "SPOT",
-                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
+                  OkexAdapters.adaptInstrument(
                       ((TradeHistoryParamInstrument) params).getInstrument()),
                   null,
                   null,
                   null,
                   null)
-              .getData(),exchange.getExchangeMetaData());
+              .getData());
     } else if (params instanceof TradeHistoryParamCurrencyPair) {
       return OkexAdapters.adaptUserTrades(
           getOrderHistory(
                   "SPOT",
-                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
+                  OkexAdapters.adaptInstrument(
                       ((TradeHistoryParamCurrencyPair) params).getCurrencyPair()),
                   null,
                   null,
                   null,
                   null)
-              .getData(), exchange.getExchangeMetaData());
+              .getData());
     } else {
       return OkexAdapters.adaptUserTrades(
-          getOrderHistory("SPOT", null, null, null, null, null).getData(), exchange.getExchangeMetaData());
+          getOrderHistory("SPOT", null, null, null, null, null).getData());
     }
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
     return OkexAdapters.adaptOpenOrders(
-        getOkexPendingOrder(null, null, null, null, null, null, null, null).getData(), exchange.getExchangeMetaData());
+        getOkexPendingOrder(null, null, null, null, null, null, null, null).getData());
   }
 
   @Override
@@ -87,30 +87,30 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
           getOkexPendingOrder(
                   null,
                   null,
-                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
+                  OkexAdapters.adaptInstrument(
                       ((OpenOrdersParamCurrencyPair) params).getCurrencyPair()),
                   null,
                   null,
                   null,
                   null,
                   null)
-              .getData(), exchange.getExchangeMetaData());
+              .getData());
     } else if (params instanceof OpenOrdersParamInstrument) {
       return OkexAdapters.adaptOpenOrders(
           getOkexPendingOrder(
                   null,
                   null,
-                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
+                  OkexAdapters.adaptInstrument(
                       ((OpenOrdersParamInstrument) params).getInstrument()),
                   null,
                   null,
                   null,
                   null,
                   null)
-              .getData(), exchange.getExchangeMetaData());
+              .getData());
     } else {
       return OkexAdapters.adaptOpenOrders(
-          getOkexPendingOrder(null, null, null, null, null, null, null, null).getData(), exchange.getExchangeMetaData());
+          getOkexPendingOrder(null, null, null, null, null, null, null, null).getData());
     }
   }
 
@@ -126,10 +126,10 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
       String orderId = orderQueryParams.getOrderId();
 
       List<OkexOrderDetails> orderResults =
-          getOkexOrder(OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument), orderId).getData();
+          getOkexOrder(OkexAdapters.adaptInstrument(instrument), orderId).getData();
 
       if (!orderResults.isEmpty()) {
-        result = OkexAdapters.adaptOrder(orderResults.get(0), exchange.getExchangeMetaData());
+        result = OkexAdapters.adaptOrder(orderResults.get(0));
       }
     } else {
       throw new IOException("OrderQueryParams must implement OrderQueryParamInstrument interface.");
@@ -152,7 +152,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
     OkexResponse<List<OkexOrderResponse>> okexResponse =
-        placeOkexOrder(OkexAdapters.adaptOrder(limitOrder, exchange.getExchangeMetaData()));
+        placeOkexOrder(OkexAdapters.adaptOrder(limitOrder));
 
     if (okexResponse.isSuccess()) return okexResponse.getData().get(0).getOrderId();
     else
@@ -164,7 +164,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   public List<String> placeLimitOrder(List<LimitOrder> limitOrders)
       throws IOException, FundsExceededException {
     return placeOkexOrder(
-            limitOrders.stream().map(order-> OkexAdapters.adaptOrder(order, exchange.getExchangeMetaData())).collect(Collectors.toList()))
+            limitOrders.stream().map(OkexAdapters::adaptOrder).collect(Collectors.toList()))
         .getData()
         .stream()
         .map(OkexOrderResponse::getOrderId)
@@ -173,13 +173,13 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
   @Override
   public String changeOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
-    return amendOkexOrder(OkexAdapters.adaptAmendOrder(limitOrder, exchange.getExchangeMetaData())).getData().get(0).getOrderId();
+    return amendOkexOrder(OkexAdapters.adaptAmendOrder(limitOrder)).getData().get(0).getOrderId();
   }
 
   public List<String> changeOrder(List<LimitOrder> limitOrders)
       throws IOException, FundsExceededException {
     return amendOkexOrder(
-            limitOrders.stream().map(order-> OkexAdapters.adaptAmendOrder(order, exchange.getExchangeMetaData())).collect(Collectors.toList()))
+            limitOrders.stream().map(OkexAdapters::adaptAmendOrder).collect(Collectors.toList()))
         .getData()
         .stream()
         .map(OkexOrderResponse::getOrderId)
@@ -192,7 +192,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
       String id = ((CancelOrderByIdParams) params).getOrderId();
       String instrumentId =
-          OkexAdapters.adaptInstrumentToOkexInstrumentId(((CancelOrderByInstrument) params).getInstrument());
+          OkexAdapters.adaptInstrument(((CancelOrderByInstrument) params).getInstrument());
 
       OkexCancelOrderRequest req =
           OkexCancelOrderRequest.builder().instrumentId(instrumentId).orderId(id).build();
@@ -217,7 +217,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
                         OkexCancelOrderRequest.builder()
                             .orderId(((CancelOrderByIdParams) param).getOrderId())
                             .instrumentId(
-                                OkexAdapters.adaptInstrumentToOkexInstrumentId(
+                                OkexAdapters.adaptInstrument(
                                     ((CancelOrderByInstrument) param).getInstrument()))
                             .build())
                 .collect(Collectors.toList()))

@@ -120,8 +120,7 @@ public class OkexExchange extends BaseExchange {
               SPOT, null, null, accountLevel).getData();
     }
 
-    exchangeMetaData =
-        OkexAdapters.adaptToExchangeMetaData(exchangeMetaData, instruments, currencies, tradeFee);
+    exchangeMetaData = OkexAdapters.adaptToExchangeMetaData(instruments, currencies, tradeFee);
   }
 
   @NoArgsConstructor(access = AccessLevel.PRIVATE)

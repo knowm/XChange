@@ -59,10 +59,10 @@ public class OkexExchangeIntegration {
   }
 
   @Test
-  public void testMetaData() throws Exception {
+  public void testMetaData() {
       final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(OkexExchange.class);
 
-      exchange.getExchangeMetaData().getCurrencyPairs().entrySet().forEach(System.out::println);
+      exchange.getExchangeMetaData().getInstruments().entrySet().forEach(System.out::println);
   }
 
   @Test

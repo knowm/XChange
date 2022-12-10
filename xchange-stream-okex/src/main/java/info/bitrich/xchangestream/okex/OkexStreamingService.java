@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.okex;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.okex.dto.OkexLoginMessage;
+import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
@@ -22,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 public class OkexStreamingService extends JsonNettyStreamingService {
@@ -29,6 +31,9 @@ public class OkexStreamingService extends JsonNettyStreamingService {
     private static final Logger LOG = LoggerFactory.getLogger(OkexStreamingService.class);
     private static final String LOGIN_SIGN_METHOD = "GET";
     private static final String LOGIN_SIGN_REQUEST_PATH = "/users/self/verify";
+
+    private static final String SUBSCRIBE = "subscribe";
+    private static final String UNSUBSCRIBE = "unsubscribe";
 
     private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
 
@@ -79,7 +84,7 @@ public class OkexStreamingService extends JsonNettyStreamingService {
         String sign = Base64.getEncoder().encodeToString(mac.doFinal(toSign.getBytes(StandardCharsets.UTF_8)));
 
         OkexLoginMessage message = new OkexLoginMessage();
-        String passphrase = (String)xSpec.getExchangeSpecificParametersItem("passphrase");
+        String passphrase = xSpec.getExchangeSpecificParametersItem("passphrase").toString();
         OkexLoginMessage.LoginArg loginArg = new OkexLoginMessage.LoginArg(xSpec.getApiKey(), passphrase, timestamp, sign);
         message.getArgs().add(loginArg);
 
@@ -115,23 +120,28 @@ public class OkexStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected String getChannelNameFromMessage(JsonNode message) {
-        if (message.has("event")) return message.get("event").asText();
-        return message.has("arg") ?
-                (message.get("arg").has("channel") ? message.get("arg").get("channel").asText() : "")
-                : "";
+        String channelName = "";
+        if(message.has("arg")){
+            if(message.get("arg").has("channel") && message.get("arg").has("instId")){
+                channelName = message.get("arg").get("channel").asText()+"."+message.get("arg").get("instId").asText();
+            }
+        }
+        return channelName;
     }
 
     @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
         if (args.length != 1) throw new IOException("SubscribeMessage: Insufficient arguments");
+        OkexSubscribeMessage subscribeMessage = new OkexSubscribeMessage(SUBSCRIBE, Collections.singletonList((OkexSubscribeMessage.SubscriptionTopic) args[0]));
 
-        return objectMapper.writeValueAsString(args[0]);
+        return objectMapper.writeValueAsString(subscribeMessage);
     }
 
     @Override
     public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
         if (args.length != 1) throw new IOException("UnsubscribeMessage: Insufficient arguments");
+        OkexSubscribeMessage subscribeMessage = new OkexSubscribeMessage(UNSUBSCRIBE, Collections.singletonList((OkexSubscribeMessage.SubscriptionTopic) args[0]));
 
-        return objectMapper.writeValueAsString(args[0]);
+        return objectMapper.writeValueAsString(subscribeMessage);
     }
 }

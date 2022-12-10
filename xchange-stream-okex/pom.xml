@@ -7,8 +7,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <name>XChange Okx Stream</name>
-    <artifactId>xchange-stream-okx</artifactId>
+    <name>XChange Okex Stream</name>
+    <artifactId>xchange-stream-okex</artifactId>
 
     <dependencies>
         <dependency>
@@ -19,11 +19,6 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-stream-service-netty</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-okcoin</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

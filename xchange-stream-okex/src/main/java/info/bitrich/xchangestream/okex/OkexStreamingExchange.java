@@ -37,8 +37,8 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
     public Completable connect(ProductSubscription... args) {
         remoteInit();
         this.streamingService = new OkexStreamingService(getApiUrl(), this.exchangeSpecification);
-        this.streamingMarketDataService = new OkexStreamingMarketDataService(streamingService, exchangeMetaData);
-        this.streamingTradeService = new OkexStreamingTradeService(streamingService, exchangeMetaData);
+        this.streamingMarketDataService = new OkexStreamingMarketDataService(streamingService);
+        this.streamingTradeService = new OkexStreamingTradeService(streamingService);
 
         return streamingService.connect();
     }

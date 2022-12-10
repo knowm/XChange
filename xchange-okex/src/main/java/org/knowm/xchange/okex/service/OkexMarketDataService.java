@@ -34,7 +34,7 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
     return OkexAdapters.adaptOrderBook(
-        getOkexOrderbook(OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument)), instrument, exchange.getExchangeMetaData());
+        getOkexOrderbook(OkexAdapters.adaptInstrument(instrument)), instrument);
   }
 
   @Override
@@ -45,13 +45,13 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   @Override
   public Trades getTrades(Instrument instrument, Object... args) throws IOException {
     return OkexAdapters.adaptTrades(
-        getOkexTrades(OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument), 100).getData(), instrument, exchange.getExchangeMetaData());
+        getOkexTrades(OkexAdapters.adaptInstrument(instrument), 100).getData(), instrument);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     return OkexAdapters.adaptTrades(
-        getOkexTrades(OkexAdapters.adaptInstrumentToOkexInstrumentId(currencyPair), 100).getData(), currencyPair, exchange.getExchangeMetaData());
+        getOkexTrades(OkexAdapters.adaptInstrument(currencyPair), 100).getData(), currencyPair);
   }
 
 
@@ -76,7 +76,7 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
     }
 
     OkexResponse<List<OkexCandleStick>> historyCandle = getHistoryCandle(
-            OkexAdapters.adaptInstrumentToOkexInstrumentId(currencyPair),
+            OkexAdapters.adaptInstrument(currencyPair),
             String.valueOf(defaultCandleStickParam.getEndDate().getTime()),
             String.valueOf(defaultCandleStickParam.getStartDate().getTime()),
             periodType.getFieldValue(), limit);
