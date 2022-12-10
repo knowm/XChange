@@ -38,13 +38,13 @@ public class PoloniexUtils {
     }
   }
 
-  public static class UnixTimestampDeserializer extends JsonDeserializer<Date> {
+  public static class TimestampDeserializer extends JsonDeserializer<Date> {
     @Override
     public Date deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-      final String dateTimeInUnixFormat = p.getText();
+      final String millis = p.getText();
       try {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        calendar.setTimeInMillis(Long.parseLong(dateTimeInUnixFormat + "000"));
+        calendar.setTimeInMillis(Long.parseLong(millis));
         return calendar.getTime();
       } catch (Exception e) {
         return new Date(0);

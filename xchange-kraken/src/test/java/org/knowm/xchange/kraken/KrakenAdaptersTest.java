@@ -32,6 +32,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
@@ -364,7 +365,7 @@ public class KrakenAdaptersTest {
         mapper.readValue(is, KrakenTradeVolumeResult.class);
     KrakenTradeVolume krakenTradeVolume = krakenTradeVolumeResult.getResult();
 
-    Map<CurrencyPair, Fee> feeMap = KrakenAdapters.adaptFees(krakenTradeVolume);
+    Map<Instrument, Fee> feeMap = KrakenAdapters.adaptFees(krakenTradeVolume);
 
     assertThat(feeMap.size()).isEqualTo(279);
   }

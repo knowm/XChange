@@ -31,7 +31,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     if (!service.getProduct().getOrderBook().stream()
-        .anyMatch(pair -> pair.compareTo(currencyPair) == 0)) {
+        .anyMatch(pair -> pair.toString().equals(currencyPair.toString()))) {
       throw new UnsupportedOperationException(
           String.format("The currency pair %s is not subscribed for orderbook", currencyPair));
     }

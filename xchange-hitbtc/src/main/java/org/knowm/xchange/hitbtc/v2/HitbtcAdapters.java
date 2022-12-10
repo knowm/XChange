@@ -21,9 +21,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -41,6 +41,7 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcUserTrade;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataServiceRaw;
+import org.knowm.xchange.instrument.Instrument;
 
 public class HitbtcAdapters {
 
@@ -277,7 +278,7 @@ public class HitbtcAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(
       List<HitbtcSymbol> symbols,
       Map<Currency, CurrencyMetaData> currencies,
-      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs) {
+      Map<Instrument, InstrumentMetaData> currencyPairs) {
     if (symbols != null) {
       for (HitbtcSymbol symbol : symbols) {
         CurrencyPair pair = adaptSymbol(symbol);
@@ -290,17 +291,19 @@ public class HitbtcAdapters {
 
         FeeTier[] feeTiers = null;
         if (currencyPairs.containsKey(pair)) {
-          CurrencyPairMetaData existing = currencyPairs.get(pair);
+          InstrumentMetaData existing = currencyPairs.get(pair);
           minimumAmount = existing.getMinimumAmount();
           maximumAmount = existing.getMaximumAmount();
           feeTiers = existing.getFeeTiers();
         }
 
-        CurrencyPairMetaData meta =
-            new CurrencyPairMetaData(
-                tradingFee, minimumAmount, maximumAmount, priceScale, feeTiers);
-
-        currencyPairs.put(pair, meta);
+        currencyPairs.put(pair, new InstrumentMetaData.Builder()
+                        .tradingFee(tradingFee)
+                        .minimumAmount(minimumAmount)
+                        .maximumAmount(maximumAmount)
+                        .priceScale(priceScale)
+                        .feeTiers(feeTiers)
+                .build());
       }
     }
 
@@ -334,7 +337,7 @@ public class HitbtcAdapters {
   /**
    * @param type
    * @return
-   * @see https://api.hitbtc.com/api/2/explore/ Transaction Model possible types: payout, payin,
+   * @see <a href="https://api.hitbtc.com/api/2/explore/">Transaction Model possible types: payout, payin,</a>
    *     deposit, withdraw, bankToExchange, exchangeToBank
    */
   private static Type convertType(String type) {
@@ -354,7 +357,7 @@ public class HitbtcAdapters {
 
   /**
    * @return
-   * @see https://api.hitbtc.com/api/2/explore/ Transaction Model possible statusses: created,
+   * @see <a href="https://api.hitbtc.com/api/2/explore/">Transaction Model possible statusses: created,</a>
    *     pending, failed, success
    */
   private static FundingRecord.Status convertStatus(String status) {
@@ -375,7 +378,7 @@ public class HitbtcAdapters {
    * Decodes HitBTC Order status.
    *
    * @return
-   * @see https://api.hitbtc.com/#order-model Order Model possible statuses: new, suspended,
+   * @see <a href="https://api.hitbtc.com/#order-model">Order Model possible statuses: new, suspended,</a>
    *     partiallyFilled, filled, canceled, expired
    */
   private static Order.OrderStatus convertOrderStatus(String status) {

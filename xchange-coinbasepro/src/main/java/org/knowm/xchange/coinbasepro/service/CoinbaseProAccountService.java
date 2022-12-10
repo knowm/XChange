@@ -20,12 +20,12 @@ import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
@@ -47,11 +47,11 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   }
 
   @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
     CoinbaseProFee fees = getCoinbaseProFees();
 
-    Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
-    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
+    Map<Instrument, Fee> tradingFees = new HashMap<>();
+    List<Instrument> pairs = exchange.getExchangeInstruments();
 
     pairs.forEach(pair -> tradingFees.put(pair, new Fee(fees.getMakerRate(), fees.getTakerRate())));
     return tradingFees;

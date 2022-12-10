@@ -20,7 +20,8 @@ import org.knowm.xchange.dsx.service.DsxMarketDataService;
 import org.knowm.xchange.dsx.service.DsxMarketDataServiceRaw;
 import org.knowm.xchange.dsx.service.DsxTradeService;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +74,7 @@ public class DsxExchange extends BaseExchange implements Exchange {
     dsxMetaData = loadMetaData(is, DsxMetaData.class);
     exchangeMetaData =
         DsxAdapters.adaptToExchangeMetaData(
-            null, dsxMetaData.getCurrencies(), dsxMetaData.getCurrencyPairs());
+            null, dsxMetaData.getCurrencies(), dsxMetaData.getInstruments());
   }
 
   @Override
@@ -100,7 +101,7 @@ public class DsxExchange extends BaseExchange implements Exchange {
                     dsxCurrency -> new Currency(dsxCurrency.getId()),
                     dsxCurrency -> new CurrencyMetaData(null, dsxCurrency.getPayoutFee())));
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+    Map<Instrument, InstrumentMetaData> currencyPairs =
         dsxSymbols.stream()
             .collect(
                 Collectors.toMap(
@@ -109,12 +110,10 @@ public class DsxExchange extends BaseExchange implements Exchange {
                             new Currency(dsxSymbol.getBaseCurrency()),
                             new Currency(dsxSymbol.getQuoteCurrency())),
                     dsxSymbol ->
-                        new CurrencyPairMetaData(
-                            null,
-                            dsxSymbol.getQuantityIncrement(),
-                            null,
-                            dsxSymbol.getTickSize().scale(),
-                            null)));
+                            new InstrumentMetaData.Builder()
+                                    .amountStepSize(dsxSymbol.getQuantityIncrement())
+                                    .priceScale(dsxSymbol.getTickSize().scale())
+                                    .build()));
     exchangeMetaData = DsxAdapters.adaptToExchangeMetaData(dsxSymbols, currencies, currencyPairs);
   }
 }

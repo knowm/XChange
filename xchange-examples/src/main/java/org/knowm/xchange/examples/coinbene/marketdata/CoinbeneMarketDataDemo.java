@@ -20,7 +20,7 @@ public class CoinbeneMarketDataDemo {
 
     CoinbeneExchange.remoteInit();
     System.out.println(
-        "Market metadata: " + CoinbeneExchange.getExchangeMetaData().getCurrencyPairs().toString());
+        "Market metadata: " + CoinbeneExchange.getExchangeMetaData().getInstruments().toString());
 
     MarketDataService marketDataService = CoinbeneExchange.getMarketDataService();
 

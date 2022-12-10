@@ -6,12 +6,15 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.binance.dto.account.AssetDetail;
+import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
@@ -21,12 +24,15 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.CandleStick;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BinanceAdapters {
   private static final DateTimeFormatter DATE_TIME_FMT =
@@ -48,11 +54,11 @@ public class BinanceAdapters {
     return LocalDateTime.parse(dateTime, DATE_TIME_FMT);
   }
 
-  public static String toSymbol(CurrencyPair pair) {
+  public static String toSymbol(Instrument pair) {
     if (pair.equals(CurrencyPair.IOTA_BTC)) {
       return "IOTABTC";
     }
-    return pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+    return pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode();
   }
 
   public static String toSymbol(Currency currency) {
@@ -248,5 +254,34 @@ public class BinanceAdapters {
       default:
         throw new IllegalStateException("Unexpected value: " + order.getIntention());
     }
+  }
+
+  /**
+   * @param klines
+   * @param currencyPair
+   * @return
+   */
+  public static CandleStickData adaptBinanceCandleStickData(
+      List<BinanceKline> klines, CurrencyPair currencyPair) {
+
+    CandleStickData candleStickData = null;
+    if (klines.size() != 0) {
+      List<CandleStick> candleSticks = new ArrayList<>();
+      for (BinanceKline chartData : klines) {
+        candleSticks.add(
+            new CandleStick.Builder()
+                .timestamp(new Date(chartData.getCloseTime()))
+                .open(chartData.getOpenPrice())
+                .high(chartData.getHighPrice())
+                .low(chartData.getLowPrice())
+                .close(chartData.getClosePrice())
+                .volume(chartData.getVolume())
+                .quotaVolume(chartData.getQuoteAssetVolume())
+                .build());
+      }
+      candleStickData = new CandleStickData(currencyPair, candleSticks);
+    }
+
+    return candleStickData;
   }
 }

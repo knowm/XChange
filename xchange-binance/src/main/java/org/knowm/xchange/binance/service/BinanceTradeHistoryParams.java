@@ -32,6 +32,7 @@ public class BinanceTradeHistoryParams
 
   public BinanceTradeHistoryParams() {}
 
+  @Override
   public CurrencyPair getCurrencyPair() {
     return currencyPair;
   }

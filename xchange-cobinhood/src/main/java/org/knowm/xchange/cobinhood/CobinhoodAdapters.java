@@ -24,10 +24,11 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.instrument.Instrument;
 
 public class CobinhoodAdapters {
 
@@ -131,11 +132,11 @@ public class CobinhoodAdapters {
   }
 
   public static ExchangeMetaData adaptMetadata(List<CobinhoodCurrencyPair> pairs) {
-    Map<CurrencyPair, CurrencyPairMetaData> pairMeta = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> pairMeta = new HashMap<>();
     for (CobinhoodCurrencyPair pair : pairs) {
       pairMeta.put(
           new CurrencyPair(pair.getBaseCurrencyId(), pair.getQuoteCurrencyId()),
-          new CurrencyPairMetaData(null, pair.getBaseMinSize(), pair.getBaseMaxSize(), null, null));
+          new InstrumentMetaData.Builder().minimumAmount(pair.getBaseMinSize()).maximumAmount(pair.getBaseMaxSize()).build());
     }
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }

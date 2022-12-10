@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Map;
@@ -14,14 +13,14 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcMetaData;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcAccountService;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataService;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataServiceRaw;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcTradeService;
+import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,7 +73,7 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
     hitbtcMetaData = loadMetaData(is, HitbtcMetaData.class);
     exchangeMetaData =
         HitbtcAdapters.adaptToExchangeMetaData(
-            null, hitbtcMetaData.getCurrencies(), hitbtcMetaData.getCurrencyPairs());
+            null, hitbtcMetaData.getCurrencies(), hitbtcMetaData.getInstruments());
   }
 
   @Override
@@ -103,7 +102,7 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
                     hitbtcCurrency -> new Currency(hitbtcCurrency.getId()),
                     hitbtcCurrency -> new CurrencyMetaData(null, hitbtcCurrency.getPayoutFee())));
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+    Map<Instrument, InstrumentMetaData> currencyPairs =
         hitbtcSymbols.stream()
             .collect(
                 Collectors.toMap(
@@ -112,12 +111,10 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
                             new Currency(hitbtcSymbol.getBaseCurrency()),
                             new Currency(hitbtcSymbol.getQuoteCurrency())),
                     hitbtcSymbol ->
-                        new CurrencyPairMetaData(
-                            (BigDecimal) null,
-                            hitbtcSymbol.getQuantityIncrement(),
-                            (BigDecimal) null,
-                            hitbtcSymbol.getTickSize().scale(),
-                            (FeeTier[]) null)));
+                            new InstrumentMetaData.Builder()
+                                    .amountStepSize(hitbtcSymbol.getQuantityIncrement())
+                                    .priceScale(hitbtcSymbol.getTickSize().scale())
+                                    .build()));
     exchangeMetaData =
         HitbtcAdapters.adaptToExchangeMetaData(hitbtcSymbols, currencies, currencyPairs);
   }

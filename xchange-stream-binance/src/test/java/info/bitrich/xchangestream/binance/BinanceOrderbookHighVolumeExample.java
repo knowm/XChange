@@ -18,7 +18,7 @@ public class BinanceOrderbookHighVolumeExample {
     StreamingExchange exchange =
         StreamingExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     ProductSubscription subscription =
-        exchange.getExchangeSymbols().stream()
+        exchange.getExchangeInstruments().stream()
             .limit(50)
             .reduce(
                 ProductSubscription.create(),

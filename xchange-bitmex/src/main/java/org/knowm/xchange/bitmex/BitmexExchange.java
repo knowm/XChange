@@ -21,8 +21,9 @@ import org.knowm.xchange.bitmex.service.BitmexTradeService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -46,7 +47,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)) {
+      if (exchangeSpecification.getExchangeSpecificParametersItem(Exchange.USE_SANDBOX).equals(true)) {
         exchangeSpecification.setSslUri("https://testnet.bitmex.com");
         exchangeSpecification.setHost("testnet.bitmex.com");
       }
@@ -80,7 +81,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitmex");
     exchangeSpecification.setExchangeDescription("Bitmex is a bitcoin exchange");
-    exchangeSpecification.setExchangeSpecificParametersItem("Use_Sandbox", false);
+    exchangeSpecification.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, false);
     return exchangeSpecification;
   }
 
@@ -112,7 +113,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
     tickers.forEach(
         ticker -> collectCurrenciesAndPairs(ticker, activeCurrencyPairs, activeCurrencies));
 
-    Map<CurrencyPair, CurrencyPairMetaData> pairsMap = exchangeMetaData.getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> pairsMap = exchangeMetaData.getInstruments();
     Map<Currency, CurrencyMetaData> currenciesMap = exchangeMetaData.getCurrencies();
 
     // Remove pairs that are no-longer in use
@@ -127,8 +128,10 @@ public class BitmexExchange extends BaseExchange implements Exchange {
           if (!pairsMap.containsKey(cp)) {
             pairsMap.put(
                 cp,
-                new CurrencyPairMetaData(
-                    null, BigDecimal.ONE, null, getPriceScale(tickers, cp), null));
+                new InstrumentMetaData.Builder()
+                        .minimumAmount(BigDecimal.ONE)
+                        .priceScale(getPriceScale(tickers,cp))
+                        .build());
           }
           if (!currenciesMap.containsKey(cp.base)) {
             currenciesMap.put(cp.base, null);
