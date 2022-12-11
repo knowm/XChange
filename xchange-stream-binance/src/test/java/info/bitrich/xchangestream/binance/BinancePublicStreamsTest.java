@@ -7,6 +7,7 @@ import io.reactivex.disposables.Disposable;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +26,17 @@ public class BinancePublicStreamsTest {
     public void setup(){
         exchange = StreamingExchangeFactory.INSTANCE.createExchange(BinanceStreamingExchange.class);
         exchange.connect(ProductSubscription.create().addOrderbook(instrument).addTicker(instrument).addTrades(instrument).build()).blockingAwait();
+        InstrumentMetaData instrumentMetaData = exchange.getExchangeMetaData().getInstruments().get(instrument);
+        assertThat(instrumentMetaData.getVolumeScale()).isNotNull();
+        assertThat(instrumentMetaData.getPriceScale()).isNotNull();
+        assertThat(instrumentMetaData.getMinimumAmount()).isNotNull();
     }
     @Test
     public void checkOrderBookStream() throws InterruptedException {
 
         Disposable dis = exchange.getStreamingMarketDataService().getOrderBook(instrument).subscribe(orderBook -> {
             assertThat(orderBook.getBids().get(0).getLimitPrice()).isLessThan(orderBook.getAsks().get(0).getLimitPrice());
-            assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(new CurrencyPair("BTC/USDT"));
+            assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(instrument);
             LOGGER.info(orderBook.toString());
         });
 
@@ -44,7 +49,7 @@ public class BinancePublicStreamsTest {
 
         Disposable dis = exchange.getStreamingMarketDataService().getTicker(instrument)
                 .subscribe(ticker -> {
-            assertThat(ticker.getInstrument()).isEqualTo(new CurrencyPair("BTC/USDT"));
+            assertThat(ticker.getInstrument()).isEqualTo(instrument);
             LOGGER.info(ticker.toString());
         });
 
@@ -57,7 +62,7 @@ public class BinancePublicStreamsTest {
 
         Disposable dis = exchange.getStreamingMarketDataService().getTrades(instrument).subscribe(trade -> {
             LOGGER.info(trade.toString());
-            assertThat(trade.getInstrument()).isEqualTo(new CurrencyPair("BTC/USDT"));
+            assertThat(trade.getInstrument()).isEqualTo(instrument);
         });
 
         TimeUnit.SECONDS.sleep(3);

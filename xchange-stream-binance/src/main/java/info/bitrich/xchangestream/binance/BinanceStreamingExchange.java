@@ -159,16 +159,14 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
                     userDataStreamingService
                         .disconnect()
                         .doOnComplete(
-                            () -> {
-                              createAndConnectUserDataService(newListenKey)
-                                  .doOnComplete(
-                                      () -> {
-                                        streamingAccountService.setUserDataStreamingService(
-                                            userDataStreamingService);
-                                        streamingTradeService.setUserDataStreamingService(
-                                            userDataStreamingService);
-                                      });
-                            })
+                            () -> createAndConnectUserDataService(newListenKey)
+                                .doOnComplete(
+                                    () -> {
+                                      streamingAccountService.setUserDataStreamingService(
+                                          userDataStreamingService);
+                                      streamingTradeService.setUserDataStreamingService(
+                                          userDataStreamingService);
+                                    }))
                   );
             });
   }
@@ -228,8 +226,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   protected BinanceStreamingService createStreamingService(ProductSubscription subscription, KlineSubscription klineSubscription) {
-    String path =
-        getStreamingBaseUri() + "stream?streams=" + buildSubscriptionStreams(subscription, klineSubscription);
+    String path = getStreamingBaseUri() + "stream?streams=" + buildSubscriptionStreams(subscription, klineSubscription);
+
     BinanceStreamingService streamingService = new BinanceStreamingService(path, subscription, klineSubscription);
     applyStreamingSpecification(getExchangeSpecification(), streamingService);
     return streamingService;
@@ -265,6 +263,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
                     : BinanceSubscriptionType.TICKER.getType()),
             buildSubscriptionStrings(
                 subscription.getOrderBook(), BinanceSubscriptionType.DEPTH.getType()),
+            buildSubscriptionStrings(subscription.getOrderBook(), BinanceSubscriptionType.DEPTH20.getType()),
             buildSubscriptionStrings(
                 subscription.getTrades(), BinanceSubscriptionType.TRADE.getType()))
         .filter(s -> !s.isEmpty())
@@ -273,11 +272,12 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   private String buildSubscriptionStrings(
           List<Instrument> currencyPairs, String subscriptionType) {
-    if (BinanceSubscriptionType.DEPTH.getType().equals(subscriptionType)) {
+    if (BinanceSubscriptionType.DEPTH.getType().equals(subscriptionType)
+            || BinanceSubscriptionType.DEPTH20.getType().equals(subscriptionType)) {
       return subscriptionStrings(currencyPairs)
           .map(s -> s + "@" + subscriptionType + orderBookUpdateFrequencyParameter)
           .collect(Collectors.joining("/"));
-    } else {
+    }  else {
       return subscriptionStrings(currencyPairs)
           .map(s -> s + "@" + subscriptionType)
           .collect(Collectors.joining("/"));

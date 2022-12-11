@@ -8,6 +8,7 @@ import io.reactivex.disposables.Disposable;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,10 @@ public class BinanceFuturesPublicStreamsTest {
     public void setup(){
         exchange = StreamingExchangeFactory.INSTANCE.createExchange(BinanceFutureStreamingExchange.class);
         exchange.connect(ProductSubscription.create().addOrderbook(instrument).addTicker(instrument).addTrades(instrument).build()).blockingAwait();
+        InstrumentMetaData instrumentMetaData = exchange.getExchangeMetaData().getInstruments().get(instrument);
+        assertThat(instrumentMetaData.getVolumeScale()).isNotNull();
+        assertThat(instrumentMetaData.getPriceScale()).isNotNull();
+        assertThat(instrumentMetaData.getMinimumAmount()).isNotNull();
     }
     @Test
     public void checkOrderBookStream() throws InterruptedException {
@@ -30,6 +35,7 @@ public class BinanceFuturesPublicStreamsTest {
         Disposable dis = exchange.getStreamingMarketDataService().getOrderBook(instrument).subscribe(orderBook -> {
             assertThat(orderBook.getBids().get(0).getLimitPrice()).isLessThan(orderBook.getAsks().get(0).getLimitPrice());
             assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(instrument);
+            System.out.println(orderBook.getBids().get(0).getLimitPrice()+"||"+orderBook.getBids().get(0).getOriginalAmount());
         });
 
         TimeUnit.SECONDS.sleep(3);

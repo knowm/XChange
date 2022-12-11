@@ -41,7 +41,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -126,18 +125,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     return getRawTrades(currencyPair)
-            .map(
-                    rawTrade ->
-                            new Trade.Builder()
-                                    .type(BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()))
-                                    .originalAmount(rawTrade.getQuantity())
-                                    .instrument(currencyPair)
-                                    .price(rawTrade.getPrice())
-                                    .makerOrderId(getMakerOrderId(rawTrade))
-                                    .takerOrderId(getTakerOrderId(rawTrade))
-                                    .timestamp(new Date(rawTrade.getTimestamp()))
-                                    .id(String.valueOf(rawTrade.getTradeId()))
-                                    .build());
+            .map(rawTrade -> BinanceStreamingAdapters.adaptRawTrade(rawTrade, currencyPair));
   }
 
   @Override
@@ -146,7 +134,16 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
             && !service.getProductSubscription().getOrderBook().contains(instrument)) {
       throw new UpFrontSubscriptionRequiredException();
     }
-    return orderbookSubscriptions.computeIfAbsent(instrument, this::initOrderBookIfAbsent);
+    if(instrument instanceof FuturesContract){
+      return service.subscribeChannel(channelFromCurrency(instrument, BinanceSubscriptionType.DEPTH20.getType()))
+              .map(it -> this.<DepthBinanceWebSocketTransaction>readTransaction(
+                                      it, DEPTH_TYPE, "order book"))
+              .map(BinanceWebsocketTransaction::getData)
+              .filter(data -> BinanceAdapters.adaptSymbol(data.getSymbol(), true).equals(instrument))
+              .map(BinanceStreamingAdapters::adaptFuturesOrderbook);
+    } else {
+      return orderbookSubscriptions.computeIfAbsent(instrument, this::initOrderBookIfAbsent);
+    }
   }
 
   @Override
@@ -160,18 +157,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   @Override
   public Observable<Trade> getTrades(Instrument instrument, Object... args) {
     return getRawTrades(instrument)
-            .map(
-                    rawTrade ->
-                            new Trade.Builder()
-                                    .type(BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()))
-                                    .originalAmount(rawTrade.getQuantity())
-                                    .instrument(instrument)
-                                    .price(rawTrade.getPrice())
-                                    .makerOrderId(getMakerOrderId(rawTrade))
-                                    .takerOrderId(getTakerOrderId(rawTrade))
-                                    .timestamp(new Date(rawTrade.getTimestamp()))
-                                    .id(String.valueOf(rawTrade.getTradeId()))
-                                    .build());
+            .map(rawTrade -> BinanceStreamingAdapters.adaptRawTrade(rawTrade, instrument));
   }
 
   private Observable<OrderBook> initOrderBookIfAbsent(Instrument instrument) {
@@ -257,16 +243,6 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     orderBookRawUpdatesSubscriptions.computeIfAbsent(
         instrument, s -> triggerObservableBody(rawOrderBookUpdates(instrument)));
     return createOrderBookUpdatesObservable(instrument);
-  }
-
-  private String getMakerOrderId(BinanceRawTrade trade) {
-    return String.valueOf(
-        trade.isBuyerMarketMaker() ? trade.getBuyerOrderId() : trade.getSellerOrderId());
-  }
-
-  private String getTakerOrderId(BinanceRawTrade trade) {
-    return String.valueOf(
-        trade.isBuyerMarketMaker() ? trade.getSellerOrderId() : trade.getBuyerOrderId());
   }
 
   private Observable<OrderBookUpdate> createOrderBookUpdatesObservable(Instrument instrument) {
@@ -528,9 +504,15 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
               if (lastUpdateId == 0L) {
                 result = true;
               } else {
-                result =
-                    depth.getFirstUpdateId() <= lastUpdateId + 1
-                        && depth.getLastUpdateId() >= lastUpdateId + 1;
+                if(instrument instanceof FuturesContract){
+                  result =
+                          depth.getFirstUpdateId() <= lastUpdateId
+                                  && depth.getLastUpdateId() >= lastUpdateId;
+                } else {
+                  result =
+                          depth.getFirstUpdateId() <= lastUpdateId + 1
+                                  && depth.getLastUpdateId() >= lastUpdateId + 1;
+                }
               }
               if (result) {
                 subscription.lastUpdateId.set(depth.getLastUpdateId());
