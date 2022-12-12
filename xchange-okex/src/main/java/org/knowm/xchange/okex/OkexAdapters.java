@@ -1,5 +1,18 @@
 package org.knowm.xchange.okex;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -11,7 +24,12 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.marketdata.CandleStick;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
@@ -21,20 +39,21 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.account.OkexAssetBalance;
 import org.knowm.xchange.okex.dto.account.OkexPosition;
 import org.knowm.xchange.okex.dto.account.OkexTradeFee;
 import org.knowm.xchange.okex.dto.account.OkexWalletBalance;
-import org.knowm.xchange.okex.dto.marketdata.*;
-import org.knowm.xchange.okex.dto.OkexResponse;
+import org.knowm.xchange.okex.dto.marketdata.OkexCandleStick;
+import org.knowm.xchange.okex.dto.marketdata.OkexCurrency;
+import org.knowm.xchange.okex.dto.marketdata.OkexInstrument;
+import org.knowm.xchange.okex.dto.marketdata.OkexOrderbook;
+import org.knowm.xchange.okex.dto.marketdata.OkexPublicOrder;
+import org.knowm.xchange.okex.dto.marketdata.OkexTicker;
+import org.knowm.xchange.okex.dto.marketdata.OkexTrade;
 import org.knowm.xchange.okex.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.dto.trade.OkexOrderRequest;
-
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAdapters {
@@ -46,22 +65,24 @@ public class OkexAdapters {
     List<UserTrade> userTradeList = new ArrayList<>();
 
     okexTradeHistory.forEach(
-        okexOrderDetails -> userTradeList.add(
-            new UserTrade.Builder()
-                .originalAmount(new BigDecimal(okexOrderDetails.getAmount()))
-                .instrument(adaptOkexInstrumentIdToInstrument(okexOrderDetails.getInstrumentId()))
-                .currencyPair(new CurrencyPair(okexOrderDetails.getInstrumentId()))
-                .price(new BigDecimal(okexOrderDetails.getAverageFilledPrice()))
-                .type(adaptOkexOrderSideToOrderType(okexOrderDetails.getSide()))
-                .id(okexOrderDetails.getOrderId())
-                .orderId(okexOrderDetails.getOrderId())
-                .timestamp(
-                    Date.from(
-                        Instant.ofEpochMilli(Long.parseLong(okexOrderDetails.getUpdateTime()))))
-                .feeAmount(new BigDecimal(okexOrderDetails.getFee()))
-                .feeCurrency(new Currency(okexOrderDetails.getFeeCurrency()))
-                .orderUserReference(okexOrderDetails.getClientOrderId())
-                .build()));
+        okexOrderDetails ->
+            userTradeList.add(
+                new UserTrade.Builder()
+                    .originalAmount(new BigDecimal(okexOrderDetails.getAmount()))
+                    .instrument(
+                        adaptOkexInstrumentIdToInstrument(okexOrderDetails.getInstrumentId()))
+                    .currencyPair(new CurrencyPair(okexOrderDetails.getInstrumentId()))
+                    .price(new BigDecimal(okexOrderDetails.getAverageFilledPrice()))
+                    .type(adaptOkexOrderSideToOrderType(okexOrderDetails.getSide()))
+                    .id(okexOrderDetails.getOrderId())
+                    .orderId(okexOrderDetails.getOrderId())
+                    .timestamp(
+                        Date.from(
+                            Instant.ofEpochMilli(Long.parseLong(okexOrderDetails.getUpdateTime()))))
+                    .feeAmount(new BigDecimal(okexOrderDetails.getFee()))
+                    .feeCurrency(new Currency(okexOrderDetails.getFeeCurrency()))
+                    .orderUserReference(okexOrderDetails.getClientOrderId())
+                    .build()));
 
     return new UserTrades(userTradeList, Trades.TradeSortType.SortByTimestamp);
   }
@@ -134,27 +155,26 @@ public class OkexAdapters {
         .build();
   }
 
-  public static LimitOrder adaptLimitOrder(OkexPublicOrder okexPublicOrder, Instrument instrument, OrderType orderType) {
-    return adaptOrderbookOrder(okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType);
+  public static LimitOrder adaptLimitOrder(
+      OkexPublicOrder okexPublicOrder, Instrument instrument, OrderType orderType) {
+    return adaptOrderbookOrder(
+        okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType);
   }
 
-  public static OrderBook adaptOrderBook(List<OkexOrderbook> okexOrderbooks, Instrument instrument) {
+  public static OrderBook adaptOrderBook(
+      List<OkexOrderbook> okexOrderbooks, Instrument instrument) {
     List<LimitOrder> asks = new ArrayList<>();
     List<LimitOrder> bids = new ArrayList<>();
 
     okexOrderbooks
         .get(0)
         .getAsks()
-        .forEach(
-            okexAsk ->
-                asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK)));
+        .forEach(okexAsk -> asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK)));
 
     okexOrderbooks
         .get(0)
         .getBids()
-        .forEach(
-            okexBid ->
-                bids.add(adaptLimitOrder(okexBid, instrument, OrderType.BID)));
+        .forEach(okexBid -> bids.add(adaptLimitOrder(okexBid, instrument, OrderType.BID)));
 
     return new OrderBook(Date.from(Instant.now()), asks, bids);
   }
@@ -170,23 +190,27 @@ public class OkexAdapters {
     return new LimitOrder(orderType, amount, instrument, "", null, price);
   }
 
+  public static List<Ticker> adaptTickers(List<OkexTicker> okexTicker) {
+    return okexTicker.stream().map(ticker -> adaptTicker(ticker)).collect(Collectors.toList());
+  }
+
   public static Ticker adaptTicker(OkexTicker okexTicker) {
     return new Ticker.Builder()
-            .instrument(adaptOkexInstrumentIdToInstrument(okexTicker.getInstrumentId()))
-            .open(okexTicker.getOpen24h())
-            .last(okexTicker.getLast())
-            .bid(okexTicker.getBidPrice())
-            .ask(okexTicker.getAskPrice())
-            .high(okexTicker.getHigh24h())
-            .low(okexTicker.getLow24h())
-            // .vwap(null)
-            .volume(okexTicker.getVolume24h())
-            .quoteVolume(okexTicker.getVolumeCurrency24h())
-            .timestamp(okexTicker.getTimestamp())
-            .bidSize(okexTicker.getBidSize())
-            .askSize(okexTicker.getAskSize())
-            .percentageChange(null)
-            .build();
+        .instrument(adaptOkexInstrumentIdToInstrument(okexTicker.getInstrumentId()))
+        .open(okexTicker.getOpen24h())
+        .last(okexTicker.getLast())
+        .bid(okexTicker.getBidPrice())
+        .ask(okexTicker.getAskPrice())
+        .high(okexTicker.getHigh24h())
+        .low(okexTicker.getLow24h())
+        // .vwap(null)
+        .volume(okexTicker.getVolume24h())
+        .quoteVolume(okexTicker.getVolumeCurrency24h())
+        .timestamp(okexTicker.getTimestamp())
+        .bidSize(okexTicker.getBidSize())
+        .askSize(okexTicker.getAskSize())
+        .percentageChange(null)
+        .build();
   }
 
   public static Instrument adaptOkexInstrumentIdToInstrument(String instrumentId) {
@@ -245,10 +269,10 @@ public class OkexAdapters {
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
-          ExchangeMetaData exchangeMetaData,
-          List<OkexInstrument> instruments,
-          List<OkexCurrency> currs,
-          List<OkexTradeFee> tradeFee) {
+      ExchangeMetaData exchangeMetaData,
+      List<OkexInstrument> instruments,
+      List<OkexCurrency> currs,
+      List<OkexTradeFee> tradeFee) {
 
     Map<Instrument, InstrumentMetaData> currencyPairs =
         exchangeMetaData.getInstruments() == null
@@ -277,28 +301,27 @@ public class OkexAdapters {
       currencyPairs.put(
           pair,
           new InstrumentMetaData.Builder()
-                  .tradingFee(new BigDecimal(makerFee).negate())
-                  .minimumAmount(new BigDecimal(instrument.getMinSize()))
-                  .priceScale(priceScale)
-                  .feeTiers(staticMetaData != null ? staticMetaData.getFeeTiers() : null)
-                  .tradingFeeCurrency(pair.counter)
-                  .marketOrderEnabled(true)
-                  .build());
+              .tradingFee(new BigDecimal(makerFee).negate())
+              .minimumAmount(new BigDecimal(instrument.getMinSize()))
+              .priceScale(priceScale)
+              .feeTiers(staticMetaData != null ? staticMetaData.getFeeTiers() : null)
+              .tradingFeeCurrency(pair.counter)
+              .marketOrderEnabled(true)
+              .build());
     }
 
     if (currs != null) {
-      currs
-          .forEach(
-              currency ->
-                  currencies.put(
-                      adaptCurrency(currency),
-                      new CurrencyMetaData(
-                          null,
-                          new BigDecimal(currency.getMaxFee()),
-                          new BigDecimal(currency.getMinWd()),
-                          currency.isCanWd() && currency.isCanDep()
-                              ? WalletHealth.ONLINE
-                              : WalletHealth.OFFLINE)));
+      currs.forEach(
+          currency ->
+              currencies.put(
+                  adaptCurrency(currency),
+                  new CurrencyMetaData(
+                      null,
+                      new BigDecimal(currency.getMaxFee()),
+                      new BigDecimal(currency.getMinWd()),
+                      currency.isCanWd() && currency.isCanDep()
+                          ? WalletHealth.ONLINE
+                          : WalletHealth.OFFLINE)));
     }
 
     return new ExchangeMetaData(
@@ -356,12 +379,14 @@ public class OkexAdapters {
     return StringUtils.isEmpty(value) ? null : new BigDecimal(value);
   }
 
-  public static CandleStickData adaptCandleStickData(List<OkexCandleStick> okexCandleStickList, CurrencyPair currencyPair) {
+  public static CandleStickData adaptCandleStickData(
+      List<OkexCandleStick> okexCandleStickList, CurrencyPair currencyPair) {
     CandleStickData candleStickData = null;
     if (!okexCandleStickList.isEmpty()) {
       List<CandleStick> candleStickList = new ArrayList<>();
       for (OkexCandleStick okexCandleStick : okexCandleStickList) {
-        candleStickList.add(new CandleStick.Builder()
+        candleStickList.add(
+            new CandleStick.Builder()
                 .timestamp(new Date(okexCandleStick.getTimestamp()))
                 .open(new BigDecimal(okexCandleStick.getOpenPrice()))
                 .high(new BigDecimal(okexCandleStick.getHighPrice()))
@@ -379,23 +404,36 @@ public class OkexAdapters {
   public static OpenPositions adaptOpenPositions(OkexResponse<List<OkexPosition>> positions) {
     List<OpenPosition> openPositions = new ArrayList<>();
 
-    positions.getData().forEach(okexPosition -> openPositions.add(new OpenPosition.Builder()
-            .instrument(adaptOkexInstrumentIdToInstrument(okexPosition.getInstrumentId()))
-                    .liquidationPrice(okexPosition.getLiquidationPrice())
-                    .price(okexPosition.getAverageOpenPrice())
-                    //TODO: Okx size needs a fixed ctVal in order to be correct. This ctVal needs to be saved for every pair when calling metadata
-                    .type(adaptOpenPositionType(okexPosition))
-                    .unRealisedPnl(okexPosition.getUnrealizedPnL())
-            .build()));
+    positions
+        .getData()
+        .forEach(
+            okexPosition ->
+                openPositions.add(
+                    new OpenPosition.Builder()
+                        .instrument(
+                            adaptOkexInstrumentIdToInstrument(okexPosition.getInstrumentId()))
+                        .liquidationPrice(okexPosition.getLiquidationPrice())
+                        .price(okexPosition.getAverageOpenPrice())
+                        // TODO: Okx size needs a fixed ctVal in order to be correct. This ctVal
+                        // needs to be saved for every pair when calling metadata
+                        .type(adaptOpenPositionType(okexPosition))
+                        .unRealisedPnl(okexPosition.getUnrealizedPnL())
+                        .build()));
     return new OpenPositions(openPositions);
   }
 
-  public static OpenPosition.Type adaptOpenPositionType(OkexPosition okexPosition){
-    switch(okexPosition.getPositionSide()){
-      case "long": return OpenPosition.Type.LONG;
-      case "short": return OpenPosition.Type.SHORT;
-      case "net": return (okexPosition.getPosition().compareTo(BigDecimal.ZERO) >= 0) ? OpenPosition.Type.LONG : OpenPosition.Type.SHORT;
-      default: throw new UnsupportedOperationException();
+  public static OpenPosition.Type adaptOpenPositionType(OkexPosition okexPosition) {
+    switch (okexPosition.getPositionSide()) {
+      case "long":
+        return OpenPosition.Type.LONG;
+      case "short":
+        return OpenPosition.Type.SHORT;
+      case "net":
+        return (okexPosition.getPosition().compareTo(BigDecimal.ZERO) >= 0)
+            ? OpenPosition.Type.LONG
+            : OpenPosition.Type.SHORT;
+      default:
+        throw new UnsupportedOperationException();
     }
   }
 }
