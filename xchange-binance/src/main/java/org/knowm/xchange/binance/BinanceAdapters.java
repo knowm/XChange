@@ -2,12 +2,14 @@ package org.knowm.xchange.binance;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.knowm.xchange.binance.dto.account.AssetDetail;
@@ -15,6 +17,7 @@ import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
 import org.knowm.xchange.binance.dto.account.futures.BinancePosition;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
+import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRate;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
@@ -34,11 +37,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.marketdata.CandleStick;
-import org.knowm.xchange.dto.marketdata.CandleStickData;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
@@ -536,5 +535,25 @@ public class BinanceAdapters {
 
   private static int numberOfDecimals(String value) {
     return new BigDecimal(value).stripTrailingZeros().scale();
+  }
+
+  public static FundingRates adaptFundingRates(List<BinanceFundingRate> binanceFundingRates) {
+    List<FundingRate> fundingRates = new ArrayList<>();
+
+    binanceFundingRates
+            .stream().filter(binanceFundingRate -> binanceFundingRate.getNextFundingTime().getTime() != 0)
+            .forEach(binanceFundingRate -> fundingRates.add(adaptFundingRate(binanceFundingRate)));
+
+    return new FundingRates(fundingRates);
+  }
+
+  public static FundingRate adaptFundingRate(BinanceFundingRate binanceFundingRate) {
+    return new FundingRate.Builder()
+            .fundingRate1h(binanceFundingRate.getLastFundingRate().divide(BigDecimal.valueOf(8), binanceFundingRate.getLastFundingRate().scale(), RoundingMode.HALF_EVEN))
+            .fundingRate8h(binanceFundingRate.getLastFundingRate())
+            .instrument(binanceFundingRate.getInstrument())
+            .fundingRateDate(binanceFundingRate.getNextFundingTime())
+            .fundingRateEffectiveInMinutes(TimeUnit.MILLISECONDS.toMinutes(binanceFundingRate.getNextFundingTime().getTime()-binanceFundingRate.getTime().getTime()))
+            .build();
   }
 }

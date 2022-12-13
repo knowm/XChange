@@ -14,6 +14,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.marketdata.FundingRates;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -70,6 +71,9 @@ public class BinanceFutureTest {
         Trades trades = binanceExchange.getMarketDataService().getTrades(instrument);
         logger.info("Trades: "+trades);
         assertThat(trades.getTrades().get(0).getInstrument()).isEqualTo(instrument);
+        //Get Funding rates
+        FundingRates fundingRates = binanceExchange.getMarketDataService().getFundingRates();
+        fundingRates.getFundingRates().forEach(fundingRate -> System.out.println(fundingRate.toString()));
     }
 
     @Test

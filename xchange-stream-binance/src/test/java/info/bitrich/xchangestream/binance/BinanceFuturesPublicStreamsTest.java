@@ -25,7 +25,7 @@ public class BinanceFuturesPublicStreamsTest {
     @Before
     public void setup(){
         exchange = StreamingExchangeFactory.INSTANCE.createExchange(BinanceFutureStreamingExchange.class);
-        exchange.connect(ProductSubscription.create().addOrderbook(instrument).addTicker(instrument).addTrades(instrument).build()).blockingAwait();
+        exchange.connect(ProductSubscription.create().addOrderbook(instrument).addTicker(instrument).addFundingRates(instrument).addTrades(instrument).build()).blockingAwait();
         InstrumentMetaData instrumentMetaData = exchange.getExchangeMetaData().getInstruments().get(instrument);
         assertThat(instrumentMetaData.getVolumeScale()).isNotNull();
         assertThat(instrumentMetaData.getPriceScale()).isNotNull();
@@ -37,7 +37,6 @@ public class BinanceFuturesPublicStreamsTest {
         Disposable dis = exchange.getStreamingMarketDataService().getOrderBook(instrument).subscribe(orderBook -> {
             assertThat(orderBook.getBids().get(0).getLimitPrice()).isLessThan(orderBook.getAsks().get(0).getLimitPrice());
             assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(instrument);
-            System.out.println(orderBook.getBids().get(0).getLimitPrice()+"||"+orderBook.getBids().get(0).getOriginalAmount());
         });
 
         TimeUnit.SECONDS.sleep(3);
@@ -47,7 +46,8 @@ public class BinanceFuturesPublicStreamsTest {
     @Test
     public void checkTickerStream() throws InterruptedException {
 
-        Disposable dis = exchange.getStreamingMarketDataService().getTicker(instrument).subscribe(orderBook -> assertThat(orderBook.getInstrument()).isEqualTo(instrument));
+        Disposable dis = exchange.getStreamingMarketDataService().getTicker(instrument)
+                .subscribe(ticker -> assertThat(ticker.getInstrument()).isEqualTo(instrument));
 
         TimeUnit.SECONDS.sleep(3);
         dis.dispose();
@@ -56,7 +56,21 @@ public class BinanceFuturesPublicStreamsTest {
     @Test
     public void checkTradesStream() throws InterruptedException {
 
-        Disposable dis = exchange.getStreamingMarketDataService().getTrades(instrument).subscribe(orderBook -> assertThat(orderBook.getInstrument()).isEqualTo(instrument));
+        Disposable dis = exchange.getStreamingMarketDataService().getTrades(instrument)
+                .subscribe(trade -> assertThat(trade.getInstrument()).isEqualTo(instrument));
+
+        TimeUnit.SECONDS.sleep(3);
+        dis.dispose();
+    }
+
+    @Test
+    public void checkFundingRateStream() throws InterruptedException {
+
+        Disposable dis = exchange.getStreamingMarketDataService().getFundingRate(instrument)
+                .subscribe(fundingRate -> {
+                    assertThat(fundingRate.getInstrument()).isEqualTo(instrument);
+                    System.out.println(fundingRate);
+                });
 
         TimeUnit.SECONDS.sleep(3);
         dis.dispose();
