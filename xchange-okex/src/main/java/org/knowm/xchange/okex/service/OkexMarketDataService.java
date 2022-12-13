@@ -4,6 +4,7 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
@@ -38,22 +39,15 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    return this.getOrderBook((Instrument) currencyPair, args);
-  }
-
-  @Override
   public Trades getTrades(Instrument instrument, Object... args) throws IOException {
     return OkexAdapters.adaptTrades(
         getOkexTrades(OkexAdapters.adaptInstrument(instrument), 100).getData(), instrument);
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return OkexAdapters.adaptTrades(
-        getOkexTrades(OkexAdapters.adaptInstrument(currencyPair), 100).getData(), currencyPair);
+  public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
+    return OkexAdapters.adaptTicker(getOkexTicker(OkexAdapters.adaptInstrument(instrument)).getData().get(0));
   }
-
 
   @Override
   public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params)

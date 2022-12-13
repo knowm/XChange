@@ -1,7 +1,6 @@
 package org.knowm.xchange.service.marketdata;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -143,6 +142,7 @@ public interface MarketDataService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
+  @Deprecated
   default Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException("getTrades");
   }
