@@ -370,7 +370,6 @@ public class OkexAdapters {
             .instrument(adaptOkexInstrumentId(okexPosition.getInstrumentId()))
                     .liquidationPrice(okexPosition.getLiquidationPrice())
                     .price(okexPosition.getAverageOpenPrice())
-                    //TODO: Okx size needs a fixed ctVal in order to be correct. This ctVal needs to be saved for every pair when calling metadata
                     .type(adaptOpenPositionType(okexPosition))
                     .unRealisedPnl(okexPosition.getUnrealizedPnL())
             .build()));
