@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class test the Live Subscription/Unsubscription feature of the Binance Api. See
- * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#live-subscribingunsubscribing-to-streams
+ * <a href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#live-subscribingunsubscribing-to-streams">...</a>
  *
  * <p>Before this addon, the subscription of the currency pairs required to be at the connection
  * time, so if we wanted to add new currencies to the stream, it was required to disconnect from the
@@ -54,9 +54,7 @@ public class BinanceLiveSubscriptionExample {
                         .getStreamingMarketDataService()
                         .unsubscribe(CurrencyPair.BTC_USDT, BinanceSubscriptionType.TRADE))
             .subscribe(
-                trade -> {
-                  LOG.info("Trade: {}", trade);
-                });
+                trade -> LOG.info("Trade: {}", trade));
 
     Disposable orderBooksBtc =
         exchange
@@ -68,9 +66,7 @@ public class BinanceLiveSubscriptionExample {
                         .getStreamingMarketDataService()
                         .unsubscribe(CurrencyPair.BTC_USDT, BinanceSubscriptionType.DEPTH))
             .subscribe(
-                orderBook -> {
-                  LOG.info("Order book: {}", orderBook);
-                });
+                orderBook -> LOG.info("Order book: {}", orderBook));
 
     Thread.sleep(5000);
 
@@ -102,9 +98,7 @@ public class BinanceLiveSubscriptionExample {
                           .getStreamingMarketDataService()
                           .unsubscribe(currencyPair, BinanceSubscriptionType.TRADE))
               .subscribe(
-                  trade -> {
-                    LOG.info("Trade: {}", trade);
-                  });
+                  trade -> LOG.info("Trade: {}", trade));
       disposableTrades.add(tradeDisposable);
     }
     Thread.sleep(5000);

@@ -17,8 +17,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class BinanceTimestampFactory implements SynchronizedValueFactory<Long> {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceTimestampFactory.class);
-
-  private final Binance binance;
   private final ExchangeSpecification.ResilienceSpecification resilienceSpecification;
   private final ResilienceRegistries resilienceRegistries;
 
@@ -26,10 +24,8 @@ public class BinanceTimestampFactory implements SynchronizedValueFactory<Long> {
   private Long deltaServerTime;
 
   public BinanceTimestampFactory(
-      Binance binance,
       ExchangeSpecification.ResilienceSpecification resilienceSpecification,
       ResilienceRegistries resilienceRegistries) {
-    this.binance = binance;
     this.resilienceSpecification = resilienceSpecification;
     this.resilienceRegistries = resilienceRegistries;
   }
@@ -44,12 +40,12 @@ public class BinanceTimestampFactory implements SynchronizedValueFactory<Long> {
     deltaServerTime = null;
   }
 
-  public long deltaServerTime() throws IOException {
+  public long deltaServerTime(BinanceTime binanceTime) throws IOException {
 
     if (deltaServerTime == null || deltaServerTimeExpire <= System.currentTimeMillis()) {
 
       // Do a little warm up
-      Date serverTime = new Date(binanceTime().getServerTime().getTime());
+      Date serverTime = new Date(binanceTime(binanceTime).getServerTime().getTime());
 
       // Assume that we are closer to the server time when we get the repose
       Date systemTime = new Date(System.currentTimeMillis());
@@ -69,8 +65,8 @@ public class BinanceTimestampFactory implements SynchronizedValueFactory<Long> {
     return deltaServerTime;
   }
 
-  private BinanceTime binanceTime() throws IOException {
-    return ResilienceUtils.decorateApiCall(resilienceSpecification, () -> binance.time())
+  private BinanceTime binanceTime(BinanceTime binanceTime) throws IOException {
+    return ResilienceUtils.decorateApiCall(resilienceSpecification, () -> binanceTime)
         .withRetry(resilienceRegistries.retries().retry("time"))
         .withRateLimiter(
             resilienceRegistries.rateLimiters().rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
