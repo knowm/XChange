@@ -2,7 +2,6 @@ package org.knowm.xchange.binance.service.marketdata;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -13,7 +12,6 @@ import org.knowm.xchange.binance.BinanceExchangeIntegration;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -33,7 +31,7 @@ public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
   }
 
   @Test
-  public void testTimestamp() throws Exception {
+  public void testTimestamp() {
 
     long serverTime = exchange.getTimestampFactory().createValue();
     Assert.assertTrue(0 < serverTime);
@@ -45,25 +43,23 @@ public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
     List<BinanceTicker24h> tickers = new ArrayList<>();
     for (Instrument cp : exchange.getExchangeMetaData().getInstruments().keySet()) {
       if (cp.getCounter() == Currency.USDT) {
-        tickers.add(getBinanceTicker24h((CurrencyPair) cp));
+        tickers.add(getBinanceTicker24h(cp));
       }
     }
 
-    Collections.sort(
-        tickers,
-        (BinanceTicker24h t1, BinanceTicker24h t2) ->
+    tickers.sort((BinanceTicker24h t1, BinanceTicker24h t2) ->
             t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent()));
 
     tickers
         .forEach(
             t -> System.out.println(
-                t.getCurrencyPair()
+                t.getSymbol()
                     + " => "
                     + String.format("%+.2f%%", t.getPriceChangePercent())));
   }
 
-  private BinanceTicker24h getBinanceTicker24h(CurrencyPair pair) throws IOException {
+  private BinanceTicker24h getBinanceTicker24h(Instrument pair) throws IOException {
     BinanceMarketDataService service = (BinanceMarketDataService) marketService;
-    return service.ticker24h(pair);
+    return service.ticker24hAllProducts(pair);
   }
 }

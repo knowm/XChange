@@ -3,31 +3,22 @@ package org.knowm.xchange.binance.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.time.Instant;
+import java.util.*;
+
 import org.knowm.xchange.binance.BinanceAdapters;
-import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.account.AssetDetail;
-import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
-import org.knowm.xchange.binance.dto.account.DepositAddress;
-import org.knowm.xchange.binance.dto.account.WithdrawResponse;
+import org.knowm.xchange.binance.dto.account.*;
+import org.knowm.xchange.binance.dto.account.BinanceMasterAccountTransferHistoryParams;
+import org.knowm.xchange.binance.dto.account.BinanceSubAccountTransferHistoryParams;
+import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.AddressWithTag;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.Fee;
-import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
-import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -44,9 +35,8 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   public BinanceAccountService(
       BinanceExchange exchange,
-      BinanceAuthenticated binance,
       ResilienceRegistries resilienceRegistries) {
-    super(exchange, binance, resilienceRegistries);
+    super(exchange, resilienceRegistries);
   }
 
   private static FundingRecord.Status transferHistoryStatus(String historyStatus) {
@@ -101,12 +91,32 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     try {
-      BinanceAccountInformation acc = account();
-      List<Balance> balances =
-          acc.balances.stream()
-              .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
-              .collect(Collectors.toList());
-      return new AccountInfo(new Date(acc.updateTime), Wallet.Builder.from(balances).build());
+      List<Wallet> wallets = new ArrayList<>();
+      List<OpenPosition> openPositions = new ArrayList<>();
+
+      if(exchange.usingSandbox()){
+        if(exchange.isFuturesSandbox()){
+          BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
+          wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
+          openPositions.addAll(BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
+
+        } else {
+          wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
+        }
+      } else {
+        BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
+        wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
+        wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
+        openPositions.addAll(BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
+
+      }
+      return new AccountInfo(
+              exchange.getExchangeSpecification().getUserName(),
+              null,
+              wallets,
+              openPositions,
+              Date.from(Instant.now())
+      );
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }

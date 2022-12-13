@@ -1,4 +1,4 @@
-package org.knowm.xchange.binance.service;
+package org.knowm.xchange.binance.dto.account;
 
 import java.util.Date;
 import org.knowm.xchange.currency.Currency;

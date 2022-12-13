@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
@@ -29,9 +28,8 @@ public class BinanceUsAccountService extends BinanceAccountService {
 
   public BinanceUsAccountService(
       BinanceExchange exchange,
-      BinanceAuthenticated binance,
       ResilienceRegistries resilienceRegistries) {
-    super(exchange, binance, resilienceRegistries);
+    super(exchange, resilienceRegistries);
   }
 
   @Override

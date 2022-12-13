@@ -2,8 +2,6 @@ package org.knowm.xchange.examples.binance.marketdata;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceExchange;
@@ -38,49 +36,30 @@ public class BinanceMarketDataDemo {
     List<BinanceTicker24h> tickers = new ArrayList<>();
     for (Instrument cp : exchange.getExchangeMetaData().getInstruments().keySet()) {
       if (cp.getCounter() == Currency.USDT) {
-        tickers.add(marketDataService.ticker24h((CurrencyPair) cp));
+        tickers.add(marketDataService.ticker24hAllProducts(cp));
       }
     }
 
-    Collections.sort(
-        tickers,
-        new Comparator<BinanceTicker24h>() {
-          @Override
-          public int compare(BinanceTicker24h t1, BinanceTicker24h t2) {
-            return t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent());
-          }
-        });
+    tickers.sort((t1, t2) -> t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent()));
 
-    tickers.stream()
+    tickers
         .forEach(
-            t -> {
-              System.out.println(
-                  t.getCurrencyPair()
-                      + " => "
-                      + String.format("%+.2f%%", t.getPriceChangePercent()));
-            });
+            t -> System.out.println(
+                t.getSymbol()
+                    + " => "
+                    + String.format("%+.2f%%", t.getPriceChangePercent())));
     System.out.println("raw out end");
   }
 
   public static void rawAll(BinanceExchange exchange, BinanceMarketDataService marketDataService)
       throws IOException {
 
-    List<BinanceTicker24h> tickers = new ArrayList<>();
-    tickers.addAll(marketDataService.ticker24h());
-    Collections.sort(
-        tickers,
-        new Comparator<BinanceTicker24h>() {
-          @Override
-          public int compare(BinanceTicker24h t1, BinanceTicker24h t2) {
-            return t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent());
-          }
-        });
+      List<BinanceTicker24h> tickers = new ArrayList<>(marketDataService.ticker24hAllProducts());
+    tickers.sort((t1, t2) -> t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent()));
 
-    tickers.stream()
+    tickers
         .forEach(
-            t -> {
-              System.out.println(
-                  t.getSymbol() + " => " + String.format("%+.2f%%", t.getLastPrice()));
-            });
+            t -> System.out.println(
+                t.getSymbol() + " => " + String.format("%+.2f%%", t.getLastPrice())));
   }
 }

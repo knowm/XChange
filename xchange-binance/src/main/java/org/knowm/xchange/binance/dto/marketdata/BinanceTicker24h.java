@@ -3,10 +3,13 @@ package org.knowm.xchange.binance.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-import org.knowm.xchange.binance.BinanceAdapters;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.Ticker;
 
+import lombok.Getter;
+import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.instrument.Instrument;
+
+@Getter
 public final class BinanceTicker24h {
 
   private final BigDecimal priceChange;
@@ -32,7 +35,7 @@ public final class BinanceTicker24h {
   private final String symbol;
 
   // The curency pair that is unfortunately not returned in the response
-  private CurrencyPair pair;
+  private Instrument pair;
 
   // The cached ticker
   private Ticker ticker;
@@ -81,108 +84,19 @@ public final class BinanceTicker24h {
     this.count = count;
     this.symbol = symbol;
   }
-
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public CurrencyPair getCurrencyPair() {
-    return pair;
-  }
-
-  public void setCurrencyPair(CurrencyPair pair) {
+  public void setInstrument(Instrument pair) {
     this.pair = pair;
   }
 
-  public BigDecimal getPriceChange() {
-    return priceChange;
-  }
-
-  public BigDecimal getPriceChangePercent() {
-    return priceChangePercent;
-  }
-
-  public BigDecimal getWeightedAvgPrice() {
-    return weightedAvgPrice;
-  }
-
-  public BigDecimal getPrevClosePrice() {
-    return prevClosePrice;
-  }
-
-  public BigDecimal getLastPrice() {
-    return lastPrice;
-  }
-
-  public BigDecimal getLastQty() {
-    return lastQty;
-  }
-
-  public BigDecimal getBidPrice() {
-    return bidPrice;
-  }
-
-  public BigDecimal getBidQty() {
-    return bidQty;
-  }
-
-  public BigDecimal getAskPrice() {
-    return askPrice;
-  }
-
-  public BigDecimal getAskQty() {
-    return askQty;
-  }
-
-  public BigDecimal getOpenPrice() {
-    return openPrice;
-  }
-
-  public BigDecimal getHighPrice() {
-    return highPrice;
-  }
-
-  public BigDecimal getLowPrice() {
-    return lowPrice;
-  }
-
-  public BigDecimal getVolume() {
-    return volume;
-  }
-
-  public BigDecimal getQuoteVolume() {
-    return quoteVolume;
-  }
-
-  public long getFirstTradeId() {
-    return firstId;
-  }
-
-  public long getLastTradeId() {
-    return lastId;
-  }
-
-  public long getTradeCount() {
-    return count;
-  }
-
-  public Date getOpenTime() {
-    return new Date(openTime);
-  }
-
-  public Date getCloseTime() {
-    return new Date(closeTime);
-  }
-
-  public synchronized Ticker toTicker() {
-    CurrencyPair currencyPair = pair;
-    if (currencyPair == null) {
-      currencyPair = BinanceAdapters.adaptSymbol(symbol);
+  public synchronized Ticker toTicker(boolean isFuture) {
+    Instrument instrument = pair;
+    if (instrument == null) {
+      instrument = BinanceAdapters.adaptSymbol(symbol, isFuture );
     }
     if (ticker == null) {
       ticker =
           new Ticker.Builder()
-              .currencyPair(currencyPair)
+              .instrument(instrument)
               .open(openPrice)
               .ask(askPrice)
               .bid(bidPrice)

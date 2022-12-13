@@ -1,7 +1,6 @@
 package info.bitrich.xchangestream.binance;
 
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.util.Map;
@@ -25,8 +24,8 @@ public class KlineSubscription {
     return !isEmpty();
   }
 
-  public boolean contains(CurrencyPair currencyPair, KlineInterval interval) {
-    return Optional.ofNullable(klines.get(currencyPair))
+  public boolean contains(Instrument instrument, KlineInterval interval) {
+    return Optional.ofNullable(klines.get(instrument))
         .filter(intervals -> intervals.contains(interval))
         .isPresent();
   }
