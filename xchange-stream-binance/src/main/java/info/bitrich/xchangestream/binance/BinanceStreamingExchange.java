@@ -236,7 +236,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   private String buildSubscriptionStreams(ProductSubscription subscription, KlineSubscription klineSubscription) {
     return Stream.concat(
             Arrays.stream(buildSubscriptionStreams(subscription).split("/")),
-            buildSubscriptionStreams(klineSubscription))
+            buildSubscriptionStreams(klineSubscription)
+            )
         .filter(StringUtils::isNotEmpty)
         .collect(Collectors.joining("/"));
   }
@@ -261,11 +262,11 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
                 realtimeOrderBookTicker
                     ? BinanceSubscriptionType.BOOK_TICKER.getType()
                     : BinanceSubscriptionType.TICKER.getType()),
-            buildSubscriptionStrings(
-                subscription.getOrderBook(), BinanceSubscriptionType.DEPTH.getType()),
+            buildSubscriptionStrings(subscription.getOrderBook(), BinanceSubscriptionType.DEPTH.getType()),
             buildSubscriptionStrings(subscription.getOrderBook(), BinanceSubscriptionType.DEPTH20.getType()),
-            buildSubscriptionStrings(
-                subscription.getTrades(), BinanceSubscriptionType.TRADE.getType()))
+            buildSubscriptionStrings(subscription.getTrades(), BinanceSubscriptionType.TRADE.getType()),
+            buildSubscriptionStrings(subscription.getFundingRates(), BinanceSubscriptionType.FUNDING_RATES.getType())
+            )
         .filter(s -> !s.isEmpty())
         .collect(Collectors.joining("/"));
   }
@@ -277,7 +278,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
       return subscriptionStrings(currencyPairs)
           .map(s -> s + "@" + subscriptionType + orderBookUpdateFrequencyParameter)
           .collect(Collectors.joining("/"));
-    }  else {
+    } else {
       return subscriptionStrings(currencyPairs)
           .map(s -> s + "@" + subscriptionType)
           .collect(Collectors.joining("/"));

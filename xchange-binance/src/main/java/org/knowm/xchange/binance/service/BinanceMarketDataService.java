@@ -13,9 +13,7 @@ import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
@@ -58,6 +56,16 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
     return getBinanceOrderBook(instrument,args);
+  }
+
+  @Override
+  public FundingRates getFundingRates() throws IOException {
+    return BinanceAdapters.adaptFundingRates(getBinanceFundingRates());
+  }
+
+  @Override
+  public FundingRate getFundingRate(Instrument instrument) throws IOException {
+    return BinanceAdapters.adaptFundingRate(getBinanceFundingRate(instrument));
   }
 
   private Trades getBinanceTrades(Instrument instrument, Object... args) throws IOException{

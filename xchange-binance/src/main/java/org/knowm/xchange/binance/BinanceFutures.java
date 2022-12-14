@@ -2,6 +2,7 @@ package org.knowm.xchange.binance;
 
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
+import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRate;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
@@ -89,5 +90,29 @@ public interface BinanceFutures {
             @QueryParam("startTime") Long startTime,
             @QueryParam("endTime") Long endTime,
             @QueryParam("limit") Integer limit)
+            throws IOException, BinanceException;
+
+    /**
+     *
+     * @return List<BinanceFundingRate>
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @GET
+    @Path("fapi/v1/premiumIndex")
+    List<BinanceFundingRate> fundingRates()
+            throws IOException, BinanceException;
+
+    /**
+     * @param symbol the instrument to get the funding rate for
+     *
+     * @return BinanceFundingRate
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @GET
+    @Path("fapi/v1/premiumIndex")
+    BinanceFundingRate fundingRate(
+            @QueryParam("symbol") String symbol)
             throws IOException, BinanceException;
 }
