@@ -405,6 +405,76 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
+  // quick fix rate methods
+
+  public CoinmateBuyFixRateResponse coinmateBuyQuickFixRate(BigDecimal total, BigDecimal amountReceived, String currencyPair)
+      throws IOException {
+    CoinmateBuyFixRateResponse response =
+        coinmateAuthenticated.buyQuickFixRate(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            total,
+            amountReceived,
+            currencyPair
+        );
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
+  public CoinmateSellFixRateResponse coinmateSellQuickFixRate(BigDecimal amount, BigDecimal totalReceived, String currencyPair)
+      throws IOException {
+    CoinmateSellFixRateResponse response =
+        coinmateAuthenticated.sellQuickFixRate(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            amount,
+            totalReceived,
+            currencyPair
+        );
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
+  public CoinmateTradeResponse buyCoinmateQuickFix(String rateId, String clientOrderId)
+      throws IOException {
+    CoinmateTradeResponse response =
+        coinmateAuthenticated.buyQuickFix(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            clientOrderId,
+            rateId);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
+  public CoinmateTradeResponse sellCoinmateQuickFix(String rateId, String clientOrderId)
+      throws IOException {
+    CoinmateTradeResponse response =
+        coinmateAuthenticated.sellQuickFix(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            clientOrderId,
+            rateId);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
   public CoinmateReplaceResponse coinmateReplaceByBuyInstant(
       String orderId, BigDecimal total, String currencyPair, String clientOrderId) throws IOException {
     CoinmateReplaceResponse response =

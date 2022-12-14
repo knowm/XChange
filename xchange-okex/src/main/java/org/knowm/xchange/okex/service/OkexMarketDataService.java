@@ -46,6 +46,7 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
     return OkexAdapters.adaptTicker(getOkexTicker(OkexAdapters.adaptInstrument(instrument)).getData().get(0));
   }
 
+
   @Override
   public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params)
           throws IOException {
