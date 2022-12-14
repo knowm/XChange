@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.binance.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
@@ -10,9 +11,12 @@ import java.util.Map;
 
 import static org.knowm.xchange.utils.StreamUtils.singletonCollector;
 
+@Getter
 public class KlineBinanceWebSocketTransaction extends BaseBinanceWebSocketTransaction {
 
-    protected final BinanceKline binanceKline;
+    private final String symbol;
+    private final Map<String, Object> kline;
+    private final KlineInterval klineInterval;
 
     public KlineBinanceWebSocketTransaction(
             @JsonProperty("e") String eventType,
@@ -20,10 +24,11 @@ public class KlineBinanceWebSocketTransaction extends BaseBinanceWebSocketTransa
             @JsonProperty("s") String symbol,
             @JsonProperty("k") Map<String, Object> kline) {
         super(eventType, eventTime);
-        KlineInterval klineInterval =  Arrays.stream(KlineInterval.values())
+        this.symbol = symbol;
+        this.kline = kline;
+        this.klineInterval =  Arrays.stream(KlineInterval.values())
                 .filter(i -> i.code().equals(kline.get("i")))
                 .collect(singletonCollector());
-        this.binanceKline = new BinanceKline(BinanceAdapters.adaptSymbol(symbol), klineInterval, getParameters(kline));
     }
 
     private static Object[] getParameters(Map<String, Object> kline) {
@@ -42,7 +47,7 @@ public class KlineBinanceWebSocketTransaction extends BaseBinanceWebSocketTransa
         return parameters;
     }
 
-    public BinanceKline getBinanceKline() {
-        return binanceKline;
+    public BinanceKline toBinanceKline(boolean isFuture) {
+        return new BinanceKline(BinanceAdapters.adaptSymbol(symbol, isFuture), klineInterval, getParameters(kline));
     }
 }

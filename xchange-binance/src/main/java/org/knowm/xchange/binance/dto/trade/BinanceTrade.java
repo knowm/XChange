@@ -6,6 +6,7 @@ import java.util.Date;
 
 public final class BinanceTrade {
 
+  public final String symbol;
   public final long id;
   public final long tradeId;
   public final long orderId;
@@ -19,6 +20,7 @@ public final class BinanceTrade {
   public final boolean isBestMatch;
 
   public BinanceTrade(
+      @JsonProperty("symbol") String symbol,
       @JsonProperty("id") long id,
       @JsonProperty("tradeId") long tradeId,
       @JsonProperty("orderId") long orderId,
@@ -30,6 +32,7 @@ public final class BinanceTrade {
       @JsonProperty("isBuyer") boolean isBuyer,
       @JsonProperty("isMaker") boolean isMaker,
       @JsonProperty("isBestMatch") boolean isBestMatch) {
+    this.symbol = symbol;
     this.id = id;
     this.tradeId = tradeId;
     this.orderId = orderId;

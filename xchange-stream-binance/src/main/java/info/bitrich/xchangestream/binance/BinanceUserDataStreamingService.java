@@ -38,23 +38,22 @@ public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
       super.handleMessage(message);
     } catch (Exception e) {
       LOG.error("Error handling message: " + message, e);
-      return;
     }
   }
 
   @Override
-  protected String getChannelNameFromMessage(JsonNode message) throws IOException {
+  protected String getChannelNameFromMessage(JsonNode message) {
     return message.get("e").asText();
   }
 
   @Override
-  public String getSubscribeMessage(String channelName, Object... args) throws IOException {
+  public String getSubscribeMessage(String channelName, Object... args) {
     // No op. Disconnecting from the web socket will cancel subscriptions.
     return null;
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) {
     // No op. Disconnecting from the web socket will cancel subscriptions.
     return null;
   }

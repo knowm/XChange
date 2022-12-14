@@ -43,5 +43,6 @@ GTAGS
 GRTAGS
 GPATH
 GSYMS
+/xchange-binance/src/test/resources/keys.properties
 /xchange-okex/src/test/resources/keys.properties
 /xchange-stream-okex/src/test/resources/keys.properties
