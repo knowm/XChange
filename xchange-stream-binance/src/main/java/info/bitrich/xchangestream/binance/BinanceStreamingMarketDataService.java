@@ -5,13 +5,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.RateLimiter;
-import info.bitrich.xchangestream.binance.dto.BinanceRawTrade;
-import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
-import info.bitrich.xchangestream.binance.dto.BookTickerBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.DepthBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.KlineBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.TickerBinanceWebsocketTransaction;
-import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
+import info.bitrich.xchangestream.binance.dto.*;
 import info.bitrich.xchangestream.binance.exceptions.UpFrontSubscriptionRequiredException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
@@ -30,10 +24,7 @@ import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.instrument.Instrument;
@@ -60,6 +51,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   private static final JavaType BOOK_TICKER_TYPE = getBookTickerType();
   private static final JavaType TRADE_TYPE = getTradeType();
   private static final JavaType DEPTH_TYPE = getDepthType();
+
+  private static final JavaType FUNDING_RATE_TYPE = getFundingRateType();
   private static final JavaType KLINE_TYPE = getKlineType();
 
   private final BinanceStreamingService service;
@@ -158,6 +151,16 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   public Observable<Trade> getTrades(Instrument instrument, Object... args) {
     return getRawTrades(instrument)
             .map(rawTrade -> BinanceStreamingAdapters.adaptRawTrade(rawTrade, instrument));
+  }
+
+  @Override
+  public Observable<FundingRate> getFundingRate(Instrument instrument, Object... args) {
+    return service.subscribeChannel(channelFromCurrency(instrument, BinanceSubscriptionType.FUNDING_RATES.getType()))
+            .map(it -> this.<FundingRateWebsocketTransaction>readTransaction(
+                    it, FUNDING_RATE_TYPE, "funding rate"))
+            .map(BinanceWebsocketTransaction::getData)
+            .filter(data -> BinanceAdapters.adaptSymbol(data.getSymbol(), true).equals(instrument))
+            .map(FundingRateWebsocketTransaction::toFundingRate);
   }
 
   private Observable<OrderBook> initOrderBookIfAbsent(Instrument instrument) {
@@ -642,6 +645,13 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .getTypeFactory()
         .constructType(
             new TypeReference<BinanceWebsocketTransaction<DepthBinanceWebSocketTransaction>>() {});
+  }
+
+  private static JavaType getFundingRateType() {
+    return getObjectMapper()
+            .getTypeFactory()
+            .constructType(
+                    new TypeReference<BinanceWebsocketTransaction<FundingRateWebsocketTransaction>>() {});
   }
 
   private static JavaType getKlineType() {

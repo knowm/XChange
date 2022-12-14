@@ -18,6 +18,7 @@ public class ProductSubscription {
   private final List<Instrument> ticker;
   private final List<Instrument> userTrades;
   private final List<Instrument> orders;
+  private final List<Instrument> fundingRates;
   private final List<Currency> balances;
 
   private ProductSubscription(ProductSubscriptionBuilder builder) {
@@ -25,6 +26,7 @@ public class ProductSubscription {
     this.trades = asList(builder.trades);
     this.ticker = asList(builder.ticker);
     this.orders = asList(builder.orders);
+    this.fundingRates = asList(builder.fundingRates);
     this.userTrades = asList(builder.userTrades);
     this.balances = asList(builder.balances);
   }
@@ -51,6 +53,10 @@ public class ProductSubscription {
     return orders;
   }
 
+  public List<Instrument> getFundingRates() {
+    return fundingRates;
+  }
+
   public List<Instrument> getUserTrades() {
     return userTrades;
   }
@@ -68,7 +74,7 @@ public class ProductSubscription {
   }
 
   public boolean hasUnauthenticated() {
-    return !ticker.isEmpty() || !trades.isEmpty() || !orderBook.isEmpty();
+    return !ticker.isEmpty() || !trades.isEmpty() || !orderBook.isEmpty() || !fundingRates.isEmpty();
   }
 
   public static ProductSubscriptionBuilder create() {
@@ -81,6 +87,7 @@ public class ProductSubscription {
     private final Set<Instrument> ticker;
     private final Set<Instrument> userTrades;
     private final Set<Instrument> orders;
+    private final Set<Instrument> fundingRates;
     private final Set<Currency> balances;
 
     private ProductSubscriptionBuilder() {
@@ -88,6 +95,7 @@ public class ProductSubscription {
       trades = new HashSet<>();
       ticker = new HashSet<>();
       orders = new HashSet<>();
+      fundingRates = new HashSet<>();
       userTrades = new HashSet<>();
       balances = new HashSet<>();
     }
@@ -112,6 +120,10 @@ public class ProductSubscription {
       return this;
     }
 
+    public ProductSubscriptionBuilder addFundingRates(Instrument pair) {
+      fundingRates.add(pair);
+      return this;
+    }
     public ProductSubscriptionBuilder addUserTrades(Instrument pair) {
       userTrades.add(pair);
       return this;
@@ -127,6 +139,7 @@ public class ProductSubscription {
       trades.add(pair);
       ticker.add(pair);
       orders.add(pair);
+      fundingRates.add(pair);
       userTrades.add(pair);
       balances.add(pair.getBase());
       balances.add(pair.getCounter());
