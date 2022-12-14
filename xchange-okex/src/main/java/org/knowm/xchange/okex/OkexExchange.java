@@ -1,7 +1,5 @@
 package org.knowm.xchange.okex;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.client.ResilienceRegistries;
@@ -17,11 +15,17 @@ import si.mazi.rescu.SynchronizedValueFactory;
 import java.io.IOException;
 import java.util.List;
 
-import static org.knowm.xchange.okex.service.OkexMarketDataService.*;
+import static org.knowm.xchange.okex.OkexAdapters.SPOT;
+import static org.knowm.xchange.okex.OkexAdapters.SWAP;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexExchange extends BaseExchange {
 
+  public static final String PARAM_USE_AWS = "Use_AWS";
+  public static final String PARAM_AWS_SSL_URI = "AWSSslUri";
+  public static final String PARAM_AWS_HOST = "AWSHost";
+  public static final String PARAM_SIMULATED = "simulated";
+  public static final String PARAM_PASSPHRASE = "passphrase";
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
   /** Adjust host parameters depending on exchange specific parameters */
@@ -29,15 +33,15 @@ public class OkexExchange extends BaseExchange {
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       final boolean useAWS =
           Boolean.TRUE.equals(
-              exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_USE_AWS));
+              exchangeSpecification.getExchangeSpecificParametersItem(PARAM_USE_AWS));
       if (useAWS) {
         exchangeSpecification.setSslUri(
             (String)
                 exchangeSpecification.getExchangeSpecificParametersItem(
-                    Parameters.PARAM_AWS_SSL_URI));
+                    PARAM_AWS_SSL_URI));
         exchangeSpecification.setHost(
             (String)
-                exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_AWS_HOST));
+                exchangeSpecification.getExchangeSpecificParametersItem(PARAM_AWS_HOST));
       }
     }
   }
@@ -45,7 +49,6 @@ public class OkexExchange extends BaseExchange {
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
     super.applySpecification(exchangeSpecification);
-
     concludeHostParams(exchangeSpecification);
   }
 
@@ -58,6 +61,11 @@ public class OkexExchange extends BaseExchange {
     this.tradeService = new OkexTradeService(this, getResilienceRegistries());
   }
 
+  /**
+   * For Demo Trading add the following param to exchangeSpecification:
+   * exchangeSpecification.setExchangeSpecificParametersItem(PARAM_SIMULATED_TRADING, "1");
+   *
+   */
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
@@ -68,13 +76,11 @@ public class OkexExchange extends BaseExchange {
     exchangeSpecification.setExchangeName("Okex");
     exchangeSpecification.setExchangeDescription("Okx Exchange");
 
-    exchangeSpecification.setExchangeSpecificParametersItem(Parameters.PARAM_USE_AWS, false);
+    exchangeSpecification.setExchangeSpecificParametersItem(PARAM_USE_AWS, false);
     exchangeSpecification.setExchangeSpecificParametersItem(
-        Parameters.PARAM_AWS_SSL_URI, "https://aws.okx.com");
+        PARAM_AWS_SSL_URI, "https://aws.okx.com");
     exchangeSpecification.setExchangeSpecificParametersItem(
-        Parameters.PARAM_AWS_HOST, "aws.okx.com");
-
-//    exchangeSpecification.setExchangeSpecificParametersItem(Parameters.PARAM_SIMULATED_TRADING, "1");
+        PARAM_AWS_HOST, "aws.okx.com");
 
     return exchangeSpecification;
   }
@@ -123,12 +129,9 @@ public class OkexExchange extends BaseExchange {
     exchangeMetaData = OkexAdapters.adaptToExchangeMetaData(instruments, currencies, tradeFee);
   }
 
-  @NoArgsConstructor(access = AccessLevel.PRIVATE)
-  public static final class Parameters {
-    public static final String PARAM_USE_AWS = "Use_AWS";
-    public static final String PARAM_AWS_SSL_URI = "AWSSslUri";
-    public static final String PARAM_AWS_HOST = "AWSHost";
-    public static final String PARAM_SIMULATED_TRADING = "simulated";
-    public static final String PARAM_PASSPHRASE = "passphrase";
+  protected boolean useSandbox(){
+    return Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX)
+    );
   }
 }

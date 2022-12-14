@@ -12,6 +12,9 @@ import org.knowm.xchange.okex.dto.OkexException;
 import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.utils.DateUtils;
 
+import static org.knowm.xchange.okex.OkexExchange.PARAM_PASSPHRASE;
+import static org.knowm.xchange.okex.OkexExchange.PARAM_SIMULATED;
+
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexMarketDataServiceRaw extends OkexBaseService {
   public OkexMarketDataServiceRaw(
@@ -32,7 +35,7 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
                       (String)
                           exchange
                               .getExchangeSpecification()
-                              .getExchangeSpecificParametersItem("simulated")))
+                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
           .withRateLimiter(rateLimiter(Okex.instrumentsPath))
           .call();
     } catch (OkexException e) {
@@ -50,7 +53,7 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
                               (String)
                                       exchange
                                               .getExchangeSpecification()
-                                              .getExchangeSpecificParametersItem("simulated")))
+                                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
               .withRateLimiter(rateLimiter(Okex.instrumentsPath))
               .call();
     } catch (OkexException e) {
@@ -68,7 +71,7 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
                               (String)
                                       exchange
                                               .getExchangeSpecification()
-                                              .getExchangeSpecificParametersItem("simulated")))
+                                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
               .withRateLimiter(rateLimiter(Okex.instrumentsPath))
               .call();
     } catch (OkexException e) {
@@ -87,11 +90,11 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
                       (String)
                           exchange
                               .getExchangeSpecification()
-                              .getExchangeSpecificParametersItem("passphrase"),
+                              .getExchangeSpecificParametersItem(PARAM_PASSPHRASE),
                       (String)
                           exchange
                               .getExchangeSpecification()
-                              .getExchangeSpecificParametersItem("simulated")))
+                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
           .withRateLimiter(rateLimiter(OkexAuthenticated.currenciesPath))
           .call();
     } catch (OkexException e) {
@@ -106,7 +109,7 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
         instrument,
         limit,
         (String)
-            exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
+            exchange.getExchangeSpecification().getExchangeSpecificParametersItem(PARAM_SIMULATED));
   }
 
   public OkexResponse<List<OkexOrderbook>> getOkexOrderbook(String instrument)
@@ -115,7 +118,7 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
         instrument,
         20,
         (String)
-            exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
+            exchange.getExchangeSpecification().getExchangeSpecificParametersItem(PARAM_SIMULATED));
   }
 
   public OkexResponse<List<OkexCandleStick>> getHistoryCandle(
@@ -128,6 +131,6 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
         bar,
         limit,
         (String)
-            exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
+            exchange.getExchangeSpecification().getExchangeSpecificParametersItem(PARAM_SIMULATED));
   }
 }

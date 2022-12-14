@@ -37,6 +37,7 @@ public interface OkexAuthenticated extends Okex {
   String currenciesPath = "/asset/currencies"; // Stated as 6 req/sec
   String assetBalancesPath = "/asset/balances"; // Stated as 6 req/sec
   String positionsPath = "/account/positions"; // Stated as 10 req/2 sec
+  String accountPositionAtRiskPath = "/account/account-position-risk"; // Stated as 10 req/2 sec
   String setLeveragePath = "/account/set-leverage"; // Stated as 20 req/2 sec
   String pendingOrdersPath = "/trade/orders-pending"; // Stated as 20 req/2 sec
   String orderDetailsPath = "/trade/order";
@@ -208,6 +209,16 @@ public interface OkexAuthenticated extends Okex {
           @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
           @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
   throws IOException, OkexException;
+
+  @GET
+  @Path(accountPositionAtRiskPath)
+  OkexResponse<List<OkexAccountPositionRisk>> getAccountPositionRisk(
+          @HeaderParam("OK-ACCESS-KEY") String apiKey,
+          @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+          @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+          @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+          throws IOException, OkexException;
 
   @POST
   @Path(setLeveragePath)
