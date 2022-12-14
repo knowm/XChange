@@ -26,7 +26,7 @@ public class OkexStreamingPublicDataTest {
     }
 
     @Test
-    public void testGetTrades() throws InterruptedException {
+    public void testTrades() throws InterruptedException {
         Disposable dis = exchange.getStreamingMarketDataService().getTrades(currencyPair)
                 .subscribe(trade -> {
                     System.out.println(trade);
@@ -43,7 +43,7 @@ public class OkexStreamingPublicDataTest {
     }
 
     @Test
-    public void testGetTicker() throws InterruptedException {
+    public void testTicker() throws InterruptedException {
         Disposable dis = exchange.getStreamingMarketDataService().getTicker(currencyPair)
                 .subscribe(System.out::println);
         Disposable dis2 = exchange.getStreamingMarketDataService().getTicker(instrument)
@@ -54,7 +54,15 @@ public class OkexStreamingPublicDataTest {
     }
 
     @Test
-    public void testGetOrderBook() throws InterruptedException {
+    public void testFundingRateStream() throws InterruptedException {
+        Disposable dis = exchange.getStreamingMarketDataService().getFundingRate(instrument)
+                .subscribe(System.out::println);
+        TimeUnit.SECONDS.sleep(3);
+        dis.dispose();
+    }
+
+    @Test
+    public void testOrderBook() throws InterruptedException {
         Disposable dis = exchange.getStreamingMarketDataService().getOrderBook(currencyPair)
                 .subscribe(orderBook -> {
                     System.out.println(orderBook);

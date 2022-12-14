@@ -75,4 +75,12 @@ public interface Okex {
       @QueryParam("limit") String limit,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
       throws IOException, OkexException;
+
+  @GET
+  @Path("/public/funding-rate")
+  OkexResponse<List<OkexFundingRate>> getFundingRate(
+          @QueryParam("instId") String instrument,
+          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+          throws IOException, OkexException;
+
 }

@@ -2,19 +2,16 @@ package info.bitrich.xchangestream.okex;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.FundingRate;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.OkexAdapters;
-import org.knowm.xchange.okex.dto.marketdata.OkexOrderbook;
-import org.knowm.xchange.okex.dto.marketdata.OkexPublicOrder;
-import org.knowm.xchange.okex.dto.marketdata.OkexTicker;
-import org.knowm.xchange.okex.dto.marketdata.OkexTrade;
+import org.knowm.xchange.okex.dto.marketdata.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +19,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import static info.bitrich.xchangestream.okex.OkexStreamingService.*;
 
 public class OkexStreamingMarketDataService implements StreamingMarketDataService {
 
@@ -38,12 +37,10 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
     private final Map<String, OrderBook> orderBookMap = new HashMap<>();
     @Override
     public Observable<Ticker> getTicker(Instrument instrument, Object... args) {
-        String channelName = "tickers";
-        String instId = OkexAdapters.adaptInstrument(instrument);
-        String channelUniqueId = channelName+"."+instId;
+        String channelUniqueId = TICKERS+OkexAdapters.adaptInstrument(instrument);
 
         return service
-                .subscribeChannel(channelUniqueId, new OkexSubscribeMessage.SubscriptionTopic(channelName, null, null, instId))
+                .subscribeChannel(channelUniqueId)
                 .filter(message-> message.has("data"))
                 .flatMap(jsonNode -> {
                     List<OkexTicker> okexTickers = mapper.treeToValue(jsonNode.get("data"), mapper.getTypeFactory().constructCollectionType(List.class, OkexTicker.class));
@@ -53,12 +50,10 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
 
     @Override
     public Observable<Trade> getTrades(Instrument instrument, Object... args) {
-        String instId = OkexAdapters.adaptInstrument(instrument);
-        String channelName = "trades";
-        String channelUniqueId = channelName+"."+instId;
+        String channelUniqueId = TRADES+OkexAdapters.adaptInstrument(instrument);
 
         return service
-            .subscribeChannel(channelUniqueId, new OkexSubscribeMessage.SubscriptionTopic(channelName, null, null, instId))
+            .subscribeChannel(channelUniqueId)
             .filter(message-> message.has("data"))
             .flatMap(jsonNode -> {
                 List<OkexTrade> okexTradeList = mapper.treeToValue(jsonNode.get("data"), mapper.getTypeFactory().constructCollectionType(List.class, OkexTrade.class));
@@ -67,17 +62,30 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
     }
 
     @Override
+    public Observable<FundingRate> getFundingRate(Instrument instrument, Object... args) {
+        String channelUniqueId = FUNDING_RATE+OkexAdapters.adaptInstrument(instrument);
+
+        return service
+                .subscribeChannel(channelUniqueId)
+                .filter(message-> message.has("data"))
+                .map(jsonNode -> {
+                    List<OkexFundingRate> okexFundingRates = mapper.treeToValue(jsonNode.get("data"), mapper.getTypeFactory().constructCollectionType(List.class, OkexFundingRate.class));
+                    return OkexAdapters.adaptFundingRate(okexFundingRates);
+                });
+    }
+
+    @Override
     public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
         String instId = OkexAdapters.adaptInstrument(instrument);
         String channelName = args.length >= 1 ? args[0].toString() : "books";
-        String channelUniqueId = channelName+"."+instId;
+        String channelUniqueId = ORDERBOOK+instId;
 
         return service
-                .subscribeChannel(channelUniqueId, new OkexSubscribeMessage.SubscriptionTopic(channelName, null, null, instId))
+                .subscribeChannel(channelUniqueId)
                 .filter(message-> message.has("action"))
                 .flatMap(jsonNode -> {
                     // "books5" channel pushes 5 depth levels every time.
-                    String action = channelName.equals("books5") ? "snapshot" : jsonNode.get("action").asText();
+                    String action = channelName.equals(ORDERBOOK5) ? "snapshot" : jsonNode.get("action").asText();
                     if ("snapshot".equalsIgnoreCase(action)) {
                         List<OkexOrderbook> okexOrderbooks = mapper.treeToValue(jsonNode.get("data"), mapper.getTypeFactory().constructCollectionType(List.class, OkexOrderbook.class));
                         OrderBook orderBook = OkexAdapters.adaptOrderBook(okexOrderbooks, instrument);

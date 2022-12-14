@@ -58,6 +58,24 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
     }
   }
 
+  public OkexResponse<List<OkexFundingRate>> getOkexFundingRate(String instrumentId)
+          throws OkexException, IOException {
+    try {
+      return decorateApiCall(
+              () ->
+                      okex.getFundingRate(
+                              instrumentId,
+                              (String)
+                                      exchange
+                                              .getExchangeSpecification()
+                                              .getExchangeSpecificParametersItem("simulated")))
+              .withRateLimiter(rateLimiter(Okex.instrumentsPath))
+              .call();
+    } catch (OkexException e) {
+      throw handleError(e);
+    }
+  }
+
   public OkexResponse<List<OkexCurrency>> getOkexCurrencies() throws OkexException, IOException {
     try {
       return decorateApiCall(

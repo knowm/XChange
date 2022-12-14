@@ -33,6 +33,7 @@ import org.knowm.xchange.okex.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.dto.trade.OkexOrderRequest;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -383,5 +384,14 @@ public class OkexAdapters {
       case "net": return (okexPosition.getPosition().compareTo(BigDecimal.ZERO) >= 0) ? OpenPosition.Type.LONG : OpenPosition.Type.SHORT;
       default: throw new UnsupportedOperationException();
     }
+  }
+
+  public static FundingRate adaptFundingRate(List<OkexFundingRate> okexFundingRate) {
+    return new FundingRate.Builder()
+            .instrument(adaptOkexInstrumentId(okexFundingRate.get(0).getInstId()))
+            .fundingRate8h(okexFundingRate.get(0).getFundingRate())
+            .fundingRate1h(okexFundingRate.get(0).getFundingRate().divide(BigDecimal.valueOf(8),okexFundingRate.get(0).getFundingRate().scale(), RoundingMode.HALF_EVEN))
+            .fundingRateDate(okexFundingRate.get(0).getFundingTime())
+            .build();
   }
 }

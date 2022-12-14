@@ -11,6 +11,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.dto.marketdata.FundingRate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
@@ -81,6 +82,13 @@ public class OkexPublicDataTest {
         ((OkexMarketDataService) exchange.getMarketDataService())
             .getHistoryCandle("BTC-USDT", null, null, null, null);
     Assert.assertTrue(Objects.nonNull(barHistDtos) && !barHistDtos.getData().isEmpty());
+  }
+
+  @Test
+  public void checkFundingRate() throws IOException {
+    FundingRate fundingRate = exchange.getMarketDataService().getFundingRate(instrument);
+    System.out.println(fundingRate);
+    assertThat(fundingRate.getFundingRateDate()).isNotNull();
   }
 
   @Test

@@ -2,10 +2,7 @@ package org.knowm.xchange.okex.service;
 
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.CandleStickData;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.OkexAdapters;
@@ -75,5 +72,10 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
             String.valueOf(defaultCandleStickParam.getStartDate().getTime()),
             periodType.getFieldValue(), limit);
     return OkexAdapters.adaptCandleStickData(historyCandle.getData(), currencyPair);
+  }
+
+  @Override
+  public FundingRate getFundingRate(Instrument instrument) throws IOException {
+    return OkexAdapters.adaptFundingRate(getOkexFundingRate(OkexAdapters.adaptInstrument(instrument)).getData());
   }
 }
