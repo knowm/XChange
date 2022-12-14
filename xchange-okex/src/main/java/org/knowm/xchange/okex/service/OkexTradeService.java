@@ -41,7 +41,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
   @Override
   public OpenPositions getOpenPositions() throws IOException {
-    return OkexAdapters.adaptOpenPositions(getPositions(null,null,null));
+    return OkexAdapters.adaptOpenPositions(getPositions(null,null,null),exchange.getExchangeMetaData());
   }
 
   @Override

@@ -363,7 +363,7 @@ public class OkexAdapters {
     return candleStickData;
   }
 
-  public static OpenPositions adaptOpenPositions(OkexResponse<List<OkexPosition>> positions) {
+  public static OpenPositions adaptOpenPositions(OkexResponse<List<OkexPosition>> positions, ExchangeMetaData exchangeMetaData) {
     List<OpenPosition> openPositions = new ArrayList<>();
 
     positions.getData().forEach(okexPosition -> openPositions.add(new OpenPosition.Builder()
@@ -371,6 +371,7 @@ public class OkexAdapters {
                     .liquidationPrice(okexPosition.getLiquidationPrice())
                     .price(okexPosition.getAverageOpenPrice())
                     .type(adaptOpenPositionType(okexPosition))
+                    .size(okexPosition.getPosition().abs().multiply(exchangeMetaData.getInstruments().get(adaptOkexInstrumentId(okexPosition.getInstrumentId())).getContractValue()))
                     .unRealisedPnl(okexPosition.getUnrealizedPnL())
             .build()));
     return new OpenPositions(openPositions);
