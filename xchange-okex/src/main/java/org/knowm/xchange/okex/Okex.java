@@ -19,6 +19,7 @@ import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.okex.dto.marketdata.OkexInstrument;
 import org.knowm.xchange.okex.dto.marketdata.OkexOrderbook;
+import org.knowm.xchange.okex.dto.marketdata.OkexTicker;
 import org.knowm.xchange.okex.dto.marketdata.OkexTrade;
 
 @Path("/api/v5")
@@ -69,5 +70,18 @@ public interface Okex {
       @QueryParam("bar") String bar,
       @QueryParam("limit") String limit,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+      throws IOException, OkexException;
+
+  @GET
+  @Path("/market/tickers")
+  OkexResponse<List<OkexTicker>> getTickers(
+      @QueryParam("instType") String instType,
+      @QueryParam("uly") String uly,
+      @QueryParam("instFamily") String instFamily)
+      throws IOException, OkexException;
+
+  @GET
+  @Path("/market/ticker")
+  OkexResponse<List<OkexTicker>> getTicker(@QueryParam("instId") String instrument)
       throws IOException, OkexException;
 }

@@ -3,23 +3,25 @@ package org.knowm.xchange.okex.service;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.okex.Okex;
 import org.knowm.xchange.okex.OkexAuthenticated;
 import org.knowm.xchange.okex.OkexExchange;
-import org.knowm.xchange.okex.dto.marketdata.OkexInstrument;
 import org.knowm.xchange.okex.dto.OkexException;
 import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.okex.dto.marketdata.OkexCurrency;
+import org.knowm.xchange.okex.dto.marketdata.OkexInstrument;
 import org.knowm.xchange.okex.dto.marketdata.OkexOrderbook;
+import org.knowm.xchange.okex.dto.marketdata.OkexTicker;
 import org.knowm.xchange.okex.dto.marketdata.OkexTrade;
 import org.knowm.xchange.utils.DateUtils;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexMarketDataServiceRaw extends OkexBaseService {
   public OkexMarketDataServiceRaw(
-          OkexExchange exchange, ResilienceRegistries resilienceRegistries) {
+      OkexExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
 
@@ -99,5 +101,15 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
         limit,
         (String)
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem("simulated"));
+  }
+
+  public OkexResponse<List<OkexTicker>> getTickers(String instType, String uly, String instFamily)
+      throws OkexException, IOException {
+    return okex.getTickers(instType, uly, instFamily);
+  }
+
+  public OkexResponse<List<OkexTicker>> getTicker(String instrument)
+      throws OkexException, IOException {
+    return okex.getTicker(instrument);
   }
 }
