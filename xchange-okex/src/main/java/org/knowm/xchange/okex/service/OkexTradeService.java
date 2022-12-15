@@ -6,9 +6,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.derivative.OptionsContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.FundsExceededException;
@@ -24,14 +27,16 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
+
+import javax.ws.rs.NotSupportedException;
+
+import static org.knowm.xchange.okex.OkexAdapters.*;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexTradeService extends OkexTradeServiceRaw implements TradeService {
@@ -41,76 +46,60 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
   @Override
   public OpenPositions getOpenPositions() throws IOException {
-    return OkexAdapters.adaptOpenPositions(getPositions(null,null,null));
+    return OkexAdapters.adaptOpenPositions(getPositions(null,null,null), exchange.getExchangeMetaData());
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     if (params instanceof TradeHistoryParamInstrument) {
+      Instrument instrument = ((TradeHistoryParamInstrument) params).getInstrument();
+
+      String instrumentType = SPOT;
+      if(instrument instanceof FuturesContract){
+        instrumentType = SWAP;
+      } else if(instrument instanceof OptionsContract){
+        instrumentType = OPTION;
+      }
+
       return OkexAdapters.adaptUserTrades(
-          getOrderHistory(
-                  "SPOT",
-                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
-                      ((TradeHistoryParamInstrument) params).getInstrument()),
-                  null,
-                  null,
-                  null,
-                  null)
-              .getData());
-    } else if (params instanceof TradeHistoryParamCurrencyPair) {
-      return OkexAdapters.adaptUserTrades(
-          getOrderHistory(
-                  "SPOT",
-                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
-                      ((TradeHistoryParamCurrencyPair) params).getCurrencyPair()),
-                  null,
-                  null,
-                  null,
-                  null)
-              .getData());
+              getOrderHistory(
+                      instrumentType,
+                      OkexAdapters.adaptInstrument(
+                              ((TradeHistoryParamInstrument) params).getInstrument()),
+                      null,
+                      null,
+                      null,
+                      null)
+                      .getData(), exchange.getExchangeMetaData());
     } else {
-      return OkexAdapters.adaptUserTrades(
-          getOrderHistory("SPOT", null, null, null, null, null).getData());
+      throw new NotSupportedException("TradeHistoryParams must implement "+TradeHistoryParamInstrument.class.getSimpleName());
     }
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
     return OkexAdapters.adaptOpenOrders(
-        getOkexPendingOrder(null, null, null, null, null, null, null, null).getData());
+        getOkexPendingOrder(null, null, null, null, null, null, null, null).getData(),
+            exchange.getExchangeMetaData());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    if (params instanceof OpenOrdersParamCurrencyPair) {
+    if (params instanceof OpenOrdersParamInstrument) {
       return OkexAdapters.adaptOpenOrders(
           getOkexPendingOrder(
                   null,
                   null,
-                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
-                      ((OpenOrdersParamCurrencyPair) params).getCurrencyPair()),
-                  null,
-                  null,
-                  null,
-                  null,
-                  null)
-              .getData());
-    } else if (params instanceof OpenOrdersParamInstrument) {
-      return OkexAdapters.adaptOpenOrders(
-          getOkexPendingOrder(
-                  null,
-                  null,
-                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
+                  OkexAdapters.adaptInstrument(
                       ((OpenOrdersParamInstrument) params).getInstrument()),
                   null,
                   null,
                   null,
                   null,
                   null)
-              .getData());
+              .getData(), exchange.getExchangeMetaData());
     } else {
-      return OkexAdapters.adaptOpenOrders(
-          getOkexPendingOrder(null, null, null, null, null, null, null, null).getData());
+      throw new NotSupportedException("OpenOrdersParam must implement "+OpenOrdersParamInstrument.class.getSimpleName());
     }
   }
 
@@ -126,10 +115,10 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
       String orderId = orderQueryParams.getOrderId();
 
       List<OkexOrderDetails> orderResults =
-          getOkexOrder(OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument), orderId).getData();
+          getOkexOrder(OkexAdapters.adaptInstrument(instrument), orderId).getData();
 
       if (!orderResults.isEmpty()) {
-        result = OkexAdapters.adaptOrder(orderResults.get(0));
+        result = OkexAdapters.adaptOrder(orderResults.get(0), exchange.getExchangeMetaData());
       }
     } else {
       throw new IOException("OrderQueryParams must implement OrderQueryParamInstrument interface.");
@@ -150,9 +139,21 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   }
 
   @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    OkexResponse<List<OkexOrderResponse>> okexResponse =
+            placeOkexOrder(OkexAdapters.adaptOrder(marketOrder, exchange.getExchangeMetaData()));
+
+    if (okexResponse.isSuccess()) return okexResponse.getData().get(0).getOrderId();
+    else
+      throw new OkexException(
+              okexResponse.getData().get(0).getMessage(),
+              Integer.parseInt(okexResponse.getData().get(0).getCode()));
+  }
+
+  @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
     OkexResponse<List<OkexOrderResponse>> okexResponse =
-        placeOkexOrder(OkexAdapters.adaptOrder(limitOrder));
+        placeOkexOrder(OkexAdapters.adaptOrder(limitOrder, exchange.getExchangeMetaData()));
 
     if (okexResponse.isSuccess()) return okexResponse.getData().get(0).getOrderId();
     else
@@ -164,7 +165,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   public List<String> placeLimitOrder(List<LimitOrder> limitOrders)
       throws IOException, FundsExceededException {
     return placeOkexOrder(
-            limitOrders.stream().map(OkexAdapters::adaptOrder).collect(Collectors.toList()))
+            limitOrders.stream().map(order-> OkexAdapters.adaptOrder(order, exchange.getExchangeMetaData())).collect(Collectors.toList()))
         .getData()
         .stream()
         .map(OkexOrderResponse::getOrderId)
@@ -173,13 +174,13 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
   @Override
   public String changeOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
-    return amendOkexOrder(OkexAdapters.adaptAmendOrder(limitOrder)).getData().get(0).getOrderId();
+    return amendOkexOrder(OkexAdapters.adaptAmendOrder(limitOrder, exchange.getExchangeMetaData())).getData().get(0).getOrderId();
   }
 
   public List<String> changeOrder(List<LimitOrder> limitOrders)
       throws IOException, FundsExceededException {
     return amendOkexOrder(
-            limitOrders.stream().map(OkexAdapters::adaptAmendOrder).collect(Collectors.toList()))
+            limitOrders.stream().map(order-> OkexAdapters.adaptAmendOrder(order, exchange.getExchangeMetaData())).collect(Collectors.toList()))
         .getData()
         .stream()
         .map(OkexOrderResponse::getOrderId)
@@ -192,7 +193,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
       String id = ((CancelOrderByIdParams) params).getOrderId();
       String instrumentId =
-          OkexAdapters.adaptInstrumentToOkexInstrumentId(((CancelOrderByInstrument) params).getInstrument());
+          OkexAdapters.adaptInstrument(((CancelOrderByInstrument) params).getInstrument());
 
       OkexCancelOrderRequest req =
           OkexCancelOrderRequest.builder().instrumentId(instrumentId).orderId(id).build();
@@ -217,7 +218,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
                         OkexCancelOrderRequest.builder()
                             .orderId(((CancelOrderByIdParams) param).getOrderId())
                             .instrumentId(
-                                OkexAdapters.adaptInstrumentToOkexInstrumentId(
+                                OkexAdapters.adaptInstrument(
                                     ((CancelOrderByInstrument) param).getInstrument()))
                             .build())
                 .collect(Collectors.toList()))

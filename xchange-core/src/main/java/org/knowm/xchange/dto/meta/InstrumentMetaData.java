@@ -50,6 +50,7 @@ public class InstrumentMetaData implements Serializable {
 
     /** Is market order type allowed on this pair. */
     private final boolean marketOrderEnabled;
+    private final BigDecimal contractValue;
 
     public InstrumentMetaData(
             @JsonProperty("trading_fee") BigDecimal tradingFee,
@@ -63,7 +64,8 @@ public class InstrumentMetaData implements Serializable {
             @JsonProperty("amount_step_size") BigDecimal amountStepSize,
             @JsonProperty("price_step_size") BigDecimal priceStepSize,
             @JsonProperty("trading_fee_currency") Currency tradingFeeCurrency,
-            @JsonProperty("market_order_enabled") boolean marketOrderEnabled) {
+            @JsonProperty("market_order_enabled") boolean marketOrderEnabled,
+            @JsonProperty("contract_value") BigDecimal contractValue) {
         this.tradingFee = tradingFee;
         if (feeTiers != null) {
             Arrays.sort(feeTiers);
@@ -79,6 +81,7 @@ public class InstrumentMetaData implements Serializable {
         this.priceStepSize = (priceStepSize != null) ? priceStepSize.stripTrailingZeros(): null;
         this.tradingFeeCurrency = tradingFeeCurrency;
         this.marketOrderEnabled = marketOrderEnabled;
+        this.contractValue = contractValue;
     }
 
 
@@ -96,6 +99,8 @@ public class InstrumentMetaData implements Serializable {
         private BigDecimal priceStepSize;
         private Currency tradingFeeCurrency;
         private boolean marketOrderEnabled;
+
+        private BigDecimal contractValue;
 
         public InstrumentMetaData.Builder tradingFee(BigDecimal tradingFee) {
             this.tradingFee = tradingFee;
@@ -157,6 +162,11 @@ public class InstrumentMetaData implements Serializable {
             return this;
         }
 
+        public InstrumentMetaData.Builder contractValue(BigDecimal contractValue) {
+            this.contractValue = contractValue;
+            return this;
+        }
+
         public InstrumentMetaData build() {
             return new InstrumentMetaData(
                     tradingFee,
@@ -170,7 +180,8 @@ public class InstrumentMetaData implements Serializable {
                     amountStepSize,
                     priceStepSize,
                     tradingFeeCurrency,
-                    marketOrderEnabled);
+                    marketOrderEnabled,
+                    contractValue);
         }
     }
 }

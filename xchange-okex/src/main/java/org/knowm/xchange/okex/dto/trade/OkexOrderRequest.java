@@ -3,8 +3,8 @@ package org.knowm.xchange.okex.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
-/** Author: Max Gao (gaamox@tutanota.com) Created: 09-06-2021 */
-/** https://www.okex.com/docs-v5/en/#rest-api-trade-place-order * */
+/* Author: Max Gao (gaamox@tutanota.com) Created: 09-06-2021 */
+/** <a href="https://www.okex.com/docs-v5/en/#rest-api-trade-place-order">...</a> * */
 @Builder
 public class OkexOrderRequest {
   @JsonProperty("instId")

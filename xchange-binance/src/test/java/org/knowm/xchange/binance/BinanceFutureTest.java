@@ -42,7 +42,7 @@ public class BinanceFutureTest {
     @Before
     public void setUp() throws IOException {
         Properties prop = new Properties();
-        prop.load(this.getClass().getResourceAsStream("/keys.properties"));
+        prop.load(this.getClass().getResourceAsStream("/secret.keys"));
 
         Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class);
 
