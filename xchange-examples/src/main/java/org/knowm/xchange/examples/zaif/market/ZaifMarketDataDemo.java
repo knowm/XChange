@@ -22,7 +22,7 @@ public class ZaifMarketDataDemo {
     exchange = ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
-    System.out.println(Arrays.toString(exchange.getExchangeSymbols().toArray()));
+    System.out.println(Arrays.toString(exchange.getExchangeInstruments().toArray()));
 
     generic(marketDataService);
     raw((ZaifMarketDataServiceRaw) marketDataService);

@@ -34,13 +34,14 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 
 public class DsxAdapters {
 
@@ -278,7 +279,7 @@ public class DsxAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(
       List<DsxSymbol> symbols,
       Map<Currency, CurrencyMetaData> currencies,
-      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs) {
+      Map<Instrument, InstrumentMetaData> currencyPairs) {
     if (symbols != null) {
       for (DsxSymbol symbol : symbols) {
         CurrencyPair pair = adaptSymbol(symbol);
@@ -291,16 +292,20 @@ public class DsxAdapters {
 
         FeeTier[] feeTiers = null;
         if (currencyPairs.containsKey(pair)) {
-          CurrencyPairMetaData existing = currencyPairs.get(pair);
+          InstrumentMetaData existing = currencyPairs.get(pair);
           minimumAmount = existing.getMinimumAmount();
           maximumAmount = existing.getMaximumAmount();
           feeTiers = existing.getFeeTiers();
         }
 
-        CurrencyPairMetaData meta =
-            new CurrencyPairMetaData(
-                tradingFee, minimumAmount, maximumAmount, priceScale, feeTiers);
-
+        InstrumentMetaData meta =
+            new InstrumentMetaData.Builder()
+                    .tradingFee(tradingFee)
+                    .minimumAmount(minimumAmount)
+                    .maximumAmount(maximumAmount)
+                    .priceScale(priceScale)
+                    .feeTiers(feeTiers)
+                    .build();
         currencyPairs.put(pair, meta);
       }
     }

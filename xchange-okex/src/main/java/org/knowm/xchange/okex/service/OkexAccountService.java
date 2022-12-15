@@ -6,6 +6,7 @@ import org.knowm.xchange.okex.OkexAdapters;
 import org.knowm.xchange.okex.OkexExchange;
 import org.knowm.xchange.okex.dto.OkexException;
 import org.knowm.xchange.okex.dto.OkexResponse;
+import org.knowm.xchange.okex.dto.account.OkexAccountPositionRisk;
 import org.knowm.xchange.okex.dto.account.OkexAssetBalance;
 import org.knowm.xchange.okex.dto.account.OkexWalletBalance;
 import org.knowm.xchange.okex.dto.account.OkexWithdrawalResponse;
@@ -28,9 +29,12 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
     // account.
     OkexResponse<List<OkexWalletBalance>> tradingBalances = getWalletBalances(null);
     OkexResponse<List<OkexAssetBalance>> assetBalances = getAssetBalances(null);
+    OkexResponse<List<OkexAccountPositionRisk>> positionRis = getAccountPositionRisk();
     return new AccountInfo(
         OkexAdapters.adaptOkexBalances(tradingBalances.getData()),
-        OkexAdapters.adaptOkexAssetBalances(assetBalances.getData()));
+        OkexAdapters.adaptOkexAssetBalances(assetBalances.getData()),
+        OkexAdapters.adaptOkexAccountPositionRisk(positionRis.getData())
+    );
   }
 
   @Override

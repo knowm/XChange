@@ -71,7 +71,7 @@ public class LgoAdaptersTest {
         .isEqualToComparingFieldByField(new CurrencyMetaData(8, null));
     assertThat(metaData.getCurrencies().get(Currency.USD))
         .isEqualToComparingFieldByField(new CurrencyMetaData(4, null));
-    assertThat(metaData.getCurrencyPairs()).hasSize(1).containsKeys(CurrencyPair.BTC_USD);
+    assertThat(metaData.getInstruments()).hasSize(1).containsKeys(CurrencyPair.BTC_USD);
   }
 
   @Test

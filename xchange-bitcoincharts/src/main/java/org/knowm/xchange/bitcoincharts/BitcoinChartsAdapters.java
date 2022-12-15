@@ -8,8 +8,9 @@ import org.knowm.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 
 /** Various adapters for converting from BitcoinCharts DTOs to XChange DTOs */
 public final class BitcoinChartsAdapters {
@@ -26,32 +27,33 @@ public final class BitcoinChartsAdapters {
   public static Ticker adaptTicker(
       BitcoinChartsTicker[] bitcoinChartsTickers, CurrencyPair currencyPair) {
 
-    for (int i = 0; i < bitcoinChartsTickers.length; i++) {
-      if (bitcoinChartsTickers[i].getSymbol().equals(currencyPair.counter.getCurrencyCode())) {
+    for (BitcoinChartsTicker bitcoinChartsTicker : bitcoinChartsTickers) {
+      if (bitcoinChartsTicker.getSymbol().equals(currencyPair.counter.getCurrencyCode())) {
 
         BigDecimal last =
-            bitcoinChartsTickers[i].getClose() != null ? bitcoinChartsTickers[i].getClose() : null;
+                bitcoinChartsTicker.getClose() != null ? bitcoinChartsTicker.getClose() : null;
         BigDecimal bid =
-            bitcoinChartsTickers[i].getBid() != null ? bitcoinChartsTickers[i].getBid() : null;
+                bitcoinChartsTicker.getBid() != null ? bitcoinChartsTicker.getBid() : null;
         BigDecimal ask =
-            bitcoinChartsTickers[i].getAsk() != null ? bitcoinChartsTickers[i].getAsk() : null;
+                bitcoinChartsTicker.getAsk() != null ? bitcoinChartsTicker.getAsk() : null;
         BigDecimal high =
-            bitcoinChartsTickers[i].getHigh() != null ? bitcoinChartsTickers[i].getHigh() : null;
+                bitcoinChartsTicker.getHigh() != null ? bitcoinChartsTicker.getHigh() : null;
         BigDecimal low =
-            bitcoinChartsTickers[i].getLow() != null ? bitcoinChartsTickers[i].getLow() : null;
-        BigDecimal volume = bitcoinChartsTickers[i].getVolume();
-        Date timeStamp = new Date(bitcoinChartsTickers[i].getLatestTrade() * 1000L);
+                bitcoinChartsTicker.getLow() != null ? bitcoinChartsTicker.getLow() : null;
+        BigDecimal volume = bitcoinChartsTicker.getVolume();
+        Date timeStamp = new Date(bitcoinChartsTicker.getLatestTrade() * 1000L);
 
         return new Ticker.Builder()
-            .currencyPair(currencyPair)
-            .last(last)
-            .bid(bid)
-            .ask(ask)
-            .high(high)
-            .low(low)
-            .volume(volume)
-            .timestamp(timeStamp)
-            .build();
+                .currencyPair(currencyPair)
+                .instrument(currencyPair)
+                .last(last)
+                .bid(bid)
+                .ask(ask)
+                .high(high)
+                .low(low)
+                .volume(volume)
+                .timestamp(timeStamp)
+                .build();
       }
     }
     return null;
@@ -60,7 +62,7 @@ public final class BitcoinChartsAdapters {
   public static ExchangeMetaData adaptMetaData(
       ExchangeMetaData exchangeMetaData, BitcoinChartsTicker[] tickers) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> pairs = new HashMap<>();
 
     for (BitcoinChartsTicker ticker : tickers) {
       BigDecimal anyPrice =
@@ -73,7 +75,7 @@ public final class BitcoinChartsAdapters {
       int scale = anyPrice != null ? anyPrice.scale() : 0;
       pairs.put(
           new CurrencyPair(Currency.BTC, Currency.getInstance(ticker.getSymbol())),
-          new CurrencyPairMetaData(null, null, null, scale, null));
+          new InstrumentMetaData.Builder().priceScale(scale).build());
     }
 
     return new ExchangeMetaData(

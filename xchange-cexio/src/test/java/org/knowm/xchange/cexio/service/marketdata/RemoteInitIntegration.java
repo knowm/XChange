@@ -17,7 +17,7 @@ public class RemoteInitIntegration {
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CexIOExchange.class);
 
     assertThat(exchange).isNotNull();
-    assertThat(exchange.getExchangeMetaData().getCurrencyPairs()).isNotEmpty();
+    assertThat(exchange.getExchangeMetaData().getInstruments()).isNotEmpty();
 
     final CexIOCurrencyLimits currencyLimits =
         ((CexIOMarketDataService) exchange.getMarketDataService()).getCurrencyLimits();

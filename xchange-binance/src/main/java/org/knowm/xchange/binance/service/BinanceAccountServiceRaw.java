@@ -8,18 +8,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.binance.BinanceAdapters;
-import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.account.AssetDetail;
-import org.knowm.xchange.binance.dto.account.AssetDividendResponse;
-import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
-import org.knowm.xchange.binance.dto.account.BinanceDeposit;
-import org.knowm.xchange.binance.dto.account.BinanceWithdraw;
-import org.knowm.xchange.binance.dto.account.DepositAddress;
-import org.knowm.xchange.binance.dto.account.TransferHistory;
-import org.knowm.xchange.binance.dto.account.TransferSubUserHistory;
-import org.knowm.xchange.binance.dto.account.WithdrawResponse;
+import org.knowm.xchange.binance.dto.account.*;
+import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 
@@ -27,9 +19,8 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
 
   public BinanceAccountServiceRaw(
       BinanceExchange exchange,
-      BinanceAuthenticated binance,
       ResilienceRegistries resilienceRegistries) {
-    super(exchange, binance, resilienceRegistries);
+    super(exchange, resilienceRegistries);
   }
 
   public BinanceAccountInformation account() throws BinanceException, IOException {
@@ -38,6 +29,14 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         .withRetry(retry("account"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
         .call();
+  }
+
+  public BinanceFutureAccountInformation futuresAccount() throws BinanceException, IOException {
+    return decorateApiCall(
+            () -> binanceFutures.futuresAccount(getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
+            .withRetry(retry("futures-account"))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
+            .call();
   }
 
   public WithdrawResponse withdraw(String coin, String address, BigDecimal amount)

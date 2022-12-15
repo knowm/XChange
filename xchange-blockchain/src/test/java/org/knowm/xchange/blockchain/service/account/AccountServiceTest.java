@@ -7,13 +7,13 @@ import org.knowm.xchange.blockchain.BlockchainExchange;
 import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 import org.knowm.xchange.blockchain.service.BlockchainBaseTest;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -100,7 +100,7 @@ public class AccountServiceTest extends BlockchainBaseTest {
 
     @Test(timeout = 2000)
     public void getDynamicTradingFeesSuccess() throws Exception {
-        Map<CurrencyPair, Fee> response = tradingFees();
+        Map<Instrument, Fee> response = tradingFees();
         Assert.assertNotNull(response);
     }
 
@@ -154,11 +154,11 @@ public class AccountServiceTest extends BlockchainBaseTest {
         return service.getFundingHistory(params);
     }
 
-    private Map<CurrencyPair, Fee> tradingFees() throws IOException {
+    private Map<Instrument, Fee> tradingFees() throws IOException {
         stubGet(FEES_JSON, 200, URL_FEES);
         stubGet(SYMBOL_JSON, 200, URL_SYMBOLS);
 
-        return service.getDynamicTradingFees();
+        return service.getDynamicTradingFeesByInstrument();
     }
 
 }

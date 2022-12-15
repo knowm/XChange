@@ -6,17 +6,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.slf4j.Logger;
@@ -29,9 +28,8 @@ public class BinanceUsAccountService extends BinanceAccountService {
 
   public BinanceUsAccountService(
       BinanceExchange exchange,
-      BinanceAuthenticated binance,
       ResilienceRegistries resilienceRegistries) {
-    super(exchange, binance, resilienceRegistries);
+    super(exchange, resilienceRegistries);
   }
 
   @Override
@@ -40,8 +38,8 @@ public class BinanceUsAccountService extends BinanceAccountService {
   }
 
   @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
-    return super.getDynamicTradingFees();
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
+    return super.getDynamicTradingFeesByInstrument();
   }
 
   @Override
@@ -67,13 +65,12 @@ public class BinanceUsAccountService extends BinanceAccountService {
   }
 
   @Override
-  public AddressWithTag requestDepositAddressData(Currency currency, String... args)
-      throws IOException {
+  public AddressWithTag requestDepositAddressData(Currency currency, String... args) {
     return new AddressWithTag(NOT_SUPPORTED, NOT_SUPPORTED);
   }
 
   @Override
-  public Map<String, AssetDetail> getAssetDetails() throws IOException {
+  public Map<String, AssetDetail> getAssetDetails() {
     LOG.warn("getAssetDetails: {}", NOT_SUPPORTED);
     return new HashMap<>();
   }
@@ -84,13 +81,13 @@ public class BinanceUsAccountService extends BinanceAccountService {
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) {
     LOG.warn("getFundingHistory: {}", NOT_SUPPORTED);
     return new ArrayList<>();
   }
 
   @Override
-  public BinanceSystemStatus getSystemStatus() throws IOException {
+  public BinanceSystemStatus getSystemStatus() {
     LOG.warn("getSystemStatus: {}", NOT_SUPPORTED);
     return new BinanceSystemStatus();
   }

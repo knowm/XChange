@@ -5,6 +5,12 @@
       "min_amount": 0.0001,
       "max_amount": 100,
       "trading_fee_currency": "USD"
+    },
+    "BTC/USD/USDT": {
+      "price_scale": 2,
+      "min_amount": 0.0001,
+      "max_amount": 1,
+      "trading_fee_currency": "USD"
     }
   }
 }

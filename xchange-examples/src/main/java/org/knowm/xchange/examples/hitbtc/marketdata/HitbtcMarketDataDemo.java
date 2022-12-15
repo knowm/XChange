@@ -21,7 +21,7 @@ public class HitbtcMarketDataDemo {
 
     hitbtcExchange.remoteInit();
     System.out.println(
-        "Market metadata: " + hitbtcExchange.getExchangeMetaData().getCurrencyPairs().toString());
+        "Market metadata: " + hitbtcExchange.getExchangeMetaData().getInstruments().toString());
 
     MarketDataService marketDataService = hitbtcExchange.getMarketDataService();
 

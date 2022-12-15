@@ -15,12 +15,12 @@ import org.knowm.xchange.binance.dto.account.BinanceDeposit;
 import org.knowm.xchange.binance.dto.account.TransferHistory;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.utils.StreamUtils;
 
@@ -49,12 +49,12 @@ public class AccountServiceIntegration extends BinanceExchangeIntegration {
   }
 
   @Test
-  public void testMetaData() throws Exception {
+  public void testMetaData() {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        exchange.getExchangeMetaData().getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> currencyPairs =
+        exchange.getExchangeMetaData().getInstruments();
     Map<Currency, CurrencyMetaData> currencies = exchange.getExchangeMetaData().getCurrencies();
-    CurrencyPair currPair;
+    Instrument currPair;
     Currency curr;
 
     currPair =
@@ -65,7 +65,7 @@ public class AccountServiceIntegration extends BinanceExchangeIntegration {
 
     curr =
         currencies.keySet().stream()
-            .filter(c -> Currency.BTC.equals(c))
+            .filter(Currency.BTC::equals)
             .collect(StreamUtils.singletonCollector());
     Assert.assertNotNull(curr);
 
@@ -104,9 +104,7 @@ public class AccountServiceIntegration extends BinanceExchangeIntegration {
     Assert.assertNotNull(fundingHistory);
 
     fundingHistory.forEach(
-        record -> {
-          Assert.assertTrue(record.getAmount().compareTo(BigDecimal.ZERO) > 0);
-        });
+        record -> Assert.assertTrue(record.getAmount().compareTo(BigDecimal.ZERO) > 0));
   }
 
   @Test

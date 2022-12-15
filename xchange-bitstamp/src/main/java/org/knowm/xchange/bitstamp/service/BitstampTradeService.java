@@ -184,7 +184,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
           BitstampAdapters.adaptOrder(
               params.getOrderId(),
               super.getBitstampOrder(Long.parseLong(params.getOrderId())),
-              exchange.getExchangeSymbols()));
+              exchange.getExchangeInstruments()));
     }
 
     return orders;

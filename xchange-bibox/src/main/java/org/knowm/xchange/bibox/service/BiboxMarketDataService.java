@@ -13,6 +13,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -55,10 +56,10 @@ public class BiboxMarketDataService extends BiboxMarketDataServiceRaw implements
   }
 
   public List<OrderBook> getAllOrderBooks(Integer depth) {
-    return getOrderBooks(depth, exchange.getExchangeSymbols());
+    return getOrderBooks(depth, exchange.getExchangeInstruments());
   }
 
-  public List<OrderBook> getOrderBooks(Integer depth, Collection<CurrencyPair> currencyPairs) {
+  public List<OrderBook> getOrderBooks(Integer depth, Collection<Instrument> currencyPairs) {
 
     if (depth == null) {
       depth = 200;

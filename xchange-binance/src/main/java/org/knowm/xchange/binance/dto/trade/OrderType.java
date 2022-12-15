@@ -6,9 +6,12 @@ public enum OrderType {
   LIMIT,
   MARKET,
   TAKE_PROFIT_LIMIT,
+  STOP_MARKET,
   STOP_LOSS_LIMIT,
   STOP_LOSS,
+  STOP,
   TAKE_PROFIT,
+  TAKE_PROFIT_MARKET,
   LIMIT_MAKER;
 
   @JsonCreator

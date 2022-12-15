@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.okex.dto.enums;
+package org.knowm.xchange.okex.dto;
 
 public enum OkexInstType {
 

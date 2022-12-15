@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/** Author: Ali Gokalp Peker (aligokalppeker@yahoo.com) Created: 23-10-2021 */
+/* Author: Ali Gokalp Peker (aligokalppeker@yahoo.com) Created: 23-10-2021 */
 
-/** https://www.okex.com/docs-v5/en/#rest-api-funding-get-balance * */
+/** <a href="https://www.okex.com/docs-v5/en/#rest-api-funding-get-balance">...</a> * */
 @Getter
 @NoArgsConstructor
 public class OkexAssetBalance {

@@ -36,7 +36,7 @@ public class BybitExchangeTest extends BaseWiremockTest {
     specification.setShouldLoadRemoteMetaData(true);
     bybitExchange.applySpecification(specification);
 
-    assertThat(bybitExchange.getExchangeMetaData().getCurrencyPairs()).hasSize(2);
+    assertThat(bybitExchange.getExchangeMetaData().getInstruments()).hasSize(2);
 
   }
 }

@@ -2,9 +2,7 @@ package org.knowm.xchange.okex.service;
 
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.CandleStickData;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.OkexAdapters;
@@ -22,10 +20,6 @@ import java.util.List;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexMarketDataService extends OkexMarketDataServiceRaw implements MarketDataService {
-  public static final String SPOT = "SPOT";
-  public static final String SWAP = "SWAP";
-  public static final String FUTURES = "FUTURES";
-  public static final String OPTION = "OPTION";
 
   public OkexMarketDataService(OkexExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
@@ -34,24 +28,18 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
     return OkexAdapters.adaptOrderBook(
-        getOkexOrderbook(OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument)), instrument);
-  }
-
-  @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    return this.getOrderBook((Instrument) currencyPair, args);
+        getOkexOrderbook(OkexAdapters.adaptInstrument(instrument)), instrument);
   }
 
   @Override
   public Trades getTrades(Instrument instrument, Object... args) throws IOException {
     return OkexAdapters.adaptTrades(
-        getOkexTrades(OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument), 100).getData(), instrument);
+        getOkexTrades(OkexAdapters.adaptInstrument(instrument), 100).getData(), instrument);
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return OkexAdapters.adaptTrades(
-        getOkexTrades(OkexAdapters.adaptInstrumentToOkexInstrumentId(currencyPair), 100).getData(), currencyPair);
+  public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
+    return OkexAdapters.adaptTicker(getOkexTicker(OkexAdapters.adaptInstrument(instrument)).getData().get(0));
   }
 
 
@@ -76,10 +64,15 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
     }
 
     OkexResponse<List<OkexCandleStick>> historyCandle = getHistoryCandle(
-            OkexAdapters.adaptInstrumentToOkexInstrumentId(currencyPair),
+            OkexAdapters.adaptInstrument(currencyPair),
             String.valueOf(defaultCandleStickParam.getEndDate().getTime()),
             String.valueOf(defaultCandleStickParam.getStartDate().getTime()),
             periodType.getFieldValue(), limit);
     return OkexAdapters.adaptCandleStickData(historyCandle.getData(), currencyPair);
+  }
+
+  @Override
+  public FundingRate getFundingRate(Instrument instrument) throws IOException {
+    return OkexAdapters.adaptFundingRate(getOkexFundingRate(OkexAdapters.adaptInstrument(instrument)).getData());
   }
 }

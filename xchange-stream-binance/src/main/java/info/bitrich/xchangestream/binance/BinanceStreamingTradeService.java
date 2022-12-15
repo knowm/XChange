@@ -13,10 +13,12 @@ import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BinanceStreamingTradeService implements StreamingTradeService {
 
@@ -39,26 +41,36 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
     return executionReportsPublisher;
   }
 
-  public Observable<Order> getOrderChanges() {
+  public Observable<Order> getOrderChanges(boolean isFuture) {
     return getRawExecutionReports()
         .filter(r -> !r.getExecutionType().equals(ExecutionType.REJECTED))
-        .map(ExecutionReportBinanceUserTransaction::toOrder);
+        .map(binanceExec-> binanceExec.toOrder(isFuture));
   }
 
   @Override
   public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
-    return getOrderChanges().filter(oc -> currencyPair.equals(oc.getCurrencyPair()));
-  }
-
-  public Observable<UserTrade> getUserTrades() {
-    return getRawExecutionReports()
-        .filter(r -> r.getExecutionType().equals(ExecutionType.TRADE))
-        .map(ExecutionReportBinanceUserTransaction::toUserTrade);
+    return getOrderChanges(false).filter(oc -> currencyPair.equals(oc.getInstrument()));
   }
 
   @Override
   public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
-    return getUserTrades().filter(t -> t.getCurrencyPair().equals(currencyPair));
+    return getUserTrades(false).filter(t -> t.getInstrument().equals(currencyPair));
+  }
+
+  @Override
+  public Observable<Order> getOrderChanges(Instrument instrument, Object... args) {
+    return getOrderChanges(instrument instanceof FuturesContract).filter(oc -> instrument.equals(oc.getInstrument()));
+  }
+
+  @Override
+  public Observable<UserTrade> getUserTrades(Instrument instrument, Object... args) {
+    return getUserTrades(instrument instanceof FuturesContract).filter(t -> t.getInstrument().equals(instrument));
+  }
+
+  public Observable<UserTrade> getUserTrades(boolean isFuture) {
+    return getRawExecutionReports()
+        .filter(r -> r.getExecutionType().equals(ExecutionType.TRADE))
+        .map(binanceExec-> binanceExec.toUserTrade(isFuture));
   }
 
   /** Registers subsriptions with the streaming service for the given products. */

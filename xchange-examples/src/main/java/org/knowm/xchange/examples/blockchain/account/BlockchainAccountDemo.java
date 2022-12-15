@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Fee;
@@ -79,7 +78,7 @@ public class BlockchainAccountDemo {
         System.out.println(OBJECT_MAPPER.writeValueAsString(fundingWithdrawalRecords));
 
         System.out.println("===== getDynamicTradingFees =====");
-        Map<CurrencyPair, Fee> tradingFees = accountService.getDynamicTradingFees();
+        Map<Instrument, Fee> tradingFees = accountService.getDynamicTradingFeesByInstrument();
         System.out.println(OBJECT_MAPPER.writeValueAsString(tradingFees));
 
         System.out.println("===== getDynamicTradingFeesByInstrument =====");
