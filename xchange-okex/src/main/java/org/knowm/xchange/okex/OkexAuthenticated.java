@@ -36,6 +36,7 @@ public interface OkexAuthenticated extends Okex {
   String changeMarginPath = "/account/position/margin-balance"; // Stated as 20 req/2 sec
   String currenciesPath = "/asset/currencies"; // Stated as 6 req/sec
   String assetBalancesPath = "/asset/balances"; // Stated as 6 req/sec
+  String assetWithdrawalPath = "/asset/withdrawal"; // Stated as 6 req/sec
   String positionsPath = "/account/positions"; // Stated as 10 req/2 sec
   String accountPositionAtRiskPath = "/account/account-position-risk"; // Stated as 10 req/2 sec
   String setLeveragePath = "/account/set-leverage"; // Stated as 20 req/2 sec
@@ -195,6 +196,18 @@ public interface OkexAuthenticated extends Okex {
       @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
       @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+      throws OkexException, IOException;
+
+  @POST
+  @Path(assetWithdrawalPath)
+  @Consumes(MediaType.APPLICATION_JSON)
+  OkexResponse<List<OkexWithdrawalResponse>> assetWithdrawal(
+      @HeaderParam("OK-ACCESS-KEY") String apiKey,
+      @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+      @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
+      OkexWithdrawalRequest requestPayload)
       throws OkexException, IOException;
 
   @GET
