@@ -30,6 +30,8 @@ import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinmate.CoinmateAuthenticated;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
+import org.knowm.xchange.coinmate.dto.account.CoinmateTradingFeesResponse;
+import org.knowm.xchange.coinmate.dto.account.CoinmateTradingFeesResponseData;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistory;
@@ -66,6 +68,20 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
     throwExceptionIfError(coinmateBalance);
 
     return coinmateBalance;
+  }
+
+  public CoinmateTradingFeesResponseData getCoinmateTraderFees(String currencyPair) throws IOException {
+    CoinmateTradingFeesResponse response =
+        coinmateAuthenticated.traderFees(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            currencyPair);
+
+    throwExceptionIfError(response);
+
+    return response.getData();
   }
 
   public CoinmateTradeResponse coinmateBitcoinWithdrawal(BigDecimal amount, String address)
