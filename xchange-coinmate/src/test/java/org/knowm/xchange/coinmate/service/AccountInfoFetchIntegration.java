@@ -7,7 +7,12 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.ExchangeUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Fee;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Integration tests for Wallet retrieval. For these tests to function, a file
@@ -55,4 +60,17 @@ public class AccountInfoFetchIntegration {
    * exchange.getAccountService(); assertNotNull(service); // donate to Apache Foundation String txid = service.withdrawFunds("BTC", new
    * BigDecimal("0.01"), "XXX"); assertNotNull(txid); System.out.println("Withdrawal txid: " + txid); }
    */
+
+  @Test
+  public void dynamicFeesTest() throws IOException {
+    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
+    if (exchange == null) {
+      return; // forces pass if not configuration is available
+    }
+    assertNotNull(exchange);
+    AccountService service = exchange.getAccountService();
+    assertNotNull(service);
+    Map<Instrument, Fee> fees = service.getDynamicTradingFeesByInstrument();
+    System.out.println(fees);
+  }
 }
