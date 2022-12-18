@@ -16,14 +16,13 @@ import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 /** @author timmolter */
 public class KrakenUtils {
 
-  private static Map<String, CurrencyPair> assetPairMap = new HashMap<String, CurrencyPair>();
-  private static Map<CurrencyPair, String> assetPairMapReverse =
-      new HashMap<CurrencyPair, String>();
-  private static Map<String, Currency> assetsMap = new HashMap<String, Currency>();
-  private static Map<Currency, String> assetsMapReverse = new HashMap<Currency, String>();
+  private static final Map<String, CurrencyPair> assetPairMap = new HashMap<>();
+  private static final Map<CurrencyPair, String> assetPairMapReverse = new HashMap<>();
+  private static final Map<String, Currency> assetsMap = new HashMap<>();
+  private static final Map<Currency, String> assetsMapReverse = new HashMap<>();
 
-  /** https://support.kraken.com/hc/en-us/articles/360001185506-How-to-interpret-asset-codes */
-  private static Map<String, String> discontinuedCurrencies;
+  /** <a href="https://support.kraken.com/hc/en-us/articles/360001185506-How-to-interpret-asset-codes">...</a> */
+  private static final Map<String, String> discontinuedCurrencies;
 
   static {
     discontinuedCurrencies = new HashMap<>();
@@ -71,7 +70,7 @@ public class KrakenUtils {
     CurrencyPair pair = assetPairMap.get(currencyPairIn);
     if (pair == null) {
       // kraken can give short pairs back from open orders ?
-      if (currencyPairIn.length() >= 6 && currencyPairIn.length() <= 8) {
+      if (currencyPairIn.length() >= 5) {
         int firstCurrencyLength = currencyPairIn.length() - 3;
         Currency base = Currency.getInstance(currencyPairIn.substring(0, firstCurrencyLength));
         if (base.getCommonlyUsedCurrency() != null) {
@@ -79,12 +78,15 @@ public class KrakenUtils {
         }
         Currency counter =
             Currency.getInstance(
-                currencyPairIn.substring(firstCurrencyLength, currencyPairIn.length()));
+                currencyPairIn.substring(firstCurrencyLength));
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
         pair = new CurrencyPair(base, counter);
       }
+//      else if(currencyPairIn.length() == 5){
+//
+//      }
     }
     return pair;
   }
