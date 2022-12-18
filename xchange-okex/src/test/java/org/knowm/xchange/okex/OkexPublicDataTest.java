@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -76,8 +78,8 @@ public class OkexPublicDataTest {
   }
 
   @Test
+  @Ignore
   public void testCandleHist() throws IOException {
-    ((OkexMarketDataService) exchange.getMarketDataService()).getOkexOrderbook("BTC-USDT");
     OkexResponse<List<OkexCandleStick>> barHistDtos =
         ((OkexMarketDataService) exchange.getMarketDataService())
             .getHistoryCandle("BTC-USDT", null, null, null, null);
