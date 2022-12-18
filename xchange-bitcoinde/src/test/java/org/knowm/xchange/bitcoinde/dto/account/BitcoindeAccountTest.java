@@ -2,13 +2,15 @@ package org.knowm.xchange.bitcoinde.dto.account;
 
 import static org.junit.Assert.assertEquals;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+
 import org.junit.Test;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /** @author kaiserfr */
 public class BitcoindeAccountTest {
@@ -26,7 +28,7 @@ public class BitcoindeAccountTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcoindeAccountWrapper bitcoindeTradesWrapper =
         mapper.readValue(is, BitcoindeAccountWrapper.class);
-    System.out.println("bitcoindeTradesWrapper = " + bitcoindeTradesWrapper);
+//    System.out.println("bitcoindeTradesWrapper = " + bitcoindeTradesWrapper);
 
     // Make sure trade values are correct
 
@@ -38,9 +40,9 @@ public class BitcoindeAccountTest {
     BigDecimal reservedAmount =
         bitcoindeTradesWrapper.getData().getFidorReservation().getAvailableAmount();
 
-    System.out.println(btcBalance);
-    System.out.println(ethBalance);
-    System.out.println(reservedAmount);
+//    System.out.println(btcBalance);
+//    System.out.println(ethBalance);
+//    System.out.println(reservedAmount);
 
     assertEquals(btcBalance, new BigDecimal("0.009"));
     assertEquals(ethBalance, new BigDecimal("0.06463044"));

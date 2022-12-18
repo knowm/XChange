@@ -2,10 +2,10 @@ package org.knowm.xchange.bitcoinium;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+
 import org.junit.Test;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumDepthJSONTest;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
@@ -15,6 +15,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /** Tests the BitcoiniumAdapter class */
 public class BitcoiniumAdapterTest {
@@ -53,7 +55,7 @@ public class BitcoiniumAdapterTest {
     BitcoiniumTicker BitcoiniumTicker = mapper.readValue(is, BitcoiniumTicker.class);
 
     Ticker ticker = BitcoiniumAdapters.adaptTicker(BitcoiniumTicker, CurrencyPair.BTC_USD);
-    System.out.println(ticker.toString());
+//    System.out.println(ticker.toString());
 
     assertThat(ticker.getLast()).isEqualTo(new BigDecimal("516.8"));
     assertThat(ticker.getLow().toString()).isEqualTo("508.28");

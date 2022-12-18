@@ -1,10 +1,9 @@
 package info.bitrich.xchangestream.binance;
 
-import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
-import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import io.reactivex.disposables.Disposable;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -12,9 +11,11 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
-import java.util.concurrent.TimeUnit;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
+import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingExchangeFactory;
+import io.reactivex.disposables.Disposable;
 
 @Ignore
 public class BinanceFuturesPublicStreamsTest {
@@ -69,7 +70,7 @@ public class BinanceFuturesPublicStreamsTest {
         Disposable dis = exchange.getStreamingMarketDataService().getFundingRate(instrument)
                 .subscribe(fundingRate -> {
                     assertThat(fundingRate.getInstrument()).isEqualTo(instrument);
-                    System.out.println(fundingRate);
+//                    System.out.println(fundingRate);
                 });
 
         TimeUnit.SECONDS.sleep(3);

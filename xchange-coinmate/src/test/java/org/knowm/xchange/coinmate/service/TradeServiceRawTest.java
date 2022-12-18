@@ -29,9 +29,9 @@ public class TradeServiceRawTest {
             0, 1000, "DESC", 1612134000000L, 1614783942000L, null);
     assertNotNull(transactionHistory);
     assertNotNull(transactionHistory.getData());
-    System.out.println("Got " + transactionHistory.getData().size() + " transactions.");
+//    System.out.println("Got " + transactionHistory.getData().size() + " transactions.");
     for (CoinmateTransactionHistoryEntry transaction : transactionHistory.getData()) {
-      System.out.println(transaction.getAmount() + " " + transaction.getAmountCurrency());
+//      System.out.println(transaction.getAmount() + " " + transaction.getAmountCurrency());
     }
   }
 
@@ -48,9 +48,9 @@ public class TradeServiceRawTest {
         service.getCoinmateTransactionHistory(0, 1000, "DESC", null, null, null);
     assertNotNull(transactionHistory);
     assertNotNull(transactionHistory.getData());
-    System.out.println("Got " + transactionHistory.getData().size() + " transactions.");
+//    System.out.println("Got " + transactionHistory.getData().size() + " transactions.");
     for (CoinmateTransactionHistoryEntry transaction : transactionHistory.getData()) {
-      System.out.println(transaction.getAmount() + " " + transaction.getAmountCurrency());
+//      System.out.println(transaction.getAmount() + " " + transaction.getAmountCurrency());
     }
   }
 
@@ -67,9 +67,9 @@ public class TradeServiceRawTest {
         service.getCoinmateOrderHistory(CoinmateUtils.getPair(CurrencyPair.BTC_CZK), null);
     assertNotNull(orderHistory);
     assertNotNull(orderHistory.getData());
-    System.out.println("Got " + orderHistory.getData().size() + " orders.");
+//    System.out.println("Got " + orderHistory.getData().size() + " orders.");
     for (CoinmateOrderHistoryEntry transaction : orderHistory.getData()) {
-      System.out.println(transaction);
+//      System.out.println(transaction);
     }
   }
 }
