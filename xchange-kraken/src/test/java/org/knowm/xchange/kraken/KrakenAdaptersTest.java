@@ -370,13 +370,13 @@ public class KrakenAdaptersTest {
 
   @Test
   public void testAdaptFeeTiers1() {
-    List<KrakenFee> krakenMakerFees = new ArrayList<KrakenFee>();
-    List<KrakenFee> krakenTakerFees = new ArrayList<KrakenFee>();
+    List<KrakenFee> krakenMakerFees = new ArrayList<>();
+    List<KrakenFee> krakenTakerFees = new ArrayList<>();
 
     krakenMakerFees.add(new KrakenFee(BigDecimal.TEN, BigDecimal.ONE));
     krakenTakerFees.add(new KrakenFee(BigDecimal.TEN, new BigDecimal(2)));
-    krakenMakerFees.add(new KrakenFee(new BigDecimal(45), new BigDecimal(0.5)));
-    krakenTakerFees.add(new KrakenFee(new BigDecimal(30), new BigDecimal(0.75)));
+    krakenMakerFees.add(new KrakenFee(new BigDecimal(45), new BigDecimal("0.5")));
+    krakenTakerFees.add(new KrakenFee(new BigDecimal(30), new BigDecimal("0.75")));
 
     FeeTier[] adaptedFeeTiers = KrakenAdapters.adaptFeeTiers(krakenMakerFees, krakenTakerFees);
     assertThat(adaptedFeeTiers.length).isEqualTo(3);
