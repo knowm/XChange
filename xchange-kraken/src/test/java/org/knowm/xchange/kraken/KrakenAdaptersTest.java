@@ -360,14 +360,12 @@ public class KrakenAdaptersTest {
             "/org/knowm/xchange/kraken/dto/account/example-tradevolume-data-2.json");
 
     // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    KrakenTradeVolumeResult krakenTradeVolumeResult =
-        mapper.readValue(is, KrakenTradeVolumeResult.class);
+    KrakenTradeVolumeResult krakenTradeVolumeResult = new ObjectMapper().readValue(is, KrakenTradeVolumeResult.class);
     KrakenTradeVolume krakenTradeVolume = krakenTradeVolumeResult.getResult();
 
     Map<Instrument, Fee> feeMap = KrakenAdapters.adaptFees(krakenTradeVolume);
 
-    assertThat(feeMap.size()).isEqualTo(279);
+    assertThat(feeMap.size()).isEqualTo(krakenTradeVolume.getFees().size());
   }
 
   @Test

@@ -70,7 +70,7 @@ public class KrakenUtils {
     CurrencyPair pair = assetPairMap.get(currencyPairIn);
     if (pair == null) {
       // kraken can give short pairs back from open orders ?
-      if (currencyPairIn.length() >= 5) {
+      if (currencyPairIn.length() >= 5 && !currencyPairIn.contains(".")) {
         int firstCurrencyLength = currencyPairIn.length() - 3;
         Currency base = Currency.getInstance(currencyPairIn.substring(0, firstCurrencyLength));
         if (base.getCommonlyUsedCurrency() != null) {
