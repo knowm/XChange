@@ -100,25 +100,23 @@ public class KrakenAdapters {
     krakenOpenPositionMap
         .values()
         .forEach(
-            krakenOpenPosition -> {
-              openPositionsList.add(
-                  new OpenPosition.Builder()
-                      .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
-                      .type(
-                          krakenOpenPosition.getType() == KrakenType.BUY
-                              ? OpenPosition.Type.LONG
-                              : OpenPosition.Type.SHORT)
-                      .size(krakenOpenPosition.getCost())
-                      .price(
-                          krakenOpenPosition
-                              .getCost()
-                              .divide(
-                                  krakenOpenPosition
-                                      .getVolume()
-                                      .subtract(krakenOpenPosition.getVolumeClosed()),
-                                  RoundingMode.HALF_EVEN))
-                      .build());
-            });
+            krakenOpenPosition -> openPositionsList.add(
+                new OpenPosition.Builder()
+                    .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
+                    .type(
+                        krakenOpenPosition.getType() == KrakenType.BUY
+                            ? OpenPosition.Type.LONG
+                            : OpenPosition.Type.SHORT)
+                    .size(krakenOpenPosition.getCost())
+                    .price(
+                        krakenOpenPosition
+                            .getCost()
+                            .divide(
+                                krakenOpenPosition
+                                    .getVolume()
+                                    .subtract(krakenOpenPosition.getVolumeClosed()),
+                                RoundingMode.HALF_EVEN))
+                    .build()));
 
     return new OpenPositions(openPositionsList);
   }
@@ -199,6 +197,7 @@ public class KrakenAdapters {
     builder.low(krakenTicker.get24HourLow());
     builder.vwap(krakenTicker.get24HourVolumeAvg());
     builder.volume(krakenTicker.get24HourVolume());
+    builder.instrument(currencyPair);
     builder.currencyPair(currencyPair);
     return builder.build();
   }

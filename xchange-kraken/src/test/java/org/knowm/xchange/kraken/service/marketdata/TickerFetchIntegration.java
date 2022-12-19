@@ -10,6 +10,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
+import java.util.List;
+
 public class TickerFetchIntegration {
 
   @Test
@@ -19,6 +21,12 @@ public class TickerFetchIntegration {
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
     System.out.println(ticker.toString());
+    List<Ticker> tickersList = marketDataService.getTickers(null);
+    tickersList.forEach(System.out::println);
     assertThat(ticker).isNotNull();
+    tickersList.forEach(ticker1 -> {
+      assertThat(ticker1.getInstrument()).isNotNull();
+      assertThat(ticker1.getCurrencyPair()).isNotNull();
+    });
   }
 }
