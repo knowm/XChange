@@ -1,5 +1,30 @@
 package org.knowm.xchange.blockchain.service.trade;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.END_TIME;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.HTTP_CODE_400;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.MARKET_ORDER_ID;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.NEW_ORDER_LIMIT_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.NEW_ORDER_MARKET_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.NEW_ORDER_STOP_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.ORDERS_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.ORDER_ID;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.ORDER_NOT_FOUND_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.STATUS_CODE_404;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.STOP_ORDER_ID;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.URL_ORDERS;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.URL_ORDERS_BY_ID;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.URL_ORDERS_BY_ID_1;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.URL_ORDERS_BY_ID_2;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.URL_TRADES;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,22 +33,18 @@ import org.knowm.xchange.blockchain.params.BlockchainTradeHistoryParams;
 import org.knowm.xchange.blockchain.service.BlockchainBaseTest;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+
 import si.mazi.rescu.HttpStatusIOException;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.*;
 
 public class TradeServiceTest extends BlockchainBaseTest {
     private TradeService service;
@@ -34,7 +55,7 @@ public class TradeServiceTest extends BlockchainBaseTest {
         service = exchange.getTradeService();
     }
 
-    @Test(timeout = 2000)
+    @Test(timeout = 5000)
     public void getOpenOrdersSuccess() throws Exception {
         stubGet(ORDERS_JSON, 200, URL_ORDERS);
         OpenOrders response = service.getOpenOrders();

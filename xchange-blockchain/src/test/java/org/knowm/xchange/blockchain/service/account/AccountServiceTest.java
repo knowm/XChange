@@ -1,5 +1,35 @@
 package org.knowm.xchange.blockchain.service.account;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.ACCOUNT_INFORMATION_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.ADDRESS;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.ADDRESS_DEPOSIT;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.BENEFICIARY;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.DEPOSIT_FAILURE_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.DEPOSIT_HISTORY_SUCCESS_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.DEPOSIT_SUCCESS_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.FEES_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.NOT_IMPLEMENTED_YET;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.STATUS_CODE_400;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.STATUS_CODE_401;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.SYMBOL_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.URL_ACCOUNT;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.URL_DEPOSITS;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.URL_DEPOSIT_BY_CURRENCY;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.URL_FEES;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.URL_SYMBOLS;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.URL_WITHDRAWALS;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.WITHDRAWAL_FAILURE_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.WITHDRAWAL_HISTORY_SUCCESS_JSON;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.WITHDRAWAL_ID;
+import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.WITHDRAWAL_SUCCESS_JSON;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,15 +49,6 @@ import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.*;
-
 public class AccountServiceTest extends BlockchainBaseTest {
     private AccountService service;
 
@@ -40,7 +61,7 @@ public class AccountServiceTest extends BlockchainBaseTest {
     @Test(timeout = 2000)
     public void getAccountInfoSuccess() throws Exception {
         AccountInfo response = getAccountInfo();
-        System.out.println(response);
+//        System.out.println(response);
         Assert.assertNotNull(response);
     }
 
