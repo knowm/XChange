@@ -421,7 +421,9 @@ public class OkexAdapters {
                             .total(accountPositionRiskData.get(0).getAdjustEquity())
                     .build()))
             .id(FUTURES_WALLET_ID)
-            .currentLeverage(totalPositionValueInUsd.divide(accountPositionRiskData.get(0).getAdjustEquity(),3,RoundingMode.HALF_EVEN))
+            .currentLeverage((totalPositionValueInUsd.compareTo(BigDecimal.ZERO) != 0)
+                    ? totalPositionValueInUsd.divide(accountPositionRiskData.get(0).getAdjustEquity(),3,RoundingMode.HALF_EVEN)
+                    : BigDecimal.ZERO)
             .features(new HashSet<>(Collections.singletonList(Wallet.WalletFeature.FUTURES_TRADING)))
             .build();
   }
