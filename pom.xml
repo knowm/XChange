@@ -139,7 +139,6 @@
     <module>xchange-dydx</module>
     <module>xchange-exmo</module>
     <module>xchange-examples</module>
-    <module>xchange-fcoin</module>
     <module>xchange-ftx</module>
     <module>xchange-gateio</module>
     <module>xchange-globitex</module>
