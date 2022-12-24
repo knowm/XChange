@@ -114,7 +114,6 @@
     <module>xchange-blockchain</module>
     <module>xchange-btcc</module>
     <module>xchange-btcmarkets</module>
-    <module>xchange-btctrade</module>
     <module>xchange-btcturk</module>
     <module>xchange-bybit</module>
     <module>xchange-ccex</module>
