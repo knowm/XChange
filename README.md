@@ -148,12 +148,12 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-core</artifactId>
-  <version>5.0.13</version>
+  <version>5.1.0</version>
 </dependency>
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-XYZ</artifactId>
-  <version>5.0.13</version>
+  <version>5.1.0</version>
 </dependency>
 ```
 
@@ -163,7 +163,7 @@ If it is available for your exchange, you may also want to use the streaming API
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-stream-XYZ</artifactId>
-  <version>5.0.13</version>
+  <version>5.1.0</version>
 </dependency>
 ```
 
@@ -179,7 +179,7 @@ For snapshots, add the following repository to your pom.xml file.
 
 The current snapshot version is:
 
-    5.1.0-SNAPSHOT
+    5.1.1-SNAPSHOT
 
 ## Building with Maven
 
