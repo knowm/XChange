@@ -118,7 +118,6 @@
     <module>xchange-bybit</module>
     <module>xchange-ccex</module>
     <module>xchange-cexio</module>
-    <module>xchange-cobinhood</module>
     <module>xchange-coinbase</module>
     <module>xchange-coinbasepro</module>
     <module>xchange-coincheck</module>

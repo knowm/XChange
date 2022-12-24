@@ -1,6 +1,0 @@
-Cobinhood Exchange API specification
-================================
-
-Documentation
--------------
-https://cobinhood.github.io/api-public/
