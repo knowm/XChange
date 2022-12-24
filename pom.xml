@@ -138,7 +138,6 @@
     <module>xchange-dvchain</module>
     <module>xchange-dydx</module>
     <module>xchange-exmo</module>
-    <module>xchange-exx</module>
     <module>xchange-examples</module>
     <module>xchange-fcoin</module>
     <module>xchange-ftx</module>
