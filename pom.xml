@@ -134,7 +134,6 @@
     <module>xchange-core</module>
     <module>xchange-cryptofacilities</module>
     <module>xchange-cryptopia</module>
-    <module>xchange-coinsuper</module>
     <module>xchange-cryptowatch</module>
     <module>xchange-deribit</module>
     <module>xchange-dragonex</module>
