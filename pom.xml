@@ -98,7 +98,6 @@
     <module>xchange-bitcoincharts</module>
     <module>xchange-bitcoincore</module>
     <module>xchange-bitcoinde</module>
-    <module>xchange-bitcoinium</module>
     <module>xchange-bitcointoyou</module>
     <module>xchange-bitfinex</module>
     <module>xchange-bitflyer</module>
