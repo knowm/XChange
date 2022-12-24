@@ -135,7 +135,6 @@
     <module>xchange-cryptofacilities</module>
     <module>xchange-cryptowatch</module>
     <module>xchange-deribit</module>
-    <module>xchange-dsx</module>
     <module>xchange-dvchain</module>
     <module>xchange-dydx</module>
     <module>xchange-exmo</module>
