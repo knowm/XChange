@@ -9,7 +9,7 @@
 
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-parent</artifactId>
-  <version>5.0.15-SNAPSHOT</version>
+  <version>5.1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>XChange</name>
@@ -98,7 +98,6 @@
     <module>xchange-bitcoincharts</module>
     <module>xchange-bitcoincore</module>
     <module>xchange-bitcoinde</module>
-    <module>xchange-bitcoinium</module>
     <module>xchange-bitcointoyou</module>
     <module>xchange-bitfinex</module>
     <module>xchange-bitflyer</module>
@@ -115,18 +114,15 @@
     <module>xchange-blockchain</module>
     <module>xchange-btcc</module>
     <module>xchange-btcmarkets</module>
-    <module>xchange-btctrade</module>
     <module>xchange-btcturk</module>
     <module>xchange-bybit</module>
     <module>xchange-ccex</module>
     <module>xchange-cexio</module>
-    <module>xchange-cobinhood</module>
     <module>xchange-coinbase</module>
     <module>xchange-coinbasepro</module>
     <module>xchange-coincheck</module>
     <module>xchange-coindeal</module>
     <module>xchange-coindirect</module>
-    <module>xchange-coinbene</module>
     <module>xchange-coinjar</module>
     <module>xchange-coinegg</module>
     <module>xchange-coinex</module>
@@ -141,14 +137,10 @@
     <module>xchange-coinsuper</module>
     <module>xchange-cryptowatch</module>
     <module>xchange-deribit</module>
-    <module>xchange-dragonex</module>
-    <module>xchange-dsx</module>
     <module>xchange-dvchain</module>
     <module>xchange-dydx</module>
     <module>xchange-exmo</module>
-    <module>xchange-exx</module>
     <module>xchange-examples</module>
-    <module>xchange-fcoin</module>
     <module>xchange-ftx</module>
     <module>xchange-gateio</module>
     <module>xchange-globitex</module>
@@ -163,7 +155,6 @@
     <module>xchange-kraken</module>
     <module>xchange-kucoin</module>
     <module>xchange-kuna</module>
-    <module>xchange-lakebtc</module>
     <module>xchange-lgo</module>
     <module>xchange-latoken</module>
     <module>xchange-livecoin</module>
@@ -220,7 +211,6 @@
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
     <module>xchange-stream-coincheck</module>
-      <module>xchange-krakenfutures</module>
   </modules>
 
   <ciManagement>

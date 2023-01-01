@@ -101,7 +101,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     } else if (Currency.LTC.equals(currency)) {
       depositAddresses = getDepositAddresses(currency.toString(), "Litecoin", false);
     } else if (Currency.ETH.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Ether (Hex)", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Ethereum (ERC20)", false);
     } else if (Currency.ZEC.equals(currency)) {
       depositAddresses = getDepositAddresses(currency.toString(), "Zcash (Transparent)", false);
     } else if (Currency.ADA.equals(currency)) {
