@@ -13,7 +13,7 @@ public class KrakenPublicTrade {
   private final KrakenType type;
   private final KrakenOrderType orderType;
   private final String miscellaneous;
-  privbate final String tradeId;
+  private final String tradeId;
 
   public KrakenPublicTrade(
       @JsonProperty("price") BigDecimal price,
