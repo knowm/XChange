@@ -51,10 +51,11 @@ public class KrakenFuturesTradeServiceRaw extends KrakenFuturesBaseService {
                 null
         );
 
-    if (ord.isSuccess()) {
+    if (ord.isSuccess() && ord.getOrderStatus().getStatus().equals("placed")) {
       return ord;
     } else {
-      throw new ExchangeException("Error sending CF limit order: " + ord.getError());
+      String errorMessage = (ord.getError() == null) ? ord.getOrderStatus().getStatus() : ord.getError();
+      throw new ExchangeException("Error sending CF limit order: " + errorMessage);
     }
   }
 
@@ -76,10 +77,11 @@ public class KrakenFuturesTradeServiceRaw extends KrakenFuturesBaseService {
                     null
             );
 
-    if (ord.isSuccess()) {
+    if (ord.isSuccess() && ord.getOrderStatus().getStatus().equals("placed")) {
       return ord;
     } else {
-      throw new ExchangeException("Error sending CF limit order: " + ord.getError());
+      String errorMessage = (ord.getError() == null) ? ord.getOrderStatus().getStatus() : ord.getError();
+      throw new ExchangeException("Error sending CF limit order: " + errorMessage);
     }
   }
 
@@ -101,10 +103,11 @@ public class KrakenFuturesTradeServiceRaw extends KrakenFuturesBaseService {
                     "mark"
             );
 
-    if (ord.isSuccess()) {
+    if (ord.isSuccess() && ord.getOrderStatus().getStatus().equals("placed")) {
       return ord;
     } else {
-      throw new ExchangeException("Error sending CF limit order: " + ord.getError());
+      String errorMessage = (ord.getError() == null) ? ord.getOrderStatus().getStatus() : ord.getError();
+      throw new ExchangeException("Error sending CF limit order: " + errorMessage);
     }
   }
 
