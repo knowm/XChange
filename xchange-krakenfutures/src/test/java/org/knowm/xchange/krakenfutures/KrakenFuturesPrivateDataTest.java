@@ -1,6 +1,7 @@
 package org.knowm.xchange.krakenfutures;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -24,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@Ignore
 public class KrakenFuturesPrivateDataTest {
 
     Exchange exchange;

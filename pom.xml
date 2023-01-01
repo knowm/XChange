@@ -133,8 +133,6 @@
     <module>xchange-coinmate</module>
     <module>xchange-core</module>
     <module>xchange-krakenfutures</module>
-    <module>xchange-cryptopia</module>
-    <module>xchange-coinsuper</module>
     <module>xchange-cryptowatch</module>
     <module>xchange-deribit</module>
     <module>xchange-dvchain</module>
