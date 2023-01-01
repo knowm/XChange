@@ -269,17 +269,20 @@ public class KrakenFuturesAdapters {
   public static OrderStatus adaptOrderStatus(KrakenFuturesOrderStatus krakenFuturesOrderStatus){
     OrderStatus orderStatus = OrderStatus.UNKNOWN;
 
-    switch (krakenFuturesOrderStatus){
-      case REJECTED:
-      case TRIGGER_ACTIVATION_FAILURE:
-        orderStatus = OrderStatus.REJECTED;
-      case CANCELLED: orderStatus = OrderStatus.CANCELED;
-      case ENTERED_BOOK: orderStatus = OrderStatus.NEW;
-      case FULLY_EXECUTED: orderStatus = OrderStatus.FILLED;
-      case TRIGGER_PLACED: orderStatus = OrderStatus.OPEN;
-      case untouched: orderStatus = OrderStatus.OPEN;
-      case partiallyFilled: orderStatus = OrderStatus.PARTIALLY_FILLED;
-      default: break;
+    if(krakenFuturesOrderStatus.equals(KrakenFuturesOrderStatus.REJECTED)
+      || krakenFuturesOrderStatus.equals(KrakenFuturesOrderStatus.TRIGGER_ACTIVATION_FAILURE)){
+      orderStatus = OrderStatus.REJECTED;
+    } else if(krakenFuturesOrderStatus.equals(KrakenFuturesOrderStatus.CANCELLED)){
+      orderStatus = OrderStatus.CANCELED;
+    } else if(krakenFuturesOrderStatus.equals(KrakenFuturesOrderStatus.ENTERED_BOOK)){
+      orderStatus = OrderStatus.NEW;
+    } else if(krakenFuturesOrderStatus.equals(KrakenFuturesOrderStatus.FULLY_EXECUTED)){
+      orderStatus = OrderStatus.FILLED;
+    } else if(krakenFuturesOrderStatus.equals(KrakenFuturesOrderStatus.TRIGGER_PLACED)
+      || krakenFuturesOrderStatus.equals(KrakenFuturesOrderStatus.untouched)){
+      orderStatus = OrderStatus.OPEN;
+    } else if(krakenFuturesOrderStatus.equals(KrakenFuturesOrderStatus.partiallyFilled)){
+      orderStatus = OrderStatus.PARTIALLY_FILLED;
     }
 
     return orderStatus;
