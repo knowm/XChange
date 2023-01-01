@@ -259,7 +259,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-cryptofacilities</artifactId>
+			<artifactId>xchange-krakenfutures</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
