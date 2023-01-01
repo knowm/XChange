@@ -44,32 +44,23 @@ public class KrakenFuturesDigest extends BaseParamsDigest {
       sha256 = MessageDigest.getInstance("SHA-256");
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(
-          "Illegal algorithm (SHA-256) for post body digest. Check the implementation.");
+              "Illegal algorithm (SHA-256) for post body digest. Check the implementation.");
     }
     try {
-      String decodedQuery =
-          URLDecoder.decode(
+      String message = URLDecoder.decode(
               restInvocation.getParamsMap().get(QueryParam.class).asQueryString(),
-              StandardCharsets.UTF_8.name());
-      sha256.update(decodedQuery.getBytes());
+              StandardCharsets.UTF_8.name())
+              + restInvocation.getParamValue(HeaderParam.class, "Nonce").toString()
+              + restInvocation.getPath();
+      sha256.update(message.getBytes());
+
+      Mac mac512 = getMac();
+      mac512.update(sha256.digest());
+      return Base64.getEncoder().encodeToString(mac512.doFinal()).trim();
+
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(
-          "Bad encoding found on request query while hashing (SHA256) the POST data.", e);
+              "Bad encoding found on request query while hashing (SHA256) the POST data.", e);
     }
-    try {
-      sha256.update(
-          URLDecoder.decode(restInvocation.getRequestBody(), StandardCharsets.UTF_8.name())
-              .getBytes());
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(
-          "Bad encoding found on request body while hashing (SHA256) the POST data.", e);
-    }
-
-    sha256.update(restInvocation.getParamValue(HeaderParam.class, "Nonce").toString().getBytes());
-    sha256.update(restInvocation.getPath().getBytes());
-
-    Mac mac512 = getMac();
-    mac512.update(sha256.digest());
-    return Base64.getEncoder().encodeToString(mac512.doFinal()).trim();
   }
 }
