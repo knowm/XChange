@@ -12,7 +12,10 @@ public class KrakenFuturesEditOrderResponse extends KrakenFuturesResult {
 
     private final KrakenFuturesEditStatus editStatus;
 
-    public KrakenFuturesEditOrderResponse(String result, String error, KrakenFuturesEditStatus editStatus) {
+    public KrakenFuturesEditOrderResponse(
+            @JsonProperty("result") String result,
+            @JsonProperty("error") String error,
+            @JsonProperty("editStatus") KrakenFuturesEditStatus editStatus) {
         super(result, error);
         this.editStatus = editStatus;
     }

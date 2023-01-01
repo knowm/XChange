@@ -4,7 +4,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.krakenfutures.KrakenFuturesAuthenticated;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesOpenPositions;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOpenPositions;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
@@ -20,7 +20,7 @@ public class KrakenFuturesBaseService extends BaseExchangeService implements Bas
   /**
    * Constructor
    *
-   * @param exchange
+   * @param exchange of KrakenFutures
    */
   public KrakenFuturesBaseService(Exchange exchange) {
 

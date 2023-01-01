@@ -15,5 +15,6 @@ public enum KrakenFuturesOrderType {
   mkt,
   take_profit,
   ioc,
+  stop,
   stp
 }

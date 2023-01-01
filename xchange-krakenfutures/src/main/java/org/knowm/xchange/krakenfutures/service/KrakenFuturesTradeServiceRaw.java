@@ -8,11 +8,11 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.krakenfutures.KrakenFuturesAdapters;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesCancel;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesCancelAllOrdersAfter;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesFills;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesOpenOrders;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesOrder;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesCancel;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesCancelAllOrdersAfter;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesFills;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOpenOrders;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesOrder;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -26,7 +26,7 @@ public class KrakenFuturesTradeServiceRaw extends KrakenFuturesBaseService {
   /**
    * Constructor
    *
-   * @param exchange
+   * @param exchange of KrakenFutures
    */
   public KrakenFuturesTradeServiceRaw(Exchange exchange) {
 

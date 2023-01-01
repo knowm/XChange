@@ -3,11 +3,11 @@ package org.knowm.xchange.krakenfutures.service;
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.krakenfutures.KrakenFuturesAdapters;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesInstruments;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesOrderBook;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesPublicFills;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesTicker;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesTickers;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesInstruments;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesOrderBook;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesPublicFills;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesTicker;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesTickers;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -17,7 +17,7 @@ public class KrakenFuturesMarketDataServiceRaw extends KrakenFuturesBaseService 
   /**
    * Constructor
    *
-   * @param exchange
+   * @param exchange of KrakenFutures
    */
   public KrakenFuturesMarketDataServiceRaw(Exchange exchange) {
 

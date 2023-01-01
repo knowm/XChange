@@ -2,7 +2,6 @@ package org.knowm.xchange.krakenfutures.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
-import org.knowm.xchange.krakenfutures.Util;
 
 public class BatchStatus {
   /** Always send */
@@ -19,12 +18,12 @@ public class BatchStatus {
   public final String cliOrdId;
 
   public BatchStatus(
-      @JsonProperty("receivedTime") String receivedTimeStr,
+      @JsonProperty("receivedTime") Date receivedTime,
       @JsonProperty("status") OrderStatus status,
       @JsonProperty("order_id") String orderId,
       @JsonProperty("order_tag") String orderTag,
       @JsonProperty("cliOrdId") String cliOrdId) {
-    this.receivedTime = Util.parseDate(receivedTimeStr);
+    this.receivedTime = receivedTime;
     this.status = status;
     this.orderId = orderId;
     this.orderTag = orderTag;

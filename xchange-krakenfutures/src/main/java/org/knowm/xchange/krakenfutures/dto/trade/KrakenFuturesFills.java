@@ -8,20 +8,23 @@ import lombok.Getter;
 import lombok.ToString;
 import org.knowm.xchange.krakenfutures.dto.KrakenFuturesResult;
 
+/** @author Panchen */
 @Getter
 @ToString
-public class BatchOrderResult extends KrakenFuturesResult {
+public class KrakenFuturesFills extends KrakenFuturesResult {
 
   private final Date serverTime;
-  private final List<BatchStatus> batchStatus;
+  private final List<KrakenFuturesFill> fills;
 
-  public BatchOrderResult(
+  public KrakenFuturesFills(
       @JsonProperty("result") String result,
       @JsonProperty("serverTime") Date serverTime,
       @JsonProperty("error") String error,
-      @JsonProperty("batchStatus") List<BatchStatus> batchStatus) {
+      @JsonProperty("fills") List<KrakenFuturesFill> fills) {
+
     super(result, error);
+
     this.serverTime = serverTime;
-    this.batchStatus = batchStatus;
+    this.fills = fills;
   }
 }

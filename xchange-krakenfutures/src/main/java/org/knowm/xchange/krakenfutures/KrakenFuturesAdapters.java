@@ -16,7 +16,7 @@ import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.krakenfutures.dto.account.KrakenFuturesAccountInfo;
 import org.knowm.xchange.krakenfutures.dto.account.KrakenFuturesAccounts;
-import org.knowm.xchange.krakenfutures.dto.marketdata.*;
+import org.knowm.xchange.krakenfutures.dto.marketData.*;
 import org.knowm.xchange.krakenfutures.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -109,7 +109,7 @@ public class KrakenFuturesAdapters {
             .id(ord.getOrderId())
             .timestamp(ord.getReceivedTime())
             .limitPrice(ord.getLimitPrice())
-            .intention((ord.getOrderType().equals(KrakenFuturesOrderType.stp)) ? StopOrder.Intention.STOP_LOSS : StopOrder.Intention.TAKE_PROFIT)
+            .intention((ord.getOrderType().equals(KrakenFuturesOrderType.take_profit)) ? StopOrder.Intention.TAKE_PROFIT : StopOrder.Intention.STOP_LOSS)
             .orderStatus(adaptOrderStatus(ord.getStatus()))
             .remainingAmount(ord.getUnfilledSize())
             .stopPrice(ord.getStopPrice())
@@ -127,7 +127,7 @@ public class KrakenFuturesAdapters {
         // ignore anything but a plain limit order for now
         if (ord.getOrderType().equals(KrakenFuturesOrderType.lmt)) {
           limitOrders.add(adaptLimitOrder(ord));
-        } else if(ord.getOrderType().equals(KrakenFuturesOrderType.stp)
+        } else if(ord.getOrderType().equals(KrakenFuturesOrderType.stop)
                 || ord.getOrderType().equals(KrakenFuturesOrderType.take_profit)){
           triggerOrders.add(adaptStopOrder(ord));
         }

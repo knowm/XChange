@@ -2,26 +2,29 @@ package org.knowm.xchange.krakenfutures.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
-import java.util.List;
-
 import lombok.Getter;
-import lombok.ToString;
 import org.knowm.xchange.krakenfutures.dto.KrakenFuturesResult;
 
 @Getter
-@ToString
-public class BatchOrderResult extends KrakenFuturesResult {
+public class KrakenFuturesCancelAllOrdersAfter extends KrakenFuturesResult {
 
   private final Date serverTime;
-  private final List<BatchStatus> batchStatus;
+  private final Status status;
 
-  public BatchOrderResult(
+  public KrakenFuturesCancelAllOrdersAfter(
       @JsonProperty("result") String result,
       @JsonProperty("serverTime") Date serverTime,
-      @JsonProperty("error") String error,
-      @JsonProperty("batchStatus") List<BatchStatus> batchStatus) {
+      @JsonProperty("status") Status status,
+      @JsonProperty("error") String error) {
+
     super(result, error);
     this.serverTime = serverTime;
-    this.batchStatus = batchStatus;
+    this.status = status;
+  }
+
+  @Getter
+  public static class Status {
+    private Date currentTime;
+    private Date triggerTime;
   }
 }

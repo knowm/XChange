@@ -1,15 +1,16 @@
 package org.knowm.xchange.krakenfutures;
 
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesInstruments;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesOrderBook;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesPublicFills;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesTickers;
+
 import java.io.IOException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesInstruments;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesOrderBook;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesPublicFills;
-import org.knowm.xchange.krakenfutures.dto.marketdata.KrakenFuturesTickers;
 
 /** @author Jean-Christophe Laruelle */
 @Path("/api/v3")
