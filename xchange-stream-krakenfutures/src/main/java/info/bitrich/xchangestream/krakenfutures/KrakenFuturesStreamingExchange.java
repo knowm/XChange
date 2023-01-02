@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.krakenfutures;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -17,14 +18,16 @@ public class KrakenFuturesStreamingExchange extends KrakenFuturesExchange implem
     private final String DEMO_API_URI = "wss://demo-futures.kraken.com/ws/v1";
 
     private KrakenFuturesStreamingService streamingService;
-
     private KrakenFuturesStreamingMarketDataService streamingMarketDataService;
+    private KrakenFuturesStreamingTradeService streamingTradeService;
+
     @Override
     protected void initServices() {
         super.initServices();
         this.streamingService = new KrakenFuturesStreamingService((Boolean.TRUE.equals(
-                exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) ? DEMO_API_URI : API_URI);
+                exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) ? DEMO_API_URI : API_URI, exchangeSpecification);
         this.streamingMarketDataService = new KrakenFuturesStreamingMarketDataService(streamingService);
+        this.streamingTradeService = new KrakenFuturesStreamingTradeService(streamingService);
     }
 
     @Override
@@ -45,6 +48,10 @@ public class KrakenFuturesStreamingExchange extends KrakenFuturesExchange implem
     @Override
     public StreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
+    }
+    @Override
+    public StreamingTradeService getStreamingTradeService() {
+        return streamingTradeService;
     }
 
     @Override

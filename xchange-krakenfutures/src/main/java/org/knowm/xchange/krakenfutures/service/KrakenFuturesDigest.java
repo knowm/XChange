@@ -36,9 +36,7 @@ public class KrakenFuturesDigest extends BaseParamsDigest {
     }
   }
 
-  @Override
-  public String digestParams(RestInvocation restInvocation) {
-
+  public String signMessage(String message){
     MessageDigest sha256;
     try {
       sha256 = MessageDigest.getInstance("SHA-256");
@@ -46,21 +44,28 @@ public class KrakenFuturesDigest extends BaseParamsDigest {
       throw new RuntimeException(
               "Illegal algorithm (SHA-256) for post body digest. Check the implementation.");
     }
-    try {
+
+    sha256.update(message.getBytes());
+    Mac mac512 = getMac();
+    mac512.update(sha256.digest());
+    return Base64.getEncoder().encodeToString(mac512.doFinal()).trim();
+  }
+  @Override
+  public String digestParams(RestInvocation restInvocation) {
+
+    try{
       String message = URLDecoder.decode(
               restInvocation.getParamsMap().get(QueryParam.class).asQueryString(),
               StandardCharsets.UTF_8.name())
               + restInvocation.getParamValue(HeaderParam.class, "Nonce").toString()
               + restInvocation.getPath();
-      sha256.update(message.getBytes());
 
-      Mac mac512 = getMac();
-      mac512.update(sha256.digest());
-      return Base64.getEncoder().encodeToString(mac512.doFinal()).trim();
-
+      return signMessage(message);
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(
               "Bad encoding found on request query while hashing (SHA256) the POST data.", e);
     }
+
+
   }
 }

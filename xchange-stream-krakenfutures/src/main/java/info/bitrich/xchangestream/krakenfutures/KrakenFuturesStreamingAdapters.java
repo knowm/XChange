@@ -1,15 +1,14 @@
 package info.bitrich.xchangestream.krakenfutures;
 
-import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingOrderBookDeltaResponse;
-import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingOrderBookSnapshotResponse;
-import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingTickerResponse;
-import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingTradeResponse;
+import info.bitrich.xchangestream.krakenfutures.dto.*;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.FundingRate;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.krakenfutures.KrakenFuturesAdapters;
 
 import java.math.BigDecimal;
@@ -67,5 +66,24 @@ public class KrakenFuturesStreamingAdapters {
                         .id(trade.getUid())
                         .originalAmount(trade.getQty())
                 .build();
+    }
+
+    public static List<UserTrade> adaptUserTrades(KrakenFuturesStreamingFillsDeltaResponse fills) {
+        List<UserTrade> userTrades = new ArrayList<>();
+
+        fills.getFills().forEach(krakenFuturesStreamingFill -> userTrades.add(new UserTrade.Builder()
+                        .price(krakenFuturesStreamingFill.getPrice())
+                        .originalAmount(krakenFuturesStreamingFill.getQty())
+                        .id(krakenFuturesStreamingFill.getFill_id())
+                        .orderId(krakenFuturesStreamingFill.getOrder_id())
+                        .orderUserReference(krakenFuturesStreamingFill.getCli_ord_id())
+                        .feeCurrency(new Currency(krakenFuturesStreamingFill.getFee_currency()))
+                        .feeAmount(krakenFuturesStreamingFill.getFee_paid())
+                        .type((krakenFuturesStreamingFill.isBuy()) ? Order.OrderType.BID : Order.OrderType.ASK)
+                        .instrument(KrakenFuturesAdapters.adaptInstrument(krakenFuturesStreamingFill.getInstrument().toLowerCase()))
+                        .timestamp(krakenFuturesStreamingFill.getTime())
+                .build()));
+
+        return userTrades;
     }
 }
