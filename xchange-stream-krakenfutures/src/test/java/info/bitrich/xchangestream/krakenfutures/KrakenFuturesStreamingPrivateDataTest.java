@@ -67,6 +67,14 @@ public class KrakenFuturesStreamingPrivateDataTest {
                     assertThat(fill).isNotNull();
                     assertThat(fill.getInstrument()).isEqualTo(instrument);
                 });
+
+        Disposable dis2 = exchange.getStreamingTradeService().getUserTrades(new FuturesContract("ETH/USD/PERP"))
+                .retry()
+                .subscribe(fill -> {
+                    LOG.info(fill.toString());
+                    assertThat(fill).isNotNull();
+                    assertThat(fill.getInstrument()).isEqualTo(new FuturesContract("ETH/USD/PERP"));
+                });
         while (counter < 4){
             String orderId;
             if(counter == 0){
@@ -83,5 +91,6 @@ public class KrakenFuturesStreamingPrivateDataTest {
             TimeUnit.SECONDS.sleep(1);
         }
         dis.dispose();
+        dis2.dispose();
     }
 }
