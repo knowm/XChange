@@ -70,9 +70,10 @@ public class KrakenPublicTrades {
             KrakenType type = KrakenType.fromString(tradeJsonNode.path(3).asText());
             KrakenOrderType orderType = KrakenOrderType.fromString(tradeJsonNode.path(4).asText());
             String miscellaneous = tradeJsonNode.path(5).asText();
+            String tradeId = tradeJsonNode.path(6).asText();
 
             krakenTrades.add(
-                new KrakenPublicTrade(price, volume, time, type, orderType, miscellaneous));
+                new KrakenPublicTrade(price, volume, time, type, orderType, miscellaneous, tradeId));
           }
         }
       }
