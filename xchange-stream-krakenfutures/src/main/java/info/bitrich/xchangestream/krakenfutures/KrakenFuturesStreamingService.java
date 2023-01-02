@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.krakenfutures;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingAuthenticatedWebsocketMessage;
 import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingChallengeRequest;
 import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingWebsocketMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;

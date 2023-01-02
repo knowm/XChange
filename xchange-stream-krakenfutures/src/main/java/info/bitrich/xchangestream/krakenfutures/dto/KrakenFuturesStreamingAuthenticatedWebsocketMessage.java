@@ -1,8 +1,7 @@
-package info.bitrich.xchangestream.krakenfutures;
+package info.bitrich.xchangestream.krakenfutures.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingWebsocketMessage;
 import lombok.Getter;
 
 @Getter
