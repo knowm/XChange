@@ -17,6 +17,8 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     private final String UNSUBSCRIBE = "unsubscribe";
 
     protected final String ORDERBOOK = "book";
+    protected final String TICKER = "ticker";
+    protected final String TRADES = "trade";
 
     public KrakenFuturesStreamingService(String apiUrl) {
         super(apiUrl);
@@ -29,6 +31,10 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
         if(message.has("feed") && message.has("product_id")){
             if(message.get("feed").asText().contains(ORDERBOOK)){
                 channelName = ORDERBOOK+message.get("product_id").asText().toLowerCase();
+            } else if(message.get("feed").asText().contains(TICKER)){
+                channelName = TICKER+message.get("product_id").asText().toLowerCase();
+            } else if(message.get("feed").asText().contains(TRADES)){
+                channelName = TRADES+message.get("product_id").asText().toLowerCase();
             }
         }
         LOG.debug("ChannelName: "+channelName);
@@ -48,6 +54,10 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     private KrakenFuturesStreamingWebsocketMessage getWebSocketMessage(String event, String channelName){
         if(channelName.contains(ORDERBOOK)){
             return new KrakenFuturesStreamingWebsocketMessage(event, ORDERBOOK, new String[]{channelName.replace(ORDERBOOK, "")});
+        } else if(channelName.contains(TICKER)){
+            return new KrakenFuturesStreamingWebsocketMessage(event, TICKER, new String[]{channelName.replace(TICKER, "")});
+        } else if(channelName.contains(TRADES)){
+            return new KrakenFuturesStreamingWebsocketMessage(event, TRADES, new String[]{channelName.replace(TRADES, "")});
         } else {
             throw new NotImplementedException("ChangeName "+channelName+" has not been implemented yet.");
         }

@@ -42,4 +42,39 @@ public class KrakenFuturesStreamingPublicDataTest {
         TimeUnit.SECONDS.sleep(3);
         dis.dispose();
     }
+
+    @Test
+    public void checkStreamingTicker() throws InterruptedException {
+        Disposable dis = exchange.getStreamingMarketDataService().getTicker(instrument)
+                .subscribe(ticker -> {
+                    System.out.println(ticker.toString());
+                    assertThat(ticker).isNotNull();
+                });
+        TimeUnit.SECONDS.sleep(3);
+        dis.dispose();
+    }
+
+    @Test
+    public void checkStreamingFundingRate() throws InterruptedException {
+        Disposable dis = exchange.getStreamingMarketDataService().getFundingRate(instrument)
+                .subscribe(fundingRate -> {
+                    System.out.println(fundingRate.toString());
+                    assertThat(fundingRate).isNotNull();
+                    assertThat(fundingRate.getFundingRateEffectiveInMinutes()).isLessThan(61);
+                });
+        TimeUnit.SECONDS.sleep(3);
+        dis.dispose();
+    }
+
+    @Test
+    public void checkStreamingTrades() throws InterruptedException {
+        Disposable dis = exchange.getStreamingMarketDataService().getTrades(instrument)
+                .subscribe(trade -> {
+                    System.out.println(trade.toString());
+                    assertThat(trade).isNotNull();
+                    assertThat(trade.getInstrument()).isEqualTo(instrument);
+                });
+        TimeUnit.SECONDS.sleep(3);
+        dis.dispose();
+    }
 }
