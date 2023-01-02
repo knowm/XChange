@@ -37,7 +37,7 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     }
 
     @Override
-    protected String getChannelNameFromMessage(JsonNode message) throws IOException {
+    protected String getChannelNameFromMessage(JsonNode message) {
         String channelName = "";
 
         if(message.has("event")){
@@ -46,7 +46,6 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
                     try{
                         sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
                     } catch (JsonProcessingException e){
-                        System.out.println(e.getMessage());
                         LOG.error(e.getMessage());
                     }
                 }

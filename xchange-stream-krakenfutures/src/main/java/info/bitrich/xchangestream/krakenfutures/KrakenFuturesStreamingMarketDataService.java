@@ -36,19 +36,19 @@ public class KrakenFuturesStreamingMarketDataService implements StreamingMarketD
     public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
         String channelName = service.ORDERBOOK + KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument);
         return service.subscribeChannel(channelName)
+                .filter(message-> message.has("feed"))
                 .map(message-> {
-                    if(message.has("feed")){
-                        if(message.get("feed").asText().contains("book_snapshot")){
-                            orderBookMap.put(instrument, KrakenFuturesStreamingAdapters.adaptKrakenFuturesSnapshot(objectMapper.treeToValue(message, KrakenFuturesStreamingOrderBookSnapshotResponse.class)));
-                        } else if(message.get("feed").asText().contains("book")){
-                            KrakenFuturesStreamingOrderBookDeltaResponse delta = objectMapper.treeToValue(message, KrakenFuturesStreamingOrderBookDeltaResponse.class);
-                            orderBookMap.get(instrument).update(new LimitOrder.Builder((delta.getSide().equals(KrakenFuturesStreamingOrderBookDeltaResponse.KrakenFuturesStreamingSide.sell))
-                                    ? Order.OrderType.ASK
-                                    : Order.OrderType.BID,instrument)
-                                            .limitPrice(delta.getPrice())
-                                            .originalAmount(delta.getQty())
-                                    .build());
-                        }
+                    if(message.get("feed").asText().contains("book_snapshot")){
+                        orderBookMap.put(instrument, KrakenFuturesStreamingAdapters.adaptKrakenFuturesSnapshot(objectMapper.treeToValue(message, KrakenFuturesStreamingOrderBookSnapshotResponse.class)));
+                    } else if(message.get("feed").asText().equals(service.ORDERBOOK)){
+                        KrakenFuturesStreamingOrderBookDeltaResponse delta = objectMapper.treeToValue(message, KrakenFuturesStreamingOrderBookDeltaResponse.class);
+                        orderBookMap.get(instrument).update(new LimitOrder.Builder((delta.getSide().equals(KrakenFuturesStreamingOrderBookDeltaResponse.KrakenFuturesStreamingSide.sell))
+                                ? Order.OrderType.ASK
+                                : Order.OrderType.BID,instrument)
+                                        .limitPrice(delta.getPrice())
+                                        .originalAmount(delta.getQty())
+                                        .timestamp(delta.getTimestamp())
+                                .build());
                     }
                     if(orderBookMap.get(instrument).getBids().get(0).getLimitPrice().compareTo(orderBookMap.get(instrument).getAsks().get(0).getLimitPrice()) > 0){
                         throw new IOException("OrderBook crossed!!!");
