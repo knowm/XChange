@@ -52,7 +52,9 @@ public class KrakenFuturesStreamingAdapters {
         return new FundingRate.Builder()
                 .instrument(KrakenFuturesAdapters.adaptInstrument(tickerResponse.getProduct_id().toLowerCase()))
                 .fundingRate1h(tickerResponse.getRelative_funding_rate())
-                .fundingRate8h(tickerResponse.getRelative_funding_rate().multiply(BigDecimal.valueOf(8)))
+                .fundingRate8h((tickerResponse.getRelative_funding_rate() == null)
+                        ? null
+                        : tickerResponse.getRelative_funding_rate().multiply(BigDecimal.valueOf(8)))
                 .fundingRateDate(tickerResponse.getNextFundingRateTime())
                 .build();
     }
