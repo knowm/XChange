@@ -247,9 +247,10 @@ public class KrakenFuturesAdapters {
 
   public static FundingRate adaptFundingRate(KrakenFuturesTicker krakenFuturesTicker){
     LocalDateTime now = LocalDateTime.now();
+    BigDecimal relative1hFundingRate = krakenFuturesTicker.getFundingRate().divide(BigDecimal.valueOf(100),8,RoundingMode.HALF_EVEN);
     return new FundingRate.Builder()
-            .fundingRate1h(krakenFuturesTicker.getFundingRate())
-            .fundingRate8h(krakenFuturesTicker.getFundingRate().multiply(BigDecimal.valueOf(8)))
+            .fundingRate1h(relative1hFundingRate)
+            .fundingRate8h(relative1hFundingRate.multiply(BigDecimal.valueOf(8)))
             .fundingRateDate(Date.from(now.plus(60-now.get(ChronoField.MINUTE_OF_HOUR), ChronoUnit.MINUTES).toInstant(ZoneOffset.UTC)))
             .fundingRateEffectiveInMinutes(60-LocalTime.now().getMinute())
             .instrument(adaptInstrument(krakenFuturesTicker.getSymbol()))
