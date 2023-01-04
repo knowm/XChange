@@ -40,7 +40,7 @@ public final class OrderBook implements Serializable {
       @JsonProperty("asks") List<LimitOrder> asks,
       @JsonProperty("bids") List<LimitOrder> bids) {
 
-    this(timeStamp, Collections.synchronizedList(asks), Collections.synchronizedList(bids), false);
+    this(timeStamp, asks, bids, false);
   }
 
   /**
@@ -56,49 +56,16 @@ public final class OrderBook implements Serializable {
 
     this.timeStamp = timeStamp;
     if (sort) {
-      this.asks = Collections.synchronizedList(new ArrayList<>(asks));
-      this.bids = Collections.synchronizedList(new ArrayList<>(bids));
+      this.asks = new ArrayList<>(asks);
+      this.bids = new ArrayList<>(bids);
       Collections.sort(this.asks);
       Collections.sort(this.bids);
     } else {
-      this.asks = Collections.synchronizedList(asks);
-      this.bids = Collections.synchronizedList(bids);
+      this.asks = asks;
+      this.bids = bids;
     }
   }
 
-  /**
-   * Constructor
-   *
-   * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if
-   *     not provided
-   * @param asks The ASK orders
-   * @param bids The BID orders
-   * @param sort True if the asks and bids need to be sorted
-   * @param orderIsNewArray True to create new arrays asks and bids
-   */
-  public OrderBook(
-      Date timeStamp,
-      List<LimitOrder> asks,
-      List<LimitOrder> bids,
-      boolean sort,
-      boolean orderIsNewArray) {
-
-    this.timeStamp = timeStamp;
-    if (sort) {
-      this.asks = Collections.synchronizedList(new ArrayList<>(asks));
-      this.bids = Collections.synchronizedList(new ArrayList<>(bids));
-      Collections.sort(this.asks);
-      Collections.sort(this.bids);
-    } else {
-      if (orderIsNewArray) {
-        this.asks = Collections.synchronizedList(new ArrayList<>(asks));
-        this.bids = Collections.synchronizedList(new ArrayList<>(bids));
-      } else {
-        this.asks = Collections.synchronizedList(asks);
-        this.bids = Collections.synchronizedList(bids);
-      }
-    }
-  }
   /**
    * Constructor
    *
@@ -125,11 +92,11 @@ public final class OrderBook implements Serializable {
 
     this.timeStamp = timeStamp;
     if (sort) {
-      this.asks = Collections.synchronizedList(asks.sorted().collect(Collectors.toList()));
-      this.bids = Collections.synchronizedList(bids.sorted().collect(Collectors.toList()));
+      this.asks = asks.sorted().collect(Collectors.toList());
+      this.bids = bids.sorted().collect(Collectors.toList());
     } else {
-      this.asks = Collections.synchronizedList(asks.collect(Collectors.toList()));
-      this.bids = Collections.synchronizedList(bids.collect(Collectors.toList()));
+      this.asks = asks.collect(Collectors.toList());
+      this.bids = bids.collect(Collectors.toList());
     }
   }
 
@@ -151,12 +118,12 @@ public final class OrderBook implements Serializable {
 
   public List<LimitOrder> getAsks() {
 
-    return Collections.synchronizedList(asks);
+    return asks;
   }
 
   public List<LimitOrder> getBids() {
 
-    return Collections.synchronizedList(bids);
+    return bids;
   }
 
   public List<LimitOrder> getOrders(OrderType type) {
@@ -172,12 +139,14 @@ public final class OrderBook implements Serializable {
    * @param limitOrder the new LimitOrder
    */
   public void update(LimitOrder limitOrder) {
+
     update(getOrders(limitOrder.getType()), limitOrder);
     updateDate(limitOrder.getTimestamp());
   }
 
   // Replace the amount for limitOrder's price in the provided list.
   private void update(List<LimitOrder> asks, LimitOrder limitOrder) {
+
     int idx = Collections.binarySearch(asks, limitOrder);
     if (idx >= 0) {
       asks.remove(idx);
@@ -198,7 +167,7 @@ public final class OrderBook implements Serializable {
    * @param orderBookUpdate the new OrderBookUpdate
    */
   public void update(OrderBookUpdate orderBookUpdate) {
-    //    synchronized (asks) {
+
     LimitOrder limitOrder = orderBookUpdate.getLimitOrder();
     List<LimitOrder> limitOrders = getOrders(limitOrder.getType());
     int idx = Collections.binarySearch(limitOrders, limitOrder);
@@ -212,8 +181,8 @@ public final class OrderBook implements Serializable {
       LimitOrder updatedOrder = withAmount(limitOrder, orderBookUpdate.getTotalVolume());
       limitOrders.add(idx, updatedOrder);
     }
+
     updateDate(limitOrder.getTimestamp());
-    //    }
   }
 
   // Replace timeStamp if the provided date is non-null and in the future
@@ -304,5 +273,39 @@ public final class OrderBook implements Serializable {
         + ", bids="
         + bids.toString()
         + "]";
+  }
+
+  /**
+   * Constructor
+   *
+   * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if
+   *     not provided
+   * @param asks The ASK orders
+   * @param bids The BID orders
+   * @param sort True if the asks and bids need to be sorted
+   * @param orderIsNewArray True to create new arrays asks and bids
+   */
+  public OrderBook(
+      Date timeStamp,
+      List<LimitOrder> asks,
+      List<LimitOrder> bids,
+      boolean sort,
+      boolean orderIsNewArray) {
+
+    this.timeStamp = timeStamp;
+    if (sort) {
+      this.asks = new ArrayList<>(asks);
+      this.bids = new ArrayList<>(bids);
+      Collections.sort(this.asks);
+      Collections.sort(this.bids);
+    } else {
+      if (orderIsNewArray) {
+        this.asks = new ArrayList<>(asks);
+        this.bids = new ArrayList<>(bids);
+      } else {
+        this.asks = asks;
+        this.bids = bids;
+      }
+    }
   }
 }
