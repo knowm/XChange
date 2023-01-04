@@ -12,7 +12,7 @@ public class DefaultOpenOrdersParamInstrument implements OpenOrdersParamInstrume
 
   public DefaultOpenOrdersParamInstrument() {}
 
-  public DefaultOpenOrdersParamInstrument(CurrencyPair instrument) {
+  public DefaultOpenOrdersParamInstrument(Instrument instrument) {
     this.instrument = instrument;
   }
 

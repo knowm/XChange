@@ -1,19 +1,18 @@
 package info.bitrich.xchangestream.binance;
 
+import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
+import org.knowm.xchange.instrument.Instrument;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
-import org.knowm.xchange.currency.CurrencyPair;
 
 public class KlineSubscription {
-  private final Map<CurrencyPair, Set<KlineInterval>> klines;
+  private final Map<Instrument, Set<KlineInterval>> klines;
 
-  public KlineSubscription(Map<CurrencyPair, Set<KlineInterval>> klines) {
-    this.klines = klines;
-  }
+  public KlineSubscription(Map<Instrument, Set<KlineInterval>> klines) {this.klines = klines;}
 
-  public Map<CurrencyPair, Set<KlineInterval>> getKlines() {
+  public Map<Instrument, Set<KlineInterval>> getKlines() {
     return klines;
   }
 
@@ -25,8 +24,8 @@ public class KlineSubscription {
     return !isEmpty();
   }
 
-  public boolean contains(CurrencyPair currencyPair, KlineInterval interval) {
-    return Optional.ofNullable(klines.get(currencyPair))
+  public boolean contains(Instrument instrument, KlineInterval interval) {
+    return Optional.ofNullable(klines.get(instrument))
         .filter(intervals -> intervals.contains(interval))
         .isPresent();
   }

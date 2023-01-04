@@ -41,4 +41,6 @@ public class SymbolResponse {
   private boolean isMarginEnabled;
 
   private BigDecimal priceLimitRate;
+
+  private BigDecimal minFunds;
 }

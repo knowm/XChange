@@ -42,7 +42,7 @@ public class OkexBaseService extends BaseResilientExchangeService<OkexExchange>
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem("passphrase");
   }
 
-  /** https://www.okex.com/docs-v5/en/#error-code * */
+  /** <a href="https://www.okex.com/docs-v5/en/#error-code">...</a> * */
   protected ExchangeException handleError(OkexException exception) {
     if (exception.getMessage().contains("Requests too frequent")) {
       return new RateLimitExceededException(exception);

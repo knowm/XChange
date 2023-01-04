@@ -8,9 +8,9 @@ import static org.knowm.xchange.simulated.SimulatedExchange.ACCOUNT_FACTORY_PARA
 import static org.knowm.xchange.simulated.SimulatedExchange.ENGINE_FACTORY_PARAM;
 import static org.knowm.xchange.simulated.SimulatedExchange.ON_OPERATION_PARAM;
 
-import com.google.common.util.concurrent.RateLimiter;
 import java.io.IOException;
 import java.math.BigDecimal;
+
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -24,6 +24,8 @@ import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByOrderTypeParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamCurrencyPair;
+
+import com.google.common.util.concurrent.RateLimiter;
 
 public class SimulatedExchangeExample {
 
@@ -45,7 +47,7 @@ public class SimulatedExchangeExample {
     MockMarket.mockMarket(exchange);
 
     // Accounts
-    System.out.println("Account: " + exchange.getAccountService().getAccountInfo());
+//    System.out.println("Account: " + exchange.getAccountService().getAccountInfo());
 
     // Trades
     exchange
@@ -54,9 +56,9 @@ public class SimulatedExchangeExample {
             new MarketOrder.Builder(BID, BTC_USD).originalAmount(new BigDecimal("0.1")).build());
 
     // Market data
-    System.out.println("Ticker: " + exchange.getMarketDataService().getTicker(BTC_USD));
-    System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
-    System.out.println("Trades: " + exchange.getMarketDataService().getTrades(BTC_USD));
+//    System.out.println("Ticker: " + exchange.getMarketDataService().getTicker(BTC_USD));
+//    System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
+//    System.out.println("Trades: " + exchange.getMarketDataService().getTrades(BTC_USD));
   }
 
   /** Demonstrates cancelling an order. */
@@ -77,7 +79,7 @@ public class SimulatedExchangeExample {
     MockMarket.mockMarket(exchange);
 
     // Accounts
-    System.out.println("Account: " + exchange.getAccountService().getAccountInfo());
+//    System.out.println("Account: " + exchange.getAccountService().getAccountInfo());
 
     // Trades
     String orderId =
@@ -90,7 +92,7 @@ public class SimulatedExchangeExample {
                     .build());
 
     // Market data
-    System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
+//    System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
 
     exchange.getTradeService() // this tests both getOrder and cancelOrder
         .getOrder(new DefaultQueryOrderParamCurrencyPair(BTC_USD, orderId)).stream()
@@ -107,7 +109,7 @@ public class SimulatedExchangeExample {
               }
             });
 
-    System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
+//    System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
   }
 
   static class CancelOrderAllParams

@@ -37,6 +37,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.DateUtils;
 
 /** Author: brox Since: 2/6/14 */
@@ -389,8 +390,8 @@ public class CexIOAdapters {
         feeDetails.getBuy().max(feeDetails.getSell()));
   }
 
-  public static Map<CurrencyPair, Fee> adaptDynamicTradingFees(Map<CurrencyPair, FeeDetails> fees) {
-    Map<CurrencyPair, Fee> result = new HashMap<CurrencyPair, Fee>();
+  public static Map<Instrument, Fee> adaptDynamicTradingFees(Map<CurrencyPair, FeeDetails> fees) {
+    Map<Instrument, Fee> result = new HashMap<>();
     for (Map.Entry<CurrencyPair, FeeDetails> entry : fees.entrySet()) {
       result.put(entry.getKey(), adaptFeeDetails(entry.getValue()));
     }

@@ -31,15 +31,15 @@ public class KlineBinanceWebSocketTransactionTest extends TestCase {
     assertThat(klineBinanceWebSocketTransaction.eventType).isEqualTo(KLINE);
     assertThat(klineBinanceWebSocketTransaction.getEventTime().getTime()).isEqualTo(123456789L);
 
-    BinanceKline binanceKline = klineBinanceWebSocketTransaction.getBinanceKline();
+    BinanceKline binanceKline = klineBinanceWebSocketTransaction.toBinanceKline(false);
     assertThat(binanceKline.getOpenTime()).isEqualTo(123400000L);
     assertThat(binanceKline.getCloseTime()).isEqualTo(123460000L);
-    assertThat(binanceKline.getCurrencyPair()).isEqualTo(CurrencyPair.XMR_USDT);
+    assertThat(binanceKline.getInstrument()).isEqualTo(CurrencyPair.XMR_USDT);
     assertThat(binanceKline.getInterval()).isEqualTo(KlineInterval.m1);
-    assertThat(binanceKline.getOpenPrice()).isEqualTo(new BigDecimal("0.0010"));
-    assertThat(binanceKline.getClosePrice()).isEqualTo(new BigDecimal("0.0020"));
-    assertThat(binanceKline.getHighPrice()).isEqualTo(new BigDecimal("0.0025"));
-    assertThat(binanceKline.getLowPrice()).isEqualTo(new BigDecimal("0.0005"));
+    assertThat(binanceKline.getOpen()).isEqualTo(new BigDecimal("0.0010"));
+    assertThat(binanceKline.getClose()).isEqualTo(new BigDecimal("0.0020"));
+    assertThat(binanceKline.getHigh()).isEqualTo(new BigDecimal("0.0025"));
+    assertThat(binanceKline.getLow()).isEqualTo(new BigDecimal("0.0005"));
     assertThat(binanceKline.getVolume()).isEqualTo(new BigDecimal("1000"));
     assertThat(binanceKline.getNumberOfTrades()).isEqualTo(100L);
     assertThat(binanceKline.getQuoteAssetVolume()).isEqualTo(new BigDecimal("1.0000"));

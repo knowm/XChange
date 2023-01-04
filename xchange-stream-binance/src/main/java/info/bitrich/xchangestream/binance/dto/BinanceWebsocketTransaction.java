@@ -3,8 +3,8 @@ package info.bitrich.xchangestream.binance.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BinanceWebsocketTransaction<T> {
-  private String stream;
-  private T data;
+  private final String stream;
+  private final T data;
 
   public BinanceWebsocketTransaction(
       @JsonProperty("stream") String stream, @JsonProperty("data") T data) {

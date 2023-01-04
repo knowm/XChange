@@ -18,6 +18,7 @@ import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.InstrumentNotValidException;
+import org.knowm.xchange.instrument.Instrument;
 
 public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
@@ -162,13 +163,13 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
         .call();
   }
 
-  public boolean checkProductExists(CurrencyPair currencyPair) {
+  public boolean checkProductExists(Instrument currencyPair) {
 
-    for (CurrencyPair cp : exchange.getExchangeSymbols()) {
-      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
-          && cp.counter
+    for (Instrument cp : exchange.getExchangeInstruments()) {
+      if (cp.getBase().getCurrencyCode().equalsIgnoreCase(currencyPair.getBase().getCurrencyCode())
+          && cp.getCounter()
               .getCurrencyCode()
-              .equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
+              .equalsIgnoreCase(currencyPair.getCounter().getCurrencyCode())) {
         return true;
       }
     }

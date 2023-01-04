@@ -17,6 +17,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BittrexMarketDataDemo {
@@ -28,7 +29,7 @@ public class BittrexMarketDataDemo {
     exchange = ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
-    System.out.println(Arrays.toString(exchange.getExchangeSymbols().toArray()));
+    System.out.println(Arrays.toString(exchange.getExchangeInstruments().toArray()));
 
     generic(marketDataService);
     raw((BittrexMarketDataServiceRaw) marketDataService);
@@ -60,10 +61,10 @@ public class BittrexMarketDataDemo {
     List<BittrexSymbol> symbols = marketDataService.getBittrexSymbols();
     System.out.println(symbols);
 
-    CurrencyPair pair =
+    Instrument pair =
         exchange
-            .getExchangeSymbols()
-            .get(new Random().nextInt(exchange.getExchangeSymbols().size()));
+            .getExchangeInstruments()
+            .get(new Random().nextInt(exchange.getExchangeInstruments().size()));
     System.out.println("Market data for " + pair + ":");
     String pairString = BittrexUtils.toPairString(pair);
 

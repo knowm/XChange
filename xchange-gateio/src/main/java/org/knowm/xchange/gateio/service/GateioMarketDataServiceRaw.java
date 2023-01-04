@@ -22,6 +22,7 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioKlineInterval;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
+import org.knowm.xchange.instrument.Instrument;
 
 public class GateioMarketDataServiceRaw extends GateioBaseService {
 
@@ -117,10 +118,9 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     return handleResponse(tradeHistory);
   }
 
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+  public List<Instrument> getExchangeSymbols() throws IOException {
 
-    List<CurrencyPair> currencyPairs = new ArrayList<>(bter.getPairs().getPairs());
-    return currencyPairs;
+    return new ArrayList<>(bter.getPairs().getPairs());
   }
 
   public List<GateioKline> getKlines(CurrencyPair pair, GateioKlineInterval interval, Integer hours)

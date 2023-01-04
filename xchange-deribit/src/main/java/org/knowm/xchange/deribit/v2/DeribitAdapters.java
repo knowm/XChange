@@ -37,8 +37,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.DerivativeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -325,17 +325,17 @@ public class DeribitAdapters {
         "Could not adapt instrument from name '" + instrumentName + "'");
   }
 
-  public static DerivativeMetaData adaptMeta(DeribitInstrument instrument) {
+  public static InstrumentMetaData adaptMeta(DeribitInstrument instrument) {
     FeeTier[] feeTiers = {
       new FeeTier(
           BigDecimal.ZERO,
           new Fee(instrument.getMakerCommission(), instrument.getTakerCommission()))
     };
-    return new DerivativeMetaData.Builder()
+    return new InstrumentMetaData.Builder()
         .tradingFee(instrument.getTakerCommission())
         .feeTiers(feeTiers)
         .minimumAmount(instrument.getMinTradeAmount())
-        .amountScale(instrument.getMinTradeAmount().scale())
+        .volumeScale(instrument.getMinTradeAmount().scale())
         .priceScale(instrument.getTickSize().scale())
         .priceStepSize(instrument.getTickSize())
         .build();

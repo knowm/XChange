@@ -18,6 +18,7 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory.GateioPublicTrade;
 import org.knowm.xchange.gateio.service.GateioMarketDataServiceRaw;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class GateioMarketDataDemo {
@@ -56,7 +57,7 @@ public class GateioMarketDataDemo {
     Map<CurrencyPair, GateioMarketInfo> marketInfoMap = marketDataService.getBTERMarketInfo();
     System.out.println(marketInfoMap);
 
-    Collection<CurrencyPair> pairs = marketDataService.getExchangeSymbols();
+    Collection<Instrument> pairs = marketDataService.getExchangeSymbols();
     System.out.println(pairs);
 
     Map<CurrencyPair, Ticker> tickers = marketDataService.getGateioTickers();

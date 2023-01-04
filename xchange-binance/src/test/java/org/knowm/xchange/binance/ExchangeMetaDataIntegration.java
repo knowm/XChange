@@ -5,8 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 
 public class ExchangeMetaDataIntegration extends BinanceExchangeIntegration {
 
@@ -20,7 +21,7 @@ public class ExchangeMetaDataIntegration extends BinanceExchangeIntegration {
 
   @Test
   public void testEthBtcPairMetaData() {
-    CurrencyPairMetaData pairMetaData = metaData.getCurrencyPairs().get(CurrencyPair.ETH_BTC);
+    InstrumentMetaData pairMetaData = metaData.getInstruments().get(CurrencyPair.ETH_BTC);
     assertThat(pairMetaData.getPriceScale()).isEqualByComparingTo(6);
     assertThat(pairMetaData.getMinimumAmount()).isEqualByComparingTo("0.0001");
     assertThat(pairMetaData.getMaximumAmount().longValueExact()).isEqualTo(100000);
@@ -29,11 +30,21 @@ public class ExchangeMetaDataIntegration extends BinanceExchangeIntegration {
 
   @Test
   public void testLtcBtcPairMetaData() {
-    CurrencyPairMetaData pairMetaData =
-        metaData.getCurrencyPairs().get(new CurrencyPair("LTC/BTC"));
+    InstrumentMetaData pairMetaData =
+        metaData.getInstruments().get(new CurrencyPair("LTC/BTC"));
     assertThat(pairMetaData.getPriceScale()).isEqualByComparingTo(6);
     assertThat(pairMetaData.getMinimumAmount()).isEqualByComparingTo("0.001");
     assertThat(pairMetaData.getMaximumAmount().longValueExact()).isEqualTo(100000);
+    assertThat(pairMetaData.getAmountStepSize()).isEqualByComparingTo("0.001");
+  }
+
+  @Test
+  public void testBtcUsdtPerpetualPairMetaData() {
+    InstrumentMetaData pairMetaData =
+            metaData.getInstruments().get(new FuturesContract("BTC/USDT/PERP"));
+    assertThat(pairMetaData.getPriceScale()).isEqualByComparingTo(1);
+    assertThat(pairMetaData.getMinimumAmount()).isEqualByComparingTo("0.001");
+    assertThat(pairMetaData.getVolumeScale()).isEqualTo(3);
     assertThat(pairMetaData.getAmountStepSize()).isEqualByComparingTo("0.001");
   }
 }

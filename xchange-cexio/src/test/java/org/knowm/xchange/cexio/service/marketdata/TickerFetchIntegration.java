@@ -17,8 +17,10 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.cexio.CexIOExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.InstrumentsParams;
 
 /** @author timmolter */
 public class TickerFetchIntegration {
@@ -42,11 +44,11 @@ public class TickerFetchIntegration {
       "The number of currency pairs should be the same as the requested number of currency pairs expected:<236> but was:<171>")
   @Test
   public void tickerFetchAllTest() throws Exception {
-    Set<CurrencyPair> allCurrencyPairs = exchange.getExchangeMetaData().getCurrencyPairs().keySet();
+    Set<Instrument> allCurrencyPairs = exchange.getExchangeMetaData().getInstruments().keySet();
 
     List<Ticker> tickers =
-        exchange.getMarketDataService().getTickers((CurrencyPairsParam) () -> allCurrencyPairs);
-    Set<CurrencyPair> currencyPairsInTickers =
+        exchange.getMarketDataService().getTickers((InstrumentsParams) () -> allCurrencyPairs);
+    Set<Instrument> currencyPairsInTickers =
         tickers.stream().map(Ticker::getCurrencyPair).collect(Collectors.toSet());
 
     assertEquals(

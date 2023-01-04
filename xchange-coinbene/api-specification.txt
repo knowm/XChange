@@ -1,6 +1,0 @@
-Coinbene Exchange API specification
-================================
-
-Documentation
--------------
-https://github.com/Coinbene/API-Documents/wiki/0.0.0-Coinbene-API-documents

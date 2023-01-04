@@ -44,7 +44,7 @@ public class KucoinMarketDataServiceIntegration {
     KucoinExchange exchange = exchange();
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
     exchangeMetaData
-        .getCurrencyPairs()
+        .getInstruments()
         .entrySet()
         .forEach(
             pair -> {
@@ -52,7 +52,7 @@ public class KucoinMarketDataServiceIntegration {
               assertThat(pair.getValue().getMaximumAmount()).isNotNull();
               assertThat(pair.getValue().getCounterMinimumAmount()).isNotNull();
               assertThat(pair.getValue().getCounterMaximumAmount()).isNotNull();
-              assertThat(pair.getValue().getBaseScale()).isNotNull();
+              assertThat(pair.getValue().getVolumeScale()).isNotNull();
               assertThat(pair.getValue().getPriceScale()).isNotNull();
               assertThat(pair.getValue().getTradingFeeCurrency()).isNotNull();
             });

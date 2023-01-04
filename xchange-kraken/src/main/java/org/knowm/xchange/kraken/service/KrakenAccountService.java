@@ -14,6 +14,7 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
@@ -66,12 +67,12 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
   }
 
   @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
     return KrakenAdapters.adaptFees(
         super.getTradeVolume(
             exchange
                 .getExchangeMetaData()
-                .getCurrencyPairs()
+                .getInstruments()
                 .keySet()
                 .toArray(new CurrencyPair[0])));
   }
@@ -100,7 +101,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     } else if (Currency.LTC.equals(currency)) {
       depositAddresses = getDepositAddresses(currency.toString(), "Litecoin", false);
     } else if (Currency.ETH.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Ether (Hex)", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Ethereum (ERC20)", false);
     } else if (Currency.ZEC.equals(currency)) {
       depositAddresses = getDepositAddresses(currency.toString(), "Zcash (Transparent)", false);
     } else if (Currency.ADA.equals(currency)) {

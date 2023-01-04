@@ -16,6 +16,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.okex.dto.OkexException;
 import org.knowm.xchange.okex.dto.OkexResponse;
+import org.knowm.xchange.okex.dto.marketdata.*;
 import org.knowm.xchange.okex.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.okex.dto.marketdata.OkexInstrument;
 import org.knowm.xchange.okex.dto.marketdata.OkexOrderbook;
@@ -54,6 +55,14 @@ public interface Okex {
       throws IOException, OkexException;
 
   @GET
+  @Path("/market/ticker")
+  @Consumes(MediaType.APPLICATION_JSON)
+  OkexResponse<List<OkexTicker>> getTicker(
+          @QueryParam("instId") String instrument,
+          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+          throws IOException, OkexException;
+
+  @GET
   @Path("/market/books")
   OkexResponse<List<OkexOrderbook>> getOrderbook(
       @QueryParam("instId") String instrument,
@@ -71,6 +80,14 @@ public interface Okex {
       @QueryParam("limit") String limit,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
       throws IOException, OkexException;
+
+  @GET
+  @Path("/public/funding-rate")
+  OkexResponse<List<OkexFundingRate>> getFundingRate(
+          @QueryParam("instId") String instrument,
+          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+          throws IOException, OkexException;
+
 
   @GET
   @Path("/public/time")

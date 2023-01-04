@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 
 /** CoinbasePro subscription message. */
 public class CoinbaseProWebSocketSubscriptionMessage {
@@ -115,13 +116,13 @@ public class CoinbaseProWebSocketSubscriptionMessage {
       CoinbaseProOrderBookMode orderBookMode,
       CoinbaseProWebsocketAuthData authData) {
     List<CoinbaseProProductSubscription> channels = new ArrayList<>(3);
-    Map<String, List<CurrencyPair>> pairs = new HashMap<>(3);
+    Map<String, List<Instrument>> pairs = new HashMap<>(3);
 
     pairs.put(orderBookMode.getName(), productSubscription.getOrderBook());
     pairs.put("ticker", productSubscription.getTicker());
     pairs.put("matches", productSubscription.getTrades());
     if (authData != null) {
-      ArrayList<CurrencyPair> userCurrencies = new ArrayList<>();
+      ArrayList<Instrument> userCurrencies = new ArrayList<>();
       Stream.of(
               productSubscription.getUserTrades().stream(),
               productSubscription.getOrders().stream())
@@ -131,8 +132,8 @@ public class CoinbaseProWebSocketSubscriptionMessage {
       pairs.put("user", userCurrencies);
     }
 
-    for (Map.Entry<String, List<CurrencyPair>> product : pairs.entrySet()) {
-      List<CurrencyPair> currencyPairs = product.getValue();
+    for (Map.Entry<String, List<Instrument>> product : pairs.entrySet()) {
+      List<Instrument> currencyPairs = product.getValue();
       if (currencyPairs == null || currencyPairs.size() == 0) {
         continue;
       }

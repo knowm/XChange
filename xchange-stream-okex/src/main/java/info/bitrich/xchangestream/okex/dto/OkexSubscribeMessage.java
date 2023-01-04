@@ -1,25 +1,25 @@
 package info.bitrich.xchangestream.okex.dto;
 
-import info.bitrich.xchangestream.okex.dto.enums.OkexInstType;
-import java.util.LinkedList;
-import java.util.List;
 import lombok.*;
+import org.knowm.xchange.okex.dto.OkexInstType;
+
+import java.util.List;
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class OkexSubscribeMessage {
-  private String op;
-  List<SubscriptionTopic> args = new LinkedList<>();
+    private final String op;
+    private final List<SubscriptionTopic> args;
 
-  @Data
-  @AllArgsConstructor
-  public static class SubscriptionTopic {
-    private String channel;
+    @Data
+    @AllArgsConstructor
+    public static class SubscriptionTopic {
+        private final String channel;
 
-    private OkexInstType instType;
+        private final OkexInstType instType;
 
-    private String uly;
+        private final String uly;
 
-    private String instId;
-  }
+        private final String instId;
+    }
 }

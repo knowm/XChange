@@ -9,6 +9,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coingi.CoingiExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class CoingiOrderBookFetchIntegration {
@@ -22,7 +23,7 @@ public class CoingiOrderBookFetchIntegration {
     OrderBook orderBook = marketDataService.getOrderBook(pair);
     assertThat(orderBook).isNotNull();
 
-    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
+    List<Instrument> pairs = exchange.getExchangeInstruments();
     assertThat(pairs).contains(pair);
   }
 }

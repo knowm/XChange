@@ -40,7 +40,7 @@ public class CryptowatchAdaptersTest {
         CryptowatchAdapters.adaptToExchangeMetaData(
             originalExchangeMetaData, cryptowatchAssetPairs, cryptowatchAssets);
     assertNotNull(metaData);
-    assertEquals(2328, metaData.getCurrencyPairs().size());
+    assertEquals(2328, metaData.getInstruments().size());
     assertEquals(725, metaData.getCurrencies().size());
   }
 

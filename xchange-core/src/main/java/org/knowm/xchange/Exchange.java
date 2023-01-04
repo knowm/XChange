@@ -1,10 +1,8 @@
 package org.knowm.xchange;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -43,17 +41,7 @@ public interface Exchange {
    *
    * @return The exchange's symbols
    */
-  List<CurrencyPair> getExchangeSymbols();
-
-  /**
-   * Returns a list of Instrument objects. This list can either come originally from a loaded json
-   * file or from a remote call if the implementation override's the `remoteInit` method.
-   *
-   * @return The exchange's instruments
-   */
-  default List<Instrument> getExchangeInstruments() {
-    return new ArrayList<>(getExchangeSymbols());
-  }
+  List<Instrument> getExchangeInstruments();
 
   /**
    * The nonce factory used to create a nonce value. Allows services to accept a placeholder that is

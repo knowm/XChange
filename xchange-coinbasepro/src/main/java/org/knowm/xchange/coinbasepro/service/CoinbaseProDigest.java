@@ -10,8 +10,6 @@ import si.mazi.rescu.RestInvocation;
 
 public class CoinbaseProDigest extends BaseParamsDigest {
 
-  private String signature = "";
-
   private CoinbaseProDigest(byte[] secretKey) {
 
     super(secretKey, HMAC_SHA_256);
@@ -41,11 +39,6 @@ public class CoinbaseProDigest extends BaseParamsDigest {
       throw new ExchangeException("Digest encoding exception", e);
     }
 
-    signature = Base64.getEncoder().encodeToString(mac256.doFinal());
-    return signature;
-  }
-
-  public String getSignature() {
-    return signature;
+    return Base64.getEncoder().encodeToString(mac256.doFinal());
   }
 }

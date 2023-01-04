@@ -20,6 +20,7 @@ import org.knowm.xchange.binance.BinanceResilience;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
@@ -29,9 +30,9 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
     // given
     MarketDataService service = createExchangeWithRetryEnabled().getMarketDataService();
     stubForTicker24WithFirstCallTimetoutAndSecondSuccessful();
-
+    Instrument instrument = new CurrencyPair("BNB/BTC");
     // when
-    Ticker ticker = service.getTicker(new CurrencyPair("BNB", "BTC"));
+    Ticker ticker = service.getTicker(instrument);
 
     // then
     assertThat(ticker.getLast()).isEqualByComparingTo("4.00000200");
@@ -42,9 +43,9 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
     // given
     MarketDataService service = createExchangeWithRetryDisabled().getMarketDataService();
     stubForTicker24WithFirstCallTimetoutAndSecondSuccessful();
-
+    Instrument instrument = new CurrencyPair("BNB/BTC");
     // when
-    Throwable exception = catchThrowable(() -> service.getTicker(new CurrencyPair("BNB", "BTC")));
+    Throwable exception = catchThrowable(() -> service.getTicker(instrument));
 
     // then
     assertThat(exception).isInstanceOf(IOException.class);
@@ -56,10 +57,10 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
     BinanceExchange exchange = createExchangeWithRateLimiterEnabled();
     MarketDataService service = exchange.getMarketDataService();
     stubForDepth();
-
+    Instrument instrument = CurrencyPair.ETH_BTC;
     // when
-    OrderBook orderBook = service.getOrderBook(CurrencyPair.ETH_BTC, 5000);
-    orderBook = service.getOrderBook(CurrencyPair.ETH_BTC, 5000);
+    OrderBook orderBook = service.getOrderBook(instrument, 5000);
+    orderBook = service.getOrderBook(instrument, 5000);
 
     // then
     assertThat(orderBook.getAsks()).isNotEmpty();
@@ -68,7 +69,6 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
 
   @Test(timeout = 2000)
   public void shouldGetTimeoutOnSecondMaxDepthVeryRestrictiveCustomRateLimiter() throws Exception {
-
     // given
     BinanceExchange exchange = createExchangeWithRateLimiterEnabled();
     exchange
@@ -83,15 +83,12 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
                     .limitForPeriod(80)
                     .timeoutDuration(Duration.ofMillis(10))
                     .build()));
-
     MarketDataService service = exchange.getMarketDataService();
-
     stubForDepth();
-
+    Instrument instrument = CurrencyPair.ETH_BTC;
     // when
-    service.getOrderBook(CurrencyPair.ETH_BTC, 5000);
-
-    Throwable exception = catchThrowable(() -> service.getOrderBook(CurrencyPair.ETH_BTC, 5000));
+    service.getOrderBook(instrument, 5000);
+    Throwable exception = catchThrowable(() -> service.getOrderBook(instrument, 5000));
 
     // then
     assertThat(exception).isInstanceOf(RequestNotPermitted.class);

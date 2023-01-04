@@ -30,7 +30,9 @@ public final class Wallet implements Serializable {
     /** You can do margin trading with funds allocated to this wallet */
     MARGIN_TRADING,
     /** You can fund other margin traders with funds allocated to this wallet to earn an interest */
-    MARGIN_FUNDING
+    MARGIN_FUNDING,
+    /** Wallet for futures platform*/
+    FUTURES_TRADING
   }
 
   /** The keys represent the currency of the wallet. */
@@ -38,15 +40,15 @@ public final class Wallet implements Serializable {
   /** Collection of balances for deserialization * */
   private final Collection<Balance> balanceCollection;
   /** A unique identifier for this wallet */
-  private String id;
+  private final String id;
   /** A descriptive name for this wallet. Defaults to {@link #id} */
-  private String name;
+  private final String name;
   /** Features supported by this wallet */
   private final Set<WalletFeature> features;
   /** Maximum leverage for margin trading supported by this wallet */
-  private BigDecimal maxLeverage = BigDecimal.ZERO;
+  private final BigDecimal maxLeverage;
   /** Current leverage for margin trading done on this wallet */
-  private BigDecimal currentLeverage = BigDecimal.ZERO;
+  private final BigDecimal currentLeverage;
 
   /**
    * Constructs a {@link Wallet}.
@@ -201,7 +203,7 @@ public final class Wallet implements Serializable {
       return new Builder().balances(balances);
     }
 
-    private Builder balances(Collection<Balance> balances) {
+    public Builder balances(Collection<Balance> balances) {
       this.balances = balances;
       return this;
     }

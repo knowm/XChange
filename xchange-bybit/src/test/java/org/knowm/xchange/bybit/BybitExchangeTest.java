@@ -17,6 +17,7 @@ import org.knowm.xchange.bybit.service.BaseWiremockTest;
 
 public class BybitExchangeTest extends BaseWiremockTest {
 
+
   @Test
   public void testSymbolLoading() throws IOException {
     Exchange bybitExchange = createExchange();
@@ -27,13 +28,15 @@ public class BybitExchangeTest extends BaseWiremockTest {
                 aResponse()
                     .withStatus(Status.OK.getStatusCode())
                     .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        IOUtils.resourceToString("/getSymbols.json5", StandardCharsets.UTF_8))));
+                    .withBody(IOUtils.resourceToString("/getSymbols.json5", StandardCharsets.UTF_8))
+            )
+    );
 
     ExchangeSpecification specification = bybitExchange.getExchangeSpecification();
     specification.setShouldLoadRemoteMetaData(true);
     bybitExchange.applySpecification(specification);
 
-    assertThat(bybitExchange.getExchangeMetaData().getCurrencyPairs()).hasSize(2);
+    assertThat(bybitExchange.getExchangeMetaData().getInstruments()).hasSize(2);
+
   }
 }

@@ -24,6 +24,7 @@
 package org.knowm.xchange.coinmate;
 
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 
 /**
  * Conversion between XChange CurrencyPair and Coinmate API
@@ -32,13 +33,13 @@ import org.knowm.xchange.currency.CurrencyPair;
  */
 public class CoinmateUtils {
 
-  public static String getPair(CurrencyPair currencyPair) {
-    if (currencyPair == null) {
+  public static String getPair(Instrument instrument) {
+    if (instrument == null) {
       return null;
     }
-    return currencyPair.base.getCurrencyCode().toUpperCase()
+    return instrument.getBase().getCurrencyCode().toUpperCase()
         + "_"
-        + currencyPair.counter.getCurrencyCode().toUpperCase();
+        + instrument.getCounter().getCurrencyCode().toUpperCase();
   }
 
   public static CurrencyPair getPair(String currencyPair) {

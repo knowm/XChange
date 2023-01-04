@@ -29,13 +29,13 @@ public class LykkeTradeService extends LykkeTradeServiceRaw implements TradeServ
   public OpenOrders getOpenOrders() throws IOException {
     // default: 100
     return new OpenOrders(
-        LykkeAdapter.adaptOpenOrders(exchange.getExchangeSymbols(), getLastOrders()));
+        LykkeAdapter.adaptOpenOrders(exchange.getExchangeInstruments(), getLastOrders()));
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     return new OpenOrders(
-        LykkeAdapter.adaptOpenOrders(exchange.getExchangeSymbols(), getLastOrders()));
+        LykkeAdapter.adaptOpenOrders(exchange.getExchangeInstruments(), getLastOrders()));
   }
 
   @Override
@@ -76,7 +76,7 @@ public class LykkeTradeService extends LykkeTradeServiceRaw implements TradeServ
     if (params instanceof TradeHistoryParamsAll) {
       return new UserTrades(
           LykkeAdapter.adaptUserTrades(
-              exchange.getExchangeSymbols(),
+              exchange.getExchangeInstruments(),
               getMathedOrders(((TradeHistoryParamsAll) params).getPageLength())),
           Trades.TradeSortType.SortByTimestamp);
     }

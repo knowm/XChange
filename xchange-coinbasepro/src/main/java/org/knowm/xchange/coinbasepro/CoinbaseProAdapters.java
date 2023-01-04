@@ -43,8 +43,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -52,6 +52,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -364,8 +365,8 @@ public class CoinbaseProAdapters {
       CoinbaseProProduct[] products,
       CoinbaseProCurrency[] cbCurrencies) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        exchangeMetaData == null ? new HashMap<>() : exchangeMetaData.getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> currencyPairs =
+        exchangeMetaData == null ? new HashMap<>() : exchangeMetaData.getInstruments();
 
     Map<Currency, CurrencyMetaData> currencies =
         exchangeMetaData == null ? new HashMap<>() : exchangeMetaData.getCurrencies();
@@ -376,26 +377,25 @@ public class CoinbaseProAdapters {
       }
       CurrencyPair pair = adaptCurrencyPair(product);
 
-      CurrencyPairMetaData staticMetaData = currencyPairs.get(pair);
+      InstrumentMetaData staticMetaData = currencyPairs.get(pair);
       int baseScale = numberOfDecimals(product.getBaseIncrement());
       int priceScale = numberOfDecimals(product.getQuoteIncrement());
       boolean marketOrderAllowed = !product.isLimitOnly();
 
       currencyPairs.put(
           pair,
-          new CurrencyPairMetaData(
-              new BigDecimal("0.50"), // Trading fee at Coinbase is 0.5 %
-              product.getBaseMinSize(),
-              product.getBaseMaxSize(),
-              product.getMinMarketFunds(),
-              product.getMaxMarketFunds(),
-              baseScale,
-              priceScale,
-              null,
-              staticMetaData != null ? staticMetaData.getFeeTiers() : null,
-              null,
-              pair.counter,
-              marketOrderAllowed));
+          new InstrumentMetaData.Builder()
+                  .tradingFee(new BigDecimal("0.50"))
+                  .minimumAmount(product.getBaseMinSize())
+                  .maximumAmount(product.getBaseMaxSize())
+                  .volumeScale(baseScale)
+                  .priceScale(priceScale)
+                  .counterMinimumAmount(product.getMinMarketFunds())
+                  .counterMaximumAmount(product.getMaxMarketFunds())
+                  .feeTiers(staticMetaData != null ? staticMetaData.getFeeTiers() : null)
+                  .tradingFeeCurrency(pair.counter)
+                  .marketOrderEnabled(marketOrderAllowed)
+                  .build());
     }
 
     Arrays.stream(cbCurrencies)

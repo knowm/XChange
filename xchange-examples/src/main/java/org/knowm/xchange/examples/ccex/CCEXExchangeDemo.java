@@ -14,6 +14,6 @@ public class CCEXExchangeDemo {
     System.out.println("ExchangeMetaData toString(): " + exchange.getExchangeMetaData().toString());
     System.out.println(
         "ExchangeMetaData toJSONString(): " + exchange.getExchangeMetaData().toJSONString());
-    System.out.println("Currency Pairs: " + exchange.getExchangeSymbols());
+    System.out.println("Currency Pairs: " + exchange.getExchangeInstruments());
   }
 }
