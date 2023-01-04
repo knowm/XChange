@@ -7,7 +7,7 @@ import org.knowm.xchange.binance.*;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.meta.BinanceTime;
 import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 
 public class BinanceFutureMarketDataServiceRaw extends BinanceFutureBaseService {
@@ -33,9 +33,7 @@ public class BinanceFutureMarketDataServiceRaw extends BinanceFutureBaseService 
 
   public BinanceOrderbook getBinanceOrderbook(Instrument pair, Integer limit) throws IOException {
     return decorateApiCall(
-            () ->
-                binance.depth(
-                    BinanceAdapters.toSymbol(((FuturesContract) pair).getCurrencyPair()), limit))
+            () -> binance.depth(BinanceAdapters.toSymbol((CurrencyPair) pair), limit))
         .withRetry(retry("depth"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), depthPermits(limit))
         .call();

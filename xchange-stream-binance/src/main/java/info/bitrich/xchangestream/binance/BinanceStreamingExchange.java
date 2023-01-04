@@ -6,6 +6,7 @@ import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannel
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
+import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -311,5 +312,15 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   public void disableLiveSubscription() {
     if (this.streamingService != null) this.streamingService.disableLiveSubscription();
+  }
+
+  /**
+   * Enables the user to listen on channel inactive events and react appropriately.
+   *
+   * @param channelInactiveHandler a WebSocketMessageHandler instance.
+   */
+  public void setChannelInactiveHandler(
+      WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+    streamingService.setChannelInactiveHandler(channelInactiveHandler);
   }
 }

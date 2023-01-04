@@ -68,6 +68,7 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
 
   @Test(timeout = 2000)
   public void shouldGetTimeoutOnSecondMaxDepthVeryRestrictiveCustomRateLimiter() throws Exception {
+
     // given
     BinanceExchange exchange = createExchangeWithRateLimiterEnabled();
     exchange
@@ -82,11 +83,14 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
                     .limitForPeriod(80)
                     .timeoutDuration(Duration.ofMillis(10))
                     .build()));
+
     MarketDataService service = exchange.getMarketDataService();
+
     stubForDepth();
 
     // when
     service.getOrderBook(CurrencyPair.ETH_BTC, 5000);
+
     Throwable exception = catchThrowable(() -> service.getOrderBook(CurrencyPair.ETH_BTC, 5000));
 
     // then

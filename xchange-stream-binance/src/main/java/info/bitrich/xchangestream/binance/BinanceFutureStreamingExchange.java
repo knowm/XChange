@@ -5,6 +5,7 @@ import static java.util.Collections.emptyMap;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
+import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -175,10 +176,10 @@ public class BinanceFutureStreamingExchange extends BinanceFutureExchange
   @Override
   public Completable disconnect() {
     List<Completable> completables = new ArrayList<>();
-    if (streamingService != null) {
-      completables.add(streamingService.disconnect());
-      streamingService = null;
-    }
+    //    if (streamingService != null) {
+    completables.add(streamingService.disconnect());
+    streamingService = null;
+    //    }
     if (userDataStreamingService != null) {
       completables.add(userDataStreamingService.disconnect());
       userDataStreamingService = null;
@@ -187,7 +188,6 @@ public class BinanceFutureStreamingExchange extends BinanceFutureExchange
       userDataChannel.close();
       userDataChannel = null;
     }
-    streamingMarketDataService = null;
     return Completable.concat(completables);
   }
 
@@ -312,5 +312,14 @@ public class BinanceFutureStreamingExchange extends BinanceFutureExchange
 
   public void disableLiveSubscription() {
     if (this.streamingService != null) this.streamingService.disableLiveSubscription();
+  }
+  /**
+   * Enables the user to listen on channel inactive events and react appropriately.
+   *
+   * @param channelInactiveHandler a WebSocketMessageHandler instance.
+   */
+  public void setChannelInactiveHandler(
+      WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+    streamingService.setChannelInactiveHandler(channelInactiveHandler);
   }
 }
