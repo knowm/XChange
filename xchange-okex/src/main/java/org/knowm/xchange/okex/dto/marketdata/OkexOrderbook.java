@@ -13,15 +13,19 @@ public class OkexOrderbook {
 
   private final String ts;
 
+  private final long checksum;
+
   @JsonCreator
   public OkexOrderbook(
       @JsonProperty("asks") List<OkexPublicOrder> asks,
       @JsonProperty("bids") List<OkexPublicOrder> bids,
-      @JsonProperty("ts") String ts) {
+      @JsonProperty("ts") String ts,
+      @JsonProperty("checksum") long checksum) {
 
     this.asks = asks;
     this.bids = bids;
     this.ts = ts;
+    this.checksum = checksum;
   }
 
   public List<OkexPublicOrder> getAsks() {
@@ -34,6 +38,10 @@ public class OkexOrderbook {
 
   public String getTs() {
     return ts;
+  }
+
+  public long getChecksum() {
+    return checksum;
   }
 
   @Override

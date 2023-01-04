@@ -8,6 +8,7 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -125,7 +126,12 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
 
   @Override
   public Completable disconnect() {
-    return streamingService.disconnect();
+    logger.info("disconnect");
+    List<Completable> completables = new ArrayList<>();
+    streamingService.pingPongDisconnectIfConnected();
+    completables.add(streamingService.disconnect());
+    streamingService = null;
+    return Completable.concat(completables);
   }
 
   @Override

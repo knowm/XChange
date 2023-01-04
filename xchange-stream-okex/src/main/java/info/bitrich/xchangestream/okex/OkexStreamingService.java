@@ -46,10 +46,9 @@ public class OkexStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected WebSocketClientHandler getWebSocketClientHandler(
-      WebSocketClientHandshaker handshaker,
-      WebSocketClientHandler.WebSocketMessageHandler handler) {
+      WebSocketClientHandshaker handshake, WebSocketClientHandler.WebSocketMessageHandler handler) {
     LOG.info("Registering OkxWebSocketClientHandler");
-    return new OkxWebSocketClientHandler(handshaker, handler);
+    return new OkxWebSocketClientHandler(handshake, handler);
   }
 
   public void setChannelInactiveHandler(
@@ -63,8 +62,8 @@ public class OkexStreamingService extends JsonNettyStreamingService {
   class OkxWebSocketClientHandler extends NettyWebSocketClientHandler {
 
     public OkxWebSocketClientHandler(
-        WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
-      super(handshaker, handler);
+        WebSocketClientHandshaker handshake, WebSocketMessageHandler handler) {
+      super(handshake, handler);
     }
 
     @Override
@@ -92,12 +91,10 @@ public class OkexStreamingService extends JsonNettyStreamingService {
                 if (xSpec.getApiKey() != null) {
                   login();
                 }
+                pingPongDisconnectIfConnected();
 
-                if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
-                  pingPongSubscription.dispose();
-                }
-
-                pingPongSubscription = pingPongSrc.subscribe(o -> this.sendMessage("ping"));
+                //                pingPongSubscription = pingPongSrc.subscribe(o ->
+                // this.sendMessage("ping"));
                 completable.onComplete();
               } catch (Exception e) {
                 completable.onError(e);
@@ -159,7 +156,7 @@ public class OkexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  protected String getChannelNameFromMessage(JsonNode message) throws IOException {
+  protected String getChannelNameFromMessage(JsonNode message) {
     if (message.has("event")) {
       String event = message.get("event").asText();
       if (event.equals("subscribe"))
@@ -196,13 +193,32 @@ public class OkexStreamingService extends JsonNettyStreamingService {
 
   @Override
   public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
-    if (args.length != 1) throw new IOException("UnsubscribeMessage: Insufficient arguments");
-
-    return objectMapper.writeValueAsString(args[0]);
+    LOG.info("channelName {} ", channelName);
+    String subscriptionType = channelName.substring(channelName.lastIndexOf("-") + 1);
+    LOG.info("subscriptionType {} ", subscriptionType);
+    String instId = channelName.substring(0, channelName.lastIndexOf("-"));
+    LOG.info("instId {} ", instId);
+    OkexSubscribeMessage.SubscriptionTopic topic =
+        new OkexSubscribeMessage.SubscriptionTopic(subscriptionType, null, null, instId);
+    OkexSubscribeMessage message = new OkexSubscribeMessage();
+    message.setOp("unsubscribe");
+    message.getArgs().add(topic);
+    //    if (subscriptionType.equals("books") | subscriptionType.equals("books5") |
+    // |subscriptionType.equals("bbo-tbt"))
+    //      orderBookMap.remove(instId);
+    //    if (args.length != 1) throw new IOException("UnsubscribeMessage: Insufficient arguments");
+    return objectMapper.writeValueAsString(message);
   }
 
   @Override
   public String getSubscriptionUniqueId(String channelName, Object... args) {
     return channelName + "-" + args[0];
+  }
+
+  public void pingPongDisconnectIfConnected() {
+    if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
+      pingPongSubscription.dispose();
+      LOG.info("pingPongSubscription.dispose()");
+    }
   }
 }

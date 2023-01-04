@@ -5,6 +5,8 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
+import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.HashMap;
@@ -12,11 +14,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.zip.CRC32;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.OkexAdapters;
 import org.knowm.xchange.okex.dto.marketdata.OkexOrderbook;
@@ -40,25 +45,19 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
     this.orderBookUpdatesSubscriptions = new ConcurrentHashMap<>();
   }
 
-  //    public void unsubscribe(Instrument instrument, String subscriptionType) {
-  //        String instId = OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument);
-  //        OkexSubscribeMessage.SubscriptionTopic topic =
-  //                new OkexSubscribeMessage.SubscriptionTopic(subscriptionType, null, null,
-  // instId);
-  //        OkexSubscribeMessage osm = new OkexSubscribeMessage();
-  //        osm.setOp("unsubscribe");
-  //        osm.getArgs().add(topic);
-  //        //        instId += "-"+subscriptionType;
-  //        service.unsubscribeChannel(instId, osm);
-  //        switch (subscriptionType) {
-  //            case "books":
-  //                orderBookMap.remove(instId);
-  //                break;
-  //            default:
-  //                throw new RuntimeException("Subscription type not supported to unsubscribe from
-  // stream");
-  //        }
-  //    }
+  public void unsubscribe(Instrument instrument, String subscriptionType) {
+    switch (subscriptionType) {
+      case "books":
+      case "bbo-tbt":
+      case "books5":
+      case "books50-l2-tbt":
+      case "books-l2-tbt":
+        orderBookMap.remove(instrument);
+        break;
+      default:
+        throw new RuntimeException("Subscription type not supported to unsubscribe");
+    }
+  }
 
   private final Map<String, OrderBook> orderBookMap = new HashMap<>();
 
@@ -126,6 +125,14 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                             .constructCollectionType(List.class, OkexOrderbook.class));
                 OrderBook orderBook = OkexAdapters.adaptOrderBook(okexOrderbooks, instrument);
                 orderBookMap.put(instId, orderBook);
+                for (OkexOrderbook ob : okexOrderbooks)
+                  if (calcCrc(ob) != ob.getChecksum())
+                    LOG.error(
+                        "CRC32 check sum mismatch ob full JSON {} expected CRC {} calc CRC {}",
+                        jsonNode,
+                        ob.getChecksum(),
+                        calcCrc(ob));
+
                 return Observable.just(orderBook);
               } else if ("update".equalsIgnoreCase(action)) {
                 OrderBook orderBook = orderBookMap.getOrDefault(instId, null);
@@ -133,12 +140,15 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                   LOG.error(String.format("Failed to get orderBook, instId=%s.", instId));
                   return Observable.fromIterable(new LinkedList<>());
                 }
+                String ts = jsonNode.get("data").get(0).get("ts").asText();
+
                 List<OkexPublicOrder> asks =
                     mapper.treeToValue(
                         jsonNode.get("data").get(0).get("asks"),
                         mapper
                             .getTypeFactory()
                             .constructCollectionType(List.class, OkexPublicOrder.class));
+
                 asks.stream()
                     .forEach(
                         okexPublicOrder -> {
@@ -162,11 +172,28 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                         });
                 if (orderBookUpdatesSubscriptions.get(instrument) != null) {
                   orderBookUpdatesSubscriptions(
-                      instrument,
-                      asks,
-                      bids,
-                      new Timestamp(
-                          Long.parseLong(jsonNode.get("data").get(0).get("ts").asText())));
+                      instrument, asks, bids, new Timestamp(Long.parseLong(ts)));
+                }
+
+                // check only 1% of updates, to lower CPU usage. Because wee check Integrity of full
+                // Book,sooner or later we get error if we get wrong data in updates
+                if (ThreadLocalRandom.current().nextInt(100) == 1) {
+                  long checkSum =
+                      Long.parseLong(jsonNode.get("data").get(0).get("checksum").asText());
+
+                  if (calcCrc(orderBook) != checkSum) {
+                    LOG.error(
+                        "asks sorted {} bids sorted {} ",
+                        isOrderBookAsksSorted(orderBook.getAsks()),
+                        isOrderBookBidsSorted(orderBook.getBids()));
+                    LOG.error(
+                        "CRC32 check sum mismatch ob update ob bids {} asks {} full ob {} expected CRC {} calc CRC {}",
+                        asks,
+                        bids,
+                        orderBook,
+                        checkSum,
+                        calcCrc(orderBook));
+                  }
                 }
                 orderBook.updateDate(
                     new Timestamp(Long.parseLong(jsonNode.get("data").get(0).get("ts").asText())));
@@ -178,6 +205,34 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                 return Observable.fromIterable(new LinkedList<>());
               }
             });
+  }
+
+  private boolean isOrderBookAsksSorted(List<LimitOrder> asks) {
+    if (asks.size() < 2) return true;
+    Iterator<LimitOrder> iter = asks.iterator();
+    BigDecimal current, previous = iter.next().getLimitPrice();
+    while (iter.hasNext()) {
+      current = iter.next().getLimitPrice();
+      if (previous.compareTo(current) > 0) {
+        return false;
+      }
+      previous = current;
+    }
+    return true;
+  }
+
+  private boolean isOrderBookBidsSorted(List<LimitOrder> bids) {
+    if (bids.size() < 2) return true;
+    Iterator<LimitOrder> iter = bids.iterator();
+    BigDecimal current, previous = iter.next().getLimitPrice();
+    while (iter.hasNext()) {
+      current = iter.next().getLimitPrice();
+      if (previous.compareTo(current) < 0) {
+        return false;
+      }
+      previous = current;
+    }
+    return true;
   }
 
   public Observable<OrderBookUpdate> getOrderBookUpdates(Instrument instrument) {
@@ -212,5 +267,61 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
     for (OrderBookUpdate o : orderBookUpdate)
       orderBookUpdatesSubscriptions.get(instrument).onNext(o);
     LOG.debug("instrument {} orderBookUpdate size {}", instrument, orderBookUpdate.size());
+  }
+
+  private long calcCrc(OkexOrderbook ob) {
+    StringBuilder data = new StringBuilder();
+    OkexPublicOrder o;
+    int bidSize = ob.getBids().size();
+    int askSize = ob.getAsks().size();
+    for (int i = 0; i < 25; i++) {
+      if (i < bidSize) {
+        o = ob.getBids().get(i);
+        data.append(o.getPrice().toPlainString())
+            .append(":")
+            .append(o.getVolume().toPlainString())
+            .append(":");
+      }
+      if (i < askSize) {
+        o = ob.getAsks().get(i);
+        data.append(o.getPrice().toPlainString())
+            .append(":")
+            .append(o.getVolume().toPlainString())
+            .append(":");
+      }
+    }
+    return getCrc(data);
+  }
+
+  private long calcCrc(OrderBook ob) {
+    StringBuilder data = new StringBuilder();
+    LimitOrder o;
+    int bidSize = ob.getBids().size();
+    int askSize = ob.getAsks().size();
+    for (int i = 0; i < 25; i++) {
+      if (i < bidSize) {
+        o = ob.getBids().get(i);
+        data.append(o.getLimitPrice().toPlainString())
+            .append(":")
+            .append(o.getOriginalAmount().toPlainString())
+            .append(":");
+      }
+      if (i < askSize) {
+        o = ob.getAsks().get(i);
+        data.append(o.getLimitPrice().toPlainString())
+            .append(":")
+            .append(o.getOriginalAmount().toPlainString())
+            .append(":");
+      }
+    }
+    return getCrc(data);
+  }
+
+  private long getCrc(StringBuilder data) {
+    CRC32 crc32 = new CRC32();
+    byte[] toBytes = data.toString().getBytes(StandardCharsets.UTF_8);
+    crc32.update(toBytes, 0, toBytes.length - 1); // strip last :
+    if (crc32.getValue() > Integer.MAX_VALUE) return crc32.getValue() - 4294967296L;
+    else return crc32.getValue();
   }
 }
