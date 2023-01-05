@@ -34,6 +34,7 @@ import org.knowm.xchange.coinmate.dto.account.CoinmateTradingFeesResponse;
 import org.knowm.xchange.coinmate.dto.account.CoinmateTradingFeesResponseData;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferDetail;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistory;
 
 /** @author Martin Stachon */
@@ -336,5 +337,20 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
     throwExceptionIfError(transferHistory);
 
     return transferHistory;
+  }
+
+  public CoinmateTransferDetail getCoinmateTransferDetail(Long transactionId)
+      throws IOException {
+    CoinmateTransferDetail transferDetail =
+        coinmateAuthenticated.getTransferDetail(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            transactionId);
+
+    throwExceptionIfError(transferDetail);
+
+    return transferDetail;
   }
 }
