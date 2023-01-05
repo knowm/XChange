@@ -25,6 +25,7 @@ package org.knowm.xchange.coinmate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBookEntry;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTickerData;
+import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTickers;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTradeStatistics;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
@@ -68,8 +70,22 @@ public class CoinmateAdapters {
    * @return The ticker
    */
   public static Ticker adaptTicker(CoinmateTicker coinmateTicker, CurrencyPair currencyPair) {
+    return adaptTicker(coinmateTicker.getData(), currencyPair);
+  }
 
-    CoinmateTickerData data = coinmateTicker.getData();
+  public static List<Ticker> adaptTickers(CoinmateTickers coinmateTickers) {
+    Map<String, CoinmateTickerData> tickerMap = coinmateTickers.getData();
+    if (tickerMap == null || tickerMap.isEmpty()) {
+      return Collections.emptyList();
+    }
+
+    return tickerMap.entrySet()
+        .stream()
+        .map(entry -> adaptTicker(entry.getValue(), CoinmateUtils.getPair(entry.getKey())))
+        .collect(Collectors.toList());
+  }
+
+  public static Ticker adaptTicker(CoinmateTickerData data, CurrencyPair currencyPair) {
     BigDecimal last = data.getLast();
     BigDecimal bid = data.getBid();
     BigDecimal ask = data.getAsk();
