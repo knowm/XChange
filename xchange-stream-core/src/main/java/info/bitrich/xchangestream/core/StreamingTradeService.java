@@ -72,4 +72,8 @@ public interface StreamingTradeService {
     }
     throw new NotYetImplementedForExchangeException("getUserTrades");
   }
+
+  default Observable<UserTrade> getUserTrades() {
+    throw new NotYetImplementedForExchangeException("getAllUserTrades");
+  }
 }

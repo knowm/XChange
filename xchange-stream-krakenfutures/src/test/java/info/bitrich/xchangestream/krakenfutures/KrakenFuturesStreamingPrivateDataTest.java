@@ -77,7 +77,7 @@ public class KrakenFuturesStreamingPrivateDataTest {
                 });
         while (counter < 4){
             String orderId;
-            if(counter == 0){
+            if(counter == 3){
                 orderId = exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(Order.OrderType.ASK, new FuturesContract("ETH/USD/PERP"))
                         .originalAmount(BigDecimal.ONE)
                         .build());
@@ -92,5 +92,34 @@ public class KrakenFuturesStreamingPrivateDataTest {
         }
         dis.dispose();
         dis2.dispose();
+    }
+
+    @Test
+    public void checkAllUserTrades() throws InterruptedException, IOException {
+        int counter = 0;
+
+        Disposable dis = exchange.getStreamingTradeService().getUserTrades()
+                .retry()
+                .subscribe(fill -> {
+                    LOG.info(fill.toString());
+                    assertThat(fill).isNotNull();
+                });
+
+        while (counter < 4){
+            String orderId;
+            if(counter == 3){
+                orderId = exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(Order.OrderType.ASK, new FuturesContract("ETH/USD/PERP"))
+                        .originalAmount(BigDecimal.ONE)
+                        .build());
+            } else {
+                orderId = exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(Order.OrderType.BID, instrument)
+                        .originalAmount(BigDecimal.ONE)
+                        .build());
+            }
+            LOG.info("OrderId: "+orderId);
+            counter++;
+            TimeUnit.SECONDS.sleep(1);
+        }
+        dis.dispose();
     }
 }

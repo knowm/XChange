@@ -11,13 +11,10 @@ import org.knowm.xchange.instrument.Instrument;
 import java.util.List;
 
 public class KrakenFuturesStreamingTradeService implements StreamingTradeService {
-
-    private final KrakenFuturesStreamingService streamingService;
     private final ObjectMapper objectMapper = StreamingObjectMapperHelper.getObjectMapper();
     private final Observable<List<UserTrade>> fills;
 
     public KrakenFuturesStreamingTradeService(KrakenFuturesStreamingService streamingService) {
-        this.streamingService = streamingService;
         fills = streamingService.subscribeChannel(streamingService.FILLS)
                 .filter(message-> message.has("feed") && message.has("fills"))
                 .filter(message-> message.get("feed").asText().equals("fills"))
@@ -29,5 +26,11 @@ public class KrakenFuturesStreamingTradeService implements StreamingTradeService
         return fills
                 .flatMapIterable(userTrades -> userTrades)
                 .filter(userTrade -> userTrade.getInstrument().equals(instrument));
+    }
+
+    @Override
+    public Observable<UserTrade> getUserTrades() {
+        return fills
+                .flatMapIterable(userTrades -> userTrades);
     }
 }
