@@ -271,7 +271,8 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address)
+      @FormParam("address") String address,
+      @FormParam("feePriority") String feePriority)
       throws IOException;
 
   @POST

@@ -93,7 +93,25 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
             signatureCreator,
             exchange.getNonceFactory(),
             amount,
-            address);
+            address,
+            "HIGH");
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
+  public CoinmateTradeResponse coinmateBitcoinWithdrawalLowPriority(BigDecimal amount, String address)
+      throws IOException {
+    CoinmateTradeResponse response =
+        coinmateAuthenticated.bitcoinWithdrawal(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            amount,
+            address,
+            "LOW");
 
     throwExceptionIfError(response);
 
