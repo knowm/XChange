@@ -308,7 +308,9 @@ public class BinanceAdapters {
                     .total(futureAccountInformation.getTotalWalletBalance())
                     .build()))
             .id("futures")
-            .currentLeverage(totalPositionsInUsd.divide(futureAccountInformation.getTotalWalletBalance(),MathContext.DECIMAL32))
+            .currentLeverage((totalPositionsInUsd.compareTo(BigDecimal.ZERO) != 0)
+                    ? totalPositionsInUsd.divide(futureAccountInformation.getTotalWalletBalance(),MathContext.DECIMAL32)
+                    : BigDecimal.ZERO)
             .features(Collections.singleton(Wallet.WalletFeature.FUTURES_TRADING))
             .build();
   }
