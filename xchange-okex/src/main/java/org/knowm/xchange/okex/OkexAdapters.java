@@ -25,7 +25,6 @@ import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.trade.*;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.*;
@@ -50,7 +49,7 @@ public class OkexAdapters {
           Instrument instrument = adaptOkexInstrumentId(okexOrderDetails.getInstrumentId());
           userTradeList.add(
                   new UserTrade.Builder()
-                          .originalAmount(adaptOkexSize(okexOrderDetails.getAmount(), instrument, exchangeMetaData.getInstruments().get(instrument).getContractValue()))
+                          .originalAmount(convertContractSizeToVolume(okexOrderDetails.getAmount(), instrument, exchangeMetaData.getInstruments().get(instrument).getContractValue()))
                           .instrument(instrument)
                           .price(new BigDecimal(okexOrderDetails.getAverageFilledPrice()))
                           .type(adaptOkexOrderSideToOrderType(okexOrderDetails.getSide()))
@@ -72,7 +71,7 @@ public class OkexAdapters {
     Instrument instrument = adaptOkexInstrumentId(order.getInstrumentId());
     return new LimitOrder(
         "buy".equals(order.getSide()) ? Order.OrderType.BID : Order.OrderType.ASK,
-        adaptOkexSize(order.getAmount(), instrument, exchangeMetaData.getInstruments().get(instrument).getContractValue()),
+        convertContractSizeToVolume(order.getAmount(), instrument, exchangeMetaData.getInstruments().get(instrument).getContractValue()),
         instrument,
         order.getOrderId(),
         new Date(Long.parseLong(order.getCreationTime())),
@@ -100,7 +99,7 @@ public class OkexAdapters {
     return OkexAmendOrderRequest.builder()
         .instrumentId(adaptInstrument(order.getInstrument()))
         .orderId(order.getId())
-        .amendedAmount(adaptOrderSize(order, exchangeMetaData))
+        .amendedAmount(convertVolumeToContractSize(order, exchangeMetaData))
         .amendedPrice(order.getLimitPrice().toString())
         .build();
   }
@@ -116,17 +115,27 @@ public class OkexAdapters {
             .reducePosition(order.hasFlag(OkexOrderFlags.REDUCE_ONLY))
             .clientOrderId(order.getUserReference())
             .orderType(OkexOrderType.market.name())
-            .amount(adaptOrderSize(order, exchangeMetaData))
+            .amount(convertVolumeToContractSize(order, exchangeMetaData))
             .build();
   }
 
-  private static String adaptOrderSize(Order order, ExchangeMetaData exchangeMetaData){
+  /**
+   * contract_size to volume:
+   * crypto-margined contracts：contract_size,volume(contract_size to volume:volume = sz*ctVal/price)
+   * USDT-margined contracts:sz,volume,USDT(contract_size to volume:volume = contract_size*ctVal;contract_size to USDT:volume = contract_size*ctVal*price)
+   * OPTION:volume = sz*ctMult
+   * volume to contract_size:
+   * crypto-margined contracts：contract_size,volume(coin to contract_size:contract_size = volume*price/ctVal)
+   * USDT-margined contracts:contract_size,volume,USDT(coin to contract_size:contract_size = volume/ctVal;USDT to contract_size:contract_size = volume/ctVal/price)
+   * */
+
+  private static String convertVolumeToContractSize(Order order, ExchangeMetaData exchangeMetaData){
     return (order.getInstrument() instanceof FuturesContract)
-            ? order.getOriginalAmount().divide(exchangeMetaData.getInstruments().get(order.getInstrument()).getContractValue(), MathContext.DECIMAL32).toPlainString()
+            ? order.getOriginalAmount().divide(exchangeMetaData.getInstruments().get(order.getInstrument()).getContractValue(), 0, RoundingMode.HALF_DOWN).toPlainString()
             : order.getOriginalAmount().toString();
   }
 
-  private static BigDecimal adaptOkexSize(String okexSize, Instrument instrument, BigDecimal contractValue){
+  private static BigDecimal convertContractSizeToVolume(String okexSize, Instrument instrument, BigDecimal contractValue){
     return (instrument instanceof FuturesContract)
             ? new BigDecimal(okexSize).multiply(contractValue).stripTrailingZeros()
             : new BigDecimal(okexSize).stripTrailingZeros();
@@ -143,7 +152,7 @@ public class OkexAdapters {
         .clientOrderId(order.getUserReference())
         .reducePosition(order.hasFlag(OkexOrderFlags.REDUCE_ONLY))
         .orderType((order.hasFlag(OkexOrderFlags.POST_ONLY)) ? OkexOrderType.post_only.name() : OkexOrderType.limit.name())
-        .amount(adaptOrderSize(order, exchangeMetaData))
+        .amount(convertVolumeToContractSize(order, exchangeMetaData))
         .price(order.getLimitPrice().toString())
         .build();
   }
