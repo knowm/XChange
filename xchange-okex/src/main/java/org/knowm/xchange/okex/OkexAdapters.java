@@ -286,7 +286,9 @@ public class OkexAdapters {
           pair,
           new InstrumentMetaData.Builder()
                   .tradingFee(new BigDecimal(makerFee).negate())
-                  .minimumAmount(new BigDecimal(instrument.getMinSize()))
+                  .minimumAmount((instrument.getInstrumentType().equals(OkexInstType.SWAP.name()))
+                          ? convertContractSizeToVolume(instrument.getMinSize(), pair, new BigDecimal(instrument.getContractValue()))
+                          : new BigDecimal(instrument.getMinSize()))
                   .volumeScale(Math.max(numberOfDecimals(new BigDecimal(instrument.getMinSize())),0))
                   .contractValue((instrument.getInstrumentType().equals(OkexInstType.SWAP.name())) ? new BigDecimal(instrument.getContractValue()): null)
                   .priceScale(numberOfDecimals(new BigDecimal(instrument.getTickSize())))
