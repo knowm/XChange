@@ -32,6 +32,7 @@ import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import org.knowm.xchange.coinmate.dto.account.CoinmateTradingFeesResponse;
 import org.knowm.xchange.coinmate.dto.account.CoinmateTradingFeesResponseData;
+import org.knowm.xchange.coinmate.dto.account.FeePriority;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistory;
@@ -86,22 +87,10 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
 
   public CoinmateTradeResponse coinmateBitcoinWithdrawal(BigDecimal amount, String address)
       throws IOException {
-    CoinmateTradeResponse response =
-        coinmateAuthenticated.bitcoinWithdrawal(
-            exchange.getExchangeSpecification().getApiKey(),
-            exchange.getExchangeSpecification().getUserName(),
-            signatureCreator,
-            exchange.getNonceFactory(),
-            amount,
-            address,
-            "HIGH");
-
-    throwExceptionIfError(response);
-
-    return response;
+    return coinmateBitcoinWithdrawal(amount, address, FeePriority.HIGH);
   }
 
-  public CoinmateTradeResponse coinmateBitcoinWithdrawalLowPriority(BigDecimal amount, String address)
+  public CoinmateTradeResponse coinmateBitcoinWithdrawal(BigDecimal amount, String address, FeePriority feePriority)
       throws IOException {
     CoinmateTradeResponse response =
         coinmateAuthenticated.bitcoinWithdrawal(
@@ -111,7 +100,7 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
             exchange.getNonceFactory(),
             amount,
             address,
-            "LOW");
+            feePriority);
 
     throwExceptionIfError(response);
 
