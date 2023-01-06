@@ -151,7 +151,11 @@ public class OkexAdapters {
         // perform "net" orders
         .clientOrderId(order.getUserReference())
         .reducePosition(order.hasFlag(OkexOrderFlags.REDUCE_ONLY))
-        .orderType((order.hasFlag(OkexOrderFlags.POST_ONLY)) ? OkexOrderType.post_only.name() : OkexOrderType.limit.name())
+        .orderType((order.hasFlag(OkexOrderFlags.POST_ONLY))
+              ? OkexOrderType.post_only.name()
+              : (order.hasFlag(OkexOrderFlags.OPTIMAL_LIMIT_IOC) && order.getInstrument() instanceof FuturesContract)
+                ? OkexOrderType.optimal_limit_ioc.name()
+                : OkexOrderType.limit.name())
         .amount(convertVolumeToContractSize(order, exchangeMetaData))
         .price(order.getLimitPrice().toString())
         .build();
