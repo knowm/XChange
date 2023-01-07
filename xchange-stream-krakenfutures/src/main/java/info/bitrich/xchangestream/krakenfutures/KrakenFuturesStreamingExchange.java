@@ -24,14 +24,14 @@ public class KrakenFuturesStreamingExchange extends KrakenFuturesExchange implem
     @Override
     protected void initServices() {
         super.initServices();
-        this.streamingService = new KrakenFuturesStreamingService((Boolean.TRUE.equals(
-                exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) ? DEMO_API_URI : API_URI, exchangeSpecification);
-        this.streamingMarketDataService = new KrakenFuturesStreamingMarketDataService(streamingService);
-        this.streamingTradeService = new KrakenFuturesStreamingTradeService(streamingService);
     }
 
     @Override
     public Completable connect(ProductSubscription... args) {
+        this.streamingService = new KrakenFuturesStreamingService((Boolean.TRUE.equals(
+                exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) ? DEMO_API_URI : API_URI, exchangeSpecification, exchangeMetaData.getInstruments());
+        this.streamingMarketDataService = new KrakenFuturesStreamingMarketDataService(streamingService);
+        this.streamingTradeService = new KrakenFuturesStreamingTradeService(streamingService);
         return streamingService.connect();
     }
 

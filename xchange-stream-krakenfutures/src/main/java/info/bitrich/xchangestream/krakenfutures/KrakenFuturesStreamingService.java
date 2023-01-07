@@ -9,11 +9,15 @@ import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import org.apache.commons.lang3.NotImplementedException;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.krakenfutures.KrakenFuturesAdapters;
 import org.knowm.xchange.krakenfutures.service.KrakenFuturesDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
@@ -21,7 +25,6 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     private static final Logger LOG = LoggerFactory.getLogger(KrakenFuturesStreamingService.class);
 
     private final String SUBSCRIBE = "subscribe";
-    private final String UNSUBSCRIBE = "unsubscribe";
 
     protected final String ORDERBOOK = "book";
     protected final String TICKER = "ticker";
@@ -30,10 +33,11 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
 
     private String CHALLENGE = "";
     private final ExchangeSpecification exchangeSpecification;
-
-    public KrakenFuturesStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
+    private final Map<Instrument, InstrumentMetaData> instruments;
+    public KrakenFuturesStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification, Map<Instrument, InstrumentMetaData> instruments) {
         super(apiUrl);
         this.exchangeSpecification = exchangeSpecification;
+        this.instruments = instruments;
     }
 
     @Override
@@ -62,11 +66,9 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
             if(message.get("feed").asText().contains(ORDERBOOK)){
                 channelName = ORDERBOOK+message.get("product_id").asText().toLowerCase();
             } else if(message.get("feed").asText().contains(TICKER)){
-                channelName = TICKER+message.get("product_id").asText().toLowerCase();
+                channelName = TICKER;
             } else if(message.get("feed").asText().contains(TRADES)){
                 channelName = TRADES+message.get("product_id").asText().toLowerCase();
-            } else if(message.get("feed").asText().contains(FILLS)){
-                channelName = FILLS+message.get("product_id").asText().toLowerCase();
             }
         }
         // Fills
@@ -91,14 +93,13 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
                     throw new RuntimeException(e);
                 }
             } while (CHALLENGE.equals(""));
-            return objectMapper.writeValueAsString(getWebSocketMessage(SUBSCRIBE, channelName));
-        } else {
-            return objectMapper.writeValueAsString(getWebSocketMessage(SUBSCRIBE, channelName));
         }
+        return objectMapper.writeValueAsString(getWebSocketMessage(SUBSCRIBE, channelName));
     }
 
     @Override
     public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
+        String UNSUBSCRIBE = "unsubscribe";
         return objectMapper.writeValueAsString(getWebSocketMessage(UNSUBSCRIBE, channelName));
     }
 
@@ -106,7 +107,8 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
         if(channelName.contains(ORDERBOOK)){
             return new KrakenFuturesStreamingWebsocketMessage(event, ORDERBOOK, new String[]{channelName.replace(ORDERBOOK, "")});
         } else if(channelName.contains(TICKER)){
-            return new KrakenFuturesStreamingWebsocketMessage(event, TICKER, new String[]{channelName.replace(TICKER, "")});
+            return new KrakenFuturesStreamingWebsocketMessage(event, TICKER, instruments.keySet().stream()
+                    .map(KrakenFuturesAdapters::adaptKrakenFuturesSymbol).toArray(String[]::new));
         } else if(channelName.contains(TRADES)){
             return new KrakenFuturesStreamingWebsocketMessage(event, TRADES, new String[]{channelName.replace(TRADES, "")});
         } else if(channelName.contains(FILLS)){

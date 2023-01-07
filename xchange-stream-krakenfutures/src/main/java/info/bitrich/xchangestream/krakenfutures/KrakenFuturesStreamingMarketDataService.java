@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.krakenfutures;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingOrderBookDeltaResponse;
@@ -22,11 +23,14 @@ public class KrakenFuturesStreamingMarketDataService implements StreamingMarketD
 
     private final ObjectMapper objectMapper = StreamingObjectMapperHelper.getObjectMapper();
     private final KrakenFuturesStreamingService service;
-
     private final Map<Instrument, OrderBook> orderBookMap = new HashMap<>();
+    private final Observable<JsonNode> tickers;
 
     public KrakenFuturesStreamingMarketDataService(KrakenFuturesStreamingService service) {
         this.service = service;
+        tickers = service.subscribeChannel(service.TICKER)
+                .filter(message-> message.has("feed") && message.has("product_id"))
+                .publish().autoConnect();
     }
 
     @Override
@@ -60,10 +64,8 @@ public class KrakenFuturesStreamingMarketDataService implements StreamingMarketD
 
     @Override
     public Observable<Ticker> getTicker(Instrument instrument, Object... args) {
-        String channelName = service.TICKER+KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument);
-
-        return service.subscribeChannel(channelName)
-                .filter(message-> message.has("feed") && message.has("product_id"))
+        return tickers
+                .filter(message-> message.get("product_id").asText().toLowerCase().equals(KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument)))
                 .map(message-> KrakenFuturesStreamingAdapters.adaptTicker(objectMapper.treeToValue(message, KrakenFuturesStreamingTickerResponse.class)));
     }
 
@@ -79,10 +81,8 @@ public class KrakenFuturesStreamingMarketDataService implements StreamingMarketD
 
     @Override
     public Observable<FundingRate> getFundingRate(Instrument instrument, Object... args) {
-        String channelName = service.TICKER+KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument);
-
-        return service.subscribeChannel(channelName)
-                .filter(message-> message.has("feed") && message.has("product_id"))
+        return tickers
+                .filter(message-> message.get("product_id").asText().toLowerCase().equals(KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument)))
                 .map(message-> KrakenFuturesStreamingAdapters.adaptFundingRate(objectMapper.treeToValue(message, KrakenFuturesStreamingTickerResponse.class)));
     }
 }
