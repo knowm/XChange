@@ -9,15 +9,11 @@ import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import org.apache.commons.lang3.NotImplementedException;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.dto.meta.InstrumentMetaData;
-import org.knowm.xchange.instrument.Instrument;
-import org.knowm.xchange.krakenfutures.KrakenFuturesAdapters;
 import org.knowm.xchange.krakenfutures.service.KrakenFuturesDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
@@ -33,11 +29,9 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
 
     private String CHALLENGE = "";
     private final ExchangeSpecification exchangeSpecification;
-    private final Map<Instrument, InstrumentMetaData> instruments;
-    public KrakenFuturesStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification, Map<Instrument, InstrumentMetaData> instruments) {
+    public KrakenFuturesStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
         super(apiUrl);
         this.exchangeSpecification = exchangeSpecification;
-        this.instruments = instruments;
     }
 
     @Override
@@ -66,7 +60,7 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
             if(message.get("feed").asText().contains(ORDERBOOK)){
                 channelName = ORDERBOOK+message.get("product_id").asText().toLowerCase();
             } else if(message.get("feed").asText().contains(TICKER)){
-                channelName = TICKER;
+                channelName = TICKER+message.get("product_id").asText().toLowerCase();
             } else if(message.get("feed").asText().contains(TRADES)){
                 channelName = TRADES+message.get("product_id").asText().toLowerCase();
             }
@@ -107,8 +101,7 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
         if(channelName.contains(ORDERBOOK)){
             return new KrakenFuturesStreamingWebsocketMessage(event, ORDERBOOK, new String[]{channelName.replace(ORDERBOOK, "")});
         } else if(channelName.contains(TICKER)){
-            return new KrakenFuturesStreamingWebsocketMessage(event, TICKER, instruments.keySet().stream()
-                    .map(KrakenFuturesAdapters::adaptKrakenFuturesSymbol).toArray(String[]::new));
+            return new KrakenFuturesStreamingWebsocketMessage(event, TICKER, new String[]{channelName.replace(TICKER, "")});
         } else if(channelName.contains(TRADES)){
             return new KrakenFuturesStreamingWebsocketMessage(event, TRADES, new String[]{channelName.replace(TRADES, "")});
         } else if(channelName.contains(FILLS)){
