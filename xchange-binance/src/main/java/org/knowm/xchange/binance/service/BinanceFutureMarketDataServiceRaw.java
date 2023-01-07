@@ -1,14 +1,16 @@
 package org.knowm.xchange.binance.service;
 
-import static org.knowm.xchange.binance.BinanceResilience.REQUEST_WEIGHT_RATE_LIMITER;
-
-import java.io.IOException;
-import org.knowm.xchange.binance.*;
+import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.BinanceFutureAuthenticated;
+import org.knowm.xchange.binance.BinanceFutureExchange;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
-import org.knowm.xchange.binance.dto.meta.BinanceTime;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
+
+import java.io.IOException;
+
+import static org.knowm.xchange.binance.BinanceResilience.REQUEST_WEIGHT_RATE_LIMITER;
 
 public class BinanceFutureMarketDataServiceRaw extends BinanceFutureBaseService {
 
@@ -17,18 +19,6 @@ public class BinanceFutureMarketDataServiceRaw extends BinanceFutureBaseService 
       BinanceFutureAuthenticated binance,
       ResilienceRegistries resilienceRegistries) {
     super(exchange, binance, resilienceRegistries);
-  }
-
-  public void ping() throws IOException {
-    decorateApiCall(() -> binance.ping())
-        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
-        .call();
-  }
-
-  public BinanceTime binanceTime() throws IOException {
-    return decorateApiCall(() -> binance.time())
-        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
-        .call();
   }
 
   public BinanceOrderbook getBinanceOrderbook(Instrument pair, Integer limit) throws IOException {

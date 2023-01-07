@@ -1,10 +1,5 @@
 package org.knowm.xchange.okex.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.derivative.OptionsContract;
@@ -24,17 +19,18 @@ import org.knowm.xchange.okex.dto.trade.OkexCancelOrderRequest;
 import org.knowm.xchange.okex.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.dto.trade.OkexOrderResponse;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 import javax.ws.rs.NotSupportedException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.knowm.xchange.okex.OkexAdapters.*;
 
@@ -90,8 +86,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
           getOkexPendingOrder(
                   null,
                   null,
-                  OkexAdapters.adaptInstrumentToOkexInstrumentId(
-                      ((OpenOrdersParamInstrument) params).getInstrument()),
+                  OkexAdapters.adaptInstrument(((OpenOrdersParamInstrument) params).getInstrument()),
                   null,
                   null,
                   null,
@@ -114,8 +109,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
       Instrument instrument = ((OrderQueryParamInstrument) orderQueryParams).getInstrument();
       String orderId = orderQueryParams.getOrderId();
 
-      List<OkexOrderDetails> orderResults =
-          getOkexOrder(OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument), orderId)
+      List<OkexOrderDetails> orderResults = getOkexOrder(OkexAdapters.adaptInstrument(instrument), orderId)
               .getData();
 
       if (!orderResults.isEmpty()) {
@@ -193,8 +187,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     if (params instanceof CancelOrderByIdParams && params instanceof CancelOrderByInstrument) {
 
       String id = ((CancelOrderByIdParams) params).getOrderId();
-      String instrumentId =
-          OkexAdapters.adaptInstrumentToOkexInstrumentId(((CancelOrderByInstrument) params).getInstrument());
+      String instrumentId = OkexAdapters.adaptInstrument(((CancelOrderByInstrument) params).getInstrument());
 
       OkexCancelOrderRequest req =
           OkexCancelOrderRequest.builder().instrumentId(instrumentId).orderId(id).build();
@@ -218,9 +211,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
                     param ->
                         OkexCancelOrderRequest.builder()
                             .orderId(((CancelOrderByIdParams) param).getOrderId())
-                            .instrumentId(
-                                OkexAdapters.adaptInstrumentToOkexInstrumentId(
-                                    ((CancelOrderByInstrument) param).getInstrument()))
+                            .instrumentId(OkexAdapters.adaptInstrument(((CancelOrderByInstrument) param).getInstrument()))
                             .build())
                 .collect(Collectors.toList()))
         .getData()

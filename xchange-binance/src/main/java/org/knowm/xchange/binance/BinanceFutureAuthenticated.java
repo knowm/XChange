@@ -1,17 +1,18 @@
 package org.knowm.xchange.binance;
 
-import java.io.IOException;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
-public interface BinanceFutureAuthenticated extends BinanceFuture {
+public interface BinanceFutureAuthenticated extends BinanceFutures {
 
   String SIGNATURE = "signature";
   String X_MBX_APIKEY = "X-MBX-APIKEY";

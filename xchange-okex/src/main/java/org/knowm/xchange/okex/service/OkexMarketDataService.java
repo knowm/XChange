@@ -1,8 +1,5 @@
 package org.knowm.xchange.okex.service;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.*;
@@ -17,6 +14,10 @@ import org.knowm.xchange.service.trade.params.CandleStickDataParams;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParamWithLimit;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexMarketDataService extends OkexMarketDataServiceRaw implements MarketDataService {
   public static final String SPOT = "SPOT";
@@ -30,8 +31,7 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
 
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
-    return OkexAdapters.adaptOrderBook(
-        getOkexOrderbook(OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument)), instrument);
+    return OkexAdapters.adaptOrderBook(getOkexOrderbook(OkexAdapters.adaptInstrument(instrument)), instrument);
   }
 
   @Override
@@ -41,14 +41,12 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
 
   @Override
   public Trades getTrades(Instrument instrument, Object... args) throws IOException {
-    return OkexAdapters.adaptTrades(
-        getOkexTrades(OkexAdapters.adaptInstrumentToOkexInstrumentId(instrument), 100).getData(), instrument);
+    return OkexAdapters.adaptTrades(getOkexTrades(OkexAdapters.adaptInstrument(instrument), 100).getData(), instrument);
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return OkexAdapters.adaptTrades(
-        getOkexTrades(OkexAdapters.adaptInstrumentToOkexInstrumentId(currencyPair), 100).getData(), currencyPair);
+  public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
+    return OkexAdapters.adaptTicker(getOkexTicker(OkexAdapters.adaptInstrument(instrument)).getData().get(0));
   }
 
 
@@ -72,11 +70,9 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
       limit = String.valueOf(((DefaultCandleStickParamWithLimit) params).getLimit());
     }
 
-    OkexResponse<List<OkexCandleStick>> historyCandle = getHistoryCandle(
-            OkexAdapters.adaptInstrumentToOkexInstrumentId(currencyPair),
+    OkexResponse<List<OkexCandleStick>> historyCandle = getHistoryCandle(OkexAdapters.adaptInstrument(currencyPair),
             String.valueOf(defaultCandleStickParam.getEndDate().getTime()),
-            String.valueOf(defaultCandleStickParam.getStartDate().getTime()),
-            periodType.getFieldValue(), limit);
+            String.valueOf(defaultCandleStickParam.getStartDate().getTime()), periodType.getFieldValue(), limit);
     return OkexAdapters.adaptCandleStickData(historyCandle.getData(), currencyPair);
   }
 

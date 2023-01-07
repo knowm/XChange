@@ -1,13 +1,6 @@
 package org.knowm.xchange;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
@@ -20,11 +13,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 public abstract class BaseExchange implements Exchange {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   protected ExchangeSpecification exchangeSpecification;
   protected ExchangeMetaData exchangeMetaData;
+
   protected MarketDataService marketDataService;
   protected TradeService tradeService;
   protected AccountService accountService;

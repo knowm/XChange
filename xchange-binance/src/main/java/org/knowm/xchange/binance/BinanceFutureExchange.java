@@ -1,45 +1,33 @@
 package org.knowm.xchange.binance;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
-import org.knowm.xchange.binance.dto.meta.exchangeinfo.*;
-import org.knowm.xchange.binance.service.*;
+import org.knowm.xchange.binance.service.BinanceAccountService;
+import org.knowm.xchange.binance.service.BinanceFutureAccountService;
+import org.knowm.xchange.binance.service.BinanceFutureMarketDataService;
+import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.derivative.FuturesContract;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.DerivativeMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
 public class BinanceFutureExchange extends BaseExchange {
   protected BinanceFutureAuthenticated binance;
-  protected BinanceFutureExchangeInfo exchangeInfo;
   public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
   protected SynchronizedValueFactory<Long> timestampFactory;
   protected static ResilienceRegistries RESILIENCE_REGISTRIES;
 
   @Override
   protected void initServices() {
-    this.binance =
-        ExchangeRestProxyBuilder.forInterface(
-                BinanceFutureAuthenticated.class, getExchangeSpecification())
-            .build();
-    this.timestampFactory =
-        new BinanceFutureTimestampFactory(
-            binance, getExchangeSpecification().getResilience(), getResilienceRegistries());
-    this.marketDataService =
-        new BinanceFutureMarketDataService(this, binance, getResilienceRegistries());
+    this.binance = ExchangeRestProxyBuilder.forInterface(BinanceFutureAuthenticated.class, getExchangeSpecification()).build();
+    this.timestampFactory = new BinanceFutureTimestampFactory(binance, getExchangeSpecification().getResilience(),
+            getResilienceRegistries());
+    this.marketDataService = new BinanceFutureMarketDataService(this, binance, getResilienceRegistries());
     //        this.tradeService = new BinanceTradeService(this, binance, getResilienceRegistries());
     this.accountService = new BinanceFutureAccountService(this, binance, getResilienceRegistries());
   }
@@ -63,8 +51,7 @@ public class BinanceFutureExchange extends BaseExchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-    throw new UnsupportedOperationException(
-        "Binance uses timestamp/recvwindow rather than a nonce");
+    throw new UnsupportedOperationException("Binance uses timestamp/recvwindow rather than a nonce");
   }
 
   public static void resetResilienceRegistries() {
@@ -95,9 +82,6 @@ public class BinanceFutureExchange extends BaseExchange {
     super.applySpecification(exchangeSpecification);
   }
 
-  public BinanceFutureExchangeInfo getExchangeInfo() {
-    return exchangeInfo;
-  }
 
   public boolean usingSandbox() {
     return enabledSandbox(exchangeSpecification);
@@ -105,133 +89,32 @@ public class BinanceFutureExchange extends BaseExchange {
 
   @Override
   public void remoteInit() {
-
     try {
-      BinanceFutureMarketDataService marketDataService =
-          (BinanceFutureMarketDataService) this.marketDataService;
-      exchangeInfo = marketDataService.getExchangeInfo();
+      BinanceMarketDataService marketDataService = (BinanceMarketDataService) this.marketDataService;
 
-      BinanceFutureAccountService accountService =
-          (BinanceFutureAccountService) getAccountService();
+      BinanceAccountService accountService = (BinanceAccountService) getAccountService();
       Map<String, AssetDetail> assetDetailMap = null;
-      // AssetDetails() not avaliable in Future
-      //            if (!usingSandbox() && isAuthenticated()) {
-      //                assetDetailMap = accountService.getAssetDetails(); // not available in
-      // sndbox
-      //            }
-
-      postInit(assetDetailMap);
-
+      if (!usingSandbox() && isAuthenticated()) {
+        assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
+      }
+      exchangeMetaData = BinanceAdapters.adaptExchangeMetaData(marketDataService.getExchangeInfo(), assetDetailMap);
+      BinanceAdapters.adaptFutureExchangeMetaData(exchangeMetaData, marketDataService.getFutureExchangeInfo());
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
     }
   }
 
-  protected void postInit(Map<String, AssetDetail> assetDetailMap) {
-    // populate currency pair keys only, exchange does not provide any other metadata for download
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
-    Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
-    Map<FuturesContract, DerivativeMetaData> futures = new HashMap<>();
-
-    // Clear all hardcoded currencies when loading dynamically from exchange.
-    if (assetDetailMap != null) {
-      currencies.clear();
-    }
-
-    FutureSymbol[] symbols = exchangeInfo.getSymbols();
-
-    for (FutureSymbol symbol : symbols) {
-      if (symbol.getStatus().equals("TRADING")) { // Symbols which are trading
-        int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
-        int counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
-        int pairPrecision = 8;
-        int amountPrecision = 8;
-
-        BigDecimal minQty = null;
-        BigDecimal maxQty = null;
-        BigDecimal stepSize = null;
-
-        BigDecimal counterMinQty = null;
-        BigDecimal counterMaxQty = null;
-
-        FutureFilter[] filters = symbol.getFilters();
-
-        CurrencyPair currentCurrencyPair =
-            new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset());
-
-        for (FutureFilter filter : filters) {
-          if (filter.getFilterType().equals("PRICE_FILTER")) {
-            pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getTickSize()));
-            counterMaxQty = new BigDecimal(filter.getMaxPrice()).stripTrailingZeros();
-          } else if (filter.getFilterType().equals("LOT_SIZE")) {
-            amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getStepSize()));
-            minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
-            maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
-            stepSize = new BigDecimal(filter.getStepSize()).stripTrailingZeros();
-          } else if (filter.getFilterType().equals("MIN_NOTIONAL")) {
-            counterMinQty = new BigDecimal(filter.getNotional()).stripTrailingZeros();
-          }
-        }
-
-        boolean marketOrderAllowed = Arrays.asList(symbol.getOrderTypes()).contains("MARKET");
-        currencyPairs.put(
-            currentCurrencyPair,
-            new CurrencyPairMetaData(
-                new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
-                minQty, // Min amount
-                maxQty, // Max amount
-                counterMinQty,
-                counterMaxQty,
-                amountPrecision, // base precision
-                pairPrecision, // counter precision
-                null,
-                null, /* TODO get fee tiers, although this is not necessary now
-                      because their API returns current fee directly */
-                stepSize,
-                null,
-                marketOrderAllowed));
-
-        Currency baseCurrency = currentCurrencyPair.base;
-        CurrencyMetaData baseCurrencyMetaData =
-            BinanceAdapters.adaptCurrencyMetaData(
-                currencies, baseCurrency, assetDetailMap, basePrecision);
-        currencies.put(baseCurrency, baseCurrencyMetaData);
-
-        Currency counterCurrency = currentCurrencyPair.counter;
-        CurrencyMetaData counterCurrencyMetaData =
-            BinanceAdapters.adaptCurrencyMetaData(
-                currencies, counterCurrency, assetDetailMap, counterPrecision);
-        currencies.put(counterCurrency, counterCurrencyMetaData);
-        // futures
-        DerivativeMetaData derivativeMetaData =
-            new DerivativeMetaData(
-                new BigDecimal("0.1"), minQty, maxQty, null, null, null, stepSize, null);
-        String p = symbol.getBaseAsset() + "/" + symbol.getQuoteAsset() + "/SWAP";
-        futures.put(new FuturesContract(p), derivativeMetaData);
-        exchangeMetaData =
-            new ExchangeMetaData(
-                currencyPairs,
-                currencies,
-                futures,
-                null,
-                exchangeMetaData.getPublicRateLimits(),
-                exchangeMetaData.getPrivateRateLimits(),
-                true);
-      }
-    }
-  }
-
   private boolean isAuthenticated() {
-    return exchangeSpecification != null
-        && exchangeSpecification.getApiKey() != null
-        && exchangeSpecification.getSecretKey() != null;
+    return exchangeSpecification != null && exchangeSpecification.getApiKey() != null && exchangeSpecification.getSecretKey() != null;
   }
 
   private int numberOfDecimals(String value) {
     return new BigDecimal(value).stripTrailingZeros().scale();
   }
 
-  /** Adjust host parameters depending on exchange specific parameters */
+  /**
+   * Adjust host parameters depending on exchange specific parameters
+   */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       if (enabledSandbox(exchangeSpecification)) {
@@ -242,7 +125,6 @@ public class BinanceFutureExchange extends BaseExchange {
   }
 
   private static boolean enabledSandbox(ExchangeSpecification exchangeSpecification) {
-    return Boolean.TRUE.equals(
-        exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX));
+    return Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX));
   }
 }

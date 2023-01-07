@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.binance;
 
-import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannelException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
@@ -9,11 +8,10 @@ import info.bitrich.xchangestream.util.Events;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.apache.commons.lang3.StringUtils;
-import org.knowm.xchange.binance.BinanceAuthenticated;
-import org.knowm.xchange.binance.BinanceExchange;
-import org.knowm.xchange.binance.service.BinanceMarketDataService;
+import org.knowm.xchange.binance.BinanceFutureAuthenticated;
+import org.knowm.xchange.binance.BinanceFutureExchange;
+import org.knowm.xchange.binance.service.BinanceFutureMarketDataService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
-import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,43 +24,38 @@ import java.util.stream.Stream;
 
 import static java.util.Collections.emptyMap;
 
-public class BinanceStreamingExchange extends BinanceExchange implements StreamingExchange {
-
-  private static final Logger LOG = LoggerFactory.getLogger(BinanceStreamingExchange.class);
-  private static final String WS_API_BASE_URI = "wss://stream.binance.com:9443/";
-  private static final String WS_SANDBOX_API_BASE_URI = "wss://testnet.binance.vision/";
-  public static final String USE_HIGHER_UPDATE_FREQUENCY =
-      "Binance_Orderbook_Use_Higher_Frequency";
+public class BinanceFutureStreamingExchange extends BinanceFutureExchange implements StreamingExchange {
+  private static final Logger LOG = LoggerFactory.getLogger(BinanceFutureStreamingExchange.class);
+  //    private static final String WS_API_BASE_URI = "wss://fstream-auth.binance.com/";
+  private static final String WS_API_BASE_URI = "wss://fstream.binance.com/";
+  private static final String WS_SANDBOX_API_BASE_URI = "wss://stream.binancefuture.com";
+  public static final String USE_HIGHER_UPDATE_FREQUENCY = "Binance_Orderbook_Use_Higher_Frequency";
   public static final String USE_REALTIME_BOOK_TICKER = "Binance_Ticker_Use_Realtime";
   public static final String FETCH_ORDER_BOOK_LIMIT = "Binance_Fetch_Order_Book_Limit";
+
   private BinanceStreamingService streamingService;
+  private BinanceFutureUserDataChannel userDataChannel;
   private BinanceUserDataStreamingService userDataStreamingService;
 
-  private BinanceStreamingMarketDataService streamingMarketDataService;
+  private BinanceFutureStreamingMarketDataService streamingMarketDataService;
   private BinanceStreamingAccountService streamingAccountService;
   private BinanceStreamingTradeService streamingTradeService;
 
-  private BinanceUserDataChannel userDataChannel;
-  private Runnable onApiCall;
-  private String orderBookUpdateFrequencyParameter = "";
-  private int oderBookFetchLimitParameter = 1000;
-  private boolean realtimeOrderBookTicker;
+  Runnable onApiCall;
+  boolean realtimeOrderBookTicker;
+  String orderBookUpdateFrequencyParameter = "";
+  int oderBookFetchLimitParameter = 1000;
 
   @Override
   protected void initServices() {
     super.initServices();
     this.onApiCall = Events.onApiCall(exchangeSpecification);
-    boolean userHigherFrequency =
-        Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(USE_HIGHER_UPDATE_FREQUENCY));
-    realtimeOrderBookTicker =
-        Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(USE_REALTIME_BOOK_TICKER));
+    boolean userHigherFrequency = Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_HIGHER_UPDATE_FREQUENCY));
+    realtimeOrderBookTicker = Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_REALTIME_BOOK_TICKER));
     if (userHigherFrequency) {
       orderBookUpdateFrequencyParameter = "@100ms";
     }
-    Object fetchOrderBookLimit =
-        exchangeSpecification.getExchangeSpecificParametersItem(FETCH_ORDER_BOOK_LIMIT);
+    Object fetchOrderBookLimit = exchangeSpecification.getExchangeSpecificParametersItem(FETCH_ORDER_BOOK_LIMIT);
     if (fetchOrderBookLimit instanceof Integer) {
       oderBookFetchLimitParameter = (int) fetchOrderBookLimit;
     }
@@ -84,7 +77,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
    * time.
    *
    * @param args A single `ProductSubscription` to define the subscriptions required to be available
-   *     during this connection.
+   *             during this connection.
    * @return A completable which fulfils once connection is complete.
    */
   @Override
@@ -97,8 +90,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   private Completable internalConnect(KlineSubscription klineSubscription, ProductSubscription... args) {
     if (streamingService != null) {
-      throw new UnsupportedOperationException(
-          "Exchange only handles a single connection - disconnect the current connection.");
+      throw new UnsupportedOperationException("Exchange only handles a single connection - disconnect the current connection.");
     }
 
     ProductSubscription subscriptions = args[0];
@@ -116,69 +108,48 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
       }
 
       LOG.info("Connecting to authenticated web socket");
-      BinanceAuthenticated binance =
-          ExchangeRestProxyBuilder.forInterface(
-                  BinanceAuthenticated.class, getExchangeSpecification())
-              .build();
-      userDataChannel =
-          new BinanceUserDataChannel(binance, exchangeSpecification.getApiKey(), onApiCall);
+      BinanceFutureAuthenticated binance = ExchangeRestProxyBuilder.forInterface(BinanceFutureAuthenticated.class,
+              getExchangeSpecification()).build();
+      userDataChannel = new BinanceFutureUserDataChannel(binance, exchangeSpecification.getApiKey(), onApiCall);
       try {
         completables.add(createAndConnectUserDataService(userDataChannel.getListenKey()));
-      } catch (NoActiveChannelException e) {
+      } catch (BinanceFutureUserDataChannel.NoActiveChannelException e) {
         throw new IllegalStateException("Failed to establish user data channel", e);
       }
     }
 
-    streamingMarketDataService =
-        new BinanceStreamingMarketDataService(
-            streamingService,
-            (BinanceMarketDataService) marketDataService,
-            onApiCall,
-            orderBookUpdateFrequencyParameter,
-            realtimeOrderBookTicker,
+    streamingMarketDataService = new BinanceFutureStreamingMarketDataService(streamingService,
+            (BinanceFutureMarketDataService) marketDataService, onApiCall, orderBookUpdateFrequencyParameter, realtimeOrderBookTicker,
             oderBookFetchLimitParameter);
     streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService);
     streamingTradeService = new BinanceStreamingTradeService(userDataStreamingService);
 
     return Completable.concat(completables)
-        .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions, klineSubscription))
-        .doOnComplete(() -> streamingAccountService.openSubscriptions())
-        .doOnComplete(() -> streamingTradeService.openSubscriptions());
+            .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions, klineSubscription))
+            .doOnComplete(() -> streamingAccountService.openSubscriptions()).doOnComplete(() -> streamingTradeService.openSubscriptions());
   }
 
   private Completable createAndConnectUserDataService(String listenKey) {
-    userDataStreamingService =
-        BinanceUserDataStreamingService.create(getStreamingBaseUri(), listenKey);
+    userDataStreamingService = BinanceUserDataStreamingService.create(getStreamingBaseUri(), listenKey);
     applyStreamingSpecification(getExchangeSpecification(), userDataStreamingService);
-    return userDataStreamingService
-        .connect()
-        .doOnComplete(
-            () -> {
-              LOG.info("Connected to authenticated web socket");
-              userDataChannel.onChangeListenKey(
-                  newListenKey ->
-                    userDataStreamingService
-                        .disconnect()
-                        .doOnComplete(
-                            () -> createAndConnectUserDataService(newListenKey)
-                                .doOnComplete(
-                                    () -> {
-                                      streamingAccountService.setUserDataStreamingService(
-                                          userDataStreamingService);
-                                      streamingTradeService.setUserDataStreamingService(
-                                          userDataStreamingService);
-                                    }))
-                  );
-            });
+    return userDataStreamingService.connect().doOnComplete(() -> {
+      LOG.info("Connected to authenticated web socket");
+      userDataChannel.onChangeListenKey(newListenKey -> userDataStreamingService.disconnect().doOnComplete(() -> {
+        createAndConnectUserDataService(newListenKey).doOnComplete(() -> {
+          streamingAccountService.setUserDataStreamingService(userDataStreamingService);
+          streamingTradeService.setUserDataStreamingService(userDataStreamingService);
+        });
+      }));
+    });
   }
 
   @Override
   public Completable disconnect() {
     List<Completable> completables = new ArrayList<>();
-    if (streamingService != null) {
-      completables.add(streamingService.disconnect());
-      streamingService = null;
-    }
+    //    if (streamingService != null) {
+    completables.add(streamingService.disconnect());
+    streamingService = null;
+    //    }
     if (userDataStreamingService != null) {
       completables.add(userDataStreamingService.disconnect());
       userDataStreamingService = null;
@@ -187,7 +158,6 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
       userDataChannel.close();
       userDataChannel = null;
     }
-    streamingMarketDataService = null;
     return Completable.concat(completables);
   }
 
@@ -212,7 +182,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   @Override
-  public BinanceStreamingMarketDataService getStreamingMarketDataService() {
+  public BinanceFutureStreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
   }
 
@@ -228,75 +198,49 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   protected BinanceStreamingService createStreamingService(ProductSubscription subscription, KlineSubscription klineSubscription) {
     String path = getStreamingBaseUri() + "stream?streams=" + buildSubscriptionStreams(subscription, klineSubscription);
-
     BinanceStreamingService streamingService = new BinanceStreamingService(path, subscription, klineSubscription);
     applyStreamingSpecification(getExchangeSpecification(), streamingService);
     return streamingService;
   }
 
   private String buildSubscriptionStreams(ProductSubscription subscription, KlineSubscription klineSubscription) {
-    return Stream.concat(
-            Arrays.stream(buildSubscriptionStreams(subscription).split("/")),
-            buildSubscriptionStreams(klineSubscription)
-            )
-        .filter(StringUtils::isNotEmpty)
-        .collect(Collectors.joining("/"));
+    return Stream.concat(Arrays.stream(buildSubscriptionStreams(subscription).split("/")), buildSubscriptionStreams(klineSubscription))
+            .filter(StringUtils::isNotEmpty).collect(Collectors.joining("/"));
   }
 
   private Stream<String> buildSubscriptionStreams(KlineSubscription klineSubscription) {
-    return klineSubscription.getKlines().entrySet()
-        .stream().flatMap(entry ->
-            entry.getValue().stream()
-                .map(interval -> getPrefix(entry.getKey()) + "@kline_" + interval.code()));
+    return klineSubscription.getKlines().entrySet().stream()
+            .flatMap(entry -> entry.getValue().stream().map(interval -> getPrefix(entry.getKey()) + "@kline_" + interval.code()));
   }
 
   protected String getStreamingBaseUri() {
-    return Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))
-        ? WS_SANDBOX_API_BASE_URI
-        : WS_API_BASE_URI;
+    return Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX)) ? WS_SANDBOX_API_BASE_URI : WS_API_BASE_URI;
   }
 
   public String buildSubscriptionStreams(ProductSubscription subscription) {
-    return Stream.of(
-            buildSubscriptionStrings(
-                subscription.getTicker(),
-                realtimeOrderBookTicker
-                    ? BinanceSubscriptionType.BOOK_TICKER.getType()
-                    : BinanceSubscriptionType.TICKER.getType()),
-            buildSubscriptionStrings(subscription.getOrderBook(), BinanceSubscriptionType.DEPTH.getType()),
-            buildSubscriptionStrings(subscription.getOrderBook(), BinanceSubscriptionType.DEPTH20.getType()),
-            buildSubscriptionStrings(subscription.getTrades(), BinanceSubscriptionType.TRADE.getType()),
-            buildSubscriptionStrings(subscription.getFundingRates(), BinanceSubscriptionType.FUNDING_RATES.getType())
-            )
-        .filter(s -> !s.isEmpty())
-        .collect(Collectors.joining("/"));
+    return Stream.of(buildSubscriptionStrings(subscription.getTicker(),
+                            realtimeOrderBookTicker ? BinanceSubscriptionType.BOOK_TICKER.getType() : BinanceSubscriptionType.TICKER.getType()),
+                    buildSubscriptionStrings(subscription.getOrderBook(), BinanceSubscriptionType.DEPTH.getType()),
+                    buildSubscriptionStrings(subscription.getTrades(), BinanceSubscriptionType.TRADE.getType())).filter(s -> !s.isEmpty())
+            .collect(Collectors.joining("/"));
   }
 
-  private String buildSubscriptionStrings(
-          List<Instrument> currencyPairs, String subscriptionType) {
-    if (BinanceSubscriptionType.DEPTH.getType().equals(subscriptionType)
-            || BinanceSubscriptionType.DEPTH20.getType().equals(subscriptionType)) {
-      return subscriptionStrings(currencyPairs)
-          .map(s -> s + "@" + subscriptionType + orderBookUpdateFrequencyParameter)
-          .collect(Collectors.joining("/"));
+  private String buildSubscriptionStrings(List<Instrument> currencyPairs, String subscriptionType) {
+    if (BinanceSubscriptionType.DEPTH.getType().equals(subscriptionType)) {
+      return subscriptionStrings(currencyPairs).map(s -> s + "@" + subscriptionType + orderBookUpdateFrequencyParameter)
+              .collect(Collectors.joining("/"));
     } else {
-      return subscriptionStrings(currencyPairs)
-          .map(s -> s + "@" + subscriptionType)
-          .collect(Collectors.joining("/"));
+      return subscriptionStrings(currencyPairs).map(s -> s + "@" + subscriptionType).collect(Collectors.joining("/"));
     }
   }
 
   private static Stream<String> subscriptionStrings(List<Instrument> currencyPairs) {
-    return currencyPairs.stream().map(BinanceStreamingExchange::getPrefix);
+    return currencyPairs.stream().map(BinanceFutureStreamingExchange::getPrefix);
   }
 
   private static String getPrefix(Instrument pair) {
-    String prefix = String.join("", pair.toString().split("/")).toLowerCase();
-    if(pair instanceof FuturesContract){
-      prefix = String.join("", ((FuturesContract) pair).getCurrencyPair().toString().split("/")).toLowerCase();
-    }
-
-    return prefix;
+    return String.join("", pair.toString().split("/")).toLowerCase();
   }
 
   @Override
@@ -306,8 +250,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   public void enableLiveSubscription() {
     if (this.streamingService == null) {
-      throw new UnsupportedOperationException(
-          "You must connect to streams before enabling live subscription.");
+      throw new UnsupportedOperationException("You must connect to streams before enabling live subscription.");
     }
     this.streamingService.enableLiveSubscription();
   }
@@ -321,8 +264,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
    *
    * @param channelInactiveHandler a WebSocketMessageHandler instance.
    */
-  public void setChannelInactiveHandler(
-      WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+  public void setChannelInactiveHandler(WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
     streamingService.setChannelInactiveHandler(channelInactiveHandler);
   }
 }
