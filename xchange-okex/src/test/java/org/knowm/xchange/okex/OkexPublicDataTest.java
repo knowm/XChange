@@ -18,14 +18,13 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.FundingRate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.okex.service.OkexMarketDataService;
 
-public class OkexPublicDataIntegration {
+public class OkexPublicDataTest {
 
   Exchange exchange;
   private final Instrument currencyPair = new CurrencyPair("BTC/USDT");
@@ -37,16 +36,12 @@ public class OkexPublicDataIntegration {
 
   @Test
   public void checkInstrumentMetaData(){
-    InstrumentMetaData spotMetaData = exchange.getExchangeMetaData().getInstruments().get(currencyPair);
-    InstrumentMetaData swapMetaData = exchange.getExchangeMetaData().getInstruments().get(instrument);
-
-    assertThat(spotMetaData.getMinimumAmount()).isGreaterThan(BigDecimal.ZERO);
-    assertThat(spotMetaData.getPriceScale()).isGreaterThanOrEqualTo(0);
-    assertThat(spotMetaData.getVolumeScale()).isGreaterThanOrEqualTo(0);
-
-    assertThat(swapMetaData.getMinimumAmount()).isGreaterThan(BigDecimal.ZERO);
-    assertThat(swapMetaData.getPriceScale()).isGreaterThanOrEqualTo(0);
-    assertThat(swapMetaData.getVolumeScale()).isGreaterThanOrEqualTo(0);
+    exchange.getExchangeMetaData().getInstruments().forEach((instrument1, instrumentMetaData) -> {
+      System.out.println(instrument1+"||"+instrumentMetaData);
+      assertThat(instrumentMetaData.getMinimumAmount()).isGreaterThan(BigDecimal.ZERO);
+      assertThat(instrumentMetaData.getPriceScale()).isGreaterThanOrEqualTo(0);
+      assertThat(instrumentMetaData.getVolumeScale()).isGreaterThanOrEqualTo(0);
+    });
   }
 
   @Test

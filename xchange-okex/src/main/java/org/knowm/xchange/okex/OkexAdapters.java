@@ -302,7 +302,7 @@ public class OkexAdapters {
                           ? convertContractSizeToVolume(instrument.getMinSize(), pair, new BigDecimal(instrument.getContractValue()))
                           : new BigDecimal(instrument.getMinSize()))
                   .volumeScale((instrument.getInstrumentType().equals(OkexInstType.SWAP.name()))
-                          ? convertContractSizeToVolume(instrument.getMinSize(), pair, new BigDecimal(instrument.getContractValue())).scale()
+                          ? Math.max(convertContractSizeToVolume(instrument.getMinSize(), pair, new BigDecimal(instrument.getContractValue())).scale(), 0)
                           : Math.max(numberOfDecimals(new BigDecimal(instrument.getMinSize())),0))
                   .contractValue((instrument.getInstrumentType().equals(OkexInstType.SWAP.name())) ? new BigDecimal(instrument.getContractValue()): null)
                   .priceScale(numberOfDecimals(new BigDecimal(instrument.getTickSize())))
