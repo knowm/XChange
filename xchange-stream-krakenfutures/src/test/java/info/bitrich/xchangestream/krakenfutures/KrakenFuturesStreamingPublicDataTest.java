@@ -7,6 +7,7 @@ import io.reactivex.disposables.Disposable;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -30,24 +31,11 @@ public class KrakenFuturesStreamingPublicDataTest {
     }
     @Test
     public void checkStreamingOrderBook() {
-        exchange.getStreamingMarketDataService().getOrderBook(instrument)
-                .map(orderBook -> {
-                    System.out.println("Ask3: "+orderBook.getAsks().get(2).getLimitPrice()+" || "+orderBook.getAsks().get(2).getOriginalAmount());
-                    System.out.println("Ask2: "+orderBook.getAsks().get(1).getLimitPrice()+" || "+orderBook.getAsks().get(1).getOriginalAmount());
-                    System.out.println("Ask1: "+orderBook.getAsks().get(0).getLimitPrice()+" || "+orderBook.getAsks().get(0).getOriginalAmount());
-                    System.out.println("Bid1: "+orderBook.getBids().get(0).getLimitPrice()+" || "+orderBook.getBids().get(0).getOriginalAmount());
-                    System.out.println("Bid2: "+orderBook.getBids().get(1).getLimitPrice()+" || "+orderBook.getBids().get(1).getOriginalAmount());
-                    System.out.println("Bid3: "+orderBook.getBids().get(2).getLimitPrice()+" || "+orderBook.getBids().get(2).getOriginalAmount());
-                    return orderBook;
-                })
-                .test()
-                .assertSubscribed()
-                .awaitCount(1)
-                .assertValue(orderBook -> orderBook.getBids().get(0).getInstrument().equals(instrument))
-                .assertValue(orderBook -> orderBook.getBids().get(0).getLimitPrice().compareTo(orderBook.getAsks().get(0).getLimitPrice()) < 0)
-                .assertValue(orderBook -> orderBook.getBids().get(0).getLimitPrice().compareTo(BigDecimal.ZERO) > 0)
-                .assertValue(orderBook -> orderBook.getBids().get(0).getOriginalAmount().compareTo(BigDecimal.ZERO) > 0)
-                .dispose();
+        OrderBook orderBook = exchange.getStreamingMarketDataService().getOrderBook(instrument).blockingFirst();
+        assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(instrument);
+        assertThat(orderBook.getBids().get(0).getLimitPrice()).isLessThan(orderBook.getAsks().get(0).getLimitPrice());
+        assertThat(orderBook.getBids().get(0).getLimitPrice()).isGreaterThan(BigDecimal.ZERO);
+        assertThat(orderBook.getBids().get(0).getOriginalAmount()).isGreaterThan(BigDecimal.ZERO);
     }
 
     @Test
