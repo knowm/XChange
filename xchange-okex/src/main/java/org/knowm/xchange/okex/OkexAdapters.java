@@ -104,10 +104,10 @@ public class OkexAdapters {
         .build();
   }
 
-  public static OkexOrderRequest adaptOrder(MarketOrder order, ExchangeMetaData exchangeMetaData) {
+  public static OkexOrderRequest adaptOrder(MarketOrder order, ExchangeMetaData exchangeMetaData, String accountLevel) {
     return OkexOrderRequest.builder()
             .instrumentId(adaptInstrument(order.getInstrument()))
-            .tradeMode(order.getInstrument() instanceof CurrencyPair ? "cash" : "cross")
+            .tradeMode(adaptTradeMode(order.getInstrument(), accountLevel))
             .side(order.getType() == Order.OrderType.BID ? "buy" : "sell")
             .posSide(null) // PosSide should come as a input from an extended LimitOrder class to
             // support Futures/Swap capabilities of Okex, till then it should be null to
@@ -141,10 +141,18 @@ public class OkexAdapters {
             : new BigDecimal(okexSize).stripTrailingZeros();
   }
 
-  public static OkexOrderRequest adaptOrder(LimitOrder order, ExchangeMetaData exchangeMetaData) {
+  private static String adaptTradeMode(Instrument instrument, String accountLevel){
+    if(accountLevel.equals("3") || accountLevel.equals("4")){
+      return "cross";
+    } else {
+      return (instrument instanceof CurrencyPair) ? "cash" : "cross";
+    }
+  }
+
+  public static OkexOrderRequest adaptOrder(LimitOrder order, ExchangeMetaData exchangeMetaData, String accountLevel) {
     return OkexOrderRequest.builder()
         .instrumentId(adaptInstrument(order.getInstrument()))
-        .tradeMode(order.getInstrument() instanceof CurrencyPair ? "cash" : "cross")
+        .tradeMode(adaptTradeMode(order.getInstrument(), accountLevel))
         .side(order.getType() == Order.OrderType.BID ? "buy" : "sell")
         .posSide(null) // PosSide should come as a input from an extended LimitOrder class to
         // support Futures/Swap capabilities of Okex, till then it should be null to

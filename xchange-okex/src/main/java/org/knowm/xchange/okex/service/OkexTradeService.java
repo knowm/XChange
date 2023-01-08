@@ -141,7 +141,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     OkexResponse<List<OkexOrderResponse>> okexResponse =
-            placeOkexOrder(OkexAdapters.adaptOrder(marketOrder, exchange.getExchangeMetaData()));
+            placeOkexOrder(OkexAdapters.adaptOrder(marketOrder, exchange.getExchangeMetaData(), exchange.accountLevel));
 
     if (okexResponse.isSuccess()) return okexResponse.getData().get(0).getOrderId();
     else
@@ -153,7 +153,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
     OkexResponse<List<OkexOrderResponse>> okexResponse =
-        placeOkexOrder(OkexAdapters.adaptOrder(limitOrder, exchange.getExchangeMetaData()));
+        placeOkexOrder(OkexAdapters.adaptOrder(limitOrder, exchange.getExchangeMetaData(), exchange.accountLevel));
 
     if (okexResponse.isSuccess()) return okexResponse.getData().get(0).getOrderId();
     else
@@ -165,7 +165,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   public List<String> placeLimitOrder(List<LimitOrder> limitOrders)
       throws IOException, FundsExceededException {
     return placeOkexOrder(
-            limitOrders.stream().map(order-> OkexAdapters.adaptOrder(order, exchange.getExchangeMetaData())).collect(Collectors.toList()))
+            limitOrders.stream().map(order-> OkexAdapters.adaptOrder(order, exchange.getExchangeMetaData(), exchange.accountLevel)).collect(Collectors.toList()))
         .getData()
         .stream()
         .map(OkexOrderResponse::getOrderId)
