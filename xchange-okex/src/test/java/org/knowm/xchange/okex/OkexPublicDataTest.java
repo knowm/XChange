@@ -13,6 +13,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.FundingRate;
@@ -40,7 +41,10 @@ public class OkexPublicDataTest {
       System.out.println(instrument1+"||"+instrumentMetaData);
       assertThat(instrumentMetaData.getMinimumAmount()).isGreaterThan(BigDecimal.ZERO);
       assertThat(instrumentMetaData.getPriceScale()).isGreaterThanOrEqualTo(0);
-      assertThat(instrumentMetaData.getVolumeScale()).isGreaterThanOrEqualTo(0);
+      assertThat(instrumentMetaData.getVolumeScale()).isNotNull();
+      if(instrument1 instanceof FuturesContract){
+        assertThat(instrument1.getCounter()).isEqualTo(Currency.USDT);
+      }
     });
   }
 

@@ -292,8 +292,20 @@ public class OkexAdapters {
       if (!"live".equals(instrument.getState())) {
         continue;
       }
-      Instrument pair = adaptOkexInstrumentId(instrument.getInstrumentId());
 
+      Instrument pair = adaptOkexInstrumentId(instrument.getInstrumentId());
+      /*
+        TODO The Okex swap contracts with USD or USDC as counter currency
+        have issue with the volume conversion (from contractSize to volumeInBaseCurrency and reverse)
+        In order to fix the issue we need to change the convertContractSizeToVolume and convertVolumeToContractSize
+        functions. Probably we need to add price on the function but it is not possible when we place a MarketOrder
+        Because of that i think is best to leave this implementation in the future. (Critical)
+       */
+      if(pair instanceof FuturesContract
+              && ((FuturesContract) pair).isPerpetual()
+              && !pair.getCounter().equals(Currency.USDT)){
+        continue;
+      }
       instrumentMetaData.put(
           pair,
           new InstrumentMetaData.Builder()
