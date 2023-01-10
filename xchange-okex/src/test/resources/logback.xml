@@ -11,7 +11,7 @@
     </appender>
 
 
-    <root level="WARN">
+    <root level="DEBUG">
         <appender-ref ref="CONSOLE_APPENDER"/>
     </root>
 
