@@ -4,10 +4,7 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.derivative.FuturesContract;
-import org.knowm.xchange.dto.marketdata.FundingRate;
-import org.knowm.xchange.dto.marketdata.FundingRates;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -40,7 +37,9 @@ public class KrakenFuturesPublicDataTest {
 
     @Test
     public void checkTicker() throws IOException {
-        System.out.println(exchange.getMarketDataService().getTicker(instrument));
+        Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
+        System.out.println(ticker);
+        assertThat(ticker.getInstrument()).isEqualTo(instrument);
     }
 
     @Test
@@ -55,12 +54,23 @@ public class KrakenFuturesPublicDataTest {
     public void checkFundingRates() throws IOException {
         FundingRates fundingRates = exchange.getMarketDataService().getFundingRates();
         System.out.println(fundingRates);
+        assertThat(fundingRates.getFundingRates().size()).isEqualTo(exchange.getExchangeMetaData().getInstruments().size());
+        fundingRates.getFundingRates().forEach(fundingRate -> {
+            assertThat(fundingRate.getFundingRateEffectiveInMinutes()).isLessThan(61);
+            assertThat(fundingRate.getFundingRate1h()).isNotNull();
+            assertThat(fundingRate.getFundingRate8h()).isNotNull();
+            assertThat(fundingRate.getFundingRateDate()).isNotNull();
+        });
     }
 
     @Test
     public void checkFundingRate() throws IOException {
         FundingRate fundingRate = exchange.getMarketDataService().getFundingRate(instrument);
         assertThat(fundingRate.getInstrument()).isEqualTo(instrument);
+        assertThat(fundingRate.getFundingRateEffectiveInMinutes()).isLessThan(61);
+        assertThat(fundingRate.getFundingRate1h()).isNotNull();
+        assertThat(fundingRate.getFundingRate8h()).isNotNull();
+        assertThat(fundingRate.getFundingRateDate()).isNotNull();
         System.out.println(fundingRate);
     }
 }

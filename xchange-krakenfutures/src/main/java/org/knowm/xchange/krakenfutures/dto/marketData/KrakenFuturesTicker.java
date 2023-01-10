@@ -29,8 +29,8 @@ public class KrakenFuturesTicker extends KrakenFuturesResult {
   private final BigDecimal vol24H;
   private final String tag;
   private final String pair;
-  private final BigDecimal fundingRate;
-  private final BigDecimal fundingRatePrediction;
+  private final BigDecimal absoluteFundingRate;
+  private final BigDecimal absoluteFundingRatePrediction;
 
   public KrakenFuturesTicker(
       @JsonProperty("result") String result,
@@ -51,8 +51,8 @@ public class KrakenFuturesTicker extends KrakenFuturesResult {
       @JsonProperty("vol24h") BigDecimal vol24H,
       @JsonProperty("tag") String tag,
       @JsonProperty("pair") String pair,
-      @JsonProperty("fundingRate") BigDecimal fundingRate,
-      @JsonProperty("fundingRatePrediction") BigDecimal fundingRatePrediction) {
+      @JsonProperty("fundingRate") BigDecimal absoluteFundingRate,
+      @JsonProperty("fundingRatePrediction") BigDecimal absoluteFundingRatePrediction) {
 
     super(result, error);
 
@@ -72,7 +72,7 @@ public class KrakenFuturesTicker extends KrakenFuturesResult {
     this.vol24H = vol24H;
     this.tag = tag;
     this.pair = pair;
-    this.fundingRate = fundingRate;
-    this.fundingRatePrediction = fundingRatePrediction;
+    this.absoluteFundingRate = absoluteFundingRate;
+    this.absoluteFundingRatePrediction = absoluteFundingRatePrediction;
   }
 }
