@@ -40,7 +40,7 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
 
         if(message.has("event")){
             if(message.get("event").asText().equals("info")){
-                if(exchangeSpecification.getApiKey() != null){
+                if(exchangeSpecification.getApiKey() != null && CHALLENGE.equals("")){
                     try{
                         sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
                     } catch (JsonProcessingException e){
@@ -99,11 +99,16 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
 
     @Override
     public void resubscribeChannels() {
+        super.resubscribeChannels();
         if (exchangeSpecification.getApiKey() != null) {
             LOG.info("Set challenge to default value.");
             CHALLENGE = "";
+            try {
+                sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
         }
-        super.resubscribeChannels();
     }
 
     private KrakenFuturesStreamingWebsocketMessage getWebSocketMessage(String event, String channelName){
