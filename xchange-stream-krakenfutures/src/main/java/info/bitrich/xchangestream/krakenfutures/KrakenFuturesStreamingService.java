@@ -78,7 +78,7 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
 
     @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-        if(channelName.contains(FILLS)){
+        if(channelName.equals(FILLS)){
             do{
                 LOG.info("Waiting for challenge to complete...");
                 try {
@@ -95,6 +95,15 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
         String UNSUBSCRIBE = "unsubscribe";
         return objectMapper.writeValueAsString(getWebSocketMessage(UNSUBSCRIBE, channelName));
+    }
+
+    @Override
+    public void resubscribeChannels() {
+        if (exchangeSpecification.getApiKey() != null) {
+            LOG.info("Set challenge to default value.");
+            CHALLENGE = "";
+        }
+        super.resubscribeChannels();
     }
 
     private KrakenFuturesStreamingWebsocketMessage getWebSocketMessage(String event, String channelName){
