@@ -101,7 +101,7 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     public void setBeforeConnectionHandler(Runnable beforeConnectionHandler) {
         super.setBeforeConnectionHandler(beforeConnectionHandler);
         if (exchangeSpecification.getApiKey() != null) {
-            LOG.info("Set challenge to default value.");
+            LOG.info("Reset challenge string.");
             CHALLENGE = "";
         }
     }
