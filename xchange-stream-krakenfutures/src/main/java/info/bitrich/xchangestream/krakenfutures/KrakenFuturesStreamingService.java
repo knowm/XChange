@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.krakenfutures;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingAuthenticatedWebsocketMessage;
 import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingChallengeRequest;
@@ -38,18 +37,6 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     protected String getChannelNameFromMessage(JsonNode message) {
         String channelName = "";
 
-        if(message.has("event")){
-            if(message.get("event").asText().equals("info")){
-                if(exchangeSpecification.getApiKey() != null){
-                    try{
-                        sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
-                    } catch (JsonProcessingException e){
-                        LOG.error(e.getMessage());
-                    }
-                }
-            }
-        }
-
         if(message.has("event") && message.has("message")){
             if(message.get("event").asText().equals("challenge")){
                 CHALLENGE = message.get("message").asText();
@@ -81,6 +68,7 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
         if(channelName.equals(FILLS)){
             LOG.info("Reset challenge string.");
             CHALLENGE = "";
+            sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
             do{
                 LOG.info("Waiting for challenge to complete...");
                 try {
