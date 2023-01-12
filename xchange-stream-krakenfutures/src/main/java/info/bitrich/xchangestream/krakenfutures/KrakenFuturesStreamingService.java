@@ -98,16 +98,11 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     }
 
     @Override
-    public void resubscribeChannels() {
-        super.resubscribeChannels();
+    public void setBeforeConnectionHandler(Runnable beforeConnectionHandler) {
+        super.setBeforeConnectionHandler(beforeConnectionHandler);
         if (exchangeSpecification.getApiKey() != null) {
             LOG.info("Set challenge to default value.");
             CHALLENGE = "";
-            try {
-                sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 
