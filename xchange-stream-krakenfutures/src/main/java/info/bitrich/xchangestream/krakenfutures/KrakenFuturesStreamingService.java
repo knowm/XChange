@@ -40,7 +40,7 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
 
         if(message.has("event")){
             if(message.get("event").asText().equals("info")){
-                if(exchangeSpecification.getApiKey() != null && CHALLENGE.equals("")){
+                if(exchangeSpecification.getApiKey() != null){
                     try{
                         sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
                     } catch (JsonProcessingException e){
