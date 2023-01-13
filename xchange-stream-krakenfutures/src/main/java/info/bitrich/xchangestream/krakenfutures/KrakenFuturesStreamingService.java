@@ -37,12 +37,6 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     protected String getChannelNameFromMessage(JsonNode message) {
         String channelName = "";
 
-        if(message.has("event") && message.has("message")){
-            if(message.get("event").asText().equals("challenge")){
-                CHALLENGE = message.get("message").asText();
-            }
-        }
-
         if(message.has("feed") && message.has("product_id")){
             if(message.get("feed").asText().contains(ORDERBOOK)){
                 channelName = ORDERBOOK+message.get("product_id").asText().toLowerCase();
@@ -64,15 +58,26 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     }
 
     @Override
+    protected void handleMessage(JsonNode message) {
+        super.handleMessage(message);
+
+        if(message.has("event") && message.has("message")){
+            if(message.get("event").asText().equals("challenge")){
+                CHALLENGE = message.get("message").asText();
+            }
+        }
+    }
+
+    @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
         if(channelName.equals(FILLS)){
-            LOG.info("Reset challenge string.");
-            CHALLENGE = "";
-            sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
+            if(CHALLENGE.equals("")){
+                sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
+            }
             do{
                 LOG.info("Waiting for challenge to complete...");
                 try {
-                    TimeUnit.SECONDS.sleep(1);
+                    TimeUnit.MILLISECONDS.sleep(500);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
