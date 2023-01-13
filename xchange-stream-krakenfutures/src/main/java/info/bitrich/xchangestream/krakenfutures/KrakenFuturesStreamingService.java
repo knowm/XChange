@@ -18,9 +18,6 @@ import java.util.concurrent.TimeUnit;
 public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
 
     private static final Logger LOG = LoggerFactory.getLogger(KrakenFuturesStreamingService.class);
-
-    private final String SUBSCRIBE = "subscribe";
-
     protected final String ORDERBOOK = "book";
     protected final String TICKER = "ticker";
     protected final String TRADES = "trade";
@@ -83,13 +80,12 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
                 }
             } while (CHALLENGE.equals(""));
         }
-        return objectMapper.writeValueAsString(getWebSocketMessage(SUBSCRIBE, channelName));
+        return objectMapper.writeValueAsString(getWebSocketMessage("subscribe", channelName));
     }
 
     @Override
     public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
-        String UNSUBSCRIBE = "unsubscribe";
-        return objectMapper.writeValueAsString(getWebSocketMessage(UNSUBSCRIBE, channelName));
+        return objectMapper.writeValueAsString(getWebSocketMessage("unsubscribe", channelName));
     }
 
     private KrakenFuturesStreamingWebsocketMessage getWebSocketMessage(String event, String channelName){
@@ -100,18 +96,15 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
         } else if(channelName.contains(TRADES)){
             return new KrakenFuturesStreamingWebsocketMessage(event, TRADES, new String[]{channelName.replace(TRADES, "")});
         } else if(channelName.contains(FILLS)){
-            if(event.equals(SUBSCRIBE)){
-                return new KrakenFuturesStreamingAuthenticatedWebsocketMessage(
-                        event,
-                        FILLS,
-                        null,
-                        exchangeSpecification.getApiKey(),
-                        CHALLENGE,
-                        signChallenge()
-                );
-            } else {
-                return new KrakenFuturesStreamingWebsocketMessage(event, FILLS, null);
-            }
+            return new KrakenFuturesStreamingAuthenticatedWebsocketMessage(
+                    event,
+                    FILLS,
+                    null,
+                    exchangeSpecification.getApiKey(),
+                    CHALLENGE,
+                    signChallenge()
+            );
+
         } else {
             throw new NotImplementedException("ChangeName "+channelName+" has not been implemented yet.");
         }
