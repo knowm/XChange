@@ -31,7 +31,7 @@ import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateQuickRate;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.coinmate.dto.metadata.CoinmateExchangeMetaData;
 
 /** @author Martin Stachon */
 @Path("api")
@@ -58,7 +58,7 @@ public interface Coinmate {
 
   @GET
   @Path("xchange")
-  ExchangeMetaData getMetadata() throws IOException;
+  CoinmateExchangeMetaData getMetadata() throws IOException;
 
   @GET
   @Path("buyQuickRate")

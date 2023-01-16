@@ -39,6 +39,7 @@ import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTickerData;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTradeStatistics;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
+import org.knowm.xchange.coinmate.dto.metadata.CoinmateInstrumentMetaData;
 import org.knowm.xchange.coinmate.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -50,11 +51,13 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 
 /** @author Martin Stachon */
@@ -452,5 +455,32 @@ public class CoinmateAdapters {
         .open(tradeStatistics.getTodaysOpen())
         .percentageChange(tradeStatistics.getDailyChange())
         .build();
+  }
+
+  public static Map<Instrument, InstrumentMetaData> adaptInstrumentMetadataMap(Map<Instrument, CoinmateInstrumentMetaData> instrumentMetaDataMap) {
+    if (instrumentMetaDataMap == null) {
+      return null;
+    }
+    return instrumentMetaDataMap.entrySet()
+        .stream()
+        .collect(Collectors.toMap(Map.Entry::getKey, e -> adaptInstrumentMetaData(e.getValue())));
+  }
+
+  private static InstrumentMetaData adaptInstrumentMetaData(CoinmateInstrumentMetaData coinmateInstrumentMetaData) {
+    return new InstrumentMetaData(
+        coinmateInstrumentMetaData.getTradingFee(),
+        coinmateInstrumentMetaData.getFeeTiers(),
+        coinmateInstrumentMetaData.getMinimumAmount(),
+        coinmateInstrumentMetaData.getMaximumAmount(),
+        coinmateInstrumentMetaData.getCounterMinimumAmount(),
+        coinmateInstrumentMetaData.getCounterMaximumAmount(),
+        coinmateInstrumentMetaData.getPriceScale(),
+        coinmateInstrumentMetaData.getVolumeScale(),
+        coinmateInstrumentMetaData.getAmountStepSize(),
+        coinmateInstrumentMetaData.getPriceStepSize(),
+        coinmateInstrumentMetaData.getTradingFeeCurrency(),
+        coinmateInstrumentMetaData.isMarketOrderEnabled(),
+        coinmateInstrumentMetaData.getContractValue()
+    );
   }
 }
