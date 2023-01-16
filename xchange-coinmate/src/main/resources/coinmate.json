@@ -10,20 +10,20 @@
       "min_amount" : 0.001,
       "base_scale" : 8
     },
-    "ETH/DAI" : {
-      "price_scale" : 2,
-      "min_amount" : 0.001,
-      "base_scale" : 8
-    },
     "XRP/EUR" : {
       "price_scale" : 5,
       "min_amount" : 1,
       "base_scale" : 8
     },
-    "BCH/EUR" : {
-      "price_scale" : 2,
-      "min_amount" : 0.001,
+    "BTC/USDT" : {
+      "price_scale" : 1,
+      "min_amount" : 0.0001,
       "base_scale" : 8
+    },
+    "USDT/EUR" : {
+      "price_scale" : 4,
+      "min_amount" : 1,
+      "base_scale" : 2
     },
     "ETH/BTC" : {
       "price_scale" : 5,
@@ -55,34 +55,14 @@
       "min_amount" : 0.0001,
       "base_scale" : 8
     },
-    "BCH/CZK" : {
-      "price_scale" : 1,
-      "min_amount" : 0.001,
-      "base_scale" : 8
-    },
     "DASH/EUR" : {
       "price_scale" : 2,
       "min_amount" : 0.001,
       "base_scale" : 8
     },
-    "DAI/EUR" : {
-      "price_scale" : 4,
-      "min_amount" : 1,
-      "base_scale" : 2
-    },
     "XRP/CZK" : {
       "price_scale" : 4,
       "min_amount" : 1,
-      "base_scale" : 8
-    },
-    "BCH/BTC" : {
-      "price_scale" : 5,
-      "min_amount" : 0.001,
-      "base_scale" : 8
-    },
-    "BTC/DAI" : {
-      "price_scale" : 2,
-      "min_amount" : 0.0001,
       "base_scale" : 8
     },
     "LTC/CZK" : {
@@ -110,6 +90,11 @@
       "min_amount" : 0.01,
       "base_scale" : 8
     },
+    "USDT/CZK" : {
+      "price_scale" : 3,
+      "min_amount" : 1,
+      "base_scale" : 2
+    },
     "BTC/EUR" : {
       "price_scale" : 1,
       "min_amount" : 0.0001,
@@ -134,6 +119,21 @@
     "CZK" : {
       "scale" : 2
     },
+    "GBP" : {
+      "scale" : 2
+    },
+    "HUF" : {
+      "scale" : 2
+    },
+    "PLN" : {
+      "scale" : 2
+    },
+    "USD" : {
+      "scale" : 2
+    },
+    "USDT" : {
+      "scale" : 2
+    },
     "BCH" : {
       "scale" : 8
     },
@@ -154,6 +154,12 @@
     },
     "ADA" : {
       "scale" : 6
+    },
+    "TRX" : {
+      "scale" : 8
+    },
+    "LUNA" : {
+      "scale" : 8
     }
   },
   "private_rate_limits" : [ {
