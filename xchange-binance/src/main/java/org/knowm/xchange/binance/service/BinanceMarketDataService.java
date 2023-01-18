@@ -2,6 +2,7 @@ package org.knowm.xchange.binance.service;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
@@ -9,15 +10,23 @@ import java.util.stream.Collectors;
 
 import org.knowm.xchange.binance.*;
 import org.knowm.xchange.binance.dto.BinanceException;
+import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
+import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
+import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.trade.params.CandleStickDataParams;
+import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
+import org.knowm.xchange.service.trade.params.DefaultCandleStickParamWithLimit;
 
 public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
     implements MarketDataService {
@@ -111,6 +120,49 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
                     .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey()))
                     .collect(Collectors.toList());
     return new OrderBook(Date.from(Instant.now()), asks, bids);
+  }
+  
+  @Override
+  public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params)
+      throws IOException {
+
+    if (!(params instanceof DefaultCandleStickParam)) {
+      throw new NotYetImplementedForExchangeException("Only DefaultCandleStickParam is supported");
+    }
+    try {
+      DefaultCandleStickParam defaultCandleStickParam = (DefaultCandleStickParam) params;
+      KlineInterval periodType =
+          KlineInterval.getPeriodTypeFromSecs(defaultCandleStickParam.getPeriodInSecs());
+      if (periodType == null) {
+        throw new NotYetImplementedForExchangeException(
+            "Only discrete period values are "
+                + "supported;"
+                + Arrays.toString(KlineInterval.values()));
+      }
+      int limit = 500;
+      if (params instanceof DefaultCandleStickParamWithLimit) {
+        if (((DefaultCandleStickParamWithLimit) params).getLimit() > 0) {
+          limit = ((DefaultCandleStickParamWithLimit) params).getLimit();
+        }
+      }
+      List<BinanceKline> klines = null;
+      if (defaultCandleStickParam.getStartDate() == null
+          || defaultCandleStickParam.getEndDate() == null) {
+        klines = klines(currencyPair, periodType);
+      } else {
+        klines =
+            klines(
+                currencyPair,
+                periodType,
+                limit,
+                defaultCandleStickParam.getStartDate().getTime(),
+                defaultCandleStickParam.getEndDate().getTime());
+      }
+
+      return BinanceAdapters.adaptBinanceCandleStickData(klines, currencyPair);
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
   }
 
   private <T extends Number> T tradesArgument(
