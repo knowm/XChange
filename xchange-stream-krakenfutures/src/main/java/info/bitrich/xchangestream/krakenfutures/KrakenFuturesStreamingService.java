@@ -6,6 +6,7 @@ import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingChalle
 import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingWebsocketMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import io.reactivex.Completable;
 import org.apache.commons.lang3.NotImplementedException;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.krakenfutures.service.KrakenFuturesDigest;
@@ -68,15 +69,15 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
         if(channelName.equals(FILLS)){
-            if(CHALLENGE.equals("")){
-                sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
-            }
             do{
-                LOG.info("Waiting for challenge to complete...");
-                try {
-                    TimeUnit.MILLISECONDS.sleep(500);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                if(CHALLENGE.equals("")){
+                    sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
+                    LOG.info("Waiting for challenge to complete...");
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             } while (CHALLENGE.equals(""));
         }
@@ -86,6 +87,13 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     @Override
     public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
         return objectMapper.writeValueAsString(getWebSocketMessage("unsubscribe", channelName));
+    }
+
+    @Override
+    protected Completable openConnection() {
+        CHALLENGE = "";
+        LOG.debug("Open connection, reset CHALLENGE...");
+        return super.openConnection();
     }
 
     private KrakenFuturesStreamingWebsocketMessage getWebSocketMessage(String event, String channelName){
