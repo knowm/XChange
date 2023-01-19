@@ -101,27 +101,36 @@ public class KrakenFuturesStreamingPrivateDataTest {
         int counter = 0;
 
         Disposable dis = exchange.getStreamingTradeService().getUserTrades()
+                .map(fill->{
+                    if(fill.getOrderUserReference().equals("2")){
+                        throw new IOException("Error");
+                    } else {
+                        LOG.info(fill.toString());
+                        assertThat(fill).isNotNull();
+                    }
+                    return fill;
+                })
                 .retry()
-                .subscribe(fill -> {
-                    LOG.info(fill.toString());
-                    assertThat(fill).isNotNull();
-                });
+                .subscribe();
 
-        while (counter < 4){
+        while (counter < 5){
             String orderId;
             if(counter == 3){
                 orderId = exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(Order.OrderType.ASK, new FuturesContract("ETH/USD/PERP"))
-                        .originalAmount(BigDecimal.ONE)
+                        .originalAmount(BigDecimal.valueOf(0.1))
+                                .userReference(Integer.toString(counter))
                         .build());
             } else {
                 orderId = exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(Order.OrderType.BID, instrument)
-                        .originalAmount(BigDecimal.ONE)
+                        .originalAmount(BigDecimal.valueOf(0.1))
+                        .userReference(Integer.toString(counter))
                         .build());
             }
             LOG.info("OrderId: "+orderId);
             counter++;
             TimeUnit.SECONDS.sleep(1);
         }
+        TimeUnit.SECONDS.sleep(2);
         dis.dispose();
     }
 }
