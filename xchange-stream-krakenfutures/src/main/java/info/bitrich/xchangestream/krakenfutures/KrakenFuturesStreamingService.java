@@ -69,6 +69,19 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
 
     @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
+        if(channelName.equals(FILLS)){
+            do{
+                if(CHALLENGE.equals("")){
+                    sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
+                    LOG.info("Waiting for challenge to complete...");
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            } while (CHALLENGE.equals(""));
+        }
         return objectMapper.writeValueAsString(getWebSocketMessage("subscribe", channelName));
     }
 
@@ -79,13 +92,9 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected Completable openConnection() {
-        return super.openConnection()
-                .doOnComplete(() -> {
-                    LOG.debug("Open connection, reset CHALLENGE...");
-                    CHALLENGE = "";
-                    sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
-                })
-                .delay(3, TimeUnit.SECONDS);
+        CHALLENGE = "";
+        LOG.debug("Open connection, reset CHALLENGE...");
+        return super.openConnection();
     }
 
     private KrakenFuturesStreamingWebsocketMessage getWebSocketMessage(String event, String channelName){
