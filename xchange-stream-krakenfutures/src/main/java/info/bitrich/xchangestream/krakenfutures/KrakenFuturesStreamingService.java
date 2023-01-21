@@ -60,22 +60,10 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     protected void handleMessage(JsonNode message) {
         super.handleMessage(message);
 
-        if (message.has("event") && message.get("event").asText().equals("alert") && message.has("message") && message.get("message").asText().equals("Failed to subscribe to authenticated feed")){
-            new Thread(() -> {
-                try {
-                    while (CHALLENGE.equals("")){
-                        TimeUnit.SECONDS.sleep(1);
-                        sendMessage(objectMapper.writeValueAsString(getWebSocketMessage("subscribe", FILLS)));
-                    }
-                } catch (JsonProcessingException | InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }).start();
-        }
-
         if(message.has("event") && message.has("message")){
             if(message.get("event").asText().equals("challenge")){
                 CHALLENGE = message.get("message").asText();
+                LOG.debug("New CHALLENGE has been saved.");
             }
         }
     }
