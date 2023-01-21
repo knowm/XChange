@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.krakenfutures;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingAuthenticatedWebsocketMessage;
 import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingChallengeRequest;
@@ -59,6 +60,19 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
     protected void handleMessage(JsonNode message) {
         super.handleMessage(message);
 
+        if (message.has("event") && message.get("event").asText().equals("alert") && message.has("message") && message.get("message").asText().equals("Failed to subscribe to authenticated feed")){
+            new Thread(() -> {
+                try {
+                    while (CHALLENGE.equals("")){
+                        TimeUnit.SECONDS.sleep(1);
+                        sendMessage(objectMapper.writeValueAsString(getWebSocketMessage("subscribe", FILLS)));
+                    }
+                } catch (JsonProcessingException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }).start();
+        }
+
         if(message.has("event") && message.has("message")){
             if(message.get("event").asText().equals("challenge")){
                 CHALLENGE = message.get("message").asText();
@@ -68,19 +82,6 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
 
     @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-        if(channelName.equals(FILLS)){
-            do{
-                if(CHALLENGE.equals("")){
-                    sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
-                    LOG.info("Waiting for challenge to complete...");
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            } while (CHALLENGE.equals(""));
-        }
         return objectMapper.writeValueAsString(getWebSocketMessage("subscribe", channelName));
     }
 
@@ -91,9 +92,13 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected Completable openConnection() {
-        CHALLENGE = "";
-        LOG.debug("Open connection, reset CHALLENGE...");
-        return super.openConnection();
+        return super.openConnection()
+                .doOnComplete(() -> {
+                    LOG.debug("Open connection, reset CHALLENGE...");
+                    CHALLENGE = "";
+                    sendMessage(StreamingObjectMapperHelper.getObjectMapper().writeValueAsString(new KrakenFuturesStreamingChallengeRequest(exchangeSpecification.getApiKey())));
+                })
+                .delay(3, TimeUnit.SECONDS);
     }
 
     private KrakenFuturesStreamingWebsocketMessage getWebSocketMessage(String event, String channelName){
