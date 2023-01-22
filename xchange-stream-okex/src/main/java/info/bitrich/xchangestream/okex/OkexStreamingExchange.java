@@ -5,7 +5,6 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.Completable;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okex.OkexExchange;
 
@@ -23,6 +22,7 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
     public static final String SANDBOX_WS_PRIVATE_CHANNEL_URI = "wss://wspap.okx.com:8443/ws/v5/private?brokerId=9999";
 
     private OkexStreamingService streamingService;
+    private OkexStreamingService privateStreamingService = null;
 
     private OkexStreamingMarketDataService streamingMarketDataService;
 
@@ -32,40 +32,58 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
 
     @Override
     public Completable connect(ProductSubscription... args) {
-        this.streamingService = new OkexStreamingService(getApiUrl(), this.exchangeSpecification);
-        this.streamingMarketDataService = new OkexStreamingMarketDataService(streamingService);
-        this.streamingTradeService = new OkexStreamingTradeService(streamingService, exchangeMetaData);
-
-        return streamingService.connect();
-    }
-
-    private String getApiUrl() {
-        String apiUrl;
-        ExchangeSpecification exchangeSpec = getExchangeSpecification();
-        if (exchangeSpec.getOverrideWebsocketApiUri() != null) {
-            return exchangeSpec.getOverrideWebsocketApiUri();
-        }
-
         boolean userAws =
                 Boolean.TRUE.equals(
                         exchangeSpecification.getExchangeSpecificParametersItem(PARAM_USE_AWS)
                 );
-        if (useSandbox()) {
-            apiUrl = (this.exchangeSpecification.getApiKey() == null) ? SANDBOX_WS_PUBLIC_CHANNEL_URI : SANDBOX_WS_PRIVATE_CHANNEL_URI;
-        } else {
-            apiUrl = (this.exchangeSpecification.getApiKey() == null) ? userAws ? AWS_WS_PUBLIC_CHANNEL_URI : WS_PUBLIC_CHANNEL_URI : userAws ? AWS_WS_PRIVATE_CHANNEL_URI : WS_PRIVATE_CHANNEL_URI;
+        this.streamingService = new OkexStreamingService(getPublicUrl(useSandbox(), userAws));
+        this.streamingMarketDataService = new OkexStreamingMarketDataService(streamingService);
+        if(this.exchangeSpecification.getApiKey() != null){
+            this.privateStreamingService = new OkexStreamingService(getPrivateApiUrl(useSandbox(), userAws), this.exchangeSpecification);
+            this.streamingTradeService = new OkexStreamingTradeService(privateStreamingService, exchangeMetaData);
         }
-        return apiUrl;
+        Completable completable;
+
+        if(this.exchangeSpecification.getApiKey() != null){
+            completable = streamingService.connect().concatWith(privateStreamingService.connect());
+        } else {
+            completable = streamingService.connect();
+        }
+        return completable;
+    }
+
+    private String getPublicUrl(Boolean useSandBox, Boolean isAws){
+        if (useSandBox) {
+            return SANDBOX_WS_PUBLIC_CHANNEL_URI;
+        } else {
+            return isAws ? AWS_WS_PUBLIC_CHANNEL_URI : WS_PUBLIC_CHANNEL_URI;
+        }
+    }
+
+    private String getPrivateApiUrl(Boolean useSandBox, Boolean isAws){
+        if (useSandBox) {
+            return SANDBOX_WS_PRIVATE_CHANNEL_URI;
+        } else {
+            return isAws ? AWS_WS_PRIVATE_CHANNEL_URI : WS_PRIVATE_CHANNEL_URI;
+        }
     }
 
     @Override
     public Completable disconnect() {
-        return streamingService.disconnect();
+        if(privateStreamingService != null){
+            return streamingService.disconnect().concatWith(privateStreamingService.disconnect());
+        } else {
+            return streamingService.disconnect();
+        }
     }
 
     @Override
     public boolean isAlive() {
-        return streamingService != null && streamingService.isSocketOpen();
+        if(privateStreamingService != null){
+            return streamingService != null && streamingService.isSocketOpen() && privateStreamingService.isSocketOpen();
+        } else {
+            return streamingService != null && streamingService.isSocketOpen();
+        }
     }
 
     @Override

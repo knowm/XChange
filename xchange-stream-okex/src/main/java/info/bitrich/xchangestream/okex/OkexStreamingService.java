@@ -50,6 +50,11 @@ public class OkexStreamingService extends JsonNettyStreamingService {
 
     private final ExchangeSpecification xSpec;
 
+    public OkexStreamingService(String apiUrl) {
+        super(apiUrl);
+        this.xSpec = null;
+    }
+
     public OkexStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
         super(apiUrl);
         this.xSpec = exchangeSpecification;
@@ -62,7 +67,7 @@ public class OkexStreamingService extends JsonNettyStreamingService {
             (CompletableSource)
                 (completable) -> {
                 try {
-                    if(xSpec.getApiKey() != null){
+                    if(xSpec != null && xSpec.getApiKey() != null){
                         login();
                     }
 
