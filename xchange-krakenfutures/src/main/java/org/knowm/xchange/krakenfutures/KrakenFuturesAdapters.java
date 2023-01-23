@@ -50,6 +50,7 @@ public class KrakenFuturesAdapters {
       builder.low(krakenFuturesTicker.getLow24H());
       builder.high(krakenFuturesTicker.getHigh24H());
       builder.volume(krakenFuturesTicker.getVol24H());
+      builder.quoteVolume(krakenFuturesTicker.getVol24H().multiply(krakenFuturesTicker.getLast()));
       builder.timestamp(krakenFuturesTicker.getLastTime());
 
       return builder.build();
