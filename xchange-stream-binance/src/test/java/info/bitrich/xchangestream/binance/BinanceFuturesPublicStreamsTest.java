@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.binance;
 
+import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
@@ -23,11 +24,17 @@ public class BinanceFuturesPublicStreamsTest {
 
     @Before
     public void setup(){
-        exchange = StreamingExchangeFactory.INSTANCE.createExchange(
-                info.bitrich.xchangestream.binance.BinanceFutureStreamingExchange.class);
-      exchange.connect(
-              ProductSubscription.create().addOrderbook(instrument).addTicker(instrument).addFundingRates(instrument).addTrades(instrument)
-                      .build()).blockingAwait();
+    exchange =
+        StreamingExchangeFactory.INSTANCE.createExchange(BinanceFutureStreamingExchange.class);
+    exchange
+        .connect(
+            ProductSubscription.create()
+                .addOrderbook(instrument)
+                .addTicker(instrument)
+                .addFundingRates(instrument)
+                .addTrades(instrument)
+                .build())
+        .blockingAwait();
         InstrumentMetaData instrumentMetaData = exchange.getExchangeMetaData().getInstruments().get(instrument);
         assertThat(instrumentMetaData.getVolumeScale()).isNotNull();
         assertThat(instrumentMetaData.getPriceScale()).isNotNull();

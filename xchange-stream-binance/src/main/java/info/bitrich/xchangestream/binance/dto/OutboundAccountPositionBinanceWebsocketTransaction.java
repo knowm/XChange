@@ -1,11 +1,12 @@
 package info.bitrich.xchangestream.binance.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.dto.account.Balance;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.knowm.xchange.dto.account.Balance;
 
 public class OutboundAccountPositionBinanceWebsocketTransaction
     extends BaseBinanceWebSocketTransaction {
@@ -22,6 +23,7 @@ public class OutboundAccountPositionBinanceWebsocketTransaction
     this.lastUpdateTimestamp = lastUpdateTimestamp;
     this.balances = balances;
   }
+
 
   public long getLastUpdateTimestamp() {
     return lastUpdateTimestamp;
@@ -47,6 +49,7 @@ public class OutboundAccountPositionBinanceWebsocketTransaction
                     new Date(lastUpdateTimestamp)))
         .collect(Collectors.toList());
   }
+
 
   @Override
   public String toString() {

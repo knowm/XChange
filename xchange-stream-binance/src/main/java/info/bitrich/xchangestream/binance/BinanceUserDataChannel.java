@@ -1,15 +1,16 @@
 package info.bitrich.xchangestream.binance;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Binance user data streams must be established by first requesting a unique "listen key" via
@@ -29,7 +30,7 @@ class BinanceUserDataChannel implements AutoCloseable {
   private final BinanceAuthenticated binance;
   private final String apiKey;
   private final Runnable onApiCall;
-  final Disposable keepAlive;
+  private final Disposable keepAlive;
 
   private String listenKey;
   private Consumer<String> onChangeListenKey;
@@ -42,7 +43,7 @@ class BinanceUserDataChannel implements AutoCloseable {
    * @param apiKey The API key.
    * @param onApiCall A callback to perform prior to any service calls.
    */
-  public BinanceUserDataChannel(BinanceAuthenticated binance, String apiKey, Runnable onApiCall) {
+  BinanceUserDataChannel(BinanceAuthenticated binance, String apiKey, Runnable onApiCall) {
     this.binance = binance;
     this.apiKey = apiKey;
     this.onApiCall = onApiCall;
@@ -86,7 +87,7 @@ class BinanceUserDataChannel implements AutoCloseable {
     }
   }
 
-  void openChannel() {
+  private void openChannel() {
     try {
       LOG.debug("Opening new user data channel");
       onApiCall.run();

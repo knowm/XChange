@@ -5,16 +5,13 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.RateLimiter;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import info.bitrich.xchangestream.binance.dto.*;
 import info.bitrich.xchangestream.binance.exceptions.UpFrontSubscriptionRequiredException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -34,7 +31,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -54,18 +50,6 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   private static final JavaType FUNDING_RATE_TYPE = getFundingRateType();
   private static final JavaType KLINE_TYPE = getKlineType();
-
-  /**
-   * A scheduler for initialisation of binance order book snapshots, which is delegated to a
-   * dedicated thread in order to avoid blocking of the Web Socket threads.
-   */
-  private static final Scheduler bookSnapshotsScheduler =
-      Schedulers.from(
-          Executors.newSingleThreadExecutor(
-              new ThreadFactoryBuilder()
-                  .setDaemon(true)
-                  .setNameFormat("binance-book-snapshots-%d")
-                  .build()));
 
   private final BinanceStreamingService service;
   private final String orderBookUpdateFrequencyParameter;

@@ -1,19 +1,20 @@
 package info.bitrich.xchangestream.binance.dto;
 
-import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_COMMENTS;
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
-import static info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.KLINE;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
+import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_COMMENTS;
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.KLINE;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class KlineBinanceWebSocketTransactionTest extends TestCase {
 

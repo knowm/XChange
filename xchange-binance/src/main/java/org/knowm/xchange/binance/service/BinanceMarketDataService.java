@@ -5,7 +5,6 @@ import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
-import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -132,10 +131,5 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
       throw new IllegalArgumentException(
           "Argument on index " + index + " is not a number: " + argStr, e);
     }
-  }
-
-  public List<Ticker> getAllBookTickers() throws IOException {
-    List<BinancePriceQuantity> binanceTickers = tickerAllBookTickers();
-    return BinanceAdapters.adaptPriceQuantities(binanceTickers, false);
   }
 }
