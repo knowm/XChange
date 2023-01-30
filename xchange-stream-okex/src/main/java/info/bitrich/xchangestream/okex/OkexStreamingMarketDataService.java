@@ -15,10 +15,8 @@ import org.knowm.xchange.okex.dto.marketdata.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.util.*;
 
 import static info.bitrich.xchangestream.okex.OkexStreamingService.*;
 
@@ -88,11 +86,12 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                     String action = channelName.equals(ORDERBOOK5) ? "snapshot" : jsonNode.get("action").asText();
                     if ("snapshot".equalsIgnoreCase(action)) {
                         List<OkexOrderbook> okexOrderbooks = mapper.treeToValue(jsonNode.get("data"), mapper.getTypeFactory().constructCollectionType(List.class, OkexOrderbook.class));
-                        OrderBook orderBook = OkexAdapters.adaptOrderBook(okexOrderbooks, instrument);
+                        OrderBook orderBook = OkexAdapters.adaptOrderBook(okexOrderbooks, instrument,  new Timestamp(Long.parseLong(jsonNode.get("data").get(0).get("ts").asText())));
                         orderBookMap.put(instId, orderBook);
                         return Observable.just(orderBook);
                     } else if ("update".equalsIgnoreCase(action)) {
                         OrderBook orderBook = orderBookMap.getOrDefault(instId, null);
+                        Date timeStamp = new Timestamp(Long.parseLong(jsonNode.get("data").get(0).get("ts").asText()));
                         if (orderBook == null) {
                             LOG.error(String.format("Failed to get orderBook, instId=%s.", instId));
                             return Observable.fromIterable(new LinkedList<>());
@@ -102,7 +101,7 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
 
                         List<OkexPublicOrder> bids = mapper.treeToValue(jsonNode.get("data").get(0).get("bids"), mapper.getTypeFactory().constructCollectionType(List.class, OkexPublicOrder.class));
                         bids.forEach(okexPublicOrder -> orderBook.update(OkexAdapters.adaptLimitOrder(okexPublicOrder, instrument, Order.OrderType.BID)));
-
+                        orderBook.updateDate(timeStamp);
                         return Observable.just(orderBook);
 
                     } else {

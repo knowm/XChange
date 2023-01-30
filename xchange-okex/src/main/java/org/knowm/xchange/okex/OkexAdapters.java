@@ -19,13 +19,14 @@ import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.dto.OkexInstType;
+import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.account.*;
 import org.knowm.xchange.okex.dto.marketdata.*;
-import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.trade.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -173,7 +174,7 @@ public class OkexAdapters {
     return adaptOrderbookOrder(okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType);
   }
 
-  public static OrderBook adaptOrderBook(List<OkexOrderbook> okexOrderbooks, Instrument instrument) {
+  public static OrderBook adaptOrderBook(List<OkexOrderbook> okexOrderbooks, Instrument instrument, Date timeStamp) {
     List<LimitOrder> asks = new ArrayList<>();
     List<LimitOrder> bids = new ArrayList<>();
 
@@ -191,17 +192,16 @@ public class OkexAdapters {
             okexBid ->
                 bids.add(adaptLimitOrder(okexBid, instrument, OrderType.BID)));
 
-    return new OrderBook(Date.from(Instant.now()), asks, bids);
+    return new OrderBook(timeStamp, asks, bids);
   }
 
   public static OrderBook adaptOrderBook(
       OkexResponse<List<OkexOrderbook>> okexOrderbook, Instrument instrument) {
-    return adaptOrderBook(okexOrderbook.getData(), instrument);
+    return adaptOrderBook(okexOrderbook.getData(), instrument,new Timestamp(Long.parseLong(okexOrderbook.getData().get(0).getTs())));
   }
 
   public static LimitOrder adaptOrderbookOrder(
       BigDecimal amount, BigDecimal price, Instrument instrument, Order.OrderType orderType) {
-
     return new LimitOrder(orderType, amount, instrument, "", null, price);
   }
 

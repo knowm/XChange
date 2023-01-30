@@ -2,6 +2,7 @@ package org.knowm.xchange.okex.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class OkexOrderbook {
@@ -9,6 +10,7 @@ public class OkexOrderbook {
   private final List<OkexPublicOrder> asks;
 
   private final List<OkexPublicOrder> bids;
+
   private final String ts;
 
   @JsonCreator
@@ -29,6 +31,8 @@ public class OkexOrderbook {
   public List<OkexPublicOrder> getBids() {
     return bids;
   }
+
+  public String getTs() { return ts; }
 
   @Override
   public String toString() {

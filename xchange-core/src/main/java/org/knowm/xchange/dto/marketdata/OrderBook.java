@@ -2,6 +2,10 @@ package org.knowm.xchange.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,9 +14,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.instrument.Instrument;
 
 /** DTO representing the exchange order book */
 public final class OrderBook implements Serializable {
@@ -187,7 +188,7 @@ public final class OrderBook implements Serializable {
 
   // Replace timeStamp if the provided date is non-null and in the future
   // TODO should this raise an exception if the order timestamp is in the past?
-  private void updateDate(Date updateDate) {
+  public void updateDate(Date updateDate) {
 
     if (updateDate != null && (timeStamp == null || updateDate.after(timeStamp))) {
       this.timeStamp = updateDate;
