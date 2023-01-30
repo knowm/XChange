@@ -126,21 +126,21 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     if (realtimeOrderBookTicker) {
-      return getRawBookTicker(currencyPair).map(raw-> raw.toTicker(false));
+      return getRawBookTicker(currencyPair).map(raw -> raw.toTicker(false));
     }
-    return getRawTicker(currencyPair).map(raw-> raw.toTicker(false));
+    return getRawTicker(currencyPair).map(raw -> raw.toTicker(false));
   }
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     return getRawTrades(currencyPair)
-            .map(rawTrade -> BinanceStreamingAdapters.adaptRawTrade(rawTrade, currencyPair));
+        .map(rawTrade -> BinanceStreamingAdapters.adaptRawTrade(rawTrade, currencyPair));
   }
 
   @Override
   public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
     if (!service.isLiveSubscriptionEnabled()
-            && !service.getProductSubscription().getOrderBook().contains(instrument)) {
+        && !service.getProductSubscription().getOrderBook().contains(instrument)) {
       throw new UpFrontSubscriptionRequiredException();
     }
     return orderbookSubscriptions.computeIfAbsent(instrument, this::initOrderBookIfAbsent);
@@ -149,25 +149,30 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   @Override
   public Observable<Ticker> getTicker(Instrument instrument, Object... args) {
     if (realtimeOrderBookTicker) {
-      return getRawBookTicker(instrument).map(raw-> raw.toTicker(instrument instanceof FuturesContract));
+      return getRawBookTicker(instrument)
+          .map(raw -> raw.toTicker(instrument instanceof FuturesContract));
     }
-    return getRawTicker(instrument).map(raw-> raw.toTicker(instrument instanceof FuturesContract));
+    return getRawTicker(instrument).map(raw -> raw.toTicker(instrument instanceof FuturesContract));
   }
 
   @Override
   public Observable<Trade> getTrades(Instrument instrument, Object... args) {
     return getRawTrades(instrument)
-            .map(rawTrade -> BinanceStreamingAdapters.adaptRawTrade(rawTrade, instrument));
+        .map(rawTrade -> BinanceStreamingAdapters.adaptRawTrade(rawTrade, instrument));
   }
 
   @Override
   public Observable<FundingRate> getFundingRate(Instrument instrument, Object... args) {
-    return service.subscribeChannel(channelFromCurrency(instrument, BinanceSubscriptionType.FUNDING_RATES.getType()))
-            .map(it -> this.<FundingRateWebsocketTransaction>readTransaction(
+    return service
+        .subscribeChannel(
+            channelFromCurrency(instrument, BinanceSubscriptionType.FUNDING_RATES.getType()))
+        .map(
+            it ->
+                this.<FundingRateWebsocketTransaction>readTransaction(
                     it, FUNDING_RATE_TYPE, "funding rate"))
-            .map(BinanceWebsocketTransaction::getData)
-            .filter(data -> BinanceAdapters.adaptSymbol(data.getSymbol(), true).equals(instrument))
-            .map(FundingRateWebsocketTransaction::toFundingRate);
+        .map(BinanceWebsocketTransaction::getData)
+        .filter(data -> BinanceAdapters.adaptSymbol(data.getSymbol(), true).equals(instrument))
+        .map(FundingRateWebsocketTransaction::toFundingRate);
   }
 
   private Observable<OrderBook> initOrderBookIfAbsent(Instrument instrument) {
@@ -209,15 +214,18 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         && !service.getKlineSubscription().contains(instrument, interval)) {
       throw new UpFrontSubscriptionRequiredException();
     }
-    return klineSubscriptions.compute(
-        instrument, (c, v) -> {
-          Map<KlineInterval, Observable<BinanceKline>> intervalMap = createMapIfNull(v);
+    return klineSubscriptions
+        .compute(
+            instrument,
+            (c, v) -> {
+              Map<KlineInterval, Observable<BinanceKline>> intervalMap = createMapIfNull(v);
 
-          intervalMap.computeIfAbsent(interval, i -> triggerObservableBody(klinesStream(instrument, interval)).share());
+              intervalMap.computeIfAbsent(
+                  interval, i -> triggerObservableBody(klinesStream(instrument, interval)).share());
 
-          return intervalMap;
-        }).get(interval);
-
+              return intervalMap;
+            })
+        .get(interval);
   }
 
   private static <K, V> Map<K, V> createMapIfNull(Map<K, V> map) {
@@ -228,9 +236,15 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     return service
         .subscribeChannel(
             getChannelPrefix(instrument) + "@" + KLINE.getType() + "_" + interval.code())
-        .map(it -> this.<KlineBinanceWebSocketTransaction>readTransaction(it, KLINE_TYPE, "kline").getData().toBinanceKline(instrument instanceof FuturesContract))
-        .filter(binanceKline -> binanceKline.getInstrument().equals(instrument)
-            && binanceKline.getInterval().equals(interval));
+        .map(
+            it ->
+                this.<KlineBinanceWebSocketTransaction>readTransaction(it, KLINE_TYPE, "kline")
+                    .getData()
+                    .toBinanceKline(instrument instanceof FuturesContract))
+        .filter(
+            binanceKline ->
+                binanceKline.getInstrument().equals(instrument)
+                    && binanceKline.getInterval().equals(interval));
   }
 
   /**
@@ -240,8 +254,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
    * This api provides the ability to start receiving updates immediately. It is allowed to
    * subscribe to this api and {@link #getOrderBook(Instrument, Object...)} at the same time.
    */
-  public Observable<OrderBookUpdate> getOrderBookUpdates(
-      Instrument instrument) {
+  public Observable<OrderBookUpdate> getOrderBookUpdates(Instrument instrument) {
     if (!service.isLiveSubscriptionEnabled()
         && !service.getProductSubscription().getOrderBook().contains(instrument)) {
       throw new UpFrontSubscriptionRequiredException();
@@ -278,8 +291,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   private String getChannelPrefix(Instrument instrument) {
     return (instrument instanceof FuturesContract)
-            ? ((FuturesContract) instrument).getCurrencyPair().toString().replace("/","").toLowerCase()
-            : instrument.toString().replace("/","").toLowerCase();
+        ? ((FuturesContract) instrument).getCurrencyPair().toString().replace("/", "").toLowerCase()
+        : instrument.toString().replace("/", "").toLowerCase();
   }
 
   /**
@@ -288,7 +301,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
    * <p>As we receive messages as soon as the connection is open, we need to register subscribers to
    * handle these before the first messages arrive.
    */
-  public void openSubscriptions(ProductSubscription productSubscription, KlineSubscription klineSubscription) {
+  public void openSubscriptions(
+      ProductSubscription productSubscription, KlineSubscription klineSubscription) {
     klineSubscription.getKlines().forEach((this::initKlineSubscription));
     productSubscription.getTicker().forEach(this::initTickerSubscription);
     productSubscription.getOrderBook().forEach(this::initRawOrderBookUpdatesSubscription);
@@ -296,11 +310,16 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   private void initKlineSubscription(Instrument instrument, Set<KlineInterval> klineIntervals) {
-    klineSubscriptions.compute(instrument, (c, v) -> {
-      Map<KlineInterval, Observable<BinanceKline>> intervalMap = createMapIfNull(v);
-      klineIntervals.forEach(interval -> intervalMap.put(interval, triggerObservableBody(klinesStream(instrument, interval))));
-      return intervalMap;
-    });
+    klineSubscriptions.compute(
+        instrument,
+        (c, v) -> {
+          Map<KlineInterval, Observable<BinanceKline>> intervalMap = createMapIfNull(v);
+          klineIntervals.forEach(
+              interval ->
+                  intervalMap.put(
+                      interval, triggerObservableBody(klinesStream(instrument, interval))));
+          return intervalMap;
+        });
   }
 
   /**
@@ -310,11 +329,14 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
    */
   public void unsubscribe(Instrument instrument, BinanceSubscriptionType subscriptionType) {
     if (subscriptionType == KLINE) {
-      klineSubscriptions.computeIfPresent(instrument, (k, intervalMap) -> {
-        intervalMap.keySet()
-            .forEach(klineInterval -> unsubscribeKline(instrument, klineInterval));
-        return null;
-      });
+      klineSubscriptions.computeIfPresent(
+          instrument,
+          (k, intervalMap) -> {
+            intervalMap
+                .keySet()
+                .forEach(klineInterval -> unsubscribeKline(instrument, klineInterval));
+            return null;
+          });
     } else {
       unsubscribe(instrument, subscriptionType, null);
     }
@@ -324,15 +346,17 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     unsubscribe(instrument, KLINE, klineInterval);
   }
 
-  private void unsubscribe(Instrument instrument, BinanceSubscriptionType subscriptionType, KlineInterval klineInterval) {
+  private void unsubscribe(
+      Instrument instrument,
+      BinanceSubscriptionType subscriptionType,
+      KlineInterval klineInterval) {
 
     if (!service.isLiveSubscriptionEnabled()) {
       throw new UnsupportedOperationException(
           "Unsubscribe not supported for Binance when live Subscription/Unsubscription is disabled. "
               + "Call BinanceStreamingExchange.enableLiveSubscription() to active it");
     }
-    String channelId =
-        getChannelId(instrument, subscriptionType, klineInterval);
+    String channelId = getChannelId(instrument, subscriptionType, klineInterval);
     this.service.unsubscribeChannel(channelId);
 
     switch (subscriptionType) {
@@ -351,16 +375,22 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         bookTickerSubscriptions.remove(instrument);
         break;
       case KLINE:
-        klineSubscriptions.computeIfPresent(instrument, (k, intervalMap) -> {
-          intervalMap.remove(klineInterval);
-          return intervalMap;
-        });
+        klineSubscriptions.computeIfPresent(
+            instrument,
+            (k, intervalMap) -> {
+              intervalMap.remove(klineInterval);
+              return intervalMap;
+            });
       default:
-        throw new IllegalArgumentException("Subscription type not supported to unsubscribe from stream");
+        throw new IllegalArgumentException(
+            "Subscription type not supported to unsubscribe from stream");
     }
   }
 
-  private String getChannelId(Instrument instrument, BinanceSubscriptionType subscriptionType, KlineInterval klineInterval) {
+  private String getChannelId(
+      Instrument instrument,
+      BinanceSubscriptionType subscriptionType,
+      KlineInterval klineInterval) {
     return getChannelPrefix(instrument)
         + "@"
         + subscriptionType.getType()
@@ -368,8 +398,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   private void initTradeSubscription(Instrument instrument) {
-    tradeSubscriptions.put(
-        instrument, triggerObservableBody(rawTradeStream(instrument)).share());
+    tradeSubscriptions.put(instrument, triggerObservableBody(rawTradeStream(instrument)).share());
   }
 
   private void initTickerSubscription(Instrument instrument) {
@@ -389,12 +418,15 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   private Observable<BinanceTicker24h> rawTickerStream(Instrument instrument) {
     return service
-        .subscribeChannel(
-            channelFromCurrency(instrument, BinanceSubscriptionType.TICKER.getType()))
+        .subscribeChannel(channelFromCurrency(instrument, BinanceSubscriptionType.TICKER.getType()))
         .map(
             it ->
                 this.<TickerBinanceWebsocketTransaction>readTransaction(it, TICKER_TYPE, "ticker"))
-        .filter(transaction -> BinanceAdapters.adaptSymbol(transaction.getData().getSymbol(), instrument instanceof FuturesContract).equals(instrument))
+        .filter(
+            transaction ->
+                BinanceAdapters.adaptSymbol(
+                        transaction.getData().getSymbol(), instrument instanceof FuturesContract)
+                    .equals(instrument))
         .map(transaction -> transaction.getData().getTicker());
   }
 
@@ -406,7 +438,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
             it ->
                 this.<BookTickerBinanceWebSocketTransaction>readTransaction(
                     it, BOOK_TICKER_TYPE, "book ticker"))
-        .filter(transaction -> BinanceAdapters.adaptSymbol(transaction.getData().getTicker().getSymbol(), instrument instanceof FuturesContract).equals(instrument))
+        .filter(
+            transaction ->
+                BinanceAdapters.adaptSymbol(
+                        transaction.getData().getTicker().getSymbol(),
+                        instrument instanceof FuturesContract)
+                    .equals(instrument))
         .map(transaction -> transaction.getData().getTicker());
   }
 
@@ -443,17 +480,18 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
   }
 
-  private Observable<DepthBinanceWebSocketTransaction> rawOrderBookUpdates(
-          Instrument instrument) {
+  private Observable<DepthBinanceWebSocketTransaction> rawOrderBookUpdates(Instrument instrument) {
     return service
-        .subscribeChannel(
-            channelFromCurrency(instrument, BinanceSubscriptionType.DEPTH.getType()))
+        .subscribeChannel(channelFromCurrency(instrument, BinanceSubscriptionType.DEPTH.getType()))
         .map(
             it ->
                 this.<DepthBinanceWebSocketTransaction>readTransaction(
                     it, DEPTH_TYPE, "order book"))
         .map(BinanceWebsocketTransaction::getData)
-        .filter(data -> BinanceAdapters.adaptSymbol(data.getSymbol(), instrument instanceof FuturesContract).equals(instrument));
+        .filter(
+            data ->
+                BinanceAdapters.adaptSymbol(data.getSymbol(), instrument instanceof FuturesContract)
+                    .equals(instrument));
   }
 
   private Observable<OrderBook> createOrderBookObservable(Instrument instrument) {
@@ -527,10 +565,13 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   private Observable<BinanceRawTrade> rawTradeStream(Instrument instrument) {
     return service
-        .subscribeChannel(
-            channelFromCurrency(instrument, BinanceSubscriptionType.TRADE.getType()))
+        .subscribeChannel(channelFromCurrency(instrument, BinanceSubscriptionType.TRADE.getType()))
         .map(it -> this.<TradeBinanceWebsocketTransaction>readTransaction(it, TRADE_TYPE, "trade"))
-        .filter(transaction -> BinanceAdapters.adaptSymbol(transaction.getData().getSymbol(), instrument instanceof FuturesContract).equals(instrument))
+        .filter(
+            transaction ->
+                BinanceAdapters.adaptSymbol(
+                        transaction.getData().getSymbol(), instrument instanceof FuturesContract)
+                    .equals(instrument))
         .map(transaction -> transaction.getData().getRawTrade());
   }
 
@@ -555,7 +596,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   private Stream<OrderBookUpdate> extractOrderBookUpdates(
-          Instrument instrument, DepthBinanceWebSocketTransaction depthTransaction) {
+      Instrument instrument, DepthBinanceWebSocketTransaction depthTransaction) {
     BinanceOrderbook orderBookDiff = depthTransaction.getOrderBook();
 
     Stream<OrderBookUpdate> bidStream =
@@ -624,9 +665,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   private static JavaType getFundingRateType() {
     return getObjectMapper()
-            .getTypeFactory()
-            .constructType(
-                    new TypeReference<BinanceWebsocketTransaction<FundingRateWebsocketTransaction>>() {});
+        .getTypeFactory()
+        .constructType(
+            new TypeReference<BinanceWebsocketTransaction<FundingRateWebsocketTransaction>>() {});
   }
 
   private static JavaType getKlineType() {

@@ -14,8 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * This class test the Live Subscription/Unsubscription feature of the Binance Api. See
- * <a href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#live-subscribingunsubscribing-to-streams">...</a>
+ * This class test the Live Subscription/Unsubscription feature of the Binance Api. See <a
+ * href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#live-subscribingunsubscribing-to-streams">...</a>
  *
  * <p>Before this addon, the subscription of the currency pairs required to be at the connection
  * time, so if we wanted to add new currencies to the stream, it was required to disconnect from the
