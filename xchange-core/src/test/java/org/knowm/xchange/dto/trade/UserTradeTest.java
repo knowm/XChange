@@ -113,6 +113,7 @@ public class UserTradeTest {
             .id(id)
             .orderId(orderId)
             .feeAmount(feeAmount)
+                .isLiquidation(false)
             .feeCurrency(feeCurrency)
             .build();
 

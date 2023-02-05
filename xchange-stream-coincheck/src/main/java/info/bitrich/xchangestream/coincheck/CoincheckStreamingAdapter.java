@@ -81,7 +81,8 @@ public class CoincheckStreamingAdapter {
         null,
         streamingTrade.getId(),
         null,
-        null);
+        null,
+            false);
   }
 
   public static String getChannelNameFromMessage(JsonNode node) {

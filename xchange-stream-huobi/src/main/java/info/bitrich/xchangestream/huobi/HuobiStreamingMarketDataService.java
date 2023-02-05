@@ -133,7 +133,7 @@ public class HuobiStreamingMarketDataService implements StreamingMarketDataServi
                 Date ts = new Date(json.get("ts").longValue());
                 String id = json.get("id").textValue();
                 BigDecimal amount = json.get("amount").decimalValue();
-                Trade trade = new Trade(orderType, amount, currencyPair, price, ts, id, null, null);
+                Trade trade = new Trade(orderType, amount, currencyPair, price, ts, id, null, null, false);
                 list.add(trade);
               }
               return list.get(list.size() - 1);

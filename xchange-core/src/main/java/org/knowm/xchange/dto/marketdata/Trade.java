@@ -39,11 +39,12 @@ public class Trade implements Serializable {
   protected final String makerOrderId;
 
   protected final String takerOrderId;
+  protected final boolean liquidation;
 
   /**
    * This constructor is called to create a public Trade object in {@link
    * MarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)}
-   * implementations) since it's missing the orderId and fee parameters.
+   * implementations since it's missing the orderId and fee parameters.
    *
    * @param type The trade type (BID side or ASK side)
    * @param originalAmount The depth of this trade
@@ -53,16 +54,18 @@ public class Trade implements Serializable {
    * @param id The id of the trade
    * @param makerOrderId The orderId of the maker in the trade
    * @param takerOrderId The orderId of the taker in the trade
+   * @param liquidation true if the order is a liquidation order
    */
   public Trade(
-      OrderType type,
-      BigDecimal originalAmount,
-      Instrument instrument,
-      BigDecimal price,
-      Date timestamp,
-      String id,
-      String makerOrderId,
-      String takerOrderId) {
+          OrderType type,
+          BigDecimal originalAmount,
+          Instrument instrument,
+          BigDecimal price,
+          Date timestamp,
+          String id,
+          String makerOrderId,
+          String takerOrderId,
+          boolean liquidation) {
 
     this.type = type;
     this.originalAmount = originalAmount;
@@ -72,6 +75,7 @@ public class Trade implements Serializable {
     this.id = id;
     this.makerOrderId = makerOrderId;
     this.takerOrderId = takerOrderId;
+    this.liquidation = liquidation;
   }
 
   public OrderType getType() {
@@ -102,7 +106,7 @@ public class Trade implements Serializable {
     }
     if (!(instrument instanceof CurrencyPair)) {
       throw new IllegalStateException(
-          "The instrument of this order is not a currency pair: " + instrument);
+              "The instrument of this order is not a currency pair: " + instrument);
     }
     return (CurrencyPair) instrument;
   }
@@ -130,6 +134,10 @@ public class Trade implements Serializable {
     return takerOrderId;
   }
 
+  public boolean liquidation() {
+    return liquidation;
+  }
+
   @Override
   public boolean equals(Object o) {
 
@@ -150,27 +158,17 @@ public class Trade implements Serializable {
 
   @Override
   public String toString() {
-    return "Trade{"
-        + "type="
-        + type
-        + ", originalAmount="
-        + originalAmount
-        + ", instrument="
-        + instrument
-        + ", price="
-        + price
-        + ", timestamp="
-        + timestamp
-        + ", id='"
-        + id
-        + '\''
-        + ", makerOrderId='"
-        + makerOrderId
-        + '\''
-        + ", takerOrderId='"
-        + takerOrderId
-        + '\''
-        + '}';
+    return "Trade{" +
+            "type=" + type +
+            ", originalAmount=" + originalAmount +
+            ", instrument=" + instrument +
+            ", price=" + price +
+            ", timestamp=" + timestamp +
+            ", id='" + id + '\'' +
+            ", makerOrderId='" + makerOrderId + '\'' +
+            ", takerOrderId='" + takerOrderId + '\'' +
+            ", liquidation=" + liquidation +
+            '}';
   }
 
   @JsonPOJOBuilder(withPrefix = "")
@@ -184,15 +182,17 @@ public class Trade implements Serializable {
     protected String id;
     protected String makerOrderId;
     protected String takerOrderId;
+    protected boolean liquidation;
 
     public static Builder from(Trade trade) {
       return new Builder()
-          .type(trade.getType())
-          .originalAmount(trade.getOriginalAmount())
-          .instrument(trade.getInstrument())
-          .price(trade.getPrice())
-          .timestamp(trade.getTimestamp())
-          .id(trade.getId());
+              .type(trade.getType())
+              .originalAmount(trade.getOriginalAmount())
+              .instrument(trade.getInstrument())
+              .price(trade.getPrice())
+              .timestamp(trade.getTimestamp())
+              .liquidation(trade.liquidation)
+              .id(trade.getId());
     }
 
     public Builder type(OrderType type) {
@@ -254,10 +254,15 @@ public class Trade implements Serializable {
       return this;
     }
 
+    public Builder liquidation(boolean isLiquidation){
+      this.liquidation = isLiquidation;
+      return this;
+    }
+
     public Trade build() {
 
       return new Trade(
-          type, originalAmount, instrument, price, timestamp, id, makerOrderId, takerOrderId);
+              type, originalAmount, instrument, price, timestamp, id, makerOrderId, takerOrderId, liquidation);
     }
   }
 }

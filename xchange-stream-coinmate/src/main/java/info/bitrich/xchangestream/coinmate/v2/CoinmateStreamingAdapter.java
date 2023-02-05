@@ -29,27 +29,25 @@ public class CoinmateStreamingAdapter {
       List<CoinmateWebSocketUserTrade> coinmateWebSocketUserTrades, CurrencyPair currencyPair) {
     List<UserTrade> userTrades = new ArrayList<>();
     coinmateWebSocketUserTrades.forEach(
-        (coinmateWebSocketUserTrade) -> {
-          userTrades.add(
-              new UserTrade.Builder()
-                  .type(
-                      (coinmateWebSocketUserTrade.getUserOrderType().equals("SELL"))
-                          ? Order.OrderType.ASK
-                          : Order.OrderType.BID)
-                  .originalAmount(BigDecimal.valueOf(coinmateWebSocketUserTrade.getAmount()))
-                  .currencyPair(currencyPair)
-                  .price(BigDecimal.valueOf(coinmateWebSocketUserTrade.getPrice()))
-                  .timestamp(
-                      Date.from(Instant.ofEpochMilli(coinmateWebSocketUserTrade.getTimestamp())))
-                  .id(coinmateWebSocketUserTrade.getTransactionId())
-                  .orderId(
-                      (coinmateWebSocketUserTrade.getUserOrderType().equals("SELL"))
-                          ? coinmateWebSocketUserTrade.getSellOrderId()
-                          : coinmateWebSocketUserTrade.getBuyOrderId())
-                  .feeAmount(BigDecimal.valueOf(coinmateWebSocketUserTrade.getFee()))
-                  .feeCurrency(currencyPair.counter)
-                  .build());
-        });
+        (coinmateWebSocketUserTrade) -> userTrades.add(
+            new UserTrade.Builder()
+                .type(
+                    (coinmateWebSocketUserTrade.getUserOrderType().equals("SELL"))
+                        ? Order.OrderType.ASK
+                        : Order.OrderType.BID)
+                .originalAmount(BigDecimal.valueOf(coinmateWebSocketUserTrade.getAmount()))
+                .currencyPair(currencyPair)
+                .price(BigDecimal.valueOf(coinmateWebSocketUserTrade.getPrice()))
+                .timestamp(
+                    Date.from(Instant.ofEpochMilli(coinmateWebSocketUserTrade.getTimestamp())))
+                .id(coinmateWebSocketUserTrade.getTransactionId())
+                .orderId(
+                    (coinmateWebSocketUserTrade.getUserOrderType().equals("SELL"))
+                        ? coinmateWebSocketUserTrade.getSellOrderId()
+                        : coinmateWebSocketUserTrade.getBuyOrderId())
+                .feeAmount(BigDecimal.valueOf(coinmateWebSocketUserTrade.getFee()))
+                .feeCurrency(currencyPair.counter)
+                .build()));
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
   }
 
@@ -57,23 +55,21 @@ public class CoinmateStreamingAdapter {
       List<CoinmateWebsocketOpenOrder> coinmateWebsocketOpenOrders, CurrencyPair currencyPair) {
     List<LimitOrder> openOrders = new ArrayList<>();
     coinmateWebsocketOpenOrders.forEach(
-        (coinmateWebsocketOpenOrder) -> {
-          openOrders.add(
-              new LimitOrder.Builder(
-                      (coinmateWebsocketOpenOrder.getOrderType().contains("SELL"))
-                          ? Order.OrderType.ASK
-                          : Order.OrderType.BID,
-                      currencyPair)
-                  .originalAmount(BigDecimal.valueOf(coinmateWebsocketOpenOrder.getAmount()))
-                  .cumulativeAmount(
-                      BigDecimal.valueOf(coinmateWebsocketOpenOrder.getOriginalOrderSize()))
-                  .id(coinmateWebsocketOpenOrder.getId())
-                  .timestamp(
-                      Date.from(Instant.ofEpochMilli(coinmateWebsocketOpenOrder.getTimestamp())))
-                  .limitPrice(BigDecimal.valueOf(coinmateWebsocketOpenOrder.getPrice()))
-                  .orderStatus(fromString(coinmateWebsocketOpenOrder.getOrderChangePushEvent()))
-                  .build());
-        });
+        (coinmateWebsocketOpenOrder) -> openOrders.add(
+            new LimitOrder.Builder(
+                    (coinmateWebsocketOpenOrder.getOrderType().contains("SELL"))
+                        ? Order.OrderType.ASK
+                        : Order.OrderType.BID,
+                    currencyPair)
+                .originalAmount(BigDecimal.valueOf(coinmateWebsocketOpenOrder.getAmount()))
+                .cumulativeAmount(
+                    BigDecimal.valueOf(coinmateWebsocketOpenOrder.getOriginalOrderSize()))
+                .id(coinmateWebsocketOpenOrder.getId())
+                .timestamp(
+                    Date.from(Instant.ofEpochMilli(coinmateWebsocketOpenOrder.getTimestamp())))
+                .limitPrice(BigDecimal.valueOf(coinmateWebsocketOpenOrder.getPrice()))
+                .orderStatus(fromString(coinmateWebsocketOpenOrder.getOrderChangePushEvent()))
+                .build()));
     return new OpenOrders(openOrders);
   }
 
@@ -107,6 +103,7 @@ public class CoinmateStreamingAdapter {
             : webSocketTrade.getBuyOrderId().toString(),
         webSocketTrade.getType().equals("BUY")
             ? webSocketTrade.getBuyOrderId().toString()
-            : webSocketTrade.getSellOrderId().toString());
+            : webSocketTrade.getSellOrderId().toString(),
+            false);
   }
 }

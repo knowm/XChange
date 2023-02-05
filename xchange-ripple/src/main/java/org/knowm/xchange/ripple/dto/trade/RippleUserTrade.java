@@ -39,7 +39,8 @@ public class RippleUserTrade extends UserTrade {
         orderId,
         feeAmount,
         feeCurrency,
-        "");
+        "",
+            false);
     this.baseCounterparty = baseCounterparty;
     this.counterCounterparty = counterCounterparty;
 

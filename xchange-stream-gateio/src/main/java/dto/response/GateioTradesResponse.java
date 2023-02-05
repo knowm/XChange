@@ -55,6 +55,7 @@ public class GateioTradesResponse extends GateioWebSocketTransaction {
         new Date(new BigDecimal(result.createTimeMilliseconds).longValue()),
         Long.toString(result.id),
         null,
-        null);
+        null,
+            false);
   }
 }

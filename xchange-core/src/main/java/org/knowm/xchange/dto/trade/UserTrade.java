@@ -56,9 +56,10 @@ public class UserTrade extends Trade {
       String orderId,
       BigDecimal feeAmount,
       Currency feeCurrency,
-      String orderUserReference) {
+      String orderUserReference,
+      boolean liquidation) {
 
-    super(type, originalAmount, instrument, price, timestamp, id, null, null);
+    super(type, originalAmount, instrument, price, timestamp, id, null, null, liquidation);
 
     this.orderId = orderId;
     this.feeAmount = feeAmount;
@@ -151,6 +152,7 @@ public class UserTrade extends Trade {
           .id(trade.getId())
           .orderId(trade.getOrderId())
           .feeAmount(trade.getFeeAmount())
+          .isLiquidation(trade.liquidation)
           .feeCurrency(trade.getFeeCurrency());
     }
 
@@ -209,6 +211,11 @@ public class UserTrade extends Trade {
       return this;
     }
 
+    public Builder isLiquidation(boolean isLiquidation){
+      this.liquidation = isLiquidation;
+      return this;
+    }
+
     @Override
     public UserTrade build() {
       return new UserTrade(
@@ -221,7 +228,8 @@ public class UserTrade extends Trade {
           orderId,
           feeAmount,
           feeCurrency,
-          orderUserReference);
+          orderUserReference,
+          liquidation);
     }
   }
 }

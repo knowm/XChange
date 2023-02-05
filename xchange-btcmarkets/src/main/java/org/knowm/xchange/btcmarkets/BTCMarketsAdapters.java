@@ -277,7 +277,8 @@ public final class BTCMarketsAdapters {
               marketTrade.getTimestamp(),
               marketTrade.getId().toString(),
               null,
-              null);
+              null,
+                  false);
       trades.add(trade);
     }
 

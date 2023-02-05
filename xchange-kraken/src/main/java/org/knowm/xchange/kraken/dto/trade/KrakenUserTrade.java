@@ -32,7 +32,8 @@ public class KrakenUserTrade extends UserTrade {
         orderId,
         feeAmount,
         feeCurrency,
-        "");
+        "",
+            false);
     this.cost = cost;
   }
 
