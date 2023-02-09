@@ -1,25 +1,39 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import dto.response.GateioOrderBookResponse;
+import dto.response.GateioTickerResponse;
 import dto.response.GateioTradesResponse;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
-import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 05-05-2021 */
 public class GateioStreamingMarketDataService implements StreamingMarketDataService {
   private static final Logger LOGGER =
       LoggerFactory.getLogger(GateioStreamingMarketDataService.class);
   private final GateioStreamingService service;
+  private final Supplier<Observable<Ticker>> streamingTickers;
 
-  public GateioStreamingMarketDataService(GateioStreamingService service) {
+  public GateioStreamingMarketDataService(GateioStreamingService service, List<CurrencyPair> currencyPairs) {
     this.service = service;
+    final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+      streamingTickers = Suppliers.memoize(() -> service
+        .subscribeChannel(GateioStreamingService.SPOT_TICKERS_CHANNEL, currencyPairs.toArray(new Object[0]))
+          .map(s -> {
+            GateioTickerResponse ticker = mapper.treeToValue(s, GateioTickerResponse.class);
+              return ticker.toTicker();
+          })
+          .share());
   }
 
   private boolean containsPair(List<Instrument> pairs, CurrencyPair pair) {
@@ -44,10 +58,11 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
         .getRawWebSocketTransactions(currencyPair, GateioStreamingService.SPOT_ORDERBOOK_CHANNEL)
         .map(msg -> ((GateioOrderBookResponse) msg).toOrderBook(currencyPair));
   }
-
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException("Not yet implemented!");
+    return streamingTickers.get().filter(ticker -> ticker.getInstrument().equals(currencyPair)).doOnDispose(() -> {
+      service.sendMessage(service.getUnsubscribeMessage(GateioStreamingService.SPOT_TICKERS_CHANNEL, currencyPair));
+    });
   }
 
   @Override
