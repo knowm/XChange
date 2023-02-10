@@ -1,4 +1,4 @@
-package dto.response;
+package info.bitrich.xchangestream.gateio.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.currency.CurrencyPair;

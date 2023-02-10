@@ -1,5 +1,6 @@
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
+import info.bitrich.xchangestream.gateio.GateioStreamingExchange;
 import io.reactivex.disposables.Disposable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -15,8 +16,8 @@ public class GateioManualExample {
                     .addOrderbook(CurrencyPair.ETH_USDT)
                     .addOrderbook(CurrencyPair.BTC_USDT)
                     .addTrades(CurrencyPair.ETH_USDT)
-//                    .addTicker(CurrencyPair.BTC_USDT)
-//                    .addTicker(CurrencyPair.ETH_USDT)
+                    .addTicker(CurrencyPair.BTC_USDT)
+                    .addTicker(CurrencyPair.ETH_USDT)
                     .build();
 
     ExchangeSpecification spec =
@@ -61,27 +62,27 @@ public class GateioManualExample {
                 },
                 throwable -> LOG.error("ERROR in getting trade: ", throwable));
 
-//      Disposable sub4 =
-//              exchange
-//                      .getStreamingMarketDataService()
-//                      .getTicker(CurrencyPair.BTC_USDT)
-//                      .subscribe(
-//                              ticker -> LOG.info("#1 TICKER: {}", ticker),
-//                              throwable -> LOG.error("#1 ERROR in getting trade: ", throwable));
-//
-//    Disposable sub5 =
-//            exchange
-//                    .getStreamingMarketDataService()
-//                    .getTicker(CurrencyPair.ETH_USDT)
-//                    .subscribe(
-//                            ticker -> LOG.info("#2 TICKER: {}", ticker),
-//                            throwable -> LOG.error("#2 ERROR in getting trade: ", throwable));
+      Disposable sub4 =
+              exchange
+                      .getStreamingMarketDataService()
+                      .getTicker(CurrencyPair.BTC_USDT)
+                      .subscribe(
+                              ticker -> LOG.info("#1 TICKER: {}", ticker),
+                              throwable -> LOG.error("#1 ERROR in getting trade: ", throwable));
+
+    Disposable sub5 =
+            exchange
+                    .getStreamingMarketDataService()
+                    .getTicker(CurrencyPair.ETH_USDT)
+                    .subscribe(
+                            ticker -> LOG.info("#2 TICKER: {}", ticker),
+                            throwable -> LOG.error("#2 ERROR in getting trade: ", throwable));
 
     Thread.sleep(1000);
     sub1.dispose();
     sub2.dispose();
     sub3.dispose();
-//    sub4.dispose();
-//    sub5.dispose();
+    sub4.dispose();
+    sub5.dispose();
   }
 }

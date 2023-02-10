@@ -1,4 +1,4 @@
-package dto.response;
+package info.bitrich.xchangestream.gateio.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

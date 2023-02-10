@@ -1,9 +1,11 @@
+package info.bitrich.xchangestream.gateio;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
-import dto.response.GateioOrderBookResponse;
-import dto.response.GateioTickerResponse;
-import dto.response.GateioTradesResponse;
+import info.bitrich.xchangestream.gateio.dto.response.GateioOrderBookResponse;
+import info.bitrich.xchangestream.gateio.dto.response.GateioTickerResponse;
+import info.bitrich.xchangestream.gateio.dto.response.GateioTradesResponse;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
@@ -16,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 05-05-2021 */
 public class GateioStreamingMarketDataService implements StreamingMarketDataService {
@@ -23,6 +27,7 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
       LoggerFactory.getLogger(GateioStreamingMarketDataService.class);
   private final GateioStreamingService service;
   private final Supplier<Observable<Ticker>> streamingTickers;
+  private final Map<CurrencyPair, Integer> numberOfTickerObservers = new ConcurrentHashMap<>();
 
   public GateioStreamingMarketDataService(GateioStreamingService service, List<CurrencyPair> currencyPairs) {
     this.service = service;
@@ -60,8 +65,14 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
   }
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+    numberOfTickerObservers.compute(currencyPair, (k, v) -> (v == null) ? 1 : ++v);
     return streamingTickers.get().filter(ticker -> ticker.getInstrument().equals(currencyPair)).doOnDispose(() -> {
-      service.sendMessage(service.getUnsubscribeMessage(GateioStreamingService.SPOT_TICKERS_CHANNEL, currencyPair));
+      if (numberOfTickerObservers.computeIfPresent(currencyPair, (k, v) -> (v > 1) ? --v : null) == null) {
+        service.sendMessage(service.getUnsubscribeMessage(GateioStreamingService.SPOT_TICKERS_CHANNEL, currencyPair));
+        if(numberOfTickerObservers.isEmpty()) {
+          service.removeTickerChannel();
+        }
+      }
     });
   }
 
