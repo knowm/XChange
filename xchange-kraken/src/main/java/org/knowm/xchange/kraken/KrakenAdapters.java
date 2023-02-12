@@ -470,6 +470,7 @@ public class KrakenAdapters {
             .volumeScale(krakenPair.getVolumeLotScale())
             .feeTiers(adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()))
             .tradingFeeCurrency(KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()))
+            .marketOrderEnabled(true)
             .build();
   }
 
