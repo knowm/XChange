@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 public final class OrderBook implements Serializable {
 
   private static final long serialVersionUID = -7788306758114464314L;
-
+public Object lock = new Object();
   /** the asks */
   private final List<LimitOrder> asks;
   /** the bids */
@@ -139,23 +139,26 @@ public final class OrderBook implements Serializable {
    *
    * @param limitOrder the new LimitOrder
    */
-  public synchronized void update(LimitOrder limitOrder) {
+  public void update(LimitOrder limitOrder) {
+    synchronized (lock) {
       update(getOrders(limitOrder.getType()), limitOrder);
       updateDate(limitOrder.getTimestamp());
+      }
   }
 
   // Replace the amount for limitOrder's price in the provided list.
   private void update(List<LimitOrder> asks, LimitOrder limitOrder) {
+    synchronized (lock) {
+      int idx = Collections.binarySearch(asks, limitOrder);
+      if (idx >= 0) {
+        asks.remove(idx);
+      } else {
+        idx = -idx - 1;
+      }
 
-    int idx = Collections.binarySearch(asks, limitOrder);
-    if (idx >= 0) {
-      asks.remove(idx);
-    } else {
-      idx = -idx - 1;
-    }
-
-    if (limitOrder.getRemainingAmount().compareTo(BigDecimal.ZERO) != 0) {
-      asks.add(idx, limitOrder);
+      if (limitOrder.getRemainingAmount().compareTo(BigDecimal.ZERO) != 0) {
+        asks.add(idx, limitOrder);
+      }
     }
   }
 
@@ -167,22 +170,23 @@ public final class OrderBook implements Serializable {
    * @param orderBookUpdate the new OrderBookUpdate
    */
   public void update(OrderBookUpdate orderBookUpdate) {
+    synchronized (lock) {
+      LimitOrder limitOrder = orderBookUpdate.getLimitOrder();
+      List<LimitOrder> limitOrders = getOrders(limitOrder.getType());
+      int idx = Collections.binarySearch(limitOrders, limitOrder);
+      if (idx >= 0) {
+        limitOrders.remove(idx);
+      } else {
+        idx = -idx - 1;
+      }
 
-    LimitOrder limitOrder = orderBookUpdate.getLimitOrder();
-    List<LimitOrder> limitOrders = getOrders(limitOrder.getType());
-    int idx = Collections.binarySearch(limitOrders, limitOrder);
-    if (idx >= 0) {
-      limitOrders.remove(idx);
-    } else {
-      idx = -idx - 1;
+      if (orderBookUpdate.getTotalVolume().compareTo(BigDecimal.ZERO) != 0) {
+        LimitOrder updatedOrder = withAmount(limitOrder, orderBookUpdate.getTotalVolume());
+        limitOrders.add(idx, updatedOrder);
+      }
+
+      updateDate(limitOrder.getTimestamp());
     }
-
-    if (orderBookUpdate.getTotalVolume().compareTo(BigDecimal.ZERO) != 0) {
-      LimitOrder updatedOrder = withAmount(limitOrder, orderBookUpdate.getTotalVolume());
-      limitOrders.add(idx, updatedOrder);
-    }
-
-    updateDate(limitOrder.getTimestamp());
   }
 
   // Replace timeStamp if the provided date is non-null and in the future
