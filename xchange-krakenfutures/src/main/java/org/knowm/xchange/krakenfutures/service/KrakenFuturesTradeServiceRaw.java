@@ -120,7 +120,7 @@ public class KrakenFuturesTradeServiceRaw extends KrakenFuturesBaseService {
                     exchange.getNonceFactory(),
                     limitOrder.getUserReference(),
                     limitOrder.getLimitPrice(),
-                    (limitOrder.getUserReference() == null) ? limitOrder.getId() : null,
+                    (limitOrder.getUserReference() != null) ? limitOrder.getId() : null,
                     limitOrder.getOriginalAmount(),
                     null
             );

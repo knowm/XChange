@@ -72,9 +72,12 @@ public class KrakenFuturesPrivateDataTest {
 
     @Test
     public void changeOrderAndGetOpenOrders() throws IOException {
+        exchange.getTradeService().cancelAllOrders(new DefaultCancelAllOrdersByInstrument(instrument));
+        String clientId = "12345";
         String orderId = exchange.getTradeService().placeLimitOrder(new LimitOrder.Builder(Order.OrderType.BID,instrument)
                 .limitPrice(BigDecimal.valueOf(1000))
                 .originalAmount(BigDecimal.ONE)
+                        .userReference(clientId)
                 .flag(KrakenFuturesOrderFlags.POST_ONLY)
                 .build());
         List<LimitOrder> openOrders = exchange.getTradeService().getOpenOrders().getOpenOrders();
@@ -86,6 +89,7 @@ public class KrakenFuturesPrivateDataTest {
                 .limitPrice(BigDecimal.valueOf(2000))
                 .id(orderId)
                 .originalAmount(BigDecimal.TEN)
+                .userReference(clientId)
                 .build());
         openOrders = exchange.getTradeService().getOpenOrders().getOpenOrders();
         System.out.println(openOrders.toString());
