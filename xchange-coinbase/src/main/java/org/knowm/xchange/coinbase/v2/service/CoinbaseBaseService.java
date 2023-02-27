@@ -1,11 +1,5 @@
 package org.knowm.xchange.coinbase.v2.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import javax.crypto.Mac;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinbase.service.CoinbaseDigest;
@@ -14,13 +8,22 @@ import org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated;
 import org.knowm.xchange.coinbase.v2.CoinbaseV2Digest;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData.CoinbaseCurrency;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseTimeData.CoinbaseTime;
+import org.knowm.xchange.coinbase.v3.CoinbaseAuthenticatedV3;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.DigestUtils;
 
+import javax.crypto.Mac;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
 public class CoinbaseBaseService extends BaseExchangeService implements BaseService {
 
   protected final CoinbaseAuthenticated coinbase;
+  protected final CoinbaseAuthenticatedV3 coinbaseV3;
   protected final CoinbaseV2Digest signatureCreator2;
 
   protected CoinbaseBaseService(Exchange exchange) {
@@ -29,6 +32,11 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
     coinbase =
         ExchangeRestProxyBuilder.forInterface(
                 CoinbaseAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
+
+    coinbaseV3 =
+        ExchangeRestProxyBuilder.forInterface(
+                        CoinbaseAuthenticatedV3.class, exchange.getExchangeSpecification())
             .build();
 
     signatureCreator2 =
