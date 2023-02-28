@@ -132,7 +132,7 @@
     <module>xchange-coinmarketcap</module>
     <module>xchange-coinmate</module>
     <module>xchange-core</module>
-    <module>xchange-cryptofacilities</module>
+    <module>xchange-krakenfutures</module>
     <module>xchange-cryptowatch</module>
     <module>xchange-deribit</module>
     <module>xchange-dvchain</module>
@@ -209,6 +209,7 @@
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
     <module>xchange-stream-coincheck</module>
+    <module>xchange-stream-krakenfutures</module>
   </modules>
 
   <ciManagement>
