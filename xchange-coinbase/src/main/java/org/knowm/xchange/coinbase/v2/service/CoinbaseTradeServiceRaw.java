@@ -81,9 +81,9 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
     final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     String start = params.getStartDatetime().toString();
-//    String end = params.getEndDateTime().toString();
+    String end = params.getEndDateTime().toString();
     final CoinbaseAdvancedTradeOrderFillsResponse fills = coinbaseV3.getFills(Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, null
-            , null, start, null, params.getLimit(), params.getCursor());
+            , null, start, end, params.getLimit(), params.getCursor());
     return fills.getFills();
   }
 
