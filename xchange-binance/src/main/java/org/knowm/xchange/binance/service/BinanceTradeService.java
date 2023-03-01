@@ -264,7 +264,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       if (params instanceof TradeHistoryParamsIdSpan) {
         TradeHistoryParamsIdSpan idParams = (TradeHistoryParamsIdSpan) params;
         try {
-          fromId = BinanceAdapters.id(idParams.getStartId());
+          orderId = BinanceAdapters.id(idParams.getStartId());
         } catch (Throwable ignored) {
         }
       }
