@@ -4,13 +4,15 @@ import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.instrument.Instrument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Copied from BinanceLiveSubscriptionExample and replaced with BinanceFutureStreamingExchange from
@@ -29,12 +31,10 @@ public class BinanceLiveFutureSubscriptionExample {
     BinanceFutureStreamingExchange exchange =
         (BinanceFutureStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
 
-    // First, we subscribe only for one currency pair at connection time (minimum requirement)
+    // First, we subscribe only for one instrument pair at connection time (minimum requirement)
+    Instrument instrumentBTC = new FuturesContract("BTC/USDT/PERP");
     ProductSubscription subscription =
-        ProductSubscription.create()
-            .addTrades(CurrencyPair.BTC_USDT)
-            .addOrderbook(CurrencyPair.BTC_USDT)
-            .build();
+        ProductSubscription.create().addTrades(instrumentBTC).addOrderbook(instrumentBTC).build();
     // Note: at connection time, the live subscription is disabled
     exchange.connect(subscription).blockingAwait();
 
@@ -43,26 +43,24 @@ public class BinanceLiveFutureSubscriptionExample {
     Disposable tradesBtc =
         exchange
             .getStreamingMarketDataService()
-            .getTrades(CurrencyPair.BTC_USDT)
+            .getTrades(instrumentBTC)
             .doOnDispose(
                 () ->
                     exchange
                         .getStreamingMarketDataService()
-                        .unsubscribe(CurrencyPair.BTC_USDT, BinanceSubscriptionType.TRADE))
-            .subscribe(
-                trade -> LOG.info("Trade: {}", trade));
+                        .unsubscribe(instrumentBTC, BinanceSubscriptionType.TRADE))
+            .subscribe(trade -> LOG.info("Trade: {}", trade));
 
     Disposable orderBooksBtc =
         exchange
             .getStreamingMarketDataService()
-            .getOrderBook(CurrencyPair.BTC_USDT)
+            .getOrderBook(instrumentBTC)
             .doOnDispose(
                 () ->
                     exchange
                         .getStreamingMarketDataService()
-                        .unsubscribe(CurrencyPair.BTC_USDT, BinanceSubscriptionType.DEPTH))
-            .subscribe(
-                orderBook -> LOG.info("Order book: {}", orderBook));
+                        .unsubscribe(instrumentBTC, BinanceSubscriptionType.DEPTH))
+            .subscribe(orderBook -> LOG.info("Order book: {}", orderBook.getAsks().get(0)));
 
     Thread.sleep(5000);
 
@@ -78,23 +76,25 @@ public class BinanceLiveFutureSubscriptionExample {
     // If you plan to subscribe/unsubscribe more than 5 currency pairs at a time, use a rate limiter
     // or keep the live subscription
     // feature disabled and connect your pairs at connection time only (default value).
-    final List<CurrencyPair> currencyPairs =
-        Arrays.asList(CurrencyPair.ETH_USDT, CurrencyPair.LTC_USDT, CurrencyPair.XRP_USDT);
+    final List<Instrument> currencyPairs =
+        Arrays.asList(
+            new FuturesContract("ETH/USDT/PERP"),
+            new FuturesContract("LTC/USDT/PERP"),
+            new FuturesContract("XRP/USDT/PERP"));
     final List<Disposable> disposableTrades = new ArrayList<>();
-    for (final CurrencyPair currencyPair : currencyPairs) {
+    for (final Instrument instrument : currencyPairs) {
       // Note: See the doOnDispose below. It's here that we will send an unsubscribe request to
       // Binance through the websocket instance.
       Disposable tradeDisposable =
           exchange
               .getStreamingMarketDataService()
-              .getTrades(currencyPair)
+              .getTrades(instrument)
               .doOnDispose(
                   () ->
                       exchange
                           .getStreamingMarketDataService()
-                          .unsubscribe(currencyPair, BinanceSubscriptionType.TRADE))
-              .subscribe(
-                  trade -> LOG.info("Trade: {}", trade));
+                          .unsubscribe(instrument, BinanceSubscriptionType.TRADE))
+              .subscribe(trade -> LOG.info("Trade: {}", trade));
       disposableTrades.add(tradeDisposable);
     }
     Thread.sleep(5000);
@@ -114,22 +114,24 @@ public class BinanceLiveFutureSubscriptionExample {
     Disposable xlmDisposable =
         exchange
             .getStreamingMarketDataService()
-            .getTrades(CurrencyPair.XLM_USDT)
+            .getTrades(new FuturesContract("XLM/USDT/PERP"))
             .doOnDispose(
                 () ->
                     exchange
                         .getStreamingMarketDataService()
-                        .unsubscribe(CurrencyPair.XLM_USDT, BinanceSubscriptionType.TRADE))
+                        .unsubscribe(
+                            new FuturesContract("XLM/USDT/PERP"), BinanceSubscriptionType.TRADE))
             .subscribe(trade -> {});
     Disposable eosDisposable =
         exchange
             .getStreamingMarketDataService()
-            .getTrades(CurrencyPair.EOS_BTC)
+            .getTrades(new FuturesContract("EOS/BTC/PERP"))
             .doOnDispose(
                 () ->
                     exchange
                         .getStreamingMarketDataService()
-                        .unsubscribe(CurrencyPair.EOS_BTC, BinanceSubscriptionType.TRADE))
+                        .unsubscribe(
+                            new FuturesContract("EOS/BTC/PERP"), BinanceSubscriptionType.TRADE))
             .subscribe(trade -> {});
 
     Thread.sleep(5000);

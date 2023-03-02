@@ -1,14 +1,14 @@
 package info.bitrich.xchangestream.binance;
 
-import static info.bitrich.xchangestream.binance.BinanceStreamingExchange.USE_HIGHER_UPDATE_FREQUENCY;
-import static info.bitrich.xchangestream.binance.BinanceStreamingExchange.USE_REALTIME_BOOK_TICKER;
-
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import static info.bitrich.xchangestream.binance.BinanceStreamingExchange.USE_HIGHER_UPDATE_FREQUENCY;
+import static info.bitrich.xchangestream.binance.BinanceStreamingExchange.USE_REALTIME_BOOK_TICKER;
 
 public class BinanceIntegration {
 
@@ -28,7 +28,7 @@ public class BinanceIntegration {
         .addTicker(CurrencyPair.DASH_BTC)
         .addOrderbook(CurrencyPair.ETH_BTC);
     String buildSubscriptionStreams2 = exchange.buildSubscriptionStreams(builder2.build());
-    Assert.assertEquals("btcusd@ticker/dashbtc@ticker/ethbtc@depth/ethbtc@depth20", buildSubscriptionStreams2);
+    Assert.assertEquals("btcusd@ticker/dashbtc@ticker/ethbtc@depth", buildSubscriptionStreams2);
   }
 
   @Test
@@ -47,7 +47,7 @@ public class BinanceIntegration {
         (BinanceStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
     String buildSubscriptionStreams = exchange.buildSubscriptionStreams(builder.build());
     Assert.assertEquals(
-        "btcusd@ticker/dashbtc@ticker/ethbtc@depth@100ms/ethbtc@depth20@100ms", buildSubscriptionStreams);
+        "btcusd@ticker/dashbtc@ticker/ethbtc@depth@100ms", buildSubscriptionStreams);
   }
 
   @Test
@@ -66,6 +66,6 @@ public class BinanceIntegration {
         (BinanceStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
     String buildSubscriptionStreams = exchange.buildSubscriptionStreams(builder.build());
     Assert.assertEquals(
-        "btcusd@bookTicker/dashbtc@bookTicker/ethbtc@depth/ethbtc@depth20", buildSubscriptionStreams);
+        "btcusd@bookTicker/dashbtc@bookTicker/ethbtc@depth", buildSubscriptionStreams);
   }
 }
