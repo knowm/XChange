@@ -198,7 +198,7 @@ public class KrakenFuturesAdapters {
 
   public static Instrument adaptInstrument(String symbol) {
       String main_symbol = symbol.replace(MULTI_COLLATERAL_PRODUCTS,"");
-      return new FuturesContract(new CurrencyPair(main_symbol.replace("usd","").replace("xbt","btc")+"/"+main_symbol.substring(main_symbol.length()-3)),"PERP");
+      return new FuturesContract(new CurrencyPair(main_symbol.substring(0, main_symbol.length() - 3).replace("xbt","btc")+"/"+main_symbol.substring(main_symbol.length()-3)),"PERP");
   }
 
   private static BigDecimal getMinimumAmountFromVolumeScale(Integer volumeScale){
