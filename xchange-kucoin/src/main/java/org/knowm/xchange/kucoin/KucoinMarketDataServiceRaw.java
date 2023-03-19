@@ -70,7 +70,7 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
     return classifyingExceptions(
         () ->
             decorateApiCall(
-                    () -> tradingFeeAPI.getBaseFee(apiKey, digest, nonceFactory, passphrase))
+                () -> tradingFeeAPI.getBaseFee(apiKey, digest, nonceFactory, passphrase))
                 .withRetry(retry("baseFee"))
                 .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
                 .call());
@@ -81,18 +81,31 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
     return classifyingExceptions(
         () ->
             decorateApiCall(
-                    () ->
-                        tradingFeeAPI.getTradeFee(
-                            apiKey, digest, nonceFactory, passphrase, symbols))
+                () ->
+                    tradingFeeAPI.getTradeFee(
+                        apiKey, digest, nonceFactory, passphrase, symbols))
                 .withRetry(retry("tradeFee"))
                 .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
                 .call());
   }
 
+  /**
+   * @deprecated use {@link #getKucoinSymbolsV2()}
+   */
+  @Deprecated
   public List<SymbolResponse> getKucoinSymbols() throws IOException {
     return classifyingExceptions(
         () ->
             decorateApiCall(symbolApi::getSymbols)
+                .withRetry(retry("symbols"))
+                .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
+                .call());
+  }
+
+  public List<SymbolResponse> getKucoinSymbolsV2() throws IOException {
+    return classifyingExceptions(
+        () ->
+            decorateApiCall(symbolApi::getSymbolsV2)
                 .withRetry(retry("symbols"))
                 .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
                 .call());
@@ -111,9 +124,9 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
     return classifyingExceptions(
         () ->
             decorateApiCall(
-                    () ->
-                        orderBookApi.getPartOrderBookAggregated(
-                            KucoinAdapters.adaptCurrencyPair(pair)))
+                () ->
+                    orderBookApi.getPartOrderBookAggregated(
+                        KucoinAdapters.adaptCurrencyPair(pair)))
                 .withRetry(retry("partialOrderBook"))
                 .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
                 .call());
@@ -123,9 +136,9 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
     return classifyingExceptions(
         () ->
             decorateApiCall(
-                    () ->
-                        orderBookApi.getPartOrderBookShallowAggregated(
-                            KucoinAdapters.adaptCurrencyPair(pair)))
+                () ->
+                    orderBookApi.getPartOrderBookShallowAggregated(
+                        KucoinAdapters.adaptCurrencyPair(pair)))
                 .withRetry(retry("partialShallowOrderBook"))
                 .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
                 .call());
@@ -135,13 +148,13 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
     return classifyingExceptions(
         () ->
             decorateApiCall(
-                    () ->
-                        orderBookApi.getFullOrderBookAggregated(
-                            KucoinAdapters.adaptCurrencyPair(pair),
-                            apiKey,
-                            digest,
-                            nonceFactory,
-                            passphrase))
+                () ->
+                    orderBookApi.getFullOrderBookAggregated(
+                        KucoinAdapters.adaptCurrencyPair(pair),
+                        apiKey,
+                        digest,
+                        nonceFactory,
+                        passphrase))
                 .withRetry(retry("fullOrderBook"))
                 .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
                 .call());
@@ -151,7 +164,7 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
     return classifyingExceptions(
         () ->
             decorateApiCall(
-                    () -> historyApi.getTradeHistories(KucoinAdapters.adaptCurrencyPair(pair)))
+                () -> historyApi.getTradeHistories(KucoinAdapters.adaptCurrencyPair(pair)))
                 .withRetry(retry("tradeHistories"))
                 .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
                 .call());
@@ -163,12 +176,12 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
         classifyingExceptions(
             () ->
                 decorateApiCall(
-                        () ->
-                            historyApi.getKlines(
-                                KucoinAdapters.adaptCurrencyPair(pair),
-                                startTime,
-                                endTime,
-                                type.code()))
+                    () ->
+                        historyApi.getKlines(
+                            KucoinAdapters.adaptCurrencyPair(pair),
+                            startTime,
+                            endTime,
+                            type.code()))
                     .withRetry(retry("klines"))
                     .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
                     .call());

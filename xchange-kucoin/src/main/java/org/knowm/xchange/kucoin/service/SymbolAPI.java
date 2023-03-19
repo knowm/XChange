@@ -18,7 +18,7 @@ import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
 import org.knowm.xchange.kucoin.dto.response.TickerResponse;
 
 /** Based on code by chenshiwei on 2019/1/11. */
-@Path("api/v1")
+@Path("api")
 @Produces(MediaType.APPLICATION_JSON)
 public interface SymbolAPI {
 
@@ -26,10 +26,21 @@ public interface SymbolAPI {
    * Get a list of available currency pairs for trading.
    *
    * @return The available symbols.
+   * @deprecated use {@link #getSymbolsV2()}
    */
   @GET
-  @Path("/symbols")
+  @Path("/v1/symbols")
+  @Deprecated
   KucoinResponse<List<SymbolResponse>> getSymbols() throws IOException;
+
+  /**
+   * Get a list of available currency pairs for trading.
+   *
+   * @return The available symbols.
+   */
+  @GET
+  @Path("/v2/symbols")
+  KucoinResponse<List<SymbolResponse>> getSymbolsV2() throws IOException;
 
   /**
    * Get a list of available currencies for trading.
@@ -37,7 +48,7 @@ public interface SymbolAPI {
    * @return The available currencies.
    */
   @GET
-  @Path("/currencies")
+  @Path("/v1/currencies")
   KucoinResponse<List<CurrenciesResponse>> getCurrencies() throws IOException;
 
   /**
@@ -46,7 +57,7 @@ public interface SymbolAPI {
    * @return USD fiat price of the currencies.
    */
   @GET
-  @Path("/prices")
+  @Path("/v1/prices")
   KucoinResponse<Map<String, BigDecimal>> getPrices() throws IOException;
 
   /**
@@ -56,7 +67,7 @@ public interface SymbolAPI {
    * @return The ticker.
    */
   @GET
-  @Path("/market/orderbook/level1")
+  @Path("/v1/market/orderbook/level1")
   KucoinResponse<TickerResponse> getTicker(@QueryParam("symbol") String symbol) throws IOException;
 
   /**
@@ -65,7 +76,7 @@ public interface SymbolAPI {
    * @return The allTickersTickerResponse.
    */
   @GET
-  @Path("/market/allTickers")
+  @Path("/v1/market/allTickers")
   KucoinResponse<AllTickersResponse> getTickers() throws IOException;
 
   /**
@@ -76,7 +87,7 @@ public interface SymbolAPI {
    * @return The 24hr stats for the symbol.
    */
   @GET
-  @Path("/market/stats")
+  @Path("/v1/market/stats")
   KucoinResponse<SymbolTickResponse> getMarketStats(@QueryParam("symbol") String symbol)
       throws IOException;
 }
