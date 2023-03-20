@@ -4,11 +4,11 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
+import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okex.OkexExchange;
-
 
 public class OkexStreamingExchange extends OkexExchange implements StreamingExchange {
     // Production URIs
@@ -81,5 +81,15 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
     @Override
     public void useCompressedMessages(boolean compressedMessages) {
         throw new NotYetImplementedForExchangeException("useCompressedMessage");
+    }
+
+  /**
+   * Enables the user to listen on channel inactive events and react appropriately.
+   *
+   * @param channelInactiveHandler a WebSocketMessageHandler instance.
+   */
+  public void setChannelInactiveHandler(
+      WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+        streamingService.setChannelInactiveHandler(channelInactiveHandler);
     }
 }
