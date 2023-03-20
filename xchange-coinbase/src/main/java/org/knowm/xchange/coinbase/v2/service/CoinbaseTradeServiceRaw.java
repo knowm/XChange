@@ -89,6 +89,22 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
 
   /**
    *
+   * @param params
+   * @return
+   * @throws IOException
+   */
+  public CoinbaseAdvancedTradeOrderFillsResponse getAdvancedTradeOrderFillsRow(CoinbaseTradeHistoryParams params)
+          throws IOException {
+    final String apiKey = exchange.getExchangeSpecification().getApiKey();
+    final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
+    String start = params.getStartDatetime().toString();
+    String end = params.getEndDateTime().toString();
+    return coinbaseV3.getFills(Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2,
+            timestamp, null, null, start, end, params.getLimit(), params.getCursor());
+  }
+
+  /**
+   *
    * @return
    * @throws IOException
    */
