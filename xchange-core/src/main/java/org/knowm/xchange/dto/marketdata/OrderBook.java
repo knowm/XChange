@@ -1,6 +1,7 @@
 package org.knowm.xchange.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.locks.StampedLock;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -18,7 +20,7 @@ import org.knowm.xchange.instrument.Instrument;
 public final class OrderBook implements Serializable {
 
   private static final long serialVersionUID = -7788306758114464314L;
-
+  @JsonIgnore public final StampedLock lock = new StampedLock();
   /** the asks */
   private final List<LimitOrder> asks;
   /** the bids */
@@ -139,14 +141,13 @@ public final class OrderBook implements Serializable {
    * @param limitOrder the new LimitOrder
    */
   public void update(LimitOrder limitOrder) {
-
     update(getOrders(limitOrder.getType()), limitOrder);
     updateDate(limitOrder.getTimestamp());
   }
 
   // Replace the amount for limitOrder's price in the provided list.
   private void update(List<LimitOrder> asks, LimitOrder limitOrder) {
-
+    long stamp = lock.writeLock();
     int idx = Collections.binarySearch(asks, limitOrder);
     if (idx >= 0) {
       asks.remove(idx);
@@ -157,6 +158,7 @@ public final class OrderBook implements Serializable {
     if (limitOrder.getRemainingAmount().compareTo(BigDecimal.ZERO) != 0) {
       asks.add(idx, limitOrder);
     }
+    lock.unlockWrite(stamp);
   }
 
   /**
@@ -167,7 +169,7 @@ public final class OrderBook implements Serializable {
    * @param orderBookUpdate the new OrderBookUpdate
    */
   public void update(OrderBookUpdate orderBookUpdate) {
-
+    long stamp = lock.writeLock();
     LimitOrder limitOrder = orderBookUpdate.getLimitOrder();
     List<LimitOrder> limitOrders = getOrders(limitOrder.getType());
     int idx = Collections.binarySearch(limitOrders, limitOrder);
@@ -183,6 +185,7 @@ public final class OrderBook implements Serializable {
     }
 
     updateDate(limitOrder.getTimestamp());
+    lock.unlockWrite(stamp);
   }
 
   // Replace timeStamp if the provided date is non-null and in the future
