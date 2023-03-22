@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitstamp.service;
 
 import java.io.IOException;
+import java.util.List;
 import javax.annotation.Nullable;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampV2;
@@ -28,6 +29,14 @@ public class BitstampMarketDataServiceRaw extends BitstampBaseService {
   public BitstampTicker getBitstampTicker(CurrencyPair pair) throws IOException {
     try {
       return bitstampV2.getTicker(new BitstampV2.Pair(pair));
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public List<BitstampTicker> getBitstampTickers() throws IOException {
+    try {
+      return bitstampV2.getTickers();
     } catch (BitstampException e) {
       throw handleError(e);
     }

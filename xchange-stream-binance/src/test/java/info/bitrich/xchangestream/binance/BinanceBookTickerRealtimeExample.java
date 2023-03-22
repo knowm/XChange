@@ -1,12 +1,12 @@
 package info.bitrich.xchangestream.binance;
 
-import static info.bitrich.xchangestream.binance.BinanceStreamingExchange.USE_REALTIME_BOOK_TICKER;
-
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import static info.bitrich.xchangestream.binance.BinanceStreamingExchange.USE_REALTIME_BOOK_TICKER;
 
 /**
  * This is a useful test for profiling behaviour of the realtime book ticker stream under load. Run
@@ -23,6 +23,7 @@ public class BinanceBookTickerRealtimeExample {
         StreamingExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     ProductSubscription subscription =
         exchange.getExchangeInstruments().stream()
+            .filter(instrument -> instrument instanceof CurrencyPair)
             .limit(50)
             .reduce(
                 ProductSubscription.create(),
@@ -34,8 +35,8 @@ public class BinanceBookTickerRealtimeExample {
     exchange.connect(subscription).blockingAwait();
     exchange
         .getStreamingMarketDataService()
-        .getTicker(CurrencyPair.LTC_BTC)
-        .forEach(System.out::println);
+        .getTicker(subscription.getTicker().get(0))
+        .subscribe(System.out::println);
     Thread.sleep(Long.MAX_VALUE);
   }
 }
