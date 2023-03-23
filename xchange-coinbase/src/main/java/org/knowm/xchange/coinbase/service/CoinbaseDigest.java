@@ -2,7 +2,7 @@ package org.knowm.xchange.coinbase.service;
 
 import java.math.BigInteger;
 import javax.crypto.Mac;
-import javax.ws.rs.HeaderParam;
+import jakarta.ws.rs.HeaderParam;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 

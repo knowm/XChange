@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import javax.crypto.Mac;
-import javax.ws.rs.FormParam;
+import jakarta.ws.rs.FormParam;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 

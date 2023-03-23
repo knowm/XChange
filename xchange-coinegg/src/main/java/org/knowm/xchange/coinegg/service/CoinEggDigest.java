@@ -3,7 +3,7 @@ package org.knowm.xchange.coinegg.service;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import javax.ws.rs.FormParam;
+import jakarta.ws.rs.FormParam;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.Params;

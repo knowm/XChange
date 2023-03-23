@@ -1,11 +1,11 @@
 package org.knowm.xchange.luno;
 
 import java.io.IOException;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
 import org.knowm.xchange.luno.dto.LunoException;
 import org.knowm.xchange.luno.dto.marketdata.LunoOrderBook;
 import org.knowm.xchange.luno.dto.marketdata.LunoTicker;

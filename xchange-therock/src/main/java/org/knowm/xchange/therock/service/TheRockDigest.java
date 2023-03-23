@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import javax.ws.rs.HeaderParam;
+import jakarta.ws.rs.HeaderParam;
 import org.knowm.xchange.therock.TheRockAuthenticated;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;

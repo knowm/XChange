@@ -2,7 +2,7 @@ package org.knowm.xchange.bitfinex.v2;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import javax.ws.rs.HeaderParam;
+import jakarta.ws.rs.HeaderParam;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;

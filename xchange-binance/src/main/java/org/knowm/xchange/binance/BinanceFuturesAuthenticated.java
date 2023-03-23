@@ -7,8 +7,8 @@ import org.knowm.xchange.binance.dto.trade.futures.BinanceFutureNewOrder;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;

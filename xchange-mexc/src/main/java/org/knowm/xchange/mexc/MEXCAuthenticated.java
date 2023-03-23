@@ -8,8 +8,8 @@ import org.knowm.xchange.mexc.service.MEXCException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;

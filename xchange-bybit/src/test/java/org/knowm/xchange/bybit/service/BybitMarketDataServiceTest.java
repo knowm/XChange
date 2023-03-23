@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response.Status;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;

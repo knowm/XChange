@@ -7,8 +7,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import javax.crypto.Mac;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.QueryParam;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.QueryParam;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 

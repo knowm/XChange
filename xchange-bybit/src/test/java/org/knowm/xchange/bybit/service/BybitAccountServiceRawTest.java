@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.util.List;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response.Status;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitResult;

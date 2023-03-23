@@ -1,11 +1,11 @@
 package org.knowm.xchange.gemini.v2;
 
 import java.io.IOException;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
 import org.knowm.xchange.gemini.v2.dto.marketdata.GeminiCandle;
 import org.knowm.xchange.gemini.v2.dto.marketdata.GeminiTicker2;

@@ -2,7 +2,7 @@ package org.knowm.xchange.ftx.service;
 
 import java.nio.charset.StandardCharsets;
 import javax.crypto.Mac;
-import javax.ws.rs.HeaderParam;
+import jakarta.ws.rs.HeaderParam;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;

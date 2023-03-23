@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.FormParam;
+import jakarta.ws.rs.FormParam;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;

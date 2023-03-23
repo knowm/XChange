@@ -9,7 +9,7 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.crypto.Mac;
-import javax.ws.rs.FormParam;
+import jakarta.ws.rs.FormParam;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.Params;

@@ -1,6 +1,6 @@
 package org.knowm.xchange.bleutrade.service;
 
-import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
+import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.annotation.Annotation;
