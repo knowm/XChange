@@ -41,7 +41,7 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
       DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
       String address = defaultWithdrawFundsParams.getAddress();
       if (params instanceof RippleWithdrawFundsParams) {
-        address = address + "?dt=" + ((RippleWithdrawFundsParams) params).tag;
+        address = address + "?dt=" + ((RippleWithdrawFundsParams) params).getTag();
       }
       return withdrawCrypto(
           address,
