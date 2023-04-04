@@ -102,15 +102,16 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
   }
 
   public static OrderBook convertOrderBook(BinanceOrderbook ob, Instrument pair) {
+    Date timeStamp = Date.from(Instant.now());
     List<LimitOrder> bids =
             ob.bids.entrySet().stream()
-                    .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey()))
+                    .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, timeStamp, e.getKey()))
                     .collect(Collectors.toList());
     List<LimitOrder> asks =
             ob.asks.entrySet().stream()
-                    .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey()))
+                    .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, timeStamp, e.getKey()))
                     .collect(Collectors.toList());
-    return new OrderBook(Date.from(Instant.now()), asks, bids);
+    return new OrderBook(timeStamp, asks, bids);
   }
 
   private <T extends Number> T tradesArgument(
