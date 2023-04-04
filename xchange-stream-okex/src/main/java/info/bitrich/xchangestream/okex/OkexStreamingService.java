@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.okex.dto.OkexLoginMessage;
 import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
@@ -45,6 +48,8 @@ public class OkexStreamingService extends JsonNettyStreamingService {
     public static final String USERTRADES = "orders";
 
     private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
+
+  private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
     private Disposable pingPongSubscription;
 
@@ -163,6 +168,42 @@ public class OkexStreamingService extends JsonNettyStreamingService {
             return new OkexSubscribeMessage.SubscriptionTopic(FUNDING_RATE, null,null,channelName.replace(FUNDING_RATE,""));
         } else {
             throw new NotYetImplementedForExchangeException("ChannelName: "+channelName+" has not implemented yet on "+this.getClass().getSimpleName());
+        }
+    }
+
+    @Override
+    protected WebSocketClientHandler getWebSocketClientHandler(
+            WebSocketClientHandshaker handshake, WebSocketClientHandler.WebSocketMessageHandler handler) {
+        LOG.info("Registering OkxWebSocketClientHandler");
+        return new OkxWebSocketClientHandler(handshake, handler);
+    }
+
+    public void setChannelInactiveHandler(
+            WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+        this.channelInactiveHandler = channelInactiveHandler;
+    }
+
+    /**
+     * Custom client handler in order to execute an external, user-provided handler on channel events.
+     */
+    class OkxWebSocketClientHandler extends NettyWebSocketClientHandler {
+
+        public OkxWebSocketClientHandler(
+                WebSocketClientHandshaker handshake, WebSocketMessageHandler handler) {
+            super(handshake, handler);
+        }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) {
+            super.channelActive(ctx);
+        }
+
+        @Override
+        public void channelInactive(ChannelHandlerContext ctx) {
+            super.channelInactive(ctx);
+            if (channelInactiveHandler != null) {
+                channelInactiveHandler.onMessage("WebSocket Client disconnected!");
+            }
         }
     }
 }
