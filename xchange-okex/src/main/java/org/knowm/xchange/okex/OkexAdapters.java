@@ -169,40 +169,39 @@ public class OkexAdapters {
         .build();
   }
 
-  public static LimitOrder adaptLimitOrder(OkexPublicOrder okexPublicOrder, Instrument instrument, OrderType orderType) {
-    return adaptOrderbookOrder(okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType);
+  public static LimitOrder adaptLimitOrder(OkexPublicOrder okexPublicOrder, Instrument instrument, OrderType orderType,
+                                           Date timeStamp) {
+    return adaptOrderbookOrder(okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType, timeStamp);
   }
 
-  public static OrderBook adaptOrderBook(List<OkexOrderbook> okexOrderbooks, Instrument instrument) {
+  public static OrderBook adaptOrderBook(OkexOrderbook okexOrderbooks, Instrument instrument) {
     List<LimitOrder> asks = new ArrayList<>();
     List<LimitOrder> bids = new ArrayList<>();
-
+    Date timeStamp = new Date(Long.parseLong(okexOrderbooks.getTs()));
     okexOrderbooks
-        .get(0)
         .getAsks()
         .forEach(
             okexAsk ->
-                asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK)));
+                asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK, timeStamp)));
 
     okexOrderbooks
-        .get(0)
         .getBids()
         .forEach(
             okexBid ->
-                bids.add(adaptLimitOrder(okexBid, instrument, OrderType.BID)));
+                bids.add(adaptLimitOrder(okexBid, instrument, OrderType.BID, timeStamp)));
 
-    return new OrderBook(Date.from(Instant.now()), asks, bids);
+    return new OrderBook(timeStamp, asks, bids);
   }
 
   public static OrderBook adaptOrderBook(
-      OkexResponse<List<OkexOrderbook>> okexOrderbook, Instrument instrument) {
+      OkexResponse<OkexOrderbook> okexOrderbook, Instrument instrument) {
     return adaptOrderBook(okexOrderbook.getData(), instrument);
   }
 
   public static LimitOrder adaptOrderbookOrder(
-      BigDecimal amount, BigDecimal price, Instrument instrument, Order.OrderType orderType) {
+      BigDecimal amount, BigDecimal price, Instrument instrument, Order.OrderType orderType, Date timeStamp) {
 
-    return new LimitOrder(orderType, amount, instrument, "", null, price);
+    return new LimitOrder(orderType, amount, instrument, "", timeStamp, price);
   }
 
   public static Ticker adaptTicker(OkexTicker okexTicker) {

@@ -105,12 +105,9 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
               String action =
                   channelName.equals(ORDERBOOK5) ? "snapshot" : jsonNode.get("action").asText();
               if ("snapshot".equalsIgnoreCase(action)) {
-                List<OkexOrderbook> okexOrderbooks =
+                OkexOrderbook okexOrderbooks =
                     mapper.treeToValue(
-                        jsonNode.get("data"),
-                        mapper
-                            .getTypeFactory()
-                            .constructCollectionType(List.class, OkexOrderbook.class));
+                        jsonNode.get("data").get(0), OkexOrderbook.class);
                 OrderBook orderBook = OkexAdapters.adaptOrderBook(okexOrderbooks, instrument);
                 orderBookMap.put(instId, orderBook);
                 return Observable.just(orderBook);
@@ -120,6 +117,8 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                   LOG.error(String.format("Failed to get orderBook, instId=%s.", instId));
                   return Observable.fromIterable(new LinkedList<>());
                 }
+                Date timeStamp =
+                        new Date(Long.parseLong(jsonNode.get("data").get(0).get("ts").asText()));
                 List<OkexPublicOrder> asks =
                     mapper.treeToValue(
                         jsonNode.get("data").get(0).get("asks"),
@@ -130,7 +129,7 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                     okexPublicOrder ->
                         orderBook.update(
                             OkexAdapters.adaptLimitOrder(
-                                okexPublicOrder, instrument, Order.OrderType.ASK)));
+                                okexPublicOrder, instrument, Order.OrderType.ASK, timeStamp)));
 
                 List<OkexPublicOrder> bids =
                     mapper.treeToValue(
@@ -142,14 +141,13 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                     okexPublicOrder ->
                         orderBook.update(
                             OkexAdapters.adaptLimitOrder(
-                                okexPublicOrder, instrument, Order.OrderType.BID)));
+                                okexPublicOrder, instrument, Order.OrderType.BID, timeStamp)));
                 if (orderBookUpdatesSubscriptions.get(instrument) != null) {
                   orderBookUpdatesSubscriptions(
                       instrument,
                       asks,
                       bids,
-                      new Timestamp(
-                          Long.parseLong(jsonNode.get("data").get(0).get("ts").asText())));
+                      timeStamp);
                 }
                 return Observable.just(orderBook);
 

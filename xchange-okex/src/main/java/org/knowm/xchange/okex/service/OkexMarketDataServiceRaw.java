@@ -112,7 +112,7 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem(PARAM_SIMULATED));
   }
 
-  public OkexResponse<List<OkexOrderbook>> getOkexOrderbook(String instrument)
+  public OkexResponse<OkexOrderbook> getOkexOrderbook(String instrument)
       throws OkexException, IOException {
     return okex.getOrderbook(
         instrument,
