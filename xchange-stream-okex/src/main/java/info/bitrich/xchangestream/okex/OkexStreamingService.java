@@ -12,17 +12,6 @@ import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.okex.dto.OkexInstType;
-import org.knowm.xchange.service.BaseParamsDigest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -30,6 +19,16 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.okex.dto.OkexInstType;
+import org.knowm.xchange.service.BaseParamsDigest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OkexStreamingService extends JsonNettyStreamingService {
 
@@ -204,6 +203,12 @@ public class OkexStreamingService extends JsonNettyStreamingService {
             if (channelInactiveHandler != null) {
                 channelInactiveHandler.onMessage("WebSocket Client disconnected!");
             }
+        }
+    }
+
+    public void pingPongDisconnectIfConnected() {
+        if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
+            pingPongSubscription.dispose();
         }
     }
 }
