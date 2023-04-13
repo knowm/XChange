@@ -3,8 +3,10 @@ package org.knowm.xchange.binance.dto.marketdata;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public enum KlineInterval {
+  s1("1s", SECONDS.toMillis(1)),
   m1("1m", MINUTES.toMillis(1)),
   m3("3m", MINUTES.toMillis(3)),
   m5("5m", MINUTES.toMillis(5)),
