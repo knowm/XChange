@@ -110,9 +110,8 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   private <T extends IOrderFlags> Optional<T> getOrderFlag(Order order, Class<T> clazz) {
-    return order.getOrderFlags().stream()
+    return (Optional<T>) order.getOrderFlags().stream()
         .filter(flag -> clazz.isAssignableFrom(flag.getClass()))
-        .map(flag -> (T) flag)
         .findFirst();
   }
 
