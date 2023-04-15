@@ -200,6 +200,7 @@
     <module>xchange-stream-hitbtc</module>
     <module>xchange-stream-huobi</module>
     <module>xchange-stream-kraken</module>
+    <module>xchange-stream-kucoin</module>
     <module>xchange-stream-lgo</module>
     <module>xchange-stream-okcoin</module>
     <module>xchange-stream-okex</module>
