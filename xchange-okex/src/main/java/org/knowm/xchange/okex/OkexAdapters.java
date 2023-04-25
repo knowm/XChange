@@ -1,5 +1,6 @@
 package org.knowm.xchange.okex;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -31,6 +32,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
+@Slf4j
 public class OkexAdapters {
 
   public static final String SPOT = "SPOT";
@@ -452,6 +454,16 @@ public class OkexAdapters {
         totalPositionValueInUsd = totalPositionValueInUsd.add(positionData.getNotionalUsdValue());
     }
 
+    // totalPositionValueInUsd.divide(accountPositionRiskData.get(0).getAdjustEquity(),3,RoundingMode.HALF_EVEN)
+    // getAdjustEquity may be  ''  or null
+    // java.lang.NullPointerException: Cannot read field "intCompact" because "divisor" is null
+    BigDecimal divide = BigDecimal.ONE;
+    try {
+      divide = totalPositionValueInUsd.divide(accountPositionRiskData.get(0)
+                                                                     .getAdjustEquity(), 3, RoundingMode.HALF_EVEN);
+    } catch (Exception e) {
+      log.info(e.getMessage(),e);
+    }
     return new Wallet.Builder()
             .balances(Collections.singletonList(new Balance.Builder()
                             .currency(Currency.USD)
@@ -459,7 +471,7 @@ public class OkexAdapters {
                     .build()))
             .id(FUTURES_WALLET_ID)
             .currentLeverage((totalPositionValueInUsd.compareTo(BigDecimal.ZERO) != 0)
-                    ? totalPositionValueInUsd.divide(accountPositionRiskData.get(0).getAdjustEquity(),3,RoundingMode.HALF_EVEN)
+                    ? divide
                     : BigDecimal.ZERO)
             .features(new HashSet<>(Collections.singletonList(Wallet.WalletFeature.FUTURES_TRADING)))
             .build();

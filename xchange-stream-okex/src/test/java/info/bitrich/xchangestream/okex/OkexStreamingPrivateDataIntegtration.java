@@ -56,4 +56,16 @@ public class OkexStreamingPrivateDataIntegtration {
 
         dis.dispose();
     }
+
+    @Test
+    public void checkPositionsStream() throws InterruptedException {
+        OkexStreamingExchange okexStreamingExchange = (OkexStreamingExchange) exchange;
+        Disposable dis = okexStreamingExchange.getStreamingPositionService()
+                                              .getPositions(instrument)
+                                              .subscribe(System.out::println);
+        TimeUnit.SECONDS.sleep(3);
+
+        dis.dispose();
+    }
+
 }

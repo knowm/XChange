@@ -42,6 +42,7 @@ public class OkexStreamingService extends JsonNettyStreamingService {
     public static final String FUNDING_RATE = "funding-rate";
     public static final String TICKERS = "tickers";
     public static final String USERTRADES = "orders";
+    public static final String POSITIONS = "positions";
 
     private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
 
@@ -160,7 +161,9 @@ public class OkexStreamingService extends JsonNettyStreamingService {
             return new OkexSubscribeMessage.SubscriptionTopic(USERTRADES, OkexInstType.ANY,null,channelName.replace(USERTRADES,""));
         } else if(channelName.contains(FUNDING_RATE)){
             return new OkexSubscribeMessage.SubscriptionTopic(FUNDING_RATE, null,null,channelName.replace(FUNDING_RATE,""));
-        } else {
+        } else if (channelName.contains(POSITIONS)){
+            return new OkexSubscribeMessage.SubscriptionTopic(POSITIONS,OkexInstType.ANY,null,channelName.replace(POSITIONS,""));
+        } else{
             throw new NotYetImplementedForExchangeException("ChannelName: "+channelName+" has not implemented yet on "+this.getClass().getSimpleName());
         }
     }
