@@ -5,7 +5,7 @@ import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.time.Duration;
 import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.currency.CurrencyPair;
