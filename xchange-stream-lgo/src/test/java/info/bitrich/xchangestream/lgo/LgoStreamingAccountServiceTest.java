@@ -7,8 +7,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.reactivex.Observable;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.observers.TestObserver;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -30,7 +30,7 @@ public class LgoStreamingAccountServiceTest {
     TestObserver<Wallet> wallet = service.getWallet().test();
 
     verify(streamingService).subscribeChannel("balance");
-    wallet.assertSubscribed();
+    wallet.assertNoErrors();
     wallet.assertValueCount(1);
     wallet
         .values()

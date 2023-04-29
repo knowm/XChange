@@ -9,7 +9,7 @@ import info.bitrich.xchangestream.dydx.dto.v3.dydxInitialOrderBookMessage;
 import info.bitrich.xchangestream.dydx.dto.v3.dydxUpdateOrderBookMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

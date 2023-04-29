@@ -9,7 +9,7 @@ import info.bitrich.xchangestream.lgo.domain.LgoOrderEvent;
 import info.bitrich.xchangestream.lgo.dto.LgoAckUpdate;
 import info.bitrich.xchangestream.lgo.dto.LgoSocketPlaceOrder;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;

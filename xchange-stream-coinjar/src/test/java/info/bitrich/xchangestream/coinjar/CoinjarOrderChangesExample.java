@@ -3,8 +3,8 @@ package info.bitrich.xchangestream.coinjar;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.BaseTestConsumer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.observers.BaseTestConsumer;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.utils.AuthUtils;
@@ -28,7 +28,7 @@ public class CoinjarOrderChangesExample {
           streamingTradeService
               .getOrderChanges(null)
               .test()
-              .awaitCount(10, BaseTestConsumer.TestWaitStrategy.SLEEP_100MS, 1000 * 60 * 10)
+              .awaitCount(10)
               .assertNoErrors();
       disposable.dispose();
     }

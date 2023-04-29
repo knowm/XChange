@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.okex;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;

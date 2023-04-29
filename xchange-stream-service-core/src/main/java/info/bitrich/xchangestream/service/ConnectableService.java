@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.service;
 
-import io.reactivex.Completable;
+import io.reactivex.rxjava3.core.Completable;
 
 /** Base class of streaming services, declares connect() method including before connection logic */
 public abstract class ConnectableService {

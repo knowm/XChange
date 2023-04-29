@@ -6,7 +6,7 @@ import info.bitrich.xchangestream.kraken.dto.KrakenOpenOrder;
 import info.bitrich.xchangestream.kraken.dto.KrakenOwnTrade;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

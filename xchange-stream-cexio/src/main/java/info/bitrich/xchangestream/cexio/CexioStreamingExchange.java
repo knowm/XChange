@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.cexio;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import io.reactivex.Completable;
+import io.reactivex.rxjava3.core.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.cexio.CexIOExchange;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
