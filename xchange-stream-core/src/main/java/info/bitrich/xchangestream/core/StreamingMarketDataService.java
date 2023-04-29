@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.core;
 
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.*;
