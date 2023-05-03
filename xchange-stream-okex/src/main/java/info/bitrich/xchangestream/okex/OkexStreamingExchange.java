@@ -9,7 +9,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okex.OkexExchange;
 
-
 public class OkexStreamingExchange extends OkexExchange implements StreamingExchange {
     // Production URIs
     public static final String WS_PUBLIC_CHANNEL_URI = "wss://ws.okx.com:8443/ws/v5/public";
@@ -60,6 +59,7 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
 
     @Override
     public Completable disconnect() {
+        streamingService.pingPongDisconnectIfConnected();
         return streamingService.disconnect();
     }
 

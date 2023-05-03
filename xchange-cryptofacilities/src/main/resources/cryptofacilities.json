@@ -1,8 +1,0 @@
-{
-  "currency_pairs": {
-    "XBT/USD": {
-      "price_scale": 2
-    }
-  },
-  "currencies": {}
-}

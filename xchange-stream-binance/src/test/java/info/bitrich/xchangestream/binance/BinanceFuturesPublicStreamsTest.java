@@ -1,9 +1,10 @@
 package info.bitrich.xchangestream.binance;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-import java.util.concurrent.TimeUnit;
-
+import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
+import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingExchangeFactory;
+import io.reactivex.disposables.Disposable;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -11,11 +12,9 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
-import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
-import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import io.reactivex.disposables.Disposable;
+import java.util.concurrent.TimeUnit;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Ignore
 public class BinanceFuturesPublicStreamsTest {
@@ -25,8 +24,17 @@ public class BinanceFuturesPublicStreamsTest {
 
     @Before
     public void setup(){
-        exchange = StreamingExchangeFactory.INSTANCE.createExchange(BinanceFutureStreamingExchange.class);
-        exchange.connect(ProductSubscription.create().addOrderbook(instrument).addTicker(instrument).addFundingRates(instrument).addTrades(instrument).build()).blockingAwait();
+    exchange =
+        StreamingExchangeFactory.INSTANCE.createExchange(BinanceFutureStreamingExchange.class);
+    exchange
+        .connect(
+            ProductSubscription.create()
+                .addOrderbook(instrument)
+                .addTicker(instrument)
+                .addFundingRates(instrument)
+                .addTrades(instrument)
+                .build())
+        .blockingAwait();
         InstrumentMetaData instrumentMetaData = exchange.getExchangeMetaData().getInstruments().get(instrument);
         assertThat(instrumentMetaData.getVolumeScale()).isNotNull();
         assertThat(instrumentMetaData.getPriceScale()).isNotNull();

@@ -1,25 +1,40 @@
 package info.bitrich.xchangestream.binance;
 
+import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.KLINE;
+import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.RateLimiter;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import info.bitrich.xchangestream.binance.dto.*;
 import info.bitrich.xchangestream.binance.exceptions.UpFrontSubscriptionRequiredException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.Single;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.BehaviorSubject;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.marketdata.BinanceBookTicker;
-import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
-import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
-import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
-import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
+import org.knowm.xchange.binance.dto.marketdata.*;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -30,18 +45,6 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Stream;
-
-import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.KLINE;
-import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
 public class BinanceStreamingMarketDataService implements StreamingMarketDataService {
   private static final Logger LOG =
@@ -64,10 +67,22 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   private final Map<Instrument, Observable<BinanceBookTicker>> bookTickerSubscriptions;
   private final Map<Instrument, Observable<OrderBook>> orderbookSubscriptions;
   private final Map<Instrument, Observable<BinanceRawTrade>> tradeSubscriptions;
-  private final Map<Instrument, Observable<OrderBookUpdate>> orderBookUpdatesSubscriptions;
+  private final Map<Instrument, Observable<List<OrderBookUpdate>>> orderBookUpdatesSubscriptions;
   private final Map<Instrument, Map<KlineInterval, Observable<BinanceKline>>> klineSubscriptions;
   private final Map<Instrument, Observable<DepthBinanceWebSocketTransaction>>
       orderBookRawUpdatesSubscriptions;
+
+  /**
+   * A scheduler for initialisation of binance order book snapshots, which is delegated to a
+   * dedicated thread in order to avoid blocking of the Web Socket threads.
+   */
+  private static final Scheduler bookSnapshotsScheduler =
+      Schedulers.from(
+          Executors.newSingleThreadExecutor(
+              new ThreadFactoryBuilder()
+                  .setDaemon(true)
+                  .setNameFormat("binancefuture-book-snapshots-%d")
+                  .build()));
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private final BinanceMarketDataService marketDataService;
@@ -127,16 +142,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
             && !service.getProductSubscription().getOrderBook().contains(instrument)) {
       throw new UpFrontSubscriptionRequiredException();
     }
-    if(instrument instanceof FuturesContract){
-      return service.subscribeChannel(channelFromCurrency(instrument, BinanceSubscriptionType.DEPTH20.getType()))
-              .map(it -> this.<DepthBinanceWebSocketTransaction>readTransaction(
-                                      it, DEPTH_TYPE, "order book"))
-              .map(BinanceWebsocketTransaction::getData)
-              .filter(data -> BinanceAdapters.adaptSymbol(data.getSymbol(), true).equals(instrument))
-              .map(BinanceStreamingAdapters::adaptFuturesOrderbook);
-    } else {
-      return orderbookSubscriptions.computeIfAbsent(instrument, this::initOrderBookIfAbsent);
-    }
+    return orderbookSubscriptions.computeIfAbsent(instrument, this::initOrderBookIfAbsent);
   }
 
   @Override
@@ -166,7 +172,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   private Observable<OrderBook> initOrderBookIfAbsent(Instrument instrument) {
     orderBookRawUpdatesSubscriptions.computeIfAbsent(
         instrument, s -> triggerObservableBody(rawOrderBookUpdates(instrument)));
-    return createOrderBookObservable(instrument);
+    if (instrument instanceof FuturesContract) return createOrderBookFutureObservable(instrument);
+    else return createOrderBookObservable(instrument);
   }
 
   public Observable<BinanceTicker24h> getRawTicker(Instrument instrument) {
@@ -232,7 +239,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
    * This api provides the ability to start receiving updates immediately. It is allowed to
    * subscribe to this api and {@link #getOrderBook(Instrument, Object...)} at the same time.
    */
-  public Observable<OrderBookUpdate> getOrderBookUpdates(
+  public Observable<List<OrderBookUpdate>> getOrderBookUpdates(
       Instrument instrument) {
     if (!service.isLiveSubscriptionEnabled()
         && !service.getProductSubscription().getOrderBook().contains(instrument)) {
@@ -242,19 +249,18 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         instrument, this::initOrderBookUpdateIfAbsent);
   }
 
-  private Observable<OrderBookUpdate> initOrderBookUpdateIfAbsent(Instrument instrument) {
+  private Observable<List<OrderBookUpdate>> initOrderBookUpdateIfAbsent(Instrument instrument) {
     orderBookRawUpdatesSubscriptions.computeIfAbsent(
         instrument, s -> triggerObservableBody(rawOrderBookUpdates(instrument)));
     return createOrderBookUpdatesObservable(instrument);
   }
 
-  private Observable<OrderBookUpdate> createOrderBookUpdatesObservable(Instrument instrument) {
+  private Observable<List<OrderBookUpdate>> createOrderBookUpdatesObservable(Instrument instrument) {
     return orderBookRawUpdatesSubscriptions
         .get(instrument)
         .flatMap(
             depthTransaction ->
-                observableFromStream(extractOrderBookUpdates(instrument, depthTransaction)))
-        .share();
+                    Observable.create(emitter -> emitter.onNext(extractOrderBookUpdatesToArray(instrument, depthTransaction))));
   }
 
   private String channelFromCurrency(Instrument instrument, String subscriptionType) {
@@ -433,33 +439,6 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         orderBook = null;
       }
     }
-
-    private BinanceOrderbook fetchBinanceOrderBook(Instrument instrument)
-        throws IOException, InterruptedException {
-      try {
-        return marketDataService.getBinanceOrderbookAllProducts(instrument, oderBookFetchLimitParameter);
-      } catch (BinanceException e) {
-        if (BinanceErrorAdapter.adapt(e) instanceof RateLimitExceededException) {
-          if (fallenBack.compareAndSet(false, true)) {
-            LOG.error(
-                "API Rate limit was hit when fetching Binance order book snapshot. Provide a \n"
-                    + "rate limiter. Apache Commons and Google Guava provide the TimedSemaphore\n"
-                    + "and RateLimiter classes which are effective for this purpose. Example:\n"
-                    + "\n"
-                    + "  exchangeSpecification.setExchangeSpecificParametersItem(\n"
-                    + "      info.bitrich.xchangestream.util.Events.BEFORE_API_CALL_HANDLER,\n"
-                    + "      () -> rateLimiter.acquire())\n"
-                    + "\n"
-                    + "Pausing for 15sec and falling back to one call per three seconds, but you\n"
-                    + "will get more optimal performance by handling your own rate limiting.");
-            RateLimiter rateLimiter = RateLimiter.create(0.333);
-            fallbackOnApiCall.set(rateLimiter::acquire);
-            Thread.sleep(15000);
-          }
-        }
-        throw e;
-      }
-    }
   }
 
   private Observable<DepthBinanceWebSocketTransaction> rawOrderBookUpdates(
@@ -507,15 +486,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
               if (lastUpdateId == 0L) {
                 result = true;
               } else {
-                if(instrument instanceof FuturesContract){
-                  result =
-                          depth.getFirstUpdateId() <= lastUpdateId
-                                  && depth.getLastUpdateId() >= lastUpdateId;
-                } else {
-                  result =
-                          depth.getFirstUpdateId() <= lastUpdateId + 1
-                                  && depth.getLastUpdateId() >= lastUpdateId + 1;
-                }
+                result =
+                    depth.getFirstUpdateId() <= lastUpdateId + 1
+                        && depth.getLastUpdateId() >= lastUpdateId + 1;
               }
               if (result) {
                 subscription.lastUpdateId.set(depth.getLastUpdateId());
@@ -610,6 +583,34 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     return Stream.concat(bidStream, askStream);
   }
 
+  private List<OrderBookUpdate> extractOrderBookUpdatesToArray(
+          Instrument instrument, DepthBinanceWebSocketTransaction depthTransaction) {
+    BinanceOrderbook orderBookDiff = depthTransaction.getOrderBook();
+    List<OrderBookUpdate> orderBookUpdates = new ArrayList<>();
+    orderBookDiff.bids.forEach(
+        (key, value) ->
+            orderBookUpdates.add(
+                new OrderBookUpdate(
+                    OrderType.BID,
+                    value,
+                    instrument,
+                    key,
+                    depthTransaction.getEventTime(),
+                    value)));
+
+    orderBookDiff.asks.forEach(
+        (key, value) ->
+            orderBookUpdates.add(
+                new OrderBookUpdate(
+                    OrderType.ASK,
+                    value,
+                    instrument,
+                    key,
+                    depthTransaction.getEventTime(),
+                    value)));
+    return orderBookUpdates;
+  }
+
   private <T> Observable<T> observableFromStream(Stream<T> stream) {
     return Observable.create(
         emitter -> {
@@ -659,5 +660,228 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .getTypeFactory()
         .constructType(
             new TypeReference<BinanceWebsocketTransaction<KlineBinanceWebSocketTransaction>>() {});
+  }
+
+  /**
+   * Encapsulates a state of the order book subscription, including the order book initial snapshot
+   * and further updates with received deltas.
+   *
+   * <p>Related doc: <a
+   * href="https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream">...</a>
+   */
+  @SuppressWarnings("Convert2MethodRef")
+  private final class OrderBookFutureSubscription implements Disposable {
+    private final Instrument instrument;
+    private final Observable<DepthBinanceWebSocketTransaction> deltasObservable;
+
+    private final Queue<DepthBinanceWebSocketTransaction> deltasBuffer = new LinkedList<>();
+    private final BehaviorSubject<OrderBook> booksSubject = BehaviorSubject.create();
+
+    private final CompositeDisposable disposables = new CompositeDisposable();
+
+    /**
+     * Helps to keep integrity of book snapshot which is initialized and patched on different
+     * threads.
+     */
+    private final Object bookIntegrityMonitor = new Object();
+
+    private OrderBook book;
+    private long finalUpdateIdPrev = 0L;
+
+    private OrderBookFutureSubscription(
+        Observable<DepthBinanceWebSocketTransaction> deltasObservable, Instrument instrument) {
+      this.deltasObservable = deltasObservable;
+      this.instrument = instrument;
+    }
+
+    public Observable<OrderBook> connect() {
+      if (isDisposed())
+        throw new IllegalStateException(
+            "Disposed before, use a new instance to connect next time.");
+
+      disposables.add(asyncInitializeOrderBookSnapshot());
+
+      deltasObservable
+          .doOnNext(
+              delta -> {
+                synchronized (bookIntegrityMonitor) {
+                  if (isBookInitialized()) {
+                    if (!appendDelta(delta)) {
+                      disposables.add(asyncInitializeOrderBookSnapshot());
+                    }
+                  } else {
+                    bufferDelta(delta);
+                  }
+                }
+              })
+          .filter(delta -> isBookInitialized())
+          .map(delta -> getBook())
+          .doFinally(() -> dispose())
+          .subscribe(booksSubject);
+
+      return booksSubject.hide();
+    }
+
+    @Override
+    public void dispose() {
+      if (!isDisposed()) {
+        booksSubject.onComplete();
+        disposables.dispose();
+      }
+    }
+
+    private void disposeWithError(Throwable error) {
+      if (!isDisposed()) {
+        booksSubject.onError(error);
+        disposables.dispose();
+      }
+    }
+
+    @Override
+    public boolean isDisposed() {
+      return booksSubject.hasComplete() || booksSubject.hasThrowable();
+    }
+
+    private boolean isBookInitialized() {
+      synchronized (bookIntegrityMonitor) {
+        return book != null;
+      }
+    }
+
+    private OrderBook getBook() {
+      synchronized (bookIntegrityMonitor) {
+        return book;
+      }
+    }
+
+    private void bufferDelta(DepthBinanceWebSocketTransaction delta) {
+      synchronized (bookIntegrityMonitor) {
+        deltasBuffer.add(delta);
+      }
+    }
+
+    private Disposable asyncInitializeOrderBookSnapshot() {
+      if (isBookInitialized()) {
+        LOG.info("Orderbook snapshot for {} was initialized before. Re-syncing.", instrument);
+        synchronized (bookIntegrityMonitor) {
+          if (book != null) {
+            book = null;
+            deltasBuffer.clear();
+            finalUpdateIdPrev = 0;
+          }
+        }
+      }
+      return deltasObservable
+          .firstOrError()
+          .observeOn(bookSnapshotsScheduler)
+          .flatMap(delta -> fetchSingleBinanceOrderBookUpdatedAfter(delta))
+          .subscribe(
+              binanceBook -> {
+                final OrderBook convertedBook =
+                    BinanceMarketDataService.convertOrderBook(binanceBook, instrument);
+
+                synchronized (bookIntegrityMonitor) {
+                  book = convertedBook;
+                  final List<DepthBinanceWebSocketTransaction> applicableBookPatches =
+                      deltasBuffer.stream()
+                          .filter(delta -> delta.getLastUpdateId() >= binanceBook.lastUpdateId)
+                          .collect(Collectors.toList());
+                  // Drop any event where u is < lastUpdateId in the snapshot.
+                  deltasBuffer.clear();
+                  // Update the book with all buffered deltas (as probably nobody would like to be
+                  // notified with an already outdated snapshot).
+                  for (DepthBinanceWebSocketTransaction applicableBookPatch :
+                      applicableBookPatches) {
+                    if (!appendDelta(applicableBookPatch)) {
+                      disposables.add(asyncInitializeOrderBookSnapshot());
+                    }
+                  }
+                }
+              },
+              error -> disposeWithError(error));
+    }
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    private boolean appendDelta(DepthBinanceWebSocketTransaction delta) {
+      synchronized (bookIntegrityMonitor) {
+        if (finalUpdateIdPrev != 0 && finalUpdateIdPrev != delta.getPu()) {
+          return false;
+        } else {
+          finalUpdateIdPrev = delta.getLastUpdateId();
+          // FIXME The underlying impl would be more optimal if LimitOrders were created directly.
+          extractOrderBookUpdates(instrument, delta).forEach(update -> book.update(update));
+        }
+        return true;
+      }
+    }
+
+    private Single<BinanceOrderbook> fetchSingleBinanceOrderBookUpdatedAfter(
+        final DepthBinanceWebSocketTransaction delta) {
+      return Single.fromCallable(
+              () -> {
+                BinanceOrderbook snapshot;
+                int attemptNum = 0;
+                do {
+                  attemptNum++;
+                  // Get a snapshot.
+                  LOG.info(
+                      "Fetching initial orderbook snapshot for {}, attempt #{}",
+                      instrument,
+                      attemptNum);
+                  snapshot = fetchBinanceOrderBook(instrument);
+
+                  // Repeat while the snapshot is older than the provided delta (Why? To ensure we
+                  // have deltas old enough to be able to apply a chain of updates to the snapshot
+                  // in order to bump it to the current state). If any repeats will be indeed
+                  // necessary, it's recommended to update the implementation, give some initial
+                  // delay, after subscribed for deltas, before asked for the snapshot first time.
+                  // Was not required at the time of writing, but exchange behaviour can change over
+                  // time.
+                  LOG.info(
+                      "initial book snapshot for {} (lastUpdateId={}, U={}, u={}).",
+                      instrument,
+                      snapshot.lastUpdateId,
+                      delta.getFirstUpdateId(),
+                      delta.getLastUpdateId());
+                } while (snapshot.lastUpdateId < delta.getFirstUpdateId());
+                return snapshot;
+              })
+          .doOnError(
+              error -> LOG.error("Failed to fetch initial order book for " + instrument, error));
+    }
+  }
+
+  private Observable<OrderBook> createOrderBookFutureObservable(Instrument currencyPair) {
+    return new BinanceStreamingMarketDataService.OrderBookFutureSubscription(
+            orderBookRawUpdatesSubscriptions.get(currencyPair), currencyPair)
+        .connect();
+  }
+
+  private BinanceOrderbook fetchBinanceOrderBook(Instrument instrument)
+      throws IOException, InterruptedException {
+    try {
+      return marketDataService.getBinanceOrderbookAllProducts(
+          instrument, oderBookFetchLimitParameter);
+    } catch (BinanceException e) {
+      if (BinanceErrorAdapter.adapt(e) instanceof RateLimitExceededException) {
+        if (fallenBack.compareAndSet(false, true)) {
+          LOG.error(
+              "API Rate limit was hit when fetching Binance order book snapshot. Provide a \n"
+                  + "rate limiter. Apache Commons and Google Guava provide the TimedSemaphore\n"
+                  + "and RateLimiter classes which are effective for this purpose. Example:\n"
+                  + "\n"
+                  + "  exchangeSpecification.setExchangeSpecificParametersItem(\n"
+                  + "      info.bitrich.xchangestream.util.Events.BEFORE_API_CALL_HANDLER,\n"
+                  + "      () -> rateLimiter.acquire())\n"
+                  + "\n"
+                  + "Pausing for 15sec and falling back to one call per three seconds, but you\n"
+                  + "will get more optimal performance by handling your own rate limiting.");
+          RateLimiter rateLimiter = RateLimiter.create(0.333);
+          fallbackOnApiCall.set(rateLimiter::acquire);
+          Thread.sleep(15000);
+        }
+      }
+      throw e;
+    }
   }
 }

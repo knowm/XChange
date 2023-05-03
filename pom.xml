@@ -132,7 +132,7 @@
     <module>xchange-coinmarketcap</module>
     <module>xchange-coinmate</module>
     <module>xchange-core</module>
-    <module>xchange-cryptofacilities</module>
+    <module>xchange-krakenfutures</module>
     <module>xchange-cryptowatch</module>
     <module>xchange-deribit</module>
     <module>xchange-dvchain</module>
@@ -200,6 +200,7 @@
     <module>xchange-stream-hitbtc</module>
     <module>xchange-stream-huobi</module>
     <module>xchange-stream-kraken</module>
+    <module>xchange-stream-kucoin</module>
     <module>xchange-stream-lgo</module>
     <module>xchange-stream-okcoin</module>
     <module>xchange-stream-okex</module>
@@ -209,6 +210,7 @@
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
     <module>xchange-stream-coincheck</module>
+    <module>xchange-stream-krakenfutures</module>
   </modules>
 
   <ciManagement>
