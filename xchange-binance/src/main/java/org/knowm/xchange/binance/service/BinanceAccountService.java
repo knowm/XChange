@@ -4,21 +4,33 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.account.*;
+import org.knowm.xchange.binance.dto.account.AssetDetail;
+import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
+import org.knowm.xchange.binance.dto.account.BinanceFundingHistoryParams;
 import org.knowm.xchange.binance.dto.account.BinanceMasterAccountTransferHistoryParams;
 import org.knowm.xchange.binance.dto.account.BinanceSubAccountTransferHistoryParams;
+import org.knowm.xchange.binance.dto.account.DepositAddress;
+import org.knowm.xchange.binance.dto.account.WithdrawResponse;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.AddressWithTag;
+import org.knowm.xchange.dto.account.Fee;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
+import org.knowm.xchange.dto.account.OpenPosition;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -155,7 +167,13 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address)
       throws IOException {
-    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+    return withdrawFunds(DefaultWithdrawFundsParams.builder()
+        .address(address.getAddress())
+        .address(address.getAddressTag())
+        .currency(currency)
+        .amount(amount)
+        .build()
+    );
   }
 
   @Override

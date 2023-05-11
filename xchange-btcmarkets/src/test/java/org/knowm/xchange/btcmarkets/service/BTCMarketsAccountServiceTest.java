@@ -88,8 +88,13 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsServiceTest {
         .thenReturn(response);
 
     // when
-    RippleWithdrawFundsParams params =
-        new RippleWithdrawFundsParams("any address", Currency.BTC, BigDecimal.TEN, "12345");
+    RippleWithdrawFundsParams params = RippleWithdrawFundsParams.builder()
+            .address("any address")
+            .currency(Currency.BTC)
+            .amount(BigDecimal.TEN)
+            .tag("12345")
+            .build();
+
     String result = btcMarketsAccountService.withdrawFunds(params);
     assertThat(captor.getValue().address).isEqualTo("any address?dt=12345");
     assertThat(result).isNotNull();

@@ -33,7 +33,11 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+    return withdrawFunds(DefaultWithdrawFundsParams.builder()
+        .address(address)
+        .currency(currency)
+        .amount(amount)
+        .build());
   }
 
   @Override

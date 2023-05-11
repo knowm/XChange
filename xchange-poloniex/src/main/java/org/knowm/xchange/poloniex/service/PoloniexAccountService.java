@@ -56,7 +56,12 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
     // does not support XRP withdrawals, use RippleWithdrawFundsParams instead
-    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+    return withdrawFunds(DefaultWithdrawFundsParams.builder()
+        .address(address)
+        .currency(currency)
+        .amount(amount)
+        .build()
+    );
   }
 
   @Override
