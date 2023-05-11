@@ -42,7 +42,11 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
     try {
-      return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+      return withdrawFunds(DefaultWithdrawFundsParams.builder()
+          .address(address)
+          .currency(currency)
+          .amount(amount)
+          .build());
     } catch (CoingiException e) {
       throw CoingiErrorAdapter.adapt(e);
     }
