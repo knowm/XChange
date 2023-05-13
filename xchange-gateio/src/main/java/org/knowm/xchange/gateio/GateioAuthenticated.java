@@ -24,7 +24,7 @@ import si.mazi.rescu.ParamsDigest;
 @Path("api2/1")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
-public interface GateioAuthenticated extends Gateio {
+public interface GateioAuthenticated {
 
   @POST
   @Path("private/balances")
