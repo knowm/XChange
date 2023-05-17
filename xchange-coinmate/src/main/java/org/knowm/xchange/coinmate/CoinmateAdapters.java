@@ -311,6 +311,61 @@ public class CoinmateAdapters {
     return fundings;
   }
 
+  public static List<FundingRecord> adaptFundingDetail(CoinmateTransferDetail coinmateTransferDetail) {
+    CoinmateTransferHistoryEntry entry = coinmateTransferDetail.getData();
+
+    FundingRecord.Type type;
+    switch (entry.getTransferType()) {
+      case "WITHDRAWAL":
+      case "CREATE_VOUCHER":
+        type = FundingRecord.Type.WITHDRAWAL;
+        break;
+      case "DEPOSIT":
+      case "USED_VOUCHER":
+      case "NEW_USER_REWARD":
+      case "REFERRAL":
+        type = FundingRecord.Type.DEPOSIT;
+        break;
+      default:
+        // here we ignore the other types which are trading
+        return Collections.emptyList();
+    }
+
+    FundingRecord.Status status;
+    switch (entry.getTransferStatus().toUpperCase()) {
+      case "OK":
+      case "COMPLETED":
+        status = FundingRecord.Status.COMPLETE;
+        break;
+      case "NEW":
+      case "SENT":
+      case "CREATED":
+      case "WAITING":
+      case "PENDING":
+        status = FundingRecord.Status.PROCESSING;
+        break;
+      default:
+        status = FundingRecord.Status.FAILED;
+    }
+
+    FundingRecord funding =
+        new FundingRecord(
+            entry.getDestination(),
+            entry.getDestinationTag(),
+            new Date(entry.getTimestamp()),
+            Currency.getInstance(entry.getAmountCurrency()),
+            entry.getAmount(),
+            Long.toString(entry.getId()),
+            null,
+            type,
+            status,
+            null,
+            entry.getFee(),
+            null);
+
+    return Collections.singletonList(funding);
+  }
+
   public static List<LimitOrder> adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders)
       throws CoinmateException {
 

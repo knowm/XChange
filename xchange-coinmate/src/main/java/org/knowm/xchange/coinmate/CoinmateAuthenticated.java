@@ -457,6 +457,16 @@ public interface CoinmateAuthenticated extends Coinmate {
       throws IOException;
 
   @POST
+  @Path("transfer")
+  CoinmateTransferDetail getTransferDetail(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("transactionId") Long transactionId)
+      throws IOException;
+
+  @POST
   @Path("replaceByBuyLimit")
   CoinmateReplaceResponse replaceByBuyLimit(
       @FormParam("publicKey") String publicKey,
