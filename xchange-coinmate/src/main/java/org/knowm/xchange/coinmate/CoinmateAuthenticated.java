@@ -34,6 +34,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import org.knowm.xchange.coinmate.dto.account.CoinmateTradingFeesResponse;
+import org.knowm.xchange.coinmate.dto.account.FeePriority;
 import org.knowm.xchange.coinmate.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -271,7 +272,8 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address)
+      @FormParam("address") String address,
+      @FormParam("feePriority") FeePriority feePriority)
       throws IOException;
 
   @POST
