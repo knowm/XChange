@@ -326,14 +326,6 @@
         <version>${version.qos.logback}</version>
       </dependency>
 
-      <!-- Lombok for boilerplate -->
-      <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>${version.lombok}</version>
-        <scope>provided</scope>
-      </dependency>
-
       <!-- jwt for auth -->
       <dependency>
         <groupId>com.auth0</groupId>
@@ -398,6 +390,14 @@
       <artifactId>assertj-core</artifactId>
       <version>${version.assertj}</version>
       <scope>test</scope>
+    </dependency>
+
+    <!-- Lombok for boilerplate -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${version.lombok}</version>
+      <scope>provided</scope>
     </dependency>
 
   </dependencies>
