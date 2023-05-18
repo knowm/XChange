@@ -200,6 +200,7 @@
     <module>xchange-stream-hitbtc</module>
     <module>xchange-stream-huobi</module>
     <module>xchange-stream-kraken</module>
+    <module>xchange-stream-kucoin</module>
     <module>xchange-stream-lgo</module>
     <module>xchange-stream-okcoin</module>
     <module>xchange-stream-okex</module>
@@ -247,7 +248,13 @@
 
       <dependency>
         <groupId>io.github.resilience4j</groupId>
-        <artifactId>resilience4j-all</artifactId>
+        <artifactId>resilience4j-ratelimiter</artifactId>
+        <version>${version.resilience4j}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.github.resilience4j</groupId>
+        <artifactId>resilience4j-retry</artifactId>
         <version>${version.resilience4j}</version>
       </dependency>
 

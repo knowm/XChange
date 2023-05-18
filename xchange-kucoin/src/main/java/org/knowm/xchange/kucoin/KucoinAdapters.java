@@ -229,7 +229,7 @@ public class KucoinAdapters {
             .sorted(Ordering.natural().onResultOf((PriceAndSize s) -> s.price).reversed())
             .map(s -> adaptLimitOrder(currencyPair, BID, s, timestamp))
             .collect(toCollection(LinkedList::new));
-    return new OrderBook(timestamp, asks, bids);
+    return new OrderBook(timestamp, asks, bids, true);
   }
 
   private static LimitOrder adaptLimitOrder(

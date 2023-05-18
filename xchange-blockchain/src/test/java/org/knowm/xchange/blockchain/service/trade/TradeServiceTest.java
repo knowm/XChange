@@ -118,7 +118,7 @@ public class TradeServiceTest extends BlockchainBaseTest {
         stubGet(ORDERS_JSON, 200, URL_TRADES);
         UserTrades response = service.getTradeHistory(params);
         assertThat(response).isNotNull();
-        List<UserTrade> userTrades = response.getUserTrades();
+    List<UserTrade> userTrades = response.getUserTrades();
         assertThat(userTrades).isNotEmpty();
         UserTrade trade = userTrades.get(0);
         assertThat(trade).isNotNull();
