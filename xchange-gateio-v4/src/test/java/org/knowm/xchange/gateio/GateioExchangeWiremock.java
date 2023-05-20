@@ -15,7 +15,7 @@ public abstract class GateioExchangeWiremock {
 
   protected static GateioExchange exchange;
 
-  private static final boolean IS_RECORDING = true;
+  private static final boolean IS_RECORDING = false;
 
   @ClassRule
   public static WireMockClassRule wireMockRule = new WireMockClassRule();
