@@ -1,0 +1,8 @@
+Gate.io Exchange API V4 specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://www.gate.io/docs/developers/apiv4

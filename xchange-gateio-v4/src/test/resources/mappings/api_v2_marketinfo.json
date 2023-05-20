@@ -1,0 +1,15 @@
+{
+  "id" : "b404ad32-1bfb-47b9-b1fb-41e024c7cf03",
+  "name" : "api_v2_marketinfo",
+  "request" : {
+    "url" : "/api/v2/marketinfo",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_marketinfo.json"
+  },
+  "uuid" : "b404ad32-1bfb-47b9-b1fb-41e024c7cf03",
+  "persistent" : true,
+  "insertionIndex" : 1
+}

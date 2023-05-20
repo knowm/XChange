@@ -1,0 +1,18 @@
+[
+  {
+    "chain": "BTC",
+    "name_cn": "比特币 BRC20\/Ordinals",
+    "name_en": "Bitcoin BRC20\/Ordinals",
+    "is_disabled": 0,
+    "is_deposit_disabled": 0,
+    "is_withdraw_disabled": 0
+  },
+  {
+    "chain": "HT",
+    "name_cn": "Heco",
+    "name_en": "Heco",
+    "is_disabled": 1,
+    "is_deposit_disabled": 1,
+    "is_withdraw_disabled": 1
+  }
+]

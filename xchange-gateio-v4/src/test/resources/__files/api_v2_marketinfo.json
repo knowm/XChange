@@ -1,0 +1,19 @@
+{
+  "result": "true",
+  "pairs": [
+    {
+      "btc_usdt": {
+        "decimal_places": 1,
+        "min_amount": 0.0001,
+        "fee": 0.2
+      }
+    },
+    {
+      "eth_usdt": {
+        "decimal_places": 2,
+        "min_amount": 0.001,
+        "fee": 0.2
+      }
+    }
+  ]
+}
