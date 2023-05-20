@@ -1,0 +1,15 @@
+{
+  "id" : "0633ffa6-2e45-4310-9c34-e9d686d2c6b7",
+  "name" : "api2_1_marketinfo",
+  "request" : {
+    "url" : "/api2/1/marketinfo",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api2_1_marketinfo.json"
+  },
+  "uuid" : "0633ffa6-2e45-4310-9c34-e9d686d2c6b7",
+  "persistent" : true,
+  "insertionIndex" : 2
+}
