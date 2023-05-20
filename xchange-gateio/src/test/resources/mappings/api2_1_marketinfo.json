@@ -7,16 +7,7 @@
   },
   "response" : {
     "status" : 200,
-    "bodyFileName" : "api2_1_marketinfo.json",
-    "headers" : {
-      "Date" : "Sat, 20 May 2023 11:36:17 GMT",
-      "Content-Type" : "application/json",
-      "Server" : "nginx",
-      "X-Frame-Options" : "SAMEORIGIN",
-      "X-Powered-By" : "CF ()",
-      "Pragma" : "no-cache",
-      "Cache-Control" : "no-cache, must-revalidate"
-    }
+    "bodyFileName" : "api2_1_marketinfo.json"
   },
   "uuid" : "0633ffa6-2e45-4310-9c34-e9d686d2c6b7",
   "persistent" : true,
