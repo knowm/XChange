@@ -1,5 +1,7 @@
 package org.knowm.xchange.gateio;
 
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
+
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
 import com.github.tomakehurst.wiremock.recording.RecordSpecBuilder;
 import org.junit.AfterClass;
@@ -18,12 +20,15 @@ public abstract class GateioExchangeWiremock {
   private static final boolean IS_RECORDING = false;
 
   @ClassRule
-  public static WireMockClassRule wireMockRule = new WireMockClassRule();
+  public static WireMockClassRule wireMockRule = new WireMockClassRule(options().dynamicPort());
 
   @BeforeClass
   public static void initExchange() {
     ExchangeSpecification exSpec = new ExchangeSpecification(GateioExchange.class);
     exSpec.setSslUri("http://localhost:" + wireMockRule.port());
+    exSpec.setApiKey("a");
+    exSpec.setSecretKey("b");
+
 
     if (IS_RECORDING) {
       // use default url and record the requests
