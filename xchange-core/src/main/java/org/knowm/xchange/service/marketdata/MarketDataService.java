@@ -1,14 +1,7 @@
 package org.knowm.xchange.service.marketdata;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.CandleStickData;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
@@ -17,6 +10,9 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.service.marketdata.params.Params;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Interface to provide the following to {@link Exchange}:
