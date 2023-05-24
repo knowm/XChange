@@ -3,17 +3,19 @@ package info.bitrich.xchangestream.binance;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * This class test the Live Subscription/Unsubscription feature of the Binance Api. See
- * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#live-subscribingunsubscribing-to-streams
+ * <a href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#live-subscribingunsubscribing-to-streams">...</a>
  *
  * <p>Before this addon, the subscription of the currency pairs required to be at the connection
  * time, so if we wanted to add new currencies to the stream, it was required to disconnect from the
@@ -34,11 +36,9 @@ public class BinanceLiveSubscriptionExample {
         (BinanceStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
 
     // First, we subscribe only for one currency pair at connection time (minimum requirement)
+    Instrument instrumentBTC = new CurrencyPair("BTC/USDT");
     ProductSubscription subscription =
-        ProductSubscription.create()
-            .addTrades(CurrencyPair.BTC_USDT)
-            .addOrderbook(CurrencyPair.BTC_USDT)
-            .build();
+        ProductSubscription.create().addTrades(instrumentBTC).addOrderbook(instrumentBTC).build();
     // Note: at connection time, the live subscription is disabled
     exchange.connect(subscription).blockingAwait();
 
@@ -47,30 +47,24 @@ public class BinanceLiveSubscriptionExample {
     Disposable tradesBtc =
         exchange
             .getStreamingMarketDataService()
-            .getTrades(CurrencyPair.BTC_USDT)
+            .getTrades(instrumentBTC)
             .doOnDispose(
                 () ->
                     exchange
                         .getStreamingMarketDataService()
-                        .unsubscribe(CurrencyPair.BTC_USDT, BinanceSubscriptionType.TRADE))
-            .subscribe(
-                trade -> {
-                  LOG.info("Trade: {}", trade);
-                });
+                        .unsubscribe(instrumentBTC, BinanceSubscriptionType.TRADE))
+            .subscribe(trade -> LOG.info("Trade: {}", trade));
 
     Disposable orderBooksBtc =
         exchange
             .getStreamingMarketDataService()
-            .getOrderBook(CurrencyPair.BTC_USDT)
+            .getOrderBook(instrumentBTC)
             .doOnDispose(
                 () ->
                     exchange
                         .getStreamingMarketDataService()
-                        .unsubscribe(CurrencyPair.BTC_USDT, BinanceSubscriptionType.DEPTH))
-            .subscribe(
-                orderBook -> {
-                  LOG.info("Order book: {}", orderBook);
-                });
+                        .unsubscribe(instrumentBTC, BinanceSubscriptionType.DEPTH))
+            .subscribe(orderBook -> LOG.info("Order book: {}", orderBook.getAsks().get(0)));
 
     Thread.sleep(5000);
 
@@ -86,25 +80,22 @@ public class BinanceLiveSubscriptionExample {
     // If you plan to subscribe/unsubscribe more than 5 currency pairs at a time, use a rate limiter
     // or keep the live subscription
     // feature disabled and connect your pairs at connection time only (default value).
-    final List<CurrencyPair> currencyPairs =
+    final List<Instrument> currencyPairs =
         Arrays.asList(CurrencyPair.ETH_USDT, CurrencyPair.LTC_USDT, CurrencyPair.XRP_USDT);
     final List<Disposable> disposableTrades = new ArrayList<>();
-    for (final CurrencyPair currencyPair : currencyPairs) {
+    for (final Instrument instrument : currencyPairs) {
       // Note: See the doOnDispose below. It's here that we will send an unsubscribe request to
       // Binance through the websocket instance.
       Disposable tradeDisposable =
           exchange
               .getStreamingMarketDataService()
-              .getTrades(currencyPair)
+              .getTrades(instrument)
               .doOnDispose(
                   () ->
                       exchange
                           .getStreamingMarketDataService()
-                          .unsubscribe(currencyPair, BinanceSubscriptionType.TRADE))
-              .subscribe(
-                  trade -> {
-                    LOG.info("Trade: {}", trade);
-                  });
+                          .unsubscribe(instrument, BinanceSubscriptionType.TRADE))
+              .subscribe(trade -> LOG.info("Trade: {}", trade));
       disposableTrades.add(tradeDisposable);
     }
     Thread.sleep(5000);
@@ -124,7 +115,7 @@ public class BinanceLiveSubscriptionExample {
     Disposable xlmDisposable =
         exchange
             .getStreamingMarketDataService()
-            .getTrades(CurrencyPair.XLM_USDT)
+            .getTrades((Instrument) CurrencyPair.XLM_USDT)
             .doOnDispose(
                 () ->
                     exchange
@@ -134,7 +125,7 @@ public class BinanceLiveSubscriptionExample {
     Disposable eosDisposable =
         exchange
             .getStreamingMarketDataService()
-            .getTrades(CurrencyPair.EOS_BTC)
+            .getTrades((Instrument) CurrencyPair.EOS_BTC)
             .doOnDispose(
                 () ->
                     exchange

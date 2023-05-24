@@ -1,0 +1,11 @@
+[
+  {
+    "withdrawalId": "string",
+    "amount": 12.23,
+    "fee": 0.0005,
+    "currency": "BTC",
+    "beneficiary": "string",
+    "state": "REJECTED",
+    "timestamp": 1592830770594
+  }
+]

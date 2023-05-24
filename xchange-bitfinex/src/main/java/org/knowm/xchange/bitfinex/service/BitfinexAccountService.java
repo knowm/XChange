@@ -12,10 +12,10 @@ import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -176,7 +176,7 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
       if (params instanceof TradeHistoryParamLimit) {
         TradeHistoryParamLimit tradeHistoryParamLimit = (TradeHistoryParamLimit) params;
         if (tradeHistoryParamLimit.getLimit() != null) {
-          limit = Integer.valueOf(tradeHistoryParamLimit.getLimit());
+          limit = tradeHistoryParamLimit.getLimit();
         }
       }
 
@@ -188,9 +188,9 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
   }
 
   @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
     try {
-      List<CurrencyPair> allCurrencyPairs = exchange.getExchangeSymbols();
+      List<Instrument> allCurrencyPairs = exchange.getExchangeInstruments();
       return BitfinexAdapters.adaptDynamicTradingFees(
           getBitfinexDynamicTradingFees(), allCurrencyPairs);
     } catch (BitfinexException e) {

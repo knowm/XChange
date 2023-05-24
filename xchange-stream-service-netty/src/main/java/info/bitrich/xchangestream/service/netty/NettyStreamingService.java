@@ -322,6 +322,16 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                                 completable.onComplete();
                               });
                     });
+          } else if (webSocketChannel != null) { // web socket is closed already
+            channels.clear();
+            eventLoopGroup
+                .shutdownGracefully(2, idleTimeoutSeconds, TimeUnit.SECONDS)
+                .addListener(
+                    f -> {
+                      connectionStateModel.setState(State.CLOSED);
+                      disconnectEmitters.onNext(new Object());
+                      completable.onComplete();
+                    });
           } else {
             LOG.warn("Disconnect called but already disconnected");
             connectionStateModel.setState(State.CLOSED);

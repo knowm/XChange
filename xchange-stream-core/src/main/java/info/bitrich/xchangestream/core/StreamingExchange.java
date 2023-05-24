@@ -3,7 +3,6 @@ package info.bitrich.xchangestream.core;
 import info.bitrich.xchangestream.service.ConnectableService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.service.netty.NettyStreamingService;
-import io.netty.channel.ChannelHandlerContext;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.Exchange;
@@ -11,7 +10,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public interface StreamingExchange extends Exchange {
-  String USE_SANDBOX = "Use_Sandbox";
   String ACCEPT_ALL_CERITICATES = "Accept_All_Ceriticates";
   String ENABLE_LOGGING_HANDLER = "Enable_Logging_Handler";
   String SOCKS_PROXY_HOST = "SOCKS_Proxy_Host";
@@ -56,7 +54,7 @@ public interface StreamingExchange extends Exchange {
    * Observable for connection success event. When this happens, it usually indicates that the
    * server or the network is down.
    *
-   * @return Observable with the exception during reconnection.
+   * @return Observable
    */
   default Observable<Object> connectionSuccess() {
     throw new NotYetImplementedForExchangeException("connectionSuccess");
@@ -65,9 +63,9 @@ public interface StreamingExchange extends Exchange {
   /**
    * Observable for disconnection event.
    *
-   * @return Observable with ChannelHandlerContext
+   * @return Observable
    */
-  default Observable<ChannelHandlerContext> disconnectObservable() {
+  default Observable<Object> disconnectObservable() {
     throw new NotYetImplementedForExchangeException("disconnectObservable");
   }
 

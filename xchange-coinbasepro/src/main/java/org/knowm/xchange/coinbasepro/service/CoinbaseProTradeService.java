@@ -1,6 +1,7 @@
 package org.knowm.xchange.coinbasepro.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import org.knowm.xchange.client.ResilienceRegistries;
@@ -93,7 +94,14 @@ public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implemen
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    return getOrder(
-        Arrays.stream(orderQueryParams).map(OrderQueryParams::getOrderId).toArray(String[]::new));
+    final String[] orderIds = Arrays.stream(orderQueryParams).map(OrderQueryParams::getOrderId).toArray(String[]::new);
+
+    Collection<Order> orders = new ArrayList<>(orderIds.length);
+
+    for (String orderId : orderIds) {
+      orders.add(CoinbaseProAdapters.adaptOrder(super.getOrder(orderId)));
+    }
+
+    return orders;
   }
 }

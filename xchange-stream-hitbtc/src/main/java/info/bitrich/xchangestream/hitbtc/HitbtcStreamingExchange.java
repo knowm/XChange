@@ -23,6 +23,7 @@ public class HitbtcStreamingExchange extends HitbtcExchange implements Streaming
   @Override
   protected void initServices() {
     super.initServices();
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     streamingMarketDataService = new HitbtcStreamingMarketDataService(streamingService);
   }
 

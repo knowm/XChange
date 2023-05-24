@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitstamp;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -30,6 +31,11 @@ public interface BitstampV2 {
   @GET
   @Path("ticker/{pair}/")
   BitstampTicker getTicker(@PathParam("pair") BitstampV2.Pair pair)
+      throws IOException, BitstampException;
+
+  @GET
+  @Path("ticker/")
+  List<BitstampTicker> getTickers()
       throws IOException, BitstampException;
 
   @GET

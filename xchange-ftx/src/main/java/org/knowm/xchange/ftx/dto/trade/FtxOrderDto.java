@@ -1,6 +1,7 @@
 package org.knowm.xchange.ftx.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -39,6 +40,8 @@ public class FtxOrderDto {
 
   private final String clientId;
 
+  @JsonIgnore private final boolean liquidation;
+
   @JsonCreator
   public FtxOrderDto(
       @JsonProperty("createdAt") Date createdAt,
@@ -56,6 +59,7 @@ public class FtxOrderDto {
       @JsonProperty("reduceOnly") boolean reduceOnly,
       @JsonProperty("ioc") boolean ioc,
       @JsonProperty("postOnly") boolean postOnly,
+      @JsonProperty("liquidation") boolean liquidation,
       @JsonProperty("clientId") String clientId) {
     this.createdAt = createdAt;
     this.filledSize = filledSize;
@@ -72,6 +76,7 @@ public class FtxOrderDto {
     this.reduceOnly = reduceOnly;
     this.ioc = ioc;
     this.postOnly = postOnly;
+    this.liquidation = liquidation;
     this.clientId = clientId;
   }
 
@@ -135,6 +140,10 @@ public class FtxOrderDto {
     return postOnly;
   }
 
+  public boolean isLiquidation() {
+    return liquidation;
+  }
+
   public String getClientId() {
     return clientId;
   }
@@ -178,6 +187,8 @@ public class FtxOrderDto {
         + ", clientId='"
         + clientId
         + '\''
+        + ", liquidation="
+        + liquidation
         + '}';
   }
 }

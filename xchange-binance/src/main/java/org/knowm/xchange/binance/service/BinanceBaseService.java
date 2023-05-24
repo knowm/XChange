@@ -3,10 +3,14 @@ package org.knowm.xchange.binance.service;
 import static org.knowm.xchange.binance.BinanceResilience.REQUEST_WEIGHT_RATE_LIMITER;
 
 import java.io.IOException;
+
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
+import org.knowm.xchange.binance.BinanceFuturesAuthenticated;
 import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.service.BaseResilientExchangeService;
 import org.slf4j.Logger;
@@ -20,15 +24,22 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
 
   protected final String apiKey;
   protected final BinanceAuthenticated binance;
+  protected final BinanceFuturesAuthenticated binanceFutures;
   protected final ParamsDigest signatureCreator;
 
   protected BinanceBaseService(
       BinanceExchange exchange,
-      BinanceAuthenticated binance,
       ResilienceRegistries resilienceRegistries) {
 
     super(exchange, resilienceRegistries);
-    this.binance = binance;
+    this.binance = ExchangeRestProxyBuilder.forInterface(
+                            BinanceAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
+    ExchangeSpecification futuresSpec = exchange.getDefaultExchangeSpecification();
+    futuresSpec.setSslUri((exchange.usingSandbox()) ? BinanceExchange.SANDBOX_FUTURES_URL: BinanceExchange.FUTURES_URL);
+    this.binanceFutures = ExchangeRestProxyBuilder.forInterface(
+                    BinanceFuturesAuthenticated.class, futuresSpec)
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         BinanceHmacDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
@@ -67,6 +78,13 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
         .withRetry(retry("exchangeInfo"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
         .call();
+  }
+
+  public BinanceExchangeInfo getFutureExchangeInfo() throws IOException {
+    return decorateApiCall(binanceFutures::exchangeInfo)
+            .withRetry(retry("exchangeInfo"))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
   }
 
   public BinanceSystemStatus getSystemStatus() throws IOException {

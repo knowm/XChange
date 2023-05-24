@@ -49,8 +49,8 @@
         if required -->
 
     <!-- Wire and Context logging for the HttpClient -->
-    <logger name="org.apache.http.wire" level="DEBUG"/>
-    <logger name="org.apache.http.impl.client" level="DEBUG"/>
+<!--    <logger name="org.apache.http.wire" level="DEBUG"/>-->
+<!--    <logger name="org.apache.http.impl.client" level="DEBUG"/>-->
 
     <!-- Define logging for organisation applications only -->
     <!--<logger name="si.mazi.rescu" level="TRACE"/>-->

@@ -8,6 +8,9 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,8 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class BinanceStreamingService extends JsonNettyStreamingService {
 
@@ -28,29 +29,33 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
   private static final String IDENTIFIER = "id";
 
   private final ProductSubscription productSubscription;
+  private final KlineSubscription klineSubscription;
 
   private boolean isLiveSubscriptionEnabled = false;
-  private Map<Integer, BinanceWebSocketSubscriptionMessage> liveSubscriptionMessage =
+  private final Map<Integer, BinanceWebSocketSubscriptionMessage> liveSubscriptionMessage =
       new ConcurrentHashMap<>();
 
-  public BinanceStreamingService(String baseUri, ProductSubscription productSubscription) {
+  public BinanceStreamingService(String baseUri, ProductSubscription productSubscription, KlineSubscription klineSubscription) {
     super(baseUri, Integer.MAX_VALUE);
     this.productSubscription = productSubscription;
+    this.klineSubscription = klineSubscription;
   }
 
   public BinanceStreamingService(
       String baseUri,
       ProductSubscription productSubscription,
+      KlineSubscription klineSubscription,
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration,
       int idleTimeoutSeconds) {
     super(baseUri, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.productSubscription = productSubscription;
+    this.klineSubscription = klineSubscription;
   }
 
   @Override
-  protected String getChannelNameFromMessage(JsonNode message) throws IOException {
+  protected String getChannelNameFromMessage(JsonNode message) {
     return message.get("stream").asText();
   }
 
@@ -94,7 +99,7 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
    * We override this method because we must not use Live Subscription in case of reconnection. The
    * reason is that Binance has a Websocket limits to 5 incoming messages per second. If we pass
    * this limit the socket is closed automatically by Binance. See
-   * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#websocket-limits
+   * <a href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#websocket-limits">...</a>
    * for more details. All the channels will be resubscribed at connection time.
    */
   @Override
@@ -193,6 +198,10 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
     return productSubscription;
   }
 
+  public KlineSubscription getKlineSubscription() {
+    return klineSubscription;
+  }
+
   public void enableLiveSubscription() {
     isLiveSubscriptionEnabled = true;
   }
@@ -208,7 +217,7 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
   /**
    * Live Unsubscription from stream. This send a message through the websocket to Binance with
    * method UNSUBSCRIBE. (see
-   * https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#unsubscribe-to-a-stream
+   * <a href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#unsubscribe-to-a-stream">...</a>
    * for more details) This is the only way to really stop receiving data from the stream
    * (Disposable.dispose() dispose the resource but don't stop the data to be received from
    * Binance).

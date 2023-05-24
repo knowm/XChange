@@ -10,9 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 /** DTO representing the exchange order book */
 public final class OrderBook implements Serializable {
@@ -104,11 +104,11 @@ public final class OrderBook implements Serializable {
   private static LimitOrder withAmount(LimitOrder limitOrder, BigDecimal tradeableAmount) {
 
     OrderType type = limitOrder.getType();
-    CurrencyPair currencyPair = limitOrder.getCurrencyPair();
+    Instrument instrument = limitOrder.getInstrument();
     String id = limitOrder.getId();
     Date date = limitOrder.getTimestamp();
     BigDecimal limit = limitOrder.getLimitPrice();
-    return new LimitOrder(type, tradeableAmount, currencyPair, id, date, limit);
+    return new LimitOrder(type, tradeableAmount, instrument, id, date, limit);
   }
 
   public Date getTimeStamp() {

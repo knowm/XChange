@@ -26,6 +26,7 @@ package org.knowm.xchange.coinmate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,10 +34,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.List;
 import java.util.TimeZone;
+
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOrders;
+import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTickers;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -71,6 +77,46 @@ public class CoinmateAdapterTest {
   }
 
   @Test
+  public void testTickerAllAdapter_noTickers() {
+    CoinmateTickers coinmateTickers = new CoinmateTickers(false, null, null);
+    List<Ticker> tickers = CoinmateAdapters.adaptTickers(coinmateTickers);
+    assertTrue(tickers.isEmpty());
+
+    coinmateTickers = new CoinmateTickers(false, null, Collections.emptyMap());
+    tickers = CoinmateAdapters.adaptTickers(coinmateTickers);
+    assertTrue(tickers.isEmpty());
+  }
+
+  @Test
+  public void testTickerAllAdapter_oneTicker() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is =
+        CoinmateAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinmate/dto/marketdata/example-ticker-all.json");
+
+    assertNotNull(is);
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    CoinmateTickers coinmateTickers = mapper.readValue(is, CoinmateTickers.class);
+
+    List<Ticker> tickers = CoinmateAdapters.adaptTickers(coinmateTickers);
+    assertThat(tickers.size()).isEqualTo(1);
+    Ticker ticker = tickers.get(0);
+
+    assertThat(ticker.getInstrument().toString()).isEqualTo("BTC/EUR");
+    assertThat(ticker.getLast().toString()).isEqualTo("254.08");
+    assertThat(ticker.getBid().toString()).isEqualTo("252.93");
+    assertThat(ticker.getAsk().toString()).isEqualTo("254.08");
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("42.78294066"));
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    String dateString = f.format(ticker.getTimestamp());
+    assertThat(dateString).isEqualTo("2017-01-26 20:12:57");
+  }
+
+  @Test
   public void testOrderAdapter_nullPrice() throws IOException {
 
     // Read in the JSON from the example resources
@@ -83,9 +129,9 @@ public class CoinmateAdapterTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    CoinmateOrders coinmateOrders = mapper.readValue(is, CoinmateOrders.class);
+    CoinmateOrder coinmateOrder = mapper.readValue(is, CoinmateOrder.class);
 
-    Order order = CoinmateAdapters.adaptOrder(coinmateOrders.getData(), id -> null);
+    Order order = CoinmateAdapters.adaptOrder(coinmateOrder.getData(), id -> null);
 
     assertThat(order.getType() == Order.OrderType.ASK);
     assertThat(order.getId().equals("1"));
@@ -109,9 +155,9 @@ public class CoinmateAdapterTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    CoinmateOrders coinmateOrders = mapper.readValue(is, CoinmateOrders.class);
+    CoinmateOrder coinmateOrder = mapper.readValue(is, CoinmateOrder.class);
 
-    Order order = CoinmateAdapters.adaptOrder(coinmateOrders.getData(), id -> null);
+    Order order = CoinmateAdapters.adaptOrder(coinmateOrder.getData(), id -> null);
 
     assertThat(order.getType() == Order.OrderType.ASK);
     assertThat(order.getId().equals("2"));

@@ -1,0 +1,16 @@
+{
+  "exOrdId": 33333333,
+  "clOrdId": "ABC",
+  "ordType": "STOP",
+  "ordStatus": "FILLED",
+  "side": "BUY",
+  "price": 0.12345,
+  "text": "string",
+  "symbol": "BTC-USD",
+  "lastShares": 0.5678,
+  "lastPx": 3500.12,
+  "leavesQty": 10,
+  "cumQty": 0.123345,
+  "avgPx": 345.33,
+  "timestamp": 1592830770594
+}

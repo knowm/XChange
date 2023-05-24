@@ -1,91 +1,34 @@
 package org.knowm.xchange.bitstamp.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
-/** @author Matej Spiller Muys */
-public final class BitstampPairInfo {
+@Builder
+@Jacksonized
+@Value
+public class BitstampPairInfo {
 
-  private final String name;
-  private final String urlSymbol;
-  private final Integer baseDecimals;
-  private final Integer counterDecimals;
-  private final String minimumOrder;
-  private final String trading;
-  private final String description;
+  @JsonProperty("name")
+  String name;
 
-  /**
-   * Constructor
-   *
-   * @param name
-   * @param urlSymbol
-   * @param baseDecimals
-   * @param counterDecimals
-   * @param minimumOrder
-   * @param trading
-   * @param description
-   */
-  public BitstampPairInfo(
-      @JsonProperty("name") String name,
-      @JsonProperty("url_symbol") String urlSymbol,
-      @JsonProperty("base_decimals") Integer baseDecimals,
-      @JsonProperty("counter_decimals") Integer counterDecimals,
-      @JsonProperty("minimum_order") String minimumOrder,
-      @JsonProperty("trading") String trading,
-      @JsonProperty("description") String description) {
-    this.name = name;
-    this.urlSymbol = urlSymbol;
-    this.baseDecimals = baseDecimals;
-    this.counterDecimals = counterDecimals;
-    this.minimumOrder = minimumOrder;
-    this.trading = trading;
-    this.description = description;
-  }
+  @JsonProperty("url_symbol")
+  String urlSymbol;
 
-  public String getName() {
-    return name;
-  }
+  @JsonProperty("base_decimals")
+  Integer baseDecimals;
 
-  public String getUrlSymbol() {
-    return urlSymbol;
-  }
+  @JsonProperty("counter_decimals")
+  Integer counterDecimals;
 
-  public Integer getBaseDecimals() {
-    return baseDecimals;
-  }
+  @JsonProperty("minimum_order")
+  String minimumOrder;
 
-  public Integer getCounterDecimals() {
-    return counterDecimals;
-  }
+  @JsonProperty("trading")
+  String trading;
 
-  public String getMinimumOrder() {
-    return minimumOrder;
-  }
+  @JsonProperty("description")
+  String description;
 
-  public String getTrading() {
-    return trading;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BitstampTicker [name="
-        + name
-        + ", urlSymbol="
-        + urlSymbol
-        + ", baseDecimals="
-        + baseDecimals
-        + ", counterDecimals="
-        + counterDecimals
-        + ", minimumOrder="
-        + minimumOrder
-        + ", trading="
-        + trading
-        + ", description="
-        + description
-        + "]";
-  }
 }

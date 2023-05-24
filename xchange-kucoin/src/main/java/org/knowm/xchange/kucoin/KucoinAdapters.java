@@ -41,16 +41,13 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.FeeTier;
-import org.knowm.xchange.dto.meta.WalletHealth;
+import org.knowm.xchange.dto.meta.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
@@ -133,7 +130,7 @@ public class KucoinAdapters {
       TradeFeeResponse tradeFee)
       throws IOException {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> currencyPairs = exchangeMetaData.getInstruments();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     Map<String, CurrencyMetaData> stringCurrencyMetaDataMap =
         adaptCurrencyMetaData(currenciesResponse);
@@ -143,7 +140,7 @@ public class KucoinAdapters {
     for (SymbolResponse symbol : symbolsResponse) {
 
       CurrencyPair pair = adaptCurrencyPair(symbol.getSymbol());
-      CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
+      InstrumentMetaData staticMetaData = exchangeMetaData.getInstruments().get(pair);
 
       BigDecimal minSize = symbol.getBaseMinSize();
       BigDecimal maxSize = symbol.getBaseMaxSize();
@@ -154,21 +151,18 @@ public class KucoinAdapters {
       FeeTier[] feeTiers = staticMetaData != null ? staticMetaData.getFeeTiers() : null;
       Currency feeCurrency = new Currency(symbol.getFeeCurrency());
 
-      CurrencyPairMetaData cpmd =
-          new CurrencyPairMetaData(
-              takerTradingFee,
-              minSize,
-              maxSize,
-              minQuoteSize,
-              maxQuoteSize,
-              baseScale,
-              priceScale,
-              null,
-              feeTiers,
-              null,
-              feeCurrency,
-              true);
-      currencyPairs.put(pair, cpmd);
+      currencyPairs.put(pair, new InstrumentMetaData.Builder()
+              .tradingFee(takerTradingFee)
+              .minimumAmount(minSize)
+              .maximumAmount(maxSize)
+              .counterMinimumAmount(minQuoteSize)
+              .counterMaximumAmount(maxQuoteSize)
+              .volumeScale(baseScale)
+              .priceScale(priceScale)
+              .feeTiers(feeTiers)
+              .tradingFeeCurrency(feeCurrency)
+              .marketOrderEnabled(true)
+              .build());
 
       if (!currencies.containsKey(pair.base))
         currencies.put(pair.base, stringCurrencyMetaDataMap.get(pair.base.getCurrencyCode()));
@@ -235,7 +229,7 @@ public class KucoinAdapters {
             .sorted(Ordering.natural().onResultOf((PriceAndSize s) -> s.price).reversed())
             .map(s -> adaptLimitOrder(currencyPair, BID, s, timestamp))
             .collect(toCollection(LinkedList::new));
-    return new OrderBook(timestamp, asks, bids);
+    return new OrderBook(timestamp, asks, bids, true);
   }
 
   private static LimitOrder adaptLimitOrder(

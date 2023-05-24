@@ -76,8 +76,8 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
         .map(
             s -> {
               JsonNode dataNode = s.get("data");
-              return mapper.readValue(
-                  dataNode.toString(), CexioWebSocketOrderBookSubscribeResponse.class);
+              return mapper.treeToValue(
+                  dataNode, CexioWebSocketOrderBookSubscribeResponse.class);
             })
         .map(orderBookConsumer);
   }
@@ -98,8 +98,7 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
         .map(
             s -> {
               JsonNode dataNode = s.get("data");
-              return mapper.readValue(
-                  dataNode.toString(), CexioWebSocketOrderBookSubscribeResponse.class);
+              return mapper.treeToValue(dataNode, CexioWebSocketOrderBookSubscribeResponse.class);
             })
         .map(orderBookConsumer)
         .filter(orderBook -> !orderBook.getBids().isEmpty() && !orderBook.getAsks().isEmpty())

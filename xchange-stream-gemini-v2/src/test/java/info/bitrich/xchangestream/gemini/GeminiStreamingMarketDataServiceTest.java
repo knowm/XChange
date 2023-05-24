@@ -4,14 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.knowm.xchange.currency.CurrencyPair.LTC_USD;
 import static org.mockito.Mockito.when;
 
-import info.bitrich.xchangestream.core.ProductSubscription;
 import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import info.bitrich.xchangestream.core.ProductSubscription;
 
 public class GeminiStreamingMarketDataServiceTest {
 
@@ -39,7 +41,7 @@ public class GeminiStreamingMarketDataServiceTest {
     try {
       geminiStreamingMarketDataService.getOrderBook(LTC_USD).subscribe(orderBook -> {});
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+//      System.out.println(e.getMessage());
       assertEquals(
           String.format("The currency pair %s is not subscribed for orderbook", LTC_USD),
           e.getMessage());
