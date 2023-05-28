@@ -29,11 +29,11 @@ public class GateioCurrencyChain {
   Boolean withdrawDisabled;
 
   public boolean isWithdrawEnabled() {
-    return (withdrawDisabled != null) && !withdrawDisabled;
+    return isEnabled() && (withdrawDisabled != null) && !withdrawDisabled;
   }
 
   public boolean isDepositEnabled() {
-    return (depositDisabled != null) && !depositDisabled;
+    return isEnabled() && (depositDisabled != null) && !depositDisabled;
   }
 
   public boolean isEnabled() {
