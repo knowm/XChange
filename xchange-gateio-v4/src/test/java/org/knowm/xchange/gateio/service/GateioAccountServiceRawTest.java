@@ -58,6 +58,13 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
 
 
   @Test
+  public void http_403_exception_mapped() {
+    assertThatExceptionOfType(ExchangeSecurityException.class)
+        .isThrownBy(() -> gateioAccountServiceRaw.getWithdrawStatus(Currency.getInstance("RETURN-FORBIDDEN")));
+  }
+
+
+  @Test
   public void invalid_currency_exception_mapped() {
     assertThatExceptionOfType(InstrumentNotValidException.class)
         .isThrownBy(() -> gateioAccountServiceRaw.getWithdrawStatus(Currency.getInstance("invalid-currency")));

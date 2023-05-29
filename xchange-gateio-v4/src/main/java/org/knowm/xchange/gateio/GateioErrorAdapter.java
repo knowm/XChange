@@ -11,6 +11,7 @@ public class GateioErrorAdapter {
 
   public final String INVALID_SIGNATURE = "INVALID_SIGNATURE";
   public final String INVALID_KEY = "INVALID_KEY";
+  public final String FORBIDDEN = "FORBIDDEN";
   public final String INVALID_CURRENCY = "INVALID_CURRENCY";
 
 
@@ -19,6 +20,7 @@ public class GateioErrorAdapter {
     switch (e.getLabel()) {
       case INVALID_SIGNATURE:
       case INVALID_KEY:
+      case FORBIDDEN:
         return new ExchangeSecurityException(e.getMessage(), e);
 
       case INVALID_CURRENCY:
