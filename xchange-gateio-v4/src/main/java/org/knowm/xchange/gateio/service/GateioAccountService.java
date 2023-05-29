@@ -4,12 +4,18 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.gateio.GateioAdapters;
+import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
+import org.knowm.xchange.gateio.dto.GateioException;
+import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -33,7 +39,30 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(GateioAdapters.adaptWallet(super.getGateioAccountInfo()));
+    try {
+      List<GateioCurrencyBalance> spotBalances = getSpotBalances(null);
+
+      List<Balance> balances = spotBalances.stream()
+          .map(balance -> Balance.builder()
+              .currency(Currency.getInstance(balance.getCurrency()))
+              .available(balance.getAvailable())
+              .frozen(balance.getLocked())
+              .build())
+          .collect(Collectors.toList());
+
+      Wallet wallet = Wallet.Builder
+          .from(balances)
+          .id("spot")
+          .build();
+
+      return new AccountInfo(wallet);
+
+    }
+    catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
+
+
   }
 
   @Override

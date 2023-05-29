@@ -10,9 +10,9 @@ import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 import org.knowm.xchange.gateio.dto.GateioException;
+import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
-import org.knowm.xchange.gateio.dto.account.GateioFunds;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
 
 public class GateioAccountServiceRaw extends GateioBaseService {
@@ -25,13 +25,6 @@ public class GateioAccountServiceRaw extends GateioBaseService {
   public GateioAccountServiceRaw(GateioExchange exchange) {
 
     super(exchange);
-  }
-
-  public GateioFunds getGateioAccountInfo() throws IOException {
-
-    GateioFunds gateioFunds =
-        gateioAuthenticated.getFunds(exchange.getExchangeSpecification().getApiKey(), signatureCreator);
-    return handleResponse(gateioFunds);
   }
 
   public GateioDepositAddress getGateioDepositAddress(Currency currency) throws IOException {
@@ -90,4 +83,14 @@ public class GateioAccountServiceRaw extends GateioBaseService {
     }
 
   }
+
+
+  public List<GateioCurrencyBalance> getSpotBalances(Currency currency) throws IOException {
+
+    String currencyCode = currency == null ? null : currency.getCurrencyCode();
+    return gateioV4Authenticated.getSpotAccounts(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currencyCode);
+
+  }
+
+
 }
