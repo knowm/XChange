@@ -1,13 +1,17 @@
 package org.knowm.xchange.gateio.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.exceptions.InstrumentNotValidException;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
 
@@ -34,7 +38,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
         .withdrawFeeByChain(expectedWithdrawFeeByChain)
         .build();
 
-    List<GateioWithdrawStatus> status = gateioAccountServiceRaw.getWithdrawStatus();
+    List<GateioWithdrawStatus> status = gateioAccountServiceRaw.getWithdrawStatus(null);
 
     assertThat(status).hasSize(2);
     GateioWithdrawStatus actualGt = status.get(0);
@@ -42,4 +46,22 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
     assertThat(actualGt.getWithdrawRate()).isEqualTo(new BigDecimal("0.00"));
 
   }
+
+
+  @Test
+  public void http_401_exception_mapped() {
+    assertThatExceptionOfType(ExchangeSecurityException.class)
+        .isThrownBy(() -> gateioAccountServiceRaw.getWithdrawStatus(Currency.getInstance("THROW_401")));
+    assertThatExceptionOfType(ExchangeSecurityException.class)
+        .isThrownBy(() -> gateioAccountServiceRaw.getWithdrawStatus(Currency.getInstance("INVALID_KEY")));
+  }
+
+
+  @Test
+  public void invalid_currency_exception_mapped() {
+    assertThatExceptionOfType(InstrumentNotValidException.class)
+        .isThrownBy(() -> gateioAccountServiceRaw.getWithdrawStatus(Currency.getInstance("invalid-currency")));
+  }
+
+
 }

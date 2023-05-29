@@ -6,8 +6,10 @@ import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
+import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
@@ -77,7 +79,15 @@ public class GateioAccountServiceRaw extends GateioBaseService {
   }
 
 
-  public List<GateioWithdrawStatus> getWithdrawStatus() throws IOException {
-    return gateioV4Authenticated.getWithdrawStatus(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest);
+  public List<GateioWithdrawStatus> getWithdrawStatus(Currency currency) throws IOException {
+    String currencyCode = currency == null ? null : currency.getCurrencyCode();
+
+    try {
+      return gateioV4Authenticated.getWithdrawStatus(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currencyCode);
+    }
+    catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
+
   }
 }

@@ -2,11 +2,10 @@ package org.knowm.xchange.gateio;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 
-import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.recording.RecordSpecBuilder;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 
@@ -19,11 +18,14 @@ public abstract class GateioExchangeWiremock {
 
   private static final boolean IS_RECORDING = false;
 
-  @ClassRule
-  public static WireMockClassRule wireMockRule = new WireMockClassRule(options().dynamicPort());
+  private static WireMockServer wireMockServer;
 
-  @BeforeClass
+
+  @BeforeAll
   public static void initExchange() {
+    wireMockServer = new WireMockServer(options().dynamicPort());
+    wireMockServer.start();
+
     ExchangeSpecification exSpec = new ExchangeSpecification(GateioExchange.class);
     exSpec.setSslUri("http://localhost:" + wireMockRule.port());
     exSpec.setApiKey("a");
@@ -32,7 +34,7 @@ public abstract class GateioExchangeWiremock {
 
     if (IS_RECORDING) {
       // use default url and record the requests
-      wireMockRule.startRecording(
+      wireMockServer.startRecording(
           new RecordSpecBuilder()
               .forTarget("https://api.gateio.ws")
               .matchRequestBodyWithEqualToJson()
@@ -47,11 +49,12 @@ public abstract class GateioExchangeWiremock {
   }
 
 
-  @AfterClass
+  @AfterAll
   public static void stop() {
     if (IS_RECORDING) {
-      wireMockRule.stopRecording();
+      wireMockServer.stopRecording();
     }
+    wireMockServer.stop();
   }
 
 

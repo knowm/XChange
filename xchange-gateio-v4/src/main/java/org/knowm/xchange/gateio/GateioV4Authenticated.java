@@ -6,7 +6,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -20,7 +22,8 @@ public interface GateioV4Authenticated {
   List<GateioWithdrawStatus> getWithdrawStatus(
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
-      @HeaderParam("SIGN") ParamsDigest signer)
-      throws IOException;
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @QueryParam("currency") String currency)
+      throws IOException, GateioException;
 
 }
