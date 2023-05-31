@@ -95,11 +95,6 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
-  @Override
-  public String requestDepositAddress(Currency currency, String... args) throws IOException {
-
-    return super.getGateioDepositAddress(currency).getBaseAddress();
-  }
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {

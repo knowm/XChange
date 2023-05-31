@@ -1,51 +1,44 @@
 package org.knowm.xchange.gateio.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.gateio.dto.GateioBaseResponse;
+import java.util.List;
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
 
-public class GateioDepositAddress extends GateioBaseResponse {
+@Data
+@Builder
+@Jacksonized
+public class GateioDepositAddress {
 
-  private final String baseAddress;
+  @JsonProperty("currency")
+  String currency;
 
-  private final String addressTag;
+  @JsonProperty("multichain_addresses")
+  List<MultichainAddress> multichainAddresses;
 
-  /**
-   * Constructor
-   *
-   * @param theAvailable
-   * @param theLocked
-   */
-  public GateioDepositAddress(
-      @JsonProperty("addr") String addr,
-      @JsonProperty("result") boolean result,
-      @JsonProperty("message") final String message) {
 
-    super(result, message);
+  @Data
+  @Builder
+  @Jacksonized
+  public static class MultichainAddress {
 
-    String[] addressComponent = addr.split("/");
-    this.baseAddress = addressComponent[0];
-    if (addressComponent.length > 1) {
-      this.addressTag = addressComponent[1];
-    } else {
-      this.addressTag = null;
-    }
+    @JsonProperty("chain")
+    String chain;
+
+    @JsonProperty("address")
+    String address;
+
+    @JsonProperty("payment_id")
+    String memo;
+
+    @JsonProperty("payment_name")
+    String memoType;
+
+    @JsonProperty("obtain_failed")
+    Boolean failed;
+
   }
 
-  public String getBaseAddress() {
-    return baseAddress;
-  }
 
-  public String getAddressTag() {
-    return addressTag;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BTERDepositAddressReturn [baseAddress="
-        + baseAddress
-        + ", addressTag="
-        + addressTag
-        + "]";
-  }
 }

@@ -27,15 +27,6 @@ public class GateioAccountServiceRaw extends GateioBaseService {
     super(exchange);
   }
 
-  public GateioDepositAddress getGateioDepositAddress(Currency currency) throws IOException {
-    GateioDepositAddress depositAddress =
-        gateioAuthenticated.getDepositAddress(
-            exchange.getExchangeSpecification().getApiKey(),
-            signatureCreator,
-            currency.getCurrencyCode());
-    return depositAddress;
-  }
-
   public String withdraw(
       Currency currency, BigDecimal amount, String baseAddress, String addressTag)
       throws IOException {
@@ -69,6 +60,19 @@ public class GateioAccountServiceRaw extends GateioBaseService {
     }
     // unfortunatelly gate.io does not return any id for the withdrawal
     return null;
+  }
+
+
+  public GateioDepositAddress getDepositAddress(Currency currency) throws IOException {
+    String currencyCode = currency == null ? null : currency.getCurrencyCode();
+
+    try {
+      return gateioV4Authenticated.getDepositAddress(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currencyCode);
+    }
+    catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
+
   }
 
 

@@ -11,7 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
-import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
 import org.knowm.xchange.gateio.dto.marketdata.GateioFeeInfo;
@@ -29,14 +28,6 @@ public interface GateioAuthenticated {
   @POST
   @Path("private/balances")
   GateioFunds getFunds(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer)
-      throws IOException;
-
-  @POST
-  @Path("private/depositAddress")
-  GateioDepositAddress getDepositAddress(
-      @HeaderParam("KEY") String apiKey,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @FormParam("currency") String currency)
       throws IOException;
 
   @POST
