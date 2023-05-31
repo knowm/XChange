@@ -36,6 +36,7 @@ import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCoin;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioFeeInfo;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
@@ -204,6 +205,18 @@ public final class GateioAdapters {
 
     return new Trades(tradeList, lastTradeId, TradeSortType.SortByTimestamp);
   }
+
+
+  public static InstrumentMetaData toInstrumentMetaData(GateioCurrencyPairDetails gateioCurrencyPairDetails) {
+    return new InstrumentMetaData.Builder()
+        .tradingFee(gateioCurrencyPairDetails.getFee())
+        .minimumAmount(gateioCurrencyPairDetails.getMinAssetAmount())
+        .counterMinimumAmount(gateioCurrencyPairDetails.getMinQuoteAmount())
+        .volumeScale(gateioCurrencyPairDetails.getAssetScale())
+        .priceScale(gateioCurrencyPairDetails.getQuoteScale())
+        .build();
+  }
+
 
   public static Wallet adaptWallet(GateioFunds bterAccountInfo) {
 

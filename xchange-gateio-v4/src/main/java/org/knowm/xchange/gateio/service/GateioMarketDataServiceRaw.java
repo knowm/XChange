@@ -17,6 +17,7 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioCandlestickHistory;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCoinInfoWrapper;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyChain;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioFeeInfo;
 import org.knowm.xchange.gateio.dto.marketdata.GateioKline;
@@ -151,17 +152,29 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
   }
 
 
-  public List<GateioCurrencyInfo> getCurrencies() {
+  public List<GateioCurrencyInfo> getCurrencies() throws IOException {
     return gateio.getCurrencies();
   }
 
 
-  public GateioOrderBook getGateioOrderBook(Instrument instrument) {
+  public GateioOrderBook getGateioOrderBook(Instrument instrument) throws IOException {
     return gateio.getOrderBook(GateioAdapters.toQueryParam(instrument), false);
   }
 
 
-  public List<GateioCurrencyChain> getCurrencyChains(Currency currency) {
+  public List<GateioCurrencyChain> getCurrencyChains(Currency currency) throws IOException {
     return gateio.getCurrencyChains(currency.getCurrencyCode());
   }
+
+
+  public List<GateioCurrencyPairDetails> getCurrencyPairDetails() throws IOException {
+      return gateio.getCurrencyPairDetails();
+  }
+
+
+  public GateioCurrencyPairDetails getCurrencyPairDetails(Instrument instrument) throws IOException {
+    return gateio.getCurrencyPairDetails(GateioAdapters.toQueryParam(instrument));
+  }
+
+
 }

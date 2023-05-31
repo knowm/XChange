@@ -15,6 +15,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyChain;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
@@ -39,7 +40,7 @@ public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
 
 
   @Test
-  public void getCurrencies_valid() {
+  public void getCurrencies_valid() throws IOException {
     List<GateioCurrencyInfo> actual = gateioMarketDataServiceRaw.getCurrencies();
 
     assertThat(actual).hasSize(5);
@@ -61,7 +62,7 @@ public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
 
 
   @Test
-  public void getGateioOrderBook_valid() {
+  public void getGateioOrderBook_valid() throws IOException {
     List<PriceSizeEntry> expectedAsks = new ArrayList<>();
     expectedAsks.add(PriceSizeEntry.builder()
         .price(new BigDecimal("200"))
@@ -96,7 +97,7 @@ public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
 
 
   @Test
-  public void getCurrencyChains_valid_result() {
+  public void getCurrencyChains_valid_result() throws IOException {
     List<GateioCurrencyChain> expected = new ArrayList<>();
     expected.add(GateioCurrencyChain.builder()
         .chain("BTC")
@@ -118,5 +119,48 @@ public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
     List<GateioCurrencyChain> actual = gateioMarketDataServiceRaw.getCurrencyChains(Currency.BTC);
 
     assertThat(actual).isEqualTo(expected);
+  }
+
+
+  @Test
+  void valid_currencypairs_details() throws IOException {
+    List<GateioCurrencyPairDetails> details = gateioMarketDataServiceRaw.getCurrencyPairDetails();
+    assertThat(details).hasSize(3);
+    GateioCurrencyPairDetails expectedChz = GateioCurrencyPairDetails.builder()
+        .id("CHZ_USDT")
+        .asset("CHZ")
+        .quote("USDT")
+        .fee(new BigDecimal("0.2"))
+        .minQuoteAmount(BigDecimal.ONE)
+        .assetScale(2)
+        .quoteScale(5)
+        .tradeStatus("tradable")
+        .startOfSells(Instant.parse("2020-12-24T04:00:00.000Z"))
+        .startOfBuys(Instant.parse("2020-12-24T06:00:00.000Z"))
+        .build();
+
+    GateioCurrencyPairDetails actualChz = details.get(1);
+
+    assertThat(actualChz).isEqualTo(expectedChz);
+  }
+
+
+  @Test
+  void valid_single_currencypair_details() throws IOException {
+    GateioCurrencyPairDetails actualChz = gateioMarketDataServiceRaw.getCurrencyPairDetails(new CurrencyPair("CHZ/USDT"));
+    GateioCurrencyPairDetails expectedChz = GateioCurrencyPairDetails.builder()
+        .id("CHZ_USDT")
+        .asset("CHZ")
+        .quote("USDT")
+        .fee(new BigDecimal("0.2"))
+        .minQuoteAmount(BigDecimal.ONE)
+        .assetScale(2)
+        .quoteScale(5)
+        .tradeStatus("tradable")
+        .startOfSells(Instant.parse("2020-12-24T04:00:00.000Z"))
+        .startOfBuys(Instant.parse("2020-12-24T06:00:00.000Z"))
+        .build();
+
+    assertThat(actualChz).isEqualTo(expectedChz);
   }
 }

@@ -1,7 +1,6 @@
-package org.knowm.xchange.gateio.service;
+package org.knowm.xchange.gateio.config;
 
-import static com.fasterxml.jackson.databind.DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS;
-
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
@@ -11,7 +10,7 @@ public class GateioJacksonObjectMapperFactory extends DefaultJacksonObjectMapper
   @Override
   public void configureObjectMapper(ObjectMapper objectMapper) {
     super.configureObjectMapper(objectMapper);
-    objectMapper.configure(READ_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
+    objectMapper.configure(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
     // enable parsing to Instant
     objectMapper.registerModule(new JavaTimeModule());
   }

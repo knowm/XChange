@@ -21,7 +21,7 @@ public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
 
 
   @Test
-  public void getOrderBook_valid() throws IOException {
+  void getOrderBook_valid() throws IOException {
     OrderBook actual = gateioMarketDataService.getOrderBook(CurrencyPair.BTC_USDT);
 
     List<LimitOrder> expectedAsks = new ArrayList<>();

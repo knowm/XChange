@@ -10,8 +10,12 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.gateio.GateioAdapters;
+import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
+import org.knowm.xchange.gateio.dto.GateioException;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
@@ -98,4 +102,22 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
 
     return GateioAdapters.adaptTrades(tradeHistory, currencyPair);
   }
+
+
+  public Map<Instrument, InstrumentMetaData> getMetaDataByInstrument() throws IOException {
+    try {
+      List<GateioCurrencyPairDetails> metadata = getCurrencyPairDetails();
+
+      return metadata.stream()
+          .collect(Collectors.toMap(
+              gateioCurrencyPairDetails -> new CurrencyPair(gateioCurrencyPairDetails.getAsset(), gateioCurrencyPairDetails.getQuote()),
+              GateioAdapters::toInstrumentMetaData
+          ));
+    }
+    catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
+  }
+
+
 }

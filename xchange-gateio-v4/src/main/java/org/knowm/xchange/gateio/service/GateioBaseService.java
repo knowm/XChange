@@ -6,6 +6,7 @@ import org.knowm.xchange.gateio.Gateio;
 import org.knowm.xchange.gateio.GateioAuthenticated;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.GateioV4Authenticated;
+import org.knowm.xchange.gateio.config.GateioJacksonObjectMapperFactory;
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;

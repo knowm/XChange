@@ -9,10 +9,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCandlestickHistory;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCoinInfoWrapper;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyChain;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairs;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
@@ -81,7 +83,7 @@ public interface Gateio {
 
   @GET
   @Path("api/v4/spot/currencies")
-  List<GateioCurrencyInfo> getCurrencies();
+  List<GateioCurrencyInfo> getCurrencies() throws IOException, GateioException;
 
 
   @GET
@@ -89,12 +91,22 @@ public interface Gateio {
   GateioOrderBook getOrderBook(
       @QueryParam("currency_pair") String currencyPair,
       @QueryParam("with_id") Boolean withId
-  );
+  ) throws IOException, GateioException;
 
 
   @GET
   @Path("api/v4/wallet/currency_chains")
-  List<GateioCurrencyChain> getCurrencyChains(@QueryParam("currency") String currency);
+  List<GateioCurrencyChain> getCurrencyChains(@QueryParam("currency") String currency) throws IOException, GateioException;
+
+
+  @GET
+  @Path("api/v4/spot/currency_pairs")
+  List<GateioCurrencyPairDetails> getCurrencyPairDetails() throws IOException, GateioException;
+
+
+  @GET
+  @Path("api/v4/spot/currency_pairs/{currency_pair}")
+  GateioCurrencyPairDetails getCurrencyPairDetails(@PathParam("currency_pair") String currencyPair) throws IOException, GateioException;
 
 
 }
