@@ -1,9 +1,9 @@
 package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -18,7 +18,6 @@ import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
-import org.knowm.xchange.gateio.dto.trade.GateioOrderStatus;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
@@ -28,8 +27,8 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class GateioTradeService extends GateioTradeServiceRaw implements TradeService {
@@ -122,32 +121,19 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    List<Order> orders = new ArrayList<>();
-    for (OrderQueryParams param : orderQueryParams) {
-      if (!(param instanceof DefaultQueryOrderParamCurrencyPair)) {
-        throw new NotAvailableFromExchangeException("getOrder in gateio needs orderId and currency pair");
-      }
-      DefaultQueryOrderParamCurrencyPair queryOrderParamCurrencyPair = (DefaultQueryOrderParamCurrencyPair) param;
-      GateioOrderStatus gateioOrderStatus = getGateioOrderStatus(
-              queryOrderParamCurrencyPair.getOrderId(),
-              queryOrderParamCurrencyPair.getCurrencyPair()
-      );
+    // todo: implement getting of several orders
+    Validate.validState(orderQueryParams.length == 1);
+    Validate.isInstanceOf(OrderQueryParamInstrument.class, orderQueryParams[0]);
 
-      LimitOrder limitOrder = new LimitOrder(
-              GateioAdapters.adaptOrderType(gateioOrderStatus.getType()),
-              gateioOrderStatus.getInitialAmount(),
-              gateioOrderStatus.getInitialAmount().subtract(gateioOrderStatus.getAmount()),
-              gateioOrderStatus.getCurrencyPair(),
-              gateioOrderStatus.getOrderNumber(),
-              null,
-              gateioOrderStatus.getInitialRate()) {
-      };
-      limitOrder.setAveragePrice(gateioOrderStatus.getRate());
-      orders.add(limitOrder);
+    OrderQueryParamInstrument params = (OrderQueryParamInstrument) orderQueryParams[0];
 
+    try {
+      GateioOrder gateioOrder = getOrder(params.getOrderId(), params.getInstrument());
+      return List.of(GateioAdapters.toOrder(gateioOrder));
     }
-
-    return orders;
+    catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
   }
 
   @Override

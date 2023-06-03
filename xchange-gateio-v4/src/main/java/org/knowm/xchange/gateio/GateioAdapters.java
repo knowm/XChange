@@ -1,5 +1,8 @@
 package org.knowm.xchange.gateio;
 
+import static org.knowm.xchange.dto.Order.OrderType.ASK;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +14,7 @@ import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -60,6 +64,12 @@ public final class GateioAdapters {
   }
 
 
+  public Instrument toInstrument(String currencyCode) {
+    var currencies = currencyCode.split("_");
+    return new CurrencyPair(currencies[0], currencies[1]);
+  }
+
+
   public Ticker adaptTicker(CurrencyPair currencyPair, GateioTicker gateioTicker) {
 
     BigDecimal ask = gateioTicker.getLowestAsk();
@@ -88,12 +98,12 @@ public final class GateioAdapters {
 
   public OrderBook toOrderBook(GateioOrderBook gateioOrderBook, Instrument instrument) {
     List<LimitOrder> asks = gateioOrderBook.getAsks().stream()
-        .map(priceSizeEntry -> new LimitOrder(OrderType.ASK, priceSizeEntry.getSize(), instrument, null, null, priceSizeEntry.getPrice()))
+        .map(priceSizeEntry -> new LimitOrder(ASK, priceSizeEntry.getSize(), instrument, null, null, priceSizeEntry.getPrice()))
         .collect(Collectors.toList());
 
 
     List<LimitOrder> bids = gateioOrderBook.getBids().stream()
-        .map(priceSizeEntry -> new LimitOrder(OrderType.BID, priceSizeEntry.getSize(), instrument, null, null, priceSizeEntry.getPrice()))
+        .map(priceSizeEntry -> new LimitOrder(BID, priceSizeEntry.getSize(), instrument, null, null, priceSizeEntry.getPrice()))
         .collect(Collectors.toList());
 
     return new OrderBook(Date.from(gateioOrderBook.getGeneratedAt()), asks, bids);
@@ -121,10 +131,10 @@ public final class GateioAdapters {
   public OrderBook adaptOrderBook(GateioDepth depth, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks =
-        GateioAdapters.adaptOrders(depth.getAsks(), currencyPair, OrderType.ASK);
+        GateioAdapters.adaptOrders(depth.getAsks(), currencyPair, ASK);
     Collections.reverse(asks);
     List<LimitOrder> bids =
-        GateioAdapters.adaptOrders(depth.getBids(), currencyPair, OrderType.BID);
+        GateioAdapters.adaptOrders(depth.getBids(), currencyPair, BID);
 
     return new OrderBook(null, asks, bids);
   }
@@ -135,7 +145,7 @@ public final class GateioAdapters {
     String[] currencyPairSplit = order.getCurrencyPair().split("_");
     CurrencyPair currencyPair = new CurrencyPair(currencyPairSplit[0], currencyPairSplit[1]);
     return new LimitOrder(
-        order.getType().equals("sell") ? OrderType.ASK : OrderType.BID,
+        order.getType().equals("sell") ? ASK : BID,
         order.getAmount(),
         currencyPair,
         order.getOrderNumber(),
@@ -156,7 +166,7 @@ public final class GateioAdapters {
 
   public OrderType adaptOrderType(GateioOrderType cryptoTradeOrderType) {
 
-    return (cryptoTradeOrderType.equals(GateioOrderType.BUY)) ? OrderType.BID : OrderType.ASK;
+    return (cryptoTradeOrderType.equals(GateioOrderType.BUY)) ? BID : ASK;
   }
 
   public Trade adaptTrade(
@@ -301,6 +311,22 @@ public final class GateioAdapters {
   }
 
 
+  public OrderStatus toOrderStatus(String gateioOrderStatus) {
+    switch (gateioOrderStatus) {
+      case "open":
+        return OrderStatus.OPEN;
+      case "filled":
+      case "closed":
+        return OrderStatus.FILLED;
+      case "cancelled":
+      case "stp":
+        return OrderStatus.CANCELED;
+      default:
+        throw new IllegalArgumentException("Can't map " + gateioOrderStatus);
+    }
+  }
+
+
   public GateioOrder toGateioOrder(MarketOrder marketOrder) {
     GateioOrder gateioOrder = GateioOrder.builder()
         .currencyPair(toString(marketOrder.getInstrument()))
@@ -315,6 +341,35 @@ public final class GateioAdapters {
   }
 
 
+  public Order toOrder(GateioOrder gateioOrder) {
+    Order.Builder order;
+    Instrument instrument = toInstrument(gateioOrder.getCurrencyPair());
+    OrderType orderType = toOrderType(gateioOrder.getSide());
+
+    switch (gateioOrder.getType()) {
+      case "market":
+        order = new MarketOrder.Builder(orderType, instrument);
+        break;
+      case "limit":
+        order = new LimitOrder.Builder(orderType, instrument);
+        break;
+      default:
+        throw new IllegalArgumentException("Can't map " + gateioOrder.getType());
+    }
+
+    return order
+        .id(gateioOrder.getId())
+        .originalAmount(gateioOrder.getAmount())
+        .userReference(gateioOrder.getClientOrderId())
+        .timestamp(Date.from(gateioOrder.getCreatedAt()))
+        .orderStatus(toOrderStatus(gateioOrder.getStatus()))
+        .cumulativeAmount(gateioOrder.getFilledTotalQuote())
+        .averagePrice(gateioOrder.getAvgDealPrice())
+        .fee(gateioOrder.getFee())
+        .build();
+  }
+
+
   public String toString(OrderType orderType) {
     switch (orderType) {
       case BID:
@@ -324,6 +379,17 @@ public final class GateioAdapters {
       default:
         throw new IllegalArgumentException("Can't map " + orderType);
     }
+  }
 
+
+  public OrderType toOrderType(String gateioOrderType) {
+    switch (gateioOrderType) {
+      case "buy":
+        return BID;
+      case "sell":
+        return ASK;
+      default:
+        throw new IllegalArgumentException("Can't map " + gateioOrderType);
+    }
   }
 }

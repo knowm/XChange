@@ -5,12 +5,16 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Date;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
 
 class GateioTradeServiceTest extends GateioExchangeWiremock {
 
@@ -42,5 +46,35 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   }
 
 
+  @Test
+  void valid_market_sell_order() throws IOException {
+    MarketOrder marketOrder = new MarketOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
+        .userReference("t-valid-market-sell-order")
+        .originalAmount(new BigDecimal("0.0007"))
+        .build();
+
+    var actualResponse = gateioTradeService.placeMarketOrder(marketOrder);
+    assertThat(actualResponse).isEqualTo("342260949533");
+
+  }
+
+
+  @Test
+  void order_details() throws IOException {
+    MarketOrder expected = new MarketOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+        .id("342251629898")
+        .userReference("t-valid-market-buy-order")
+        .timestamp(Date.from(Instant.parse("2023-06-03T22:07:38.451Z")))
+        .originalAmount(BigDecimal.valueOf(20))
+        .orderStatus(OrderStatus.FILLED)
+        .cumulativeAmount(new BigDecimal("18.92681"))
+        .averagePrice(new BigDecimal("27038.3"))
+        .fee(new BigDecimal("0.0000014"))
+        .build();
+
+    var a = gateioTradeService.getOrder(new DefaultQueryOrderParamInstrument(CurrencyPair.BTC_USDT, "342251629898"));
+    assertThat(a).hasSize(1);
+    assertThat(a).first().usingRecursiveComparison().isEqualTo(expected);
+  }
 
 }
