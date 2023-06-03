@@ -22,11 +22,13 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
+import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
@@ -50,7 +52,7 @@ public final class GateioAdapters {
   }
 
 
-  public String toQueryParam(Instrument instrument) {
+  public String toString(Instrument instrument) {
     return String.format("%s_%s",
             instrument.getBase().getCurrencyCode(),
             instrument.getCounter().getCurrencyCode())
@@ -296,5 +298,31 @@ public final class GateioAdapters {
       default:
         throw new IllegalArgumentException("Can't map " + orderStatus);
     }
+  }
+
+
+  public GateioOrder toGateioOrder(MarketOrder marketOrder) {
+    GateioOrder gateioOrder = GateioOrder.builder()
+        .currencyPair(toString(marketOrder.getInstrument()))
+        .side(toString(marketOrder.getType()))
+        .clientOrderId(marketOrder.getUserReference())
+        .type("market")
+        .timeInForce("ioc")
+        .amount(marketOrder.getOriginalAmount())
+        .build();
+    return gateioOrder;
+  }
+
+
+  public String toString(OrderType orderType) {
+    switch (orderType) {
+      case BID:
+        return "buy";
+      case ASK:
+        return "sell";
+      default:
+        throw new IllegalArgumentException("Can't map " + orderType);
+    }
+
   }
 }

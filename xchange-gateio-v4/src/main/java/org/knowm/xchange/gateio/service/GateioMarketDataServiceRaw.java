@@ -158,7 +158,7 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
 
 
   public GateioOrderBook getGateioOrderBook(Instrument instrument) throws IOException {
-    return gateio.getOrderBook(GateioAdapters.toQueryParam(instrument), false);
+    return gateio.getOrderBook(GateioAdapters.toString(instrument), false);
   }
 
 
@@ -173,7 +173,7 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
 
 
   public GateioCurrencyPairDetails getCurrencyPairDetails(Instrument instrument) throws IOException {
-    return gateio.getCurrencyPairDetails(GateioAdapters.toQueryParam(instrument));
+    return gateio.getCurrencyPairDetails(GateioAdapters.toString(instrument));
   }
 
 

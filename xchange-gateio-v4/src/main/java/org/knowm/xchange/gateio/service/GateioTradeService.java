@@ -13,7 +13,10 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.gateio.GateioAdapters;
+import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
+import org.knowm.xchange.gateio.dto.GateioException;
+import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioOrderStatus;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
@@ -56,8 +59,13 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
+    try {
+      GateioOrder order = createOrder(GateioAdapters.toGateioOrder(marketOrder));
+      return order.getId();
+    }
+    catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
   }
 
   /**

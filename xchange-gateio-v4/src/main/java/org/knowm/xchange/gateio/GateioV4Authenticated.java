@@ -2,8 +2,10 @@ package org.knowm.xchange.gateio;
 
 import java.io.IOException;
 import java.util.List;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -58,6 +60,17 @@ public interface GateioV4Authenticated {
       @HeaderParam("SIGN") ParamsDigest signer,
       @QueryParam("currency_pair") String currencyPair,
       @QueryParam("status") String status
+  ) throws IOException, GateioException;
+
+
+  @POST
+  @Path("spot/orders")
+  @Consumes(MediaType.APPLICATION_JSON)
+  GateioOrder createOrder(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      GateioOrder gateioOrder
   ) throws IOException, GateioException;
 
 

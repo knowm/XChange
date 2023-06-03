@@ -157,9 +157,14 @@ public class GateioTradeServiceRaw extends GateioBaseService {
     Validate.notNull(instrument);
 
     return gateioV4Authenticated.listOrders(apiKey, exchange.getNonceFactory(),
-        gateioV4ParamsDigest, GateioAdapters.toQueryParam(instrument), GateioAdapters.toString(orderStatus)
+        gateioV4ParamsDigest, GateioAdapters.toString(instrument), GateioAdapters.toString(orderStatus)
     );
 
+  }
+
+
+  public GateioOrder createOrder(GateioOrder gateioOrder) throws IOException {
+    return gateioV4Authenticated.createOrder(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, gateioOrder);
   }
 
 }
