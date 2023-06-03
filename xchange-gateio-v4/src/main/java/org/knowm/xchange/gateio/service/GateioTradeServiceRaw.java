@@ -2,19 +2,24 @@ package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
+import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.GateioUtils;
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
+import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioOrderStatus;
 import org.knowm.xchange.gateio.dto.trade.GateioPlaceOrderReturn;
 import org.knowm.xchange.gateio.dto.trade.GateioTradeHistoryReturn;
-import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.instrument.Instrument;
 
 public class GateioTradeServiceRaw extends GateioBaseService {
 
@@ -143,24 +148,18 @@ public class GateioTradeServiceRaw extends GateioBaseService {
         .toLowerCase();
   }
 
-  public static class GateioCancelOrderParams
-      implements CancelOrderByIdParams, CancelOrderByCurrencyPair {
-    public final CurrencyPair currencyPair;
-    public final String orderId;
 
-    public GateioCancelOrderParams(CurrencyPair currencyPair, String orderId) {
-      this.currencyPair = currencyPair;
-      this.orderId = orderId;
-    }
+  public List<GateioOrder> listOrders(Instrument instrument, OrderStatus orderStatus) throws IOException {
+    // validate arguments
+    Validate.notNull(orderStatus);
+    var allowedOrderStatuses = Set.of(OrderStatus.OPEN, OrderStatus.CLOSED);
+    Validate.validState(allowedOrderStatuses.contains(orderStatus), "Allowed order statuses are: {}", allowedOrderStatuses);
+    Validate.notNull(instrument);
 
-    @Override
-    public String getOrderId() {
-      return orderId;
-    }
+    return gateioV4Authenticated.listOrders(apiKey, exchange.getNonceFactory(),
+        gateioV4ParamsDigest, GateioAdapters.toQueryParam(instrument), GateioAdapters.toString(orderStatus)
+    );
 
-    @Override
-    public CurrencyPair getCurrencyPair() {
-      return currencyPair;
-    }
   }
+
 }
