@@ -306,6 +306,7 @@ public final class GateioAdapters {
         .currencyPair(toString(marketOrder.getInstrument()))
         .side(toString(marketOrder.getType()))
         .clientOrderId(marketOrder.getUserReference())
+        .account("spot")
         .type("market")
         .timeInForce("ioc")
         .amount(marketOrder.getOriginalAmount())

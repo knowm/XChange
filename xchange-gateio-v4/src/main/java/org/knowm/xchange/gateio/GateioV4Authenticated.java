@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -60,6 +61,17 @@ public interface GateioV4Authenticated {
       @HeaderParam("SIGN") ParamsDigest signer,
       @QueryParam("currency_pair") String currencyPair,
       @QueryParam("status") String status
+  ) throws IOException, GateioException;
+
+
+  @GET
+  @Path("spot/orders/{order_id}")
+  GateioOrder getOrder(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @PathParam("order_id") String orderId,
+      @QueryParam("currency_pair") String currencyPair
   ) throws IOException, GateioException;
 
 

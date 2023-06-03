@@ -1,0 +1,15 @@
+{
+  "id" : "da0d205d-94ee-4760-bfd1-f4e5871d23e4",
+  "name" : "api_v4_spot_orders_342251629898",
+  "request" : {
+    "url" : "/api/v4/spot/orders/342251629898?currency_pair=BTC_USDT",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_spot_orders_order-details.json"
+  },
+  "uuid" : "da0d205d-94ee-4760-bfd1-f4e5871d23e4",
+  "persistent" : true,
+  "insertionIndex" : 19
+}

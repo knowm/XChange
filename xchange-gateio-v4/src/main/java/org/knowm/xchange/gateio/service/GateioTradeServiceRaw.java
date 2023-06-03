@@ -167,4 +167,10 @@ public class GateioTradeServiceRaw extends GateioBaseService {
     return gateioV4Authenticated.createOrder(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, gateioOrder);
   }
 
+
+  public GateioOrder getOrder(String orderId, Instrument instrument) throws IOException {
+    return gateioV4Authenticated.getOrder(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest,
+        orderId, GateioAdapters.toString(instrument));
+  }
+
 }

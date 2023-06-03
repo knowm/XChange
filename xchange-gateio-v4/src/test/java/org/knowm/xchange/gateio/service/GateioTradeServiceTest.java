@@ -1,7 +1,9 @@
 package org.knowm.xchange.gateio.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -25,6 +27,20 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
     assertThatExceptionOfType(FundsExceededException.class)
         .isThrownBy(() -> gateioTradeService.placeMarketOrder(marketOrder));
   }
+
+
+  @Test
+  void valid_market_buy_order() throws IOException {
+    MarketOrder marketOrder = new MarketOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+        .userReference("t-valid-market-buy-order")
+        .originalAmount(BigDecimal.valueOf(20))
+        .build();
+
+    var actualResponse = gateioTradeService.placeMarketOrder(marketOrder);
+    assertThat(actualResponse).isEqualTo("342251629898");
+
+  }
+
 
 
 }
