@@ -5,7 +5,7 @@
     "url" : "/api/v4/spot/orders",
     "method" : "POST",
     "bodyPatterns" : [ {
-      "equalToJson" : "{\"text\":\"t-balance-test\",\"currency_pair\":\"btc_usdt\",\"type\":\"market\",\"side\":\"buy\",\"amount\":100,\"time_in_force\":\"ioc\"}",
+      "equalToJson" : "{\"text\":\"t-balance-test\",\"currency_pair\":\"BTC_USDT\",\"type\":\"market\",\"side\":\"buy\",\"amount\":100,\"time_in_force\":\"ioc\"}",
       "ignoreArrayOrder" : true,
       "ignoreExtraElements" : true
     } ]

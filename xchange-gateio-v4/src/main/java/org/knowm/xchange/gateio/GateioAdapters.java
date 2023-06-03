@@ -56,7 +56,7 @@ public final class GateioAdapters {
     return String.format("%s_%s",
             instrument.getBase().getCurrencyCode(),
             instrument.getCounter().getCurrencyCode())
-        .toLowerCase(Locale.ROOT);
+        .toUpperCase(Locale.ROOT);
   }
 
 
