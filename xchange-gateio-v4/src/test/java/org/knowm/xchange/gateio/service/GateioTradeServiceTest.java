@@ -72,9 +72,9 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
         .fee(new BigDecimal("0.0000014"))
         .build();
 
-    var a = gateioTradeService.getOrder(new DefaultQueryOrderParamInstrument(CurrencyPair.BTC_USDT, "342251629898"));
-    assertThat(a).hasSize(1);
-    assertThat(a).first().usingRecursiveComparison().isEqualTo(expected);
+    var orders = gateioTradeService.getOrder(new DefaultQueryOrderParamInstrument(CurrencyPair.BTC_USDT, "342251629898"));
+    assertThat(orders).hasSize(1);
+    assertThat(orders).first().usingRecursiveComparison().isEqualTo(expected);
   }
 
 }
