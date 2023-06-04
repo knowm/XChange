@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 import org.knowm.xchange.gateio.dto.GateioException;
+import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
 import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
@@ -107,6 +109,12 @@ public class GateioAccountServiceRaw extends GateioBaseService {
 
   public GateioWithdrawalRecord withdraw(GateioWithdrawalRequest gateioWithdrawalRequest) throws IOException {
     return gateioV4Authenticated.withdraw(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, gateioWithdrawalRequest);
+  }
+
+
+  public List<GateioAddressRecord> getSavedAddresses(Currency currency) throws IOException {
+    Validate.notNull(currency);
+    return gateioV4Authenticated.getSavedAddresses(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currency.getCurrencyCode());
   }
 
 

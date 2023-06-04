@@ -14,6 +14,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.InstrumentNotValidException;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
+import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress.MultichainAddress;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
@@ -159,6 +160,24 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
 
     assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 
+  }
+
+
+  @Test
+  void saved_addresses() throws IOException {
+    List<GateioAddressRecord> actual = gateioAccountServiceRaw.getSavedAddresses(Currency.USDT);
+
+    GateioAddressRecord expected = GateioAddressRecord.builder()
+        .address("6vLyxJ9dBziamyaw2vDcs9n2NwQdW1uk3aooJwrEscnA")
+        .tag("")
+        .chain("SOL")
+        .currency("USDT")
+        .name("stuff")
+        .verified(true)
+        .build();
+
+    assertThat(actual).hasSize(1);
+    assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
   }
 
 }
