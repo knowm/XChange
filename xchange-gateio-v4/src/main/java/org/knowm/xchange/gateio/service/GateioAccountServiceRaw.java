@@ -14,6 +14,8 @@ import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
+import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
+import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 
 public class GateioAccountServiceRaw extends GateioBaseService {
 
@@ -94,6 +96,17 @@ public class GateioAccountServiceRaw extends GateioBaseService {
     String currencyCode = currency == null ? null : currency.getCurrencyCode();
     return gateioV4Authenticated.getSpotAccounts(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currencyCode);
 
+  }
+
+
+  public List<GateioWithdrawalRecord> getWithdrawals(Currency currency) throws IOException {
+    String currencyCode = currency == null ? null : currency.getCurrencyCode();
+    return gateioV4Authenticated.getWithdrawals(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currencyCode);
+  }
+
+
+  public GateioWithdrawalRecord withdraw(GateioWithdrawalRequest gateioWithdrawalRequest) throws IOException {
+    return gateioV4Authenticated.withdraw(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, gateioWithdrawalRequest);
   }
 
 

@@ -16,6 +16,8 @@ import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
+import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
+import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -83,6 +85,27 @@ public interface GateioV4Authenticated {
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
       GateioOrder gateioOrder
+  ) throws IOException, GateioException;
+
+
+  @GET
+  @Path("wallet/withdrawals")
+  List<GateioWithdrawalRecord> getWithdrawals(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @QueryParam("currency") String currency
+  ) throws IOException, GateioException;
+
+
+  @POST
+  @Path("withdrawals")
+  @Consumes(MediaType.APPLICATION_JSON)
+  GateioWithdrawalRecord withdraw(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      GateioWithdrawalRequest gateioWithdrawalRequest
   ) throws IOException, GateioException;
 
 

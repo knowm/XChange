@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,8 @@ import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress.MultichainAddress;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
+import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
+import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 
 public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
 
@@ -106,5 +109,56 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
     assertThat(a.getMultichainAddresses().get(0)).isEqualTo(expected);
   }
 
+
+  @Test
+  void withdrawal_records() throws IOException {
+    var actual = gateioAccountServiceRaw.getWithdrawals(null);
+
+    GateioWithdrawalRecord expected = GateioWithdrawalRecord.builder()
+        .id("w35874123")
+        .currency("LUFFY")
+        .address("0x3dca2ae4d1d065220a731cf69f5a934914afc435")
+        .amount(new BigDecimal("1030645.8587"))
+        .fee(new BigDecimal("10000"))
+        .txId("0x8f72d42b016a2b7b543149e707ff37fadded2ff3ef6767bee30b6003330f604b")
+        .chain("ETH")
+        .createdAt(Instant.parse("2023-06-01T11:34:15Z"))
+        .status("DONE")
+        .clientRecordId("a")
+        .tag("b")
+        .build();
+
+    assertThat(actual).hasSize(1);
+    assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
+  }
+
+
+  @Test
+  void withdraw() throws IOException {
+    GateioWithdrawalRequest gateioWithdrawalRequest = GateioWithdrawalRequest.builder()
+        .clientRecordId("valid-withdrawal-id")
+        .address("6vLyxJ9dBziamyaw2vDcs9n2NwQdW1uk3aooJwrEscnA")
+        .tag("")
+        .chain("SOL")
+        .amount(BigDecimal.valueOf(3))
+        .currency("USDT")
+        .build();
+
+    GateioWithdrawalRecord actual = gateioAccountServiceRaw.withdraw(gateioWithdrawalRequest);
+
+    GateioWithdrawalRecord expected = GateioWithdrawalRecord.builder()
+        .id("w35980955")
+        .clientRecordId("valid-withdrawal-id")
+        .address("6vLyxJ9dBziamyaw2vDcs9n2NwQdW1uk3aooJwrEscnA ")
+        .tag("")
+        .chain("SOL")
+        .amount(BigDecimal.valueOf(3))
+        .currency("USDT")
+        .status("REQUEST")
+        .build();
+
+    assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+
+  }
 
 }
