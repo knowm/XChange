@@ -10,7 +10,7 @@ import org.knowm.xchange.dto.meta.InstrumentMetaData;
 public class GateioExchangeTest extends GateioExchangeWiremock {
 
   @Test
-  public void metadata_present() {
+  void metadata_present() {
     InstrumentMetaData expected = new InstrumentMetaData.Builder()
         .tradingFee(new BigDecimal("0.2"))
         .minimumAmount(new BigDecimal("0.0001"))

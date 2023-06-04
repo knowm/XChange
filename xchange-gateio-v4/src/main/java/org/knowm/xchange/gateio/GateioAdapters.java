@@ -33,6 +33,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
+import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
@@ -42,6 +43,7 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrder;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
+import org.knowm.xchange.gateio.service.params.DefaultGateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -53,6 +55,11 @@ public final class GateioAdapters {
 
     final String[] currencies = pair.toUpperCase().split("_");
     return new CurrencyPair(currencies[0], currencies[1]);
+  }
+
+
+  public String toString(Currency currency) {
+    return currency.getCurrencyCode();
   }
 
 
@@ -391,5 +398,18 @@ public final class GateioAdapters {
       default:
         throw new IllegalArgumentException("Can't map " + gateioOrderType);
     }
+  }
+
+
+  public GateioWithdrawalRequest toGateioWithdrawalRequest(DefaultGateioWithdrawFundsParams p) {
+    return GateioWithdrawalRequest.builder()
+        .clientRecordId(p.getClientRecordId())
+        .address(p.getAddress())
+        .tag(p.getAddressTag())
+        .chain(p.getChain())
+        .amount(p.getAmount())
+        .currency(toString(p.getCurrency()))
+        .build();
+
   }
 }
