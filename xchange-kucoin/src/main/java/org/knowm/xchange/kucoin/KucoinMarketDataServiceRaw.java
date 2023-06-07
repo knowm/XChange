@@ -105,12 +105,10 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
   }
 
   public List<SymbolResponse> getKucoinSymbolsV2() throws IOException {
-    return classifyingExceptions(
-        () ->
-            decorateApiCall(symbolApi::getSymbolsV2)
-                .withRetry(retry("symbols"))
-                .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
-                .call());
+    return decorateApiCall(symbolApi::getSymbolsV2)
+        .withRetry(retry("symbols"))
+        .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER)).call()
+        .getData();
   }
 
   public List<CurrenciesResponse> getKucoinCurrencies() throws IOException {
