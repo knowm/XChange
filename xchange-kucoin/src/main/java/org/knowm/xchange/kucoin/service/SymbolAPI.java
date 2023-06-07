@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.kucoin.dto.KucoinException;
 import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
 import org.knowm.xchange.kucoin.dto.response.CurrenciesResponse;
 import org.knowm.xchange.kucoin.dto.response.CurrencyResponseV2;
@@ -42,7 +43,7 @@ public interface SymbolAPI {
    */
   @GET
   @Path("/v2/symbols")
-  KucoinResponse<List<SymbolResponse>> getSymbolsV2() throws IOException;
+  KucoinResponse<List<SymbolResponse>> getSymbolsV2() throws IOException, KucoinException;
 
   /**
    * Get a list of available currencies for trading.

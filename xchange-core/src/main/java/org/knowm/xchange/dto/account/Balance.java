@@ -475,6 +475,10 @@ public final class Balance implements Comparable<Balance>, Serializable {
     return comparison;
   }
 
+  public static Builder builder() {
+    return new Builder();
+  }
+
   @JsonPOJOBuilder(withPrefix = "")
   public static class Builder {
 
