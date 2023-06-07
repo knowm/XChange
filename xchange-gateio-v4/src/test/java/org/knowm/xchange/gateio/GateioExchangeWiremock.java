@@ -27,7 +27,7 @@ public abstract class GateioExchangeWiremock {
     wireMockServer.start();
 
     ExchangeSpecification exSpec = new ExchangeSpecification(GateioExchange.class);
-    exSpec.setSslUri("http://localhost:" + wireMockRule.port());
+    exSpec.setSslUri("http://localhost:" + wireMockServer.port());
     exSpec.setApiKey("a");
     exSpec.setSecretKey("b");
 
