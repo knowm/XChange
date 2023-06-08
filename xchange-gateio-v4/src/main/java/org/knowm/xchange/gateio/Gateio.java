@@ -10,13 +10,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.gateio.dto.GateioException;
-import org.knowm.xchange.gateio.dto.marketdata.GateioCandlestickHistory;
-import org.knowm.xchange.gateio.dto.marketdata.GateioCoinInfoWrapper;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyChain;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
-import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairs;
-import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
@@ -31,30 +27,12 @@ public interface Gateio {
   GateioMarketInfoWrapper getMarketInfo() throws IOException;
 
   @GET
-  @Path("api2/1/pairs")
-  GateioCurrencyPairs getPairs() throws IOException;
-
-  @GET
-  @Path("api2/1/orderBooks")
-  Map<String, GateioDepth> getDepths() throws IOException;
-
-  @GET
   @Path("/api2/1/tickers")
   Map<String, GateioTicker> getTickers() throws IOException;
 
   @GET
-  @Path("/api2/1/coininfo")
-  GateioCoinInfoWrapper getCoinInfo() throws IOException;
-
-  @GET
   @Path("api2/1/ticker/{ident}_{currency}")
   GateioTicker getTicker(
-      @PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)
-      throws IOException;
-
-  @GET
-  @Path("api2/1/orderBook/{ident}_{currency}")
-  GateioDepth getFullDepth(
       @PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)
       throws IOException;
 
@@ -70,14 +48,6 @@ public interface Gateio {
       @PathParam("ident") String tradeableIdentifier,
       @PathParam("currency") String currency,
       @PathParam("tradeId") String tradeId)
-      throws IOException;
-
-  @GET
-  @Path("api2/1/candlestick2/{currency_pair}")
-  GateioCandlestickHistory getKlinesGate(
-      @PathParam("currency_pair") String tradePair,
-      @QueryParam("range_hour") Integer hours,
-      @QueryParam("group_sec") Long interval)
       throws IOException;
 
 

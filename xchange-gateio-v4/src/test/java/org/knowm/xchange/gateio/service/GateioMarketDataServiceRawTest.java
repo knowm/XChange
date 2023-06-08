@@ -98,23 +98,24 @@ public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
 
   @Test
   public void getCurrencyChains_valid_result() throws IOException {
-    List<GateioCurrencyChain> expected = new ArrayList<>();
-    expected.add(GateioCurrencyChain.builder()
-        .chain("BTC")
-        .chainNameCN("比特币 BRC20/Ordinals")
-        .chainNameEN("Bitcoin BRC20/Ordinals")
-        .disabled(false)
-        .depositDisabled(false)
-        .withdrawDisabled(false)
-        .build());
-    expected.add(GateioCurrencyChain.builder()
-        .chain("HT")
-        .chainNameCN("Heco")
-        .chainNameEN("Heco")
-        .disabled(true)
-        .depositDisabled(true)
-        .withdrawDisabled(true)
-        .build());
+    List<GateioCurrencyChain> expected = List.of(
+        GateioCurrencyChain.builder()
+            .chain("BTC")
+            .chainNameCN("比特币 BRC20/Ordinals")
+            .chainNameEN("Bitcoin BRC20/Ordinals")
+            .disabled(false)
+            .depositDisabled(false)
+            .withdrawDisabled(false)
+            .build(),
+        GateioCurrencyChain.builder()
+            .chain("HT")
+            .chainNameCN("Heco")
+            .chainNameEN("Heco")
+            .disabled(true)
+            .depositDisabled(true)
+            .withdrawDisabled(true)
+            .build()
+    );
 
     List<GateioCurrencyChain> actual = gateioMarketDataServiceRaw.getCurrencyChains(Currency.BTC);
 

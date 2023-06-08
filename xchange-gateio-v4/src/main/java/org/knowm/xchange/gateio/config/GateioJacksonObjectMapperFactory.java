@@ -10,7 +10,10 @@ public class GateioJacksonObjectMapperFactory extends DefaultJacksonObjectMapper
   @Override
   public void configureObjectMapper(ObjectMapper objectMapper) {
     super.configureObjectMapper(objectMapper);
+
+    // by default read timetamps as milliseconds
     objectMapper.configure(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
+
     // enable parsing to Instant
     objectMapper.registerModule(new JavaTimeModule());
   }

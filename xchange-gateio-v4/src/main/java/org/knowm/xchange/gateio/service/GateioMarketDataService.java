@@ -2,7 +2,6 @@ package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,7 +15,6 @@ import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
-import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
@@ -72,20 +70,6 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
 
     return GateioAdapters.toOrderBook(gateioOrderBook, instrument);
 
-  }
-
-  public Map<CurrencyPair, OrderBook> getOrderBooks() throws IOException {
-
-    Map<CurrencyPair, GateioDepth> gateioDepths = super.getGateioDepths();
-    Map<CurrencyPair, OrderBook> orderBooks = new HashMap<>(gateioDepths.size());
-
-    gateioDepths.forEach(
-        (currencyPair, gateioDepth) -> {
-          OrderBook orderBook = GateioAdapters.adaptOrderBook(gateioDepth, currencyPair);
-          orderBooks.put(currencyPair, orderBook);
-        });
-
-    return orderBooks;
   }
 
   @Override

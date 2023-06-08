@@ -2,6 +2,9 @@ package org.knowm.xchange.gateio.config;
 
 import com.fasterxml.jackson.databind.util.StdConverter;
 
+/**
+ * Converts string value "1" to {@code true}, rest to {@code false}
+ */
 public class StringToBooleanConverter extends StdConverter<String, Boolean> {
 
   @Override
