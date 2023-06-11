@@ -30,6 +30,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateQuickRate;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
+import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTickers;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 
@@ -41,6 +42,10 @@ public interface Coinmate {
   @GET
   @Path("ticker")
   CoinmateTicker getTicker(@QueryParam("currencyPair") String currencyPair) throws IOException;
+
+  @GET
+  @Path("tickerAll")
+  CoinmateTickers getAllTickers() throws IOException;
 
   @GET
   @Path("orderBook")
