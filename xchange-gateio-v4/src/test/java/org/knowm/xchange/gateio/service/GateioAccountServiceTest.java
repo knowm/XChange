@@ -1,6 +1,7 @@
 package org.knowm.xchange.gateio.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.service.params.DefaultGateioWithdrawFundsParams;
 
@@ -29,9 +31,8 @@ class GateioAccountServiceTest extends GateioExchangeWiremock {
     assertThat(usdtBalance.getFrozen()).isEqualTo(new BigDecimal("1.1"));
   }
 
-
   @Test
-  void withdrawFunds() throws IOException {
+  void normal_withdraw() throws IOException {
     DefaultGateioWithdrawFundsParams params = DefaultGateioWithdrawFundsParams.builder()
         .clientRecordId("valid-withdrawal-id")
         .address("6vLyxJ9dBziamyaw2vDcs9n2NwQdW1uk3aooJwrEscnA")
@@ -44,4 +45,22 @@ class GateioAccountServiceTest extends GateioExchangeWiremock {
     String withdrawalId = gateioAccountService.withdrawFunds(params);
     assertThat(withdrawalId).isEqualTo("w35980955");
   }
+
+
+  @Test
+  void rate_limited_withdraw() {
+    DefaultGateioWithdrawFundsParams params = DefaultGateioWithdrawFundsParams.builder()
+        .clientRecordId("rate-limited-id")
+        .address("6vLyxJ9dBziamyaw2vDcs9n2NwQdW1uk3aooJwrEscnA")
+        .addressTag("")
+        .chain("SOL")
+        .amount(BigDecimal.valueOf(3))
+        .currency(Currency.USDT)
+        .build();
+
+    assertThatExceptionOfType(RateLimitExceededException.class)
+        .isThrownBy(() -> gateioAccountService.withdrawFunds(params));
+  }
+
+
 }
