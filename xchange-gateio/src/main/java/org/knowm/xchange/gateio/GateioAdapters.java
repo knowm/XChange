@@ -233,7 +233,7 @@ public final class GateioAdapters {
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     for (Entry<CurrencyPair, GateioMarketInfo> entry :
-        marketDataService.getBTERMarketInfo().entrySet()) {
+        marketDataService.getGateioMarketInfo().entrySet()) {
 
       CurrencyPair currencyPair = entry.getKey();
       GateioMarketInfo btermarketInfo = entry.getValue();

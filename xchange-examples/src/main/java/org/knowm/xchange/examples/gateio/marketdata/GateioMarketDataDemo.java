@@ -54,7 +54,7 @@ public class GateioMarketDataDemo {
 
   private static void raw(GateioMarketDataServiceRaw marketDataService) throws IOException {
 
-    Map<CurrencyPair, GateioMarketInfo> marketInfoMap = marketDataService.getBTERMarketInfo();
+    Map<CurrencyPair, GateioMarketInfo> marketInfoMap = marketDataService.getGateioMarketInfo();
     System.out.println(marketInfoMap);
 
     Collection<Instrument> pairs = marketDataService.getExchangeSymbols();
