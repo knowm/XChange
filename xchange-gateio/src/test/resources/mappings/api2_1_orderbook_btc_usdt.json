@@ -1,0 +1,15 @@
+{
+  "id": "e1fb7bb1-9d6a-4384-a398-05d2833270c8",
+  "name": "api2_1_orderbook_btc_usdt",
+  "request": {
+    "url": "/api2/1/orderBook/btc_usdt",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api2_1_orderbook_btc_usdt.json"
+  },
+  "uuid": "e1fb7bb1-9d6a-4384-a398-05d2833270c8",
+  "persistent": true,
+  "insertionIndex": 2
+}

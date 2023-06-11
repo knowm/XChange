@@ -1,5 +1,8 @@
 package info.bitrich.xchangestream.binance;
 
+import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.KLINE;
+import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,6 +22,15 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -33,19 +45,6 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.KLINE;
-import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
 public class BinanceStreamingMarketDataService implements StreamingMarketDataService {
   private static final Logger LOG =
@@ -68,7 +67,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   private final Map<Instrument, Observable<BinanceBookTicker>> bookTickerSubscriptions;
   private final Map<Instrument, Observable<OrderBook>> orderbookSubscriptions;
   private final Map<Instrument, Observable<BinanceRawTrade>> tradeSubscriptions;
-  private final Map<Instrument, Observable<OrderBookUpdate>> orderBookUpdatesSubscriptions;
+  private final Map<Instrument, Observable<List<OrderBookUpdate>>> orderBookUpdatesSubscriptions;
   private final Map<Instrument, Map<KlineInterval, Observable<BinanceKline>>> klineSubscriptions;
   private final Map<Instrument, Observable<DepthBinanceWebSocketTransaction>>
       orderBookRawUpdatesSubscriptions;
@@ -240,7 +239,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
    * This api provides the ability to start receiving updates immediately. It is allowed to
    * subscribe to this api and {@link #getOrderBook(Instrument, Object...)} at the same time.
    */
-  public Observable<OrderBookUpdate> getOrderBookUpdates(
+  public Observable<List<OrderBookUpdate>> getOrderBookUpdates(
       Instrument instrument) {
     if (!service.isLiveSubscriptionEnabled()
         && !service.getProductSubscription().getOrderBook().contains(instrument)) {
@@ -250,19 +249,18 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         instrument, this::initOrderBookUpdateIfAbsent);
   }
 
-  private Observable<OrderBookUpdate> initOrderBookUpdateIfAbsent(Instrument instrument) {
+  private Observable<List<OrderBookUpdate>> initOrderBookUpdateIfAbsent(Instrument instrument) {
     orderBookRawUpdatesSubscriptions.computeIfAbsent(
         instrument, s -> triggerObservableBody(rawOrderBookUpdates(instrument)));
     return createOrderBookUpdatesObservable(instrument);
   }
 
-  private Observable<OrderBookUpdate> createOrderBookUpdatesObservable(Instrument instrument) {
+  private Observable<List<OrderBookUpdate>> createOrderBookUpdatesObservable(Instrument instrument) {
     return orderBookRawUpdatesSubscriptions
         .get(instrument)
         .flatMap(
             depthTransaction ->
-                observableFromStream(extractOrderBookUpdates(instrument, depthTransaction)))
-        .share();
+                    Observable.create(emitter -> emitter.onNext(extractOrderBookUpdatesToArray(instrument, depthTransaction))));
   }
 
   private String channelFromCurrency(Instrument instrument, String subscriptionType) {
@@ -583,6 +581,34 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                         entry.getValue()));
 
     return Stream.concat(bidStream, askStream);
+  }
+
+  private List<OrderBookUpdate> extractOrderBookUpdatesToArray(
+          Instrument instrument, DepthBinanceWebSocketTransaction depthTransaction) {
+    BinanceOrderbook orderBookDiff = depthTransaction.getOrderBook();
+    List<OrderBookUpdate> orderBookUpdates = new ArrayList<>();
+    orderBookDiff.bids.forEach(
+        (key, value) ->
+            orderBookUpdates.add(
+                new OrderBookUpdate(
+                    OrderType.BID,
+                    value,
+                    instrument,
+                    key,
+                    depthTransaction.getEventTime(),
+                    value)));
+
+    orderBookDiff.asks.forEach(
+        (key, value) ->
+            orderBookUpdates.add(
+                new OrderBookUpdate(
+                    OrderType.ASK,
+                    value,
+                    instrument,
+                    key,
+                    depthTransaction.getEventTime(),
+                    value)));
+    return orderBookUpdates;
   }
 
   private <T> Observable<T> observableFromStream(Stream<T> stream) {

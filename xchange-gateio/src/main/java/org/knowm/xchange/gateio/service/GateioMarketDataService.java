@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.gateio.GateioAdapters;
+import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
@@ -27,7 +27,7 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
    *
    * @param exchange
    */
-  public GateioMarketDataService(Exchange exchange) {
+  public GateioMarketDataService(GateioExchange exchange) {
 
     super(exchange);
   }
