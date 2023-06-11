@@ -1,22 +1,17 @@
 package org.knowm.xchange.gateio.service;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioExchange;
-import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyChain;
-import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo;
-import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
-import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
-import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
+import org.knowm.xchange.gateio.dto.marketdata.*;
 import org.knowm.xchange.instrument.Instrument;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GateioMarketDataServiceRaw extends GateioBaseService {
 
@@ -28,14 +23,6 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
   public GateioMarketDataServiceRaw(GateioExchange exchange) {
 
     super(exchange);
-  }
-
-  public Map<CurrencyPair, GateioMarketInfoWrapper.GateioMarketInfo> getMarketInfo()
-      throws IOException {
-
-    GateioMarketInfoWrapper bterMarketInfo = gateio.getMarketInfo();
-
-    return bterMarketInfo.getMarketInfoMap();
   }
 
   public Map<CurrencyPair, Ticker> getGateioTickers() throws IOException {

@@ -1,30 +1,17 @@
 package org.knowm.xchange.gateio;
 
+import org.knowm.xchange.gateio.dto.GateioException;
+import org.knowm.xchange.gateio.dto.marketdata.*;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.gateio.dto.GateioException;
-import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyChain;
-import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo;
-import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
-import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
-import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Gateio {
-
-  @GET
-  @Path("api/v2/marketinfo")
-  GateioMarketInfoWrapper getMarketInfo() throws IOException;
 
   @GET
   @Path("/api2/1/tickers")

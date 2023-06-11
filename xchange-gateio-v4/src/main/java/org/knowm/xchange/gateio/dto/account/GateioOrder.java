@@ -1,18 +1,16 @@
 package org.knowm.xchange.gateio.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.math.BigDecimal;
-import java.time.Instant;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+
 @Data
 @Builder
 @Jacksonized
-@JsonInclude(value = Include.NON_EMPTY, content = Include.NON_NULL)
 public class GateioOrder {
 
   @JsonProperty("id")
