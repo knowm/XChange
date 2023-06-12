@@ -1,17 +1,13 @@
 package org.knowm.xchange.gateio.service;
 
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.marketdata.*;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GateioMarketDataServiceRaw extends GateioBaseService {
 
@@ -25,29 +21,8 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     super(exchange);
   }
 
-  public Map<CurrencyPair, Ticker> getGateioTickers() throws IOException {
-
-    Map<String, GateioTicker> gateioTickers = gateio.getTickers();
-    Map<CurrencyPair, Ticker> adaptedTickers = new HashMap<>(gateioTickers.size());
-    gateioTickers.forEach(
-        (currencyPairString, gateioTicker) -> {
-          String[] currencyPairStringSplit = currencyPairString.split("_");
-          CurrencyPair currencyPair =
-              new CurrencyPair(
-                  Currency.getInstance(currencyPairStringSplit[0].toUpperCase()),
-                  Currency.getInstance(currencyPairStringSplit[1].toUpperCase()));
-          adaptedTickers.put(currencyPair, GateioAdapters.adaptTicker(currencyPair, gateioTicker));
-        });
-
-    return adaptedTickers;
-  }
-
-  public GateioTicker getBTERTicker(String tradableIdentifier, String currency) throws IOException {
-
-    GateioTicker gateioTicker =
-        gateio.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
-
-    return handleResponse(gateioTicker);
+  public List<GateioTicker> getGateioTickers(Instrument instrument) throws IOException {
+    return gateio.getTickers(GateioAdapters.toString(instrument));
   }
 
   public GateioTradeHistory getBTERTradeHistory(String tradeableIdentifier, String currency)

@@ -1,10 +1,6 @@
 package org.knowm.xchange.gateio.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -20,17 +16,15 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 
-public class GateioMarketDataService extends GateioMarketDataServiceRaw
-    implements MarketDataService {
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
+public class GateioMarketDataService extends GateioMarketDataServiceRaw implements MarketDataService {
+
   public GateioMarketDataService(GateioExchange exchange) {
 
     super(exchange);
@@ -38,24 +32,35 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    GateioTicker ticker =
-        super.getBTERTicker(
-            currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
-
-    return GateioAdapters.adaptTicker(currencyPair, ticker);
+    return getTicker((Instrument) currencyPair, args);
   }
+
+
+  @Override
+  public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
+    Validate.notNull(instrument);
+    try {
+      List<GateioTicker> tickers = getGateioTickers(instrument);
+      Validate.validState(tickers.size() == 1);
+
+      return GateioAdapters.toTicker(tickers.get(0));
+    } catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
+  }
+
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
-    final List<CurrencyPair> currencyPairs = new ArrayList<>();
-    if (params instanceof CurrencyPairsParam) {
-      currencyPairs.addAll(((CurrencyPairsParam) params).getCurrencyPairs());
+    try {
+      List<GateioTicker> tickers = getGateioTickers(null);
+
+      return tickers.stream()
+              .map(GateioAdapters::toTicker)
+              .collect(Collectors.toList());
+    } catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
     }
-    return getGateioTickers().values().stream()
-        .filter(
-            ticker -> currencyPairs.size() == 0 || currencyPairs.contains(ticker.getCurrencyPair()))
-        .collect(Collectors.toList());
   }
 
   @Override

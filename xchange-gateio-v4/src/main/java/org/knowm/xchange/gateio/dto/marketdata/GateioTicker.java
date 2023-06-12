@@ -1,118 +1,61 @@
 package org.knowm.xchange.gateio.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
+
 import java.math.BigDecimal;
-import org.knowm.xchange.gateio.dto.GateioBaseResponse;
+import java.time.Instant;
 
-public class GateioTicker extends GateioBaseResponse {
-  private BigDecimal highestBid;
+@Data
+@Builder
+@Jacksonized
+public class GateioTicker {
 
-  private boolean result;
+  @JsonProperty("currency_pair")
+  String currencyPair;
 
-  private BigDecimal low24hr;
+  @JsonProperty("last")
+  BigDecimal lastPrice;
 
-  private BigDecimal last;
+  @JsonProperty("lowest_ask")
+  BigDecimal lowestAsk;
 
-  private BigDecimal high24hr;
+  @JsonProperty("highest_bid")
+  BigDecimal highestBid;
 
-  private BigDecimal percentChange;
+  @JsonProperty("change_percentage")
+  BigDecimal changePercentage24h;
 
-  private BigDecimal lowestAsk;
+  @JsonProperty("change_utc0")
+  BigDecimal changePercentage24hUTC0;
 
-  private BigDecimal quoteVolume;
+  @JsonProperty("change_utc8")
+  BigDecimal changePercentage24hUTC8;
 
-  private BigDecimal baseVolume;
+  @JsonProperty("base_volume")
+  BigDecimal assetVolume;
 
-  public GateioTicker(
-      @JsonProperty("result") boolean result,
-      @JsonProperty("message") String message,
-      @JsonProperty("highestBid") BigDecimal highestBid,
-      @JsonProperty("low24hr") BigDecimal low24hr,
-      @JsonProperty("last") BigDecimal last,
-      @JsonProperty("high24hr") BigDecimal high24hr,
-      @JsonProperty("percentChange") BigDecimal percentChange,
-      @JsonProperty("lowestAsk") BigDecimal lowestAsk,
-      @JsonProperty("quoteVolume") BigDecimal quoteVolume,
-      @JsonProperty("baseVolume") BigDecimal baseVolume) {
-    super(result, message);
-    this.highestBid = highestBid;
-    this.result = result;
-    this.low24hr = low24hr;
-    this.last = last;
-    this.high24hr = high24hr;
-    this.percentChange = percentChange;
-    this.lowestAsk = lowestAsk;
-    this.quoteVolume = quoteVolume;
-    this.baseVolume = baseVolume;
-  }
+  @JsonProperty("quote_volume")
+  BigDecimal quoteVolume;
 
-  public BigDecimal getHighestBid() {
-    return highestBid;
-  }
+  @JsonProperty("high_24h")
+  BigDecimal maxPrice24h;
 
-  @Override
-  public boolean isResult() {
-    return result;
-  }
+  @JsonProperty("low_24h")
+  BigDecimal minPrice24h;
 
-  public BigDecimal getLow24hr() {
-    return low24hr;
-  }
+  @JsonProperty("etf_net_value")
+  BigDecimal etfNetValue;
 
-  public BigDecimal getLast() {
-    return last;
-  }
+  @JsonProperty("etf_pre_net_value")
+  BigDecimal etfPreNetValue;
 
-  public BigDecimal getHigh24hr() {
-    return high24hr;
-  }
+  @JsonProperty("etf_pre_timestamp")
+  Instant etfPreTimestamp;
 
-  public BigDecimal getPercentChange() {
-    return percentChange;
-  }
+  @JsonProperty("etf_leverage")
+  BigDecimal etfLeverage;
 
-  public BigDecimal getLowestAsk() {
-    return lowestAsk;
-  }
-
-  public BigDecimal getQuoteVolume() {
-    return quoteVolume;
-  }
-
-  public BigDecimal getBaseVolume() {
-    return baseVolume;
-  }
-
-  @Override
-  public String toString() {
-    return "GateioTicker{"
-        + "highestBid='"
-        + highestBid
-        + '\''
-        + ", result='"
-        + result
-        + '\''
-        + ", low24hr='"
-        + low24hr
-        + '\''
-        + ", last='"
-        + last
-        + '\''
-        + ", high24hr='"
-        + high24hr
-        + '\''
-        + ", percentChange='"
-        + percentChange
-        + '\''
-        + ", lowestAsk='"
-        + lowestAsk
-        + '\''
-        + ", quoteVolume='"
-        + quoteVolume
-        + '\''
-        + ", baseVolume='"
-        + baseVolume
-        + '\''
-        + '}';
-  }
 }

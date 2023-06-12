@@ -25,7 +25,6 @@ import org.knowm.xchange.gateio.service.params.DefaultGateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.DateUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,42 +47,21 @@ public class GateioAdapters {
 
 
   public String toString(Instrument instrument) {
-    return String.format("%s_%s",
-            instrument.getBase().getCurrencyCode(),
-            instrument.getCounter().getCurrencyCode())
-        .toUpperCase(Locale.ROOT);
+    if (instrument == null) {
+      return null;
+    }
+    else {
+      return String.format("%s_%s",
+                      instrument.getBase().getCurrencyCode(),
+                      instrument.getCounter().getCurrencyCode())
+              .toUpperCase(Locale.ROOT);
+    }
   }
 
 
   public Instrument toInstrument(String currencyCode) {
     var currencies = currencyCode.split("_");
     return new CurrencyPair(currencies[0], currencies[1]);
-  }
-
-
-  public Ticker adaptTicker(CurrencyPair currencyPair, GateioTicker gateioTicker) {
-
-    BigDecimal ask = gateioTicker.getLowestAsk();
-    BigDecimal bid = gateioTicker.getHighestBid();
-    BigDecimal last = gateioTicker.getLast();
-    BigDecimal low = gateioTicker.getLow24hr();
-    BigDecimal high = gateioTicker.getHigh24hr();
-    // Looks like gate.io vocabulary is inverted...
-    BigDecimal baseVolume = gateioTicker.getQuoteVolume();
-    BigDecimal quoteVolume = gateioTicker.getBaseVolume();
-    BigDecimal percentageChange = gateioTicker.getPercentChange();
-
-    return new Ticker.Builder()
-        .currencyPair(currencyPair)
-        .ask(ask)
-        .bid(bid)
-        .last(last)
-        .low(low)
-        .high(high)
-        .volume(baseVolume)
-        .quoteVolume(quoteVolume)
-        .percentageChange(percentageChange)
-        .build();
   }
 
 
@@ -257,5 +235,20 @@ public class GateioAdapters {
         .currency(toString(p.getCurrency()))
         .build();
 
+  }
+
+
+  public Ticker toTicker(GateioTicker gateioTicker) {
+    return new Ticker.Builder()
+            .instrument(toInstrument(gateioTicker.getCurrencyPair()))
+            .last(gateioTicker.getLastPrice())
+            .bid(gateioTicker.getHighestBid())
+            .ask(gateioTicker.getLowestAsk())
+            .high(gateioTicker.getMaxPrice24h())
+            .low(gateioTicker.getMinPrice24h())
+            .volume(gateioTicker.getAssetVolume())
+            .quoteVolume(gateioTicker.getQuoteVolume())
+            .percentageChange(gateioTicker.getChangePercentage24h())
+            .build();
   }
 }

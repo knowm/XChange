@@ -1,6 +1,12 @@
 package org.knowm.xchange.gateio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.gateio.GateioExchangeWiremock;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -8,12 +14,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.junit.jupiter.api.Test;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.gateio.GateioExchangeWiremock;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
 
@@ -52,4 +54,34 @@ public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
         .ignoringFieldsMatchingRegexes(".*userReference")
         .isEqualTo(expected);
   }
+
+
+  @Test
+  void getTicker_valid() throws IOException {
+    var actual = gateioMarketDataService.getTicker(CurrencyPair.BTC_USDT);
+
+    var expected = new Ticker.Builder()
+            .instrument(CurrencyPair.BTC_USDT)
+            .last(new BigDecimal("26028.7"))
+            .ask(new BigDecimal("26026.8"))
+            .bid(new BigDecimal("26026.7"))
+            .high(new BigDecimal("26202.4"))
+            .low(new BigDecimal("25606.3"))
+            .volume(new BigDecimal("4726.066213526"))
+            .quoteVolume(new BigDecimal("122407105.4829"))
+            .percentageChange(new BigDecimal("1.1"))
+            .build();
+
+    assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+  }
+
+
+  @Test
+  void getTickers_valid() throws IOException {
+    var actual = gateioMarketDataService.getTickers(null);
+
+    assertThat(actual).hasSize(2);
+  }
+
+
 }

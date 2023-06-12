@@ -1,0 +1,28 @@
+[
+  {
+    "currency_pair": "BTC_USDT",
+    "last": "26019.8",
+    "lowest_ask": "26019.9",
+    "highest_bid": "26019.8",
+    "change_percentage": "1.09",
+    "change_utc0": "0.36",
+    "change_utc8": "1.04",
+    "base_volume": "4722.912133756",
+    "quote_volume": "122324034.68892",
+    "high_24h": "26202.4",
+    "low_24h": "25606.3"
+  },
+  {
+    "currency_pair": "ETH_USDT",
+    "last": "1752.96",
+    "lowest_ask": "1752.97",
+    "highest_bid": "1752.96",
+    "change_percentage": "0.24",
+    "change_utc0": "0",
+    "change_utc8": "0.66",
+    "base_volume": "34842.614438438",
+    "quote_volume": "60887901.935971",
+    "high_24h": "1777.84",
+    "low_24h": "1719.5"
+  }
+]
