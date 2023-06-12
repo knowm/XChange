@@ -1,11 +1,5 @@
 package org.knowm.xchange.gateio;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -25,12 +19,18 @@ import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
-import org.knowm.xchange.gateio.dto.marketdata.GateioPublicOrder;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.gateio.service.params.DefaultGateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 
 @UtilityClass
@@ -100,24 +100,6 @@ public class GateioAdapters {
     return new OrderBook(Date.from(gateioOrderBook.getGeneratedAt()), asks, bids);
   }
 
-
-  public LimitOrder adaptOrder(
-      GateioPublicOrder order, CurrencyPair currencyPair, OrderType orderType) {
-
-    return new LimitOrder(orderType, order.getAmount(), currencyPair, "", null, order.getPrice());
-  }
-
-  public List<LimitOrder> adaptOrders(
-      List<GateioPublicOrder> orders, CurrencyPair currencyPair, OrderType orderType) {
-
-    List<LimitOrder> limitOrders = new ArrayList<>();
-
-    for (GateioPublicOrder bterOrder : orders) {
-      limitOrders.add(adaptOrder(bterOrder, currencyPair, orderType));
-    }
-
-    return limitOrders;
-  }
 
   public OrderType adaptOrderType(GateioOrderType cryptoTradeOrderType) {
     return (cryptoTradeOrderType.equals(GateioOrderType.BUY)) ? OrderType.BID : OrderType.ASK;
