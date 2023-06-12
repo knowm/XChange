@@ -1,23 +1,31 @@
-### Retrieve withdrawal status
+### Withdraw
 < {%
   const pattern = RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
   const url = request.url.tryGetSubstituted();
   const matches =  url.match(pattern);
-  const method = "GET";
+  const method = "POST";
   const path = matches[5];
   const query = matches[7] || "";
+  const body = request.body.tryGetSubstituted();
   const hexedHashedBody = crypto.sha512().updateWithText(request.body.tryGetSubstituted() || "").digest().toHex();
   const timestamp = Math.floor(Date.now() / 1000).toFixed();
   const payloadToSign = `${method}\n${path}\n${query}\n${hexedHashedBody}\n${timestamp}`;
   const apiSecret = request.environment.get("api_secret");
   const sign = crypto.hmac.sha512().withTextSecret(apiSecret).updateWithText(payloadToSign).digest().toHex();
-  request.variables.set("timestamp", timestamp);
   request.variables.set("sign", sign);
+  request.variables.set("timestamp", timestamp);
 %}
 
-GET {{api_v4}}/wallet/withdraw_status?currency=usdt
+POST {{api_v4}}/withdrawals
 KEY: {{api_key}}
 SIGN: {{sign}}
 Timestamp: {{timestamp}}
 Content-Type: application/json
 
+{
+  "amount": 0,
+  "currency": "usdt",
+  "address": "0x3dca2ae4d1d065220a731cf69f5a934914afc435",
+  "memo": "",
+  "chain": "BSC"
+}
