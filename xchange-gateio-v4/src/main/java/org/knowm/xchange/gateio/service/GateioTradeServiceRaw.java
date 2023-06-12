@@ -1,8 +1,5 @@
 package org.knowm.xchange.gateio.service;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
 import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.gateio.GateioAdapters;
@@ -10,15 +7,13 @@ import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.instrument.Instrument;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
+
 public class GateioTradeServiceRaw extends GateioBaseService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public GateioTradeServiceRaw(GateioExchange exchange) {
-
     super(exchange);
   }
 

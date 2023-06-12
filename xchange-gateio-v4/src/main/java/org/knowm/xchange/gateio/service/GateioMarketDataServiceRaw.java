@@ -11,35 +11,13 @@ import java.util.List;
 
 public class GateioMarketDataServiceRaw extends GateioBaseService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public GateioMarketDataServiceRaw(GateioExchange exchange) {
-
     super(exchange);
   }
 
+
   public List<GateioTicker> getGateioTickers(Instrument instrument) throws IOException {
     return gateio.getTickers(GateioAdapters.toString(instrument));
-  }
-
-  public GateioTradeHistory getBTERTradeHistory(String tradeableIdentifier, String currency)
-      throws IOException {
-
-    GateioTradeHistory tradeHistory = gateio.getTradeHistory(tradeableIdentifier, currency);
-
-    return handleResponse(tradeHistory);
-  }
-
-  public GateioTradeHistory getBTERTradeHistorySince(
-      String tradeableIdentifier, String currency, String tradeId) throws IOException {
-
-    GateioTradeHistory tradeHistory =
-        gateio.getTradeHistorySince(tradeableIdentifier, currency, tradeId);
-
-    return handleResponse(tradeHistory);
   }
 
 

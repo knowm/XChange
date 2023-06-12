@@ -8,24 +8,17 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.gateio.service.params.DefaultGateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
-import org.knowm.xchange.utils.DateUtils;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -34,11 +27,6 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 public class GateioAdapters {
-
-  public CurrencyPair adaptCurrencyPair(String pair) {
-    final String[] currencies = pair.toUpperCase().split("_");
-    return new CurrencyPair(currencies[0], currencies[1]);
-  }
 
 
   public String toString(Currency currency) {
@@ -70,52 +58,11 @@ public class GateioAdapters {
         .map(priceSizeEntry -> new LimitOrder(OrderType.ASK, priceSizeEntry.getSize(), instrument, null, null, priceSizeEntry.getPrice()))
         .collect(Collectors.toList());
 
-
     List<LimitOrder> bids = gateioOrderBook.getBids().stream()
         .map(priceSizeEntry -> new LimitOrder(OrderType.BID, priceSizeEntry.getSize(), instrument, null, null, priceSizeEntry.getPrice()))
         .collect(Collectors.toList());
 
     return new OrderBook(Date.from(gateioOrderBook.getGeneratedAt()), asks, bids);
-  }
-
-
-  public OrderType adaptOrderType(GateioOrderType cryptoTradeOrderType) {
-    return (cryptoTradeOrderType.equals(GateioOrderType.BUY)) ? OrderType.BID : OrderType.ASK;
-  }
-
-  public Trade adaptTrade(
-      GateioTradeHistory.GateioPublicTrade trade, CurrencyPair currencyPair) {
-
-    OrderType orderType = adaptOrderType(trade.getType());
-    Date timestamp = DateUtils.fromMillisUtc(trade.getDate() * 1000);
-
-    return new Trade.Builder()
-        .type(orderType)
-        .originalAmount(trade.getAmount())
-        .currencyPair(currencyPair)
-        .price(trade.getPrice())
-        .timestamp(timestamp)
-        .id(trade.getTradeId())
-        .build();
-  }
-
-  public Trades adaptTrades(GateioTradeHistory tradeHistory, CurrencyPair currencyPair) {
-
-    List<Trade> tradeList = new ArrayList<>();
-    long lastTradeId = 0;
-    for (GateioTradeHistory.GateioPublicTrade trade : tradeHistory.getTrades()) {
-      String tradeIdString = trade.getTradeId();
-      if (!tradeIdString.isEmpty()) {
-        long tradeId = Long.valueOf(tradeIdString);
-        if (tradeId > lastTradeId) {
-          lastTradeId = tradeId;
-        }
-      }
-      Trade adaptedTrade = adaptTrade(trade, currencyPair);
-      tradeList.add(adaptedTrade);
-    }
-
-    return new Trades(tradeList, lastTradeId, TradeSortType.SortByTimestamp);
   }
 
 
@@ -159,7 +106,7 @@ public class GateioAdapters {
 
 
   public GateioOrder toGateioOrder(MarketOrder marketOrder) {
-    GateioOrder gateioOrder = GateioOrder.builder()
+    return GateioOrder.builder()
         .currencyPair(toString(marketOrder.getInstrument()))
         .side(toString(marketOrder.getType()))
         .clientOrderId(marketOrder.getUserReference())
@@ -168,7 +115,6 @@ public class GateioAdapters {
         .timeInForce("ioc")
         .amount(marketOrder.getOriginalAmount())
         .build();
-    return gateioOrder;
   }
 
 

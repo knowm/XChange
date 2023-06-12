@@ -1,10 +1,6 @@
 package org.knowm.xchange.gateio;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
@@ -15,28 +11,31 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class GateioExchange extends BaseExchange implements Exchange {
+import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-  private final SynchronizedValueFactory<Long> nonceFactory =
-      new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
+public class GateioExchange extends BaseExchange {
+
+  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
 
 
   @Override
   protected void initServices() {
-    this.marketDataService = new GateioMarketDataService(this);
-    this.accountService = new GateioAccountService(this);
-    this.tradeService = new GateioTradeService(this);
+    marketDataService = new GateioMarketDataService(this);
+    accountService = new GateioAccountService(this);
+    tradeService = new GateioTradeService(this);
   }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
-    exchangeSpecification.setSslUri("https://api.gateio.ws");
-    exchangeSpecification.setHost("gate.io");
-    exchangeSpecification.setExchangeName("Gateio");
+    ExchangeSpecification specification = new ExchangeSpecification(this.getClass());
+    specification.setSslUri("https://api.gateio.ws");
+    specification.setHost("gate.io");
+    specification.setExchangeName("Gateio");
 
-    return exchangeSpecification;
+    return specification;
   }
 
   @Override
@@ -44,9 +43,9 @@ public class GateioExchange extends BaseExchange implements Exchange {
     return nonceFactory;
   }
 
+
   @Override
   public void remoteInit() throws IOException {
-
     Map<Instrument, InstrumentMetaData> instruments = ((GateioMarketDataService) marketDataService).getMetaDataByInstrument();
 
     exchangeMetaData = new ExchangeMetaData(instruments, null, null, null, null);
