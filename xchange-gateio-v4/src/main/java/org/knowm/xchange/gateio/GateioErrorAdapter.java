@@ -1,11 +1,7 @@
 package org.knowm.xchange.gateio;
 
 import lombok.experimental.UtilityClass;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.ExchangeSecurityException;
-import org.knowm.xchange.exceptions.FundsExceededException;
-import org.knowm.xchange.exceptions.InstrumentNotValidException;
-import org.knowm.xchange.exceptions.RateLimitExceededException;
+import org.knowm.xchange.exceptions.*;
 import org.knowm.xchange.gateio.dto.GateioException;
 
 @UtilityClass
@@ -17,6 +13,7 @@ public class GateioErrorAdapter {
   public final String INVALID_CURRENCY = "INVALID_CURRENCY";
   public final String BALANCE_NOT_ENOUGH = "BALANCE_NOT_ENOUGH";
   public final String TOO_FAST = "TOO_FAST";
+  public final String INVALID_PARAM_VALUE = "INVALID_PARAM_VALUE";
 
 
   public ExchangeException adapt(GateioException e) {
@@ -35,6 +32,15 @@ public class GateioErrorAdapter {
 
       case TOO_FAST:
         return new RateLimitExceededException(e.getMessage(), e);
+
+      case INVALID_PARAM_VALUE:
+        if (e.getMessage().contains("below minimum")) {
+          return new OrderAmountUnderMinimumException(e.getMessage(), e);
+        }
+        else {
+          return new OrderNotValidException(e.getMessage(), e);
+        }
+
       default:
         return new ExchangeException(e.getMessage(), e);
     }

@@ -1,17 +1,20 @@
 package org.knowm.xchange.gateio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.exceptions.OrderAmountUnderMinimumException;
+import org.knowm.xchange.exceptions.OrderNotValidException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.service.params.DefaultGateioWithdrawFundsParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class GateioAccountServiceTest extends GateioExchangeWiremock {
 
@@ -59,6 +62,38 @@ class GateioAccountServiceTest extends GateioExchangeWiremock {
         .build();
 
     assertThatExceptionOfType(RateLimitExceededException.class)
+        .isThrownBy(() -> gateioAccountService.withdrawFunds(params));
+  }
+
+
+  @Test
+  void zero_amount_withdraw() {
+    DefaultGateioWithdrawFundsParams params = DefaultGateioWithdrawFundsParams.builder()
+        .clientRecordId("zero-amount-id")
+        .address("6vLyxJ9dBziamyaw2vDcs9n2NwQdW1uk3aooJwrEscnA")
+        .addressTag("")
+        .chain("SOL")
+        .amount(BigDecimal.ZERO)
+        .currency(Currency.USDT)
+        .build();
+
+    assertThatExceptionOfType(OrderAmountUnderMinimumException.class)
+        .isThrownBy(() -> gateioAccountService.withdrawFunds(params));
+  }
+
+
+  @Test
+  void invalid_address_withdraw() {
+    DefaultGateioWithdrawFundsParams params = DefaultGateioWithdrawFundsParams.builder()
+        .clientRecordId("invalid-address-id")
+        .address("invalid-address")
+        .addressTag("")
+        .chain("SOL")
+        .amount(BigDecimal.ZERO)
+        .currency(Currency.USDT)
+        .build();
+
+    assertThatExceptionOfType(OrderNotValidException.class)
         .isThrownBy(() -> gateioAccountService.withdrawFunds(params));
   }
 
