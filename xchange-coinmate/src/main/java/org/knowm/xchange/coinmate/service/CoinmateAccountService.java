@@ -37,6 +37,7 @@ import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import org.knowm.xchange.coinmate.dto.account.CoinmateTradingFeesResponseData;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferDetail;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -49,9 +50,12 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+
+import static org.apache.commons.lang3.math.NumberUtils.toLong;
 
 /** @author Martin Stachon */
 public class CoinmateAccountService extends CoinmateAccountServiceRaw implements AccountService {
@@ -159,6 +163,14 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
     int offset = 0;
     Long timestampFrom = null;
     Long timestampTo = null;
+
+    if (params instanceof TradeHistoryParamsIdSpan) {
+      String transactionId = ((TradeHistoryParamsIdSpan) params).getStartId();
+      if (transactionId != null) {
+        CoinmateTransferDetail coinmateTransferDetail = getCoinmateTransferDetail(toLong(transactionId));
+        return CoinmateAdapters.adaptFundingDetail(coinmateTransferDetail);
+      }
+    }
 
     if (params instanceof TradeHistoryParamOffset) {
       offset = Math.toIntExact(((TradeHistoryParamOffset) params).getOffset());

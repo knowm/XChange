@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.gateio.GateioAdapters;
+import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -26,8 +26,7 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
    *
    * @param exchange
    */
-  public GateioAccountService(Exchange exchange) {
-
+  public GateioAccountService(GateioExchange exchange) {
     super(exchange);
   }
 
