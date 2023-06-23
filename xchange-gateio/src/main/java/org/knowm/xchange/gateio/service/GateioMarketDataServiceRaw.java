@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gateio.GateioAdapters;
+import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCandlestickHistory;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCoinInfoWrapper;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
@@ -31,30 +31,30 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
    *
    * @param exchange
    */
-  public GateioMarketDataServiceRaw(Exchange exchange) {
+  public GateioMarketDataServiceRaw(GateioExchange exchange) {
 
     super(exchange);
   }
 
-  public Map<CurrencyPair, GateioMarketInfoWrapper.GateioMarketInfo> getBTERMarketInfo()
+  public Map<CurrencyPair, GateioMarketInfoWrapper.GateioMarketInfo> getGateioMarketInfo()
       throws IOException {
 
-    GateioMarketInfoWrapper bterMarketInfo = bter.getMarketInfo();
+    GateioMarketInfoWrapper bterMarketInfo = gateio.getMarketInfo();
 
     return bterMarketInfo.getMarketInfoMap();
   }
 
   public GateioCoinInfoWrapper getGateioCoinInfo() throws IOException {
-    return bter.getCoinInfo();
+    return gateio.getCoinInfo();
   }
 
   public Map<String, GateioFeeInfo> getGateioFees() throws IOException {
-    return bter.getFeeList(apiKey, signatureCreator);
+    return gateioAuthenticated.getFeeList(apiKey, signatureCreator);
   }
 
   public Map<CurrencyPair, Ticker> getGateioTickers() throws IOException {
 
-    Map<String, GateioTicker> gateioTickers = bter.getTickers();
+    Map<String, GateioTicker> gateioTickers = gateio.getTickers();
     Map<CurrencyPair, Ticker> adaptedTickers = new HashMap<>(gateioTickers.size());
     gateioTickers.forEach(
         (currencyPairString, gateioTicker) -> {
@@ -70,7 +70,7 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
   }
 
   public Map<CurrencyPair, GateioDepth> getGateioDepths() throws IOException {
-    Map<String, GateioDepth> depths = bter.getDepths();
+    Map<String, GateioDepth> depths = gateio.getDepths();
     Map<CurrencyPair, GateioDepth> adaptedDepths = new HashMap<>(depths.size());
     depths.forEach(
         (currencyPairString, gateioDepth) -> {
@@ -87,7 +87,7 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
   public GateioTicker getBTERTicker(String tradableIdentifier, String currency) throws IOException {
 
     GateioTicker gateioTicker =
-        bter.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+        gateio.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return handleResponse(gateioTicker);
   }
@@ -96,7 +96,7 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
       throws IOException {
 
     GateioDepth gateioDepth =
-        bter.getFullDepth(tradeableIdentifier.toLowerCase(), currency.toLowerCase());
+        gateio.getFullDepth(tradeableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return handleResponse(gateioDepth);
   }
@@ -104,7 +104,7 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
   public GateioTradeHistory getBTERTradeHistory(String tradeableIdentifier, String currency)
       throws IOException {
 
-    GateioTradeHistory tradeHistory = bter.getTradeHistory(tradeableIdentifier, currency);
+    GateioTradeHistory tradeHistory = gateio.getTradeHistory(tradeableIdentifier, currency);
 
     return handleResponse(tradeHistory);
   }
@@ -113,14 +113,14 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
       String tradeableIdentifier, String currency, String tradeId) throws IOException {
 
     GateioTradeHistory tradeHistory =
-        bter.getTradeHistorySince(tradeableIdentifier, currency, tradeId);
+        gateio.getTradeHistorySince(tradeableIdentifier, currency, tradeId);
 
     return handleResponse(tradeHistory);
   }
 
   public List<Instrument> getExchangeSymbols() throws IOException {
 
-    return new ArrayList<>(bter.getPairs().getPairs());
+    return new ArrayList<>(gateio.getPairs().getPairs());
   }
 
   public List<GateioKline> getKlines(CurrencyPair pair, GateioKlineInterval interval, Integer hours)
@@ -131,7 +131,7 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
 
     GateioCandlestickHistory candlestickHistory =
         handleResponse(
-            bter.getKlinesGate(
+            gateio.getKlinesGate(
                 pair.toString().replace('/', '_').toLowerCase(), hours, interval.getSeconds()));
 
     return candlestickHistory.getCandlesticks().stream()

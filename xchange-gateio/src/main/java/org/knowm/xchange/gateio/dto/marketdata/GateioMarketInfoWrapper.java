@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import lombok.Value;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gateio.GateioAdapters;
@@ -39,55 +40,14 @@ public class GateioMarketInfoWrapper {
     return "GateioMarketInfoWrapper [marketInfoMap=" + marketInfoMap + "]";
   }
 
+  @Value
   public static class GateioMarketInfo {
 
-    private final CurrencyPair currencyPair;
-    private final int decimalPlaces;
-    private final BigDecimal minAmount;
-    private final BigDecimal fee;
+    CurrencyPair currencyPair;
+    int decimalPlaces;
+    BigDecimal minAmount;
+    BigDecimal fee;
 
-    public GateioMarketInfo(
-        CurrencyPair currencyPair, int decimalPlaces, BigDecimal minAmount, BigDecimal fee) {
-
-      this.currencyPair = currencyPair;
-      this.decimalPlaces = decimalPlaces;
-      this.minAmount = minAmount;
-      this.fee = fee;
-    }
-
-    public CurrencyPair getCurrencyPair() {
-
-      return currencyPair;
-    }
-
-    public int getDecimalPlaces() {
-
-      return decimalPlaces;
-    }
-
-    public BigDecimal getMinAmount() {
-
-      return minAmount;
-    }
-
-    public BigDecimal getFee() {
-
-      return fee;
-    }
-
-    @Override
-    public String toString() {
-
-      return "BTERMarketInfo [currencyPair="
-          + currencyPair
-          + ", decimalPlaces="
-          + decimalPlaces
-          + ", minAmount="
-          + minAmount
-          + ", fee="
-          + fee
-          + "]";
-    }
   }
 
   static class BTERMarketInfoWrapperDeserializer extends JsonDeserializer<GateioMarketInfoWrapper> {
