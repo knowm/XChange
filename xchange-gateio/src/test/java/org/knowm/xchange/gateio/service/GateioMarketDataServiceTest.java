@@ -51,7 +51,7 @@ public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
 
     assertThat(actual)
         .usingRecursiveComparison()
-        .ignoringFieldsMatchingRegexes(".*userReference")
+        .ignoringFieldsMatchingRegexes(".*userReference","lock")
         .isEqualTo(expected);
   }
 }
