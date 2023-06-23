@@ -1,0 +1,31 @@
+{
+  "result": "true",
+  "pairs": [
+    {
+      "btc_usdt": {
+        "decimal_places": 1,
+        "amount_decimal_places": 4,
+        "min_amount": 0.0001,
+        "min_amount_a": 0.0001,
+        "min_amount_b": 1,
+        "fee": 0.2,
+        "trade_disabled": 0,
+        "buy_disabled": 0,
+        "sell_disabled": 0
+      }
+    },
+    {
+      "eth_usdt": {
+        "decimal_places": 2,
+        "amount_decimal_places": 4,
+        "min_amount": 0.001,
+        "min_amount_a": 0.001,
+        "min_amount_b": 1,
+        "fee": 0.2,
+        "trade_disabled": 0,
+        "buy_disabled": 0,
+        "sell_disabled": 0
+      }
+    }
+  ]
+}

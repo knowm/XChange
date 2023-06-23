@@ -1,10 +1,15 @@
 package info.bitrich.xchangestream.okex;
 
+import static info.bitrich.xchangestream.okex.OkexStreamingService.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
+import java.sql.Timestamp;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.instrument.Instrument;
@@ -13,12 +18,6 @@ import org.knowm.xchange.okex.dto.marketdata.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Timestamp;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static info.bitrich.xchangestream.okex.OkexStreamingService.*;
-
 public class OkexStreamingMarketDataService implements StreamingMarketDataService {
 
   private static final Logger LOG = LoggerFactory.getLogger(OkexStreamingMarketDataService.class);
@@ -26,7 +25,7 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
   private final OkexStreamingService service;
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-  private final Map<Instrument, PublishSubject<OrderBookUpdate>> orderBookUpdatesSubscriptions;
+  private final Map<Instrument, PublishSubject<List<OrderBookUpdate>>> orderBookUpdatesSubscriptions;
 
   public OkexStreamingMarketDataService(OkexStreamingService service) {
     this.service = service;
@@ -162,13 +161,13 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
             });
   }
 
-  public Observable<OrderBookUpdate> getOrderBookUpdates(Instrument instrument) {
+  public Observable<List<OrderBookUpdate>> getOrderBookUpdates(Instrument instrument) {
     return orderBookUpdatesSubscriptions.computeIfAbsent(instrument, v -> PublishSubject.create());
   }
 
   private void orderBookUpdatesSubscriptions(
       Instrument instrument, List<OkexPublicOrder> asks, List<OkexPublicOrder> bids, Date date) {
-    List<OrderBookUpdate> orderBookUpdate = new ArrayList<>();
+    List<OrderBookUpdate> orderBookUpdates = new ArrayList<>();
     for (OkexPublicOrder ask : asks) {
       OrderBookUpdate o =
           new OrderBookUpdate(
@@ -178,7 +177,7 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
               ask.getPrice(),
               date,
               ask.getVolume());
-      orderBookUpdate.add(o);
+      orderBookUpdates.add(o);
     }
     for (OkexPublicOrder bid : bids) {
       OrderBookUpdate o =
@@ -189,9 +188,9 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
               bid.getPrice(),
               date,
               bid.getVolume());
-      orderBookUpdate.add(o);
+      orderBookUpdates.add(o);
     }
-    for (OrderBookUpdate o : orderBookUpdate)
-      orderBookUpdatesSubscriptions.get(instrument).onNext(o);
-  }
+    orderBookUpdatesSubscriptions.get(instrument).onNext(orderBookUpdates);
+    }
+
 }
