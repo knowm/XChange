@@ -7,6 +7,7 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.okex.Okex;
 import org.knowm.xchange.okex.OkexAuthenticated;
 import org.knowm.xchange.okex.OkexExchange;
+import org.knowm.xchange.okex.dto.OkexInstType;
 import org.knowm.xchange.okex.dto.marketdata.*;
 import org.knowm.xchange.okex.dto.OkexException;
 import org.knowm.xchange.okex.dto.OkexResponse;
@@ -54,7 +55,25 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
                                       exchange
                                               .getExchangeSpecification()
                                               .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
-              .withRateLimiter(rateLimiter(Okex.instrumentsPath))
+              .withRateLimiter(rateLimiter(Okex.tickerPath))
+              .call();
+    } catch (OkexException e) {
+      throw handleError(e);
+    }
+  }
+
+  public OkexResponse<List<OkexTicker>> getOkexTickers(OkexInstType instType)
+          throws OkexException, IOException {
+    try {
+      return decorateApiCall(
+              () ->
+                      okex.getTickers(
+                              instType.toString(),
+                              (String)
+                                      exchange
+                                              .getExchangeSpecification()
+                                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
+              .withRateLimiter(rateLimiter(Okex.tickersPath))
               .call();
     } catch (OkexException e) {
       throw handleError(e);

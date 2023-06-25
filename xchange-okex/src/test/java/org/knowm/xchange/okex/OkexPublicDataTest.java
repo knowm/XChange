@@ -1,6 +1,7 @@
 package org.knowm.xchange.okex;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -21,6 +22,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.okex.dto.OkexInstType;
 import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.okex.service.OkexMarketDataService;
@@ -67,6 +69,15 @@ public class OkexPublicDataTest {
   }
 
   @Test
+  public void checkTickers() throws IOException {
+    List<Ticker> spotTickers = exchange.getMarketDataService().getTickers(OkexInstType.SPOT);
+    List<Ticker> swapTickers = exchange.getMarketDataService().getTickers(OkexInstType.SWAP);
+
+    assertTrue(spotTickers.stream().anyMatch(f->f.getInstrument().equals(new CurrencyPair("BTC/USDT"))));
+    assertTrue(swapTickers.stream().anyMatch(f -> f.getInstrument().equals(new FuturesContract("BTC/USDT/SWAP"))));
+  }
+
+  @Test
   public void checkTrades() throws IOException {
     Trades spotTrades = exchange.getMarketDataService().getTrades(currencyPair);
     Trades swapTrades = exchange.getMarketDataService().getTrades(instrument);
@@ -82,7 +93,7 @@ public class OkexPublicDataTest {
     OkexResponse<List<OkexCandleStick>> barHistDtos =
         ((OkexMarketDataService) exchange.getMarketDataService())
             .getHistoryCandle("BTC-USDT", null, null, null, null);
-    Assert.assertTrue(Objects.nonNull(barHistDtos) && !barHistDtos.getData().isEmpty());
+    assertTrue(Objects.nonNull(barHistDtos) && !barHistDtos.getData().isEmpty());
   }
 
   @Test

@@ -7,16 +7,22 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.OkexAdapters;
 import org.knowm.xchange.okex.OkexExchange;
+import org.knowm.xchange.okex.dto.OkexInstType;
 import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.marketdata.OkexCandleStick;
+import org.knowm.xchange.okex.dto.marketdata.OkexTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.Params;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParamWithLimit;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexMarketDataService extends OkexMarketDataServiceRaw implements MarketDataService {
@@ -74,5 +80,14 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   @Override
   public FundingRate getFundingRate(Instrument instrument) throws IOException {
     return OkexAdapters.adaptFundingRate(getOkexFundingRate(OkexAdapters.adaptInstrument(instrument)).getData());
+  }
+
+
+  public List<Ticker> getTickers(Params params) throws IOException {
+    if (!(params instanceof OkexInstType)) {
+      throw new IllegalArgumentException("Params must be instance of OkexInstType");
+    }
+    OkexInstType instType = (OkexInstType) params;
+    return getOkexTickers(instType).getData().stream().map(OkexAdapters::adaptTicker).collect(Collectors.toList());
   }
 }
