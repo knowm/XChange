@@ -14,6 +14,7 @@ public class GateioErrorAdapter {
   public final String BALANCE_NOT_ENOUGH = "BALANCE_NOT_ENOUGH";
   public final String TOO_FAST = "TOO_FAST";
   public final String INVALID_PARAM_VALUE = "INVALID_PARAM_VALUE";
+  public final String SERVER_ERROR = "SERVER_ERROR";
 
 
   public ExchangeException adapt(GateioException e) {
@@ -32,6 +33,9 @@ public class GateioErrorAdapter {
 
       case TOO_FAST:
         return new RateLimitExceededException(e.getMessage(), e);
+
+      case SERVER_ERROR:
+        return new InternalServerException(e.getMessage(), e);
 
       case INVALID_PARAM_VALUE:
         if (e.getMessage().contains("below minimum")) {

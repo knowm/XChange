@@ -1,7 +1,13 @@
 package org.knowm.xchange.gateio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.exceptions.InstrumentNotValidException;
+import org.knowm.xchange.exceptions.InternalServerException;
+import org.knowm.xchange.gateio.GateioExchangeWiremock;
+import org.knowm.xchange.gateio.dto.account.*;
+import org.knowm.xchange.gateio.dto.account.GateioDepositAddress.MultichainAddress;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -9,17 +15,9 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.exceptions.ExchangeSecurityException;
-import org.knowm.xchange.exceptions.InstrumentNotValidException;
-import org.knowm.xchange.gateio.GateioExchangeWiremock;
-import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
-import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
-import org.knowm.xchange.gateio.dto.account.GateioDepositAddress.MultichainAddress;
-import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
-import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
-import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
 
@@ -67,6 +65,13 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
   void http_403_exception_mapped() {
     assertThatExceptionOfType(ExchangeSecurityException.class)
         .isThrownBy(() -> gateioAccountServiceRaw.getWithdrawStatus(Currency.getInstance("RETURN-FORBIDDEN")));
+  }
+
+
+  @Test
+  void http_500_exception_mapped() {
+    assertThatExceptionOfType(InternalServerException.class)
+        .isThrownBy(() -> gateioAccountServiceRaw.getWithdrawStatus(Currency.getInstance("INTERNAL-SERVER-ERROR")));
   }
 
 
