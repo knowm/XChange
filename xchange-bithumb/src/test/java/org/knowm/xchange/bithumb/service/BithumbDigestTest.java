@@ -8,7 +8,7 @@ import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import javax.ws.rs.FormParam;
+import jakarta.ws.rs.FormParam;
 import org.junit.Before;
 import org.junit.Test;
 import si.mazi.rescu.Params;
