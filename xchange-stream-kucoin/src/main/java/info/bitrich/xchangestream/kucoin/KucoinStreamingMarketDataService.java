@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-class KucoinStreamingMarketDataService implements StreamingMarketDataService {
+public class KucoinStreamingMarketDataService implements StreamingMarketDataService {
 
   private static final Logger logger =
       LoggerFactory.getLogger(KucoinStreamingMarketDataService.class);
