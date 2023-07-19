@@ -329,14 +329,14 @@ public class VertexStreamingExchange extends BaseExchange implements StreamingEx
   }
 
   /*
-   Fee charged on taker trades in BPS
+   Fee charged on taker trades in BPS (always positive)
    */
   public BigDecimal getTakerTradeFee(long productId) {
     return productInfo.takerTradeFee(productId);
   }
 
   /*
-  Rebate paid on maker trades in BPS
+  Rebate paid on maker trades in BPS (always positive)
   */
   public BigDecimal getMakerTradeFee(long productId) {
     return productInfo.makerTradeFee(productId);

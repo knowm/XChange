@@ -35,10 +35,18 @@ public class VertexProductInfo {
     }
 
     for (int i = 0; i < takerFeeList.size(); i++) {
-      takerFees.put((long) i, takerFeeList.get(i));
+      BigDecimal value = takerFeeList.get(i);
+      if (value.compareTo(BigDecimal.ZERO) < 0) {
+        value = value.negate();
+      }
+      takerFees.put((long) i, value);
     }
     for (int i = 0; i < makerFeeList.size(); i++) {
-      makerFees.put((long) i, makerFeeList.get(i));
+      BigDecimal value = makerFeeList.get(i);
+      if (value.compareTo(BigDecimal.ZERO) < 0) {
+        value = value.negate();
+      }
+      makerFees.put((long) i, value);
     }
   }
 
