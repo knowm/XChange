@@ -10,6 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -34,11 +35,13 @@ import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.util.concurrent.ScheduledFuture;
 import io.netty.util.internal.SocketUtils;
 import io.netty.util.internal.StringUtil;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 import java.io.IOException;
@@ -50,6 +53,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +63,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   protected static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ofSeconds(10);
   protected static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
   protected static final int DEFAULT_IDLE_TIMEOUT = 15;
+  private ScheduledFuture<Disposable> scheduledReconnection;
 
   protected class Subscription {
 
@@ -84,7 +89,9 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   private final Duration retryDuration;
   private final Duration connectionTimeout;
   private final int idleTimeoutSeconds;
-  private volatile NioEventLoopGroup eventLoopGroup;
+  private Supplier<? extends EventLoopGroup> eventLoopGroupFactory = () -> new NioEventLoopGroup(2);
+  private volatile EventLoopGroup eventLoopGroup;
+  private Class<? extends SocketChannel> socketChannelClass = NioSocketChannel.class;
   protected final Map<String, Subscription> channels = new ConcurrentHashMap<>();
   private boolean compressedMessages = false;
 
@@ -191,7 +198,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                         this::messageHandler);
 
                 if (eventLoopGroup == null || eventLoopGroup.isShutdown()) {
-                  eventLoopGroup = new NioEventLoopGroup(2);
+                  eventLoopGroup = eventLoopGroupFactory.get();
                 }
 
                 new Bootstrap()
@@ -200,7 +207,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                         ChannelOption.CONNECT_TIMEOUT_MILLIS,
                         java.lang.Math.toIntExact(connectionTimeout.toMillis()))
                     .option(ChannelOption.SO_KEEPALIVE, true)
-                    .channel(NioSocketChannel.class)
+                    .channel(socketChannelClass)
                     .handler(
                         new ChannelInitializer<SocketChannel>() {
                           @Override
@@ -281,10 +288,11 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   private void scheduleReconnect() {
-    if (autoReconnect) {
-      LOG.info("Scheduling reconnection");
+    if (autoReconnect && !isManualDisconnect.get()) {
+      LOG.info("Scheduling reconnection to " + uri.toString() + " in " + retryDuration.toMillis() + "ms");
+      if (scheduledReconnection != null) scheduledReconnection.cancel(true);
 
-      webSocketChannel
+      scheduledReconnection = webSocketChannel
           .eventLoop()
           .schedule(
               () ->
@@ -302,7 +310,11 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   public Completable disconnect() {
-    isManualDisconnect.set(true);
+    return disconnect(false);
+  }
+
+  public Completable disconnect(boolean autoReconnect) {
+    isManualDisconnect.set(!autoReconnect);
     return Completable.create(
         completable -> {
           if (webSocketChannel != null && webSocketChannel.isOpen()) {
@@ -311,7 +323,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                 .writeAndFlush(closeFrame)
                 .addListener(
                     future -> {
-                      channels.clear();
+                      if (autoReconnect) channels.clear();
                       eventLoopGroup
                           .shutdownGracefully(2, idleTimeoutSeconds, TimeUnit.SECONDS)
                           .addListener(
@@ -359,7 +371,6 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   public abstract void messageHandler(String message);
 
   public void sendMessage(String message) {
-    LOG.debug("Sending message: {}", message);
 
     if (webSocketChannel == null || !webSocketChannel.isOpen()) {
       LOG.warn("WebSocket is not open! Call connect first.");
@@ -371,6 +382,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       return;
     }
     if (message != null) {
+      LOG.debug("Sending message: {}", message);
       webSocketChannel.writeAndFlush(new TextWebSocketFrame(message));
     }
   }
@@ -419,7 +431,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
             () -> {
               if (channels.remove(channelId) != null) {
                 try {
-                  sendMessage(getUnsubscribeMessage(channelId));
+                  sendMessage(getUnsubscribeMessage(channelId, args));
                 } catch (IOException e) {
                   LOG.debug("Failed to unsubscribe channel: {} {}", channelId, e.toString());
                 } catch (Exception e) {
@@ -431,6 +443,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   public void resubscribeChannels() {
+    LOG.info("Resubscribing to {} channels on {}: {}", channels.size(), uri.toString(), channels.keySet());
     for (Entry<String, Subscription> entry : channels.entrySet()) {
       try {
         Subscription subscription = entry.getValue();
@@ -538,6 +551,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
         super.channelInactive(ctx);
         disconnectEmitters.onNext(new Object());
         LOG.info("Reopening Websocket Client because it was closed! {}", ctx.channel());
+        connectionStateModel.setState(State.CLOSED);
         scheduleReconnect();
       }
     }
@@ -560,6 +574,14 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   public void useCompressedMessages(boolean compressedMessages) {
     this.compressedMessages = compressedMessages;
+  }
+
+  public void setEventLoopGroupFactory(Supplier<? extends EventLoopGroup> eventLoopGroupFactory) {
+    this.eventLoopGroupFactory = eventLoopGroupFactory;
+  }
+
+  public void setSocketChannelClass(Class<? extends SocketChannel> socketChannelClass) {
+    this.socketChannelClass = socketChannelClass;
   }
 
   public void setAcceptAllCertificates(boolean acceptAllCertificates) {

@@ -1,0 +1,45 @@
+{
+  "currency_pairs": {
+    "wBTC/USDC": {
+      "price_scale": 4,
+      "min_amount": 0.001
+    },
+    "wETH/USDC": {
+      "price_scale": 4,
+      "min_amount": 0.01
+    },
+    "ETH/PERP": {
+      "price_scale": 4,
+      "min_amount": 0.01
+    },
+    "BTC/PERP": {
+      "price_scale": 4,
+      "min_amount": 0.001
+    }
+  },
+  "currencies": {
+    "wBTC": {
+      "scale": "4",
+      "withdrawal_fee": 0
+    },
+    "wETH": {
+      "scale": "",
+      "withdrawal_fee": ""
+    }
+  },
+  "public_rate_limits": [
+    {
+      "calls": 60,
+      "time_span": 10,
+      "time_unit": "seconds"
+    }
+  ],
+  "private_rate_limits": [
+    {
+      "calls": 60,
+      "time_span": 10,
+      "time_unit": "seconds"
+    }
+  ],
+  "share_rate_limits": true
+}
