@@ -2,33 +2,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+        <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.knowm.xchange</groupId>
-    <artifactId>xchange-parent</artifactId>
-    <version>5.1.1-SNAPSHOT</version>
-  </parent>
+        <parent>
+                <groupId>org.knowm.xchange</groupId>
+                <artifactId>xchange-parent</artifactId>
+                <version>5.1.1-SNAPSHOT</version>
+        </parent>
 
-  <name>XChange Core Stream Netty</name>
-  <artifactId>xchange-stream-service-netty</artifactId>
+        <name>XChange Core Stream Netty</name>
+        <artifactId>xchange-stream-service-netty</artifactId>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.knowm.xchange</groupId>
-      <artifactId>xchange-stream-service-core</artifactId>
-      <version>${project.parent.version}</version>
-    </dependency>
+        <dependencies>
+                <dependency>
+                        <groupId>org.knowm.xchange</groupId>
+                        <artifactId>xchange-stream-service-core</artifactId>
+                        <version>${project.parent.version}</version>
+                </dependency>
 
-    <!-- Netty version compatible with service-wamp -->
-    <dependency>
-      <groupId>io.netty</groupId>
-      <artifactId>netty-all</artifactId>
-    </dependency>
+                <!-- Netty version compatible with service-wamp -->
+                <dependency>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-all</artifactId>
+                </dependency>
 
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-    </dependency>
-  </dependencies>
+                <dependency>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                </dependency>
+        </dependencies>
 </project>
