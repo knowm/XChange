@@ -9,9 +9,9 @@ import lombok.ToString;
 public class GlobalRewards {
 
   private int product_id;
+  private long uptimes;
   private BigDecimal reward_coefficient;
   private BigDecimal q_scores;
-  private long uptime;
   private BigDecimal maker_volume;
   private BigDecimal taker_volume;
   private BigDecimal maker_fee;
