@@ -295,8 +295,9 @@ public class VertexStreamingTradeService implements StreamingTradeService, Trade
           BigDecimal remaining = readX18Decimal(resp, "remaining_qty");
           BigDecimal totalFilled = orderQty.subtract(remaining);
           String filledPercentage = totalFilled.divide(orderQty, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100)).setScale(3, RoundingMode.HALF_DOWN).toPlainString();
+          boolean isFirstFill = totalFilled.compareTo(filled) == 0;
 
-          BigDecimal fee = calcFee(isTaker, filled, productId, price);
+          BigDecimal fee = calcFee(isTaker, filled, productId, price, isFirstFill);
           return Optional.of(builder.id(ORDER_ID_HASHER.hashString(orderId + ":" + totalFilled.toPlainString() + ":" + price.toPlainString(), Charsets.UTF_8) + "-" + filledPercentage)
               .instrument(instrument)
               .originalAmount(filled)
@@ -314,11 +315,13 @@ public class VertexStreamingTradeService implements StreamingTradeService, Trade
         .map(Optional::get);
   }
 
-  private BigDecimal calcFee(boolean isTaker, BigDecimal filled, long productId, BigDecimal price) {
+  private BigDecimal calcFee(boolean isTaker, BigDecimal filled, long productId, BigDecimal price, boolean isFirstFill) {
     BigDecimal bpsFee = isTaker ? exchange.getTakerTradeFee(productId) : exchange.getMakerTradeFee(productId);
     BigDecimal lhsFee = filled.multiply(bpsFee);
+
+    //Fixed sequencer fee is only charged on first fill per order
     BigDecimal usdcFee = lhsFee.multiply(price).setScale(2, RoundingMode.HALF_UP);
-    if (isTaker) {
+    if (isTaker && isFirstFill) {
       usdcFee = usdcFee.add(exchange.getTakerFee());
     }
     return isTaker ? usdcFee : usdcFee.negate();
