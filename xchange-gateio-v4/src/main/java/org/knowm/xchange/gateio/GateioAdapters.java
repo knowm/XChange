@@ -118,6 +118,20 @@ public class GateioAdapters {
   }
 
 
+  public GateioOrder toGateioOrder(LimitOrder limitOrder) {
+    return GateioOrder.builder()
+        .currencyPair(toString(limitOrder.getInstrument()))
+        .side(toString(limitOrder.getType()))
+        .clientOrderId(limitOrder.getUserReference())
+        .account("spot")
+        .type("limit")
+        .timeInForce("gtc")
+        .price(limitOrder.getLimitPrice())
+        .amount(limitOrder.getOriginalAmount())
+        .build();
+  }
+
+
   public Order toOrder(GateioOrder gateioOrder) {
     Order.Builder order;
     Instrument instrument = toInstrument(gateioOrder.getCurrencyPair());

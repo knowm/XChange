@@ -1,20 +1,22 @@
 package org.knowm.xchange.gateio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderStatus;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.exceptions.FundsExceededException;
+import org.knowm.xchange.gateio.GateioExchangeWiremock;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
-import org.junit.jupiter.api.Test;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderStatus;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.exceptions.FundsExceededException;
-import org.knowm.xchange.gateio.GateioExchangeWiremock;
-import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class GateioTradeServiceTest extends GateioExchangeWiremock {
 
@@ -56,6 +58,19 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
     var actualResponse = gateioTradeService.placeMarketOrder(marketOrder);
     assertThat(actualResponse).isEqualTo("342260949533");
 
+  }
+
+
+  @Test
+  void valid_limit_sell_order() throws IOException {
+    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
+        .userReference("t-valid-limit-sell-order")
+        .originalAmount(new BigDecimal("0.00068"))
+        .limitPrice(new BigDecimal("29240.7"))
+        .build();
+
+    var actualResponse = gateioTradeService.placeLimitOrder(limitOrder);
+    assertThat(actualResponse).isEqualTo("373824296029");
   }
 
 

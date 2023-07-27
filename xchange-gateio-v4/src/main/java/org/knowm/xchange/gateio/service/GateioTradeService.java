@@ -1,10 +1,8 @@
 package org.knowm.xchange.gateio.service;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
 import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
@@ -17,6 +15,10 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+
 public class GateioTradeService extends GateioTradeServiceRaw implements TradeService {
 
   public GateioTradeService(GateioExchange exchange) {
@@ -28,6 +30,18 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     try {
       GateioOrder order = createOrder(GateioAdapters.toGateioOrder(marketOrder));
+      return order.getId();
+    }
+    catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
+  }
+
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    try {
+      GateioOrder order = createOrder(GateioAdapters.toGateioOrder(limitOrder));
       return order.getId();
     }
     catch (GateioException e) {
