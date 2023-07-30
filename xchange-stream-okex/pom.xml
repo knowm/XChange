@@ -33,13 +33,6 @@
             <version>${project.parent.version}</version>
         </dependency>
 
-        <!-- Lombok for boilerplate -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${version.lombok}</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
 </project>
