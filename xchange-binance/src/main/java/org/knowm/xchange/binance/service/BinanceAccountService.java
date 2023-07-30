@@ -104,11 +104,12 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
           wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
         }
       } else {
-        BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
+        if(exchange.isFuturesEnabled()){
+          BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
+          wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
+          openPositions.addAll(BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
+        }
         wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
-        wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
-        openPositions.addAll(BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
-
       }
       return new AccountInfo(
               exchange.getExchangeSpecification().getUserName(),
