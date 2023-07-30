@@ -139,7 +139,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                     order.hasFlag(
                         org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
                     limitPrice,
-                    getClientOrderId(order),
+                    order.getUserReference(),
                     stopPrice,
                     false,
                     null,
@@ -157,7 +157,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         order.getOriginalAmount(),
                         quoteOrderQty,
                         limitPrice,
-                        getClientOrderId(order),
+                        order.getUserReference(),
                         stopPrice,
                         trailingDelta,
                         null,
@@ -193,27 +193,13 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
           order.getOriginalAmount(),
           quoteOrderQty,
           limitPrice,
-          getClientOrderId(order),
+          order.getUserReference(),
           stopPrice,
           trailingDelta,
           null);
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
-  }
-
-  private String getClientOrderId(Order order) {
-
-    String clientOrderId = null;
-    for (IOrderFlags flags : order.getOrderFlags()) {
-      if (flags instanceof BinanceOrderFlags) {
-        BinanceOrderFlags bof = (BinanceOrderFlags) flags;
-        if (clientOrderId == null) {
-          clientOrderId = bof.getClientId();
-        }
-      }
-    }
-    return clientOrderId;
   }
 
   @Override

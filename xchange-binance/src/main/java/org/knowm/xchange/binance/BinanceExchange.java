@@ -16,6 +16,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class BinanceExchange extends BaseExchange implements Exchange {
   public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
   public static final String SPECIFIC_PARAM_USE_FUTURES_SANDBOX = "Use_Sandbox_Futures";
+  public static final String SPECIFIC_PARAM_FUTURES_ENABLED = "Futures_Enabled";
 
   private static final String SPOT_URL = "https://api.binance.com";
   public static final String FUTURES_URL = "https://fapi.binance.com";
@@ -77,6 +78,11 @@ public class BinanceExchange extends BaseExchange implements Exchange {
             exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_FUTURES_SANDBOX));
   }
 
+  public boolean isFuturesEnabled(){
+    return Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_FUTURES_ENABLED));
+  }
+
   public boolean usingSandbox() {
     return enabledSandbox(exchangeSpecification);
   }
@@ -101,7 +107,9 @@ public class BinanceExchange extends BaseExchange implements Exchange {
         }
       } else {
         exchangeMetaData = BinanceAdapters.adaptExchangeMetaData(marketDataService.getExchangeInfo(), assetDetailMap);
-        BinanceAdapters.adaptFutureExchangeMetaData(exchangeMetaData, marketDataService.getFutureExchangeInfo());
+        if(isFuturesEnabled()){
+          BinanceAdapters.adaptFutureExchangeMetaData(exchangeMetaData, marketDataService.getFutureExchangeInfo());
+        }
       }
 
     } catch (Exception e) {
