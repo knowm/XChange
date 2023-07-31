@@ -11,7 +11,11 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import si.mazi.rescu.ClientConfig;
+import si.mazi.rescu.ClientConfigUtil;
 import si.mazi.rescu.ParamsDigest;
+
+import java.net.Proxy;
 
 /**
  * In order for Ascendex exchange authenticated endpoints to work you must add a
@@ -19,7 +23,6 @@ import si.mazi.rescu.ParamsDigest;
  * getExchangeSpecification.getExchangeSpecificParameters Map
  */
 public class AscendexBaseService extends BaseExchangeService implements BaseService {
-
   protected IAscendex ascendex;
   protected IAscendexAuthenticated ascendexAuthenticated;
   protected ParamsDigest signatureCreator;
@@ -36,14 +39,24 @@ public class AscendexBaseService extends BaseExchangeService implements BaseServ
         .getExchangeSpecificParameters()
         .containsKey("account-group")) {
       ExchangeSpecification specWithAccountGroup = exchange.getDefaultExchangeSpecification();
-      specWithAccountGroup.setSslUri(
+      specWithAccountGroup.setSslUri(exchange.getExchangeSpecification().getSslUri());
+      String proxyUsername =  getExchangeSpecificParametersItem("proxyUsername");
+      String proxyPassword =  getExchangeSpecificParametersItem("proxyPassword");
+      Proxy.Type proxyType = getExchangeSpecificParametersItem("proxyType");
+    /*  not all  api  that auth need <account-group>
+    like :/api/pro/v1/info  api/pro/data/v2/order/hist
+    specWithAccountGroup.setSslUri(
           exchange.getExchangeSpecification().getSslUri()
               + exchange
                   .getExchangeSpecification()
                   .getExchangeSpecificParametersItem("account-group")
-              + "/");
+              + "/");*/
+      ClientConfig clientConfig = ExchangeRestProxyBuilder.createClientConfig(exchange.getExchangeSpecification());
+      clientConfig.setProxyType(proxyType);
+      ClientConfig addPassword = ClientConfigUtil.addBasicAuthCredentials(clientConfig, proxyUsername, proxyPassword);
       ascendexAuthenticated =
           ExchangeRestProxyBuilder.forInterface(IAscendexAuthenticated.class, specWithAccountGroup)
+                  .clientConfig(addPassword)
               .build();
     } else {
       LOG.warn(
@@ -53,6 +66,13 @@ public class AscendexBaseService extends BaseExchangeService implements BaseServ
         AscendexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
+  public <T> T getExchangeSpecificParametersItem(String key){
+    try {
+      return (T)exchange.getExchangeSpecification().getExchangeSpecificParametersItem(key);
+    } catch (Exception e) {
+    return null;
+    }
+  }
   public <R> R checkResult(AscendexResponse<R> response) throws AscendexException {
     if (response.getCode() == 0) {
       return response.getData();

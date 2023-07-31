@@ -1,97 +1,70 @@
 package org.knowm.xchange.ascendex.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.knowm.xchange.ascendex.dto.enums.AscendexAssetStatus;
 
+
+import java.math.BigDecimal;
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AscendexAssetDto {
 
-  private final String assetCode;
+  private String assetCode;
 
-  private final String assetName;
+  private String assetName;
 
-  private final int precisionScale;
+  private int precisionScale;
 
-  private final int nativeScale;
+  private int nativeScale;
+  /**
+   * v2 remove
+   */
+  private BigDecimal withdrawalFee;
+  private BigDecimal minWithdrawalAmt;
+  private AscendexAssetStatus status;
+  /**
+   * v2 add
+   */
+  private List<AscendexAssetBlockChain> blockChain;
 
-  private final BigDecimal withdrawalFee;
 
-  private final BigDecimal minWithdrawalAmt;
-
-  private final AscendexAssetStatus status;
-
-  public AscendexAssetDto(
-      @JsonProperty("assetCode") String assetCode,
-      @JsonProperty("assetName") String assetName,
-      @JsonProperty("precisionScale") int precisionScale,
-      @JsonProperty("nativeScale") int nativeScale,
-      @JsonProperty("withdrawalFee") BigDecimal withdrawalFee,
-      @JsonProperty("nimWithdrawalAmt") BigDecimal minWithdrawalAmt,
-      @JsonProperty("status") AscendexAssetStatus status) {
-    this.assetCode = assetCode;
-    this.assetName = assetName;
-    this.precisionScale = precisionScale;
-    this.nativeScale = nativeScale;
-    this.withdrawalFee = withdrawalFee;
-    this.minWithdrawalAmt = minWithdrawalAmt;
-    this.status = status;
-  }
-
-  public String getAssetCode() {
-    return assetCode;
-  }
-
-  public String getAssetName() {
-    return assetName;
-  }
-
-  public int getPrecisionScale() {
-    return precisionScale;
-  }
-
-  public int getNativeScale() {
-    return nativeScale;
-  }
 
   public BigDecimal getWithdrawFee() {
+    if (blockChain!=null&&blockChain.size()!=0){
+      return blockChain.get(0).getWithdrawFee();
+    }
     return withdrawalFee;
   }
 
   public BigDecimal getMinWithdrawalAmt() {
+    if (blockChain!=null&&blockChain.size()!=0){
+      return blockChain.get(0).getMinWithdrawal();
+    }
     return minWithdrawalAmt;
   }
 
   public AscendexAssetStatus getStatus() {
-    return status;
+    return status==null?AscendexAssetStatus.Normal:status;
   }
 
-  @Override
-  public String toString() {
-    return "AscendexAssetDto{"
-        + "assetCode='"
-        + assetCode
-        + '\''
-        + ", assetName='"
-        + assetName
-        + '\''
-        + ", precisionScale="
-        + precisionScale
-        + ", nativeScale="
-        + nativeScale
-        + ", withdrawFee="
-        + withdrawalFee
-        + ", minWithdrawalAmt="
-        + minWithdrawalAmt
-        + ", status="
-        + status
-        + '}';
-  }
 
-  public enum AscendexAssetStatus {
-    Normal,
-    NoDeposit,
-    NoTrading,
-    NoWithdraw,
-    InternalTrading,
-    NoTransaction
+
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public static class AscendexAssetBlockChain {
+    private String	chainName;
+    private BigDecimal withdrawFee;
+    private Boolean	allowDeposit;
+    private Boolean	allowWithdraw;
+    private BigDecimal	minDepositAmt;
+    private BigDecimal	minWithdrawal;
+    private Integer	numConfirmations;
+
   }
 }

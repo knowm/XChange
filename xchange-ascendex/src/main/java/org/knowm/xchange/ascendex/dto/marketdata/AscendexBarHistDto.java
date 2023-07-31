@@ -1,46 +1,20 @@
 package org.knowm.xchange.ascendex.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class AscendexBarHistDto implements Serializable {
 
-  private final String m;
-  private final String symbol;
-  private final AscendexBarDto bar;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class AscendexBarHistDto {
+  @JsonProperty("m")
+  private  String m;
+  @JsonProperty("s")
+  private  String symbol;
+  @JsonProperty("data")
+  private  AscendexBarDto bar;
 
-  public AscendexBarHistDto(
-      @JsonProperty("m") String m,
-      @JsonProperty("s") String symbol,
-      @JsonProperty("data") AscendexBarDto bar) {
-    this.m = m;
-    this.symbol = symbol;
-    this.bar = bar;
-  }
-
-  public String getM() {
-    return m;
-  }
-
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public AscendexBarDto getBar() {
-    return bar;
-  }
-
-  @Override
-  public String toString() {
-    return "AscendexBarHistDto{"
-        + "m='"
-        + m
-        + '\''
-        + ", symbol='"
-        + symbol
-        + '\''
-        + ", bar="
-        + bar
-        + '}';
-  }
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ascendex.AscendexAdapters;
+import org.knowm.xchange.ascendex.dto.enums.AccountCategory;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -24,6 +25,7 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+
     return placeAscendexOrder(
             AscendexAdapters.adaptLimitOrderToAscendexPlaceOrderRequestPayload(limitOrder))
         .getInfo()
@@ -33,7 +35,7 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByCurrencyPair) {
-      cancelAllAscendexOrdersBySymbol(
+      cancelAllAscendexOrdersBySymbol(AccountCategory.cash,
           ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair().toString());
       return true;
     } else {
@@ -56,11 +58,11 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     if (params instanceof OpenOrdersParamCurrencyPair) {
       return AscendexAdapters.adaptOpenOrders(
-          getAscendexOpenOrders(
+          getAscendexOpenOrders(AccountCategory.cash,
               ((OpenOrdersParamCurrencyPair) params).getCurrencyPair().toString()));
     } else if (params instanceof OpenOrdersParamInstrument) {
       return AscendexAdapters.adaptOpenOrders(
-          getAscendexOpenOrders(((OpenOrdersParamInstrument) params).getInstrument().toString()));
+          getAscendexOpenOrders(AccountCategory.cash,((OpenOrdersParamInstrument) params).getInstrument().toString()));
     } else {
       throw new IOException(
           "Params must be instanceOf OpenOrdersParamCurrencyPair or OpenOrdersParamInstrument in order to get openOrders from Ascendex.");
@@ -76,7 +78,7 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     if (params instanceof TradeHistoryParamCurrencyPair) {
       return AscendexAdapters.adaptUserTrades(
-          getAscendexUserTrades(
+          getAscendexUserTrades(AccountCategory.cash,
               ((TradeHistoryParamCurrencyPair) params).getCurrencyPair().toString()));
     } else {
       throw new IOException(
@@ -86,14 +88,14 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return AscendexAdapters.adaptOpenOrders(getAscendexOpenOrders(null));
+    return AscendexAdapters.adaptOpenOrders(getAscendexOpenOrders(AccountCategory.cash,null));
   }
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     if (orderQueryParams.length == 1) {
       return AscendexAdapters.adaptOpenOrderById(
-          getAscendexOrderById(orderQueryParams[0].getOrderId()));
+          getAscendexOrderById(AccountCategory.cash,orderQueryParams[0].getOrderId()));
     } else {
       throw new IOException("Ascendex only supports query with single id");
     }

@@ -2,89 +2,145 @@ package org.knowm.xchange.ascendex.service;
 
 import java.io.IOException;
 import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ascendex.AscendexException;
-import org.knowm.xchange.ascendex.dto.trade.AscendexCancelOrderRequestPayload;
-import org.knowm.xchange.ascendex.dto.trade.AscendexOpenOrdersResponse;
-import org.knowm.xchange.ascendex.dto.trade.AscendexOrderResponse;
-import org.knowm.xchange.ascendex.dto.trade.AscendexPlaceOrderRequestPayload;
+import org.knowm.xchange.ascendex.dto.enums.AccountCategory;
+import org.knowm.xchange.ascendex.dto.trade.*;
+
+import javax.ws.rs.QueryParam;
 
 public class AscendexTradeServiceRaw extends AscendexBaseService {
 
-  private static final String ACCOUNT_CASH_CATEGORY = "cash";
+    private static final String ACCOUNT_CASH_CATEGORY = "cash";
 
-  public AscendexTradeServiceRaw(Exchange exchange) {
-    super(exchange);
-  }
+    public AscendexTradeServiceRaw(Exchange exchange) {
+        super(exchange);
+    }
 
-  public AscendexOrderResponse placeAscendexOrder(AscendexPlaceOrderRequestPayload payload)
-      throws AscendexException, IOException {
-    return checkResult(
-        ascendexAuthenticated.placeOrder(
-            exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory().createValue(),
-            signatureCreator,
-            ACCOUNT_CASH_CATEGORY,
-            payload));
-  }
+    /**
+     * default cash
+     *
+     * @param payload
+     * @return
+     * @throws AscendexException
+     * @throws IOException
+     */
+    public AscendexOrderResponse placeAscendexOrder(AscendexPlaceOrderRequestPayload payload)
+            throws AscendexException, IOException {
 
-  public AscendexOrderResponse cancelAscendexOrder(AscendexCancelOrderRequestPayload payload)
-      throws AscendexException, IOException {
-    return checkResult(
-        ascendexAuthenticated.cancelOrder(
-            exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory().createValue(),
-            signatureCreator,
-            ACCOUNT_CASH_CATEGORY,
-            payload.getOrderId(),
-            payload.getSymbol(),
-            payload.getTime()));
-  }
+        return placeAscendexOrder(payload, AccountCategory.cash);
+    }
 
-  public AscendexOrderResponse cancelAllAscendexOrdersBySymbol(String symbol)
-      throws AscendexException, IOException {
-    return checkResult(
-        ascendexAuthenticated.cancelAllOrders(
-            exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory().createValue(),
-            signatureCreator,
-            ACCOUNT_CASH_CATEGORY,
-            symbol));
-  }
 
-  public List<AscendexOpenOrdersResponse> getAscendexOpenOrders(String symbol)
-      throws AscendexException, IOException {
+    public AscendexOrderResponse placeAscendexOrder(AscendexPlaceOrderRequestPayload payload, AccountCategory accountCategory)
+            throws AscendexException, IOException {
 
-    return checkResult(
-        ascendexAuthenticated.getOpenOrders(
-            exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory().createValue(),
-            signatureCreator,
-            ACCOUNT_CASH_CATEGORY,
-            symbol));
-  }
+        return checkResult(
+                ascendexAuthenticated.placeOrder(
+                        exchange.getExchangeSpecification().getExchangeSpecificParametersItem("account-group").toString(),
+                        exchange.getExchangeSpecification().getApiKey(),
+                        exchange.getNonceFactory().createValue(),
+                        signatureCreator,
+                        accountCategory,
+                        payload));
+    }
 
-  public AscendexOpenOrdersResponse getAscendexOrderById(String orderId)
-      throws AscendexException, IOException {
-    return checkResult(
-        ascendexAuthenticated.getOrderById(
-            exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory().createValue(),
-            signatureCreator,
-            ACCOUNT_CASH_CATEGORY,
-            orderId));
-  }
+    public AscendexOrderResponse cancelAscendexOrder(AscendexCancelOrderRequestPayload payload)
+            throws AscendexException, IOException {
+        return checkResult(
+                ascendexAuthenticated.cancelOrder(
+                        exchange.getExchangeSpecification().getExchangeSpecificParametersItem("account-group").toString(),
+                        exchange.getExchangeSpecification().getApiKey(),
+                        exchange.getNonceFactory().createValue(),
+                        signatureCreator,
+                        payload.getAccountCategory(),
+                        payload));
+    }
 
-  public List<AscendexOpenOrdersResponse> getAscendexUserTrades(String symbol)
-      throws AscendexException, IOException {
-    return checkResult(
-        ascendexAuthenticated.getOrdersHistory(
-            exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory().createValue(),
-            signatureCreator,
-            ACCOUNT_CASH_CATEGORY,
-            50,
-            symbol,
-            true));
-  }
+    public AscendexOrderResponse cancelAllAscendexOrdersBySymbol(AccountCategory accountCategory, String symbol)
+            throws AscendexException, IOException {
+        return checkResult(
+                ascendexAuthenticated.cancelAllOrders(
+                        exchange.getExchangeSpecification().getExchangeSpecificParametersItem("account-group").toString(),
+                        exchange.getExchangeSpecification().getApiKey(),
+                        exchange.getNonceFactory().createValue(),
+                        signatureCreator,
+                        accountCategory,
+                        symbol == null ? null : symbol.toUpperCase()));
+    }
+
+    public List<AscendexOpenOrdersResponse> getAscendexOpenOrders(AccountCategory accountCategory, String symbol)
+            throws AscendexException, IOException {
+
+        return checkResult(
+                ascendexAuthenticated.getOpenOrders(
+                        exchange.getExchangeSpecification().getExchangeSpecificParametersItem("account-group").toString(),
+                        exchange.getExchangeSpecification().getApiKey(),
+                        exchange.getNonceFactory().createValue(),
+                        signatureCreator,
+                        accountCategory,
+                        symbol == null ? symbol : symbol.toUpperCase()));
+    }
+
+    public AscendexOpenOrdersResponse getAscendexOrderById(AccountCategory accountCategory, String orderId)
+            throws AscendexException, IOException {
+        return checkResult(
+                ascendexAuthenticated.getOrderById(
+                        exchange.getExchangeSpecification().getExchangeSpecificParametersItem("account-group").toString(),
+                        exchange.getExchangeSpecification().getApiKey(),
+                        exchange.getNonceFactory().createValue(),
+                        signatureCreator,
+                        accountCategory,
+                        orderId));
+    }
+
+    public List<AscendexOpenOrdersResponse> getAscendexUserTrades(AccountCategory accountCategory, String symbol)
+            throws AscendexException, IOException {
+        return getAscendexUserTrades(accountCategory,
+                symbol,
+                50,
+                true);
+    }
+
+    public List<AscendexOpenOrdersResponse> getAscendexUserTrades(AccountCategory accountCategory, String symbol, Integer size, Boolean executedOnly)
+            throws AscendexException, IOException {
+        return checkResult(
+                ascendexAuthenticated.getOrdersHistory(
+                        exchange.getExchangeSpecification().getExchangeSpecificParametersItem("account-group").toString(),
+                        exchange.getExchangeSpecification().getApiKey(),
+                        exchange.getNonceFactory().createValue(),
+                        signatureCreator,
+                        accountCategory,
+                        size,
+                        symbol == null ? symbol : symbol.toUpperCase(),
+                        executedOnly));
+    }
+
+    public List<AscendexHistoryOrderResponse> getAscendexOrdersHistoryV2(AccountCategory accountCategory)throws AscendexException, IOException {
+        return getAscendexOrdersHistoryV2(accountCategory,null,null,null,null,null);
+    }
+
+    public List<AscendexHistoryOrderResponse> getAscendexOrdersHistoryV2(AccountCategory accountCategory,
+                                                                         String symbol,
+                                                                         Long startTime,
+                                                                         Long endTime,
+                                                                         Long seqNum,
+                                                                         Integer limit)
+            throws AscendexException, IOException {
+        return checkResult(
+                ascendexAuthenticated.getOrdersHistoryV2(
+                        exchange.getExchangeSpecification().getApiKey(),
+                        exchange.getNonceFactory().createValue(),
+                        signatureCreator,
+                        accountCategory,
+                        symbol == null ? symbol : symbol.toUpperCase(),
+                        startTime,
+                        endTime,
+                        seqNum,
+                        limit
+
+                )
+        );
+    }
 }

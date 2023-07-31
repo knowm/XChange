@@ -2,47 +2,56 @@ package org.knowm.xchange.ascendex;
 
 import java.io.IOException;
 import java.util.List;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.ascendex.dto.AscendexResponse;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexAssetDto;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexBarHistDto;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexMarketTradesDto;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexOrderbookDto;
-import org.knowm.xchange.ascendex.dto.marketdata.AscendexProductDto;
+import org.knowm.xchange.ascendex.dto.enums.AccountCategory;
+import org.knowm.xchange.ascendex.dto.marketdata.*;
 
-@Path("api/pro/v1")
+@Path("api/pro")
 @Produces(MediaType.APPLICATION_JSON)
 public interface IAscendex {
-
+  /**=========================Market Data (Public)======================================**/
   @GET
-  @Path("/assets")
+  @Path("/v1/assets")
+  @Deprecated
   AscendexResponse<List<AscendexAssetDto>> getAllAssets() throws IOException;
 
   @GET
-  @Path("/products")
+  @Path("/v2/assets")
+  AscendexResponse<List<AscendexAssetDto>> getAllAssetsV2() throws IOException;
+
+  @GET
+  @Path("/v1/products")
   AscendexResponse<List<AscendexProductDto>> getAllProducts() throws IOException;
 
   @GET
-  @Path("/depth")
+  @Path("/v1/{accountCategory}/products")
+  AscendexResponse<List<AscendexProductKindDto>> getAllProducts(@PathParam("accountCategory") AccountCategory accountCategory) throws IOException;
+
+  @GET
+  @Path("/v1/spot/ticker")
+  AscendexResponse<AscendexTickerDto> getTicker( @QueryParam("symbol") String symbol) throws IOException;
+
+  @GET
+  @Path("/v1/barhist")
+  AscendexResponse<List<AscendexBarHistDto>> getHistoricalBarData(
+          @QueryParam("symbol") String symbol,
+          @QueryParam("interval") String internal,
+          @QueryParam("to") Long to,
+          @QueryParam("from") Long from,
+          @QueryParam("n") Integer noOfBars)
+          throws IOException;
+
+  @GET
+  @Path("/v1/depth")
   AscendexResponse<AscendexOrderbookDto> getOrderbookDepth(@QueryParam("symbol") String symbol)
       throws IOException;
 
   @GET
-  @Path("/trades")
-  AscendexResponse<AscendexMarketTradesDto> getTrades(@QueryParam("symbol") String symbol)
+  @Path("/v1/trades")
+  AscendexResponse<AscendexMarketTradesDto> getTrades(@QueryParam("symbol") String symbol,@QueryParam("n") Integer n)
       throws IOException;
 
-  @GET
-  @Path("/barhist")
-  AscendexResponse<List<AscendexBarHistDto>> getHistoricalBarData(
-      @QueryParam("symbol") String symbol,
-      @QueryParam("interval") String internal,
-      @QueryParam("to") Long to,
-      @QueryParam("from") Long from,
-      @QueryParam("n") Integer noOfBars)
-      throws IOException;
+
 }

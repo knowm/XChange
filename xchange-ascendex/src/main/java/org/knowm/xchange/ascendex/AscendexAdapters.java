@@ -8,12 +8,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import org.knowm.xchange.ascendex.dto.account.AscendexCashAccountBalanceDto;
+import org.knowm.xchange.ascendex.dto.balance.AscendexCashAccountBalanceDto;
+import org.knowm.xchange.ascendex.dto.enums.AscendexOrderType;
+import org.knowm.xchange.ascendex.dto.enums.AscendexSide;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexAssetDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexMarketTradesDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexOrderbookDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexProductDto;
-import org.knowm.xchange.ascendex.dto.trade.AscendexFlags;
+import org.knowm.xchange.ascendex.dto.enums.AscendexFlags;
 import org.knowm.xchange.ascendex.dto.trade.AscendexOpenOrdersResponse;
 import org.knowm.xchange.ascendex.dto.trade.AscendexPlaceOrderRequestPayload;
 import org.knowm.xchange.currency.Currency;
@@ -99,10 +101,10 @@ public class AscendexAdapters {
         limitOrder.getInstrument().toString(),
         Date.from(Instant.now()).toInstant().toEpochMilli(),
         limitOrder.getOriginalAmount().toString(),
-        AscendexPlaceOrderRequestPayload.AscendexOrderType.limit,
+        AscendexOrderType.limit,
         limitOrder.getType().equals(Order.OrderType.ASK)
-            ? AscendexPlaceOrderRequestPayload.AscendexSide.sell
-            : AscendexPlaceOrderRequestPayload.AscendexSide.buy,
+            ? AscendexSide.sell
+            : AscendexSide.buy,
         null,
         limitOrder.getLimitPrice().toString(),
         null,
@@ -208,8 +210,8 @@ public class AscendexAdapters {
   }
 
   public static Order.OrderType adaptAscendexSideToOrderType(
-      AscendexPlaceOrderRequestPayload.AscendexSide ascendexSide) {
-    if (AscendexPlaceOrderRequestPayload.AscendexSide.buy.equals(ascendexSide)) {
+      AscendexSide ascendexSide) {
+    if (AscendexSide.buy.equals(ascendexSide)) {
       return Order.OrderType.BID;
     } else {
       return Order.OrderType.ASK;
