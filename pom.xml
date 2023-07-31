@@ -34,19 +34,19 @@
     <maven.compiler.target>11</maven.compiler.target>
     <maven.compiler.source>11</maven.compiler.source>
 
-    <version.assertj>3.23.1</version.assertj>
+    <version.assertj>3.24.2</version.assertj>
     <version.commons.lang3>3.12.0</version.commons.lang3>
     <version.fasterxml>2.14.1</version.fasterxml>
     <version.github.mmazi>2.1.0</version.github.mmazi>
     <version.resilience4j>1.7.0</version.resilience4j>
     <version.junit>5.9.3</version.junit>
-    <version.lombok>1.18.22</version.lombok>
+    <version.lombok>1.18.26</version.lombok>
     <version.knowm.xchart>3.8.2</version.knowm.xchart>
     <version.qos.logback>1.4.5</version.qos.logback>
     <version.reflections>0.10.2</version.reflections>
     <version.slf4j>2.0.6</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>3.19.2</version.java-jwt>
+    <version.java-jwt>4.0.0</version.java-jwt>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
@@ -337,14 +337,6 @@
         <version>${version.qos.logback}</version>
       </dependency>
 
-      <!-- Lombok for boilerplate -->
-      <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>${version.lombok}</version>
-        <scope>provided</scope>
-      </dependency>
-
       <!-- jwt for auth -->
       <dependency>
         <groupId>com.auth0</groupId>
@@ -367,7 +359,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.86.Final</version>
+            <version>4.1.90.Final</version>
         </dependency>
 
     </dependencies>
@@ -410,6 +402,14 @@
       <artifactId>assertj-core</artifactId>
       <version>${version.assertj}</version>
       <scope>test</scope>
+    </dependency>
+
+    <!-- Lombok for boilerplate -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${version.lombok}</version>
+      <scope>provided</scope>
     </dependency>
 
   </dependencies>
@@ -544,13 +544,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M7</version>
+        <version>3.0.0</version>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>3.0.0-M7</version>
+        <version>3.0.0</version>
         <executions>
           <execution>
             <goals>
