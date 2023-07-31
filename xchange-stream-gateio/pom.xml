@@ -21,5 +21,6 @@
             <artifactId>xchange-gateio</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
     </dependencies>
 </project>

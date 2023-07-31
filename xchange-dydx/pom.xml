@@ -12,6 +12,7 @@
     <artifactId>xchange-dydx</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>

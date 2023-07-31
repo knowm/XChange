@@ -38,6 +38,5 @@
             <version>${project.parent.version}</version>
         </dependency>
 
-        <!-- Lombok for boilerplate -->
     </dependencies>
 </project>
