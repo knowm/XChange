@@ -1,5 +1,12 @@
 package org.knowm.xchange.gateio.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Date;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -9,14 +16,6 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Date;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class GateioTradeServiceTest extends GateioExchangeWiremock {
 
@@ -71,6 +70,19 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
 
     var actualResponse = gateioTradeService.placeLimitOrder(limitOrder);
     assertThat(actualResponse).isEqualTo("373824296029");
+  }
+
+
+  @Test
+  void valid_limit_buy_order() throws IOException {
+    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+        .userReference("t-valid-limit-buy-order")
+        .originalAmount(new BigDecimal("0.00068"))
+        .limitPrice(new BigDecimal("10000.7"))
+        .build();
+
+    var actualResponse = gateioTradeService.placeLimitOrder(limitOrder);
+    assertThat(actualResponse).isEqualTo("376835979523");
   }
 
 

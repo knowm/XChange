@@ -1,0 +1,20 @@
+{
+  "id" : "de1a7911-c7dd-4151-b92e-7f3654aaf1d1",
+  "name" : "api_v4_spot_orders",
+  "request" : {
+    "url" : "/api/v4/spot/orders",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"id\":null,\"text\":\"t-valid-limit-buy-order\",\"amend_text\":null,\"create_time_ms\":null,\"update_time_ms\":null,\"status\":null,\"currency_pair\":\"BTC_USDT\",\"type\":\"limit\",\"account\":\"spot\",\"side\":\"buy\",\"amount\":0.00068,\"price\":10000.7,\"time_in_force\":\"gtc\",\"iceberg\":null,\"auto_borrow\":null,\"auto_repay\":null,\"left\":null,\"filled_total\":null,\"avg_deal_price\":null,\"fee\":null,\"fee_currency\":null,\"point_fee\":null,\"gt_fee\":null,\"gt_maker_fee\":null,\"gt_taker_fee\":null,\"gt_discount\":null,\"rebated_fee\":null,\"rebated_fee_currency\":null,\"stp_id\":null,\"stp_act\":null,\"finish_as\":null}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "bodyFileName" : "api_v4_spot_orders-valid-limit-buy-order.json"
+  },
+  "uuid" : "de1a7911-c7dd-4151-b92e-7f3654aaf1d1",
+  "persistent" : true,
+  "insertionIndex" : 30
+}
