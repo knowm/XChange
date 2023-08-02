@@ -15,6 +15,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
 
 class GateioTradeServiceTest extends GateioExchangeWiremock {
@@ -70,6 +71,13 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
 
     var actualResponse = gateioTradeService.placeLimitOrder(limitOrder);
     assertThat(actualResponse).isEqualTo("373824296029");
+  }
+
+
+  @Test
+  void valid_cancel_order() throws IOException {
+    boolean actual = gateioTradeService.cancelOrder(new DefaultCancelOrderByInstrumentAndIdParams(CurrencyPair.BTC_USDT, "376835979523"));
+    assertThat(actual).isTrue();
   }
 
 

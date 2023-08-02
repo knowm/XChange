@@ -3,6 +3,7 @@ package org.knowm.xchange.gateio;
 import java.io.IOException;
 import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -70,6 +71,17 @@ public interface GateioV4Authenticated {
   @GET
   @Path("spot/orders/{order_id}")
   GateioOrder getOrder(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @PathParam("order_id") String orderId,
+      @QueryParam("currency_pair") String currencyPair
+  ) throws IOException, GateioException;
+
+
+  @DELETE
+  @Path("spot/orders/{order_id}")
+  GateioOrder cancelOrder(
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
