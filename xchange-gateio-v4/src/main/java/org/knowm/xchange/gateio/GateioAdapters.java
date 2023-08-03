@@ -1,5 +1,9 @@
 package org.knowm.xchange.gateio;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -18,11 +22,6 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.service.params.DefaultGateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 
 @UtilityClass
@@ -142,7 +141,8 @@ public class GateioAdapters {
         order = new MarketOrder.Builder(orderType, instrument);
         break;
       case "limit":
-        order = new LimitOrder.Builder(orderType, instrument);
+        order = new LimitOrder.Builder(orderType, instrument)
+            .limitPrice(gateioOrder.getPrice());
         break;
       default:
         throw new IllegalArgumentException("Can't map " + gateioOrder.getType());
