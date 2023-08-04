@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.binancefutures.dto;
 import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_COMMENTS;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.ACCOUNT_UPDATE;
-import static info.bitrich.xchangestream.binancefuture.dto.BinanceFuturesPosition.guessContract;
+import static info.bitrich.xchangestream.binancefuture.BinanceFuturesAdapters.guessContract;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,7 +33,7 @@ public class AccountUpdateBinanceWebSocketTransactionTest extends TestCase {
         mapper.readValue(stream, BinanceFuturesAccountUpdateTransaction.class);
 
     assertThat(binanceFuturesAccountUpdateTransaction).isNotNull();
-    assertThat(binanceFuturesAccountUpdateTransaction.eventType).isEqualTo(ACCOUNT_UPDATE);
+    assertThat(binanceFuturesAccountUpdateTransaction.getEventType()).isEqualTo(ACCOUNT_UPDATE);
     assertThat(binanceFuturesAccountUpdateTransaction.getEventTime().getTime())
         .isEqualTo(1564745798939L);
 

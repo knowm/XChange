@@ -25,10 +25,10 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
   private final Subject<ExecutionReportBinanceUserTransaction> executionReportsPublisher =
       PublishSubject.<ExecutionReportBinanceUserTransaction>create().toSerialized();
 
-  private volatile Disposable executionReports;
-  private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
+  protected volatile Disposable executionReports;
+  protected volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
 
-  private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+  protected final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
   public BinanceStreamingTradeService(
       BinanceUserDataStreamingService binanceUserDataStreamingService) {

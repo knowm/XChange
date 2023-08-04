@@ -4,17 +4,16 @@ import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BinanceLiveFuturesUserDataExample {
+public class BinanceLiveFuturesOrdersExample {
 
   private static final Logger LOG = LoggerFactory.getLogger(
-      BinanceLiveFuturesUserDataExample.class);
+      BinanceLiveFuturesOrdersExample.class);
 
   public static void main(String[] args) throws InterruptedException {
     // Far safer than temporarily adding these to code that might get committed to VCS
@@ -41,41 +40,21 @@ public class BinanceLiveFuturesUserDataExample {
 
     exchange.connect(subscription).blockingAwait();
 
-    Disposable account = null;
-    Disposable balances = null;
-    Disposable positions = null;
+    Disposable orders = null;
 
     LOG.info("Subscribing authenticated channels");
 
-    account =
+    orders =
         exchange
-            .getStreamingAccountService()
-            .getAccountUpdates()
+            .getStreamingTradeService()
+            .getOrderUpdate(contract)
             .subscribe(
-                acc -> LOG.info("Account: {}", acc),
-                e -> LOG.error("Error in account stream", e));
-
-    balances =
-        exchange
-            .getStreamingAccountService()
-            .getBalanceChanges(new Currency("USDT"))
-            .subscribe(
-                balance -> LOG.info("Balance: {}", balance),
-                e -> LOG.error("Error in balance stream", e));
-
-    positions =
-        exchange
-            .getStreamingAccountService()
-            .getPositionChanges(contract)
-            .subscribe(
-                position -> LOG.info("Position: {}", position),
-                e -> LOG.error("Error in position stream", e));
+                ord -> LOG.info("Order: {}", ord),
+                e -> LOG.error("Error in orders stream", e));
 
     Thread.sleep(1000000);
 
-    balances.dispose();
-    account.dispose();
-    positions.dispose();
+    orders.dispose();
 
     exchange.disconnect().blockingAwait();
   }
