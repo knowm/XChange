@@ -13,7 +13,9 @@ public class BaseBinanceWebSocketTransaction {
     AGG_TRADE("aggTrade"),
     TRADE("trade"),
     OUTBOUND_ACCOUNT_POSITION("outboundAccountPosition"),
-    EXECUTION_REPORT("executionReport");
+    EXECUTION_REPORT("executionReport"),
+    ORDER_TRADE_UPDATE("ORDER_TRADE_UPDATE"),
+    ACCOUNT_UPDATE("ACCOUNT_UPDATE");
 
     /**
      * Get a type from the `type` string of a `ProductBinanceWebSocketTransaction`.

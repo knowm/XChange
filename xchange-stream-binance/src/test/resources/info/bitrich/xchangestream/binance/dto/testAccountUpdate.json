@@ -1,0 +1,55 @@
+{
+    "e": "ACCOUNT_UPDATE",                // Event Type
+    "E": 1564745798939,                   // Event Time
+    "T": 1564745798938 ,                  // Transaction
+    "a":                                  // Update Data
+    {
+        "m":"ORDER",                      // Event reason type
+        "B":[                             // Balances
+            {
+                "a":"USDT",                   // Asset
+                "wb":"122624.12345678",       // Wallet Balance
+                "cw":"100.12345678",          // Cross Wallet Balance
+                "bc":"50.12345678"            // Balance Change except PnL and Commission
+            },
+            {
+                "a":"BUSD",
+                "wb":"1.00000000",
+                "cw":"0.00000000",
+                "bc":"-49.12345678"
+            }
+        ],
+        "P":[
+            {
+                "s":"BTCUSDT",            // Symbol
+                "pa":"0",                 // Position Amount
+                "ep":"0.00000",            // Entry Price
+                "cr":"200",               // (Pre-fee) Accumulated Realized
+                "up":"0",                     // Unrealized PnL
+                "mt":"isolated",              // Margin Type
+                "iw":"0.00000000",            // Isolated Wallet (if isolated position)
+                "ps":"BOTH"                   // Position Side
+            },
+            {
+                "s":"BTCUSDT",
+                "pa":"20",
+                "ep":"6563.66500",
+                "cr":"0",
+                "up":"2850.21200",
+                "mt":"isolated",
+                "iw":"13200.70726908",
+                "ps":"LONG"
+            },
+            {
+                "s":"BTCUSDT",
+                "pa":"-10",
+                "ep":"6563.86000",
+                "cr":"-45.04000000",
+                "up":"-1423.15600",
+                "mt":"isolated",
+                "iw":"6570.42511771",
+                "ps":"SHORT"
+            }
+        ]
+    }
+}

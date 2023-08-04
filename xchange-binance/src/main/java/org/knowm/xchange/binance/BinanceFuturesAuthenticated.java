@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
@@ -206,6 +207,34 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures{
             @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
             @HeaderParam(X_MBX_APIKEY) String apiKey,
             @QueryParam(SIGNATURE) ParamsDigest signature)
+            throws IOException, BinanceException;
+
+    /**
+     * Returns a listen key for websocket login.
+     *
+     * @param apiKey the api key
+     * @return
+     * @throws BinanceException
+     * @throws IOException
+     */
+    @POST
+    @Path("fapi/v1/listenKey")
+    BinanceListenKey startUserDataStream(@HeaderParam(X_MBX_APIKEY) String apiKey)
+            throws IOException, BinanceException;
+
+    /**
+     * Keeps the authenticated websocket session alive.
+     *
+     * @param apiKey the api key
+     * @param listenKey the api secret
+     * @return
+     * @throws BinanceException
+     * @throws IOException
+     */
+    @PUT
+    @Path("fapi/v1/listenKey?listenKey={listenKey}")
+    Map<?, ?> keepAliveUserDataStream(
+            @HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey)
             throws IOException, BinanceException;
 
 }

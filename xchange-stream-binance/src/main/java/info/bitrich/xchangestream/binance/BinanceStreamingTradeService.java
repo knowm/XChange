@@ -90,7 +90,7 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
    * URLs and therefore must act in a publisher fashion so that subscribers get an uninterrupted
    * stream.
    */
-  void setUserDataStreamingService(
+  public void setUserDataStreamingService(
       BinanceUserDataStreamingService binanceUserDataStreamingService) {
     if (executionReports != null && !executionReports.isDisposed()) executionReports.dispose();
     this.binanceUserDataStreamingService = binanceUserDataStreamingService;
