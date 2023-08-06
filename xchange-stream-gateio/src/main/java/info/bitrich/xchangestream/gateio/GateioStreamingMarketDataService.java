@@ -1,6 +1,8 @@
-import dto.response.GateioOrderBookResponse;
-import dto.response.GateioTradesResponse;
+package info.bitrich.xchangestream.gateio;
+
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.gateio.dto.response.GateioOrderBookResponse;
+import info.bitrich.xchangestream.gateio.dto.response.GateioTradesResponse;
 import io.reactivex.Observable;
 import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,7 +14,6 @@ import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Author: Max Gao (gaamox@tutanota.com) Created: 05-05-2021 */
 public class GateioStreamingMarketDataService implements StreamingMarketDataService {
   private static final Logger LOGGER =
       LoggerFactory.getLogger(GateioStreamingMarketDataService.class);

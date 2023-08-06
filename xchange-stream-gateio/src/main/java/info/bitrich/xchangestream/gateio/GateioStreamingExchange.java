@@ -1,3 +1,5 @@
+package info.bitrich.xchangestream.gateio;
+
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
@@ -6,7 +8,6 @@ import org.knowm.xchange.gateio.GateioExchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Author: Max Gao (gaamox@tutanota.com) Created: 05-05-2021 */
 public class GateioStreamingExchange extends GateioExchange implements StreamingExchange {
   private static final Logger LOG = LoggerFactory.getLogger(GateioStreamingExchange.class);
 

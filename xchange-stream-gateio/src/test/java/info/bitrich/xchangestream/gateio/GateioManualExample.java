@@ -1,3 +1,5 @@
+package info.bitrich.xchangestream.gateio;
+
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
@@ -10,6 +12,7 @@ public class GateioManualExample {
   private static final Logger LOG = LoggerFactory.getLogger(GateioManualExample.class);
 
   public static void main(String[] args) throws Exception {
+    System.out.println("aaa");
     ProductSubscription productSubscription =
         ProductSubscription.create()
             .addOrderbook(CurrencyPair.ETH_USDT)
@@ -44,6 +47,7 @@ public class GateioManualExample {
             .getOrderBook(CurrencyPair.BTC_USDT)
             .subscribe(
                 orderBook -> {
+                  System.out.println(orderBook.getAsks().get(0));
                   LOG.info("First ask: {}", orderBook.getAsks().get(0));
                   LOG.info("First bid: {}", orderBook.getBids().get(0));
                 },

@@ -1,4 +1,4 @@
-package dto.response;
+package info.bitrich.xchangestream.gateio.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
@@ -11,7 +11,6 @@ import org.knowm.xchange.dto.marketdata.Trade;
 
 @Getter
 @Setter
-/** Author: Max Gao (gaamox@tutanota.com) Created: 05-05-2021 */
 public class GateioTradesResponse extends GateioWebSocketTransaction {
   @JsonProperty("result")
   private Result result;

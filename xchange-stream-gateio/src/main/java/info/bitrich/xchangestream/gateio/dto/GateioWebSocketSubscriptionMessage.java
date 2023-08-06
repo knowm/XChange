@@ -1,4 +1,4 @@
-package dto;
+package info.bitrich.xchangestream.gateio.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** Author: Max Gao (gaamox@tutanota.com) Created: 05-05-2021 */
 @Setter
 @NoArgsConstructor
 public class GateioWebSocketSubscriptionMessage {
