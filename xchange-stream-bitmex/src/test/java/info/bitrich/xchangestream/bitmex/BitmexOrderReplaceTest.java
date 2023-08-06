@@ -2,9 +2,9 @@ package info.bitrich.xchangestream.bitmex;
 
 import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
 
+import info.bitrich.xchangestream.core.StreamingExchange;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -21,8 +21,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.CertHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import info.bitrich.xchangestream.core.StreamingExchange;
 
 /** @author Nikita Belenkiy on 18/05/2018. */
 public class BitmexOrderReplaceTest {
@@ -54,7 +52,7 @@ public class BitmexOrderReplaceTest {
     defaultExchangeSpecification.setExchangeSpecificParametersItem(
         StreamingExchange.USE_SANDBOX, true);
     defaultExchangeSpecification.setExchangeSpecificParametersItem(
-        StreamingExchange.ACCEPT_ALL_CERITICATES, true);
+        StreamingExchange.ACCEPT_ALL_CERTIFICATES, true);
     //
     // defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.ENABLE_LOGGING_HANDLER, true);
 

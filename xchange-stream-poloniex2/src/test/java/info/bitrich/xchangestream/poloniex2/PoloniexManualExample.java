@@ -27,7 +27,7 @@ public class PoloniexManualExample {
     defaultExchangeSpecification.setExchangeSpecificParametersItem(
         StreamingExchange.USE_SANDBOX, true);
     defaultExchangeSpecification.setExchangeSpecificParametersItem(
-        StreamingExchange.ACCEPT_ALL_CERITICATES, true);
+        StreamingExchange.ACCEPT_ALL_CERTIFICATES, true);
     defaultExchangeSpecification.setExchangeSpecificParametersItem(
         StreamingExchange.ENABLE_LOGGING_HANDLER, true);
 

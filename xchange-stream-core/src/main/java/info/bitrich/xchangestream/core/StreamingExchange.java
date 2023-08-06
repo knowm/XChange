@@ -10,7 +10,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public interface StreamingExchange extends Exchange {
-  String ACCEPT_ALL_CERITICATES = "Accept_All_Ceriticates";
+  String ACCEPT_ALL_CERTIFICATES = "Accept_All_Certificates";
   String ENABLE_LOGGING_HANDLER = "Enable_Logging_Handler";
   String SOCKS_PROXY_HOST = "SOCKS_Proxy_Host";
   String SOCKS_PROXY_PORT = "SOCKS_Proxy_Port";
@@ -131,15 +131,15 @@ public interface StreamingExchange extends Exchange {
             exchangeSpec.getExchangeSpecificParametersItem(
                 ConnectableService.BEFORE_CONNECTION_HANDLER));
 
-    Boolean accept_all_ceriticates =
-        (Boolean) exchangeSpec.getExchangeSpecificParametersItem(ACCEPT_ALL_CERITICATES);
-    if (accept_all_ceriticates != null && accept_all_ceriticates) {
+    Boolean acceptAllCertificates =
+        (Boolean) exchangeSpec.getExchangeSpecificParametersItem(ACCEPT_ALL_CERTIFICATES);
+    if (acceptAllCertificates != null && acceptAllCertificates) {
       streamingService.setAcceptAllCertificates(true);
     }
 
-    Boolean enable_logging_handler =
+    Boolean enableLoggingHandler =
         (Boolean) exchangeSpec.getExchangeSpecificParametersItem(ENABLE_LOGGING_HANDLER);
-    if (enable_logging_handler != null && enable_logging_handler) {
+    if (enableLoggingHandler != null && enableLoggingHandler) {
       streamingService.setEnableLoggingHandler(true);
     }
     Boolean autoReconnect =
