@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.gateio;
 
-import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
 import org.knowm.xchange.ExchangeSpecification;
@@ -12,12 +11,6 @@ public class GateioManualExample {
   private static final Logger LOG = LoggerFactory.getLogger(GateioManualExample.class);
 
   public static void main(String[] args) throws Exception {
-    ProductSubscription productSubscription =
-        ProductSubscription.create()
-            .addOrderbook(CurrencyPair.ETH_USDT)
-            .addOrderbook(CurrencyPair.BTC_USDT)
-            .addTrades(CurrencyPair.ETH_USDT)
-            .build();
 
     ExchangeSpecification spec =
         StreamingExchangeFactory.INSTANCE
@@ -28,7 +21,7 @@ public class GateioManualExample {
     GateioStreamingExchange exchange =
         (GateioStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
 
-    exchange.connect(productSubscription).blockingAwait();
+    exchange.connect().blockingAwait();
 
     Disposable sub1 =
         exchange

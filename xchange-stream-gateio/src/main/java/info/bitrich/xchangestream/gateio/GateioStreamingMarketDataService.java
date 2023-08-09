@@ -4,13 +4,11 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.gateio.dto.response.GateioOrderBookResponse;
 import info.bitrich.xchangestream.gateio.dto.response.GateioTradesResponse;
 import io.reactivex.Observable;
-import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,9 +21,6 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
     this.service = service;
   }
 
-  private boolean containsPair(List<Instrument> pairs, CurrencyPair pair) {
-    return pairs.stream().anyMatch(p -> p.equals(pair));
-  }
 
   /**
    * Uses the limited-level snapshot method:
@@ -37,10 +32,6 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
    */
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    if (!containsPair(service.getProduct().getOrderBook(), currencyPair))
-      throw new UnsupportedOperationException(
-          String.format("The currency pair %s is not subscribed for orderbook", currencyPair));
-
     return service
         .getRawWebSocketTransactions(currencyPair, GateioStreamingService.SPOT_ORDERBOOK_CHANNEL)
         .map(msg -> ((GateioOrderBookResponse) msg).toOrderBook(currencyPair));

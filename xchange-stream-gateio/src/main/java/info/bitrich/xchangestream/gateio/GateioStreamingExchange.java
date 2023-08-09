@@ -20,14 +20,10 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
 
   @Override
   public Completable connect(ProductSubscription... args) {
-    if (args == null || args.length == 0)
-      throw new UnsupportedOperationException("The ProductSubscription must be defined!");
-
-    this.streamingService = new GateioStreamingService(V4_URL, exchangeSpecification);
+    streamingService = new GateioStreamingService(V4_URL, exchangeSpecification);
     applyStreamingSpecification(getExchangeSpecification(), streamingService);
-    this.streamingMarketDataService = new GateioStreamingMarketDataService(streamingService);
+    streamingMarketDataService = new GateioStreamingMarketDataService(streamingService);
 
-    streamingService.subscribeMultipleCurrencyPairs(args);
     return streamingService.connect();
   }
 

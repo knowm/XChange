@@ -2,7 +2,6 @@ package info.bitrich.xchangestream.gateio;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.gateio.dto.GateioWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.gateio.dto.response.GateioOrderBookResponse;
 import info.bitrich.xchangestream.gateio.dto.response.GateioTradesResponse;
@@ -34,7 +33,6 @@ public class GateioStreamingService extends JsonNettyStreamingService {
   private static final int UPDATE_INTERVAL_DEFAULT = 100;
 
   private final String apiUri;
-  private ProductSubscription productSubscription;
   private ExchangeSpecification exchangeSpecification;
 
   private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
@@ -64,13 +62,6 @@ public class GateioStreamingService extends JsonNettyStreamingService {
         .filter(t -> currencyPair.equals(t.getCurrencyPair()));
   }
 
-  public void subscribeMultipleCurrencyPairs(ProductSubscription... products) {
-    this.productSubscription = products[0];
-  }
-
-  public ProductSubscription getProduct() {
-    return this.productSubscription;
-  }
 
   @Override
   protected String getChannelNameFromMessage(JsonNode message) {
