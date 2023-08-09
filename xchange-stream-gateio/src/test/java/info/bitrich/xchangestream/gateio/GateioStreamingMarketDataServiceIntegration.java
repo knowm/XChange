@@ -3,7 +3,9 @@ package info.bitrich.xchangestream.gateio;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.reactivex.Observable;
+import io.reactivex.observers.BaseTestConsumer.TestWaitStrategy;
 import io.reactivex.observers.TestObserver;
+import java.time.Duration;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -16,13 +18,13 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
   void order_book() {
     Observable<OrderBook> observable = exchange
         .getStreamingMarketDataService()
-        .getOrderBook(CurrencyPair.BTC_USDT);
+        .getOrderBook(CurrencyPair.BTC_USDT, 10, Duration.ofMillis(100));
 
     TestObserver<OrderBook> testObserver = observable.test();
 
     OrderBook orderBook = testObserver
         .assertSubscribed()
-        .awaitCount(1)
+        .awaitCount(1, TestWaitStrategy.SLEEP_10MS, 10000)
         .assertNoTimeout()
         .values().get(0);
 
@@ -44,7 +46,7 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
 
     Trade trade = testObserver
         .assertSubscribed()
-        .awaitCount(1)
+        .awaitCount(1, TestWaitStrategy.SLEEP_10MS, 10000)
         .assertNoTimeout()
         .values().get(0);
 
@@ -66,7 +68,7 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
 
     Ticker ticker = testObserver
         .assertSubscribed()
-        .awaitCount(1)
+        .awaitCount(1, TestWaitStrategy.SLEEP_10MS, 10000)
         .assertNoTimeout()
         .values()
         .get(0);

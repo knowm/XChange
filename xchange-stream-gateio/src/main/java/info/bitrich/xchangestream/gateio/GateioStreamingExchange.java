@@ -20,7 +20,7 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
 
   @Override
   public Completable connect(ProductSubscription... args) {
-    streamingService = new GateioStreamingService(V4_URL, exchangeSpecification);
+    streamingService = new GateioStreamingService(V4_URL);
     applyStreamingSpecification(getExchangeSpecification(), streamingService);
     streamingMarketDataService = new GateioStreamingMarketDataService(streamingService);
 

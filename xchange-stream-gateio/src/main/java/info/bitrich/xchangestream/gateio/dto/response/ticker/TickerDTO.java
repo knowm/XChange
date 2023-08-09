@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.gateio.dto;
+package info.bitrich.xchangestream.gateio.dto.response.ticker;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

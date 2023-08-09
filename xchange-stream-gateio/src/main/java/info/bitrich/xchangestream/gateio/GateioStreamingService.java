@@ -1,26 +1,24 @@
 package info.bitrich.xchangestream.gateio;
 
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.gateio.dto.GateioWebSocketSubscriptionMessage;
-import info.bitrich.xchangestream.gateio.dto.response.GateioOrderBookResponse;
-import info.bitrich.xchangestream.gateio.dto.response.GateioTradesResponse;
-import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketTransaction;
+import info.bitrich.xchangestream.gateio.config.ObjecMapperHelper;
+import info.bitrich.xchangestream.gateio.dto.request.GateioWebSocketRequest;
+import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairLevelIntervalPayload;
+import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairPayload;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Observable;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GateioStreamingService extends JsonNettyStreamingService {
-  private static final Logger LOG = LoggerFactory.getLogger(GateioStreamingService.class);
   private static final String SUBSCRIBE = "subscribe";
   private static final String UNSUBSCRIBE = "unsubscribe";
   private static final String CHANNEL_NAME_DELIMITER = "-";
@@ -32,34 +30,12 @@ public class GateioStreamingService extends JsonNettyStreamingService {
   private static final int MAX_DEPTH_DEFAULT = 5;
   private static final int UPDATE_INTERVAL_DEFAULT = 100;
 
-  private final String apiUri;
-  private ExchangeSpecification exchangeSpecification;
-
   private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
-  private final Map<String, String> channelSubscriptionMessages = new ConcurrentHashMap<>();
 
-  public GateioStreamingService(String apiUri, ExchangeSpecification exchangeSpecification) {
+  private final ObjectMapper objectMapper = ObjecMapperHelper.getObjectMapper();
+
+  public GateioStreamingService(String apiUri) {
     super(apiUri, Integer.MAX_VALUE);
-    this.apiUri = apiUri;
-    this.exchangeSpecification = exchangeSpecification;
-  }
-
-  public Observable<GateioWebSocketTransaction> getRawWebSocketTransactions(
-      CurrencyPair currencyPair, String channelName, Object... args) {
-    final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-
-    return subscribeChannel(channelName, currencyPair, args)
-        .map(
-            msg -> {
-              switch (channelName) {
-                case SPOT_ORDERBOOK_CHANNEL:
-                  return mapper.treeToValue(msg, GateioOrderBookResponse.class);
-                case SPOT_TRADES_CHANNEL:
-                  return mapper.treeToValue(msg, GateioTradesResponse.class);
-              }
-              return mapper.treeToValue(msg, GateioWebSocketTransaction.class);
-            })
-        .filter(t -> currencyPair.equals(t.getCurrencyPair()));
   }
 
 
@@ -88,17 +64,13 @@ public class GateioStreamingService extends JsonNettyStreamingService {
     String currencyPairChannelName =
         String.format("%s-%s", channelName, currencyPair.toString().replace('/', '_'));
 
-    try {
-      // Example channel name key: spot.order_book_update-ETH_USDT, spot.trades-BTC_USDT
-      if (!channels.containsKey(currencyPairChannelName)
-          && !subscriptions.containsKey(currencyPairChannelName)) {
-        subscriptions.put(
-            currencyPairChannelName, super.subscribeChannel(currencyPairChannelName, args));
-        channelSubscriptionMessages.put(
-            currencyPairChannelName, getSubscribeMessage(currencyPairChannelName, currencyPair));
-      }
-    } catch (IOException e) {
-      LOG.error("Failed to subscribe to channel: {}", currencyPairChannelName);
+    // Example channel name key: spot.order_book_update-ETH_USDT, spot.trades-BTC_USDT
+    if (!channels.containsKey(currencyPairChannelName) && !subscriptions.containsKey(currencyPairChannelName)) {
+      // subscribe
+      Observable<JsonNode> observable = super.subscribeChannel(currencyPairChannelName, args);
+
+      // cache channel subscribtion
+      subscriptions.put(currencyPairChannelName, observable);
     }
 
     return subscriptions.get(currencyPairChannelName);
@@ -107,34 +79,54 @@ public class GateioStreamingService extends JsonNettyStreamingService {
   /**
    * Returns a JSON String containing the subscription message.
    *
-   * @param channelName
-   * @param args CurrencyPair to subscribe to
-   * @return
-   * @throws IOException
+   * @param channelName e.g. spot.order_book_update-ETH_USDT
+   * @param args CurrencyPair to subscribe and additional channel-specific arguments
+   * @return subscription message
    */
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-    final CurrencyPair currencyPair =
-        (args.length > 0 && args[0] instanceof CurrencyPair) ? ((CurrencyPair) args[0]) : null;
+    GateioWebSocketRequest request = getWebSocketRequest(channelName, SUBSCRIBE, args);
+    return objectMapper.writeValueAsString(request);
+  }
 
-    final int maxDepth =
-        exchangeSpecification.getExchangeSpecificParametersItem("maxDepth") != null
-            ? (int) exchangeSpecification.getExchangeSpecificParametersItem("maxDepth")
-            : MAX_DEPTH_DEFAULT;
-    final int msgInterval =
-        exchangeSpecification.getExchangeSpecificParametersItem("updateInterval") != null
-            ? (int) exchangeSpecification.getExchangeSpecificParametersItem("updateInterval")
-            : UPDATE_INTERVAL_DEFAULT;
 
-    GateioWebSocketSubscriptionMessage subscribeMessage =
-        new GateioWebSocketSubscriptionMessage(
-            channelName.split(CHANNEL_NAME_DELIMITER)[0],
-            SUBSCRIBE,
-            currencyPair,
-            msgInterval,
-            maxDepth);
+  private GateioWebSocketRequest getWebSocketRequest(String channelName, String event, Object... args) {
+    // create request common part
+    String generalChannelName = channelName.split(CHANNEL_NAME_DELIMITER)[0];
+    GateioWebSocketRequest request = GateioWebSocketRequest.builder()
+        .channel(generalChannelName)
+        .event(event)
+        .time(Instant.now())
+        .build();
 
-    return objectMapper.writeValueAsString(subscribeMessage);
+    // create channel specific payload
+    Object payload;
+    switch (generalChannelName) {
+
+      case SPOT_TICKERS_CHANNEL:
+      case SPOT_TRADES_CHANNEL:
+        payload = CurrencyPairPayload.builder()
+            .currencyPair(CurrencyPair.BTC_USDT)
+            .build();
+        break;
+
+      case SPOT_ORDERBOOK_CHANNEL:
+        Integer orderBookLevel = (args.length > 1 && args[1] instanceof Integer) ? (Integer) args[1] : MAX_DEPTH_DEFAULT;
+        Duration updateSpeed = (args.length > 2 && args[2] instanceof Duration) ? (Duration) args[2] : Duration.ofMillis(UPDATE_INTERVAL_DEFAULT);
+
+        payload = CurrencyPairLevelIntervalPayload.builder()
+            .currencyPair(CurrencyPair.BTC_USDT)
+            .orderBookLevel(orderBookLevel)
+            .updateSpeed(updateSpeed)
+            .build();
+        request.setPayload(payload);
+        break;
+
+      default:
+        throw new IllegalStateException("Unexpected value: " + generalChannelName);
+    }
+    request.setPayload(payload);
+    return request;
   }
 
   @Override
@@ -144,10 +136,7 @@ public class GateioStreamingService extends JsonNettyStreamingService {
 
   @Override
   public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
-    GateioWebSocketSubscriptionMessage unsubscribeMessage =
-        objectMapper.readValue(
-            channelSubscriptionMessages.get(channelName), GateioWebSocketSubscriptionMessage.class);
-    unsubscribeMessage.setEvent(UNSUBSCRIBE);
+    GateioWebSocketRequest unsubscribeMessage = getWebSocketRequest(channelName, UNSUBSCRIBE, args);
     return objectMapper.writeValueAsString(unsubscribeMessage);
   }
 }
