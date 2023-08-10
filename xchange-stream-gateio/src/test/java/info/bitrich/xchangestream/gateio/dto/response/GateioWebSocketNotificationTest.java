@@ -7,6 +7,7 @@ import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
+import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +33,13 @@ public class GateioWebSocketNotificationTest {
   void deserialize_orderbook() throws Exception {
     GateioWebSocketNotification notification = readNotification("spot.order_book.update.json");
     assertThat(notification).isInstanceOf(GateioOrderBookNotification.class);
+  }
+
+
+  @Test
+  void deserialize_usertrades() throws Exception {
+    GateioWebSocketNotification notification = readNotification("spot.usertrades.update.json");
+    assertThat(notification).isInstanceOf(GateioMultipleUserTradeNotification.class);
   }
 
 

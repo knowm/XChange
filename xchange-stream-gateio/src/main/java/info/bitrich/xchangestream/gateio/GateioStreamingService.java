@@ -1,13 +1,18 @@
 package info.bitrich.xchangestream.gateio;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.Event;
 import info.bitrich.xchangestream.gateio.dto.request.GateioWebSocketRequest;
+import info.bitrich.xchangestream.gateio.dto.request.GateioWebSocketRequest.AuthInfo;
 import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairLevelIntervalPayload;
 import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairPayload;
+import info.bitrich.xchangestream.gateio.dto.request.payload.StringPayload;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketNotification;
+import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
+import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUserTradeNotification;
 import info.bitrich.xchangestream.service.netty.NettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
@@ -15,10 +20,8 @@ import io.reactivex.Observable;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -28,12 +31,20 @@ import org.knowm.xchange.currency.CurrencyPair;
 @Slf4j
 public class GateioStreamingService extends NettyStreamingService<GateioWebSocketNotification> {
 
+  private static final String USERTRADES_BROADCAST_CHANNEL_NAME = Config.SPOT_USER_TRADES_CHANNEL + Config.CHANNEL_NAME_DELIMITER + "null";
+
   private final Map<String, Observable<GateioWebSocketNotification>> subscriptions = new ConcurrentHashMap<>();
 
   private final ObjectMapper objectMapper = Config.getObjectMapper();
 
-  public GateioStreamingService(String apiUri) {
+  private final String apiKey;
+
+  private final GateioStreamingAuthHelper gateioStreamingAuthHelper;
+
+  public GateioStreamingService(String apiUri, String apiKey, String apiSecret) {
     super(apiUri, Integer.MAX_VALUE);
+    this.apiKey = apiKey;
+    this.gateioStreamingAuthHelper = new GateioStreamingAuthHelper(apiSecret);
   }
 
   @Override
@@ -47,7 +58,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
         (args.length > 0 && args[0] instanceof CurrencyPair) ? ((CurrencyPair) args[0]) : null;
 
     String uniqueChannelName =
-        String.format("%s%s%s", channelName, Config.CHANNEL_NAME_DELIMITER, currencyPair.toString());
+        String.format("%s%s%s", channelName, Config.CHANNEL_NAME_DELIMITER, currencyPair);
 
     // Example channel name key: spot.order_book-BTC/USDT
     if (!channels.containsKey(uniqueChannelName) && !subscriptions.containsKey(uniqueChannelName)) {
@@ -90,6 +101,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
     Object payload;
     switch (channelName) {
 
+      // channels require only currency pair in payload
       case Config.SPOT_TICKERS_CHANNEL:
       case Config.SPOT_TRADES_CHANNEL: {
         CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
@@ -101,11 +113,12 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
         break;
       }
 
+      // channel requires currency pair, level, interval in payload
       case Config.SPOT_ORDERBOOK_CHANNEL: {
         CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
         Integer orderBookLevel = (Integer) ArrayUtils.get(args, 1);
         Duration updateSpeed = (Duration) ArrayUtils.get(args, 2);
-        Validate.noNullElements(List.of(currencyPair, orderBookLevel, updateSpeed));
+        Validate.noNullElements(new Object[]{currencyPair, orderBookLevel, updateSpeed});
 
         payload = CurrencyPairLevelIntervalPayload.builder()
             .currencyPair(currencyPair)
@@ -115,23 +128,38 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
         break;
       }
 
+      // channel requires currency pair or default value for all
+      case Config.SPOT_USER_TRADES_CHANNEL: {
+        CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
+        if (currencyPair == null) {
+          payload = StringPayload.builder()
+              .data("!all")
+              .build();
+        } else {
+          payload = CurrencyPairPayload.builder()
+              .currencyPair(currencyPair)
+              .build();
+        }
+        break;
+      }
+
       default:
         throw new IllegalStateException("Unexpected value: " + channelName);
     }
+
+    // add auth for private channels
+    if (Config.PRIVATE_CHANNELS.contains(channelName)) {
+      request.setAuthInfo(AuthInfo.builder()
+              .method("api_key")
+              .key(apiKey)
+              .sign(gateioStreamingAuthHelper.sign(channelName, event.getValue(), String.valueOf(request.getTime().getEpochSecond())))
+          .build());
+    }
+
     request.setPayload(payload);
     return request;
   }
 
-
-  @SneakyThrows
-  @Override
-  protected void handleChannelMessage(String channel, GateioWebSocketNotification notification) {
-    // only process update events
-    if (Event.UPDATE != notification.getEvent()) {
-      return;
-    }
-    super.handleChannelMessage(channel, notification);
-  }
 
   @Override
   protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
@@ -159,12 +187,58 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
 
     // Parse incoming message
     try {
-      GateioWebSocketNotification notification = objectMapper.readValue(message, GateioWebSocketNotification.class);
-      handleMessage(notification);
+
+      // process only update messages
+      JsonNode jsonNode = objectMapper.readTree(message);
+      String event = jsonNode.path("event") != null ? jsonNode.path("event").asText() : "";
+      if (!"update".equals(event)) {
+        return;
+      }
+
+      GateioWebSocketNotification notification = objectMapper.treeToValue(jsonNode, GateioWebSocketNotification.class);
+
+      // process arrays in "result" field -> emit each item separately
+      if (notification instanceof GateioMultipleUserTradeNotification) {
+        GateioMultipleUserTradeNotification multipleUserTradeNotification = (GateioMultipleUserTradeNotification) notification;
+        multipleUserTradeNotification.toSingleNotifications().forEach(this::handleMessage);
+      }
+      else {
+        handleMessage(notification);
+      }
     } catch (IOException e) {
       log.error("Error parsing incoming message to JSON: {}", message);
     }
 
   }
 
+
+  @Override
+  protected void handleChannelMessage(String channel, GateioWebSocketNotification message) {
+    if (channel == null) {
+      log.debug("Channel provided is null");
+      return;
+    }
+
+    // user trade can be emitted to 2 channels
+    if (message instanceof GateioSingleUserTradeNotification) {
+
+      // subscription that listens to all currency pairs
+      NettyStreamingService<GateioWebSocketNotification>.Subscription broadcast = channels.get(
+          USERTRADES_BROADCAST_CHANNEL_NAME);
+      if (broadcast != null && broadcast.getEmitter() != null) {
+        broadcast.getEmitter().onNext(message);
+      }
+
+      // subscription that listens to specific currency pair
+      NettyStreamingService<GateioWebSocketNotification>.Subscription specific = channels.get(channel);
+      if (specific != null && specific.getEmitter() != null) {
+        specific.getEmitter().onNext(message);
+      }
+
+    }
+    else {
+      super.handleChannelMessage(channel, message);
+    }
+
+  }
 }

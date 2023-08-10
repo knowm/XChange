@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 public class GateioStreamingServiceTest {
 
-  GateioStreamingService gateioStreamingService = new GateioStreamingService("");
+  GateioStreamingService gateioStreamingService = new GateioStreamingService("", null, null);
   ObjectMapper objectMapper = Config.getObjectMapper();
 
   @Test

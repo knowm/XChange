@@ -2,15 +2,13 @@ package info.bitrich.xchangestream.gateio.dto.response.ticker;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.config.StringToCurrencyPairConverter;
-import info.bitrich.xchangestream.gateio.dto.response.SuffixedMessage;
 import java.math.BigDecimal;
 import lombok.Data;
 import org.knowm.xchange.currency.CurrencyPair;
 
 @Data
-public class TickerDTO implements SuffixedMessage {
+public class TickerDTO {
 
   @JsonProperty("currency_pair")
   @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
@@ -40,8 +38,4 @@ public class TickerDTO implements SuffixedMessage {
   @JsonProperty("low_24h")
   BigDecimal lowPrice24h;
 
-  @Override
-  public String getSuffix() {
-    return currencyPair != null ? Config.CHANNEL_NAME_DELIMITER + currencyPair : "";
-  }
 }

@@ -6,6 +6,8 @@ import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotific
 import info.bitrich.xchangestream.gateio.dto.response.ticker.TickerDTO;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.TradeDTO;
+import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUserTradeNotification;
+import info.bitrich.xchangestream.gateio.dto.response.usertrade.UserTradeDTO;
 import java.util.Date;
 import java.util.stream.Stream;
 import lombok.SneakyThrows;
@@ -15,6 +17,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 
 @UtilityClass
 public class GateioStreamingAdapters {
@@ -50,6 +53,25 @@ public class GateioStreamingAdapters {
         .price(tradeDTO.getPrice())
         .timestamp(Date.from(tradeDTO.getTime()))
         .id(String.valueOf(tradeDTO.getId()))
+        .build();
+  }
+
+
+  @SneakyThrows
+  public UserTrade toUserTrade(GateioSingleUserTradeNotification notification) {
+    UserTradeDTO userTradeDTO = notification.getResult();
+
+    return new UserTrade.Builder()
+        .type("sell".equals(userTradeDTO.getSide()) ? OrderType.ASK : OrderType.BID)
+        .originalAmount(userTradeDTO.getAmount())
+        .instrument(userTradeDTO.getCurrencyPair())
+        .price(userTradeDTO.getPrice())
+        .timestamp(Date.from(userTradeDTO.getTime()))
+        .id(String.valueOf(userTradeDTO.getId()))
+        .orderId(String.valueOf(userTradeDTO.getOrderId()))
+        .feeAmount(userTradeDTO.getFee())
+        .feeCurrency(userTradeDTO.getFeeCurrency())
+        .orderUserReference(userTradeDTO.getRemark())
         .build();
   }
 

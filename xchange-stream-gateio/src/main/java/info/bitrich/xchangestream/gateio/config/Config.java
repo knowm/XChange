@@ -5,12 +5,16 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.util.List;
 
 public final class Config {
 
   public static final String SPOT_ORDERBOOK_CHANNEL = "spot.order_book";
   public static final String SPOT_TRADES_CHANNEL = "spot.trades";
   public static final String SPOT_TICKERS_CHANNEL = "spot.tickers";
+  public static final String SPOT_BALANCES_CHANNEL = "spot.balances";
+  public static final String SPOT_USER_TRADES_CHANNEL = "spot.usertrades";
+  public static final List<String> PRIVATE_CHANNELS = List.of(SPOT_BALANCES_CHANNEL, SPOT_USER_TRADES_CHANNEL);
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
   public static final String CHANNEL_NAME_DELIMITER = "-";

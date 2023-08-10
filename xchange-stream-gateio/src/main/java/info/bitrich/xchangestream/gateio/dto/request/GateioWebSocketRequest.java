@@ -31,8 +31,28 @@ public class GateioWebSocketRequest {
   @JsonProperty("event")
   private Event event;
 
+  @JsonProperty("auth")
+  private AuthInfo authInfo;
+
   @JsonProperty("payload")
   @JsonFormat(shape = JsonFormat.Shape.ARRAY)
   private Object payload;
+
+
+  @Data
+  @SuperBuilder
+  @Jacksonized
+  public static class AuthInfo {
+
+    @JsonProperty("method")
+    private String method;
+
+    @JsonProperty("key")
+    private String key;
+
+    @JsonProperty("sign")
+    private String sign;
+
+  }
 
 }

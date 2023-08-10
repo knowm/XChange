@@ -3,9 +3,7 @@ package info.bitrich.xchangestream.gateio.dto.response.orderbook;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.config.StringToCurrencyPairConverter;
-import info.bitrich.xchangestream.gateio.dto.response.SuffixedMessage;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
@@ -15,7 +13,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.CurrencyPair;
 
 @Data
-public class OrderBookDTO implements SuffixedMessage {
+public class OrderBookDTO {
 
   @JsonProperty("t")
   Instant timestamp;
@@ -33,11 +31,6 @@ public class OrderBookDTO implements SuffixedMessage {
 
   @JsonProperty("bids")
   List<PriceSizeEntry> bids;
-
-  @Override
-  public String getSuffix() {
-    return currencyPair != null ? Config.CHANNEL_NAME_DELIMITER + currencyPair : "";
-  }
 
 
   @Data

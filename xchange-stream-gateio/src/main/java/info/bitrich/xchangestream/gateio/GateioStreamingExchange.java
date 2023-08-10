@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.gateio;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.Completable;
 import org.knowm.xchange.gateio.GateioExchange;
 
@@ -12,14 +13,16 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
 
   private GateioStreamingService streamingService;
   private StreamingMarketDataService streamingMarketDataService;
+  private StreamingTradeService streamingTradeService;
 
   public GateioStreamingExchange() {}
 
   @Override
   public Completable connect(ProductSubscription... args) {
-    streamingService = new GateioStreamingService(V4_URL);
-    applyStreamingSpecification(getExchangeSpecification(), streamingService);
+    streamingService = new GateioStreamingService(V4_URL, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
+    applyStreamingSpecification(exchangeSpecification, streamingService);
     streamingMarketDataService = new GateioStreamingMarketDataService(streamingService);
+    streamingTradeService = new GateioStreamingTradeService(streamingService);
 
     return streamingService.connect();
   }
@@ -29,12 +32,18 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
     GateioStreamingService service = streamingService;
     streamingService = null;
     streamingMarketDataService = null;
+    streamingTradeService = null;
     return service.disconnect();
   }
 
   @Override
   public StreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
+  }
+
+  @Override
+  public StreamingTradeService getStreamingTradeService() {
+    return streamingTradeService;
   }
 
   @Override
