@@ -5,11 +5,8 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
 import org.knowm.xchange.gateio.GateioExchange;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GateioStreamingExchange extends GateioExchange implements StreamingExchange {
-  private static final Logger LOG = LoggerFactory.getLogger(GateioStreamingExchange.class);
 
   private final String V4_URL = "wss://api.gateio.ws/ws/v4/";
 

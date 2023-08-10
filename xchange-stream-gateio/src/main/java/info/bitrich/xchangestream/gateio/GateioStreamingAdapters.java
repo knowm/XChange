@@ -1,8 +1,5 @@
 package info.bitrich.xchangestream.gateio;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.OrderBookDTO;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
@@ -22,11 +19,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 @UtilityClass
 public class GateioStreamingAdapters {
 
-  ObjectMapper objectMapper = Config.getObjectMapper();
-
   @SneakyThrows
-  public Ticker toTicker(JsonNode jsonNode) {
-    GateioTickerNotification notification = objectMapper.treeToValue(jsonNode, GateioTickerNotification.class);
+  public Ticker toTicker(GateioTickerNotification notification) {
     TickerDTO tickerDTO = notification.getResult();
 
     return new Ticker.Builder()
@@ -45,8 +39,7 @@ public class GateioStreamingAdapters {
 
 
   @SneakyThrows
-  public Trade toTrade(JsonNode jsonNode) {
-    GateioTradeNotification notification = objectMapper.treeToValue(jsonNode, GateioTradeNotification.class);
+  public Trade toTrade(GateioTradeNotification notification) {
     TradeDTO tradeDTO = notification.getResult();
 
 
@@ -62,8 +55,7 @@ public class GateioStreamingAdapters {
 
 
   @SneakyThrows
-  public OrderBook toOrderBook(JsonNode jsonNode) {
-    GateioOrderBookNotification notification = objectMapper.treeToValue(jsonNode, GateioOrderBookNotification.class);
+  public OrderBook toOrderBook(GateioOrderBookNotification notification) {
     OrderBookDTO orderBookDTO = notification.getResult();
 
     Stream<LimitOrder> asks = orderBookDTO.getAsks().stream()

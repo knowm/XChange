@@ -1,7 +1,6 @@
 package info.bitrich.xchangestream.gateio;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.Event;
@@ -9,7 +8,7 @@ import info.bitrich.xchangestream.gateio.dto.request.GateioWebSocketRequest;
 import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairLevelIntervalPayload;
 import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairPayload;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketNotification;
-import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.NettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Observable;
@@ -19,15 +18,17 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class GateioStreamingService extends JsonNettyStreamingService {
+@Slf4j
+public class GateioStreamingService extends NettyStreamingService<GateioWebSocketNotification> {
 
   private static final int MAX_DEPTH_DEFAULT = 5;
   private static final int UPDATE_INTERVAL_DEFAULT = 100;
 
-  private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
+  private final Map<String, Observable<GateioWebSocketNotification>> subscriptions = new ConcurrentHashMap<>();
 
   private final ObjectMapper objectMapper = Config.getObjectMapper();
 
@@ -35,26 +36,24 @@ public class GateioStreamingService extends JsonNettyStreamingService {
     super(apiUri, Integer.MAX_VALUE);
   }
 
-
-  @SneakyThrows
   @Override
-  protected String getChannelNameFromMessage(JsonNode message) {
-    GateioWebSocketNotification notification = objectMapper.treeToValue(message, GateioWebSocketNotification.class);
-    return notification.getUniqueChannelName();
+  protected String getChannelNameFromMessage(GateioWebSocketNotification message) {
+    return message.getUniqueChannelName();
   }
 
   @Override
-  public Observable<JsonNode> subscribeChannel(String channelName, Object... args) {
+  public Observable<GateioWebSocketNotification> subscribeChannel(String channelName, Object... args) {
     final CurrencyPair currencyPair =
         (args.length > 0 && args[0] instanceof CurrencyPair) ? ((CurrencyPair) args[0]) : null;
 
     String uniqueChannelName =
         String.format("%s%s%s", channelName, Config.CHANNEL_NAME_DELIMITER, currencyPair.toString());
 
-    // Example channel name key: spot.order_book_update-ETH_USDT, spot.trades-BTC_USDT
+    // Example channel name key: spot.order_book-BTC/USDT
     if (!channels.containsKey(uniqueChannelName) && !subscriptions.containsKey(uniqueChannelName)) {
+
       // subscribe
-      Observable<JsonNode> observable = super.subscribeChannel(uniqueChannelName, args);
+      Observable<GateioWebSocketNotification> observable = super.subscribeChannel(uniqueChannelName, args);
 
       // cache channel subscribtion
       subscriptions.put(uniqueChannelName, observable);
@@ -120,13 +119,12 @@ public class GateioStreamingService extends JsonNettyStreamingService {
 
   @SneakyThrows
   @Override
-  protected void handleChannelMessage(String channel, JsonNode message) {
+  protected void handleChannelMessage(String channel, GateioWebSocketNotification notification) {
     // only process update events
-    GateioWebSocketNotification notification = objectMapper.treeToValue(message, GateioWebSocketNotification.class);
     if (Event.UPDATE != notification.getEvent()) {
       return;
     }
-    super.handleChannelMessage(channel, message);
+    super.handleChannelMessage(channel, notification);
   }
 
   @Override
@@ -148,4 +146,19 @@ public class GateioStreamingService extends JsonNettyStreamingService {
     GateioWebSocketRequest unsubscribeMessage = getWebSocketRequest(generalChannelName, Event.UNSUBSCRIBE, args);
     return objectMapper.writeValueAsString(unsubscribeMessage);
   }
+
+  @Override
+  public void messageHandler(String message) {
+    log.debug("Received message: {}", message);
+
+    // Parse incoming message
+    try {
+      GateioWebSocketNotification notification = objectMapper.readValue(message, GateioWebSocketNotification.class);
+      handleMessage(notification);
+    } catch (IOException e) {
+      log.error("Error parsing incoming message to JSON: {}", message);
+    }
+
+  }
+
 }
