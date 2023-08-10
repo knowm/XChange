@@ -9,6 +9,7 @@ import info.bitrich.xchangestream.gateio.dto.request.GateioWebSocketRequest;
 import info.bitrich.xchangestream.gateio.dto.request.GateioWebSocketRequest.AuthInfo;
 import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairLevelIntervalPayload;
 import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairPayload;
+import info.bitrich.xchangestream.gateio.dto.request.payload.EmptyPayload;
 import info.bitrich.xchangestream.gateio.dto.request.payload.StringPayload;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
@@ -144,7 +145,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
       }
 
       default:
-        throw new IllegalStateException("Unexpected value: " + channelName);
+        payload = EmptyPayload.builder().build();
     }
 
     // add auth for private channels
