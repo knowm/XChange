@@ -12,6 +12,7 @@ import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairPayload
 import info.bitrich.xchangestream.gateio.dto.request.payload.EmptyPayload;
 import info.bitrich.xchangestream.gateio.dto.request.payload.StringPayload;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketNotification;
+import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUserTradeNotification;
 import info.bitrich.xchangestream.service.netty.NettyStreamingService;
@@ -200,8 +201,12 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
 
       // process arrays in "result" field -> emit each item separately
       if (notification instanceof GateioMultipleUserTradeNotification) {
-        GateioMultipleUserTradeNotification multipleUserTradeNotification = (GateioMultipleUserTradeNotification) notification;
-        multipleUserTradeNotification.toSingleNotifications().forEach(this::handleMessage);
+        GateioMultipleUserTradeNotification multipleNotification = (GateioMultipleUserTradeNotification) notification;
+        multipleNotification.toSingleNotifications().forEach(this::handleMessage);
+      }
+      else if (notification instanceof GateioMultipleSpotBalanceNotification) {
+        GateioMultipleSpotBalanceNotification multipleNotification = (GateioMultipleSpotBalanceNotification) notification;
+        multipleNotification.toSingleNotifications().forEach(this::handleMessage);
       }
       else {
         handleMessage(notification);

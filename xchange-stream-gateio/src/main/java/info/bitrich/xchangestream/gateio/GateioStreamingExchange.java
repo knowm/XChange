@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.gateio;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
@@ -14,6 +15,7 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
   private GateioStreamingService streamingService;
   private StreamingMarketDataService streamingMarketDataService;
   private StreamingTradeService streamingTradeService;
+  private StreamingAccountService streamingAccountService;
 
   public GateioStreamingExchange() {}
 
@@ -23,6 +25,7 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
     applyStreamingSpecification(exchangeSpecification, streamingService);
     streamingMarketDataService = new GateioStreamingMarketDataService(streamingService);
     streamingTradeService = new GateioStreamingTradeService(streamingService);
+    streamingAccountService = new GateioStreamingAccountService(streamingService);
 
     return streamingService.connect();
   }
@@ -33,6 +36,7 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
     streamingService = null;
     streamingMarketDataService = null;
     streamingTradeService = null;
+    streamingAccountService = null;
     return service.disconnect();
   }
 
@@ -44,6 +48,11 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
   @Override
   public StreamingTradeService getStreamingTradeService() {
     return streamingTradeService;
+  }
+
+  @Override
+  public StreamingAccountService getStreamingAccountService() {
+    return streamingAccountService;
   }
 
   @Override

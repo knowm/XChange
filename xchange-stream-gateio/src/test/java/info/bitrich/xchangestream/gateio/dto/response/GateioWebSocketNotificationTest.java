@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
+import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
@@ -40,6 +41,13 @@ public class GateioWebSocketNotificationTest {
   void deserialize_usertrades() throws Exception {
     GateioWebSocketNotification notification = readNotification("spot.usertrades.update.json");
     assertThat(notification).isInstanceOf(GateioMultipleUserTradeNotification.class);
+  }
+
+
+  @Test
+  void deserialize_balances() throws Exception {
+    GateioWebSocketNotification notification = readNotification("spot.balance.update.json");
+    assertThat(notification).isInstanceOf(GateioMultipleSpotBalanceNotification.class);
   }
 
 

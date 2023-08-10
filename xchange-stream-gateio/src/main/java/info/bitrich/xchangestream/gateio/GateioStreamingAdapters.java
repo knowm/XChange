@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.gateio;
 
+import info.bitrich.xchangestream.gateio.dto.response.balance.BalanceDTO;
+import info.bitrich.xchangestream.gateio.dto.response.balance.GateioSingleSpotBalanceNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.OrderBookDTO;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
@@ -13,6 +15,7 @@ import java.util.stream.Stream;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -72,6 +75,20 @@ public class GateioStreamingAdapters {
         .feeAmount(userTradeDTO.getFee())
         .feeCurrency(userTradeDTO.getFeeCurrency())
         .orderUserReference(userTradeDTO.getRemark())
+        .build();
+  }
+
+
+  @SneakyThrows
+  public Balance toBalance(GateioSingleSpotBalanceNotification notification) {
+    BalanceDTO balanceDTO = notification.getResult();
+
+    return Balance.builder()
+        .currency(balanceDTO.getCurrency())
+        .total(balanceDTO.getTotal())
+        .available(balanceDTO.getAvailable())
+        .frozen(balanceDTO.getFreeze())
+        .timestamp(Date.from(balanceDTO.getTime()))
         .build();
   }
 
