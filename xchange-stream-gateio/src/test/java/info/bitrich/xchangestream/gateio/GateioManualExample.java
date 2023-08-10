@@ -2,13 +2,12 @@ package info.bitrich.xchangestream.gateio;
 
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
+import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class GateioManualExample {
-  private static final Logger LOG = LoggerFactory.getLogger(GateioManualExample.class);
 
   public static void main(String[] args) throws Exception {
 
@@ -29,30 +28,30 @@ public class GateioManualExample {
             .getOrderBook(CurrencyPair.ETH_USDT)
             .subscribe(
                 orderBook -> {
-                  LOG.info("First ask: {}", orderBook.getAsks().get(0));
-                  LOG.info("First bid: {}", orderBook.getBids().get(0));
+                  log.info("First ask: {}", orderBook.getAsks().get(0));
+                  log.info("First bid: {}", orderBook.getBids().get(0));
                 },
-                throwable -> LOG.error("ERROR in getting order book: ", throwable));
+                throwable -> log.error("ERROR in getting order book: ", throwable));
     Disposable sub2 =
         exchange
             .getStreamingMarketDataService()
             .getOrderBook(CurrencyPair.BTC_USDT)
             .subscribe(
                 orderBook -> {
-                  LOG.info("First ask: {}", orderBook.getAsks().get(0));
-                  LOG.info("First bid: {}", orderBook.getBids().get(0));
+                  log.info("First ask: {}", orderBook.getAsks().get(0));
+                  log.info("First bid: {}", orderBook.getBids().get(0));
                 },
-                throwable -> LOG.error("ERROR in getting order book: ", throwable));
+                throwable -> log.error("ERROR in getting order book: ", throwable));
     Disposable sub3 =
         exchange
             .getStreamingMarketDataService()
             .getTrades(CurrencyPair.BTC_USDT)
             .subscribe(
                 trade -> {
-                  LOG.info("Trade Price: {}", trade.getPrice());
-                  LOG.info("Trade Amount: {}", trade.getOriginalAmount());
+                  log.info("Trade Price: {}", trade.getPrice());
+                  log.info("Trade Amount: {}", trade.getOriginalAmount());
                 },
-                throwable -> LOG.error("ERROR in getting trade: ", throwable));
+                throwable -> log.error("ERROR in getting trade: ", throwable));
 
     Thread.sleep(1000);
     sub1.dispose();
