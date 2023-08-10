@@ -7,6 +7,7 @@ import info.bitrich.xchangestream.gateio.config.ObjecMapperHelper;
 import info.bitrich.xchangestream.gateio.dto.request.GateioWebSocketRequest;
 import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairLevelIntervalPayload;
 import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairPayload;
+import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketNotification;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
@@ -16,6 +17,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.SneakyThrows;
+import org.apache.commons.lang3.RandomUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 
 public class GateioStreamingService extends JsonNettyStreamingService {
@@ -94,6 +97,7 @@ public class GateioStreamingService extends JsonNettyStreamingService {
     // create request common part
     String generalChannelName = channelName.split(CHANNEL_NAME_DELIMITER)[0];
     GateioWebSocketRequest request = GateioWebSocketRequest.builder()
+        .id(RandomUtils.nextLong())
         .channel(generalChannelName)
         .event(event)
         .time(Instant.now())
@@ -127,6 +131,18 @@ public class GateioStreamingService extends JsonNettyStreamingService {
     }
     request.setPayload(payload);
     return request;
+  }
+
+
+  @SneakyThrows
+  @Override
+  protected void handleChannelMessage(String channel, JsonNode message) {
+    // only process update events
+    GateioWebSocketNotification notification = objectMapper.treeToValue(message, GateioWebSocketNotification.class);
+    if (!"update".equals(notification.getEvent())) {
+      return;
+    }
+    super.handleChannelMessage(channel, message);
   }
 
   @Override
