@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import info.bitrich.xchangestream.gateio.config.InstantToTimestampSecondsConverter;
 import info.bitrich.xchangestream.gateio.config.TimestampSecondsToInstantConverter;
+import info.bitrich.xchangestream.gateio.dto.Event;
 import java.time.Instant;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -28,7 +29,7 @@ public class GateioWebSocketRequest {
   private String channel;
 
   @JsonProperty("event")
-  private String event;
+  private Event event;
 
   @JsonProperty("payload")
   @JsonFormat(shape = JsonFormat.Shape.ARRAY)

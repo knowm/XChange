@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.config.TimestampSecondsToInstantConverter;
+import info.bitrich.xchangestream.gateio.dto.Event;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
@@ -35,7 +36,7 @@ public class GateioWebSocketNotification<T> {
   private String channel;
 
   @JsonProperty("event")
-  private String event;
+  private Event event;
 
   @JsonProperty("error")
   private String error;
