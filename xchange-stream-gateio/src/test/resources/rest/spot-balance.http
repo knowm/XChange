@@ -1,0 +1,26 @@
+### Spot Balance Channel
+< {%
+  import {gen_sign} from 'sign.js'
+  const event = "subscribe";
+  const channel = "spot.balances";
+  const timestamp = Math.floor(Date.now() / 1000).toFixed();
+
+  request.variables.set("timestamp", timestamp);
+  request.variables.set("channel", channel);
+  request.variables.set("event", event);
+  request.variables.set("sign", gen_sign(channel, event, timestamp));
+%}
+
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "time": {{timestamp}},
+  "channel": "{{channel}}",
+  "event": "{{event}}",
+  "auth": {
+    "method": "api_key",
+    "KEY": "{{api_key}}",
+    "SIGN": "{{sign}}"
+  }
+}

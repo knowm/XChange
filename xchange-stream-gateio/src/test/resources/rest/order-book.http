@@ -1,0 +1,42 @@
+### Best bid or ask price
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "time": {{$timestamp}},
+  "channel": "spot.book_ticker",
+  "event": "subscribe",
+  "payload": [
+    "BTC_USDT"
+  ]
+}
+
+
+### Changed order book levels
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "time": {{$timestamp}},
+  "channel": "spot.order_book_update",
+  "event": "subscribe",
+  "payload": [
+    "BTC_USDT", "100ms"
+  ]
+}
+
+
+### Limited-Level Full Order Book Snapshot
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "time": {{$timestamp}},
+  "channel": "spot.order_book",
+  "event": "subscribe",
+  "payload": [
+    "BTC_USDT", "5", "100ms"
+  ]
+}
+
+

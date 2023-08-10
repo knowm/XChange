@@ -1,0 +1,13 @@
+### Tickers Channel
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "time": {{$timestamp}},
+  "channel": "spot.tickers",
+  "event": "subscribe",
+  "payload": [
+    "BTC_USDT"
+  ]
+}
+
