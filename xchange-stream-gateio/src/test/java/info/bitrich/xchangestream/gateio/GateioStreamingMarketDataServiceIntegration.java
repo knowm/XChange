@@ -31,8 +31,8 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
     testObserver.dispose();
 
     assertThat(orderBook).hasNoNullFieldsOrProperties();
-    assertThat(orderBook.getBids()).isNotEmpty();
-    assertThat(orderBook.getAsks()).isNotEmpty();
+    assertThat(orderBook.getBids()).hasSize(10);
+    assertThat(orderBook.getAsks()).hasSize(10);
   }
 
 

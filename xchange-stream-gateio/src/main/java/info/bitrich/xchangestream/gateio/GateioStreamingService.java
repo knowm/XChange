@@ -15,18 +15,18 @@ import io.reactivex.Observable;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.currency.CurrencyPair;
 
 @Slf4j
 public class GateioStreamingService extends NettyStreamingService<GateioWebSocketNotification> {
-
-  private static final int MAX_DEPTH_DEFAULT = 5;
-  private static final int UPDATE_INTERVAL_DEFAULT = 100;
 
   private final Map<String, Observable<GateioWebSocketNotification>> subscriptions = new ConcurrentHashMap<>();
 
@@ -91,23 +91,29 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
     switch (channelName) {
 
       case Config.SPOT_TICKERS_CHANNEL:
-      case Config.SPOT_TRADES_CHANNEL:
+      case Config.SPOT_TRADES_CHANNEL: {
+        CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
+        Validate.notNull(currencyPair);
+
         payload = CurrencyPairPayload.builder()
-            .currencyPair(CurrencyPair.BTC_USDT)
+            .currencyPair(currencyPair)
             .build();
         break;
+      }
 
-      case Config.SPOT_ORDERBOOK_CHANNEL:
-        Integer orderBookLevel = (args.length > 1 && args[1] instanceof Integer) ? (Integer) args[1] : MAX_DEPTH_DEFAULT;
-        Duration updateSpeed = (args.length > 2 && args[2] instanceof Duration) ? (Duration) args[2] : Duration.ofMillis(UPDATE_INTERVAL_DEFAULT);
+      case Config.SPOT_ORDERBOOK_CHANNEL: {
+        CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
+        Integer orderBookLevel = (Integer) ArrayUtils.get(args, 1);
+        Duration updateSpeed = (Duration) ArrayUtils.get(args, 2);
+        Validate.noNullElements(List.of(currencyPair, orderBookLevel, updateSpeed));
 
         payload = CurrencyPairLevelIntervalPayload.builder()
-            .currencyPair(CurrencyPair.BTC_USDT)
+            .currencyPair(currencyPair)
             .orderBookLevel(orderBookLevel)
             .updateSpeed(updateSpeed)
             .build();
-        request.setPayload(payload);
         break;
+      }
 
       default:
         throw new IllegalStateException("Unexpected value: " + channelName);

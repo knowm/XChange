@@ -6,6 +6,8 @@ import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookN
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
 import io.reactivex.Observable;
+import java.time.Duration;
+import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -13,6 +15,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 
 public class GateioStreamingMarketDataService implements StreamingMarketDataService {
 
+  public static final int MAX_DEPTH_DEFAULT = 5;
+  public static final int UPDATE_INTERVAL_DEFAULT = 100;
   private final GateioStreamingService service;
 
   public GateioStreamingMarketDataService(GateioStreamingService service) {
@@ -25,13 +29,15 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
    * https://www.gate.io/docs/apiv4/ws/index.html#limited-level-full-order-book-snapshot
    *
    * @param currencyPair Currency pair of the order book
-   * @param args Optional maxDepth, Optional msgInterval
+   * @param args Order book level: {@link Integer}, update speed: {@link Duration}
    */
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+    Integer orderBookLevel = (Integer) ArrayUtils.get(args, 0, MAX_DEPTH_DEFAULT);
+    Duration updateSpeed = (Duration) ArrayUtils.get(args, 1, UPDATE_INTERVAL_DEFAULT);
     return service
-        .subscribeChannel(Config.SPOT_ORDERBOOK_CHANNEL, currencyPair, args)
+        .subscribeChannel(Config.SPOT_ORDERBOOK_CHANNEL, new Object[]{currencyPair, orderBookLevel, updateSpeed})
         .map(GateioOrderBookNotification.class::cast)
         .map(GateioStreamingAdapters::toOrderBook);
   }
