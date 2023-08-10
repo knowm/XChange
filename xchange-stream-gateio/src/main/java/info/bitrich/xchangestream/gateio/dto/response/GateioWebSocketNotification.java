@@ -16,14 +16,15 @@ import lombok.Data;
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    property = "channel")
+    property = "channel",
+    visible = true)
 @JsonSubTypes({
     @Type(value = GateioTradeNotification.class, name = Config.SPOT_TRADES_CHANNEL),
     @Type(value = GateioTickerNotification.class, name = Config.SPOT_TICKERS_CHANNEL),
     @Type(value = GateioOrderBookNotification.class, name = Config.SPOT_ORDERBOOK_CHANNEL)
 })
 @Data
-public class GateioWebSocketNotification<T> {
+public class GateioWebSocketNotification<T extends SuffixedMessage> {
 
   @JsonProperty("time")
   @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)
@@ -43,4 +44,10 @@ public class GateioWebSocketNotification<T> {
 
   @JsonProperty("result")
   private T result;
+
+
+  public String getUniqueChannelName() {
+    return channel + result.getSuffix();
+  }
+
 }

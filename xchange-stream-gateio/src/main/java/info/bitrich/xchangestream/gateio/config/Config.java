@@ -13,6 +13,7 @@ public final class Config {
   public static final String SPOT_TICKERS_CHANNEL = "spot.tickers";
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
+  public static final String CHANNEL_NAME_DELIMITER = "-";
 
   static {
     // by default read and write timetamps as milliseconds

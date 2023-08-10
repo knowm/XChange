@@ -23,7 +23,6 @@ import org.apache.commons.lang3.RandomUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 
 public class GateioStreamingService extends JsonNettyStreamingService {
-  private static final String CHANNEL_NAME_DELIMITER = "-";
 
   private static final int MAX_DEPTH_DEFAULT = 5;
   private static final int UPDATE_INTERVAL_DEFAULT = 100;
@@ -37,21 +36,11 @@ public class GateioStreamingService extends JsonNettyStreamingService {
   }
 
 
+  @SneakyThrows
   @Override
   protected String getChannelNameFromMessage(JsonNode message) {
-    String channel = message.path("channel") != null ? message.path("channel").asText() : "";
-    String currencyPairOrderBook =
-        message.path("result").path("s") != null ? message.path("result").path("s").asText() : "";
-    String currencyPairTradesTickers =
-        message.path("result").path("currency_pair") != null
-            ? message.path("result").path("currency_pair").asText()
-            : "";
-
-    return new StringBuilder(channel)
-        .append(CHANNEL_NAME_DELIMITER)
-        .append(currencyPairOrderBook)
-        .append(currencyPairTradesTickers)
-        .toString();
+    GateioWebSocketNotification notification = objectMapper.treeToValue(message, GateioWebSocketNotification.class);
+    return notification.getUniqueChannelName();
   }
 
   @Override
@@ -59,48 +48,48 @@ public class GateioStreamingService extends JsonNettyStreamingService {
     final CurrencyPair currencyPair =
         (args.length > 0 && args[0] instanceof CurrencyPair) ? ((CurrencyPair) args[0]) : null;
 
-    String currencyPairChannelName =
-        String.format("%s-%s", channelName, currencyPair.toString().replace('/', '_'));
+    String uniqueChannelName =
+        String.format("%s%s%s", channelName, Config.CHANNEL_NAME_DELIMITER, currencyPair.toString());
 
     // Example channel name key: spot.order_book_update-ETH_USDT, spot.trades-BTC_USDT
-    if (!channels.containsKey(currencyPairChannelName) && !subscriptions.containsKey(currencyPairChannelName)) {
+    if (!channels.containsKey(uniqueChannelName) && !subscriptions.containsKey(uniqueChannelName)) {
       // subscribe
-      Observable<JsonNode> observable = super.subscribeChannel(currencyPairChannelName, args);
+      Observable<JsonNode> observable = super.subscribeChannel(uniqueChannelName, args);
 
       // cache channel subscribtion
-      subscriptions.put(currencyPairChannelName, observable);
+      subscriptions.put(uniqueChannelName, observable);
     }
 
-    return subscriptions.get(currencyPairChannelName);
+    return subscriptions.get(uniqueChannelName);
   }
 
   /**
    * Returns a JSON String containing the subscription message.
    *
-   * @param channelName e.g. spot.order_book_update-ETH_USDT
+   * @param uniqueChannelName e.g. spot.order_book-BTC/USDT
    * @param args CurrencyPair to subscribe and additional channel-specific arguments
    * @return subscription message
    */
   @Override
-  public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-    GateioWebSocketRequest request = getWebSocketRequest(channelName, Event.SUBSCRIBE , args);
+  public String getSubscribeMessage(String uniqueChannelName, Object... args) throws IOException {
+    String generalChannelName = uniqueChannelName.split(Config.CHANNEL_NAME_DELIMITER)[0];
+    GateioWebSocketRequest request = getWebSocketRequest(generalChannelName, Event.SUBSCRIBE , args);
     return objectMapper.writeValueAsString(request);
   }
 
 
   private GateioWebSocketRequest getWebSocketRequest(String channelName, Event event, Object... args) {
     // create request common part
-    String generalChannelName = channelName.split(CHANNEL_NAME_DELIMITER)[0];
     GateioWebSocketRequest request = GateioWebSocketRequest.builder()
         .id(RandomUtils.nextLong())
-        .channel(generalChannelName)
+        .channel(channelName)
         .event(event)
         .time(Instant.now())
         .build();
 
     // create channel specific payload
     Object payload;
-    switch (generalChannelName) {
+    switch (channelName) {
 
       case Config.SPOT_TICKERS_CHANNEL:
       case Config.SPOT_TRADES_CHANNEL:
@@ -122,7 +111,7 @@ public class GateioStreamingService extends JsonNettyStreamingService {
         break;
 
       default:
-        throw new IllegalStateException("Unexpected value: " + generalChannelName);
+        throw new IllegalStateException("Unexpected value: " + channelName);
     }
     request.setPayload(payload);
     return request;
@@ -145,9 +134,18 @@ public class GateioStreamingService extends JsonNettyStreamingService {
     return WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler.INSTANCE;
   }
 
+
+  /**
+   * Returns a JSON String containing the unsubscribe message.
+   *
+   * @param uniqueChannelName e.g. spot.order_book-BTC/USDT
+   * @param args CurrencyPair to subscribe and additional channel-specific arguments
+   * @return unsubscribe message
+   */
   @Override
-  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
-    GateioWebSocketRequest unsubscribeMessage = getWebSocketRequest(channelName, Event.UNSUBSCRIBE, args);
+  public String getUnsubscribeMessage(String uniqueChannelName, Object... args) throws IOException {
+    String generalChannelName = uniqueChannelName.split(Config.CHANNEL_NAME_DELIMITER)[0];
+    GateioWebSocketRequest unsubscribeMessage = getWebSocketRequest(generalChannelName, Event.UNSUBSCRIBE, args);
     return objectMapper.writeValueAsString(unsubscribeMessage);
   }
 }
