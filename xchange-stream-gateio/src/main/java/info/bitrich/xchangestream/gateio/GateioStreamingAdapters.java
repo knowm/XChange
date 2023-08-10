@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.gateio;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.gateio.config.ObjecMapperHelper;
+import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.OrderBookDTO;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
@@ -22,7 +22,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 @UtilityClass
 public class GateioStreamingAdapters {
 
-  ObjectMapper objectMapper = ObjecMapperHelper.getObjectMapper();
+  ObjectMapper objectMapper = Config.getObjectMapper();
 
   @SneakyThrows
   public Ticker toTicker(JsonNode jsonNode) {

@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.experimental.UtilityClass;
 
-@UtilityClass
-public class ObjecMapperHelper {
+public final class Config {
 
-  private final ObjectMapper MAPPER = new ObjectMapper();
+  public static final String SPOT_ORDERBOOK_CHANNEL = "spot.order_book";
+  public static final String SPOT_TRADES_CHANNEL = "spot.trades";
+  public static final String SPOT_TICKERS_CHANNEL = "spot.tickers";
+
+  private static final ObjectMapper MAPPER = new ObjectMapper();
 
   static {
     // by default read and write timetamps as milliseconds
@@ -27,8 +29,11 @@ public class ObjecMapperHelper {
     MAPPER.registerModule(new JavaTimeModule());
   }
 
+  private Config() {
+  }
 
-  public ObjectMapper getObjectMapper() {
+
+  public static ObjectMapper getObjectMapper() {
     return MAPPER;
   }
 

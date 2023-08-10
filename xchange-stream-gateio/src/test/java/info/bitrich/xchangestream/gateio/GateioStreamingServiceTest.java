@@ -5,13 +5,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.gateio.config.ObjecMapperHelper;
+import info.bitrich.xchangestream.gateio.config.Config;
 import org.junit.jupiter.api.Test;
 
 public class GateioStreamingServiceTest {
 
   GateioStreamingService gateioStreamingService = new GateioStreamingService("");
-  ObjectMapper objectMapper = ObjecMapperHelper.getObjectMapper();
+  ObjectMapper objectMapper = Config.getObjectMapper();
 
   @Test
   void channel_name_from_orderbook_update() throws Exception {

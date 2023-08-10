@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.gateio;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.gateio.config.ObjecMapperHelper;
+import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.request.GateioWebSocketRequest;
 import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairLevelIntervalPayload;
 import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairPayload;
@@ -26,16 +26,12 @@ public class GateioStreamingService extends JsonNettyStreamingService {
   private static final String UNSUBSCRIBE = "unsubscribe";
   private static final String CHANNEL_NAME_DELIMITER = "-";
 
-  public static final String SPOT_ORDERBOOK_CHANNEL = "spot.order_book";
-  public static final String SPOT_TRADES_CHANNEL = "spot.trades";
-  public static final String SPOT_TICKERS_CHANNEL = "spot.tickers";
-
   private static final int MAX_DEPTH_DEFAULT = 5;
   private static final int UPDATE_INTERVAL_DEFAULT = 100;
 
   private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
 
-  private final ObjectMapper objectMapper = ObjecMapperHelper.getObjectMapper();
+  private final ObjectMapper objectMapper = Config.getObjectMapper();
 
   public GateioStreamingService(String apiUri) {
     super(apiUri, Integer.MAX_VALUE);
@@ -107,14 +103,14 @@ public class GateioStreamingService extends JsonNettyStreamingService {
     Object payload;
     switch (generalChannelName) {
 
-      case SPOT_TICKERS_CHANNEL:
-      case SPOT_TRADES_CHANNEL:
+      case Config.SPOT_TICKERS_CHANNEL:
+      case Config.SPOT_TRADES_CHANNEL:
         payload = CurrencyPairPayload.builder()
             .currencyPair(CurrencyPair.BTC_USDT)
             .build();
         break;
 
-      case SPOT_ORDERBOOK_CHANNEL:
+      case Config.SPOT_ORDERBOOK_CHANNEL:
         Integer orderBookLevel = (args.length > 1 && args[1] instanceof Integer) ? (Integer) args[1] : MAX_DEPTH_DEFAULT;
         Duration updateSpeed = (args.length > 2 && args[2] instanceof Duration) ? (Duration) args[2] : Duration.ofMillis(UPDATE_INTERVAL_DEFAULT);
 
