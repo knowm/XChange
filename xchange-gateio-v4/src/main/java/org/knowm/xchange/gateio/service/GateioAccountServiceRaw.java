@@ -10,11 +10,13 @@ import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
 import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
+import org.knowm.xchange.gateio.dto.account.GateioDepositRecord;
 import org.knowm.xchange.gateio.dto.account.GateioSubAccountTransfer;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 import org.knowm.xchange.gateio.dto.account.params.GateioSubAccountTransfersParams;
+import org.knowm.xchange.gateio.service.params.GateioDepositsParams;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawalsParams;
 
 public class GateioAccountServiceRaw extends GateioBaseService {
@@ -60,6 +62,15 @@ public class GateioAccountServiceRaw extends GateioBaseService {
     Long from = params.getStartTime() != null ? params.getStartTime().getEpochSecond() : null;
     Long to = params.getEndTime() != null ? params.getEndTime().getEpochSecond() : null;
     return gateioV4Authenticated.getWithdrawals(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest,
+        currency, from, to, params.getPageLength(), params.getZeroBasedPageNumber());
+  }
+
+
+  public List<GateioDepositRecord> getDeposits(GateioDepositsParams params) throws IOException {
+    String currency = params.getCurrency() != null ? params.getCurrency().toString() : null;
+    Long from = params.getStartTime() != null ? params.getStartTime().getEpochSecond() : null;
+    Long to = params.getEndTime() != null ? params.getEndTime().getEpochSecond() : null;
+    return gateioV4Authenticated.getDeposits(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest,
         currency, from, to, params.getPageLength(), params.getZeroBasedPageNumber());
   }
 

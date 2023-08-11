@@ -16,6 +16,7 @@ import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
 import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
+import org.knowm.xchange.gateio.dto.account.GateioDepositRecord;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.gateio.dto.account.GateioSubAccountTransfer;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
@@ -146,6 +147,20 @@ public interface GateioV4Authenticated {
   @GET
   @Path("wallet/withdrawals")
   List<GateioWithdrawalRecord> getWithdrawals(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @QueryParam("currency") String currency,
+      @QueryParam("from") Long from,
+      @QueryParam("to") Long to,
+      @QueryParam("limit") Integer pageLength,
+      @QueryParam("offset") Integer zeroBasedPageNumber
+  ) throws IOException, GateioException;
+
+
+  @GET
+  @Path("wallet/deposits")
+  List<GateioDepositRecord> getDeposits(
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
