@@ -7,6 +7,8 @@ import java.time.Instant;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.gateio.config.StringToCurrencyConverter;
 import org.knowm.xchange.gateio.config.TimestampSecondsToInstantConverter;
 
 @Data
@@ -31,7 +33,8 @@ public class GateioWithdrawalRecord {
   BigDecimal amount;
 
   @JsonProperty("currency")
-  String currency;
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  Currency currency;
 
   @JsonProperty("address")
   String address;

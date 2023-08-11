@@ -124,11 +124,11 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
 
   @Test
   void withdrawal_records() throws IOException {
-    var actual = gateioAccountServiceRaw.getWithdrawals(GateioWithdrawalsParams.builder().build());
+    List<GateioWithdrawalRecord> actual = gateioAccountServiceRaw.getWithdrawals(GateioWithdrawalsParams.builder().build());
 
     GateioWithdrawalRecord expected = GateioWithdrawalRecord.builder()
         .id("w35874123")
-        .currency("LUFFY")
+        .currency(Currency.getInstance("LUFFY"))
         .address("0x3dca2ae4d1d065220a731cf69f5a934914afc435")
         .amount(new BigDecimal("1030645.8587"))
         .fee(new BigDecimal("10000"))
@@ -165,7 +165,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
         .tag("")
         .chain("SOL")
         .amount(BigDecimal.valueOf(3))
-        .currency("USDT")
+        .currency(Currency.USDT)
         .status("REQUEST")
         .build();
 
