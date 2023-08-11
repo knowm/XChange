@@ -20,6 +20,7 @@ import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
+import org.knowm.xchange.gateio.dto.trade.GateioUserTrade;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -98,6 +99,22 @@ public interface GateioV4Authenticated {
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
       GateioOrder gateioOrder
+  ) throws IOException, GateioException;
+
+
+  @GET
+  @Path("spot/my_trades")
+  List<GateioUserTrade> getTradingHistory(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @QueryParam("currency_pair") String currencyPair,
+      @QueryParam("limit") Integer pageLength,
+      @QueryParam("page") Integer pageNumber,
+      @QueryParam("order_id") String orderId,
+      @QueryParam("account") String account,
+      @QueryParam("from") Long from,
+      @QueryParam("to") Long to
   ) throws IOException, GateioException;
 
 

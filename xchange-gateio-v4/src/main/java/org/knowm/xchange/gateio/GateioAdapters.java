@@ -15,11 +15,13 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
+import org.knowm.xchange.gateio.dto.trade.GateioUserTrade;
 import org.knowm.xchange.gateio.service.params.DefaultGateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -157,6 +159,22 @@ public class GateioAdapters {
         .cumulativeAmount(gateioOrder.getFilledTotalQuote())
         .averagePrice(gateioOrder.getAvgDealPrice())
         .fee(gateioOrder.getFee())
+        .build();
+  }
+
+
+  public UserTrade toUserTrade(GateioUserTrade gateioUserTrade) {
+    return UserTrade.builder()
+        .id(String.valueOf(gateioUserTrade.getId()))
+        .orderId(String.valueOf(gateioUserTrade.getOrderId()))
+        .feeAmount(gateioUserTrade.getFee())
+        .feeCurrency(gateioUserTrade.getFeeCurrency())
+        .orderUserReference(gateioUserTrade.getRemark())
+        .type(toOrderType(gateioUserTrade.getSide()))
+        .instrument(toInstrument(gateioUserTrade.getCurrencyPair()))
+        .price(gateioUserTrade.getPrice())
+        .timestamp(Date.from(gateioUserTrade.getTimeMs()))
+        .originalAmount(gateioUserTrade.getAmount())
         .build();
   }
 
