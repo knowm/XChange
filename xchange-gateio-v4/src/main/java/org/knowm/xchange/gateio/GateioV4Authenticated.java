@@ -17,6 +17,7 @@ import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
 import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
+import org.knowm.xchange.gateio.dto.account.GateioSubAccountTransfer;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
@@ -125,6 +126,20 @@ public interface GateioV4Authenticated {
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
       @QueryParam("currency") String currency
+  ) throws IOException, GateioException;
+
+
+  @GET
+  @Path("wallet/sub_account_transfers")
+  List<GateioSubAccountTransfer> getSubAccountTransfers(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @QueryParam("sub_uid") String subAccountId,
+      @QueryParam("from") Long from,
+      @QueryParam("to") Long to,
+      @QueryParam("limit") Integer pageLength,
+      @QueryParam("offset") Integer zeroBasedPageNumber
   ) throws IOException, GateioException;
 
 

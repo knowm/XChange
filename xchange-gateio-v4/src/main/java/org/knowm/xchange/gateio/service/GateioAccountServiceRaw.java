@@ -10,9 +10,11 @@ import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
 import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
+import org.knowm.xchange.gateio.dto.account.GateioSubAccountTransfer;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
+import org.knowm.xchange.gateio.dto.account.params.GateioSubAccountTransfersParams;
 
 public class GateioAccountServiceRaw extends GateioBaseService {
 
@@ -66,6 +68,15 @@ public class GateioAccountServiceRaw extends GateioBaseService {
   public List<GateioAddressRecord> getSavedAddresses(Currency currency) throws IOException {
     Validate.notNull(currency);
     return gateioV4Authenticated.getSavedAddresses(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currency.getCurrencyCode());
+  }
+
+
+  List<GateioSubAccountTransfer> getSubAccountTransfers(GateioSubAccountTransfersParams params) throws IOException {
+    Long from = params.getStartTime() != null ? params.getStartTime().getEpochSecond() : null;
+    Long to = params.getEndTime() != null ? params.getEndTime().getEpochSecond() : null;
+
+    return gateioV4Authenticated.getSubAccountTransfers(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest,
+        params.getSubAccountId(), from, to, params.getPageLength(), params.getZeroBasedPageNumber());
   }
 
 

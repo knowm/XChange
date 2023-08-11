@@ -1,13 +1,7 @@
 package org.knowm.xchange.gateio.service;
 
-import org.junit.jupiter.api.Test;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.exceptions.ExchangeSecurityException;
-import org.knowm.xchange.exceptions.InstrumentNotValidException;
-import org.knowm.xchange.exceptions.InternalServerException;
-import org.knowm.xchange.gateio.GateioExchangeWiremock;
-import org.knowm.xchange.gateio.dto.account.*;
-import org.knowm.xchange.gateio.dto.account.GateioDepositAddress.MultichainAddress;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -15,9 +9,20 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.exceptions.InstrumentNotValidException;
+import org.knowm.xchange.exceptions.InternalServerException;
+import org.knowm.xchange.gateio.GateioExchangeWiremock;
+import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
+import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
+import org.knowm.xchange.gateio.dto.account.GateioDepositAddress.MultichainAddress;
+import org.knowm.xchange.gateio.dto.account.GateioSubAccountTransfer;
+import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
+import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
+import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
+import org.knowm.xchange.gateio.dto.account.params.GateioSubAccountTransfersParams;
 
 public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
 
@@ -179,6 +184,29 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
         .currency("USDT")
         .name("stuff")
         .verified(true)
+        .build();
+
+    assertThat(actual).hasSize(1);
+    assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
+  }
+
+
+  @Test
+  void sub_account_transfers() throws IOException {
+
+    List<GateioSubAccountTransfer> actual = gateioAccountServiceRaw.getSubAccountTransfers(
+        GateioSubAccountTransfersParams.builder().build());
+
+    GateioSubAccountTransfer expected = GateioSubAccountTransfer.builder()
+        .mainAccountId(10001)
+        .timestamp(Instant.ofEpochSecond(1592809000))
+        .source("web")
+        .clientOrderId("da3ce7a088c8b0372b741419c7829033")
+        .currency(Currency.BTC)
+        .subAccountId(10002)
+        .direction("to")
+        .amount(BigDecimal.ONE)
+        .subAccountType("spot")
         .build();
 
     assertThat(actual).hasSize(1);
