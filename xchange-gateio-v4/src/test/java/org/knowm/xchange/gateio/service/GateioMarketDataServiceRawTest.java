@@ -1,5 +1,12 @@
 package org.knowm.xchange.gateio.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -10,14 +17,6 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook.PriceSizeEntry;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
 
   GateioMarketDataServiceRaw gateioMarketDataServiceRaw = (GateioMarketDataServiceRaw) exchange.getMarketDataService();
@@ -25,7 +24,7 @@ public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
 
   @Test
   public void getCurrencies_valid() throws IOException {
-    List<GateioCurrencyInfo> actual = gateioMarketDataServiceRaw.getCurrencies();
+    List<GateioCurrencyInfo> actual = gateioMarketDataServiceRaw.getGateioCurrencyInfos();
 
     assertThat(actual).hasSize(5);
 

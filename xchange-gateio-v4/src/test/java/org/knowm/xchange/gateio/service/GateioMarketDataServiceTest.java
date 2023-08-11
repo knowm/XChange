@@ -1,12 +1,6 @@
 package org.knowm.xchange.gateio.service;
 
-import org.junit.jupiter.api.Test;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.gateio.GateioExchangeWiremock;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -14,8 +8,14 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.gateio.GateioExchangeWiremock;
 
 public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
 
@@ -81,6 +81,22 @@ public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
     var actual = gateioMarketDataService.getTickers(null);
 
     assertThat(actual).hasSize(2);
+  }
+
+
+  @Test
+  void getCurrencies_valid() throws IOException {
+    var actual = gateioMarketDataService.getCurrencies();
+
+    assertThat(actual).containsOnly(Currency.BTC, Currency.ETH);
+  }
+
+
+  @Test
+  void getCurrencyPairs_valid() throws IOException {
+    var actual = gateioMarketDataService.getCurrencyPairs();
+
+    assertThat(actual).containsOnly(CurrencyPair.BTC_USDT, CurrencyPair.ETH_USDT, new CurrencyPair("CHZ/USDT"));
   }
 
 

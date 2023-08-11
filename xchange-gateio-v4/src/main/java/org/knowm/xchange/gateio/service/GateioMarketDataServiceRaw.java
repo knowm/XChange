@@ -1,13 +1,16 @@
 package org.knowm.xchange.gateio.service;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioExchange;
-import org.knowm.xchange.gateio.dto.marketdata.*;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyChain;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
+import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.io.IOException;
-import java.util.List;
 
 public class GateioMarketDataServiceRaw extends GateioBaseService {
 
@@ -21,7 +24,7 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
   }
 
 
-  public List<GateioCurrencyInfo> getCurrencies() throws IOException {
+  public List<GateioCurrencyInfo> getGateioCurrencyInfos() throws IOException {
     return gateio.getCurrencies();
   }
 
