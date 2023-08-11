@@ -149,7 +149,11 @@ public interface GateioV4Authenticated {
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
-      @QueryParam("currency") String currency
+      @QueryParam("currency") String currency,
+      @QueryParam("from") Long from,
+      @QueryParam("to") Long to,
+      @QueryParam("limit") Integer pageLength,
+      @QueryParam("offset") Integer zeroBasedPageNumber
   ) throws IOException, GateioException;
 
 

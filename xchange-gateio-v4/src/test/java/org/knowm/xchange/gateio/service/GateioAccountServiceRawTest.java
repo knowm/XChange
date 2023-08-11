@@ -23,6 +23,7 @@ import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 import org.knowm.xchange.gateio.dto.account.params.GateioSubAccountTransfersParams;
+import org.knowm.xchange.gateio.service.params.GateioWithdrawalsParams;
 
 public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
 
@@ -123,7 +124,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
 
   @Test
   void withdrawal_records() throws IOException {
-    var actual = gateioAccountServiceRaw.getWithdrawals(null);
+    var actual = gateioAccountServiceRaw.getWithdrawals(GateioWithdrawalsParams.builder().build());
 
     GateioWithdrawalRecord expected = GateioWithdrawalRecord.builder()
         .id("w35874123")
