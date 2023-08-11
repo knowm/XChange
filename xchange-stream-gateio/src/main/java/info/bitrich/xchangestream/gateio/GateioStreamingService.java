@@ -4,6 +4,7 @@ package info.bitrich.xchangestream.gateio;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
+import info.bitrich.xchangestream.gateio.config.IdGenerator;
 import info.bitrich.xchangestream.gateio.dto.Event;
 import info.bitrich.xchangestream.gateio.dto.request.GateioWebSocketRequest;
 import info.bitrich.xchangestream.gateio.dto.request.GateioWebSocketRequest.AuthInfo;
@@ -26,7 +27,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.currency.CurrencyPair;
 
@@ -37,7 +37,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
 
   private final Map<String, Observable<GateioWebSocketNotification>> subscriptions = new ConcurrentHashMap<>();
 
-  private final ObjectMapper objectMapper = Config.getObjectMapper();
+  private final ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 
   private final String apiKey;
 
@@ -92,11 +92,12 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
 
   private GateioWebSocketRequest getWebSocketRequest(String channelName, Event event, Object... args) {
     // create request common part
+
     GateioWebSocketRequest request = GateioWebSocketRequest.builder()
-        .id(RandomUtils.nextLong())
+        .id(IdGenerator.getInstance().requestId())
         .channel(channelName)
         .event(event)
-        .time(Instant.now())
+        .time(Instant.now(Config.getInstance().getClock()))
         .build();
 
     // create channel specific payload

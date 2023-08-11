@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 public class GateioWebSocketNotificationTest {
 
-  ObjectMapper objectMapper = Config.getObjectMapper();
+  ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 
   @Test
   void deserialize_trades() throws Exception {

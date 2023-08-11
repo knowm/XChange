@@ -5,8 +5,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.time.Clock;
+import java.time.ZoneId;
 import java.util.List;
+import lombok.Data;
 
+@Data
 public final class Config {
 
   public static final String V4_URL = "wss://api.gateio.ws/ws/v4/";
@@ -18,30 +22,36 @@ public final class Config {
   public static final String SPOT_USER_TRADES_CHANNEL = "spot.usertrades";
   public static final List<String> PRIVATE_CHANNELS = List.of(SPOT_BALANCES_CHANNEL, SPOT_USER_TRADES_CHANNEL);
 
-  private static final ObjectMapper MAPPER = new ObjectMapper();
   public static final String CHANNEL_NAME_DELIMITER = "-";
 
-  static {
-    // by default read and write timetamps as milliseconds
-    MAPPER.configure(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
-    MAPPER.configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
+  private ObjectMapper objectMapper;
+  private Clock clock;
 
-    // don't fail un unknown properties
-    MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-    // don't write nulls
-    MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
-    // enable parsing to Instant
-    MAPPER.registerModule(new JavaTimeModule());
-  }
+  private static Config instance = new Config();
 
   private Config() {
+    clock = Clock.tickMillis(ZoneId.systemDefault());
+
+    objectMapper = new ObjectMapper();
+
+    // by default read and write timetamps as milliseconds
+    objectMapper.configure(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
+    objectMapper.configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
+
+    // don't fail un unknown properties
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    // don't write nulls
+    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+    // enable parsing to Instant
+    objectMapper.registerModule(new JavaTimeModule());
   }
 
 
-  public static ObjectMapper getObjectMapper() {
-    return MAPPER;
+  public static Config getInstance() {
+    return instance;
   }
+
 
 }

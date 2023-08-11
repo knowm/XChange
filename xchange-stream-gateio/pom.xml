@@ -11,6 +11,7 @@
     <name>XChange Gate.io Stream</name>
 
     <properties>
+        <version.archunit>1.0.1</version.archunit>
         <version.sortpom-maven-plugin>3.2.0</version.sortpom-maven-plugin>
     </properties>
 
@@ -20,6 +21,13 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${version.fasterxml}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5</artifactId>
+            <version>${version.archunit}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 public class GateioStreamingServiceTest {
 
   GateioStreamingService gateioStreamingService = new GateioStreamingService("", null, null);
-  ObjectMapper objectMapper = Config.getObjectMapper();
+  ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 
   @Test
   void channel_name_from_orderbook_update() throws Exception {
@@ -52,7 +52,7 @@ public class GateioStreamingServiceTest {
     String actual = gateioStreamingService.getChannelNameFromMessage(notification);
     assertThat(actual).isEqualTo("spot.trades");
   }
-  
+
   private GateioWebSocketNotification readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(
         getClass().getClassLoader().getResourceAsStream(resourceName),
