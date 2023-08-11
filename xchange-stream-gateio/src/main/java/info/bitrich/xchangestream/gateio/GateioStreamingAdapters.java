@@ -12,7 +12,6 @@ import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUser
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.UserTradeDTO;
 import java.util.Date;
 import java.util.stream.Stream;
-import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -25,7 +24,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 @UtilityClass
 public class GateioStreamingAdapters {
 
-  @SneakyThrows
   public Ticker toTicker(GateioTickerNotification notification) {
     TickerDTO tickerDTO = notification.getResult();
 
@@ -44,7 +42,6 @@ public class GateioStreamingAdapters {
   }
 
 
-  @SneakyThrows
   public Trade toTrade(GateioTradeNotification notification) {
     TradeDTO tradeDTO = notification.getResult();
 
@@ -60,7 +57,6 @@ public class GateioStreamingAdapters {
   }
 
 
-  @SneakyThrows
   public UserTrade toUserTrade(GateioSingleUserTradeNotification notification) {
     UserTradeDTO userTradeDTO = notification.getResult();
 
@@ -79,7 +75,6 @@ public class GateioStreamingAdapters {
   }
 
 
-  @SneakyThrows
   public Balance toBalance(GateioSingleSpotBalanceNotification notification) {
     BalanceDTO balanceDTO = notification.getResult();
 
@@ -93,7 +88,6 @@ public class GateioStreamingAdapters {
   }
 
 
-  @SneakyThrows
   public OrderBook toOrderBook(GateioOrderBookNotification notification) {
     OrderBookDTO orderBookDTO = notification.getResult();
 
