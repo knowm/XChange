@@ -30,7 +30,7 @@ public class GateioStreamingAdapters {
     TickerDTO tickerDTO = notification.getResult();
 
     return new Ticker.Builder()
-        .timestamp(Date.from(notification.getTime()))
+        .timestamp(Date.from(notification.getTimeMs()))
         .instrument(tickerDTO.getCurrencyPair())
         .last(tickerDTO.getLastPrice())
         .ask(tickerDTO.getLowestAsk())
@@ -54,7 +54,7 @@ public class GateioStreamingAdapters {
         .originalAmount(tradeDTO.getAmount())
         .instrument(tradeDTO.getCurrencyPair())
         .price(tradeDTO.getPrice())
-        .timestamp(Date.from(tradeDTO.getTime()))
+        .timestamp(Date.from(tradeDTO.getTimeMs()))
         .id(String.valueOf(tradeDTO.getId()))
         .build();
   }
@@ -69,7 +69,7 @@ public class GateioStreamingAdapters {
         .originalAmount(userTradeDTO.getAmount())
         .instrument(userTradeDTO.getCurrencyPair())
         .price(userTradeDTO.getPrice())
-        .timestamp(Date.from(userTradeDTO.getTime()))
+        .timestamp(Date.from(userTradeDTO.getTimeMs()))
         .id(String.valueOf(userTradeDTO.getId()))
         .orderId(String.valueOf(userTradeDTO.getOrderId()))
         .feeAmount(userTradeDTO.getFee())
@@ -88,7 +88,7 @@ public class GateioStreamingAdapters {
         .total(balanceDTO.getTotal())
         .available(balanceDTO.getAvailable())
         .frozen(balanceDTO.getFreeze())
-        .timestamp(Date.from(balanceDTO.getTime()))
+        .timestamp(Date.from(balanceDTO.getTimeMs()))
         .build();
   }
 
