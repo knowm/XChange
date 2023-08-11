@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.Validate;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
@@ -34,7 +33,7 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
 
       List<Balance> balances = spotBalances.stream()
           .map(balance -> Balance.builder()
-              .currency(Currency.getInstance(balance.getCurrency()))
+              .currency(balance.getCurrency())
               .available(balance.getAvailable())
               .frozen(balance.getLocked())
               .build())

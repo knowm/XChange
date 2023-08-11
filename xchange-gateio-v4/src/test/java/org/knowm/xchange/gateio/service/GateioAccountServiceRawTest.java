@@ -37,7 +37,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
     expectedWithdrawFeeByChain.put("ETH", new BigDecimal("0.93"));
     expectedWithdrawFeeByChain.put("GTEVM", new BigDecimal("0.0049"));
     GateioWithdrawStatus expected = GateioWithdrawStatus.builder()
-        .currency("GT")
+        .currency(Currency.getInstance("GT"))
         .name("GateToken")
         .nameCN("狗头")
         .depositFee(BigDecimal.ZERO)
@@ -208,7 +208,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
         .address("6vLyxJ9dBziamyaw2vDcs9n2NwQdW1uk3aooJwrEscnA")
         .tag("")
         .chain("SOL")
-        .currency("USDT")
+        .currency(Currency.USDT)
         .name("stuff")
         .verified(true)
         .build();
