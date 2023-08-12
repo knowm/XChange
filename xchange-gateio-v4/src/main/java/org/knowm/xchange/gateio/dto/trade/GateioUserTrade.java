@@ -8,8 +8,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.config.DoubleToInstantConverter;
 import org.knowm.xchange.gateio.config.StringToCurrencyConverter;
+import org.knowm.xchange.gateio.config.StringToCurrencyPairConverter;
 import org.knowm.xchange.gateio.config.TimestampSecondsToInstantConverter;
 
 @Data
@@ -29,7 +31,8 @@ public class GateioUserTrade {
   private Instant timeMs;
 
   @JsonProperty("currency_pair")
-  String currencyPair;
+  @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
+  CurrencyPair currencyPair;
 
   @JsonProperty("side")
   private String side;

@@ -1,12 +1,16 @@
 package org.knowm.xchange.gateio.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.math.BigDecimal;
+import java.time.Instant;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
-
-import java.math.BigDecimal;
-import java.time.Instant;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.gateio.config.CurrencyPairToStringConverter;
+import org.knowm.xchange.gateio.config.StringToCurrencyPairConverter;
 
 @Data
 @Builder
@@ -32,7 +36,9 @@ public class GateioOrder {
   String status;
 
   @JsonProperty("currency_pair")
-  String currencyPair;
+  @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
+  @JsonSerialize(converter = CurrencyPairToStringConverter.class)
+  CurrencyPair currencyPair;
 
   @JsonProperty("type")
   String type;

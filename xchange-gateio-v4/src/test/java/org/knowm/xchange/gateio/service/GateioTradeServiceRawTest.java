@@ -18,7 +18,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
 
   GateioOrder sampleMarketOrder = GateioOrder.builder()
       .id("342251629898")
-      .currencyPair("BTC_USDT")
+      .currencyPair(CurrencyPair.BTC_USDT)
       .clientOrderId("t-valid-market-buy-order")
       .amendText("-")
       .type("market")
@@ -62,7 +62,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
   @Test
   void valid_market_buy_order() throws IOException {
     GateioOrder gateioOrder = GateioOrder.builder()
-        .currencyPair("BTC_USDT")
+        .currencyPair(CurrencyPair.BTC_USDT)
         .clientOrderId("t-valid-market-buy-order")
         .type("market")
         .account("spot")
@@ -80,7 +80,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
   @Test
   void valid_market_sell_order() throws IOException {
     GateioOrder gateioOrder = GateioOrder.builder()
-        .currencyPair("BTC_USDT")
+        .currencyPair(CurrencyPair.BTC_USDT)
         .clientOrderId("t-valid-market-sell-order")
         .type("market")
         .account("spot")
@@ -94,7 +94,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
 
     GateioOrder expectedResponse = GateioOrder.builder()
         .id("342260949533")
-        .currencyPair("BTC_USDT")
+        .currencyPair(CurrencyPair.BTC_USDT)
         .clientOrderId("t-valid-market-sell-order")
         .amendText("-")
         .type("market")

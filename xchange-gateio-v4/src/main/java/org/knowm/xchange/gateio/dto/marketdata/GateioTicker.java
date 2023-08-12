@@ -1,12 +1,14 @@
 package org.knowm.xchange.gateio.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.math.BigDecimal;
+import java.time.Instant;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
-
-import java.math.BigDecimal;
-import java.time.Instant;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.gateio.config.StringToCurrencyPairConverter;
 
 @Data
 @Builder
@@ -14,7 +16,8 @@ import java.time.Instant;
 public class GateioTicker {
 
   @JsonProperty("currency_pair")
-  String currencyPair;
+  @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
+  CurrencyPair currencyPair;
 
   @JsonProperty("last")
   BigDecimal lastPrice;

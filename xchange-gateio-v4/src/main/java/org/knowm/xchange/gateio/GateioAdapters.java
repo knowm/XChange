@@ -51,12 +51,6 @@ public class GateioAdapters {
   }
 
 
-  public Instrument toInstrument(String currencyCode) {
-    var currencies = currencyCode.split("_");
-    return new CurrencyPair(currencies[0], currencies[1]);
-  }
-
-
   public OrderBook toOrderBook(GateioOrderBook gateioOrderBook, Instrument instrument) {
     List<LimitOrder> asks = gateioOrderBook.getAsks().stream()
         .map(priceSizeEntry -> new LimitOrder(OrderType.ASK, priceSizeEntry.getSize(), instrument, null, null, priceSizeEntry.getPrice()))
@@ -111,7 +105,7 @@ public class GateioAdapters {
 
   public GateioOrder toGateioOrder(MarketOrder marketOrder) {
     return GateioOrder.builder()
-        .currencyPair(toString(marketOrder.getInstrument()))
+        .currencyPair((CurrencyPair) marketOrder.getInstrument())
         .side(toString(marketOrder.getType()))
         .clientOrderId(marketOrder.getUserReference())
         .account("spot")
@@ -124,7 +118,7 @@ public class GateioAdapters {
 
   public GateioOrder toGateioOrder(LimitOrder limitOrder) {
     return GateioOrder.builder()
-        .currencyPair(toString(limitOrder.getInstrument()))
+        .currencyPair((CurrencyPair) limitOrder.getInstrument())
         .side(toString(limitOrder.getType()))
         .clientOrderId(limitOrder.getUserReference())
         .account("spot")
@@ -138,7 +132,7 @@ public class GateioAdapters {
 
   public Order toOrder(GateioOrder gateioOrder) {
     Order.Builder order;
-    Instrument instrument = toInstrument(gateioOrder.getCurrencyPair());
+    Instrument instrument = gateioOrder.getCurrencyPair();
     OrderType orderType = toOrderType(gateioOrder.getSide());
 
     switch (gateioOrder.getType()) {
@@ -174,7 +168,7 @@ public class GateioAdapters {
         .feeCurrency(gateioUserTrade.getFeeCurrency())
         .orderUserReference(gateioUserTrade.getRemark())
         .type(toOrderType(gateioUserTrade.getSide()))
-        .instrument(toInstrument(gateioUserTrade.getCurrencyPair()))
+        .instrument(gateioUserTrade.getCurrencyPair())
         .price(gateioUserTrade.getPrice())
         .timestamp(Date.from(gateioUserTrade.getTimeMs()))
         .originalAmount(gateioUserTrade.getAmount())
@@ -221,7 +215,7 @@ public class GateioAdapters {
 
   public Ticker toTicker(GateioTicker gateioTicker) {
     return new Ticker.Builder()
-            .instrument(toInstrument(gateioTicker.getCurrencyPair()))
+            .instrument(gateioTicker.getCurrencyPair())
             .last(gateioTicker.getLastPrice())
             .bid(gateioTicker.getHighestBid())
             .ask(gateioTicker.getLowestAsk())
