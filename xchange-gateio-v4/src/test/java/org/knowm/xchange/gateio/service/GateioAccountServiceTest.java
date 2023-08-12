@@ -5,14 +5,20 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.exceptions.OrderAmountUnderMinimumException;
 import org.knowm.xchange.exceptions.OrderNotValidException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
+import org.knowm.xchange.gateio.service.params.GateioFundingHistoryParams;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
 
 class GateioAccountServiceTest extends GateioExchangeWiremock {
@@ -94,6 +100,32 @@ class GateioAccountServiceTest extends GateioExchangeWiremock {
 
     assertThatExceptionOfType(OrderNotValidException.class)
         .isThrownBy(() -> gateioAccountService.withdrawFunds(params));
+  }
+
+
+  @Test
+  void funding_history() throws IOException {
+    List<FundingRecord> actual = gateioAccountService.getFundingHistory(GateioFundingHistoryParams.builder()
+        .currency(Currency.USDT)
+        .startTime(Date.from(Instant.ofEpochSecond(1691447482)))
+        .endTime(Date.from(Instant.ofEpochSecond(1691533882)))
+        .pageLength(2)
+        .pageNumber(1)
+        .type("order_fee")
+        .build());
+
+    FundingRecord expected = new FundingRecord.Builder()
+        .setInternalId("40558668441")
+        .setDate(Date.from(Instant.ofEpochMilli(1691510538067L)))
+        .setCurrency(Currency.USDT)
+        .setBalance(new BigDecimal("16.00283141582979715942"))
+        .setType(Type.OTHER_OUTFLOW)
+        .setAmount(new BigDecimal("0.0113918056"))
+        .setDescription("order_fee")
+        .build();
+
+    assertThat(actual).hasSize(2);
+    assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
   }
 
 

@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.gateio.dto.GateioException;
+import org.knowm.xchange.gateio.dto.account.GateioAccountBookRecord;
 import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
 import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
@@ -57,6 +58,21 @@ public interface GateioV4Authenticated {
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
       @QueryParam("currency") String currency
+  ) throws IOException, GateioException;
+
+
+  @GET
+  @Path("spot/account_book")
+  List<GateioAccountBookRecord> getAccountBookRecords(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @QueryParam("currency") String currency,
+      @QueryParam("from") Long from,
+      @QueryParam("to") Long to,
+      @QueryParam("limit") Integer pageLength,
+      @QueryParam("offset") Integer zeroBasedPageNumber,
+      @QueryParam("type") String type
   ) throws IOException, GateioException;
 
 

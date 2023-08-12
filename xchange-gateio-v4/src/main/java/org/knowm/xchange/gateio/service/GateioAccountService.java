@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
@@ -16,6 +17,7 @@ import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class GateioAccountService extends GateioAccountServiceRaw implements AccountService {
@@ -70,4 +72,15 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
   }
 
 
+  @Override
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+    try {
+      return getAccountBookRecords(params).stream()
+          .map(GateioAdapters::toFundingRecords)
+          .collect(Collectors.toList());
+    }
+    catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
+  }
 }

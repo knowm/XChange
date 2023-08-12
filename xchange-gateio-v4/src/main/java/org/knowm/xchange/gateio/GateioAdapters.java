@@ -10,12 +10,15 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.gateio.dto.account.GateioAccountBookRecord;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
@@ -228,5 +231,18 @@ public class GateioAdapters {
             .quoteVolume(gateioTicker.getQuoteVolume())
             .percentageChange(gateioTicker.getChangePercentage24h())
             .build();
+  }
+
+
+  public FundingRecord toFundingRecords(GateioAccountBookRecord gateioAccountBookRecord) {
+    return new FundingRecord.Builder()
+        .setInternalId(gateioAccountBookRecord.getId())
+        .setDate(Date.from(gateioAccountBookRecord.getTimestamp()))
+        .setCurrency(gateioAccountBookRecord.getCurrency())
+        .setBalance(gateioAccountBookRecord.getBalance())
+        .setType(gateioAccountBookRecord.getChange().signum() > 0 ? Type.OTHER_INFLOW : Type.OTHER_OUTFLOW)
+        .setAmount(gateioAccountBookRecord.getChange().abs())
+        .setDescription(gateioAccountBookRecord.getType())
+        .build();
   }
 }
