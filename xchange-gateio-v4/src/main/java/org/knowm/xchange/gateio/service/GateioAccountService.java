@@ -14,7 +14,7 @@ import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
-import org.knowm.xchange.gateio.service.params.DefaultGateioWithdrawFundsParams;
+import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
@@ -55,8 +55,8 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    Validate.isInstanceOf(DefaultGateioWithdrawFundsParams.class, params, "Not enough parameters");
-    DefaultGateioWithdrawFundsParams p = (DefaultGateioWithdrawFundsParams) params;
+    Validate.isInstanceOf(GateioWithdrawFundsParams.class, params);
+    GateioWithdrawFundsParams p = (GateioWithdrawFundsParams) params;
 
     GateioWithdrawalRequest gateioWithdrawalRequest = GateioAdapters.toGateioWithdrawalRequest(p);
 

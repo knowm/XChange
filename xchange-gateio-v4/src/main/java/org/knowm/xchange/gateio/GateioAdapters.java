@@ -22,7 +22,7 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.trade.GateioUserTrade;
-import org.knowm.xchange.gateio.service.params.DefaultGateioWithdrawFundsParams;
+import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
 
 
@@ -203,7 +203,7 @@ public class GateioAdapters {
   }
 
 
-  public GateioWithdrawalRequest toGateioWithdrawalRequest(DefaultGateioWithdrawFundsParams p) {
+  public GateioWithdrawalRequest toGateioWithdrawalRequest(GateioWithdrawFundsParams p) {
     return GateioWithdrawalRequest.builder()
         .clientRecordId(p.getClientRecordId())
         .address(p.getAddress())

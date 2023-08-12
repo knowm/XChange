@@ -6,7 +6,7 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 
 @Value
 @SuperBuilder
-public class DefaultGateioWithdrawFundsParams extends DefaultWithdrawFundsParams {
+public class GateioWithdrawFundsParams extends DefaultWithdrawFundsParams {
 
   String clientRecordId;
 
