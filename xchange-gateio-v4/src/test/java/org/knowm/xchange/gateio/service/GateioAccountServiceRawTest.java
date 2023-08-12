@@ -19,6 +19,7 @@ import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress.MultichainAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositRecord;
+import org.knowm.xchange.gateio.dto.account.GateioDepositRecord.Status;
 import org.knowm.xchange.gateio.dto.account.GateioSubAccountTransfer;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
@@ -162,7 +163,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
         .txId("0x34a89edf400a85a9a6a2747ebc2074ef65895345b9b7400f164602085e9b4a2e")
         .chain("OMN")
         .createdAt(Instant.parse("2023-07-01T14:12:26Z"))
-        .status("DONE")
+        .status(Status.DONE)
         .tag("")
         .build();
 
