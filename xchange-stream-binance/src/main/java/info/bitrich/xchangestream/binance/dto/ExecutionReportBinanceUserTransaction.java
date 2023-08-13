@@ -23,7 +23,9 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     REPLACED,
     REJECTED,
     TRADE,
-    EXPIRED
+    EXPIRED,
+    AMENDMENT,
+    CALCULATED
   }
 
   private final String clientOrderId;

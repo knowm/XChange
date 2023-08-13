@@ -21,7 +21,7 @@ public class BinanceLiveFuturesUserDataExample {
     String apiKey = System.getProperty("binance-api-key");
     String apiSecret = System.getProperty("binance-api-secret");
 
-    FuturesContract contract = new FuturesContract(CurrencyPair.ETH_USDT, "PERPETUAL");
+    FuturesContract contract = new FuturesContract(CurrencyPair.ETH_USDT, "PERP");
 
     ExchangeSpecification spec =
         StreamingExchangeFactory.INSTANCE

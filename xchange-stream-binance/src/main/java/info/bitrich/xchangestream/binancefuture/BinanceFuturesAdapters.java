@@ -13,10 +13,10 @@ public class BinanceFuturesAdapters {
     for (String quoteCurrency : QUOTE_CURRENCIES) {
       if (symbol.endsWith(quoteCurrency)) {
         int splitIndex = symbol.lastIndexOf(quoteCurrency);
-        return new FuturesContract(new CurrencyPair(symbol.substring(0, splitIndex), symbol.substring(splitIndex)), "PERPETUAL");
+        return new FuturesContract(new CurrencyPair(symbol.substring(0, splitIndex), symbol.substring(splitIndex)), "PERP");
       }
     }
     int splitIndex = symbol.length() - 3;
-    return new FuturesContract(new CurrencyPair(symbol.substring(0, splitIndex), symbol.substring(splitIndex)), "PERPETUAL");
+    return new FuturesContract(new CurrencyPair(symbol.substring(0, splitIndex), symbol.substring(splitIndex)), "PERP");
   }
 }
