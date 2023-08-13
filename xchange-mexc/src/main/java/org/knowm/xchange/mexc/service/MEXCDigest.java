@@ -8,8 +8,8 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
 import javax.crypto.Mac;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.QueryParam;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.QueryParam;
 import java.lang.annotation.Annotation;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;

@@ -1,48 +1,16 @@
 package org.knowm.xchange.dto.account;
 
-import java.io.Serializable;
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Value;
 
-public final class AddressWithTag implements Serializable {
+@Value
+@Builder
+@AllArgsConstructor
+public class AddressWithTag {
 
-  private final String address;
-  private final String addressTag;
+  String address;
 
-  public AddressWithTag(String address, String addressTag) {
-    this.address = address;
-    this.addressTag = addressTag;
-  }
+  String addressTag;
 
-  public String getAddress() {
-    return address;
-  }
-
-  public String getAddressTag() {
-    return addressTag;
-  }
-
-  @Override
-  public String toString() {
-    return "AddressWithTag{"
-        + "address='"
-        + address
-        + '\''
-        + ", addressTag='"
-        + addressTag
-        + '\''
-        + '}';
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    AddressWithTag that = (AddressWithTag) o;
-    return Objects.equals(address, that.address) && Objects.equals(addressTag, that.addressTag);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(address, addressTag);
-  }
 }
