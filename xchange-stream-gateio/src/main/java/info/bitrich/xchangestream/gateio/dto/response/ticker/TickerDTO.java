@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.gateio.dto.response.ticker;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import info.bitrich.xchangestream.gateio.config.StringToCurrencyPairConverter;
+import info.bitrich.xchangestream.gateio.config.converter.StringToCurrencyPairConverter;
 import java.math.BigDecimal;
 import lombok.Data;
 import org.knowm.xchange.currency.CurrencyPair;

@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.gateio.dto.response.orderbook;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import info.bitrich.xchangestream.gateio.config.StringToCurrencyPairConverter;
+import info.bitrich.xchangestream.gateio.config.converter.StringToCurrencyPairConverter;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;

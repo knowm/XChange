@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.gateio.config;
+package info.bitrich.xchangestream.gateio.config.converter;
 
 import com.fasterxml.jackson.databind.util.StdConverter;
 import java.time.Instant;

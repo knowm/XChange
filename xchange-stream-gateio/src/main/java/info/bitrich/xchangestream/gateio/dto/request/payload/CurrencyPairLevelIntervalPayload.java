@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import info.bitrich.xchangestream.gateio.config.CurrencyPairToStringConverter;
+import info.bitrich.xchangestream.gateio.config.converter.CurrencyPairToStringConverter;
 import java.time.Duration;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;

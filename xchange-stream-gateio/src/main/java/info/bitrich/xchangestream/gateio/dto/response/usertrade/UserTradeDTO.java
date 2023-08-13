@@ -2,9 +2,9 @@ package info.bitrich.xchangestream.gateio.dto.response.usertrade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import info.bitrich.xchangestream.gateio.config.DoubleToInstantConverter;
-import info.bitrich.xchangestream.gateio.config.StringToCurrencyPairConverter;
-import info.bitrich.xchangestream.gateio.config.TimestampSecondsToInstantConverter;
+import info.bitrich.xchangestream.gateio.config.converter.DoubleToInstantConverter;
+import info.bitrich.xchangestream.gateio.config.converter.StringToCurrencyPairConverter;
+import info.bitrich.xchangestream.gateio.config.converter.TimestampSecondsToInstantConverter;
 import java.math.BigDecimal;
 import java.time.Instant;
 import lombok.Data;
