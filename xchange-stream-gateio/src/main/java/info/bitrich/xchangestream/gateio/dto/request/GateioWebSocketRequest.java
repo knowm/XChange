@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import info.bitrich.xchangestream.gateio.config.converter.InstantToTimestampSecondsConverter;
-import info.bitrich.xchangestream.gateio.config.converter.TimestampSecondsToInstantConverter;
 import info.bitrich.xchangestream.gateio.dto.Event;
 import java.time.Instant;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
 
 @Data
 @SuperBuilder

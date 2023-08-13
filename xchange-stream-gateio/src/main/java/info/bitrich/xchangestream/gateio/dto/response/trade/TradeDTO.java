@@ -2,13 +2,13 @@ package info.bitrich.xchangestream.gateio.dto.response.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import info.bitrich.xchangestream.gateio.config.converter.DoubleToInstantConverter;
-import info.bitrich.xchangestream.gateio.config.converter.StringToCurrencyPairConverter;
-import info.bitrich.xchangestream.gateio.config.converter.TimestampSecondsToInstantConverter;
 import java.math.BigDecimal;
 import java.time.Instant;
 import lombok.Data;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.gateio.config.converter.DoubleToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
+import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
 
 @Data
 public class TradeDTO {

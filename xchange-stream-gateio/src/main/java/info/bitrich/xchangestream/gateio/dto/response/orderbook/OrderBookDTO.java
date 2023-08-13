@@ -3,7 +3,6 @@ package info.bitrich.xchangestream.gateio.dto.response.orderbook;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import info.bitrich.xchangestream.gateio.config.converter.StringToCurrencyPairConverter;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
@@ -11,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
 
 @Data
 public class OrderBookDTO {
