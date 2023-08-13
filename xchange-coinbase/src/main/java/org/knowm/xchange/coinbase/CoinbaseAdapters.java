@@ -57,6 +57,10 @@ public final class CoinbaseAdapters {
   }
 
   private static UserTrade adaptTrade(CoinbaseBuySell transaction, OrderType orderType) {
+    // Bug fix - Null point exception in case of cancelled transactions
+      String transactionId = transaction.getTransaction() == null ?
+              null : (transaction.getTransaction().getId() == null ?
+              null : transaction.getTransaction().getId());
     return new UserTrade.Builder()
         .type(orderType)
         .originalAmount(transaction.getAmount().getAmount())
@@ -70,7 +74,7 @@ public final class CoinbaseAdapters {
                 .divide(transaction.getAmount().getAmount(), PRICE_SCALE, RoundingMode.HALF_UP))
         .timestamp(Date.from(transaction.getCreatedAt().toInstant()))
         .id(transaction.getId())
-        .orderId(transaction.getTransaction().getId())
+        .orderId(transactionId)
         .feeAmount(transaction.getFee().getAmount())
         .feeCurrency(Currency.getInstance(transaction.getFee().getCurrency()))
         .build();
