@@ -1,4 +1,4 @@
-package org.knowm.xchange.gateio.config;
+package org.knowm.xchange.gateio.config.converter;
 
 import com.fasterxml.jackson.databind.util.StdConverter;
 

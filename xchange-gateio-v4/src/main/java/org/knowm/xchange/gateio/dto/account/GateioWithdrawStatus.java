@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.gateio.config.StringToCurrencyConverter;
+import org.knowm.xchange.gateio.config.converter.StringToCurrencyConverter;
 
 @Data
 @Builder

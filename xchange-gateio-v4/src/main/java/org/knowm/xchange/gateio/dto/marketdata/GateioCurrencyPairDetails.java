@@ -7,7 +7,7 @@ import java.time.Instant;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.gateio.config.TimestampSecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
 
 @Data
 @Builder

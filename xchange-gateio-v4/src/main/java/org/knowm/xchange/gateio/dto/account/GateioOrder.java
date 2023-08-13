@@ -10,10 +10,10 @@ import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.gateio.config.CurrencyPairToStringConverter;
-import org.knowm.xchange.gateio.config.OrderTypeToStringConverter;
-import org.knowm.xchange.gateio.config.StringToCurrencyPairConverter;
-import org.knowm.xchange.gateio.config.StringToOrderTypeConverter;
+import org.knowm.xchange.gateio.config.converter.CurrencyPairToStringConverter;
+import org.knowm.xchange.gateio.config.converter.OrderTypeToStringConverter;
+import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
+import org.knowm.xchange.gateio.config.converter.StringToOrderTypeConverter;
 
 @Data
 @Builder

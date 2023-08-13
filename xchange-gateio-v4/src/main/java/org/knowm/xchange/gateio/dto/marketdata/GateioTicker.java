@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.gateio.config.StringToCurrencyPairConverter;
+import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
 
 @Data
 @Builder

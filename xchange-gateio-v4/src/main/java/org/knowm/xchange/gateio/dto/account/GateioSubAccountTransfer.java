@@ -8,8 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.gateio.config.StringToCurrencyConverter;
-import org.knowm.xchange.gateio.config.TimestampSecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.StringToCurrencyConverter;
+import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
 
 @Data
 @Builder

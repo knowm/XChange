@@ -10,7 +10,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
-import org.knowm.xchange.gateio.config.StringToCurrencyConverter;
+import org.knowm.xchange.gateio.config.converter.StringToCurrencyConverter;
 
 @Data
 @Builder
