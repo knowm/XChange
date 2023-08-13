@@ -43,7 +43,7 @@
     <version.reflections>0.10.2</version.reflections>
     <version.slf4j>2.0.6</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>4.0.0</version.java-jwt>
+    <version.java-jwt>4.4.0</version.java-jwt>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
