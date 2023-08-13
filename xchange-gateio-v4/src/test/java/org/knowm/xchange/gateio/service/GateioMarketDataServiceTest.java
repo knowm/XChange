@@ -58,9 +58,9 @@ public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
 
   @Test
   void getTicker_valid() throws IOException {
-    var actual = gateioMarketDataService.getTicker(CurrencyPair.BTC_USDT);
+    Ticker actual = gateioMarketDataService.getTicker(CurrencyPair.BTC_USDT);
 
-    var expected = new Ticker.Builder()
+    Ticker expected = new Ticker.Builder()
             .instrument(CurrencyPair.BTC_USDT)
             .last(new BigDecimal("26028.7"))
             .ask(new BigDecimal("26026.8"))
@@ -78,7 +78,7 @@ public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
 
   @Test
   void getTickers_valid() throws IOException {
-    var actual = gateioMarketDataService.getTickers(null);
+    List<Ticker> actual = gateioMarketDataService.getTickers(null);
 
     assertThat(actual).hasSize(2);
   }
@@ -86,7 +86,7 @@ public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
 
   @Test
   void getCurrencies_valid() throws IOException {
-    var actual = gateioMarketDataService.getCurrencies();
+    List<Currency> actual = gateioMarketDataService.getCurrencies();
 
     assertThat(actual).containsOnly(Currency.BTC, Currency.ETH);
   }
@@ -94,7 +94,7 @@ public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
 
   @Test
   void getCurrencyPairs_valid() throws IOException {
-    var actual = gateioMarketDataService.getCurrencyPairs();
+    List<CurrencyPair> actual = gateioMarketDataService.getCurrencyPairs();
 
     assertThat(actual).containsOnly(CurrencyPair.BTC_USDT, CurrencyPair.ETH_USDT, new CurrencyPair("CHZ/USDT"));
   }

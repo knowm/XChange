@@ -30,10 +30,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <version.java>11</version.java>
-    <maven.compiler.target>11</maven.compiler.target>
-    <maven.compiler.source>11</maven.compiler.source>
-
+    <version.java>1.8</version.java>
     <version.assertj>3.24.2</version.assertj>
     <version.commons.lang3>3.12.0</version.commons.lang3>
     <version.fasterxml>2.14.1</version.fasterxml>

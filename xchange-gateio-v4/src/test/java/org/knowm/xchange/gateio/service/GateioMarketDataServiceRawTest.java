@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
@@ -81,7 +82,7 @@ public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
 
   @Test
   public void getCurrencyChains_valid_result() throws IOException {
-    List<GateioCurrencyChain> expected = List.of(
+    List<GateioCurrencyChain> expected = Arrays.asList(
         GateioCurrencyChain.builder()
             .chain("BTC")
             .chainNameCN("比特币 BRC20/Ordinals")

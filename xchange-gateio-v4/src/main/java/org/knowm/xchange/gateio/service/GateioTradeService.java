@@ -2,6 +2,7 @@ package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.Validate;
@@ -67,7 +68,7 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
 
     try {
       GateioOrder gateioOrder = getOrder(params.getOrderId(), params.getInstrument());
-      return List.of(GateioAdapters.toOrder(gateioOrder));
+      return Collections.singletonList(GateioAdapters.toOrder(gateioOrder));
     }
     catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);

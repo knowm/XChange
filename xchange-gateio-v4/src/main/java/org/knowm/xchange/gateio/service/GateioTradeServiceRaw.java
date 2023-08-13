@@ -1,6 +1,7 @@
 package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang3.Validate;
@@ -28,7 +29,7 @@ public class GateioTradeServiceRaw extends GateioBaseService {
   public List<GateioOrder> listOrders(Instrument instrument, OrderStatus orderStatus) throws IOException {
     // validate arguments
     Validate.notNull(orderStatus);
-    var allowedOrderStatuses = Set.of(OrderStatus.OPEN, OrderStatus.CLOSED);
+    Set<OrderStatus> allowedOrderStatuses = EnumSet.of(OrderStatus.OPEN, OrderStatus.CLOSED);
     Validate.validState(allowedOrderStatuses.contains(orderStatus), "Allowed order statuses are: {}", allowedOrderStatuses);
     Validate.notNull(instrument);
 

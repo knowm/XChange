@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.Clock;
-import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.List;
 import lombok.Data;
 
@@ -20,7 +20,7 @@ public final class Config {
   public static final String SPOT_TICKERS_CHANNEL = "spot.tickers";
   public static final String SPOT_BALANCES_CHANNEL = "spot.balances";
   public static final String SPOT_USER_TRADES_CHANNEL = "spot.usertrades";
-  public static final List<String> PRIVATE_CHANNELS = List.of(SPOT_BALANCES_CHANNEL, SPOT_USER_TRADES_CHANNEL);
+  public static final List<String> PRIVATE_CHANNELS = Arrays.asList(SPOT_BALANCES_CHANNEL, SPOT_USER_TRADES_CHANNEL);
 
   public static final String CHANNEL_NAME_DELIMITER = "-";
 
@@ -30,7 +30,7 @@ public final class Config {
   private static Config instance = new Config();
 
   private Config() {
-    clock = Clock.tickMillis(ZoneId.systemDefault());
+    clock = Clock.systemDefaultZone();
 
     objectMapper = new ObjectMapper();
 

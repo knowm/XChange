@@ -130,7 +130,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
 
   @Test
   void order_details() throws IOException {
-    var actualResponse = gateioTradeServiceRaw.getOrder("342251629898", CurrencyPair.BTC_USDT);
+    GateioOrder actualResponse = gateioTradeServiceRaw.getOrder("342251629898", CurrencyPair.BTC_USDT);
 
     assertThat(actualResponse).usingRecursiveComparison().isEqualTo(sampleMarketOrder);
   }

@@ -6,10 +6,12 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Date;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -46,7 +48,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
         .originalAmount(BigDecimal.valueOf(20))
         .build();
 
-    var actualResponse = gateioTradeService.placeMarketOrder(marketOrder);
+    String actualResponse = gateioTradeService.placeMarketOrder(marketOrder);
     assertThat(actualResponse).isEqualTo("342251629898");
 
   }
@@ -59,7 +61,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
         .originalAmount(new BigDecimal("0.0007"))
         .build();
 
-    var actualResponse = gateioTradeService.placeMarketOrder(marketOrder);
+    String actualResponse = gateioTradeService.placeMarketOrder(marketOrder);
     assertThat(actualResponse).isEqualTo("342260949533");
 
   }
@@ -73,7 +75,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
         .limitPrice(new BigDecimal("29240.7"))
         .build();
 
-    var actualResponse = gateioTradeService.placeLimitOrder(limitOrder);
+    String actualResponse = gateioTradeService.placeLimitOrder(limitOrder);
     assertThat(actualResponse).isEqualTo("373824296029");
   }
 
@@ -93,7 +95,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
         .limitPrice(new BigDecimal("10000.7"))
         .build();
 
-    var actualResponse = gateioTradeService.placeLimitOrder(limitOrder);
+    String actualResponse = gateioTradeService.placeLimitOrder(limitOrder);
     assertThat(actualResponse).isEqualTo("376835979523");
   }
 
@@ -111,7 +113,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
         .fee(new BigDecimal("0.0000014"))
         .build();
 
-    var orders = gateioTradeService.getOrder(new DefaultQueryOrderParamInstrument(CurrencyPair.BTC_USDT, "342251629898"));
+    Collection<Order> orders = gateioTradeService.getOrder(new DefaultQueryOrderParamInstrument(CurrencyPair.BTC_USDT, "342251629898"));
     assertThat(orders).hasSize(1);
     assertThat(orders).first().usingRecursiveComparison().isEqualTo(expected);
   }
