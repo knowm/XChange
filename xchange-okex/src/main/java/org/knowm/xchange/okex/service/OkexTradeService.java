@@ -34,7 +34,7 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
-import javax.ws.rs.NotSupportedException;
+import jakarta.ws.rs.NotSupportedException;
 
 import static org.knowm.xchange.okex.OkexAdapters.*;
 
