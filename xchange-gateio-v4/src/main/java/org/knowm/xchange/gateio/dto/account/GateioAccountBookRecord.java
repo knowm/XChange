@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.gateio.config.StringToCurrencyConverter;
 
 @Data
@@ -32,6 +34,19 @@ public class GateioAccountBookRecord {
   BigDecimal balance;
 
   @JsonProperty("type")
-  String type;
+  String typeDescription;
+
+
+  public FundingRecord.Type getType() {
+    switch (typeDescription) {
+      case "withdraw":
+        return Type.WITHDRAWAL;
+      case "deposit":
+        return Type.DEPOSIT;
+      default:
+        return change.signum() > 0 ? Type.OTHER_INFLOW : Type.OTHER_OUTFLOW;
+    }
+  }
+
 
 }

@@ -11,7 +11,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
@@ -234,9 +233,9 @@ public class GateioAdapters {
         .setDate(Date.from(gateioAccountBookRecord.getTimestamp()))
         .setCurrency(gateioAccountBookRecord.getCurrency())
         .setBalance(gateioAccountBookRecord.getBalance())
-        .setType(gateioAccountBookRecord.getChange().signum() > 0 ? Type.OTHER_INFLOW : Type.OTHER_OUTFLOW)
+        .setType(gateioAccountBookRecord.getType())
         .setAmount(gateioAccountBookRecord.getChange().abs())
-        .setDescription(gateioAccountBookRecord.getType())
+        .setDescription(gateioAccountBookRecord.getTypeDescription())
         .build();
   }
 }
