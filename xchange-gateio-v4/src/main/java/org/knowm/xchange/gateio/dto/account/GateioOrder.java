@@ -9,8 +9,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.gateio.config.CurrencyPairToStringConverter;
+import org.knowm.xchange.gateio.config.OrderTypeToStringConverter;
 import org.knowm.xchange.gateio.config.StringToCurrencyPairConverter;
+import org.knowm.xchange.gateio.config.StringToOrderTypeConverter;
 
 @Data
 @Builder
@@ -47,7 +50,9 @@ public class GateioOrder {
   String account;
 
   @JsonProperty("side")
-  String side;
+  @JsonDeserialize(converter = StringToOrderTypeConverter.class)
+  @JsonSerialize(converter = OrderTypeToStringConverter.class)
+  OrderType side;
 
   @JsonProperty("amount")
   BigDecimal amount;

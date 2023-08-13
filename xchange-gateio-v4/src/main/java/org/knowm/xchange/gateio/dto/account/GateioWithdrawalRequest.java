@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.currency.Currency;
 
 @Data
 @Builder
@@ -18,7 +19,7 @@ public class GateioWithdrawalRequest {
   BigDecimal amount;
 
   @JsonProperty("currency")
-  String currency;
+  Currency currency;
 
   @JsonProperty("address")
   String address;

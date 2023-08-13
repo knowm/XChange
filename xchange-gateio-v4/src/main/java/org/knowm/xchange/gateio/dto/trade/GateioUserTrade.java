@@ -2,6 +2,7 @@ package org.knowm.xchange.gateio.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.Instant;
 import lombok.Builder;
@@ -9,9 +10,12 @@ import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.gateio.config.DoubleToInstantConverter;
+import org.knowm.xchange.gateio.config.OrderTypeToStringConverter;
 import org.knowm.xchange.gateio.config.StringToCurrencyConverter;
 import org.knowm.xchange.gateio.config.StringToCurrencyPairConverter;
+import org.knowm.xchange.gateio.config.StringToOrderTypeConverter;
 import org.knowm.xchange.gateio.config.TimestampSecondsToInstantConverter;
 
 @Data
@@ -24,18 +28,20 @@ public class GateioUserTrade {
 
   @JsonProperty("create_time")
   @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)
-  private Instant time;
+  Instant time;
 
   @JsonProperty("create_time_ms")
   @JsonDeserialize(converter = DoubleToInstantConverter.class)
-  private Instant timeMs;
+  Instant timeMs;
 
   @JsonProperty("currency_pair")
   @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
   CurrencyPair currencyPair;
 
   @JsonProperty("side")
-  private String side;
+  @JsonDeserialize(converter = StringToOrderTypeConverter.class)
+  @JsonSerialize(converter = OrderTypeToStringConverter.class)
+  OrderType side;
 
   @JsonProperty("role")
   String role;

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -30,11 +29,6 @@ import org.knowm.xchange.instrument.Instrument;
 
 @UtilityClass
 public class GateioAdapters {
-
-
-  public String toString(Currency currency) {
-    return currency.getCurrencyCode();
-  }
 
 
   public String toString(Instrument instrument) {
@@ -105,7 +99,7 @@ public class GateioAdapters {
   public GateioOrder toGateioOrder(MarketOrder marketOrder) {
     return GateioOrder.builder()
         .currencyPair((CurrencyPair) marketOrder.getInstrument())
-        .side(toString(marketOrder.getType()))
+        .side(marketOrder.getType())
         .clientOrderId(marketOrder.getUserReference())
         .account("spot")
         .type("market")
@@ -118,7 +112,7 @@ public class GateioAdapters {
   public GateioOrder toGateioOrder(LimitOrder limitOrder) {
     return GateioOrder.builder()
         .currencyPair((CurrencyPair) limitOrder.getInstrument())
-        .side(toString(limitOrder.getType()))
+        .side(limitOrder.getType())
         .clientOrderId(limitOrder.getUserReference())
         .account("spot")
         .type("limit")
@@ -132,7 +126,7 @@ public class GateioAdapters {
   public Order toOrder(GateioOrder gateioOrder) {
     Order.Builder order;
     Instrument instrument = gateioOrder.getCurrencyPair();
-    OrderType orderType = toOrderType(gateioOrder.getSide());
+    OrderType orderType = gateioOrder.getSide();
 
     switch (gateioOrder.getType()) {
       case "market":
@@ -166,36 +160,12 @@ public class GateioAdapters {
         .feeAmount(gateioUserTrade.getFee())
         .feeCurrency(gateioUserTrade.getFeeCurrency())
         .orderUserReference(gateioUserTrade.getRemark())
-        .type(toOrderType(gateioUserTrade.getSide()))
+        .type(gateioUserTrade.getSide())
         .instrument(gateioUserTrade.getCurrencyPair())
         .price(gateioUserTrade.getPrice())
         .timestamp(Date.from(gateioUserTrade.getTimeMs()))
         .originalAmount(gateioUserTrade.getAmount())
         .build();
-  }
-
-
-  public String toString(OrderType orderType) {
-    switch (orderType) {
-      case BID:
-        return "buy";
-      case ASK:
-        return "sell";
-      default:
-        throw new IllegalArgumentException("Can't map " + orderType);
-    }
-  }
-
-
-  public OrderType toOrderType(String gateioOrderType) {
-    switch (gateioOrderType) {
-      case "buy":
-        return OrderType.BID;
-      case "sell":
-        return OrderType.ASK;
-      default:
-        throw new IllegalArgumentException("Can't map " + gateioOrderType);
-    }
   }
 
 
@@ -206,7 +176,7 @@ public class GateioAdapters {
         .tag(p.getAddressTag())
         .chain(p.getChain())
         .amount(p.getAmount())
-        .currency(toString(p.getCurrency()))
+        .currency(p.getCurrency())
         .build();
 
   }

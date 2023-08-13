@@ -79,7 +79,7 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw implemen
       List<GateioCurrencyInfo> currencyInfos = getGateioCurrencyInfos();
       return currencyInfos.stream()
           .filter(gateioCurrencyInfo -> !gateioCurrencyInfo.getDelisted())
-          .map(o -> StringUtils.removeEnd(o.getCurrency(), "_" + o.getChain()))
+          .map(o -> StringUtils.removeEnd(o.getCurrencyWithChain(), "_" + o.getChain()))
           .distinct()
           .map(Currency::getInstance)
           .collect(Collectors.toList());

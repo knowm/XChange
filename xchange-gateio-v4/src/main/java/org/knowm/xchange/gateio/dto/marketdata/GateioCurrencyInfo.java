@@ -11,7 +11,7 @@ import lombok.extern.jackson.Jacksonized;
 public class GateioCurrencyInfo {
 
   @JsonProperty("currency")
-  String currency;
+  String currencyWithChain;
 
   @JsonProperty("delisted")
   Boolean delisted;

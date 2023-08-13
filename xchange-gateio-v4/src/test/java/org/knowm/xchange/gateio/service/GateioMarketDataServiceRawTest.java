@@ -31,7 +31,7 @@ public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
     GateioCurrencyInfo actualBtc = actual.get(0);
 
     GateioCurrencyInfo expectedBtc = GateioCurrencyInfo.builder()
-        .currency("BTC")
+        .currencyWithChain("BTC")
         .delisted(false)
         .withdrawDisabled(false)
         .withdrawDelayed(false)

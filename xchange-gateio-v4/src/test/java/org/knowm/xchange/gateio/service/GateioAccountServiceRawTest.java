@@ -180,7 +180,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
         .tag("")
         .chain("SOL")
         .amount(BigDecimal.valueOf(3))
-        .currency("USDT")
+        .currency(Currency.USDT)
         .build();
 
     GateioWithdrawalRecord actual = gateioAccountServiceRaw.withdraw(gateioWithdrawalRequest);

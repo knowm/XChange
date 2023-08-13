@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
 
@@ -23,7 +24,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
       .amendText("-")
       .type("market")
       .account("spot")
-      .side("buy")
+      .side(OrderType.BID)
       .timeInForce("ioc")
       .amount(BigDecimal.valueOf(20))
       .createdAt(Instant.parse("2023-06-03T22:07:38.451Z"))
@@ -66,7 +67,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
         .clientOrderId("t-valid-market-buy-order")
         .type("market")
         .account("spot")
-        .side("buy")
+        .side(OrderType.BID)
         .timeInForce("ioc")
         .amount(BigDecimal.valueOf(20))
         .build();
@@ -84,7 +85,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
         .clientOrderId("t-valid-market-sell-order")
         .type("market")
         .account("spot")
-        .side("sell")
+        .side(OrderType.ASK)
         .timeInForce("ioc")
         .amount(new BigDecimal("0.0007"))
         .build();
@@ -99,7 +100,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
         .amendText("-")
         .type("market")
         .account("spot")
-        .side("sell")
+        .side(OrderType.ASK)
         .timeInForce("ioc")
         .amount(new BigDecimal("0.0007"))
         .createdAt(Instant.parse("2023-06-03T22:33:21.743Z"))
