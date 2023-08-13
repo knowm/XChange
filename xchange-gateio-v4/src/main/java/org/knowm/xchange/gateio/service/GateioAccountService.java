@@ -34,7 +34,7 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
       List<GateioCurrencyBalance> spotBalances = getSpotBalances(null);
 
       List<Balance> balances = spotBalances.stream()
-          .map(balance -> Balance.builder()
+          .map(balance -> new Balance.Builder()
               .currency(balance.getCurrency())
               .available(balance.getAvailable())
               .frozen(balance.getLocked())

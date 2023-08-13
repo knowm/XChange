@@ -78,7 +78,7 @@ public class GateioStreamingAdapters {
   public Balance toBalance(GateioSingleSpotBalanceNotification notification) {
     BalancePayload balancePayload = notification.getResult();
 
-    return Balance.builder()
+    return new Balance.Builder()
         .currency(balancePayload.getCurrency())
         .total(balancePayload.getTotal())
         .available(balancePayload.getAvailable())

@@ -59,7 +59,7 @@ class GateioStreamingAccountServiceTest {
 
     testObserver.dispose();
 
-    Balance expected = Balance.builder()
+    Balance expected = new Balance.Builder()
         .available(new BigDecimal("42.06583427604872431142"))
         .currency(Currency.USDT)
         .frozen(BigDecimal.ONE)
