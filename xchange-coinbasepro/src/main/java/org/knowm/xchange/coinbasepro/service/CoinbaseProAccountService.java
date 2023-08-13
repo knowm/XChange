@@ -60,23 +60,13 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    return withdrawFunds(DefaultWithdrawFundsParams.builder()
-        .address(address)
-        .currency(currency)
-        .amount(amount)
-        .build());
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address)
       throws IOException {
-    return withdrawFunds(DefaultWithdrawFundsParams.builder()
-        .address(address.getAddress())
-        .address(address.getAddressTag())
-        .currency(currency)
-        .amount(amount)
-        .build()
-    );
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
   @Override

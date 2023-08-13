@@ -51,22 +51,13 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    return withdrawFunds(DefaultWithdrawFundsParams.builder()
-        .address(address)
-        .currency(currency)
-        .amount(amount)
-        .build());
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
   public String withdrawFunds(
       Currency currency, BigDecimal amount, String address, String addressTag) throws IOException {
-    return withdrawFunds(DefaultWithdrawFundsParams.builder()
-            .address(address)
-            .addressTag(addressTag)
-            .currency(currency)
-            .amount(amount)
-            .build()
-        );
+    return withdrawFunds(
+        new DefaultWithdrawFundsParams(address, addressTag, currency, amount, null));
   }
 
   @Override

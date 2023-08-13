@@ -1,13 +1,42 @@
 package org.knowm.xchange.service.trade.params;
 
-import lombok.Value;
-import lombok.experimental.SuperBuilder;
+import java.math.BigDecimal;
+import javax.annotation.Nullable;
+import org.knowm.xchange.currency.Currency;
 
-
-@Value
-@SuperBuilder
 public class MoneroWithdrawFundsParams extends DefaultWithdrawFundsParams {
+  @Nullable public final String paymentId; // optional
 
-  String paymentId;
+  public MoneroWithdrawFundsParams(String address, Currency currency, BigDecimal amount) {
+    this(address, currency, amount, null);
+  }
 
+  public MoneroWithdrawFundsParams(
+      String address, Currency currency, BigDecimal amount, String paymentId) {
+    super(address, currency, amount);
+    this.paymentId = paymentId;
+  }
+
+  @Override
+  public String toString() {
+    return "MoneroWithdrawFundsParams{"
+        + "address='"
+        + getAddress()
+        + '\''
+        + ", paymentId='"
+        + getPaymentId()
+        + '\''
+        + ", currency="
+        + getCurrency()
+        + ", amount="
+        + getAmount()
+        + ", commission="
+        + getCommission()
+        + '}';
+  }
+
+  @Nullable
+  public String getPaymentId() {
+    return paymentId;
+  }
 }

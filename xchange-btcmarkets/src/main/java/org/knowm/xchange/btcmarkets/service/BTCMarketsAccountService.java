@@ -39,9 +39,9 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
-      String address = defaultWithdrawFundsParams.getAddress();
+      String address = defaultWithdrawFundsParams.address;
       if (params instanceof RippleWithdrawFundsParams) {
-        address = address + "?dt=" + ((RippleWithdrawFundsParams) params).getTag();
+        address = address + "?dt=" + ((RippleWithdrawFundsParams) params).tag;
       }
       return withdrawCrypto(
           address,
