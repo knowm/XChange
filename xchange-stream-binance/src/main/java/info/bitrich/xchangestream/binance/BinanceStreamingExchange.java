@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.binance;
 
-import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannelException;
+import info.bitrich.xchangestream.binance.exceptions.NoActiveChannelException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
@@ -33,18 +33,18 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   public static final String USE_HIGHER_UPDATE_FREQUENCY = "Binance_Orderbook_Use_Higher_Frequency";
   public static final String USE_REALTIME_BOOK_TICKER = "Binance_Ticker_Use_Realtime";
   public static final String FETCH_ORDER_BOOK_LIMIT = "Binance_Fetch_Order_Book_Limit";
-  private BinanceStreamingService streamingService;
-  private BinanceUserDataStreamingService userDataStreamingService;
+  public BinanceStreamingService streamingService;
+  protected BinanceUserDataStreamingService userDataStreamingService;
 
-  private BinanceStreamingMarketDataService streamingMarketDataService;
+  protected BinanceStreamingMarketDataService streamingMarketDataService;
   private BinanceStreamingAccountService streamingAccountService;
   private BinanceStreamingTradeService streamingTradeService;
 
-  private BinanceUserDataChannel userDataChannel;
-  private Runnable onApiCall;
-  private String orderBookUpdateFrequencyParameter = "";
-  private int oderBookFetchLimitParameter = 1000;
-  private boolean realtimeOrderBookTicker;
+  public BinanceUserDataChannel userDataChannel;
+  public Runnable onApiCall;
+  public String orderBookUpdateFrequencyParameter = "";
+  public int oderBookFetchLimitParameter = 1000;
+  public boolean realtimeOrderBookTicker;
 
   @Override
   protected void initServices() {
@@ -120,7 +120,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
                   BinanceAuthenticated.class, getExchangeSpecification())
               .build();
       userDataChannel =
-          new BinanceUserDataChannel(binance, exchangeSpecification.getApiKey(), onApiCall);
+          new BinanceUserDataChannelImpl(binance, exchangeSpecification.getApiKey(), onApiCall);
       try {
         completables.add(createAndConnectUserDataService(userDataChannel.getListenKey()));
       } catch (NoActiveChannelException e) {

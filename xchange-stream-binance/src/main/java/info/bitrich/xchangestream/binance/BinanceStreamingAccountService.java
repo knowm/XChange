@@ -22,10 +22,10 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
   private final Subject<OutboundAccountPositionBinanceWebsocketTransaction> accountInfoPublisher =
       accountInfoLast.toSerialized();
 
-  private volatile Disposable accountInfo;
-  private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
+  protected volatile Disposable accountInfo;
+  protected volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
 
-  private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+  protected final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
   public BinanceStreamingAccountService(
       BinanceUserDataStreamingService binanceUserDataStreamingService) {
@@ -80,7 +80,7 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
    * URLs and therefore must act in a publisher fashion so that subscribers get an uninterrupted
    * stream.
    */
-  void setUserDataStreamingService(
+  public void setUserDataStreamingService(
       BinanceUserDataStreamingService binanceUserDataStreamingService) {
     if (accountInfo != null && !accountInfo.isDisposed()) accountInfo.dispose();
     this.binanceUserDataStreamingService = binanceUserDataStreamingService;
