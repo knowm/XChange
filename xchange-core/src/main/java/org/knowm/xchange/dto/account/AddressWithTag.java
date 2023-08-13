@@ -2,9 +2,9 @@ package org.knowm.xchange.dto.account;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
 @AllArgsConstructor
 public class AddressWithTag {
