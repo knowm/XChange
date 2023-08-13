@@ -23,6 +23,7 @@ public final class BinanceKline {
   private final long numberOfTrades;
   private final BigDecimal takerBuyBaseAssetVolume;
   private final BigDecimal takerBuyQuoteAssetVolume;
+  private final boolean closed;
 
   public BinanceKline(Instrument instrument, KlineInterval interval, Object[] obj) {
     this.instrument = instrument;
@@ -38,6 +39,7 @@ public final class BinanceKline {
     this.numberOfTrades = Long.parseLong(obj[8].toString());
     this.takerBuyBaseAssetVolume = new BigDecimal(obj[9].toString());
     this.takerBuyQuoteAssetVolume = new BigDecimal(obj[10].toString());
+    this.closed = (Boolean)obj[11];
   }
 
   public BigDecimal getAveragePrice() {
