@@ -36,7 +36,7 @@ public class KucoinAccountDemo {
 
     System.out.println("------------RAW-----------");
 
-    List<AccountBalancesResponse> responseBalances = accountService.getKucoinAccounts(null, null);
+    List<AccountBalancesResponse> responseBalances = accountService.getKucoinAccounts();
     System.out.println(responseBalances);
 
     // Not yet implemented

@@ -2,7 +2,6 @@ package org.knowm.xchange.kucoin.service;
 
 import java.io.IOException;
 import java.util.List;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -10,8 +9,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.kucoin.dto.KucoinException;
-import org.knowm.xchange.kucoin.dto.request.CreateDepositAddressApiRequest;
 import org.knowm.xchange.kucoin.dto.response.DepositAddressResponse;
 import org.knowm.xchange.kucoin.dto.response.DepositResponse;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
@@ -52,15 +49,15 @@ public interface DepositAPI {
       throws IOException;
 
   @POST
-  @Consumes(MediaType.APPLICATION_JSON)
   @Path("/v1/deposit-addresses")
   KucoinResponse<DepositAddressResponse> createDepositAddress(
       @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
       @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
       @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
-      CreateDepositAddressApiRequest request)
-      throws IOException, KucoinException;
+      @QueryParam("currency") String currency,
+      @QueryParam("chain") String chain)
+      throws IOException;
 
   @GET
   @Path("/v1/deposit-addresses")
@@ -71,7 +68,7 @@ public interface DepositAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @QueryParam("currency") String currency,
       @QueryParam("chain") String chain)
-      throws IOException, KucoinException;
+      throws IOException;
 
   @GET
   @Path("/v2/deposit-addresses")
@@ -81,5 +78,5 @@ public interface DepositAPI {
       @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @QueryParam("currency") String currency)
-      throws IOException, KucoinException;
+      throws IOException;
 }

@@ -4,7 +4,6 @@ package org.knowm.xchange.kucoin.dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import lombok.Data;
-import si.mazi.rescu.ExceptionalReturnContentException;
 
 /** Created by zicong.lu on 2018/12/14. */
 @Data
@@ -28,13 +27,4 @@ public class KucoinResponse<R> implements Serializable {
   public String getMessage() {
     return msg;
   }
-
-  public void setCode(String code) {
-    if (!SUCCESS_CODE.equals(code)) {
-      throw new ExceptionalReturnContentException(code);
-    }
-    this.code = code;
-  }
-
-
 }

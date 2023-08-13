@@ -41,11 +41,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.FeeTier;
-import org.knowm.xchange.dto.meta.InstrumentMetaData;
-import org.knowm.xchange.dto.meta.WalletHealth;
+import org.knowm.xchange.dto.meta.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
@@ -253,7 +249,7 @@ public class KucoinAdapters {
   }
 
   public static Balance adaptBalance(AccountBalancesResponse a) {
-    return new Balance(Currency.getInstance(a.getCurrency()), a.getBalance(), a.getAvailable(), a.getHolds());
+    return new Balance(Currency.getInstance(a.getCurrency()), a.getBalance(), a.getAvailable());
   }
 
   private static Trade adaptTrade(CurrencyPair currencyPair, TradeHistoryResponse trade) {
