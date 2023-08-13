@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
-import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketNotification;
+import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
@@ -40,9 +40,9 @@ class GateioStreamingAccountServiceTest {
 
   @Test
   void spot_balances() throws Exception {
-    GateioWebSocketNotification multipleNotification = readNotification("spot.balance.update.json");
+    GateioWsNotification multipleNotification = readNotification("spot.balance.update.json");
     assertThat(multipleNotification).isInstanceOf(GateioMultipleSpotBalanceNotification.class);
-    GateioWebSocketNotification notification = ((GateioMultipleSpotBalanceNotification) multipleNotification).toSingleNotifications().get(0);
+    GateioWsNotification notification = ((GateioMultipleSpotBalanceNotification) multipleNotification).toSingleNotifications().get(0);
 
     when(gateioStreamingService.subscribeChannel(eq("spot.balances")))
         .thenReturn(Observable.just(notification));
@@ -71,10 +71,10 @@ class GateioStreamingAccountServiceTest {
   }
 
 
-  private GateioWebSocketNotification readNotification(String resourceName) throws IOException {
+  private GateioWsNotification readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(
         getClass().getClassLoader().getResourceAsStream(resourceName),
-        GateioWebSocketNotification.class
+        GateioWsNotification.class
     );
   }
 

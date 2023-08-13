@@ -12,7 +12,7 @@ import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
 import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
 
 @Data
-public class UserTradeDTO {
+public class UserTradePayload {
 
   @JsonProperty("id")
   Long id;

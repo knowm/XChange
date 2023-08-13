@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
-import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketNotification;
+import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import java.io.IOException;
@@ -42,7 +42,7 @@ class GateioStreamingMarketDataServiceTest {
 
   @Test
   void order_book() throws Exception {
-    GateioWebSocketNotification notification = readNotification("spot.order_book.update.json");
+    GateioWsNotification notification = readNotification("spot.order_book.update.json");
     when(gateioStreamingService.subscribeChannel(eq("spot.order_book"), eq(CurrencyPair.BTC_USDT), eq(10), eq(Duration.ofMillis(100))))
         .thenReturn(Observable.just(notification));
 
@@ -67,7 +67,7 @@ class GateioStreamingMarketDataServiceTest {
 
   @Test
   void ticker() throws Exception {
-    GateioWebSocketNotification notification = readNotification("spot.ticker.update.json");
+    GateioWsNotification notification = readNotification("spot.ticker.update.json");
     when(gateioStreamingService.subscribeChannel(eq("spot.tickers"), eq(CurrencyPair.BTC_USDT)))
         .thenReturn(Observable.just(notification));
 
@@ -101,7 +101,7 @@ class GateioStreamingMarketDataServiceTest {
 
   @Test
   void trades() throws Exception {
-    GateioWebSocketNotification notification = readNotification("spot.trades.update.json");
+    GateioWsNotification notification = readNotification("spot.trades.update.json");
     when(gateioStreamingService.subscribeChannel(eq("spot.trades"), eq(CurrencyPair.BTC_USDT)))
         .thenReturn(Observable.just(notification));
 
@@ -130,10 +130,10 @@ class GateioStreamingMarketDataServiceTest {
   }
 
 
-  private GateioWebSocketNotification readNotification(String resourceName) throws IOException {
+  private GateioWsNotification readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(
         getClass().getClassLoader().getResourceAsStream(resourceName),
-        GateioWebSocketNotification.class
+        GateioWsNotification.class
     );
   }
 

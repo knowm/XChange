@@ -6,13 +6,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.config.IdGenerator;
 import info.bitrich.xchangestream.gateio.dto.Event;
-import info.bitrich.xchangestream.gateio.dto.request.GateioWebSocketRequest;
-import info.bitrich.xchangestream.gateio.dto.request.GateioWebSocketRequest.AuthInfo;
+import info.bitrich.xchangestream.gateio.dto.request.GateioWsRequest;
+import info.bitrich.xchangestream.gateio.dto.request.GateioWsRequest.AuthInfo;
 import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairLevelIntervalPayload;
 import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairPayload;
 import info.bitrich.xchangestream.gateio.dto.request.payload.EmptyPayload;
 import info.bitrich.xchangestream.gateio.dto.request.payload.StringPayload;
-import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketNotification;
+import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUserTradeNotification;
@@ -31,11 +31,11 @@ import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.currency.CurrencyPair;
 
 @Slf4j
-public class GateioStreamingService extends NettyStreamingService<GateioWebSocketNotification> {
+public class GateioStreamingService extends NettyStreamingService<GateioWsNotification> {
 
   private static final String USERTRADES_BROADCAST_CHANNEL_NAME = Config.SPOT_USER_TRADES_CHANNEL + Config.CHANNEL_NAME_DELIMITER + "null";
 
-  private final Map<String, Observable<GateioWebSocketNotification>> subscriptions = new ConcurrentHashMap<>();
+  private final Map<String, Observable<GateioWsNotification>> subscriptions = new ConcurrentHashMap<>();
 
   private final ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 
@@ -50,12 +50,12 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
   }
 
   @Override
-  protected String getChannelNameFromMessage(GateioWebSocketNotification message) {
+  protected String getChannelNameFromMessage(GateioWsNotification message) {
     return message.getUniqueChannelName();
   }
 
   @Override
-  public Observable<GateioWebSocketNotification> subscribeChannel(String channelName, Object... args) {
+  public Observable<GateioWsNotification> subscribeChannel(String channelName, Object... args) {
     final CurrencyPair currencyPair =
         (args.length > 0 && args[0] instanceof CurrencyPair) ? ((CurrencyPair) args[0]) : null;
 
@@ -66,7 +66,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
     if (!channels.containsKey(uniqueChannelName) && !subscriptions.containsKey(uniqueChannelName)) {
 
       // subscribe
-      Observable<GateioWebSocketNotification> observable = super.subscribeChannel(uniqueChannelName, args);
+      Observable<GateioWsNotification> observable = super.subscribeChannel(uniqueChannelName, args);
 
       // cache channel subscribtion
       subscriptions.put(uniqueChannelName, observable);
@@ -85,15 +85,15 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
   @Override
   public String getSubscribeMessage(String uniqueChannelName, Object... args) throws IOException {
     String generalChannelName = uniqueChannelName.split(Config.CHANNEL_NAME_DELIMITER)[0];
-    GateioWebSocketRequest request = getWebSocketRequest(generalChannelName, Event.SUBSCRIBE , args);
+    GateioWsRequest request = getWsRequest(generalChannelName, Event.SUBSCRIBE , args);
     return objectMapper.writeValueAsString(request);
   }
 
 
-  private GateioWebSocketRequest getWebSocketRequest(String channelName, Event event, Object... args) {
+  private GateioWsRequest getWsRequest(String channelName, Event event, Object... args) {
     // create request common part
 
-    GateioWebSocketRequest request = GateioWebSocketRequest.builder()
+    GateioWsRequest request = GateioWsRequest.builder()
         .id(IdGenerator.getInstance().requestId())
         .channel(channelName)
         .event(event)
@@ -180,7 +180,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
   @Override
   public String getUnsubscribeMessage(String uniqueChannelName, Object... args) throws IOException {
     String generalChannelName = uniqueChannelName.split(Config.CHANNEL_NAME_DELIMITER)[0];
-    GateioWebSocketRequest unsubscribeMessage = getWebSocketRequest(generalChannelName, Event.UNSUBSCRIBE, args);
+    GateioWsRequest unsubscribeMessage = getWsRequest(generalChannelName, Event.UNSUBSCRIBE, args);
     return objectMapper.writeValueAsString(unsubscribeMessage);
   }
 
@@ -198,7 +198,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
         return;
       }
 
-      GateioWebSocketNotification notification = objectMapper.treeToValue(jsonNode, GateioWebSocketNotification.class);
+      GateioWsNotification notification = objectMapper.treeToValue(jsonNode, GateioWsNotification.class);
 
       // process arrays in "result" field -> emit each item separately
       if (notification instanceof GateioMultipleUserTradeNotification) {
@@ -220,7 +220,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
 
 
   @Override
-  protected void handleChannelMessage(String channel, GateioWebSocketNotification message) {
+  protected void handleChannelMessage(String channel, GateioWsNotification message) {
     if (channel == null) {
       log.debug("Channel provided is null");
       return;
@@ -230,14 +230,14 @@ public class GateioStreamingService extends NettyStreamingService<GateioWebSocke
     if (message instanceof GateioSingleUserTradeNotification) {
 
       // subscription that listens to all currency pairs
-      NettyStreamingService<GateioWebSocketNotification>.Subscription broadcast = channels.get(
+      NettyStreamingService<GateioWsNotification>.Subscription broadcast = channels.get(
           USERTRADES_BROADCAST_CHANNEL_NAME);
       if (broadcast != null && broadcast.getEmitter() != null) {
         broadcast.getEmitter().onNext(message);
       }
 
       // subscription that listens to specific currency pair
-      NettyStreamingService<GateioWebSocketNotification>.Subscription specific = channels.get(channel);
+      NettyStreamingService<GateioWsNotification>.Subscription specific = channels.get(channel);
       if (specific != null && specific.getEmitter() != null) {
         specific.getEmitter().onNext(message);
       }

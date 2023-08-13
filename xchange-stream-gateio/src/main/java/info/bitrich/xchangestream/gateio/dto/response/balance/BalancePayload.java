@@ -9,7 +9,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
 
 @Data
-public class BalanceDTO {
+public class BalancePayload {
 
   @JsonProperty("timestamp")
   @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)

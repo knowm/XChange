@@ -1,15 +1,15 @@
 package info.bitrich.xchangestream.gateio.dto.response.usertrade;
 
 import info.bitrich.xchangestream.gateio.config.Config;
-import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketNotification;
+import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 @Data
 @SuperBuilder
-public class GateioSingleUserTradeNotification extends GateioWebSocketNotification {
+public class GateioSingleUserTradeNotification extends GateioWsNotification {
 
-  private UserTradeDTO result;
+  private UserTradePayload result;
 
   @Override
   public String getUniqueChannelName() {

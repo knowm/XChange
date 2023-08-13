@@ -1,7 +1,7 @@
 package info.bitrich.xchangestream.gateio.dto.response.balance;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketNotification;
+import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Data;
@@ -11,16 +11,16 @@ import lombok.extern.jackson.Jacksonized;
 @Data
 @SuperBuilder
 @Jacksonized
-public class GateioMultipleSpotBalanceNotification extends GateioWebSocketNotification {
+public class GateioMultipleSpotBalanceNotification extends GateioWsNotification {
 
   @JsonProperty("result")
-  private List<BalanceDTO> result;
+  private List<BalancePayload> result;
 
 
   public List<GateioSingleSpotBalanceNotification> toSingleNotifications() {
     return result.stream()
-        .map(balanceDTO -> GateioSingleSpotBalanceNotification.builder()
-            .result(balanceDTO)
+        .map(balancePayload -> GateioSingleSpotBalanceNotification.builder()
+            .result(balancePayload)
             .time(getTime())
             .timeMs(getTimeMs())
             .channel(getChannel())

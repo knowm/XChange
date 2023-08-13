@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
-import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketNotification;
+import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
@@ -41,9 +41,9 @@ class GateioStreamingTradeServiceTest {
 
   @Test
   void user_trades_btc() throws Exception {
-    GateioWebSocketNotification multipleNotification = readNotification("spot.usertrades.update.json");
+    GateioWsNotification multipleNotification = readNotification("spot.usertrades.update.json");
     assertThat(multipleNotification).isInstanceOf(GateioMultipleUserTradeNotification.class);
-    GateioWebSocketNotification notification = ((GateioMultipleUserTradeNotification) multipleNotification).toSingleNotifications().get(0);
+    GateioWsNotification notification = ((GateioMultipleUserTradeNotification) multipleNotification).toSingleNotifications().get(0);
 
     when(gateioStreamingService.subscribeChannel(eq("spot.usertrades"), eq(CurrencyPair.BTC_USDT)))
         .thenReturn(Observable.just(notification));
@@ -77,10 +77,10 @@ class GateioStreamingTradeServiceTest {
   }
 
 
-  private GateioWebSocketNotification readNotification(String resourceName) throws IOException {
+  private GateioWsNotification readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(
         getClass().getClassLoader().getResourceAsStream(resourceName),
-        GateioWebSocketNotification.class
+        GateioWsNotification.class
     );
   }
 

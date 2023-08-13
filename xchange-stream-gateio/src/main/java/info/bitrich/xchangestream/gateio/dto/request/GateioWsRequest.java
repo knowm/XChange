@@ -15,7 +15,7 @@ import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConver
 @Data
 @SuperBuilder
 @Jacksonized
-public class GateioWebSocketRequest {
+public class GateioWsRequest {
 
   @JsonProperty("time")
   @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)

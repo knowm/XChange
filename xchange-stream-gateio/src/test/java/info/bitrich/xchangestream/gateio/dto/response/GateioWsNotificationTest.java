@@ -12,49 +12,49 @@ import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUs
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
-public class GateioWebSocketNotificationTest {
+public class GateioWsNotificationTest {
 
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 
   @Test
   void deserialize_trades() throws Exception {
-    GateioWebSocketNotification notification = readNotification("spot.trades.update.json");
+    GateioWsNotification notification = readNotification("spot.trades.update.json");
     assertThat(notification).isInstanceOf(GateioTradeNotification.class);
   }
 
 
   @Test
   void deserialize_ticker() throws Exception {
-    GateioWebSocketNotification notification = readNotification("spot.ticker.update.json");
+    GateioWsNotification notification = readNotification("spot.ticker.update.json");
     assertThat(notification).isInstanceOf(GateioTickerNotification.class);
   }
 
 
   @Test
   void deserialize_orderbook() throws Exception {
-    GateioWebSocketNotification notification = readNotification("spot.order_book.update.json");
+    GateioWsNotification notification = readNotification("spot.order_book.update.json");
     assertThat(notification).isInstanceOf(GateioOrderBookNotification.class);
   }
 
 
   @Test
   void deserialize_usertrades() throws Exception {
-    GateioWebSocketNotification notification = readNotification("spot.usertrades.update.json");
+    GateioWsNotification notification = readNotification("spot.usertrades.update.json");
     assertThat(notification).isInstanceOf(GateioMultipleUserTradeNotification.class);
   }
 
 
   @Test
   void deserialize_balances() throws Exception {
-    GateioWebSocketNotification notification = readNotification("spot.balance.update.json");
+    GateioWsNotification notification = readNotification("spot.balance.update.json");
     assertThat(notification).isInstanceOf(GateioMultipleSpotBalanceNotification.class);
   }
 
 
-  private GateioWebSocketNotification readNotification(String resourceName) throws IOException {
+  private GateioWsNotification readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(
         getClass().getClassLoader().getResourceAsStream(resourceName),
-        GateioWebSocketNotification.class
+        GateioWsNotification.class
     );
   }
 

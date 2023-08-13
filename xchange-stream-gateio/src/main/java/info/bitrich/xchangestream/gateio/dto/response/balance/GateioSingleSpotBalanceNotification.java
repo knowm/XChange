@@ -1,15 +1,15 @@
 package info.bitrich.xchangestream.gateio.dto.response.balance;
 
 import info.bitrich.xchangestream.gateio.config.Config;
-import info.bitrich.xchangestream.gateio.dto.response.GateioWebSocketNotification;
+import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 @Data
 @SuperBuilder
-public class GateioSingleSpotBalanceNotification extends GateioWebSocketNotification {
+public class GateioSingleSpotBalanceNotification extends GateioWsNotification {
 
-  private BalanceDTO result;
+  private BalancePayload result;
 
   @Override
   public String getUniqueChannelName() {

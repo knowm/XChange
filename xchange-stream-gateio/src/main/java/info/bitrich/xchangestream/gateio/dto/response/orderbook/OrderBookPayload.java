@@ -13,7 +13,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
 
 @Data
-public class OrderBookDTO {
+public class OrderBookPayload {
 
   @JsonProperty("t")
   Instant timestamp;
