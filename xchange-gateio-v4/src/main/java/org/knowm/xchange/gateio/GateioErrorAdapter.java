@@ -13,6 +13,7 @@ public class GateioErrorAdapter {
   public final String INVALID_CURRENCY = "INVALID_CURRENCY";
   public final String BALANCE_NOT_ENOUGH = "BALANCE_NOT_ENOUGH";
   public final String TOO_FAST = "TOO_FAST";
+  public final String TOO_MANY_REQUESTS = "TOO_MANY_REQUESTS";
   public final String INVALID_PARAM_VALUE = "INVALID_PARAM_VALUE";
   public final String SERVER_ERROR = "SERVER_ERROR";
 
@@ -32,6 +33,7 @@ public class GateioErrorAdapter {
         return new FundsExceededException(e.getMessage(), e);
 
       case TOO_FAST:
+      case TOO_MANY_REQUESTS:
         return new RateLimitExceededException(e.getMessage(), e);
 
       case SERVER_ERROR:
