@@ -7,11 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
-import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFee;
@@ -38,6 +36,9 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
     implements AccountService {
+
+  private static final String CB_AFTER_HEADER = "Cb-After";
+  private static final String CB_BEFORE_HEADER = "Cb-Before";
 
   public CoinbaseProAccountService(
       CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
@@ -112,7 +113,7 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
     return null;
   }
 
-  private CoinbaseProWalletAddress accountAddress(Currency currency, String... args)
+  private CoinbaseProWalletAddress accountAddress(Currency currency)
       throws IOException {
     CoinbaseProWallet[] coinbaseAccounts = getCoinbaseAccounts();
     CoinbaseProWallet depositAccount = null;
@@ -133,7 +134,7 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   @Deprecated
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    return accountAddress(currency, args).getAddress();
+    return accountAddress(currency).getAddress();
   }
 
   @Override
@@ -181,7 +182,7 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
         break;
       }
 
-      createdAt = ledger.getHeader("Cb-After");
+      createdAt = ledger.getHeader(CB_AFTER_HEADER);
     }
 
     return ledgerList;
@@ -207,25 +208,18 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
 
     List<FundingRecord> fundingHistory = new ArrayList<>();
 
-    Map<String, String> accountToCurrencyMap =
-        Stream.of(getCoinbaseProAccountInfo())
-            .collect(
-                Collectors.toMap(
-                    CoinbaseProAccount::getId,
-                    CoinbaseProAccount::getCurrency));
-
     while (true) {
       CoinbaseProTransfers transfers =
           getTransfers(fundingRecordType, null, beforeItem, afterItem, maxPageSize);
 
-      for (CoinbaseProTransfer coinbaseProTransfer : transfers) {
-        Currency currency =
-            Currency.getInstance(accountToCurrencyMap.get(coinbaseProTransfer.getAccountId()));
-        fundingHistory.add(CoinbaseProAdapters.adaptFundingRecord(currency, coinbaseProTransfer));
-      }
+      fundingHistory.addAll(
+          transfers.stream()
+              .map(CoinbaseProAdapters::adaptFundingRecord)
+              .collect(Collectors.toList()));
+
       if (!transfers.isEmpty()) {
-        afterItem = transfers.getHeader("Cb-After");
-        beforeItem = transfers.getHeader("Cb-Before");
+        afterItem = transfers.getHeader(CB_AFTER_HEADER);
+        beforeItem = transfers.getHeader(CB_BEFORE_HEADER);
       }
 
       if (transfers.size() < maxPageSize) {
@@ -255,30 +249,22 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
 
     List<FundingRecord> fundingHistory = new ArrayList<>();
 
-    Map<String, String> accountToCurrencyMap =
-        Stream.of(getCoinbaseProAccountInfo())
-            .collect(
-                Collectors.toMap(
-                    CoinbaseProAccount::getId,
-                    CoinbaseProAccount::getCurrency));
-
     String createdAt = null; // use to get next page
     while (true) {
       String createdAtFinal = createdAt;
       CoinbaseProTransfers transfers =
           getTransfers(fundingRecordType, null, null, createdAtFinal, maxPageSize);
 
-      for (CoinbaseProTransfer coinbaseProTransfer : transfers) {
-        Currency currency =
-            Currency.getInstance(accountToCurrencyMap.get(coinbaseProTransfer.getAccountId()));
-        fundingHistory.add(CoinbaseProAdapters.adaptFundingRecord(currency, coinbaseProTransfer));
-      }
+      fundingHistory.addAll(
+          transfers.stream()
+              .map(CoinbaseProAdapters::adaptFundingRecord)
+              .collect(Collectors.toList()));
 
       if (transfers.size() < maxPageSize) {
         break;
       }
 
-      createdAt = transfers.getHeader("Cb-After");
+      createdAt = transfers.getHeader(CB_AFTER_HEADER);
     }
 
     return fundingHistory;

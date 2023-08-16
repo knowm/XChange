@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import lombok.Getter;
 import lombok.ToString;
-import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 
 /*
 examples:
@@ -56,13 +56,13 @@ public class CoinbaseProTransfer {
   @ToString
   @Getter
   public static class Detail {
-    public final String cryptoAddress;
-    public final String coinbaseAccountId;
-    public final String cryptoTransactionId;
-    public final String coinbaseTransactionId;
-    public final String cryptoTransactionHash;
-    public final String sentToAddress;
-    public final String coinbaseWithdrawalId;
+    private final String cryptoAddress;
+    private final String coinbaseAccountId;
+    private final String cryptoTransactionId;
+    private final String coinbaseTransactionId;
+    private final String cryptoTransactionHash;
+    private final String sentToAddress;
+    private final String coinbaseWithdrawalId;
     private final String destinationTag;
     private final String destinationTagName;
 
@@ -88,17 +88,19 @@ public class CoinbaseProTransfer {
     }
   }
 
-  public final String id;
-  public final String type;
-  public final Date createdAt;
-  public final Date completedAt;
-  public final Date canceledAt;
-  public final Date processedAt;
-  public final String accountId;
-  public final String userId;
-  public final String userNonce;
-  public final BigDecimal amount;
-  public final Detail details;
+  private final String id;
+  private final Type type;
+  private final Date createdAt;
+  private final Date completedAt;
+  private final Date canceledAt;
+  private final Date processedAt;
+  private final String accountId;
+  private final String userId;
+  private final String userNonce;
+  private final BigDecimal amount;
+  private final String idem;
+  private final String currency;
+  private final Detail details;
 
   public CoinbaseProTransfer(
       @JsonProperty("id") String id,
@@ -111,9 +113,11 @@ public class CoinbaseProTransfer {
       @JsonProperty("user_id") String userId,
       @JsonProperty("user_nonce") String userNonce,
       @JsonProperty("amount") String amount,
+      @JsonProperty("idem") String idem,
+      @JsonProperty("currency") String currency,
       @JsonProperty("details") Detail details) {
     this.id = id;
-    this.type = type;
+    this.type = Type.valueOf(type.toUpperCase());
     this.createdAt = parse(createdAt);
     this.completedAt = parse(completedAt);
     this.canceledAt = parse(canceledAt);
@@ -122,13 +126,9 @@ public class CoinbaseProTransfer {
     this.userId = userId;
     this.userNonce = userNonce;
     this.amount = (amount == null) ? BigDecimal.ZERO : new BigDecimal(amount);
+    this.idem = idem;
+    this.currency = currency;
     this.details = details;
-  }
-
-  public FundingRecord.Type getType() {
-    return type.equalsIgnoreCase("withdraw")
-        ? FundingRecord.Type.WITHDRAWAL
-        : FundingRecord.Type.DEPOSIT;
   }
 
   private static Date parse(String time) {

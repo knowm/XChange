@@ -194,7 +194,7 @@ public class CoinbaseProAdapters {
     final Map<Boolean, List<Order>> twoTypes =
         Arrays.stream(coinbaseExOpenOrders)
             .map(CoinbaseProAdapters::adaptOrder)
-            .collect(Collectors.partitioningBy(t -> t instanceof LimitOrder));
+            .collect(Collectors.partitioningBy(LimitOrder.class::isInstance));
     @SuppressWarnings("rawtypes")
     List limitOrders = twoTypes.get(true);
     return new OpenOrders(limitOrders, twoTypes.get(false));
@@ -507,8 +507,7 @@ public class CoinbaseProAdapters {
         .build();
   }
 
-  public static FundingRecord adaptFundingRecord(
-      Currency currency, CoinbaseProTransfer coinbaseProTransfer) {
+  public static FundingRecord adaptFundingRecord(CoinbaseProTransfer coinbaseProTransfer) {
     FundingRecord.Status status = FundingRecord.Status.PROCESSING;
 
     Date processedAt = coinbaseProTransfer.getProcessedAt();
@@ -521,13 +520,13 @@ public class CoinbaseProAdapters {
     if (address == null) address = coinbaseProTransfer.getDetails().getSentToAddress();
 
     String cryptoTransactionHash = coinbaseProTransfer.getDetails().getCryptoTransactionHash();
-    String transactionHash = adaptTransactionHash(currency.getSymbol(), cryptoTransactionHash);
+    String transactionHash = adaptTransactionHash(coinbaseProTransfer.getCurrency(), cryptoTransactionHash);
 
     return new FundingRecord(
         address,
         coinbaseProTransfer.getDetails().getDestinationTag(),
         coinbaseProTransfer.getCreatedAt(),
-        currency,
+        new Currency(coinbaseProTransfer.getCurrency()),
         coinbaseProTransfer.getAmount(),
         coinbaseProTransfer.getId(),
         transactionHash,
