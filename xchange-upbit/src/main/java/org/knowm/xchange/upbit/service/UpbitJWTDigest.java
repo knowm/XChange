@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
-import javax.ws.rs.QueryParam;
+import jakarta.ws.rs.QueryParam;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 

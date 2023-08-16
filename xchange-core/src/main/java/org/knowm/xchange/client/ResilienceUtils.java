@@ -5,7 +5,7 @@ import io.github.resilience4j.retry.Retry;
 import io.vavr.control.Either;
 import java.io.IOException;
 import java.util.concurrent.Callable;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import org.knowm.xchange.ExchangeSpecification;
 import si.mazi.rescu.HttpStatusExceptionSupport;
 

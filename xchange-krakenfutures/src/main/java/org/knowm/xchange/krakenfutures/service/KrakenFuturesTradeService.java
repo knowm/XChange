@@ -14,7 +14,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-import javax.ws.rs.NotSupportedException;
+import jakarta.ws.rs.NotSupportedException;
 
 /** @author Jean-Christophe Laruelle */
 public class KrakenFuturesTradeService extends KrakenFuturesTradeServiceRaw

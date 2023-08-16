@@ -68,7 +68,7 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds0(p.currency, p.amount, p.address, p.commission);
+      return withdrawFunds0(p.getCurrency(), p.getAmount(), p.getAddress(), p.getCommission());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
