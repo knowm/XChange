@@ -1,9 +1,11 @@
 package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -52,6 +54,24 @@ public class GateioTradeServiceRaw extends GateioBaseService {
       TradeHistoryParamsTimeSpan paramsTimeSpan = ((TradeHistoryParamsTimeSpan) params);
       from = paramsTimeSpan.getStartTime() != null ? paramsTimeSpan.getStartTime().getTime() / 1000 : null;
       to = paramsTimeSpan.getEndTime() != null ? paramsTimeSpan.getEndTime().getTime() / 1000 : null;
+    }
+
+    // if no pagination is given, get all records in chunks
+    if (ObjectUtils.allNull(pageLength, pageNumber)) {
+      List<GateioUserTradeRaw> result = new ArrayList<>();
+      List<GateioUserTradeRaw> chunk;
+      Integer currentPageNumber = 1;
+
+      do {
+        chunk = gateioV4Authenticated.getTradingHistory(apiKey, exchange.getNonceFactory(),
+            gateioV4ParamsDigest, GateioAdapters.toString(currencyPair),
+            1000, currentPageNumber, orderId, null, from, to);
+        currentPageNumber++;
+        result.addAll(chunk);
+      }
+      while (!chunk.isEmpty());
+
+      return result;
     }
 
     return gateioV4Authenticated.getTradingHistory(apiKey, exchange.getNonceFactory(),
