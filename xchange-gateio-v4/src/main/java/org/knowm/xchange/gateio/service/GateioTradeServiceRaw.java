@@ -60,6 +60,26 @@ public class GateioTradeServiceRaw extends GateioBaseService {
   }
 
 
+  public String getGateioUserTradesRaw(TradeHistoryParams params) throws IOException {
+    // get arguments
+    CurrencyPair currencyPair = params instanceof TradeHistoryParamCurrencyPair ? ((CurrencyPairParam) params).getCurrencyPair() : null;
+    Integer pageLength = params instanceof TradeHistoryParamPaging ? ((TradeHistoryParamPaging) params).getPageLength() : null;
+    Integer pageNumber = params instanceof TradeHistoryParamPaging ? ((TradeHistoryParamPaging) params).getPageNumber() : null;
+    String orderId = params instanceof TradeHistoryParamTransactionId ? ((TradeHistoryParamTransactionId) params).getTransactionId() : null;
+    Long from = null;
+    Long to = null;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan paramsTimeSpan = ((TradeHistoryParamsTimeSpan) params);
+      from = paramsTimeSpan.getStartTime() != null ? paramsTimeSpan.getStartTime().getTime() / 1000 : null;
+      to = paramsTimeSpan.getEndTime() != null ? paramsTimeSpan.getEndTime().getTime() / 1000 : null;
+    }
+
+    return gateioV4Authenticated.getTradingHistoryRaw(apiKey, exchange.getNonceFactory(),
+        gateioV4ParamsDigest, GateioAdapters.toString(currencyPair),
+        pageLength, pageNumber, orderId, null, from, to);
+  }
+
+
   public GateioOrder createOrder(GateioOrder gateioOrder) throws IOException {
     return gateioV4Authenticated.createOrder(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, gateioOrder);
   }
