@@ -128,6 +128,7 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
       }
     }
 
+    assert depositAccount != null;
     return getCoinbaseAccountAddress(depositAccount.getId());
   }
 
@@ -140,7 +141,7 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   @Override
   public AddressWithTag requestDepositAddressData(Currency currency, String... args)
       throws IOException {
-    CoinbaseProWalletAddress depositAddress = accountAddress(currency, args);
+    CoinbaseProWalletAddress depositAddress = accountAddress(currency);
     return new AddressWithTag(depositAddress.getAddress(), depositAddress.getDestinationTag());
   }
 
