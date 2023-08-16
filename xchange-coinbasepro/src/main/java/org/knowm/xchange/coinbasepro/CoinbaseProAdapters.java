@@ -186,7 +186,7 @@ public class CoinbaseProAdapters {
               coinbaseProAccount.getHold()));
     }
 
-    return Wallet.Builder.from(balances).id(coinbaseProAccounts[0].getProfile_id()).build();
+    return Wallet.Builder.from(balances).id(coinbaseProAccounts[0].getProfileId()).build();
   }
 
   @SuppressWarnings("unchecked")
@@ -386,12 +386,9 @@ public class CoinbaseProAdapters {
           pair,
           new InstrumentMetaData.Builder()
                   .tradingFee(new BigDecimal("0.50"))
-                  .minimumAmount(product.getBaseMinSize())
-                  .maximumAmount(product.getBaseMaxSize())
                   .volumeScale(baseScale)
                   .priceScale(priceScale)
                   .counterMinimumAmount(product.getMinMarketFunds())
-                  .counterMaximumAmount(product.getMaxMarketFunds())
                   .feeTiers(staticMetaData != null ? staticMetaData.getFeeTiers() : null)
                   .tradingFeeCurrency(pair.counter)
                   .marketOrderEnabled(marketOrderAllowed)
@@ -423,6 +420,12 @@ public class CoinbaseProAdapters {
     return currencyPair == null
         ? null
         : currencyPair.base.getCurrencyCode() + "-" + currencyPair.counter.getCurrencyCode();
+  }
+
+  public static String adaptProductID(Instrument instrument) {
+    return instrument == null
+        ? null
+        : instrument.getBase().getCurrencyCode() + "-" + instrument.getCounter().getCurrencyCode();
   }
 
   public static CoinbaseProPlaceOrder.Side adaptSide(OrderType orderType) {
@@ -508,8 +511,8 @@ public class CoinbaseProAdapters {
       Currency currency, CoinbaseProTransfer coinbaseProTransfer) {
     FundingRecord.Status status = FundingRecord.Status.PROCESSING;
 
-    Date processedAt = coinbaseProTransfer.processedAt();
-    Date canceledAt = coinbaseProTransfer.canceledAt();
+    Date processedAt = coinbaseProTransfer.getProcessedAt();
+    Date canceledAt = coinbaseProTransfer.getCanceledAt();
 
     if (canceledAt != null) status = FundingRecord.Status.CANCELLED;
     else if (processedAt != null) status = FundingRecord.Status.COMPLETE;
@@ -523,12 +526,12 @@ public class CoinbaseProAdapters {
     return new FundingRecord(
         address,
         coinbaseProTransfer.getDetails().getDestinationTag(),
-        coinbaseProTransfer.createdAt(),
+        coinbaseProTransfer.getCreatedAt(),
         currency,
-        coinbaseProTransfer.amount(),
+        coinbaseProTransfer.getAmount(),
         coinbaseProTransfer.getId(),
         transactionHash,
-        coinbaseProTransfer.type(),
+        coinbaseProTransfer.getType(),
         status,
         null,
         null,

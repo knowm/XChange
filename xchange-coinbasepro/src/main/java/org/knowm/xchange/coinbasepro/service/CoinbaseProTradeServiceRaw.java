@@ -14,7 +14,9 @@ import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceOrder;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -89,6 +91,15 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
       CurrencyPair currencyPair = ccyPairParams.getCurrencyPair();
       if (currencyPair != null) {
         productId = CoinbaseProAdapters.adaptProductID(currencyPair);
+      }
+    }
+
+    if (tradeHistoryParams instanceof TradeHistoryParamInstrument) {
+      TradeHistoryParamInstrument ccyPairParams =
+          (TradeHistoryParamInstrument) tradeHistoryParams;
+      Instrument instrument = ccyPairParams.getInstrument();
+      if (instrument != null) {
+        productId = CoinbaseProAdapters.adaptProductID(instrument);
       }
     }
 

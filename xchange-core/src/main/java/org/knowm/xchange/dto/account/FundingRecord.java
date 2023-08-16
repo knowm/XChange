@@ -286,6 +286,7 @@ public final class FundingRecord implements Serializable {
   /** Enum representing funding transaction type */
   public enum Type {
     WITHDRAWAL(false),
+    WITHDRAW(false),
     DEPOSIT(true),
     AIRDROP(true),
     /**
@@ -302,6 +303,7 @@ public final class FundingRecord implements Serializable {
 
     /** Used for transfers between exchanges accounts */
     INTERNAL_WITHDRAWAL(false),
+    INTERNAL_WITHDRAW(false),
 
     /** Used for transfers between exchanges accounts */
     INTERNAL_DEPOSIT(true),

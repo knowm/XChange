@@ -2,8 +2,12 @@ package org.knowm.xchange.coinbasepro.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.ToString;
 
-public class CoinbaseProAccount {
+@ToString
+@Getter
+public class CoinbaseProWallet {
 
   private final String name;
   private final boolean primaryAccount;
@@ -13,7 +17,7 @@ public class CoinbaseProAccount {
   private final String type;
   private final String id;
 
-  public CoinbaseProAccount(
+  public CoinbaseProWallet(
       @JsonProperty("name") String name,
       @JsonProperty("primary") boolean primaryAccount,
       @JsonProperty("currency") String currency,
@@ -28,33 +32,5 @@ public class CoinbaseProAccount {
     this.balance = balance;
     this.type = type;
     this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public boolean isPrimaryAccount() {
-    return primaryAccount;
-  }
-
-  public String getCurrency() {
-    return currency;
-  }
-
-  public boolean isActive() {
-    return active;
-  }
-
-  public BigDecimal getBalance() {
-    return balance;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public String getId() {
-    return id;
   }
 }

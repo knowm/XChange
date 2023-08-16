@@ -2,7 +2,7 @@ package org.knowm.xchange.coinbasepro.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CoinbaseProAccountAddress {
+public class CoinbaseProWalletAddress {
 
   private final String resource;
   private final String network;
@@ -16,7 +16,7 @@ public class CoinbaseProAccountAddress {
   private final String name;
   private final String destinationTag;
 
-  public CoinbaseProAccountAddress(
+  public CoinbaseProWalletAddress(
       @JsonProperty("resource") String resource,
       @JsonProperty("network") String network,
       @JsonProperty("exchange_deposit_address") boolean exchangeDepositAddress,
