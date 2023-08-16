@@ -23,7 +23,7 @@ import org.knowm.xchange.gateio.dto.account.GateioSubAccountTransfer;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
-import org.knowm.xchange.gateio.dto.trade.GateioUserTrade;
+import org.knowm.xchange.gateio.dto.trade.GateioUserTradeRaw;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -122,7 +122,7 @@ public interface GateioV4Authenticated {
 
   @GET
   @Path("spot/my_trades")
-  List<GateioUserTrade> getTradingHistory(
+  List<GateioUserTradeRaw> getTradingHistory(
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,

@@ -10,7 +10,7 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
-import org.knowm.xchange.gateio.dto.trade.GateioUserTrade;
+import org.knowm.xchange.gateio.dto.trade.GateioUserTradeRaw;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CurrencyPairParam;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
@@ -40,7 +40,7 @@ public class GateioTradeServiceRaw extends GateioBaseService {
   }
 
 
-  public List<GateioUserTrade> getGateioUserTrades(TradeHistoryParams params) throws IOException {
+  public List<GateioUserTradeRaw> getGateioUserTrades(TradeHistoryParams params) throws IOException {
     // get arguments
     CurrencyPair currencyPair = params instanceof TradeHistoryParamCurrencyPair ? ((CurrencyPairParam) params).getCurrencyPair() : null;
     Integer pageLength = params instanceof TradeHistoryParamPaging ? ((TradeHistoryParamPaging) params).getPageLength() : null;

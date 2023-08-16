@@ -1,74 +1,40 @@
 package org.knowm.xchange.gateio.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
-import java.time.Instant;
-import lombok.Builder;
-import lombok.Data;
-import lombok.extern.jackson.Jacksonized;
+import java.util.Date;
+import lombok.Value;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.gateio.config.converter.DoubleToInstantConverter;
-import org.knowm.xchange.gateio.config.converter.OrderTypeToStringConverter;
-import org.knowm.xchange.gateio.config.converter.StringToCurrencyConverter;
-import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
-import org.knowm.xchange.gateio.config.converter.StringToOrderTypeConverter;
-import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 
-@Data
-@Builder
-@Jacksonized
-public class GateioUserTrade {
+@Value
+public class GateioUserTrade extends UserTrade {
 
-  @JsonProperty("id")
-  Long id;
+  Role role;
 
-  @JsonProperty("create_time")
-  @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)
-  Instant time;
+  /**
+   * @param type               The trade type (BID side or ASK side)
+   * @param originalAmount     The depth of this trade
+   * @param instrument         The exchange identifier (e.g. "BTC/USD")
+   * @param price              The price (either the bid or the ask)
+   * @param timestamp          The timestamp of the trade
+   * @param id                 The id of the trade
+   * @param orderId            The id of the order responsible for execution of this trade
+   * @param feeAmount          The fee that was charged by the exchange for this trade
+   * @param feeCurrency        The symbol of the currency in which the fee was charged
+   * @param orderUserReference The id that the user has insert to the trade
+   * @param role               Trade role
+   */
+  public GateioUserTrade(OrderType type,
+      BigDecimal originalAmount, Instrument instrument,
+      BigDecimal price, Date timestamp, String id, String orderId,
+      BigDecimal feeAmount, Currency feeCurrency,
+      String orderUserReference, Role role) {
+    super(type, originalAmount, instrument, price, timestamp, id, orderId, feeAmount, feeCurrency,
+        orderUserReference);
+    this.role = role;
+  }
 
-  @JsonProperty("create_time_ms")
-  @JsonDeserialize(converter = DoubleToInstantConverter.class)
-  Instant timeMs;
-
-  @JsonProperty("currency_pair")
-  @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
-  CurrencyPair currencyPair;
-
-  @JsonProperty("side")
-  @JsonDeserialize(converter = StringToOrderTypeConverter.class)
-  @JsonSerialize(converter = OrderTypeToStringConverter.class)
-  OrderType side;
-
-  @JsonProperty("role")
-  String role;
-
-  @JsonProperty("amount")
-  BigDecimal amount;
-
-  @JsonProperty("price")
-  BigDecimal price;
-
-  @JsonProperty("order_id")
-  Long orderId;
-
-  @JsonProperty("fee")
-  BigDecimal fee;
-
-  @JsonProperty("fee_currency")
-  @JsonDeserialize(converter = StringToCurrencyConverter.class)
-  Currency feeCurrency;
-
-  @JsonProperty("point_fee")
-  BigDecimal pointFee;
-
-  @JsonProperty("gt_fee")
-  BigDecimal gtFee;
-
-  @JsonProperty("amend_text")
-  String remark;
 
 }

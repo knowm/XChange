@@ -23,6 +23,7 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.trade.GateioUserTrade;
+import org.knowm.xchange.gateio.dto.trade.GateioUserTradeRaw;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -153,19 +154,12 @@ public class GateioAdapters {
   }
 
 
-  public UserTrade toUserTrade(GateioUserTrade gateioUserTrade) {
-    return UserTrade.builder()
-        .id(String.valueOf(gateioUserTrade.getId()))
-        .orderId(String.valueOf(gateioUserTrade.getOrderId()))
-        .feeAmount(gateioUserTrade.getFee())
-        .feeCurrency(gateioUserTrade.getFeeCurrency())
-        .orderUserReference(gateioUserTrade.getRemark())
-        .type(gateioUserTrade.getSide())
-        .instrument(gateioUserTrade.getCurrencyPair())
-        .price(gateioUserTrade.getPrice())
-        .timestamp(Date.from(gateioUserTrade.getTimeMs()))
-        .originalAmount(gateioUserTrade.getAmount())
-        .build();
+  public UserTrade toUserTrade(GateioUserTradeRaw gateioUserTradeRaw) {
+    return new GateioUserTrade(gateioUserTradeRaw.getSide(), gateioUserTradeRaw.getAmount(), gateioUserTradeRaw.getCurrencyPair(),
+        gateioUserTradeRaw.getPrice(), Date.from(gateioUserTradeRaw.getTimeMs()), String.valueOf(
+        gateioUserTradeRaw.getId()),
+        String.valueOf(gateioUserTradeRaw.getOrderId()), gateioUserTradeRaw.getFee(), gateioUserTradeRaw.getFeeCurrency(),
+        gateioUserTradeRaw.getRemark(), gateioUserTradeRaw.getRole());
   }
 
 

@@ -20,6 +20,8 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
+import org.knowm.xchange.gateio.dto.trade.GateioUserTrade;
+import org.knowm.xchange.gateio.dto.trade.Role;
 import org.knowm.xchange.gateio.service.params.GateioTradeHistoryParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
@@ -131,22 +133,13 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
 
     assertThat(userTrades.getUserTrades()).hasSize(2);
 
-    UserTrade expected = new UserTrade.Builder()
-        .instrument(CurrencyPair.BTC_USDT)
-        .id("6068789332")
-        .orderId("381064942553")
-        .orderUserReference("-")
-        .originalAmount(new BigDecimal("0.00005"))
-        .feeAmount(new BigDecimal("0.00294472"))
-        .feeCurrency(Currency.USDT)
-        .price(new BigDecimal("29447.2"))
-        .timestamp(Date.from(Instant.ofEpochMilli(1691702286356L)))
-        .type(OrderType.ASK)
-        .build();
+    GateioUserTrade expected = new GateioUserTrade(OrderType.ASK, new BigDecimal("0.00005"), CurrencyPair.BTC_USDT,
+        new BigDecimal("29447.2"), Date.from(Instant.ofEpochMilli(1691702286356L)), "6068789332",
+        "381064942553", new BigDecimal("0.00294472"), Currency.USDT, "-", Role.TAKER);
 
     UserTrade actual = userTrades.getUserTrades().get(0);
 
-    assertThat(actual).isEqualTo(expected);
+    assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
   }
 
 
