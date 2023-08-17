@@ -138,7 +138,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
         .txId("0x8f72d42b016a2b7b543149e707ff37fadded2ff3ef6767bee30b6003330f604b")
         .chain("ETH")
         .createdAt(Instant.parse("2023-06-01T11:34:15Z"))
-        .status("DONE")
+        .status(GateioWithdrawalRecord.Status.DONE)
         .clientRecordId("a")
         .tag("b")
         .build();
@@ -193,7 +193,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
         .chain("SOL")
         .amount(BigDecimal.valueOf(3))
         .currency(Currency.USDT)
-        .status("REQUEST")
+        .status(GateioWithdrawalRecord.Status.REQUEST)
         .build();
 
     assertThat(actual).usingRecursiveComparison().isEqualTo(expected);

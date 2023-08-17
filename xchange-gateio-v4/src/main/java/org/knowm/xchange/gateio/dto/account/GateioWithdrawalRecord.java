@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import java.time.Instant;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gateio.config.converter.StringToCurrencyConverter;
@@ -43,12 +45,34 @@ public class GateioWithdrawalRecord {
   String tag;
 
   @JsonProperty("status")
-  String status;
+  Status status;
 
   @JsonProperty("chain")
   String chain;
 
   @JsonProperty("fee")
   BigDecimal fee;
+
+
+  @Getter
+  @AllArgsConstructor
+  public static enum Status {
+    DONE("done"),
+    CANCEL("cancelled"),
+    REQUEST("requesting"),
+    MANUAL("pending manual approval"),
+    BCODE("GateCode operation"),
+    EXTPEND("pending confirm after sending"),
+    FAIL("pending confirm when fail"),
+    INVALID("invalid order"),
+    VERIFY("verifying"),
+    PROCES("processing"),
+    PEND("pending"),
+    DMOVE("required manual approval"),
+    SPLITPEND("the order is automatically split due to large amount");
+
+    private final String description;
+
+  }
 
 }
