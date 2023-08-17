@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,12 +95,12 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   /**
    * Subscribes to web socket transactions related to the specified currency, in their raw format.
    *
-   * @param currencyPair The currency pair.
+   * @param instrument The currency pair.
    * @return The stream.
    */
   public Observable<CoinbaseProWebSocketTransaction> getRawWebSocketTransactions(
-      CurrencyPair currencyPair, boolean filterChannelName) {
-    String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
+      Instrument instrument, boolean filterChannelName) {
+    String channelName = instrument.getBase().toString() + "-" + instrument.getCounter().toString();
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return subscribeChannel(channelName)
         .map(s -> mapToTransaction(mapper, s))
@@ -169,17 +169,16 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
     String type = getText(node.get("type"));
     // use manual JSON to object conversion for the heaviest transaction types
     if (type != null && (type.equals("l2update") || type.equals("snapshot"))) {
-      return new CoinbaseProWebSocketTransaction(type,
-              null, null, null, null, null, null, null, null, null, null, null, null, null,
-              getL2Array(node.get("bids")),
-              getL2Array(node.get("asks")),
-              getL2Array(node.get("changes")),
-              null,
-              getText(node.get("product_id")),
-              0,
-              getText(node.get("time")),
-              null, 0, null, null, null, null, null, null
-      );
+      return CoinbaseProWebSocketTransaction.builder()
+          .type(type)
+          .bids(getL2Array(node.get("bids")))
+          .asks(getL2Array(node.get("asks")))
+          .changes(getL2Array(node.get("changes")))
+          .productId(getText(node.get("product_id")))
+          .sequence(0)
+          .time(getText(node.get("time")))
+          .tradeId(0)
+          .build();
     }
     return mapper.treeToValue(node, CoinbaseProWebSocketTransaction.class);
   }
