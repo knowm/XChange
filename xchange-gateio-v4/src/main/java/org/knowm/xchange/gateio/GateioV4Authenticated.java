@@ -71,7 +71,7 @@ public interface GateioV4Authenticated {
       @QueryParam("from") Long from,
       @QueryParam("to") Long to,
       @QueryParam("limit") Integer pageLength,
-      @QueryParam("offset") Integer zeroBasedPageNumber,
+      @QueryParam("page") Integer pageNumber,
       @QueryParam("type") String type
   ) throws IOException, GateioException;
 
