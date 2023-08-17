@@ -79,7 +79,7 @@ public class UserTradeTest {
             .feeCurrency(feeCurrency)
             .build();
 
-    final UserTrade copy = UserTrade.Builder.from(original).build();
+    final UserTrade copy = UserTrade.builder().from(original).build();
 
     assertThat(copy.getType()).isEqualTo(original.getType());
     assertThat(copy.getOriginalAmount()).isEqualTo(original.getOriginalAmount());

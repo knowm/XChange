@@ -223,7 +223,7 @@ public class FtxStreamingAdapters {
     JsonNode data = jsonNode.get("data");
 
     Builder userTradeBuilder =
-        new Builder()
+        UserTrade.builder()
             .currencyPair(new CurrencyPair(data.get("market").asText()))
             .type("buy".equals(data.get("side").asText()) ? OrderType.BID : OrderType.ASK)
             .instrument(new CurrencyPair(data.get("market").asText()))
