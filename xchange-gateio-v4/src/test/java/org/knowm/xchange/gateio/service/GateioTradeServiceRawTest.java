@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -13,7 +12,6 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
-import org.knowm.xchange.gateio.service.params.GateioTradeHistoryParams;
 
 class GateioTradeServiceRawTest extends GateioExchangeWiremock {
 
@@ -135,19 +133,6 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
     GateioOrder actualResponse = gateioTradeServiceRaw.getOrder("342251629898", CurrencyPair.BTC_USDT);
 
     assertThat(actualResponse).usingRecursiveComparison().isEqualTo(sampleMarketOrder);
-  }
-
-  @Test
-  void trade_history_raw() throws IOException {
-    String actual = gateioTradeServiceRaw.getGateioUserTradesRaw(GateioTradeHistoryParams.builder()
-        .currencyPair(CurrencyPair.BTC_USDT)
-        .pageLength(2)
-        .pageNumber(2)
-        .startTime(Date.from(Instant.ofEpochSecond(1691617924)))
-        .endTime(Date.from(Instant.ofEpochSecond(1691704324)))
-        .build());
-
-    assertThat(actual).startsWith("[  {    \"id\": \"6068816979\"");
   }
 
 

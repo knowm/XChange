@@ -18,10 +18,17 @@ import org.knowm.xchange.exceptions.OrderAmountUnderMinimumException;
 import org.knowm.xchange.exceptions.OrderNotValidException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
+import org.knowm.xchange.gateio.config.Config;
 import org.knowm.xchange.gateio.service.params.GateioFundingHistoryParams;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
+import si.mazi.rescu.CustomRestProxyFactoryImpl;
 
 class GateioAccountServiceTest extends GateioExchangeWiremock {
+
+
+  static {
+    Config.getInstance().setRestProxyFactoryClass(CustomRestProxyFactoryImpl.class);
+  }
 
   GateioAccountService gateioAccountService = ((GateioAccountService) exchange.getAccountService());
 

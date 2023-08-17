@@ -137,23 +137,6 @@ public interface GateioV4Authenticated {
 
 
   @GET
-  @Path("spot/my_trades")
-  @Produces(MediaType.TEXT_PLAIN)
-  String getTradingHistoryRaw(
-      @HeaderParam("KEY") String apiKey,
-      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @QueryParam("currency_pair") String currencyPair,
-      @QueryParam("limit") Integer pageLength,
-      @QueryParam("page") Integer pageNumber,
-      @QueryParam("order_id") String orderId,
-      @QueryParam("account") String account,
-      @QueryParam("from") Long from,
-      @QueryParam("to") Long to
-  ) throws IOException;
-
-
-  @GET
   @Path("wallet/saved_address")
   List<GateioAddressRecord> getSavedAddresses(
       @HeaderParam("KEY") String apiKey,
