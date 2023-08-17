@@ -67,7 +67,7 @@ public class UserTrade extends Trade {
   }
 
   public static UserTrade.Builder builder() {
-    return new UserTrade.Builder();
+    return UserTrade.builder();
   }
 
   public String getOrderId() {

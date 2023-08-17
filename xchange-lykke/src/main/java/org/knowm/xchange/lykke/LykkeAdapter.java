@@ -120,7 +120,7 @@ public class LykkeAdapter {
   private static UserTrade adaptUserTrade(
       List<Instrument> currencyPairList, LykkeOrder tradeHistory) throws IOException {
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(getOrderTypeFromVolumeSign(tradeHistory.getVolume()))
         .originalAmount(
             BigDecimal.valueOf(Math.abs(tradeHistory.getVolume()))

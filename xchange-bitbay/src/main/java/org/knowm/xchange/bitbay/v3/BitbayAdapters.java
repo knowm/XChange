@@ -36,7 +36,7 @@ public class BitbayAdapters {
           new CurrencyPair(Currency.getInstance(parts[0]), Currency.getInstance(parts[1]));
       Date timestamp = new Date(trade.getTime());
       trades.add(
-          new UserTrade.Builder()
+          UserTrade.builder()
               .id(trade.getId().toString())
               .type(orderType)
               .originalAmount(trade.getAmount())

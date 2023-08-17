@@ -218,7 +218,7 @@ public class LgoAdaptersTest {
     assertThat(userTrades.getUserTrades()).hasSize(2);
     assertThat(userTrades.getUserTrades().get(0))
         .isEqualToComparingFieldByField(
-            new UserTrade.Builder()
+            UserTrade.builder()
                 .type(OrderType.ASK)
                 .originalAmount(new BigDecimal("0.00500000"))
                 .currencyPair(CurrencyPair.BTC_USD)
@@ -231,7 +231,7 @@ public class LgoAdaptersTest {
                 .build());
     assertThat(userTrades.getUserTrades().get(1))
         .isEqualToComparingFieldByField(
-            new UserTrade.Builder()
+            UserTrade.builder()
                 .type(OrderType.BID)
                 .originalAmount(new BigDecimal("0.00829566"))
                 .currencyPair(CurrencyPair.BTC_USD)

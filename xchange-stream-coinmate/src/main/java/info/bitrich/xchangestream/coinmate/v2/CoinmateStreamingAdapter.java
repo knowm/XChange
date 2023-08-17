@@ -31,7 +31,7 @@ public class CoinmateStreamingAdapter {
     coinmateWebSocketUserTrades.forEach(
         (coinmateWebSocketUserTrade) -> {
           userTrades.add(
-              new UserTrade.Builder()
+              UserTrade.builder()
                   .type(
                       (coinmateWebSocketUserTrade.getUserOrderType().equals("SELL"))
                           ? Order.OrderType.ASK

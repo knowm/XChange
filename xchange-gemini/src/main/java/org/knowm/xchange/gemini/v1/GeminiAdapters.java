@@ -417,7 +417,7 @@ public final class GeminiAdapters {
       Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
       final BigDecimal fee = trade.getFeeAmount();
       pastTrades.add(
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(orderType)
               .originalAmount(trade.getAmount())
               .currencyPair(currencyPair)

@@ -216,7 +216,7 @@ public final class MercadoBitcoinAdapters {
         String txId = f.getKey();
         OperationEntry op = f.getValue();
         result.add(
-            new UserTrade.Builder()
+            UserTrade.builder()
                 .currencyPair(pair)
                 .id(txId)
                 .orderId(orderId)

@@ -73,7 +73,7 @@ public class KrakenFuturesStreamingAdapters {
     public static List<UserTrade> adaptUserTrades(KrakenFuturesStreamingFillsDeltaResponse fills) {
         List<UserTrade> userTrades = new ArrayList<>();
 
-        fills.getFills().forEach(krakenFuturesStreamingFill -> userTrades.add(new UserTrade.Builder()
+        fills.getFills().forEach(krakenFuturesStreamingFill -> userTrades.add(UserTrade.builder()
                         .price(krakenFuturesStreamingFill.getPrice())
                         .originalAmount(krakenFuturesStreamingFill.getQty())
                         .id(krakenFuturesStreamingFill.getFill_id())

@@ -161,7 +161,7 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
           returnTradeHistoryApi.tradeHistory((TradeHistoryReq) tradeHistoryParams).stream()
               .map(
                   tradeHistoryItem ->
-                      new UserTrade.Builder()
+                      UserTrade.builder()
                           .originalAmount(
                               IdexExchange.Companion.safeParse(tradeHistoryItem.getAmount()))
                           .price(IdexExchange.Companion.safeParse(tradeHistoryItem.getPrice()))

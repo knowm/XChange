@@ -351,7 +351,7 @@ public class DeribitAdapters {
   }
 
   private static UserTrade adaptUserTrade(org.knowm.xchange.deribit.v2.dto.trade.Trade trade) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(adapt(trade.getDirection()))
         .originalAmount(trade.getAmount())
         .instrument(adaptInstrument(trade.getInstrumentName()))

@@ -209,7 +209,7 @@ public final class CoingiAdapters {
               o.getCurrencyPair().get("counter").toUpperCase());
 
       UserTrade trade =
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(orderType)
               .originalAmount(o.getOriginalBaseAmount())
               .currencyPair(pair)

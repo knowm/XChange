@@ -93,7 +93,7 @@ public class BTCTurkTradeService extends BTCTurkTradeServiceRaw implements Trade
     for (BTCTurkUserTransactions transaction : transactions) {
       if (transaction.getOperation().equals(BTCTurkOperations.trade))
         trades.add(
-            new UserTrade.Builder()
+            UserTrade.builder()
                 .type(
                     ((transaction.getAmount().compareTo(BigDecimal.ZERO) > 0)
                         ? OrderType.ASK

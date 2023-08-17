@@ -139,7 +139,7 @@ public class KrakenFuturesAdapters {
   }
 
   public static UserTrade adaptFill(KrakenFuturesFill fill) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(adaptOrderType(fill.getSide()))
         .originalAmount(fill.getSize())
         .instrument(adaptInstrument(fill.getSymbol()))
