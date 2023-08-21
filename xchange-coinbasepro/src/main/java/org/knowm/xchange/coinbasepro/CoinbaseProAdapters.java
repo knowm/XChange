@@ -17,6 +17,7 @@ import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct.CoinbaseProProductStatus;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBookEntry;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
@@ -24,6 +25,7 @@ import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill.Side;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrderFlags;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceLimitOrder;
@@ -310,7 +312,7 @@ public class CoinbaseProAdapters {
 
       trades.add(
           new UserTrade.Builder()
-              .type("buy".equals(fill.getSide()) ? OrderType.BID : OrderType.ASK)
+              .type(fill.getSide().equals(Side.buy) ? OrderType.BID : OrderType.ASK)
               .originalAmount(fill.getSize())
               .currencyPair(currencyPair)
               .price(fill.getPrice())
@@ -372,7 +374,7 @@ public class CoinbaseProAdapters {
         exchangeMetaData == null ? new HashMap<>() : exchangeMetaData.getCurrencies();
 
     for (CoinbaseProProduct product : products) {
-      if (!"online".equals(product.getStatus())) {
+      if (!product.getStatus().equals(CoinbaseProProductStatus.online)) {
         continue;
       }
       CurrencyPair pair = adaptCurrencyPair(product);
