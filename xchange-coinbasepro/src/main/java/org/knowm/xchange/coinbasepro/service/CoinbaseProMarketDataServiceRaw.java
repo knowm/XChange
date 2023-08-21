@@ -29,7 +29,7 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
   /** https://docs.pro.coinbase.com/#get-product-ticker */
   public CoinbaseProProductTicker getCoinbaseProProductTicker(CurrencyPair currencyPair)
-      throws IOException {
+      throws CoinbaseProException, IOException {
 
     if (!checkProductExists(currencyPair)) {
       throw new InstrumentNotValidException("Pair does not exist on CoinbasePro");
@@ -48,7 +48,7 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
   /** https://docs.pro.coinbase.com/#get-24hr-stats */
   public CoinbaseProProductStats getCoinbaseProProductStats(CurrencyPair currencyPair)
-      throws IOException {
+      throws CoinbaseProException, IOException {
 
     if (!checkProductExists(currencyPair)) {
       throw new InstrumentNotValidException("Pair does not exist on CoinbasePro");
@@ -65,7 +65,7 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
     }
   }
 
-  public Map<String, CoinbaseProStats> getCoinbaseProStats() throws IOException {
+  public Map<String, CoinbaseProStats> getCoinbaseProStats() throws CoinbaseProException, IOException {
     try {
       return decorateApiCall(coinbasePro::getStats)
           .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
@@ -77,7 +77,7 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
   /** https://docs.pro.coinbase.com/#get-product-order-book */
   public CoinbaseProProductBook getCoinbaseProProductOrderBook(CurrencyPair currencyPair, int level)
-      throws IOException {
+      throws CoinbaseProException, IOException {
 
     try {
       return decorateApiCall(
@@ -94,7 +94,7 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
   }
 
   /** https://docs.pro.coinbase.com/#get-trades */
-  public CoinbaseProTrade[] getCoinbaseProTrades(CurrencyPair currencyPair) throws IOException {
+  public CoinbaseProTrade[] getCoinbaseProTrades(CurrencyPair currencyPair) throws CoinbaseProException, IOException {
     try {
       return decorateApiCall(
               () ->
@@ -109,7 +109,7 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
   /** https://docs.pro.coinbase.com/#get-historic-rates */
   public CoinbaseProCandle[] getCoinbaseProHistoricalCandles(
-      CurrencyPair currencyPair, String start, String end, String granularity) throws IOException {
+      CurrencyPair currencyPair, String start, String end, String granularity) throws CoinbaseProException, IOException {
 
     try {
       return decorateApiCall(
@@ -128,7 +128,7 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
   }
 
   /** https://docs.pro.coinbase.com/#get-products */
-  public CoinbaseProProduct[] getCoinbaseProProducts() throws IOException {
+  public CoinbaseProProduct[] getCoinbaseProProducts() throws CoinbaseProException, IOException {
     try {
       return decorateApiCall(coinbasePro::getProducts)
           .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
@@ -139,7 +139,7 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
   }
 
   /** https://docs.pro.coinbase.com/#get-currencies */
-  public CoinbaseProCurrency[] getCoinbaseProCurrencies() throws IOException {
+  public CoinbaseProCurrency[] getCoinbaseProCurrencies() throws CoinbaseProException, IOException {
     try {
       return decorateApiCall(coinbasePro::getCurrencies)
           .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
@@ -151,7 +151,7 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
   /** https://docs.pro.coinbase.com/#get-trades */
   public CoinbaseProTrades getCoinbaseProTradesExtended(
-      CurrencyPair currencyPair, Long after, Integer limit) throws IOException {
+      CurrencyPair currencyPair, Long after, Integer limit) throws CoinbaseProException, IOException {
     return decorateApiCall(
             () ->
                 coinbasePro.getTradesPageable(
