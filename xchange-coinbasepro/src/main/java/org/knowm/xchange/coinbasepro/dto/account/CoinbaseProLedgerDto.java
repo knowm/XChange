@@ -12,43 +12,6 @@ import org.knowm.xchange.instrument.Instrument;
 @Getter
 public class CoinbaseProLedgerDto {
 
-  public enum CoinbaseProLedgerTxType{
-    transfer,
-    match,
-    fee,
-    conversion,
-    margin_interest,
-    rebate,
-    otc_fee,
-    otc_match,
-    tax_credit,
-    rfq_match,
-    rfq_fee,
-    match_conversion,
-    stake_wrap
-
-  }
-
-  @Getter
-  @ToString
-  public static class CoinbaseProLedgerDetails{
-
-    private final String orderId;
-
-    private final Instrument productId;
-
-    private final String tradeId;
-
-    public CoinbaseProLedgerDetails(
-        @JsonProperty("order_id") String orderId,
-        @JsonProperty("product_id") String productId,
-        @JsonProperty("trade_id") String tradeId) {
-      this.orderId = orderId;
-      this.productId = (productId == null) ? null : CoinbaseProAdapters.toCurrencyPair(productId);
-      this.tradeId = tradeId;
-    }
-  }
-
   private final String id;
 
   private final BigDecimal amount;
@@ -74,5 +37,41 @@ public class CoinbaseProLedgerDto {
     this.balance = balance;
     this.type = type;
     this.details = details;
+  }
+
+  @Getter
+  @ToString
+  public static class CoinbaseProLedgerDetails{
+
+    private final String orderId;
+
+    private final Instrument productId;
+
+    private final String tradeId;
+
+    public CoinbaseProLedgerDetails(
+        @JsonProperty("order_id") String orderId,
+        @JsonProperty("product_id") String productId,
+        @JsonProperty("trade_id") String tradeId) {
+      this.orderId = orderId;
+      this.productId = (productId == null) ? null : CoinbaseProAdapters.toCurrencyPair(productId);
+      this.tradeId = tradeId;
+    }
+  }
+  public enum CoinbaseProLedgerTxType{
+    transfer,
+    match,
+    fee,
+    conversion,
+    margin_interest,
+    rebate,
+    otc_fee,
+    otc_match,
+    tax_credit,
+    rfq_match,
+    rfq_fee,
+    match_conversion,
+    stake_wrap
+
   }
 }
