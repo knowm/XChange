@@ -53,41 +53,6 @@ examples:
 @Getter
 public class CoinbaseProTransfer {
 
-  @ToString
-  @Getter
-  public static class Detail {
-    private final String cryptoAddress;
-    private final String coinbaseAccountId;
-    private final String cryptoTransactionId;
-    private final String coinbaseTransactionId;
-    private final String cryptoTransactionHash;
-    private final String sentToAddress;
-    private final String coinbaseWithdrawalId;
-    private final String destinationTag;
-    private final String destinationTagName;
-
-    public Detail(
-        @JsonProperty("crypto_address") String cryptoAddress,
-        @JsonProperty("coinbase_account_id") String coinbaseAccountId,
-        @JsonProperty("crypto_transaction_id") String cryptoTransactionId,
-        @JsonProperty("coinbase_transaction_id") String coinbaseTransactionId,
-        @JsonProperty("crypto_transaction_hash") String cryptoTransactionHash,
-        @JsonProperty("sent_to_address") String sentToAddress,
-        @JsonProperty("coinbase_withdrawal_id") String coinbaseWithdrawalId,
-        @JsonProperty("destination_tag") String destinationTag,
-        @JsonProperty("destination_tag_name") String destinationTagName) {
-      this.cryptoAddress = cryptoAddress;
-      this.coinbaseAccountId = coinbaseAccountId;
-      this.cryptoTransactionId = cryptoTransactionId;
-      this.coinbaseTransactionId = coinbaseTransactionId;
-      this.cryptoTransactionHash = cryptoTransactionHash;
-      this.sentToAddress = sentToAddress;
-      this.coinbaseWithdrawalId = coinbaseWithdrawalId;
-      this.destinationTag = destinationTag;
-      this.destinationTagName = destinationTagName;
-    }
-  }
-
   private final String id;
   private final Type type;
   private final Date createdAt;
@@ -129,6 +94,41 @@ public class CoinbaseProTransfer {
     this.idem = idem;
     this.currency = currency;
     this.details = details;
+  }
+
+  @ToString
+  @Getter
+  public static class Detail {
+    private final String cryptoAddress;
+    private final String coinbaseAccountId;
+    private final String cryptoTransactionId;
+    private final String coinbaseTransactionId;
+    private final String cryptoTransactionHash;
+    private final String sentToAddress;
+    private final String coinbaseWithdrawalId;
+    private final String destinationTag;
+    private final String destinationTagName;
+
+    public Detail(
+        @JsonProperty("crypto_address") String cryptoAddress,
+        @JsonProperty("coinbase_account_id") String coinbaseAccountId,
+        @JsonProperty("crypto_transaction_id") String cryptoTransactionId,
+        @JsonProperty("coinbase_transaction_id") String coinbaseTransactionId,
+        @JsonProperty("crypto_transaction_hash") String cryptoTransactionHash,
+        @JsonProperty("sent_to_address") String sentToAddress,
+        @JsonProperty("coinbase_withdrawal_id") String coinbaseWithdrawalId,
+        @JsonProperty("destination_tag") String destinationTag,
+        @JsonProperty("destination_tag_name") String destinationTagName) {
+      this.cryptoAddress = cryptoAddress;
+      this.coinbaseAccountId = coinbaseAccountId;
+      this.cryptoTransactionId = cryptoTransactionId;
+      this.coinbaseTransactionId = coinbaseTransactionId;
+      this.cryptoTransactionHash = cryptoTransactionHash;
+      this.sentToAddress = sentToAddress;
+      this.coinbaseWithdrawalId = coinbaseWithdrawalId;
+      this.destinationTag = destinationTag;
+      this.destinationTagName = destinationTagName;
+    }
   }
 
   private static Date parse(String time) {
