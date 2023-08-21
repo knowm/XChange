@@ -15,6 +15,7 @@ import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill.Side;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -222,16 +223,16 @@ public class CoinbaseProWebSocketTransaction {
         useSide = "buy";
       }
     }
-    return new CoinbaseProFill(
-        String.valueOf(tradeId),
-        productId,
-        price,
-        size,
-        taker ? takerOrderId : makerOrderId,
-        time,
-        null,
-        taker ? price.multiply(size).multiply(takerFeeRate) : price.multiply(size).multiply(makerFeeRate),
-        true,
-        useSide);
+    return CoinbaseProFill.builder()
+        .tradeId(String.valueOf(tradeId))
+        .productId(productId)
+        .price(price)
+        .size(size)
+        .orderId(taker ? takerOrderId : makerOrderId)
+        .createdAt(time)
+        .fee(taker ? price.multiply(size).multiply(takerFeeRate) : price.multiply(size).multiply(makerFeeRate))
+        .side(Side.valueOf(useSide))
+        .settled(true)
+        .build();
   }
 }

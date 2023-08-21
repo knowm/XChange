@@ -204,17 +204,22 @@ public interface CoinbasePro {
       throws CoinbaseProException, IOException;
 
   /**
-   * @param apiKey for account
-   * @param signer for account
-   * @param timestamp of message
-   * @param passphrase for account
-   * @param tradeIdAfter Return trades before this tradeId.
-   * @param tradeIdBefore Return trades after this tradeId.
-   * @param orderId to get fills for
-   * @param productId to get fills for
-   * @return fill array
-   * @throws CoinbaseProException when exchange throws exception
-   * @throws IOException when connection issue arises
+   * Get a list of fills. A fill is a partial or complete match on a specific order.
+   * @param apiKey
+   * @param signer
+   * @param timestamp
+   * @param passphrase
+   * @param orderId
+   * @param productId
+   * @param limit
+   * @param tradeIdBefore
+   * @param tradeIdAfter
+   * @param marketType
+   * @param startDate
+   * @param endDate
+   * @return CoinbasePagedResponse<CoinbaseProFill>
+   * @throws CoinbaseProException
+   * @throws IOException
    */
   @GET
   @Path("fills")
@@ -223,12 +228,15 @@ public interface CoinbasePro {
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-      @QueryParam("after") Integer tradeIdAfter,
-      @QueryParam("before") Integer tradeIdBefore,
-      @QueryParam("limit") Integer limit,
       @QueryParam("order_id") String orderId,
-      @QueryParam("product_id") String productId)
-      throws CoinbaseProException, IOException;
+      @QueryParam("product_id") String productId,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("before") Integer tradeIdBefore,
+      @QueryParam("after") Integer tradeIdAfter,
+      @QueryParam("market_type") String marketType,
+      @QueryParam("start_date") String startDate,
+      @QueryParam("end_date") String endDate
+  ) throws CoinbaseProException, IOException;
 
   @POST
   @Path("accounts/{account_id}/transactions")

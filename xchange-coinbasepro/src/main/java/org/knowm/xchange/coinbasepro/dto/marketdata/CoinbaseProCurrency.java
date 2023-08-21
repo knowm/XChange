@@ -49,7 +49,7 @@ public class CoinbaseProCurrency {
   @ToString
   public static class CoinbaseProCurrencyDetails {
 
-    private final String type;
+    private final CoinbaseProCurrencyDetailsType type;
     private final String symbol;
     private final int networkConfirmations;
     private final int sortOrder;
@@ -63,7 +63,7 @@ public class CoinbaseProCurrency {
     private final BigDecimal maxWithdrawalAmount;
 
     public CoinbaseProCurrencyDetails(
-        @JsonProperty("type") String type,
+        @JsonProperty("type") CoinbaseProCurrencyDetailsType type,
         @JsonProperty("symbol") String symbol,
         @JsonProperty("network_confirmations") int networkConfirmations,
         @JsonProperty("sort_order") int sortOrder,
@@ -87,6 +87,11 @@ public class CoinbaseProCurrency {
       this.processingTimeSeconds = processingTimeSeconds;
       this.minWithdrawalAmount = minWithdrawalAmount;
       this.maxWithdrawalAmount = maxWithdrawalAmount;
+    }
+
+    public enum CoinbaseProCurrencyDetailsType {
+      crypto,
+      fiat
     }
   }
 

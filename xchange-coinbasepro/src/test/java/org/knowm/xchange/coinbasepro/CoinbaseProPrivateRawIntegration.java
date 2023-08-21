@@ -81,8 +81,9 @@ public class CoinbaseProPrivateRawIntegration {
    */
   @Test
   public void testTradeHistoryRawData() throws IOException {
+
     CoinbaseProTradeServiceRaw raw = (CoinbaseProTradeServiceRaw) exchange.getTradeService();
-    CoinbasePagedResponse<CoinbaseProFill> rawData = raw.getCoinbaseProFills(new DefaultTradeHistoryParamInstrument(instrument));
+    CoinbasePagedResponse<CoinbaseProFill> rawData = raw.getCoinbaseProFills(null, CoinbaseProAdapters.adaptProductID(instrument), null, null, null, null, null, null);
 
     rawData.forEach(coinbaseProFill -> {
       assertThat(coinbaseProFill).isNotNull();

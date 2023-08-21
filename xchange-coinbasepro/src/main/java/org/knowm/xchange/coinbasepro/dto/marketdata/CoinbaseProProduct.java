@@ -20,7 +20,7 @@ public class CoinbaseProProduct {
   private final boolean postOnly;
   private final boolean limitOnly;
   private final boolean cancelOnly;
-  private final String status;
+  private final CoinbaseProProductStatus status;
   private final String statusMessage;
   private final boolean tradingDisabled;
   private final boolean fxStablecoin;
@@ -40,7 +40,7 @@ public class CoinbaseProProduct {
       @JsonProperty("post_only") boolean postOnly,
       @JsonProperty("limit_only") boolean limitOnly,
       @JsonProperty("cancel_only") boolean cancelOnly,
-      @JsonProperty("status") String status,
+      @JsonProperty("status") CoinbaseProProductStatus status,
       @JsonProperty("status_message") String statusMessage,
       @JsonProperty("trading_disabled") boolean tradingDisabled,
       @JsonProperty("fx_stablecoin") boolean fxStablecoin,
@@ -65,5 +65,12 @@ public class CoinbaseProProduct {
     this.maxSlippagePercentage = maxSlippagePercentage;
     this.auctionMode = auctionMode;
     this.highBidLimitPercentage = highBidLimitPercentage;
+  }
+
+  public enum CoinbaseProProductStatus {
+    online,
+    offline,
+    internal,
+    delisted
   }
 }
