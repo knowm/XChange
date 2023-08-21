@@ -167,7 +167,7 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
       String createdAtFinal = createdAt;
 
       CoinbaseProLedger ledger =
-          getCoinbaseLedgerRawData(
+          getLedger(
               fundingParams.getTransactionId(),
               null,
               null,

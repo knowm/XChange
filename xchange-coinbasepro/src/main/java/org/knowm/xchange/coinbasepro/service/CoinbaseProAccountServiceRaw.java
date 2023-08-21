@@ -107,7 +107,7 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
   }
 
   /** https://docs.pro.coinbase.com/#get-an-account */
-  public CoinbaseProLedger getCoinbaseLedgerRawData(String accountId, Date startDate, Date endDate, String beforeId, String afterId, Integer limit, String profileId) throws CoinbaseProException, IOException {
+  public CoinbaseProLedger getLedger(String accountId, Date startDate, Date endDate, String beforeId, String afterId, Integer limit, String profileId) throws CoinbaseProException, IOException {
     return decorateApiCall(
             () ->
                 coinbasePro.ledger(
