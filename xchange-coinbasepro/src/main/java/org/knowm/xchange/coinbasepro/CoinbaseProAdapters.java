@@ -353,7 +353,7 @@ public class CoinbaseProAdapters {
     return new CurrencyPair(product.getBaseCurrency(), product.getQuoteCurrency());
   }
 
-  private static Currency adaptCurrency(CoinbaseProCurrency currency) {
+  public static Currency adaptCurrency(CoinbaseProCurrency currency) {
     return new Currency(currency.getId());
   }
 

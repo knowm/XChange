@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -23,7 +22,6 @@ import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFee;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProLedger;
-import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProLedgerDto;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProSendMoneyRequest;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawCryptoResponse;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawFundsRequest;
@@ -296,11 +294,11 @@ public interface CoinbasePro {
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-      @QueryParam("type") String type,
+      @QueryParam("type") String type, // Possible types [deposit, withdraw, internal_deposit, internal_withdraw]
       @QueryParam("profile_id") String profileId,
       @QueryParam("before") String beforeDate,
       @QueryParam("after") String afterDate,
-      @QueryParam("limit") Integer limit) // Possible types [deposit, withdraw, internal_deposit, internal_withdraw]
+      @QueryParam("limit") Integer limit)
       throws CoinbaseProException, IOException;
 
   @POST

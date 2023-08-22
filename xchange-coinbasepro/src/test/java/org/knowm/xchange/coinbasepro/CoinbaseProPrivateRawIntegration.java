@@ -18,11 +18,9 @@ import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountService;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.instrument.Instrument;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamInstrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
