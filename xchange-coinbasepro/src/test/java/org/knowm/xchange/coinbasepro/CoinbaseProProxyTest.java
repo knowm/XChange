@@ -5,7 +5,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import org.junit.Test;
-import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ProxyConfig;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProBaseService;
 import si.mazi.rescu.BodyLoggingRestInvocationHandler;
