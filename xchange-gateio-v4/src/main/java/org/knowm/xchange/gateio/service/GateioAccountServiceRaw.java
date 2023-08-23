@@ -111,7 +111,7 @@ public class GateioAccountServiceRaw extends GateioBaseService {
   }
 
 
-  List<GateioSubAccountTransfer> getSubAccountTransfers(GateioSubAccountTransfersParams params) throws IOException {
+  public List<GateioSubAccountTransfer> getSubAccountTransfers(GateioSubAccountTransfersParams params) throws IOException {
     Long from = params.getStartTime() != null ? params.getStartTime().getEpochSecond() : null;
     Long to = params.getEndTime() != null ? params.getEndTime().getEpochSecond() : null;
 
