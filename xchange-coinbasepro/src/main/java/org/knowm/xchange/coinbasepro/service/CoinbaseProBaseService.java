@@ -1,6 +1,9 @@
 package org.knowm.xchange.coinbasepro.service;
 
+import java.lang.reflect.InvocationTargetException;
+import lombok.SneakyThrows;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.client.ProxyConfig;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.CoinbasePro;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
@@ -20,21 +23,24 @@ public class CoinbaseProBaseService extends BaseResilientExchangeService<Coinbas
   protected final String apiKey;
   protected final String passphrase;
 
+  @SneakyThrows
   protected CoinbaseProBaseService(
       CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
 
     super(exchange, resilienceRegistries);
-    coinbasePro =
-        ExchangeRestProxyBuilder.forInterface(
-                CoinbasePro.class, exchange.getExchangeSpecification())
-            .build();
+    coinbasePro = getCoinbaseProExchangeRestProxy();
     digest = CoinbaseProDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     apiKey = exchange.getExchangeSpecification().getApiKey();
     passphrase =
         (String)
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem("passphrase");
   }
-
+  public CoinbasePro getCoinbaseProExchangeRestProxy() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    return ExchangeRestProxyBuilder.forInterface(
+            CoinbasePro.class, exchange.getExchangeSpecification())
+        .restProxyFactory(ProxyConfig.getInstance().getRestProxyFactoryClass().getDeclaredConstructor().newInstance())
+        .build();
+  }
   protected ExchangeException handleError(CoinbaseProException exception) {
 
     if (exception.getMessage().contains("Insufficient")) {
