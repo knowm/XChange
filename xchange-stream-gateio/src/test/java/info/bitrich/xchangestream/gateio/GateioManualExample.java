@@ -15,7 +15,6 @@ public class GateioManualExample {
         StreamingExchangeFactory.INSTANCE
             .createExchangeWithoutSpecification(GateioStreamingExchange.class)
             .getDefaultExchangeSpecification();
-    spec.setShouldLoadRemoteMetaData(false);
 
     GateioStreamingExchange exchange =
         (GateioStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);

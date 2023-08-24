@@ -22,7 +22,6 @@ public class GateioStreamingExchangeIT {
             .getDefaultExchangeSpecification();
     spec.setApiKey(System.getenv("GATEIO_API_KEY"));
     spec.setSecretKey(System.getenv("GATEIO_API_SECRET"));
-    spec.setShouldLoadRemoteMetaData(false);
 
      exchange =
         (GateioStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
