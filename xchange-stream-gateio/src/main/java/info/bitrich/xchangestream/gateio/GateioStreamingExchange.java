@@ -68,6 +68,7 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification specification = super.getDefaultExchangeSpecification();
+    specification.setShouldLoadRemoteMetaData(false);
     specification.setSslUri(Config.V4_URL);
     return specification;
   }
