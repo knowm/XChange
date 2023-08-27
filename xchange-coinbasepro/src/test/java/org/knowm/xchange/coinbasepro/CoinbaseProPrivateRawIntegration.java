@@ -131,6 +131,9 @@ public class CoinbaseProPrivateRawIntegration {
             100,
             null);
 
+    assertThat(transfers.getResponseHeaders().size()).isPositive();
+    assertThat(transfers.getHeader("Cb-After")).isNotNull();
+
     transfers.forEach(coinbaseProTransfer -> {
       LOG.info(coinbaseProTransfer.toString());
       assertThat(coinbaseProTransfer).isNotNull();
