@@ -218,31 +218,4 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
         .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
         .call();
   }
-
-  public CoinbaseProWebsocketAuthData getWebsocketAuthData()
-      throws CoinbaseProException, IOException {
-    long timestamp = UnixTimestampFactory.INSTANCE.createValue();
-    WebhookAuthDataParamsDigestProxy digestProxy = new WebhookAuthDataParamsDigestProxy();
-    JsonNode json =
-        decorateApiCall(() -> coinbasePro.getVerifyId(apiKey, digestProxy, timestamp, passphrase))
-            .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-            .call();
-    String userId = json.get("id").asText();
-    return new CoinbaseProWebsocketAuthData(
-        userId, apiKey, passphrase, digestProxy.getSignature(), timestamp);
-  }
-
-  private class WebhookAuthDataParamsDigestProxy implements ParamsDigest {
-    private String signature;
-
-    @Override
-    public String digestParams(RestInvocation restInvocation) {
-      signature = digest.digestParams(restInvocation);
-      return signature;
-    }
-
-    public String getSignature() {
-      return signature;
-    }
-  }
 }

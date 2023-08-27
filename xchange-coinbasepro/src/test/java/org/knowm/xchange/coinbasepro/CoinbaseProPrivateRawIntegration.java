@@ -13,10 +13,12 @@ import org.knowm.xchange.coinbasepro.dto.CoinbasePagedResponse;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFundingHistoryParams;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProLedgerDto.CoinbaseProLedgerTxType;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountService;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProTradeServiceRaw;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -51,8 +53,11 @@ public class CoinbaseProPrivateRawIntegration {
     assertThat(account).isNotNull();
     assertThat(account.getId()).isNotNull();
     assertThat(account.getCurrency()).isNotNull();
-    assertThat(account.getBalance()).isNotNull();
-    assertThat(account.getAvailable()).isNotNull();
+    assertThat(account.getProfileId()).isNotNull();
+    assertThat(account.getBalance()).isInstanceOf(BigDecimal.class);
+    assertThat(account.getHold()).isInstanceOf(BigDecimal.class);
+    assertThat(account.getAvailable()).isInstanceOf(BigDecimal.class);
+    assertThat(account.isTradingEnabled()).isTrue();
   }
 
   @Test
@@ -70,6 +75,15 @@ public class CoinbaseProPrivateRawIntegration {
       assertThat(coinbaseProLedgerDto).isNotNull();
       assertThat(coinbaseProLedgerDto.getId()).isNotNull();
       assertThat(coinbaseProLedgerDto.getAmount()).isInstanceOf(BigDecimal.class);
+      assertThat(coinbaseProLedgerDto.getCreatedAt()).isInstanceOf(Date.class);
+      assertThat(coinbaseProLedgerDto.getBalance()).isInstanceOf(BigDecimal.class);
+      assertThat(coinbaseProLedgerDto.getType()).isInstanceOf(CoinbaseProLedgerTxType.class);
+      assertThat(coinbaseProLedgerDto.getDetails()).isNotNull();
+      if(coinbaseProLedgerDto.getType().equals(CoinbaseProLedgerTxType.match)){
+        assertThat(coinbaseProLedgerDto.getDetails().getOrderId()).isNotNull();
+        assertThat(coinbaseProLedgerDto.getDetails().getProductId()).isInstanceOf(Instrument.class);
+        assertThat(coinbaseProLedgerDto.getDetails().getTradeId()).isNotNull();
+      }
     });
 
   }
@@ -87,13 +101,19 @@ public class CoinbaseProPrivateRawIntegration {
       assertThat(coinbaseProFill).isNotNull();
       assertThat(coinbaseProFill.getTradeId()).isNotNull();
       assertThat(coinbaseProFill.getProductId()).isNotNull();
+      assertThat(coinbaseProFill.getOrderId()).isNotNull();
+      assertThat(coinbaseProFill.getUserId()).isNotNull();
+      assertThat(coinbaseProFill.getProfileId()).isNotNull();
+      assertThat(coinbaseProFill.getLiquidity()).isNotNull();
       assertThat(coinbaseProFill.getPrice()).isGreaterThan(BigDecimal.ZERO);
       assertThat(coinbaseProFill.getSize()).isGreaterThan(BigDecimal.ZERO);
       assertThat(coinbaseProFill.getFee()).isGreaterThanOrEqualTo(BigDecimal.ZERO);
       assertThat(coinbaseProFill.getCreatedAt()).isNotNull();
-      assertThat(coinbaseProFill.getLiquidity()).isNotNull();
-      assertThat(coinbaseProFill.getOrderId()).isNotNull();
       assertThat(coinbaseProFill.getSide()).isNotNull();
+      assertThat(coinbaseProFill.isSettled()).isTrue();
+      assertThat(coinbaseProFill.getUsdVolume()).isNotNull();
+      assertThat(coinbaseProFill.getMarketType()).isNotNull();
+      LOG.info(coinbaseProFill.toString());
     });
   }
 
@@ -118,7 +138,14 @@ public class CoinbaseProPrivateRawIntegration {
       assertThat(coinbaseProTransfer.getType()).isInstanceOf(FundingRecord.Type.class);
       assertThat(coinbaseProTransfer.getCreatedAt()).isInstanceOf(Date.class);
       assertThat(coinbaseProTransfer.getCompletedAt()).isInstanceOf(Date.class);
-      assertThat(coinbaseProTransfer.getAmount()).isGreaterThan(BigDecimal.ZERO);
+      if(coinbaseProTransfer.getType().isInflowing()){
+        assertThat(coinbaseProTransfer.getProcessedAt()).isInstanceOf(Date.class);
+        assertThat(coinbaseProTransfer.getAmount()).isGreaterThan(BigDecimal.ZERO);
+        assertThat(coinbaseProTransfer.getCurrency()).isNotNull();
+        assertThat(coinbaseProTransfer.getDetails()).isNotNull();
+        assertThat(coinbaseProTransfer.getDetails().getCoinbaseAccountId()).isNotNull();
+        assertThat(coinbaseProTransfer.getDetails().getCoinbaseTransactionId()).isNotNull();
+      }
     });
 
     CoinbaseProFundingHistoryParams fundingHistoryParams = (CoinbaseProFundingHistoryParams) exchange.getAccountService().createFundingHistoryParams();
@@ -133,11 +160,15 @@ public class CoinbaseProPrivateRawIntegration {
     accountService.getTransfersWithPagination(fundingHistoryParams).getFundingRecords().forEach(fundingRecord -> {
       LOG.info(fundingRecord.toString());
       assertThat(fundingRecord).isNotNull();
+      assertThat(fundingRecord.getAddress()).isNotNull();
+      assertThat(fundingRecord.getAddressTag()).isNotNull();
       assertThat(fundingRecord.getDate()).isNotNull();
+      assertThat(fundingRecord.getCurrency()).isInstanceOf(Currency.class);
       assertThat(fundingRecord.getAmount()).isGreaterThanOrEqualTo(BigDecimal.ZERO);
+      assertThat(fundingRecord.getInternalId()).isNotNull();
+      assertThat(fundingRecord.getBlockchainTransactionHash()).isNotNull();
       assertThat(fundingRecord.getType()).isInstanceOf(FundingRecord.Type.class);
       assertThat(fundingRecord.getStatus()).isInstanceOf(FundingRecord.Status.class);
-      assertThat(fundingRecord.getCurrency()).isNotNull();
     });
   }
 }
