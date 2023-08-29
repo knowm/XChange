@@ -33,6 +33,7 @@ public class GateioBaseService extends BaseExchangeService<GateioExchange> imple
     gateioV4Authenticated = ExchangeRestProxyBuilder
         .forInterface(GateioV4Authenticated.class, exchange.getExchangeSpecification())
         .clientConfigCustomizer(clientConfig -> clientConfig.setJacksonObjectMapperFactory(new GateioJacksonObjectMapperFactory()))
+        .restProxyFactory(Config.getInstance().getRestProxyFactoryClass().getDeclaredConstructor().newInstance())
         .build();
 
     gateioV4ParamsDigest =
