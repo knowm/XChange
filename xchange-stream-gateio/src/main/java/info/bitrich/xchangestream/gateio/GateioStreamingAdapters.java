@@ -47,7 +47,7 @@ public class GateioStreamingAdapters {
 
 
     return new Trade.Builder()
-        .type("sell".equals(tradePayload.getSide()) ? OrderType.ASK : OrderType.BID)
+        .type(tradePayload.getSide())
         .originalAmount(tradePayload.getAmount())
         .instrument(tradePayload.getCurrencyPair())
         .price(tradePayload.getPrice())
@@ -61,7 +61,7 @@ public class GateioStreamingAdapters {
     UserTradePayload userTradePayload = notification.getResult();
 
     return new UserTrade.Builder()
-        .type("sell".equals(userTradePayload.getSide()) ? OrderType.ASK : OrderType.BID)
+        .type(userTradePayload.getSide())
         .originalAmount(userTradePayload.getAmount())
         .instrument(userTradePayload.getCurrencyPair())
         .price(userTradePayload.getPrice())
