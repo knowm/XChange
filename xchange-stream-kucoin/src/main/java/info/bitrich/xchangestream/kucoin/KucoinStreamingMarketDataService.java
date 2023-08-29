@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.kucoin.dto.KucoinOrderBookEventData;
 import info.bitrich.xchangestream.kucoin.dto.KucoinOrderBookEvent;
+import info.bitrich.xchangestream.kucoin.dto.KucoinRawMatchEvent;
+import info.bitrich.xchangestream.kucoin.dto.KucoinRawMatchEventData;
+import info.bitrich.xchangestream.kucoin.dto.KucoinRawTickerEvent;
 import info.bitrich.xchangestream.kucoin.dto.KucoinTickerEvent;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
@@ -67,7 +70,7 @@ public class KucoinStreamingMarketDataService implements StreamingMarketDataServ
     return createOrderBookObservable(currencyPair);
   }
 
-  private Observable<KucoinOrderBookEventData> rawOrderBookUpdates(CurrencyPair currencyPair) {
+  public Observable<KucoinOrderBookEventData> rawOrderBookUpdates(CurrencyPair currencyPair) {
     String channelName = "/market/level2:" + KucoinAdapters.adaptCurrencyPair(currencyPair);
 
     return service
@@ -147,6 +150,22 @@ public class KucoinStreamingMarketDataService implements StreamingMarketDataServ
     throw new NotYetImplementedForExchangeException();
   }
 
+  public Observable<KucoinRawTickerEvent> getRawTicker(CurrencyPair currencyPair, Object... args) {
+    String channelName = "/market/ticker:" + KucoinAdapters.adaptCurrencyPair(currencyPair);
+    return service
+            .subscribeChannel(channelName)
+            .doOnError(ex -> logger.warn("encountered error while subscribing to channel " + channelName, ex))
+            .map(node -> mapper.treeToValue(node, KucoinRawTickerEvent.class));
+  }
+
+  public Observable<KucoinRawMatchEvent> getRawMatch(CurrencyPair currencyPair, Object... args){
+    String channelName = "/market/match:" + KucoinAdapters.adaptCurrencyPair(currencyPair);
+    return service
+        .subscribeChannel(channelName)
+        .doOnError(ex -> logger.warn("encountered error while subscribing to channel " + channelName, ex))
+        .map(node -> mapper.treeToValue(node, KucoinRawMatchEvent.class));
+  }
+
   private final class OrderbookSubscription {
     final Observable<KucoinOrderBookEventData> stream;
     final AtomicLong lastUpdateId = new AtomicLong();
@@ -178,4 +197,6 @@ public class KucoinStreamingMarketDataService implements StreamingMarketDataServ
       }
     }
   }
+
+
 }

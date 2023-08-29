@@ -6,10 +6,13 @@ import com.google.common.collect.ImmutableList.Builder;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -19,13 +22,18 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kucoin.dto.response.HistOrdersResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderCancelResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderResponse;
 import org.knowm.xchange.kucoin.dto.response.Pagination;
 import org.knowm.xchange.kucoin.dto.response.TradeResponse;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelAllOrders;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamNextPageCursor;
@@ -208,6 +216,32 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
         "Only order id parameters are currently supported.");
     CancelOrderByIdParams params = (CancelOrderByIdParams) genericParams;
     return cancelOrder(params.getOrderId());
+  }
+
+  @Override
+  public Collection<String> cancelAllOrders(CancelAllOrders orderParams) throws IOException {
+    if(!(orderParams instanceof CancelOrderByInstrument) && !(orderParams instanceof CancelOrderByCurrencyPair)){
+      throw new NotAvailableFromExchangeException(new StringBuilder("Parameters must be an instance of ")
+          .append(CancelOrderByInstrument.class.getSimpleName())
+          .append(" or ")
+          .append(CancelOrderByCurrencyPair.class.getSimpleName())
+          .toString())
+          ;
+    }
+    CurrencyPair currencyPair = null;
+    if(orderParams instanceof CancelOrderByInstrument){
+      Instrument instrument = ((CancelOrderByInstrument) orderParams).getInstrument();
+      currencyPair = new CurrencyPair(instrument.getBase(), instrument.getCounter());
+    }
+    if(orderParams instanceof CancelOrderByCurrencyPair){
+      currencyPair = ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair();
+    }
+
+    OrderCancelResponse orderCancelResponse = kucoinCancelAllOrders(KucoinAdapters.adaptCurrencyPair(currencyPair));
+    if(ObjectUtils.isEmpty(orderCancelResponse)){
+      return Collections.emptyList();
+    }
+    return orderCancelResponse.getCancelledOrderIds();
   }
 
   @Override

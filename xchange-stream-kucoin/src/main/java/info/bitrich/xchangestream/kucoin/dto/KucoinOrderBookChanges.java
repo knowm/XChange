@@ -1,9 +1,8 @@
 package info.bitrich.xchangestream.kucoin.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.ToString;
-
 import java.util.List;
+import lombok.ToString;
 
 @ToString
 public class KucoinOrderBookChanges {

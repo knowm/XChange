@@ -1,6 +1,9 @@
 package org.knowm.xchange.kucoin;
 
 import com.google.common.base.Strings;
+import java.util.Base64;
+import org.apache.commons.codec.digest.HmacAlgorithms;
+import org.apache.commons.codec.digest.HmacUtils;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.kucoin.service.AccountAPI;
@@ -22,6 +25,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class KucoinBaseService extends BaseResilientExchangeService<KucoinExchange> {
 
+  private static final String KEY_VERSION_V2 = "2";
   protected final SymbolAPI symbolApi;
   protected final OrderBookAPI orderBookApi;
   protected final HistoryAPI historyApi;
@@ -38,6 +42,8 @@ public class KucoinBaseService extends BaseResilientExchangeService<KucoinExchan
   protected KucoinDigest digest;
   protected String apiKey;
   protected String passphrase;
+  protected String apiKeyVersion = KEY_VERSION_V2;
+  protected String originalPassphrase;
   protected SynchronizedValueFactory<Long> nonceFactory;
 
   protected KucoinBaseService(KucoinExchange exchange, ResilienceRegistries resilienceRegistries) {
@@ -54,11 +60,16 @@ public class KucoinBaseService extends BaseResilientExchangeService<KucoinExchan
     this.histOrdersApi = service(exchange, HistOrdersAPI.class);
     this.websocketAPI = service(exchange, WebsocketAPI.class);
 
-    this.digest = KucoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    String secretKey = exchange.getExchangeSpecification().getSecretKey();
+    this.digest = KucoinDigest.createInstance(secretKey);
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.passphrase =
+    this.originalPassphrase =
         (String)
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem("passphrase");
+    this.passphrase = KEY_VERSION_V2.equals(this.apiKeyVersion) ?
+        Base64.getEncoder().encodeToString(new HmacUtils(HmacAlgorithms.HMAC_SHA_256, secretKey)
+            .hmac(this.originalPassphrase))
+        : this.originalPassphrase;
     this.nonceFactory = exchange.getNonceFactory();
 
     this.tradingFeeAPI = service(exchange, TradingFeeAPI.class);
@@ -70,8 +81,14 @@ public class KucoinBaseService extends BaseResilientExchangeService<KucoinExchan
   }
 
   protected void checkAuthenticated() {
-    if (Strings.isNullOrEmpty(this.apiKey)) throw new KucoinApiException("Missing API key");
-    if (this.digest == null) throw new KucoinApiException("Missing secret key");
-    if (Strings.isNullOrEmpty(this.passphrase)) throw new KucoinApiException("Missing passphrase");
+    if (Strings.isNullOrEmpty(this.apiKey)) {
+      throw new KucoinApiException("Missing API key");
+    }
+    if (this.digest == null) {
+      throw new KucoinApiException("Missing secret key");
+    }
+    if (Strings.isNullOrEmpty(this.passphrase)) {
+      throw new KucoinApiException("Missing passphrase");
+    }
   }
 }

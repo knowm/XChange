@@ -126,6 +126,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
                     getAccountService().apiKey,
                     getAccountService().digest,
                     getAccountService().nonceFactory,
-                    getAccountService().passphrase));
+                    getAccountService().passphrase,
+                    getAccountService().apiKeyVersion));
   }
 }

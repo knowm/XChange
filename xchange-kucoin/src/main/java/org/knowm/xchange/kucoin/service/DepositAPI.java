@@ -2,13 +2,13 @@ package org.knowm.xchange.kucoin.service;
 
 import java.io.IOException;
 import java.util.List;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.kucoin.dto.response.DepositAddressResponse;
 import org.knowm.xchange.kucoin.dto.response.DepositResponse;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
@@ -40,6 +40,7 @@ public interface DepositAPI {
       @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
       @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       @QueryParam("currency") String currency,
       @QueryParam("status") String status,
       @QueryParam("startAt") Long startAt,
@@ -55,6 +56,7 @@ public interface DepositAPI {
       @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
       @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       @QueryParam("currency") String currency,
       @QueryParam("chain") String chain)
       throws IOException;
@@ -66,6 +68,7 @@ public interface DepositAPI {
       @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
       @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       @QueryParam("currency") String currency,
       @QueryParam("chain") String chain)
       throws IOException;
@@ -77,6 +80,7 @@ public interface DepositAPI {
       @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
       @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       @QueryParam("currency") String currency)
       throws IOException;
 }

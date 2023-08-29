@@ -5,10 +5,11 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>5.1.1-SNAPSHOT</version>
+		<version>5.1.0</version>
 	</parent>
 
 	<artifactId>xchange-kucoin</artifactId>
+	<version>CHRONOS-5.1.0</version>
 
 	<name>XChange Kucoin</name>
 	<description>XChange implementation for the Kucoin Exchange</description>
@@ -26,12 +27,24 @@
 		<dependency>
 			<groupId>org.knowm.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>${project.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
+		</dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.15</version>
+      <scope>compile</scope>
+    </dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.22</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>

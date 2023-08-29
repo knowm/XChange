@@ -40,6 +40,7 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
                 digest,
                 nonceFactory,
                 passphrase,
+                apiKeyVersion,
                 symbol,
                 null,
                 null,
@@ -53,7 +54,7 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
   public OrderResponse getKucoinOrder(String id) throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
-        () -> orderApi.getOrder(apiKey, digest, nonceFactory, passphrase, id));
+        () -> orderApi.getOrder(apiKey, digest, nonceFactory, passphrase, apiKeyVersion, id));
   }
 
   public Pagination<TradeResponse> getKucoinFills(
@@ -67,6 +68,7 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
                 digest,
                 nonceFactory,
                 passphrase,
+                apiKeyVersion,
                 symbol,
                 orderId,
                 null,
@@ -87,6 +89,7 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
                 digest,
                 nonceFactory,
                 passphrase,
+                apiKeyVersion,
                 symbol,
                 null,
                 startAt,
@@ -98,20 +101,20 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
   public OrderCancelResponse kucoinCancelAllOrders(String symbol) throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
-        () -> orderApi.cancelOrders(apiKey, digest, nonceFactory, passphrase, symbol));
+        () -> orderApi.cancelOrders(apiKey, digest, nonceFactory, passphrase, apiKeyVersion, symbol));
   }
 
   public OrderCancelResponse kucoinCancelOrder(String orderId) throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
-        () -> orderApi.cancelOrder(apiKey, digest, nonceFactory, passphrase, orderId));
+        () -> orderApi.cancelOrder(apiKey, digest, nonceFactory, passphrase, apiKeyVersion, orderId));
   }
 
   public OrderCreateResponse kucoinCreateOrder(OrderCreateApiRequest opsRequest)
       throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
-        () -> orderApi.createOrder(apiKey, digest, nonceFactory, passphrase, opsRequest));
+        () -> orderApi.createOrder(apiKey, digest, nonceFactory, passphrase, apiKeyVersion, opsRequest));
   }
 
   public List<OrderResponse> getKucoinRecentOrders() throws IOException {
@@ -119,6 +122,6 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
     return classifyingExceptions(
         () ->
             limitOrderAPI.getRecentOrders(
-                this.apiKey, this.digest, this.nonceFactory, this.passphrase));
+                this.apiKey, this.digest, this.nonceFactory, this.passphrase, this.apiKeyVersion));
   }
 }

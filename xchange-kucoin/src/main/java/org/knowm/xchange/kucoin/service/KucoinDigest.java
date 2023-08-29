@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import javax.crypto.Mac;
-import jakarta.ws.rs.HeaderParam;
+import javax.ws.rs.HeaderParam;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;

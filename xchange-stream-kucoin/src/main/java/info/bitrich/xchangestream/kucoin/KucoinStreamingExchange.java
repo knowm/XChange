@@ -7,12 +7,11 @@ import info.bitrich.xchangestream.service.netty.NettyStreamingService;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import org.knowm.xchange.kucoin.KucoinExchange;
-import org.knowm.xchange.kucoin.dto.response.WebsocketResponse;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.knowm.xchange.kucoin.KucoinExchange;
+import org.knowm.xchange.kucoin.dto.response.WebsocketResponse;
 
 public class KucoinStreamingExchange extends KucoinExchange implements StreamingExchange {
 
@@ -20,6 +19,8 @@ public class KucoinStreamingExchange extends KucoinExchange implements Streaming
   private KucoinStreamingService privateStreamingService;
   private KucoinStreamingMarketDataService streamingMarketDataService;
   private KucoinStreamingTradeService streamingTradeService;
+
+  private KucoinStreamingAccountService streamingAccountService;
 
   private final List<NettyStreamingService<?>> services = new ArrayList<>();
   private Runnable onApiCall;
@@ -68,6 +69,7 @@ public class KucoinStreamingExchange extends KucoinExchange implements Streaming
 
         services.add(privateStreamingService);
         streamingTradeService = new KucoinStreamingTradeService(privateStreamingService);
+        streamingAccountService = new KucoinStreamingAccountService(privateStreamingService);
       });
     }
 
@@ -114,6 +116,11 @@ public class KucoinStreamingExchange extends KucoinExchange implements Streaming
   @Override
   public StreamingTradeService getStreamingTradeService() {
     return streamingTradeService;
+  }
+
+  @Override
+  public KucoinStreamingAccountService getStreamingAccountService(){
+    return streamingAccountService;
   }
 
   @Override

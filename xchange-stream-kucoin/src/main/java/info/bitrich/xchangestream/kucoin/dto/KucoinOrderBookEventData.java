@@ -1,14 +1,13 @@
 package info.bitrich.xchangestream.kucoin.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.util.List;
 import lombok.ToString;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @ToString
 public class KucoinOrderBookEventData {
@@ -21,6 +20,9 @@ public class KucoinOrderBookEventData {
 
     @JsonProperty("symbol")
     public String symbol;
+
+    @JsonProperty("time")
+    public Long time;
 
     @JsonProperty("changes")
     public KucoinOrderBookChanges changes;

@@ -1,6 +1,7 @@
 package org.knowm.xchange.kucoin;
 
-import static jakarta.ws.rs.core.Response.Status.TOO_MANY_REQUESTS;
+
+import static javax.ws.rs.core.Response.Status.TOO_MANY_REQUESTS;
 
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import java.time.Duration;

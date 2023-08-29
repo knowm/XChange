@@ -4,10 +4,9 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.databind.util.Converter;
-import org.knowm.xchange.dto.marketdata.Ticker;
-
 import java.math.BigDecimal;
 import java.util.Date;
+import org.knowm.xchange.dto.marketdata.Ticker;
 
 public class KucoinTickerConverter implements Converter<JsonNode, Ticker> {
     @Override
