@@ -67,7 +67,7 @@ public class CoinbaseProPrivateRawIntegration {
 
     CoinbaseProFundingHistoryParams params = new CoinbaseProFundingHistoryParams();
 
-    params.setTransactionId(account.getId());
+    params.setAccountId(account.getId());
 
 
     service.getLedgerWithPagination(params).forEach(coinbaseProLedgerDto -> {
