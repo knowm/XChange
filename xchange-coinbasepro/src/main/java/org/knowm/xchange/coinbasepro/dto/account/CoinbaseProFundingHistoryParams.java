@@ -3,15 +3,17 @@ package org.knowm.xchange.coinbasepro.dto.account;
 import java.util.Date;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamAccountId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 public class CoinbaseProFundingHistoryParams implements
     TradeHistoryParams,
     HistoryParamsFundingType,
-    TradeHistoryParamLimit, TradeHistoryParamsTimeSpan, TradeHistoryParamTransactionId {
+    TradeHistoryParamLimit, TradeHistoryParamsTimeSpan, TradeHistoryParamAccountId {
 
   private Type type;
   private Integer limit;
@@ -60,12 +62,12 @@ public class CoinbaseProFundingHistoryParams implements
   }
 
   @Override
-  public String getTransactionId() {
+  public String getAccountId() {
     return accountId;
   }
 
   @Override
-  public void setTransactionId(String txId) {
-    this.accountId = txId;
+  public void setAccountId(String accountId) {
+    this.accountId = accountId;
   }
 }

@@ -168,12 +168,12 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
 
       CoinbaseProLedger ledger =
           getLedger(
-              fundingParams.getTransactionId(),
+              fundingParams.getAccountId(),
               null,
               null,
               null,
               createdAtFinal,
-              ((CoinbaseProFundingHistoryParams) params).getLimit(),
+              fundingParams.getLimit(),
               null
           );
 
