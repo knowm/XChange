@@ -12,6 +12,7 @@
 
     <properties>
         <version.archunit>1.0.1</version.archunit>
+        <version.maven-enforcer-plugin>3.2.1</version.maven-enforcer-plugin>
         <version.mockito>5.3.1</version.mockito>
         <version.sortpom-maven-plugin>3.2.0</version.sortpom-maven-plugin>
     </properties>
@@ -80,6 +81,26 @@
                             <goal>sort</goal>
                         </goals>
                         <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${version.maven-enforcer-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <dependencyConvergence/>
+                                <banDuplicatePomDependencyVersions/>
+                                <reactorModuleConvergence/>
+                            </rules>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
