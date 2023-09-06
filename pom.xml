@@ -327,6 +327,13 @@
         <scope>test</scope>
       </dependency>
 
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${version.junit}</version>
+        <scope>test</scope>
+      </dependency>
+
       <!-- SLF4J implementation for use in examples -->
       <dependency>
         <groupId>ch.qos.logback</groupId>
