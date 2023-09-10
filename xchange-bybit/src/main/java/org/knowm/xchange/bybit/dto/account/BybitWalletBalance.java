@@ -9,8 +9,8 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 @Value
-public class BybitBalances {
+public class BybitWalletBalance {
 
-  @JsonProperty("balances")
-  List<BybitBalance> balances;
+  @JsonProperty("list")
+  List<BybitAccountBalance> list;
 }

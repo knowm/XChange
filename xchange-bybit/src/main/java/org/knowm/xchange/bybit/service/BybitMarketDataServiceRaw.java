@@ -1,12 +1,14 @@
 package org.knowm.xchange.bybit.service;
 
 import java.io.IOException;
-import java.util.List;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
+import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.marketdata.BybitSymbol;
-import org.knowm.xchange.bybit.dto.marketdata.BybitTicker;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfos;
+import org.knowm.xchange.bybit.dto.marketdata.ticker.BybitTicker;
+import org.knowm.xchange.bybit.dto.marketdata.ticker.BybitTickers;
 
 public class BybitMarketDataServiceRaw extends BybitBaseService {
 
@@ -14,8 +16,9 @@ public class BybitMarketDataServiceRaw extends BybitBaseService {
     super(exchange);
   }
 
-  public BybitResult<List<BybitTicker>> getTicker24h(String symbol) throws IOException {
-    BybitResult<List<BybitTicker>> result = bybit.getTicker24h(symbol);
+  public BybitResult<BybitTickers<BybitTicker>> getTicker24h(BybitCategory category, String symbol)
+      throws IOException {
+    BybitResult<BybitTickers<BybitTicker>> result = bybit.getTicker24h(category, symbol);
 
     if (!result.isSuccess()) {
       throw BybitAdapters.createBybitExceptionFromResult(result);
@@ -23,8 +26,10 @@ public class BybitMarketDataServiceRaw extends BybitBaseService {
     return result;
   }
 
-  public BybitResult<List<BybitSymbol>> getSymbols() throws IOException {
-    BybitResult<List<BybitSymbol>> result = bybit.getSymbols();
+  public BybitResult<BybitInstrumentInfos<BybitInstrumentInfo>> getInstrumentsInfo(
+      BybitCategory category) throws IOException {
+    BybitResult<BybitInstrumentInfos<BybitInstrumentInfo>> result =
+        bybit.getInstrumentsInfo(category);
 
     if (!result.isSuccess()) {
       throw BybitAdapters.createBybitExceptionFromResult(result);

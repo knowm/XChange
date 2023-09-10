@@ -1,10 +1,12 @@
 package org.knowm.xchange.bybit;
 
 import java.io.IOException;
-import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bybit.dto.marketdata.BybitSymbol;
+import org.knowm.xchange.bybit.dto.BybitCategory;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfos;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInstrumentInfo;
 import org.knowm.xchange.bybit.mappers.MarketDataMapper;
 import org.knowm.xchange.bybit.service.BybitAccountService;
 import org.knowm.xchange.bybit.service.BybitMarketDataService;
@@ -35,14 +37,19 @@ public class BybitExchange extends BaseExchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
     // initialize currency pairs
-    List<BybitSymbol> symbols =
-        ((BybitMarketDataServiceRaw) marketDataService).getSymbols().getResult();
-    symbols.forEach(
-        bybitSymbol ->
-            exchangeMetaData
-                .getInstruments()
-                .put(
-                    MarketDataMapper.symbolToCurrencyPair(bybitSymbol),
-                    MarketDataMapper.symbolToCurrencyPairMetaData(bybitSymbol)));
+    BybitInstrumentInfos<BybitInstrumentInfo> instrumentInfos =
+        ((BybitMarketDataServiceRaw) marketDataService)
+            .getInstrumentsInfo(BybitCategory.LINEAR)
+            .getResult();
+    instrumentInfos
+        .getList()
+        .forEach(
+            instrumentInfo ->
+                exchangeMetaData
+                    .getInstruments()
+                    .put(
+                        MarketDataMapper.symbolToCurrencyPair(instrumentInfo),
+                        MarketDataMapper.symbolToCurrencyPairMetaData(
+                            (BybitLinearInstrumentInfo) instrumentInfo)));
   }
 }

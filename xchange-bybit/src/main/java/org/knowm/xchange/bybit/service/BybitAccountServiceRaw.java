@@ -5,6 +5,9 @@ import static org.knowm.xchange.bybit.BybitAdapters.createBybitExceptionFromResu
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.account.BybitAccountType;
+import org.knowm.xchange.bybit.dto.account.BybitWalletBalance;
+
 import org.knowm.xchange.bybit.dto.account.BybitBalances;
 
 public class BybitAccountServiceRaw extends BybitBaseService {
@@ -13,9 +16,10 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     super(exchange);
   }
 
-  public BybitResult<BybitBalances> getWalletBalances() throws IOException {
-    BybitResult<BybitBalances> walletBalances =
-        bybitAuthenticated.getWalletBalances(apiKey, nonceFactory, signatureCreator);
+  public BybitResult<BybitWalletBalance> getWalletBalances(BybitAccountType accountType)
+      throws IOException {
+    BybitResult<BybitWalletBalance> walletBalances =
+        bybitAuthenticated.getWalletBalances(apiKey, accountType, nonceFactory, signatureCreator);
     if (!walletBalances.isSuccess()) {
       throw createBybitExceptionFromResult(walletBalances);
     }

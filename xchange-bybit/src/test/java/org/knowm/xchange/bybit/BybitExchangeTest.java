@@ -22,18 +22,19 @@ public class BybitExchangeTest extends BaseWiremockTest {
     Exchange bybitExchange = createExchange();
 
     stubFor(
-        get(urlPathEqualTo("/v2/public/symbols"))
+        get(urlPathEqualTo("/v5/market/instruments-info"))
             .willReturn(
                 aResponse()
                     .withStatus(Status.OK.getStatusCode())
                     .withHeader("Content-Type", "application/json")
                     .withBody(
-                        IOUtils.resourceToString("/getSymbols.json5", StandardCharsets.UTF_8))));
+                        IOUtils.resourceToString(
+                            "/getInstrumentLinear.json5", StandardCharsets.UTF_8))));
 
     ExchangeSpecification specification = bybitExchange.getExchangeSpecification();
     specification.setShouldLoadRemoteMetaData(true);
     bybitExchange.applySpecification(specification);
 
-    assertThat(bybitExchange.getExchangeMetaData().getInstruments()).hasSize(2);
+    assertThat(bybitExchange.getExchangeMetaData().getInstruments()).hasSize(1);
   }
 }

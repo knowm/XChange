@@ -1,11 +1,13 @@
 package org.knowm.xchange.bybit.service;
 
 import java.io.IOException;
-import java.util.List;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
+import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.marketdata.BybitTicker;
+import org.knowm.xchange.bybit.dto.marketdata.ticker.BybitTicker;
+import org.knowm.xchange.bybit.dto.marketdata.ticker.BybitTickers;
+import org.knowm.xchange.bybit.dto.marketdata.ticker.spot.BybitSpotTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.instrument.Instrument;
@@ -22,25 +24,25 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
     Assert.notNull(instrument, "Null instrument");
 
-    BybitResult<List<BybitTicker>> response =
-        getTicker24h(BybitAdapters.convertToBybitSymbol(instrument.toString()));
+    BybitResult<BybitTickers<BybitTicker>> response =
+        getTicker24h(BybitCategory.SPOT, BybitAdapters.convertToBybitSymbol(instrument.toString()));
 
-    if (response.getResult().isEmpty()) {
+    if (response.getResult().getList().isEmpty()) {
       return new Ticker.Builder().build();
     } else {
-      BybitTicker bybitTicker = response.getResult().get(0);
+      BybitSpotTicker bybitSpotTicker = (BybitSpotTicker) response.getResult().getList().get(0);
       return new Ticker.Builder()
-          .timestamp(response.getTimeNow())
+          .timestamp(response.getTime())
           .instrument(instrument)
-          .bid(bybitTicker.getBestBidPrice())
-          .ask(bybitTicker.getBestAskPrice())
-          .volume(bybitTicker.getVolume24h())
-          .quoteVolume(bybitTicker.getTurnover24h())
-          .last(bybitTicker.getLastPrice())
-          .high(bybitTicker.getHighPrice())
-          .low(bybitTicker.getLowPrice())
-          .open(bybitTicker.getPrevPrice24h())
-          .percentageChange(bybitTicker.getPrice24hPercentageChange())
+          .bid(bybitSpotTicker.getBid1Price())
+          .ask(bybitSpotTicker.getAsk1Price())
+          .volume(bybitSpotTicker.getVolume24h())
+          .quoteVolume(bybitSpotTicker.getTurnover24h())
+          .last(bybitSpotTicker.getLastPrice())
+          .high(bybitSpotTicker.getHighPrice24h())
+          .low(bybitSpotTicker.getLowPrice24h())
+          .open(bybitSpotTicker.getPrevPrice24h())
+          .percentageChange(bybitSpotTicker.getPrice24hPcnt())
           .build();
     }
   }
