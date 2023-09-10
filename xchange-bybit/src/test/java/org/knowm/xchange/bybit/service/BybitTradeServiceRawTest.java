@@ -9,13 +9,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import jakarta.ws.rs.core.Response.Status;
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
-import org.knowm.xchange.bybit.dto.trade.BybitOrderRequest;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
+import org.knowm.xchange.bybit.dto.trade.BybitSide;
 
 public class BybitTradeServiceRawTest extends BaseWiremockTest {
 
@@ -24,150 +29,206 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
     Exchange bybitExchange = createExchange();
     BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange);
 
-    String orderDetails = "{\n" +
-        "   \"ret_code\":0,\n" +
-        "   \"ret_msg\":\"\",\n" +
-        "   \"ext_code\":null,\n" +
-        "   \"ext_info\":null,\n" +
-        "   \"result\":{\n" +
-        "      \"accountId\":\"123456789\",\n" +
-        "      \"exchangeId\":\"301\",\n" +
-        "      \"symbol\":\"COINUSDT\",\n" +
-        "      \"symbolName\":\"COINUSDT\",\n" +
-        "      \"orderLinkId\":\"1234567891011121\",\n" +
-        "      \"orderId\":\"1234567891011121314\",\n" +
-        "      \"price\":\"0\",\n" +
-        "      \"origQty\":\"352\",\n" +
-        "      \"executedQty\":\"352\",\n" +
-        "      \"cummulativeQuoteQty\":\"0.569888\",\n" +
-        "      \"avgPrice\":\"0.001619\",\n" +
-        "      \"status\":\"FILLED\",\n" +
-        "      \"timeInForce\":\"GTC\",\n" +
-        "      \"type\":\"MARKET\",\n" +
-        "      \"side\":\"SELL\",\n" +
-        "      \"stopPrice\":\"0.0\",\n" +
-        "      \"icebergQty\":\"0.0\",\n" +
-        "      \"time\":\"1655997749601\",\n" +
-        "      \"updateTime\":\"1655997749662\",\n" +
-        "      \"isWorking\":true,\n" +
-        "      \"locked\":\"0\"\n" +
-        "   }\n" +
-        "}";
+    String expectedOrderDetails =
+        "{\n"
+            + "    \"retCode\": 0,\n"
+            + "    \"retMsg\": \"OK\",\n"
+            + "    \"result\": {\n"
+            + "        \"list\": [\n"
+            + "            {\n"
+            + "                \"orderId\": \"fd4300ae-7847-404e-b947-b46980a4d140\",\n"
+            + "                \"orderLinkId\": \"test-000005\",\n"
+            + "                \"blockTradeId\": \"\",\n"
+            + "                \"symbol\": \"ETHUSDT\",\n"
+            + "                \"price\": \"1600.00\",\n"
+            + "                \"qty\": \"0.10\",\n"
+            + "                \"side\": \"Buy\",\n"
+            + "                \"isLeverage\": \"\",\n"
+            + "                \"positionIdx\": 1,\n"
+            + "                \"orderStatus\": \"New\",\n"
+            + "                \"cancelType\": \"UNKNOWN\",\n"
+            + "                \"rejectReason\": \"EC_NoError\",\n"
+            + "                \"avgPrice\": \"0\",\n"
+            + "                \"leavesQty\": \"0.10\",\n"
+            + "                \"leavesValue\": \"160\",\n"
+            + "                \"cumExecQty\": \"0.00\",\n"
+            + "                \"cumExecValue\": \"0\",\n"
+            + "                \"cumExecFee\": \"0\",\n"
+            + "                \"timeInForce\": \"GTC\",\n"
+            + "                \"orderType\": \"Limit\",\n"
+            + "                \"stopOrderType\": \"UNKNOWN\",\n"
+            + "                \"orderIv\": \"\",\n"
+            + "                \"triggerPrice\": \"0.00\",\n"
+            + "                \"takeProfit\": \"2500.00\",\n"
+            + "                \"stopLoss\": \"1500.00\",\n"
+            + "                \"tpTriggerBy\": \"LastPrice\",\n"
+            + "                \"slTriggerBy\": \"LastPrice\",\n"
+            + "                \"triggerDirection\": 0,\n"
+            + "                \"triggerBy\": \"UNKNOWN\",\n"
+            + "                \"lastPriceOnCreated\": \"\",\n"
+            + "                \"reduceOnly\": false,\n"
+            + "                \"closeOnTrigger\": false,\n"
+            + "                \"smpType\": \"None\",\n"
+            + "                \"smpGroup\": 0,\n"
+            + "                \"smpOrderId\": \"\",\n"
+            + "                \"tpslMode\": \"Full\",\n"
+            + "                \"tpLimitPrice\": \"\",\n"
+            + "                \"slLimitPrice\": \"\",\n"
+            + "                \"placeType\": \"\",\n"
+            + "                \"createdTime\": \"1684738540559\",\n"
+            + "                \"updatedTime\": \"1684738540561\"\n"
+            + "            }\n"
+            + "        ],\n"
+            + "        \"nextPageCursor\": \"page_args%3Dfd4300ae-7847-404e-b947-b46980a4d140%26symbol%3D6%26\",\n"
+            + "        \"category\": \"linear\"\n"
+            + "    },\n"
+            + "    \"retExtInfo\": {},\n"
+            + "    \"time\": 1684765770483\n"
+            + "}";
 
     stubFor(
-        get(urlPathEqualTo("/spot/v1/order"))
+        get(urlPathEqualTo("/v5/order/realtime"))
             .willReturn(
                 aResponse()
                     .withStatus(Status.OK.getStatusCode())
                     .withHeader("Content-Type", "application/json")
-                    .withBody(orderDetails)
-            )
-    );
-    BybitResult<BybitOrderDetails> order = bybitAccountServiceRaw.getBybitOrder("1234567891011121314");
+                    .withBody(expectedOrderDetails)));
+    BybitResult<BybitOrderDetails> actualOrderDetails =
+        bybitAccountServiceRaw.getBybitOrder(
+            BybitCategory.SPOT, "fd4300ae-7847-404e-b947-b46980a4d140");
+
+    assertThat(actualOrderDetails.getResult().getList()).hasSize(1);
 
     ObjectMapper mapper = new ObjectMapper();
-    JsonNode responseObject = mapper.readTree(orderDetails);
+    JsonNode responseObject = mapper.readTree(expectedOrderDetails);
 
-    BybitOrderDetails orderResult = order.getResult();
+    BybitOrderDetail actualOrderDetail = actualOrderDetails.getResult().getList().get(0);
     JsonNode responseObjectResult = responseObject.get("result");
+    JsonNode listNode = responseObjectResult.get("list");
+    JsonNode expectedOrderDetail = listNode.get(0);
 
-    assertThat(responseObjectResult.get("accountId").textValue()).isEqualTo(orderResult.getAccountId());
-    assertThat(responseObjectResult.get("exchangeId").textValue()).isEqualTo(orderResult.getExchangeId());
-    assertThat(responseObjectResult.get("symbol").textValue()).isEqualTo(orderResult.getSymbol());
-    assertThat(responseObjectResult.get("symbolName").textValue()).isEqualTo(orderResult.getSymbolName());
-    assertThat(responseObjectResult.get("orderLinkId").textValue()).isEqualTo(orderResult.getOrderLinkId());
-    assertThat(responseObjectResult.get("orderId").textValue()).isEqualTo(orderResult.getOrderId());
-    assertThat(responseObjectResult.get("price").textValue()).isEqualTo(orderResult.getPrice());
-    assertThat(responseObjectResult.get("origQty").textValue()).isEqualTo(orderResult.getOrigQty());
-    assertThat(responseObjectResult.get("executedQty").textValue()).isEqualTo(orderResult.getExecutedQty());
-    assertThat(responseObjectResult.get("cummulativeQuoteQty").textValue()).isEqualTo(
-        orderResult.getCummulativeQuoteQty());
-    assertThat(responseObjectResult.get("avgPrice").textValue()).isEqualTo(orderResult.getAvgPrice());
-    assertThat(responseObjectResult.get("status").textValue()).isEqualTo(orderResult.getStatus());
-    assertThat(responseObjectResult.get("timeInForce").textValue()).isEqualTo(orderResult.getTimeInForce());
-    assertThat(responseObjectResult.get("type").textValue()).isEqualTo(orderResult.getType());
-    assertThat(responseObjectResult.get("side").textValue()).isEqualTo(orderResult.getSide());
-    assertThat(responseObjectResult.get("stopPrice").textValue()).isEqualTo(orderResult.getStopPrice());
-    assertThat(responseObjectResult.get("icebergQty").textValue()).isEqualTo(orderResult.getIcebergQty());
-    assertThat(responseObjectResult.get("time").textValue()).isEqualTo(orderResult.getTime());
-    assertThat(responseObjectResult.get("updateTime").textValue()).isEqualTo(orderResult.getUpdateTime());
-    assertThat(responseObjectResult.get("isWorking").booleanValue()).isEqualTo(orderResult.isWorking());
-    assertThat(responseObjectResult.get("locked").textValue()).isEqualTo(orderResult.getLocked());
+    assertThat(actualOrderDetail.getSymbol())
+        .isEqualTo(expectedOrderDetail.get("symbol").textValue());
+    assertThat(actualOrderDetail.getPrice().doubleValue())
+        .isEqualTo(expectedOrderDetail.get("price").asDouble());
+    assertThat(actualOrderDetail.getQty().doubleValue())
+        .isEqualTo(expectedOrderDetail.get("qty").asDouble());
+    assertThat(actualOrderDetail.getSide().name())
+        .isEqualToIgnoringCase(expectedOrderDetail.get("side").textValue());
+    assertThat(actualOrderDetail.isLeverage())
+        .isEqualTo(expectedOrderDetail.get("isLeverage").booleanValue());
+    assertThat(actualOrderDetail.getPositionIdx())
+        .isEqualTo(expectedOrderDetail.get("positionIdx").intValue());
+    assertThat(actualOrderDetail.getOrderStatus().name())
+        .isEqualToIgnoringCase(expectedOrderDetail.get("orderStatus").textValue());
+    assertThat(actualOrderDetail.getCancelType())
+        .isEqualTo(expectedOrderDetail.get("cancelType").textValue());
+    assertThat(actualOrderDetail.getRejectReason())
+        .isEqualTo(expectedOrderDetail.get("rejectReason").textValue());
+    assertThat(actualOrderDetail.getAvgPrice().doubleValue())
+        .isEqualTo(expectedOrderDetail.get("avgPrice").asDouble());
+    assertThat(actualOrderDetail.getLeavesQty().doubleValue())
+        .isEqualTo(expectedOrderDetail.get("leavesQty").asDouble());
+    assertThat(actualOrderDetail.getLeavesValue().doubleValue())
+        .isEqualTo(expectedOrderDetail.get("leavesValue").asDouble());
+    assertThat(actualOrderDetail.getCumExecQty().doubleValue())
+        .isEqualTo(expectedOrderDetail.get("cumExecQty").asDouble());
+    assertThat(actualOrderDetail.getCumExecValue().doubleValue())
+        .isEqualTo(expectedOrderDetail.get("cumExecValue").asDouble());
+    assertThat(actualOrderDetail.getCumExecFee().doubleValue())
+        .isEqualTo(expectedOrderDetail.get("cumExecFee").asDouble());
+    assertThat(actualOrderDetail.getTimeInForce())
+        .isEqualTo(expectedOrderDetail.get("timeInForce").textValue());
+    assertThat(actualOrderDetail.getOrderType().name())
+        .isEqualToIgnoringCase(expectedOrderDetail.get("orderType").textValue());
+    assertThat(actualOrderDetail.getStopOrderType())
+        .isEqualTo(expectedOrderDetail.get("stopOrderType").textValue());
+    assertThat(actualOrderDetail.getOrderIv())
+        .isEqualTo(expectedOrderDetail.get("orderIv").textValue());
+    assertThat(actualOrderDetail.getTriggerPrice().doubleValue())
+        .isEqualTo(expectedOrderDetail.get("triggerPrice").asDouble());
+    assertThat(actualOrderDetail.getTakeProfit().doubleValue())
+        .isEqualTo(expectedOrderDetail.get("takeProfit").asDouble());
+    assertThat(actualOrderDetail.getStopLoss().doubleValue())
+        .isEqualTo(expectedOrderDetail.get("stopLoss").asDouble());
+    assertThat(actualOrderDetail.getTpTriggerBy())
+        .isEqualTo(expectedOrderDetail.get("tpTriggerBy").textValue());
+    assertThat(actualOrderDetail.getSlTriggerBy())
+        .isEqualTo(expectedOrderDetail.get("slTriggerBy").textValue());
+    assertThat(actualOrderDetail.getTriggerDirection())
+        .isEqualTo(expectedOrderDetail.get("triggerDirection").intValue());
+    assertThat(actualOrderDetail.getTriggerBy())
+        .isEqualTo(expectedOrderDetail.get("triggerBy").textValue());
+    assertThat(actualOrderDetail.getLastPriceOnCreated())
+        .isEqualTo(expectedOrderDetail.get("lastPriceOnCreated").textValue());
+    assertThat(actualOrderDetail.isReduceOnly())
+        .isEqualTo(expectedOrderDetail.get("reduceOnly").booleanValue());
+    assertThat(actualOrderDetail.isCloseOnTrigger())
+        .isEqualTo(expectedOrderDetail.get("closeOnTrigger").booleanValue());
+    assertThat(actualOrderDetail.getSmpType())
+        .isEqualTo(expectedOrderDetail.get("smpType").textValue());
+    assertThat(actualOrderDetail.getSmpGroup())
+        .isEqualTo(expectedOrderDetail.get("smpGroup").intValue());
+    assertThat(actualOrderDetail.getSmpOrderId())
+        .isEqualTo(expectedOrderDetail.get("smpOrderId").textValue());
+    assertThat(actualOrderDetail.getTpslMode())
+        .isEqualTo(expectedOrderDetail.get("tpslMode").textValue());
+    assertThat(actualOrderDetail.getTpLimitPrice())
+        .isEqualTo(expectedOrderDetail.get("tpLimitPrice").textValue());
+    assertThat(actualOrderDetail.getSlLimitPrice())
+        .isEqualTo(expectedOrderDetail.get("slLimitPrice").textValue());
+    assertThat(actualOrderDetail.getPlaceType())
+        .isEqualTo(expectedOrderDetail.get("placeType").textValue());
+    assertThat(actualOrderDetail.getCreatedTime().getTime())
+        .isEqualTo(expectedOrderDetail.get("createdTime").asLong());
+    assertThat(actualOrderDetail.getUpdatedTime().getTime())
+        .isEqualTo(expectedOrderDetail.get("updatedTime").asLong());
   }
-
 
   @Test
   public void testPlaceBybitOrder() throws IOException {
     Exchange bybitExchange = createExchange();
     BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange);
 
-    String orderPlacementResponse = "{\n" +
-        "   \"ret_code\":0,\n" +
-        "   \"ret_msg\":\"\",\n" +
-        "   \"ext_code\":null,\n" +
-        "   \"ext_info\":null,\n" +
-        "   \"result\":{\n" +
-        "      \"accountId\":\"28649557\",\n" +
-        "      \"exchangeId\":\"301\",\n" +
-        "      \"symbol\":\"COINUSDT\",\n" +
-        "      \"symbolName\":\"COINUSDT\",\n" +
-        "      \"orderLinkId\":\"1655997749596563\",\n" +
-        "      \"orderId\":\"1184989442799045889\",\n" +
-        "      \"price\":\"0\",\n" +
-        "      \"origQty\":\"352\",\n" +
-        "      \"executedQty\":\"352\",\n" +
-        "      \"cummulativeQuoteQty\":\"0.569888\",\n" +
-        "      \"avgPrice\":\"0.001619\",\n" +
-        "      \"status\":\"FILLED\",\n" +
-        "      \"timeInForce\":\"GTC\",\n" +
-        "      \"type\":\"MARKET\",\n" +
-        "      \"side\":\"SELL\",\n" +
-        "      \"stopPrice\":\"0.0\",\n" +
-        "      \"icebergQty\":\"0.0\",\n" +
-        "      \"time\":\"1655997749601\",\n" +
-        "      \"updateTime\":\"1655997749662\",\n" +
-        "      \"isWorking\":true,\n" +
-        "      \"locked\":\"0\"\n" +
-        "   }\n" +
-        "}";
+    String orderPlacementResponse =
+        "{\n"
+            + "    \"retCode\": 0,\n"
+            + "    \"retMsg\": \"OK\",\n"
+            + "    \"result\": {\n"
+            + "        \"orderId\": \"1321003749386327552\",\n"
+            + "        \"orderLinkId\": \"spot-test-postonly\"\n"
+            + "    },\n"
+            + "    \"retExtInfo\": {},\n"
+            + "    \"time\": 1672211918471\n"
+            + "}";
 
     stubFor(
-        post(urlPathEqualTo("/spot/v1/order"))
+        post(urlPathEqualTo("/v5/order/create"))
             .willReturn(
                 aResponse()
                     .withStatus(Status.OK.getStatusCode())
                     .withHeader("Content-Type", "application/json")
-                    .withBody(orderPlacementResponse)
-            )
-    );
+                    .withBody(orderPlacementResponse)));
 
-    BybitResult<BybitOrderRequest> order = bybitAccountServiceRaw.placeOrder(
-        "COINUSDT",
-        300,
-        "SELL",
-        "MARKET"
-    );
+    BybitResult<BybitOrderResponse> order =
+        bybitAccountServiceRaw.placeOrder(
+            BybitCategory.SPOT,
+            "BTCUSDT",
+            BybitSide.BUY,
+            BybitOrderType.LIMIT,
+            BigDecimal.valueOf(0.1));
 
     ObjectMapper mapper = new ObjectMapper();
     JsonNode responseObject = mapper.readTree(orderPlacementResponse);
 
-    BybitOrderRequest orderRequestResult = order.getResult();
+    BybitOrderResponse orderRequestResult = order.getResult();
     JsonNode responseObjectResult = responseObject.get("result");
 
-    assertThat(responseObjectResult.get("accountId").textValue()).isEqualTo(orderRequestResult.getAccountId());
-    assertThat(responseObjectResult.get("symbol").textValue()).isEqualTo(orderRequestResult.getSymbol());
-    assertThat(responseObjectResult.get("symbolName").textValue()).isEqualTo(orderRequestResult.getSymbolName());
-    assertThat(responseObjectResult.get("orderLinkId").textValue()).isEqualTo(orderRequestResult.getOrderLinkId());
-    assertThat(responseObjectResult.get("orderId").textValue()).isEqualTo(orderRequestResult.getOrderId());
-    assertThat(responseObjectResult.get("price").textValue()).isEqualTo(orderRequestResult.getPrice());
-    assertThat(responseObjectResult.get("origQty").textValue()).isEqualTo(orderRequestResult.getOrigQty());
-    assertThat(responseObjectResult.get("executedQty").textValue()).isEqualTo(orderRequestResult.getExecutedQty());
-    assertThat(responseObjectResult.get("status").textValue()).isEqualTo(orderRequestResult.getStatus());
-    assertThat(responseObjectResult.get("timeInForce").textValue()).isEqualTo(orderRequestResult.getTimeInForce());
-    assertThat(responseObjectResult.get("type").textValue()).isEqualTo(orderRequestResult.getType());
-    assertThat(responseObjectResult.get("side").textValue()).isEqualTo(orderRequestResult.getSide());
+    assertThat(responseObjectResult.get("orderLinkId").textValue())
+        .isEqualTo(orderRequestResult.getOrderLinkId());
+    assertThat(responseObjectResult.get("orderId").textValue())
+        .isEqualTo(orderRequestResult.getOrderId());
 
     System.out.println(order);
   }
-
 }

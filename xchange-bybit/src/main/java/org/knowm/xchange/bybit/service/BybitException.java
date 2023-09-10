@@ -1,43 +1,29 @@
 package org.knowm.xchange.bybit.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
+@ToString
+@Getter
 public class BybitException extends HttpStatusExceptionSupport {
 
   private final int retCode;
   private final String retMsg;
-  private final String extCode;
-  private final String extInfo;
+  private final Object retExtInfo;
 
-  public BybitException(@JsonProperty("ret_code") int retCode,
-                        @JsonProperty("ret_msg") String retMsg,
-                        @JsonProperty("ext_code") String extCode,
-                        @JsonProperty("ext_info") String extInfo) {
+  public BybitException(
+      @JsonProperty("retCode") int retCode,
+      @JsonProperty("retMsg") String retMsg,
+      @JsonProperty("retExtInfo") Object retExtInfo) {
     this.retCode = retCode;
     this.retMsg = retMsg;
-    this.extCode = extCode;
-    this.extInfo = extInfo;
+    this.retExtInfo = retExtInfo;
   }
 
   @Override
   public String getMessage() {
-    return "{" +
-            "retCode=" + retCode +
-            ", retMsg='" + retMsg + '\'' +
-            ", extCode='" + extCode + '\'' +
-            ", extInfo='" + extInfo + '\'' +
-            '}';
+    return toString();
   }
-
-  @Override
-  public String toString() {
-    return "BybitException{" +
-            "retCode=" + retCode +
-            ", retMsg='" + retMsg + '\'' +
-            ", extCode='" + extCode + '\'' +
-            ", extInfo='" + extInfo + '\'' +
-            '}';
-  }
-
 }

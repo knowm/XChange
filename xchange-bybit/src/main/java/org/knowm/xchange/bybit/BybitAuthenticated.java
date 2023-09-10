@@ -1,49 +1,62 @@
 package org.knowm.xchange.bybit;
 
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.BybitBalances;
+import org.knowm.xchange.bybit.dto.account.BybitAccountType;
+import org.knowm.xchange.bybit.dto.account.BybitWalletBalance;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
-import org.knowm.xchange.bybit.dto.trade.BybitOrderRequest;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
+import org.knowm.xchange.bybit.dto.trade.BybitSide;
 import org.knowm.xchange.bybit.service.BybitException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import java.io.IOException;
-
-@Path("/spot/v1")
+@Path("/v5")
 @Produces(MediaType.APPLICATION_JSON)
 public interface BybitAuthenticated {
 
-    @GET
-    @Path("/account")
-    BybitResult<BybitBalances> getWalletBalances(
-            @QueryParam("api_key") String apiKey,
-            @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
-            @QueryParam("sign") ParamsDigest signature
-    ) throws IOException, BybitException;
+  /** @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/account/wallet-balance">API</a> */
+  @GET
+  @Path("/account/wallet-balance")
+  BybitResult<BybitWalletBalance> getWalletBalances(
+      @QueryParam("api_key") String apiKey,
+      @QueryParam("accountType") BybitAccountType accountType,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("sign") ParamsDigest signature)
+      throws IOException, BybitException;
 
-    @GET
-    @Path("/order")
-    BybitResult<BybitOrderDetails> getOrder(
-            @QueryParam("api_key") String apiKey,
-            @QueryParam("orderId") String orderId,
-            @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
-            @QueryParam("sign") ParamsDigest signature
-    ) throws IOException, BybitException;
+  /** @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/order/open-order">API</a> */
+  @GET
+  @Path("/order/realtime")
+  BybitResult<BybitOrderDetails> getOrder(
+      @QueryParam("api_key") String apiKey,
+      @QueryParam("category") BybitCategory category,
+      @QueryParam("orderId") String orderId,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("sign") ParamsDigest signature)
+      throws IOException, BybitException;
 
-    @POST
-    @Path("/order")
-    BybitResult<BybitOrderRequest> placeOrder(
-            @FormParam("api_key") String apiKey,
-            @FormParam("symbol") String symbol,
-            @FormParam("qty") long qty,
-            @FormParam("side") String side,
-            @FormParam("type") String type,
-            @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
-            @FormParam("sign") ParamsDigest signature
-    ) throws IOException, BybitException;
-
-
+  /** @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/order/create-order">API</a> */
+  @POST
+  @Path("/order/create")
+  BybitResult<BybitOrderResponse> placeOrder(
+      @FormParam("api_key") String apiKey,
+      @FormParam("category") BybitCategory category,
+      @FormParam("symbol") String symbol,
+      @FormParam("side") BybitSide side,
+      @FormParam("orderType") BybitOrderType orderType,
+      @FormParam("qty") BigDecimal qty,
+      @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @FormParam("sign") ParamsDigest signature)
+      throws IOException, BybitException;
 }
