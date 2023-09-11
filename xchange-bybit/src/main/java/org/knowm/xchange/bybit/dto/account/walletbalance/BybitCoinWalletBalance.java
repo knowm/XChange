@@ -1,4 +1,4 @@
-package org.knowm.xchange.bybit.dto.account;
+package org.knowm.xchange.bybit.dto.account.walletbalance;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 @Value
-public class BybitCoinBalance {
+public class BybitCoinWalletBalance {
 
   @JsonProperty("coin")
   String coin;

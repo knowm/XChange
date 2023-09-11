@@ -6,7 +6,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.BybitCoinBalance;
+import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
+import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitCoinWalletBalance;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.option.BybitOptionTicker;
@@ -30,14 +32,26 @@ public class BybitAdapters {
 
   public static final List<String> QUOTE_CURRENCIES = Arrays.asList("USDT", "USDC", "BTC", "DAI");
 
-  public static Wallet adaptBybitBalances(List<BybitCoinBalance> bybitCoinBalances) {
-    List<Balance> balances = new ArrayList<>(bybitCoinBalances.size());
-    for (BybitCoinBalance bybitCoinBalance : bybitCoinBalances) {
+  public static Wallet adaptBybitBalances(List<BybitCoinWalletBalance> coinWalletBalances) {
+    List<Balance> balances = new ArrayList<>(coinWalletBalances.size());
+    for (BybitCoinWalletBalance bybitCoinBalance : coinWalletBalances) {
       balances.add(
           new Balance(
               new Currency(bybitCoinBalance.getCoin()),
               new BigDecimal(bybitCoinBalance.getEquity()),
               new BigDecimal(bybitCoinBalance.getAvailableToWithdraw())));
+    }
+    return Wallet.Builder.from(balances).build();
+  }
+
+  public static Wallet adaptBybitBalances(BybitAllCoinsBalance allCoinsBalance) {
+    List<Balance> balances = new ArrayList<>(allCoinsBalance.getBalance().size());
+    for (BybitAllCoinBalance coinBalance : allCoinsBalance.getBalance()) {
+      balances.add(
+          new Balance(
+              new Currency(coinBalance.getCoin()),
+              coinBalance.getWalletBalance(),
+              coinBalance.getTransferBalance()));
     }
     return Wallet.Builder.from(balances).build();
   }

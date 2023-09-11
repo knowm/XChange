@@ -11,8 +11,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.BybitAccountType;
-import org.knowm.xchange.bybit.dto.account.BybitWalletBalance;
+import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
@@ -29,6 +30,16 @@ public interface BybitAuthenticated {
   @GET
   @Path("/account/wallet-balance")
   BybitResult<BybitWalletBalance> getWalletBalance(
+      @QueryParam("api_key") String apiKey,
+      @QueryParam("accountType") BybitAccountType accountType,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("sign") ParamsDigest signature)
+      throws IOException, BybitException;
+
+  /** @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/asset/all-balance">API</a> */
+  @GET
+  @Path("/asset/transfer/query-account-coins-balance")
+  BybitResult<BybitAllCoinsBalance> getAllCoinsBalance(
       @QueryParam("api_key") String apiKey,
       @QueryParam("accountType") BybitAccountType accountType,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,

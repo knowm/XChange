@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 
@@ -21,7 +22,8 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
   @Test
   public void testGetWalletBalances() throws IOException {
     Exchange bybitExchange = createExchange();
-    BybitAccountService bybitAccountService = new BybitAccountService(bybitExchange);
+    BybitAccountService bybitAccountService =
+        new BybitAccountService(bybitExchange, BybitAccountType.UNIFIED);
 
     stubFor(
         get(urlPathEqualTo("/v5/account/wallet-balance"))
