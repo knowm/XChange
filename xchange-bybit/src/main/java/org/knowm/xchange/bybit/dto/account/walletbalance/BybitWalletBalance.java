@@ -1,4 +1,4 @@
-package org.knowm.xchange.bybit.dto.account;
+package org.knowm.xchange.bybit.dto.account.walletbalance;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

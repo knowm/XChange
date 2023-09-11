@@ -1,40 +1,33 @@
 package org.knowm.xchange.bybit.service;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import jakarta.ws.rs.core.Response.Status;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import org.apache.commons.io.IOUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.BybitAccountBalance;
-import org.knowm.xchange.bybit.dto.account.BybitAccountType;
-import org.knowm.xchange.bybit.dto.account.BybitCoinBalance;
-import org.knowm.xchange.bybit.dto.account.BybitWalletBalance;
+import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
+import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountBalance;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitCoinWalletBalance;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
 
 public class BybitAccountServiceRawTest extends BaseWiremockTest {
 
+  private BybitAccountServiceRaw bybitAccountServiceRaw;
+
+  @Before
+  public void setUp() throws Exception {
+    Exchange bybitExchange = createExchange();
+    bybitAccountServiceRaw = new BybitAccountServiceRaw(bybitExchange);
+  }
+
   @Test
   public void testGetWalletBalancesWithCoin() throws IOException {
-    Exchange bybitExchange = createExchange();
-    BybitAccountServiceRaw bybitAccountServiceRaw = new BybitAccountServiceRaw(bybitExchange);
-
-    stubFor(
-        get(urlPathEqualTo("/v5/account/wallet-balance"))
-            .willReturn(
-                aResponse()
-                    .withStatus(Status.OK.getStatusCode())
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        IOUtils.resourceToString(
-                            "/getWalletBalance.json5", StandardCharsets.UTF_8))));
+    initGetStub("/getWalletBalance.json5", "/v5/account/wallet-balance");
 
     BybitResult<BybitWalletBalance> walletBalances =
         bybitAccountServiceRaw.getWalletBalances(BybitAccountType.UNIFIED);
@@ -56,8 +49,8 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
     assertThat(accountBalance.getAccountLTV()).isEqualTo("0");
     assertThat(accountBalance.getTotalMaintenanceMargin()).isEqualTo("0");
 
-    assertThat(accountBalance.getCoins()).hasSize(1);
-    List<BybitCoinBalance> coins = accountBalance.getCoins();
+    assertThat(accountBalance.getCoin()).hasSize(1);
+    List<BybitCoinWalletBalance> coins = accountBalance.getCoin();
 
     assertThat(coins.get(0).getAvailableToBorrow()).isEqualTo("3");
     assertThat(coins.get(0).getBonus()).isEqualTo("0");
@@ -77,5 +70,26 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
     assertThat(coins.get(0).getLocked()).isEqualTo("0");
     assertThat(coins.get(0).isMarginCollateral()).isEqualTo(true);
     assertThat(coins.get(0).getCoin()).isEqualTo("BTC");
+  }
+
+  @Test
+  public void testGetAllCoinsBalancesWithCoin() throws IOException {
+    initGetStub("/getAllCoinsBalance.json5", "/v5/asset/transfer/query-account-coins-balance");
+
+    BybitResult<BybitAllCoinsBalance> coinsBalanceBybitResult =
+        bybitAccountServiceRaw.getAllCoinsBalance(BybitAccountType.FUND);
+
+    BybitAllCoinsBalance coinsBalance = coinsBalanceBybitResult.getResult();
+
+    assertThat(coinsBalance.getMemberId()).isEqualTo("XXXX");
+    assertThat(coinsBalance.getAccountType()).isEqualTo(BybitAccountType.FUND);
+
+    assertThat(coinsBalance.getBalance()).hasSize(1);
+    BybitAllCoinBalance coinBalance = coinsBalance.getBalance().get(0);
+
+    assertThat(coinBalance.getCoin()).isEqualTo("USDC");
+    assertThat(coinBalance.getTransferBalance()).isEqualTo("0");
+    assertThat(coinBalance.getWalletBalance()).isEqualTo("0");
+    assertThat(coinBalance.getBonus()).isNull();
   }
 }
