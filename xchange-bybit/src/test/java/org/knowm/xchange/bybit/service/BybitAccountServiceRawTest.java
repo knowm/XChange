@@ -7,9 +7,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
+import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRate;
+import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountBalance;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitCoinWalletBalance;
@@ -26,8 +29,8 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testGetWalletBalancesWithCoin() throws IOException {
-    initGetStub("/getWalletBalance.json5", "/v5/account/wallet-balance");
+  public void testGetWalletBalances() throws IOException {
+    initGetStub("/v5/account/wallet-balance", "/getWalletBalance.json5");
 
     BybitResult<BybitWalletBalance> walletBalances =
         bybitAccountServiceRaw.getWalletBalances(BybitAccountType.UNIFIED);
@@ -73,8 +76,8 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testGetAllCoinsBalancesWithCoin() throws IOException {
-    initGetStub("/getAllCoinsBalance.json5", "/v5/asset/transfer/query-account-coins-balance");
+  public void testGetAllCoinsBalances() throws IOException {
+    initGetStub("/v5/asset/transfer/query-account-coins-balance", "/getAllCoinsBalance.json5");
 
     BybitResult<BybitAllCoinsBalance> coinsBalanceBybitResult =
         bybitAccountServiceRaw.getAllCoinsBalance(BybitAccountType.FUND);
@@ -91,5 +94,22 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
     assertThat(coinBalance.getTransferBalance()).isEqualTo("0");
     assertThat(coinBalance.getWalletBalance()).isEqualTo("0");
     assertThat(coinBalance.getBonus()).isNull();
+  }
+
+  @Test
+  public void testGetFeeRates() throws IOException {
+    initGetStub("/v5/account/fee-rate", "/getFeeRates.json5");
+
+    BybitResult<BybitFeeRates> bybitFeeRatesBybitResult =
+        bybitAccountServiceRaw.getFeeRates(BybitCategory.SPOT, "ETHUSDT");
+
+    BybitFeeRates feeRates = bybitFeeRatesBybitResult.getResult();
+
+    assertThat(feeRates.getList()).hasSize(1);
+    BybitFeeRate feeRate = feeRates.getList().get(0);
+
+    assertThat(feeRate.getSymbol()).isEqualTo("ETHUSDT");
+    assertThat(feeRate.getTakerFeeRate()).isEqualTo("0.0006");
+    assertThat(feeRate.getMakerFeeRate()).isEqualTo("0.0001");
   }
 }

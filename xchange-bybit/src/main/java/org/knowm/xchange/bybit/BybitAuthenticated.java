@@ -15,6 +15,7 @@ import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
+import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
@@ -45,6 +46,17 @@ public interface BybitAuthenticated {
   BybitResult<BybitAllCoinsBalance> getAllCoinsBalance(
       @QueryParam("api_key") String apiKey,
       @QueryParam("accountType") BybitAccountType accountType,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("sign") ParamsDigest signature)
+      throws IOException, BybitException;
+
+  /** @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/account/fee-rate">API</a> */
+  @GET
+  @Path("/account/fee-rate")
+  BybitResult<BybitFeeRates> getFeeRates(
+      @QueryParam("api_key") String apiKey,
+      @QueryParam("category") BybitCategory category,
+      @QueryParam("symbol") String symbol,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @QueryParam("sign") ParamsDigest signature)
       throws IOException, BybitException;

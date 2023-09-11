@@ -37,14 +37,14 @@ public class BaseWiremockTest {
   }
 
   protected void initInstrumentsInfoStub(String responseBody) throws IOException {
-    initGetStub(responseBody, "/v5/market/instruments-info");
+    initGetStub("/v5/market/instruments-info", responseBody);
   }
 
   protected void initTickerStub(String responseBody) throws IOException {
-    initGetStub(responseBody, "/v5/market/tickers");
+    initGetStub("/v5/market/tickers", responseBody);
   }
 
-  protected void initGetStub(String responseBody, String url) throws IOException {
+  protected void initGetStub(String url, String responseBody) throws IOException {
     stubFor(
         get(urlPathEqualTo(url))
             .willReturn(

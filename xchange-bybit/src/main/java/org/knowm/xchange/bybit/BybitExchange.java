@@ -46,15 +46,15 @@ public class BybitExchange extends BaseExchange {
         ((BybitMarketDataServiceRaw) marketDataService)
             .getInstrumentsInfo(BybitCategory.LINEAR)
             .getResult();
-    instrumentInfos
-        .getList()
-        .forEach(
-            instrumentInfo ->
-                exchangeMetaData
-                    .getInstruments()
-                    .put(
-                        MarketDataMapper.symbolToCurrencyPair(instrumentInfo),
-                        MarketDataMapper.symbolToCurrencyPairMetaData(
-                            (BybitLinearInverseInstrumentInfo) instrumentInfo)));
+
+    for (BybitInstrumentInfo instrumentInfo : instrumentInfos.getList()) {
+      exchangeMetaData
+          .getInstruments()
+          .put(
+              MarketDataMapper.symbolToCurrencyPair(instrumentInfo),
+              MarketDataMapper.symbolToCurrencyPairMetaData(
+                  (BybitLinearInverseInstrumentInfo) instrumentInfo,
+                  (BybitAccountService) accountService));
+    }
   }
 }
