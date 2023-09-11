@@ -6,9 +6,9 @@ import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
-import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfos;
-import org.knowm.xchange.bybit.dto.marketdata.ticker.BybitTicker;
-import org.knowm.xchange.bybit.dto.marketdata.ticker.BybitTickers;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentsInfo;
+import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
+import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTickers;
 
 public class BybitMarketDataServiceRaw extends BybitBaseService {
 
@@ -26,9 +26,9 @@ public class BybitMarketDataServiceRaw extends BybitBaseService {
     return result;
   }
 
-  public BybitResult<BybitInstrumentInfos<BybitInstrumentInfo>> getInstrumentsInfo(
+  public BybitResult<BybitInstrumentsInfo<BybitInstrumentInfo>> getInstrumentsInfo(
       BybitCategory category) throws IOException {
-    BybitResult<BybitInstrumentInfos<BybitInstrumentInfo>> result =
+    BybitResult<BybitInstrumentsInfo<BybitInstrumentInfo>> result =
         bybit.getInstrumentsInfo(category);
 
     if (!result.isSuccess()) {

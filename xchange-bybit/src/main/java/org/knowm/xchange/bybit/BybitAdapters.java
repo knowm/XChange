@@ -3,6 +3,7 @@ package org.knowm.xchange.bybit;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -11,6 +12,10 @@ import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitCoinBalance;
+import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
+import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
+import org.knowm.xchange.bybit.dto.marketdata.tickers.option.BybitOptionTicker;
+import org.knowm.xchange.bybit.dto.marketdata.tickers.spot.BybitSpotTicker;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;
 import org.knowm.xchange.bybit.dto.trade.BybitSide;
@@ -21,7 +26,10 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BybitAdapters {
 
@@ -40,8 +48,12 @@ public class BybitAdapters {
   }
 
   public static BybitSide getSideString(Order.OrderType type) {
-    if (type == Order.OrderType.ASK) return BybitSide.SELL;
-    if (type == Order.OrderType.BID) return BybitSide.BUY;
+    if (type == Order.OrderType.ASK) {
+      return BybitSide.SELL;
+    }
+    if (type == Order.OrderType.BID) {
+      return BybitSide.BUY;
+    }
     throw new IllegalArgumentException("invalid order type");
   }
 
@@ -115,5 +127,42 @@ public class BybitAdapters {
   public static <T> BybitException createBybitExceptionFromResult(BybitResult<T> walletBalances) {
     return new BybitException(
         walletBalances.getRetCode(), walletBalances.getRetMsg(), walletBalances.getRetExtInfo());
+  }
+
+  public static Ticker adaptBybitLinearInverseTicker(
+      Instrument instrument, Date time, BybitLinearInverseTicker bybitTicker) {
+    return adaptBybitTickerBuilder(instrument, time, bybitTicker)
+        .open(bybitTicker.getPrevPrice24h())
+        .percentageChange(bybitTicker.getPrice24hPcnt())
+        .build();
+  }
+
+  public static Ticker adaptBybitSpotTicker(
+      Instrument instrument, Date time, BybitSpotTicker bybitTicker) {
+    return adaptBybitTickerBuilder(instrument, time, bybitTicker)
+        .open(bybitTicker.getPrevPrice24h())
+        .percentageChange(bybitTicker.getPrice24hPcnt())
+        .build();
+  }
+
+  public static Ticker adaptBybitOptionTicker(
+      Instrument instrument, Date time, BybitOptionTicker bybitTicker) {
+    return adaptBybitTickerBuilder(instrument, time, bybitTicker).build();
+  }
+
+  private static Builder adaptBybitTickerBuilder(
+      Instrument instrument, Date time, BybitTicker bybitTicker) {
+    return new Ticker.Builder()
+        .timestamp(time)
+        .instrument(instrument)
+        .last(bybitTicker.getLastPrice())
+        .bid(bybitTicker.getBid1Price())
+        .bidSize(bybitTicker.getBid1Size())
+        .ask(bybitTicker.getAsk1Price())
+        .askSize(bybitTicker.getAsk1Size())
+        .high(bybitTicker.getHighPrice24h())
+        .low(bybitTicker.getLowPrice24h())
+        .quoteVolume(bybitTicker.getTurnover24h())
+        .volume(bybitTicker.getVolume24h());
   }
 }

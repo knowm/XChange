@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
-import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInstrumentInfo;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInverseInstrumentInfo;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 
@@ -16,7 +16,7 @@ public final class MarketDataMapper {
   }
 
   public static InstrumentMetaData symbolToCurrencyPairMetaData(
-      BybitLinearInstrumentInfo spotInstrumentInfo) {
+      BybitLinearInverseInstrumentInfo spotInstrumentInfo) {
     return new InstrumentMetaData.Builder()
         .tradingFee(BigDecimal.ZERO) // todo: it is a private api call
         .minimumAmount(spotInstrumentInfo.getLotSizeFilter().getMinOrderQty())

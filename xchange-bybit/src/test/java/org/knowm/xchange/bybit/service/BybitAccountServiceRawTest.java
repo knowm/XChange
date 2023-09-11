@@ -40,6 +40,8 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
         bybitAccountServiceRaw.getWalletBalances(BybitAccountType.UNIFIED);
 
     BybitWalletBalance walletBalance = walletBalances.getResult();
+
+    assertThat(walletBalance.getList()).hasSize(1);
     BybitAccountBalance accountBalance = walletBalance.getList().get(0);
 
     assertThat(accountBalance.getTotalEquity()).isEqualTo("3.31216591");
@@ -54,6 +56,7 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
     assertThat(accountBalance.getAccountLTV()).isEqualTo("0");
     assertThat(accountBalance.getTotalMaintenanceMargin()).isEqualTo("0");
 
+    assertThat(accountBalance.getCoins()).hasSize(1);
     List<BybitCoinBalance> coins = accountBalance.getCoins();
 
     assertThat(coins.get(0).getAvailableToBorrow()).isEqualTo("3");
@@ -69,6 +72,7 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
     assertThat(coins.get(0).getBorrowAmount()).isEqualTo("0.0");
     assertThat(coins.get(0).getTotalPositionIM()).isEqualTo("0");
     assertThat(coins.get(0).getWalletBalance()).isEqualTo("0");
+    assertThat(coins.get(0).getFree()).isNull();
     assertThat(coins.get(0).getCumRealisedPnl()).isEqualTo("0");
     assertThat(coins.get(0).getLocked()).isEqualTo("0");
     assertThat(coins.get(0).isMarginCollateral()).isEqualTo(true);

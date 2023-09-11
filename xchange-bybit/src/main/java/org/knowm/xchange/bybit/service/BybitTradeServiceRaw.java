@@ -26,7 +26,7 @@ public class BybitTradeServiceRaw extends BybitBaseService {
   public BybitResult<BybitOrderDetails> getBybitOrder(BybitCategory category, String orderId)
       throws IOException {
     BybitResult<BybitOrderDetails> order =
-        bybitAuthenticated.getOrder(apiKey, category, orderId, nonceFactory, signatureCreator);
+        bybitAuthenticated.getOpenOrders(apiKey, category, orderId, nonceFactory, signatureCreator);
     if (!order.isSuccess()) {
       throw createBybitExceptionFromResult(order);
     }
