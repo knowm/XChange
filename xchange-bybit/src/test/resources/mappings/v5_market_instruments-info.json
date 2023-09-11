@@ -1,0 +1,15 @@
+{
+  "id" : "e14f007d-f507-4d7f-a522-d92a71e1fc48",
+  "name" : "v5_market_instruments-info",
+  "request" : {
+    "url" : "/v5/market/instruments-info?category=spot",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v5_market_instruments-info.json"
+  },
+  "uuid" : "e14f007d-f507-4d7f-a522-d92a71e1fc48",
+  "persistent" : true,
+  "insertionIndex" : 4
+}

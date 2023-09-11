@@ -1,0 +1,15 @@
+{
+  "id" : "d53e9d2a-c765-4981-b267-0f518e7f6c5a",
+  "name" : "v5_market_tickers",
+  "request" : {
+    "url" : "/v5/market/tickers?category=spot",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v5_market_tickers.json"
+  },
+  "uuid" : "d53e9d2a-c765-4981-b267-0f518e7f6c5a",
+  "persistent" : true,
+  "insertionIndex" : 6
+}

@@ -1,0 +1,15 @@
+{
+  "id" : "e2050f9d-aeff-4653-964e-d0de5b892b73",
+  "name" : "v5_market_time",
+  "request" : {
+    "url" : "/v5/market/time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v5_market_time.json"
+  },
+  "uuid" : "e2050f9d-aeff-4653-964e-d0de5b892b73",
+  "persistent" : true,
+  "insertionIndex" : 6
+}

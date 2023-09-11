@@ -1,0 +1,15 @@
+{
+  "id" : "bf56bd3b-cc24-4498-8b4a-a403c934f088",
+  "name" : "v5_market_tickers",
+  "request" : {
+    "url" : "/v5/market/tickers?category=spot&symbol=BLABLA",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "exceptions/v5_market_tickers.json"
+  },
+  "uuid" : "bf56bd3b-cc24-4498-8b4a-a403c934f088",
+  "persistent" : true,
+  "insertionIndex" : 14
+}

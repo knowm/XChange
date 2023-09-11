@@ -1,43 +1,32 @@
 package org.knowm.xchange.bybit.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import si.mazi.rescu.HttpStatusExceptionSupport;
+import java.time.Instant;
+import java.util.Map;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
-public class BybitException extends HttpStatusExceptionSupport {
+@Value
+@Builder
+@Jacksonized
+public class BybitException extends RuntimeException {
 
-  private final int retCode;
-  private final String retMsg;
-  private final String extCode;
-  private final String extInfo;
+  @JsonProperty("retCode")
+  int retCode;
 
-  public BybitException(@JsonProperty("ret_code") int retCode,
-                        @JsonProperty("ret_msg") String retMsg,
-                        @JsonProperty("ext_code") String extCode,
-                        @JsonProperty("ext_info") String extInfo) {
-    this.retCode = retCode;
-    this.retMsg = retMsg;
-    this.extCode = extCode;
-    this.extInfo = extInfo;
-  }
+  @JsonProperty("retMsg")
+  String retMsg;
 
-  @Override
-  public String getMessage() {
-    return "{" +
-            "retCode=" + retCode +
-            ", retMsg='" + retMsg + '\'' +
-            ", extCode='" + extCode + '\'' +
-            ", extInfo='" + extInfo + '\'' +
-            '}';
-  }
+  @JsonProperty("retExtInfo")
+  Map extInfo;
 
-  @Override
-  public String toString() {
-    return "BybitException{" +
-            "retCode=" + retCode +
-            ", retMsg='" + retMsg + '\'' +
-            ", extCode='" + extCode + '\'' +
-            ", extInfo='" + extInfo + '\'' +
-            '}';
-  }
+  @JsonProperty("result")
+  Map result;
+
+  @JsonProperty("time")
+  Instant timestamp;
+
+
 
 }

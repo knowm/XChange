@@ -1,0 +1,2 @@
+### Get Announcement
+GET {{base_url}}/v5/announcements/index?locale=en-US

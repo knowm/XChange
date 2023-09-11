@@ -1,37 +1,43 @@
 package org.knowm.xchange.bybit.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.util.Date;
-import lombok.Builder;
-import lombok.Value;
-import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.utils.jackson.UnixTimestampNanoSecondsDeserializer;
+import java.time.Instant;
+import java.util.Map;
+import lombok.Data;
+import si.mazi.rescu.ExceptionalReturnContentException;
 
-@Builder
-@Jacksonized
-@Value
+@Data
 public class BybitResult<V> {
 
-  @JsonProperty("ret_code")
+  private static final int SUCCESS_CODE = 0;
+
+
+  @JsonProperty("retCode")
   int retCode;
 
-  @JsonProperty("ret_msg")
+  @JsonProperty("retMsg")
   String retMsg;
 
-  @JsonProperty("ext_code")
-  String extCode;
-
-  @JsonProperty("ext_info")
-  String extInfo;
+  @JsonProperty("retExtInfo")
+  Map extInfo;
 
   @JsonProperty("result")
   V result;
 
-  @JsonProperty("time_now")
-  @JsonDeserialize(using = UnixTimestampNanoSecondsDeserializer.class)
-  Date timeNow;
+  @JsonProperty("time")
+  Instant timestamp;
 
+
+  public void setRetCode(int code) {
+    if (SUCCESS_CODE != code) {
+      throw new ExceptionalReturnContentException(String.valueOf(code));
+    }
+    retCode = code;
+  }
+
+
+
+  //todo: remove
   public boolean isSuccess() {
     return retCode == 0;
   }

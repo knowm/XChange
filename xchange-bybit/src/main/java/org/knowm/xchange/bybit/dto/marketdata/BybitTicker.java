@@ -2,92 +2,55 @@ package org.knowm.xchange.bybit.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import java.util.Date;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.currency.CurrencyPair;
 
 @Builder
 @Jacksonized
-@Value
+@Data
 public class BybitTicker {
 
   @JsonProperty("symbol")
   String symbol;
 
-  @JsonProperty("bid_price")
+  CurrencyPair currencyPair;
+
+  @JsonProperty("bid1Price")
   BigDecimal bestBidPrice;
 
-  @JsonProperty("ask_price")
+  @JsonProperty("bid1Size")
+  BigDecimal bestBidSize;
+
+  @JsonProperty("ask1Price")
   BigDecimal bestAskPrice;
 
-  @JsonProperty("last_price")
+  @JsonProperty("ask1Size")
+  BigDecimal bestAskSize;
+
+  @JsonProperty("lastPrice")
   BigDecimal lastPrice;
 
-  @JsonProperty("last_tick_direction")
-  String lastTickDirection;
-
-  @JsonProperty("prev_price_24h")
+  @JsonProperty("prevPrice24h")
   BigDecimal prevPrice24h;
 
-  @JsonProperty("price_24h_pcnt")
+  @JsonProperty("price24hPcnt")
   BigDecimal price24hPercentageChange;
 
-  @JsonProperty("high_price_24h")
+  @JsonProperty("highPrice24h")
   BigDecimal highPrice;
 
-  @JsonProperty("low_price_24h")
+  @JsonProperty("lowPrice24h")
   BigDecimal lowPrice;
 
-  @JsonProperty("prev_price_1h")
-  BigDecimal prevPrice1h;
-
-  @JsonProperty("price_1h_pcnt")
-  BigDecimal price1hPercentageChange;
-
-  @JsonProperty("mark_price")
-  BigDecimal markPrice;
-
-  @JsonProperty("index_price")
-  BigDecimal indexPrice;
-
-  @JsonProperty("open_interest")
-  BigDecimal openInterest;
-
-  @JsonProperty("open_value")
-  BigDecimal openValue;
-
-  @JsonProperty("total_turnover")
-  BigDecimal totalTurnover;
-
-  @JsonProperty("turnover_24h")
+  @JsonProperty("turnover24h")
   BigDecimal turnover24h;
 
-  @JsonProperty("total_volume")
-  BigDecimal totalVolume;
-
-  @JsonProperty("volume_24h")
+  @JsonProperty("volume24h")
   BigDecimal volume24h;
 
-  @JsonProperty("funding_rate")
-  BigDecimal fundingRate;
-
-  @JsonProperty("predicted_funding_rate")
-  BigDecimal predictedFundingRate;
-
-  @JsonProperty("next_funding_time")
-  Date nextFundingTime;
-
-  @JsonProperty("countdown_hour")
-  Integer countdownHour;
-
-  @JsonProperty("delivery_fee_rate")
-  BigDecimal deliveryFeeRate;
-
-  @JsonProperty("predicted_delivery_price")
-  BigDecimal predictedDeliveryPrice;
-
-  @JsonProperty("delivery_time")
-  Date deliveryTime;
+  @JsonProperty("usdIndexPrice")
+  BigDecimal usdIndexPrice;
 
 }

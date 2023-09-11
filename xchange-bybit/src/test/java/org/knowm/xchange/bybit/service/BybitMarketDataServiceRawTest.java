@@ -1,61 +1,67 @@
 package org.knowm.xchange.bybit.service;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import jakarta.ws.rs.core.Response.Status;
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bybit.dto.marketdata.BybitSymbol;
+import java.time.Instant;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.bybit.BybitExchangeWiremock;
+import org.knowm.xchange.bybit.dto.BybitCategorizedPayload;
+import org.knowm.xchange.bybit.dto.BybitCategorizedPayload.Category;
+import org.knowm.xchange.bybit.dto.marketdata.BybitInstrumentInfo;
+import org.knowm.xchange.bybit.dto.marketdata.BybitInstrumentInfo.LotSizeFilter;
+import org.knowm.xchange.bybit.dto.marketdata.BybitInstrumentInfo.MarginTrading;
+import org.knowm.xchange.bybit.dto.marketdata.BybitInstrumentInfo.PriceFilter;
+import org.knowm.xchange.bybit.dto.marketdata.BybitInstrumentInfo.Status;
+import org.knowm.xchange.bybit.dto.marketdata.BybitServerTime;
+import org.knowm.xchange.currency.Currency;
 
-public class BybitMarketDataServiceRawTest extends BaseWiremockTest {
+public class BybitMarketDataServiceRawTest extends BybitExchangeWiremock {
+
+  BybitMarketDataServiceRaw bybitMarketDataServiceRaw = (BybitMarketDataServiceRaw) exchange.getMarketDataService();
 
   @Test
-  public void testGetSymbols() throws Exception {
-    Exchange bybitExchange = createExchange();
-    BybitMarketDataServiceRaw marketDataServiceRaw = (BybitMarketDataServiceRaw) bybitExchange.getMarketDataService();
+  void server_time() throws IOException {
+    BybitServerTime actual = bybitMarketDataServiceRaw.getServerTime();
 
-    stubFor(
-        get(urlPathEqualTo("/v2/public/symbols"))
-            .willReturn(
-                aResponse()
-                    .withStatus(Status.OK.getStatusCode())
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(IOUtils.resourceToString("/getSymbols.json5", StandardCharsets.UTF_8))
-            )
-    );
+    BybitServerTime expected = BybitServerTime.builder()
+        .timestamp(Instant.ofEpochSecond(1694037473L))
+        .timestampNano(Instant.ofEpochSecond(0L, 1694037473517512495L))
+        .build();
 
-    List<BybitSymbol> symbols = marketDataServiceRaw.getSymbols().getResult();
+    assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+  }
 
-    assertThat(symbols).hasSize(2);
 
-    BybitSymbol btcusdt = symbols.get(0);
-    assertThat(btcusdt.getName()).isEqualTo("BTCUSDT");
-    assertThat(btcusdt.getAlias()).isEqualTo("BTCUSDT");
-    assertThat(btcusdt.getStatus()).isEqualTo("Trading");
-    assertThat(btcusdt.getBaseCurrency()).isEqualTo("BTC");
-    assertThat(btcusdt.getQuoteCurrency()).isEqualTo("USDT");
-    assertThat(btcusdt.getPriceScale()).isEqualTo(2);
-    assertThat(btcusdt.getTakerFee()).isEqualTo(new BigDecimal("0.0006"));
-    assertThat(btcusdt.getMakerFee()).isEqualTo(new BigDecimal("0.0001"));
-    assertThat(btcusdt.getFundingInterval()).isEqualTo(480);
-    assertThat(btcusdt.getLeverageFilter().getMinLeverage()).isEqualTo(1);
-    assertThat(btcusdt.getLeverageFilter().getMaxLeverage()).isEqualTo(100);
-    assertThat(btcusdt.getLeverageFilter().getLeverageStep()).isEqualTo(new BigDecimal("0.01"));
-    assertThat(btcusdt.getPriceFilter().getMinPrice()).isEqualTo(new BigDecimal("0.5"));
-    assertThat(btcusdt.getPriceFilter().getMaxPrice()).isEqualTo(new BigDecimal("999999"));
-    assertThat(btcusdt.getPriceFilter().getTickSize()).isEqualTo(new BigDecimal("0.5"));
-    assertThat(btcusdt.getLotSizeFilter().getMaxTradingQty()).isEqualTo(new BigDecimal("20"));
-    assertThat(btcusdt.getLotSizeFilter().getMinTradingQty()).isEqualTo(new BigDecimal("0.001"));
-    assertThat(btcusdt.getLotSizeFilter().getQtyStep()).isEqualTo(new BigDecimal("0.001"));
-    assertThat(btcusdt.getLotSizeFilter().getPostOnlyMaxTradingQty()).isEqualTo(new BigDecimal("100"));
+  @Test
+  void instruments_info() throws IOException {
+    BybitCategorizedPayload<BybitInstrumentInfo> actual = bybitMarketDataServiceRaw.getInstrumentsInfo();
+
+    BybitInstrumentInfo expected = BybitInstrumentInfo.builder()
+        .symbol("BTCUSDT")
+        .base(Currency.BTC)
+        .counter(Currency.USDT)
+        .innovation(false)
+        .status(Status.TRADING)
+        .marginTrading(MarginTrading.BOTH)
+        .lotSizeFilter(LotSizeFilter.builder()
+            .basePrecision(new BigDecimal("0.000001"))
+            .quotePrecision(new BigDecimal("0.00000001"))
+            .minOrderQty(new BigDecimal("0.000048"))
+            .maxOrderQty(new BigDecimal("71.73956243"))
+            .minOrderAmt(new BigDecimal("1"))
+            .maxOrderAmt(new BigDecimal("2000000"))
+            .build())
+        .priceFilter(PriceFilter.builder()
+            .tickSize(new BigDecimal("0.01"))
+            .build())
+        .build();
+
+    assertThat(actual.getCategory()).isEqualTo(Category.SPOT);
+    assertThat(actual.getList()).hasSize(2);
+
+    assertThat(actual.getList()).first().usingRecursiveComparison().isEqualTo(expected);
 
   }
 

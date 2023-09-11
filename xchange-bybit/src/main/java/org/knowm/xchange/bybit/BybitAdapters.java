@@ -1,22 +1,32 @@
 package org.knowm.xchange.bybit;
 
-import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.BybitBalance;
-import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
-import org.knowm.xchange.bybit.service.BybitException;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.trade.LimitOrder;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import lombok.experimental.UtilityClass;
+import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.account.BybitBalance;
+import org.knowm.xchange.bybit.dto.marketdata.BybitInstrumentInfo;
+import org.knowm.xchange.bybit.dto.marketdata.BybitOrderBook;
+import org.knowm.xchange.bybit.dto.marketdata.BybitTicker;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
+import org.knowm.xchange.bybit.service.BybitException;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 
+@UtilityClass
 public class BybitAdapters {
 
   public static final List<String> QUOTE_CURRENCIES = Arrays.asList("USDT", "USDC", "BTC", "DAI");
@@ -83,11 +93,64 @@ public class BybitAdapters {
   }
 
   public static <T> BybitException createBybitExceptionFromResult(BybitResult<T> walletBalances) {
-    return new BybitException(
-            walletBalances.getRetCode(),
-            walletBalances.getRetMsg(),
-            walletBalances.getExtCode(),
-            walletBalances.getExtCode()
-    );
+    return BybitException.builder()
+        .retCode(walletBalances.getRetCode())
+        .retMsg(walletBalances.getRetMsg())
+        .extInfo(walletBalances.getExtInfo())
+//        .result(walletBalances.getResult())
+        .timestamp(walletBalances.getTimestamp())
+        .build();
   }
+
+
+  public static String toSymbol(Instrument instrument) {
+    if (instrument == null) {
+      return null;
+    }
+    else {
+      return instrument.getBase().getCurrencyCode() + instrument.getCounter().getCurrencyCode();
+    }
+  }
+
+  public Ticker toTicker(BybitTicker gateioTicker, Instrument instrument) {
+    return new Ticker.Builder()
+        .instrument(instrument)
+        .last(gateioTicker.getLastPrice())
+        .bid(gateioTicker.getBestBidPrice())
+        .ask(gateioTicker.getBestAskPrice())
+        .high(gateioTicker.getHighPrice())
+        .low(gateioTicker.getLowPrice())
+        .volume(gateioTicker.getVolume24h())
+        .quoteVolume(gateioTicker.getTurnover24h())
+        .percentageChange(gateioTicker.getPrice24hPercentageChange())
+        .build();
+  }
+
+
+  public static InstrumentMetaData toInstrumentMetaData(BybitInstrumentInfo bybitInstrumentInfo) {
+    return new InstrumentMetaData.Builder()
+        .minimumAmount(bybitInstrumentInfo.getLotSizeFilter().getMinOrderQty())
+        .maximumAmount(bybitInstrumentInfo.getLotSizeFilter().getMaxOrderQty())
+        .counterMinimumAmount(bybitInstrumentInfo.getLotSizeFilter().getMinOrderAmt())
+        .counterMaximumAmount(bybitInstrumentInfo.getLotSizeFilter().getMaxOrderAmt())
+        .priceScale(bybitInstrumentInfo.getPriceFilter().getTickSize().scale())
+        .volumeScale(bybitInstrumentInfo.getLotSizeFilter().getBasePrecision().scale())
+        .amountStepSize(bybitInstrumentInfo.getLotSizeFilter().getBasePrecision())
+        .priceStepSize(bybitInstrumentInfo.getPriceFilter().getTickSize())
+        .build();
+  }
+
+
+  public OrderBook toOrderBook(BybitOrderBook bybitOrderBook, Instrument instrument) {
+    List<LimitOrder> asks = bybitOrderBook.getAsks().stream()
+        .map(priceSizeEntry -> new LimitOrder(OrderType.ASK, priceSizeEntry.getSize(), instrument, null, null, priceSizeEntry.getPrice()))
+        .collect(Collectors.toList());
+
+    List<LimitOrder> bids = bybitOrderBook.getBids().stream()
+        .map(priceSizeEntry -> new LimitOrder(OrderType.BID, priceSizeEntry.getSize(), instrument, null, null, priceSizeEntry.getPrice()))
+        .collect(Collectors.toList());
+
+    return new OrderBook(Date.from(bybitOrderBook.getTimestamp()), asks, bids);
+  }
+
 }

@@ -1,0 +1,16 @@
+### Get Bybit Server Time
+GET {{base_url}}/v5/market/time
+
+
+### Get Instruments Info
+GET {{base_url}}/v5/market/instruments-info?category=spot&symbol=BTCUSDT
+
+
+### Get Tickers
+GET {{base_url}}/v5/market/tickers?category=spot&symbol=BLABLA
+
+
+### Get Orderbook
+GET {{base_url}}/v5/market/orderbook?category=spot&symbol=BTCUSDT
+
+

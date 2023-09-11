@@ -1,0 +1,15 @@
+{
+  "id" : "b4aa7050-744d-4f73-8f65-cfde4ee8e54d",
+  "name" : "v5_market_orderbook",
+  "request" : {
+    "url" : "/v5/market/orderbook?category=spot&symbol=BTCUSDT&limit=2",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v5_market_orderbook.json"
+  },
+  "uuid" : "b4aa7050-744d-4f73-8f65-cfde4ee8e54d",
+  "persistent" : true,
+  "insertionIndex" : 6
+}

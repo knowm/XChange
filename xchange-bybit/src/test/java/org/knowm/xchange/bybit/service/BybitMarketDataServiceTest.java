@@ -1,56 +1,106 @@
 package org.knowm.xchange.bybit.service;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import jakarta.ws.rs.core.Response.Status;
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.knowm.xchange.Exchange;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.bybit.BybitExchangeWiremock;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class BybitMarketDataServiceTest extends BaseWiremockTest {
+public class BybitMarketDataServiceTest extends BybitExchangeWiremock {
+
+  MarketDataService marketDataService = exchange.getMarketDataService();
+
 
   @Test
-  public void testGetTicker() throws Exception {
-    Exchange bybitExchange = createExchange();
-    MarketDataService marketDataService = bybitExchange.getMarketDataService();
+  void tickers() throws IOException {
+    List<Ticker> actual = marketDataService.getTickers(null);
 
-    stubFor(
-        get(urlPathEqualTo("/v2/public/tickers"))
-            .willReturn(
-                aResponse()
-                    .withStatus(Status.OK.getStatusCode())
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(IOUtils.resourceToString("/getTicker.json5", StandardCharsets.UTF_8))
-            )
-    );
+    Ticker expected = new Ticker.Builder()
+        .instrument(CurrencyPair.BTC_USDT)
+        .last(new BigDecimal("25741.97"))
+        .ask(new BigDecimal("25741.97"))
+        .bid(new BigDecimal("25741.96"))
+        .high(new BigDecimal("26049.11"))
+        .low(new BigDecimal("25372.77"))
+        .volume(new BigDecimal("5683.211445"))
+        .quoteVolume(new BigDecimal("146073704.01447217"))
+        .percentageChange(new BigDecimal("-0.0003"))
+        .build();
 
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USDT);
+    assertThat(actual).hasSize(2);
 
-    assertThat(ticker.getInstrument().toString()).isEqualTo("BTC/USDT");
-    assertThat(ticker.getOpen()).isEqualTo(new BigDecimal("21670.00"));
-    assertThat(ticker.getLast()).isEqualTo(new BigDecimal("21333.00"));
-    assertThat(ticker.getBid()).isEqualTo(new BigDecimal("21323"));
-    assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("21334"));
-    assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("22024.50"));
-    assertThat(ticker.getLow()).isEqualTo(new BigDecimal("21120.00"));
-    assertThat(ticker.getVwap()).isNull();
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("10028.87"));
-    assertThat(ticker.getQuoteVolume()).isEqualTo(new BigDecimal("216158761.48"));
-    assertThat(ticker.getTimestamp()).isEqualTo(Instant.parse("2022-07-10T09:09:11.611Z"));
-    assertThat(ticker.getBidSize()).isNull();
-    assertThat(ticker.getAskSize()).isNull();
-    assertThat(ticker.getPercentageChange()).isEqualTo(new BigDecimal("-0.015551"));
+    assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
 
   }
+
+
+  @Test
+  void ticker() throws IOException {
+    Ticker actual = marketDataService.getTicker(CurrencyPair.BTC_USDT);
+
+    Ticker expected = new Ticker.Builder()
+        .instrument(CurrencyPair.BTC_USDT)
+        .last(new BigDecimal("25838"))
+        .ask(new BigDecimal("25838.01"))
+        .bid(new BigDecimal("25838"))
+        .high(new BigDecimal("26049.11"))
+        .low(new BigDecimal("25560.01"))
+        .volume(new BigDecimal("5183.468529"))
+        .quoteVolume(new BigDecimal("133602935.81431006"))
+        .percentageChange(new BigDecimal("0.0104"))
+        .build();
+
+
+    assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+
+  }
+
+
+  @Test
+  void order_book() throws IOException {
+    OrderBook actual = marketDataService.getOrderBook(CurrencyPair.BTC_USDT, 2);
+
+
+    List<LimitOrder> expectedAsks = new ArrayList<>();
+    expectedAsks.add(new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
+        .limitPrice(new BigDecimal("26198.39"))
+        .originalAmount(new BigDecimal("0.786996"))
+        .build());
+    expectedAsks.add(new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
+        .limitPrice(new BigDecimal("26198.44"))
+        .originalAmount(new BigDecimal("0.3"))
+        .build());
+
+    List<LimitOrder> expectedBids = new ArrayList<>();
+    expectedBids.add(new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+        .limitPrice(new BigDecimal("26198.38"))
+        .originalAmount(new BigDecimal("0.332024"))
+        .build());
+    expectedBids.add(new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+        .limitPrice(new BigDecimal("26198.29"))
+        .originalAmount(new BigDecimal("0.015269"))
+        .build());
+    Date expectedTimestamp = Date.from(Instant.ofEpochMilli(1694123074333L));
+
+    OrderBook expected = new OrderBook(expectedTimestamp, expectedAsks, expectedBids);
+
+    assertThat(actual)
+        .usingRecursiveComparison()
+        .ignoringFieldsMatchingRegexes(".*userReference")
+        .isEqualTo(expected);
+  }
+
+
 
 }

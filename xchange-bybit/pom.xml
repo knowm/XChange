@@ -14,21 +14,18 @@
     <name>XChange Bybit</name>
     <description>XChange implementation for Bybit</description>
 
-    <url>http://knowm.org/open-source/xchange/</url>
-    <inceptionYear>2022</inceptionYear>
+    <properties>
+        <version.maven-enforcer-plugin>3.2.1</version.maven-enforcer-plugin>
+        <version.mockito>5.3.1</version.mockito>
+        <version.sortpom-maven-plugin>3.2.0</version.sortpom-maven-plugin>
+    </properties>
 
-    <organization>
-        <name>Knowm Inc.</name>
-        <url>http://knowm.org/open-source/xchange/</url>
-    </organization>
-
-    <!-- Parent provides default configuration for dependencies -->
     <dependencies>
 
         <dependency>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-core</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${version.fasterxml}</version>
         </dependency>
 
         <dependency>
@@ -36,6 +33,90 @@
             <artifactId>wiremock-jre8</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-ratelimiter</artifactId>
+            <version>${version.resilience4j}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-retry</artifactId>
+            <version>${version.resilience4j}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.ekryd.sortpom</groupId>
+                <artifactId>sortpom-maven-plugin</artifactId>
+                <version>${version.sortpom-maven-plugin}</version>
+                <configuration>
+                    <sortProperties>true</sortProperties>
+                    <createBackupFile>false</createBackupFile>
+                    <sortDependencies>groupId,artifactId</sortDependencies>
+                    <sortModules>true</sortModules>
+                    <nrOfIndentSpace>4</nrOfIndentSpace>
+                    <sortPlugins>groupId,artifactId</sortPlugins>
+                    <expandEmptyElements>false</expandEmptyElements>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>sort</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${version.maven-enforcer-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <dependencyConvergence/>
+                                <banDuplicatePomDependencyVersions/>
+                                <reactorModuleConvergence/>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 
 </project>

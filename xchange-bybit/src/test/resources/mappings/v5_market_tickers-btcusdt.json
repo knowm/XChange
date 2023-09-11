@@ -1,0 +1,15 @@
+{
+  "id" : "2d657f6e-e523-4104-8fcc-e625c50619a1",
+  "name" : "v5_market_tickers",
+  "request" : {
+    "url" : "/v5/market/tickers?category=spot&symbol=BTCUSDT",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v5_market_tickers-btcusdt.json"
+  },
+  "uuid" : "2d657f6e-e523-4104-8fcc-e625c50619a1",
+  "persistent" : true,
+  "insertionIndex" : 6
+}

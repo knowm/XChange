@@ -1,42 +1,47 @@
 package org.knowm.xchange.bybit;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import jakarta.ws.rs.core.Response.Status;
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bybit.service.BaseWiremockTest;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 
-public class BybitExchangeTest extends BaseWiremockTest {
+public class BybitExchangeTest extends BybitExchangeWiremock {
+
+  @Test
+  void instruments_initialized() {
+     Map<Instrument, InstrumentMetaData> actual = exchange.getExchangeMetaData().getInstruments();
+
+     InstrumentMetaData expected = new InstrumentMetaData.Builder()
+         .minimumAmount(new BigDecimal("0.000048"))
+         .maximumAmount(new BigDecimal("71.73956243"))
+         .counterMinimumAmount(new BigDecimal("1"))
+         .counterMaximumAmount(new BigDecimal("2000000"))
+         .priceScale(2)
+         .volumeScale(6)
+         .amountStepSize(new BigDecimal("0.000001"))
+         .priceStepSize(new BigDecimal("0.01"))
+         .build();
+
+    assertThat(actual.keySet()).hasSize(2);
+
+    assertThat(actual.get(CurrencyPair.BTC_USDT)).usingRecursiveComparison().isEqualTo(expected);
+  }
 
 
   @Test
-  public void testSymbolLoading() throws IOException {
-    Exchange bybitExchange = createExchange();
+  void currency_pair_by_symbol_initialized() {
+    Map<String, CurrencyPair> actual = ((BybitExchangeMetadata) exchange.getExchangeMetaData()).getCurrencyPairBySymbol();
 
-    stubFor(
-        get(urlPathEqualTo("/v2/public/symbols"))
-            .willReturn(
-                aResponse()
-                    .withStatus(Status.OK.getStatusCode())
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(IOUtils.resourceToString("/getSymbols.json5", StandardCharsets.UTF_8))
-            )
-    );
+    Map<String, CurrencyPair> expected = new HashMap<>();
+    expected.put("BTCUSDT", CurrencyPair.BTC_USDT);
+    expected.put("ETHUSDT", CurrencyPair.ETH_USDT);
 
-    ExchangeSpecification specification = bybitExchange.getExchangeSpecification();
-    specification.setShouldLoadRemoteMetaData(true);
-    bybitExchange.applySpecification(specification);
-
-    assertThat(bybitExchange.getExchangeMetaData().getInstruments()).hasSize(2);
-
+    assertThat(actual).isEqualTo(expected);
   }
+
 }
