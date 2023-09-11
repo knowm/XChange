@@ -10,10 +10,6 @@ public class BybitExchangeSpecification extends ExchangeSpecification {
 
   @Getter @Setter private BybitAccountType accountType;
 
-  public BybitExchangeSpecification(String exchangeClassName) {
-    super(exchangeClassName);
-  }
-
   public BybitExchangeSpecification(Class<? extends Exchange> exchangeClass) {
     super(exchangeClass);
   }
