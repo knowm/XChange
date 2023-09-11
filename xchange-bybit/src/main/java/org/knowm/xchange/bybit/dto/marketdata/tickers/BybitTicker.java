@@ -1,4 +1,4 @@
-package org.knowm.xchange.bybit.dto.marketdata.ticker;
+package org.knowm.xchange.bybit.dto.marketdata.tickers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
@@ -26,12 +26,6 @@ public abstract class BybitTicker {
 
   @JsonProperty("ask1Size")
   BigDecimal ask1Size;
-
-  @JsonProperty("prevPrice24h")
-  BigDecimal prevPrice24h;
-
-  @JsonProperty("price24hPcnt")
-  BigDecimal price24hPcnt;
 
   @JsonProperty("highPrice24h")
   BigDecimal highPrice24h;

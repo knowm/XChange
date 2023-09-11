@@ -28,7 +28,7 @@ public interface BybitAuthenticated {
   /** @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/account/wallet-balance">API</a> */
   @GET
   @Path("/account/wallet-balance")
-  BybitResult<BybitWalletBalance> getWalletBalances(
+  BybitResult<BybitWalletBalance> getWalletBalance(
       @QueryParam("api_key") String apiKey,
       @QueryParam("accountType") BybitAccountType accountType,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
@@ -38,7 +38,7 @@ public interface BybitAuthenticated {
   /** @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/order/open-order">API</a> */
   @GET
   @Path("/order/realtime")
-  BybitResult<BybitOrderDetails> getOrder(
+  BybitResult<BybitOrderDetails> getOpenOrders(
       @QueryParam("api_key") String apiKey,
       @QueryParam("category") BybitCategory category,
       @QueryParam("orderId") String orderId,

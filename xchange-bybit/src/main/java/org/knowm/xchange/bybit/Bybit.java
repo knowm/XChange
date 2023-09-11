@@ -9,9 +9,9 @@ import java.io.IOException;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
-import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfos;
-import org.knowm.xchange.bybit.dto.marketdata.ticker.BybitTicker;
-import org.knowm.xchange.bybit.dto.marketdata.ticker.BybitTickers;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentsInfo;
+import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
+import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTickers;
 import org.knowm.xchange.bybit.service.BybitException;
 
 @Path("/v5/market")
@@ -28,6 +28,6 @@ public interface Bybit {
   /** @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/market/instrument">API</a> */
   @GET
   @Path("/instruments-info")
-  BybitResult<BybitInstrumentInfos<BybitInstrumentInfo>> getInstrumentsInfo(
+  BybitResult<BybitInstrumentsInfo<BybitInstrumentInfo>> getInstrumentsInfo(
       @QueryParam("category") BybitCategory category) throws IOException, BybitException;
 }

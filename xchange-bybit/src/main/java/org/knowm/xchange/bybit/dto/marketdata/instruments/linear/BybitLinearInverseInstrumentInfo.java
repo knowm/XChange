@@ -12,7 +12,7 @@ import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 @SuperBuilder
 @Jacksonized
 @Value
-public class BybitLinearInstrumentInfo extends BybitInstrumentInfo {
+public class BybitLinearInverseInstrumentInfo extends BybitInstrumentInfo {
 
   @JsonProperty("contractType")
   ContractType contractType;

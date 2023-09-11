@@ -2,7 +2,7 @@
   "retCode": 0,
   "retMsg": "OK",
   "result": {
-    "category": "spot",
+    "category": "inverse",
     "list": [
       {
         "symbol": "BTCUSD",

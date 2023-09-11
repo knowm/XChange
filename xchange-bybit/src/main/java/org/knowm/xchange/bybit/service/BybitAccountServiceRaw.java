@@ -17,7 +17,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
   public BybitResult<BybitWalletBalance> getWalletBalances(BybitAccountType accountType)
       throws IOException {
     BybitResult<BybitWalletBalance> walletBalances =
-        bybitAuthenticated.getWalletBalances(apiKey, accountType, nonceFactory, signatureCreator);
+        bybitAuthenticated.getWalletBalance(apiKey, accountType, nonceFactory, signatureCreator);
     if (!walletBalances.isSuccess()) {
       throw createBybitExceptionFromResult(walletBalances);
     }
