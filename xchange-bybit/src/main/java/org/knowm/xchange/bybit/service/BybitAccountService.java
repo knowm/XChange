@@ -11,10 +11,8 @@ import static org.knowm.xchange.bybit.BybitAdapters.adaptBybitBalances;
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
-import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRate;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountBalance;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
@@ -67,9 +65,5 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
     return accounts.stream()
         .map(bybitAccountBalance -> adaptBybitBalances(bybitAccountBalance.getCoin()))
         .collect(Collectors.toList());
-  }
-
-  public BybitFeeRate getFeeRate(BybitCategory category, String symbol) throws IOException {
-    return getFeeRates(category, symbol).getResult().getList().get(0);
   }
 }

@@ -1,14 +1,16 @@
 package org.knowm.xchange.bybit.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
 public enum BybitCategory {
-  @JsonProperty("spot")
-  SPOT,
-  @JsonProperty("linear")
-  LINEAR,
-  @JsonProperty("inverse")
-  INVERSE,
-  @JsonProperty("option")
-  OPTION
+  SPOT("spot"),
+  LINEAR("linear"),
+  INVERSE("inverse"),
+  OPTION("option");
+
+  @JsonValue private final String value;
 }

@@ -26,7 +26,8 @@ public class BybitTradeServiceRaw extends BybitBaseService {
   public BybitResult<BybitOrderDetails> getBybitOrder(BybitCategory category, String orderId)
       throws IOException {
     BybitResult<BybitOrderDetails> order =
-        bybitAuthenticated.getOpenOrders(apiKey, category, orderId, nonceFactory, signatureCreator);
+        bybitAuthenticated.getOpenOrders(
+            apiKey, category.getValue(), orderId, nonceFactory, signatureCreator);
     if (!order.isSuccess()) {
       throw createBybitExceptionFromResult(order);
     }
@@ -42,7 +43,14 @@ public class BybitTradeServiceRaw extends BybitBaseService {
       throws IOException {
     BybitResult<BybitOrderResponse> placeOrder =
         bybitAuthenticated.placeOrder(
-            apiKey, category, symbol, side, orderType, qty, nonceFactory, signatureCreator);
+            apiKey,
+            category.getValue(),
+            symbol,
+            side.getValue(),
+            orderType.getValue(),
+            qty.longValue(),
+            nonceFactory,
+            signatureCreator);
     if (!placeOrder.isSuccess()) {
       throw createBybitExceptionFromResult(placeOrder);
     }
