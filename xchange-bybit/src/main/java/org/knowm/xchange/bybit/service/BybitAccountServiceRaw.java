@@ -20,7 +20,8 @@ public class BybitAccountServiceRaw extends BybitBaseService {
   public BybitResult<BybitWalletBalance> getWalletBalances(BybitAccountType accountType)
       throws IOException {
     BybitResult<BybitWalletBalance> walletBalances =
-        bybitAuthenticated.getWalletBalance(apiKey, accountType, nonceFactory, signatureCreator);
+        bybitAuthenticated.getWalletBalance(
+            apiKey, accountType.name(), nonceFactory, signatureCreator);
     if (!walletBalances.isSuccess()) {
       throw createBybitExceptionFromResult(walletBalances);
     }
@@ -30,7 +31,8 @@ public class BybitAccountServiceRaw extends BybitBaseService {
   public BybitResult<BybitAllCoinsBalance> getAllCoinsBalance(BybitAccountType accountType)
       throws IOException {
     BybitResult<BybitAllCoinsBalance> allCoinsBalance =
-        bybitAuthenticated.getAllCoinsBalance(apiKey, accountType, nonceFactory, signatureCreator);
+        bybitAuthenticated.getAllCoinsBalance(
+            apiKey, accountType.name(), nonceFactory, signatureCreator);
     if (!allCoinsBalance.isSuccess()) {
       throw createBybitExceptionFromResult(allCoinsBalance);
     }
@@ -40,7 +42,8 @@ public class BybitAccountServiceRaw extends BybitBaseService {
   public BybitResult<BybitFeeRates> getFeeRates(BybitCategory category, String symbol)
       throws IOException {
     BybitResult<BybitFeeRates> bybitFeeRatesResult =
-        bybitAuthenticated.getFeeRates(apiKey, category, symbol, nonceFactory, signatureCreator);
+        bybitAuthenticated.getFeeRates(
+            apiKey, category.getValue(), symbol, nonceFactory, signatureCreator);
     if (!bybitFeeRatesResult.isSuccess()) {
       throw createBybitExceptionFromResult(bybitFeeRatesResult);
     }

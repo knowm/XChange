@@ -14,7 +14,7 @@ public class BybitExchangeTest extends BaseWiremockTest {
   public void testSymbolLoading() throws IOException {
     Exchange bybitExchange = createExchange();
 
-    initGetStub("/v5/market/instruments-info", "/getInstrumentLinear.json5");
+    initGetStub("/v5/market/instruments-info", "/getInstrumentSpot.json5");
     initGetStub("/v5/account/fee-rate", "/getFeeRates.json5");
 
     ExchangeSpecification specification = bybitExchange.getExchangeSpecification();

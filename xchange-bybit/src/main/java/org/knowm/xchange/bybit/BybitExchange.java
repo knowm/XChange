@@ -7,7 +7,7 @@ import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentsInfo;
-import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInverseInstrumentInfo;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.spot.BybitSpotInstrumentInfo;
 import org.knowm.xchange.bybit.mappers.MarketDataMapper;
 import org.knowm.xchange.bybit.service.BybitAccountService;
 import org.knowm.xchange.bybit.service.BybitMarketDataService;
@@ -44,7 +44,7 @@ public class BybitExchange extends BaseExchange {
     // initialize currency pairs
     BybitInstrumentsInfo<BybitInstrumentInfo> instrumentInfos =
         ((BybitMarketDataServiceRaw) marketDataService)
-            .getInstrumentsInfo(BybitCategory.LINEAR)
+            .getInstrumentsInfo(BybitCategory.SPOT)
             .getResult();
 
     for (BybitInstrumentInfo instrumentInfo : instrumentInfos.getList()) {
@@ -53,8 +53,7 @@ public class BybitExchange extends BaseExchange {
           .put(
               MarketDataMapper.symbolToCurrencyPair(instrumentInfo),
               MarketDataMapper.symbolToCurrencyPairMetaData(
-                  (BybitLinearInverseInstrumentInfo) instrumentInfo,
-                  (BybitAccountService) accountService));
+                  (BybitSpotInstrumentInfo) instrumentInfo));
     }
   }
 }

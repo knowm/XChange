@@ -18,7 +18,7 @@ public class BybitMarketDataServiceRaw extends BybitBaseService {
 
   public BybitResult<BybitTickers<BybitTicker>> getTicker24h(BybitCategory category, String symbol)
       throws IOException {
-    BybitResult<BybitTickers<BybitTicker>> result = bybit.getTicker24h(category, symbol);
+    BybitResult<BybitTickers<BybitTicker>> result = bybit.getTicker24h(category.getValue(), symbol);
 
     if (!result.isSuccess()) {
       throw BybitAdapters.createBybitExceptionFromResult(result);
@@ -29,7 +29,7 @@ public class BybitMarketDataServiceRaw extends BybitBaseService {
   public BybitResult<BybitInstrumentsInfo<BybitInstrumentInfo>> getInstrumentsInfo(
       BybitCategory category) throws IOException {
     BybitResult<BybitInstrumentsInfo<BybitInstrumentInfo>> result =
-        bybit.getInstrumentsInfo(category);
+        bybit.getInstrumentsInfo(category.getValue());
 
     if (!result.isSuccess()) {
       throw BybitAdapters.createBybitExceptionFromResult(result);
