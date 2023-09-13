@@ -7,10 +7,11 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.trade.BybitOrderDetails;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
 import org.knowm.xchange.bybit.dto.trade.BybitSide;
+import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
+import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
 
 public class BybitTradeServiceRaw extends BybitBaseService {
 
@@ -18,11 +19,11 @@ public class BybitTradeServiceRaw extends BybitBaseService {
     super(exchange);
   }
 
-  public BybitResult<BybitOrderDetails> getBybitOrder(BybitCategory category, String orderId)
-      throws IOException {
-    BybitResult<BybitOrderDetails> order =
+  public BybitResult<BybitOrderDetails<BybitOrderDetail>> getBybitOrder(
+      BybitCategory category, String orderId) throws IOException {
+    BybitResult<BybitOrderDetails<BybitOrderDetail>> order =
         bybitAuthenticated.getOpenOrders(
-            apiKey, category.getValue(), orderId, nonceFactory, signatureCreator);
+            apiKey, signatureCreator, nonceFactory, category.getValue(), orderId);
     if (!order.isSuccess()) {
       throw createBybitExceptionFromResult(order);
     }
@@ -39,13 +40,13 @@ public class BybitTradeServiceRaw extends BybitBaseService {
     BybitResult<BybitOrderResponse> placeOrder =
         bybitAuthenticated.placeOrder(
             apiKey,
+            signatureCreator,
+            nonceFactory,
             category.getValue(),
             symbol,
             side.getValue(),
             orderType.getValue(),
-            qty.longValue(),
-            nonceFactory,
-            signatureCreator);
+            qty.longValue());
     if (!placeOrder.isSuccess()) {
       throw createBybitExceptionFromResult(placeOrder);
     }

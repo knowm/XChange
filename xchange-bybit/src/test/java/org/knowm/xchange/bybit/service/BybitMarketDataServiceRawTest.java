@@ -2,6 +2,7 @@ package org.knowm.xchange.bybit.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.junit.Before;
@@ -31,6 +32,14 @@ public class BybitMarketDataServiceRawTest extends BaseWiremockTest {
   public void setUp() throws Exception {
     Exchange bybitExchange = createExchange();
     marketDataServiceRaw = (BybitMarketDataServiceRaw) bybitExchange.getMarketDataService();
+  }
+
+  private void initTickerStub(String responseBody) throws IOException {
+    initGetStub("/v5/market/tickers", responseBody);
+  }
+
+  private void initInstrumentsInfoStub(String responseBody) throws IOException {
+    initGetStub("/v5/market/instruments-info", responseBody);
   }
 
   @Test

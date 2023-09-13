@@ -1,19 +1,18 @@
-package org.knowm.xchange.bybit.dto.trade;
+package org.knowm.xchange.bybit.dto.trade.details.linear;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-import lombok.Builder;
 import lombok.Value;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
+import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 
-@Builder
+@SuperBuilder
 @Jacksonized
 @Value
-public class BybitOrderDetail {
-
-  @JsonProperty("orderId")
-  String orderId;
+public class BybitLinearOrderDetail extends BybitOrderDetail {
 
   @JsonProperty("orderLinkId")
   String orderLinkId;
@@ -21,26 +20,11 @@ public class BybitOrderDetail {
   @JsonProperty("blockTradeId")
   String blockTradeId;
 
-  @JsonProperty("symbol")
-  String symbol;
-
-  @JsonProperty("price")
-  BigDecimal price;
-
-  @JsonProperty("qty")
-  BigDecimal qty;
-
-  @JsonProperty("side")
-  BybitSide side;
-
   @JsonProperty("isLeverage")
-  boolean isLeverage;
+  String isLeverage;
 
   @JsonProperty("positionIdx")
   int positionIdx;
-
-  @JsonProperty("orderStatus")
-  BybitOrderStatus orderStatus;
 
   @JsonProperty("cancelType")
   String cancelType;
@@ -48,17 +32,11 @@ public class BybitOrderDetail {
   @JsonProperty("rejectReason")
   String rejectReason;
 
-  @JsonProperty("avgPrice")
-  BigDecimal avgPrice;
-
   @JsonProperty("leavesQty")
   BigDecimal leavesQty;
 
   @JsonProperty("leavesValue")
   BigDecimal leavesValue;
-
-  @JsonProperty("cumExecQty")
-  BigDecimal cumExecQty;
 
   @JsonProperty("cumExecValue")
   BigDecimal cumExecValue;
@@ -128,9 +106,6 @@ public class BybitOrderDetail {
 
   @JsonProperty("placeType")
   String placeType;
-
-  @JsonProperty("createdTime")
-  Date createdTime;
 
   @JsonProperty("updatedTime")
   Date updatedTime;
