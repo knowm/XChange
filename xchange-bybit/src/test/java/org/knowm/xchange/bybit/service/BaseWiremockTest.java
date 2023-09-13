@@ -36,14 +36,6 @@ public class BaseWiremockTest {
     return exchange;
   }
 
-  protected void initInstrumentsInfoStub(String responseBody) throws IOException {
-    initGetStub("/v5/market/instruments-info", responseBody);
-  }
-
-  protected void initTickerStub(String responseBody) throws IOException {
-    initGetStub("/v5/market/tickers", responseBody);
-  }
-
   protected void initGetStub(String url, String responseBody) throws IOException {
     stubFor(
         get(urlPathEqualTo(url))

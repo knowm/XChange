@@ -25,7 +25,7 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
 
   @Test
   public void testGetTickerWithInverseArg() throws Exception {
-    initTickerStub("/getTickerInverse.json5");
+    initGetStub("/v5/market/tickers", "/getTickerInverse.json5");
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD, BybitCategory.INVERSE);
 
@@ -47,7 +47,7 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
 
   @Test
   public void testGetTickerWithSpotArg() throws Exception {
-    initTickerStub("/getTickerSpot.json5");
+    initGetStub("/v5/market/tickers", "/getTickerSpot.json5");
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD, BybitCategory.SPOT);
 
