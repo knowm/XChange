@@ -46,7 +46,7 @@ public class BybitTradeServiceRaw extends BybitBaseService {
             symbol,
             side.getValue(),
             orderType.getValue(),
-            qty.longValue());
+            qty);
     if (!placeOrder.isSuccess()) {
       throw createBybitExceptionFromResult(placeOrder);
     }
