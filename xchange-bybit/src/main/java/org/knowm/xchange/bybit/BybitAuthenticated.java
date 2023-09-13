@@ -18,6 +18,7 @@ import org.knowm.xchange.bybit.dto.BybitCategory;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
 import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
@@ -86,6 +87,6 @@ public interface BybitAuthenticated {
       @FormParam("symbol") String symbol,
       @FormParam("side") String side,
       @FormParam("orderType") String orderType,
-      @FormParam("qty") long qty)
+      @FormParam("qty") BigDecimal qty)
       throws IOException, BybitException;
 }

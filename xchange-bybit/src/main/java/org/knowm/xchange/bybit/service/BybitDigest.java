@@ -2,8 +2,6 @@ package org.knowm.xchange.bybit.service;
 
 import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.QueryParam;
@@ -23,6 +21,7 @@ public class BybitDigest extends BaseParamsDigest {
   public static final String X_BAPI_API_KEY = "X-BAPI-API-KEY";
   public static final String X_BAPI_SIGN = "X-BAPI-SIGN";
   public static final String X_BAPI_TIMESTAMP = "X-BAPI-TIMESTAMP";
+  public static final String X_BAPI_RECV_WINDOW = "X-BAPI-RECV-WINDOW";
 
   public BybitDigest(String secretKeyBase64) {
     super(secretKeyBase64, HMAC_SHA_256);
@@ -41,7 +40,11 @@ public class BybitDigest extends BaseParamsDigest {
 
     // timestamp + API key + (recv_window) + (queryString | jsonBodyString)
     String plainText = getPlainText(restInvocation, sortedParams);
-    String input = headers.get(X_BAPI_TIMESTAMP) + headers.get(X_BAPI_API_KEY) + plainText;
+    String input =
+        headers.get(X_BAPI_TIMESTAMP)
+            + headers.get(X_BAPI_API_KEY)
+            + headers.getOrDefault(X_BAPI_RECV_WINDOW, "")
+            + plainText;
 
     Mac mac = getMac();
     mac.update(input.getBytes(StandardCharsets.UTF_8));
@@ -49,15 +52,14 @@ public class BybitDigest extends BaseParamsDigest {
   }
 
   private static String getPlainText(
-      RestInvocation restInvocation, Map<String, String> sortedParams)
-      throws JsonProcessingException {
+      RestInvocation restInvocation, Map<String, String> sortedParams) {
     if ("GET".equals(restInvocation.getHttpMethod())) {
       Params p = Params.of();
       sortedParams.forEach(p::add);
       return p.asQueryString();
     }
     if ("POST".equals(restInvocation.getHttpMethod())) {
-      return new ObjectMapper().writeValueAsString(sortedParams);
+      return restInvocation.getRequestBody();
     }
     throw new NotYetImplementedForExchangeException(
         "Only GET and POST are supported for plain text");
