@@ -7,6 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.kucoin.dto.KucoinException;
 import org.knowm.xchange.kucoin.dto.response.HistOrdersResponse;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.Pagination;
@@ -43,5 +44,5 @@ public interface HistOrdersAPI {
       @QueryParam("endAt") Long endAt,
       @QueryParam("pageSize") Integer pageSize,
       @QueryParam("currentPage") Integer currentPage)
-      throws IOException;
+      throws IOException, KucoinException;
 }

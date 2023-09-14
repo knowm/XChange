@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.kucoin.dto.KucoinException;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderCancelResponse;
@@ -49,7 +50,7 @@ public interface OrderAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       OrderCreateApiRequest opsRequest)
-      throws IOException;
+      throws IOException, KucoinException;
 
   /**
    * Cancel an order
@@ -68,7 +69,7 @@ public interface OrderAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       @PathParam("orderId") String orderId)
-      throws IOException;
+      throws IOException, KucoinException;
 
   /**
    * With best effort, cancel all open orders. The response is a list of ids of the canceled orders.
@@ -84,7 +85,7 @@ public interface OrderAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       @QueryParam("symbol") String symbol)
-      throws IOException;
+      throws IOException, KucoinException;
 
   /**
    * Get a single order by order id.
@@ -101,7 +102,7 @@ public interface OrderAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       @PathParam("orderId") String orderId)
-      throws IOException;
+      throws IOException, KucoinException;
 
   /**
    * List your current orders.
@@ -134,5 +135,5 @@ public interface OrderAPI {
       @QueryParam("endAt") Long endAt,
       @QueryParam("pageSize") Integer pageSize,
       @QueryParam("currentPage") Integer currentPage)
-      throws IOException;
+      throws IOException, KucoinException;
 }

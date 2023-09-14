@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.kucoin.dto.KucoinException;
 import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
 import org.knowm.xchange.kucoin.dto.response.CurrenciesResponse;
 import org.knowm.xchange.kucoin.dto.response.CurrencyResponseV2;
@@ -33,7 +34,7 @@ public interface SymbolAPI {
   @GET
   @Path("/v1/symbols")
   @Deprecated
-  KucoinResponse<List<SymbolResponse>> getSymbols() throws IOException;
+  KucoinResponse<List<SymbolResponse>> getSymbols() throws IOException, KucoinException;
 
   /**
    * Get a list of available currency pairs for trading.
@@ -42,7 +43,7 @@ public interface SymbolAPI {
    */
   @GET
   @Path("/v2/symbols")
-  KucoinResponse<List<SymbolResponse>> getSymbolsV2() throws IOException;
+  KucoinResponse<List<SymbolResponse>> getSymbolsV2() throws IOException, KucoinException;
 
   /**
    * Get a list of available currencies for trading.
@@ -51,7 +52,7 @@ public interface SymbolAPI {
    */
   @GET
   @Path("/v1/currencies")
-  KucoinResponse<List<CurrenciesResponse>> getCurrencies() throws IOException;
+  KucoinResponse<List<CurrenciesResponse>> getCurrencies() throws IOException, KucoinException;
 
   /**
    * Get currency detail.
@@ -60,7 +61,7 @@ public interface SymbolAPI {
    */
   @GET
   @Path("/v2/currencies/{currency}")
-  KucoinResponse<CurrencyResponseV2> getCurrencies(@PathParam("currency") String currency) throws IOException;
+  KucoinResponse<CurrencyResponseV2> getCurrencies(@PathParam("currency") String currency) throws IOException, KucoinException;
 
   /**
    * Get the fiat price of the currencies for the available trading pairs.
@@ -69,7 +70,7 @@ public interface SymbolAPI {
    */
   @GET
   @Path("/v1/prices")
-  KucoinResponse<Map<String, BigDecimal>> getPrices() throws IOException;
+  KucoinResponse<Map<String, BigDecimal>> getPrices() throws IOException, KucoinException;
 
   /**
    * Ticker include only the inside (i.e. best) bid and ask data , last price and last trade size.
@@ -79,7 +80,7 @@ public interface SymbolAPI {
    */
   @GET
   @Path("/v1/market/orderbook/level1")
-  KucoinResponse<TickerResponse> getTicker(@QueryParam("symbol") String symbol) throws IOException;
+  KucoinResponse<TickerResponse> getTicker(@QueryParam("symbol") String symbol) throws IOException, KucoinException;
 
   /**
    * Request market tickers for all the trading pairs in the market (including 24h volume).
@@ -88,7 +89,7 @@ public interface SymbolAPI {
    */
   @GET
   @Path("/v1/market/allTickers")
-  KucoinResponse<AllTickersResponse> getTickers() throws IOException;
+  KucoinResponse<AllTickersResponse> getTickers() throws IOException, KucoinException;
 
   /**
    * Get 24 hr stats for the symbol. volume is in base currency units. open, high, low are in quote
@@ -100,5 +101,5 @@ public interface SymbolAPI {
   @GET
   @Path("/v1/market/stats")
   KucoinResponse<SymbolTickResponse> getMarketStats(@QueryParam("symbol") String symbol)
-      throws IOException;
+      throws IOException, KucoinException;
 }

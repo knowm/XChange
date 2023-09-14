@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.kucoin.dto.KucoinException;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.TradeFeeResponse;
 import si.mazi.rescu.ParamsDigest;
@@ -30,7 +31,7 @@ public interface TradingFeeAPI {
       @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion)
-      throws IOException;
+      throws IOException, KucoinException;
 
   @GET
   @Path("/trade-fees")
@@ -41,5 +42,5 @@ public interface TradingFeeAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       @QueryParam("symbols") String symbols)
-      throws IOException;
+      throws IOException, KucoinException;
 }

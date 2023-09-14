@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.kucoin.dto.KucoinException;
 import org.knowm.xchange.kucoin.dto.request.ApplyWithdrawApiRequest;
 import org.knowm.xchange.kucoin.dto.response.ApplyWithdrawResponse;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
@@ -36,7 +37,7 @@ public interface WithdrawalAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       ApplyWithdrawApiRequest req)
-      throws IOException;
+      throws IOException, KucoinException;
 
   /**
    * Get Withdrawals List.
@@ -65,5 +66,5 @@ public interface WithdrawalAPI {
       @QueryParam("endAt") Long endAt,
       @QueryParam("pageSize") Integer pageSize,
       @QueryParam("currentPage") Integer currentPage)
-      throws IOException;
+      throws IOException, KucoinException;
 }

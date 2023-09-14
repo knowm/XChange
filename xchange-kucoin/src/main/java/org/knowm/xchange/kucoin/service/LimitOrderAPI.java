@@ -7,6 +7,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.kucoin.dto.KucoinException;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderResponse;
 import si.mazi.rescu.ParamsDigest;
@@ -23,5 +24,5 @@ public interface LimitOrderAPI {
       @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion)
-      throws IOException;
+      throws IOException, KucoinException;
 }

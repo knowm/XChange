@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.kucoin.dto.KucoinException;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
 import si.mazi.rescu.ParamsDigest;
@@ -32,7 +33,7 @@ public interface OrderBookAPI {
   @GET
   @Path("v1/market/orderbook/level2_20")
   KucoinResponse<OrderBookResponse> getPartOrderBookShallowAggregated(
-      @QueryParam("symbol") String symbol) throws IOException;
+      @QueryParam("symbol") String symbol) throws IOException, KucoinException;
 
   /**
    * Get a list of open orders for a symbol. Level-2 order book includes all bids and asks
@@ -48,7 +49,7 @@ public interface OrderBookAPI {
   @GET
   @Path("v1/market/orderbook/level2_100")
   KucoinResponse<OrderBookResponse> getPartOrderBookAggregated(@QueryParam("symbol") String symbol)
-      throws IOException;
+      throws IOException, KucoinException;
 
   /**
    * Get a list of open orders for a symbol. Level-2 order book includes all bids and asks
@@ -70,7 +71,7 @@ public interface OrderBookAPI {
       @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion)
-      throws IOException;
+      throws IOException, KucoinException;
 
   /**
    * Get a list of open orders for a symbol. Level-3 order book includes all bids and asks
@@ -85,5 +86,5 @@ public interface OrderBookAPI {
   @GET
   @Path("v2/market/orderbook/level3")
   KucoinResponse<OrderBookResponse> getFullOrderBookAtomic(@QueryParam("symbol") String symbol)
-      throws IOException;
+      throws IOException, KucoinException;
 }

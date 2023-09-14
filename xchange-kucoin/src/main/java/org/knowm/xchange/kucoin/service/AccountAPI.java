@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.kucoin.dto.KucoinException;
 import org.knowm.xchange.kucoin.dto.request.CreateAccountRequest;
 import org.knowm.xchange.kucoin.dto.request.InnerTransferRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
@@ -49,7 +50,7 @@ public interface AccountAPI {
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       @QueryParam("currency") String currency,
       @QueryParam("type") String type)
-      throws IOException;
+      throws IOException, KucoinException;
 
   @POST
   @Path("v1/accounts")
@@ -61,7 +62,7 @@ public interface AccountAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       CreateAccountRequest req)
-      throws IOException;
+      throws IOException, KucoinException;
 
   @POST
   @Path("v2/accounts/inner-transfer")
@@ -73,7 +74,7 @@ public interface AccountAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       InnerTransferRequest req)
-      throws IOException;
+      throws IOException, KucoinException;
 
   @GET
   @Path("v1/accounts/{accountId}/ledgers")
@@ -88,7 +89,7 @@ public interface AccountAPI {
       @QueryParam("endAt") Long endAt,
       @QueryParam("pageSize") Integer pageSize,
       @QueryParam("currentPage") Integer currentPage)
-      throws IOException;
+      throws IOException, KucoinException;
 
   @GET
   @Path("v1/accounts/ledgers")
@@ -105,7 +106,7 @@ public interface AccountAPI {
       @QueryParam("endAt") Long endAt,
       @QueryParam("pageSize") Integer pageSize,
       @QueryParam("currentPage") Integer currentPage)
-      throws IOException;
+      throws IOException, KucoinException;
 
   @GET
   @Path("v1/accounts/{accountId}")
@@ -116,5 +117,5 @@ public interface AccountAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @HeaderParam(APIConstants.API_HEADER_KEY_VERSION) String apiKeyVersion,
       @PathParam("accountId") String accountId)
-      throws IOException;
+      throws IOException, KucoinException;
 }
