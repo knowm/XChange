@@ -14,6 +14,8 @@ public class KucoinResilience {
 
   public static final String PRIVATE_REST_ENDPOINT_RATE_LIMITER = "privateEndpointLimit";
 
+  public static final String CANCEL_ALL_ORDERS_RATE_LIMITER = "cancelAllOrdersLimit";
+
   public static ResilienceRegistries createRegistries() {
     final ResilienceRegistries registries = new ResilienceRegistries();
 
@@ -35,6 +37,19 @@ public class KucoinResilience {
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .limitRefreshPeriod(Duration.ofSeconds(3))
                 .limitForPeriod(30)
+                .drainPermissionsOnResult(
+                    e -> ResilienceUtils.matchesHttpCode(e, TOO_MANY_REQUESTS))
+                .build());
+
+    // see https://docs.kucoin.com/#cancel-all-orders
+    // This API is restricted for each account, the request rate limit is 3 times/3s.
+    registries
+        .rateLimiters()
+        .rateLimiter(
+            CANCEL_ALL_ORDERS_RATE_LIMITER,
+            RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
+                .limitRefreshPeriod(Duration.ofSeconds(3))
+                .limitForPeriod(3)
                 .drainPermissionsOnResult(
                     e -> ResilienceUtils.matchesHttpCode(e, TOO_MANY_REQUESTS))
                 .build());

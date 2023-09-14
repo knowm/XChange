@@ -1,6 +1,8 @@
 package org.knowm.xchange.kucoin;
 
 import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExceptions;
+import static org.knowm.xchange.kucoin.KucoinResilience.CANCEL_ALL_ORDERS_RATE_LIMITER;
+import static org.knowm.xchange.kucoin.KucoinResilience.PRIVATE_REST_ENDPOINT_RATE_LIMITER;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,27 +36,42 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
       String symbol, String status, int page, int pageSize) throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
-        () ->
-            orderApi.queryOrders(
-                apiKey,
-                digest,
-                nonceFactory,
-                passphrase,
-                apiKeyVersion,
-                symbol,
-                null,
-                null,
-                status,
-                null,
-                null,
-                pageSize,
-                page));
+        () -> decorateApiCall(() -> orderApi.queryOrders(
+            apiKey,
+            digest,
+            nonceFactory,
+            passphrase,
+            apiKeyVersion,
+            symbol,
+            null,
+            null,
+            status,
+            null,
+            null,
+            pageSize,
+            page))
+            .withRetry(retry("getKucoinOrders"))
+            .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+            .call());
   }
 
   public OrderResponse getKucoinOrder(String id) throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
-        () -> orderApi.getOrder(apiKey, digest, nonceFactory, passphrase, apiKeyVersion, id));
+        () ->
+            decorateApiCall(
+                () ->
+                    orderApi.getOrder(
+                        apiKey,
+                        digest,
+                        nonceFactory,
+                        passphrase,
+                        apiKeyVersion,
+                        id))
+                .withRetry(retry("getKucoinOrder"))
+                .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+                .call()
+    );
   }
 
   public Pagination<TradeResponse> getKucoinFills(
@@ -63,65 +80,121 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
     checkAuthenticated();
     return classifyingExceptions(
         () ->
-            fillApi.queryTrades(
-                apiKey,
-                digest,
-                nonceFactory,
-                passphrase,
-                apiKeyVersion,
-                symbol,
-                orderId,
-                null,
-                null,
-                startAt,
-                endAt,
-                pageSize,
-                page));
+            decorateApiCall(
+                () ->
+                    fillApi.queryTrades(
+                        apiKey,
+                        digest,
+                        nonceFactory,
+                        passphrase,
+                        apiKeyVersion,
+                        symbol,
+                        orderId,
+                        null,
+                        null,
+                        startAt,
+                        endAt,
+                        pageSize,
+                        page))
+                .withRetry(retry("getKucoinFills"))
+                .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+                .call()
+    );
   }
 
   public Pagination<HistOrdersResponse> getKucoinHistOrders(
       String symbol, int page, int pageSize, Long startAt, Long endAt) throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
-        () ->
-            histOrdersApi.queryHistOrders(
-                apiKey,
-                digest,
-                nonceFactory,
-                passphrase,
-                apiKeyVersion,
-                symbol,
-                null,
-                startAt,
-                endAt,
-                pageSize,
-                page));
+        () -> decorateApiCall(
+            () ->
+                histOrdersApi.queryHistOrders(
+                    apiKey,
+                    digest,
+                    nonceFactory,
+                    passphrase,
+                    apiKeyVersion,
+                    symbol,
+                    null,
+                    startAt,
+                    endAt,
+                    pageSize,
+                    page))
+            .withRetry(retry("getKucoinHistOrders"))
+            .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+            .call()
+    );
   }
 
   public OrderCancelResponse kucoinCancelAllOrders(String symbol) throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
-        () -> orderApi.cancelOrders(apiKey, digest, nonceFactory, passphrase, apiKeyVersion, symbol));
+        () -> decorateApiCall(
+            () ->
+                orderApi.cancelOrders(
+                    apiKey,
+                    digest,
+                    nonceFactory,
+                    passphrase,
+                    apiKeyVersion,
+                    symbol))
+            .withRetry(retry("kucoinCancelAllOrders"))
+            .withRateLimiter(rateLimiter(CANCEL_ALL_ORDERS_RATE_LIMITER))
+            .call()
+    );
   }
 
   public OrderCancelResponse kucoinCancelOrder(String orderId) throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
-        () -> orderApi.cancelOrder(apiKey, digest, nonceFactory, passphrase, apiKeyVersion, orderId));
+        () -> decorateApiCall(
+            () ->
+                orderApi.cancelOrder(
+                    apiKey,
+                    digest,
+                    nonceFactory,
+                    passphrase,
+                    apiKeyVersion,
+                    orderId))
+            .withRetry(retry("kucoinCancelOrder"))
+            .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+            .call()
+    );
   }
 
   public OrderCreateResponse kucoinCreateOrder(OrderCreateApiRequest opsRequest)
       throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
-        () -> orderApi.createOrder(apiKey, digest, nonceFactory, passphrase, apiKeyVersion, opsRequest));
+        () -> decorateApiCall(
+            () ->
+                orderApi.createOrder(
+                    apiKey,
+                    digest,
+                    nonceFactory,
+                    passphrase,
+                    apiKeyVersion,
+                    opsRequest))
+            .withRetry(retry("kucoinCreateOrder"))
+            .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+            .call()
+    );
   }
 
   public List<OrderResponse> getKucoinRecentOrders() throws IOException {
     this.checkAuthenticated();
     return classifyingExceptions(
-        () ->
-            limitOrderAPI.getRecentOrders(
-                this.apiKey, this.digest, this.nonceFactory, this.passphrase, this.apiKeyVersion));
+        () -> decorateApiCall(
+            () ->
+                limitOrderAPI.getRecentOrders(
+                    this.apiKey,
+                    this.digest,
+                    this.nonceFactory,
+                    this.passphrase,
+                    this.apiKeyVersion))
+            .withRetry(retry("getKucoinRecentOrders"))
+            .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+            .call()
+    );
   }
 }
