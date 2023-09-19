@@ -26,9 +26,11 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.TransferRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.account.params.TransferHistoryParam;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -269,6 +271,19 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
     }
 
     return fundingHistory;
+  }
+
+  @Override
+  public List<TransferRecord> getTransferHistory(TransferHistoryParam params) throws IOException {
+    //TODO
+    return AccountService.super.getTransferHistory(params);
+  }
+
+  @Override
+  public List<TransferRecord> getInternalTransferHistory(TransferHistoryParam params)
+      throws IOException {
+    //TODO
+    return AccountService.super.getInternalTransferHistory(params);
   }
 
   public static class CoinbaseProMoveFundsParams implements WithdrawFundsParams {

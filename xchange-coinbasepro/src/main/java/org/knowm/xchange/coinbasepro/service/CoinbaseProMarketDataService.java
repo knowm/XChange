@@ -133,12 +133,14 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
     throw new IllegalArgumentException("Invalid arguments passed to getTrades");
   }
 
+  @Override
   public List<Currency> getCurrencies() throws IOException {
     return Arrays.stream(getCoinbaseProCurrencies())
         .map(CoinbaseProAdapters::adaptCurrency)
         .collect(toList());
   }
 
+  @Override
   public List<Instrument> getInstruments() throws IOException {
     return Arrays.stream(getCoinbaseProProducts())
         .map(CoinbaseProAdapters::adaptCurrencyPair)
