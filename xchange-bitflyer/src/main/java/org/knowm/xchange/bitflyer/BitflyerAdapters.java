@@ -121,29 +121,29 @@ public class BitflyerAdapters {
 
   public static FundingRecord adaptFundingRecord(
       BitflyerCoinHistory history, FundingRecord.Type type) {
-    return new FundingRecord.Builder()
-        .setDate(BitflyerUtils.parseDate(history.getEventDate()))
-        .setCurrency(new Currency(history.getCurrencyCode()))
-        .setAmount(history.getAmount())
-        .setAddress(history.getAddress())
-        .setInternalId(history.getID())
-        .setType(type)
-        .setStatus(adaptStatus(history.getStatus()))
-        .setBalance(history.getAmount())
-        .setFee(add(history.getFee(), history.getAdditionalFee()))
+    return FundingRecord.builder()
+        .date(BitflyerUtils.parseDate(history.getEventDate()))
+        .currency(new Currency(history.getCurrencyCode()))
+        .amount(history.getAmount())
+        .address(history.getAddress())
+        .internalId(history.getID())
+        .type(type)
+        .status(adaptStatus(history.getStatus()))
+        .balance(history.getAmount())
+        .fee(add(history.getFee(), history.getAdditionalFee()))
         .build();
   }
 
   public static FundingRecord adaptFundingRecord(
       BitflyerDepositOrWithdrawal history, FundingRecord.Type type) {
-    return new FundingRecord.Builder()
-        .setDate(BitflyerUtils.parseDate(history.getEventDate()))
-        .setCurrency(new Currency(history.getCurrencyCode()))
-        .setAmount(history.getAmount())
-        .setInternalId(history.getID())
-        .setType(type)
-        .setStatus(adaptStatus(history.getStatus()))
-        .setBalance(history.getAmount())
+    return FundingRecord.builder()
+        .date(BitflyerUtils.parseDate(history.getEventDate()))
+        .currency(new Currency(history.getCurrencyCode()))
+        .amount(history.getAmount())
+        .internalId(history.getID())
+        .type(type)
+        .status(adaptStatus(history.getStatus()))
+        .balance(history.getAmount())
         .build();
   }
 

@@ -320,17 +320,17 @@ public class HitbtcAdapters {
       description += ", paymentId: " + transaction.getPaymentId();
     }
 
-    return new FundingRecord.Builder()
-        .setAddress(transaction.getAddress())
-        .setCurrency(Currency.getInstance(transaction.getCurrency()))
-        .setAmount(transaction.getAmount())
-        .setType(convertType(transaction.getType()))
-        .setFee(transaction.getFee())
-        .setDescription(description)
-        .setStatus(convertStatus(transaction.getStatus()))
-        .setInternalId(transaction.getId())
-        .setBlockchainTransactionHash(transaction.getHash())
-        .setDate(transaction.getCreatedAt())
+    return FundingRecord.builder()
+        .address(transaction.getAddress())
+        .currency(Currency.getInstance(transaction.getCurrency()))
+        .amount(transaction.getAmount())
+        .type(convertType(transaction.getType()))
+        .fee(transaction.getFee())
+        .description(description)
+        .status(convertStatus(transaction.getStatus()))
+        .internalId(transaction.getId())
+        .blockchainTransactionHash(transaction.getHash())
+        .date(transaction.getCreatedAt())
         .build();
   }
 

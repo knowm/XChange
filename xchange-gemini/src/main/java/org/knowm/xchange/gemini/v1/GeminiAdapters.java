@@ -491,16 +491,16 @@ public final class GeminiAdapters {
             ? FundingRecord.Type.WITHDRAWAL
             : FundingRecord.Type.DEPOSIT;
 
-    return new FundingRecord.Builder()
-        .setStatus(status)
-        .setType(type)
-        .setInternalId(transfer.eid)
-        .setAddress(transfer.destination)
-        .setCurrency(Currency.getInstance(transfer.currency))
-        .setDate(DateUtils.fromMillisUtc(transfer.timestamp))
-        .setAmount(transfer.amount)
-        .setBlockchainTransactionHash(transfer.txnHash)
-        .setDescription(description)
+    return FundingRecord.builder()
+        .status(status)
+        .type(type)
+        .internalId(transfer.eid)
+        .address(transfer.destination)
+        .currency(Currency.getInstance(transfer.currency))
+        .date(DateUtils.fromMillisUtc(transfer.timestamp))
+        .amount(transfer.amount)
+        .blockchainTransactionHash(transfer.txnHash)
+        .description(description)
         .build();
   }
 
