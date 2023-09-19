@@ -101,15 +101,15 @@ public class OkexAdaptersV3 {
   }
 
   public static FundingRecord adaptFundingRecord(OkexWithdrawalRecord r) {
-    return new FundingRecord.Builder()
-        .setAddress(r.getTo())
-        .setAmount(r.getAmount())
-        .setCurrency(Currency.getInstance(r.getCurrency()))
-        .setDate(r.getTimestamp())
-        .setInternalId(r.getWithdrawalId())
-        .setStatus(convertWithdrawalStatus(r.getStatus()))
-        .setBlockchainTransactionHash(r.getTxid())
-        .setType(Type.WITHDRAWAL)
+    return FundingRecord.builder()
+        .address(r.getTo())
+        .amount(r.getAmount())
+        .currency(Currency.getInstance(r.getCurrency()))
+        .date(r.getTimestamp())
+        .internalId(r.getWithdrawalId())
+        .status(convertWithdrawalStatus(r.getStatus()))
+        .blockchainTransactionHash(r.getTxid())
+        .type(Type.WITHDRAWAL)
         .build();
   }
 
@@ -138,14 +138,14 @@ public class OkexAdaptersV3 {
   }
 
   public static FundingRecord adaptFundingRecord(OkexDepositRecord r) {
-    return new FundingRecord.Builder()
-        .setAddress(r.getTo())
-        .setAmount(r.getAmount())
-        .setCurrency(Currency.getInstance(r.getCurrency()))
-        .setDate(r.getTimestamp())
-        .setStatus(convertDepositStatus(r.getStatus()))
-        .setBlockchainTransactionHash(r.getTxid())
-        .setType(Type.DEPOSIT)
+    return FundingRecord.builder()
+        .address(r.getTo())
+        .amount(r.getAmount())
+        .currency(Currency.getInstance(r.getCurrency()))
+        .date(r.getTimestamp())
+        .status(convertDepositStatus(r.getStatus()))
+        .blockchainTransactionHash(r.getTxid())
+        .type(Type.DEPOSIT)
         .build();
   }
   /**

@@ -347,13 +347,13 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         super.getTransferHistory(email, startTime, endTime, page, limit)
             .forEach(
                 a -> result.add(
-                    new FundingRecord.Builder()
-                        .setAddress(finalEmail)
-                        .setDate(new Date(a.getTime()))
-                        .setCurrency(Currency.getInstance(a.getAsset()))
-                        .setAmount(a.getQty())
-                        .setType(Type.INTERNAL_WITHDRAWAL)
-                        .setStatus(transferHistoryStatus(a.getStatus()))
+                    FundingRecord.builder()
+                        .address(finalEmail)
+                        .date(new Date(a.getTime()))
+                        .currency(Currency.getInstance(a.getAsset()))
+                        .amount(a.getQty())
+                        .type(Type.INTERNAL_WITHDRAWAL)
+                        .status(transferHistoryStatus(a.getStatus()))
                         .build()));
       }
 
@@ -363,16 +363,16 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         super.getSubUserHistory(asset, type, startTime, endTime, limit)
             .forEach(
                 a -> result.add(
-                    new FundingRecord.Builder()
-                        .setAddress(a.getEmail())
-                        .setDate(new Date(a.getTime()))
-                        .setCurrency(Currency.getInstance(a.getAsset()))
-                        .setAmount(a.getQty())
-                        .setType(
+                    FundingRecord.builder()
+                        .address(a.getEmail())
+                        .date(new Date(a.getTime()))
+                        .currency(Currency.getInstance(a.getAsset()))
+                        .amount(a.getQty())
+                        .type(
                             a.getType().equals(1)
                                 ? Type.INTERNAL_DEPOSIT
                                 : Type.INTERNAL_WITHDRAWAL)
-                        .setStatus(Status.COMPLETE)
+                        .status(Status.COMPLETE)
                         .build()));
       }
 

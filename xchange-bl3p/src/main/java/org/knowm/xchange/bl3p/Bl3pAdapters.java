@@ -110,13 +110,13 @@ public class Bl3pAdapters {
 
     for (Bl3pUserTransactions.Bl3pUserTransaction tx : transactions) {
       list.add(
-          new FundingRecord.Builder()
-              .setAmount(tx.amount.value)
-              .setBalance(tx.balance.value)
-              .setCurrency(Currency.getInstance(tx.amount.currency))
-              .setDate(tx.date)
-              .setFee(tx.fee == null ? null : tx.fee.value)
-              .setType(
+          FundingRecord.builder()
+              .amount(tx.amount.value)
+              .balance(tx.balance.value)
+              .currency(Currency.getInstance(tx.amount.currency))
+              .date(tx.date)
+              .fee(tx.fee == null ? null : tx.fee.value)
+              .type(
                   tx.type == "deposit" ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL)
               .build());
     }
