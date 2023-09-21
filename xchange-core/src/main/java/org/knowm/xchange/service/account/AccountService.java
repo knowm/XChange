@@ -10,13 +10,12 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.TransferRecord;
+import org.knowm.xchange.dto.account.params.FundingRecordParam;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.BaseService;
-import org.knowm.xchange.service.account.params.TransferHistoryParam;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
@@ -200,7 +199,7 @@ public interface AccountService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default List<TransferRecord> getTransferHistory(TransferHistoryParam params) throws IOException {
+  default List<FundingRecord> getTransferHistory(FundingRecordParam params) throws IOException {
     throw new NotYetImplementedForExchangeException("getTransferHistory");
   }
 
@@ -215,7 +214,7 @@ public interface AccountService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default List<TransferRecord> getInternalTransferHistory(TransferHistoryParam params) throws IOException {
+  default List<FundingRecord> getInternalTransferHistory(FundingRecordParam params) throws IOException {
     throw new NotYetImplementedForExchangeException("getInternalTransferHistory");
   }
 
