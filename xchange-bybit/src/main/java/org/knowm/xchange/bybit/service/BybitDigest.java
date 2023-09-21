@@ -28,7 +28,7 @@ public class BybitDigest extends BaseParamsDigest {
   }
 
   public static ParamsDigest createInstance(String secretKeyBase64) {
-    return new BybitDigest(secretKeyBase64);
+    return secretKeyBase64 == null ? null : new BybitDigest(secretKeyBase64);
   }
 
   @SneakyThrows
