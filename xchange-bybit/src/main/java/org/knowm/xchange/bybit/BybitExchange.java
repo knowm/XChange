@@ -1,20 +1,13 @@
 package org.knowm.xchange.bybit;
 
 import java.io.IOException;
-import java.util.Map;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
-import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
-import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentsInfo;
 import org.knowm.xchange.bybit.service.BybitAccountService;
 import org.knowm.xchange.bybit.service.BybitMarketDataService;
-import org.knowm.xchange.bybit.service.BybitMarketDataServiceRaw;
 import org.knowm.xchange.bybit.service.BybitTradeService;
-import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.instrument.Instrument;
 
 public class BybitExchange extends BaseExchange {
 

@@ -50,7 +50,6 @@ public class BybitAdapters {
       Arrays.asList("USDT", "USDC", "BTC", "DAI", "EUR", "ETH");
 
   public static final String FUTURES_CONTRACT_QUOTE_CURRENCY = "USDC";
-  public static final String FUTURES_CONTRACT = "CONTRACT";
 
   public static final SimpleDateFormat OPTIONS_EXPIRED_DATE_PARSER = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
 

@@ -20,6 +20,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -90,7 +91,6 @@ public class BybitStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected String getChannelNameFromMessage(JsonNode message) throws IOException {
-    System.out.println("Channel Name: "+message);
     String channelName = "";
 
     if(message.has("topic")){
@@ -102,12 +102,12 @@ public class BybitStreamingService extends JsonNettyStreamingService {
 
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-    return objectMapper.writeValueAsString(new BybitStreamingDto(Op.subscribe, Arrays.asList(channelName)));
+    return objectMapper.writeValueAsString(new BybitStreamingDto(Op.subscribe, Collections.singletonList(channelName)));
   }
 
   @Override
   public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
-    return objectMapper.writeValueAsString(new BybitStreamingDto(Op.unsubscribe, Arrays.asList(channelName)));
+    return objectMapper.writeValueAsString(new BybitStreamingDto(Op.unsubscribe, Collections.singletonList(channelName)));
   }
 
   public void pingPongDisconnectIfConnected() {
