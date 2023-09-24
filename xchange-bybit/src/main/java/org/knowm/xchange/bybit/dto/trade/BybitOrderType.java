@@ -9,7 +9,23 @@ import lombok.Getter;
 public enum BybitOrderType {
   MARKET("Market"),
 
-  LIMIT("Limit");
+  LIMIT("Limit"),
+
+  UNKNOWN("UNKNOWN"),
+
+  STOP_LOSS("StopLoss"),
+
+  PARTIAL_TAKE_PROFIT("PartialTakeProfit"),
+
+  PARTIAL_STOP_LOSS("PartialStopLoss"),
+
+  TPSL_ORDER("tpslOrder"),
+
+  MM_RATE_CLOSE("MmRateClose"),
+
+  STOP("Stop"),
+
+  TAKE_PROFIT("TakeProfit");
 
   @JsonValue private final String value;
 }

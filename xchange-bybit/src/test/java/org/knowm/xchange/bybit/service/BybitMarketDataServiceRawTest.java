@@ -47,7 +47,7 @@ public class BybitMarketDataServiceRawTest extends BaseWiremockTest {
     initInstrumentsInfoStub("/getInstrumentLinear.json5");
 
     BybitInstrumentsInfo<BybitInstrumentInfo> instrumentsInfo =
-        marketDataServiceRaw.getInstrumentsInfo(BybitCategory.LINEAR).getResult();
+        marketDataServiceRaw.getInstrumentsInfo(BybitCategory.LINEAR, null, null, null, 1000, null).getResult();
 
     assertThat(instrumentsInfo.getList()).hasSize(1);
 
@@ -93,7 +93,7 @@ public class BybitMarketDataServiceRawTest extends BaseWiremockTest {
     initInstrumentsInfoStub("/getInstrumentOption.json5");
 
     BybitInstrumentsInfo<BybitInstrumentInfo> instrumentsInfo =
-        marketDataServiceRaw.getInstrumentsInfo(BybitCategory.OPTION).getResult();
+        marketDataServiceRaw.getInstrumentsInfo(BybitCategory.OPTION, null, null, null, 1000, null).getResult();
 
     assertThat(instrumentsInfo.getList()).hasSize(1);
 
@@ -128,7 +128,7 @@ public class BybitMarketDataServiceRawTest extends BaseWiremockTest {
     initInstrumentsInfoStub("/getInstrumentSpot.json5");
 
     BybitInstrumentsInfo<BybitInstrumentInfo> instrumentsInfo =
-        marketDataServiceRaw.getInstrumentsInfo(BybitCategory.SPOT).getResult();
+        marketDataServiceRaw.getInstrumentsInfo(BybitCategory.SPOT, null, null, null, 1000, null).getResult();
 
     assertThat(instrumentsInfo.getList()).hasSize(1);
 

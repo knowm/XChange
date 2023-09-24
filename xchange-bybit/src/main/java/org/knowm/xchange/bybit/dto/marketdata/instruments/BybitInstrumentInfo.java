@@ -2,9 +2,11 @@ package org.knowm.xchange.bybit.dto.marketdata.instruments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
+@ToString
 @Data
 public abstract class BybitInstrumentInfo {
 

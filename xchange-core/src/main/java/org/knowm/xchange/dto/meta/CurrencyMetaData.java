@@ -3,7 +3,13 @@ package org.knowm.xchange.dto.meta;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
+@Builder
+@Getter
 public class CurrencyMetaData implements Serializable {
 
   private static final long serialVersionUID = -247899067657358542L;
@@ -60,33 +66,4 @@ public class CurrencyMetaData implements Serializable {
     this.walletHealth = walletHealth;
   }
 
-  public Integer getScale() {
-    return scale;
-  }
-
-  public BigDecimal getWithdrawalFee() {
-    return withdrawalFee;
-  }
-
-  public BigDecimal getMinWithdrawalAmount() {
-    return minWithdrawalAmount;
-  }
-
-  public WalletHealth getWalletHealth() {
-    return walletHealth;
-  }
-
-  @Override
-  public String toString() {
-    return "CurrencyMetaData ["
-        + "scale="
-        + scale
-        + ", withdrawalFee="
-        + withdrawalFee
-        + ", minWithdrawalAmount="
-        + minWithdrawalAmount
-        + ", walletHealth="
-        + walletHealth
-        + "]";
-  }
 }

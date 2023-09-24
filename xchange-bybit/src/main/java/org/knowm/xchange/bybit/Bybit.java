@@ -28,5 +28,19 @@ public interface Bybit {
   @GET
   @Path("/instruments-info")
   BybitResult<BybitInstrumentsInfo<BybitInstrumentInfo>> getInstrumentsInfo(
-      @QueryParam("category") String category) throws IOException, BybitException;
+      @QueryParam("category") String category,
+      @QueryParam("symbol") String symbol,
+      @QueryParam("status") String status,
+      @QueryParam("baseCoin") String baseCoin,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("cursor") String cursor
+
+  ) throws IOException, BybitException;
+
+  @GET
+  @Path("/asset/transfer/query-asset-info")
+  BybitResult<String> getAssetsInfo(
+      @QueryParam("accountType") String accountType,
+      @QueryParam("coin") String coin
+  ) throws IOException, BybitException;
 }

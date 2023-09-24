@@ -3,6 +3,7 @@ package org.knowm.xchange.bybit.dto.marketdata.instruments.spot;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import lombok.Builder;
+import lombok.ToString;
 import lombok.Value;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
@@ -10,6 +11,7 @@ import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 
 @SuperBuilder
 @Jacksonized
+@ToString(callSuper = true)
 @Value
 public class BybitSpotInstrumentInfo extends BybitInstrumentInfo {
 
