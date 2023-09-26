@@ -10,6 +10,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -219,17 +220,16 @@ public class QuoineAdapters {
       fee = fee == null ? transaction.network_fee : fee.add(transaction.network_fee);
     }
 
-    return new FundingRecord(
-        null,
-        DateUtils.fromUnixTime(transaction.createdAt),
-        currency,
-        transaction.gross_amount,
-        transaction.id,
-        transaction.transaction_hash,
-        deposit,
-        FundingRecord.Status.COMPLETE,
-        null,
-        fee,
-        transaction.notes);
+    return FundingRecord.builder()
+        .date(DateUtils.fromUnixTime(transaction.createdAt))
+        .currency(currency)
+        .amount(transaction.gross_amount)
+        .internalId(transaction.id)
+        .blockchainTransactionHash(transaction.transaction_hash)
+        .type(deposit)
+        .status(Status.COMPLETE)
+        .fee(fee)
+        .description(transaction.notes)
+        .build();
   }
 }

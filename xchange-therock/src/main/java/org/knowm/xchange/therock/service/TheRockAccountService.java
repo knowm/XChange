@@ -9,6 +9,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -39,18 +40,16 @@ public class TheRockAccountService extends TheRockAccountServiceRaw implements A
       address = transferDetail.getRecipient();
     }
 
-    return new FundingRecord(
-        address,
-        txn.getDate(),
-        Currency.getInstance(txn.getCurrency()),
-        txn.getPrice(),
-        String.valueOf(txn.getId()),
-        transferDetailId,
-        type,
-        FundingRecord.Status.COMPLETE,
-        null,
-        null,
-        null);
+    return FundingRecord.builder()
+        .address(address)
+        .date(txn.getDate())
+        .currency(Currency.getInstance(txn.getCurrency()))
+        .amount(txn.getPrice())
+        .internalId(String.valueOf(txn.getId()))
+        .blockchainTransactionHash(transferDetailId)
+        .type(type)
+        .status(Status.COMPLETE)
+        .build();
   }
 
   @Override

@@ -3,6 +3,7 @@ package org.knowm.xchange.luno.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
@@ -106,18 +107,15 @@ public class LunoAccountService extends LunoBaseService implements AccountServic
     List<FundingRecord> result = new ArrayList<>();
     for (Withdrawal w : lunoAPI.withdrawals().getWithdrawals()) {
       result.add(
-          new FundingRecord(
-              null,
-              w.getCreatedAt(),
-              LunoUtil.fromLunoCurrency(w.currency),
-              w.amount,
-              w.id,
-              null,
-              Type.WITHDRAWAL,
-              convert(w.status),
-              null,
-              w.fee,
-              null));
+          FundingRecord.builder()
+              .date(w.getCreatedAt())
+              .currency(LunoUtil.fromLunoCurrency(w.currency))
+              .amount(w.amount)
+              .internalId(w.id)
+              .type(Type.WITHDRAWAL)
+              .status(convert(w.status))
+              .fee(w.fee)
+              .build());
     }
     return result;
   }
