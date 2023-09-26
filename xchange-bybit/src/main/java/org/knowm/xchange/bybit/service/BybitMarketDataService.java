@@ -12,8 +12,10 @@ import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTickers;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.option.BybitOptionTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.spot.BybitSpotTicker;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -79,5 +81,11 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
     instrumentsMap.putAll(BybitAdapters.adaptBybitInstruments(getInstrumentsInfo(BybitCategory.OPTION, null, null, null, 1000, null).getResult().getList()));
 
     return instrumentsMap;
+  }
+  @Override
+  public Map<Currency, CurrencyMetaData> getCurrencies() throws IOException {
+    return new HashMap<>(BybitAdapters.adaptBybitCurrencies(
+        getInstrumentsInfo(BybitCategory.SPOT, null, null, null, 1000, null).getResult()
+            .getList()));
   }
 }

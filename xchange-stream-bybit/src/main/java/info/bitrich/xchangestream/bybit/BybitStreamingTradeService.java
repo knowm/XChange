@@ -11,7 +11,7 @@ import org.knowm.xchange.instrument.Instrument;
 
 public class BybitStreamingTradeService implements StreamingTradeService {
 
-  private final String EXECUTION_CHANNEL = "execution";
+  private static final String EXECUTION_CHANNEL = "execution";
   private final BybitStreamingService streamingService;
 
   private final ObjectMapper objectMapper = StreamingObjectMapperHelper.getObjectMapper();
@@ -36,7 +36,7 @@ public class BybitStreamingTradeService implements StreamingTradeService {
         .filter(jsonNode -> jsonNode.has("topic"))
         .filter(jsonNode -> jsonNode.get("topic").asText().equals(EXECUTION_CHANNEL))
         .map(s -> objectMapper.treeToValue(s, BybitUserTradeResponseDto.class))
-        .map(bybitUserTradeResponseDto -> BybitStreamingAdapters.adaptUserTrade(bybitUserTradeResponseDto.getData()))
+        .map(bybitUserTradeResponseDto -> BybitStreamingAdapters.adaptStreamingUserTradeList(bybitUserTradeResponseDto.getData()))
         .flatMap(Observable::fromIterable);
   }
 }

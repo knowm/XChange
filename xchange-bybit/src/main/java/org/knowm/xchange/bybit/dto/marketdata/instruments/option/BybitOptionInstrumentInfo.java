@@ -23,7 +23,7 @@ public class BybitOptionInstrumentInfo extends BybitInstrumentInfo {
   Object list;
 
   @JsonProperty("optionsType")
-  OptionType optionsType;
+  BybitOptionType optionsType;
 
   @JsonProperty("settleCoin")
   String settleCoin;
@@ -43,7 +43,7 @@ public class BybitOptionInstrumentInfo extends BybitInstrumentInfo {
   @JsonProperty("lotSizeFilter")
   LotSizeFilter lotSizeFilter;
 
-  public enum OptionType {
+  public enum BybitOptionType {
     @JsonProperty("Call")
     CALL,
 

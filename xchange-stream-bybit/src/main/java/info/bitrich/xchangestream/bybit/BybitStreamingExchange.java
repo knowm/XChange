@@ -24,11 +24,11 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
   public Completable connect(ProductSubscription... args) {
 
     if(exchangeSpecification.getApiKey() != null){
-      streamingService = new BybitStreamingService(getBybitURI(useSandbox(), true, ""), exchangeSpecification);
+      streamingService = new BybitStreamingService(getBybitURI(useSandbox(exchangeSpecification), true, ""), exchangeSpecification);
       streamingTradeService = new BybitStreamingTradeService(streamingService);
 
     } else {
-      streamingService = new BybitStreamingService(getBybitURI(useSandbox(), false, MarketType.SPOT.toString().toLowerCase()), exchangeSpecification);
+      streamingService = new BybitStreamingService(getBybitURI(useSandbox(exchangeSpecification), false, MarketType.SPOT.toString().toLowerCase()), exchangeSpecification);
     }
 
     return streamingService.connect();

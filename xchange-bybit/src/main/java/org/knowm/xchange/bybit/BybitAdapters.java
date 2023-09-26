@@ -9,12 +9,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.account.BybitInternalTransfersResponse.BybitInternalTransfer;
+import org.knowm.xchange.bybit.dto.account.BybitInternalTransfersResponse.BybitTransferStatus;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
-import org.knowm.xchange.bybit.dto.account.walletbalance.BybitCoinWalletBalance;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo.InstrumentStatus;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInverseInstrumentInfo;
@@ -26,6 +29,8 @@ import org.knowm.xchange.bybit.dto.marketdata.tickers.option.BybitOptionTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.spot.BybitSpotTicker;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;
 import org.knowm.xchange.bybit.dto.trade.BybitSide;
+import org.knowm.xchange.bybit.dto.trade.BybitTradeHistoryResponse;
+import org.knowm.xchange.bybit.dto.trade.BybitUserTradeDto;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.service.BybitException;
 import org.knowm.xchange.currency.Currency;
@@ -37,35 +42,32 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.Wallet.WalletFeature;
+import org.knowm.xchange.dto.account.params.FundingRecordParamAll.FundingRecordStatus;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Ticker.Builder;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 
 public class BybitAdapters {
 
-  public static final List<String> QUOTE_CURRENCIES =
+  protected static final List<String> QUOTE_CURRENCIES =
       Arrays.asList("USDT", "USDC", "BTC", "DAI", "EUR", "ETH");
 
-  public static final String FUTURES_CONTRACT_QUOTE_CURRENCY = "USDC";
+  public static final String FUTURES_CONTRACT_QUOTE_CURRENCY = "USD";
+
+  private static final String BYBIT_PERPETUAL = "PERP";
 
   public static final SimpleDateFormat OPTIONS_EXPIRED_DATE_PARSER = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
 
-  public static Wallet adaptBybitBalances(List<BybitCoinWalletBalance> coinWalletBalances) {
-    List<Balance> balances = new ArrayList<>(coinWalletBalances.size());
-    for (BybitCoinWalletBalance bybitCoinBalance : coinWalletBalances) {
-      balances.add(
-          new Balance(
-              new Currency(bybitCoinBalance.getCoin()),
-              new BigDecimal(bybitCoinBalance.getEquity()),
-              new BigDecimal(bybitCoinBalance.getAvailableToWithdraw())));
-    }
-    return Wallet.Builder.from(balances).build();
-  }
-
-  public static Wallet adaptBybitBalances(BybitAllCoinsBalance allCoinsBalance) {
+  public static Wallet adaptBybitBalances(BybitAllCoinsBalance allCoinsBalance, Set<WalletFeature> features) {
     List<Balance> balances = new ArrayList<>(allCoinsBalance.getBalance().size());
     for (BybitAllCoinBalance coinBalance : allCoinsBalance.getBalance()) {
       balances.add(
@@ -74,7 +76,10 @@ public class BybitAdapters {
               coinBalance.getWalletBalance(),
               coinBalance.getTransferBalance()));
     }
-    return Wallet.Builder.from(balances).build();
+    return Wallet.Builder.from(balances)
+        .id(allCoinsBalance.getAccountType().name())
+        .features(features)
+        .build();
   }
 
   public static BybitSide getSideString(Order.OrderType type) {
@@ -311,7 +316,7 @@ public class BybitAdapters {
       instrument =
           (symbol.contains("-"))
               ? new FuturesContract(new CurrencyPair(symbol.substring(0, symbol.indexOf("-")), quoteCurrency), symbol.substring(symbol.indexOf("-") + 1))
-              : new FuturesContract(new CurrencyPair(symbol.substring(0, symbol.length() - quoteCurrency.length()), quoteCurrency), "PERP");
+              : new FuturesContract(new CurrencyPair(symbol.substring(0, symbol.length() - quoteCurrency.length()), quoteCurrency), BYBIT_PERPETUAL);
     } else if (category.equals(BybitCategory.OPTION)) {
       int secondIndex = symbol.indexOf("-", symbol.indexOf("-") + 1); // second index of "-" after the first one
       instrument =
@@ -324,5 +329,97 @@ public class BybitAdapters {
     }
 
     return instrument;
+  }
+
+  public static BybitCategory getBybitCategoryFromInstrument(Instrument instrument) {
+    int count = StringUtils.countMatches(instrument.toString(), "/");
+    if(count == 1){
+      return BybitCategory.SPOT;
+    } else if(count == 4){
+      return BybitCategory.OPTION;
+    } else if(instrument.getCounter().equals(Currency.USDC) || instrument.getCounter().equals(Currency.USDT)){
+      return BybitCategory.LINEAR;
+    } else {
+      return BybitCategory.INVERSE;
+    }
+  }
+
+  public static UserTrades adaptUserTrades(BybitTradeHistoryResponse result) {
+    List<UserTrade> userTrades = new ArrayList<>();
+
+    result.getTradeHistoryList().forEach(bybitUserTradeDto -> userTrades.add(adaptUserTrade(bybitUserTradeDto, result.getCategory())));
+
+    return new UserTrades(userTrades, TradeSortType.SortByTimestamp);
+  }
+
+  public static UserTrade adaptUserTrade(BybitUserTradeDto bybitUserTradeDto, BybitCategory bybitCategory) {
+    Instrument instrument = BybitAdapters.adaptInstrument(bybitUserTradeDto.getSymbol(), bybitCategory);
+    return new UserTrade.Builder()
+        .instrument(instrument)
+        .feeAmount(bybitUserTradeDto.getExecFee())
+        .type(BybitAdapters.adaptSide(bybitUserTradeDto.getSide()))
+        .orderUserReference(bybitUserTradeDto.getOrderLinkId())
+        .id(bybitUserTradeDto.getExecId())
+        .orderId(bybitUserTradeDto.getOrderId())
+        .originalAmount(bybitUserTradeDto.getExecQty())
+        .price(bybitUserTradeDto.getExecPrice())
+        .timestamp(bybitUserTradeDto.getExecTime())
+        .feeCurrency(BybitAdapters.getFeeCurrency(bybitUserTradeDto.getIsMaker(), bybitUserTradeDto.getFeeRate(), instrument , bybitUserTradeDto.getSide()))
+        .build();
+  }
+
+  public static String adaptBybitSymbol(Instrument instrument) {
+    if(instrument instanceof CurrencyPair){
+      return instrument.toString().replace("/","");
+    } else if(instrument instanceof OptionsContract){
+      return instrument.toString().replace("/","-");
+    } else if(instrument.toString().contains(BYBIT_PERPETUAL)){
+      return instrument.toString().replace("/","").replace(BYBIT_PERPETUAL,"");
+    } else {
+      return instrument.toString().replace("/","-");
+    }
+  }
+
+  public static Map<Currency, CurrencyMetaData> adaptBybitCurrencies(List<BybitInstrumentInfo> list) {
+    Map<Currency, CurrencyMetaData> currencyCurrencyMetaDataMap = new HashMap<>();
+
+    list.forEach(bybitInstrumentInfo -> {
+      BybitSpotInstrumentInfo spotInfo = (BybitSpotInstrumentInfo) bybitInstrumentInfo;
+
+      if(!currencyCurrencyMetaDataMap.containsKey(new Currency(spotInfo.getBaseCoin()))){
+        currencyCurrencyMetaDataMap.put(
+            new Currency(spotInfo.getBaseCoin()),
+            CurrencyMetaData.builder()
+                .scale(spotInfo.getLotSizeFilter().getBasePrecision().scale())
+                .build());
+      }
+      if(!currencyCurrencyMetaDataMap.containsKey(new Currency(spotInfo.getQuoteCoin()))) {
+        currencyCurrencyMetaDataMap.put(
+            new Currency(spotInfo.getQuoteCoin()),
+            CurrencyMetaData.builder()
+                .scale(spotInfo.getLotSizeFilter().getQuotePrecision().scale())
+                .build());
+      }
+    });
+
+    return currencyCurrencyMetaDataMap;
+  }
+
+  //TODO create InternalFundingRecord class
+  public static List<FundingRecord> adaptBybitInternalTransfers(List<BybitInternalTransfer> internalTransfers) {
+    List<FundingRecord> fundingRecords = new ArrayList<>();
+
+    internalTransfers.forEach(bybitInternalTransfer -> {
+      fundingRecords.add(FundingRecord.builder()
+              .internalId(bybitInternalTransfer.getTransferId())
+              .currency(new Currency(bybitInternalTransfer.getCoin()))
+              .balance(bybitInternalTransfer.getAmount())
+          .build());
+    });
+    return null;
+  }
+
+  public static BybitTransferStatus convertToBybitStatus(FundingRecordStatus status) {
+    return null;
   }
 }

@@ -80,7 +80,7 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
     initGetStub("/v5/asset/transfer/query-account-coins-balance", "/getAllCoinsBalance.json5");
 
     BybitResult<BybitAllCoinsBalance> coinsBalanceBybitResult =
-        bybitAccountServiceRaw.getAllCoinsBalance(BybitAccountType.FUND);
+        bybitAccountServiceRaw.getAllCoinsBalance(BybitAccountType.FUND, null, null, null);
 
     BybitAllCoinsBalance coinsBalance = coinsBalanceBybitResult.getResult();
 

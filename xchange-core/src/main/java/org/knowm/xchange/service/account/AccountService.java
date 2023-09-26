@@ -10,7 +10,7 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.params.FundingRecordParam;
+import org.knowm.xchange.dto.account.params.FundingRecordParamAll;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -199,7 +199,7 @@ public interface AccountService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default List<FundingRecord> getTransferHistory(FundingRecordParam params) throws IOException {
+  default List<FundingRecord> getTransferHistory(FundingRecordParamAll params) throws IOException {
     throw new NotYetImplementedForExchangeException("getTransferHistory");
   }
 
@@ -214,7 +214,7 @@ public interface AccountService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default List<FundingRecord> getInternalTransferHistory(FundingRecordParam params) throws IOException {
+  default List<FundingRecord> getInternalTransferHistory(FundingRecordParamAll params) throws IOException {
     throw new NotYetImplementedForExchangeException("getInternalTransferHistory");
   }
 

@@ -15,7 +15,7 @@ import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentsInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInverseInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInverseInstrumentInfo.ContractType;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo;
-import org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.BybitOptionType;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.spot.BybitSpotInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.spot.BybitSpotInstrumentInfo.MarginTrading;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
@@ -101,7 +101,7 @@ public class BybitMarketDataServiceRawTest extends BaseWiremockTest {
         (BybitOptionInstrumentInfo) instrumentsInfo.getList().get(0);
 
     assertThat(actualInstrumentInfo.getSymbol()).isEqualTo("ETH-3JAN23-1250-P");
-    assertThat(actualInstrumentInfo.getOptionsType()).isEqualTo(OptionType.PUT);
+    assertThat(actualInstrumentInfo.getOptionsType()).isEqualTo(BybitOptionType.PUT);
     assertThat(actualInstrumentInfo.getStatus()).isEqualTo(InstrumentStatus.TRADING);
     assertThat(actualInstrumentInfo.getBaseCoin()).isEqualTo("ETH");
     assertThat(actualInstrumentInfo.getQuoteCoin()).isEqualTo("USD");

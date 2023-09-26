@@ -7,8 +7,10 @@ import static org.knowm.xchange.bybit.BybitAdapters.getSideString;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
@@ -17,7 +19,15 @@ import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamId;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamUserReference;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 public class BybitTradeService extends BybitTradeServiceRaw implements TradeService {
 
@@ -51,5 +61,40 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
     }
 
     return results;
+  }
+
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+
+    if (!(params instanceof TradeHistoryParamInstrument)) {
+      throw new IOException("Params must be instance of " + TradeHistoryParamInstrument.class.getSimpleName());
+    }
+
+    Instrument symbol = ((TradeHistoryParamInstrument) params).getInstrument();
+    BybitCategory category = BybitAdapters.getBybitCategoryFromInstrument(symbol);
+    String orderId = null;
+    String userReference = null;
+    Date startTime = null;
+    Date endTime = null;
+    Integer limit = 100;
+
+    if(params instanceof TradeHistoryParamId) {
+      orderId = ((TradeHistoryParamId) params).getId();
+    }
+
+    if(params instanceof TradeHistoryParamUserReference){
+      userReference = ((TradeHistoryParamUserReference) params).getUserReference();
+    }
+
+    if(params instanceof TradeHistoryParamsTimeSpan){
+      startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+      endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
+    }
+
+    if(params instanceof TradeHistoryParamLimit) {
+      limit = ((TradeHistoryParamLimit) params).getLimit();
+    }
+
+    return BybitAdapters.adaptUserTrades(getBybitTradeHistory(category, symbol, orderId, userReference, null, startTime, endTime, null, limit, null).getResult());
   }
 }

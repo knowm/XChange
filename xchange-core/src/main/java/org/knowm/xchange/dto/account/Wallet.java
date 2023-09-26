@@ -33,7 +33,8 @@ public final class Wallet implements Serializable {
     /** You can fund other margin traders with funds allocated to this wallet to earn an interest */
     MARGIN_FUNDING,
     /** Wallet for futures platform*/
-    FUTURES_TRADING
+    FUTURES_TRADING,
+    OPTIONS_TRADING
   }
 
   /** The keys represent the currency of the wallet. */

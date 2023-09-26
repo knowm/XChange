@@ -15,9 +15,11 @@ import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.account.BybitInternalTransfersResponse;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
 import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
+import org.knowm.xchange.bybit.dto.trade.BybitTradeHistoryResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
@@ -46,8 +48,11 @@ public interface BybitAuthenticated {
       @HeaderParam(X_BAPI_API_KEY) String apiKey,
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
-      @QueryParam("accountType") String accountType)
-      throws IOException, BybitException;
+      @QueryParam("memberId") String memberId,
+      @QueryParam("accountType") String accountType,
+      @QueryParam("coin") String coin,
+      @QueryParam("withBonus") Integer withBonus
+  ) throws IOException, BybitException;
 
   /** @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/account/fee-rate">API</a> */
   @GET
@@ -84,4 +89,37 @@ public interface BybitAuthenticated {
       @FormParam("orderType") String orderType,
       @FormParam("qty") BigDecimal qty)
       throws IOException, BybitException;
+
+  @GET
+  @Path("/execution/list")
+  BybitResult<BybitTradeHistoryResponse> getBybitTradeHistory(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("category") String category,
+      @QueryParam("symbol") String symbol,
+      @QueryParam("orderId") String orderId,
+      @QueryParam("orderLinkId") String userReferenceId,
+      @QueryParam("baseCoin") String baseCoin, // Base coin. Unified account - inverse and Classic account do not support this param
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("execType") String execType,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("cursor") String cursor
+  ) throws IOException, BybitException;
+
+  @GET
+  @Path("/asset/transfer/query-inter-transfer-list")
+  BybitResult<BybitInternalTransfersResponse> getInternalTransferRecords(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("transferId") String transferId,
+      @QueryParam("coin") String coin,
+      @QueryParam("status") String status,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("cursor") String cursor
+  ) throws IOException, BybitException;
 }
