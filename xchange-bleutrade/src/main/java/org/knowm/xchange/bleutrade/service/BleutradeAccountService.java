@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import org.knowm.xchange.Exchange;
@@ -13,6 +14,8 @@ import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -88,34 +91,31 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
         }
 
         fundingRecords.add(
-            new FundingRecord(
-                address,
-                dateFormat.parse(record.timestamp),
-                Currency.getInstance(record.coin),
-                amount,
-                record.id,
-                record.transactionId,
-                FundingRecord.Type.WITHDRAWAL,
-                FundingRecord.Status.COMPLETE,
-                null,
-                fee,
-                label));
+            FundingRecord.builder()
+                .address(address)
+                .date(dateFormat.parse(record.timestamp))
+                .currency(Currency.getInstance(record.coin))
+                .amount(amount)
+                .internalId(record.id)
+                .blockchainTransactionHash(record.transactionId)
+                .type(Type.WITHDRAWAL)
+                .status(Status.COMPLETE)
+                .fee(fee)
+                .description(label)
+                .build());
       }
 
       for (DepositRecord record : depositHistory()) {
         fundingRecords.add(
-            new FundingRecord(
-                null,
-                dateFormat.parse(record.timestamp),
-                Currency.getInstance(record.coin),
-                record.amount,
-                record.id,
-                null,
-                FundingRecord.Type.DEPOSIT,
-                FundingRecord.Status.COMPLETE,
-                null,
-                null,
-                record.label));
+            FundingRecord.builder()
+                .date(dateFormat.parse(record.timestamp))
+                .currency(Currency.getInstance(record.coin))
+                .amount(record.amount)
+                .internalId(record.id)
+                .type(Type.DEPOSIT)
+                .status(Status.COMPLETE)
+                .description(record.label)
+                .build());
       }
     } catch (ParseException e) {
       throw new IllegalStateException("Should not happen", e);

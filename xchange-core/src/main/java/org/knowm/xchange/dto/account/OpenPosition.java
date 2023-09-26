@@ -38,6 +38,7 @@ public class OpenPosition implements Serializable {
     this.price = price;
     this.liquidationPrice = liquidationPrice;
     this.unRealisedPnl = unRealisedPnl;
+    InternalFundingRecord.builder().build();
   }
 
   public Instrument getInstrument() {
