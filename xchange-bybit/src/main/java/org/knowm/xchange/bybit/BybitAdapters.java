@@ -77,7 +77,7 @@ public class BybitAdapters {
               coinBalance.getWalletBalance(),
               coinBalance.getTransferBalance()));
     }
-    System.out.println("Adapter: "+ allCoinsBalance.getAccountType().name());
+
     return Wallet.Builder.from(balances)
         .id(allCoinsBalance.getAccountType().name())
         .features(features)

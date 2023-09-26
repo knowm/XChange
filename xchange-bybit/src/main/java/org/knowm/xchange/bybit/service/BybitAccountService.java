@@ -43,7 +43,7 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
       wallets.add(BybitAdapters.adaptBybitBalances(getAllCoinsBalance(BybitAccountType.OPTION, null, null, false).getResult(),
           Sets.newHashSet(WalletFeature.OPTIONS_TRADING)));
     }
-    System.out.println("AccountService: "+wallets);
+
     return new AccountInfo(wallets);
   }
 
