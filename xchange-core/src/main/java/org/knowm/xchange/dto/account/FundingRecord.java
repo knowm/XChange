@@ -140,7 +140,7 @@ public class FundingRecord implements Serializable {
      * be cancelled any more. For withdrawals, the funds are gone from the exchange, though they may
      * have not reached their destination yet. For deposits, the funds are available to the user.
      */
-    COMPLETE("COMPLETED"),
+    COMPLETE("COMPLETED", "SUCCESS"),
 
     /** The transfer was cancelled either by the user or by the exchange. */
     CANCELLED("REVOKED", "CANCEL", "REFUND"),

@@ -6,13 +6,15 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 
 @Getter
 @ToString
-@AllArgsConstructor
 @Builder
+@Jacksonized
 public class BybitUserTradeDto {
 
   @JsonProperty("category")
@@ -98,8 +100,4 @@ public class BybitUserTradeDto {
 
   @JsonProperty("seq")
   private  Long seq;
-
-  /** No args constructor for use in serialization */
-  public BybitUserTradeDto() {
-  }
 }

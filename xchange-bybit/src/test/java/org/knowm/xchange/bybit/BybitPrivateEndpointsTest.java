@@ -4,8 +4,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.List;
 import java.util.Properties;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -13,21 +17,24 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.InternalFundingRecord;
+import org.knowm.xchange.dto.account.params.FundingRecordParamAll;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 
 public class BybitPrivateEndpointsTest {
 
-  Exchange exchange;
+  static Exchange exchange;
 
   Instrument instrument = new CurrencyPair("BTC/USDT");
 
-  @Before
-  public void setUp(){
+  @BeforeClass
+  public static void setUp(){
     Properties properties = new Properties();
 
     try {
-      properties.load(this.getClass().getResourceAsStream("/secret.keys"));
+      properties.load(BybitPrivateEndpointsTest.class.getResourceAsStream("/secret.keys"));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -90,4 +97,43 @@ public class BybitPrivateEndpointsTest {
             });
         });
     }
+
+  @Test
+  public void testInternalTransfers() throws IOException {
+    FundingRecordParamAll paramAll = FundingRecordParamAll.builder()
+        .startTime(Date.from(Instant.now().minus(2, ChronoUnit.DAYS)))
+        .endTime(Date.from(Instant.now().minus(1, ChronoUnit.DAYS)))
+        .status(FundingRecord.Status.COMPLETE)
+        .build();
+    List<InternalFundingRecord> internalFundingRecords = exchange.getAccountService().getInternalTransferHistory(paramAll);
+
+    internalFundingRecords.forEach(
+        internalFundingRecord -> {
+          System.out.println(internalFundingRecords);
+          assertThat(internalFundingRecord.getInternalId()).isNotNull();
+          assertThat(internalFundingRecord.getDate()).isNotNull();
+          assertThat(internalFundingRecord.getAmount()).isNotNull();
+          assertThat(internalFundingRecord.getFromAccount()).isNotNull();
+          assertThat(internalFundingRecord.getToAccount()).isNotNull();
+          assertThat(internalFundingRecord.getStatus()).isNotNull();
+          assertThat(internalFundingRecord.getDescription()).isNotNull();
+        });
+  }
+
+  @Test
+  public void testUniversalTransfers() throws IOException {
+    FundingRecordParamAll paramAll = FundingRecordParamAll.builder()
+        .build();
+    List<FundingRecord> internalFundingRecords = exchange.getAccountService().getTransferHistory(paramAll);
+
+    internalFundingRecords.forEach(
+        fundingRecord -> {
+          System.out.println(internalFundingRecords);
+          assertThat(fundingRecord.getInternalId()).isNotNull();
+          assertThat(fundingRecord.getDate()).isNotNull();
+          assertThat(fundingRecord.getAmount()).isNotNull();
+          assertThat(fundingRecord.getStatus()).isNotNull();
+          assertThat(fundingRecord.getDescription()).isNotNull();
+        });
+  }
 }

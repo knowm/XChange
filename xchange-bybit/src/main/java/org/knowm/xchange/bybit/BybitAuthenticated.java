@@ -15,9 +15,9 @@ import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.BybitInternalTransfersResponse;
-import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
-import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
+import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse;
+import org.knowm.xchange.bybit.dto.account.BybitAllCoinsBalance;
+import org.knowm.xchange.bybit.dto.account.BybitFeeRates;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
 import org.knowm.xchange.bybit.dto.trade.BybitTradeHistoryResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
@@ -52,6 +52,22 @@ public interface BybitAuthenticated {
       @QueryParam("accountType") String accountType,
       @QueryParam("coin") String coin,
       @QueryParam("withBonus") Integer withBonus
+  ) throws IOException, BybitException;
+
+  @GET
+  @Path("/asset/transfer/query-account-coin-balance")
+  BybitResult<BybitAllCoinsBalance> getSingleCoinBalance(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("memberId") String memberId,
+      @QueryParam("toMemberId") String toMemberId,
+      @QueryParam("accountType") String accountType, //required
+      @QueryParam("toAccountType") String toAccountType,
+      @QueryParam("coin") String coin, //required
+      @QueryParam("withBonus") Integer withBonus,
+      @QueryParam("withTransferSafeAmount") Integer withTransferSafeAmount,
+      @QueryParam("withLtvTransferSafeAmount") Integer withLtvTransferSafeAmount
   ) throws IOException, BybitException;
 
   /** @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/account/fee-rate">API</a> */
@@ -110,7 +126,22 @@ public interface BybitAuthenticated {
 
   @GET
   @Path("/asset/transfer/query-inter-transfer-list")
-  BybitResult<BybitInternalTransfersResponse> getInternalTransferRecords(
+  BybitResult<BybitTransfersResponse> getInternalTransferRecords(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("transferId") String transferId,
+      @QueryParam("coin") String coin,
+      @QueryParam("status") String status,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("cursor") String cursor
+  ) throws IOException, BybitException;
+
+  @GET
+  @Path("/asset/transfer/query-universal-transfer-list")
+  BybitResult<BybitTransfersResponse> getUniversalTransferRecords(
       @HeaderParam(X_BAPI_API_KEY) String apiKey,
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,

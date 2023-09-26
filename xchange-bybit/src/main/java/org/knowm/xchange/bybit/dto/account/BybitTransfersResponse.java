@@ -4,26 +4,31 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 
 @Getter
 @ToString
-@AllArgsConstructor
-public class BybitInternalTransfersResponse {
+@Builder
+@Jacksonized
+public class BybitTransfersResponse {
 
   @JsonProperty("list")
-  private List<BybitInternalTransfer> internalTransfers;
+  private List<BybitTransfer> internalTransfers;
 
   @JsonProperty("nextPageCursor")
   private String nextPageCursor;
 
-  @AllArgsConstructor
   @Getter
   @ToString
-  public static class BybitInternalTransfer {
+  @Builder
+  @Jacksonized
+  public static class BybitTransfer {
 
     @JsonProperty("transferId")
     private String transferId;
@@ -33,6 +38,12 @@ public class BybitInternalTransfersResponse {
 
     @JsonProperty("amount")
     private BigDecimal amount;
+
+    @JsonProperty("fromMember")
+    private String fromMember;
+
+    @JsonProperty("toMember")
+    private String toMember;
 
     @JsonProperty("fromAccountType")
     private BybitAccountType fromAccountType;
@@ -45,7 +56,6 @@ public class BybitInternalTransfersResponse {
 
     @JsonProperty("status")
     private BybitTransferStatus status;
-
   }
 
   public enum BybitTransferStatus {

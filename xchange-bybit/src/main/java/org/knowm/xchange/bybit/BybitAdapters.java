@@ -14,10 +14,10 @@ import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.BybitInternalTransfersResponse.BybitInternalTransfer;
-import org.knowm.xchange.bybit.dto.account.BybitInternalTransfersResponse.BybitTransferStatus;
-import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
-import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
+import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse.BybitTransfer;
+import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse.BybitTransferStatus;
+import org.knowm.xchange.bybit.dto.account.BybitAllCoinsBalance;
+import org.knowm.xchange.bybit.dto.account.BybitAllCoinsBalance.BybitCoinBalance;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo.InstrumentStatus;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInverseInstrumentInfo;
@@ -43,9 +43,10 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.InternalFundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.account.Wallet.WalletFeature;
-import org.knowm.xchange.dto.account.params.FundingRecordParamAll.FundingRecordStatus;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -69,13 +70,14 @@ public class BybitAdapters {
 
   public static Wallet adaptBybitBalances(BybitAllCoinsBalance allCoinsBalance, Set<WalletFeature> features) {
     List<Balance> balances = new ArrayList<>(allCoinsBalance.getBalance().size());
-    for (BybitAllCoinBalance coinBalance : allCoinsBalance.getBalance()) {
+    for (BybitCoinBalance coinBalance : allCoinsBalance.getBalance()) {
       balances.add(
           new Balance(
               new Currency(coinBalance.getCoin()),
               coinBalance.getWalletBalance(),
               coinBalance.getTransferBalance()));
     }
+    System.out.println("Adapter: "+ allCoinsBalance.getAccountType().name());
     return Wallet.Builder.from(balances)
         .id(allCoinsBalance.getAccountType().name())
         .features(features)
@@ -364,7 +366,7 @@ public class BybitAdapters {
         .originalAmount(bybitUserTradeDto.getExecQty())
         .price(bybitUserTradeDto.getExecPrice())
         .timestamp(bybitUserTradeDto.getExecTime())
-        .feeCurrency(BybitAdapters.getFeeCurrency(bybitUserTradeDto.getIsMaker(), bybitUserTradeDto.getFeeRate(), instrument , bybitUserTradeDto.getSide()))
+        .feeCurrency((instrument == null) ? null : BybitAdapters.getFeeCurrency(bybitUserTradeDto.getIsMaker(), bybitUserTradeDto.getFeeRate(), instrument , bybitUserTradeDto.getSide()))
         .build();
   }
 
@@ -405,21 +407,51 @@ public class BybitAdapters {
     return currencyCurrencyMetaDataMap;
   }
 
-  //TODO create InternalFundingRecord class
-  public static List<FundingRecord> adaptBybitInternalTransfers(List<BybitInternalTransfer> internalTransfers) {
-    List<FundingRecord> fundingRecords = new ArrayList<>();
+  public static List<InternalFundingRecord> adaptBybitInternalTransfers(List<BybitTransfer> internalTransfers) {
+    List<InternalFundingRecord> fundingRecords = new ArrayList<>();
 
-    internalTransfers.forEach(bybitInternalTransfer -> {
-      fundingRecords.add(FundingRecord.builder()
-              .internalId(bybitInternalTransfer.getTransferId())
-              .currency(new Currency(bybitInternalTransfer.getCoin()))
-              .balance(bybitInternalTransfer.getAmount())
-          .build());
-    });
-    return null;
+    internalTransfers.forEach(bybitTransfer -> fundingRecords.add(InternalFundingRecord.builder()
+            .internalId(bybitTransfer.getTransferId())
+            .currency(new Currency(bybitTransfer.getCoin()))
+            .amount(bybitTransfer.getAmount())
+            .date(bybitTransfer.getTimestamp())
+            .status(Status.resolveStatus(bybitTransfer.getStatus().name()))
+            .fromAccount(bybitTransfer.getFromAccountType().name())
+            .toAccount(bybitTransfer.getToAccountType().name())
+            .description(bybitTransfer.getFromAccountType().name()+"->"+bybitTransfer.getToAccountType().name())
+        .build()));
+    return fundingRecords;
   }
 
-  public static BybitTransferStatus convertToBybitStatus(FundingRecordStatus status) {
-    return null;
+  public static List<FundingRecord> adaptBybitUniversalTransfers(List<BybitTransfer> universalTransfers) {
+    List<FundingRecord> fundingRecords = new ArrayList<>();
+
+    universalTransfers.forEach(bybitTransfer -> fundingRecords.add(FundingRecord.builder()
+        .internalId(bybitTransfer.getTransferId())
+        .currency(new Currency(bybitTransfer.getCoin()))
+        .amount(bybitTransfer.getAmount())
+        .date(bybitTransfer.getTimestamp())
+        .status(Status.resolveStatus(bybitTransfer.getStatus().name()))
+        .description(bybitTransfer.getFromMember()+"."+bybitTransfer.getFromAccountType().name()+"->"+bybitTransfer.getToMember()+"."+bybitTransfer.getToAccountType().name())
+        .build()));
+
+    return fundingRecords;
+  }
+
+  public static BybitTransferStatus convertToBybitStatus(FundingRecord.Status status) {
+    BybitTransferStatus bybitStatus = null;
+
+    if(status != null){
+      if(status.equals(Status.COMPLETE)) {
+        bybitStatus = BybitTransferStatus.SUCCESS;
+      } else if(status.equals(Status.PROCESSING)) {
+        bybitStatus = BybitTransferStatus.PENDING;
+      } else if(status.equals(Status.FAILED) || status.equals(Status.CANCELLED)) {
+        bybitStatus = BybitTransferStatus.FAILED;
+      }
+
+    }
+
+    return bybitStatus;
   }
 }

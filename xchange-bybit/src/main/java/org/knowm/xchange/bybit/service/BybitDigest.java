@@ -2,17 +2,13 @@ package org.knowm.xchange.bybit.service;
 
 import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
 
-import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.QueryParam;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.TreeMap;
 import javax.crypto.Mac;
 import lombok.SneakyThrows;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;
-import si.mazi.rescu.Params;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
@@ -34,48 +30,29 @@ public class BybitDigest extends BaseParamsDigest {
   @SneakyThrows
   @Override
   public String digestParams(RestInvocation restInvocation) {
-    Map<String, String> headers = getHeaders(restInvocation);
-    Map<String, String> params = getInputParams(restInvocation);
-    Map<String, String> sortedParams = new TreeMap<>(params);
+    Map<String, String> headers = restInvocation.getParamsMap().get(HeaderParam.class).asHttpHeaders();
 
     // timestamp + API key + (recv_window) + (queryString | jsonBodyString)
-    String plainText = getPlainText(restInvocation, sortedParams);
+    String plainText = getPlainText(restInvocation);
+
     String input =
         headers.get(X_BAPI_TIMESTAMP)
             + headers.get(X_BAPI_API_KEY)
             + headers.getOrDefault(X_BAPI_RECV_WINDOW, "")
             + plainText;
-
     Mac mac = getMac();
     mac.update(input.getBytes(StandardCharsets.UTF_8));
     return bytesToHex(mac.doFinal());
   }
 
-  private static String getPlainText(
-      RestInvocation restInvocation, Map<String, String> sortedParams) {
+  private static String getPlainText(RestInvocation restInvocation) {
     if ("GET".equals(restInvocation.getHttpMethod())) {
-      Params p = Params.of();
-      sortedParams.forEach(p::add);
-      return p.asQueryString();
+      return restInvocation.getQueryString();
     }
     if ("POST".equals(restInvocation.getHttpMethod())) {
       return restInvocation.getRequestBody();
     }
     throw new NotYetImplementedForExchangeException(
         "Only GET and POST are supported for plain text");
-  }
-
-  private Map<String, String> getHeaders(RestInvocation restInvocation) {
-    return restInvocation.getParamsMap().get(HeaderParam.class).asHttpHeaders();
-  }
-
-  private Map<String, String> getInputParams(RestInvocation restInvocation) {
-    if ("GET".equals(restInvocation.getHttpMethod())) {
-      return restInvocation.getParamsMap().get(QueryParam.class).asHttpHeaders();
-    }
-    if ("POST".equals(restInvocation.getHttpMethod())) {
-      return restInvocation.getParamsMap().get(FormParam.class).asHttpHeaders();
-    }
-    throw new NotYetImplementedForExchangeException("Only GET and POST are supported in digest");
   }
 }

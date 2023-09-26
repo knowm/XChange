@@ -9,10 +9,10 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
-import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
-import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRate;
-import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
+import org.knowm.xchange.bybit.dto.account.BybitAllCoinsBalance;
+import org.knowm.xchange.bybit.dto.account.BybitAllCoinsBalance.BybitCoinBalance;
+import org.knowm.xchange.bybit.dto.account.BybitFeeRates;
+import org.knowm.xchange.bybit.dto.account.BybitFeeRates.BybitFeeRate;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountBalance;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitCoinWalletBalance;
@@ -80,7 +80,7 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
     initGetStub("/v5/asset/transfer/query-account-coins-balance", "/getAllCoinsBalance.json5");
 
     BybitResult<BybitAllCoinsBalance> coinsBalanceBybitResult =
-        bybitAccountServiceRaw.getAllCoinsBalance(BybitAccountType.FUND, null, null, null);
+        bybitAccountServiceRaw.getAllCoinsBalance(BybitAccountType.FUND, null, null, false);
 
     BybitAllCoinsBalance coinsBalance = coinsBalanceBybitResult.getResult();
 
@@ -88,7 +88,7 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
     assertThat(coinsBalance.getAccountType()).isEqualTo(BybitAccountType.FUND);
 
     assertThat(coinsBalance.getBalance()).hasSize(1);
-    BybitAllCoinBalance coinBalance = coinsBalance.getBalance().get(0);
+    BybitCoinBalance coinBalance = coinsBalance.getBalance().get(0);
 
     assertThat(coinBalance.getCoin()).isEqualTo("USDC");
     assertThat(coinBalance.getTransferBalance()).isEqualTo("0");

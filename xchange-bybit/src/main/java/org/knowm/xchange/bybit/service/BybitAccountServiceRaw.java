@@ -7,12 +7,13 @@ import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.BybitInternalTransfersResponse;
-import org.knowm.xchange.bybit.dto.account.BybitInternalTransfersResponse.BybitTransferStatus;
-import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
-import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
+import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse;
+import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse.BybitTransferStatus;
+import org.knowm.xchange.bybit.dto.account.BybitAllCoinsBalance;
+import org.knowm.xchange.bybit.dto.account.BybitFeeRates;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
+import org.knowm.xchange.currency.Currency;
 
 public class BybitAccountServiceRaw extends BybitBaseService {
 
@@ -31,7 +32,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     return walletBalances;
   }
 
-  public BybitResult<BybitAllCoinsBalance> getAllCoinsBalance(BybitAccountType accountType, String memberId, String coin, Integer withBonus)
+  public BybitResult<BybitAllCoinsBalance> getAllCoinsBalance(BybitAccountType accountType, String memberId, String coin, boolean withBonus)
       throws IOException {
     BybitResult<BybitAllCoinsBalance> allCoinsBalance =
         bybitAuthenticated.getAllCoinsBalance(
@@ -41,7 +42,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
             memberId,
             accountType.name(),
             coin,
-            withBonus
+            !withBonus ? 0 : 1
         );
     if (!allCoinsBalance.isSuccess()) {
       throw createBybitExceptionFromResult(allCoinsBalance);
@@ -49,15 +50,47 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     return allCoinsBalance;
   }
 
-  public BybitResult<BybitInternalTransfersResponse> getBybitInternalTransfers(String transferId, String coin, BybitTransferStatus status, Date startTime, Date endTime, Integer limit, String cursor)
+  public BybitResult<BybitAllCoinsBalance> getSingleCoinBalance(
+      String memberId,
+      String toMemberId,
+      BybitAccountType accountType,
+      BybitAccountType toAccountType,
+      Currency coin,
+      Boolean withBonus,
+      Boolean withTransferSafeAmount,
+      Boolean withLtvTransferSafeAmount
+  )
       throws IOException {
-    BybitResult<BybitInternalTransfersResponse> internalTransfers =
+    BybitResult<BybitAllCoinsBalance> singleCoinBalance =
+        bybitAuthenticated.getSingleCoinBalance(
+            apiKey,
+            signatureCreator,
+            nonceFactory,
+            memberId,
+            toMemberId,
+            (accountType == null) ? null : accountType.name(),
+            (toAccountType == null) ? null : toAccountType.name(),
+            (coin == null) ? null : coin.toString(),
+            (!withBonus) ? 0 : 1,
+            (!withTransferSafeAmount) ? 0 : 1,
+            (!withLtvTransferSafeAmount) ? 0 : 1
+        );
+    if (!singleCoinBalance.isSuccess()) {
+      throw createBybitExceptionFromResult(singleCoinBalance);
+    }
+    return singleCoinBalance;
+  }
+
+
+  public BybitResult<BybitTransfersResponse> getBybitInternalTransfers(String transferId, Currency coin, BybitTransferStatus status, Date startTime, Date endTime, Integer limit, String cursor)
+      throws IOException {
+    BybitResult<BybitTransfersResponse> internalTransfers =
         bybitAuthenticated.getInternalTransferRecords(
             apiKey,
             signatureCreator,
             nonceFactory,
             transferId,
-            coin,
+            (coin == null) ? null : coin.toString(),
             (status == null) ? null : status.name(),
             (startTime == null) ? null : startTime.toInstant().toEpochMilli(),
             (endTime == null) ? null : endTime.toInstant().toEpochMilli(),
@@ -68,6 +101,27 @@ public class BybitAccountServiceRaw extends BybitBaseService {
       throw createBybitExceptionFromResult(internalTransfers);
     }
     return internalTransfers;
+  }
+
+  public BybitResult<BybitTransfersResponse> getBybitUniversalTransfers(String transferId, Currency coin, BybitTransferStatus status, Date startTime, Date endTime, Integer limit, String cursor)
+      throws IOException {
+    BybitResult<BybitTransfersResponse> universalTransfers =
+        bybitAuthenticated.getUniversalTransferRecords(
+            apiKey,
+            signatureCreator,
+            nonceFactory,
+            transferId,
+            (coin == null) ? null : coin.toString(),
+            (status == null) ? null : status.name(),
+            (startTime == null) ? null : startTime.toInstant().toEpochMilli(),
+            (endTime == null) ? null : endTime.toInstant().toEpochMilli(),
+            limit,
+            cursor
+        );
+    if (!universalTransfers.isSuccess()) {
+      throw createBybitExceptionFromResult(universalTransfers);
+    }
+    return universalTransfers;
   }
 
   public BybitResult<BybitFeeRates> getFeeRates(BybitCategory category, String symbol)
