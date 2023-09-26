@@ -15,9 +15,14 @@ import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.account.BybitDepositRecordsResponse;
+import org.knowm.xchange.bybit.dto.account.BybitInternalDepositRecordsResponse.BybitInternalDepositRecord;
+import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse;
+import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse.BybitTransactionLog;
 import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse;
 import org.knowm.xchange.bybit.dto.account.BybitAllCoinsBalance;
 import org.knowm.xchange.bybit.dto.account.BybitFeeRates;
+import org.knowm.xchange.bybit.dto.account.BybitWithdrawRecordsResponse;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
 import org.knowm.xchange.bybit.dto.trade.BybitTradeHistoryResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
@@ -49,7 +54,7 @@ public interface BybitAuthenticated {
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
       @QueryParam("memberId") String memberId,
-      @QueryParam("accountType") String accountType,
+      @QueryParam("accountType") String accountType, //required
       @QueryParam("coin") String coin,
       @QueryParam("withBonus") Integer withBonus
   ) throws IOException, BybitException;
@@ -148,6 +153,78 @@ public interface BybitAuthenticated {
       @QueryParam("transferId") String transferId,
       @QueryParam("coin") String coin,
       @QueryParam("status") String status,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("cursor") String cursor
+  ) throws IOException, BybitException;
+
+  @GET
+  @Path("/account/transaction-log")
+  BybitResult<BybitTransactionLogResponse> getTransactionLog(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("accountType") String accountType,
+      @QueryParam("category") String category,
+      @QueryParam("currency") String currency,
+      @QueryParam("baseCoin") String baseCoin,
+      @QueryParam("type") String type,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("cursor") String cursor
+  ) throws IOException, BybitException;
+
+  @GET
+  @Path("/asset/withdraw/query-record")
+  BybitResult<BybitWithdrawRecordsResponse> getWithdrawRecords(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("withdrawId") String withdrawID,
+      @QueryParam("coin") String coin,
+      @QueryParam("withdrawType") Integer withdrawType, //0(default): on chain. 1: off chain. 2: all
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("cursor") String cursor
+  ) throws IOException, BybitException;
+
+  @GET
+  @Path("/asset/deposit/query-record")
+  BybitResult<BybitDepositRecordsResponse> getOnChainDepositRecords(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("coin") String coin,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("cursor") String cursor
+  ) throws IOException, BybitException;
+
+  @GET
+  @Path("/asset/deposit/query-internal-record")
+  BybitResult<BybitInternalDepositRecord> getInternalDepositRecords(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("coin") String coin,
+      @QueryParam("cursor") String cursor,
+      @QueryParam("limit") Integer limit
+  ) throws IOException, BybitException;
+
+  @GET
+  @Path("/asset/deposit/query-sub-member-record")
+  BybitResult<BybitDepositRecordsResponse> getSubAccountDepositRecords(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("subMemberId") String subMemberId, //required
+      @QueryParam("coin") String coin,
       @QueryParam("startTime") Long startTime,
       @QueryParam("endTime") Long endTime,
       @QueryParam("limit") Integer limit,

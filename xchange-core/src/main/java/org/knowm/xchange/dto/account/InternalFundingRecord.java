@@ -12,4 +12,8 @@ public class InternalFundingRecord extends FundingRecord {
   private final String fromAccount;
 
   private final String toAccount;
+
+  private final String fromSubAccount;
+
+  private final String toSubAccount;
 }
