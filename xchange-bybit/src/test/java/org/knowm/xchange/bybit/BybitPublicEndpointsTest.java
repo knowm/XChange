@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 public class BybitPublicEndpointsTest {
 
-  Exchange exchange = BybitExchangeInit.getBybitExchange();
+  private static final Exchange exchange = BybitExchangeInit.getBybitExchange();
   private final Logger LOG = LoggerFactory.getLogger(BybitPublicEndpointsTest.class);
   @Test
   public void checkInstrumentMetaData() {
