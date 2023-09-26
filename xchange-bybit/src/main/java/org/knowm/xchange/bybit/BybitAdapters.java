@@ -14,6 +14,8 @@ import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse.BybitTransactionLog;
+import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse.BybitTransactionLog.BybitTransactionLogType;
 import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse.BybitTransfer;
 import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse.BybitTransferStatus;
 import org.knowm.xchange.bybit.dto.account.BybitAllCoinsBalance;
@@ -44,6 +46,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.InternalFundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.account.Wallet.WalletFeature;
@@ -428,7 +431,7 @@ public class BybitAdapters {
 
     universalTransfers.forEach(bybitTransfer -> fundingRecords.add(FundingRecord.builder()
         .internalId(bybitTransfer.getTransferId())
-        .currency(new Currency(bybitTransfer.getCoin()))
+        .currency(Currency.getInstance(bybitTransfer.getCoin()))
         .amount(bybitTransfer.getAmount())
         .date(bybitTransfer.getTimestamp())
         .status(Status.resolveStatus(bybitTransfer.getStatus().name()))
@@ -453,5 +456,54 @@ public class BybitAdapters {
     }
 
     return bybitStatus;
+  }
+
+  public static List<FundingRecord> adaptBybitLedger(List<BybitTransactionLog> list) {
+    List<FundingRecord> fundingRecords = new ArrayList<>();
+
+    list.forEach(
+        bybitTransactionLog -> fundingRecords.add(
+            FundingRecord.builder()
+                .currency(Currency.getInstance(bybitTransactionLog.getCurrency()))
+                .balance(bybitTransactionLog.getCashBalance())
+                .internalId(bybitTransactionLog.getId())
+                .fee(bybitTransactionLog.getFee())
+                .amount(bybitTransactionLog.getChange())
+                .type(convertToFundingRecordType(bybitTransactionLog.getType()))
+                .status(Status.COMPLETE)
+                .date(bybitTransactionLog.getTransactionTime())
+                .build()));
+
+    return fundingRecords;
+  }
+
+  private static Type convertToFundingRecordType(BybitTransactionLogType type) {
+    if(type != null){
+      if(type.equals(BybitTransactionLogType.TRANSFER_IN)){
+        return Type.DEPOSIT;
+      } else if(type.equals(BybitTransactionLogType.TRANSFER_OUT)){
+        return Type.WITHDRAWAL;
+      } else if (type.equals(BybitTransactionLogType.SETTLEMENT)){
+        return Type.SETTLEMENT;
+      } else if(type.equals(BybitTransactionLogType.INTEREST)){
+        return Type.INTEREST;
+      } else if(type.equals(BybitTransactionLogType.DELIVERY)){
+        return Type.DELIVERY;
+      } else return null;
+    } else return null;
+  }
+
+  public static BybitTransactionLogType convertToBybitTransactionLogType(Type type) {
+    if(type != null){
+      if(type.isInflowing()){
+        return BybitTransactionLogType.TRANSFER_IN;
+      } else if(type.isOutflowing()){
+        return BybitTransactionLogType.TRANSFER_OUT;
+      } else if (type.equals(Type.REALISED_LOSS) || type.equals(Type.REALISED_PROFIT)){
+        return BybitTransactionLogType.TRADE;
+      } else {
+        return null;
+      }
+    } else return null;
   }
 }

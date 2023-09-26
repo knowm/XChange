@@ -9,7 +9,9 @@ import lombok.Getter;
 public enum BybitSide {
   BUY("Buy"),
 
-  SELL("Sell");
+  SELL("Sell"),
+
+  NONE("None");
 
   @JsonValue private final String value;
 }

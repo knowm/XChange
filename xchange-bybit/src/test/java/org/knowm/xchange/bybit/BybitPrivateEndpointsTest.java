@@ -105,11 +105,10 @@ public class BybitPrivateEndpointsTest {
         .endTime(Date.from(Instant.now().minus(1, ChronoUnit.DAYS)))
         .status(FundingRecord.Status.COMPLETE)
         .build();
-    List<InternalFundingRecord> internalFundingRecords = exchange.getAccountService().getInternalTransferHistory(paramAll);
+    List<InternalFundingRecord> internalFundingRecords = exchange.getAccountService().getInternalWalletsTransferHistory(paramAll);
 
     internalFundingRecords.forEach(
         internalFundingRecord -> {
-          System.out.println(internalFundingRecords);
           assertThat(internalFundingRecord.getInternalId()).isNotNull();
           assertThat(internalFundingRecord.getDate()).isNotNull();
           assertThat(internalFundingRecord.getAmount()).isNotNull();
@@ -124,16 +123,32 @@ public class BybitPrivateEndpointsTest {
   public void testUniversalTransfers() throws IOException {
     FundingRecordParamAll paramAll = FundingRecordParamAll.builder()
         .build();
-    List<FundingRecord> internalFundingRecords = exchange.getAccountService().getTransferHistory(paramAll);
+    List<FundingRecord> internalFundingRecords = exchange.getAccountService().getSubAccountsTransferHistory(paramAll);
 
     internalFundingRecords.forEach(
         fundingRecord -> {
-          System.out.println(internalFundingRecords);
           assertThat(fundingRecord.getInternalId()).isNotNull();
           assertThat(fundingRecord.getDate()).isNotNull();
           assertThat(fundingRecord.getAmount()).isNotNull();
           assertThat(fundingRecord.getStatus()).isNotNull();
           assertThat(fundingRecord.getDescription()).isNotNull();
+        });
+  }
+
+  @Test
+  public void testLedger() throws IOException {
+    FundingRecordParamAll paramAll = FundingRecordParamAll.builder()
+        .usePagination(true)
+        .build();
+    List<FundingRecord> internalFundingRecords = exchange.getAccountService().getLedger(paramAll);
+
+    internalFundingRecords.forEach(
+        fundingRecord -> {
+          assertThat(fundingRecord.getInternalId()).isNotNull();
+          assertThat(fundingRecord.getDate()).isNotNull();
+          assertThat(fundingRecord.getAmount()).isNotNull();
+          assertThat(fundingRecord.getStatus()).isNotNull();
+          assertThat(fundingRecord.getCurrency()).isNotNull();
         });
   }
 }

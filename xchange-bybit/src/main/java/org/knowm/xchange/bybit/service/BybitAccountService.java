@@ -1,11 +1,15 @@
 package org.knowm.xchange.bybit.service;
 
+import static org.knowm.xchange.bybit.BybitAdapters.adaptBybitInternalTransfers;
+
 import com.google.common.collect.Sets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.BybitAdapters;
+import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse;
+import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -48,34 +52,128 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
   }
 
   @Override
-  public List<FundingRecord> getTransferHistory(FundingRecordParamAll params) throws IOException {
+  public List<FundingRecord> getSubAccountsTransferHistory(FundingRecordParamAll params) throws IOException {
 
-    return BybitAdapters.adaptBybitUniversalTransfers(getBybitUniversalTransfers(
+    BybitTransfersResponse res = getBybitUniversalTransfers(
         params.getTransferId(),
         params.getCurrency(),
         BybitAdapters.convertToBybitStatus(params.getStatus()),
         params.getStartTime(),
         params.getEndTime(),
         (params.getLimit() == null) ? 50 : params.getLimit(), // 50 is the maximum
-        null).getResult().getInternalTransfers());
+        null
+    ).getResult();
+
+    if(params.isUsePagination()){
+      String nextPageCursor = res.getNextPageCursor();
+      List<FundingRecord> fundingRecordList = new ArrayList<>();
+
+      while (nextPageCursor != null) {
+        fundingRecordList.addAll(BybitAdapters.adaptBybitUniversalTransfers(res.getInternalTransfers()));
+
+        res = getBybitUniversalTransfers(
+            params.getTransferId(),
+            params.getCurrency(),
+            BybitAdapters.convertToBybitStatus(params.getStatus()),
+            params.getStartTime(),
+            params.getEndTime(),
+            (params.getLimit() == null) ? 50 : params.getLimit(), // 50 is the maximum
+            res.getNextPageCursor()
+        ).getResult();
+
+        nextPageCursor = res.getNextPageCursor();
+      }
+
+      return fundingRecordList;
+    } else {
+      return BybitAdapters.adaptBybitUniversalTransfers(res.getInternalTransfers());
+    }
   }
 
   @Override
-  public List<InternalFundingRecord> getInternalTransferHistory(FundingRecordParamAll params)
+  public List<InternalFundingRecord> getInternalWalletsTransferHistory(FundingRecordParamAll params)
       throws IOException {
 
-    return BybitAdapters.adaptBybitInternalTransfers(getBybitInternalTransfers(
+    BybitTransfersResponse res = getBybitInternalTransfers(
         params.getTransferId(),
         params.getCurrency(),
         BybitAdapters.convertToBybitStatus(params.getStatus()),
         params.getStartTime(),
         params.getEndTime(),
         (params.getLimit() == null) ? 50 : params.getLimit(), // 50 is the maximum
-        null).getResult().getInternalTransfers());
+        null
+    ).getResult();
+
+    if(params.isUsePagination()){
+      String nextPageCursor = res.getNextPageCursor();
+      List<InternalFundingRecord> fundingRecordList = new ArrayList<>();
+
+      while (nextPageCursor != null) {
+        fundingRecordList.addAll(adaptBybitInternalTransfers(res.getInternalTransfers()));
+
+        res = getBybitInternalTransfers(
+            params.getTransferId(),
+            params.getCurrency(),
+            BybitAdapters.convertToBybitStatus(params.getStatus()),
+            params.getStartTime(),
+            params.getEndTime(),
+            (params.getLimit() == null) ? 50 : params.getLimit(), // 50 is the maximum
+            res.getNextPageCursor()
+        ).getResult();
+
+        nextPageCursor = res.getNextPageCursor();
+      }
+
+      return fundingRecordList;
+    } else {
+      return adaptBybitInternalTransfers(res.getInternalTransfers());
+    }
   }
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     return AccountService.super.getFundingHistory(params);
+  }
+
+  @Override
+  public List<FundingRecord> getLedger(FundingRecordParamAll params) throws IOException {
+    BybitTransactionLogResponse res = getBybitLedger(
+        accountType,
+        null,
+        params.getCurrency(),
+        null,
+        BybitAdapters.convertToBybitTransactionLogType(params.getType()),
+        params.getStartTime(),
+        params.getEndTime(),
+        (params.getLimit() == null) ? 50 : params.getLimit(),
+        null
+    ).getResult();
+
+    if(params.isUsePagination()){
+      String nextPageCursor = res.getNextPageCursor();
+      List<FundingRecord> fundingRecordList = new ArrayList<>();
+
+      while (nextPageCursor != null) {
+        fundingRecordList.addAll(BybitAdapters.adaptBybitLedger(res.getList()));
+
+        res = getBybitLedger(
+            accountType,
+            null,
+            params.getCurrency(),
+            null,
+            BybitAdapters.convertToBybitTransactionLogType(params.getType()),
+            params.getStartTime(),
+            params.getEndTime(),
+            (params.getLimit() == null) ? 50 : params.getLimit(),
+            res.getNextPageCursor()
+        ).getResult();
+
+        nextPageCursor = res.getNextPageCursor();
+      }
+
+      return fundingRecordList;
+    } else {
+      return BybitAdapters.adaptBybitLedger(res.getList());
+    }
   }
 }

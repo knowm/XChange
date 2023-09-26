@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 
 @Getter
 @Setter
@@ -18,4 +19,6 @@ public class FundingRecordParamAll {
   private Date startTime;
   private Date endTime;
   private Integer limit;
+  private Type type;
+  private boolean usePagination;
 }

@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.bybit.dto.BybitCategory;
-import org.knowm.xchange.bybit.dto.trade.BybitSide;
 
 @Getter
 @ToString
@@ -36,13 +34,16 @@ public class BybitTransactionLogResponse {
     private String symbol;
 
     @JsonProperty("category")
-    private BybitCategory category;
+    private String category;
 
     @JsonProperty("side")
-    private BybitSide side;
+    private String side;
 
     @JsonProperty("transactionTime")
     private Date transactionTime;
+
+    @JsonProperty("type")
+    private BybitTransactionLogType type;
 
     @JsonProperty("qty")
     private BigDecimal qty;

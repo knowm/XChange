@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
@@ -82,6 +81,9 @@ public class FundingRecord implements Serializable {
      * response
      */
     OTHER_OUTFLOW(false),
+    INTEREST(false),
+    DELIVERY(false),
+    SETTLEMENT(false),
 
     /** Used for transfers between exchanges accounts */
     INTERNAL_WITHDRAWAL(false),
