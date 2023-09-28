@@ -13,7 +13,6 @@ import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.InternalFundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.account.Wallet.WalletFeature;
 import org.knowm.xchange.dto.account.params.FundingRecordParamAll;
@@ -91,7 +90,7 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
   }
 
   @Override
-  public List<InternalFundingRecord> getInternalWalletsTransferHistory(FundingRecordParamAll params)
+  public List<FundingRecord> getInternalWalletsTransferHistory(FundingRecordParamAll params)
       throws IOException {
 
     BybitTransfersResponse res = getBybitInternalTransfers(
@@ -106,7 +105,7 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
 
     if(params.isUsePagination()){
       String nextPageCursor = res.getNextPageCursor();
-      List<InternalFundingRecord> fundingRecordList = new ArrayList<>();
+      List<FundingRecord> fundingRecordList = new ArrayList<>();
 
       while (nextPageCursor != null) {
         fundingRecordList.addAll(adaptBybitInternalTransfers(res.getInternalTransfers()));

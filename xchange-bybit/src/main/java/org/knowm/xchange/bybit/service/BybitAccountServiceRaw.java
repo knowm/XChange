@@ -10,7 +10,6 @@ import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitDepositRecordsResponse;
 import org.knowm.xchange.bybit.dto.account.BybitInternalDepositRecordsResponse.BybitInternalDepositRecord;
 import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse;
-import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse.BybitTransactionLog;
 import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse.BybitTransactionLog.BybitTransactionLogType;
 import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse;
 import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse.BybitTransferStatus;
@@ -152,7 +151,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
       String cursor)
       throws IOException {
     BybitResult<BybitTransactionLogResponse> ledger =
-        bybitAuthenticated.getTransactionLog(
+        bybitAuthenticated.getTransactionLogRecords(
             apiKey,
             signatureCreator,
             nonceFactory,

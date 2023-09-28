@@ -18,7 +18,6 @@ import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitDepositRecordsResponse;
 import org.knowm.xchange.bybit.dto.account.BybitInternalDepositRecordsResponse.BybitInternalDepositRecord;
 import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse;
-import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse.BybitTransactionLog;
 import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse;
 import org.knowm.xchange.bybit.dto.account.BybitAllCoinsBalance;
 import org.knowm.xchange.bybit.dto.account.BybitFeeRates;
@@ -161,7 +160,7 @@ public interface BybitAuthenticated {
 
   @GET
   @Path("/account/transaction-log")
-  BybitResult<BybitTransactionLogResponse> getTransactionLog(
+  BybitResult<BybitTransactionLogResponse> getTransactionLogRecords(
       @HeaderParam(X_BAPI_API_KEY) String apiKey,
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
@@ -204,6 +203,9 @@ public interface BybitAuthenticated {
       @QueryParam("cursor") String cursor
   ) throws IOException, BybitException;
 
+  /**
+   * Query the internal transfer records between different account types under the same UID.
+   */
   @GET
   @Path("/asset/deposit/query-internal-record")
   BybitResult<BybitInternalDepositRecord> getInternalDepositRecords(
@@ -217,6 +219,9 @@ public interface BybitAuthenticated {
       @QueryParam("limit") Integer limit
   ) throws IOException, BybitException;
 
+  /**
+   * Query subaccount's deposit records by main UID's API key.
+   */
   @GET
   @Path("/asset/deposit/query-sub-member-record")
   BybitResult<BybitDepositRecordsResponse> getSubAccountDepositRecords(

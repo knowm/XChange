@@ -47,7 +47,6 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
-import org.knowm.xchange.dto.account.InternalFundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.account.Wallet.WalletFeature;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -410,17 +409,17 @@ public class BybitAdapters {
     return currencyCurrencyMetaDataMap;
   }
 
-  public static List<InternalFundingRecord> adaptBybitInternalTransfers(List<BybitTransfer> internalTransfers) {
-    List<InternalFundingRecord> fundingRecords = new ArrayList<>();
+  public static List<FundingRecord> adaptBybitInternalTransfers(List<BybitTransfer> internalTransfers) {
+    List<FundingRecord> fundingRecords = new ArrayList<>();
 
-    internalTransfers.forEach(bybitTransfer -> fundingRecords.add(InternalFundingRecord.builder()
+    internalTransfers.forEach(bybitTransfer -> fundingRecords.add(FundingRecord.builder()
             .internalId(bybitTransfer.getTransferId())
             .currency(new Currency(bybitTransfer.getCoin()))
             .amount(bybitTransfer.getAmount())
             .date(bybitTransfer.getTimestamp())
             .status(Status.resolveStatus(bybitTransfer.getStatus().name()))
-            .fromAccount(bybitTransfer.getFromAccountType().name())
-            .toAccount(bybitTransfer.getToAccountType().name())
+            .fromWallet(bybitTransfer.getFromAccountType().name())
+            .toWallet(bybitTransfer.getToAccountType().name())
             .description(bybitTransfer.getFromAccountType().name()+"->"+bybitTransfer.getToAccountType().name())
         .build()));
     return fundingRecords;
@@ -435,6 +434,10 @@ public class BybitAdapters {
         .amount(bybitTransfer.getAmount())
         .date(bybitTransfer.getTimestamp())
         .status(Status.resolveStatus(bybitTransfer.getStatus().name()))
+        .toSubAccount(bybitTransfer.getToMember())
+        .fromSubAccount(bybitTransfer.getFromMember())
+        .toWallet(bybitTransfer.getToAccountType().name())
+        .fromWallet(bybitTransfer.getFromAccountType().name())
         .description(bybitTransfer.getFromMember()+"."+bybitTransfer.getFromAccountType().name()+"->"+bybitTransfer.getToMember()+"."+bybitTransfer.getToAccountType().name())
         .build()));
 
@@ -445,14 +448,20 @@ public class BybitAdapters {
     BybitTransferStatus bybitStatus = null;
 
     if(status != null){
-      if(status.equals(Status.COMPLETE)) {
-        bybitStatus = BybitTransferStatus.SUCCESS;
-      } else if(status.equals(Status.PROCESSING)) {
-        bybitStatus = BybitTransferStatus.PENDING;
-      } else if(status.equals(Status.FAILED) || status.equals(Status.CANCELLED)) {
-        bybitStatus = BybitTransferStatus.FAILED;
+      switch (status){
+        case CANCELLED:
+        case FAILED:
+          bybitStatus = BybitTransferStatus.FAILED;
+          break;
+        case COMPLETE:
+          bybitStatus = BybitTransferStatus.SUCCESS;
+          break;
+        case PROCESSING:
+          bybitStatus = BybitTransferStatus.PENDING;
+          break;
+        default:
+          break;
       }
-
     }
 
     return bybitStatus;
@@ -478,19 +487,31 @@ public class BybitAdapters {
   }
 
   private static Type convertToFundingRecordType(BybitTransactionLogType type) {
+    Type fundingRecordType = null;
+
     if(type != null){
-      if(type.equals(BybitTransactionLogType.TRANSFER_IN)){
-        return Type.DEPOSIT;
-      } else if(type.equals(BybitTransactionLogType.TRANSFER_OUT)){
-        return Type.WITHDRAWAL;
-      } else if (type.equals(BybitTransactionLogType.SETTLEMENT)){
-        return Type.SETTLEMENT;
-      } else if(type.equals(BybitTransactionLogType.INTEREST)){
-        return Type.INTEREST;
-      } else if(type.equals(BybitTransactionLogType.DELIVERY)){
-        return Type.DELIVERY;
-      } else return null;
-    } else return null;
+      switch (type) {
+        case TRANSFER_IN:
+          fundingRecordType = Type.DEPOSIT;
+          break;
+        case TRANSFER_OUT:
+          fundingRecordType = Type.WITHDRAWAL;
+          break;
+        case TRADE:
+        case LIQUIDATION:
+          fundingRecordType = Type.TRADE;
+          break;
+        case DELIVERY:
+          fundingRecordType = Type.DELIVERY;
+          break;
+        case INTEREST:
+          fundingRecordType = Type.INTEREST;
+          break;
+        default:
+          break;
+      }
+    }
+    return fundingRecordType;
   }
 
   public static BybitTransactionLogType convertToBybitTransactionLogType(Type type) {

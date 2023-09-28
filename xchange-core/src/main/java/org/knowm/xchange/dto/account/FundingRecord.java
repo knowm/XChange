@@ -60,6 +60,14 @@ public class FundingRecord implements Serializable {
   /** Description of the transaction */
   private String description;
 
+  private final String fromWallet;
+
+  private final String toWallet;
+
+  private final String fromSubAccount;
+
+  private final String toSubAccount;
+
   @Deprecated // for backward compatibility.  Will be removed
   public String getExternalId() {
     return blockchainTransactionHash;
@@ -95,7 +103,9 @@ public class FundingRecord implements Serializable {
     REALISED_LOSS(false),
 
     /** Used for realised profits from derivatives */
-    REALISED_PROFIT(true);
+    REALISED_PROFIT(true),
+
+    TRADE(false);
 
     private static final Map<String, Type> fromString = new HashMap<>();
 

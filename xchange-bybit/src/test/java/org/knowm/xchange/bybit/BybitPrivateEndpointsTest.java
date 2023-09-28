@@ -18,7 +18,6 @@ import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.InternalFundingRecord;
 import org.knowm.xchange.dto.account.params.FundingRecordParamAll;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
@@ -105,27 +104,27 @@ public class BybitPrivateEndpointsTest {
         .endTime(Date.from(Instant.now().minus(1, ChronoUnit.DAYS)))
         .status(FundingRecord.Status.COMPLETE)
         .build();
-    List<InternalFundingRecord> internalFundingRecords = exchange.getAccountService().getInternalWalletsTransferHistory(paramAll);
+    List<FundingRecord> records = exchange.getAccountService().getInternalWalletsTransferHistory(paramAll);
 
-    internalFundingRecords.forEach(
+    records.forEach(
         internalFundingRecord -> {
           assertThat(internalFundingRecord.getInternalId()).isNotNull();
           assertThat(internalFundingRecord.getDate()).isNotNull();
           assertThat(internalFundingRecord.getAmount()).isNotNull();
-          assertThat(internalFundingRecord.getFromAccount()).isNotNull();
-          assertThat(internalFundingRecord.getToAccount()).isNotNull();
+          assertThat(internalFundingRecord.getFromWallet()).isNotNull();
+          assertThat(internalFundingRecord.getToWallet()).isNotNull();
           assertThat(internalFundingRecord.getStatus()).isNotNull();
           assertThat(internalFundingRecord.getDescription()).isNotNull();
         });
   }
 
   @Test
-  public void testUniversalTransfers() throws IOException {
+  public void testSubAccountTransfers() throws IOException {
     FundingRecordParamAll paramAll = FundingRecordParamAll.builder()
         .build();
-    List<FundingRecord> internalFundingRecords = exchange.getAccountService().getSubAccountsTransferHistory(paramAll);
+    List<FundingRecord> records = exchange.getAccountService().getSubAccountsTransferHistory(paramAll);
 
-    internalFundingRecords.forEach(
+    records.forEach(
         fundingRecord -> {
           assertThat(fundingRecord.getInternalId()).isNotNull();
           assertThat(fundingRecord.getDate()).isNotNull();
@@ -140,9 +139,9 @@ public class BybitPrivateEndpointsTest {
     FundingRecordParamAll paramAll = FundingRecordParamAll.builder()
         .usePagination(true)
         .build();
-    List<FundingRecord> internalFundingRecords = exchange.getAccountService().getLedger(paramAll);
+    List<FundingRecord> records = exchange.getAccountService().getLedger(paramAll);
 
-    internalFundingRecords.forEach(
+    records.forEach(
         fundingRecord -> {
           assertThat(fundingRecord.getInternalId()).isNotNull();
           assertThat(fundingRecord.getDate()).isNotNull();
