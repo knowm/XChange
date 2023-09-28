@@ -64,14 +64,14 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
     assertThat(coins.get(0).getTotalPositionMM()).isEqualTo("0");
     assertThat(coins.get(0).getUsdValue()).isEqualTo("0");
     assertThat(coins.get(0).getUnrealisedPnl()).isEqualTo("0");
-    assertThat(coins.get(0).isCollateralSwitch()).isEqualTo(true);
+    assertThat(coins.get(0).isCollateralSwitch()).isTrue();
     assertThat(coins.get(0).getBorrowAmount()).isEqualTo("0.0");
     assertThat(coins.get(0).getTotalPositionIM()).isEqualTo("0");
     assertThat(coins.get(0).getWalletBalance()).isEqualTo("0");
     assertThat(coins.get(0).getFree()).isNull();
     assertThat(coins.get(0).getCumRealisedPnl()).isEqualTo("0");
     assertThat(coins.get(0).getLocked()).isEqualTo("0");
-    assertThat(coins.get(0).isMarginCollateral()).isEqualTo(true);
+    assertThat(coins.get(0).isMarginCollateral()).isTrue();
     assertThat(coins.get(0).getCoin()).isEqualTo("BTC");
   }
 

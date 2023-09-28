@@ -6,9 +6,7 @@ import java.util.Date;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 
