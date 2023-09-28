@@ -8,7 +8,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitDepositRecordsResponse;
-import org.knowm.xchange.bybit.dto.account.BybitInternalDepositRecordsResponse.BybitInternalDepositRecord;
+import org.knowm.xchange.bybit.dto.account.BybitInternalDepositRecordsResponse;
 import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse;
 import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse.BybitTransactionLog.BybitTransactionLogType;
 import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse;
@@ -170,7 +170,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     return ledger;
   }
 
-  public BybitResult<BybitWithdrawRecordsResponse> getWithdrawRecords(
+  public BybitResult<BybitWithdrawRecordsResponse> getBybitWithdrawRecords(
       String withdrawId,
       Currency coin,
       BybitWithdrawType withdrawType,
@@ -199,7 +199,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     return withdrawRecords;
   }
 
-  public BybitResult<BybitDepositRecordsResponse> getOnchainDepositRecords(
+  public BybitResult<BybitDepositRecordsResponse> getBybitDepositRecords(
       Currency coin,
       Date startTime,
       Date endTime,
@@ -224,7 +224,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     return depositRecords;
   }
 
-  public BybitResult<BybitInternalDepositRecord> getInternalDepositRecords(
+  public BybitResult<BybitInternalDepositRecordsResponse> getBybitInternalDepositRecords(
       Currency coin,
       Date startTime,
       Date endTime,
@@ -232,7 +232,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
       String cursor
   )
       throws IOException {
-    BybitResult<BybitInternalDepositRecord> internalDepositRecords =
+    BybitResult<BybitInternalDepositRecordsResponse> internalDepositRecords =
         bybitAuthenticated.getInternalDepositRecords(
             apiKey,
             signatureCreator,
@@ -249,7 +249,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     return internalDepositRecords;
   }
 
-  public BybitResult<BybitDepositRecordsResponse> getSubAccountDepositRecords(
+  public BybitResult<BybitDepositRecordsResponse> getBybitSubAccountDepositRecords(
       String subMemberId,
       Currency coin,
       Date startTime,

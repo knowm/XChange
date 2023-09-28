@@ -13,12 +13,14 @@ import org.knowm.xchange.dto.account.FundingRecord.Type;
 @Builder
 public class FundingRecordParamAll {
 
+  private String accountCategory;
   private String transferId;
+  private String subAccountId;
   private Currency currency;
   private FundingRecord.Status status;
   private Date startTime;
   private Date endTime;
   private Integer limit;
   private Type type;
-  private boolean usePagination;
+  private boolean usePagination = true;
 }

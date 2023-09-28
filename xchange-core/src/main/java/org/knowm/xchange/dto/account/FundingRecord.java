@@ -92,6 +92,8 @@ public class FundingRecord implements Serializable {
     INTEREST(false),
     DELIVERY(false),
     SETTLEMENT(false),
+    INTERNAL_WALLET_TRANSFER(false),
+    INTERNAL_SUB_ACCOUNT_TRANSFER(false),
 
     /** Used for transfers between exchanges accounts */
     INTERNAL_WITHDRAWAL(false),
@@ -145,24 +147,28 @@ public class FundingRecord implements Serializable {
         "AWAITING APPROVAL",
         "VERIFYING",
         "PENDING_APPROVAL",
-        "PENDING"),
+        "PENDING",
+        "SECURITY_CHECK",
+        "TO_BE_CONFIRMED",
+        "PROCESSING",
+        "PENDING_TO_BE_CREDITED_TO_FUNDING_POOL"),
 
     /**
      * The exchange has processed the transfer fully and successfully. The funding typically cannot
      * be cancelled any more. For withdrawals, the funds are gone from the exchange, though they may
      * have not reached their destination yet. For deposits, the funds are available to the user.
      */
-    COMPLETE("COMPLETED", "SUCCESS"),
+    COMPLETE("COMPLETED", "SUCCESS","BLOCKCHAIN_CONFIRMED","CREDITED_TO_FUNDING_POOL_SUCCESSFULLY"),
 
     /** The transfer was cancelled either by the user or by the exchange. */
-    CANCELLED("REVOKED", "CANCEL", "REFUND"),
+    CANCELLED("REVOKED", "CANCEL", "REFUND", "CANCEL_BY_USER"),
 
     /**
      * The transfer has failed for any reason other than user cancellation after it was initiated
      * and before it was successfully processed. For withdrawals, the funds are available to the
      * user again.
      */
-    FAILED("FAILURE"),
+    FAILED("FAILURE", "FAILED", "REJECT", "FAIL","UNKNOWN","DEPOSIT_FAILED"),
     ;
 
     private static final Map<String, Status> fromString = new HashMap<>();
@@ -185,7 +191,7 @@ public class FundingRecord implements Serializable {
       this.statusArray = statusArray;
     }
 
-    public static Status resolveStatus(String str) {
+    public static Status resolveStatus(String str) throws IllegalArgumentException{
       if (str == null) {
         return null;
       }

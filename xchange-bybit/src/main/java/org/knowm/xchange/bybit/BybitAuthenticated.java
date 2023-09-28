@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitDepositRecordsResponse;
-import org.knowm.xchange.bybit.dto.account.BybitInternalDepositRecordsResponse.BybitInternalDepositRecord;
+import org.knowm.xchange.bybit.dto.account.BybitInternalDepositRecordsResponse;
 import org.knowm.xchange.bybit.dto.account.BybitTransactionLogResponse;
 import org.knowm.xchange.bybit.dto.account.BybitTransfersResponse;
 import org.knowm.xchange.bybit.dto.account.BybitAllCoinsBalance;
@@ -208,7 +208,7 @@ public interface BybitAuthenticated {
    */
   @GET
   @Path("/asset/deposit/query-internal-record")
-  BybitResult<BybitInternalDepositRecord> getInternalDepositRecords(
+  BybitResult<BybitInternalDepositRecordsResponse> getInternalDepositRecords(
       @HeaderParam(X_BAPI_API_KEY) String apiKey,
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,

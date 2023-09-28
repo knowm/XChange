@@ -74,7 +74,7 @@ public class BybitWithdrawRecordsResponse {
       CANCEL_BY_USER("CancelByUser"),
       REJECT("Reject"),
       FAIL("Fail"),
-      BLOCKCHAIN_CONFIRMING("BlockchainConfirmed"),
+      BLOCKCHAIN_CONFIRMED("BlockchainConfirmed"),
       UNKNOWN("Unknown");
 
       @JsonValue private final String value;

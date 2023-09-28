@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -18,15 +19,18 @@ import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.params.FundingRecordParamAll;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 
+@Ignore
 public class BybitPrivateEndpointsTest {
 
   static Exchange exchange;
 
   Instrument instrument = new CurrencyPair("BTC/USDT");
+  static String subAccountId;
 
   @BeforeClass
   public static void setUp(){
@@ -47,6 +51,7 @@ public class BybitPrivateEndpointsTest {
     exchange = ExchangeFactory.INSTANCE.createExchange(BybitExchange.class);
     exchange.applySpecification(spec);
 
+    subAccountId = properties.getProperty("subAccountId");
   }
 
   @Test
@@ -95,7 +100,30 @@ public class BybitPrivateEndpointsTest {
                 assertThat(balance.getBorrowed()).isNotNull();
             });
         });
-    }
+  }
+
+  @Test
+  public void testSubAccountInfo() throws IOException {
+    AccountInfo accountInfo = exchange.getAccountService().getSubAccountInfo(subAccountId);
+
+    assertThat(accountInfo.getWallets().size()).isGreaterThan(1);
+    accountInfo
+        .getWallets()
+        .forEach(
+            (s, wallet) -> {
+              assertThat(BybitAccountType.valueOf(s)).isInstanceOf(BybitAccountType.class);
+              assertThat(BybitAccountType.valueOf(wallet.getId())).isInstanceOf(BybitAccountType.class);
+              assertThat(wallet.getFeatures()).isNotNull();
+
+              wallet.getBalances().forEach((currency, balance) -> {
+                assertThat(currency).isNotNull();
+                assertThat(balance.getAvailable()).isNotNull();
+                assertThat(balance.getTotal()).isNotNull();
+                assertThat(balance.getFrozen()).isNotNull();
+                assertThat(balance.getBorrowed()).isNotNull();
+              });
+            });
+  }
 
   @Test
   public void testInternalTransfers() throws IOException {
@@ -130,6 +158,51 @@ public class BybitPrivateEndpointsTest {
           assertThat(fundingRecord.getDate()).isNotNull();
           assertThat(fundingRecord.getAmount()).isNotNull();
           assertThat(fundingRecord.getStatus()).isNotNull();
+          assertThat(fundingRecord.getToSubAccount()).isNotNull();
+          assertThat(fundingRecord.getFromSubAccount()).isNotNull();
+          assertThat(fundingRecord.getToWallet()).isNotNull();
+          assertThat(fundingRecord.getFromWallet()).isNotNull();
+          assertThat(fundingRecord.getDescription()).isNotNull();
+        });
+  }
+
+  @Test
+  public void testAccountDepositHistory() throws IOException {
+    FundingRecordParamAll paramAll = FundingRecordParamAll.builder()
+        .build();
+    List<FundingRecord> records = exchange.getAccountService().getDepositHistory(paramAll);
+
+    records.forEach(
+        fundingRecord -> {
+          assertThat(fundingRecord.getInternalId()).isNotNull();
+          assertThat(fundingRecord.getDate()).isNotNull();
+          assertThat(fundingRecord.getAmount()).isNotNull();
+          assertThat(fundingRecord.getStatus()).isNotNull();
+          assertThat(fundingRecord.getAddress()).isNotNull();
+          assertThat(fundingRecord.getAddressTag()).isNotNull();
+          assertThat(fundingRecord.getFee()).isNotNull();
+          assertThat(fundingRecord.getType()).isNotNull();
+          assertThat(fundingRecord.getBlockchainTransactionHash()).isNotNull();
+        });
+  }
+  @Test
+  public void testSubAccountDepositHistory() throws IOException {
+    FundingRecordParamAll paramAll = FundingRecordParamAll.builder()
+        .subAccountId(subAccountId)
+        .build();
+    List<FundingRecord> records = exchange.getAccountService().getSubAccountDepositHistory(paramAll);
+
+    records.forEach(
+        fundingRecord -> {
+          assertThat(fundingRecord.getInternalId()).isNotNull();
+          assertThat(fundingRecord.getDate()).isNotNull();
+          assertThat(fundingRecord.getAmount()).isNotNull();
+          assertThat(fundingRecord.getStatus()).isNotNull();
+          assertThat(fundingRecord.getAddress()).isNotNull();
+          assertThat(fundingRecord.getAddressTag()).isNotNull();
+          assertThat(fundingRecord.getFee()).isNotNull();
+          assertThat(fundingRecord.getType()).isNotNull();
+          assertThat(fundingRecord.getBlockchainTransactionHash()).isNotNull();
           assertThat(fundingRecord.getDescription()).isNotNull();
         });
   }

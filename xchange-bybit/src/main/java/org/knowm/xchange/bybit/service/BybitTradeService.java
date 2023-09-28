@@ -15,10 +15,13 @@ import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
+import org.knowm.xchange.bybit.dto.trade.BybitTradeHistoryResponse;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
@@ -70,8 +73,8 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
       throw new IOException("Params must be instance of " + TradeHistoryParamInstrument.class.getSimpleName());
     }
 
-    Instrument symbol = ((TradeHistoryParamInstrument) params).getInstrument();
-    BybitCategory category = BybitAdapters.getBybitCategoryFromInstrument(symbol);
+    Instrument instrument = ((TradeHistoryParamInstrument) params).getInstrument();
+    BybitCategory category = BybitAdapters.getBybitCategoryFromInstrument(instrument);
     String orderId = null;
     String userReference = null;
     Date startTime = null;
@@ -95,6 +98,43 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
       limit = ((TradeHistoryParamLimit) params).getLimit();
     }
 
-    return BybitAdapters.adaptUserTrades(getBybitTradeHistory(category, symbol, orderId, userReference, null, startTime, endTime, null, limit, null).getResult());
+    BybitTradeHistoryResponse res = getBybitTradeHistory(
+        category,
+        instrument,
+        orderId,
+        userReference,
+        null,
+        startTime,
+        endTime,
+        null,
+        limit,
+        null).getResult();
+
+    String nextPageCursor = res.getNextPageCursor();
+
+    List<UserTrade> userTradeList = new ArrayList<>();
+
+    while (nextPageCursor != null) {
+      userTradeList.addAll(BybitAdapters.adaptUserTrades(res));
+
+      res = getBybitTradeHistory(
+          category,
+          instrument,
+          orderId,
+          userReference,
+          null,
+          startTime,
+          endTime,
+          null,
+          limit,
+          nextPageCursor).getResult();
+
+      nextPageCursor = res.getNextPageCursor();
+      if(nextPageCursor.isEmpty()){
+        break;
+      }
+    }
+
+    return new UserTrades(userTradeList, TradeSortType.SortByTimestamp);
   }
 }
