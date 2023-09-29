@@ -70,7 +70,12 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     if (!(params instanceof TradeHistoryParamInstrument)) {
-      throw new IOException("Params must be instance of " + TradeHistoryParamInstrument.class.getSimpleName());
+      throw new IOException(
+          "Params must be instance of " + TradeHistoryParamInstrument.class.getSimpleName());
+    }
+
+    if(((TradeHistoryParamInstrument) params).getInstrument() == null){
+      throw new IllegalArgumentException("Instrument must not be null.");
     }
 
     Instrument instrument = ((TradeHistoryParamInstrument) params).getInstrument();

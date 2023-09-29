@@ -37,10 +37,10 @@ public class BybitTransfersResponse {
     @JsonProperty("amount")
     private BigDecimal amount;
 
-    @JsonProperty("fromMember")
+    @JsonProperty("fromMemberId")
     private String fromMember;
 
-    @JsonProperty("toMember")
+    @JsonProperty("toMemberId")
     private String toMember;
 
     @JsonProperty("fromAccountType")

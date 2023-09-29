@@ -82,7 +82,9 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
   }
 
   @Override
-  public List<FundingRecord> getSubAccountsTransferHistory(FundingRecordParamAll params) throws IOException {
+  public List<FundingRecord> getInternalTransferHistory(FundingRecordParamAll params) throws IOException {
+
+    List<FundingRecord> fundingRecordList = new ArrayList<>();
 
     BybitTransfersResponse res = getBybitUniversalTransfers(
         params.getTransferId(),
@@ -94,13 +96,12 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
         null
     ).getResult();
 
+    fundingRecordList.addAll(BybitAdapters.adaptBybitUniversalTransfers(res.getInternalTransfers()));
+
     if(params.isUsePagination()){
       String nextPageCursor = res.getNextPageCursor();
-      List<FundingRecord> fundingRecordList = new ArrayList<>();
 
-      while (nextPageCursor != null) {
-        fundingRecordList.addAll(BybitAdapters.adaptBybitUniversalTransfers(res.getInternalTransfers()));
-
+      while (nextPageCursor != null && !nextPageCursor.isEmpty()) {
         res = getBybitUniversalTransfers(
             params.getTransferId(),
             params.getCurrency(),
@@ -111,18 +112,18 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
             res.getNextPageCursor()
         ).getResult();
 
+        fundingRecordList.addAll(BybitAdapters.adaptBybitUniversalTransfers(res.getInternalTransfers()));
         nextPageCursor = res.getNextPageCursor();
       }
-
-      return fundingRecordList;
-    } else {
-      return BybitAdapters.adaptBybitUniversalTransfers(res.getInternalTransfers());
     }
+
+    return fundingRecordList;
   }
 
   @Override
-  public List<FundingRecord> getInternalWalletsTransferHistory(FundingRecordParamAll params)
+  public List<FundingRecord> getWalletTransferHistory(FundingRecordParamAll params)
       throws IOException {
+    List<FundingRecord> fundingRecordList = new ArrayList<>();
 
     BybitTransfersResponse res = getBybitInternalTransfers(
         params.getTransferId(),
@@ -134,13 +135,12 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
         null
     ).getResult();
 
+    fundingRecordList.addAll(adaptBybitInternalTransfers(res.getInternalTransfers()));
+
     if(params.isUsePagination()){
       String nextPageCursor = res.getNextPageCursor();
-      List<FundingRecord> fundingRecordList = new ArrayList<>();
 
-      while (nextPageCursor != null) {
-        fundingRecordList.addAll(adaptBybitInternalTransfers(res.getInternalTransfers()));
-
+      while (nextPageCursor != null && !nextPageCursor.isEmpty()) {
         res = getBybitInternalTransfers(
             params.getTransferId(),
             params.getCurrency(),
@@ -151,17 +151,17 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
             res.getNextPageCursor()
         ).getResult();
 
+        fundingRecordList.addAll(adaptBybitInternalTransfers(res.getInternalTransfers()));
         nextPageCursor = res.getNextPageCursor();
       }
-
-      return fundingRecordList;
-    } else {
-      return adaptBybitInternalTransfers(res.getInternalTransfers());
     }
+
+    return fundingRecordList;
   }
 
   @Override
   public List<FundingRecord> getWithdrawHistory(FundingRecordParamAll params) throws IOException {
+    List<FundingRecord> fundingRecordList = new ArrayList<>();
 
     BybitWithdrawRecordsResponse res = getBybitWithdrawRecords(
         params.getTransferId(),
@@ -173,13 +173,12 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
         null
     ).getResult();
 
+    fundingRecordList.addAll(adaptBybitWithdrawRecords(res.getRows()));
+
     if(params.isUsePagination()){
       String nextPageCursor = res.getNextPageCursor();
-      List<FundingRecord> fundingRecordList = new ArrayList<>();
 
-      while (nextPageCursor != null) {
-        fundingRecordList.addAll(adaptBybitWithdrawRecords(res.getRows()));
-
+      while (nextPageCursor != null && !nextPageCursor.isEmpty()) {
         res = getBybitWithdrawRecords(
             params.getTransferId(),
             params.getCurrency(),
@@ -190,13 +189,12 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
             res.getNextPageCursor()
         ).getResult();
 
+        fundingRecordList.addAll(adaptBybitWithdrawRecords(res.getRows()));
         nextPageCursor = res.getNextPageCursor();
       }
-
-      return fundingRecordList;
-    } else {
-      return adaptBybitWithdrawRecords(res.getRows());
     }
+
+    return fundingRecordList;
   }
 
   @Override
@@ -207,6 +205,8 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
       throw new IllegalArgumentException("Sub account id is required");
     }
 
+    List<FundingRecord> fundingRecordList = new ArrayList<>();
+
     BybitDepositRecordsResponse res = getBybitSubAccountDepositRecords(
         params.getSubAccountId(),
         params.getCurrency(),
@@ -216,13 +216,11 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
         null
     ).getResult();
 
+    fundingRecordList.addAll(adaptBybitDepositRecords(res.getRows()));
+
     if(params.isUsePagination()){
       String nextPageCursor = res.getNextPageCursor();
-      List<FundingRecord> fundingRecordList = new ArrayList<>();
-
-      while (nextPageCursor != null) {
-        fundingRecordList.addAll(adaptBybitDepositRecords(res.getRows()));
-
+      while (nextPageCursor != null && !nextPageCursor.isEmpty()) {
         res = getBybitSubAccountDepositRecords(
             params.getSubAccountId(),
             params.getCurrency(),
@@ -232,13 +230,12 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
             res.getNextPageCursor()
         ).getResult();
 
+        fundingRecordList.addAll(adaptBybitDepositRecords(res.getRows()));
         nextPageCursor = res.getNextPageCursor();
       }
-
-      return fundingRecordList;
-    } else {
-      return adaptBybitDepositRecords(res.getRows());
     }
+
+    return fundingRecordList;
   }
 
   @Override
@@ -262,12 +259,14 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
         null
     ).getResult();
 
+    fundingRecordList.addAll(adaptBybitDepositRecords(res.getRows()));
+    fundingRecordList.addAll(adaptBybitInternalDepositRecords(internalRes.getRows()));
+
     if(params.isUsePagination()){
       // Make calls to main deposit history
       String nextPageCursor = res.getNextPageCursor();
 
-      while (nextPageCursor != null) {
-        fundingRecordList.addAll(adaptBybitDepositRecords(res.getRows()));
+      while (nextPageCursor != null && !nextPageCursor.isEmpty()) {
 
         res = getBybitDepositRecords(
             params.getCurrency(),
@@ -277,14 +276,14 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
             res.getNextPageCursor()
         ).getResult();
 
+        fundingRecordList.addAll(adaptBybitDepositRecords(res.getRows()));
         nextPageCursor = res.getNextPageCursor();
       }
 
       // Make calls to internal deposit history
       nextPageCursor = internalRes.getNextPageCursor();
 
-      while (nextPageCursor != null) {
-        fundingRecordList.addAll(adaptBybitInternalDepositRecords(internalRes.getRows()));
+      while (nextPageCursor != null && !nextPageCursor.isEmpty()) {
 
         internalRes = getBybitInternalDepositRecords(
             params.getCurrency(),
@@ -294,11 +293,9 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
             internalRes.getNextPageCursor()
         ).getResult();
 
+        fundingRecordList.addAll(adaptBybitInternalDepositRecords(internalRes.getRows()));
         nextPageCursor = internalRes.getNextPageCursor();
       }
-    } else {
-      fundingRecordList.addAll(adaptBybitDepositRecords(res.getRows()));
-      fundingRecordList.addAll(adaptBybitInternalDepositRecords(internalRes.getRows()));
     }
 
     return fundingRecordList;
@@ -306,6 +303,8 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
 
   @Override
   public List<FundingRecord> getLedger(FundingRecordParamAll params) throws IOException {
+    List<FundingRecord> fundingRecordList = new ArrayList<>();
+
     BybitTransactionLogResponse res = getBybitLedger(
         accountType,
         params.getAccountCategory() == null ? null : BybitCategory.valueOf(params.getAccountCategory()),
@@ -318,13 +317,12 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
         null
     ).getResult();
 
+    fundingRecordList.addAll(BybitAdapters.adaptBybitLedger(res.getList()));
+
     if(params.isUsePagination()){
       String nextPageCursor = res.getNextPageCursor();
-      List<FundingRecord> fundingRecordList = new ArrayList<>();
 
-      while (nextPageCursor != null) {
-        fundingRecordList.addAll(BybitAdapters.adaptBybitLedger(res.getList()));
-
+      while (nextPageCursor != null && !nextPageCursor.isEmpty()) {
         res = getBybitLedger(
             accountType,
             null,
@@ -336,6 +334,8 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
             (params.getLimit() == null) ? MAX_PAGINATION_LIMIT : params.getLimit(),
             res.getNextPageCursor()
         ).getResult();
+
+        fundingRecordList.addAll(BybitAdapters.adaptBybitLedger(res.getList()));
 
         nextPageCursor = res.getNextPageCursor();
       }

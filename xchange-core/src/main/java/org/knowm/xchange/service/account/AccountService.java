@@ -216,8 +216,8 @@ public interface AccountService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default List<FundingRecord> getSubAccountsTransferHistory(FundingRecordParamAll params) throws IOException {
-    throw new NotYetImplementedForExchangeException("getSubAccountsTransferHistory");
+  default List<FundingRecord> getInternalTransferHistory(FundingRecordParamAll params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getInternalTransferHistory");
   }
 
   /**
@@ -266,7 +266,7 @@ public interface AccountService extends BaseService {
   }
 
   /**
-   * @return list of transfer history if available or an empty list otherwise. This should never
+   * @return list of internal wallet's transfer history if available or an empty list otherwise. This should never
    *     return null.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the
    *     request or response
@@ -276,8 +276,8 @@ public interface AccountService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default List<FundingRecord> getInternalWalletsTransferHistory(FundingRecordParamAll params) throws IOException {
-    throw new NotYetImplementedForExchangeException("getInternalTransferHistory");
+  default List<FundingRecord> getWalletTransferHistory(FundingRecordParamAll params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getWalletTransferHistory");
   }
 
   /**
