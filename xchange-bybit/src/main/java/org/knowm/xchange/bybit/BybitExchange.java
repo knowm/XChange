@@ -17,6 +17,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BybitExchange extends BaseExchange {
 
+  public static final String SPECIFIC_PARAM_ACCOUNT_TYPE = "accountType";
+
   @Override
   protected void initServices() {
     marketDataService = new BybitMarketDataService(this);
@@ -25,7 +27,8 @@ public class BybitExchange extends BaseExchange {
         new BybitAccountService(
             this,
             (BybitAccountType)
-                getExchangeSpecification().getExchangeSpecificParameters().get("accountType"));
+                getExchangeSpecification()
+                    .getExchangeSpecificParametersItem(SPECIFIC_PARAM_ACCOUNT_TYPE));
   }
 
   @Override
@@ -37,7 +40,7 @@ public class BybitExchange extends BaseExchange {
     exchangeSpecification.setExchangeName("Bybit");
     exchangeSpecification.setExchangeDescription("BYBIT");
     exchangeSpecification.setExchangeSpecificParametersItem(
-        "accountType", BybitAccountType.UNIFIED);
+        SPECIFIC_PARAM_ACCOUNT_TYPE, BybitAccountType.UNIFIED);
     return exchangeSpecification;
   }
 
