@@ -23,19 +23,21 @@ public class BybitExchange extends BaseExchange {
     tradeService = new BybitTradeService(this);
     accountService =
         new BybitAccountService(
-            this, ((BybitExchangeSpecification) getExchangeSpecification()).getAccountType());
+            this,
+            (BybitAccountType)
+                getExchangeSpecification().getExchangeSpecificParameters().get("accountType"));
   }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    BybitExchangeSpecification exchangeSpecification =
-        new BybitExchangeSpecification(this.getClass());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.bybit.com");
     exchangeSpecification.setHost("bybit.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bybit");
     exchangeSpecification.setExchangeDescription("BYBIT");
-    exchangeSpecification.setAccountType(BybitAccountType.UNIFIED);
+    exchangeSpecification.setExchangeSpecificParametersItem(
+        "accountType", BybitAccountType.UNIFIED);
     return exchangeSpecification;
   }
 
