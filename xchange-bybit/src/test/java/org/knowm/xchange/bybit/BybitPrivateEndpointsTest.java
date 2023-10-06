@@ -189,6 +189,28 @@ public class BybitPrivateEndpointsTest {
           assertThat(fundingRecord.getBlockchainTransactionHash()).isNotNull();
         });
   }
+
+  @Test
+  public void testAccountWithdrawHistory() throws IOException {
+    FundingRecordParamAll paramAll = FundingRecordParamAll.builder()
+        .build();
+    List<FundingRecord> records = exchange.getAccountService().getWithdrawHistory(paramAll);
+
+    assertThat(records.isEmpty()).isFalse();
+
+    records.forEach(
+        fundingRecord -> {
+          assertThat(fundingRecord.getInternalId()).isNotNull();
+          assertThat(fundingRecord.getDate()).isNotNull();
+          assertThat(fundingRecord.getAmount()).isNotNull();
+          assertThat(fundingRecord.getStatus()).isNotNull();
+          assertThat(fundingRecord.getAddress()).isNotNull();
+          assertThat(fundingRecord.getAddressTag()).isNotNull();
+          assertThat(fundingRecord.getFee()).isNotNull();
+          assertThat(fundingRecord.getType()).isNotNull();
+          assertThat(fundingRecord.getBlockchainTransactionHash()).isNotNull();
+        });
+  }
   @Test
   public void testSubAccountDepositHistory() throws IOException {
     FundingRecordParamAll paramAll = FundingRecordParamAll.builder()
