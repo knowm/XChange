@@ -70,7 +70,7 @@ public class BybitWithdrawRecordsResponse {
     public enum BybitWithdrawStatus {
       SECURITY_CHECK("SecurityCheck"),
       PENDING("Pending"),
-      SUCCESS("Success"),
+      SUCCESS("success"),
       CANCEL_BY_USER("CancelByUser"),
       REJECT("Reject"),
       FAIL("Fail"),

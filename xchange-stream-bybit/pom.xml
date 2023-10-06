@@ -11,6 +11,7 @@
   </parent>
 
   <artifactId>xchange-stream-bybit</artifactId>
+  <name>XChange Bybit Stream</name>
 
   <dependencies>
     <dependency>
