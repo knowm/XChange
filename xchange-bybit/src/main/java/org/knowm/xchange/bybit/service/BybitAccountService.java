@@ -56,19 +56,12 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
   public AccountInfo getSubAccountInfo(String subAccountId) throws IOException {
     List<Wallet> wallets = new ArrayList<>();
 
-    wallets.add(BybitAdapters.adaptBybitBalances(getAllCoinsBalance(BybitAccountType.FUND, subAccountId, null, false).getResult(),
-        Sets.newHashSet(WalletFeature.FUNDING)));
-    wallets.add(BybitAdapters.adaptBybitBalances(getAllCoinsBalance(BybitAccountType.CONTRACT, subAccountId, null, false).getResult(),
-        Sets.newHashSet(WalletFeature.FUTURES_TRADING)));
-
     if(accountType == BybitAccountType.UNIFIED){
       wallets.add(BybitAdapters.adaptBybitBalances(getAllCoinsBalance(BybitAccountType.UNIFIED, subAccountId, null, false).getResult(),
           Sets.newHashSet(WalletFeature.MARGIN_TRADING, WalletFeature.TRADING, WalletFeature.FUTURES_TRADING, WalletFeature.OPTIONS_TRADING)));
     } else if(accountType == BybitAccountType.CLASSIC) {
       wallets.add(BybitAdapters.adaptBybitBalances(getAllCoinsBalance(BybitAccountType.SPOT, subAccountId, null, false).getResult(),
           Sets.newHashSet(WalletFeature.TRADING, WalletFeature.MARGIN_TRADING)));
-      wallets.add(BybitAdapters.adaptBybitBalances(getAllCoinsBalance(BybitAccountType.OPTION, subAccountId, null, false).getResult(),
-          Sets.newHashSet(WalletFeature.OPTIONS_TRADING)));
     }
 
     return new AccountInfo(wallets);
