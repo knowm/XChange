@@ -19,6 +19,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -305,41 +306,28 @@ public class PoloniexAdapters {
     }
     // There could be other forms of adjustements, but it seems to be some kind of deposit.
 
-    return new FundingRecord(
-        null,
-        a.getTimestamp(),
-        Currency.getInstance(a.getCurrency()),
-        a.getAmount(),
-        null,
-        null,
-        type,
-        FundingRecord.Status.resolveStatus(a.getStatus()),
-        null,
-        null,
-        a.getCategory()
-            + ":"
-            + a.getReason()
-            + "\n"
-            + a.getAdjustmentTitle()
-            + "\n"
-            + a.getAdjustmentDesc()
-            + "\n"
-            + a.getAdjustmentHelp());
+    return FundingRecord.builder()
+        .date(a.getTimestamp())
+        .currency(Currency.getInstance(a.getCurrency()))
+        .amount(a.getAmount())
+        .type(type)
+        .status(Status.resolveStatus(a.getStatus()))
+        .description(a.getCategory() + ":" + a.getReason() + "\n" + a.getAdjustmentTitle() + "\n" + a.getAdjustmentDesc() + "\n" + a.getAdjustmentHelp())
+        .build();
   }
 
   private static FundingRecord adaptDeposit(final PoloniexDeposit d) {
-    return new FundingRecord(
-        d.getAddress(),
-        d.getTimestamp(),
-        Currency.getInstance(d.getCurrency()),
-        d.getAmount(),
-        String.valueOf(d.getDepositNumber()),
-        d.getTxid(),
-        DEPOSIT,
-        FundingRecord.Status.resolveStatus(d.getStatus()),
-        null,
-        null,
-        d.getStatus());
+    return FundingRecord.builder()
+        .address(d.getAddress())
+        .date(d.getTimestamp())
+        .currency(Currency.getInstance(d.getCurrency()))
+        .amount(d.getAmount())
+        .internalId(String.valueOf(d.getDepositNumber()))
+        .blockchainTransactionHash(d.getTxid())
+        .type(DEPOSIT)
+        .status(Status.resolveStatus(d.getStatus()))
+        .description(d.getStatus())
+        .build();
   }
 
   private static FundingRecord adaptWithdrawal(final PoloniexWithdrawal w) {
@@ -351,18 +339,18 @@ public class PoloniexAdapters {
     // Poloniex returns the fee as an absolute value, that behaviour differs from UserTrades
     final BigDecimal feeAmount = w.getFee();
 
-    return new FundingRecord(
-        w.getAddress(),
-        w.getTimestamp(),
-        Currency.getInstance(w.getCurrency()),
-        w.getAmount(),
-        String.valueOf(w.getWithdrawalNumber()),
-        externalId,
-        WITHDRAWAL,
-        status,
-        null,
-        feeAmount,
-        w.getStatus());
+    return FundingRecord.builder()
+        .address(w.getAddress())
+        .date(w.getTimestamp())
+        .currency(Currency.getInstance(w.getCurrency()))
+        .amount(w.getAmount())
+        .internalId(String.valueOf(w.getWithdrawalNumber()))
+        .blockchainTransactionHash(externalId)
+        .type(WITHDRAWAL)
+        .status(status)
+        .fee(feeAmount)
+        .description(w.getStatus())
+        .build();
   }
 
   public static LimitOrder adaptUserTradesToOrderStatus(

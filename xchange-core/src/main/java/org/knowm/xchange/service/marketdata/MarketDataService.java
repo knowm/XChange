@@ -2,10 +2,13 @@ package org.knowm.xchange.service.marketdata;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -244,7 +247,7 @@ public interface MarketDataService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default List<Currency> getCurrencies() throws IOException {
+  default Map<Currency, CurrencyMetaData> getCurrencies() throws IOException {
     throw new NotYetImplementedForExchangeException("getCurrencies");
   }
 
@@ -261,7 +264,7 @@ public interface MarketDataService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default List<Instrument> getInstruments() throws IOException {
+  default Map<Instrument, InstrumentMetaData> getInstruments() throws IOException {
     throw new NotYetImplementedForExchangeException("getInstruments");
   }
 }

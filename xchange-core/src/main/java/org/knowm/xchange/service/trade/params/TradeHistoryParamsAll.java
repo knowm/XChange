@@ -24,7 +24,9 @@ public class TradeHistoryParamsAll
         TradeHistoryParamMultiCurrencyPair,
         TradeHistoryParamInstrument,
         TradeHistoryParamMultiInstrument,
-        TradeHistoryParamLimit {
+        TradeHistoryParamLimit,
+        TradeHistoryParamId,
+        TradeHistoryParamUserReference{
 
   private Integer pageLength;
   private Integer pageNumber;
@@ -36,6 +38,28 @@ public class TradeHistoryParamsAll
   private Instrument instrument;
   private Collection<Instrument> instruments = Collections.emptySet();
   private Integer limit;
+  private String id;
+  private String userReference;
+
+  @Override
+  public String getId() {
+    return id;
+  }
+
+  @Override
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  @Override
+  public String getUserReference() {
+    return userReference;
+  }
+
+  @Override
+  public void setUserReference(String userReference) {
+    this.userReference = userReference;
+  }
 
   @Override
   public Integer getPageLength() {

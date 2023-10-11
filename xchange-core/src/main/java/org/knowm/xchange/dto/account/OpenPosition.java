@@ -7,9 +7,13 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 import org.knowm.xchange.instrument.Instrument;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Getter
+@ToString
 public class OpenPosition implements Serializable {
   /** The instrument */
   private final Instrument instrument;
@@ -40,30 +44,6 @@ public class OpenPosition implements Serializable {
     this.unRealisedPnl = unRealisedPnl;
   }
 
-  public Instrument getInstrument() {
-    return instrument;
-  }
-
-  public Type getType() {
-    return type;
-  }
-
-  public BigDecimal getSize() {
-    return size;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public BigDecimal getLiquidationPrice() {
-    return liquidationPrice;
-  }
-
-  public BigDecimal getUnRealisedPnl() {
-    return unRealisedPnl;
-  }
-
   @Override
   public boolean equals(final Object o) {
     if (this == o) return true;
@@ -80,24 +60,6 @@ public class OpenPosition implements Serializable {
   @Override
   public int hashCode() {
     return Objects.hash(instrument, type, size, price, liquidationPrice, unRealisedPnl);
-  }
-
-  @Override
-  public String toString() {
-    return "OpenPosition{"
-        + "instrument="
-        + instrument
-        + ", type="
-        + type
-        + ", size="
-        + size
-        + ", price="
-        + price
-        + ", liquidationPrice="
-        + liquidationPrice
-        + ", unRealisedPnl="
-        + unRealisedPnl
-        + '}';
   }
 
   public enum Type {

@@ -38,6 +38,7 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -509,11 +510,12 @@ public class CoinbaseProAdapters {
         .build();
   }
 
-  public static FundingRecord adaptFundingRecord(CoinbaseProTransfer coinbaseProTransfer) {
+  public static FundingRecord adaptFundingRecord(
+      Currency currency, CoinbaseProTransfer coinbaseProTransfer) {
     FundingRecord.Status status = FundingRecord.Status.PROCESSING;
 
-    Date processedAt = coinbaseProTransfer.getProcessedAt();
-    Date canceledAt = coinbaseProTransfer.getCanceledAt();
+    Date processedAt = coinbaseProTransfer.processedAt();
+    Date canceledAt = coinbaseProTransfer.canceledAt();
 
     if (canceledAt != null) status = FundingRecord.Status.CANCELLED;
     else if (processedAt != null) status = FundingRecord.Status.COMPLETE;
@@ -522,21 +524,19 @@ public class CoinbaseProAdapters {
     if (address == null) address = coinbaseProTransfer.getDetails().getSentToAddress();
 
     String cryptoTransactionHash = coinbaseProTransfer.getDetails().getCryptoTransactionHash();
-    String transactionHash = adaptTransactionHash(coinbaseProTransfer.getCurrency(), cryptoTransactionHash);
+    String transactionHash = adaptTransactionHash(currency.getSymbol(), cryptoTransactionHash);
 
-    return new FundingRecord(
-        address,
-        coinbaseProTransfer.getDetails().getDestinationTag(),
-        coinbaseProTransfer.getCreatedAt(),
-        new Currency(coinbaseProTransfer.getCurrency()),
-        coinbaseProTransfer.getAmount(),
-        coinbaseProTransfer.getId(),
-        transactionHash,
-        coinbaseProTransfer.getType(),
-        status,
-        null,
-        null,
-        null);
+    return FundingRecord.builder()
+        .address(address)
+        .addressTag(coinbaseProTransfer.getDetails().getDestinationTag())
+        .date(coinbaseProTransfer.createdAt())
+        .currency(currency)
+        .amount(coinbaseProTransfer.amount())
+        .internalId(coinbaseProTransfer.getId())
+        .blockchainTransactionHash(transactionHash)
+        .type(coinbaseProTransfer.type())
+        .status(status)
+        .build();
   }
 
   // crypto_transaction_link: "https://etherscan.io/tx/0x{{txId}}"

@@ -48,6 +48,8 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -805,19 +807,17 @@ public final class BitfinexAdapters {
       }
 
       FundingRecord fundingRecordEntry =
-          new FundingRecord(
-              movement.getDestinationAddress(),
-              null,
-              movement.getMtsUpdated(),
-              currency,
-              amount,
-              movement.getId(),
-              movement.getTransactionId(),
-              type,
-              status,
-              null,
-              fee,
-              null);
+          FundingRecord.builder()
+              .address(movement.getDestinationAddress())
+              .date(movement.getMtsStarted())
+              .currency(currency)
+              .amount(amount)
+              .internalId(movement.getId())
+              .blockchainTransactionHash(movement.getTransactionId())
+              .type(type)
+              .status(status)
+              .fee(fee)
+              .build();
 
       fundingRecords.add(fundingRecordEntry);
     }
@@ -868,18 +868,17 @@ public final class BitfinexAdapters {
       }
 
       FundingRecord fundingRecordEntry =
-          new FundingRecord(
-              address,
-              responseEntry.getTimestamp(),
-              currency,
-              responseEntry.getAmount(),
-              String.valueOf(responseEntry.getId()),
-              txnId,
-              responseEntry.getType(),
-              status,
-              null,
-              null,
-              description);
+          FundingRecord.builder()
+              .address(address)
+              .date(responseEntry.getTimestamp())
+              .currency(currency)
+              .amount(responseEntry.getAmount())
+              .internalId(String.valueOf(responseEntry.getId()))
+              .blockchainTransactionHash(txnId)
+              .type(responseEntry.getType())
+              .status(status)
+              .description(description)
+              .build();
 
       fundingRecords.add(fundingRecordEntry);
     }

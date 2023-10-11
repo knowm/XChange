@@ -285,18 +285,16 @@ public class IndependentReserveAdapters {
     } else if (transaction.getCredit() != null) {
       amount = transaction.getCredit();
     }
-    return new FundingRecord(
-        null,
-        transaction.getCreatedTimestamp(),
-        new Currency(transaction.getCurrencyCode()),
-        amount,
-        null,
-        adaptTransactionHash(transaction),
-        adaptTransactionTypeToFundingRecordType(transaction.getType()),
-        adaptTransactionStatusToFundingRecordStatus(transaction.getStatus()),
-        transaction.getBalance(),
-        null,
-        transaction.getComment());
+    return FundingRecord.builder()
+        .date(transaction.getCreatedTimestamp())
+        .currency(Currency.getInstance(transaction.getCurrencyCode()))
+        .amount(amount)
+        .blockchainTransactionHash(adaptTransactionHash(transaction))
+        .type(adaptTransactionTypeToFundingRecordType(transaction.getType()))
+        .status(adaptTransactionStatusToFundingRecordStatus(transaction.getStatus()))
+        .balance(transaction.getBalance())
+        .description(transaction.getComment())
+        .build();
   }
 
   public static CurrencyPair adaptBrokerageCurrencyPair(

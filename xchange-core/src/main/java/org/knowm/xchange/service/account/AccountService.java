@@ -10,13 +10,12 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.TransferRecord;
+import org.knowm.xchange.dto.account.params.FundingRecordParamAll;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.BaseService;
-import org.knowm.xchange.service.account.params.TransferHistoryParam;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
@@ -48,6 +47,23 @@ public interface AccountService extends BaseService {
    */
   default AccountInfo getAccountInfo() throws IOException {
     throw new NotYetImplementedForExchangeException("getAccountInfo");
+  }
+
+  /**
+   * Get subaccount info
+   *
+   * @return the AccountInfo object, null if some sort of error occurred. Implementers should log
+   *     the error.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default AccountInfo getSubAccountInfo(String subAccountId) throws IOException {
+    throw new NotYetImplementedForExchangeException("getSubAccountInfo");
   }
 
   /**
@@ -200,12 +216,12 @@ public interface AccountService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default List<TransferRecord> getTransferHistory(TransferHistoryParam params) throws IOException {
-    throw new NotYetImplementedForExchangeException("getTransferHistory");
+  default List<FundingRecord> getInternalTransferHistory(FundingRecordParamAll params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getInternalTransferHistory");
   }
 
   /**
-   * @return list of transfer history if available or an empty list otherwise. This should never
+   * @return list of withdraw history if available or an empty list otherwise. This should never
    *     return null.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the
    *     request or response
@@ -215,8 +231,68 @@ public interface AccountService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default List<TransferRecord> getInternalTransferHistory(TransferHistoryParam params) throws IOException {
-    throw new NotYetImplementedForExchangeException("getInternalTransferHistory");
+  default List<FundingRecord> getWithdrawHistory(FundingRecordParamAll params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getWithdrawHistory");
+  }
+
+  /**
+   * @return list of deposit history for a subAccount if available or an empty list otherwise. This should never
+   *     return null.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default List<FundingRecord> getSubAccountDepositHistory(FundingRecordParamAll params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getSubAccountDepositHistory");
+  }
+
+  /**
+   * @return list of deposit history if available or an empty list otherwise. This should never
+   *     return null.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default List<FundingRecord> getDepositHistory(FundingRecordParamAll params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getDepositHistory");
+  }
+
+  /**
+   * @return list of internal wallet's transfer history if available or an empty list otherwise. This should never
+   *     return null.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default List<FundingRecord> getWalletTransferHistory(FundingRecordParamAll params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getWalletTransferHistory");
+  }
+
+  /**
+   * @return list of ledger history if available or an empty list otherwise. This should never
+   *     return null.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default List<FundingRecord> getLedger(FundingRecordParamAll params) throws IOException {
+    throw new NotYetImplementedForExchangeException("getLedger");
   }
 
 }

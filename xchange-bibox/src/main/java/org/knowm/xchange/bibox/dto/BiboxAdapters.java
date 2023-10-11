@@ -172,33 +172,25 @@ public class BiboxAdapters {
   }
 
   public static FundingRecord adaptDeposit(BiboxDeposit d) {
-    return new FundingRecord(
-        d.to,
-        d.getCreatedAt(),
-        Currency.getInstance(d.coinSymbol),
-        d.amount,
-        null,
-        null,
-        Type.DEPOSIT,
-        convertStatus(d.status),
-        null,
-        null,
-        null);
+    return FundingRecord.builder()
+        .address(d.to)
+        .date(d.getCreatedAt())
+        .currency(Currency.getInstance(d.coinSymbol))
+        .amount(d.amount)
+        .type(Type.DEPOSIT)
+        .status(convertStatus(d.status))
+        .build();
   }
 
   public static FundingRecord adaptDeposit(BiboxWithdrawal w) {
-    return new FundingRecord(
-        w.toAddress,
-        w.getCreatedAt(),
-        Currency.getInstance(w.coinSymbol),
-        w.amountReal,
-        null,
-        null,
-        Type.WITHDRAWAL,
-        convertStatus(w.status),
-        null,
-        null,
-        null);
+    return FundingRecord.builder()
+        .address(w.toAddress)
+        .date(w.getCreatedAt())
+        .currency(Currency.getInstance(w.coinSymbol))
+        .amount(w.amountReal)
+        .type(Type.WITHDRAWAL)
+        .status(convertStatus(w.status))
+        .build();
   }
 
   public static Status convertStatus(int status) {

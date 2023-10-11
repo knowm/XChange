@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.knowm.xchange.currency.Currency;
 
 /**
@@ -17,9 +17,9 @@ import org.knowm.xchange.currency.Currency;
  * currency
  */
 @Getter
-@Builder
+@SuperBuilder
 @ToString
-public final class FundingRecord implements Serializable {
+public class FundingRecord implements Serializable {
 
   private static final long serialVersionUID = 3788398035845873448L;
 
@@ -60,94 +60,13 @@ public final class FundingRecord implements Serializable {
   /** Description of the transaction */
   private String description;
 
-  /**
-   * Constructs a {@link FundingRecord}.
-   *
-   * @param address Crypto currency address for deposit/withdrawal
-   * @param addressTag Crypto address destination tag for deposit/withdrawal
-   * @param date Date/Time of transaction
-   * @param currency The transaction currency
-   * @param amount Amount deposited/withdrawn (always positive)
-   * @param internalId Internal transaction identifier, specific to the Exchange
-   * @param blockchainTransactionHash Transaction hash/id that identifies the transaction within the
-   *     public ledger
-   * @param type Transaction Type {@link Type}
-   * @param status Status of the transaction whenever available
-   * @param balance Balance of the associated account after the transaction is performed
-   * @param fee Transaction Fee Amount (always positive)
-   * @param description Description of the transaction. It is a good idea to put here any extra info
-   *     sent back from the exchange that doesn't fit elsewhere so users can still access it.
-   */
-  public FundingRecord(
-      final String address,
-      final String addressTag,
-      final Date date,
-      final Currency currency,
-      final BigDecimal amount,
-      final String internalId,
-      final String blockchainTransactionHash,
-      final Type type,
-      final Status status,
-      final BigDecimal balance,
-      final BigDecimal fee,
-      final String description) {
-    this.address = address;
-    this.addressTag = addressTag == null || addressTag.isEmpty() ? null : addressTag;
-    this.date = date;
-    this.currency = currency;
-    this.amount = amount == null ? null : amount.abs();
-    this.internalId = internalId;
-    this.blockchainTransactionHash = blockchainTransactionHash;
-    this.type = type;
-    this.status = status;
-    this.balance = balance;
-    this.fee = fee == null ? null : fee.abs();
-    this.description = description;
-  }
+  private final String fromWallet;
 
-  /**
-   * Constructs a {@link FundingRecord}.
-   *
-   * @param address Crypto currency address for deposit/withdrawal
-   * @param date Date/Time of transaction
-   * @param currency The transaction currency
-   * @param amount Amount deposited/withdrawn (always positive)
-   * @param internalId Internal transaction identifier, specific to the Exchange
-   * @param blockchainTransactionHash Transaction hash/id that identifies the transaction within the
-   *     public ledger
-   * @param type Transaction Type {@link Type}
-   * @param status Status of the transaction whenever available
-   * @param balance Balance of the associated account after the transaction is performed
-   * @param fee Transaction Fee Amount (always positive)
-   * @param description Description of the transaction. It is a good idea to put here any extra info
-   *     sent back from the exchange that doesn't fit elsewhere so users can still access it.
-   */
-  public FundingRecord(
-      final String address,
-      final Date date,
-      final Currency currency,
-      final BigDecimal amount,
-      final String internalId,
-      final String blockchainTransactionHash,
-      final Type type,
-      final Status status,
-      final BigDecimal balance,
-      final BigDecimal fee,
-      final String description) {
-    this(
-        address,
-        null,
-        date,
-        currency,
-        amount,
-        internalId,
-        blockchainTransactionHash,
-        type,
-        status,
-        balance,
-        fee,
-        description);
-  }
+  private final String toWallet;
+
+  private final String fromSubAccount;
+
+  private final String toSubAccount;
 
   @Deprecated // for backward compatibility.  Will be removed
   public String getExternalId() {
@@ -171,6 +90,11 @@ public final class FundingRecord implements Serializable {
      * response
      */
     OTHER_OUTFLOW(false),
+    INTEREST(false),
+    DELIVERY(false),
+    SETTLEMENT(false),
+    INTERNAL_WALLET_TRANSFER(false),
+    INTERNAL_SUB_ACCOUNT_TRANSFER(false),
 
     /** Used for transfers between exchanges accounts */
     INTERNAL_WITHDRAWAL(false),
@@ -183,7 +107,9 @@ public final class FundingRecord implements Serializable {
     REALISED_LOSS(false),
 
     /** Used for realised profits from derivatives */
-    REALISED_PROFIT(true);
+    REALISED_PROFIT(true),
+
+    TRADE(false);
 
     private static final Map<String, Type> fromString = new HashMap<>();
 
@@ -223,24 +149,28 @@ public final class FundingRecord implements Serializable {
         "AWAITING APPROVAL",
         "VERIFYING",
         "PENDING_APPROVAL",
-        "PENDING"),
+        "PENDING",
+        "SECURITY_CHECK",
+        "TO_BE_CONFIRMED",
+        "PROCESSING",
+        "PENDING_TO_BE_CREDITED_TO_FUNDING_POOL"),
 
     /**
      * The exchange has processed the transfer fully and successfully. The funding typically cannot
      * be cancelled any more. For withdrawals, the funds are gone from the exchange, though they may
      * have not reached their destination yet. For deposits, the funds are available to the user.
      */
-    COMPLETE("COMPLETED"),
+    COMPLETE("COMPLETED", "SUCCESS","BLOCKCHAIN_CONFIRMED","CREDITED_TO_FUNDING_POOL_SUCCESSFULLY"),
 
     /** The transfer was cancelled either by the user or by the exchange. */
-    CANCELLED("REVOKED", "CANCEL", "REFUND"),
+    CANCELLED("REVOKED", "CANCEL", "REFUND", "CANCEL_BY_USER"),
 
     /**
      * The transfer has failed for any reason other than user cancellation after it was initiated
      * and before it was successfully processed. For withdrawals, the funds are available to the
      * user again.
      */
-    FAILED("FAILURE"),
+    FAILED("FAILURE", "FAILED", "REJECT", "FAIL","UNKNOWN","DEPOSIT_FAILED"),
     ;
 
     private static final Map<String, Status> fromString = new HashMap<>();
@@ -263,7 +193,7 @@ public final class FundingRecord implements Serializable {
       this.statusArray = statusArray;
     }
 
-    public static Status resolveStatus(String str) {
+    public static Status resolveStatus(String str) throws IllegalArgumentException{
       if (str == null) {
         return null;
       }

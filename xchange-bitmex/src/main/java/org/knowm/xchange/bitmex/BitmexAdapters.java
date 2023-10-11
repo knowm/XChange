@@ -380,18 +380,19 @@ public class BitmexAdapters {
   }
 
   public static FundingRecord adaptFundingRecord(BitmexWalletTransaction walletTransaction) {
-    return new FundingRecord(
-        walletTransaction.getAddress(),
-        walletTransaction.getTransactTime(),
-        adaptCurrency(walletTransaction.getCurrency()),
-        walletTransaction.getAmount().abs(),
-        walletTransaction.getTransactID(),
-        walletTransaction.getTx(),
-        adaptFundingRecordtype(walletTransaction),
-        adaptFundingRecordStatus(walletTransaction.getTransactStatus()),
-        walletTransaction.getWalletBalance(),
-        walletTransaction.getFee(),
-        walletTransaction.getText());
+    return FundingRecord.builder()
+        .address(walletTransaction.getAddress())
+        .date(walletTransaction.getTransactTime())
+        .currency(adaptCurrency(walletTransaction.getCurrency()))
+        .amount(walletTransaction.getAmount().abs())
+        .internalId(walletTransaction.getTransactID())
+        .blockchainTransactionHash(walletTransaction.getTx())
+        .type(adaptFundingRecordtype(walletTransaction))
+        .status(adaptFundingRecordStatus(walletTransaction.getTransactStatus()))
+        .balance(walletTransaction.getWalletBalance())
+        .fee(walletTransaction.getFee())
+        .description(walletTransaction.getText())
+        .build();
   }
 
   private static FundingRecord.Type adaptFundingRecordtype(
