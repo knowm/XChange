@@ -1,10 +1,8 @@
 package org.knowm.xchange.coinbasepro.service;
 
-import static java.util.stream.Collectors.toList;
-
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
@@ -16,6 +14,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -134,16 +134,12 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
   }
 
   @Override
-  public List<Currency> getCurrencies() throws IOException {
-    return Arrays.stream(getCoinbaseProCurrencies())
-        .map(CoinbaseProAdapters::adaptCurrency)
-        .collect(toList());
+  public Map<Currency, CurrencyMetaData> getCurrencies() throws IOException {
+    return CoinbaseProAdapters.adaptCoinbaseProCurrencies(getCoinbaseProCurrencies());
   }
 
   @Override
-  public List<Instrument> getInstruments() throws IOException {
-    return Arrays.stream(getCoinbaseProProducts())
-        .map(CoinbaseProAdapters::adaptCurrencyPair)
-        .collect(toList());
+  public Map<Instrument, InstrumentMetaData> getInstruments() throws IOException {
+    return CoinbaseProAdapters.adaptCoinbaseProCurrencyPairs(getCoinbaseProProducts());
   }
 }

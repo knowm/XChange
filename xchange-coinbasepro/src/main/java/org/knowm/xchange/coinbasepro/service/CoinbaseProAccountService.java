@@ -15,22 +15,19 @@ import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFee;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFundingHistoryParams;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProLedger;
-import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProLedgerDto;
-import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProTransfersWithHeader;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProWallet;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProWalletAddress;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
-import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.TransferRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
+import org.knowm.xchange.dto.account.params.FundingRecordParamAll;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.account.params.TransferHistoryParam;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -50,7 +47,7 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return new AccountInfo(CoinbaseProAdapters.adaptAccountInfo(getCoinbaseProAccountInfo()));
+    return new AccountInfo(CoinbaseProAdapters.adaptWallet(getCoinbaseProAccountInfo()));
   }
 
   @Override
@@ -152,87 +149,6 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
     return new CoinbaseProFundingHistoryParams();
   }
 
-  public List<CoinbaseProLedgerDto> getLedgerWithPagination(TradeHistoryParams params) throws IOException {
-
-    int maxPageSize = 100;
-
-    if(!(params instanceof CoinbaseProFundingHistoryParams)) {
-      throw new IOException("Params must be "+CoinbaseProFundingHistoryParams.class.getName()+" class only!");
-    }
-
-    CoinbaseProFundingHistoryParams fundingParams = (CoinbaseProFundingHistoryParams) params;
-
-    List<CoinbaseProLedgerDto> ledgerList = new ArrayList<>();
-
-    String createdAt = null;
-    while (true) {
-      String createdAtFinal = createdAt;
-
-      CoinbaseProLedger ledger =
-          getLedger(
-              fundingParams.getAccountId(),
-              null,
-              null,
-              null,
-              createdAtFinal,
-              fundingParams.getLimit(),
-              null
-          );
-
-      ledgerList.addAll(ledger);
-
-      if (ledger.size() < maxPageSize) {
-        break;
-      }
-
-      createdAt = ledger.getHeader(CB_AFTER_HEADER);
-    }
-
-    return ledgerList;
-  }
-
-  public CoinbaseProTransfersWithHeader getTransfersWithPagination(TradeHistoryParams params)
-      throws IOException {
-
-    String fundingRecordType = null;
-    if (params instanceof HistoryParamsFundingType
-        && ((HistoryParamsFundingType) params).getType() != null) {
-      fundingRecordType = ((HistoryParamsFundingType) params).getType().toString().toLowerCase();
-    }
-
-    String beforeItem = "";
-    String afterItem = "";
-    int maxPageSize = 100;
-    if (params instanceof CoinbaseProTradeHistoryParams) {
-      maxPageSize = ((CoinbaseProTradeHistoryParams) params).getLimit();
-      afterItem = ((CoinbaseProTradeHistoryParams) params).getAfterTransferId();
-      beforeItem = ((CoinbaseProTradeHistoryParams) params).getBeforeTransferId();
-    }
-
-    List<FundingRecord> fundingHistory = new ArrayList<>();
-
-    while (true) {
-      CoinbaseProTransfers transfers =
-          getTransfers(fundingRecordType, null, beforeItem, afterItem, maxPageSize);
-
-      fundingHistory.addAll(
-          transfers.stream()
-              .map(CoinbaseProAdapters::adaptFundingRecord)
-              .collect(Collectors.toList()));
-
-      if (!transfers.isEmpty()) {
-        afterItem = transfers.getHeader(CB_AFTER_HEADER);
-        beforeItem = transfers.getHeader(CB_BEFORE_HEADER);
-      }
-
-      if (transfers.size() < maxPageSize) {
-        break;
-      }
-    }
-
-    return new CoinbaseProTransfersWithHeader(fundingHistory, afterItem, beforeItem);
-  }
-
   @Override
   /*
    * Warning - this method makes several API calls. The reason is that the paging functionality
@@ -274,16 +190,233 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   }
 
   @Override
-  public List<TransferRecord> getTransferHistory(TransferHistoryParam params) throws IOException {
-    //TODO
-    return AccountService.super.getTransferHistory(params);
+  public AccountInfo getSubAccountInfo(String subAccountId) throws IOException {
+    return new AccountInfo(CoinbaseProAdapters.adaptWallet(getCoinbaseProAccountById(subAccountId)));
   }
 
   @Override
-  public List<TransferRecord> getInternalTransferHistory(TransferHistoryParam params)
+  public List<FundingRecord> getInternalTransferHistory(FundingRecordParamAll params)
       throws IOException {
-    //TODO
-    return AccountService.super.getInternalTransferHistory(params);
+
+    String beforeItem = "";
+    String afterItem = "";
+    int maxPageSize = 100;
+
+    List<FundingRecord> fundingHistory = new ArrayList<>();
+
+    while (true) {
+      CoinbaseProTransfers transfers =
+          getTransfers(
+              null,
+              null,
+              beforeItem,
+              afterItem,
+              maxPageSize);
+
+      fundingHistory.addAll(
+          transfers.stream()
+              .filter(transfer -> transfer.getType().equals(Type.INTERNAL_DEPOSIT) || transfer.getType().equals(Type.INTERNAL_WITHDRAW))
+              .map(CoinbaseProAdapters::adaptFundingRecord)
+              .collect(Collectors.toList()));
+
+      if (!transfers.isEmpty()) {
+        afterItem = transfers.getHeader(CB_AFTER_HEADER);
+        beforeItem = transfers.getHeader(CB_BEFORE_HEADER);
+      }
+
+      if (transfers.size() < maxPageSize) {
+        break;
+      }
+    }
+
+    return fundingHistory;
+  }
+
+  @Override
+  public List<FundingRecord> getWithdrawHistory(FundingRecordParamAll params) throws IOException {
+    String beforeItem = "";
+    String afterItem = "";
+    int maxPageSize = 100;
+
+    List<FundingRecord> fundingHistory = new ArrayList<>();
+
+    while (true) {
+      CoinbaseProTransfers transfers =
+          getTransfers(
+              Type.WITHDRAW.name().toLowerCase(),
+              null,
+              beforeItem,
+              afterItem,
+              maxPageSize);
+
+      fundingHistory.addAll(
+          transfers.stream()
+              .map(CoinbaseProAdapters::adaptFundingRecord)
+              .collect(Collectors.toList()));
+
+      if (!transfers.isEmpty()) {
+        afterItem = transfers.getHeader(CB_AFTER_HEADER);
+        beforeItem = transfers.getHeader(CB_BEFORE_HEADER);
+      }
+
+      if (transfers.size() < maxPageSize) {
+        break;
+      }
+    }
+
+    return fundingHistory;
+  }
+
+  @Override
+  public List<FundingRecord> getSubAccountDepositHistory(FundingRecordParamAll params)
+      throws IOException {
+    String beforeItem = "";
+    String afterItem = "";
+    int maxPageSize = 100;
+
+    if(params.getSubAccountId() == null || params.getSubAccountId().isEmpty()){
+      throw new IllegalArgumentException("You must provide subAccountId for this call.");
+    }
+
+    List<FundingRecord> fundingHistory = new ArrayList<>();
+
+    while (true) {
+      CoinbaseProTransfers transfers =
+          getTransfersByAccountId(
+              params.getSubAccountId(),
+              beforeItem,
+              afterItem,
+              maxPageSize,
+              Type.DEPOSIT.name().toLowerCase());
+
+      fundingHistory.addAll(
+          transfers.stream()
+              .map(CoinbaseProAdapters::adaptFundingRecord)
+              .collect(Collectors.toList()));
+
+      if (!transfers.isEmpty()) {
+        afterItem = transfers.getHeader(CB_AFTER_HEADER);
+        beforeItem = transfers.getHeader(CB_BEFORE_HEADER);
+      }
+
+      if (transfers.size() < maxPageSize) {
+        break;
+      }
+    }
+
+    return fundingHistory;
+  }
+
+  @Override
+  public List<FundingRecord> getDepositHistory(FundingRecordParamAll params) throws IOException {
+    String beforeItem = "";
+    String afterItem = "";
+    int maxPageSize = 100;
+
+    List<FundingRecord> fundingHistory = new ArrayList<>();
+
+    while (true) {
+      CoinbaseProTransfers transfers =
+          getTransfers(
+              Type.DEPOSIT.name().toLowerCase(),
+              null,
+              beforeItem,
+              afterItem,
+              maxPageSize);
+
+      fundingHistory.addAll(
+          transfers.stream()
+              .map(CoinbaseProAdapters::adaptFundingRecord)
+              .collect(Collectors.toList()));
+
+      if (!transfers.isEmpty()) {
+        afterItem = transfers.getHeader(CB_AFTER_HEADER);
+        beforeItem = transfers.getHeader(CB_BEFORE_HEADER);
+      }
+
+      if (transfers.size() < maxPageSize) {
+        break;
+      }
+    }
+
+    return fundingHistory;
+  }
+
+  @Override
+  public List<FundingRecord> getWalletTransferHistory(FundingRecordParamAll params)
+      throws IOException {
+    String beforeItem = "";
+    String afterItem = "";
+    int maxPageSize = 100;
+
+    if(params.getSubAccountId() == null || params.getSubAccountId().isEmpty()){
+      throw new IllegalArgumentException("You must provide subAccountId for this call.");
+    }
+
+    List<FundingRecord> fundingHistory = new ArrayList<>();
+
+    while (true) {
+      CoinbaseProTransfers transfers =
+          getTransfersByAccountId(
+              params.getSubAccountId(),
+              beforeItem,
+              afterItem,
+              maxPageSize,
+              null);
+
+      fundingHistory.addAll(
+          transfers.stream()
+              .map(CoinbaseProAdapters::adaptFundingRecord)
+              .collect(Collectors.toList()));
+
+      if (!transfers.isEmpty()) {
+        afterItem = transfers.getHeader(CB_AFTER_HEADER);
+        beforeItem = transfers.getHeader(CB_BEFORE_HEADER);
+      }
+
+      if (transfers.size() < maxPageSize) {
+        break;
+      }
+    }
+
+    return fundingHistory;
+  }
+
+  @Override
+  public List<FundingRecord> getLedger(FundingRecordParamAll params) throws IOException {
+    int maxPageSize = 100;
+
+    if(params.getSubAccountId() == null || params.getSubAccountId().isEmpty()) {
+      throw new IOException("You must provide subAccountId for this call.");
+    }
+
+    List<FundingRecord> ledgerList = new ArrayList<>();
+
+    String createdAt = null;
+    while (true) {
+      String createdAtFinal = createdAt;
+
+      CoinbaseProLedger ledger =
+          getLedger(
+              params.getSubAccountId(),
+              params.getStartTime(),
+              params.getEndTime(),
+              null,
+              createdAtFinal,
+              params.getLimit(),
+              null
+          );
+
+      ledgerList.addAll(CoinbaseProAdapters.adaptCoinbaseProLedger(ledger));
+
+      if (ledger.size() < maxPageSize) {
+        break;
+      }
+
+      createdAt = ledger.getHeader(CB_AFTER_HEADER);
+    }
+
+    return ledgerList;
   }
 
   public static class CoinbaseProMoveFundsParams implements WithdrawFundsParams {

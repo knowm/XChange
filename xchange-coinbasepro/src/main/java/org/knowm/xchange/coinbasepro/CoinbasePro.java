@@ -277,8 +277,8 @@ public interface CoinbasePro {
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("account_id") String accountId,
-      @QueryParam("before") String beforeDate,
-      @QueryParam("after") String afterDate,
+      @QueryParam("before") String before,
+      @QueryParam("after") String after,
       @QueryParam("limit") Integer limit,
       @QueryParam("type") String type) // Possible types [deposit, withdraw, internal_deposit, internal_withdraw]
       throws CoinbaseProException, IOException;

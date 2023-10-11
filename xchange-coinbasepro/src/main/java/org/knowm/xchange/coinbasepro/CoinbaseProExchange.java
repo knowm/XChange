@@ -13,12 +13,10 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountService;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataService;
-import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataServiceRaw;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProTradeService;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinbaseProExchange extends BaseExchange {
@@ -121,12 +119,12 @@ public class CoinbaseProExchange extends BaseExchange {
 
   @Override
   public void remoteInit() throws IOException {
-    CoinbaseProProduct[] products =
-        ((CoinbaseProMarketDataServiceRaw) marketDataService).getCoinbaseProProducts();
-    CoinbaseProCurrency[] currencies =
-        ((CoinbaseProMarketDataServiceRaw) marketDataService).getCoinbaseProCurrencies();
-    exchangeMetaData =
-        CoinbaseProAdapters.adaptToExchangeMetaData(exchangeMetaData, products, currencies);
+    exchangeMetaData = new ExchangeMetaData(
+        marketDataService.getInstruments(),
+        marketDataService.getCurrencies(),
+        exchangeMetaData == null ? null : exchangeMetaData.getPublicRateLimits(),
+        exchangeMetaData == null ? null : exchangeMetaData.getPrivateRateLimits(),
+        true);
   }
 
   // @NoArgsConstructor(access = AccessLevel.PRIVATE)

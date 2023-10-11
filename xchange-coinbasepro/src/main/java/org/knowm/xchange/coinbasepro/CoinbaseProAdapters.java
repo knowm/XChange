@@ -15,9 +15,9 @@ import java.util.TimeZone;
 import java.util.stream.Collectors;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProLedger;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct.CoinbaseProProductStatus;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBookEntry;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
@@ -38,7 +38,7 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.FundingRecord.Type;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -46,7 +46,6 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -177,7 +176,7 @@ public class CoinbaseProAdapters {
     return allLevels;
   }
 
-  public static Wallet adaptAccountInfo(CoinbaseProAccount[] coinbaseProAccounts) {
+  public static Wallet adaptWallet(CoinbaseProAccount[] coinbaseProAccounts) {
     List<Balance> balances = new ArrayList<>(coinbaseProAccounts.length);
 
     for (CoinbaseProAccount coinbaseProAccount : coinbaseProAccounts) {
@@ -190,6 +189,19 @@ public class CoinbaseProAdapters {
     }
 
     return Wallet.Builder.from(balances).id(coinbaseProAccounts[0].getProfileId()).build();
+  }
+
+  public static Wallet adaptWallet(CoinbaseProAccount coinbaseProAccount) {
+    List<Balance> balances = new ArrayList<>();
+
+    balances.add(
+          new Balance(
+              Currency.getInstance(coinbaseProAccount.getCurrency()),
+              coinbaseProAccount.getBalance(),
+              coinbaseProAccount.getAvailable(),
+              coinbaseProAccount.getHold()));
+
+    return Wallet.Builder.from(balances).id(coinbaseProAccount.getProfileId()).build();
   }
 
   @SuppressWarnings("unchecked")
@@ -363,62 +375,6 @@ public class CoinbaseProAdapters {
     return -(int) Math.round(Math.log10(d));
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(
-      ExchangeMetaData exchangeMetaData,
-      CoinbaseProProduct[] products,
-      CoinbaseProCurrency[] cbCurrencies) {
-
-    Map<Instrument, InstrumentMetaData> currencyPairs =
-        exchangeMetaData == null ? new HashMap<>() : exchangeMetaData.getInstruments();
-
-    Map<Currency, CurrencyMetaData> currencies =
-        exchangeMetaData == null ? new HashMap<>() : exchangeMetaData.getCurrencies();
-
-    for (CoinbaseProProduct product : products) {
-      if (!product.getStatus().equals(CoinbaseProProductStatus.online)) {
-        continue;
-      }
-      CurrencyPair pair = adaptCurrencyPair(product);
-
-      InstrumentMetaData staticMetaData = currencyPairs.get(pair);
-      int baseScale = numberOfDecimals(product.getBaseIncrement());
-      int priceScale = numberOfDecimals(product.getQuoteIncrement());
-      boolean marketOrderAllowed = !product.isLimitOnly();
-
-      currencyPairs.put(
-          pair,
-          new InstrumentMetaData.Builder()
-                  .tradingFee(new BigDecimal("0.50"))
-                  .volumeScale(baseScale)
-                  .priceScale(priceScale)
-                  .counterMinimumAmount(product.getMinMarketFunds())
-                  .feeTiers(staticMetaData != null ? staticMetaData.getFeeTiers() : null)
-                  .tradingFeeCurrency(pair.counter)
-                  .marketOrderEnabled(marketOrderAllowed)
-                  .build());
-    }
-
-    Arrays.stream(cbCurrencies)
-        .forEach(
-            currency ->
-                currencies.put(
-                    adaptCurrency(currency),
-                    new CurrencyMetaData(
-                        numberOfDecimals(currency.getMaxPrecision()),
-                        BigDecimal.ZERO,
-                        currency.getDetails().getMinWithdrawalAmount(),
-                        "online".equals(currency.getStatus())
-                            ? WalletHealth.ONLINE
-                            : WalletHealth.OFFLINE)));
-
-    return new ExchangeMetaData(
-        currencyPairs,
-        currencies,
-        exchangeMetaData == null ? null : exchangeMetaData.getPublicRateLimits(),
-        exchangeMetaData == null ? null : exchangeMetaData.getPrivateRateLimits(),
-        true);
-  }
-
   public static String adaptProductID(CurrencyPair currencyPair) {
     return currencyPair == null
         ? null
@@ -510,12 +466,11 @@ public class CoinbaseProAdapters {
         .build();
   }
 
-  public static FundingRecord adaptFundingRecord(
-      Currency currency, CoinbaseProTransfer coinbaseProTransfer) {
+  public static FundingRecord adaptFundingRecord(CoinbaseProTransfer coinbaseProTransfer) {
     FundingRecord.Status status = FundingRecord.Status.PROCESSING;
 
-    Date processedAt = coinbaseProTransfer.processedAt();
-    Date canceledAt = coinbaseProTransfer.canceledAt();
+    Date processedAt = coinbaseProTransfer.getProcessedAt();
+    Date canceledAt = coinbaseProTransfer.getCanceledAt();
 
     if (canceledAt != null) status = FundingRecord.Status.CANCELLED;
     else if (processedAt != null) status = FundingRecord.Status.COMPLETE;
@@ -524,17 +479,17 @@ public class CoinbaseProAdapters {
     if (address == null) address = coinbaseProTransfer.getDetails().getSentToAddress();
 
     String cryptoTransactionHash = coinbaseProTransfer.getDetails().getCryptoTransactionHash();
-    String transactionHash = adaptTransactionHash(currency.getSymbol(), cryptoTransactionHash);
+    String transactionHash = adaptTransactionHash(coinbaseProTransfer.getCurrency(), cryptoTransactionHash);
 
     return FundingRecord.builder()
         .address(address)
         .addressTag(coinbaseProTransfer.getDetails().getDestinationTag())
-        .date(coinbaseProTransfer.createdAt())
-        .currency(currency)
-        .amount(coinbaseProTransfer.amount())
+        .date(coinbaseProTransfer.getCreatedAt())
+        .currency(Currency.getInstance(coinbaseProTransfer.getCurrency()))
+        .amount(coinbaseProTransfer.getAmount())
         .internalId(coinbaseProTransfer.getId())
         .blockchainTransactionHash(transactionHash)
-        .type(coinbaseProTransfer.type())
+        .type(coinbaseProTransfer.getType())
         .status(status)
         .build();
   }
@@ -561,5 +516,59 @@ public class CoinbaseProAdapters {
         break;
     }
     return transactionHash;
+  }
+
+  public static List<FundingRecord> adaptCoinbaseProLedger(CoinbaseProLedger ledger) {
+    List<FundingRecord> records = new ArrayList<>();
+
+    ledger.forEach(
+        coinbaseProLedgerDto -> records.add(FundingRecord.builder()
+                .internalId(coinbaseProLedgerDto.getId())
+                .amount(coinbaseProLedgerDto.getAmount())
+                .balance(coinbaseProLedgerDto.getBalance())
+                .date(coinbaseProLedgerDto.getCreatedAt())
+                .status(Status.COMPLETE)
+                .description(coinbaseProLedgerDto.getType().name())
+//                .type(convertCoinbaseProLedgerTxType(coinbaseProLedgerDto.getType()))
+            .build()));
+    return records;
+  }
+
+
+  public static Map<Currency, CurrencyMetaData> adaptCoinbaseProCurrencies(CoinbaseProCurrency[] coinbaseProCurrencies) {
+    Map<Currency, CurrencyMetaData> map = new HashMap<>();
+
+    Arrays.stream(coinbaseProCurrencies).forEach(coinbaseProCurrency -> map.put(adaptCurrency(coinbaseProCurrency), CurrencyMetaData.builder()
+            .scale(coinbaseProCurrency.getMinSize().scale())
+            .walletHealth("online".equals(coinbaseProCurrency.getStatus())
+                ? WalletHealth.ONLINE
+                : WalletHealth.OFFLINE)
+            .minWithdrawalAmount((coinbaseProCurrency.getDetails().getMinWithdrawalAmount() != null)
+                ? coinbaseProCurrency.getDetails().getMinWithdrawalAmount()
+                : BigDecimal.ZERO)
+        .build()));
+
+    return map;
+  }
+
+  public static Map<Instrument, InstrumentMetaData> adaptCoinbaseProCurrencyPairs(CoinbaseProProduct[] coinbaseProProducts) {
+    Map<Instrument, InstrumentMetaData> map = new HashMap<>();
+
+    Arrays.stream(coinbaseProProducts).forEach(coinbaseProProduct -> {
+      Instrument instrument = adaptCurrencyPair(coinbaseProProduct);
+
+      map.put(instrument, new InstrumentMetaData.Builder()
+          .tradingFee(new BigDecimal("0.50"))
+          .volumeScale(numberOfDecimals(coinbaseProProduct.getBaseIncrement()))
+          .priceScale(numberOfDecimals(coinbaseProProduct.getQuoteIncrement()))
+          .counterMinimumAmount(coinbaseProProduct.getMinMarketFunds())
+          .amountStepSize(coinbaseProProduct.getBaseIncrement())
+          .priceStepSize(coinbaseProProduct.getQuoteIncrement())
+          .tradingFeeCurrency(instrument.getCounter())
+          .marketOrderEnabled(!coinbaseProProduct.isLimitOnly())
+          .build());
+    });
+
+    return map;
   }
 }

@@ -2,7 +2,6 @@ package org.knowm.xchange.coinbasepro.service;
 
 import static org.knowm.xchange.coinbasepro.CoinbaseProResilience.PRIVATE_REST_ENDPOINT_RATE_LIMITER;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,7 +15,6 @@ import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFee;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProLedger;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProSendMoneyRequest;
-import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawCryptoResponse;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawFundsRequest;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProWallet;
@@ -25,8 +23,6 @@ import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.timestamp.UnixTimestampFactory;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestInvocation;
 
 public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
 
@@ -159,7 +155,7 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
   }
 
   /** https://docs.pro.coinbase.com/#get-current-exchange-limits */
-  public CoinbaseProTransfers getTransfersByAccountId(String accountId, Date before, Date after, int limit, String type)
+  public CoinbaseProTransfers getTransfersByAccountId(String accountId, String before, String after, int limit, String type)
       throws CoinbaseProException, IOException {
     return decorateApiCall(
             () ->
@@ -169,8 +165,8 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
                     UnixTimestampFactory.INSTANCE.createValue(),
                     passphrase,
                     accountId,
-                    (before == null) ? null : DateUtils.toISODateString(before),
-                    (after == null) ? null : DateUtils.toISODateString(after),
+                    before,
+                    after,
                     limit,
                     type))
         .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
