@@ -69,8 +69,12 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw implemen
 
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
-    GateioOrderBook gateioOrderBook = getGateioOrderBook(instrument);
-    return GateioAdapters.toOrderBook(gateioOrderBook, instrument);
+    try {
+      GateioOrderBook gateioOrderBook = getGateioOrderBook(instrument);
+      return GateioAdapters.toOrderBook(gateioOrderBook, instrument);
+    } catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
   }
 
 
