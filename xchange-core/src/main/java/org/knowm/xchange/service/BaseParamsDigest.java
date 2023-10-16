@@ -63,6 +63,10 @@ public abstract class BaseParamsDigest implements ParamsDigest {
   }
 
   public Mac getMac() {
-    return mac;
+    try {
+      return (Mac) mac.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new IllegalStateException(e);
+    }
   }
 }
