@@ -44,6 +44,7 @@
     <version.slf4j>2.0.6</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
     <version.java-jwt>4.4.0</version.java-jwt>
+    <version.wiremock>3.2.0</version.wiremock>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
@@ -320,9 +321,9 @@
       </dependency>
 
       <dependency>
-        <groupId>com.github.tomakehurst</groupId>
-        <artifactId>wiremock-jre8</artifactId>
-        <version>2.35.0</version>
+        <groupId>org.wiremock</groupId>
+        <artifactId>wiremock</artifactId>
+        <version>${version.wiremock}</version>
         <scope>test</scope>
       </dependency>
 

@@ -31,9 +31,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.tomakehurst</groupId>
-            <artifactId>wiremock-jre8</artifactId>
-            <scope>test</scope>
+          <groupId>org.wiremock</groupId>
+          <artifactId>wiremock</artifactId>
+          <scope>test</scope>
         </dependency>
 
         <dependency>
