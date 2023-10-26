@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -36,14 +37,14 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
       .avgDealPrice(new BigDecimal("27038.3"))
       .fee(new BigDecimal("0.0000014"))
       .price(BigDecimal.ZERO)
-      .feeCurrency("BTC")
+      .feeCurrency(Currency.BTC)
       .pointFee(BigDecimal.ZERO)
       .gtFee(BigDecimal.ZERO)
       .gtMakerFee(BigDecimal.ZERO)
       .gtTakerFee(BigDecimal.ZERO)
       .rebatedFee(BigDecimal.ZERO)
       .gtDiscount(false)
-      .rebatedFeeCurrency("USDT")
+      .rebatedFeeCurrency(Currency.USDT)
       .finishAs("filled")
       .build();
 
@@ -112,14 +113,14 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
         .avgDealPrice(new BigDecimal("27062.6"))
         .fee(new BigDecimal("0.03788764"))
         .price(BigDecimal.ZERO)
-        .feeCurrency("USDT")
+        .feeCurrency(Currency.USDT)
         .pointFee(BigDecimal.ZERO)
         .gtFee(BigDecimal.ZERO)
         .gtMakerFee(BigDecimal.ZERO)
         .gtTakerFee(BigDecimal.ZERO)
         .rebatedFee(BigDecimal.ZERO)
         .gtDiscount(false)
-        .rebatedFeeCurrency("BTC")
+        .rebatedFeeCurrency(Currency.BTC)
         .finishAs("filled")
         .build();
 

@@ -8,10 +8,12 @@ import java.time.Instant;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.gateio.config.converter.CurrencyPairToStringConverter;
 import org.knowm.xchange.gateio.config.converter.OrderTypeToStringConverter;
+import org.knowm.xchange.gateio.config.converter.StringToCurrencyConverter;
 import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
 import org.knowm.xchange.gateio.config.converter.StringToOrderTypeConverter;
 
@@ -85,7 +87,8 @@ public class GateioOrder {
   BigDecimal fee;
 
   @JsonProperty("fee_currency")
-  String feeCurrency;
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  Currency feeCurrency;
 
   @JsonProperty("point_fee")
   BigDecimal pointFee;
@@ -106,7 +109,8 @@ public class GateioOrder {
   BigDecimal rebatedFee;
 
   @JsonProperty("rebated_fee_currency")
-  String rebatedFeeCurrency;
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  Currency rebatedFeeCurrency;
 
   @JsonProperty("stp_id")
   Integer stpId;
