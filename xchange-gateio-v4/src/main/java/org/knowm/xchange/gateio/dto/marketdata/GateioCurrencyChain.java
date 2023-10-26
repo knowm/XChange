@@ -28,6 +28,9 @@ public class GateioCurrencyChain {
   @JsonProperty("is_withdraw_disabled")
   Boolean withdrawDisabled;
 
+  @JsonProperty("contract_address")
+  String contractAddress;
+
   public boolean isWithdrawEnabled() {
     return isEnabled() && (withdrawDisabled != null) && !withdrawDisabled;
   }

@@ -90,6 +90,7 @@ public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
             .disabled(false)
             .depositDisabled(false)
             .withdrawDisabled(false)
+            .contractAddress("")
             .build(),
         GateioCurrencyChain.builder()
             .chain("HT")
@@ -98,12 +99,13 @@ public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
             .disabled(true)
             .depositDisabled(true)
             .withdrawDisabled(true)
+            .contractAddress("0x66a79d23e58475d2738179ca52cd0b41d73f0bea")
             .build()
     );
 
     List<GateioCurrencyChain> actual = gateioMarketDataServiceRaw.getCurrencyChains(Currency.BTC);
 
-    assertThat(actual).isEqualTo(expected);
+    assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
   }
 
 

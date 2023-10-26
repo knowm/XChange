@@ -22,3 +22,8 @@ KEY: {{api_key}}
 SIGN: {{sign}}
 Timestamp: {{timestamp}}
 Content-Type: application/json
+
+
+### List chains supported for specified currency
+GET {{api_v4}}/wallet/currency_chains?currency=BTC
+Content-Type: application/json
