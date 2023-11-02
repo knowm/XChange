@@ -1,9 +1,7 @@
 package org.knowm.xchange.binance;
 
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.account.AssetPortfolioMarginBalance;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
-import org.knowm.xchange.binance.dto.account.futures.BinancePosition;
 import org.knowm.xchange.binance.dto.trade.*;
 import org.knowm.xchange.binance.dto.trade.futures.BinanceFutureNewOrder;
 import si.mazi.rescu.ParamsDigest;
@@ -23,60 +21,6 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures{
     String X_MBX_APIKEY = "X-MBX-APIKEY";
 
     /**
-     * Get current futures portfolio margin account positions.
-     *
-     * @param recvWindow optional
-     * @param timestamp
-     * @return
-     * @throws IOException
-     * @throws BinanceException
-     */
-    @GET
-    @Path("papi/v1/um/positionRisk")
-    List<BinancePosition> futuresPortfolioMarginAccount(
-            @QueryParam("recvWindow") Long recvWindow,
-            @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
-            @HeaderParam(X_MBX_APIKEY) String apiKey,
-            @QueryParam(SIGNATURE) ParamsDigest signature)
-            throws IOException, BinanceException;
-
-    /**
-     * Get current inverse futures portfolio margin account positions.
-     *
-     * @param recvWindow optional
-     * @param timestamp
-     * @return
-     * @throws IOException
-     * @throws BinanceException
-     */
-    @GET
-    @Path("papi/v1/cm/positionRisk")
-    List<BinancePosition> futuresInversePortfolioMarginAccount(
-        @QueryParam("recvWindow") Long recvWindow,
-        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
-        @HeaderParam(X_MBX_APIKEY) String apiKey,
-        @QueryParam(SIGNATURE) ParamsDigest signature)
-        throws IOException, BinanceException;
-
-    /**
-     * Get current coin margined futures account information.
-     *
-     * @param recvWindow optional
-     * @param timestamp
-     * @return
-     * @throws IOException
-     * @throws BinanceException
-     */
-    @GET
-    @Path("dapi/v2/account")
-    BinanceFutureAccountInformation futuresInverseAccount(
-        @QueryParam("recvWindow") Long recvWindow,
-        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
-        @HeaderParam(X_MBX_APIKEY) String apiKey,
-        @QueryParam(SIGNATURE) ParamsDigest signature)
-        throws IOException, BinanceException;
-
-    /**
      * Get current futures account information.
      *
      * @param recvWindow optional
@@ -88,29 +32,11 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures{
     @GET
     @Path("fapi/v2/account")
     BinanceFutureAccountInformation futuresAccount(
-        @QueryParam("recvWindow") Long recvWindow,
-        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
-        @HeaderParam(X_MBX_APIKEY) String apiKey,
-        @QueryParam(SIGNATURE) ParamsDigest signature)
-        throws IOException, BinanceException;
-
-    /**
-     * Get current portfolio margin account information.
-     *
-     * @param recvWindow optional
-     * @param timestamp
-     * @return
-     * @throws IOException
-     * @throws BinanceException
-     */
-    @GET
-    @Path("/papi/v1/balance")
-    List<AssetPortfolioMarginBalance> portfolioMarginAccount(
-        @QueryParam("recvWindow") Long recvWindow,
-        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
-        @HeaderParam(X_MBX_APIKEY) String apiKey,
-        @QueryParam(SIGNATURE) ParamsDigest signature)
-        throws IOException, BinanceException;
+            @QueryParam("recvWindow") Long recvWindow,
+            @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+            @HeaderParam(X_MBX_APIKEY) String apiKey,
+            @QueryParam(SIGNATURE) ParamsDigest signature)
+            throws IOException, BinanceException;
 
     /**
      * Send in a new futures order

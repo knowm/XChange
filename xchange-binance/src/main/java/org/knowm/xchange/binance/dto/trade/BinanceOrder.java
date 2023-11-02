@@ -21,7 +21,6 @@ public final class BinanceOrder {
   public final OrderSide side;
   public final BigDecimal stopPrice;
   public final BigDecimal icebergQty;
-  public final BigDecimal avgPrice;
   public final long time;
 
   public BinanceOrder(
@@ -38,8 +37,7 @@ public final class BinanceOrder {
       @JsonProperty("side") OrderSide side,
       @JsonProperty("stopPrice") BigDecimal stopPrice,
       @JsonProperty("icebergQty") BigDecimal icebergQty,
-      @JsonProperty("time") long time,
-      @JsonProperty(value="avgPrice",required = false) BigDecimal avgPrice) {
+      @JsonProperty("time") long time) {
     this.symbol = symbol;
     this.orderId = orderId;
     this.clientOrderId = clientOrderId;
@@ -54,7 +52,6 @@ public final class BinanceOrder {
     this.stopPrice = stopPrice;
     this.icebergQty = icebergQty;
     this.time = time;
-    this.avgPrice=avgPrice;
   }
 
   public Date getTime() {

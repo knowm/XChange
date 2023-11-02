@@ -27,19 +27,10 @@ public class BinancePosition {
 
     private final BigDecimal entryPrice;
 
-    private final BigDecimal markPrice;
-
-    private final BigDecimal liquidationPrice;
-
-    private final BigDecimal notional;
-
     public BinancePosition(
             @JsonProperty("symbol") String symbol,
             @JsonProperty("unrealizedProfit") BigDecimal unrealizedProfit,
             @JsonProperty("leverage") BigDecimal leverage,
-            @JsonProperty("markPrice") BigDecimal markPrice,
-            @JsonProperty("notional") BigDecimal notional,
-            @JsonProperty("liquidationPrice") BigDecimal liquidationPrice,
             @JsonProperty("isolated") boolean isolated,
             @JsonProperty("positionSide") String positionSide,
             @JsonProperty("positionAmt") BigDecimal positionAmt,
@@ -47,12 +38,9 @@ public class BinancePosition {
         this.symbol = symbol;
         this.unrealizedProfit = unrealizedProfit;
         this.leverage = leverage;
-        this.markPrice = markPrice;
         this.isolated = isolated;
         this.positionSide = positionSide;
         this.positionAmt = positionAmt;
         this.entryPrice = entryPrice;
-        this.liquidationPrice=liquidationPrice;
-        this.notional=notional;
     }
 }

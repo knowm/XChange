@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.knowm.xchange.binance.dto.account.AssetDetail;
-import org.knowm.xchange.binance.dto.account.AssetPortfolioMarginBalance;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
 import org.knowm.xchange.binance.dto.account.futures.BinancePosition;
@@ -24,7 +23,10 @@ import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
-import org.knowm.xchange.binance.dto.trade.*;
+import org.knowm.xchange.binance.dto.trade.BinanceOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceTrade;
+import org.knowm.xchange.binance.dto.trade.OrderSide;
+import org.knowm.xchange.binance.dto.trade.OrderStatus;
 import org.knowm.xchange.binance.service.BinanceTradeService.BinanceOrderFlags;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -132,20 +134,6 @@ public class BinanceAdapters {
     }
   }
 
-
-  public static BinanceNewOrder.SideEffectType convert(Set<Order.IOrderFlags> orderFlags) {
-if(orderFlags.contains(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.MARGIN_BUY))
-        return BinanceNewOrder.SideEffectType.MARGIN_BUY;
-else if (orderFlags.contains(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.AUTO_REPAY))
-  return BinanceNewOrder.SideEffectType.AUTO_REPAY;
-else if (orderFlags.contains(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.NO_SIDE_EFFECT))
-  return BinanceNewOrder.SideEffectType.NO_SIDE_EFFECT;
-else
-        throw new RuntimeException("Not margin side effect type from order flags: " + orderFlags);
-
-  }
-
-
   public static CurrencyPair convert(String symbol) {
     // Iterate by base currency priority at binance.
     for (Currency base : Arrays.asList(Currency.BTC, Currency.ETH, Currency.BNB, Currency.USDT)) {
@@ -245,12 +233,9 @@ else
         .id(Long.toString(order.orderId))
         .timestamp(order.getTime())
         .cumulativeAmount(order.executedQty);
-    if (!isFuture && (order.executedQty!=null && order.executedQty.signum() != 0) && (order.cummulativeQuoteQty!=null && order.cummulativeQuoteQty.signum() != 0)) {
+    if (order.executedQty.signum() != 0 && order.cummulativeQuoteQty.signum() != 0) {
       builder.averagePrice(
           order.cummulativeQuoteQty.divide(order.executedQty, MathContext.DECIMAL32));
-    } else if (isFuture && (order.avgPrice!=null && order.executedQty.signum() != 0) ) {
-      builder.averagePrice(order.avgPrice);
-
     }
     if (order.clientOrderId != null) {
       builder.flag(BinanceOrderFlags.withClientId(order.clientOrderId));
@@ -357,7 +342,7 @@ else
   public static Wallet adaptBinanceSpotWallet(BinanceAccountInformation binanceAccountInformation){
 
     List<Balance> balances =
-            binanceAccountInformation.balances.stream().filter(entry -> entry.getTotal().compareTo(BigDecimal.ZERO)!=0)
+            binanceAccountInformation.balances.stream()
                     .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
                     .collect(Collectors.toList());
 
@@ -367,22 +352,6 @@ else
             .features(Collections.singleton(Wallet.WalletFeature.TRADING))
             .build();
   }
-
-  public static Wallet adaptBinancePortfoloMarginWallet( List<AssetPortfolioMarginBalance> portfolioMarginBalances){
-
-    List<Balance> balances =
-        portfolioMarginBalances.stream().filter(entry -> entry.getTotal().compareTo(BigDecimal.ZERO)!=0)
-            .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
-            .collect(Collectors.toList());
-
-    return new Wallet.Builder()
-        .balances(balances)
-        .id("portfolioMarginAccount")
-        .features(Collections.singleton(Wallet.WalletFeature.PORTFOLIO_MARGIN
-        ))
-        .build();
-  }
-
 
   public static List<OpenPosition> adaptOpenPositions(List<BinancePosition> binancePositions) {
     List<OpenPosition> openPositions = new ArrayList<>();
