@@ -103,7 +103,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
 
 
   @Test
-  void order_details() throws IOException {
+  void buy_order_details() throws IOException {
     MarketOrder expected = new MarketOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
         .id("342251629898")
         .userReference("t-valid-market-buy-order")
@@ -116,6 +116,25 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
         .build();
 
     Collection<Order> orders = gateioTradeService.getOrder(new DefaultQueryOrderParamInstrument(CurrencyPair.BTC_USDT, "342251629898"));
+    assertThat(orders).hasSize(1);
+    assertThat(orders).first().usingRecursiveComparison().isEqualTo(expected);
+  }
+
+
+  @Test
+  void sell_order_details() throws IOException {
+    MarketOrder expected = new MarketOrder.Builder(OrderType.ASK, new CurrencyPair("VAI/USDT"))
+        .id("425539509181")
+        .userReference("t-valid-market-sell-order")
+        .timestamp(Date.from(Instant.parse("2023-10-28T18:40:02.006Z")))
+        .originalAmount(new BigDecimal("105.58"))
+        .orderStatus(OrderStatus.FILLED)
+        .cumulativeAmount(new BigDecimal("105.58"))
+        .averagePrice(new BigDecimal("0.079888"))
+        .fee(new BigDecimal("0.01686915008"))
+        .build();
+
+    Collection<Order> orders = gateioTradeService.getOrder(new DefaultQueryOrderParamInstrument(new CurrencyPair("VAI/USDT"), "425539509181"));
     assertThat(orders).hasSize(1);
     assertThat(orders).first().usingRecursiveComparison().isEqualTo(expected);
   }

@@ -7,7 +7,7 @@
   },
   "response" : {
     "status" : 200,
-    "bodyFileName" : "api_v4_spot_orders_order-details.json"
+    "bodyFileName" : "api_v4_spot_orders_buy-order-details.json"
   },
   "uuid" : "da0d205d-94ee-4760-bfd1-f4e5871d23e4",
   "persistent" : true,

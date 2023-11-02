@@ -1,5 +1,7 @@
 package org.knowm.xchange.gateio;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -125,29 +127,39 @@ public class GateioAdapters {
 
 
   public Order toOrder(GateioOrder gateioOrder) {
-    Order.Builder order;
+    Order.Builder builder;
     Instrument instrument = gateioOrder.getCurrencyPair();
     OrderType orderType = gateioOrder.getSide();
 
     switch (gateioOrder.getType()) {
       case "market":
-        order = new MarketOrder.Builder(orderType, instrument);
+        builder = new MarketOrder.Builder(orderType, instrument);
         break;
       case "limit":
-        order = new LimitOrder.Builder(orderType, instrument)
+        builder = new LimitOrder.Builder(orderType, instrument)
             .limitPrice(gateioOrder.getPrice());
         break;
       default:
         throw new IllegalArgumentException("Can't map " + gateioOrder.getType());
     }
 
-    return order
+    if (orderType == OrderType.BID) {
+      builder.cumulativeAmount(gateioOrder.getFilledTotalQuote());
+    }
+    else if (orderType == OrderType.ASK) {
+      BigDecimal filledAssetAmount = gateioOrder.getFilledTotalQuote().divide(gateioOrder.getAvgDealPrice(), MathContext.DECIMAL32);
+      builder.cumulativeAmount(filledAssetAmount);
+    }
+    else {
+      throw new IllegalArgumentException("Can't map " + orderType);
+    }
+
+    return builder
         .id(gateioOrder.getId())
         .originalAmount(gateioOrder.getAmount())
         .userReference(gateioOrder.getClientOrderId())
         .timestamp(Date.from(gateioOrder.getCreatedAt()))
         .orderStatus(toOrderStatus(gateioOrder.getStatus()))
-        .cumulativeAmount(gateioOrder.getFilledTotalQuote())
         .averagePrice(gateioOrder.getAvgDealPrice())
         .fee(gateioOrder.getFee())
         .build();
