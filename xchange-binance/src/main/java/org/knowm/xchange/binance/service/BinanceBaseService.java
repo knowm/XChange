@@ -24,6 +24,8 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
 
   protected final String apiKey;
   protected final BinanceAuthenticated binance;
+
+  protected final BinanceAuthenticated binanceMargin;
   protected final BinanceFuturesAuthenticated binanceFutures;
   protected final BinanceFuturesAuthenticated inverseBinanceFutures;
   protected final ParamsDigest signatureCreator;
@@ -46,7 +48,13 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
       this.inverseBinanceFutures = ExchangeRestProxyBuilder.forInterface(
               BinanceFuturesAuthenticated.class, inverseFuturesSpec)
           .build();
+      this.binanceMargin=null;
     } else{
+      ExchangeSpecification marginSpec = exchange.getDefaultExchangeSpecification();
+      marginSpec.setSslUri(BinanceExchange.PORTFOLIO_MARGIN_URL);
+      this.binanceMargin = ExchangeRestProxyBuilder.forInterface(
+              BinanceAuthenticated.class, marginSpec)
+          .build();
       this.inverseBinanceFutures=null;
     }
     this.binanceFutures = ExchangeRestProxyBuilder.forInterface(

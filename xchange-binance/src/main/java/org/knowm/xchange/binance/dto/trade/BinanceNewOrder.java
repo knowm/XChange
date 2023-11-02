@@ -13,6 +13,14 @@ public final class BinanceNewOrder {
     FULL
   }
 
+
+  /** Desired response side effect type for BinanceNewOrder. */
+  public enum SideEffectType	 {
+    NO_SIDE_EFFECT,
+    MARGIN_BUY,
+    AUTO_REPAY
+  }
+
   public final String symbol;
   public final long orderId;
   public final String clientOrderId;
@@ -22,6 +30,7 @@ public final class BinanceNewOrder {
   public final BigDecimal executedQty;
   public final OrderStatus status;
   public final TimeInForce timeInForce;
+  public Boolean isIsolated=false;
   public final OrderType type;
   public final OrderSide side;
   public final List<BinanceTrade> fills;
@@ -37,6 +46,7 @@ public final class BinanceNewOrder {
       @JsonProperty("status") OrderStatus status,
       @JsonProperty("timeInForce") TimeInForce timeInForce,
       @JsonProperty("type") OrderType type,
+      @JsonProperty("isIsolated") Boolean isIsolated,
       @JsonProperty("side") OrderSide side,
       @JsonProperty("fills") List<BinanceTrade> fills) {
     super();
@@ -49,6 +59,7 @@ public final class BinanceNewOrder {
     this.executedQty = executedQty;
     this.status = status;
     this.timeInForce = timeInForce;
+    this.isIsolated=isIsolated;
     this.type = type;
     this.side = side;
     this.fills = fills;

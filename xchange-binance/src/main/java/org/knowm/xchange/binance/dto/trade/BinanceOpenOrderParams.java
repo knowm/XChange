@@ -3,20 +3,20 @@ package org.knowm.xchange.binance.dto.trade;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 
-public class BinanceCancelOrderParams implements CancelOrderByIdParams, CancelOrderByInstrument {
-  private final String orderId;
-  private final Instrument pair;
+public class BinanceOpenOrderParams implements OpenOrdersParamInstrument  {
+
+  private Instrument pair;
   private Boolean isMarginOrder;
-  public BinanceCancelOrderParams(Instrument pair, String orderId) {
+  public BinanceOpenOrderParams(Instrument pair) {
     this.pair = pair;
-    this.orderId = orderId;
+    this.isMarginOrder = false;
   }
 
 
-  public BinanceCancelOrderParams(Instrument pair, String orderId, Boolean isMarginOrder) {
+  public BinanceOpenOrderParams(Instrument pair, Boolean isMarginOrder) {
     this.pair = pair;
-    this.orderId = orderId;
     this.isMarginOrder=isMarginOrder;
   }
   @Override
@@ -25,9 +25,11 @@ public class BinanceCancelOrderParams implements CancelOrderByIdParams, CancelOr
   }
 
   @Override
-  public String getOrderId() {
-    return orderId;
+  public void setInstrument(Instrument pair) {
+    this.pair=pair;
   }
+
+
 
 
   public Boolean getIsMarginOrder() {

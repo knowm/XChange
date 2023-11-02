@@ -84,6 +84,101 @@ public interface BinanceAuthenticated extends Binance {
       throws IOException, BinanceException;
 
   /**
+   * Send in a new margin order
+   *
+   * @param symbol
+   * @param isIsolated optional
+   * @param side
+   * @param type
+   * @param quantity
+   * @param quoteOrderQty optional
+   * @param price optional, must be provided for limit orders only
+   * @param stopPrice optional, used with stop orders
+   * @param newClientOrderId optional, a unique id for the order. Automatically generated if not
+   *     sent.
+   * @param icebergQty optional, used with iceberg orders
+   * @param newOrderRespType optional, MARKET and LIMIT order types default to FULL, all other
+   *     orders default to ACK
+   * @param sideEffectType optional, NO_SIDE_EFFECT, MARGIN_BUY, AUTO_REPAY; default NO_SIDE_EFFECT.
+   *     orders default to ACK
+   * @param timeInForce
+   * @param recvWindow optional
+   * @param timestamp
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   * @see <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade"></a>
+   */
+  @POST
+  @Path("sapi/v1/margin/order")
+  BinanceNewOrder newMarginOrder(
+      @FormParam("symbol") String symbol,
+      @FormParam("isIsolated") Boolean isIsolated,
+      @FormParam("side") OrderSide side,
+      @FormParam("type") OrderType type,
+      @FormParam("quantity") BigDecimal quantity,
+      @FormParam("quoteOrderQty") BigDecimal quoteOrderQty,
+      @FormParam("price") BigDecimal price,
+      @FormParam("stopPrice") BigDecimal stopPrice,
+      @FormParam("newClientOrderId") String newClientOrderId,
+      @FormParam("icebergQty") BigDecimal icebergQty,
+      @FormParam("newOrderRespType") BinanceNewOrder.NewOrderResponseType newOrderRespType,
+      @FormParam("sideEffectType") BinanceNewOrder.SideEffectType sideEffectType,
+      @FormParam("timeInForce") TimeInForce timeInForce,
+      @FormParam("recvWindow") Long recvWindow,
+      @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  /**
+   * Send in a new portfolio margin margin order
+   *
+   * @param symbol
+   * @param side
+   * @param type
+   * @param quantity
+   * @param quoteOrderQty optional
+   * @param price optional, must be provided for limit orders only
+   * @param stopPrice optional, used with stop orders
+   * @param newClientOrderId optional, a unique id for the order. Automatically generated if not
+   *     sent.
+   * @param icebergQty optional, used with iceberg orders
+   * @param newOrderRespType optional, MARKET and LIMIT order types default to FULL, all other
+   *     orders default to ACK
+   * @param sideEffectType optional, NO_SIDE_EFFECT, MARGIN_BUY, AUTO_REPAY; default NO_SIDE_EFFECT.
+   *     orders default to ACK
+   * @param timeInForce
+   * @param recvWindow optional
+   * @param timestamp
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   * @see <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade"></a>
+   */
+  @POST
+  @Path("papi/v1/margin/order")
+  BinanceNewOrder newMarginPortfolioMarginOrder(
+      @FormParam("symbol") String symbol,
+      @FormParam("side") OrderSide side,
+      @FormParam("type") OrderType type,
+      @FormParam("quantity") BigDecimal quantity,
+      @FormParam("quoteOrderQty") BigDecimal quoteOrderQty,
+      @FormParam("price") BigDecimal price,
+      @FormParam("stopPrice") BigDecimal stopPrice,
+      @FormParam("newClientOrderId") String newClientOrderId,
+      @FormParam("icebergQty") BigDecimal icebergQty,
+      @FormParam("newOrderRespType") BinanceNewOrder.NewOrderResponseType newOrderRespType,
+      @FormParam("sideEffectType") BinanceNewOrder.SideEffectType sideEffectType,
+      @FormParam("timeInForce") TimeInForce timeInForce,
+      @FormParam("recvWindow") Long recvWindow,
+      @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+
+  /**
    * Test new order creation and signature/recvWindow long. Creates and validates a new order but
    * does not send it into the matching engine.
    *
@@ -156,6 +251,60 @@ public interface BinanceAuthenticated extends Binance {
       throws IOException, BinanceException;
 
   /**
+   * Check a margin order's status.<br>
+   * Either orderId or origClientOrderId must be sent.
+   *
+   * @param symbol
+   * @param isIsolated optional
+   * @param orderId optional
+   * @param origClientOrderId optional
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("sapi/v1/margin/order")
+  BinanceOrder marginOrderStatus(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("isIsolated") Boolean isIsolated,
+      @QueryParam("orderId") long orderId,
+      @QueryParam("origClientOrderId") String origClientOrderId,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+  /**
+   * Check a portfolio margin margin order's status.<br>
+   * Either orderId or origClientOrderId must be sent.
+   *
+   * @param symbol
+   * @param orderId optional
+   * @param origClientOrderId optional
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("papi/v1/margin/order")
+  BinanceOrder marginPortfolioMarginOrderStatus (
+      @QueryParam("symbol") String symbol,
+      @QueryParam("orderId") long orderId,
+      @QueryParam("origClientOrderId") String origClientOrderId,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+  /**
    * Cancel an active order.
    *
    * @param symbol
@@ -174,6 +323,67 @@ public interface BinanceAuthenticated extends Binance {
   @DELETE
   @Path("api/v3/order")
   BinanceCancelledOrder cancelOrder(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("orderId") long orderId,
+      @QueryParam("origClientOrderId") String origClientOrderId,
+      @QueryParam("newClientOrderId") String newClientOrderId,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  /**
+   * Cancel an active margin order.
+   *
+   * @param symbol
+   * @param orderId optional
+   * @param isIsolated optional
+   * @param origClientOrderId optional
+   * @param newClientOrderId optional, used to uniquely identify this cancel. Automatically
+   *     generated by default.
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @DELETE
+  @Path("sapi/v1/margin/order")
+  BinanceCancelledOrder cancelMarginOrder(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("isIsolated") Boolean isIsolated,
+      @QueryParam("orderId") long orderId,
+      @QueryParam("origClientOrderId") String origClientOrderId,
+      @QueryParam("newClientOrderId") String newClientOrderId,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+
+  /**
+   * Cancel an active portfolio margin margin order.
+   *
+   * @param symbol
+   * @param orderId optional
+   * @param origClientOrderId optional
+   * @param newClientOrderId optional, used to uniquely identify this cancel. Automatically
+   *     generated by default.
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @DELETE
+  @Path("papi/v1/margin/order")
+  BinanceCancelledOrder cancelMarginPortfolioMarginOrder(
       @QueryParam("symbol") String symbol,
       @QueryParam("orderId") long orderId,
       @QueryParam("origClientOrderId") String origClientOrderId,
@@ -217,6 +427,49 @@ public interface BinanceAuthenticated extends Binance {
   @GET
   @Path("api/v3/openOrders")
   List<BinanceOrder> openOrders(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  /**
+   * Get open portfolio margin orders on a symbol.
+   *
+   * @param symbol optional
+   * @param recvWindow optional
+   * @param timestamp
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("/papi/v1/margin/openOrders")
+  List<BinanceOrder> openPortfolioMarginOrders(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+
+
+
+  /**
+   * Get open margin orders on a symbol.
+   *
+   * @param symbol optional
+   * @param recvWindow optional
+   * @param timestamp
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("/sapi/v1/margin/openOrders")
+  List<BinanceOrder> openMarginOrders(
       @QueryParam("symbol") String symbol,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,

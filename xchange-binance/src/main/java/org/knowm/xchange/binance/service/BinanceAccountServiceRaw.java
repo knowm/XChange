@@ -32,6 +32,7 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
   }
 
   public BinanceFutureAccountInformation futuresAccount() throws BinanceException, IOException {
+
     return decorateApiCall(
             () -> binanceFutures.futuresAccount(getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
             .withRetry(retry("futures-account"))
@@ -39,6 +40,24 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
             .call();
   }
 
+  public List<AssetPortfolioMarginBalance> portfolioMarginAccount() throws BinanceException, IOException {
+
+    return decorateApiCall(
+        () -> binanceFutures.portfolioMarginAccount(getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
+        .withRetry(retry("portfolioMarginAccount"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
+        .call();
+  }
+
+
+  public BinanceFutureAccountInformation futuresInverseAccount() throws BinanceException, IOException {
+
+    return decorateApiCall(
+        () -> binanceFutures.futuresInverseAccount(getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
+        .withRetry(retry("futures-account"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
+        .call();
+  }
   public WithdrawResponse withdraw(String coin, String address, BigDecimal amount)
       throws IOException, BinanceException {
     // the name parameter seams to be mandatory
