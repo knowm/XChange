@@ -63,7 +63,7 @@ public class KrakenFuturesStreamingMarketDataService implements StreamingMarketD
 
         return service.subscribeChannel(channelName)
                 .filter(message-> message.has("feed") && message.has("product_id"))
-                .filter(message-> message.get("product_id").asText().toLowerCase().equals(KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument)))
+                .filter(message-> message.get("product_id").asText().equals(KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument)))
                 .map(message-> KrakenFuturesStreamingAdapters.adaptTicker(objectMapper.treeToValue(message, KrakenFuturesStreamingTickerResponse.class)));
     }
 
@@ -83,7 +83,7 @@ public class KrakenFuturesStreamingMarketDataService implements StreamingMarketD
 
         return service.subscribeChannel(channelName)
                 .filter(message-> message.has("feed") && message.has("product_id"))
-                .filter(message-> message.get("product_id").asText().toLowerCase().equals(KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument)))
+                .filter(message-> message.get("product_id").asText().equals(KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument)))
                 .map(message-> KrakenFuturesStreamingAdapters.adaptFundingRate(objectMapper.treeToValue(message, KrakenFuturesStreamingTickerResponse.class)));
     }
 }
