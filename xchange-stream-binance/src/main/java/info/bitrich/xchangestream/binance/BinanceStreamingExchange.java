@@ -1,12 +1,20 @@
 package info.bitrich.xchangestream.binance;
 
+import static java.util.Collections.emptyMap;
+
 import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannelException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
+import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
@@ -16,14 +24,6 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static java.util.Collections.emptyMap;
 
 public class BinanceStreamingExchange extends BinanceExchange implements StreamingExchange {
 
@@ -321,5 +321,15 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   public void disableLiveSubscription() {
     if (this.streamingService != null) this.streamingService.disableLiveSubscription();
+  }
+
+  /**
+   * Enables the user to listen on channel inactive events and react appropriately.
+   *
+   * @param channelInactiveHandler a WebSocketMessageHandler instance.
+   */
+  public void setChannelInactiveHandler(
+      WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+    streamingService.setChannelInactiveHandler(channelInactiveHandler);
   }
 }
