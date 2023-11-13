@@ -34,7 +34,7 @@ import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOrderStatus;
 /** @author Jean-Christophe Laruelle */
 public class KrakenFuturesAdapters {
 
-  private static final String MULTI_COLLATERAL_PRODUCTS = "pf_";
+  private static final String MULTI_COLLATERAL_PRODUCTS = "PF_";
   private static final String ACCOUNT_TYPE = "multiCollateralMarginAccount";
 
   public static Ticker adaptTicker(
@@ -183,7 +183,7 @@ public class KrakenFuturesAdapters {
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     for (KrakenFuturesInstrument instrument : krakenFuturesInstruments.getInstruments()) {
-      if(instrument.getSymbol().contains("pf")){
+      if(instrument.getSymbol().contains(MULTI_COLLATERAL_PRODUCTS)){
         instruments.put(adaptInstrument(instrument.getSymbol()),new InstrumentMetaData.Builder()
                         .volumeScale(instrument.getVolumeScale())
                         .priceScale(instrument.getTickSize().scale())
@@ -198,7 +198,7 @@ public class KrakenFuturesAdapters {
 
   public static Instrument adaptInstrument(String symbol) {
       String main_symbol = symbol.replace(MULTI_COLLATERAL_PRODUCTS,"");
-      return new FuturesContract(new CurrencyPair(main_symbol.substring(0, main_symbol.length() - 3).replace("xbt","btc")+"/"+main_symbol.substring(main_symbol.length()-3)),"PERP");
+      return new FuturesContract(new CurrencyPair(main_symbol.substring(0, main_symbol.length() - 3).replace("XBT","BTC")+"/"+main_symbol.substring(main_symbol.length()-3)),"PERP");
   }
 
   private static BigDecimal getMinimumAmountFromVolumeScale(Integer volumeScale){
@@ -215,7 +215,7 @@ public class KrakenFuturesAdapters {
   }
 
   public static String adaptKrakenFuturesSymbol(Instrument instrument) {
-    return MULTI_COLLATERAL_PRODUCTS+instrument.getBase().toString().replace("BTC","XBT").toLowerCase()+instrument.getCounter().toString().toLowerCase();
+    return MULTI_COLLATERAL_PRODUCTS+instrument.getBase().toString().replace("BTC","XBT")+instrument.getCounter().toString();
   }
 
   public static Trades adaptTrades(KrakenFuturesPublicFills krakenFuturesTrades, Instrument instrument) {
