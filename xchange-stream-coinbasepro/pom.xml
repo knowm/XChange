@@ -19,6 +19,12 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.skyscreamer</groupId>
+            <artifactId>jsonassert</artifactId>
+            <version>1.5.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-stream-service-netty</artifactId>
             <version>${project.parent.version}</version>

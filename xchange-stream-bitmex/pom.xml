@@ -50,6 +50,13 @@
         </profile>
     </profiles>
 
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
@@ -65,6 +72,12 @@
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-bitmex</artifactId>
             <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.skyscreamer</groupId>
+            <artifactId>jsonassert</artifactId>
+            <version>1.5.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
