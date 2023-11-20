@@ -30,7 +30,7 @@ public class CoinbaseProExchangeIntegration {
   @Test
   public void coinbaseShouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {
 
-    ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getCanonicalName());
+    assertThat(ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getCanonicalName())).isInstanceOf(Exchange.class);
   }
 
   @Test
@@ -61,17 +61,17 @@ public class CoinbaseProExchangeIntegration {
     // get latest trades
     CoinbaseProTrades trades1 =
         marketDataServiceRaw.getCoinbaseProTradesExtended(
-            currencyPair, new Long(Integer.MAX_VALUE), null);
+            currencyPair, (long )Integer.MAX_VALUE, null);
     assertEquals("Unexpected trades list length (1000)", 1000, trades1.size());
 
     // get latest 10 trades
     CoinbaseProTrades trades2 =
         marketDataServiceRaw.getCoinbaseProTradesExtended(
-            currencyPair, new Long(Integer.MAX_VALUE), 10);
+            currencyPair, (long) Integer.MAX_VALUE, 10);
     assertEquals("Unexpected trades list length (10)", 10, trades2.size());
 
-    Trades trades3 = marketDataService.getTrades(currencyPair, new Long(0), new Long(1005));
-    assertEquals("Unexpected trades list length (100)", 1004, trades3.getTrades().size());
+    Trades trades3 = marketDataService.getTrades(currencyPair);
+    assertEquals("Unexpected trades list length (1000)", 1000, trades3.getTrades().size());
   }
 
   @Test
@@ -80,8 +80,17 @@ public class CoinbaseProExchangeIntegration {
 
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
 
-    Assert.assertNotNull(exchangeMetaData);
-    Assert.assertNotNull(exchangeMetaData.getCurrencies());
+    assertThat(exchangeMetaData).isNotNull();
+    assertThat(exchangeMetaData.getInstruments()).isNotEmpty();
+    assertThat(exchangeMetaData.getCurrencies()).isNotEmpty();
+    exchangeMetaData.getInstruments().forEach((instrument,instrumentMetaData) -> {
+      assertThat(instrument).isInstanceOf(CurrencyPair.class);
+      assertThat(instrumentMetaData).isNotNull();
+      assertThat(instrumentMetaData.getTradingFee()).isNotNull();
+      assertThat(instrumentMetaData.getCounterMinimumAmount()).isNotNull();
+      assertThat(instrumentMetaData.getPriceScale()).isNotNull();
+      assertThat(instrumentMetaData.getVolumeScale()).isNotNull();
+    });
     Assert.assertNotNull(
         "USDC is not defined", exchangeMetaData.getCurrencies().get(new Currency("USDC")));
   }

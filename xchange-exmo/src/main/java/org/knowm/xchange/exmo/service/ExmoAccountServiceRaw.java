@@ -65,21 +65,16 @@ public class ExmoAccountServiceRaw extends BaseExmoService {
       else if (status.equalsIgnoreCase("cancelled")) statusEnum = FundingRecord.Status.CANCELLED;
 
       FundingRecord fundingRecord =
-          new FundingRecord(
-              address,
-              DateUtils.fromUnixTime(Long.valueOf(time)),
-              Currency.getInstance(curr),
-              new BigDecimal(amount).abs(),
-              null,
-              txid,
-              type.equalsIgnoreCase("deposit")
-                  ? FundingRecord.Type.DEPOSIT
-                  : FundingRecord.Type.WITHDRAWAL,
-              statusEnum,
-              null,
-              null,
-              description);
-
+          FundingRecord.builder()
+              .address(address)
+              .date(DateUtils.fromUnixTime(time))
+              .currency(Currency.getInstance(curr))
+              .amount(new BigDecimal(amount).abs())
+              .blockchainTransactionHash(txid)
+              .type(type.equalsIgnoreCase("deposit") ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL)
+              .status(statusEnum)
+              .description(description)
+              .build();
       results.add(fundingRecord);
     }
 

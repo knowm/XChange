@@ -2,17 +2,22 @@ package org.knowm.xchange.coinbasepro.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 import org.slf4j.Logger;
@@ -93,38 +98,48 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
       log.debug("fromTradeId: {}, toTradeId: {}", fromTradeId, toTradeId);
 
       Long latestTradeId = toTradeId;
-      CoinbaseProTrades CoinbaseProTrades = new CoinbaseProTrades();
+      CoinbaseProTrades coinbaseProTrades = new CoinbaseProTrades();
       for (; ; ) {
-        CoinbaseProTrades CoinbaseProTradesNew =
+        CoinbaseProTrades coinbaseProTradesNew =
             getCoinbaseProTradesExtended(currencyPair, latestTradeId, 100);
 
-        CoinbaseProTrades.addAll(CoinbaseProTradesNew);
+        coinbaseProTrades.addAll(coinbaseProTradesNew);
         log.debug(
             "latestTradeId: {}, earliest-latest: {}-{}, trades: {}",
             latestTradeId,
-            CoinbaseProTrades.getEarliestTradeId(),
-            CoinbaseProTrades.getLatestTradeId(),
-            CoinbaseProTrades);
-        latestTradeId = CoinbaseProTrades.getEarliestTradeId();
+            coinbaseProTrades.getEarliestTradeId(),
+            coinbaseProTrades.getLatestTradeId(),
+            coinbaseProTrades);
+        latestTradeId = coinbaseProTrades.getEarliestTradeId();
 
-        if (CoinbaseProTradesNew.getEarliestTradeId() == null) {
+        if (coinbaseProTradesNew.getEarliestTradeId() == null) {
           break;
         }
 
-        if (CoinbaseProTrades.getEarliestTradeId() <= fromTradeId) {
+        if (coinbaseProTrades.getEarliestTradeId() <= fromTradeId) {
           break;
         }
       }
       log.debug(
           "earliest-latest: {}-{}",
-          CoinbaseProTrades.getEarliestTradeId(),
-          CoinbaseProTrades.getLatestTradeId());
+          coinbaseProTrades.getEarliestTradeId(),
+          coinbaseProTrades.getLatestTradeId());
 
-      CoinbaseProTrades.forEach(s -> log.debug(s.toString()));
+      coinbaseProTrades.forEach(s -> log.debug(s.toString()));
 
-      return CoinbaseProAdapters.adaptTrades(CoinbaseProTrades, currencyPair);
+      return CoinbaseProAdapters.adaptTrades(coinbaseProTrades, currencyPair);
     }
 
     throw new IllegalArgumentException("Invalid arguments passed to getTrades");
+  }
+
+  @Override
+  public Map<Currency, CurrencyMetaData> getCurrencies() throws IOException {
+    return CoinbaseProAdapters.adaptCoinbaseProCurrencies(getCoinbaseProCurrencies());
+  }
+
+  @Override
+  public Map<Instrument, InstrumentMetaData> getInstruments() throws IOException {
+    return CoinbaseProAdapters.adaptCoinbaseProCurrencyPairs(getCoinbaseProProducts());
   }
 }

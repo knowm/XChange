@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.knowm.xchange.dto.account.FundingRecord;
+import lombok.Getter;
+import lombok.ToString;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 
 /*
 examples:
@@ -47,16 +49,63 @@ examples:
   }
  */
 
+@ToString
+@Getter
 public class CoinbaseProTransfer {
 
+  private final String id;
+  private final Type type;
+  private final Date createdAt;
+  private final Date completedAt;
+  private final Date canceledAt;
+  private final Date processedAt;
+  private final String accountId;
+  private final String userId;
+  private final String userNonce;
+  private final BigDecimal amount;
+  private final String idem;
+  private final String currency;
+  private final Detail details;
+
+  public CoinbaseProTransfer(
+      @JsonProperty("id") String id,
+      @JsonProperty("type") String type,
+      @JsonProperty("created_at") String createdAt,
+      @JsonProperty("completed_at") String completedAt,
+      @JsonProperty("canceled_at") String canceledAt,
+      @JsonProperty("processed_at") String processedAt,
+      @JsonProperty("account_id") String accountId,
+      @JsonProperty("user_id") String userId,
+      @JsonProperty("user_nonce") String userNonce,
+      @JsonProperty("amount") String amount,
+      @JsonProperty("idem") String idem,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("details") Detail details) {
+    this.id = id;
+    this.type = Type.valueOf(type.toUpperCase());
+    this.createdAt = parse(createdAt);
+    this.completedAt = parse(completedAt);
+    this.canceledAt = parse(canceledAt);
+    this.processedAt = parse(processedAt);
+    this.accountId = accountId;
+    this.userId = userId;
+    this.userNonce = userNonce;
+    this.amount = (amount == null) ? BigDecimal.ZERO : new BigDecimal(amount);
+    this.idem = idem;
+    this.currency = currency;
+    this.details = details;
+  }
+
+  @ToString
+  @Getter
   public static class Detail {
-    public final String cryptoAddress;
-    public final String coinbaseAccountId;
-    public final String cryptoTransactionId;
-    public final String coinbaseTransactionId;
-    public final String cryptoTransactionHash;
-    public final String sentToAddress;
-    public final String coinbaseWithdrawalId;
+    private final String cryptoAddress;
+    private final String coinbaseAccountId;
+    private final String cryptoTransactionId;
+    private final String coinbaseTransactionId;
+    private final String cryptoTransactionHash;
+    private final String sentToAddress;
+    private final String coinbaseWithdrawalId;
     private final String destinationTag;
     private final String destinationTagName;
 
@@ -80,178 +129,6 @@ public class CoinbaseProTransfer {
       this.destinationTag = destinationTag;
       this.destinationTagName = destinationTagName;
     }
-
-    public String getCryptoAddress() {
-      return cryptoAddress;
-    }
-
-    public String getCoinbaseAccountId() {
-      return coinbaseAccountId;
-    }
-
-    public String getCryptoTransactionId() {
-      return cryptoTransactionId;
-    }
-
-    public String getCoinbaseTransactionId() {
-      return coinbaseTransactionId;
-    }
-
-    public String getCryptoTransactionHash() {
-      return cryptoTransactionHash;
-    }
-
-    public String getSentToAddress() {
-      return sentToAddress;
-    }
-
-    public String getCoinbaseWithdrawalId() {
-      return coinbaseWithdrawalId;
-    }
-
-    public String getDestinationTag() {
-      return destinationTag;
-    }
-
-    @Override
-    public String toString() {
-      return "Detail{"
-          + "cryptoAddress='"
-          + cryptoAddress
-          + '\''
-          + ", coinbaseAccountId='"
-          + coinbaseAccountId
-          + '\''
-          + ", cryptoTransactionId='"
-          + cryptoTransactionId
-          + '\''
-          + ", coinbaseTransactionId='"
-          + coinbaseTransactionId
-          + '\''
-          + ", cryptoTransactionHash='"
-          + cryptoTransactionHash
-          + '\''
-          + ", sentToAddress='"
-          + sentToAddress
-          + '\''
-          + ", coinbaseWithdrawalId='"
-          + coinbaseWithdrawalId
-          + '\''
-          + ", destinationTag='"
-          + destinationTag
-          + '\''
-          + ", destinationTagName='"
-          + destinationTagName
-          + '\''
-          + '}';
-    }
-  }
-
-  public final String id;
-  public final String type;
-  public final String createdAt;
-  public final String completedAt;
-  public final String canceledAt;
-  public final String processedAt;
-  public final String accountId;
-  public final String userId;
-  public final String userNonce;
-  public final String amount;
-  public final Detail details;
-
-  public CoinbaseProTransfer(
-      @JsonProperty("id") String id,
-      @JsonProperty("type") String type,
-      @JsonProperty("created_at") String createdAt,
-      @JsonProperty("completed_at") String completedAt,
-      @JsonProperty("canceled_at") String canceledAt,
-      @JsonProperty("processed_at") String processedAt,
-      @JsonProperty("account_id") String accountId,
-      @JsonProperty("user_id") String userId,
-      @JsonProperty("user_nonce") String userNonce,
-      @JsonProperty("amount") String amount,
-      @JsonProperty("details") Detail details) {
-    this.id = id;
-    this.type = type;
-    this.createdAt = createdAt;
-    this.completedAt = completedAt;
-    this.canceledAt = canceledAt;
-    this.processedAt = processedAt;
-    this.accountId = accountId;
-    this.userId = userId;
-    this.userNonce = userNonce;
-    this.amount = amount;
-    this.details = details;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public FundingRecord.Type type() {
-    return type.equalsIgnoreCase("withdraw")
-        ? FundingRecord.Type.WITHDRAWAL
-        : FundingRecord.Type.DEPOSIT;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public Date createdAt() {
-    return parse(createdAt);
-  }
-
-  public String getCompletedAt() {
-    return completedAt;
-  }
-
-  public Date completedAt() {
-    return parse(completedAt);
-  }
-
-  public String getCanceledAt() {
-    return canceledAt;
-  }
-
-  public Date canceledAt() {
-    return parse(canceledAt);
-  }
-
-  public String getProcessedAt() {
-    return processedAt;
-  }
-
-  public Date processedAt() {
-    return parse(processedAt);
-  }
-
-  public String getAccountId() {
-    return accountId;
-  }
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public String getUserNonce() {
-    return userNonce;
-  }
-
-  public String getAmount() {
-    return amount;
-  }
-
-  public BigDecimal amount() {
-    return new BigDecimal(amount);
-  }
-
-  public Detail getDetails() {
-    return details;
   }
 
   private static Date parse(String time) {
@@ -262,43 +139,5 @@ public class CoinbaseProTransfer {
     } catch (ParseException e) {
       throw new IllegalStateException("Cannot parse '" + time + "'", e);
     }
-  }
-
-  @Override
-  public String toString() {
-    return "CoinbaseProTransfer{"
-        + "id='"
-        + id
-        + '\''
-        + ", type='"
-        + type
-        + '\''
-        + ", createdAt='"
-        + createdAt
-        + '\''
-        + ", completedAt='"
-        + completedAt
-        + '\''
-        + ", canceledAt='"
-        + canceledAt
-        + '\''
-        + ", processedAt='"
-        + processedAt
-        + '\''
-        + ", accountId='"
-        + accountId
-        + '\''
-        + ", userId='"
-        + userId
-        + '\''
-        + ", userNonce='"
-        + userNonce
-        + '\''
-        + ", amount='"
-        + amount
-        + '\''
-        + ", details="
-        + details
-        + '}';
   }
 }

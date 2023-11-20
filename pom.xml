@@ -211,6 +211,7 @@
     <module>xchange-stream-service-pubnub</module>
     <module>xchange-stream-coincheck</module>
     <module>xchange-stream-krakenfutures</module>
+    <module>xchange-stream-bybit</module>
   </modules>
 
   <ciManagement>

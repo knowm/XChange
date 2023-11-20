@@ -6,7 +6,6 @@ import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransactio
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.Observable;
 import java.util.Collections;
-import java.util.List;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -29,29 +28,28 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
     this.service = service;
   }
 
-  private boolean containsPair(List<Instrument> pairs, CurrencyPair pair) {
-    for (Instrument item : pairs) {
-      if (pair.compareTo((CurrencyPair) item) == 0) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   @Override
   public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
-    if (!containsPair(service.getProduct().getUserTrades(), currencyPair))
-      throw new UnsupportedOperationException(
-          String.format("The currency pair %s is not subscribed for user trades", currencyPair));
-    if (!service.isAuthenticated()) {
-      throw new ExchangeSecurityException("Not authenticated");
-    }
+    checkPairAndAuthentication(currencyPair);
+
     return service
         .getRawWebSocketTransactions(currencyPair, true)
         .filter(message -> message.getType().equals(MATCH))
         .filter((CoinbaseProWebSocketTransaction s) -> s.getUserId() != null)
-        .map((CoinbaseProWebSocketTransaction s) -> s.toCoinbaseProFill())
+        .map(CoinbaseProWebSocketTransaction::toCoinbaseProFill)
+        .map((CoinbaseProFill f) -> adaptTradeHistory(Collections.singletonList(f)))
+        .map((UserTrades h) -> h.getUserTrades().get(0));
+  }
+
+  @Override
+  public Observable<UserTrade> getUserTrades(Instrument instrument, Object... args) {
+    checkPairAndAuthentication(instrument);
+
+    return service
+        .getRawWebSocketTransactions(instrument, true)
+        .filter(message -> message.getType().equals(MATCH))
+        .filter((CoinbaseProWebSocketTransaction s) -> s.getUserId() != null)
+        .map(CoinbaseProWebSocketTransaction::toCoinbaseProFill)
         .map((CoinbaseProFill f) -> adaptTradeHistory(Collections.singletonList(f)))
         .map((UserTrades h) -> h.getUserTrades().get(0));
   }
@@ -64,12 +62,8 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
    */
   @Override
   public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
-    if (!containsPair(service.getProduct().getOrders(), currencyPair))
-      throw new UnsupportedOperationException(
-          String.format("The currency pair %s is not subscribed for orders", currencyPair));
-    if (!service.isAuthenticated()) {
-      throw new ExchangeSecurityException("Not authenticated");
-    }
+    checkPairAndAuthentication(currencyPair);
+
     if (!orderChangesWarningLogged) {
       LOG.warn(
           "The order change stream is not yet fully implemented for Coinbase Pro. "
@@ -81,6 +75,15 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
         .getRawWebSocketTransactions(currencyPair, true)
         .filter(s -> s.getUserId() != null)
         .map(CoinbaseProStreamingAdapters::adaptOrder);
+  }
+
+  private void checkPairAndAuthentication(Instrument instrument) {
+    if (!service.getProduct().getUserTrades().contains(instrument))
+      throw new UnsupportedOperationException(
+          String.format("The currency pair %s is not subscribed for user trades", instrument));
+    if (!service.isAuthenticated()) {
+      throw new ExchangeSecurityException("Not authenticated");
+    }
   }
 
   /**

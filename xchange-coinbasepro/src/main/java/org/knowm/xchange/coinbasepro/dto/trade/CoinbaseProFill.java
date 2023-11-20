@@ -2,111 +2,72 @@ package org.knowm.xchange.coinbasepro.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
+@Getter
+@ToString
+@Builder
 public class CoinbaseProFill {
   private final String tradeId;
   private final String productId;
+  private final String orderId;
+  private final String userId;
+  private final String profileId;
+  private final Liquidity liquidity;
   private final BigDecimal price;
   private final BigDecimal size;
-  private final String orderId;
-  private final String createdAt;
-  private final String liquidity;
   private final BigDecimal fee;
+  private final String createdAt;
+  private final Side side;
   private final boolean settled;
-  private final String side;
+  private final String usdVolume;
+  private final String marketType;
+  private final String fundingCurrency;
 
   public CoinbaseProFill(
       @JsonProperty("trade_id") String tradeId,
       @JsonProperty("product_id") String productId,
+      @JsonProperty("order_id") String orderId,
+      @JsonProperty("user_id") String userId,
+      @JsonProperty("profile_id") String profileId,
+      @JsonProperty("liquidity") Liquidity liquidity,
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("size") BigDecimal size,
-      @JsonProperty("order_id") String orderId,
-      @JsonProperty("created_at") String createdAt,
-      @JsonProperty("liquidity") String liquidity,
       @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("created_at") String createdAt,
+      @JsonProperty("side") Side side,
       @JsonProperty("settled") boolean settled,
-      @JsonProperty("side") String side) {
+      @JsonProperty("usd_volume") String usdVolume,
+      @JsonProperty("market_type") String marketType,
+      @JsonProperty("funding_currency") String fundingCurrency
+  ) {
     this.tradeId = tradeId;
     this.productId = productId;
+    this.orderId = orderId;
+    this.userId = userId;
+    this.profileId = profileId;
+    this.liquidity = liquidity;
     this.price = price;
     this.size = size;
-    this.orderId = orderId;
-    this.createdAt = createdAt;
-    this.liquidity = liquidity;
     this.fee = fee;
-    this.settled = settled;
+    this.createdAt = createdAt;
     this.side = side;
+    this.settled = settled;
+    this.usdVolume = usdVolume;
+    this.marketType = marketType;
+    this.fundingCurrency = fundingCurrency;
   }
 
-  public String getTradeId() {
-    return tradeId;
+  public enum Liquidity {
+    M,
+    T,
+    O
   }
 
-  public String getProductId() {
-    return productId;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public BigDecimal getSize() {
-    return size;
-  }
-
-  public String getOrderId() {
-    return orderId;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getLiquidity() {
-    return liquidity;
-  }
-
-  public BigDecimal getFee() {
-    return fee;
-  }
-
-  public boolean isSettled() {
-    return settled;
-  }
-
-  public String getSide() {
-    return side;
-  }
-
-  @Override
-  public String toString() {
-    return "CoinbaseExFill{"
-        + "tradeId='"
-        + tradeId
-        + '\''
-        + ", productId='"
-        + productId
-        + '\''
-        + ", price="
-        + price
-        + ", size="
-        + size
-        + ", orderId='"
-        + orderId
-        + '\''
-        + ", createdAt='"
-        + createdAt
-        + '\''
-        + ", liquidity='"
-        + liquidity
-        + '\''
-        + ", fee="
-        + fee
-        + ", settled="
-        + settled
-        + ", side='"
-        + side
-        + '\''
-        + '}';
+  public enum Side {
+    buy,
+    sell
   }
 }

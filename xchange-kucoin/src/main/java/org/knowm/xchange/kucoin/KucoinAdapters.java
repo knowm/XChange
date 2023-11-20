@@ -413,17 +413,18 @@ public class KucoinAdapters {
   }
 
   public static FundingRecord adaptFundingRecord(WithdrawalResponse wr) {
-    FundingRecord.Builder b = new FundingRecord.Builder();
-    return b.setAddress(wr.getAddress())
-        .setAmount(wr.getAmount())
-        .setCurrency(Currency.getInstance(wr.getCurrency()))
-        .setFee(wr.getFee())
-        .setType(Type.WITHDRAWAL)
-        .setStatus(convertStatus(wr.getStatus()))
-        .setInternalId(wr.getId())
-        .setBlockchainTransactionHash(wr.getWalletTxId())
-        .setDescription(wr.getMemo())
-        .setDate(wr.getCreatedAt())
+
+    return FundingRecord.builder()
+        .address(wr.getAddress())
+        .amount(wr.getAmount())
+        .currency(Currency.getInstance(wr.getCurrency()))
+        .fee(wr.getFee())
+        .type(Type.WITHDRAWAL)
+        .status(convertStatus(wr.getStatus()))
+        .internalId(wr.getId())
+        .blockchainTransactionHash(wr.getWalletTxId())
+        .description(wr.getMemo())
+        .date(wr.getCreatedAt())
         .build();
   }
 
@@ -445,16 +446,16 @@ public class KucoinAdapters {
   }
 
   public static FundingRecord adaptFundingRecord(DepositResponse dr) {
-    FundingRecord.Builder b = new FundingRecord.Builder();
-    return b.setAddress(dr.getAddress())
-        .setAmount(dr.getAmount())
-        .setCurrency(Currency.getInstance(dr.getCurrency()))
-        .setFee(dr.getFee())
-        .setType(Type.DEPOSIT)
-        .setStatus(convertStatus(dr.getStatus()))
-        .setBlockchainTransactionHash(dr.getWalletTxId())
-        .setDescription(dr.getMemo())
-        .setDate(dr.getCreatedAt())
+    return FundingRecord.builder()
+        .address(dr.getAddress())
+        .amount(dr.getAmount())
+        .currency(Currency.getInstance(dr.getCurrency()))
+        .fee(dr.getFee())
+        .type(Type.DEPOSIT)
+        .status(convertStatus(dr.getStatus()))
+        .blockchainTransactionHash(dr.getWalletTxId())
+        .description(dr.getMemo())
+        .date(dr.getCreatedAt())
         .build();
   }
 }

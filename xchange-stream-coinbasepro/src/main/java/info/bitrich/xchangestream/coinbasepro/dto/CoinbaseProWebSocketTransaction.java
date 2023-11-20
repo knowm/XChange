@@ -8,16 +8,23 @@ import java.util.Date;
 import java.util.SortedMap;
 import java.util.TimeZone;
 import java.util.stream.Stream;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill.Side;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** Domain object mapping a CoinbasePro web socket message. */
+@Getter
+@ToString
+@Builder
 public class CoinbaseProWebSocketTransaction {
   private final String type;
   private final String orderId;
@@ -46,6 +53,8 @@ public class CoinbaseProWebSocketTransaction {
   private final String takerOrderId;
 
   private final String takerUserId;
+  private final BigDecimal takerFeeRate;
+  private final BigDecimal makerFeeRate;
   private final String userId;
   private final String takerProfileId;
   private final String profileId;
@@ -77,6 +86,8 @@ public class CoinbaseProWebSocketTransaction {
       @JsonProperty("maker_order_id") String makerOrderId,
       @JsonProperty("taker_order_id") String takerOrderId,
       @JsonProperty("taker_user_id") String takerUserId,
+      @JsonProperty("taker_fee_rate") BigDecimal takerFeeRate,
+      @JsonProperty("maker_fee_rate") BigDecimal makerFeeRate,
       @JsonProperty("user_id") String userId,
       @JsonProperty("taker_profile_id") String takerProfileId,
       @JsonProperty("profile_id") String profileId) {
@@ -107,6 +118,8 @@ public class CoinbaseProWebSocketTransaction {
     this.sequence = sequence;
     this.time = time;
     this.takerUserId = takerUserId;
+    this.takerFeeRate = takerFeeRate;
+    this.makerFeeRate = makerFeeRate;
     this.userId = userId;
     this.takerProfileId = takerProfileId;
     this.profileId = profileId;
@@ -210,160 +223,16 @@ public class CoinbaseProWebSocketTransaction {
         useSide = "buy";
       }
     }
-    return new CoinbaseProFill(
-        String.valueOf(tradeId),
-        productId,
-        price,
-        size,
-        taker ? takerOrderId : makerOrderId,
-        time,
-        null,
-        null,
-        true,
-        useSide);
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public String getOrderId() {
-    return orderId;
-  }
-
-  public String getOrderType() {
-    return orderType;
-  }
-
-  public BigDecimal getSize() {
-    return size;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public BigDecimal getBestBid() {
-    return bestBid;
-  }
-
-  public BigDecimal getBestAsk() {
-    return bestAsk;
-  }
-
-  public BigDecimal getLastSize() {
-    return lastSize;
-  }
-
-  public BigDecimal getVolume24h() {
-    return volume24h;
-  }
-
-  public BigDecimal getOpen24h() {
-    return open24h;
-  }
-
-  public BigDecimal getLow24h() {
-    return low24h;
-  }
-
-  public BigDecimal getHigh24h() {
-    return high24h;
-  }
-
-  public String getSide() {
-    return side;
-  }
-
-  public String getClientOid() {
-    return clientOid;
-  }
-
-  public String getProductId() {
-    return productId;
-  }
-
-  public Long getSequence() {
-    return sequence;
-  }
-
-  public String getTime() {
-    return time;
-  }
-
-  public BigDecimal getRemainingSize() {
-    return remainingSize;
-  }
-
-  public String getReason() {
-    return reason;
-  }
-
-  public long getTradeId() {
-    return tradeId;
-  }
-
-  public String getMakerOrderId() {
-    return makerOrderId;
-  }
-
-  /** @deprecated Use {@link #getTakerOrderId()} */
-  @Deprecated
-  public String getTakenOrderId() {
-    return takerOrderId;
-  }
-
-  public String getTakerOrderId() {
-    return takerOrderId;
-  }
-
-  public String getTakerUserId() {
-    return takerUserId;
-  }
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public String getTakerProfileId() {
-    return takerProfileId;
-  }
-
-  public String getProfileId() {
-    return profileId;
-  }
-
-  @Override
-  public String toString() {
-    final StringBuffer sb = new StringBuffer("CoinbaseProWebSocketTransaction{");
-    sb.append("type='").append(type).append('\'');
-    sb.append(", orderId='").append(orderId).append('\'');
-    sb.append(", orderType='").append(orderType).append('\'');
-    sb.append(", size=").append(size);
-    sb.append(", remainingSize=").append(remainingSize);
-    sb.append(", price=").append(price);
-    sb.append(", bestBid=").append(bestBid);
-    sb.append(", bestAsk=").append(bestAsk);
-    sb.append(", lastSize=").append(lastSize);
-    sb.append(", volume24h=").append(volume24h);
-    sb.append(", open24h=").append(open24h);
-    sb.append(", low24h=").append(low24h);
-    sb.append(", high24h=").append(high24h);
-    sb.append(", side='").append(side).append('\'');
-    sb.append(", bids=").append(bids);
-    sb.append(", asks=").append(asks);
-    sb.append(", changes=").append(asks);
-    sb.append(", clientOid='").append(clientOid).append('\'');
-    sb.append(", productId='").append(productId).append('\'');
-    sb.append(", sequence=").append(sequence);
-    sb.append(", time='").append(time).append('\'');
-    sb.append(", reason='").append(reason).append('\'');
-    sb.append(", trade_id='").append(tradeId).append('\'');
-    if (userId != null) sb.append(", userId='").append(userId).append('\'');
-    if (profileId != null) sb.append(", profileId='").append(profileId).append('\'');
-    if (takerUserId != null) sb.append(", takerUserId='").append(takerUserId).append('\'');
-    if (takerProfileId != null) sb.append(", takerProfileId='").append(takerProfileId).append('\'');
-    sb.append('}');
-    return sb.toString();
+    return CoinbaseProFill.builder()
+        .tradeId(String.valueOf(tradeId))
+        .productId(productId)
+        .price(price)
+        .size(size)
+        .orderId(taker ? takerOrderId : makerOrderId)
+        .createdAt(time)
+        .fee(taker ? price.multiply(size).multiply(takerFeeRate) : price.multiply(size).multiply(makerFeeRate))
+        .side(Side.valueOf(useSide))
+        .settled(true)
+        .build();
   }
 }

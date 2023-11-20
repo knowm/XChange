@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -20,7 +19,9 @@ import org.knowm.xchange.coinbasepro.dto.CoinbasePagedResponse;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFee;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProLedger;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProSendMoneyRequest;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawCryptoResponse;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawFundsRequest;
@@ -32,15 +33,14 @@ import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
-import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccount;
-import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProWallet;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProWalletAddress;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProIdResponse;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceOrder;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
 import org.knowm.xchange.utils.DateUtils;
-import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/")
@@ -110,11 +110,21 @@ public interface CoinbasePro {
   /** Authenticated calls */
   @GET
   @Path("accounts")
-  org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount[] getAccounts(
+  CoinbaseProAccount[] getAccounts(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
+      throws CoinbaseProException, IOException;
+
+  @GET
+  @Path("accounts/{account_id}")
+  CoinbaseProAccount getAccountById(
+      @HeaderParam("CB-ACCESS-KEY") String apiKey,
+      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+      @PathParam("account_id") String accountId)
       throws CoinbaseProException, IOException;
 
   @GET
@@ -192,17 +202,22 @@ public interface CoinbasePro {
       throws CoinbaseProException, IOException;
 
   /**
-   * @param apiKey for account
-   * @param signer for account
-   * @param timestamp of message
-   * @param passphrase for account
-   * @param tradeIdAfter Return trades before this tradeId.
-   * @param tradeIdBefore Return trades after this tradeId.
-   * @param orderId to get fills for
-   * @param productId to get fills for
-   * @return fill array
-   * @throws CoinbaseProException when exchange throws exception
-   * @throws IOException when connection issue arises
+   * Get a list of fills. A fill is a partial or complete match on a specific order.
+   * @param apiKey
+   * @param signer
+   * @param timestamp
+   * @param passphrase
+   * @param orderId
+   * @param productId
+   * @param limit
+   * @param tradeIdBefore
+   * @param tradeIdAfter
+   * @param marketType
+   * @param startDate
+   * @param endDate
+   * @return CoinbasePagedResponse<CoinbaseProFill>
+   * @throws CoinbaseProException
+   * @throws IOException
    */
   @GET
   @Path("fills")
@@ -211,12 +226,15 @@ public interface CoinbasePro {
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-      @QueryParam("after") Integer tradeIdAfter,
-      @QueryParam("before") Integer tradeIdBefore,
-      @QueryParam("limit") Integer limit,
       @QueryParam("order_id") String orderId,
-      @QueryParam("product_id") String productId)
-      throws CoinbaseProException, IOException;
+      @QueryParam("product_id") String productId,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("before") Integer tradeIdBefore,
+      @QueryParam("after") Integer tradeIdAfter,
+      @QueryParam("market_type") String marketType,
+      @QueryParam("start_date") String startDate,
+      @QueryParam("end_date") String endDate
+  ) throws CoinbaseProException, IOException;
 
   @POST
   @Path("accounts/{account_id}/transactions")
@@ -233,41 +251,55 @@ public interface CoinbasePro {
   @GET
   @Path("accounts/{account_id}/ledger")
   @Consumes(MediaType.APPLICATION_JSON)
-  List<Map<?, ?>> ledger(
+  CoinbaseProLedger ledger(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("account_id") String accountId,
-      @QueryParam("after") String startingOrderId)
+      @QueryParam("start_date") String startDate,
+      @QueryParam("end_date") String endDate,
+      @QueryParam("before") String beforeId,
+      @QueryParam("after") String afterId,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("profile_id") String profileId)
       throws CoinbaseProException, IOException;
 
+  /**
+   * Lists past withdrawals and deposits for an account.
+   */
   @GET
   @Path("accounts/{account_id}/transfers")
   @Consumes(MediaType.APPLICATION_JSON)
-  CoinbaseProTransfers transfers(
+  CoinbaseProTransfers getTransfersByAccountId(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("account_id") String accountId,
-      @QueryParam("profile_id") String profileId,
+      @QueryParam("before") String before,
+      @QueryParam("after") String after,
       @QueryParam("limit") Integer limit,
-      @QueryParam("after") String createdAtDate);
+      @QueryParam("type") String type) // Possible types [deposit, withdraw, internal_deposit, internal_withdraw]
+      throws CoinbaseProException, IOException;
 
+  /**
+   * Gets a list of in-progress and completed transfers of funds in/out of any of the user's accounts.
+   */
   @GET
   @Path("transfers")
   @Consumes(MediaType.APPLICATION_JSON)
-  CoinbaseProTransfers transfers(
+  CoinbaseProTransfers getTransfers(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-      @QueryParam("type") String type,
+      @QueryParam("type") String type, // Possible types [deposit, withdraw, internal_deposit, internal_withdraw]
       @QueryParam("profile_id") String profileId,
       @QueryParam("before") String beforeDate,
       @QueryParam("after") String afterDate,
-      @QueryParam("limit") Integer limit);
+      @QueryParam("limit") Integer limit)
+      throws CoinbaseProException, IOException;
 
   @POST
   @Path("reports")
@@ -301,25 +333,26 @@ public interface CoinbasePro {
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       CoinbaseProWithdrawFundsRequest request)
-      throws HttpStatusIOException;
+      throws CoinbaseProException, IOException;
 
   @GET
   @Path("coinbase-accounts")
-  CoinbaseProAccount[] getCoinbaseProAccounts(
+  CoinbaseProWallet[] getCoinbaseProWallets(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
-      throws HttpStatusIOException;
+      throws CoinbaseProException, IOException;
 
   @POST
   @Path("coinbase-accounts/{account_id}/addresses")
-  CoinbaseProAccountAddress getCoinbaseProAccountAddress(
+  CoinbaseProWalletAddress getCoinbaseProWalletAddress(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-      @PathParam("account_id") String accountId);
+      @PathParam("account_id") String accountId)
+      throws CoinbaseProException, IOException;
 
   @GET
   @Path("/users/self/verify")

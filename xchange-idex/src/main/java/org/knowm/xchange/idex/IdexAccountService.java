@@ -120,34 +120,30 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
             returnDepositsWithdrawalsPost.getWithdrawals().stream()
                 .map(
                     fundingLedger ->
-                        new FundingRecord(
-                            exchange.getExchangeSpecification().getApiKey(),
-                            new Date(Long.parseLong(fundingLedger.getTimestamp()) * 1000),
-                            new Currency(fundingLedger.getCurrency()),
-                            safeParse(fundingLedger.getAmount()),
-                            fundingLedger.getTransactionHash(),
-                            fundingLedger.getDepositNumber(),
-                            Type.WITHDRAWAL,
-                            Status.resolveStatus(fundingLedger.getStatus()),
-                            BigDecimal.ZERO,
-                            BigDecimal.ZERO,
-                            ""))
+                        FundingRecord.builder()
+                            .address(exchange.getExchangeSpecification().getApiKey())
+                            .date(new Date(Long.parseLong(fundingLedger.getTimestamp()) * 1000))
+                            .currency(new Currency(fundingLedger.getCurrency()))
+                            .amount(safeParse(fundingLedger.getAmount()))
+                            .internalId(fundingLedger.getTransactionHash())
+                            .blockchainTransactionHash(fundingLedger.getDepositNumber())
+                            .type(Type.WITHDRAWAL)
+                            .status(Status.resolveStatus(fundingLedger.getStatus()))
+                            .build())
                 .collect(Collectors.toList()),
             returnDepositsWithdrawalsPost.getDeposits().stream()
                 .map(
                     fundingLedger1 ->
-                        new FundingRecord(
-                            exchange.getExchangeSpecification().getApiKey(),
-                            new Date(Long.parseLong(fundingLedger1.getTimestamp()) * 1000),
-                            new Currency(fundingLedger1.getCurrency()),
-                            safeParse(fundingLedger1.getAmount()),
-                            fundingLedger1.getTransactionHash(),
-                            fundingLedger1.getDepositNumber(),
-                            Type.DEPOSIT,
-                            Status.resolveStatus(fundingLedger1.getStatus()),
-                            BigDecimal.ZERO,
-                            BigDecimal.ZERO,
-                            ""))
+                        FundingRecord.builder()
+                            .address(exchange.getExchangeSpecification().getApiKey())
+                            .date(new Date(Long.parseLong(fundingLedger1.getTimestamp()) * 1000))
+                            .currency(new Currency(fundingLedger1.getCurrency()))
+                            .amount(safeParse(fundingLedger1.getAmount()))
+                            .internalId(fundingLedger1.getTransactionHash())
+                            .blockchainTransactionHash(fundingLedger1.getDepositNumber())
+                            .type(Type.DEPOSIT)
+                            .status(Status.resolveStatus(fundingLedger1.getStatus()))
+                            .build())
                 .collect(Collectors.toList()))
         .stream()
         .flatMap(List::stream)

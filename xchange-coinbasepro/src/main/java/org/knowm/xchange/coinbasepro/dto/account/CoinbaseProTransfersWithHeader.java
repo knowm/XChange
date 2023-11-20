@@ -1,35 +1,26 @@
 package org.knowm.xchange.coinbasepro.dto.account;
 
-import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.ToString;
 import org.knowm.xchange.dto.account.FundingRecord;
 
+@Getter
+@ToString
 public class CoinbaseProTransfersWithHeader {
-  List<FundingRecord> fundingRecords = new ArrayList<>();
-  String cbAfter;
-  String cbBefore;
 
-  public List<FundingRecord> getFundingRecords() {
-    return fundingRecords;
-  }
+  private final List<FundingRecord> fundingRecords;
+  private final String cbAfter;
+  private final String cbBefore;
 
-  public void setFundingRecords(List<FundingRecord> fundingRecords) {
+  public CoinbaseProTransfersWithHeader(
+      List<FundingRecord> fundingRecords,
+      String cbAfter,
+      String cbBefore
+  ) {
     this.fundingRecords = fundingRecords;
-  }
-
-  public String getCbAfter() {
-    return cbAfter;
-  }
-
-  public void setCbAfter(String cbAfter) {
     this.cbAfter = cbAfter;
-  }
-
-  public String getCbBefore() {
-    return cbBefore;
-  }
-
-  public void setCbBefore(String cbBefore) {
     this.cbBefore = cbBefore;
   }
+
 }

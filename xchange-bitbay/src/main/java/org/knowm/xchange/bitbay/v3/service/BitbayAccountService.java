@@ -86,17 +86,17 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
             ? FundingRecord.Type.WITHDRAWAL
             : FundingRecord.Type.DEPOSIT;
 
-    return new FundingRecord.Builder()
-        .setType(type)
-        .setBlockchainTransactionHash(null) // not available in the API yet
-        .setAddress(null) // not available in the API yet
-        .setAmount(item.getValue().abs())
-        .setCurrency(Currency.getInstance(item.getBalance().getCurrency()))
-        .setDate(DateUtils.fromMillisUtc(item.getTime()))
-        .setInternalId(item.getHistoryId().toString())
-        .setFee(null) // not available in the API yet
-        .setStatus(FundingRecord.Status.COMPLETE)
-        .setBalance(item.getFundsAfter().getTotal())
+    return FundingRecord.builder()
+        .type(type)
+        .blockchainTransactionHash(null) // not available in the API yet
+        .address(null) // not available in the API yet
+        .amount(item.getValue().abs())
+        .currency(Currency.getInstance(item.getBalance().getCurrency()))
+        .date(DateUtils.fromMillisUtc(item.getTime()))
+        .internalId(item.getHistoryId().toString())
+        .fee(null) // not available in the API yet
+        .status(FundingRecord.Status.COMPLETE)
+        .balance(item.getFundsAfter().getTotal())
         .build();
   }
 }

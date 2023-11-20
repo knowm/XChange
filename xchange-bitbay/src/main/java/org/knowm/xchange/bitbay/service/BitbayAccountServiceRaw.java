@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -13,6 +14,7 @@ import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
 import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 /** @author Z. Dolezal */
@@ -103,18 +105,15 @@ public class BitbayAccountServiceRaw extends BitbayBaseService {
         else continue;
 
         res.add(
-            new FundingRecord(
-                null,
-                dateFormat.parse(map.get("time").toString()),
-                Currency.getInstance(map.get("currency").toString()),
-                new BigDecimal(map.get("amount").toString()),
-                map.get("id").toString(),
-                null,
-                type,
-                FundingRecord.Status.COMPLETE,
-                null,
-                null,
-                map.get("comment").toString()));
+            FundingRecord.builder()
+                .date(dateFormat.parse(map.get("time").toString()))
+                .currency(Currency.getInstance(map.get("currency").toString()))
+                .amount(new BigDecimal(map.get("amount").toString()))
+                .internalId(map.get("id").toString())
+                .type(type)
+                .status(Status.COMPLETE)
+                .description(map.get("comment").toString())
+                .build());
       } catch (ParseException e) {
         throw new IllegalStateException("Should not happen", e);
       }

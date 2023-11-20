@@ -288,57 +288,49 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         super.withdrawHistory(asset, startTime, endTime)
             .forEach(
                 w -> result.add(
-                    new FundingRecord(
-                        w.getAddress(),
-                        w.getAddressTag(),
-                        BinanceAdapters.toDate(w.getApplyTime()),
-                        Currency.getInstance(w.getCoin()),
-                        w.getAmount(),
-                        w.getId(),
-                        w.getTxId(),
-                        Type.WITHDRAWAL,
-                        withdrawStatus(w.getStatus()),
-                        null,
-                        w.getTransactionFee(),
-                        null)));
+                    FundingRecord.builder()
+                        .address(w.getAddress())
+                        .addressTag(w.getAddressTag())
+                        .date(BinanceAdapters.toDate(w.getApplyTime()))
+                        .currency(Currency.getInstance(w.getCoin()))
+                        .amount(w.getAmount())
+                        .internalId(w.getId())
+                        .blockchainTransactionHash(w.getTxId())
+                        .type(Type.WITHDRAWAL)
+                        .status(withdrawStatus(w.getStatus()))
+                        .fee(w.getTransactionFee())
+                        .build()));
       }
 
       if (deposits) {
         super.depositHistory(asset, startTime, endTime)
             .forEach(
                 d -> result.add(
-                    new FundingRecord(
-                        d.getAddress(),
-                        d.getAddressTag(),
-                        new Date(d.getInsertTime()),
-                        Currency.getInstance(d.getCoin()),
-                        d.getAmount(),
-                        null,
-                        d.getTxId(),
-                        Type.DEPOSIT,
-                        depositStatus(d.getStatus()),
-                        null,
-                        null,
-                        null)));
+                    FundingRecord.builder()
+                        .address(d.getAddress())
+                        .addressTag(d.getAddressTag())
+                        .date(new Date(d.getInsertTime()))
+                        .currency(Currency.getInstance(d.getCoin()))
+                        .amount(d.getAmount())
+                        .blockchainTransactionHash(d.getTxId())
+                        .type(Type.DEPOSIT)
+                        .status(depositStatus(d.getStatus()))
+                        .build()));
       }
 
       if (otherInflow) {
         super.getAssetDividend(asset, startTime, endTime)
             .forEach(
                 a -> result.add(
-                    new FundingRecord(
-                        null,
-                        null,
-                        new Date(a.getDivTime()),
-                        Currency.getInstance(a.getAsset()),
-                        a.getAmount(),
-                        null,
-                        String.valueOf(a.getTranId()),
-                        Type.OTHER_INFLOW,
-                        Status.COMPLETE,
-                        null,
-                        null,
-                        a.getEnInfo())));
+                    FundingRecord.builder()
+                        .date(new Date(a.getDivTime()))
+                        .currency(Currency.getInstance(a.getAsset()))
+                        .amount(a.getAmount())
+                        .blockchainTransactionHash(String.valueOf(a.getTranId()))
+                        .type(Type.OTHER_INFLOW)
+                        .status(Status.COMPLETE)
+                        .description(a.getEnInfo())
+                        .build()));
       }
 
       final String finalEmail = email;
@@ -347,13 +339,13 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         super.getTransferHistory(email, startTime, endTime, page, limit)
             .forEach(
                 a -> result.add(
-                    new FundingRecord.Builder()
-                        .setAddress(finalEmail)
-                        .setDate(new Date(a.getTime()))
-                        .setCurrency(Currency.getInstance(a.getAsset()))
-                        .setAmount(a.getQty())
-                        .setType(Type.INTERNAL_WITHDRAWAL)
-                        .setStatus(transferHistoryStatus(a.getStatus()))
+                    FundingRecord.builder()
+                        .address(finalEmail)
+                        .date(new Date(a.getTime()))
+                        .currency(Currency.getInstance(a.getAsset()))
+                        .amount(a.getQty())
+                        .type(Type.INTERNAL_WITHDRAWAL)
+                        .status(transferHistoryStatus(a.getStatus()))
                         .build()));
       }
 
@@ -363,16 +355,16 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         super.getSubUserHistory(asset, type, startTime, endTime, limit)
             .forEach(
                 a -> result.add(
-                    new FundingRecord.Builder()
-                        .setAddress(a.getEmail())
-                        .setDate(new Date(a.getTime()))
-                        .setCurrency(Currency.getInstance(a.getAsset()))
-                        .setAmount(a.getQty())
-                        .setType(
+                    FundingRecord.builder()
+                        .address(a.getEmail())
+                        .date(new Date(a.getTime()))
+                        .currency(Currency.getInstance(a.getAsset()))
+                        .amount(a.getQty())
+                        .type(
                             a.getType().equals(1)
                                 ? Type.INTERNAL_DEPOSIT
                                 : Type.INTERNAL_WITHDRAWAL)
-                        .setStatus(Status.COMPLETE)
+                        .status(Status.COMPLETE)
                         .build()));
       }
 

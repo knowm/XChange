@@ -2,11 +2,13 @@ package org.knowm.xchange.paymium.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.paymium.PaymiumAdapters;
 import org.knowm.xchange.paymium.dto.account.PaymiumOrder;
 import org.knowm.xchange.service.account.AccountService;
@@ -70,18 +72,16 @@ public class PaymiumAccountService extends PaymiumAccountServiceRaw implements A
       }
 
       res.add(
-          new FundingRecord(
-              order.getBitcoinAddress(),
-              order.getUpdatedAt(),
-              Currency.getInstance(order.getCurrency()),
-              order.getAmount(),
-              String.valueOf(order.getUuid()),
-              order.getUuid(),
-              funding,
-              FundingRecord.Status.COMPLETE,
-              null,
-              null,
-              null));
+          FundingRecord.builder()
+              .address(order.getBitcoinAddress())
+              .date(order.getUpdatedAt())
+              .currency(Currency.getInstance(order.getCurrency()))
+              .amount(order.getAmount())
+              .internalId(String.valueOf(order.getUuid()))
+              .blockchainTransactionHash(order.getUuid())
+              .type(funding)
+              .status(Status.COMPLETE)
+              .build());
     }
 
     return res;

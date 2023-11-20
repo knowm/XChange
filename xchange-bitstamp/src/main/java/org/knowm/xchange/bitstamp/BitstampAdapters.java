@@ -28,6 +28,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -284,18 +285,15 @@ public final class BitstampAdapters {
         }
 
         FundingRecord record =
-            new FundingRecord(
-                null,
-                trans.getDatetime(),
-                Currency.getInstance(amount.getKey()),
-                amount.getValue().abs(),
-                String.valueOf(trans.getId()),
-                null,
-                type,
-                FundingRecord.Status.COMPLETE,
-                null,
-                trans.getFee(),
-                null);
+            FundingRecord.builder()
+                .date(trans.getDatetime())
+                .currency(Currency.getInstance(amount.getKey()))
+                .amount(amount.getValue().abs())
+                .internalId(String.valueOf(trans.getId()))
+                .type(type)
+                .status(Status.COMPLETE)
+                .fee(trans.getFee())
+                .build();
         fundingRecords.add(record);
       }
     }

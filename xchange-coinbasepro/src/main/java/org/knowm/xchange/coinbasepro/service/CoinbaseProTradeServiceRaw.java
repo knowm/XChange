@@ -14,7 +14,9 @@ import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceOrder;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -62,40 +64,7 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
 
   /** https://docs.pro.coinbase.com/#fills */
   public CoinbasePagedResponse<CoinbaseProFill> getCoinbaseProFills(
-      TradeHistoryParams tradeHistoryParams) throws IOException {
-
-    String orderId = null;
-    String productId = null;
-    Integer afterTradeId = null;
-    Integer beforeTradeId = null;
-    Integer limit = null;
-
-    if (tradeHistoryParams instanceof CoinbaseProTradeHistoryParams) {
-      CoinbaseProTradeHistoryParams historyParams =
-          (CoinbaseProTradeHistoryParams) tradeHistoryParams;
-      afterTradeId = historyParams.getAfterTradeId();
-      beforeTradeId = historyParams.getBeforeTradeId();
-    }
-
-    if (tradeHistoryParams instanceof TradeHistoryParamTransactionId) {
-      TradeHistoryParamTransactionId tnxIdParams =
-          (TradeHistoryParamTransactionId) tradeHistoryParams;
-      orderId = tnxIdParams.getTransactionId();
-    }
-
-    if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
-      TradeHistoryParamCurrencyPair ccyPairParams =
-          (TradeHistoryParamCurrencyPair) tradeHistoryParams;
-      CurrencyPair currencyPair = ccyPairParams.getCurrencyPair();
-      if (currencyPair != null) {
-        productId = CoinbaseProAdapters.adaptProductID(currencyPair);
-      }
-    }
-
-    if (tradeHistoryParams instanceof TradeHistoryParamLimit) {
-      TradeHistoryParamLimit limitParams = (TradeHistoryParamLimit) tradeHistoryParams;
-      limit = limitParams.getLimit();
-    }
+      String orderId, String productId, Integer limit, Integer beforeTradeId, Integer afterTradeId, String marketType, String startDate, String endDate) throws CoinbaseProException, IOException {
 
     try {
       return coinbasePro.getFills(
@@ -103,11 +72,14 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
           digest,
           UnixTimestampFactory.INSTANCE.createValue(),
           passphrase,
-          afterTradeId,
-          beforeTradeId,
-          limit,
           orderId,
-          productId);
+          productId,
+          limit,
+          beforeTradeId,
+          afterTradeId,
+          marketType,
+          startDate,
+          endDate);
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }

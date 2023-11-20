@@ -415,18 +415,15 @@ public final class OkCoinAdapters {
         }
 
         fundingRecords.add(
-            new FundingRecord(
-                okCoinRecordEntry.getAddress(),
-                adaptDate(okCoinRecordEntry.getDate()),
-                c,
-                okCoinRecordEntry.getAmount(),
-                null,
-                null,
-                type,
-                status,
-                null,
-                okCoinRecordEntry.getFee(),
-                null));
+            FundingRecord.builder()
+                .address(okCoinRecordEntry.getAddress())
+                .date(adaptDate(okCoinRecordEntry.getDate()))
+                .currency(c)
+                .amount(okCoinRecordEntry.getAmount())
+                .type(type)
+                .status(status)
+                .fee(okCoinRecordEntry.getFee())
+                .build());
       }
     }
 

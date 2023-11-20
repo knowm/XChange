@@ -1,82 +1,115 @@
 package org.knowm.xchange.bybit.service;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.util.List;
-import jakarta.ws.rs.core.Response.Status;
+import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.BybitBalance;
-import org.knowm.xchange.bybit.dto.account.BybitBalances;
+import org.knowm.xchange.bybit.dto.account.BybitAllCoinsBalance;
+import org.knowm.xchange.bybit.dto.account.BybitAllCoinsBalance.BybitCoinBalance;
+import org.knowm.xchange.bybit.dto.account.BybitFeeRates;
+import org.knowm.xchange.bybit.dto.account.BybitFeeRates.BybitFeeRate;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountBalance;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitCoinWalletBalance;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
 
 public class BybitAccountServiceRawTest extends BaseWiremockTest {
 
-  @Test
-  public void testGetWalletBalances() throws IOException {
+  private BybitAccountServiceRaw bybitAccountServiceRaw;
+
+  @Before
+  public void setUp() throws Exception {
     Exchange bybitExchange = createExchange();
-    BybitAccountServiceRaw bybitAccountServiceRaw = new BybitAccountServiceRaw(bybitExchange);
-
-    String walletBalanceDetails = "{\n" +
-        "   \"ret_code\":0,\n" +
-        "   \"ret_msg\":\"\",\n" +
-        "   \"ext_code\":null,\n" +
-        "   \"ext_info\":null,\n" +
-        "   \"result\":{\n" +
-        "      \"balances\":[\n" +
-        "         {\n" +
-        "            \"coin\":\"COIN\",\n" +
-        "            \"coinId\":\"COIN\",\n" +
-        "            \"coinName\":\"COIN\",\n" +
-        "            \"total\":\"66419.616666666666666666\",\n" +
-        "            \"free\":\"56583.326666666666666666\",\n" +
-        "            \"locked\":\"9836.29\"\n" +
-        "         },\n" +
-        "         {\n" +
-        "            \"coin\":\"USDT\",\n" +
-        "            \"coinId\":\"USDT\",\n" +
-        "            \"coinName\":\"USDT\",\n" +
-        "            \"total\":\"61.50059688096\",\n" +
-        "            \"free\":\"61.50059688096\",\n" +
-        "            \"locked\":\"0\"\n" +
-        "         }\n" +
-        "      ]\n" +
-        "   }\n" +
-        "}";
-
-    stubFor(
-        get(urlPathEqualTo("/spot/v1/account"))
-            .willReturn(
-                aResponse()
-                    .withStatus(Status.OK.getStatusCode())
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(walletBalanceDetails)
-            )
-    );
-
-    BybitResult<BybitBalances> walletBalances = bybitAccountServiceRaw.getWalletBalances();
-
-    BybitBalances walletBalancesResult = walletBalances.getResult();
-    List<BybitBalance> balances = walletBalancesResult.getBalances();
-
-    assertThat(balances.get(0).getTotal()).isEqualTo("66419.616666666666666666");
-    assertThat(balances.get(0).getFree()).isEqualTo("56583.326666666666666666");
-    assertThat(balances.get(0).getLocked()).isEqualTo("9836.29");
-    assertThat(balances.get(0).getCoin()).isEqualTo("COIN");
-    assertThat(balances.get(0).getCoinId()).isEqualTo("COIN");
-    assertThat(balances.get(0).getCoinName()).isEqualTo("COIN");
-
-    assertThat(balances.get(1).getTotal()).isEqualTo("61.50059688096");
-    assertThat(balances.get(1).getFree()).isEqualTo("61.50059688096");
-    assertThat(balances.get(1).getLocked()).isEqualTo("0");
-    assertThat(balances.get(1).getCoin()).isEqualTo("USDT");
-    assertThat(balances.get(1).getCoinId()).isEqualTo("USDT");
-    assertThat(balances.get(1).getCoinName()).isEqualTo("USDT");
+    bybitAccountServiceRaw = new BybitAccountServiceRaw(bybitExchange);
   }
 
+  @Test
+  public void testGetWalletBalances() throws IOException {
+    initGetStub("/v5/account/wallet-balance", "/getWalletBalance.json5");
+
+    BybitResult<BybitWalletBalance> walletBalances =
+        bybitAccountServiceRaw.getWalletBalances(BybitAccountType.UNIFIED);
+
+    BybitWalletBalance walletBalance = walletBalances.getResult();
+
+    assertThat(walletBalance.getList()).hasSize(1);
+    BybitAccountBalance accountBalance = walletBalance.getList().get(0);
+
+    assertThat(accountBalance.getTotalEquity()).isEqualTo("3.31216591");
+    assertThat(accountBalance.getAccountIMRate()).isEqualTo("0");
+    assertThat(accountBalance.getTotalMarginBalance()).isEqualTo("3.00326056");
+    assertThat(accountBalance.getTotalInitialMargin()).isEqualTo("0");
+    assertThat(accountBalance.getAccountType()).isEqualTo(BybitAccountType.UNIFIED);
+    assertThat(accountBalance.getTotalAvailableBalance()).isEqualTo("3.00326056");
+    assertThat(accountBalance.getAccountMMRate()).isEqualTo("0");
+    assertThat(accountBalance.getTotalPerpUPL()).isEqualTo("0");
+    assertThat(accountBalance.getTotalWalletBalance()).isEqualTo("3.00326056");
+    assertThat(accountBalance.getAccountLTV()).isEqualTo("0");
+    assertThat(accountBalance.getTotalMaintenanceMargin()).isEqualTo("0");
+
+    assertThat(accountBalance.getCoin()).hasSize(1);
+    List<BybitCoinWalletBalance> coins = accountBalance.getCoin();
+
+    assertThat(coins.get(0).getAvailableToBorrow()).isEqualTo("3");
+    assertThat(coins.get(0).getBonus()).isEqualTo("0");
+    assertThat(coins.get(0).getAccruedInterest()).isEqualTo("0");
+    assertThat(coins.get(0).getAvailableToWithdraw()).isEqualTo("0");
+    assertThat(coins.get(0).getTotalOrderIM()).isEqualTo("0");
+    assertThat(coins.get(0).getEquity()).isEqualTo("0");
+    assertThat(coins.get(0).getTotalPositionMM()).isEqualTo("0");
+    assertThat(coins.get(0).getUsdValue()).isEqualTo("0");
+    assertThat(coins.get(0).getUnrealisedPnl()).isEqualTo("0");
+    assertThat(coins.get(0).isCollateralSwitch()).isTrue();
+    assertThat(coins.get(0).getBorrowAmount()).isEqualTo("0.0");
+    assertThat(coins.get(0).getTotalPositionIM()).isEqualTo("0");
+    assertThat(coins.get(0).getWalletBalance()).isEqualTo("0");
+    assertThat(coins.get(0).getFree()).isNull();
+    assertThat(coins.get(0).getCumRealisedPnl()).isEqualTo("0");
+    assertThat(coins.get(0).getLocked()).isEqualTo("0");
+    assertThat(coins.get(0).isMarginCollateral()).isTrue();
+    assertThat(coins.get(0).getCoin()).isEqualTo("BTC");
+  }
+
+  @Test
+  public void testGetAllCoinsBalances() throws IOException {
+    initGetStub("/v5/asset/transfer/query-account-coins-balance", "/getAllCoinsBalance.json5");
+
+    BybitResult<BybitAllCoinsBalance> coinsBalanceBybitResult =
+        bybitAccountServiceRaw.getAllCoinsBalance(BybitAccountType.FUND, null, null, false);
+
+    BybitAllCoinsBalance coinsBalance = coinsBalanceBybitResult.getResult();
+
+    assertThat(coinsBalance.getMemberId()).isEqualTo("XXXX");
+    assertThat(coinsBalance.getAccountType()).isEqualTo(BybitAccountType.FUND);
+
+    assertThat(coinsBalance.getBalance()).hasSize(1);
+    BybitCoinBalance coinBalance = coinsBalance.getBalance().get(0);
+
+    assertThat(coinBalance.getCoin()).isEqualTo("USDC");
+    assertThat(coinBalance.getTransferBalance()).isEqualTo("0");
+    assertThat(coinBalance.getWalletBalance()).isEqualTo("0");
+    assertThat(coinBalance.getBonus()).isNull();
+  }
+
+  @Test
+  public void testGetFeeRates() throws IOException {
+    initGetStub("/v5/account/fee-rate", "/getFeeRates.json5");
+
+    BybitResult<BybitFeeRates> bybitFeeRatesBybitResult =
+        bybitAccountServiceRaw.getFeeRates(BybitCategory.SPOT, "ETHUSDT");
+
+    BybitFeeRates feeRates = bybitFeeRatesBybitResult.getResult();
+
+    assertThat(feeRates.getList()).hasSize(1);
+    BybitFeeRate feeRate = feeRates.getList().get(0);
+
+    assertThat(feeRate.getSymbol()).isEqualTo("ETHUSDT");
+    assertThat(feeRate.getTakerFeeRate()).isEqualTo("0.0006");
+    assertThat(feeRate.getMakerFeeRate()).isEqualTo("0.0001");
+  }
 }

@@ -7,7 +7,9 @@ import java.util.Collection;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
+import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -15,14 +17,21 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.FundsExceededException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
+import org.knowm.xchange.utils.DateUtils;
 
 public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implements TradeService {
 
@@ -84,7 +93,62 @@ public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implemen
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    return CoinbaseProAdapters.adaptTradeHistory(getCoinbaseProFills(params));
+
+    String orderId = null;
+    String productId = null;
+    Integer afterTradeId = null;
+    Integer beforeTradeId = null;
+    Integer limit = null;
+    String startDate = null;
+    String endDate = null;
+
+    if (params instanceof CoinbaseProTradeHistoryParams) {
+      CoinbaseProTradeHistoryParams historyParams =
+          (CoinbaseProTradeHistoryParams) params;
+      afterTradeId = historyParams.getAfterTradeId();
+      beforeTradeId = historyParams.getBeforeTradeId();
+    }
+
+    if (params instanceof TradeHistoryParamTransactionId) {
+      TradeHistoryParamTransactionId tnxIdParams =
+          (TradeHistoryParamTransactionId) params;
+      orderId = tnxIdParams.getTransactionId();
+    }
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      TradeHistoryParamCurrencyPair ccyPairParams =
+          (TradeHistoryParamCurrencyPair) params;
+      CurrencyPair currencyPair = ccyPairParams.getCurrencyPair();
+      if (currencyPair != null) {
+        productId = CoinbaseProAdapters.adaptProductID(currencyPair);
+      }
+    }
+
+    if (params instanceof TradeHistoryParamInstrument) {
+      TradeHistoryParamInstrument ccyPairParams =
+          (TradeHistoryParamInstrument) params;
+      Instrument instrument = ccyPairParams.getInstrument();
+      if (instrument != null) {
+        productId = CoinbaseProAdapters.adaptProductID(instrument);
+      }
+    }
+
+    if (params instanceof TradeHistoryParamLimit) {
+      TradeHistoryParamLimit limitParams = (TradeHistoryParamLimit) params;
+      limit = limitParams.getLimit();
+    }
+
+    if(params instanceof TradeHistoryParamsTimeSpan){
+      TradeHistoryParamsTimeSpan timeSpanParams = (TradeHistoryParamsTimeSpan) params;
+      startDate = (timeSpanParams.getStartTime() == null) ? null : DateUtils.toISODateString(timeSpanParams.getStartTime());
+      endDate = (timeSpanParams.getEndTime() == null) ? null : DateUtils.toISODateString(timeSpanParams.getEndTime());
+    }
+
+    if(orderId == null && productId == null){
+      throw new CoinbaseProException("Either orderId or productId must be provided");
+    }
+
+    return CoinbaseProAdapters.adaptTradeHistory(getCoinbaseProFills(orderId, productId, limit, beforeTradeId, afterTradeId, null, startDate, endDate));
   }
 
   @Override

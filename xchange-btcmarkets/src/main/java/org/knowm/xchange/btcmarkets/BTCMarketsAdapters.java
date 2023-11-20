@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -244,18 +245,18 @@ public final class BTCMarketsAdapters {
       }
 
       result.add(
-          new FundingRecord(
-              address,
-              transfer.getCreationTime(),
-              Currency.getInstance(transfer.getCurrency()),
-              transfer.getAmount(),
-              Long.toString(transfer.getFundTransferId()),
-              blockchainTransactionHash,
-              fundingrecordType,
-              fundingRecordStatus,
-              null,
-              transfer.getFee(),
-              transfer.getDescription()));
+          FundingRecord.builder()
+              .address(address)
+              .date(transfer.getCreationTime())
+              .currency(Currency.getInstance(transfer.getCurrency()))
+              .amount(transfer.getAmount())
+              .internalId(Long.toString(transfer.getFundTransferId()))
+              .blockchainTransactionHash(blockchainTransactionHash)
+              .type(fundingrecordType)
+              .status(fundingRecordStatus)
+              .fee(transfer.getFee())
+              .description(transfer.getDescription())
+              .build());
     }
     return result;
   }
