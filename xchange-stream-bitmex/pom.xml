@@ -22,7 +22,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.0.0-M7</version>
+                        <version>3.1.2</version>
                         <configuration>
                             <excludes>
                                 <exclude>**/*IT.java</exclude>
@@ -38,7 +38,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.0.0-M7</version>
+                        <version>3.1.2</version>
                         <configuration>
                             <includes>
                                 <include>**/*IT.java</include>

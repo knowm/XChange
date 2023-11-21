@@ -7,8 +7,8 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
 import javax.crypto.Mac;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.QueryParam;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.QueryParam;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.TreeMap;

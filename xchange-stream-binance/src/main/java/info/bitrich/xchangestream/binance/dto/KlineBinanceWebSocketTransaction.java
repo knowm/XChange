@@ -1,15 +1,14 @@
 package info.bitrich.xchangestream.binance.dto;
 
+import static org.knowm.xchange.utils.StreamUtils.singletonCollector;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
+import java.util.Map;
 import lombok.Getter;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
-
-import java.util.Arrays;
-import java.util.Map;
-
-import static org.knowm.xchange.utils.StreamUtils.singletonCollector;
 
 @Getter
 public class KlineBinanceWebSocketTransaction extends BaseBinanceWebSocketTransaction {
@@ -32,7 +31,7 @@ public class KlineBinanceWebSocketTransaction extends BaseBinanceWebSocketTransa
     }
 
     private static Object[] getParameters(Map<String, Object> kline) {
-        Object[] parameters = new Object[11];
+        Object[] parameters = new Object[12];
         parameters[0] = kline.get("t");
         parameters[1] = kline.get("o");
         parameters[2] = kline.get("h");
@@ -44,6 +43,7 @@ public class KlineBinanceWebSocketTransaction extends BaseBinanceWebSocketTransa
         parameters[8] = kline.get("n");
         parameters[9] = kline.get("V");
         parameters[10] = kline.get("Q");
+        parameters[11] = kline.get("x");
         return parameters;
     }
 

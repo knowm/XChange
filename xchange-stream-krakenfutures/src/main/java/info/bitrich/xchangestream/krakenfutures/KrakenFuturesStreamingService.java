@@ -38,11 +38,11 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
 
         if(message.has("feed") && message.has("product_id")){
             if(message.get("feed").asText().contains(ORDERBOOK)){
-                channelName = ORDERBOOK+message.get("product_id").asText().toLowerCase();
+                channelName = ORDERBOOK+message.get("product_id").asText();
             } else if(message.get("feed").asText().contains(TICKER)){
-                channelName = TICKER+message.get("product_id").asText().toLowerCase();
+                channelName = TICKER+message.get("product_id").asText();
             } else if(message.get("feed").asText().contains(TRADES)){
-                channelName = TRADES+message.get("product_id").asText().toLowerCase();
+                channelName = TRADES+message.get("product_id").asText();
             }
         }
         // Fills
