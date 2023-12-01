@@ -1,6 +1,5 @@
 package org.knowm.xchange.coinbase.v2;
 
-import java.io.IOException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
@@ -8,6 +7,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseExchangeRateData;

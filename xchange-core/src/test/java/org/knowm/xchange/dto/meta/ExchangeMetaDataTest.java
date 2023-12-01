@@ -68,7 +68,8 @@ public class ExchangeMetaDataTest {
     assertThat(metaData.getInstruments().get(CurrencyPair.BTC_USD).getMaximumAmount())
         .isEqualByComparingTo(new BigDecimal("100"));
 
-    assertThat(metaData.getInstruments().get(new FuturesContract("BTC/USD/USDT")).getMaximumAmount())
-            .isEqualByComparingTo(BigDecimal.valueOf(1));
+    assertThat(
+            metaData.getInstruments().get(new FuturesContract("BTC/USD/USDT")).getMaximumAmount())
+        .isEqualByComparingTo(BigDecimal.valueOf(1));
   }
 }

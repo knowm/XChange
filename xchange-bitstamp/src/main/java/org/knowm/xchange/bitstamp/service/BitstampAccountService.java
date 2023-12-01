@@ -28,7 +28,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class BitstampAccountService extends BitstampAccountServiceRaw implements AccountService {
 
   /**
@@ -62,8 +64,10 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
 
     BitstampWithdrawal response;
 

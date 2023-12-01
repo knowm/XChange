@@ -1,14 +1,14 @@
 package org.knowm.xchange.bitstamp;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampPairInfo;
@@ -18,7 +18,9 @@ import org.knowm.xchange.bitstamp.service.BitstampMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
-/** @author Matija Mazi See https://www.bitstamp.net/api/ for up-to-date docs. */
+/**
+ * @author Matija Mazi See https://www.bitstamp.net/api/ for up-to-date docs.
+ */
 @Path("api/v2")
 @Produces(MediaType.APPLICATION_JSON)
 public interface BitstampV2 {
@@ -35,8 +37,7 @@ public interface BitstampV2 {
 
   @GET
   @Path("ticker/")
-  List<BitstampTicker> getTickers()
-      throws IOException, BitstampException;
+  List<BitstampTicker> getTickers() throws IOException, BitstampException;
 
   @GET
   @Path("ticker_hour/{pair}/")

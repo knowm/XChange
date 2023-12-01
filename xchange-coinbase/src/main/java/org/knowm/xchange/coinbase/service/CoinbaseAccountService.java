@@ -16,7 +16,9 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
     implements AccountService {
 

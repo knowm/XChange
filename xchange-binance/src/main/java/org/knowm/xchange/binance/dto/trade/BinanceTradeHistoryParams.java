@@ -12,14 +12,19 @@ public class BinanceTradeHistoryParams
 
   /** mandatory */
   private Instrument instrument;
+
   /** optional */
   private Integer limit;
+
   /** optional */
   private String startId;
+
   /** ignored */
   private String endId;
+
   /** optional */
   private Date startTime;
+
   /** optional */
   private Date endTime;
 

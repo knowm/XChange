@@ -10,7 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class SqlUtcTimeDeserializer extends JsonDeserializer<Date> {
 
   private SimpleDateFormat dateFormat;

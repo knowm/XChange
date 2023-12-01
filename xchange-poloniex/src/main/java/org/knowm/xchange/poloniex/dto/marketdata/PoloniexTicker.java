@@ -2,7 +2,9 @@ package org.knowm.xchange.poloniex.dto.marketdata;
 
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** @author Zach Holmes */
+/**
+ * @author Zach Holmes
+ */
 public class PoloniexTicker {
 
   private PoloniexMarketData poloniexMarketData;

@@ -74,7 +74,10 @@ public class ProductSubscription {
   }
 
   public boolean hasUnauthenticated() {
-    return !ticker.isEmpty() || !trades.isEmpty() || !orderBook.isEmpty() || !fundingRates.isEmpty();
+    return !ticker.isEmpty()
+        || !trades.isEmpty()
+        || !orderBook.isEmpty()
+        || !fundingRates.isEmpty();
   }
 
   public static ProductSubscriptionBuilder create() {
@@ -124,6 +127,7 @@ public class ProductSubscription {
       fundingRates.add(pair);
       return this;
     }
+
     public ProductSubscriptionBuilder addUserTrades(Instrument pair) {
       userTrades.add(pair);
       return this;

@@ -32,7 +32,9 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.coinmate.dto.marketdata.OrderBookJSONTest;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class BalanceJSONTest {
 
   @Test

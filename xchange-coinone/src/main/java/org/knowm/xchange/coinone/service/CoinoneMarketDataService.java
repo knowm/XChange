@@ -13,7 +13,9 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author interwater */
+/**
+ * @author interwater
+ */
 public class CoinoneMarketDataService extends CoinoneMarketDataServiceRaw
     implements MarketDataService {
 
@@ -34,15 +36,19 @@ public class CoinoneMarketDataService extends CoinoneMarketDataServiceRaw
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
     return CoinoneAdapters.adaptOrderBook(getCoinoneOrderBook(currencyPair), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
     String period = "hour";
     if (args[0] != null) {
       try {

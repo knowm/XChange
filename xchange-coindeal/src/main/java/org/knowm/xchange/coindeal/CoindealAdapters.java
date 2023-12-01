@@ -32,7 +32,7 @@ public final class CoindealAdapters {
       CurrencyPair currencyPair =
           CurrencyPairDeserializer.getCurrencyPairFromString(coindealTradeHistory.getSymbol());
       userTrades.add(
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(
                   (coindealTradeHistory.getSide().equals("BUY"))
                       ? Order.OrderType.BID

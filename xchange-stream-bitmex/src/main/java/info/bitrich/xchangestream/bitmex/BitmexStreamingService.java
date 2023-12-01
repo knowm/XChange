@@ -50,6 +50,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
 
   public static final int DMS_CANCEL_ALL_IN = 60000;
   public static final int DMS_RESUBSCRIBE = 15000;
+
   /** deadman's cancel time */
   private volatile long dmsCancelTime;
 

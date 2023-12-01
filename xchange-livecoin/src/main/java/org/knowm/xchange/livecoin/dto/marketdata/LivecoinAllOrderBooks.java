@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.livecoin.dto.LivecoinBaseResponse;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class LivecoinAllOrderBooks extends LivecoinBaseResponse {
 
   private Map<String, LivecoinOrderBook> orderBooksByPair =

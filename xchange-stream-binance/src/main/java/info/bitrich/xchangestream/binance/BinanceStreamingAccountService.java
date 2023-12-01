@@ -17,8 +17,8 @@ import org.knowm.xchange.exceptions.ExchangeSecurityException;
 
 public class BinanceStreamingAccountService implements StreamingAccountService {
 
-  private final BehaviorSubject<OutboundAccountPositionBinanceWebsocketTransaction> accountInfoLast =
-      BehaviorSubject.create();
+  private final BehaviorSubject<OutboundAccountPositionBinanceWebsocketTransaction>
+      accountInfoLast = BehaviorSubject.create();
   private final Subject<OutboundAccountPositionBinanceWebsocketTransaction> accountInfoPublisher =
       accountInfoLast.toSerialized();
 

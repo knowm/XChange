@@ -1,12 +1,12 @@
 package org.knowm.xchange.bitz;
 
-import java.math.BigDecimal;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.math.BigDecimal;
 import org.knowm.xchange.bitz.dto.trade.result.BitZOpenOrderResult;
 import org.knowm.xchange.bitz.dto.trade.result.BitZTradeAddResult;
 import org.knowm.xchange.bitz.dto.trade.result.BitZTradeCancelResult;

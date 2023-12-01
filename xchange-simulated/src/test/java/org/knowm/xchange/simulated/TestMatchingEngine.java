@@ -585,8 +585,8 @@ public class TestMatchingEngine {
     assertThat(bids.get(1).getLimitPrice()).isEqualTo("98");
     assertThat(bids.get(1).getOriginalAmount()).isEqualTo("2");
     assertThat(bids.get(1).getType()).isEqualTo(BID);
-//    System.out.println("Asks:" + asks);
-//    System.out.println("Bids:" + bids);
+    //    System.out.println("Asks:" + asks);
+    //    System.out.println("Bids:" + bids);
   }
 
   @SuppressWarnings("unchecked")

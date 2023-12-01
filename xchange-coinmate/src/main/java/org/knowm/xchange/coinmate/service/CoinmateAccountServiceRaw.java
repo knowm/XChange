@@ -38,7 +38,9 @@ import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferDetail;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistory;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class CoinmateAccountServiceRaw extends CoinmateBaseService {
 
   private final CoinmateDigest signatureCreator;
@@ -72,7 +74,8 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
     return coinmateBalance;
   }
 
-  public CoinmateTradingFeesResponseData getCoinmateTraderFees(String currencyPair) throws IOException {
+  public CoinmateTradingFeesResponseData getCoinmateTraderFees(String currencyPair)
+      throws IOException {
     CoinmateTradingFeesResponse response =
         coinmateAuthenticated.traderFees(
             exchange.getExchangeSpecification().getApiKey(),
@@ -91,8 +94,8 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
     return coinmateBitcoinWithdrawal(amount, address, FeePriority.HIGH);
   }
 
-  public CoinmateTradeResponse coinmateBitcoinWithdrawal(BigDecimal amount, String address, FeePriority feePriority)
-      throws IOException {
+  public CoinmateTradeResponse coinmateBitcoinWithdrawal(
+      BigDecimal amount, String address, FeePriority feePriority) throws IOException {
     CoinmateTradeResponse response =
         coinmateAuthenticated.bitcoinWithdrawal(
             exchange.getExchangeSpecification().getApiKey(),
@@ -316,38 +319,38 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
     return tradeHistory;
   }
 
-  public CoinmateTransferHistory getTransfersData(Integer limit, Long timestampFrom, Long timestampTo) throws IOException {
+  public CoinmateTransferHistory getTransfersData(
+      Integer limit, Long timestampFrom, Long timestampTo) throws IOException {
     return getCoinmateTransferHistory(limit, null, null, timestampFrom, timestampTo, null);
   }
 
   public CoinmateTransferHistory getCoinmateTransferHistory(
-          Integer limit,
-          Integer lastId,
-          String sort,
-          Long timestampFrom,
-          Long timestampTo,
-          String currency)
-          throws IOException {
+      Integer limit,
+      Integer lastId,
+      String sort,
+      Long timestampFrom,
+      Long timestampTo,
+      String currency)
+      throws IOException {
     CoinmateTransferHistory transferHistory =
-            coinmateAuthenticated.getTransferHistory(
-                    exchange.getExchangeSpecification().getApiKey(),
-                    exchange.getExchangeSpecification().getUserName(),
-                    signatureCreator,
-                    exchange.getNonceFactory(),
-                    limit,
-                    lastId,
-                    sort,
-                    timestampFrom,
-                    timestampTo,
-                    currency);
+        coinmateAuthenticated.getTransferHistory(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            limit,
+            lastId,
+            sort,
+            timestampFrom,
+            timestampTo,
+            currency);
 
     throwExceptionIfError(transferHistory);
 
     return transferHistory;
   }
 
-  public CoinmateTransferDetail getCoinmateTransferDetail(Long transactionId)
-      throws IOException {
+  public CoinmateTransferDetail getCoinmateTransferDetail(Long transactionId) throws IOException {
     CoinmateTransferDetail transferDetail =
         coinmateAuthenticated.getTransferDetail(
             exchange.getExchangeSpecification().getApiKey(),

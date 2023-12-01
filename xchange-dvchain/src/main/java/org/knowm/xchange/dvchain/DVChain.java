@@ -1,6 +1,5 @@
 package org.knowm.xchange.dvchain;
 
-import java.io.IOException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -10,6 +9,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.dvchain.dto.DVChainException;
 import org.knowm.xchange.dvchain.dto.marketdata.DVChainMarketResponse;
 import org.knowm.xchange.dvchain.dto.trade.DVChainNewLimitOrder;

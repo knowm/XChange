@@ -1,16 +1,5 @@
 package org.knowm.xchange.kraken.dto.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-
-import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrades.KrakenTradesDeserializer;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderType;
-import org.knowm.xchange.kraken.dto.trade.KrakenType;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -18,6 +7,15 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrades.KrakenTradesDeserializer;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrderType;
+import org.knowm.xchange.kraken.dto.trade.KrakenType;
 
 @JsonDeserialize(using = KrakenTradesDeserializer.class)
 public class KrakenPublicTrades {
@@ -72,10 +70,11 @@ public class KrakenPublicTrades {
             KrakenType type = KrakenType.fromString(tradeJsonNode.path(3).asText());
             KrakenOrderType orderType = KrakenOrderType.fromString(tradeJsonNode.path(4).asText());
             String miscellaneous = tradeJsonNode.path(5).asText();
-			String tradeId = tradeJsonNode.path(6).asText();
+            String tradeId = tradeJsonNode.path(6).asText();
 
             krakenTrades.add(
-					new KrakenPublicTrade(price, volume, time, type, orderType, miscellaneous, tradeId));
+                new KrakenPublicTrade(
+                    price, volume, time, type, orderType, miscellaneous, tradeId));
           }
         }
       }

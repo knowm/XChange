@@ -13,7 +13,9 @@ import org.knowm.xchange.coinbase.dto.auth.CoinbaseScope.CoinbaseScopeDeserializ
 import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
 import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 @JsonDeserialize(using = CoinbaseScopeDeserializer.class)
 @JsonSerialize(using = EnumLowercaseJsonSerializer.class)
 public enum CoinbaseScope {

@@ -26,7 +26,8 @@ public class GateioAccountServiceRaw extends GateioBaseService {
   public GateioFunds getGateioAccountInfo() throws IOException {
 
     GateioFunds gateioFunds =
-        gateioAuthenticated.getFunds(exchange.getExchangeSpecification().getApiKey(), signatureCreator);
+        gateioAuthenticated.getFunds(
+            exchange.getExchangeSpecification().getApiKey(), signatureCreator);
     return handleResponse(gateioFunds);
   }
 

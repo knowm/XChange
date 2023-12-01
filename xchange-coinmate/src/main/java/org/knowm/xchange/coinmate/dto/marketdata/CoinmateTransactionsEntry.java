@@ -26,7 +26,9 @@ package org.knowm.xchange.coinmate.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class CoinmateTransactionsEntry {
 
   private final long timestamp;

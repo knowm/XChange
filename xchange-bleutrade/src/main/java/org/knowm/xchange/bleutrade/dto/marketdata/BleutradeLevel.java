@@ -24,28 +24,36 @@ public class BleutradeLevel {
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /** @return The Quantity */
+  /**
+   * @return The Quantity
+   */
   @JsonProperty("Quantity")
   public BigDecimal getQuantity() {
 
     return Quantity;
   }
 
-  /** @param Quantity The Quantity */
+  /**
+   * @param Quantity The Quantity
+   */
   @JsonProperty("Quantity")
   public void setQuantity(BigDecimal Quantity) {
 
     this.Quantity = Quantity;
   }
 
-  /** @return The Rate */
+  /**
+   * @return The Rate
+   */
   @JsonProperty("Rate")
   public BigDecimal getRate() {
 
     return Rate;
   }
 
-  /** @param Rate The Rate */
+  /**
+   * @param Rate The Rate
+   */
   @JsonProperty("Rate")
   public void setRate(BigDecimal Rate) {
 

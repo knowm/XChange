@@ -1,6 +1,5 @@
 package org.knowm.xchange.globitex;
 
-import java.io.IOException;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -9,6 +8,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.globitex.dto.account.GlobitexAccounts;
 import org.knowm.xchange.globitex.dto.trade.GlobitexActiveOrders;
 import org.knowm.xchange.globitex.dto.trade.GlobitexExecutionReport;

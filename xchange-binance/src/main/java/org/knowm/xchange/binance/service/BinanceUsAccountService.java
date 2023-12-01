@@ -27,8 +27,7 @@ public class BinanceUsAccountService extends BinanceAccountService {
   protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
   public BinanceUsAccountService(
-      BinanceExchange exchange,
-      ResilienceRegistries resilienceRegistries) {
+      BinanceExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
 

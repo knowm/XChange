@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import org.knowm.xchange.bitbay.v3.dto.BitbayBaseResponse;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class BitbayUserTrades extends BitbayBaseResponse {
 
   private final List<BitbayUserTrade> items;

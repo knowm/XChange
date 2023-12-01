@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.kraken.dto.KrakenResult;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenOHLCs;
 
-/** @author Bilgin Ibryam */
+/**
+ * @author Bilgin Ibryam
+ */
 public class KrakenOHLCResult extends KrakenResult<KrakenOHLCs> {
 
   /**

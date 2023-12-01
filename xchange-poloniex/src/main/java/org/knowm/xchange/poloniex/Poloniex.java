@@ -1,13 +1,13 @@
 package org.knowm.xchange.poloniex;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import org.knowm.xchange.poloniex.dto.PoloniexException;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexChartData;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;

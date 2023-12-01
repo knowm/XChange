@@ -3,7 +3,6 @@ package org.knowm.xchange.ftx.service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPositions;
@@ -39,7 +38,8 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
 
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    return placeStopOrderForSubAccount(exchange.getExchangeSpecification().getUserName(), stopOrder);
+    return placeStopOrderForSubAccount(
+        exchange.getExchangeSpecification().getUserName(), stopOrder);
   }
 
   @Override
@@ -49,11 +49,14 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
 
   @Override
   public Collection<String> cancelAllOrders(CancelAllOrders orderParams) throws IOException {
-    if(orderParams instanceof CancelAllFtxOrdersParams){
-      cancelAllFtxOrders(exchange.getExchangeSpecification().getUserName(), (CancelAllFtxOrdersParams) orderParams);
+    if (orderParams instanceof CancelAllFtxOrdersParams) {
+      cancelAllFtxOrders(
+          exchange.getExchangeSpecification().getUserName(),
+          (CancelAllFtxOrdersParams) orderParams);
       return Collections.singletonList("");
     } else {
-      throw new IOException("Cancel all orders supports only "+ CancelAllFtxOrdersParams.class.getSimpleName());
+      throw new IOException(
+          "Cancel all orders supports only " + CancelAllFtxOrdersParams.class.getSimpleName());
     }
   }
 

@@ -11,6 +11,6 @@ import lombok.extern.jackson.Jacksonized;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BlockchainDeposit {
 
-    private final String type;
-    private final String address;
+  private final String type;
+  private final String address;
 }

@@ -23,17 +23,23 @@ public class CCEXGetorderbook {
     this.result = result;
   }
 
-  /** @return The success */
+  /**
+   * @return The success
+   */
   public Boolean getSuccess() {
     return success;
   }
 
-  /** @return The message */
+  /**
+   * @return The message
+   */
   public String getMessage() {
     return message;
   }
 
-  /** @return The result */
+  /**
+   * @return The result
+   */
   public CCEXBuySellResult getResult() {
     return result;
   }

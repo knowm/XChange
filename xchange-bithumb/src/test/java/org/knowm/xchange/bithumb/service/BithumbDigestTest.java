@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import jakarta.ws.rs.FormParam;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import jakarta.ws.rs.FormParam;
 import org.junit.Before;
 import org.junit.Test;
 import si.mazi.rescu.Params;

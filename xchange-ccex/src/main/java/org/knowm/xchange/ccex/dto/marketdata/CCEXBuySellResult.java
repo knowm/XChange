@@ -20,12 +20,16 @@ public class CCEXBuySellResult {
     this.sell = sell;
   }
 
-  /** @return The buy */
+  /**
+   * @return The buy
+   */
   public List<CCEXBuySellData> getBuy() {
     return buy;
   }
 
-  /** @return The sell */
+  /**
+   * @return The sell
+   */
   public List<CCEXBuySellData> getSell() {
     return sell;
   }

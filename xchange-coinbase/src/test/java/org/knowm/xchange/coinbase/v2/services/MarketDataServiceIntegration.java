@@ -18,7 +18,9 @@ import org.knowm.xchange.coinbase.v2.service.CoinbaseMarketDataService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class MarketDataServiceIntegration {
 
   static Exchange exchange;

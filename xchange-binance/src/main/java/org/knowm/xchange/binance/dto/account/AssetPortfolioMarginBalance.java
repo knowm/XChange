@@ -1,24 +1,22 @@
 package org.knowm.xchange.binance.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.currency.Currency;
-
 import java.math.BigDecimal;
+import org.knowm.xchange.currency.Currency;
 
 public class AssetPortfolioMarginBalance {
   private final Currency currency;
-  private final BigDecimal  totalWalletBalance ;
-  private final BigDecimal crossMarginAsset ;
-  private final BigDecimal crossMarginBorrowed ;
-  private final BigDecimal crossMarginFree ;
-  private final BigDecimal crossMarginInterest ;
-  private final BigDecimal crossMarginLocked ;
+  private final BigDecimal totalWalletBalance;
+  private final BigDecimal crossMarginAsset;
+  private final BigDecimal crossMarginBorrowed;
+  private final BigDecimal crossMarginFree;
+  private final BigDecimal crossMarginInterest;
+  private final BigDecimal crossMarginLocked;
   private final BigDecimal umWalletBalance;
   private final BigDecimal umUnrealizedPNL;
-  private final BigDecimal cmWalletBalance ;
-  private final BigDecimal cmUnrealizedPNL ;
+  private final BigDecimal cmWalletBalance;
+  private final BigDecimal cmUnrealizedPNL;
   private final Long updateTime;
-
 
   public AssetPortfolioMarginBalance(
       @JsonProperty("asset") String asset,
@@ -50,6 +48,7 @@ public class AssetPortfolioMarginBalance {
   public Currency getCurrency() {
     return currency;
   }
+
   public BigDecimal getTotal() {
     return totalWalletBalance;
   }
@@ -61,7 +60,6 @@ public class AssetPortfolioMarginBalance {
   public BigDecimal getLocked() {
     return crossMarginLocked;
   }
-
 
   @Override
   public String toString() {

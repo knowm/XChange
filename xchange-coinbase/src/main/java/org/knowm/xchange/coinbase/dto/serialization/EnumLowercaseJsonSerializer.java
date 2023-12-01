@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class EnumLowercaseJsonSerializer extends JsonSerializer<Enum<?>> {
 
   @Override

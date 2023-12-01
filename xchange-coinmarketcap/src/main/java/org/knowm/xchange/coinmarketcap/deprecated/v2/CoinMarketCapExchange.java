@@ -16,7 +16,9 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
 
-/** @author allenday */
+/**
+ * @author allenday
+ */
 public class CoinMarketCapExchange extends BaseExchange implements Exchange {
 
   private CoinMarketCapMarketDataService marketDataService;

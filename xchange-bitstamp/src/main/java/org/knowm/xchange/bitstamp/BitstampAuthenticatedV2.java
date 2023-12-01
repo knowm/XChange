@@ -1,7 +1,5 @@
 package org.knowm.xchange.bitstamp;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.HeaderParam;
@@ -10,6 +8,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.BitstampTransferBalanceResponse;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
@@ -80,7 +80,9 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("price") BigDecimal price)
       throws BitstampException, IOException;
 
-  /** @return true if order has been canceled. */
+  /**
+   * @return true if order has been canceled.
+   */
   @POST
   @Path("cancel_order/")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

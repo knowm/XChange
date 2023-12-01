@@ -7,6 +7,10 @@ import info.bitrich.xchangestream.coincheck.dto.CoincheckStreamingOrderbookUpdat
 import info.bitrich.xchangestream.coincheck.dto.CoincheckStreamingTrade;
 import info.bitrich.xchangestream.coincheck.dto.CoincheckSubscriptionNames;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.SneakyThrows;
 import org.knowm.xchange.coincheck.CoincheckAdapter;
 import org.knowm.xchange.coincheck.dto.marketdata.CoincheckPair;
@@ -14,11 +18,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Trade;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class CoincheckStreamingAdapter {
   private static final JavaType orderBookUpdateListType =

@@ -1,13 +1,13 @@
 package org.knowm.xchange.krakenfutures.dto.marketData;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.krakenfutures.dto.KrakenFuturesResult;
 
-/** @author Neil Panchen */
+/**
+ * @author Neil Panchen
+ */
 public class KrakenFuturesInstruments extends KrakenFuturesResult {
 
   private final Date serverTime;
@@ -34,8 +34,7 @@ public class KrakenFuturesInstruments extends KrakenFuturesResult {
 
     if (isSuccess()) {
       StringBuilder res =
-          new StringBuilder(
-              "KrakenFutureInstruments [serverTime=" + serverTime + ",instruments=");
+          new StringBuilder("KrakenFutureInstruments [serverTime=" + serverTime + ",instruments=");
       for (KrakenFuturesInstrument ct : instruments) res.append(ct.toString()).append(", ");
       res.append(" ]");
 

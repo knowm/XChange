@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.ToString;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BitbayBaseResponse {

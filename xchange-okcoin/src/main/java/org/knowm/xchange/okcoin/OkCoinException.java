@@ -20,7 +20,9 @@ public class OkCoinException extends ExchangeException {
     this.errorCode = errorCode;
   }
 
-  /** @return the error code. */
+  /**
+   * @return the error code.
+   */
   public int getErrorCode() {
 
     return errorCode;

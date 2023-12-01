@@ -254,7 +254,7 @@ public class LgoStreamingTradeServiceTest {
     assertThat(trades.get(0))
         .usingRecursiveComparison()
         .isEqualTo(
-            new UserTrade.Builder()
+            UserTrade.builder()
                 .type(Order.OrderType.ASK)
                 .originalAmount(new BigDecimal("0.50000000"))
                 .currencyPair(CurrencyPair.BTC_USD)

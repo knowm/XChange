@@ -23,7 +23,9 @@ import org.knowm.xchange.utils.CertHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** @author Nikita Belenkiy on 18/05/2018. */
+/**
+ * @author Nikita Belenkiy on 18/05/2018.
+ */
 public class BitmexBulkOrderTest {
   private static final Logger logger = LoggerFactory.getLogger(BitmexBulkOrderTest.class);
 

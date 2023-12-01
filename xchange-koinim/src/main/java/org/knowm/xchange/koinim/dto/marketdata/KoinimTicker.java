@@ -3,7 +3,9 @@ package org.knowm.xchange.koinim.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author ahmet.oz */
+/**
+ * @author ahmet.oz
+ */
 public final class KoinimTicker {
 
   private final BigDecimal sell;

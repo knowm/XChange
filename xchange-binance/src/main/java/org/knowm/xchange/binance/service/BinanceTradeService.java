@@ -110,9 +110,10 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   private <T extends IOrderFlags> Optional<T> getOrderFlag(Order order, Class<T> clazz) {
-    return (Optional<T>) order.getOrderFlags().stream()
-        .filter(flag -> clazz.isAssignableFrom(flag.getClass()))
-        .findFirst();
+    return (Optional<T>)
+        order.getOrderFlags().stream()
+            .filter(flag -> clazz.isAssignableFrom(flag.getClass()))
+            .findFirst();
   }
 
   private String placeOrderAllProducts(
@@ -129,25 +130,76 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       String orderId;
 
       if (order.getInstrument() instanceof FuturesContract) {
-       if( exchange.isPortfolioMarginEnabled()){
-         if(BinanceAdapters.isInverse(order.getInstrument())){
-           orderId = newPortfolioMarginInverseFutureOrder(order.getInstrument(), BinanceAdapters.convert(order.getType()), type, tif, order.getOriginalAmount(), order.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
-               limitPrice, order.getUserReference(), null).getOrderId();
-         } else {
-           orderId = newPortfolioMarginFutureOrder(order.getInstrument(), BinanceAdapters.convert(order.getType()), type, tif, order.getOriginalAmount(), order.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
-               limitPrice, order.getUserReference(), null).getOrderId();
-         }
-        } else{
-         if(BinanceAdapters.isInverse(order.getInstrument())) {
-           orderId = newInverseFutureOrder(order.getInstrument(), BinanceAdapters.convert(order.getType()), type, tif, order.getOriginalAmount(), order.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
-               limitPrice, order.getUserReference(), stopPrice, false, null, callBackRate, null).getOrderId();
+        if (exchange.isPortfolioMarginEnabled()) {
+          if (BinanceAdapters.isInverse(order.getInstrument())) {
+            orderId =
+                newPortfolioMarginInverseFutureOrder(
+                        order.getInstrument(),
+                        BinanceAdapters.convert(order.getType()),
+                        type,
+                        tif,
+                        order.getOriginalAmount(),
+                        order.hasFlag(
+                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                        limitPrice,
+                        order.getUserReference(),
+                        null)
+                    .getOrderId();
+          } else {
+            orderId =
+                newPortfolioMarginFutureOrder(
+                        order.getInstrument(),
+                        BinanceAdapters.convert(order.getType()),
+                        type,
+                        tif,
+                        order.getOriginalAmount(),
+                        order.hasFlag(
+                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                        limitPrice,
+                        order.getUserReference(),
+                        null)
+                    .getOrderId();
+          }
+        } else {
+          if (BinanceAdapters.isInverse(order.getInstrument())) {
+            orderId =
+                newInverseFutureOrder(
+                        order.getInstrument(),
+                        BinanceAdapters.convert(order.getType()),
+                        type,
+                        tif,
+                        order.getOriginalAmount(),
+                        order.hasFlag(
+                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                        limitPrice,
+                        order.getUserReference(),
+                        stopPrice,
+                        false,
+                        null,
+                        callBackRate,
+                        null)
+                    .getOrderId();
 
-         } else {
-           orderId = newFutureOrder(order.getInstrument(), BinanceAdapters.convert(order.getType()), type, tif, order.getOriginalAmount(), order.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
-               limitPrice, order.getUserReference(), stopPrice, false, null, callBackRate, null).getOrderId();
-
-         }
-       }
+          } else {
+            orderId =
+                newFutureOrder(
+                        order.getInstrument(),
+                        BinanceAdapters.convert(order.getType()),
+                        type,
+                        tif,
+                        order.getOriginalAmount(),
+                        order.hasFlag(
+                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                        limitPrice,
+                        order.getUserReference(),
+                        stopPrice,
+                        false,
+                        null,
+                        callBackRate,
+                        null)
+                    .getOrderId();
+          }
+        }
       } else {
         orderId =
             Long.toString(

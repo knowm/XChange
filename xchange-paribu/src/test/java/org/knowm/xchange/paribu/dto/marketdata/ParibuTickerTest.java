@@ -8,7 +8,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
 
-/** @author semihunaldi */
+/**
+ * @author semihunaldi
+ */
 public class ParibuTickerTest {
 
   @Test

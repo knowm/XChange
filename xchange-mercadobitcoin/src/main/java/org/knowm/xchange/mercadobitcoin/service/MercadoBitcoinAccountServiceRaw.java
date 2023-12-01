@@ -8,7 +8,9 @@ import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAuthenticated;
 import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import org.knowm.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
 
-/** @author Felipe Micaroni Lalli */
+/**
+ * @author Felipe Micaroni Lalli
+ */
 public class MercadoBitcoinAccountServiceRaw extends MercadoBitcoinBaseService {
 
   private static final String GET_ACCOUNT_INFO = "getInfo";

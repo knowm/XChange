@@ -8,16 +8,16 @@ import lombok.ToString;
 @ToString
 public class KrakenFuturesStreamingWebsocketMessage {
 
-    private final String event;
-    private final String feed;
-    private final String[] product_ids;
+  private final String event;
+  private final String feed;
+  private final String[] product_ids;
 
-    public KrakenFuturesStreamingWebsocketMessage(
-            @JsonProperty("event") String event,
-            @JsonProperty("feed") String feed,
-            @JsonProperty("product_ids") String[] product_ids) {
-        this.event = event;
-        this.feed = feed;
-        this.product_ids = product_ids;
-    }
+  public KrakenFuturesStreamingWebsocketMessage(
+      @JsonProperty("event") String event,
+      @JsonProperty("feed") String feed,
+      @JsonProperty("product_ids") String[] product_ids) {
+    this.event = event;
+    this.feed = feed;
+    this.product_ids = product_ids;
+  }
 }

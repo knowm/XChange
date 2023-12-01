@@ -3,7 +3,9 @@ package org.knowm.xchange.quoine.dto.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public final class BitcoinAccount {
 
   private final Integer id;

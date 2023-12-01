@@ -17,6 +17,9 @@ import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
@@ -24,10 +27,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
-
-import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -35,17 +34,21 @@ import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** @author makarid, pchertalev */
+/**
+ * @author makarid, pchertalev
+ */
 public class KrakenStreamingService extends JsonNettyStreamingService {
   private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingService.class);
   private static final String EVENT = "event";
-  private static final String WEBSOCKET_REQUESTS_PER_SECOND = "Kraken_Websocket_Requests_Per_Second";
+  private static final String WEBSOCKET_REQUESTS_PER_SECOND =
+      "Kraken_Websocket_Requests_Per_Second";
   private final Map<Integer, String> channels = new ConcurrentHashMap<>();
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private final boolean isPrivate;
   private final Supplier<KrakenWebsocketToken> authData;
   private final Map<Integer, String> subscriptionRequestMap = new ConcurrentHashMap<>();
-  private final Map<String, ObservableEmitter<KrakenEvent>> systemChannels = new ConcurrentHashMap<>();
+  private final Map<String, ObservableEmitter<KrakenEvent>> systemChannels =
+      new ConcurrentHashMap<>();
   private final RateLimiter rateLimiter;
   static final int ORDER_BOOK_SIZE_DEFAULT = 10;
   private static final int[] KRAKEN_VALID_ORDER_BOOK_SIZES = {10, 25, 100, 500, 1000};
@@ -78,13 +81,20 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
 
   private static RateLimiter initRateLimiter(KrakenStreamingExchange exchange) {
     RateLimiter rateLimiter = null;
-    Integer requestsPerSecond = (Integer) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(WEBSOCKET_REQUESTS_PER_SECOND);
+    Integer requestsPerSecond =
+        (Integer)
+            exchange
+                .getExchangeSpecification()
+                .getExchangeSpecificParametersItem(WEBSOCKET_REQUESTS_PER_SECOND);
     if (requestsPerSecond != null) {
       // N messages per second
-      rateLimiter = RateLimiter.of("websocket rate limiter", RateLimiterConfig.custom()
-              .limitForPeriod(requestsPerSecond)
-              .limitRefreshPeriod(Duration.ofSeconds(1))
-              .build());
+      rateLimiter =
+          RateLimiter.of(
+              "websocket rate limiter",
+              RateLimiterConfig.custom()
+                  .limitForPeriod(requestsPerSecond)
+                  .limitRefreshPeriod(Duration.ofSeconds(1))
+                  .build());
     }
     return rateLimiter;
   }
@@ -101,9 +111,10 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
 
   public Observable<KrakenEvent> subscribeSystemChannel(KrakenEventType eventType) {
     String channelName = eventType.name();
-    return Observable.<KrakenEvent>create(e -> systemChannels.computeIfAbsent(channelName, cid -> e))
-            .doOnDispose(() -> systemChannels.remove(channelName))
-            .share();
+    return Observable.<KrakenEvent>create(
+            e -> systemChannels.computeIfAbsent(channelName, cid -> e))
+        .doOnDispose(() -> systemChannels.remove(channelName))
+        .share();
   }
 
   @Override
@@ -135,8 +146,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
             LOG.info("System status: {}", systemStatus);
             // send to subscribers if any
             ObservableEmitter<KrakenEvent> emitter = systemChannels.get(krakenEvent.name());
-            if (emitter != null)
-              emitter.onNext(systemStatus);
+            if (emitter != null) emitter.onNext(systemStatus);
             break;
           case subscriptionStatus:
             LOG.debug("Received subscriptionStatus message {}", message);
@@ -167,8 +177,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
             }
             // send to subscribers if any
             emitter = systemChannels.get(krakenEvent.name());
-            if (emitter != null)
-              emitter.onNext(statusMessage);
+            if (emitter != null) emitter.onNext(statusMessage);
             break;
           case error:
             LOG.error(
@@ -280,10 +289,9 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
 
   @Override
   public void sendMessage(String message) {
-      if (rateLimiter != null)
-        RateLimiter.waitForPermission(rateLimiter);
+    if (rateLimiter != null) RateLimiter.waitForPermission(rateLimiter);
 
-      super.sendMessage(message);
+    super.sendMessage(message);
   }
 
   @Override

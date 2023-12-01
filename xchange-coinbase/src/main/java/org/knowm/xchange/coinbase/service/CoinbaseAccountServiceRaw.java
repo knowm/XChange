@@ -23,7 +23,9 @@ import org.knowm.xchange.coinbase.dto.merchant.CoinbaseOrders;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseSubscription;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseSubscriptions;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
 
   /**

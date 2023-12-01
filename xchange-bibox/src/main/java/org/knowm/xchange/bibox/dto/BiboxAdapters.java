@@ -39,7 +39,9 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public class BiboxAdapters {
 
   public static String toBiboxPair(Instrument pair) {
@@ -144,7 +146,7 @@ public class BiboxAdapters {
   }
 
   private static UserTrade adaptUserTrade(BiboxOrder order) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .orderId(order.getId())
         .id(order.getId())
         .currencyPair(new CurrencyPair(order.getCoinSymbol(), order.getCurrencySymbol()))
@@ -230,6 +232,7 @@ public class BiboxAdapters {
             .collect(Collectors.toList());
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }
+
   /**
    * transaction side，1-bid，2-ask
    *

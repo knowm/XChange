@@ -14,7 +14,9 @@ import org.knowm.xchange.poloniex.service.PoloniexTradeService;
 import org.knowm.xchange.utils.nonce.TimestampIncrementingNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author Zach Holmes */
+/**
+ * @author Zach Holmes
+ */
 public class PoloniexExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory =

@@ -39,7 +39,9 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class BitstampTradeService extends BitstampTradeServiceRaw implements TradeService {
 
   public BitstampTradeService(Exchange exchange) {

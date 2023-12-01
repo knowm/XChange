@@ -41,5 +41,4 @@ public class BybitResult<V> {
   public boolean isSuccess() {
     return retCode == 0;
   }
-
 }

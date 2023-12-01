@@ -10,7 +10,9 @@ import org.knowm.xchange.coinbase.dto.merchant.CoinbaseSubscriptions;
 import org.knowm.xchange.coinbase.service.CoinbaseAccountService;
 import org.knowm.xchange.examples.coinbase.CoinbaseDemoUtils;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseMerchantDemo {
 
   public static void main(String[] args) throws IOException {

@@ -9,7 +9,9 @@ import org.knowm.xchange.bitfinex.service.BitfinexMarketDataServiceRaw;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCandle;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author cyrus13 */
+/**
+ * @author cyrus13
+ */
 public class CandlesDemo {
 
   public static void main(String[] args) throws Exception {

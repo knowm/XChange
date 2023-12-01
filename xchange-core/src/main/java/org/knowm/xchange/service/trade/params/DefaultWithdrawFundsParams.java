@@ -28,8 +28,8 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
     this(address, currency, amount, null);
   }
 
-  public DefaultWithdrawFundsParams(String address, Currency currency, BigDecimal amount,
-      BigDecimal commission) {
+  public DefaultWithdrawFundsParams(
+      String address, Currency currency, BigDecimal amount, BigDecimal commission) {
     this.address = address;
     this.addressTag = null;
     this.currency = currency;
@@ -37,8 +37,8 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
     this.commission = commission;
   }
 
-  public DefaultWithdrawFundsParams(AddressWithTag address, Currency currency, BigDecimal amount,
-      BigDecimal commission) {
+  public DefaultWithdrawFundsParams(
+      AddressWithTag address, Currency currency, BigDecimal amount, BigDecimal commission) {
     this.address = address.getAddress();
     this.addressTag = address.getAddressTag();
     this.currency = currency;
@@ -46,13 +46,16 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
     this.commission = commission;
   }
 
-  public DefaultWithdrawFundsParams(String address, String addressTag, Currency currency,
-      BigDecimal amount, BigDecimal commission) {
+  public DefaultWithdrawFundsParams(
+      String address,
+      String addressTag,
+      Currency currency,
+      BigDecimal amount,
+      BigDecimal commission) {
     this.address = address;
     this.addressTag = addressTag;
     this.currency = currency;
     this.amount = amount;
     this.commission = commission;
   }
-
 }

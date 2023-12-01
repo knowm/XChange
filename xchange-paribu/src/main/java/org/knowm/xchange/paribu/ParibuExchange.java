@@ -5,7 +5,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.paribu.service.ParibuMarketDataService;
 
-/** @author semihunaldi */
+/**
+ * @author semihunaldi
+ */
 public class ParibuExchange extends BaseExchange implements Exchange {
 
   @Override

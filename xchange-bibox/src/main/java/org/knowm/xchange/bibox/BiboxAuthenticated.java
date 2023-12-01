@@ -15,7 +15,9 @@ import org.knowm.xchange.bibox.dto.account.BiboxWithdrawal;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrders;
 import si.mazi.rescu.ParamsDigest;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 @Path("v1")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)

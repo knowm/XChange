@@ -8,7 +8,9 @@ import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class TheRockTicker {
 

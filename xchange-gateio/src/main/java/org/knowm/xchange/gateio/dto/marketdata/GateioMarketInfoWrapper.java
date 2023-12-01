@@ -47,7 +47,6 @@ public class GateioMarketInfoWrapper {
     int decimalPlaces;
     BigDecimal minAmount;
     BigDecimal fee;
-
   }
 
   static class BTERMarketInfoWrapperDeserializer extends JsonDeserializer<GateioMarketInfoWrapper> {

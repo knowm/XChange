@@ -28,7 +28,8 @@ public interface Bybit {
   @Path("/v5/market/instruments-info")
   BybitResult<BybitCategorizedPayload<BybitInstrumentInfo>> getInstrumentsInfo(
       @QueryParam("category") String category
-  ) throws IOException, BybitException;
+  )
+      throws IOException, BybitException;
 
 
   @GET
@@ -46,7 +47,6 @@ public interface Bybit {
       @QueryParam("symbol") String symbol,
       @QueryParam("limit") Integer limit
   ) throws IOException, BybitException;
-
 
 
 }

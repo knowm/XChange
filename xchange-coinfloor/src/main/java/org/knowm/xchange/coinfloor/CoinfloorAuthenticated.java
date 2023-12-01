@@ -1,13 +1,13 @@
 package org.knowm.xchange.coinfloor;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.coinfloor.dto.CoinfloorException;
 import org.knowm.xchange.coinfloor.dto.account.CoinfloorBalance;
 import org.knowm.xchange.coinfloor.dto.trade.CoinfloorMarketOrderResponse;

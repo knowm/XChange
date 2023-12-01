@@ -3,7 +3,9 @@ package org.knowm.xchange.bitso.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author Piotr Ładyżyński */
+/**
+ * @author Piotr Ładyżyński
+ */
 public class BitsoTransaction {
 
   private final long date;

@@ -40,7 +40,10 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
   private final Map<Integer, BinanceWebSocketSubscriptionMessage> liveSubscriptionMessage =
       new ConcurrentHashMap<>();
 
-  public BinanceStreamingService(String baseUri, ProductSubscription productSubscription, KlineSubscription klineSubscription) {
+  public BinanceStreamingService(
+      String baseUri,
+      ProductSubscription productSubscription,
+      KlineSubscription klineSubscription) {
     super(baseUri, Integer.MAX_VALUE);
     this.productSubscription = productSubscription;
     this.klineSubscription = klineSubscription;
@@ -103,8 +106,8 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
   /**
    * We override this method because we must not use Live Subscription in case of reconnection. The
    * reason is that Binance has a Websocket limits to 5 incoming messages per second. If we pass
-   * this limit the socket is closed automatically by Binance. See
-   * <a href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#websocket-limits">...</a>
+   * this limit the socket is closed automatically by Binance. See <a
+   * href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#websocket-limits">...</a>
    * for more details. All the channels will be resubscribed at connection time.
    */
   @Override
@@ -221,8 +224,8 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
 
   /**
    * Live Unsubscription from stream. This send a message through the websocket to Binance with
-   * method UNSUBSCRIBE. (see
-   * <a href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#unsubscribe-to-a-stream">...</a>
+   * method UNSUBSCRIBE. (see <a
+   * href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#unsubscribe-to-a-stream">...</a>
    * for more details) This is the only way to really stop receiving data from the stream
    * (Disposable.dispose() dispose the resource but don't stop the data to be received from
    * Binance).
@@ -244,13 +247,13 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected WebSocketClientHandler getWebSocketClientHandler(
-          WebSocketClientHandshaker handshake, WebSocketClientHandler.WebSocketMessageHandler handler) {
+      WebSocketClientHandshaker handshake, WebSocketClientHandler.WebSocketMessageHandler handler) {
     LOGGER.info("Registering BinanceWebSocketClientHandler");
     return new BinanceWebSocketClientHandler(handshake, handler);
   }
 
   public void setChannelInactiveHandler(
-          WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+      WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
     this.channelInactiveHandler = channelInactiveHandler;
   }
 
@@ -260,7 +263,7 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
   class BinanceWebSocketClientHandler extends NettyWebSocketClientHandler {
 
     public BinanceWebSocketClientHandler(
-            WebSocketClientHandshaker handshake, WebSocketMessageHandler handler) {
+        WebSocketClientHandshaker handshake, WebSocketMessageHandler handler) {
       super(handshake, handler);
     }
 

@@ -1,12 +1,12 @@
 package org.knowm.xchange.zaif;
 
-import java.io.IOException;
-import java.util.List;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.zaif.dto.ZaifException;
 import org.knowm.xchange.zaif.dto.marketdata.ZaifFullBook;
 import org.knowm.xchange.zaif.dto.marketdata.ZaifMarket;

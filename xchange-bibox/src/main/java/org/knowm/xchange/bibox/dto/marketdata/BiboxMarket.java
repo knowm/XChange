@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import javax.annotation.Generated;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
@@ -77,193 +79,257 @@ public class BiboxMarket {
   @JsonProperty("low_usd")
   private BigDecimal lowUsd;
 
-  /** @return The id */
+  /**
+   * @return The id
+   */
   @JsonProperty("id")
   public long getId() {
     return id;
   }
 
-  /** @param id The id */
+  /**
+   * @param id The id
+   */
   @JsonProperty("id")
   public void setId(long id) {
     this.id = id;
   }
 
-  /** @return The coinSymbol */
+  /**
+   * @return The coinSymbol
+   */
   @JsonProperty("coin_symbol")
   public String getCoinSymbol() {
     return coinSymbol;
   }
 
-  /** @param coinSymbol The coin_symbol */
+  /**
+   * @param coinSymbol The coin_symbol
+   */
   @JsonProperty("coin_symbol")
   public void setCoinSymbol(String coinSymbol) {
     this.coinSymbol = coinSymbol;
   }
 
-  /** @return The currencySymbol */
+  /**
+   * @return The currencySymbol
+   */
   @JsonProperty("currency_symbol")
   public String getCurrencySymbol() {
     return currencySymbol;
   }
 
-  /** @param currencySymbol The currency_symbol */
+  /**
+   * @param currencySymbol The currency_symbol
+   */
   @JsonProperty("currency_symbol")
   public void setCurrencySymbol(String currencySymbol) {
     this.currencySymbol = currencySymbol;
   }
 
-  /** @return The last */
+  /**
+   * @return The last
+   */
   @JsonProperty("last")
   public BigDecimal getLast() {
     return last;
   }
 
-  /** @param last The last */
+  /**
+   * @param last The last
+   */
   @JsonProperty("last")
   public void setLast(BigDecimal last) {
     this.last = last;
   }
 
-  /** @return The high */
+  /**
+   * @return The high
+   */
   @JsonProperty("high")
   public BigDecimal getHigh() {
     return high;
   }
 
-  /** @param high The high */
+  /**
+   * @param high The high
+   */
   @JsonProperty("high")
   public void setHigh(BigDecimal high) {
     this.high = high;
   }
 
-  /** @return The low */
+  /**
+   * @return The low
+   */
   @JsonProperty("low")
   public BigDecimal getLow() {
     return low;
   }
 
-  /** @param low The low */
+  /**
+   * @param low The low
+   */
   @JsonProperty("low")
   public void setLow(BigDecimal low) {
     this.low = low;
   }
 
-  /** @return The change */
+  /**
+   * @return The change
+   */
   @JsonProperty("change")
   public BigDecimal getChange() {
     return change;
   }
 
-  /** @param change The change */
+  /**
+   * @param change The change
+   */
   @JsonProperty("change")
   public void setChange(BigDecimal change) {
     this.change = change;
   }
 
-  /** @return The percent */
+  /**
+   * @return The percent
+   */
   @JsonProperty("percent")
   public String getPercent() {
     return percent;
   }
 
-  /** @param percent The percent */
+  /**
+   * @param percent The percent
+   */
   @JsonProperty("percent")
   public void setPercent(String percent) {
     this.percent = percent;
   }
 
-  /** @return The vol24H */
+  /**
+   * @return The vol24H
+   */
   @JsonProperty("vol24H")
   public BigDecimal getVol24H() {
     return vol24H;
   }
 
-  /** @param vol24H The vol24H */
+  /**
+   * @param vol24H The vol24H
+   */
   @JsonProperty("vol24H")
   public void setVol24H(BigDecimal vol24H) {
     this.vol24H = vol24H;
   }
 
-  /** @return The amount */
+  /**
+   * @return The amount
+   */
   @JsonProperty("amount")
   public BigDecimal getAmount() {
     return amount;
   }
 
-  /** @param amount The amount */
+  /**
+   * @param amount The amount
+   */
   @JsonProperty("amount")
   public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }
 
-  /** @return The lastCny */
+  /**
+   * @return The lastCny
+   */
   @JsonProperty("last_cny")
   public BigDecimal getLastCny() {
     return lastCny;
   }
 
-  /** @param lastCny The last_cny */
+  /**
+   * @param lastCny The last_cny
+   */
   @JsonProperty("last_cny")
   public void setLastCny(BigDecimal lastCny) {
     this.lastCny = lastCny;
   }
 
-  /** @return The highCny */
+  /**
+   * @return The highCny
+   */
   @JsonProperty("high_cny")
   public BigDecimal getHighCny() {
     return highCny;
   }
 
-  /** @param highCny The high_cny */
+  /**
+   * @param highCny The high_cny
+   */
   @JsonProperty("high_cny")
   public void setHighCny(BigDecimal highCny) {
     this.highCny = highCny;
   }
 
-  /** @return The lowCny */
+  /**
+   * @return The lowCny
+   */
   @JsonProperty("low_cny")
   public BigDecimal getLowCny() {
     return lowCny;
   }
 
-  /** @param lowCny The low_cny */
+  /**
+   * @param lowCny The low_cny
+   */
   @JsonProperty("low_cny")
   public void setLowCny(BigDecimal lowCny) {
     this.lowCny = lowCny;
   }
 
-  /** @return The lastUsd */
+  /**
+   * @return The lastUsd
+   */
   @JsonProperty("last_usd")
   public BigDecimal getLastUsd() {
     return lastUsd;
   }
 
-  /** @param lastUsd The last_usd */
+  /**
+   * @param lastUsd The last_usd
+   */
   @JsonProperty("last_usd")
   public void setLastUsd(BigDecimal lastUsd) {
     this.lastUsd = lastUsd;
   }
 
-  /** @return The highUsd */
+  /**
+   * @return The highUsd
+   */
   @JsonProperty("high_usd")
   public BigDecimal getHighUsd() {
     return highUsd;
   }
 
-  /** @param highUsd The high_usd */
+  /**
+   * @param highUsd The high_usd
+   */
   @JsonProperty("high_usd")
   public void setHighUsd(BigDecimal highUsd) {
     this.highUsd = highUsd;
   }
 
-  /** @return The lowUsd */
+  /**
+   * @return The lowUsd
+   */
   @JsonProperty("low_usd")
   public BigDecimal getLowUsd() {
     return lowUsd;
   }
 
-  /** @param lowUsd The low_usd */
+  /**
+   * @param lowUsd The low_usd
+   */
   @JsonProperty("low_usd")
   public void setLowUsd(BigDecimal lowUsd) {
     this.lowUsd = lowUsd;

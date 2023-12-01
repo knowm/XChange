@@ -197,7 +197,7 @@ public class IndependentReserveAdapters {
       CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
 
       UserTrade ut =
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(adapeOrderType(trade.getOrderType()))
               .originalAmount(trade.getVolumeTraded())
               .currencyPair(currencyPair)

@@ -47,7 +47,9 @@ public class InstrumentNotValidException extends ExchangeException {
     this.instrument = instrument;
   }
 
-  /** @return The Instrument that caused the exception. */
+  /**
+   * @return The Instrument that caused the exception.
+   */
   public Instrument getInstrument() {
     return instrument;
   }

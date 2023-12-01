@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/** @author allenday */
+/**
+ * @author allenday
+ */
 @JsonDeserialize(using = CoinMarketCapTicker.CoinMarketCapTickerDeserializer.class)
 public final class CoinMarketCapTicker {
 

@@ -63,8 +63,6 @@ public class BinanceBaseServiceTest {
           }
         };
     exchange.applySpecification(spec);
-    return new BinanceBaseService(
-        exchange,
-        BinanceResilience.createRegistries());
+    return new BinanceBaseService(exchange, BinanceResilience.createRegistries());
   }
 }

@@ -20,7 +20,9 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class TradeMockedIntegrationTest extends BaseMockedIntegrationTest {
 
   private static LivecoinTradeService tradeService;

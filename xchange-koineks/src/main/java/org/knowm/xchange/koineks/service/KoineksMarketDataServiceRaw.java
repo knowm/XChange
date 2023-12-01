@@ -6,7 +6,9 @@ import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.koineks.Koineks;
 import org.knowm.xchange.koineks.dto.marketdata.KoineksTicker;
 
-/** @author semihunaldi */
+/**
+ * @author semihunaldi
+ */
 public class KoineksMarketDataServiceRaw extends KoineksBaseService {
 
   private final Koineks koineks;

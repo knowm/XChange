@@ -1,6 +1,7 @@
 package org.knowm.xchange.btcmarkets;
 
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTestSupport;
+
 // Note:
 //    I tried my best to get powermock to work after adding a logback.xml file to suppress verbose
 // logging but there are some Java 9* issues

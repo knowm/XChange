@@ -1,9 +1,9 @@
 package org.knowm.xchange.coinone;
 
-import java.io.IOException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
+import java.io.IOException;
 import org.knowm.xchange.coinone.dto.CoinoneException;
 import org.knowm.xchange.coinone.dto.marketdata.CoinoneOrderBook;
 import org.knowm.xchange.coinone.dto.marketdata.CoinoneTicker;

@@ -52,7 +52,7 @@ class CoinjarStreamingAdapters {
   }
 
   public static UserTrade adaptUserTrade(CoinjarWebSocketUserTradeEvent event) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .timestamp(Date.from(ZonedDateTime.parse(event.payload.fill.timestamp).toInstant()))
         .id(Long.toString(event.payload.fill.tid))
         .originalAmount(new BigDecimal(event.payload.fill.size))

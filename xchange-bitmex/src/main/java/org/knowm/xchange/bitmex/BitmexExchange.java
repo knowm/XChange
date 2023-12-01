@@ -47,7 +47,9 @@ public class BitmexExchange extends BaseExchange implements Exchange {
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (exchangeSpecification.getExchangeSpecificParametersItem(Exchange.USE_SANDBOX).equals(true)) {
+      if (exchangeSpecification
+          .getExchangeSpecificParametersItem(Exchange.USE_SANDBOX)
+          .equals(true)) {
         exchangeSpecification.setSslUri("https://testnet.bitmex.com");
         exchangeSpecification.setHost("testnet.bitmex.com");
       }
@@ -129,9 +131,9 @@ public class BitmexExchange extends BaseExchange implements Exchange {
             pairsMap.put(
                 cp,
                 new InstrumentMetaData.Builder()
-                        .minimumAmount(BigDecimal.ONE)
-                        .priceScale(getPriceScale(tickers,cp))
-                        .build());
+                    .minimumAmount(BigDecimal.ONE)
+                    .priceScale(getPriceScale(tickers, cp))
+                    .build());
           }
           if (!currenciesMap.containsKey(cp.base)) {
             currenciesMap.put(cp.base, null);

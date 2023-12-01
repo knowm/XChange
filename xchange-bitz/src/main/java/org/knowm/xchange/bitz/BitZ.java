@@ -1,7 +1,5 @@
 package org.knowm.xchange.bitz;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -10,6 +8,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.bitz.dto.account.result.BitZUserAssetsResult;
 import org.knowm.xchange.bitz.dto.marketdata.result.BitZCurrencyCoinRateResult;
 import org.knowm.xchange.bitz.dto.marketdata.result.BitZCurrencyRateResult;

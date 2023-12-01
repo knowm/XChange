@@ -377,7 +377,9 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     return ripplePublic.getTransactionFee().getFee().stripTrailingZeros();
   }
 
-  /** @return transfer fee for the base leg of the order in the base currency */
+  /**
+   * @return transfer fee for the base leg of the order in the base currency
+   */
   public BigDecimal getExpectedBaseTransferFee(final RippleLimitOrder order) throws IOException {
     final ITransferFeeSource transferFeeSource = (ITransferFeeSource) exchange.getAccountService();
     final String counterparty = order.getBaseCounterparty();
@@ -387,7 +389,9 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     return getExpectedTransferFee(transferFeeSource, counterparty, currency, quantity, type);
   }
 
-  /** @return transfer fee for the counter leg of the order in the counter currency */
+  /**
+   * @return transfer fee for the counter leg of the order in the counter currency
+   */
   public BigDecimal getExpectedCounterTransferFee(final RippleLimitOrder order) throws IOException {
     final ITransferFeeSource transferFeeSource = (ITransferFeeSource) exchange.getAccountService();
     final String counterparty = order.getCounterCounterparty();

@@ -31,29 +31,26 @@ public final class BitcoinChartsAdapters {
       if (bitcoinChartsTicker.getSymbol().equals(currencyPair.counter.getCurrencyCode())) {
 
         BigDecimal last =
-                bitcoinChartsTicker.getClose() != null ? bitcoinChartsTicker.getClose() : null;
-        BigDecimal bid =
-                bitcoinChartsTicker.getBid() != null ? bitcoinChartsTicker.getBid() : null;
-        BigDecimal ask =
-                bitcoinChartsTicker.getAsk() != null ? bitcoinChartsTicker.getAsk() : null;
+            bitcoinChartsTicker.getClose() != null ? bitcoinChartsTicker.getClose() : null;
+        BigDecimal bid = bitcoinChartsTicker.getBid() != null ? bitcoinChartsTicker.getBid() : null;
+        BigDecimal ask = bitcoinChartsTicker.getAsk() != null ? bitcoinChartsTicker.getAsk() : null;
         BigDecimal high =
-                bitcoinChartsTicker.getHigh() != null ? bitcoinChartsTicker.getHigh() : null;
-        BigDecimal low =
-                bitcoinChartsTicker.getLow() != null ? bitcoinChartsTicker.getLow() : null;
+            bitcoinChartsTicker.getHigh() != null ? bitcoinChartsTicker.getHigh() : null;
+        BigDecimal low = bitcoinChartsTicker.getLow() != null ? bitcoinChartsTicker.getLow() : null;
         BigDecimal volume = bitcoinChartsTicker.getVolume();
         Date timeStamp = new Date(bitcoinChartsTicker.getLatestTrade() * 1000L);
 
         return new Ticker.Builder()
-                .currencyPair(currencyPair)
-                .instrument(currencyPair)
-                .last(last)
-                .bid(bid)
-                .ask(ask)
-                .high(high)
-                .low(low)
-                .volume(volume)
-                .timestamp(timeStamp)
-                .build();
+            .currencyPair(currencyPair)
+            .instrument(currencyPair)
+            .last(last)
+            .bid(bid)
+            .ask(ask)
+            .high(high)
+            .low(low)
+            .volume(volume)
+            .timestamp(timeStamp)
+            .build();
       }
     }
     return null;

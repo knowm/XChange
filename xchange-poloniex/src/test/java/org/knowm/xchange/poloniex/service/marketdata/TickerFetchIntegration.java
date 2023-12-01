@@ -10,7 +10,9 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.poloniex.PoloniexExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class TickerFetchIntegration {
 
   @Test

@@ -29,7 +29,9 @@ import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class CoinmateBaseService extends BaseExchangeService implements BaseService {
 
   public CoinmateBaseService(Exchange exchange) {

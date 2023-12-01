@@ -108,7 +108,7 @@ public final class TheRockAdapters {
     final String tradeId = String.valueOf(trade.getId());
     // return new UserTrade(trade.getSide() == Side.sell ? OrderType.ASK : BID, trade.getAmount(),
     // currencyPair, trade.getPrice(), trade.getDate(), tradeId);
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .id(tradeId)
         .originalAmount(trade.getAmount())
         .currencyPair(currencyPair)

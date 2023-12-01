@@ -1,13 +1,13 @@
 package org.knowm.xchange.bitmex;
 
-import java.io.IOException;
-import java.util.Date;
-import javax.annotation.Nullable;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.Date;
+import javax.annotation.Nullable;
 import org.knowm.xchange.bitmex.dto.account.BitmexTickerList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexFundingList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexKlineList;

@@ -16,18 +16,24 @@ public class CCEXTrading {
   /** No args constructor for use in serialization */
   public CCEXTrading() {}
 
-  /** @param ticker */
+  /**
+   * @param ticker
+   */
   public CCEXTrading(Ticker ticker) {
     this.ticker = ticker;
   }
 
-  /** @return The ticker */
+  /**
+   * @return The ticker
+   */
   @JsonProperty("ticker")
   public Ticker getTicker() {
     return ticker;
   }
 
-  /** @param ticker The ticker */
+  /**
+   * @param ticker The ticker
+   */
   @JsonProperty("ticker")
   public void setTicker(Ticker ticker) {
     this.ticker = ticker;

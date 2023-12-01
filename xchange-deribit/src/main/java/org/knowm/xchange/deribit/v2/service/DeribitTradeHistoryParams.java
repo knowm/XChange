@@ -21,20 +21,28 @@ public class DeribitTradeHistoryParams
 
   /** mandatory if currency is not specified */
   private Instrument instrument;
+
   /** mandatory if instrument is not specified, ignored otherwise */
   private CurrencyPair currencyPair;
+
   /** optional */
   private Date startTime;
+
   /** optional */
   private Date endTime;
+
   /** optional, ignored if startTime and endTime are specified */
   private String startId;
+
   /** optional, ignored if startTime and endTime are specified */
   private String endId;
+
   /** optional */
   private Integer limit;
+
   /** optional */
   private Order order;
+
   /** optional */
   private Boolean includeOld;
 

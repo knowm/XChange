@@ -13,7 +13,9 @@ import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** @author gnandiga */
+/**
+ * @author gnandiga
+ */
 public class BitstampMarketDataServiceRaw extends BitstampBaseService {
 
   private final BitstampV2 bitstampV2;

@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 import java.util.List;
 
-/** @author pchertalev */
+/**
+ * @author pchertalev
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class KrakenSubscriptionMessage extends KrakenEvent {
 

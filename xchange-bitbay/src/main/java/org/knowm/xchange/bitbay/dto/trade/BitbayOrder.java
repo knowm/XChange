@@ -3,7 +3,9 @@ package org.knowm.xchange.bitbay.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author Z. Dolezal */
+/**
+ * @author Z. Dolezal
+ */
 public class BitbayOrder {
 
   private final long id;

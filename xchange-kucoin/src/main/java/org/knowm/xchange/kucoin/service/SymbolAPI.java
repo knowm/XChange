@@ -1,16 +1,16 @@
 /** Copyright 2019 Mek Global Limited. */
 package org.knowm.xchange.kucoin.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
 import org.knowm.xchange.kucoin.dto.response.CurrenciesResponse;
 import org.knowm.xchange.kucoin.dto.response.CurrencyResponseV2;
@@ -60,7 +60,8 @@ public interface SymbolAPI {
    */
   @GET
   @Path("/v2/currencies/{currency}")
-  KucoinResponse<CurrencyResponseV2> getCurrencies(@PathParam("currency") String currency) throws IOException;
+  KucoinResponse<CurrencyResponseV2> getCurrencies(@PathParam("currency") String currency)
+      throws IOException;
 
   /**
    * Get the fiat price of the currencies for the available trading pairs.

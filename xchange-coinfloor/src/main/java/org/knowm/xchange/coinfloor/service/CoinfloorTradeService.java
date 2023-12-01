@@ -34,8 +34,7 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
   private static final CurrencyPair NO_CURRENCY_PAIR = null;
   private static final Collection<CurrencyPair> NO_CURRENCY_PAIR_COLLECTION =
       Collections.emptySet();
-  private static final Collection<Instrument> NO_INSTRUMENT_COLLECTION =
-          Collections.emptySet();
+  private static final Collection<Instrument> NO_INSTRUMENT_COLLECTION = Collections.emptySet();
 
   private final Collection<Instrument> allConfiguredCurrencyPairs;
 

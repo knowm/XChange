@@ -33,7 +33,9 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
-/** @author matthewdowney & frank kaiser */
+/**
+ * @author matthewdowney & frank kaiser
+ */
 public final class BitcoindeAdapters {
 
   public static final Comparator<LimitOrder> ASK_COMPARATOR =

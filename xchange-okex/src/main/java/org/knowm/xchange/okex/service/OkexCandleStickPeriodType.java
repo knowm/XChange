@@ -11,20 +11,23 @@ public enum OkexCandleStickPeriodType {
   CANDLE_STICK_4H(4 * 60, "4H");
   private final long periodInSecs;
   private final String fieldValue;
+
   OkexCandleStickPeriodType(long periodInMinutes, String fieldValue) {
     this.periodInSecs = periodInMinutes * 1000;
     this.fieldValue = fieldValue;
   }
+
   static OkexCandleStickPeriodType getPeriodTypeFromSecs(long periodInSecs) {
     OkexCandleStickPeriodType result = null;
     for (OkexCandleStickPeriodType period : OkexCandleStickPeriodType.values()) {
       if (period.periodInSecs == periodInSecs) {
-          result = period;
-          break;
+        result = period;
+        break;
       }
     }
     return result;
   }
+
   public static long[] getSupportedPeriodsInSecs() {
     long[] result = new long[OkexCandleStickPeriodType.values().length];
     int index = 0;
@@ -33,6 +36,7 @@ public enum OkexCandleStickPeriodType {
     }
     return result;
   }
+
   public String getFieldValue() {
     return fieldValue;
   }

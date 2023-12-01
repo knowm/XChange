@@ -1,7 +1,5 @@
 package org.knowm.xchange.vaultoro;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
@@ -10,6 +8,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.vaultoro.dto.account.VaultoroBalancesResponse;
 import org.knowm.xchange.vaultoro.dto.trade.VaultoroCancelOrderResponse;
 import org.knowm.xchange.vaultoro.dto.trade.VaultoroNewOrderResponse;

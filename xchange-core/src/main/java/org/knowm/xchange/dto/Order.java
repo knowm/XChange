@@ -30,26 +30,37 @@ public abstract class Order implements Serializable {
 
   /** Order type i.e. bid or ask */
   private final OrderType type;
+
   /** Amount to be ordered / amount that was ordered */
   private final BigDecimal originalAmount;
+
   /** The instrument could be a currency pair of derivative */
   private final Instrument instrument;
+
   /** An identifier set by the exchange that uniquely identifies the order */
   private final String id;
+
   /** An identifier provided by the user on placement that uniquely identifies the order */
   private final String userReference;
+
   /** The timestamp on the order according to the exchange's server, null if not provided */
   private final Date timestamp;
+
   /** Any applicable order flags */
   private final Set<IOrderFlags> orderFlags = new HashSet<>();
+
   /** Status of order during it lifecycle */
   private OrderStatus status;
+
   /** Amount to be ordered / amount that has been matched against order on the order book/filled */
   private BigDecimal cumulativeAmount;
+
   /** Weighted Average price of the fills in the order */
   private BigDecimal averagePrice;
+
   /** The total of the fees incurred for all transactions related to this order */
   private BigDecimal fee;
+
   /** The leverage to use for margin related to this order */
   private String leverage = null;
 
@@ -157,7 +168,9 @@ public abstract class Order implements Serializable {
     this.fee = fee;
   }
 
-  /** @return The type (BID or ASK) */
+  /**
+   * @return The type (BID or ASK)
+   */
   public OrderType getType() {
 
     return type;
@@ -199,7 +212,9 @@ public abstract class Order implements Serializable {
     return null;
   }
 
-  /** @return The remaining order amount */
+  /**
+   * @return The remaining order amount
+   */
   public BigDecimal getRemainingAmount() {
     if (cumulativeAmount != null && originalAmount != null) {
       return originalAmount.subtract(cumulativeAmount);
@@ -241,18 +256,24 @@ public abstract class Order implements Serializable {
     return (CurrencyPair) instrument;
   }
 
-  /** @return The instrument to be bought or sold */
+  /**
+   * @return The instrument to be bought or sold
+   */
   public Instrument getInstrument() {
     return instrument;
   }
 
-  /** @return A unique identifier (normally provided by the exchange) */
+  /**
+   * @return A unique identifier (normally provided by the exchange)
+   */
   public String getId() {
 
     return id;
   }
 
-  /** @return A unique identifier provided by the user on placement */
+  /**
+   * @return A unique identifier provided by the user on placement
+   */
   public String getUserReference() {
 
     return userReference;

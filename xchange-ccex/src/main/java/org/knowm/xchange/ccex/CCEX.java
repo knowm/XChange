@@ -1,12 +1,12 @@
 package org.knowm.xchange.ccex;
 
-import java.io.IOException;
-import java.util.Objects;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.Objects;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXGetorderbook;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXMarkets;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXTrades;

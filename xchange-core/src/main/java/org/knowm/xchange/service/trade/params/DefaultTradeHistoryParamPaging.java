@@ -4,6 +4,7 @@ package org.knowm.xchange.service.trade.params;
 public class DefaultTradeHistoryParamPaging implements TradeHistoryParamPaging {
 
   private Integer pageLength;
+
   /** 0-based page number */
   private Integer pageNumber;
 
@@ -13,7 +14,9 @@ public class DefaultTradeHistoryParamPaging implements TradeHistoryParamPaging {
     this(pageLength, 0);
   }
 
-  /** @param pageNumber 0-based page number */
+  /**
+   * @param pageNumber 0-based page number
+   */
   public DefaultTradeHistoryParamPaging(Integer pageLength, Integer pageNumber) {
 
     this.pageLength = pageLength;

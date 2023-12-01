@@ -1,7 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
-import java.util.Base64;
 import jakarta.ws.rs.HeaderParam;
+import java.util.Base64;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;

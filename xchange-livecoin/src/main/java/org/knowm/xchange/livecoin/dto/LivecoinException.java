@@ -3,7 +3,9 @@ package org.knowm.xchange.livecoin.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class LivecoinException extends HttpStatusExceptionSupport {
 
   @JsonProperty("errorCode")

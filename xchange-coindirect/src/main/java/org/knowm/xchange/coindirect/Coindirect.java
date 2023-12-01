@@ -1,13 +1,13 @@
 package org.knowm.xchange.coindirect;
 
-import java.io.IOException;
-import java.util.List;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.coindirect.dto.CoindirectException;
 import org.knowm.xchange.coindirect.dto.marketdata.CoindirectMarket;
 import org.knowm.xchange.coindirect.dto.marketdata.CoindirectOrderbook;

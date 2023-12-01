@@ -13,7 +13,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService
     implements MarketDataService {
 

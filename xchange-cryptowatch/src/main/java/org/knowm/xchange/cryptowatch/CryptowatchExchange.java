@@ -12,7 +12,9 @@ import org.knowm.xchange.cryptowatch.service.CryptowatchMarketDataService;
 import org.knowm.xchange.cryptowatch.service.CryptowatchMarketDataServiceRaw;
 import org.knowm.xchange.cryptowatch.service.CryptowatchTradeService;
 
-/** @author massi.gerardi */
+/**
+ * @author massi.gerardi
+ */
 public class CryptowatchExchange extends BaseExchange implements Exchange {
 
   @Override

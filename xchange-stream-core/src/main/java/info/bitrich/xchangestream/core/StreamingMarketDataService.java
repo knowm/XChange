@@ -29,6 +29,7 @@ public interface StreamingMarketDataService {
     }
     throw new NotYetImplementedForExchangeException("getOrderBook");
   }
+
   /**
    * Get a ticker representing the current exchange rate. Emits {@link
    * info.bitrich.xchangestream.service.exception.NotConnectedException} When not connected to the
@@ -75,19 +76,19 @@ public interface StreamingMarketDataService {
 
   /**
    * Get funding rate of specific instrument.
+   *
    * @param instrument Instrument to get the funding rate for
    * @return {@link Observable} that emits {@link FundingRate} when exchange sends the update.
-   * */
-
+   */
   default Observable<FundingRate> getFundingRate(Instrument instrument, Object... args) {
     throw new NotYetImplementedForExchangeException("getFundingRate");
   }
 
   /**
    * Get funding rates for all instruments of the platform.
+   *
    * @return {@link Observable} that emits {@link FundingRates} when exchange sends the update.
-   * */
-
+   */
   default Observable<FundingRates> getFundingRates() {
     throw new NotYetImplementedForExchangeException("getFundingRates");
   }

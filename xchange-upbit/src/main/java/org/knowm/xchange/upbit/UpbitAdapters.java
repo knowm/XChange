@@ -129,11 +129,12 @@ public final class UpbitAdapters {
     List<Balance> balances = new ArrayList<>();
     Arrays.stream(wallets.getBalances())
         .forEach(
-            balance -> balances.add(
-                new Balance(
-                    Currency.getInstance(balance.getCurrency()),
-                    balance.getBalance().add(balance.getLocked()),
-                    balance.getBalance())));
+            balance ->
+                balances.add(
+                    new Balance(
+                        Currency.getInstance(balance.getCurrency()),
+                        balance.getBalance().add(balance.getLocked()),
+                        balance.getBalance())));
     return Wallet.Builder.from(balances).build();
   }
 

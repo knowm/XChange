@@ -1,6 +1,5 @@
 package org.knowm.xchange.bybit;
 
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -40,17 +39,20 @@ public class BybitExchange extends BaseExchange {
 
   @Override
   public void remoteInit() throws IOException {
-    //initialize currency pairs
-    List<BybitInstrumentInfo> instrumentsInfo = ((BybitMarketDataServiceRaw) marketDataService).getInstrumentsInfo().getList();
+    // initialize currency pairs
+    List<BybitInstrumentInfo> instrumentsInfo =
+        ((BybitMarketDataServiceRaw) marketDataService).getInstrumentsInfo().getList();
 
     Map<Instrument, InstrumentMetaData> instruments = new HashMap<>();
     Map<String, CurrencyPair> currencyPairBySymbol = new HashMap<>();
-    instrumentsInfo.forEach(bybitInstrumentInfo -> {
+    instrumentsInfo.forEach(
+        bybitInstrumentInfo -> {
       instruments.put(
           bybitInstrumentInfo.getCurrencyPair(),
           BybitAdapters.toInstrumentMetaData(bybitInstrumentInfo));
 
-      currencyPairBySymbol.put(bybitInstrumentInfo.getSymbol(),
+      currencyPairBySymbol
+                .put(bybitInstrumentInfo.getSymbol(),
           bybitInstrumentInfo.getCurrencyPair());
     });
 
@@ -68,6 +70,5 @@ public class BybitExchange extends BaseExchange {
     }
 
     return bybitExchangeMetadata.getCurrencyPairBySymbol().get(symbol);
-
   }
 }

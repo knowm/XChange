@@ -1,8 +1,8 @@
 package org.knowm.xchange.bitfinex.v2;
 
+import jakarta.ws.rs.HeaderParam;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import jakarta.ws.rs.HeaderParam;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;
@@ -12,6 +12,7 @@ import si.mazi.rescu.RestInvocation;
 @Slf4j
 public class BitfinexHmacSignature extends BaseParamsDigest {
   private static final String UTF_8 = "UTF-8";
+
   /**
    * Constructor
    *

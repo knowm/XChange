@@ -12,7 +12,9 @@ import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferStatus;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseTradeJsonTest {
 
   @Test

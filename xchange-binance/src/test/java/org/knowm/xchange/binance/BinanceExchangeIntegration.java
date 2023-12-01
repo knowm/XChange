@@ -37,8 +37,7 @@ public class BinanceExchangeIntegration {
     exchange = ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BinanceExchange.class);
     ExchangeSpecification spec = exchange.getDefaultExchangeSpecification();
     boolean useSandbox =
-        Boolean.parseBoolean(
-            System.getProperty(Exchange.USE_SANDBOX, Boolean.FALSE.toString()));
+        Boolean.parseBoolean(System.getProperty(Exchange.USE_SANDBOX, Boolean.FALSE.toString()));
     spec.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, useSandbox);
     exchange.applySpecification(spec);
   }

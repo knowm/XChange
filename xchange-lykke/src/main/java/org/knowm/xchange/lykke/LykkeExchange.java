@@ -62,10 +62,10 @@ public class LykkeExchange extends BaseExchange implements Exchange {
             new CurrencyPair(
                 lykkeAssetPair.getName().split("/")[0], lykkeAssetPair.getQuotingAssetId());
         InstrumentMetaData currencyPairMetaData =
-                new InstrumentMetaData.Builder()
-                        .feeTiers(feeTiers.toArray(new FeeTier[feeTiers.size()]))
-                        .priceScale(lykkeAssetPair.getAccuracy())
-                        .build();
+            new InstrumentMetaData.Builder()
+                .feeTiers(feeTiers.toArray(new FeeTier[feeTiers.size()]))
+                .priceScale(lykkeAssetPair.getAccuracy())
+                .build();
         currencyPairs.put(currencyPair, currencyPairMetaData);
         currencyPairList.add(currencyPair);
       }

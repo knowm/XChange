@@ -7,10 +7,11 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 
 @ToString
 public class KucoinTickerEvent {
-    @JsonProperty("data") @JsonDeserialize(converter = KucoinTickerConverter.class)
-    public Ticker ticker;
+  @JsonProperty("data")
+  @JsonDeserialize(converter = KucoinTickerConverter.class)
+  public Ticker ticker;
 
-    public Ticker getTicker() {
-        return ticker;
-    }
+  public Ticker getTicker() {
+    return ticker;
+  }
 }

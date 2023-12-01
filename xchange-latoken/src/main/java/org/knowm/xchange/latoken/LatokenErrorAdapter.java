@@ -7,7 +7,9 @@ import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.latoken.dto.LatokenException;
 
-/** @author Ezer */
+/**
+ * @author Ezer
+ */
 public final class LatokenErrorAdapter {
 
   private LatokenErrorAdapter() {}

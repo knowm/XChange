@@ -15,7 +15,9 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexGenerateNewAddressResponse;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author Zach Holmes */
+/**
+ * @author Zach Holmes
+ */
 public class PoloniexAccountServiceRaw extends PoloniexBaseService {
 
   /**
@@ -78,7 +80,9 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
     }
   }
 
-  /** @param paymentId For XMR withdrawals, you may optionally specify "paymentId". */
+  /**
+   * @param paymentId For XMR withdrawals, you may optionally specify "paymentId".
+   */
   public String withdraw(
       Currency currency, BigDecimal amount, String address, @Nullable String paymentId)
       throws IOException {

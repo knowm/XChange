@@ -79,7 +79,8 @@ public class StopOrderTest {
     final StopOrder.Intention intention = StopOrder.Intention.TAKE_PROFIT;
     final BigDecimal trailValue = new BigDecimal("50");
 
-    final StopOrder original = new StopOrder.Builder(type,currencyPair)
+    final StopOrder original =
+        new StopOrder.Builder(type, currencyPair)
             .originalAmount(originalAmount)
             .id(id)
             .timestamp(timestamp)
@@ -118,7 +119,8 @@ public class StopOrderTest {
     final StopOrder.Intention intention = StopOrder.Intention.TAKE_PROFIT;
     final BigDecimal trailValue = new BigDecimal("50");
 
-    final StopOrder original = new StopOrder.Builder(type,currencyPair)
+    final StopOrder original =
+        new StopOrder.Builder(type, currencyPair)
             .originalAmount(originalAmount)
             .id(id)
             .timestamp(timestamp)

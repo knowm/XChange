@@ -1,7 +1,5 @@
 package org.knowm.xchange.yobit;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -11,6 +9,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.yobit.dto.BaseYoBitResponse;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBooksReturn;
