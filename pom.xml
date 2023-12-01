@@ -563,9 +563,9 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>com.coveo</groupId>
+        <groupId>com.spotify.fmt</groupId>
         <artifactId>fmt-maven-plugin</artifactId>
-        <version>2.13</version>
+        <version>2.21.1</version>
         <configuration>
           <filesNamePattern>.*\.java</filesNamePattern>
           <skip>false</skip>

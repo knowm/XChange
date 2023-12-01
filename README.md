@@ -185,14 +185,14 @@ The current snapshot version is:
 
 Instruction                 | Command
 --------------------------------- | ------------------------ 
-run unit tests                    | <kbd>mvn clean test</kbd>
-run unit and integration tests    | <kbd>mvn clean verify -DskipIntegrationTests=false</kbd>     
-install in local Maven repo       | <kbd>mvn clean install</kbd>
-create project javadocs           | <kbd>mvn javadoc:aggregate</kbd>
-generate dependency tree          | <kbd>mvn dependency:tree</kbd>
-check for dependency updates      | <kbd>mvn versions:display-dependency-updates</kbd>
-check for plugin updates          | <kbd>mvn versions:display-plugin-updates</kbd>
-code format                       | <kbd>mvn com.coveo:fmt-maven-plugin:format</kbd>
+run unit tests                    | `mvn clean test`
+run unit and integration tests    | `mvn clean verify -DskipIntegrationTests=false`    
+install in local Maven repo       | `mvn clean install`
+create project javadocs           | `mvn javadoc:aggregate`
+generate dependency tree          | `mvn dependency:tree`
+check for dependency updates      | `mvn versions:display-dependency-updates`
+check for plugin updates          | `mvn versions:display-plugin-updates`
+code format                       | `mvn com.spotify.fmt:fmt-maven-plugin:format`
 
 ## Bugs
 
