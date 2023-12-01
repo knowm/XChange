@@ -4,15 +4,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.ProductSubscription;
+import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 /** Created by luca on 5/3/17. */
 public class CoinbaseProWebSocketSubscriptionMessageTest {
 
   @Test
-  public void testWebSocketMessageSerialization() throws JsonProcessingException {
+  public void testWebSocketMessageSerialization() throws JsonProcessingException, JSONException {
 
     ProductSubscription productSubscription =
         ProductSubscription.create()
@@ -28,13 +31,13 @@ public class CoinbaseProWebSocketSubscriptionMessageTest {
 
     String serialized = mapper.writeValueAsString(message);
 
-    Assert.assertEquals(
+    JSONAssert.assertEquals(
         "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2\",\"product_ids\":[\"BTC-USD\"]}]}",
-        serialized);
+        serialized, JSONCompareMode.NON_EXTENSIBLE);
   }
 
   @Test
-  public void testWebSocketMessageSerializationL3Orderbook() throws JsonProcessingException {
+  public void testWebSocketMessageSerializationL3Orderbook() throws JsonProcessingException, JSONException {
 
     ProductSubscription productSubscription =
         ProductSubscription.create()
@@ -50,13 +53,13 @@ public class CoinbaseProWebSocketSubscriptionMessageTest {
 
     String serialized = mapper.writeValueAsString(message);
 
-    Assert.assertEquals(
+    JSONAssert.assertEquals(
         "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"full\",\"product_ids\":[\"BTC-USD\"]}]}",
-        serialized);
+        serialized, JSONCompareMode.NON_EXTENSIBLE);
   }
 
   @Test
-  public void testWebSocketMessageSerializationBatch() throws JsonProcessingException {
+  public void testWebSocketMessageSerializationBatch() throws JsonProcessingException, JSONException {
 
     ProductSubscription productSubscription =
             ProductSubscription.create()
@@ -72,8 +75,8 @@ public class CoinbaseProWebSocketSubscriptionMessageTest {
 
     String serialized = mapper.writeValueAsString(message);
 
-    Assert.assertEquals(
+    JSONAssert.assertEquals(
             "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2_batch\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]}]}",
-            serialized);
+            serialized, JSONCompareMode.NON_EXTENSIBLE);
   }
 }
