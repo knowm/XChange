@@ -29,12 +29,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.tomakehurst</groupId>
-            <artifactId>wiremock-jre8</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-ratelimiter</artifactId>
             <version>${version.resilience4j}</version>
@@ -74,6 +68,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>${version.mockito}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock</artifactId>
             <scope>test</scope>
         </dependency>
 
