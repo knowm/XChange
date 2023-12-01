@@ -425,6 +425,7 @@ public final class BitstampAdapters {
         .counterMinimumAmount(minOrder)
         .priceScale(pairInfo.getCounterDecimals())
         .volumeScale(pairInfo.getBaseDecimals())
+        .marketOrderEnabled(pairInfo.isMarketOrdersEnabled())
         .build();
   }
 
