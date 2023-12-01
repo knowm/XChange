@@ -25,6 +25,7 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
   protected final String apiKey;
   protected final BinanceAuthenticated binance;
   protected final BinanceFuturesAuthenticated binanceFutures;
+  protected final BinanceFuturesAuthenticated inverseBinanceFutures;
   protected final ParamsDigest signatureCreator;
 
   protected BinanceBaseService(
@@ -36,10 +37,22 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
                             BinanceAuthenticated.class, exchange.getExchangeSpecification())
             .build();
     ExchangeSpecification futuresSpec = exchange.getDefaultExchangeSpecification();
-    futuresSpec.setSslUri((exchange.usingSandbox()) ? BinanceExchange.SANDBOX_FUTURES_URL: BinanceExchange.FUTURES_URL);
+    ExchangeSpecification inverseFuturesSpec= futuresSpec;
+    futuresSpec.setSslUri((exchange.usingSandbox()) ? BinanceExchange.SANDBOX_FUTURES_URL: (exchange.isPortfolioMarginEnabled()) ? BinanceExchange.PORTFOLIO_MARGIN_URL : BinanceExchange.FUTURES_URL);
+    if(!exchange.isPortfolioMarginEnabled()) {
+      inverseFuturesSpec.setSslUri((exchange.usingSandbox()) ?
+          BinanceExchange.SANDBOX_FUTURES_URL :
+          BinanceExchange.INVERSE_FUTURES_URL);
+      this.inverseBinanceFutures = ExchangeRestProxyBuilder.forInterface(
+              BinanceFuturesAuthenticated.class, inverseFuturesSpec)
+          .build();
+    } else{
+      this.inverseBinanceFutures=null;
+    }
     this.binanceFutures = ExchangeRestProxyBuilder.forInterface(
                     BinanceFuturesAuthenticated.class, futuresSpec)
             .build();
+
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         BinanceHmacDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());

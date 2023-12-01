@@ -66,7 +66,7 @@ public class KrakenFuturesPublicDataTest {
     @Test
     public void checkFundingRate() throws IOException {
         FundingRate fundingRate = exchange.getMarketDataService().getFundingRate(instrument);
-        assertThat(fundingRate.getInstrument()).isEqualTo(instrument);
+        assertThat(fundingRate.getInstrument().toString()).isEqualTo("PF_XBT/USD/PERP");
         assertThat(fundingRate.getFundingRateEffectiveInMinutes()).isLessThan(61);
         assertThat(fundingRate.getFundingRate1h()).isNotNull();
         assertThat(fundingRate.getFundingRate8h()).isNotNull();
