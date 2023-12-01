@@ -83,6 +83,128 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures{
             throws IOException, BinanceException;
 
     /**
+     * Send in a new inverse futures order
+     *
+     * @param symbol
+     * @param side
+     * @param type
+     * @param timeInForce
+     * @param quantity
+     * @param price optional, must be provided for limit orders only
+     * @param newClientOrderId optional, a unique id for the order. Automatically generated if not
+     *     sent.
+     * @param stopPrice optional, used with stop orders
+     * @param newOrderRespType optional, MARKET and LIMIT order types default to FULL, all other
+     *     orders default to ACK
+     * @param recvWindow optional
+     * @param timestamp
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     * @see <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">New order - Spot
+     *     API docs -</a>
+     */
+    @POST
+    @Path("dapi/v1/order")
+    BinanceFutureNewOrder newInverseOrder(
+        @FormParam("symbol") String symbol,
+        @FormParam("side") OrderSide side,
+        @FormParam("type") OrderType type,
+        @FormParam("timeInForce") TimeInForce timeInForce,
+        @FormParam("quantity") BigDecimal quantity,
+        @FormParam("reduceOnly") boolean reduceOnly,
+        @FormParam("price") BigDecimal price,
+        @FormParam("newClientOrderId") String newClientOrderId,
+        @FormParam("stopPrice") BigDecimal stopPrice,
+        @FormParam("closePosition") boolean closePosition,
+        @FormParam("activationPrice") BigDecimal activationPrice,
+        @FormParam("callbackRate") BigDecimal callbackRate,
+        @FormParam("newOrderRespType") BinanceNewOrder.NewOrderResponseType newOrderRespType,
+        @FormParam("recvWindow") Long recvWindow,
+        @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
+
+    /**
+     * Send in a new USD based (linear) futures order to portfolio margin engine
+     *
+     * @param symbol
+     * @param side
+     * @param type
+     * @param timeInForce
+     * @param quantity
+     * @param price optional, must be provided for limit orders only
+     * @param newClientOrderId optional, a unique id for the order. Automatically generated if not
+     *     sent.
+     * @param newOrderRespType optional, MARKET and LIMIT order types default to FULL, all other
+     *     orders default to ACK
+     * @param recvWindow optional
+     * @param timestamp
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     * @see <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">New order - Spot
+     *     API docs -</a>
+     */
+    @POST
+    @Path("papi/v1/um/order")
+    BinanceFutureNewOrder newPortfolioMarginLinearOrder(
+        @FormParam("symbol") String symbol,
+        @FormParam("side") OrderSide side,
+        @FormParam("type") OrderType type,
+        @FormParam("timeInForce") TimeInForce timeInForce,
+        @FormParam("quantity") BigDecimal quantity,
+        @FormParam("reduceOnly") boolean reduceOnly,
+        @FormParam("price") BigDecimal price,
+        @FormParam("newClientOrderId") String newClientOrderId,
+        @FormParam("newOrderRespType") BinanceNewOrder.NewOrderResponseType newOrderRespType,
+        @FormParam("recvWindow") Long recvWindow,
+        @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
+
+    /**
+     * Send in a new coin based (inverse) futures order to portfolio margin engine
+     *
+     * @param symbol
+     * @param side
+     * @param type
+     * @param timeInForce
+     * @param quantity
+     * @param price optional, must be provided for limit orders only
+     * @param newClientOrderId optional, a unique id for the order. Automatically generated if not
+     *     sent.
+     * @param newOrderRespType optional, MARKET and LIMIT order types default to FULL, all other
+     *     orders default to ACK
+     * @param recvWindow optional
+     * @param timestamp
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     * @see <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">New order - Spot
+     *     API docs -</a>
+     */
+    @POST
+    @Path("papi/v1/cm/order")
+    BinanceFutureNewOrder newPortfolioMarginInverseOrder(
+        @FormParam("symbol") String symbol,
+        @FormParam("side") OrderSide side,
+        @FormParam("type") OrderType type,
+        @FormParam("timeInForce") TimeInForce timeInForce,
+        @FormParam("quantity") BigDecimal quantity,
+        @FormParam("reduceOnly") boolean reduceOnly,
+        @FormParam("price") BigDecimal price,
+        @FormParam("newClientOrderId") String newClientOrderId,
+        @FormParam("newOrderRespType") BinanceNewOrder.NewOrderResponseType newOrderRespType,
+        @FormParam("recvWindow") Long recvWindow,
+        @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
+
+    /**
      * Cancel an active futures order.
      *
      * @param symbol
@@ -110,6 +232,88 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures{
             throws IOException, BinanceException;
 
     /**
+     * Cancel an active inverse futures order.
+     *
+     * @param symbol
+     * @param orderId optional
+     * @param origClientOrderId optional
+     *     generated by default.
+     * @param recvWindow optional
+     * @param timestamp
+     * @param apiKey
+     * @param signature
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @DELETE
+    @Path("dapi/v1/order")
+    BinanceCancelledOrder cancelInverseFutureOrder(
+        @QueryParam("symbol") String symbol,
+        @QueryParam("orderId") long orderId,
+        @QueryParam("origClientOrderId") String origClientOrderId,
+        @QueryParam("recvWindow") Long recvWindow,
+        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
+
+    /**
+     * Cancel an active inverse portfolio margin futures order.
+     *
+     * @param symbol
+     * @param orderId optional
+     * @param origClientOrderId optional
+     *     generated by default.
+     * @param recvWindow optional
+     * @param timestamp
+     * @param apiKey
+     * @param signature
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @DELETE
+    @Path("papi/v1/cm/order")
+    BinanceCancelledOrder cancelPortfolioMarginInverseFutureOrder(
+        @QueryParam("symbol") String symbol,
+        @QueryParam("orderId") long orderId,
+        @QueryParam("origClientOrderId") String origClientOrderId,
+        @QueryParam("recvWindow") Long recvWindow,
+        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
+
+
+    /**
+     * Cancel an active portfolio margin futures order.
+     *
+     * @param symbol
+     * @param orderId optional
+     * @param origClientOrderId optional
+     *     generated by default.
+     * @param recvWindow optional
+     * @param timestamp
+     * @param apiKey
+     * @param signature
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @DELETE
+    @Path("papi/v1/um/order")
+    BinanceCancelledOrder cancelPortfolioMarginFutureOrder(
+        @QueryParam("symbol") String symbol,
+        @QueryParam("orderId") long orderId,
+        @QueryParam("origClientOrderId") String origClientOrderId,
+        @QueryParam("recvWindow") Long recvWindow,
+        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
+
+    /**
      * Get future open orders on a symbol.
      *
      * @param symbol optional
@@ -128,6 +332,66 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures{
             @HeaderParam(X_MBX_APIKEY) String apiKey,
             @QueryParam(SIGNATURE) ParamsDigest signature)
             throws IOException, BinanceException;
+
+    /**
+     * Get future open orders on a symbol.
+     *
+     * @param symbol optional
+     * @param recvWindow optional
+     * @param timestamp
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @GET
+    @Path("dapi/v1/openOrders")
+    List<BinanceOrder> futureOpenInverseOrders(
+        @QueryParam("symbol") String symbol,
+        @QueryParam("recvWindow") Long recvWindow,
+        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
+
+    /**
+     * Get future open portfolio margin orders on a symbol.
+     *
+     * @param symbol optional
+     * @param recvWindow optional
+     * @param timestamp
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @GET
+    @Path("/papi/v1/um/openOrders ")
+    List<BinanceOrder> futureOpenPortfolioMarginOrders(
+        @QueryParam("symbol") String symbol,
+        @QueryParam("recvWindow") Long recvWindow,
+        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
+
+    /**
+     * Get future open portfolio margin orders on a symbol.
+     *
+     * @param symbol optional
+     * @param recvWindow optional
+     * @param timestamp
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @GET
+    @Path("/papi/v1/cm/openOrders")
+    List<BinanceOrder> futureOpenPortfolioMarginInverseOrders(
+        @QueryParam("symbol") String symbol,
+        @QueryParam("recvWindow") Long recvWindow,
+        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
 
     /**
      * Get trades for a specific account and symbol.
@@ -188,6 +452,86 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures{
             @QueryParam(SIGNATURE) ParamsDigest signature)
             throws IOException, BinanceException;
 
+    /**
+     * Check an inverse order's status.<br>
+     * Either orderId or origClientOrderId must be sent.
+     *
+     * @param symbol
+     * @param orderId optional
+     * @param origClientOrderId optional
+     * @param recvWindow optional
+     * @param timestamp
+     * @param apiKey
+     * @param signature
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @GET
+    @Path("dapi/v1/order")
+    BinanceOrder futureInverseOrderStatus(
+        @QueryParam("symbol") String symbol,
+        @QueryParam("orderId") long orderId,
+        @QueryParam("origClientOrderId") String origClientOrderId,
+        @QueryParam("recvWindow") Long recvWindow,
+        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
+
+    /**
+     * Check a portfolio margin order's status.<br>
+     * Either orderId or origClientOrderId must be sent.
+     *
+     * @param symbol
+     * @param orderId optional
+     * @param origClientOrderId optional
+     * @param recvWindow optional
+     * @param timestamp
+     * @param apiKey
+     * @param signature
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @GET
+    @Path("/papi/v1/um/order")
+    BinanceOrder futurePortfolioMarginOrderStatus(
+        @QueryParam("symbol") String symbol,
+        @QueryParam("orderId") long orderId,
+        @QueryParam("origClientOrderId") String origClientOrderId,
+        @QueryParam("recvWindow") Long recvWindow,
+        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
+
+    /**
+     * Check a portfolio margin inverse/coin margin order's status.<br>
+     * Either orderId or origClientOrderId must be sent.
+     *
+     * @param symbol
+     * @param orderId optional
+     * @param origClientOrderId optional
+     * @param recvWindow optional
+     * @param timestamp
+     * @param apiKey
+     * @param signature
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    @GET
+    @Path("/papi/v1/cm/order")
+    BinanceOrder futurePortfolioMarginInverseOrderStatus(
+        @QueryParam("symbol") String symbol,
+        @QueryParam("orderId") long orderId,
+        @QueryParam("origClientOrderId") String origClientOrderId,
+        @QueryParam("recvWindow") Long recvWindow,
+        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
     /**
      * Cancels all active orders on a symbol. This includes OCO orders.
      *
