@@ -8,7 +8,9 @@ import org.knowm.xchange.bitbay.v3.dto.trade.BitbayUserTradesQuery;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class BitbayTradeServiceRaw extends BitbayBaseService {
 
   BitbayTradeServiceRaw(Exchange exchange) {

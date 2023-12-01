@@ -7,7 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.junit.Test;
 
-/** @author kaiserfr */
+/**
+ * @author kaiserfr
+ */
 public class RFC3339DateTimeParseTest {
 
   private String rfc3339timestamp;

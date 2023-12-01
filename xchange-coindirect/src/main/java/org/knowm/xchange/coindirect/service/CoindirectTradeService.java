@@ -97,7 +97,7 @@ public class CoindirectTradeService extends CoindirectTradeServiceRaw implements
                   if (t.executedAmount == null || t.executedAmount.signum() == 0) {
                     return null;
                   }
-                  return new UserTrade.Builder()
+                  return UserTrade.builder()
                       .type(CoindirectAdapters.convert(t.side))
                       .originalAmount(t.executedAmount)
                       .currencyPair(CoindirectAdapters.toCurrencyPair(t.symbol))

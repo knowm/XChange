@@ -16,7 +16,9 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** @author makarid, pchertalev */
+/**
+ * @author makarid, pchertalev
+ */
 public class KrakenStreamingMarketDataService implements StreamingMarketDataService {
 
   private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingMarketDataService.class);
@@ -69,11 +71,11 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
     if (spreadForTicker) {
       String channelName = getChannelName(KrakenSubscriptionName.spread, currencyPair);
       return subscribe(channelName, MIN_DATA_ARRAY_SIZE, null)
-              .map(arrayNode -> KrakenStreamingAdapters.adaptSpreadMessage(currencyPair, arrayNode));
+          .map(arrayNode -> KrakenStreamingAdapters.adaptSpreadMessage(currencyPair, arrayNode));
     } else {
       String channelName = getChannelName(KrakenSubscriptionName.ticker, currencyPair);
       return subscribe(channelName, MIN_DATA_ARRAY_SIZE, null)
-              .map(arrayNode -> KrakenStreamingAdapters.adaptTickerMessage(currencyPair, arrayNode));
+          .map(arrayNode -> KrakenStreamingAdapters.adaptTickerMessage(currencyPair, arrayNode));
     }
   }
 

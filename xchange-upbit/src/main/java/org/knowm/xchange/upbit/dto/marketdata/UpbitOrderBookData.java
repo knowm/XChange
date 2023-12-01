@@ -3,7 +3,9 @@ package org.knowm.xchange.upbit.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author interwater */
+/**
+ * @author interwater
+ */
 public class UpbitOrderBookData {
 
   private final BigDecimal askPrice;

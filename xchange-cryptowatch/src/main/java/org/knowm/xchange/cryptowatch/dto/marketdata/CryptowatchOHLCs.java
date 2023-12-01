@@ -17,7 +17,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
-/** @author massi.gerardi */
+/**
+ * @author massi.gerardi
+ */
 @JsonDeserialize(using = CryptowatchOHLCs.CryptowatchOHLCsDeserializer.class)
 @Getter
 @AllArgsConstructor

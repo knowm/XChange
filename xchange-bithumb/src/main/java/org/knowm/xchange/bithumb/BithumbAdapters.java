@@ -179,7 +179,7 @@ public final class BithumbAdapters {
   private static UserTrade adaptUserTrade(
       BithumbUserTransaction bithumbTransaction, CurrencyPair currencyPair) {
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .currencyPair(currencyPair)
         .originalAmount(bithumbTransaction.getUnits())
         .type(adaptTransactionSearch(bithumbTransaction.getSearch()))

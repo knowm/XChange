@@ -9,7 +9,9 @@ import org.knowm.xchange.luno.service.LunoMarketDataService;
 import org.knowm.xchange.luno.service.LunoTradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author Benedikt Bünz */
+/**
+ * @author Benedikt Bünz
+ */
 public class LunoExchange extends BaseExchange implements Exchange {
 
   @Override

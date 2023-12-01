@@ -6,10 +6,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import jakarta.ws.rs.core.Response.Status;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import jakarta.ws.rs.core.Response.Status;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -30,9 +30,8 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
                 aResponse()
                     .withStatus(Status.OK.getStatusCode())
                     .withHeader("Content-Type", "application/json")
-                    .withBody(IOUtils.resourceToString("/getTicker.json5", StandardCharsets.UTF_8))
-            )
-    );
+                    .withBody(
+                        IOUtils.resourceToString("/getTicker.json5", StandardCharsets.UTF_8))));
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USDT);
 
@@ -50,7 +49,5 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
     assertThat(ticker.getBidSize()).isNull();
     assertThat(ticker.getAskSize()).isNull();
     assertThat(ticker.getPercentageChange()).isEqualTo(new BigDecimal("-0.015551"));
-
   }
-
 }

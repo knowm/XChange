@@ -16,10 +16,13 @@ import lombok.Value;
 public class BitfinexFundingRawOrder {
   /** Order ID */
   long orderId;
+
   /** Period level */
   int period;
+
   /** Rate level */
   BigDecimal rate;
+
   /** Total amount available at that price level. if AMOUNT > 0 then ask else bid. */
   BigDecimal amount;
 }

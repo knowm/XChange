@@ -38,6 +38,7 @@ import org.knowm.xchange.instrument.Instrument;
 public class FtxStreamingAdapters {
 
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+
   /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
   private static final ThreadLocal<DecimalFormat> dfp =
       ThreadLocal.withInitial(
@@ -223,7 +224,7 @@ public class FtxStreamingAdapters {
     JsonNode data = jsonNode.get("data");
 
     Builder userTradeBuilder =
-        new Builder()
+        UserTrade.builder()
             .currencyPair(new CurrencyPair(data.get("market").asText()))
             .type("buy".equals(data.get("side").asText()) ? OrderType.BID : OrderType.ASK)
             .instrument(new CurrencyPair(data.get("market").asText()))

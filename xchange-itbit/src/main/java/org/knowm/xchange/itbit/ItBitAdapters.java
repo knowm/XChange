@@ -258,7 +258,7 @@ public final class ItBitAdapters {
       Currency feeCcy = adaptCcy(ccy == null ? itBitTrade.getRebateCurrency() : ccy);
 
       UserTrade userTrade =
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(orderType)
               .originalAmount(totalQuantity)
               .currencyPair(currencyPair)

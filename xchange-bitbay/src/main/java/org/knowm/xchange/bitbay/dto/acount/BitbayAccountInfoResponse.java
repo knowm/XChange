@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
 
-/** @author Z. Dolezal */
+/**
+ * @author Z. Dolezal
+ */
 public class BitbayAccountInfoResponse extends BitbayBaseResponse {
 
   private final Map<String, BitbayBalance> bitbayBalances;

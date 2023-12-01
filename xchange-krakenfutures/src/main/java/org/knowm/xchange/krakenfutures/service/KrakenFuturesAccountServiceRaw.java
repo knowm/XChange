@@ -2,10 +2,12 @@ package org.knowm.xchange.krakenfutures.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.krakenfutures.dto.account.KrakenFuturesAccounts;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.krakenfutures.dto.account.KrakenFuturesAccounts;
 
-/** @author Jean-Christophe Laruelle */
+/**
+ * @author Jean-Christophe Laruelle
+ */
 public class KrakenFuturesAccountServiceRaw extends KrakenFuturesBaseService {
 
   /**

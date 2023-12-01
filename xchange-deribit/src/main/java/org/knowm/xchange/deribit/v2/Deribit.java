@@ -1,13 +1,13 @@
 package org.knowm.xchange.deribit.v2;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 import org.knowm.xchange.deribit.v2.dto.DeribitException;
 import org.knowm.xchange.deribit.v2.dto.DeribitResponse;
 import org.knowm.xchange.deribit.v2.dto.GrantType;

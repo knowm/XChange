@@ -8,52 +8,52 @@ import org.knowm.xchange.kucoin.KucoinAdapters;
 @ToString
 public class KucoinOrderEventData {
 
-    @JsonProperty("symbol")
-    public String symbol;
+  @JsonProperty("symbol")
+  public String symbol;
 
-    @JsonProperty("orderType")
-    public String orderType;
+  @JsonProperty("orderType")
+  public String orderType;
 
-    @JsonProperty("side")
-    public String side;
+  @JsonProperty("side")
+  public String side;
 
-    @JsonProperty("orderId")
-    public String orderId;
+  @JsonProperty("orderId")
+  public String orderId;
 
-    @JsonProperty("type")
-    public String type;
+  @JsonProperty("type")
+  public String type;
 
-    @JsonProperty("orderTime")
-    public long orderTime;
+  @JsonProperty("orderTime")
+  public long orderTime;
 
-    @JsonProperty("size")
-    public String size;
+  @JsonProperty("size")
+  public String size;
 
-    @JsonProperty("filledSize")
-    public String filledSize;
+  @JsonProperty("filledSize")
+  public String filledSize;
 
-    @JsonProperty("price")
-    public String price;
+  @JsonProperty("price")
+  public String price;
 
-    @JsonProperty("clientOid")
-    public String clientOid;
+  @JsonProperty("clientOid")
+  public String clientOid;
 
-    @JsonProperty("remainSize")
-    public String remainSize;
+  @JsonProperty("remainSize")
+  public String remainSize;
 
-    @JsonProperty("matchPrice")
-    public String matchPrice;
+  @JsonProperty("matchPrice")
+  public String matchPrice;
 
-    @JsonProperty("matchSize")
-    public String matchSize;
+  @JsonProperty("matchSize")
+  public String matchSize;
 
-    @JsonProperty("status")
-    public String status;
+  @JsonProperty("status")
+  public String status;
 
-    @JsonProperty("ts")
-    public long timestamp;
+  @JsonProperty("ts")
+  public long timestamp;
 
-    public CurrencyPair getCurrencyPair() {
-        return KucoinAdapters.adaptCurrencyPair(symbol);
-    }
+  public CurrencyPair getCurrencyPair() {
+    return KucoinAdapters.adaptCurrencyPair(symbol);
+  }
 }

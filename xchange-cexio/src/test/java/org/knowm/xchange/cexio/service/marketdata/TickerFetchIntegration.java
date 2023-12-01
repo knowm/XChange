@@ -21,7 +21,9 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 import org.knowm.xchange.service.marketdata.params.InstrumentsParams;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class TickerFetchIntegration {
 
   private static Exchange exchange;

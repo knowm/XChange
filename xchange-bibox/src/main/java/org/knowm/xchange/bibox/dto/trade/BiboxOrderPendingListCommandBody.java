@@ -2,7 +2,9 @@ package org.knowm.xchange.bibox.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public class BiboxOrderPendingListCommandBody {
 
   /** the currency pair */

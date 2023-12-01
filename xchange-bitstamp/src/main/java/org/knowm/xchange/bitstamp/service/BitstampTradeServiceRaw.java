@@ -16,7 +16,9 @@ import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author gnandiga */
+/**
+ * @author gnandiga
+ */
 public class BitstampTradeServiceRaw extends BitstampBaseService {
 
   private static final String API_VERSION = "v2";

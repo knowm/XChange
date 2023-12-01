@@ -12,7 +12,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author massi.gerardi */
+/**
+ * @author massi.gerardi
+ */
 public class CryptowatchMarketDataService extends CryptowatchMarketDataServiceRaw
     implements MarketDataService {
 

@@ -8,6 +8,7 @@ public class CoinbaseProWithdrawFundsRequest {
   public final @JsonProperty("currency") String currency;
   public final @JsonProperty("crypto_address") String address;
   public final @JsonProperty("destination_tag") String destinationTag;
+
   /**
    * A boolean flag to opt out of using a destination tag for currencies that support one. This is
    * required when not providing a destination tag.

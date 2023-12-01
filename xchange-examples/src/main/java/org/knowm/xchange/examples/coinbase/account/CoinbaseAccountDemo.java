@@ -24,7 +24,9 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.coinbase.CoinbaseDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseAccountDemo {
 
   public static void main(String[] args) throws IOException {

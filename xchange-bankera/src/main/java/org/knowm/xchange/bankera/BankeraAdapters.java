@@ -188,7 +188,7 @@ public final class BankeraAdapters {
               CurrencyPair pair = new CurrencyPair(currencies[0], currencies[1]);
               Currency feeCurrency = new Currency(currencies[1]);
               tradeList.add(
-                  new UserTrade.Builder()
+                  UserTrade.builder()
                       .type(trade.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK)
                       .originalAmount(new BigDecimal(trade.getAmount()))
                       .currencyPair(pair)

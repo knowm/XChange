@@ -31,7 +31,9 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** @author Nikita Belenkiy on 18/05/2018. */
+/**
+ * @author Nikita Belenkiy on 18/05/2018.
+ */
 public class BitmexOrderIT {
   private CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
   private static final Logger LOG = LoggerFactory.getLogger(BitmexOrderIT.class);

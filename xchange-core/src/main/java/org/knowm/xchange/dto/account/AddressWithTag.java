@@ -12,5 +12,4 @@ public class AddressWithTag {
   String address;
 
   String addressTag;
-
 }

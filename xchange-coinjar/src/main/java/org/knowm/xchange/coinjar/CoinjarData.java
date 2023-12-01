@@ -1,11 +1,11 @@
 package org.knowm.xchange.coinjar;
 
-import java.io.IOException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import java.io.IOException;
 import org.knowm.xchange.coinjar.dto.data.CoinjarOrderBook;
 import org.knowm.xchange.coinjar.dto.data.CoinjarTicker;
 

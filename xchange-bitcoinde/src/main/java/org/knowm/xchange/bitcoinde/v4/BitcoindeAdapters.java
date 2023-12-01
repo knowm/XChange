@@ -394,7 +394,7 @@ public final class BitcoindeAdapters {
               : trade.getCreatedAt();
 
       result.add(
-          new UserTrade.Builder()
+          UserTrade.builder()
               .id(trade.getTradeId())
               .timestamp(timestamp)
               .currencyPair(trade.getTradingPair())

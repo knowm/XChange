@@ -27,6 +27,7 @@ public class OkexExchangeIntegration {
   private static final String API_KEY = System.getenv("okx_apikey");
   private static final String SECRET_KEY = System.getenv("okx_secretkey");
   private static final String PASSPHRASE = System.getenv("okx_passphrase");
+
   @Test
   public void testCreateExchangeShouldApplyDefaultSpecification() {
     ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
@@ -59,18 +60,18 @@ public class OkexExchangeIntegration {
 
   @Test
   public void testMetaData() {
-      final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(OkexExchange.class);
+    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(OkexExchange.class);
 
-      exchange.getExchangeMetaData().getInstruments().entrySet().forEach(System.out::println);
+    exchange.getExchangeMetaData().getInstruments().entrySet().forEach(System.out::println);
   }
 
   @Test
   public void testOpenPosition() throws Exception {
     if (API_KEY != null && SECRET_KEY != null && PASSPHRASE != null) {
       ExchangeSpecification spec =
-              ExchangeFactory.INSTANCE
-                      .createExchange(OkexExchange.class)
-                      .getDefaultExchangeSpecification();
+          ExchangeFactory.INSTANCE
+              .createExchange(OkexExchange.class)
+              .getDefaultExchangeSpecification();
       spec.setApiKey(API_KEY);
       spec.setSecretKey(SECRET_KEY);
       spec.setExchangeSpecificParametersItem(OkexExchange.PARAM_PASSPHRASE, PASSPHRASE);

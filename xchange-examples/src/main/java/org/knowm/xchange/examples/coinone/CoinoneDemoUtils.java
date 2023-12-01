@@ -5,7 +5,9 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinone.CoinoneExchange;
 
-/** @author sumdeha */
+/**
+ * @author sumdeha
+ */
 public class CoinoneDemoUtils {
   public static Exchange createExchange() {
 

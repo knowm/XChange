@@ -3,7 +3,9 @@ package org.knowm.xchange.bitcoincharts.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public final class BitcoinChartsTicker {
 
   private final BigDecimal ask;

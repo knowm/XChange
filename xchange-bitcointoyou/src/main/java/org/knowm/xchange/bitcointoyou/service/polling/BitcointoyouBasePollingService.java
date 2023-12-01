@@ -9,7 +9,9 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
 
-/** @author Jonathas Carrijo */
+/**
+ * @author Jonathas Carrijo
+ */
 public class BitcointoyouBasePollingService extends BaseExchangeService implements BaseService {
 
   protected final Bitcointoyou bitcointoyou;

@@ -1,12 +1,12 @@
 package org.knowm.xchange.coingi;
 
-import java.io.IOException;
-import java.util.List;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.coingi.dto.CoingiException;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiOrderBook;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiRollingAggregation;

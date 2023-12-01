@@ -146,7 +146,7 @@ public final class BittrexAdapters {
     return bittrexUserTrades.stream()
         .map(
             bittrexOrder ->
-                new UserTrade.Builder()
+                UserTrade.builder()
                     .type(
                         BittrexConstants.BUY.equalsIgnoreCase(bittrexOrder.getDirection())
                             ? OrderType.BID
@@ -246,8 +246,7 @@ public final class BittrexAdapters {
       ExchangeMetaData metaData) {
     List<CurrencyPair> currencyPairs = BittrexAdapters.adaptCurrencyPairs(rawSymbols);
     for (CurrencyPair currencyPair : currencyPairs) {
-      InstrumentMetaData defaultCurrencyPairMetaData =
-          metaData.getInstruments().get(currencyPair);
+      InstrumentMetaData defaultCurrencyPairMetaData = metaData.getInstruments().get(currencyPair);
       BigDecimal resultingFee = null;
       // Prioritize dynamic fee
       if (dynamicTradingFees != null) {
@@ -264,18 +263,17 @@ public final class BittrexAdapters {
       InstrumentMetaData newCurrencyPairMetaData;
       if (defaultCurrencyPairMetaData != null) {
         newCurrencyPairMetaData =
-                new InstrumentMetaData.Builder()
-                        .tradingFee(resultingFee)
-                        .minimumAmount(defaultCurrencyPairMetaData.getMinimumAmount())
-                        .maximumAmount(defaultCurrencyPairMetaData.getMaximumAmount())
-                        .priceScale(defaultCurrencyPairMetaData.getPriceScale())
-                        .volumeScale(defaultCurrencyPairMetaData.getVolumeScale())
-                        .feeTiers(defaultCurrencyPairMetaData.getFeeTiers())
-                        .tradingFeeCurrency(defaultCurrencyPairMetaData.getTradingFeeCurrency())
-                        .build();
+            new InstrumentMetaData.Builder()
+                .tradingFee(resultingFee)
+                .minimumAmount(defaultCurrencyPairMetaData.getMinimumAmount())
+                .maximumAmount(defaultCurrencyPairMetaData.getMaximumAmount())
+                .priceScale(defaultCurrencyPairMetaData.getPriceScale())
+                .volumeScale(defaultCurrencyPairMetaData.getVolumeScale())
+                .feeTiers(defaultCurrencyPairMetaData.getFeeTiers())
+                .tradingFeeCurrency(defaultCurrencyPairMetaData.getTradingFeeCurrency())
+                .build();
       } else {
-        newCurrencyPairMetaData =
-                new InstrumentMetaData.Builder().tradingFee(resultingFee).build();
+        newCurrencyPairMetaData = new InstrumentMetaData.Builder().tradingFee(resultingFee).build();
       }
 
       metaData.getInstruments().put(currencyPair, newCurrencyPairMetaData);

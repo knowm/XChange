@@ -34,6 +34,7 @@ public final class Ticker implements Serializable {
   private final BigDecimal vwap;
   private final BigDecimal volume;
   private final BigDecimal quoteVolume;
+
   /** the timestamp of the ticker according to the exchange's server, null if not provided */
   private final Date timestamp;
 
@@ -282,7 +283,9 @@ public final class Ticker implements Serializable {
       return this;
     }
 
-    /** @deprecated Use {@link #instrument(Instrument)} */
+    /**
+     * @deprecated Use {@link #instrument(Instrument)}
+     */
     @Deprecated
     public Builder currencyPair(CurrencyPair currencyPair) {
       return instrument(currencyPair);

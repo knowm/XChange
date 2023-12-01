@@ -2,8 +2,8 @@ package org.knowm.xchange.globitex.service;
 
 import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
 
-import javax.crypto.Mac;
 import jakarta.ws.rs.HeaderParam;
+import javax.crypto.Mac;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 

@@ -1,5 +1,10 @@
 package org.knowm.xchange.okex;
 
+import static org.knowm.xchange.okex.OkexAdapters.SPOT;
+import static org.knowm.xchange.okex.OkexAdapters.SWAP;
+
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.client.ResilienceRegistries;
@@ -11,12 +16,6 @@ import org.knowm.xchange.okex.service.OkexMarketDataService;
 import org.knowm.xchange.okex.service.OkexMarketDataServiceRaw;
 import org.knowm.xchange.okex.service.OkexTradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.util.List;
-
-import static org.knowm.xchange.okex.OkexAdapters.SPOT;
-import static org.knowm.xchange.okex.OkexAdapters.SWAP;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexExchange extends BaseExchange {
@@ -38,12 +37,9 @@ public class OkexExchange extends BaseExchange {
               exchangeSpecification.getExchangeSpecificParametersItem(PARAM_USE_AWS));
       if (useAWS) {
         exchangeSpecification.setSslUri(
-            (String)
-                exchangeSpecification.getExchangeSpecificParametersItem(
-                    PARAM_AWS_SSL_URI));
+            (String) exchangeSpecification.getExchangeSpecificParametersItem(PARAM_AWS_SSL_URI));
         exchangeSpecification.setHost(
-            (String)
-                exchangeSpecification.getExchangeSpecificParametersItem(PARAM_AWS_HOST));
+            (String) exchangeSpecification.getExchangeSpecificParametersItem(PARAM_AWS_HOST));
       }
     }
   }
@@ -66,7 +62,6 @@ public class OkexExchange extends BaseExchange {
   /**
    * For Demo Trading add the following param to exchangeSpecification:
    * exchangeSpecification.setExchangeSpecificParametersItem(PARAM_SIMULATED_TRADING, "1");
-   *
    */
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
@@ -81,8 +76,7 @@ public class OkexExchange extends BaseExchange {
     exchangeSpecification.setExchangeSpecificParametersItem(PARAM_USE_AWS, false);
     exchangeSpecification.setExchangeSpecificParametersItem(
         PARAM_AWS_SSL_URI, "https://aws.okx.com");
-    exchangeSpecification.setExchangeSpecificParametersItem(
-        PARAM_AWS_HOST, "aws.okx.com");
+    exchangeSpecification.setExchangeSpecificParametersItem(PARAM_AWS_HOST, "aws.okx.com");
 
     return exchangeSpecification;
   }
@@ -109,9 +103,9 @@ public class OkexExchange extends BaseExchange {
             .getData();
 
     List<OkexInstrument> swap_instruments =
-            ((OkexMarketDataServiceRaw) marketDataService)
-                    .getOkexInstruments(SWAP, null, null)
-                    .getData();
+        ((OkexMarketDataServiceRaw) marketDataService)
+            .getOkexInstruments(SWAP, null, null)
+            .getData();
 
     instruments.addAll(swap_instruments);
 
@@ -123,17 +117,22 @@ public class OkexExchange extends BaseExchange {
         && exchangeSpecification.getExchangeSpecificParametersItem("passphrase") != null) {
       currencies = ((OkexMarketDataServiceRaw) marketDataService).getOkexCurrencies().getData();
       accountLevel =
-              ((OkexAccountService) accountService).getOkexAccountConfiguration().getData().get(0).getAccountLevel();
-      tradeFee = ((OkexAccountService) accountService).getTradeFee(
-              SPOT, null, null, accountLevel).getData();
+          ((OkexAccountService) accountService)
+              .getOkexAccountConfiguration()
+              .getData()
+              .get(0)
+              .getAccountLevel();
+      tradeFee =
+          ((OkexAccountService) accountService)
+              .getTradeFee(SPOT, null, null, accountLevel)
+              .getData();
     }
 
     exchangeMetaData = OkexAdapters.adaptToExchangeMetaData(instruments, currencies, tradeFee);
   }
 
-  protected boolean useSandbox(){
+  protected boolean useSandbox() {
     return Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX)
-    );
+        exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX));
   }
 }

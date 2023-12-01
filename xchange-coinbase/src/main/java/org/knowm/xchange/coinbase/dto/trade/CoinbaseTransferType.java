@@ -13,7 +13,9 @@ import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
 import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransferType.CoinbaseTransferTypeDeserializer;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 @JsonDeserialize(using = CoinbaseTransferTypeDeserializer.class)
 @JsonSerialize(using = EnumLowercaseJsonSerializer.class)
 public enum CoinbaseTransferType {

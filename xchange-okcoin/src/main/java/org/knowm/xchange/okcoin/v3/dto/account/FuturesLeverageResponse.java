@@ -36,6 +36,7 @@ public class FuturesLeverageResponse extends OkexResponse {
     /** Leverage for long positions , 1-100x */
     @JsonProperty("long_leverage")
     private BigDecimal longLeverage;
+
     /** Leverage for short positions , 1-100x */
     @JsonProperty("short_leverage")
     private BigDecimal shortLeverage;

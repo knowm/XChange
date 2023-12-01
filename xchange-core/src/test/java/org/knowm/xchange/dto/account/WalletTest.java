@@ -1,14 +1,13 @@
 package org.knowm.xchange.dto.account;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-import org.knowm.xchange.currency.Currency;
-
 import java.math.BigDecimal;
 import java.util.*;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import org.junit.Test;
+import org.knowm.xchange.currency.Currency;
 
 public class WalletTest {
 

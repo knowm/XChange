@@ -12,7 +12,9 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-/** @author Z. Dolezal */
+/**
+ * @author Z. Dolezal
+ */
 public class BitbayTradeServiceRaw extends BitbayBaseService {
 
   BitbayTradeServiceRaw(Exchange exchange) {

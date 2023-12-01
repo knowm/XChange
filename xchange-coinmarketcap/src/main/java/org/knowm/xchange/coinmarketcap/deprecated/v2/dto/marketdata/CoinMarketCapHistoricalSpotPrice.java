@@ -3,7 +3,9 @@ package org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/** @author allenday */
+/**
+ * @author allenday
+ */
 public class CoinMarketCapHistoricalSpotPrice
     implements Comparable<CoinMarketCapHistoricalSpotPrice> {
 

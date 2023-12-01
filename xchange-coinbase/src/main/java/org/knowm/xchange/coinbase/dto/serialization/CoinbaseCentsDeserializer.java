@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseCentsDeserializer extends JsonDeserializer<CoinbaseMoney> {
 
   public static CoinbaseMoney getCoinbaseMoneyFromCents(JsonNode node) {

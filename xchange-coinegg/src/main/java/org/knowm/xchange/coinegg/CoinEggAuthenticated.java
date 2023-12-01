@@ -1,13 +1,13 @@
 package org.knowm.xchange.coinegg;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.coinegg.dto.accounts.CoinEggBalance;
 import org.knowm.xchange.coinegg.dto.trade.CoinEggTradeAdd;
 import org.knowm.xchange.coinegg.dto.trade.CoinEggTradeCancel;

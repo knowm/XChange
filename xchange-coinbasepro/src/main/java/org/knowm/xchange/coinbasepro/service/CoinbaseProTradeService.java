@@ -94,7 +94,8 @@ public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implemen
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    final String[] orderIds = Arrays.stream(orderQueryParams).map(OrderQueryParams::getOrderId).toArray(String[]::new);
+    final String[] orderIds =
+        Arrays.stream(orderQueryParams).map(OrderQueryParams::getOrderId).toArray(String[]::new);
 
     Collection<Order> orders = new ArrayList<>(orderIds.length);
 

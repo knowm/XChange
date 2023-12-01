@@ -1,11 +1,10 @@
 package org.knowm.xchange.okex.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.math.BigDecimal;
 
 /** https://www.okx.com/docs-v5/en/#rest-api-account-get-positions */
 @Getter

@@ -62,7 +62,7 @@ public class CoinjarAdaptersTest {
             "2017-10-12T15:39:27.000+11:00");
 
     final UserTrade expected =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .id("3267")
             .orderId("3267")
             .currencyPair(CurrencyPair.BTC_AUD)

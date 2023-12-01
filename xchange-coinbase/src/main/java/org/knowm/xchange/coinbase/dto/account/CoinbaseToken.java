@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseToken extends CoinbaseBaseResponse {
 
   private final CoinbaseTokenInfo token;

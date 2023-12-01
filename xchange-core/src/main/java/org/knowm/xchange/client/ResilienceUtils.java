@@ -3,9 +3,9 @@ package org.knowm.xchange.client;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.retry.Retry;
 import io.vavr.control.Either;
+import jakarta.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.concurrent.Callable;
-import jakarta.ws.rs.core.Response;
 import org.knowm.xchange.ExchangeSpecification;
 import si.mazi.rescu.HttpStatusExceptionSupport;
 

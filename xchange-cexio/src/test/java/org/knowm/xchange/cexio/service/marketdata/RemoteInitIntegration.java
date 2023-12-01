@@ -10,7 +10,9 @@ import org.knowm.xchange.cexio.CexIOExchange;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOCurrencyLimits;
 import org.knowm.xchange.cexio.service.CexIOMarketDataService;
 
-/** @author ujjwal on 14/02/18. */
+/**
+ * @author ujjwal on 14/02/18.
+ */
 public class RemoteInitIntegration {
   @Test
   public void integrationTest() throws IOException {

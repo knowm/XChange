@@ -20,14 +20,18 @@ public class VaultoroExceptionData {
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /** @return The message */
+  /**
+   * @return The message
+   */
   @JsonProperty("message")
   public String getMessage() {
 
     return message;
   }
 
-  /** @param message The message */
+  /**
+   * @param message The message
+   */
   @JsonProperty("message")
   public void setMessage(String message) {
 

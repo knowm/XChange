@@ -16,6 +16,7 @@ public enum TrailingFlag implements IOrderFlags {
   P1(100),
   /** Trailing of 10% */
   P10(1000);
+
   /** Basis Points, also known as BIP or BIPS, are used to indicate a percentage change. */
   private final long trailingBip;
 

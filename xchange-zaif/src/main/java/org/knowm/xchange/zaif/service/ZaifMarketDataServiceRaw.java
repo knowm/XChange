@@ -38,13 +38,13 @@ public class ZaifMarketDataServiceRaw extends ZaifBaseService {
 
     boolean currencyPairSupported = false;
     for (Instrument cp : exchange.getExchangeInstruments()) {
-        if (cp.getBase().getCurrencyCode().equalsIgnoreCase(currencyPair.getBase().getCurrencyCode())
-                && cp.getCounter()
-                .getCurrencyCode()
-                .equalsIgnoreCase(currencyPair.getCounter().getCurrencyCode())) {
-          currencyPairSupported = true;
-          break;
-        }
+      if (cp.getBase().getCurrencyCode().equalsIgnoreCase(currencyPair.getBase().getCurrencyCode())
+          && cp.getCounter()
+              .getCurrencyCode()
+              .equalsIgnoreCase(currencyPair.getCounter().getCurrencyCode())) {
+        currencyPairSupported = true;
+        break;
+      }
     }
 
     return currencyPairSupported;

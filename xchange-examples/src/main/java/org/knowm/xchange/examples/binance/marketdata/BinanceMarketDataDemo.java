@@ -8,7 +8,6 @@ import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.examples.binance.BinanceDemoUtils;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -42,24 +41,22 @@ public class BinanceMarketDataDemo {
 
     tickers.sort((t1, t2) -> t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent()));
 
-    tickers
-        .forEach(
-            t -> System.out.println(
-                t.getSymbol()
-                    + " => "
-                    + String.format("%+.2f%%", t.getPriceChangePercent())));
+    tickers.forEach(
+        t ->
+            System.out.println(
+                t.getSymbol() + " => " + String.format("%+.2f%%", t.getPriceChangePercent())));
     System.out.println("raw out end");
   }
 
   public static void rawAll(BinanceExchange exchange, BinanceMarketDataService marketDataService)
       throws IOException {
 
-      List<BinanceTicker24h> tickers = new ArrayList<>(marketDataService.ticker24hAllProducts());
+    List<BinanceTicker24h> tickers = new ArrayList<>(marketDataService.ticker24hAllProducts());
     tickers.sort((t1, t2) -> t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent()));
 
-    tickers
-        .forEach(
-            t -> System.out.println(
+    tickers.forEach(
+        t ->
+            System.out.println(
                 t.getSymbol() + " => " + String.format("%+.2f%%", t.getLastPrice())));
   }
 }

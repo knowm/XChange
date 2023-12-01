@@ -11,7 +11,9 @@ import org.knowm.xchange.btcturk.dto.BTCTurkOrderTypes;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTickerTest;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkExchangeResultTest {
   @Test
   public void testWithStaticData() throws IOException {

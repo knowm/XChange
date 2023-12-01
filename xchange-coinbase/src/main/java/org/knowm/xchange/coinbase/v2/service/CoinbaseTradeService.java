@@ -36,8 +36,10 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
     throw new NotAvailableFromExchangeException();
   }
 
@@ -60,8 +62,10 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
     throw new NotAvailableFromExchangeException();
   }
 

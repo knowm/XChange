@@ -15,7 +15,9 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-/** @author Z. Dolezal */
+/**
+ * @author Z. Dolezal
+ */
 @SuppressWarnings("rawtypes")
 public class BitbayAccountServiceRaw extends BitbayBaseService {
 

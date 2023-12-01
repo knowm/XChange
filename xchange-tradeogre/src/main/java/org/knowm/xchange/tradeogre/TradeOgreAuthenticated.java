@@ -1,12 +1,12 @@
 package org.knowm.xchange.tradeogre;
 
-import java.io.IOException;
-import java.util.Collection;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import java.io.IOException;
+import java.util.Collection;
 import org.knowm.xchange.tradeogre.dto.account.TradeOgreBalance;
 import org.knowm.xchange.tradeogre.dto.account.TradeOgreBalances;
 import org.knowm.xchange.tradeogre.dto.trade.TradeOgreOrder;

@@ -3,7 +3,9 @@ package org.knowm.xchange.quoine.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public final class Execution {
 
   private final BigDecimal quantity;

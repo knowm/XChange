@@ -5,7 +5,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.koinim.service.KoinimMarketDataService;
 
-/** @author ahmetoz */
+/**
+ * @author ahmetoz
+ */
 public class KoinimExchange extends BaseExchange implements Exchange {
 
   @Override

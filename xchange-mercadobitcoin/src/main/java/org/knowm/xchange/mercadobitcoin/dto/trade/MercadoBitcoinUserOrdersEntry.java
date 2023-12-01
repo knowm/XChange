@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-/** @author Felipe Micaroni Lalli */
+/**
+ * @author Felipe Micaroni Lalli
+ */
 public class MercadoBitcoinUserOrdersEntry {
 
   private final String status;

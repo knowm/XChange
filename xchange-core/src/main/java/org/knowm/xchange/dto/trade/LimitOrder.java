@@ -162,7 +162,9 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     this.limitPrice = limitPrice;
   }
 
-  /** @return The limit price */
+  /**
+   * @return The limit price
+   */
   public BigDecimal getLimitPrice() {
 
     return limitPrice;

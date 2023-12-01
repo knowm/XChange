@@ -7,7 +7,9 @@ import java.util.List;
 import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseAddress extends CoinbaseBaseResponse {
 
   private final String address;

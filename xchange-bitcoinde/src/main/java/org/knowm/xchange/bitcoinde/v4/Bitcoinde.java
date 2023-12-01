@@ -1,7 +1,5 @@
 package org.knowm.xchange.bitcoinde.v4;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
@@ -12,6 +10,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeException;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeResponse;
 import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountLedgerWrapper;

@@ -25,28 +25,36 @@ public class BleutradeOrderBook {
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /** @return The buy */
+  /**
+   * @return The buy
+   */
   @JsonProperty("buy")
   public List<BleutradeLevel> getBuy() {
 
     return buy;
   }
 
-  /** @param buy The buy */
+  /**
+   * @param buy The buy
+   */
   @JsonProperty("buy")
   public void setBuy(List<BleutradeLevel> buy) {
 
     this.buy = buy;
   }
 
-  /** @return The sell */
+  /**
+   * @return The sell
+   */
   @JsonProperty("sell")
   public List<BleutradeLevel> getSell() {
 
     return sell;
   }
 
-  /** @param sell The sell */
+  /**
+   * @param sell The sell
+   */
   @JsonProperty("sell")
   public void setSell(List<BleutradeLevel> sell) {
 

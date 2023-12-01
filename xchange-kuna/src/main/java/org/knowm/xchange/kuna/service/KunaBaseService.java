@@ -7,7 +7,9 @@ import org.knowm.xchange.kuna.KunaAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
-/** @author Dat Bui */
+/**
+ * @author Dat Bui
+ */
 public class KunaBaseService extends BaseExchangeService implements BaseService {
 
   private final Kuna kuna;

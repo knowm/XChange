@@ -22,7 +22,9 @@ import org.knowm.xchange.therock.dto.account.TheRockWithdrawalResponse;
 import org.knowm.xchange.therock.dto.trade.TheRockTransaction;
 import org.knowm.xchange.therock.dto.trade.TheRockTransactions;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class TheRockAccountService extends TheRockAccountServiceRaw implements AccountService {
 
   public TheRockAccountService(Exchange exchange) {

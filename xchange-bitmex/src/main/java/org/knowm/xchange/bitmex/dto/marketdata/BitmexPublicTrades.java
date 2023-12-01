@@ -6,6 +6,7 @@ import java.util.List;
 public class BitmexPublicTrades {
 
   private final List<BitmexPublicTrade> trades;
+
   // private final long last;
 
   public BitmexPublicTrades(List<BitmexPublicTrade> trades) {

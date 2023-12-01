@@ -90,7 +90,8 @@ public class GateioTradeServiceRaw extends GateioBaseService {
   public boolean cancelOrder(String orderId, CurrencyPair currencyPair) throws IOException {
 
     GateioBaseResponse cancelOrderResult =
-        gateioAuthenticated.cancelOrder(orderId, GateioUtils.toPairString(currencyPair), apiKey, signatureCreator);
+        gateioAuthenticated.cancelOrder(
+            orderId, GateioUtils.toPairString(currencyPair), apiKey, signatureCreator);
 
     return handleResponse(cancelOrderResult).isResult();
   }
@@ -106,14 +107,16 @@ public class GateioTradeServiceRaw extends GateioBaseService {
   public boolean cancelAllOrders(String type, CurrencyPair currencyPair) throws IOException {
 
     GateioBaseResponse cancelAllOrdersResult =
-        gateioAuthenticated.cancelAllOrders(type, formatCurrencyPair(currencyPair), apiKey, signatureCreator);
+        gateioAuthenticated.cancelAllOrders(
+            type, formatCurrencyPair(currencyPair), apiKey, signatureCreator);
 
     return handleResponse(cancelAllOrdersResult).isResult();
   }
 
   public GateioOpenOrders getGateioOpenOrders() throws IOException {
 
-    GateioOpenOrders gateioOpenOrdersReturn = gateioAuthenticated.getOpenOrders(apiKey, signatureCreator);
+    GateioOpenOrders gateioOpenOrdersReturn =
+        gateioAuthenticated.getOpenOrders(apiKey, signatureCreator);
 
     return handleResponse(gateioOpenOrdersReturn);
   }
@@ -132,7 +135,8 @@ public class GateioTradeServiceRaw extends GateioBaseService {
       throws IOException {
 
     GateioTradeHistoryReturn gateioTradeHistoryReturn =
-        gateioAuthenticated.getUserTradeHistory(apiKey, signatureCreator, GateioUtils.toPairString(currencyPair));
+        gateioAuthenticated.getUserTradeHistory(
+            apiKey, signatureCreator, GateioUtils.toPairString(currencyPair));
 
     return handleResponse(gateioTradeHistoryReturn);
   }

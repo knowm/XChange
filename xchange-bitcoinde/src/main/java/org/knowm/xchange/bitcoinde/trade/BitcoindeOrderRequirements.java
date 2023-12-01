@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** @author kaiserfr */
+/**
+ * @author kaiserfr
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"min_trust_level", "only_kyc_full", "seat_of_bank", "payment_option"})
 public class BitcoindeOrderRequirements {

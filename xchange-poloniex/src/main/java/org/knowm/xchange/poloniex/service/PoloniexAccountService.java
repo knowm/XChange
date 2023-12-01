@@ -23,7 +23,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/** @author Zach Holmes */
+/**
+ * @author Zach Holmes
+ */
 public class PoloniexAccountService extends PoloniexAccountServiceRaw implements AccountService {
 
   private static final String TRADING_WALLET_ID = "trading";

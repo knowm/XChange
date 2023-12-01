@@ -1,9 +1,5 @@
 package org.knowm.xchange.bitmex;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import javax.annotation.Nullable;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
@@ -15,6 +11,10 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import javax.annotation.Nullable;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccountList;

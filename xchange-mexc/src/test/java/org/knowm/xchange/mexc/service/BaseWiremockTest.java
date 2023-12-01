@@ -12,20 +12,19 @@ import org.knowm.xchange.mexc.MEXCExchange;
 
 public class BaseWiremockTest {
 
-    @Rule
-    public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
+  @Rule public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
 
-    public Exchange createExchange() throws IOException {
-        Exchange exchange =
-                ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(MEXCExchange.class);
-        ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
-        specification.setHost("localhost");
-        specification.setSslUri("http://localhost:" + wireMockRule.port());
-        specification.setPort(wireMockRule.port());
-        specification.setApiKey("test_api_key");
-        specification.setSecretKey("test_secret_key");
-        specification.setShouldLoadRemoteMetaData(false);
-        exchange.applySpecification(specification);
-        return exchange;
-    }
+  public Exchange createExchange() throws IOException {
+    Exchange exchange =
+        ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(MEXCExchange.class);
+    ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
+    specification.setHost("localhost");
+    specification.setSslUri("http://localhost:" + wireMockRule.port());
+    specification.setPort(wireMockRule.port());
+    specification.setApiKey("test_api_key");
+    specification.setSecretKey("test_secret_key");
+    specification.setShouldLoadRemoteMetaData(false);
+    exchange.applySpecification(specification);
+    return exchange;
+  }
 }

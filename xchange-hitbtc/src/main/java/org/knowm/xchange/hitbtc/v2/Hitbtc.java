@@ -1,12 +1,12 @@
 package org.knowm.xchange.hitbtc.v2;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcCandle;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcCurrency;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;

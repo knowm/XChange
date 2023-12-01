@@ -112,13 +112,13 @@ public class FtxAdapterTest {
     BigDecimal stopPrice = BigDecimal.valueOf(42000);
 
     StopOrder stopOrder =
-            new StopOrder.Builder(orderType,currencyPair)
-                    .originalAmount(amount)
-                    .timestamp(date)
-                    .stopPrice(stopPrice)
-                    .limitPrice(limitPrice)
-                    .intention(StopOrder.Intention.STOP_LOSS)
-                    .build();
+        new StopOrder.Builder(orderType, currencyPair)
+            .originalAmount(amount)
+            .timestamp(date)
+            .stopPrice(stopPrice)
+            .limitPrice(limitPrice)
+            .intention(StopOrder.Intention.STOP_LOSS)
+            .build();
     stopOrder.addOrderFlag(FtxOrderFlags.REDUCE_ONLY);
     stopOrder.addOrderFlag(FtxOrderFlags.RETRY_UNTIL_FILLED);
 

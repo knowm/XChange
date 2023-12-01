@@ -7,7 +7,9 @@ import org.knowm.xchange.btcturk.dto.BTCTurkSort;
 import org.knowm.xchange.btcturk.dto.account.BTCTurkAccountBalance;
 import org.knowm.xchange.btcturk.dto.account.BTCTurkUserTransactions;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkAccountServiceRaw extends BTCTurkBaseService {
 
   public BTCTurkAccountServiceRaw(Exchange exchange) {

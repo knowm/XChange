@@ -11,7 +11,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.okcoin.OkCoinExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class TickerIntegration {
 
   @Test

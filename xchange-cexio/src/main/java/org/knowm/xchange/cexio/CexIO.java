@@ -1,6 +1,5 @@
 package org.knowm.xchange.cexio;
 
-import java.io.IOException;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
@@ -9,13 +8,16 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOCurrencyLimits;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTickersResponse;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
 
-/** @author brox */
+/**
+ * @author brox
+ */
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)
 public interface CexIO {

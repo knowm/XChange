@@ -65,7 +65,10 @@ public class KrakenUtilsTest {
 
     assertThat(filteredKrakenTradeMap.size()).isEqualTo(2);
 
-    UserTrades userTrades = new UserTrades(KrakenAdapters.adaptTradesHistory(filteredKrakenTradeMap).getUserTrades(), TradeSortType.SortByID);
+    UserTrades userTrades =
+        new UserTrades(
+            KrakenAdapters.adaptTradesHistory(filteredKrakenTradeMap).getUserTrades(),
+            TradeSortType.SortByID);
 
     UserTrade trade0 = userTrades.getUserTrades().get(0);
     assertThat(trade0).isInstanceOf(KrakenUserTrade.class);

@@ -12,7 +12,9 @@ import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
 
-/** @author Felipe Micaroni Lalli */
+/**
+ * @author Felipe Micaroni Lalli
+ */
 public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseService {
 
   private final MercadoBitcoin mercadoBitcoin;

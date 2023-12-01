@@ -8,10 +8,9 @@ import lombok.ToString;
 @ToString
 public class KrakenFuturesOrderStatusRequest {
 
-    private final String[] orderIds;
+  private final String[] orderIds;
 
-    public KrakenFuturesOrderStatusRequest(
-            @JsonProperty("orderIds") String[] orderIds) {
-        this.orderIds = orderIds;
-    }
+  public KrakenFuturesOrderStatusRequest(@JsonProperty("orderIds") String[] orderIds) {
+    this.orderIds = orderIds;
+  }
 }

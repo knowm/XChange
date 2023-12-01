@@ -305,6 +305,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
         .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
         .call();
   }
+
   /**
    * @see https://docs.bitfinex.com/reference#rest-public-book
    * @param symbol The symbol you want information about. (e.g. tBTCUSD, tETHUSD, fUSD, fBTC)
@@ -335,6 +336,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
         .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
         .call();
   }
+
   /**
    * @see https://docs.bitfinex.com/reference#rest-public-book
    * @param symbol The symbol you want information about. (e.g. tBTCUSD, tETHUSD, fUSD, fBTC)

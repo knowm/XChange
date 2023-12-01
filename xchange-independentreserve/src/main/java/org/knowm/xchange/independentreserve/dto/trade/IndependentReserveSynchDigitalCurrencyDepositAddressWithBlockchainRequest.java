@@ -6,7 +6,9 @@ import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
 public class IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest
     extends AuthAggregate {
 
-  /** @param depositAddress Bitcoin or Ether deposit address to check for new deposits. */
+  /**
+   * @param depositAddress Bitcoin or Ether deposit address to check for new deposits.
+   */
   public IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest(
       String apiKey, Long nonce, String depositAddress) {
     super(apiKey, nonce);

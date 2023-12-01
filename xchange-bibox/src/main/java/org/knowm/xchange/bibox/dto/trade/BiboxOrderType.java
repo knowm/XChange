@@ -2,7 +2,9 @@ package org.knowm.xchange.bibox.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public enum BiboxOrderType {
   MARKET_ORDER(1),
   LIMIT_ORDER(2);

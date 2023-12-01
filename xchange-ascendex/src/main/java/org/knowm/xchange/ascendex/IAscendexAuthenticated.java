@@ -1,7 +1,5 @@
 package org.knowm.xchange.ascendex;
 
-import java.io.IOException;
-import java.util.List;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -12,6 +10,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.ascendex.dto.AscendexResponse;
 import org.knowm.xchange.ascendex.dto.account.AscendexCashAccountBalanceDto;
 import org.knowm.xchange.ascendex.dto.trade.AscendexOpenOrdersResponse;

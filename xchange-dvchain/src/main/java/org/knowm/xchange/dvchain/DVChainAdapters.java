@@ -58,7 +58,7 @@ public class DVChainAdapters {
       CurrencyPair currencyPair = new CurrencyPair(trade.getAsset(), "USD");
       final BigDecimal fee = null;
       pastTrades.add(
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(orderType)
               .originalAmount(trade.getQuantity())
               .currencyPair(currencyPair)

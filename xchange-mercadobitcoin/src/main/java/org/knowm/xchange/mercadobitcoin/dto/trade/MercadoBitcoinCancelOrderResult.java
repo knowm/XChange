@@ -3,7 +3,9 @@ package org.knowm.xchange.mercadobitcoin.dto.trade;
 import java.util.HashMap;
 import java.util.Map;
 
-/** @author Felipe Micaroni Lalli */
+/**
+ * @author Felipe Micaroni Lalli
+ */
 public class MercadoBitcoinCancelOrderResult
     extends HashMap<String, MercadoBitcoinUserOrdersEntry> {
   public MercadoBitcoinCancelOrderResult(int initialCapacity, float loadFactor) {

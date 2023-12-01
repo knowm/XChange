@@ -27,5 +27,4 @@ public class BybitBalance {
 
   @JsonProperty("locked")
   String locked;
-
 }

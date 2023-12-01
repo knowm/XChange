@@ -1,10 +1,10 @@
 package org.knowm.xchange.paymium;
 
-import java.io.IOException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketDepth;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumTicker;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumTrade;

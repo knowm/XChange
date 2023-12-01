@@ -4,7 +4,9 @@ import java.util.Objects;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkPair {
   public final CurrencyPair pair;
 

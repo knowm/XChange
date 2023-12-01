@@ -18,7 +18,9 @@ import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 @JsonDeserialize(using = CoinbaseTransferDeserializer.class)
 public class CoinbaseTransfer extends CoinbaseBaseResponse {
 

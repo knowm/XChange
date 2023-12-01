@@ -1,13 +1,14 @@
 package org.knowm.xchange.krakenfutures.dto.marketData;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-/** @author Panchen */
+/**
+ * @author Panchen
+ */
 @Getter
 @ToString
 public class KrakenFuturesBidsAsks {

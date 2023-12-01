@@ -5,7 +5,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinde.service.BitcoindeMarketDataService;
 
-/** @author matthewdowney */
+/**
+ * @author matthewdowney
+ */
 public class BitcoindeExchange extends BaseExchange implements Exchange {
 
   @Override

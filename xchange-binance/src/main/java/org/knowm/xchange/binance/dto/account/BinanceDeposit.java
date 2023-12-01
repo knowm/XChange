@@ -9,6 +9,7 @@ public final class BinanceDeposit {
   private BigDecimal amount;
   private String coin;
   private String network;
+
   /** (0:pending,1:success) */
   private int status;
 

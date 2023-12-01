@@ -11,7 +11,9 @@ import org.junit.Test;
 import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountSettingsRecord;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class MaringJsonTest {
 
   @Test

@@ -3,7 +3,9 @@ package org.knowm.xchange.bibox.dto.trade;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.knowm.xchange.dto.Order.OrderStatus;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public enum BiboxOrderStatus {
   PENDING(1, OrderStatus.NEW),
   PART_COMPLETED(2, OrderStatus.PARTIALLY_FILLED),

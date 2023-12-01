@@ -13,7 +13,9 @@ import org.knowm.xchange.ccex.dto.ticker.CCEXTickerResponse;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** @author Andraž Prinčič */
+/**
+ * @author Andraž Prinčič
+ */
 public class CCEXMarketDataServiceRaw extends CCEXBaseService {
 
   private final CCEX ccex;

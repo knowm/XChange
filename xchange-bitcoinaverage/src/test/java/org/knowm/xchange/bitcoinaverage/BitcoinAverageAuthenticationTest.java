@@ -43,7 +43,7 @@ public class BitcoinAverageAuthenticationTest {
     bufferedReader.close();
 
     // if you don't want to use Gson, you can just print the plain response
-//    System.out.println(response.toString());
+    //    System.out.println(response.toString());
   }
 
   private String getSignature(String secretKey, String publicKey) throws Exception {

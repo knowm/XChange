@@ -1,9 +1,5 @@
 package org.knowm.xchange.enigma;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -12,6 +8,10 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.enigma.dto.BaseResponse;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaOpenOrders;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaOrderBook;

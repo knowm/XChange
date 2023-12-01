@@ -3,7 +3,9 @@ package org.knowm.xchange.krakenfutures.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Data;
 
-/** @author Jean-Christophe Laruelle */
+/**
+ * @author Jean-Christophe Laruelle
+ */
 @Data
 public class KrakenFuturesResult {
 

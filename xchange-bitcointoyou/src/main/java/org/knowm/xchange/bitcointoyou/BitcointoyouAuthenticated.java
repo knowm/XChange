@@ -1,8 +1,5 @@
 package org.knowm.xchange.bitcointoyou;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.HashMap;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -11,6 +8,9 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import org.knowm.xchange.bitcointoyou.dto.account.BitcointoyouBalance;
 import org.knowm.xchange.bitcointoyou.dto.trade.BitcointoyouOrderResponse;
 import si.mazi.rescu.ParamsDigest;

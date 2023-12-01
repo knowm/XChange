@@ -297,12 +297,14 @@ public class HitbtcAdapters {
           feeTiers = existing.getFeeTiers();
         }
 
-        currencyPairs.put(pair, new InstrumentMetaData.Builder()
-                        .tradingFee(tradingFee)
-                        .minimumAmount(minimumAmount)
-                        .maximumAmount(maximumAmount)
-                        .priceScale(priceScale)
-                        .feeTiers(feeTiers)
+        currencyPairs.put(
+            pair,
+            new InstrumentMetaData.Builder()
+                .tradingFee(tradingFee)
+                .minimumAmount(minimumAmount)
+                .maximumAmount(maximumAmount)
+                .priceScale(priceScale)
+                .feeTiers(feeTiers)
                 .build());
       }
     }
@@ -337,8 +339,8 @@ public class HitbtcAdapters {
   /**
    * @param type
    * @return
-   * @see <a href="https://api.hitbtc.com/api/2/explore/">Transaction Model possible types: payout, payin,</a>
-   *     deposit, withdraw, bankToExchange, exchangeToBank
+   * @see <a href="https://api.hitbtc.com/api/2/explore/">Transaction Model possible types: payout,
+   *     payin,</a> deposit, withdraw, bankToExchange, exchangeToBank
    */
   private static Type convertType(String type) {
     switch (type) {
@@ -357,8 +359,8 @@ public class HitbtcAdapters {
 
   /**
    * @return
-   * @see <a href="https://api.hitbtc.com/api/2/explore/">Transaction Model possible statusses: created,</a>
-   *     pending, failed, success
+   * @see <a href="https://api.hitbtc.com/api/2/explore/">Transaction Model possible statusses:
+   *     created,</a> pending, failed, success
    */
   private static FundingRecord.Status convertStatus(String status) {
     switch (status) {
@@ -378,8 +380,8 @@ public class HitbtcAdapters {
    * Decodes HitBTC Order status.
    *
    * @return
-   * @see <a href="https://api.hitbtc.com/#order-model">Order Model possible statuses: new, suspended,</a>
-   *     partiallyFilled, filled, canceled, expired
+   * @see <a href="https://api.hitbtc.com/#order-model">Order Model possible statuses: new,
+   *     suspended,</a> partiallyFilled, filled, canceled, expired
    */
   private static Order.OrderStatus convertOrderStatus(String status) {
     switch (status) {

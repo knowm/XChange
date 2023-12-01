@@ -1,8 +1,5 @@
 package org.knowm.xchange.coinbase.v2;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Map;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -12,6 +9,9 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Map;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountsData;

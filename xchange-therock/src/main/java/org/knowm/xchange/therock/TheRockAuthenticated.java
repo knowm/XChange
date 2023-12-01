@@ -1,7 +1,5 @@
 package org.knowm.xchange.therock;
 
-import java.io.IOException;
-import java.util.Date;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -12,6 +10,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.Date;
 import org.knowm.xchange.therock.dto.TheRockException;
 import org.knowm.xchange.therock.dto.account.TheRockBalance;
 import org.knowm.xchange.therock.dto.account.TheRockBalances;

@@ -2,10 +2,9 @@ package org.knowm.xchange.dto.meta;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.util.Map;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.ToString;
 import org.knowm.xchange.currency.Currency;
@@ -17,8 +16,8 @@ import org.knowm.xchange.utils.jackson.InstrumentMapDeserializer;
  * This class is loaded during creation of the Exchange and is intended to hold both data that is
  * readily available from an HTTP API request at an exchange extended by semi-static data that is
  * not available from an HTTP API, but is still important information to have. Examples include
- * currency pairs, max polling rates, scaling factors, etc. For more info see:
- * <a href="https://github.com/timmolter/XChange/wiki/Design-Notes">...</a>
+ * currency pairs, max polling rates, scaling factors, etc. For more info see: <a
+ * href="https://github.com/timmolter/XChange/wiki/Design-Notes">...</a>
  *
  * <p>This class is used only in the API by the classes that merge metadata stored in custom JSON
  * file and online info from the remote exchange.
@@ -93,5 +92,4 @@ public class ExchangeMetaData implements Serializable {
   public String toJSONString() {
     return ObjectMapperHelper.toJSON(this);
   }
-
 }

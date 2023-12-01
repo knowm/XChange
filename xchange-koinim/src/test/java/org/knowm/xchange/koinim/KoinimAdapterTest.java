@@ -11,7 +11,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.koinim.dto.marketdata.KoinimTicker;
 
-/** @author ahmetoz */
+/**
+ * @author ahmetoz
+ */
 public class KoinimAdapterTest {
 
   @Test

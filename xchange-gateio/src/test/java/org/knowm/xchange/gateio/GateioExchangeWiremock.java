@@ -10,9 +10,7 @@ import org.junit.ClassRule;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 
-/**
- * Sets up the wiremock for exchange
- */
+/** Sets up the wiremock for exchange */
 public abstract class GateioExchangeWiremock {
 
   protected static GateioExchange exchange;
@@ -34,15 +32,11 @@ public abstract class GateioExchangeWiremock {
               .forTarget("https://api.gateio.ws")
               .matchRequestBodyWithEqualToJson()
               .extractTextBodiesOver(1L)
-              .chooseBodyMatchTypeAutomatically()
-      );
-
+              .chooseBodyMatchTypeAutomatically());
     }
 
     exchange = (GateioExchange) ExchangeFactory.INSTANCE.createExchange(exSpec);
-
   }
-
 
   @AfterClass
   public static void stop() {
@@ -50,6 +44,4 @@ public abstract class GateioExchangeWiremock {
       wireMockRule.stopRecording();
     }
   }
-
-
 }

@@ -1,6 +1,5 @@
 package org.knowm.xchange.bankera;
 
-import java.io.IOException;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -8,6 +7,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.bankera.dto.BankeraException;
 import org.knowm.xchange.bankera.dto.BankeraToken;
 import org.knowm.xchange.bankera.dto.marketdata.BankeraMarketInfo;
