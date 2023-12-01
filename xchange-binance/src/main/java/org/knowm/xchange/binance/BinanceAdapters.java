@@ -65,13 +65,38 @@ public class BinanceAdapters {
     return LocalDateTime.parse(dateTime, DATE_TIME_FMT);
   }
 
-  public static String toSymbol(Instrument pair) {
+  public static String toSymbol(Instrument pair ) {
+
+    return toSymbol(pair, false );
+  }
+
+  public static String toInverseSymbol(Instrument pair ) {
+
+    return toSymbol(pair, true );
+  }
+
+  public static Boolean isInverse(Instrument pair ) {
+    if(pair instanceof FuturesContract && pair.getCounter().equals(Currency.USD)){
+      return true;
+    } else{
+      return false;
+    }
+
+  }
+
+  public static String toSymbol(Instrument pair, Boolean isInverse ) {
     String symbol;
 
     if (pair.equals(CurrencyPair.IOTA_BTC)) {
       symbol = "IOTABTC";
     } else if(pair instanceof FuturesContract){
-      symbol = ((FuturesContract) pair).getCurrencyPair().toString().replace("/","");
+      if(isInverse){
+        FuturesContract contract = (FuturesContract) pair;
+        symbol =contract.getCurrencyPair().toString().replace("/", "");
+        symbol=symbol+"_"+contract.getPrompt();
+      }else {
+        symbol = ((FuturesContract) pair).getCurrencyPair().toString().replace("/", "");
+      }
     } else if(pair instanceof OptionsContract) {
       symbol = ((OptionsContract) pair).getCurrencyPair().toString().replace("/","");
     } else {
