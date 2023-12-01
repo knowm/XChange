@@ -354,7 +354,7 @@ public class BitmexAdapters {
     OrderType orderType = convertType(exec.side);
     return orderType == null
         ? null
-        : new UserTrade.Builder()
+        : UserTrade.builder()
             .id(exec.execID)
             .orderId(exec.orderID)
             .currencyPair(pair)

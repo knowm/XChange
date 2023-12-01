@@ -173,7 +173,7 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
         feeCurrency = pair.counter;
       }
       trades.add(
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(t.buy ? OrderType.BID : OrderType.ASK)
               .originalAmount(t.volume)
               .currencyPair(pair)

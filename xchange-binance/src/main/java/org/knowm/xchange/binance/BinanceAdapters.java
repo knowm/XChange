@@ -376,7 +376,7 @@ public class BinanceAdapters {
             binanceTrades.stream()
                     .map(
                             t ->
-                                    new UserTrade.Builder()
+                                    UserTrade.builder()
                                             .type(BinanceAdapters.convertType(t.isBuyer))
                                             .originalAmount(t.qty)
                                             .instrument(adaptSymbol(t.symbol, isFuture))

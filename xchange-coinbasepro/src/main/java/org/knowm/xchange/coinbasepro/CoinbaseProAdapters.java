@@ -309,7 +309,7 @@ public class CoinbaseProAdapters {
       CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace('-', '/'));
 
       trades.add(
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type("buy".equals(fill.getSide()) ? OrderType.BID : OrderType.ASK)
               .originalAmount(fill.getSize())
               .currencyPair(currencyPair)

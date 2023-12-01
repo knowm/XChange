@@ -205,7 +205,7 @@ public class GlobitexAdapters {
   }
 
   private static UserTrade adaptToUserTrade(GlobitexUserTrade globitexUserTrade) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(
             (globitexUserTrade.getSide().equals("sell")
                 ? Order.OrderType.ASK

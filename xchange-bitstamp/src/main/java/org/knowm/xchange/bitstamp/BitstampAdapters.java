@@ -234,7 +234,7 @@ public final class BitstampAdapters {
       final CurrencyPair pair =
           new CurrencyPair(t.getBaseCurrency().toUpperCase(), t.getCounterCurrency().toUpperCase());
       UserTrade trade =
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(orderType)
               .originalAmount(t.getBaseAmount().abs())
               .currencyPair(pair)

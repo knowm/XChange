@@ -66,7 +66,7 @@ public class CoinbaseAdapterTest {
     BigDecimal price = new BigDecimal("905.10").divide(originalAmount, RoundingMode.HALF_EVEN);
 
     UserTrade expectedTrade =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .type(OrderType.BID)
             .originalAmount(originalAmount)
             .currencyPair(CurrencyPair.BTC_USD)

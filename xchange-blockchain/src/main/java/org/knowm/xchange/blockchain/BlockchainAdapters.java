@@ -212,7 +212,7 @@ public class BlockchainAdapters {
 
     public static UserTrades toUserTrades(List<BlockchainOrder> blockchainTrades) {
         List<UserTrade> trades = blockchainTrades.stream()
-                .map(blockchainTrade -> new UserTrade.Builder()
+                .map(blockchainTrade -> UserTrade.builder()
                                 .type(blockchainTrade.getOrderType())
                                 .originalAmount(blockchainTrade.getCumQty())
                                 .currencyPair(blockchainTrade.getSymbol())

@@ -242,7 +242,7 @@ public class YoBitAdapters {
 
     Date time = DateUtils.fromUnixTime(Long.parseLong(timestamp));
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(adaptType(type))
         .originalAmount(new BigDecimal(amount))
         .currencyPair(adaptCurrencyPair(pair))

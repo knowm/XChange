@@ -322,7 +322,7 @@ public final class OkCoinAdapters {
     // instead.
     String tradeId, orderId;
     tradeId = orderId = String.valueOf(order.getOrderId());
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(adaptOrderType(order.getType()))
         .originalAmount(order.getDealAmount())
         .currencyPair(adaptSymbol(order.getSymbol()))
@@ -335,7 +335,7 @@ public final class OkCoinAdapters {
 
   private static UserTrade adaptTradeFutures(OkCoinFuturesOrder order) {
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(adaptOrderType(order.getType()))
         .originalAmount(order.getDealAmount())
         .currencyPair(adaptSymbol(order.getSymbol()))
@@ -368,7 +368,7 @@ public final class OkCoinAdapters {
 
       BigDecimal feeAmount = BigDecimal.ZERO;
       UserTrade trade =
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(orderType)
               .originalAmount(originalAmount)
               .currencyPair(currencyPair)
