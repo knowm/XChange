@@ -1,5 +1,7 @@
 package org.knowm.xchange.gemini.v1.service;
 
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.junit.Rule;
 import org.knowm.xchange.Exchange;
@@ -9,7 +11,7 @@ import org.knowm.xchange.gemini.v1.GeminiExchange;
 
 public class BaseWiremockTest {
 
-  @Rule public WireMockRule wireMockRule = new WireMockRule();
+  @Rule public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
 
   public Exchange createExchange() {
     Exchange exchange =
