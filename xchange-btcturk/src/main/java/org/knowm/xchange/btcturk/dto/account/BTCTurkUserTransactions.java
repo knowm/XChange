@@ -6,7 +6,9 @@ import java.util.Date;
 import org.knowm.xchange.btcturk.dto.BTCTurkOperations;
 import org.knowm.xchange.currency.Currency;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkUserTransactions {
 
   private final String id;

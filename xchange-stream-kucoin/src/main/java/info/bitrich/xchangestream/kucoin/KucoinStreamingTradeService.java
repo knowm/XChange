@@ -24,8 +24,7 @@ public class KucoinStreamingTradeService implements StreamingTradeService {
 
   @Override
   public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
-    return getRawOrderChanges(currencyPair)
-        .map(KucoinStreamingAdapters::adaptOrder);
+    return getRawOrderChanges(currencyPair).map(KucoinStreamingAdapters::adaptOrder);
   }
 
   public Observable<KucoinWebSocketOrderEvent> getRawOrderChanges(CurrencyPair currencyPair) {

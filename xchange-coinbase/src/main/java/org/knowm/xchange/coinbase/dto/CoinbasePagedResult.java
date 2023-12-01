@@ -1,6 +1,8 @@
 package org.knowm.xchange.coinbase.dto;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public abstract class CoinbasePagedResult {
 
   private final int totalCount;

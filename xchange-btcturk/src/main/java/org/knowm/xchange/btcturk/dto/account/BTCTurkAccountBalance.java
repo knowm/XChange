@@ -3,7 +3,9 @@ package org.knowm.xchange.btcturk.dto.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkAccountBalance {
 
   private final BigDecimal try_balance;

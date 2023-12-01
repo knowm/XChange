@@ -42,6 +42,7 @@ public class CexioOpenPosition {
       cfee; //	fee (in %) from user's amount, that will be charged for position closing
   private final BigDecimal
       tfeeAmount; //	total fees paid by user, it is equal to opening fee amount, when position has
+
   // been just opened
 
   public CexioOpenPosition(

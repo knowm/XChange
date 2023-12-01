@@ -32,7 +32,9 @@ public class GeminiExchange extends BaseExchange {
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (exchangeSpecification.getExchangeSpecificParametersItem(Exchange.USE_SANDBOX).equals(true)) {
+      if (exchangeSpecification
+          .getExchangeSpecificParametersItem(Exchange.USE_SANDBOX)
+          .equals(true)) {
         exchangeSpecification.setSslUri("https://api.sandbox.gemini.com");
         exchangeSpecification.setHost("api.sandbox.gemini.com");
       }

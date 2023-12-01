@@ -1,11 +1,11 @@
 package org.knowm.xchange.coinegg;
 
-import java.io.IOException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.coinegg.dto.marketdata.CoinEggOrders;
 import org.knowm.xchange.coinegg.dto.marketdata.CoinEggTicker;
 import org.knowm.xchange.coinegg.dto.marketdata.CoinEggTrade;

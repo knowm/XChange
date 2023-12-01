@@ -46,16 +46,16 @@ public class BitflyerAccountService extends BitflyerAccountServiceRaw implements
     List<Instrument> pairs = exchange.getExchangeInstruments();
 
     pairs.forEach(
-            pair -> {
-              try {
-                BitflyerTradingCommission commission =
-                        getTradingCommission(BitflyerUtils.bitflyerProductCode((CurrencyPair) pair));
+        pair -> {
+          try {
+            BitflyerTradingCommission commission =
+                getTradingCommission(BitflyerUtils.bitflyerProductCode((CurrencyPair) pair));
 
-                tradingFees.put(pair, BitflyerAdapters.adaptTradingCommission(commission));
-              } catch (IOException | BitflyerException | ExchangeException e) {
-                LOG.trace("Exception fetching trade commission for {}", pair, e);
-              }
-            });
+            tradingFees.put(pair, BitflyerAdapters.adaptTradingCommission(commission));
+          } catch (IOException | BitflyerException | ExchangeException e) {
+            LOG.trace("Exception fetching trade commission for {}", pair, e);
+          }
+        });
 
     return tradingFees;
   }

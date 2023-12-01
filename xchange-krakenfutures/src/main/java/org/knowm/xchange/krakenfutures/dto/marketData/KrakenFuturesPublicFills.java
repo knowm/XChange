@@ -1,16 +1,16 @@
 package org.knowm.xchange.krakenfutures.dto.marketData;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
 import java.util.List;
-
 import lombok.Getter;
 import lombok.ToString;
-import org.knowm.xchange.krakenfutures.dto.KrakenFuturesResult;
 import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.krakenfutures.dto.KrakenFuturesResult;
 
-/** @author Panchen */
+/**
+ * @author Panchen
+ */
 @Getter
 @ToString
 public class KrakenFuturesPublicFills extends KrakenFuturesResult {
@@ -34,5 +34,4 @@ public class KrakenFuturesPublicFills extends KrakenFuturesResult {
   public void setInstrument(Instrument instrument) {
     this.instrument = instrument;
   }
-
 }

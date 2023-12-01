@@ -1,7 +1,5 @@
 package org.knowm.xchange.btcmarkets;
 
-import java.io.IOException;
-import java.util.List;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -10,6 +8,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.btcmarkets.dto.v3.BTCMarketsExceptionV3;
 import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsAddressesResponse;
 import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsTradingFeesResponse;

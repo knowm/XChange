@@ -1,7 +1,5 @@
 package org.knowm.xchange.bibox;
 
-import java.io.IOException;
-import java.util.List;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -9,6 +7,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.bibox.dto.BiboxMultipleResponses;
 import org.knowm.xchange.bibox.dto.BiboxResponse;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxMarket;
@@ -16,7 +16,9 @@ import org.knowm.xchange.bibox.dto.marketdata.BiboxTicker;
 import org.knowm.xchange.bibox.dto.trade.BiboxDeals;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 @Path("v1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bibox {

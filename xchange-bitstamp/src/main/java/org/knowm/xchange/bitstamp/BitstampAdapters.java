@@ -406,8 +406,7 @@ public final class BitstampAdapters {
   public static Map<Instrument, InstrumentMetaData> adaptCurrencyPairs(
       Collection<BitstampPairInfo> bitstampPairInfo) {
 
-    Map<Instrument, InstrumentMetaData> currencyPairs =
-            new HashMap<>();
+    Map<Instrument, InstrumentMetaData> currencyPairs = new HashMap<>();
     for (BitstampPairInfo pairInfo : bitstampPairInfo) {
       String[] pairInfos = pairInfo.getName().split("/");
       currencyPairs.put(

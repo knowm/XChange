@@ -1,17 +1,19 @@
 package org.knowm.xchange.bitbay;
 
-import java.io.IOException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayOrderBook;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTicker;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;
 
-/** @author kpysniak */
+/**
+ * @author kpysniak
+ */
 @Path("/Public")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bitbay {

@@ -1,6 +1,5 @@
 package org.knowm.xchange.coinbase;
 
-import java.io.IOException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -12,6 +11,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
 import org.knowm.xchange.coinbase.dto.CoinbaseException;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseAccountChanges;
@@ -36,7 +36,9 @@ import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfers;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 @Path("api/v1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface CoinbaseAuthenticated extends Coinbase {

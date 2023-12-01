@@ -40,17 +40,22 @@ public final class FundingRecord implements Serializable {
    * blockchain transaction hash.
    */
   private final String blockchainTransactionHash;
+
   /** Transaction Type */
   private final Type type;
+
   /**
    * Status of the transaction whenever available (e.g. Open, Completed or any descriptive status of
    * transaction)
    */
   private final Status status;
+
   /** Balance of the associated account after the transaction is performed */
   private final BigDecimal balance;
+
   /** Transaction Fee Amount in given transaction currency (always positive) */
   private final BigDecimal fee;
+
   /** Description of the transaction */
   private String description;
 
@@ -196,7 +201,9 @@ public final class FundingRecord implements Serializable {
         description);
   }
 
-  /** @return Crypto currency address */
+  /**
+   * @return Crypto currency address
+   */
   public String getAddress() {
     return address;
   }
@@ -205,22 +212,30 @@ public final class FundingRecord implements Serializable {
     return addressTag;
   }
 
-  /** @return Date/Time of transaction */
+  /**
+   * @return Date/Time of transaction
+   */
   public Date getDate() {
     return date;
   }
 
-  /** @return The transaction currency */
+  /**
+   * @return The transaction currency
+   */
   public Currency getCurrency() {
     return currency;
   }
 
-  /** @return Amount deposited/withdrawn in given transaction currency (always positive) */
+  /**
+   * @return Amount deposited/withdrawn in given transaction currency (always positive)
+   */
   public BigDecimal getAmount() {
     return amount;
   }
 
-  /** @return Internal transaction identifier, specific to the Exchange. */
+  /**
+   * @return Internal transaction identifier, specific to the Exchange.
+   */
   public String getInternalId() {
     return internalId;
   }
@@ -238,7 +253,9 @@ public final class FundingRecord implements Serializable {
     return blockchainTransactionHash;
   }
 
-  /** @return Transaction Type {@link Type} */
+  /**
+   * @return Transaction Type {@link Type}
+   */
   public Type getType() {
     return type;
   }
@@ -251,17 +268,23 @@ public final class FundingRecord implements Serializable {
     return status;
   }
 
-  /** @return Balance of the associated account after the transaction is performed */
+  /**
+   * @return Balance of the associated account after the transaction is performed
+   */
   public BigDecimal getBalance() {
     return balance;
   }
 
-  /** @return Transaction Fee Amount in given transaction currency (always positive) */
+  /**
+   * @return Transaction Fee Amount in given transaction currency (always positive)
+   */
   public BigDecimal getFee() {
     return fee;
   }
 
-  /** @return Description of the transaction */
+  /**
+   * @return Description of the transaction
+   */
   public String getDescription() {
     return description;
   }

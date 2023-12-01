@@ -55,10 +55,10 @@ public class LatokenAdapters {
             .setScale(latokenPair.getAmountPrecision(), RoundingMode.HALF_DOWN);
     int priceScale = latokenPair.getPricePrecision();
     return new InstrumentMetaData.Builder()
-            .tradingFee(tradingFee)
-            .minimumAmount(minAmount)
-            .priceScale(priceScale)
-            .build();
+        .tradingFee(tradingFee)
+        .minimumAmount(minAmount)
+        .priceScale(priceScale)
+        .build();
   }
 
   public static CurrencyPair adaptCurrencyPair(Exchange exchange, String latokenSymbol) {

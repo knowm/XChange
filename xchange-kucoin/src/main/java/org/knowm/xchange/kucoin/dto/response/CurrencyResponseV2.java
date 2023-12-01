@@ -65,6 +65,5 @@ public class CurrencyResponseV2 {
 
     @JsonProperty("contractAddress")
     private String contractAddress;
-
   }
 }

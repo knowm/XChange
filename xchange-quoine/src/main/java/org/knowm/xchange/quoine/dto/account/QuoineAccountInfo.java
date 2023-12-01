@@ -3,7 +3,9 @@ package org.knowm.xchange.quoine.dto.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Arrays;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public final class QuoineAccountInfo {
 
   private final BitcoinAccount bitcoinAccount;

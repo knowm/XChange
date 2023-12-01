@@ -10,7 +10,9 @@ import org.knowm.xchange.bitbay.service.BitbayTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author kpysniak */
+/**
+ * @author kpysniak
+ */
 public class BitbayExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory =

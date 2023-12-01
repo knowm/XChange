@@ -41,12 +41,15 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
     this.streamingService = streamingService;
 
     if (streamingService != null) {
-      streamingService.subscribeDisconnect().subscribe(o -> {
-        synchronized (this) {
-          ownTradesObservableSet = false;
-          userTradeObservableSet = false;
-        }
-      });
+      streamingService
+          .subscribeDisconnect()
+          .subscribe(
+              o -> {
+                synchronized (this) {
+                  ownTradesObservableSet = false;
+                  userTradeObservableSet = false;
+                }
+              });
     }
   }
 

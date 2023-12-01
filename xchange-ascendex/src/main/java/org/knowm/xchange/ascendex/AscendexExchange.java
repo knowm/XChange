@@ -10,7 +10,9 @@ import org.knowm.xchange.ascendex.service.AscendexMarketDataServiceRaw;
 import org.knowm.xchange.ascendex.service.AscendexTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-/** @author makarid */
+/**
+ * @author makarid
+ */
 public class AscendexExchange extends BaseExchange implements Exchange {
 
   @Override

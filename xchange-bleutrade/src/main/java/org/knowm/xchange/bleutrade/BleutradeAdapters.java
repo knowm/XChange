@@ -171,10 +171,12 @@ public class BleutradeAdapters {
       CurrencyPair currencyPair =
           CurrencyPairDeserializer.getCurrencyPairFromString(bleutradeMarket.getMarketName());
 
-      marketMetaDataMap.put(currencyPair, new InstrumentMetaData.Builder()
-                      .tradingFee(txFee)
-                      .minimumAmount(bleutradeMarket.getMinTradeSize())
-                      .volumeScale(8)
+      marketMetaDataMap.put(
+          currencyPair,
+          new InstrumentMetaData.Builder()
+              .tradingFee(txFee)
+              .minimumAmount(bleutradeMarket.getMinTradeSize())
+              .volumeScale(8)
               .build());
     }
 

@@ -1,5 +1,10 @@
 package org.knowm.xchange.poloniex.service;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.CandleStickData;
@@ -22,13 +27,9 @@ import org.knowm.xchange.service.marketdata.params.Params;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
-/** @author Zach Holmes */
+/**
+ * @author Zach Holmes
+ */
 public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw
     implements MarketDataService {
 
@@ -128,20 +129,25 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw
 
   @Override
   public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params)
-          throws IOException {
+      throws IOException {
     if (!(params instanceof DefaultCandleStickParam)) {
       throw new NotYetImplementedForExchangeException("Only DefaultCandleStickParam is supported");
     }
     try {
       DefaultCandleStickParam defaultCandleStickParam = (DefaultCandleStickParam) params;
       PoloniexChartDataPeriodType periodType =
-              PoloniexChartDataPeriodType.getPeriodTypeFromSecs(defaultCandleStickParam.getPeriodInSecs());
+          PoloniexChartDataPeriodType.getPeriodTypeFromSecs(
+              defaultCandleStickParam.getPeriodInSecs());
       if (periodType == null) {
-        throw new NotYetImplementedForExchangeException("Only discrete period values are " +
-                "supported;" + Arrays.toString(PoloniexChartDataPeriodType.getSupportedPeriodsInSecs()));
+        throw new NotYetImplementedForExchangeException(
+            "Only discrete period values are "
+                + "supported;"
+                + Arrays.toString(PoloniexChartDataPeriodType.getSupportedPeriodsInSecs()));
       }
 
-      PoloniexChartData[] poloniexChartData = getPoloniexChartData(currencyPair,
+      PoloniexChartData[] poloniexChartData =
+          getPoloniexChartData(
+              currencyPair,
               TimeUnit.MILLISECONDS.toSeconds(defaultCandleStickParam.getStartDate().getTime()),
               TimeUnit.MILLISECONDS.toSeconds(defaultCandleStickParam.getEndDate().getTime()),
               periodType);

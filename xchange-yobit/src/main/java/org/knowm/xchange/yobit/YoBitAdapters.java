@@ -72,13 +72,15 @@ public class YoBitAdapters {
       currencyPairs.put(
           pair,
           new InstrumentMetaData.Builder()
-                  .tradingFee(value.getFee())
-                  .minimumAmount(minSize)
-                  .priceScale(priceScale)
-                  .feeTiers(new FeeTier[] {
-                          new FeeTier(BigDecimal.ZERO, new Fee(value.getFee_seller(), value.getFee_buyer()))
+              .tradingFee(value.getFee())
+              .minimumAmount(minSize)
+              .priceScale(priceScale)
+              .feeTiers(
+                  new FeeTier[] {
+                    new FeeTier(
+                        BigDecimal.ZERO, new Fee(value.getFee_seller(), value.getFee_buyer()))
                   })
-                  .build());
+              .build());
 
       if (!currencies.containsKey(pair.base)) {
         CurrencyMetaData currencyMetaData = exchangeMetaData.getCurrencies().get(pair.base);

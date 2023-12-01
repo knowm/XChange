@@ -9,7 +9,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author Felipe Micaroni Lalli */
+/**
+ * @author Felipe Micaroni Lalli
+ */
 public class MercadoBitcoinMarketDataService extends MercadoBitcoinMarketDataServiceRaw
     implements MarketDataService {
 

@@ -38,6 +38,7 @@ import org.knowm.xchange.instrument.Instrument;
 public class FtxStreamingAdapters {
 
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+
   /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
   private static final ThreadLocal<DecimalFormat> dfp =
       ThreadLocal.withInitial(

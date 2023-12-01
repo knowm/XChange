@@ -1,33 +1,31 @@
 package info.bitrich.xchangestream.binance.dto;
 
+import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_COMMENTS;
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.KLINE;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
 import org.knowm.xchange.currency.CurrencyPair;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
-import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_COMMENTS;
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
-import static info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.KLINE;
-import static org.assertj.core.api.Assertions.assertThat;
-
-
 public class KlineBinanceWebSocketTransactionTest extends TestCase {
 
-  private final ObjectMapper mapper = new ObjectMapper()
-      .enable(ALLOW_COMMENTS)
-      .disable(FAIL_ON_UNKNOWN_PROPERTIES);
+  private final ObjectMapper mapper =
+      new ObjectMapper().enable(ALLOW_COMMENTS).disable(FAIL_ON_UNKNOWN_PROPERTIES);
 
   @Test
   public void testMapping() throws IOException {
     InputStream stream = this.getClass().getResourceAsStream("testKlineEvent.json");
 
-    KlineBinanceWebSocketTransaction klineBinanceWebSocketTransaction = mapper.readValue(stream, KlineBinanceWebSocketTransaction.class);
+    KlineBinanceWebSocketTransaction klineBinanceWebSocketTransaction =
+        mapper.readValue(stream, KlineBinanceWebSocketTransaction.class);
 
     assertThat(klineBinanceWebSocketTransaction).isNotNull();
     assertThat(klineBinanceWebSocketTransaction.eventType).isEqualTo(KLINE);

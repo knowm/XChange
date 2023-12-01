@@ -151,7 +151,9 @@ public class KucoinAdapters {
       FeeTier[] feeTiers = staticMetaData != null ? staticMetaData.getFeeTiers() : null;
       Currency feeCurrency = new Currency(symbol.getFeeCurrency());
 
-      currencyPairs.put(pair, new InstrumentMetaData.Builder()
+      currencyPairs.put(
+          pair,
+          new InstrumentMetaData.Builder()
               .tradingFee(takerTradingFee)
               .minimumAmount(minSize)
               .maximumAmount(maxSize)

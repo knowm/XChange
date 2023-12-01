@@ -1,9 +1,5 @@
 package org.knowm.xchange.bitbay;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.HeaderParam;
@@ -11,6 +7,10 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
 import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
 import org.knowm.xchange.bitbay.dto.trade.BitbayCancelResponse;
@@ -19,7 +19,9 @@ import org.knowm.xchange.bitbay.dto.trade.BitbayTradeResponse;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author Z. Dolezal */
+/**
+ * @author Z. Dolezal
+ */
 @SuppressWarnings("rawtypes")
 @Path("/Trading/tradingApi.php")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

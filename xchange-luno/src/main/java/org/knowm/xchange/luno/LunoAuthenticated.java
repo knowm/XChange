@@ -1,7 +1,5 @@
 package org.knowm.xchange.luno;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
@@ -13,6 +11,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.luno.dto.LunoBoolean;
 import org.knowm.xchange.luno.dto.LunoException;
 import org.knowm.xchange.luno.dto.account.LunoAccount;
@@ -32,7 +32,9 @@ import org.knowm.xchange.luno.dto.trade.OrderType;
 import org.knowm.xchange.luno.dto.trade.State;
 import si.mazi.rescu.ParamsDigest;
 
-/** @see https://www.luno.com/en/api */
+/**
+ * @see https://www.luno.com/en/api
+ */
 @Path("api/1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface LunoAuthenticated extends Luno {

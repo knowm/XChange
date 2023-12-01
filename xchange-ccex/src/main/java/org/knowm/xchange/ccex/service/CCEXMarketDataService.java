@@ -9,7 +9,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author Andraž Prinčič */
+/**
+ * @author Andraž Prinčič
+ */
 public class CCEXMarketDataService extends CCEXMarketDataServiceRaw implements MarketDataService {
 
   public CCEXMarketDataService(Exchange exchange) {

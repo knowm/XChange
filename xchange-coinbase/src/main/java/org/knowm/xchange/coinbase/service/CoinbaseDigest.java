@@ -1,12 +1,14 @@
 package org.knowm.xchange.coinbase.service;
 
+import jakarta.ws.rs.HeaderParam;
 import java.math.BigInteger;
 import javax.crypto.Mac;
-import jakarta.ws.rs.HeaderParam;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseDigest extends BaseParamsDigest {
 
   private CoinbaseDigest(String secretKey) {

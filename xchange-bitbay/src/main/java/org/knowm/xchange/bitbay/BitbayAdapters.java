@@ -29,7 +29,9 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 
-/** @author kpysniak */
+/**
+ * @author kpysniak
+ */
 public class BitbayAdapters {
 
   /** Singleton */

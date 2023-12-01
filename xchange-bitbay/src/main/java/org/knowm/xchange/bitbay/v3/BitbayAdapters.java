@@ -12,7 +12,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class BitbayAdapters {
 
   /** Singleton */

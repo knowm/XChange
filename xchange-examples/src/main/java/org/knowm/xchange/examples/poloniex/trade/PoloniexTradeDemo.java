@@ -24,7 +24,9 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.utils.CertHelper;
 
-/** @author Zach Holmes */
+/**
+ * @author Zach Holmes
+ */
 public class PoloniexTradeDemo {
 
   private static final CurrencyPair REP_ETH = new CurrencyPair("REP", "ETH");

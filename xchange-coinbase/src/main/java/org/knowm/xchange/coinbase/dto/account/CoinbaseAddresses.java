@@ -16,7 +16,9 @@ import org.knowm.xchange.coinbase.dto.CoinbasePagedResult;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseAddresses.CoinbaseAddressesDeserializer;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 @JsonDeserialize(using = CoinbaseAddressesDeserializer.class)
 public class CoinbaseAddresses extends CoinbasePagedResult {
 

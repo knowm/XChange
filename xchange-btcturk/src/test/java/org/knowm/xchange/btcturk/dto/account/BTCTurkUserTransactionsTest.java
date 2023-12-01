@@ -12,7 +12,9 @@ import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTickerTest;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkUserTransactionsTest {
 
   @Test

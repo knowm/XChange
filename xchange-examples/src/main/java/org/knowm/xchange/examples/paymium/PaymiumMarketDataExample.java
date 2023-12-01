@@ -7,7 +7,9 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.paymium.PaymiumExchange;
 import org.knowm.xchange.paymium.service.PaymiumMarketDataServiceRaw;
 
-/** @author ObsessiveOrange */
+/**
+ * @author ObsessiveOrange
+ */
 public class PaymiumMarketDataExample {
 
   public static void main(String[] args) throws IOException {

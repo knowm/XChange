@@ -57,6 +57,7 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
   }
 
   private boolean orderChangesWarningLogged;
+
   /**
    * <strong>Warning:</strong> the order change stream is not yet fully implemented for Coinbase
    * Pro. Orders are not fully populated, containing only the values changed since the last update.

@@ -10,25 +10,24 @@ import org.knowm.xchange.krakenfutures.dto.KrakenFuturesResult;
 @ToString
 public class KrakenFuturesEditOrderResponse extends KrakenFuturesResult {
 
-    private final KrakenFuturesEditStatus editStatus;
+  private final KrakenFuturesEditStatus editStatus;
 
-    public KrakenFuturesEditOrderResponse(
-            @JsonProperty("result") String result,
-            @JsonProperty("error") String error,
-            @JsonProperty("editStatus") KrakenFuturesEditStatus editStatus) {
-        super(result, error);
-        this.editStatus = editStatus;
+  public KrakenFuturesEditOrderResponse(
+      @JsonProperty("result") String result,
+      @JsonProperty("error") String error,
+      @JsonProperty("editStatus") KrakenFuturesEditStatus editStatus) {
+    super(result, error);
+    this.editStatus = editStatus;
+  }
+
+  @Getter
+  @ToString
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  public static class KrakenFuturesEditStatus {
+    private final String orderId;
+
+    public KrakenFuturesEditStatus(@JsonProperty("orderId") String orderId) {
+      this.orderId = orderId;
     }
-
-    @Getter
-    @ToString
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class KrakenFuturesEditStatus{
-        private final String orderId;
-
-        public KrakenFuturesEditStatus(
-                @JsonProperty("orderId") String orderId) {
-            this.orderId = orderId;
-        }
-    }
+  }
 }

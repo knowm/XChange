@@ -69,15 +69,15 @@ public final class LgoAdapters {
       currencyPairs.put(
           toPair(product),
           new InstrumentMetaData.Builder()
-                  .minimumAmount(minAmount)
-                  .maximumAmount(maxAmount)
-                  .volumeScale(baseScale)
-                  .priceScale(increment.scale())
-                  .amountStepSize(increment)
-                  .feeTiers(new FeeTier[0])
-                  .tradingFeeCurrency(Currency.USD)
-                  .marketOrderEnabled(true)
-                  .build());
+              .minimumAmount(minAmount)
+              .maximumAmount(maxAmount)
+              .volumeScale(baseScale)
+              .priceScale(increment.scale())
+              .amountStepSize(increment)
+              .feeTiers(new FeeTier[0])
+              .tradingFeeCurrency(Currency.USD)
+              .marketOrderEnabled(true)
+              .build());
     }
     return metaData;
   }

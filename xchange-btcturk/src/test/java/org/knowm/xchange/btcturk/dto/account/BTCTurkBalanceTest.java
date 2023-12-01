@@ -9,7 +9,9 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTickerTest;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkBalanceTest {
 
   @Test

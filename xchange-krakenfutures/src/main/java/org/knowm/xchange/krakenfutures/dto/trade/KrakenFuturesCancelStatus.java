@@ -2,11 +2,12 @@ package org.knowm.xchange.krakenfutures.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
-
 import lombok.Getter;
 import lombok.ToString;
 
-/** @author Panchen */
+/**
+ * @author Panchen
+ */
 @Getter
 @ToString
 public class KrakenFuturesCancelStatus {

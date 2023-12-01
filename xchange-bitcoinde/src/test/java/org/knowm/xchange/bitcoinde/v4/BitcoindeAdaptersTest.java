@@ -37,7 +37,9 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 
-/** @author matthewdowney */
+/**
+ * @author matthewdowney
+ */
 public class BitcoindeAdaptersTest {
 
   @Test

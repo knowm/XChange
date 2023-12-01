@@ -7,7 +7,9 @@ import java.util.Date;
 import si.mazi.rescu.ExceptionalReturnContentException;
 import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
 
-/** @author Piotr Ładyżyński */
+/**
+ * @author Piotr Ładyżyński
+ */
 public class BitsoTicker {
 
   private final BigDecimal last;

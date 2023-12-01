@@ -50,8 +50,7 @@ public class KrakenMarketDataServiceRaw extends KrakenBaseService {
     return checkResult(tickerResult).get(krakenCurrencyPair);
   }
 
-  public Map<String, KrakenTicker> getKrakenTickers()
-      throws IOException {
+  public Map<String, KrakenTicker> getKrakenTickers() throws IOException {
 
     KrakenTickerResult tickerResult = kraken.getTicker(null);
 

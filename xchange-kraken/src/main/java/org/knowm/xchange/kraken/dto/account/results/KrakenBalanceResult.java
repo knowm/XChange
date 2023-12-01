@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 import java.util.Map;
 import org.knowm.xchange.kraken.dto.KrakenResult;
 
-/** @author Benedikt */
+/**
+ * @author Benedikt
+ */
 public class KrakenBalanceResult extends KrakenResult<Map<String, BigDecimal>> {
 
   /**

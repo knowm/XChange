@@ -1,8 +1,5 @@
 package org.knowm.xchange.latoken;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -12,6 +9,9 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 import org.knowm.xchange.latoken.dto.LatokenException;
 import org.knowm.xchange.latoken.dto.account.LatokenBalance;
 import org.knowm.xchange.latoken.dto.trade.LatokenCancelledOrders;

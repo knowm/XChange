@@ -1,15 +1,15 @@
 package org.knowm.xchange.bleutrade;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalanceReturn;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalancesReturn;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeDepositAddressReturn;

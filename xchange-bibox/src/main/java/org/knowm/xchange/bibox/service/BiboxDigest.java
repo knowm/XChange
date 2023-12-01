@@ -1,7 +1,7 @@
 package org.knowm.xchange.bibox.service;
 
-import java.io.UnsupportedEncodingException;
 import jakarta.ws.rs.FormParam;
+import java.io.UnsupportedEncodingException;
 import org.knowm.xchange.bibox.BiboxAuthenticated;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;

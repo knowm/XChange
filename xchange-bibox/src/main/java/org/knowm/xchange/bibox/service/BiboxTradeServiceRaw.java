@@ -22,7 +22,9 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public class BiboxTradeServiceRaw extends BiboxBaseService {
 
   public BiboxTradeServiceRaw(Exchange exchange) {

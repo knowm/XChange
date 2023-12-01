@@ -1,16 +1,14 @@
 package info.bitrich.xchangestream.huobi;
 
-import java.util.List;
-
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.huobi.dto.HuobiKlineType;
 import info.bitrich.xchangestream.huobi.dto.HuobiStepType;
+import java.util.List;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HuobiManualIntegration {
 

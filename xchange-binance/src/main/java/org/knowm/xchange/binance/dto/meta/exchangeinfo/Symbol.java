@@ -36,5 +36,4 @@ public class Symbol {
   private Filter[] filters;
 
   private String[] permissions;
-
 }

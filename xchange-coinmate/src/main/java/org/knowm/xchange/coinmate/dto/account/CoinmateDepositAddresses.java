@@ -27,7 +27,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class CoinmateDepositAddresses extends CoinmateBaseResponse<ArrayList<String>> {
 
   public CoinmateDepositAddresses(

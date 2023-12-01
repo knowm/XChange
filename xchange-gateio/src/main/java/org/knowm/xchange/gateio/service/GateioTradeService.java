@@ -117,26 +117,27 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
     List<Order> orders = new ArrayList<>();
     for (OrderQueryParams param : orderQueryParams) {
       if (!(param instanceof DefaultQueryOrderParamCurrencyPair)) {
-        throw new NotAvailableFromExchangeException("getOrder in gateio needs orderId and currency pair");
+        throw new NotAvailableFromExchangeException(
+            "getOrder in gateio needs orderId and currency pair");
       }
-      DefaultQueryOrderParamCurrencyPair queryOrderParamCurrencyPair = (DefaultQueryOrderParamCurrencyPair) param;
-      GateioOrderStatus gateioOrderStatus = getGateioOrderStatus(
+      DefaultQueryOrderParamCurrencyPair queryOrderParamCurrencyPair =
+          (DefaultQueryOrderParamCurrencyPair) param;
+      GateioOrderStatus gateioOrderStatus =
+          getGateioOrderStatus(
               queryOrderParamCurrencyPair.getOrderId(),
-              queryOrderParamCurrencyPair.getCurrencyPair()
-      );
+              queryOrderParamCurrencyPair.getCurrencyPair());
 
-      LimitOrder limitOrder = new LimitOrder(
+      LimitOrder limitOrder =
+          new LimitOrder(
               GateioAdapters.adaptOrderType(gateioOrderStatus.getType()),
               gateioOrderStatus.getInitialAmount(),
               gateioOrderStatus.getInitialAmount().subtract(gateioOrderStatus.getAmount()),
               gateioOrderStatus.getCurrencyPair(),
               gateioOrderStatus.getOrderNumber(),
               null,
-              gateioOrderStatus.getInitialRate()) {
-      };
+              gateioOrderStatus.getInitialRate()) {};
       limitOrder.setAveragePrice(gateioOrderStatus.getRate());
       orders.add(limitOrder);
-
     }
 
     return orders;

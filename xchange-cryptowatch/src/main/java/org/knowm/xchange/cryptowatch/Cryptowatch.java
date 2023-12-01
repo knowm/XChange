@@ -14,7 +14,9 @@ import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchPriceResu
 import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchSummaryResult;
 import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchTradesResult;
 
-/** @author massi.gerardi */
+/**
+ * @author massi.gerardi
+ */
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Cryptowatch {

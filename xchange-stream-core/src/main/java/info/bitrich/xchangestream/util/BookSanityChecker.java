@@ -10,7 +10,9 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-/** @author Foat Akhmadeev 05/06/2018 */
+/**
+ * @author Foat Akhmadeev 05/06/2018
+ */
 public class BookSanityChecker {
 
   public static String hasErrors(OrderBook book) {

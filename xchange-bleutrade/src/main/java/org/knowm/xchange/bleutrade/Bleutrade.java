@@ -1,11 +1,11 @@
 package org.knowm.xchange.bleutrade;
 
-import java.io.IOException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeMarketHistoryReturn;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;

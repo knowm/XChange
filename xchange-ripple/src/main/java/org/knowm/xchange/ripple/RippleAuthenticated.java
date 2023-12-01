@@ -1,6 +1,5 @@
 package org.knowm.xchange.ripple;
 
-import java.io.IOException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.POST;
@@ -9,6 +8,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.ripple.dto.RippleException;
 import org.knowm.xchange.ripple.dto.trade.RippleOrderCancelRequest;
 import org.knowm.xchange.ripple.dto.trade.RippleOrderCancelResponse;

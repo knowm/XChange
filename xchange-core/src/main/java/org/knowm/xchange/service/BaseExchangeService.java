@@ -42,8 +42,7 @@ public abstract class BaseExchangeService<E extends Exchange> {
 
   protected final void verifyOrder(Order order, ExchangeMetaData exchangeMetaData) {
 
-    InstrumentMetaData metaData =
-        exchangeMetaData.getInstruments().get(order.getCurrencyPair());
+    InstrumentMetaData metaData = exchangeMetaData.getInstruments().get(order.getCurrencyPair());
     if (metaData == null) {
       throw new IllegalArgumentException("Invalid CurrencyPair");
     }

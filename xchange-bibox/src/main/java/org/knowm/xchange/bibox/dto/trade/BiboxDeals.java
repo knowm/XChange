@@ -21,15 +21,19 @@ public class BiboxDeals {
 
   @JsonProperty("pair")
   private String pair;
+
   /** transaction price */
   @JsonProperty("price")
   private BigDecimal price;
+
   /** transaction amount */
   @JsonProperty("amount")
   private BigDecimal amount;
+
   /** transaction time */
   @JsonProperty("time")
   private long time;
+
   /** transaction side，1-bid，2-ask */
   @JsonProperty("side")
   private int side;

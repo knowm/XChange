@@ -63,8 +63,10 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
     List<LimitOrder> list = new ArrayList<>();
     for (org.knowm.xchange.luno.dto.trade.LunoOrders.Order lo :
         lunoAPI.listOrders(State.PENDING, null).getOrders()) {

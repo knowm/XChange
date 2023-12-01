@@ -17,7 +17,9 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class AccountMockedIntegrationTest extends BaseMockedIntegrationTest {
 
   private static LivecoinAccountService accountService;

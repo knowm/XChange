@@ -34,37 +34,49 @@ public class OkCoinTicker {
     this.unitAmount = unitAmount;
   }
 
-  /** @return the high */
+  /**
+   * @return the high
+   */
   public BigDecimal getHigh() {
 
     return high;
   }
 
-  /** @return the low */
+  /**
+   * @return the low
+   */
   public BigDecimal getLow() {
 
     return low;
   }
 
-  /** @return the buy */
+  /**
+   * @return the buy
+   */
   public BigDecimal getBuy() {
 
     return buy;
   }
 
-  /** @return the sell */
+  /**
+   * @return the sell
+   */
   public BigDecimal getSell() {
 
     return sell;
   }
 
-  /** @return the last */
+  /**
+   * @return the last
+   */
   public BigDecimal getLast() {
 
     return last;
   }
 
-  /** @return the vol */
+  /**
+   * @return the vol
+   */
   public BigDecimal getVol() {
 
     return vol;

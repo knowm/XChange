@@ -1,9 +1,5 @@
 package org.knowm.xchange.mercadobitcoin;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.HeaderParam;
@@ -11,6 +7,10 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import org.knowm.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinCancelOrderResult;

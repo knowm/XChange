@@ -1,17 +1,18 @@
 package org.knowm.xchange.krakenfutures;
 
+import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.krakenfutures.service.KrakenFuturesAccountService;
 import org.knowm.xchange.krakenfutures.service.KrakenFuturesMarketDataService;
 import org.knowm.xchange.krakenfutures.service.KrakenFuturesMarketDataServiceRaw;
 import org.knowm.xchange.krakenfutures.service.KrakenFuturesTradeService;
-import org.knowm.xchange.exceptions.ExchangeException;
 
-import java.io.IOException;
-
-/** @author Jean-Christophe Laruelle */
+/**
+ * @author Jean-Christophe Laruelle
+ */
 public class KrakenFuturesExchange extends BaseExchange implements Exchange {
 
   private final String DEMO_URL = "https://demo-futures.kraken.com/derivatives";
@@ -40,13 +41,15 @@ public class KrakenFuturesExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
-    exchangeMetaData = KrakenFuturesAdapters.adaptInstrumentsMetaData(((KrakenFuturesMarketDataServiceRaw)marketDataService).getKrakenFuturesInstruments());
+    exchangeMetaData =
+        KrakenFuturesAdapters.adaptInstrumentsMetaData(
+            ((KrakenFuturesMarketDataServiceRaw) marketDataService).getKrakenFuturesInstruments());
   }
 
   private void concludeHostParams(ExchangeSpecification exchangeSpecification) {
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       if (Boolean.TRUE.equals(
-              exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
+          exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
         exchangeSpecification.setSslUri(DEMO_URL);
       }
     }

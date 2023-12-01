@@ -2,7 +2,9 @@ package org.knowm.xchange.coinbase.dto.merchant;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseMerchant {
 
   private final String companyName;

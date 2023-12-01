@@ -80,7 +80,7 @@ public class LykkeAdapter {
 
   /** *****Adapter for LykkeOpenOrders***** */
   public static List<LimitOrder> adaptOpenOrders(
-          List<Instrument> currencyPairList, List<LykkeOrder> lykkeOrders) throws IOException {
+      List<Instrument> currencyPairList, List<LykkeOrder> lykkeOrders) throws IOException {
     List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (LykkeOrder lykkeOrder : lykkeOrders) {
@@ -89,8 +89,8 @@ public class LykkeAdapter {
     return limitOrders;
   }
 
-  public static LimitOrder adaptLimitOrder(
-      List<Instrument> currencyPairList, LykkeOrder lykkeOrder) throws IOException {
+  public static LimitOrder adaptLimitOrder(List<Instrument> currencyPairList, LykkeOrder lykkeOrder)
+      throws IOException {
 
     return new LimitOrder(
         getOrderTypeFromVolumeSign(lykkeOrder.getVolume()),

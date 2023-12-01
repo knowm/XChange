@@ -18,7 +18,9 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class AccountServiceTest extends BaseWiremockTest {
 
   private static BittrexAccountService accountService;

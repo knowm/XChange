@@ -1,12 +1,12 @@
 package org.knowm.xchange.bitcointoyou;
 
-import java.io.IOException;
-import java.util.Map;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.Map;
 import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouMarketData;
 import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouOrderBook;
 import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouPublicTrade;

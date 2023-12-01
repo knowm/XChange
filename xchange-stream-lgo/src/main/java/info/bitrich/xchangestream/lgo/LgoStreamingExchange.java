@@ -36,7 +36,8 @@ public class LgoStreamingExchange extends LgoExchange implements StreamingExchan
   private LgoStreamingService createStreamingService() {
     String apiUrl =
         getExchangeSpecification().getExchangeSpecificParameters().get(LgoEnv.WS_URL).toString();
-    LgoStreamingService streamingService = new LgoStreamingService(this.getSignatureService(), apiUrl);
+    LgoStreamingService streamingService =
+        new LgoStreamingService(this.getSignatureService(), apiUrl);
     applyStreamingSpecification(getExchangeSpecification(), streamingService);
     return streamingService;
   }

@@ -6,10 +6,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import jakarta.ws.rs.core.Response.Status;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import jakarta.ws.rs.core.Response.Status;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -20,7 +20,8 @@ public class BybitMarketDataServiceRawTest extends BaseWiremockTest {
   @Test
   public void testGetSymbols() throws Exception {
     Exchange bybitExchange = createExchange();
-    BybitMarketDataServiceRaw marketDataServiceRaw = (BybitMarketDataServiceRaw) bybitExchange.getMarketDataService();
+    BybitMarketDataServiceRaw marketDataServiceRaw =
+        (BybitMarketDataServiceRaw) bybitExchange.getMarketDataService();
 
     stubFor(
         get(urlPathEqualTo("/v2/public/symbols"))
@@ -28,9 +29,8 @@ public class BybitMarketDataServiceRawTest extends BaseWiremockTest {
                 aResponse()
                     .withStatus(Status.OK.getStatusCode())
                     .withHeader("Content-Type", "application/json")
-                    .withBody(IOUtils.resourceToString("/getSymbols.json5", StandardCharsets.UTF_8))
-            )
-    );
+                    .withBody(
+                        IOUtils.resourceToString("/getSymbols.json5", StandardCharsets.UTF_8))));
 
     List<BybitSymbol> symbols = marketDataServiceRaw.getSymbols().getResult();
 
@@ -55,8 +55,7 @@ public class BybitMarketDataServiceRawTest extends BaseWiremockTest {
     assertThat(btcusdt.getLotSizeFilter().getMaxTradingQty()).isEqualTo(new BigDecimal("20"));
     assertThat(btcusdt.getLotSizeFilter().getMinTradingQty()).isEqualTo(new BigDecimal("0.001"));
     assertThat(btcusdt.getLotSizeFilter().getQtyStep()).isEqualTo(new BigDecimal("0.001"));
-    assertThat(btcusdt.getLotSizeFilter().getPostOnlyMaxTradingQty()).isEqualTo(new BigDecimal("100"));
-
+    assertThat(btcusdt.getLotSizeFilter().getPostOnlyMaxTradingQty())
+        .isEqualTo(new BigDecimal("100"));
   }
-
 }

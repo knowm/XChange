@@ -10,7 +10,9 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.paribu.ParibuAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author semihunaldi */
+/**
+ * @author semihunaldi
+ */
 public class ParibuMarketDataService extends ParibuMarketDataServiceRaw
     implements MarketDataService {
 

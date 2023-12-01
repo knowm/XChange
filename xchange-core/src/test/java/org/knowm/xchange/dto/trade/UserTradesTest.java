@@ -1,16 +1,15 @@
 package org.knowm.xchange.dto.trade;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.Trades;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.*;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import org.junit.Test;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Trades;
 
 public class UserTradesTest {
 

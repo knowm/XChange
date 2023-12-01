@@ -10,7 +10,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
 
-/** @author matthewdowney */
+/**
+ * @author matthewdowney
+ */
 public class BitcoindeOrderBookTest {
 
   @Test

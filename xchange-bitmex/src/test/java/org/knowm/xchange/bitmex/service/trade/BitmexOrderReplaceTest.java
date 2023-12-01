@@ -18,7 +18,9 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.CertHelper;
 
-/** @author Nikita Belenkiy on 18/05/2018. */
+/**
+ * @author Nikita Belenkiy on 18/05/2018.
+ */
 public class BitmexOrderReplaceTest {
 
   @Test

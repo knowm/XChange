@@ -15,21 +15,28 @@ public class BybitBaseService implements BaseService {
   protected final BybitAuthenticated bybitAuthenticated;
   protected final Bybit bybit;
   protected final ParamsDigest signatureCreator;
-  protected final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeIncrementalNonceFactory(TimeUnit.MILLISECONDS);
+  protected final SynchronizedValueFactory<Long> nonceFactory =
+      new CurrentTimeIncrementalNonceFactory(TimeUnit.MILLISECONDS);
   protected final String apiKey;
 
   public BybitBaseService(Exchange exchange) {
-    bybit = ExchangeRestProxyBuilder
-        .forInterface(Bybit.class, exchange.getExchangeSpecification())
-        .clientConfigCustomizer(clientConfig -> clientConfig.setJacksonObjectMapperFactory(new BybitJacksonObjectMapperFactory()))
-        .build();
-    bybitAuthenticated = ExchangeRestProxyBuilder
-        .forInterface(BybitAuthenticated.class, exchange.getExchangeSpecification())
-        .clientConfigCustomizer(clientConfig -> clientConfig.setJacksonObjectMapperFactory(new BybitJacksonObjectMapperFactory()))
-        .build();
-    signatureCreator = BybitDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    bybit =
+        ExchangeRestProxyBuilder.forInterface(Bybit.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(
+                clientConfig ->
+                    clientConfig.setJacksonObjectMapperFactory(
+                        new BybitJacksonObjectMapperFactory()))
+            .build();
+    bybitAuthenticated =
+        ExchangeRestProxyBuilder.forInterface(
+                BybitAuthenticated.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(
+                clientConfig ->
+                    clientConfig.setJacksonObjectMapperFactory(
+                        new BybitJacksonObjectMapperFactory()))
+            .build();
+    signatureCreator =
+        BybitDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     apiKey = exchange.getExchangeSpecification().getApiKey();
   }
-
-
 }

@@ -1,14 +1,14 @@
 package org.knowm.xchange.therock;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.Objects;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Objects;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.therock.dto.TheRockException;
 import org.knowm.xchange.therock.dto.marketdata.TheRockOrderBook;

@@ -18,7 +18,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public class BiboxAccountService extends BiboxAccountServiceRaw implements AccountService {
 
   public BiboxAccountService(Exchange exchange) {

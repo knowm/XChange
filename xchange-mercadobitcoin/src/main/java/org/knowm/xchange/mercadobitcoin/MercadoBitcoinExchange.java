@@ -10,7 +10,9 @@ import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author Felipe Micaroni Lalli */
+/**
+ * @author Felipe Micaroni Lalli
+ */
 public class MercadoBitcoinExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory =

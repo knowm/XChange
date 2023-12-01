@@ -58,7 +58,9 @@ public final class OkCoinAdapters {
 
   public static String adaptSymbol(Instrument currencyPair) {
 
-    return (currencyPair.getBase().getCurrencyCode() + "_" + currencyPair.getCounter().getCurrencyCode())
+    return (currencyPair.getBase().getCurrencyCode()
+            + "_"
+            + currencyPair.getCounter().getCurrencyCode())
         .toLowerCase();
   }
 

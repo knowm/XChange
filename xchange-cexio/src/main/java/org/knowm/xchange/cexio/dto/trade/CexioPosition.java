@@ -61,6 +61,7 @@ public class CexioPosition {
   private final String lremains; // 	(TECH) amount of borrowed funds to be returned by user
   private final String slremains; // 	(TECH) remains of slamount to return
   private final String status; // 	position's current status (e.g. a for active)
+
   //  public final String  a:USD:cds	;//	(TECH) equation c==d, s==0
 
   public CexioPosition(

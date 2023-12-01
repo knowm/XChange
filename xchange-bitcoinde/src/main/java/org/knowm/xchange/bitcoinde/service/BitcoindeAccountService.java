@@ -6,7 +6,9 @@ import org.knowm.xchange.bitcoinde.BitcoindeAdapters;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
 
-/** @author kaiserfr */
+/**
+ * @author kaiserfr
+ */
 public class BitcoindeAccountService extends BitcoindeAccountServiceRaw implements AccountService {
 
   public BitcoindeAccountService(Exchange exchange) {

@@ -1,12 +1,12 @@
 package org.knowm.xchange.ccex;
 
-import java.io.IOException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.ccex.dto.account.CCEXBalanceResponse;
 import org.knowm.xchange.ccex.dto.account.CCEXBalancesResponse;
 import org.knowm.xchange.ccex.dto.trade.CCEXBuySellLimitResponse;

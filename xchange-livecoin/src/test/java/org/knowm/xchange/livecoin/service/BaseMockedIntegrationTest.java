@@ -9,7 +9,9 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.livecoin.LivecoinExchange;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class BaseMockedIntegrationTest {
 
   @Rule public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());

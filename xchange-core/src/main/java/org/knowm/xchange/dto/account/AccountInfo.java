@@ -42,7 +42,9 @@ public final class AccountInfo implements Serializable {
    */
   @Nullable private final Date timestamp;
 
-  /** @see #AccountInfo(String, BigDecimal, Collection) */
+  /**
+   * @see #AccountInfo(String, BigDecimal, Collection)
+   */
   public AccountInfo(Wallet... wallets) {
 
     // TODO when refactoring for separate feature interfaces, change this constructor to require at
@@ -50,7 +52,9 @@ public final class AccountInfo implements Serializable {
     this(null, null, wallets);
   }
 
-  /** @see #AccountInfo(String, BigDecimal, Collection, Date) */
+  /**
+   * @see #AccountInfo(String, BigDecimal, Collection, Date)
+   */
   public AccountInfo(Date timestamp, Wallet... wallets) {
 
     // TODO when refactoring for separate feature interfaces, change this constructor to require at
@@ -58,19 +62,25 @@ public final class AccountInfo implements Serializable {
     this(null, null, Arrays.asList(wallets), timestamp);
   }
 
-  /** @see #AccountInfo(String, BigDecimal, Collection) */
+  /**
+   * @see #AccountInfo(String, BigDecimal, Collection)
+   */
   public AccountInfo(Collection<Wallet> wallets) {
 
     this(null, null, wallets);
   }
 
-  /** @see #AccountInfo(String, BigDecimal, Collection) */
+  /**
+   * @see #AccountInfo(String, BigDecimal, Collection)
+   */
   public AccountInfo(String username, Wallet... wallets) {
 
     this(username, null, wallets);
   }
 
-  /** @see #AccountInfo(String, BigDecimal, Collection) */
+  /**
+   * @see #AccountInfo(String, BigDecimal, Collection)
+   */
   public AccountInfo(String username, Collection<Wallet> wallets) {
 
     this(username, null, wallets);
@@ -138,7 +148,9 @@ public final class AccountInfo implements Serializable {
     }
   }
 
-  /** @see #AccountInfo(String, BigDecimal, Collection) */
+  /**
+   * @see #AccountInfo(String, BigDecimal, Collection)
+   */
   public AccountInfo(String username, BigDecimal tradingFee, Wallet... wallets) {
 
     this(username, tradingFee, Arrays.asList(wallets));
@@ -193,7 +205,9 @@ public final class AccountInfo implements Serializable {
     return walletWithFeatures.get(0);
   }
 
-  /** @return The user name */
+  /**
+   * @return The user name
+   */
   public String getUsername() {
 
     return username;

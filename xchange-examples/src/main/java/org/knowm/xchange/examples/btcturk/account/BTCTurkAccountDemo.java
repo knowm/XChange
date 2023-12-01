@@ -10,7 +10,9 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.examples.btcturk.BTCTurkDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkAccountDemo {
 
   public static void main(String[] args) throws IOException {

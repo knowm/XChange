@@ -1,19 +1,21 @@
 package org.knowm.xchange.kuna;
 
-import java.io.IOException;
-import java.util.Map;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.Map;
 import org.knowm.xchange.kuna.dto.KunaAskBid;
 import org.knowm.xchange.kuna.dto.KunaException;
 import org.knowm.xchange.kuna.dto.KunaTimeTicker;
 import org.knowm.xchange.kuna.dto.KunaTrade;
 
-/** @author Dat Bui */
+/**
+ * @author Dat Bui
+ */
 @Path("/v2")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Kuna {

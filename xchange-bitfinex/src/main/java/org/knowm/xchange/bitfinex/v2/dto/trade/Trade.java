@@ -16,24 +16,34 @@ public class Trade {
 
   /** Trade database id */
   private String id;
+
   /** Pair (BTCUSD, …) */
   private String symbol;
+
   /** Execution timestamp millis */
   private long timestamp;
+
   /** Order id */
   private String orderId;
+
   /** Positive means buy, negative means sell */
   private BigDecimal execAmount;
+
   /** Execution price */
   private BigDecimal execPrice;
+
   /** Order type */
   private String orderType;
+
   /** Order price */
   private BigDecimal orderPrice;
+
   /** 1 if true, -1 if false */
   private int maker;
+
   /** Fee */
   private BigDecimal fee;
+
   /** Fee currency */
   private String feeCurrency;
 

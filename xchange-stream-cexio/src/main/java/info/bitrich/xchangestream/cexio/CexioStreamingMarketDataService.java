@@ -76,8 +76,7 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
         .map(
             s -> {
               JsonNode dataNode = s.get("data");
-              return mapper.treeToValue(
-                  dataNode, CexioWebSocketOrderBookSubscribeResponse.class);
+              return mapper.treeToValue(dataNode, CexioWebSocketOrderBookSubscribeResponse.class);
             })
         .map(orderBookConsumer);
   }

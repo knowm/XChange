@@ -11,7 +11,9 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.paribu.dto.marketdata.BTC_TL;
 import org.knowm.xchange.paribu.dto.marketdata.ParibuTicker;
 
-/** @author semihunaldi Various adapters for converting from Paribu DTOs to XChange DTOs */
+/**
+ * @author semihunaldi Various adapters for converting from Paribu DTOs to XChange DTOs
+ */
 public final class ParibuAdapters {
 
   private ParibuAdapters() {}

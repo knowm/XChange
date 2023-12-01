@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public final class QuoineOrderDetailsResponse {
 
   private final String id;

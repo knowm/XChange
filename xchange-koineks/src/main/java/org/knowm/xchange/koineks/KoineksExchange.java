@@ -5,7 +5,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.koineks.service.KoineksMarketDataService;
 
-/** @author semihunaldi */
+/**
+ * @author semihunaldi
+ */
 public class KoineksExchange extends BaseExchange implements Exchange {
 
   @Override

@@ -1,7 +1,5 @@
 package org.knowm.xchange.coindeal;
 
-import java.io.IOException;
-import java.util.List;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
@@ -12,6 +10,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.coindeal.dto.account.CoindealBalance;
 import org.knowm.xchange.coindeal.dto.trade.CoindealOrder;
 import org.knowm.xchange.coindeal.dto.trade.CoindealTradeHistory;

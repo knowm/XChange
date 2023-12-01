@@ -46,5 +46,4 @@ public class MEXCErrorUtils {
         return null;
     }
   }
-
 }

@@ -7,7 +7,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public final class BitstampBalance {
 
   private final BigDecimal fee;
@@ -15,6 +17,7 @@ public final class BitstampBalance {
 
   /** map with currency -> Balance */
   private final Map<String, Balance> balances = new HashMap<>();
+
   /** map with pair -> fee */
   private final Map<String, BigDecimal> fees = new HashMap<>();
 

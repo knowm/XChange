@@ -23,7 +23,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public class BiboxMarketDataServiceRaw extends BiboxBaseService {
 
   private static final String TICKER_CMD = "ticker";

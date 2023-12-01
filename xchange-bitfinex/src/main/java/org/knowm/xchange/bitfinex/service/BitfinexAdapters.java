@@ -684,8 +684,7 @@ public final class BitfinexAdapters {
       List<BitfinexSymbolDetail> symbolDetails,
       Map<CurrencyPair, BigDecimal> lastPrices) {
 
-    final Map<Instrument, InstrumentMetaData> currencyPairs =
-        exchangeMetaData.getInstruments();
+    final Map<Instrument, InstrumentMetaData> currencyPairs = exchangeMetaData.getInstruments();
     symbolDetails.parallelStream()
         .forEach(
             bitfinexSymbolDetail -> {
@@ -698,15 +697,16 @@ public final class BitfinexAdapters {
                 int pricePercision = bitfinexSymbolDetail.getPrice_precision();
                 int priceScale = last.scale() + (pricePercision - last.precision());
 
-                currencyPairs.put(currencyPair,  new InstrumentMetaData.Builder()
-                                .tradingFee(currencyPairs.get(currencyPair) == null
-                                        ? null
-                                        : currencyPairs
-                                        .get(currencyPair)
-                                        .getTradingFee())
-                                .minimumAmount(bitfinexSymbolDetail.getMinimum_order_size())
-                                .maximumAmount(bitfinexSymbolDetail.getMaximum_order_size())
-                                .priceScale(priceScale)
+                currencyPairs.put(
+                    currencyPair,
+                    new InstrumentMetaData.Builder()
+                        .tradingFee(
+                            currencyPairs.get(currencyPair) == null
+                                ? null
+                                : currencyPairs.get(currencyPair).getTradingFee())
+                        .minimumAmount(bitfinexSymbolDetail.getMinimum_order_size())
+                        .maximumAmount(bitfinexSymbolDetail.getMaximum_order_size())
+                        .priceScale(priceScale)
                         .build());
               }
             });
@@ -751,14 +751,15 @@ public final class BitfinexAdapters {
 
   public static ExchangeMetaData adaptMetaData(
       BitfinexAccountInfosResponse[] bitfinexAccountInfos, ExchangeMetaData exchangeMetaData) {
-    final Map<Instrument, InstrumentMetaData> currencyPairs =
-        exchangeMetaData.getInstruments();
+    final Map<Instrument, InstrumentMetaData> currencyPairs = exchangeMetaData.getInstruments();
 
     // lets go with the assumption that the trading fees are common across all trading pairs for
     // now.
     // also setting the taker_fee as the trading_fee for now.
     final InstrumentMetaData metaData =
-        new InstrumentMetaData.Builder().tradingFee(bitfinexAccountInfos[0].getTakerFees().movePointLeft(2)).build();
+        new InstrumentMetaData.Builder()
+            .tradingFee(bitfinexAccountInfos[0].getTakerFees().movePointLeft(2))
+            .build();
     currencyPairs.keySet().parallelStream()
         .forEach(
             currencyPair ->
@@ -766,13 +767,13 @@ public final class BitfinexAdapters {
                     currencyPair,
                     metaData,
                     (oldMetaData, newMetaData) ->
-                            new InstrumentMetaData.Builder()
-                                    .tradingFee(newMetaData.getTradingFee())
-                                    .minimumAmount(oldMetaData.getMinimumAmount())
-                                    .maximumAmount(oldMetaData.getMaximumAmount())
-                                    .priceScale(oldMetaData.getPriceScale())
-                                    .feeTiers(oldMetaData.getFeeTiers())
-                                    .build()));
+                        new InstrumentMetaData.Builder()
+                            .tradingFee(newMetaData.getTradingFee())
+                            .minimumAmount(oldMetaData.getMinimumAmount())
+                            .maximumAmount(oldMetaData.getMaximumAmount())
+                            .priceScale(oldMetaData.getPriceScale())
+                            .feeTiers(oldMetaData.getFeeTiers())
+                            .build()));
 
     return exchangeMetaData;
   }

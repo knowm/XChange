@@ -237,17 +237,17 @@ public class BitmexAdapters {
 
     if (originalMeta != null) {
       return new InstrumentMetaData.Builder()
-              .tradingFee(ticker.getTakerFee())
-              .minimumAmount(originalMeta.getMinimumAmount())
-              .maximumAmount(originalMeta.getMaximumAmount())
-              .priceScale(Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()))
-              .feeTiers(originalMeta.getFeeTiers())
-              .build();
+          .tradingFee(ticker.getTakerFee())
+          .minimumAmount(originalMeta.getMinimumAmount())
+          .maximumAmount(originalMeta.getMaximumAmount())
+          .priceScale(Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()))
+          .feeTiers(originalMeta.getFeeTiers())
+          .build();
     } else {
       return new InstrumentMetaData.Builder()
-              .tradingFee(ticker.getTakerFee())
-              .priceScale(Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()))
-              .build();
+          .tradingFee(ticker.getTakerFee())
+          .priceScale(Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()))
+          .build();
     }
   }
 

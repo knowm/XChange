@@ -1,13 +1,13 @@
 package org.knowm.xchange.bitso;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.bitso.dto.BitsoException;
 import org.knowm.xchange.bitso.dto.account.BitsoBalance;
 import org.knowm.xchange.bitso.dto.account.BitsoDepositAddress;
@@ -17,7 +17,9 @@ import org.knowm.xchange.bitso.service.BitsoDigest;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author Benedikt Bünz See https://www.bitso.net/api/ for up-to-date docs., Piotr Ładyżyński */
+/**
+ * @author Benedikt Bünz See https://www.bitso.net/api/ for up-to-date docs., Piotr Ładyżyński
+ */
 @Path("v2")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
@@ -51,7 +53,9 @@ public interface BitsoAuthenticated {
       @FormParam("price") BigDecimal price)
       throws BitsoException, IOException;
 
-  /** @return true if order has been canceled. */
+  /**
+   * @return true if order has been canceled.
+   */
   @POST
   @Path("cancel_order/")
   boolean cancelOrder(

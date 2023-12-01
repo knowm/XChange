@@ -1,6 +1,5 @@
 package org.knowm.xchange.bl3p;
 
-import java.io.IOException;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -9,6 +8,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.bl3p.dto.Bl3pUserTransactions;
 import org.knowm.xchange.bl3p.dto.account.Bl3pAccountInfo;
 import org.knowm.xchange.bl3p.dto.account.Bl3pNewDepositAddress;

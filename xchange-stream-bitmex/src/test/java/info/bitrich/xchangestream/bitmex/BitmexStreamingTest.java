@@ -4,7 +4,9 @@ import java.io.IOException;
 import org.junit.Assert;
 import org.junit.Test;
 
-/** @author Foat Akhmadeev 13/06/2018 */
+/**
+ * @author Foat Akhmadeev 13/06/2018
+ */
 public class BitmexStreamingTest {
   @Test
   public void shouldGetCorrectSubscribeMessage() throws IOException {

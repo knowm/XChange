@@ -17,15 +17,15 @@ public class MEXCOrder {
 
   @JsonCreator
   public MEXCOrder(
-          @JsonProperty("id") String id,
-          @JsonProperty("symbol") String symbol,
-          @JsonProperty("price") String price,
-          @JsonProperty("quantity") String quantity,
-          @JsonProperty("state") String state,
-          @JsonProperty("type") String type,
-          @JsonProperty("deal_quantity") String dealQuantity,
-          @JsonProperty("deal_amount") String dealAmount,
-          @JsonProperty("create_time") long createTime) {
+      @JsonProperty("id") String id,
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("price") String price,
+      @JsonProperty("quantity") String quantity,
+      @JsonProperty("state") String state,
+      @JsonProperty("type") String type,
+      @JsonProperty("deal_quantity") String dealQuantity,
+      @JsonProperty("deal_amount") String dealAmount,
+      @JsonProperty("create_time") long createTime) {
     this.id = id;
     this.symbol = symbol;
     this.price = price;
@@ -73,5 +73,3 @@ public class MEXCOrder {
     return createTime;
   }
 }
-
-

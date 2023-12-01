@@ -39,7 +39,9 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public class BiboxAdapters {
 
   public static String toBiboxPair(Instrument pair) {
@@ -230,6 +232,7 @@ public class BiboxAdapters {
             .collect(Collectors.toList());
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }
+
   /**
    * transaction side，1-bid，2-ask
    *

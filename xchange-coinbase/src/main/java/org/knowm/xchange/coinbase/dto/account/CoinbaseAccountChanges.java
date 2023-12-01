@@ -6,7 +6,9 @@ import org.knowm.xchange.coinbase.dto.CoinbasePagedResult;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseAccountChanges extends CoinbasePagedResult {
 
   private final CoinbaseUser currentUser;

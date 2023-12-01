@@ -3,7 +3,9 @@ package org.knowm.xchange.livecoin.dto.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class LivecoinBalance {
 
   private final String type;

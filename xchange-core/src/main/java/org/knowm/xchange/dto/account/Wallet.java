@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.account;
 
+import com.fasterxml.jackson.annotation.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -10,8 +11,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import com.fasterxml.jackson.annotation.*;
 import org.knowm.xchange.currency.Currency;
 
 /**
@@ -32,22 +31,28 @@ public final class Wallet implements Serializable {
     MARGIN_TRADING,
     /** You can fund other margin traders with funds allocated to this wallet to earn an interest */
     MARGIN_FUNDING,
-    /** Wallet for futures platform*/
+    /** Wallet for futures platform */
     FUTURES_TRADING
   }
 
   /** The keys represent the currency of the wallet. */
   private final Map<Currency, Balance> balances;
+
   /** Collection of balances for deserialization * */
   private final Collection<Balance> balanceCollection;
+
   /** A unique identifier for this wallet */
   private final String id;
+
   /** A descriptive name for this wallet. Defaults to {@link #id} */
   private final String name;
+
   /** Features supported by this wallet */
   private final Set<WalletFeature> features;
+
   /** Maximum leverage for margin trading supported by this wallet */
   private final BigDecimal maxLeverage;
+
   /** Current leverage for margin trading done on this wallet */
   private final BigDecimal currentLeverage;
 
@@ -95,43 +100,57 @@ public final class Wallet implements Serializable {
     this.currentLeverage = currentLeverage;
   }
 
-  /** @return The wallet id */
+  /**
+   * @return The wallet id
+   */
   public String getId() {
 
     return id;
   }
 
-  /** @return A descriptive name for the wallet */
+  /**
+   * @return A descriptive name for the wallet
+   */
   public String getName() {
 
     return name;
   }
 
-  /** @return The available colletion of balances */
+  /**
+   * @return The available colletion of balances
+   */
   @JsonGetter
   public Collection<Balance> balances() {
 
     return balanceCollection;
   }
 
-  /** @return The available balances (amount and currency) */
+  /**
+   * @return The available balances (amount and currency)
+   */
   @JsonIgnore
   public Map<Currency, Balance> getBalances() {
 
     return Collections.unmodifiableMap(balances);
   }
 
-  /** @return All wallet operation features */
+  /**
+   * @return All wallet operation features
+   */
   public Set<WalletFeature> getFeatures() {
     return features;
   }
 
-  /** @return Max leverage of wallet */
+  /**
+   * @return Max leverage of wallet
+   */
   public BigDecimal getMaxLeverage() {
     return maxLeverage;
   }
 
-  /** @return current leverage of wallet */
+  /**
+   * @return current leverage of wallet
+   */
   public BigDecimal getCurrentLeverage() {
     return currentLeverage;
   }
@@ -192,6 +211,7 @@ public final class Wallet implements Serializable {
     private String id;
 
     private String name;
+
     /** These are the default wallet features */
     private Set<WalletFeature> features =
         Stream.of(WalletFeature.TRADING, WalletFeature.FUNDING).collect(Collectors.toSet());

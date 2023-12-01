@@ -2,7 +2,9 @@ package org.knowm.xchange.btcturk.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkCancelOrderResult {
 
   private final Boolean result;

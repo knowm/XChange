@@ -9,7 +9,9 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 
-/** @author semihunaldi */
+/**
+ * @author semihunaldi
+ */
 public class KoineksTickerTest {
 
   @Test

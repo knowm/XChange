@@ -29,8 +29,7 @@ public class ExchangeMetaDataIntegration extends BinanceUsExchangeIntegration {
 
   @Test
   public void testLtcBtcPairMetaData() {
-    InstrumentMetaData pairMetaData =
-        metaData.getInstruments().get(new CurrencyPair("LTC/BTC"));
+    InstrumentMetaData pairMetaData = metaData.getInstruments().get(new CurrencyPair("LTC/BTC"));
     assertThat(pairMetaData.getPriceScale()).isEqualByComparingTo(6);
     assertThat(pairMetaData.getMinimumAmount()).isEqualByComparingTo("0.01");
     assertThat(pairMetaData.getMaximumAmount().longValueExact()).isEqualTo(100000);

@@ -1,8 +1,5 @@
 package org.knowm.xchange.okcoin;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -12,6 +9,9 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.okcoin.v3.dto.account.BillType;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesBillsResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesLeverageResponse;
@@ -567,6 +567,7 @@ public interface OkexV3 {
       @QueryParam("to") String to,
       @QueryParam("limit") Integer limit)
       throws IOException, OkexException;
+
   /** ******************************** Margin Trading API ********************************* */
   @GET
   @Path("/margin/v3/accounts")

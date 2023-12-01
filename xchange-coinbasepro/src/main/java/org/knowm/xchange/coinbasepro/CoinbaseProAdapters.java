@@ -385,17 +385,17 @@ public class CoinbaseProAdapters {
       currencyPairs.put(
           pair,
           new InstrumentMetaData.Builder()
-                  .tradingFee(new BigDecimal("0.50"))
-                  .minimumAmount(product.getBaseMinSize())
-                  .maximumAmount(product.getBaseMaxSize())
-                  .volumeScale(baseScale)
-                  .priceScale(priceScale)
-                  .counterMinimumAmount(product.getMinMarketFunds())
-                  .counterMaximumAmount(product.getMaxMarketFunds())
-                  .feeTiers(staticMetaData != null ? staticMetaData.getFeeTiers() : null)
-                  .tradingFeeCurrency(pair.counter)
-                  .marketOrderEnabled(marketOrderAllowed)
-                  .build());
+              .tradingFee(new BigDecimal("0.50"))
+              .minimumAmount(product.getBaseMinSize())
+              .maximumAmount(product.getBaseMaxSize())
+              .volumeScale(baseScale)
+              .priceScale(priceScale)
+              .counterMinimumAmount(product.getMinMarketFunds())
+              .counterMaximumAmount(product.getMaxMarketFunds())
+              .feeTiers(staticMetaData != null ? staticMetaData.getFeeTiers() : null)
+              .tradingFeeCurrency(pair.counter)
+              .marketOrderEnabled(marketOrderAllowed)
+              .build());
     }
 
     Arrays.stream(cbCurrencies)

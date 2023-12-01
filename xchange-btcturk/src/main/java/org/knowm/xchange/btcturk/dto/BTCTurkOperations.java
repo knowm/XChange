@@ -2,7 +2,9 @@ package org.knowm.xchange.btcturk.dto;
 
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public enum BTCTurkOperations {
   sell("sell"),
   trade("trade"),

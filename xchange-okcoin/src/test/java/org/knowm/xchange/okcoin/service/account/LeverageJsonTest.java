@@ -14,7 +14,9 @@ import org.knowm.xchange.okcoin.v3.dto.MarginMode;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesLeverageResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesLeverageResponse.FixedLeverage;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class LeverageJsonTest {
 
   @Test

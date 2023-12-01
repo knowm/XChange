@@ -1,6 +1,5 @@
 package org.knowm.xchange.upbit;
 
-import java.io.IOException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -10,6 +9,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import org.knowm.xchange.upbit.dto.UpbitException;
 import org.knowm.xchange.upbit.dto.account.UpbitBalances;
 import org.knowm.xchange.upbit.dto.trade.UpbitOrderRequest;

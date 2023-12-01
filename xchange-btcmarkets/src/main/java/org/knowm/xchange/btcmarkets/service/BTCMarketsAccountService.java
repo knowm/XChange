@@ -20,7 +20,9 @@ import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
     implements AccountService {
 
