@@ -224,7 +224,7 @@ public class PoloniexAdapters {
       feeCurrencyCode = currencyPair.base.getCurrencyCode();
     }
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(orderType)
         .originalAmount(amount)
         .currencyPair(currencyPair)

@@ -135,7 +135,7 @@ public class LgoAdapter {
   }
 
   static UserTrade adaptUserTrade(CurrencyPair currencyPair, LgoMatchOrderEvent event) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(event.getOrderType())
         .originalAmount(event.getFilledQuantity())
         .currencyPair(currencyPair)

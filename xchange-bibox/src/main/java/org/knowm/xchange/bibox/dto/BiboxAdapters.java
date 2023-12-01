@@ -144,7 +144,7 @@ public class BiboxAdapters {
   }
 
   private static UserTrade adaptUserTrade(BiboxOrder order) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .orderId(order.getId())
         .id(order.getId())
         .currencyPair(new CurrencyPair(order.getCoinSymbol(), order.getCurrencySymbol()))

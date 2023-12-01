@@ -146,7 +146,7 @@ public final class BittrexAdapters {
     return bittrexUserTrades.stream()
         .map(
             bittrexOrder ->
-                new UserTrade.Builder()
+                UserTrade.builder()
                     .type(
                         BittrexConstants.BUY.equalsIgnoreCase(bittrexOrder.getDirection())
                             ? OrderType.BID

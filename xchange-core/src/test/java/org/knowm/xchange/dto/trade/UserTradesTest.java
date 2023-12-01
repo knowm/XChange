@@ -19,14 +19,14 @@ public class UserTradesTest {
 
     List<UserTrade> userTradeList = new ArrayList<>();
     userTradeList.add(
-        new UserTrade.Builder()
+        UserTrade.builder()
             .timestamp(Date.from(Instant.now()))
             .currencyPair(CurrencyPair.BTC_USD)
             .price(BigDecimal.ONE)
             .originalAmount(BigDecimal.ONE)
             .build());
     userTradeList.add(
-        new UserTrade.Builder()
+        UserTrade.builder()
             .timestamp(Date.from(Instant.now()))
             .currencyPair(CurrencyPair.BTC_USD)
             .id("id")
@@ -34,7 +34,7 @@ public class UserTradesTest {
             .originalAmount(BigDecimal.ONE)
             .build());
     userTradeList.add(
-        new UserTrade.Builder()
+        UserTrade.builder()
             .timestamp(Date.from(Instant.now()))
             .currencyPair(CurrencyPair.BTC_USD)
             .id("id")

@@ -48,7 +48,7 @@ public class CoinjarStreamingAdaptersTest {
     UserTrade userTrade = CoinjarStreamingAdapters.adaptUserTrade(event);
 
     UserTrade expected =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .id("9130900")
             .orderId("280117631")
             .currencyPair(CurrencyPair.BTC_AUD)

@@ -241,7 +241,7 @@ public class FtxAdapters {
         ftxFillDto -> {
           if (ftxFillDto.getSize().compareTo(BigDecimal.ZERO) != 0) {
             userTrades.add(
-                new UserTrade.Builder()
+                UserTrade.builder()
                     .instrument(
                         CurrencyPairDeserializer.getCurrencyPairFromString(ftxFillDto.getMarket()))
                     .currencyPair(

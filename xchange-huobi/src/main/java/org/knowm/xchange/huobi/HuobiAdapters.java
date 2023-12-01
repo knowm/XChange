@@ -304,7 +304,7 @@ public class HuobiAdapters {
             .multiply(order.getLimitPrice())
             .multiply(fee)
             .setScale(8, RoundingMode.DOWN);
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(order.getType())
         .originalAmount(order.getCumulativeAmount())
         .currencyPair(order.getCurrencyPair())
@@ -365,7 +365,7 @@ public class HuobiAdapters {
 
   public static List<UserTrade> adaptUserTradeList(HuobiOrder[] tradeHistory){
     return Arrays.stream(tradeHistory).sequential()
-            .map(huobiOrder -> new UserTrade.Builder()
+            .map(huobiOrder -> UserTrade.builder()
                     .id(Long.toString(huobiOrder.getId()))
                     .instrument(adaptCurrencyPair(huobiOrder.getSymbol()))
                     .orderUserReference(huobiOrder.getClOrdId())

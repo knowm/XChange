@@ -238,7 +238,7 @@ public class CexIOAdapters {
               : Currency.getInstance(cexIOArchivedOrder.feeCcy);
       BigDecimal fee = cexIOArchivedOrder.feeValue;
 
-      return new UserTrade.Builder()
+      return UserTrade.builder()
           .type(orderType)
           .originalAmount(originalAmount)
           .currencyPair(currencyPair)

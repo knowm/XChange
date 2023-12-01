@@ -228,7 +228,7 @@ public class CCEXAdapters {
       price = trade.getLimit();
     }
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(orderType)
         .originalAmount(amount)
         .currencyPair(currencyPair)

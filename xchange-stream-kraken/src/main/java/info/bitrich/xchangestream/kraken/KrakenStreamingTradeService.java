@@ -206,7 +206,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
 
         CurrencyPair currencyPair = new CurrencyPair(dto.pair);
         result.add(
-            new UserTrade.Builder()
+            UserTrade.builder()
                 .id(tradeId) // The tradeId should be the key of the map, postxid can be null and is
                 // not unique as required for a tradeId
                 .orderId(dto.ordertxid)

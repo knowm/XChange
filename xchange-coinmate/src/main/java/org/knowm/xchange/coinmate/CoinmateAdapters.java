@@ -191,7 +191,7 @@ public class CoinmateAdapters {
   public static UserTrades adaptTransactionHistory(
       CoinmateTransactionHistory coinmateTradeHistory) {
     List<UserTrade> trades = coinmateTradeHistory.getData().stream().map(
-          entry -> new UserTrade.Builder()
+          entry -> UserTrade.builder()
             .type(typeToOrderTypeOrNull(entry.getTransactionType()))
             .originalAmount(entry.getAmount())
             .currencyPair(
@@ -210,7 +210,7 @@ public class CoinmateAdapters {
   }
 
   public static UserTrades adaptTradeHistory(CoinmateTradeHistory coinmateTradeHistory) {
-    List<UserTrade> trades = coinmateTradeHistory.getData().stream().map(entry -> new UserTrade.Builder()
+    List<UserTrade> trades = coinmateTradeHistory.getData().stream().map(entry -> UserTrade.builder()
           .type(typeToOrderTypeOrNull(entry.getType()))
           .originalAmount(entry.getAmount())
           .currencyPair(CoinmateUtils.getPair(entry.getCurrencyPair()))

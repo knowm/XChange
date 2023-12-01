@@ -171,7 +171,7 @@ public final class BitsoAdapters {
         String feeCurrency =
             sell ? currencyPair.counter.getCurrencyCode() : currencyPair.base.getCurrencyCode();
         UserTrade trade =
-            new UserTrade.Builder()
+            UserTrade.builder()
                 .type(orderType)
                 .originalAmount(originalAmount)
                 .currencyPair(currencyPair)

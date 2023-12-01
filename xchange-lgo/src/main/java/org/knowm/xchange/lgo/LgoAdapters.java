@@ -160,7 +160,7 @@ public final class LgoAdapters {
     OrderType type = adaptUserTradeType(lgoUserTrade);
     CurrencyPair currencyPair = adaptProductId(lgoUserTrade.getProductId());
     Date creationDate = lgoUserTrade.getCreationDate();
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(type)
         .originalAmount(lgoUserTrade.getQuantity())
         .currencyPair(currencyPair)
