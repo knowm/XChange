@@ -7,6 +7,8 @@ import info.bitrich.xchangestream.service.netty.NettyStreamingService;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +17,9 @@ import org.knowm.xchange.kucoin.dto.response.WebsocketResponse;
 
 public class KucoinStreamingExchange extends KucoinExchange implements StreamingExchange {
 
+    @Getter
   private KucoinStreamingService publicStreamingService;
+    @Getter
   private KucoinStreamingService privateStreamingService;
   private KucoinStreamingMarketDataService streamingMarketDataService;
   private KucoinStreamingTradeService streamingTradeService;

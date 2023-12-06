@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-class KucoinStreamingService extends JsonNettyStreamingService {
+public class KucoinStreamingService extends JsonNettyStreamingService {
 
   private final AtomicLong refCount = new AtomicLong();
   private final Observable<Long> pingPongSrc;
