@@ -24,7 +24,7 @@ import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.okex.service.OkexMarketDataService;
 
-public class OkexPublicDataTest {
+public class OkexPublicDataIntegration {
 
   Exchange exchange;
   private final Instrument currencyPair = new CurrencyPair("BTC/USDT");

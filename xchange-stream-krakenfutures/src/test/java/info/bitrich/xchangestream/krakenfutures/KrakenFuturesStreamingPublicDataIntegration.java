@@ -17,7 +17,7 @@ import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
 @Ignore
-public class KrakenFuturesStreamingPublicDataTest {
+public class KrakenFuturesStreamingPublicDataIntegration {
 
   StreamingExchange exchange =
       StreamingExchangeFactory.INSTANCE.createExchange(KrakenFuturesStreamingExchange.class);

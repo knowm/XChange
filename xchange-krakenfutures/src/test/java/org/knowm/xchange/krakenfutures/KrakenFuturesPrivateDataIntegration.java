@@ -25,7 +25,7 @@ import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamInstrument
 import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 
 @Ignore
-public class KrakenFuturesPrivateDataTest {
+public class KrakenFuturesPrivateDataIntegration {
 
   Exchange exchange;
   Instrument instrument = new FuturesContract("BTC/USD/PERP");
