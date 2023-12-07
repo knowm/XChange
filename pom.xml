@@ -32,14 +32,14 @@
 
     <version.java>1.8</version.java>
     <version.assertj>3.24.2</version.assertj>
-    <version.commons.lang3>3.13.0</version.commons.lang3>
+    <version.commons.lang3>3.14.0</version.commons.lang3>
     <version.fasterxml>2.14.3</version.fasterxml>
     <version.github.mmazi>3.0</version.github.mmazi>
     <version.resilience4j>1.7.0</version.resilience4j>
     <version.junit>5.9.3</version.junit>
     <version.lombok>1.18.26</version.lombok>
     <version.knowm.xchart>3.8.6</version.knowm.xchart>
-    <version.qos.logback>1.4.11</version.qos.logback>
+    <version.qos.logback>1.4.12</version.qos.logback>
     <version.reflections>0.10.2</version.reflections>
     <version.slf4j>2.0.6</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
@@ -311,7 +311,7 @@
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>31.1-jre</version>
+        <version>32.1.3-jre</version>
       </dependency>
 
       <dependency>
@@ -549,7 +549,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.1.2</version>
+        <version>3.2.2</version>
       </plugin>
 
       <plugin>

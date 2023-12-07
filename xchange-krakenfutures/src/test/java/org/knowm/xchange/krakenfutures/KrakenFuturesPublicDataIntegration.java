@@ -17,7 +17,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
-public class KrakenFuturesPublicDataTest {
+public class KrakenFuturesPublicDataIntegration {
 
   Exchange exchange = ExchangeFactory.INSTANCE.createExchange(KrakenFuturesExchange.class);
   Instrument instrument = new FuturesContract("BTC/USD/PERP");
