@@ -29,9 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Ignore
-public class OkexPrivateDataTest {
+public class OkexPrivateDataIntegration {
 
-  private final Logger LOG = LoggerFactory.getLogger(OkexPrivateDataTest.class);
+  private final Logger LOG = LoggerFactory.getLogger(OkexPrivateDataIntegration.class);
   Instrument instrument = new FuturesContract("BTC/USDT/SWAP");
   Exchange exchange;
 

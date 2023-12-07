@@ -23,10 +23,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Ignore
-public class KrakenFuturesStreamingPrivateDataTest {
+public class KrakenFuturesStreamingPrivateDataIntegration {
 
   private static final Logger LOG =
-      LoggerFactory.getLogger(KrakenFuturesStreamingPrivateDataTest.class);
+      LoggerFactory.getLogger(KrakenFuturesStreamingPrivateDataIntegration.class);
   StreamingExchange exchange;
   Instrument instrument = new FuturesContract("BTC/USD/PERP");
 
