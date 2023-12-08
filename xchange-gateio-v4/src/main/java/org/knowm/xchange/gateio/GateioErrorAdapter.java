@@ -11,6 +11,7 @@ public class GateioErrorAdapter {
   public final String INVALID_KEY = "INVALID_KEY";
   public final String FORBIDDEN = "FORBIDDEN";
   public final String INVALID_CURRENCY = "INVALID_CURRENCY";
+  public final String INVALID_CURRENCY_PAIR = "INVALID_CURRENCY_PAIR";
   public final String BALANCE_NOT_ENOUGH = "BALANCE_NOT_ENOUGH";
   public final String TOO_FAST = "TOO_FAST";
   public final String TOO_MANY_REQUESTS = "TOO_MANY_REQUESTS";
@@ -27,6 +28,7 @@ public class GateioErrorAdapter {
         return new ExchangeSecurityException(e.getMessage(), e);
 
       case INVALID_CURRENCY:
+      case INVALID_CURRENCY_PAIR:
         return new InstrumentNotValidException(e.getMessage(), e);
 
       case BALANCE_NOT_ENOUGH:
