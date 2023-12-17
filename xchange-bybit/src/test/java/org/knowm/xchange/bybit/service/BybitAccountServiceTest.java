@@ -24,7 +24,6 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
     assertThat(accountInfo.getWallet().getBalance(new Currency("BTC")).getTotal())
         .isEqualTo(new BigDecimal("0"));
     assertThat(accountInfo.getWallet().getBalance(new Currency("BTC")).getAvailable())
-
         .isEqualTo(new BigDecimal("0"));
   }
 

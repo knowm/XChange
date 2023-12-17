@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
-import java.io.IOException;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
@@ -55,15 +54,13 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
     JsonNode expectedOrderDetail = listNode.get(0);
 
     assertThat(actualOrderDetail.getSymbol())
-        .isEqualTo(expectedOrderDetail.get("symbol").textValue())
-        ;
+        .isEqualTo(expectedOrderDetail.get("symbol").textValue());
     assertThat(actualOrderDetail.getPrice().doubleValue())
         .isEqualTo(expectedOrderDetail.get("price").asDouble());
     assertThat(actualOrderDetail.getQty().doubleValue())
         .isEqualTo(expectedOrderDetail.get("qty").asDouble());
     assertThat(actualOrderDetail.getSide().name())
-        .isEqualToIgnoringCase(expectedOrderDetail.get("side").textValue())
-        ;
+        .isEqualToIgnoringCase(expectedOrderDetail.get("side").textValue());
     assertThat(actualOrderDetail.getIsLeverage())
         .isEqualTo(expectedOrderDetail.get("isLeverage").textValue());
     assertThat(actualOrderDetail.getPositionIdx())
@@ -71,11 +68,9 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
     assertThat(actualOrderDetail.getOrderStatus().name())
         .isEqualToIgnoringCase(expectedOrderDetail.get("orderStatus").textValue());
     assertThat(actualOrderDetail.getCancelType())
-        .isEqualTo(expectedOrderDetail.get("cancelType").textValue())
-        ;
+        .isEqualTo(expectedOrderDetail.get("cancelType").textValue());
     assertThat(actualOrderDetail.getRejectReason())
-        .isEqualTo(expectedOrderDetail.get("rejectReason").textValue())
-        ;
+        .isEqualTo(expectedOrderDetail.get("rejectReason").textValue());
     assertThat(actualOrderDetail.getAvgPrice().doubleValue())
         .isEqualTo(expectedOrderDetail.get("avgPrice").asDouble());
     assertThat(actualOrderDetail.getLeavesQty().doubleValue())
@@ -89,14 +84,11 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
     assertThat(actualOrderDetail.getCumExecFee().doubleValue())
         .isEqualTo(expectedOrderDetail.get("cumExecFee").asDouble());
     assertThat(actualOrderDetail.getTimeInForce())
-        .isEqualTo(expectedOrderDetail.get("timeInForce").textValue())
-        ;
+        .isEqualTo(expectedOrderDetail.get("timeInForce").textValue());
     assertThat(actualOrderDetail.getOrderType().name())
-        .isEqualToIgnoringCase(expectedOrderDetail.get("orderType").textValue())
-        ;
+        .isEqualToIgnoringCase(expectedOrderDetail.get("orderType").textValue());
     assertThat(actualOrderDetail.getStopOrderType())
-        .isEqualTo(expectedOrderDetail.get("stopOrderType").textValue())
-        ;
+        .isEqualTo(expectedOrderDetail.get("stopOrderType").textValue());
     assertThat(actualOrderDetail.getOrderIv())
         .isEqualTo(expectedOrderDetail.get("orderIv").textValue());
     assertThat(actualOrderDetail.getTriggerPrice().doubleValue())
@@ -112,11 +104,9 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
     assertThat(actualOrderDetail.getTriggerDirection())
         .isEqualTo(expectedOrderDetail.get("triggerDirection").intValue());
     assertThat(actualOrderDetail.getTriggerBy())
-        .isEqualTo(expectedOrderDetail.get("triggerBy").textValue())
-        ;
+        .isEqualTo(expectedOrderDetail.get("triggerBy").textValue());
     assertThat(actualOrderDetail.getLastPriceOnCreated())
-        .isEqualTo(expectedOrderDetail.get("lastPriceOnCreated").textValue())
-        ;
+        .isEqualTo(expectedOrderDetail.get("lastPriceOnCreated").textValue());
     assertThat(actualOrderDetail.isReduceOnly())
         .isEqualTo(expectedOrderDetail.get("reduceOnly").booleanValue());
     assertThat(actualOrderDetail.isCloseOnTrigger())
@@ -126,8 +116,7 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
     assertThat(actualOrderDetail.getSmpGroup())
         .isEqualTo(expectedOrderDetail.get("smpGroup").intValue());
     assertThat(actualOrderDetail.getSmpOrderId())
-        .isEqualTo(expectedOrderDetail.get("smpOrderId").textValue())
-        ;
+        .isEqualTo(expectedOrderDetail.get("smpOrderId").textValue());
     assertThat(actualOrderDetail.getTpslMode())
         .isEqualTo(expectedOrderDetail.get("tpslMode").textValue());
     assertThat(actualOrderDetail.getTpLimitPrice())
@@ -276,7 +265,6 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
     assertThat(responseObjectResult.get("orderLinkId").textValue())
         .isEqualTo(orderRequestResult.getOrderLinkId());
     assertThat(responseObjectResult.get("orderId").textValue())
-
         .isEqualTo(orderRequestResult.getOrderId());
 
     System.out.println(order);

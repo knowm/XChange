@@ -6,10 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import static org.knowm.xchange.bybit.BybitAdapters.adaptBybitBalances;
-
-import java.io.IOException;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;

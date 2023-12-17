@@ -4,9 +4,6 @@ import static org.knowm.xchange.bybit.BybitAdapters.createBybitExceptionFromResu
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import static org.knowm.xchange.bybit.BybitAdapters.createBybitExceptionFromResult;
-
-import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
@@ -15,8 +12,6 @@ import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
 import org.knowm.xchange.bybit.dto.trade.BybitSide;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
-
-import org.knowm.xchange.bybit.dto.trade.BybitOrderRequest;
 
 public class BybitTradeServiceRaw extends BybitBaseService {
 

@@ -1,14 +1,9 @@
 package org.knowm.xchange.bybit.service;
 
+import static org.knowm.xchange.bybit.BybitAdapters.*;
 import static org.knowm.xchange.bybit.BybitAdapters.adaptBybitOrderDetails;
 import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
 import static org.knowm.xchange.bybit.BybitAdapters.getSideString;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import static org.knowm.xchange.bybit.BybitAdapters.*;
 
 import java.io.IOException;
 import java.util.ArrayList;

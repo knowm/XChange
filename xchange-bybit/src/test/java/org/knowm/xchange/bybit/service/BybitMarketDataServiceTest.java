@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.time.Instant;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;

@@ -11,8 +11,6 @@ import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
 
-import org.knowm.xchange.bybit.dto.account.BybitBalances;
-
 public class BybitAccountServiceRaw extends BybitBaseService {
 
   public BybitAccountServiceRaw(Exchange exchange) {
