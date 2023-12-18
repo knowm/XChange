@@ -10,7 +10,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-/** @author kaiserfr */
+/**
+ * @author kaiserfr
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
   "order_id",

@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.binance.*;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
@@ -23,8 +22,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
     implements MarketDataService {
 
   public BinanceMarketDataService(
-      BinanceExchange exchange,
-      ResilienceRegistries resilienceRegistries) {
+      BinanceExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
 
@@ -42,8 +40,9 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
    */
   @Override
   public Trades getTrades(Instrument instrument, Object... args) throws IOException {
-    return getBinanceTrades(instrument,args);
+    return getBinanceTrades(instrument, args);
   }
+
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
     try {
@@ -55,7 +54,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
 
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
-    return getBinanceOrderBook(instrument,args);
+    return getBinanceOrderBook(instrument, args);
   }
 
   @Override
@@ -68,21 +67,22 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
     return BinanceAdapters.adaptFundingRate(getBinanceFundingRate(instrument));
   }
 
-  private Trades getBinanceTrades(Instrument instrument, Object... args) throws IOException{
+  private Trades getBinanceTrades(Instrument instrument, Object... args) throws IOException {
     try {
       Long fromId = tradesArgument(args, 0, Long::valueOf);
       Long startTime = tradesArgument(args, 1, Long::valueOf);
       Long endTime = tradesArgument(args, 2, Long::valueOf);
       Integer limit = tradesArgument(args, 3, Integer::valueOf);
 
-      return BinanceAdapters.adaptTrades(aggTradesAllProducts(instrument, fromId, startTime, endTime, limit), instrument);
+      return BinanceAdapters.adaptTrades(
+          aggTradesAllProducts(instrument, fromId, startTime, endTime, limit), instrument);
 
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
   }
 
-  private OrderBook getBinanceOrderBook(Instrument instrument, Object... args) throws IOException{
+  private OrderBook getBinanceOrderBook(Instrument instrument, Object... args) throws IOException {
     try {
       int limitDepth = 100;
 
@@ -103,13 +103,13 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
 
   public static OrderBook convertOrderBook(BinanceOrderbook ob, Instrument pair) {
     List<LimitOrder> bids =
-            ob.bids.entrySet().stream()
-                    .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey()))
-                    .collect(Collectors.toList());
+        ob.bids.entrySet().stream()
+            .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey()))
+            .collect(Collectors.toList());
     List<LimitOrder> asks =
-            ob.asks.entrySet().stream()
-                    .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey()))
-                    .collect(Collectors.toList());
+        ob.asks.entrySet().stream()
+            .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey()))
+            .collect(Collectors.toList());
     return new OrderBook(Date.from(Instant.now()), asks, bids);
   }
 

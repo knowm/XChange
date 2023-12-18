@@ -9,7 +9,9 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author semihunaldi Test BTCTurkTrade[] JSON parsing */
+/**
+ * @author semihunaldi Test BTCTurkTrade[] JSON parsing
+ */
 public class BTCTurkTradesTest {
 
   @Test

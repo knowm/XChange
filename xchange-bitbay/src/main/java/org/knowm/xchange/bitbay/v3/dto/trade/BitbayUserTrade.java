@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class BitbayUserTrade {
 
   private final UUID id;

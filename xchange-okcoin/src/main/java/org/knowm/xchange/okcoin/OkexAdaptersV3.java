@@ -148,6 +148,7 @@ public class OkexAdaptersV3 {
         .setType(Type.DEPOSIT)
         .build();
   }
+
   /**
    * The status of deposits (0: waiting for confirmation; 1: confirmation account; 2: recharge
    * success);

@@ -41,7 +41,9 @@ public final class FixedRateLoanOrder extends LoanOrder implements Comparable<Fi
     this.rate = rate;
   }
 
-  /** @return The fixed rate of return for a day */
+  /**
+   * @return The fixed rate of return for a day
+   */
   public BigDecimal getRate() {
 
     return rate;

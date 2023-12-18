@@ -4,10 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 
-/** @author pchertalev */
+/**
+ * @author pchertalev
+ */
 public class KrakenSystemStatus extends KrakenEvent {
 
   private final String connectionID;
+
   /** online|maintenance|(custom status tbd) */
   private final String status;
 

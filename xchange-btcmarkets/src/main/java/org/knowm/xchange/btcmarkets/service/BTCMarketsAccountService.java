@@ -20,7 +20,9 @@ import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
     implements AccountService {
 
@@ -39,9 +41,9 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
-      String address = defaultWithdrawFundsParams.address;
+      String address = defaultWithdrawFundsParams.getAddress();
       if (params instanceof RippleWithdrawFundsParams) {
-        address = address + "?dt=" + ((RippleWithdrawFundsParams) params).tag;
+        address = address + "?dt=" + ((RippleWithdrawFundsParams) params).getTag();
       }
       return withdrawCrypto(
           address,

@@ -33,7 +33,9 @@ import org.junit.Test;
 import org.knowm.xchange.coinmate.dto.marketdata.OrderBookJSONTest;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class OpenOrdersJSONTest {
 
   @Test

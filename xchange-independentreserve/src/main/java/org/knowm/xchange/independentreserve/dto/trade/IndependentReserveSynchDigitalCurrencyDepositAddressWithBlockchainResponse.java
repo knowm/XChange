@@ -7,8 +7,10 @@ import org.knowm.xchange.independentreserve.util.Util;
 public class IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse {
   /** Digital currency deposit address to be updated */
   private final String depositAddress;
+
   /** UTC timestamp of when this address was last checked against Blockchain */
   private final Date lastChecked;
+
   /** UTC timestamp of when this address is scheduled to next be checked against Blockchain */
   private final Date nextUpdate;
 

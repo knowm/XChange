@@ -14,6 +14,7 @@ public class CreateAccountRequest {
 
   /** Account type: main, trade, margin */
   private final String type;
+
   /** currency */
   private final String currency;
 }

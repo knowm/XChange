@@ -12,7 +12,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
-/** @author Matija Mazi (with additions from CDP) */
+/**
+ * @author Matija Mazi (with additions from CDP)
+ */
 public class BTCMarketsMarketDataService extends BTCMarketsMarketDataServiceRaw
     implements MarketDataService {
 
@@ -37,7 +39,9 @@ public class BTCMarketsMarketDataService extends BTCMarketsMarketDataServiceRaw
     return BTCMarketsAdapters.adaptMarketTrades(getBTCMarketsTrade(currencyPair), currencyPair);
   }
 
-  /** @param params use {@link BTCMarketsMarketTradeParams} for params */
+  /**
+   * @param params use {@link BTCMarketsMarketTradeParams} for params
+   */
   @Override
   public Trades getTrades(Params params) throws IOException {
 

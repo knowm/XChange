@@ -37,7 +37,8 @@ public class TickerBinanceWebsocketTransactionTest {
     assertThat(tickerTransaction).isNotNull();
     assertThat(tickerTransaction.eventType).isEqualTo(TICKER_24_HR);
     assertThat(tickerTransaction.getEventTime().getTime()).isEqualTo(1516135684559L);
-    assertThat(BinanceAdapters.adaptSymbol(tickerTransaction.getSymbol(), false)).isEqualTo(CurrencyPair.ETH_BTC);
+    assertThat(BinanceAdapters.adaptSymbol(tickerTransaction.getSymbol(), false))
+        .isEqualTo(CurrencyPair.ETH_BTC);
 
     BinanceTicker24h ticker = tickerTransaction.getTicker();
     assertThat(ticker.getPriceChange()).isEqualByComparingTo(BigDecimal.valueOf(-0.00271700));

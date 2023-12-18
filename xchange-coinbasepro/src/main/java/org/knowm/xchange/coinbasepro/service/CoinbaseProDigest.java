@@ -1,9 +1,9 @@
 package org.knowm.xchange.coinbasepro.service;
 
+import jakarta.ws.rs.HeaderParam;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import javax.crypto.Mac;
-import javax.ws.rs.HeaderParam;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;

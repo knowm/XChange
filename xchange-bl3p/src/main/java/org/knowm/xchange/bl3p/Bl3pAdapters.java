@@ -86,7 +86,7 @@ public class Bl3pAdapters {
 
     for (Bl3pUserTransactions.Bl3pUserTransaction t : transactions) {
       UserTrade ut =
-          new UserTrade.Builder()
+          UserTrade.builder()
               .currencyPair(CurrencyPair.BTC_EUR)
               .id(Integer.toString(t.id))
               .orderId(Integer.toString(t.orderId))

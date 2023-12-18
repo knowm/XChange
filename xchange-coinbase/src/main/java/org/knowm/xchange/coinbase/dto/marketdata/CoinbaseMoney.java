@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 @JsonDeserialize(using = CoinbaseMoneyDeserializer.class)
 public class CoinbaseMoney {
 

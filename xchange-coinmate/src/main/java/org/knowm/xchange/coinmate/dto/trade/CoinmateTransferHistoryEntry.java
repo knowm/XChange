@@ -25,8 +25,7 @@ public class CoinmateTransferHistoryEntry {
       @JsonProperty("amountCurrency") String amountCurrency,
       @JsonProperty("walletType") String walletType,
       @JsonProperty("destination") String destination,
-      @JsonProperty("destinationTag") String destinationTag
-  ) {
+      @JsonProperty("destinationTag") String destinationTag) {
 
     this.fee = fee;
     this.transferType = transferType;

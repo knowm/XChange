@@ -6,7 +6,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfers;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
 
   /**

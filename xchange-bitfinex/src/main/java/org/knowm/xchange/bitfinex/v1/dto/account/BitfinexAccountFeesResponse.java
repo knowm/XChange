@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
 import org.knowm.xchange.currency.Currency;
 
-/** @author ujjwal on 23/02/18. */
+/**
+ * @author ujjwal on 23/02/18.
+ */
 public class BitfinexAccountFeesResponse {
   private final Map<Currency, BigDecimal> withdraw;
 

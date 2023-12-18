@@ -89,7 +89,7 @@ public class IdexSignature {
     ecKeyPair = ECKeyPair.create(apiSecret1);
 
     SignatureData signatureData;
-    signatureData = Sign.signMessage(/* message = */ salted, /* keyPair=  */ ecKeyPair);
+    signatureData = Sign.signMessage(/* message= */ salted, /* keyPair= */ ecKeyPair);
     return signatureData;
   }
 }

@@ -100,23 +100,24 @@ public class KrakenAdapters {
     krakenOpenPositionMap
         .values()
         .forEach(
-            krakenOpenPosition -> openPositionsList.add(
-                new OpenPosition.Builder()
-                    .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
-                    .type(
-                        krakenOpenPosition.getType() == KrakenType.BUY
-                            ? OpenPosition.Type.LONG
-                            : OpenPosition.Type.SHORT)
-                    .size(krakenOpenPosition.getCost())
-                    .price(
-                        krakenOpenPosition
-                            .getCost()
-                            .divide(
-                                krakenOpenPosition
-                                    .getVolume()
-                                    .subtract(krakenOpenPosition.getVolumeClosed()),
-                                RoundingMode.HALF_EVEN))
-                    .build()));
+            krakenOpenPosition ->
+                openPositionsList.add(
+                    new OpenPosition.Builder()
+                        .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
+                        .type(
+                            krakenOpenPosition.getType() == KrakenType.BUY
+                                ? OpenPosition.Type.LONG
+                                : OpenPosition.Type.SHORT)
+                        .size(krakenOpenPosition.getCost())
+                        .price(
+                            krakenOpenPosition
+                                .getCost()
+                                .divide(
+                                    krakenOpenPosition
+                                        .getVolume()
+                                        .subtract(krakenOpenPosition.getVolumeClosed()),
+                                    RoundingMode.HALF_EVEN))
+                        .build()));
 
     return new OpenPositions(openPositionsList);
   }
@@ -464,14 +465,15 @@ public class KrakenAdapters {
   private static InstrumentMetaData adaptPair(
       KrakenAssetPair krakenPair, InstrumentMetaData OriginalMeta) {
     return new InstrumentMetaData.Builder()
-            .tradingFee(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)))
-            .minimumAmount(krakenPair.getOrderMin())
-            .priceScale(krakenPair.getPairScale())
-            .volumeScale(krakenPair.getVolumeLotScale())
-            .feeTiers(adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()))
-            .tradingFeeCurrency(KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()))
-            .marketOrderEnabled(true)
-            .build();
+        .tradingFee(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)))
+        .minimumAmount(krakenPair.getOrderMin())
+        .priceScale(krakenPair.getPairScale())
+        .volumeScale(krakenPair.getVolumeLotScale())
+        .feeTiers(adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()))
+        .tradingFeeCurrency(
+            KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()))
+        .marketOrderEnabled(true)
+        .build();
   }
 
   public static List<FundingRecord> adaptFundingHistory(

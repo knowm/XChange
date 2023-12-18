@@ -23,7 +23,6 @@ public class BybitMarketDataServiceRaw extends BybitBaseService {
     return result;
   }
 
-
   public BybitResult<List<BybitSymbol>> getSymbols() throws IOException {
     BybitResult<List<BybitSymbol>> result = bybit.getSymbols();
 
@@ -32,5 +31,4 @@ public class BybitMarketDataServiceRaw extends BybitBaseService {
     }
     return result;
   }
-
 }

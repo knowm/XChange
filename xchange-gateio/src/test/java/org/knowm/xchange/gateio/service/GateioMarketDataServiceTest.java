@@ -15,37 +15,41 @@ import org.knowm.xchange.gateio.GateioExchangeWiremock;
 
 public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
 
-  GateioMarketDataService gateioMarketDataService = (GateioMarketDataService) exchange.getMarketDataService();
-
+  GateioMarketDataService gateioMarketDataService =
+      (GateioMarketDataService) exchange.getMarketDataService();
 
   @Test
   public void valid_orderbook() throws IOException {
     OrderBook actual = gateioMarketDataService.getOrderBook(CurrencyPair.BTC_USDT);
 
     List<LimitOrder> expectedAsks = new ArrayList<>();
-    expectedAsks.add(new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
-        .id("")
-        .limitPrice(new BigDecimal("200"))
-        .originalAmount(BigDecimal.ONE)
-        .build());
-    expectedAsks.add(new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
-        .id("")
-        .limitPrice(new BigDecimal("250"))
-        .originalAmount(BigDecimal.TEN)
-        .build());
+    expectedAsks.add(
+        new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
+            .id("")
+            .limitPrice(new BigDecimal("200"))
+            .originalAmount(BigDecimal.ONE)
+            .build());
+    expectedAsks.add(
+        new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
+            .id("")
+            .limitPrice(new BigDecimal("250"))
+            .originalAmount(BigDecimal.TEN)
+            .build());
 
     List<LimitOrder> expectedBids = new ArrayList<>();
-    expectedBids.add(new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
-        .id("")
-        .limitPrice(new BigDecimal("150"))
-        .originalAmount(BigDecimal.ONE)
-        .build());
-    expectedBids.add(new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
-        .id("")
-        .limitPrice(new BigDecimal("100"))
-        .originalAmount(BigDecimal.TEN)
-        .build());
-//    Date expectedTimestamp = Date.from(Instant.parse("2023-05-14T22:10:10.493Z"));
+    expectedBids.add(
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+            .id("")
+            .limitPrice(new BigDecimal("150"))
+            .originalAmount(BigDecimal.ONE)
+            .build());
+    expectedBids.add(
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+            .id("")
+            .limitPrice(new BigDecimal("100"))
+            .originalAmount(BigDecimal.TEN)
+            .build());
+    //    Date expectedTimestamp = Date.from(Instant.parse("2023-05-14T22:10:10.493Z"));
 
     OrderBook expected = new OrderBook(null, expectedAsks, expectedBids);
 

@@ -5,7 +5,9 @@ import java.util.Map;
 import org.knowm.xchange.kraken.dto.KrakenResult;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
 
-/** @author Raphael Voellmy */
+/**
+ * @author Raphael Voellmy
+ */
 public class KrakenDepthResult extends KrakenResult<Map<String, KrakenDepth>> {
 
   /**

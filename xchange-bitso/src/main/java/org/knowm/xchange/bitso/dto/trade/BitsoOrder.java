@@ -7,11 +7,14 @@ import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.bitso.BitsoUtils;
 
-/** @author Piotr Ładyżyński */
+/**
+ * @author Piotr Ładyżyński
+ */
 public final class BitsoOrder {
 
   private final String id;
   private final String datetime;
+
   /** 0 - buy (bid); 1 - sell (ask) */
   private final int type;
 

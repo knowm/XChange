@@ -3,7 +3,9 @@ package org.knowm.xchange.bibox.dto.trade;
 import java.math.BigDecimal;
 import org.knowm.xchange.bibox.dto.BiboxCommand;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public class BiboxTradeCommand extends BiboxCommand<BiboxTradeCommandBody> {
 
   public BiboxTradeCommand(

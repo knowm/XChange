@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.Test;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 
 public class TradeDtosTest {
@@ -97,13 +96,13 @@ public class TradeDtosTest {
   public void triggerDtoUnmarshall() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
-        TradeDtosTest.class.getResourceAsStream("/responses/example-ftxConditionalOrderTriggers.json");
+        TradeDtosTest.class.getResourceAsStream(
+            "/responses/example-ftxConditionalOrderTriggers.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     FtxResponse<List<FtxTriggerDto>> ftxResponse =
         mapper.readValue(is, new TypeReference<FtxResponse<List<FtxTriggerDto>>>() {});
-
 
     // Verify that the example data was unmarshalled correctly
     assertThat(ftxResponse.getResult().size()).isEqualTo(1);
@@ -111,6 +110,5 @@ public class TradeDtosTest {
     assertThat(ftxResponse.getResult().get(0).getFilledSize()).isEqualTo(BigDecimal.valueOf(4.0));
     assertThat(ftxResponse.getResult().get(0).getOrderSize()).isEqualTo(BigDecimal.valueOf(10.0));
     assertThat(ftxResponse.getResult().get(0).getOrderId()).isEqualTo("38066650");
-
   }
 }

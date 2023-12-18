@@ -1,6 +1,8 @@
 package org.knowm.xchange.kuna.dto.enums;
 
-/** @author Dat Bui */
+/**
+ * @author Dat Bui
+ */
 public enum KunaOrderType {
   LIMIT,
   MARKET;

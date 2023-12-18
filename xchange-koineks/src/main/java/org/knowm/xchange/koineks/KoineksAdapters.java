@@ -10,7 +10,9 @@ import org.knowm.xchange.koineks.dto.marketdata.BaseKoineksTicker;
 import org.knowm.xchange.koineks.dto.marketdata.KoineksCurrency;
 import org.knowm.xchange.koineks.dto.marketdata.KoineksTicker;
 
-/** @author semihunaldi Various adapters for converting from Koineks DTOs to XChange DTOs */
+/**
+ * @author semihunaldi Various adapters for converting from Koineks DTOs to XChange DTOs
+ */
 public final class KoineksAdapters {
 
   private KoineksAdapters() {}

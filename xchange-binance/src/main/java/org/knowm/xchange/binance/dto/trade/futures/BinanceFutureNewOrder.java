@@ -10,10 +10,9 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BinanceFutureNewOrder {
 
-    private final String orderId;
+  private final String orderId;
 
-    public BinanceFutureNewOrder(
-            @JsonProperty("orderId") String orderId) {
-        this.orderId = orderId;
-    }
+  public BinanceFutureNewOrder(@JsonProperty("orderId") String orderId) {
+    this.orderId = orderId;
+  }
 }

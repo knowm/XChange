@@ -118,7 +118,7 @@ public class AscendexAdapters {
     ascendexOrderHistoryResponse.forEach(
         order ->
             userTrades.add(
-                new UserTrade.Builder()
+                UserTrade.builder()
                     .feeAmount(order.getCumFee())
                     .orderId(order.getOrderId())
                     .price(order.getPrice())

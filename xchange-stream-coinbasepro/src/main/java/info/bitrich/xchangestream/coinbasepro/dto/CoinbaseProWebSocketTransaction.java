@@ -307,7 +307,9 @@ public class CoinbaseProWebSocketTransaction {
     return makerOrderId;
   }
 
-  /** @deprecated Use {@link #getTakerOrderId()} */
+  /**
+   * @deprecated Use {@link #getTakerOrderId()}
+   */
   @Deprecated
   public String getTakenOrderId() {
     return takerOrderId;

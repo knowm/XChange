@@ -1,22 +1,22 @@
 package org.knowm.xchange.krakenfutures.service;
 
+import jakarta.ws.rs.NotSupportedException;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.krakenfutures.KrakenFuturesAdapters;
-import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesCancelAllOrders;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.krakenfutures.KrakenFuturesAdapters;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesCancelAllOrders;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-import javax.ws.rs.NotSupportedException;
-
-/** @author Jean-Christophe Laruelle */
+/**
+ * @author Jean-Christophe Laruelle
+ */
 public class KrakenFuturesTradeService extends KrakenFuturesTradeServiceRaw
     implements TradeService {
 
@@ -47,7 +47,7 @@ public class KrakenFuturesTradeService extends KrakenFuturesTradeServiceRaw
 
   @Override
   public Class[] getRequiredCancelOrderParamClasses() {
-    return new Class[]{CancelOrderByIdParams.class};
+    return new Class[] {CancelOrderByIdParams.class};
   }
 
   @Override
@@ -72,10 +72,16 @@ public class KrakenFuturesTradeService extends KrakenFuturesTradeServiceRaw
 
   @Override
   public Collection<String> cancelAllOrders(CancelAllOrders orderParams) throws IOException {
-    if(orderParams instanceof CancelOrderByInstrument){
-      return cancelAllOrdersByInstrument(((CancelOrderByInstrument) orderParams).getInstrument()).getCancelStatus().getOrderIds().stream().map(KrakenFuturesCancelAllOrders.KrakenFuturesOrderId::getOrderId).collect(Collectors.toList());
+    if (orderParams instanceof CancelOrderByInstrument) {
+      return cancelAllOrdersByInstrument(((CancelOrderByInstrument) orderParams).getInstrument())
+          .getCancelStatus()
+          .getOrderIds()
+          .stream()
+          .map(KrakenFuturesCancelAllOrders.KrakenFuturesOrderId::getOrderId)
+          .collect(Collectors.toList());
     } else {
-      throw new NotSupportedException("OrderParams need to implement CancelOrderByInstrument interface.");
+      throw new NotSupportedException(
+          "OrderParams need to implement CancelOrderByInstrument interface.");
     }
   }
 
@@ -86,8 +92,9 @@ public class KrakenFuturesTradeService extends KrakenFuturesTradeServiceRaw
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    return getKrakenFuturesOrdersStatuses(orderIds).getOrders().stream().map(KrakenFuturesAdapters::adaptKrakenFuturesOrder)
-            .collect(Collectors.toList());
+    return getKrakenFuturesOrdersStatuses(orderIds).getOrders().stream()
+        .map(KrakenFuturesAdapters::adaptKrakenFuturesOrder)
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -100,7 +107,8 @@ public class KrakenFuturesTradeService extends KrakenFuturesTradeServiceRaw
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
     } else {
-      throw new NotSupportedException("CancelOrderParams need to be instance of CancelOrderByIdParams.");
+      throw new NotSupportedException(
+          "CancelOrderParams need to be instance of CancelOrderByIdParams.");
     }
   }
 

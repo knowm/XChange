@@ -10,7 +10,9 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author kaiserfr */
+/**
+ * @author kaiserfr
+ */
 public class BitcoindeTradeServiceRaw extends BitcoindeBaseService {
   private final SynchronizedValueFactory<Long> nonceFactory;
 

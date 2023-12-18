@@ -7,7 +7,9 @@ import javax.crypto.Mac;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
-/** @author kaiserfr */
+/**
+ * @author kaiserfr
+ */
 public class BitcoindeDigest extends BaseParamsDigest {
   private final String apiKey;
 

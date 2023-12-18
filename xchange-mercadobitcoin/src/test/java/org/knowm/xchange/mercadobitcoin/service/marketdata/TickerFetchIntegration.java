@@ -11,7 +11,9 @@ import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinUtils;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class TickerFetchIntegration {
 
   @Test

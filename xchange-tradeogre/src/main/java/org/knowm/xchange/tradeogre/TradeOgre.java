@@ -1,11 +1,11 @@
 package org.knowm.xchange.tradeogre;
 
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreOrderBook;
 import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreTicker;
 

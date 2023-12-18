@@ -1,23 +1,24 @@
 package org.knowm.xchange.krakenfutures;
 
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.krakenfutures.dto.account.KrakenFuturesAccounts;
 import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesOrder;
 import org.knowm.xchange.krakenfutures.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author Jean-Christophe Laruelle */
+/**
+ * @author Jean-Christophe Laruelle
+ */
 @Path("/api/v3")
 @Produces(MediaType.APPLICATION_JSON)
 public interface KrakenFuturesAuthenticated extends KrakenFutures {
@@ -56,23 +57,23 @@ public interface KrakenFuturesAuthenticated extends KrakenFutures {
       @FormParam("json") BatchOrder orderCommands)
       throws IOException;
 
-    @POST
-    @Path("cancelorder")
-    KrakenFuturesCancel cancelOrder(
-        @HeaderParam("APIKey") String apiKey,
-        @HeaderParam("Authent") ParamsDigest signer,
-        @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
-        @QueryParam("order_id") String order_id)
-        throws IOException;
+  @POST
+  @Path("cancelorder")
+  KrakenFuturesCancel cancelOrder(
+      @HeaderParam("APIKey") String apiKey,
+      @HeaderParam("Authent") ParamsDigest signer,
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
+      @QueryParam("order_id") String order_id)
+      throws IOException;
 
   @POST
   @Path("cancelallorders")
   KrakenFuturesCancelAllOrders cancelAllOrdersByInstrument(
-          @HeaderParam("APIKey") String apiKey,
-          @HeaderParam("Authent") ParamsDigest signer,
-          @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
-          @QueryParam("symbol") String symbol)
-          throws IOException;
+      @HeaderParam("APIKey") String apiKey,
+      @HeaderParam("Authent") ParamsDigest signer,
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
+      @QueryParam("symbol") String symbol)
+      throws IOException;
 
   @POST
   @Path("cancelallordersafter")
@@ -95,25 +96,24 @@ public interface KrakenFuturesAuthenticated extends KrakenFutures {
   @Path("orders/status")
   @Produces(MediaType.APPLICATION_FORM_URLENCODED)
   KrakenFuturesOrdersStatusesResponse getOrdersStatuses(
-          @HeaderParam("APIKey") String apiKey,
-          @HeaderParam("Authent") ParamsDigest signer,
-          @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
-          KrakenFuturesOrderStatusRequest orderIds)
-          throws IOException;
+      @HeaderParam("APIKey") String apiKey,
+      @HeaderParam("Authent") ParamsDigest signer,
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
+      KrakenFuturesOrderStatusRequest orderIds)
+      throws IOException;
 
   @POST
   @Path("editorder")
   KrakenFuturesEditOrderResponse changeOrder(
-          @HeaderParam("APIKey") String apiKey,
-          @HeaderParam("Authent") ParamsDigest signer,
-          @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
-          @QueryParam("cliOrdId") String cliOrdId,
-          @QueryParam("limitPrice") BigDecimal limitPrice,
-          @QueryParam("orderId") String orderId,
-          @QueryParam("size") BigDecimal size,
-          @QueryParam("stopPrice") BigDecimal stopPrice
-  )
-          throws IOException;
+      @HeaderParam("APIKey") String apiKey,
+      @HeaderParam("Authent") ParamsDigest signer,
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
+      @QueryParam("cliOrdId") String cliOrdId,
+      @QueryParam("limitPrice") BigDecimal limitPrice,
+      @QueryParam("orderId") String orderId,
+      @QueryParam("size") BigDecimal size,
+      @QueryParam("stopPrice") BigDecimal stopPrice)
+      throws IOException;
 
   @GET
   @Path("fills")

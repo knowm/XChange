@@ -1,11 +1,11 @@
 package org.knowm.xchange.bittrex.service;
 
+import jakarta.ws.rs.HeaderParam;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
-import javax.ws.rs.HeaderParam;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;

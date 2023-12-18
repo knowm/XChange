@@ -16,7 +16,9 @@ import org.knowm.xchange.btcturk.service.BTCTurkDemoUtilsTest;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class AccountDataFetchIntegration {
 
   private Exchange btcTurk;

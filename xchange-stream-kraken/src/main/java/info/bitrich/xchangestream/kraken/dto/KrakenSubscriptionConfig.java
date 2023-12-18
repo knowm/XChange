@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 
-/** @author makarid, pchertalev */
+/**
+ * @author makarid, pchertalev
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class KrakenSubscriptionConfig {
 

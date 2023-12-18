@@ -78,10 +78,10 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
       List<BittrexComissionRatesWithMarket> tradingFees = getTradingFees();
       for (BittrexComissionRatesWithMarket tradingFee : tradingFees) {
         result.put(
-                BittrexUtils.toCurrencyPair(tradingFee.getMarketSymbol()),
-                new Fee(
-                        BigDecimal.valueOf(tradingFee.getMakerRate()),
-                        BigDecimal.valueOf(tradingFee.getTakerRate())));
+            BittrexUtils.toCurrencyPair(tradingFee.getMarketSymbol()),
+            new Fee(
+                BigDecimal.valueOf(tradingFee.getMakerRate()),
+                BigDecimal.valueOf(tradingFee.getTakerRate())));
       }
       return result;
     } catch (BittrexException e) {

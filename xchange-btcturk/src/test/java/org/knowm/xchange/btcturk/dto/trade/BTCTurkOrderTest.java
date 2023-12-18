@@ -11,7 +11,9 @@ import org.knowm.xchange.btcturk.dto.BTCTurkOrderTypes;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTickerTest;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkOrderTest {
 
   @Test

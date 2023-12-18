@@ -3,12 +3,13 @@ package org.knowm.xchange.krakenfutures.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.List;
-
 import lombok.Getter;
 import lombok.ToString;
 import org.knowm.xchange.krakenfutures.dto.KrakenFuturesResult;
 
-/** @author Jean-Christophe Laruelle */
+/**
+ * @author Jean-Christophe Laruelle
+ */
 @Getter
 @ToString
 public class KrakenFuturesOpenOrders extends KrakenFuturesResult {

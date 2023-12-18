@@ -1,16 +1,17 @@
 package info.bitrich.xchangestream.binance;
 
-import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
-import org.knowm.xchange.instrument.Instrument;
-
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
+import org.knowm.xchange.instrument.Instrument;
 
 public class KlineSubscription {
   private final Map<Instrument, Set<KlineInterval>> klines;
 
-  public KlineSubscription(Map<Instrument, Set<KlineInterval>> klines) {this.klines = klines;}
+  public KlineSubscription(Map<Instrument, Set<KlineInterval>> klines) {
+    this.klines = klines;
+  }
 
   public Map<Instrument, Set<KlineInterval>> getKlines() {
     return klines;

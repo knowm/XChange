@@ -3,7 +3,9 @@ package org.knowm.xchange.livecoin.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class LivecoinResponseWithDataMap extends LivecoinBaseResponse {
 
   private final Map data;

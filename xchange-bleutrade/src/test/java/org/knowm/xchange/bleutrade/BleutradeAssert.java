@@ -68,9 +68,11 @@ public class BleutradeAssert {
   }
 
   public static void assertEquals(InstrumentMetaData o1, InstrumentMetaData o2) {
-    assertThat(o1.getMinimumAmount().stripTrailingZeros()).isEqualTo(o2.getMinimumAmount().stripTrailingZeros());
+    assertThat(o1.getMinimumAmount().stripTrailingZeros())
+        .isEqualTo(o2.getMinimumAmount().stripTrailingZeros());
     assertThat(o1.getPriceScale()).isEqualTo(o2.getPriceScale());
-    assertThat(o1.getTradingFee().stripTrailingZeros()).isEqualTo(o2.getTradingFee().stripTrailingZeros());
+    assertThat(o1.getTradingFee().stripTrailingZeros())
+        .isEqualTo(o2.getTradingFee().stripTrailingZeros());
   }
 
   public static void assertEquals(BleutradeCurrency o1, BleutradeCurrency o2) {

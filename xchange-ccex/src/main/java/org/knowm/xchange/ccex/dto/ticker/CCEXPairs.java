@@ -25,18 +25,24 @@ public class CCEXPairs {
   /** No args constructor for use in serialization */
   public CCEXPairs() {}
 
-  /** @param pairs */
+  /**
+   * @param pairs
+   */
   public CCEXPairs(List<String> pairs) {
     this.pairs = pairs;
   }
 
-  /** @return The pairs */
+  /**
+   * @return The pairs
+   */
   @JsonProperty("pairs")
   public List<String> getPairs() {
     return pairs;
   }
 
-  /** @param pairs The pairs */
+  /**
+   * @param pairs The pairs
+   */
   @JsonProperty("pairs")
   public void setPairs(List<String> pairs) {
     this.pairs = pairs;

@@ -9,8 +9,7 @@ public class BybitJacksonObjectMapperFactory extends DefaultJacksonObjectMapperF
   @Override
   public void configureObjectMapper(ObjectMapper objectMapper) {
     super.configureObjectMapper(objectMapper);
-    //depending on api version bybit sends jsons with double- and single-quotes
+    // depending on api version bybit sends jsons with double- and single-quotes
     objectMapper.configure(Feature.ALLOW_SINGLE_QUOTES, true);
-
   }
 }

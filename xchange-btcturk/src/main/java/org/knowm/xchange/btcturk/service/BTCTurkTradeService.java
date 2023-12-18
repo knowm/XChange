@@ -24,7 +24,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkTradeService extends BTCTurkTradeServiceRaw implements TradeService {
 
   public BTCTurkTradeService(Exchange exchange) {
@@ -93,7 +95,7 @@ public class BTCTurkTradeService extends BTCTurkTradeServiceRaw implements Trade
     for (BTCTurkUserTransactions transaction : transactions) {
       if (transaction.getOperation().equals(BTCTurkOperations.trade))
         trades.add(
-            new UserTrade.Builder()
+            UserTrade.builder()
                 .type(
                     ((transaction.getAmount().compareTo(BigDecimal.ZERO) > 0)
                         ? OrderType.ASK

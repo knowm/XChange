@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
-/** @author massi.gerardi */
+/**
+ * @author massi.gerardi
+ */
 @Getter
 @AllArgsConstructor
 @ToString

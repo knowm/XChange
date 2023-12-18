@@ -31,49 +31,65 @@ public class BiboxOrderBook {
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /** @return The pair */
+  /**
+   * @return The pair
+   */
   @JsonProperty("pair")
   public String getPair() {
     return pair;
   }
 
-  /** @param pair The pair */
+  /**
+   * @param pair The pair
+   */
   @JsonProperty("pair")
   public void setPair(String pair) {
     this.pair = pair;
   }
 
-  /** @return The updateTime */
+  /**
+   * @return The updateTime
+   */
   @JsonProperty("update_time")
   public long getUpdateTime() {
     return updateTime;
   }
 
-  /** @param updateTime The update_time */
+  /**
+   * @param updateTime The update_time
+   */
   @JsonProperty("update_time")
   public void setUpdateTime(long updateTime) {
     this.updateTime = updateTime;
   }
 
-  /** @return The asks */
+  /**
+   * @return The asks
+   */
   @JsonProperty("asks")
   public List<BiboxOrderBookEntry> getAsks() {
     return asks;
   }
 
-  /** @param asks The asks */
+  /**
+   * @param asks The asks
+   */
   @JsonProperty("asks")
   public void setAsks(List<BiboxOrderBookEntry> asks) {
     this.asks = asks;
   }
 
-  /** @return The bids */
+  /**
+   * @return The bids
+   */
   @JsonProperty("bids")
   public List<BiboxOrderBookEntry> getBids() {
     return bids;
   }
 
-  /** @param bids The bids */
+  /**
+   * @param bids The bids
+   */
   @JsonProperty("bids")
   public void setBids(List<BiboxOrderBookEntry> bids) {
     this.bids = bids;

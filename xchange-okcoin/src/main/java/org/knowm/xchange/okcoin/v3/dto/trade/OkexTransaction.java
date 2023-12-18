@@ -24,21 +24,26 @@ public class OkexTransaction {
   @JsonProperty("ledger_id")
   /** bill ID */
   private String ledgerId;
+
   /** liquidity side (T or M) */
   private String liquidity;
 
   @JsonProperty("order_id")
   /** order ID */
   private String orderId;
+
   /** price */
   private BigDecimal price;
 
   @JsonProperty("product_id")
   private String productId;
+
   /** bills side (buy, sell or points_fee) */
   private Side side;
+
   /** quantity */
   private BigDecimal size;
+
   /** create date */
   private String timestamp;
 

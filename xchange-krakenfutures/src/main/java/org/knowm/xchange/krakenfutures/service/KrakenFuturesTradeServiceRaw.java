@@ -3,24 +3,25 @@ package org.knowm.xchange.krakenfutures.service;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.krakenfutures.KrakenFuturesAdapters;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesOrder;
+import org.knowm.xchange.krakenfutures.dto.trade.*;
 import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesCancel;
 import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesCancelAllOrdersAfter;
 import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesFills;
 import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOpenOrders;
-import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesOrder;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.instrument.Instrument;
-import org.knowm.xchange.krakenfutures.dto.trade.*;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author Jean-Christophe Laruelle */
+/**
+ * @author Jean-Christophe Laruelle
+ */
 public class KrakenFuturesTradeServiceRaw extends KrakenFuturesBaseService {
 
   /**
@@ -40,21 +41,25 @@ public class KrakenFuturesTradeServiceRaw extends KrakenFuturesBaseService {
             exchange.getExchangeSpecification().getApiKey(),
             signatureCreator,
             exchange.getNonceFactory(),
-            order.hasFlag(KrakenFuturesOrderFlags.POST_ONLY) ? KrakenFuturesOrderType.post.name() : KrakenFuturesOrderType.lmt.name(),
+            order.hasFlag(KrakenFuturesOrderFlags.POST_ONLY)
+                ? KrakenFuturesOrderType.post.name()
+                : KrakenFuturesOrderType.lmt.name(),
             KrakenFuturesAdapters.adaptKrakenFuturesSymbol(order.getInstrument()),
-            order.getType().equals(OrderType.ASK) ? KrakenFuturesOrderSide.sell.name() : KrakenFuturesOrderSide.buy.name(),
+            order.getType().equals(OrderType.ASK)
+                ? KrakenFuturesOrderSide.sell.name()
+                : KrakenFuturesOrderSide.buy.name(),
             order.getOriginalAmount(),
             order.getLimitPrice(),
             order.getUserReference(),
             order.hasFlag(KrakenFuturesOrderFlags.REDUCE_ONLY),
-                null,
-                null
-        );
+            null,
+            null);
 
     if (ord.isSuccess() && ord.getOrderStatus().getStatus().equals("placed")) {
       return ord;
     } else {
-      String errorMessage = (ord.getError() == null) ? ord.getOrderStatus().getStatus() : ord.getError();
+      String errorMessage =
+          (ord.getError() == null) ? ord.getOrderStatus().getStatus() : ord.getError();
       throw new ExchangeException("Error sending CF limit order: " + errorMessage);
     }
   }
@@ -62,25 +67,27 @@ public class KrakenFuturesTradeServiceRaw extends KrakenFuturesBaseService {
   public KrakenFuturesOrder placeKrakenFuturesMarketOrder(MarketOrder order) throws IOException {
 
     KrakenFuturesOrder ord =
-            krakenFuturesAuthenticated.sendOrder(
-                    exchange.getExchangeSpecification().getApiKey(),
-                    signatureCreator,
-                    exchange.getNonceFactory(),
-                    KrakenFuturesOrderType.mkt.name(),
-                    KrakenFuturesAdapters.adaptKrakenFuturesSymbol(order.getInstrument()),
-                    order.getType().equals(OrderType.ASK) ? KrakenFuturesOrderSide.sell.name() : KrakenFuturesOrderSide.buy.name(),
-                    order.getOriginalAmount(),
-                    null,
-                    order.getUserReference(),
-                    order.hasFlag(KrakenFuturesOrderFlags.REDUCE_ONLY),
-                    null,
-                    null
-            );
+        krakenFuturesAuthenticated.sendOrder(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            KrakenFuturesOrderType.mkt.name(),
+            KrakenFuturesAdapters.adaptKrakenFuturesSymbol(order.getInstrument()),
+            order.getType().equals(OrderType.ASK)
+                ? KrakenFuturesOrderSide.sell.name()
+                : KrakenFuturesOrderSide.buy.name(),
+            order.getOriginalAmount(),
+            null,
+            order.getUserReference(),
+            order.hasFlag(KrakenFuturesOrderFlags.REDUCE_ONLY),
+            null,
+            null);
 
     if (ord.isSuccess() && ord.getOrderStatus().getStatus().equals("placed")) {
       return ord;
     } else {
-      String errorMessage = (ord.getError() == null) ? ord.getOrderStatus().getStatus() : ord.getError();
+      String errorMessage =
+          (ord.getError() == null) ? ord.getOrderStatus().getStatus() : ord.getError();
       throw new ExchangeException("Error sending CF limit order: " + errorMessage);
     }
   }
@@ -88,25 +95,29 @@ public class KrakenFuturesTradeServiceRaw extends KrakenFuturesBaseService {
   public KrakenFuturesOrder placeKrakenFuturesStopOrder(StopOrder order) throws IOException {
 
     KrakenFuturesOrder ord =
-            krakenFuturesAuthenticated.sendOrder(
-                    exchange.getExchangeSpecification().getApiKey(),
-                    signatureCreator,
-                    exchange.getNonceFactory(),
-                    (order.getIntention().equals(StopOrder.Intention.STOP_LOSS)) ? KrakenFuturesOrderType.stp.name() : KrakenFuturesOrderType.take_profit.name(),
-                    KrakenFuturesAdapters.adaptKrakenFuturesSymbol(order.getInstrument()),
-                    order.getType().equals(OrderType.ASK) ? KrakenFuturesOrderSide.sell.name() : KrakenFuturesOrderSide.buy.name(),
-                    order.getOriginalAmount(),
-                    (order.getLimitPrice() != null) ? order.getLimitPrice() : null,
-                    order.getUserReference(),
-                    order.hasFlag(KrakenFuturesOrderFlags.REDUCE_ONLY),
-                    order.getStopPrice(),
-                    "mark"
-            );
+        krakenFuturesAuthenticated.sendOrder(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            (order.getIntention().equals(StopOrder.Intention.STOP_LOSS))
+                ? KrakenFuturesOrderType.stp.name()
+                : KrakenFuturesOrderType.take_profit.name(),
+            KrakenFuturesAdapters.adaptKrakenFuturesSymbol(order.getInstrument()),
+            order.getType().equals(OrderType.ASK)
+                ? KrakenFuturesOrderSide.sell.name()
+                : KrakenFuturesOrderSide.buy.name(),
+            order.getOriginalAmount(),
+            (order.getLimitPrice() != null) ? order.getLimitPrice() : null,
+            order.getUserReference(),
+            order.hasFlag(KrakenFuturesOrderFlags.REDUCE_ONLY),
+            order.getStopPrice(),
+            "mark");
 
     if (ord.isSuccess() && ord.getOrderStatus().getStatus().equals("placed")) {
       return ord;
     } else {
-      String errorMessage = (ord.getError() == null) ? ord.getOrderStatus().getStatus() : ord.getError();
+      String errorMessage =
+          (ord.getError() == null) ? ord.getOrderStatus().getStatus() : ord.getError();
       throw new ExchangeException("Error sending CF limit order: " + errorMessage);
     }
   }
@@ -114,16 +125,15 @@ public class KrakenFuturesTradeServiceRaw extends KrakenFuturesBaseService {
   public String changeKrakenFuturesOrder(LimitOrder limitOrder) throws IOException {
 
     KrakenFuturesEditOrderResponse ord =
-            krakenFuturesAuthenticated.changeOrder(
-                    exchange.getExchangeSpecification().getApiKey(),
-                    signatureCreator,
-                    exchange.getNonceFactory(),
-                    limitOrder.getUserReference(),
-                    limitOrder.getLimitPrice(),
-                    (limitOrder.getUserReference() != null) ? limitOrder.getId() : null,
-                    limitOrder.getOriginalAmount(),
-                    null
-            );
+        krakenFuturesAuthenticated.changeOrder(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            limitOrder.getUserReference(),
+            limitOrder.getLimitPrice(),
+            (limitOrder.getUserReference() != null) ? limitOrder.getId() : null,
+            limitOrder.getOriginalAmount(),
+            null);
 
     if (ord.isSuccess()) {
       return ord.getEditStatus().getOrderId();
@@ -187,7 +197,7 @@ public class KrakenFuturesTradeServiceRaw extends KrakenFuturesBaseService {
             exchange.getExchangeSpecification().getApiKey(),
             signatureCreator,
             exchange.getNonceFactory(),
-                (lastFillTime != null) ? DateUtils.toUTCISODateString(lastFillTime) : null);
+            (lastFillTime != null) ? DateUtils.toUTCISODateString(lastFillTime) : null);
 
     if (fills.isSuccess()) {
       return fills;
@@ -214,36 +224,36 @@ public class KrakenFuturesTradeServiceRaw extends KrakenFuturesBaseService {
   }
 
   public KrakenFuturesCancelAllOrders cancelAllOrdersByInstrument(Instrument instrument)
-          throws IOException {
+      throws IOException {
     KrakenFuturesCancelAllOrders cancelAllOrdersByInstrument =
-            krakenFuturesAuthenticated.cancelAllOrdersByInstrument(
-                    exchange.getExchangeSpecification().getApiKey(),
-                    signatureCreator,
-                    exchange.getNonceFactory(),
-                    KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument));
+        krakenFuturesAuthenticated.cancelAllOrdersByInstrument(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument));
 
     if (cancelAllOrdersByInstrument.isSuccess()) {
       return cancelAllOrdersByInstrument;
     } else {
       throw new ExchangeException(
-              "Error cancelling all CF orders after: " + cancelAllOrdersByInstrument.getError());
+          "Error cancelling all CF orders after: " + cancelAllOrdersByInstrument.getError());
     }
   }
 
   public KrakenFuturesOrdersStatusesResponse getKrakenFuturesOrdersStatuses(String... orderIds)
-          throws IOException {
+      throws IOException {
     KrakenFuturesOrdersStatusesResponse cancelAllOrdersByInstrument =
-            krakenFuturesAuthenticated.getOrdersStatuses(
-                    exchange.getExchangeSpecification().getApiKey(),
-                    signatureCreator,
-                    exchange.getNonceFactory(),
-                    new KrakenFuturesOrderStatusRequest(orderIds));
+        krakenFuturesAuthenticated.getOrdersStatuses(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            new KrakenFuturesOrderStatusRequest(orderIds));
 
     if (cancelAllOrdersByInstrument.isSuccess()) {
       return cancelAllOrdersByInstrument;
     } else {
       throw new ExchangeException(
-              "Error cancelling all CF orders after: " + cancelAllOrdersByInstrument.getError());
+          "Error cancelling all CF orders after: " + cancelAllOrdersByInstrument.getError());
     }
   }
 }

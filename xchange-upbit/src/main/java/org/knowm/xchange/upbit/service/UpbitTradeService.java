@@ -15,7 +15,9 @@ import org.knowm.xchange.upbit.dto.trade.UpbitOrderResponse;
 
 public class UpbitTradeService extends UpbitTradeServiceRaw implements TradeService {
 
-  /** @param exchange */
+  /**
+   * @param exchange
+   */
   public UpbitTradeService(Exchange exchange) {
     super(exchange);
   }

@@ -13,7 +13,9 @@ import java.io.InputStream;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** @author ujjwal on 14/02/18. */
+/**
+ * @author ujjwal on 14/02/18.
+ */
 public class CexIOFeeInfoTest {
   @Test
   public void jsonMapperTest() throws IOException {

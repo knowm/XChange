@@ -19,6 +19,4 @@ public class BinanceExchangeInfo {
   private String[] exchangeFilters;
 
   private String[] permissions;
-
-
 }

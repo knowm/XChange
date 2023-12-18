@@ -28,7 +28,9 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseAdapterTest {
 
   @Test
@@ -66,7 +68,7 @@ public class CoinbaseAdapterTest {
     BigDecimal price = new BigDecimal("905.10").divide(originalAmount, RoundingMode.HALF_EVEN);
 
     UserTrade expectedTrade =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .type(OrderType.BID)
             .originalAmount(originalAmount)
             .currencyPair(CurrencyPair.BTC_USD)

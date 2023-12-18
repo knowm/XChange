@@ -16,16 +16,22 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class BinanceExchange extends BaseExchange implements Exchange {
   public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
   public static final String SPECIFIC_PARAM_USE_FUTURES_SANDBOX = "Use_Sandbox_Futures";
-
+  public static final String SPECIFIC_PARAM_FUTURES_ENABLED = "Futures_Enabled";
+  public static final String SPECIFIC_PARAM_PORTFOLIO_MARGIN_ENABLED = "Portfolio_Margin_Enabled";
   private static final String SPOT_URL = "https://api.binance.com";
-  public static final String FUTURES_URL = "https://fapi.binance.com";
+  public static final String FUTURES_URL = "https://dapi.binance.com";
+  public static final String INVERSE_FUTURES_URL = "https://dapi.binance.com";
+  public static final String PORTFOLIO_MARGIN_URL = "https://papi.binance.com";
+
   public static final String SANDBOX_FUTURES_URL = "https://testnet.binancefuture.com";
   protected static ResilienceRegistries RESILIENCE_REGISTRIES;
   protected SynchronizedValueFactory<Long> timestampFactory;
 
   @Override
   protected void initServices() {
-    this.timestampFactory = new BinanceTimestampFactory(getExchangeSpecification().getResilience(), getResilienceRegistries());
+    this.timestampFactory =
+        new BinanceTimestampFactory(
+            getExchangeSpecification().getResilience(), getResilienceRegistries());
     this.marketDataService = new BinanceMarketDataService(this, getResilienceRegistries());
     this.tradeService = new BinanceTradeService(this, getResilienceRegistries());
     this.accountService = new BinanceAccountService(this, getResilienceRegistries());
@@ -72,9 +78,21 @@ public class BinanceExchange extends BaseExchange implements Exchange {
     super.applySpecification(exchangeSpecification);
   }
 
-  public boolean isFuturesSandbox(){
+  public boolean isFuturesSandbox() {
     return Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_FUTURES_SANDBOX));
+        exchangeSpecification.getExchangeSpecificParametersItem(
+            SPECIFIC_PARAM_USE_FUTURES_SANDBOX));
+  }
+
+  public boolean isFuturesEnabled() {
+    return Boolean.TRUE.equals(
+        exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_FUTURES_ENABLED));
+  }
+
+  public boolean isPortfolioMarginEnabled() {
+    return Boolean.TRUE.equals(
+        exchangeSpecification.getExchangeSpecificParametersItem(
+            SPECIFIC_PARAM_PORTFOLIO_MARGIN_ENABLED));
   }
 
   public boolean usingSandbox() {
@@ -93,15 +111,23 @@ public class BinanceExchange extends BaseExchange implements Exchange {
       if (!usingSandbox() && isAuthenticated()) {
         assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
       }
-      if(usingSandbox()){
-        if(isFuturesSandbox()){
-          BinanceAdapters.adaptFutureExchangeMetaData(exchangeMetaData, marketDataService.getFutureExchangeInfo());
+      if (usingSandbox()) {
+        if (isFuturesSandbox()) {
+          BinanceAdapters.adaptFutureExchangeMetaData(
+              exchangeMetaData, marketDataService.getFutureExchangeInfo());
         } else {
-          exchangeMetaData = BinanceAdapters.adaptExchangeMetaData(marketDataService.getExchangeInfo(), assetDetailMap);
+          exchangeMetaData =
+              BinanceAdapters.adaptExchangeMetaData(
+                  marketDataService.getExchangeInfo(), assetDetailMap);
         }
       } else {
-        exchangeMetaData = BinanceAdapters.adaptExchangeMetaData(marketDataService.getExchangeInfo(), assetDetailMap);
-        BinanceAdapters.adaptFutureExchangeMetaData(exchangeMetaData, marketDataService.getFutureExchangeInfo());
+        exchangeMetaData =
+            BinanceAdapters.adaptExchangeMetaData(
+                marketDataService.getExchangeInfo(), assetDetailMap);
+        if (isFuturesEnabled()) {
+          BinanceAdapters.adaptFutureExchangeMetaData(
+              exchangeMetaData, marketDataService.getFutureExchangeInfo());
+        }
       }
 
     } catch (Exception e) {
@@ -127,9 +153,9 @@ public class BinanceExchange extends BaseExchange implements Exchange {
 
   private static boolean enabledSandbox(ExchangeSpecification exchangeSpecification) {
     return Boolean.TRUE.equals(
-        exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX)) ||
-            Boolean.TRUE.equals(
-                    exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_FUTURES_SANDBOX));
+            exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX))
+        || Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem(
+                SPECIFIC_PARAM_USE_FUTURES_SANDBOX));
   }
-
 }

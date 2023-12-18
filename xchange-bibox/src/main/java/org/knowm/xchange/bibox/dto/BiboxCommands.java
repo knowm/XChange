@@ -10,7 +10,9 @@ import org.knowm.xchange.bibox.dto.account.BiboxDepositAddressCommandBody;
 import org.knowm.xchange.bibox.dto.account.BiboxFundsCommandBody;
 import org.knowm.xchange.bibox.dto.account.BiboxTransferCommandBody;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public class BiboxCommands extends ArrayList<BiboxCommand<?>> {
 
   public static final BiboxCommands ASSETS_CMD =

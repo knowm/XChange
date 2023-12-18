@@ -193,7 +193,7 @@ public class QuoineAdapters {
     List<UserTrade> res = new ArrayList<>();
     for (QuoineExecution execution : executions) {
       res.add(
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(execution.mySide.equals("sell") ? OrderType.ASK : OrderType.BID)
               .originalAmount(execution.quantity)
               .currencyPair(currencyPair)

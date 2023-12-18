@@ -8,11 +8,14 @@ import java.util.Date;
 import org.knowm.xchange.bitstamp.BitstampUtils;
 import si.mazi.rescu.ExceptionalReturnContentException;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public final class BitstampOrder {
 
   private long id;
   private Date datetime;
+
   /** 0 - buy (bid); 1 - sell (ask) */
   private int type;
 

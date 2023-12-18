@@ -1,20 +1,22 @@
 package org.knowm.xchange.bitbay.v3;
 
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.UUID;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitbay.v3.dto.BitbayBalanceHistoryResponse;
 import org.knowm.xchange.bitbay.v3.dto.BitbayBalances;
 import org.knowm.xchange.bitbay.v3.dto.trade.BitbayUserTrades;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 @SuppressWarnings("rawtypes")
 @Path("/rest/")
 @Produces(MediaType.APPLICATION_JSON)

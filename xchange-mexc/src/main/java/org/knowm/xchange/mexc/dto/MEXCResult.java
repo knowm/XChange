@@ -9,9 +9,7 @@ public class MEXCResult<T> {
   private final T data;
 
   @JsonCreator
-  public MEXCResult(
-          @JsonProperty("code") int code,
-          @JsonProperty("data") T data) {
+  public MEXCResult(@JsonProperty("code") int code, @JsonProperty("data") T data) {
     this.code = code;
     this.data = data;
   }

@@ -89,5 +89,4 @@ public class BybitTicker {
 
   @JsonProperty("delivery_time")
   Date deliveryTime;
-
 }

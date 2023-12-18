@@ -5,7 +5,9 @@ import org.knowm.xchange.btcturk.dto.BTCTurkOrderMethods;
 import org.knowm.xchange.btcturk.dto.BTCTurkOrderTypes;
 import org.knowm.xchange.btcturk.dto.BTCTurkPair;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkOrder {
   private BTCTurkOrderMethods OrderMethod;
   private String Price;

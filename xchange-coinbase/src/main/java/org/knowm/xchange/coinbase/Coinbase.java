@@ -1,16 +1,16 @@
 package org.knowm.xchange.coinbase;
 
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinbase.dto.CoinbaseException;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseToken;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser;
@@ -18,7 +18,9 @@ import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbasePrice;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 @Path("api/v1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Coinbase {

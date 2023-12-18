@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class BitstampOrderBook {
 
   private final Date timestamp;
@@ -29,7 +31,9 @@ public class BitstampOrderBook {
     this.timestamp = new Date(timestamp * 1000);
   }
 
-  /** @return Timestamp in Unix milliseconds */
+  /**
+   * @return Timestamp in Unix milliseconds
+   */
   public Date getTimestamp() {
 
     return timestamp;

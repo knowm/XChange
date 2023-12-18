@@ -11,7 +11,9 @@ import org.knowm.xchange.kraken.service.KrakenMarketDataService;
 import org.knowm.xchange.kraken.service.KrakenMarketDataServiceRaw;
 import org.knowm.xchange.kraken.service.KrakenTradeService;
 
-/** @author Benedikt Bünz */
+/**
+ * @author Benedikt Bünz
+ */
 public class KrakenExchange extends BaseExchange implements Exchange {
 
   @Override

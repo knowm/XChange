@@ -4,7 +4,9 @@ import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trade;
 
-/** @author Nikita Belenkiy on 04/11/2019. */
+/**
+ * @author Nikita Belenkiy on 04/11/2019.
+ */
 public class PoloniexWebSocketAdapter {
   private PoloniexWebSocketAdapter() {}
 

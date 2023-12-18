@@ -2,7 +2,9 @@ package org.knowm.xchange.coinbase.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseAddressCallback {
 
   @JsonProperty("address")

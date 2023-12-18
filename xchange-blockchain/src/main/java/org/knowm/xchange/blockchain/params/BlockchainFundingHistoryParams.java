@@ -1,5 +1,6 @@
 package org.knowm.xchange.blockchain.params;
 
+import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
 import org.knowm.xchange.currency.Currency;
@@ -8,7 +9,6 @@ import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
-import java.util.Date;
 @Data
 @Builder
 public class BlockchainFundingHistoryParams

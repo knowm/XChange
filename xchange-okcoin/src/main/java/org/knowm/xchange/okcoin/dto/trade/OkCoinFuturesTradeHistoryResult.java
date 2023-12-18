@@ -9,6 +9,7 @@ public class OkCoinFuturesTradeHistoryResult extends OkCoinErrorResult {
   private final long amount;
   private final long timestamp;
   private final TransactionType type;
+
   /** USD amount, negative -> BID, positive -> ASK */
   private final BigDecimal price;
 

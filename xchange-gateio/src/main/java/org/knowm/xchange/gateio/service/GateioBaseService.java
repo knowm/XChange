@@ -26,12 +26,13 @@ public class GateioBaseService extends BaseExchangeService<GateioExchange> imple
 
     super(exchange);
 
-    gateio = ExchangeRestProxyBuilder
-        .forInterface(Gateio.class, exchange.getExchangeSpecification())
-        .build();
-    gateioAuthenticated = ExchangeRestProxyBuilder
-        .forInterface(GateioAuthenticated.class, exchange.getExchangeSpecification())
-        .build();
+    gateio =
+        ExchangeRestProxyBuilder.forInterface(Gateio.class, exchange.getExchangeSpecification())
+            .build();
+    gateioAuthenticated =
+        ExchangeRestProxyBuilder.forInterface(
+                GateioAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     apiKey = exchange.getExchangeSpecification().getApiKey();
     signatureCreator =
         GateioHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());

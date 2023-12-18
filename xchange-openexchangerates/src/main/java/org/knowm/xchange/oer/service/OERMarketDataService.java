@@ -14,7 +14,9 @@ import org.knowm.xchange.oer.OERAdapters;
 import org.knowm.xchange.oer.dto.marketdata.OERRates;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class OERMarketDataService extends OERMarketDataServiceRaw implements MarketDataService {
 
   /**

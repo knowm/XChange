@@ -5,6 +5,6 @@ import lombok.ToString;
 
 @ToString
 public class KucoinOrderBookEvent extends KucoinWebSocketEvent {
-    @JsonProperty("data")
-    public KucoinOrderBookEventData data;
+  @JsonProperty("data")
+  public KucoinOrderBookEventData data;
 }

@@ -1,6 +1,8 @@
 package org.knowm.xchange.bibox.dto.marketdata;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public class BiboxOrderBookCommandBody {
   private String pair;
   private Integer size;

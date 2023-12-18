@@ -3,7 +3,9 @@ package org.knowm.xchange.cexio.dto.trade;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** @author Andrea Fossi. */
+/**
+ * @author Andrea Fossi.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CexioPositionResponse {
   @JsonProperty("e")

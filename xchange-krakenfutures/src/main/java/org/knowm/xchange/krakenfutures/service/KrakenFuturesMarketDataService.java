@@ -2,12 +2,14 @@ package org.knowm.xchange.krakenfutures.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.krakenfutures.KrakenFuturesAdapters;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.krakenfutures.KrakenFuturesAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author Jean-Christophe Laruelle */
+/**
+ * @author Jean-Christophe Laruelle
+ */
 public class KrakenFuturesMarketDataService extends KrakenFuturesMarketDataServiceRaw
     implements MarketDataService {
 
@@ -23,8 +25,7 @@ public class KrakenFuturesMarketDataService extends KrakenFuturesMarketDataServi
 
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
-    return KrakenFuturesAdapters.adaptTicker(
-            getKrakenFuturesTicker(instrument), instrument);
+    return KrakenFuturesAdapters.adaptTicker(getKrakenFuturesTicker(instrument), instrument);
   }
 
   @Override

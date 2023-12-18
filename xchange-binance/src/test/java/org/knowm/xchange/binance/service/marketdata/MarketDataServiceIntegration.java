@@ -47,15 +47,14 @@ public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
       }
     }
 
-    tickers.sort((BinanceTicker24h t1, BinanceTicker24h t2) ->
+    tickers.sort(
+        (BinanceTicker24h t1, BinanceTicker24h t2) ->
             t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent()));
 
-    tickers
-        .forEach(
-            t -> System.out.println(
-                t.getSymbol()
-                    + " => "
-                    + String.format("%+.2f%%", t.getPriceChangePercent())));
+    tickers.forEach(
+        t ->
+            System.out.println(
+                t.getSymbol() + " => " + String.format("%+.2f%%", t.getPriceChangePercent())));
   }
 
   private BinanceTicker24h getBinanceTicker24h(Instrument pair) throws IOException {
