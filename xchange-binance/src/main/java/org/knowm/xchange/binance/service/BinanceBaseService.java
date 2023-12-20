@@ -47,7 +47,7 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
       inverseFuturesSpec.setSslUri(
           (exchange.usingSandbox())
               ? BinanceExchange.SANDBOX_FUTURES_URL
-              : BinanceExchange.INVERSE_FUTURES_URL);
+              : BinanceExchange.FUTURES_URL);
       this.inverseBinanceFutures =
           ExchangeRestProxyBuilder.forInterface(
                   BinanceFuturesAuthenticated.class, inverseFuturesSpec)
