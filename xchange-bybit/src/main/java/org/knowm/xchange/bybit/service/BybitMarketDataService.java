@@ -18,12 +18,12 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
     super(exchange);
   }
 
-
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
     Assert.notNull(instrument, "Null instrument");
 
-    BybitResult<List<BybitTicker>> response = getTicker24h(BybitAdapters.convertToBybitSymbol(instrument.toString()));
+    BybitResult<List<BybitTicker>> response =
+        getTicker24h(BybitAdapters.convertToBybitSymbol(instrument.toString()));
 
     if (response.getResult().isEmpty()) {
       return new Ticker.Builder().build();
@@ -42,10 +42,8 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
           .open(bybitTicker.getPrevPrice24h())
           .percentageChange(bybitTicker.getPrice24hPercentageChange())
           .build();
-
     }
   }
-
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {

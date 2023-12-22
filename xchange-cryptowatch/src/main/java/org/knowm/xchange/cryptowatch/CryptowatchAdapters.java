@@ -70,7 +70,7 @@ public class CryptowatchAdapters {
   }
 
   private static InstrumentMetaData adaptToCurrencyPairMetadata(
-          InstrumentMetaData currencyPairMetaData) {
+      InstrumentMetaData currencyPairMetaData) {
     if (currencyPairMetaData != null) {
       return currencyPairMetaData;
     } else {

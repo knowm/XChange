@@ -17,7 +17,9 @@ public class DVChainExchange extends BaseExchange {
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (exchangeSpecification.getExchangeSpecificParametersItem(Exchange.USE_SANDBOX).equals(true)) {
+      if (exchangeSpecification
+          .getExchangeSpecificParametersItem(Exchange.USE_SANDBOX)
+          .equals(true)) {
 
         exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
         exchangeSpecification.setHost("sandbox.trade.dvchain.co");

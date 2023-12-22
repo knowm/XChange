@@ -26,7 +26,9 @@ package org.knowm.xchange.coinmate.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class CoinmateOpenOrdersEntry {
 
   private final long id;
@@ -61,32 +63,44 @@ public class CoinmateOpenOrdersEntry {
     this.originalStopPrice = originalStopPrice;
   }
 
-  /** @return the id */
+  /**
+   * @return the id
+   */
   public long getId() {
     return id;
   }
 
-  /** @return the timestamp */
+  /**
+   * @return the timestamp
+   */
   public long getTimestamp() {
     return timestamp;
   }
 
-  /** @return the type */
+  /**
+   * @return the type
+   */
   public String getType() {
     return type;
   }
 
-  /** @return the currency pair */
+  /**
+   * @return the currency pair
+   */
   public String getCurrencyPair() {
     return currencyPair;
   }
 
-  /** @return the price */
+  /**
+   * @return the price
+   */
   public BigDecimal getPrice() {
     return price;
   }
 
-  /** @return the amount */
+  /**
+   * @return the amount
+   */
   public BigDecimal getAmount() {
     return amount;
   }

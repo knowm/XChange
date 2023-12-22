@@ -152,7 +152,7 @@ public final class BTCMarketsAdapters {
     final String tradeId = Long.toString(trade.getId());
     final Long orderId = trade.getOrderId();
     final String feeCurrency = currencyPair.counter.getCurrencyCode();
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(type)
         .originalAmount(trade.getVolume())
         .currencyPair(currencyPair)
@@ -172,7 +172,7 @@ public final class BTCMarketsAdapters {
     final String orderId = trade.orderId;
     final String feeCurrency = currencyPair.counter.getCurrencyCode();
     try {
-      return new UserTrade.Builder()
+      return UserTrade.builder()
           .type(type)
           .originalAmount(trade.amount)
           .currencyPair(currencyPair)

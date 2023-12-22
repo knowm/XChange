@@ -2,11 +2,12 @@ package org.knowm.xchange.krakenfutures.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
-
 import lombok.Getter;
 import org.knowm.xchange.krakenfutures.dto.KrakenFuturesResult;
 
-/** @author Panchen */
+/**
+ * @author Panchen
+ */
 @Getter
 public class KrakenFuturesAccount extends KrakenFuturesResult {
 
@@ -20,7 +21,7 @@ public class KrakenFuturesAccount extends KrakenFuturesResult {
       @JsonProperty("account") KrakenFuturesAccountInfo accountInfo) {
 
     super(result, error);
-    this.serverTime =serverTime;
+    this.serverTime = serverTime;
     this.accountInfo = accountInfo;
   }
 }

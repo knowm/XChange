@@ -7,7 +7,9 @@ import javax.crypto.Mac;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class BitbayDigest extends BaseParamsDigest {
 
   private BitbayDigest(String secretKeyBase64) throws IllegalArgumentException {

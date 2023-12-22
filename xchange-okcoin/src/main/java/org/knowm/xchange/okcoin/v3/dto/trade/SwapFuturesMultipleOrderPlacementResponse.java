@@ -20,6 +20,7 @@ public class SwapFuturesMultipleOrderPlacementResponse extends OkexResponse {
     /** Order ID. When failing to place an order, the value is -1 */
     @JsonProperty("order_id")
     private String orderId;
+
     /** To identify your order with the order ID set by you */
     @JsonProperty("client_oid")
     private String clientOid;

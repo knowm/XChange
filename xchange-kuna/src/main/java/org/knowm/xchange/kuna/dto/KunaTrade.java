@@ -6,7 +6,9 @@ import java.util.Date;
 import org.knowm.xchange.kuna.dto.enums.KunaSide;
 import org.knowm.xchange.kuna.util.KunaUtils;
 
-/** @author Dat Bui */
+/**
+ * @author Dat Bui
+ */
 public class KunaTrade {
 
   public static final String CREATED_AT = "created_at";

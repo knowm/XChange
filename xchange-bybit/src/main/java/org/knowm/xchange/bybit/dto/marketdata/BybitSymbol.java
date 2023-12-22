@@ -47,7 +47,6 @@ public class BybitSymbol {
   @JsonProperty("lot_size_filter")
   LotSizeFilter lotSizeFilter;
 
-
   @Builder
   @Jacksonized
   @Value
@@ -61,9 +60,7 @@ public class BybitSymbol {
 
     @JsonProperty("leverage_step")
     BigDecimal leverageStep;
-
   }
-
 
   @Builder
   @Jacksonized
@@ -78,7 +75,6 @@ public class BybitSymbol {
     @JsonProperty("tick_size")
     BigDecimal tickSize;
   }
-
 
   @Builder
   @Jacksonized
@@ -96,8 +92,5 @@ public class BybitSymbol {
 
     @JsonProperty("post_only_max_trading_qty")
     BigDecimal postOnlyMaxTradingQty;
-
   }
-
-
 }

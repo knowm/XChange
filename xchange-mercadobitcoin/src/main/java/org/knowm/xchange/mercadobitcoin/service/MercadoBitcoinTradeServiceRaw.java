@@ -13,7 +13,9 @@ import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinCancelOrderResul
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 
-/** @author Felipe Micaroni Lalli */
+/**
+ * @author Felipe Micaroni Lalli
+ */
 public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBaseService {
 
   private static final String GET_ORDER_LIST = "OrderList";

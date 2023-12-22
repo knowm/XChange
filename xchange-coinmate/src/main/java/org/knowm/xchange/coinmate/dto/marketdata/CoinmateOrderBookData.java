@@ -26,7 +26,9 @@ package org.knowm.xchange.coinmate.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class CoinmateOrderBookData {
 
   private final List<CoinmateOrderBookEntry> asks;

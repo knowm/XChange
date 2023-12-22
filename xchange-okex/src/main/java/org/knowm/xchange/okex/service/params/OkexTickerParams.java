@@ -3,7 +3,9 @@ package org.knowm.xchange.okex.service.params;
 
 import org.knowm.xchange.service.marketdata.params.Params;
 
-/** @author leeyazhou */
+/**
+ * @author leeyazhou
+ */
 public class OkexTickerParams implements Params {
   private String instType;
   private String uly;

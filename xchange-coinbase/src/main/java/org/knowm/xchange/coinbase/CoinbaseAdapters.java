@@ -57,7 +57,7 @@ public final class CoinbaseAdapters {
   }
 
   private static UserTrade adaptTrade(CoinbaseBuySell transaction, OrderType orderType) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(orderType)
         .originalAmount(transaction.getAmount().getAmount())
         .currencyPair(
@@ -101,7 +101,7 @@ public final class CoinbaseAdapters {
     final BigDecimal feeAmount = transfer.getCoinbaseFee().getAmount();
     final String feeCurrency = transfer.getCoinbaseFee().getCurrency();
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(orderType)
         .originalAmount(originalAmount)
         .currencyPair(new CurrencyPair(tradableIdentifier, transactionCurrency))

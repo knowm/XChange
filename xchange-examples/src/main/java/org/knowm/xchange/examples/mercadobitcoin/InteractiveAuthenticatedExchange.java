@@ -6,7 +6,9 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 
-/** @author Felipe Micaroni Lalli */
+/**
+ * @author Felipe Micaroni Lalli
+ */
 public class InteractiveAuthenticatedExchange {
 
   public static Exchange createInstanceFromDefaultInput() {

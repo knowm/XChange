@@ -56,9 +56,9 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
         DefaultWithdrawFundsParams params = (DefaultWithdrawFundsParams) p;
         CoingiWithdrawalRequest request =
             new CoingiWithdrawalRequest()
-                .setAddress(params.address)
-                .setAmount(params.amount)
-                .setCurrency(params.currency.getCurrencyCode().toUpperCase());
+                .setAddress(params.getAddress())
+                .setAmount(params.getAmount())
+                .setCurrency(params.getCurrency().getCurrencyCode().toUpperCase());
 
         return withdraw(request).toString();
       }

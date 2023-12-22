@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-/** @author semihunaldi */
+/**
+ * @author semihunaldi
+ */
 public class BTCTurkOrderBook {
 
   private final Date timestamp;
@@ -28,7 +30,9 @@ public class BTCTurkOrderBook {
     this.timestamp = new Date(timestamp);
   }
 
-  /** @return Timestamp in Unix milliseconds */
+  /**
+   * @return Timestamp in Unix milliseconds
+   */
   public Date getTimestamp() {
 
     return timestamp;

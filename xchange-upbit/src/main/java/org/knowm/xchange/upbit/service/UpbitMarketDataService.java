@@ -14,7 +14,9 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 import org.knowm.xchange.upbit.UpbitAdapters;
 
-/** @author interwater */
+/**
+ * @author interwater
+ */
 public class UpbitMarketDataService extends UpbitMarketDataServiceRaw implements MarketDataService {
 
   /**

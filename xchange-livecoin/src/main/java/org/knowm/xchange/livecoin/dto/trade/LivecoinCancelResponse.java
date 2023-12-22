@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.livecoin.dto.LivecoinBaseResponse;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LivecoinCancelResponse extends LivecoinBaseResponse {
 

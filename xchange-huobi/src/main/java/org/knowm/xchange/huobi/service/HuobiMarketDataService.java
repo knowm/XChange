@@ -95,7 +95,7 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
                         .id(t.getId())
                         .build())
             .collect(Collectors.toList());
-    Trades sortedTrades =  new Trades(trades);
+    Trades sortedTrades = new Trades(trades);
     Collections.reverse(sortedTrades.getTrades());
 
     return sortedTrades;

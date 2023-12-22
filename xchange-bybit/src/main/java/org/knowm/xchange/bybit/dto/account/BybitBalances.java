@@ -11,7 +11,6 @@ import lombok.extern.jackson.Jacksonized;
 @Value
 public class BybitBalances {
 
-    @JsonProperty("balances")
-    List<BybitBalance> balances;
-
+  @JsonProperty("balances")
+  List<BybitBalance> balances;
 }

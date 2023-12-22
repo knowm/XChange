@@ -351,8 +351,10 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
 
     /** end date for last change orders filtering (timestamp in seconds, 10 digits) */
     private final Long lastTxDateTo;
+
     /** start date for last change order filtering (timestamp in seconds, 10 digits) */
     private final Long lastTxDateFrom;
+
     /**
      * "d" — done (fully executed), "c" — canceled (not executed), "cd" — cancel-done (partially
      * executed)
@@ -360,10 +362,13 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
     private final String status; // todo: this should be an enum
 
     private CurrencyPair currencyPair;
+
     /** limit the number of entries in response (1 to 100) */
     private Integer limit;
+
     /** end date for open orders filtering (timestamp in seconds, 10 digits) */
     private Long dateTo;
+
     /** start date for open order filtering (timestamp in seconds, 10 digits) */
     private Long dateFrom;
 

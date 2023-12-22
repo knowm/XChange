@@ -140,7 +140,7 @@ public class CoinEggAdapters {
             .timestamp(coinEggTradeView.getDateTime())
             .build();
 
-    trades.add((UserTrade) UserTrade.Builder.from(trade).build());
+    trades.add((UserTrade) UserTrade.builder().from(trade).build());
 
     return new UserTrades(trades, null);
   }

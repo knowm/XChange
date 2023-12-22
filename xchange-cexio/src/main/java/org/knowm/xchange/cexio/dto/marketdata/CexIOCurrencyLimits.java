@@ -6,7 +6,9 @@ import java.util.List;
 import org.knowm.xchange.cexio.dto.CexIOApiResponse;
 import org.knowm.xchange.currency.Currency;
 
-/** @author ujjwal on 13/02/18. */
+/**
+ * @author ujjwal on 13/02/18.
+ */
 public class CexIOCurrencyLimits extends CexIOApiResponse<CexIOCurrencyLimits.Data> {
 
   public CexIOCurrencyLimits(

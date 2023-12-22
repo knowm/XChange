@@ -11,7 +11,9 @@ import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class CexIOMarketDataServiceRaw extends CexIOBaseService {
 
   private final CexIO cexio;

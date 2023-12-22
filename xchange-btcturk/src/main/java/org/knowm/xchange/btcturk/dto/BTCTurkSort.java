@@ -1,6 +1,8 @@
 package org.knowm.xchange.btcturk.dto;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public enum BTCTurkSort {
   SORT_ASCENDING("asc"),
   SORT_DESCENDING("desc");

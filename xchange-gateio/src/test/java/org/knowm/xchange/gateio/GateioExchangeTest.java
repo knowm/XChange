@@ -11,16 +11,17 @@ public class GateioExchangeTest extends GateioExchangeWiremock {
 
   @Test
   public void metadata_present() {
-    InstrumentMetaData expected = new InstrumentMetaData.Builder()
-        .tradingFee(new BigDecimal("0.2"))
-        .minimumAmount(new BigDecimal("0.0001"))
-        .priceScale(1)
-        .marketOrderEnabled(false)
-        .build();
+    InstrumentMetaData expected =
+        new InstrumentMetaData.Builder()
+            .tradingFee(new BigDecimal("0.2"))
+            .minimumAmount(new BigDecimal("0.0001"))
+            .priceScale(1)
+            .marketOrderEnabled(false)
+            .build();
 
-    InstrumentMetaData actual = exchange.getExchangeMetaData().getInstruments().get(CurrencyPair.BTC_USDT);
+    InstrumentMetaData actual =
+        exchange.getExchangeMetaData().getInstruments().get(CurrencyPair.BTC_USDT);
 
     assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
   }
-
 }

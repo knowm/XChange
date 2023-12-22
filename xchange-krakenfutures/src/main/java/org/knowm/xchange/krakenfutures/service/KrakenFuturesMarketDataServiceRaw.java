@@ -2,16 +2,18 @@ package org.knowm.xchange.krakenfutures.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.krakenfutures.KrakenFuturesAdapters;
 import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesInstruments;
 import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesOrderBook;
 import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesPublicFills;
 import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesTicker;
 import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesTickers;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.instrument.Instrument;
 
-/** @author Jean-Christophe Laruelle */
+/**
+ * @author Jean-Christophe Laruelle
+ */
 public class KrakenFuturesMarketDataServiceRaw extends KrakenFuturesBaseService {
 
   /**
@@ -24,10 +26,10 @@ public class KrakenFuturesMarketDataServiceRaw extends KrakenFuturesBaseService 
     super(exchange);
   }
 
-  public KrakenFuturesTicker getKrakenFuturesTicker(Instrument instrument)
-      throws IOException {
+  public KrakenFuturesTicker getKrakenFuturesTicker(Instrument instrument) throws IOException {
 
-    return getKrakenFuturesTickers().getTicker(KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument));
+    return getKrakenFuturesTickers()
+        .getTicker(KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument));
   }
 
   public KrakenFuturesTickers getKrakenFuturesTickers() throws IOException {
@@ -56,7 +58,8 @@ public class KrakenFuturesMarketDataServiceRaw extends KrakenFuturesBaseService 
       throws IOException {
 
     KrakenFuturesOrderBook orderBook =
-        krakenFuturesAuthenticated.getOrderBook(KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument));
+        krakenFuturesAuthenticated.getOrderBook(
+            KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument));
 
     if (orderBook.isSuccess()) {
       orderBook.setInstrument(instrument);
@@ -66,11 +69,11 @@ public class KrakenFuturesMarketDataServiceRaw extends KrakenFuturesBaseService 
     }
   }
 
-  public KrakenFuturesPublicFills getKrakenFuturesTrades(Instrument instrument)
-      throws IOException {
+  public KrakenFuturesPublicFills getKrakenFuturesTrades(Instrument instrument) throws IOException {
 
     KrakenFuturesPublicFills publicFills =
-        krakenFuturesAuthenticated.getHistory(KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument));
+        krakenFuturesAuthenticated.getHistory(
+            KrakenFuturesAdapters.adaptKrakenFuturesSymbol(instrument));
 
     if (publicFills.isSuccess()) {
       publicFills.setInstrument(instrument);

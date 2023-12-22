@@ -25,6 +25,7 @@ import org.knowm.xchange.utils.ObjectMapperHelper;
 public class BitmexTradeServiceRaw extends BitmexBaseService {
 
   private String apiKey = exchange.getExchangeSpecification().getApiKey();
+
   /**
    * Constructor
    *

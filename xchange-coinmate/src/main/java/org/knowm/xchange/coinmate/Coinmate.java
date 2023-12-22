@@ -23,10 +23,10 @@
  */
 package org.knowm.xchange.coinmate;
 
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateQuickRate;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
@@ -34,7 +34,9 @@ import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTickers;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Coinmate {
@@ -68,12 +70,12 @@ public interface Coinmate {
   @GET
   @Path("buyQuickRate")
   CoinmateQuickRate getBuyQuickRate(
-      @FormParam("total") BigDecimal total,
-      @FormParam("currencyPair") String currencyPair) throws IOException;
+      @FormParam("total") BigDecimal total, @FormParam("currencyPair") String currencyPair)
+      throws IOException;
 
   @GET
   @Path("sellQuickRate")
   CoinmateQuickRate getSellQuickRate(
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("currencyPair") String currencyPair) throws IOException;
+      @FormParam("amount") BigDecimal amount, @FormParam("currencyPair") String currencyPair)
+      throws IOException;
 }

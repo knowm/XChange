@@ -4,7 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-/** @author Foat Akhmadeev 05/06/2018 */
+/**
+ * @author Foat Akhmadeev 05/06/2018
+ */
 public class CollectionUtils {
   static <T> Iterable<T> descendingIterable(List<? extends T> list) {
     return () -> {

@@ -40,5 +40,4 @@ public class BitstampTicker {
 
   @JsonProperty("timestamp")
   long timestamp;
-
 }

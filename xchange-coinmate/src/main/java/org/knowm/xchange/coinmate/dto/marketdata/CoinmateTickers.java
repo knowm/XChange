@@ -1,10 +1,8 @@
 package org.knowm.xchange.coinmate.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
-
-import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
 
 public class CoinmateTickers extends CoinmateBaseResponse<Map<String, CoinmateTickerData>> {
 

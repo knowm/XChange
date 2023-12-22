@@ -8,25 +8,25 @@ import lombok.ToString;
 @Builder
 @ToString
 public class OkexWithdrawalRequest {
-    @JsonProperty("ccy")
-    private String currency;
+  @JsonProperty("ccy")
+  private String currency;
 
-    @JsonProperty("amt")
-    private String amount;
+  @JsonProperty("amt")
+  private String amount;
 
-    // 3: internal, 4: on chain
-    @JsonProperty("dest")
-    private String method;
+  // 3: internal, 4: on chain
+  @JsonProperty("dest")
+  private String method;
 
-    @JsonProperty("toAddr")
-    private String address;
+  @JsonProperty("toAddr")
+  private String address;
 
-    @JsonProperty("fee")
-    private String fee;
+  @JsonProperty("fee")
+  private String fee;
 
-    @JsonProperty("chain")
-    private String chain;
+  @JsonProperty("chain")
+  private String chain;
 
-    @JsonProperty("clientId")
-    private String clientId;
+  @JsonProperty("clientId")
+  private String clientId;
 }

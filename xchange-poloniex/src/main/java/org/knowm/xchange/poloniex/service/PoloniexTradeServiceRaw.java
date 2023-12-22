@@ -19,7 +19,9 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexOrderFlags;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 
-/** @author Zach Holmes */
+/**
+ * @author Zach Holmes
+ */
 public class PoloniexTradeServiceRaw extends PoloniexBaseService {
 
   public PoloniexTradeServiceRaw(Exchange exchange) {

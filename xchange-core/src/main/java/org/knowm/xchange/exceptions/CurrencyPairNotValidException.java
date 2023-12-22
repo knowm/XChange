@@ -47,7 +47,9 @@ public class CurrencyPairNotValidException extends ExchangeException {
     this.currencyPair = currencyPair;
   }
 
-  /** @return The currency pair that caused the exception. */
+  /**
+   * @return The currency pair that caused the exception.
+   */
   public CurrencyPair getCurrencyPair() {
     return currencyPair;
   }

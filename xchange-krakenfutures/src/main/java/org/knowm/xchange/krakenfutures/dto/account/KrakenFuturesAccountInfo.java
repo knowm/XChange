@@ -2,13 +2,14 @@ package org.knowm.xchange.krakenfutures.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.util.Map;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
-/** @author Panchen */
+/**
+ * @author Panchen
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 @ToString
@@ -25,11 +26,11 @@ public class KrakenFuturesAccountInfo {
   private final BigDecimal collateralValue;
 
   public KrakenFuturesAccountInfo(
-          @JsonProperty("type") String type,
-          @JsonProperty("currencies") Map<String, KrakenFuturesCurrency> currencies,
-          @JsonProperty("balanceValue") BigDecimal balanceValue,
-          @JsonProperty("portfolioValue") BigDecimal portfolioValue,
-          @JsonProperty("collateralValue") BigDecimal collateralValue) {
+      @JsonProperty("type") String type,
+      @JsonProperty("currencies") Map<String, KrakenFuturesCurrency> currencies,
+      @JsonProperty("balanceValue") BigDecimal balanceValue,
+      @JsonProperty("portfolioValue") BigDecimal portfolioValue,
+      @JsonProperty("collateralValue") BigDecimal collateralValue) {
     this.type = type;
     this.currencies = currencies;
     this.balanceValue = balanceValue;
@@ -40,17 +41,17 @@ public class KrakenFuturesAccountInfo {
   @Getter
   @ToString
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  public static class KrakenFuturesCurrency{
+  public static class KrakenFuturesCurrency {
     private final BigDecimal quantity;
     private final BigDecimal value;
     private final BigDecimal collateralValue;
     private final BigDecimal available;
 
     public KrakenFuturesCurrency(
-            @JsonProperty("quantity") BigDecimal quantity,
-            @JsonProperty("value") BigDecimal value,
-            @JsonProperty("collateralValue") BigDecimal collateralValue,
-            @JsonProperty("available") BigDecimal available) {
+        @JsonProperty("quantity") BigDecimal quantity,
+        @JsonProperty("value") BigDecimal value,
+        @JsonProperty("collateralValue") BigDecimal collateralValue,
+        @JsonProperty("available") BigDecimal available) {
       this.quantity = quantity;
       this.value = value;
       this.collateralValue = collateralValue;

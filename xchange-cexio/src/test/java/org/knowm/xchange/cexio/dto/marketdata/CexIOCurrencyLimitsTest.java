@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.junit.Test;
 
-/** @author ujjwal on 13/02/18. */
+/**
+ * @author ujjwal on 13/02/18.
+ */
 public class CexIOCurrencyLimitsTest {
   @Test
   public void jsonMapperTest() throws IOException {

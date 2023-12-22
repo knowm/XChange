@@ -10,7 +10,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseSpotPriceHistory {
 
   private static final Pattern historicalRateStringPatternInReverse =

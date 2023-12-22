@@ -66,6 +66,7 @@ public class BitZTradeServiceRaw extends BitZBaseService {
   private String getTimeStamp() {
     return String.valueOf(System.currentTimeMillis() / 1000);
   }
+
   /**
    * 提交委托单(下订单)
    *

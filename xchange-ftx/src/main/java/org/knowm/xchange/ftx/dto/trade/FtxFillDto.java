@@ -2,7 +2,6 @@ package org.knowm.xchange.ftx.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -102,18 +101,34 @@ public class FtxFillDto {
 
   @Override
   public String toString() {
-    return "FtxFillDto{" +
-            "time=" + time +
-            ", id='" + id + '\'' +
-            ", market='" + market + '\'' +
-            ", price=" + price +
-            ", side=" + side +
-            ", size=" + size +
-            ", orderId='" + orderId + '\'' +
-            ", tradeId='" + tradeId + '\'' +
-            ", fee=" + fee +
-            ", feeCurrency='" + feeCurrency + '\'' +
-            ", feeRate=" + feeRate +
-            '}';
+    return "FtxFillDto{"
+        + "time="
+        + time
+        + ", id='"
+        + id
+        + '\''
+        + ", market='"
+        + market
+        + '\''
+        + ", price="
+        + price
+        + ", side="
+        + side
+        + ", size="
+        + size
+        + ", orderId='"
+        + orderId
+        + '\''
+        + ", tradeId='"
+        + tradeId
+        + '\''
+        + ", fee="
+        + fee
+        + ", feeCurrency='"
+        + feeCurrency
+        + '\''
+        + ", feeRate="
+        + feeRate
+        + '}';
   }
 }

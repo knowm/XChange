@@ -24,7 +24,9 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public interface Exchange {
   String USE_SANDBOX = "Use_Sandbox";
 
-  /** @return The ExchangeSpecification in use for this exchange */
+  /**
+   * @return The ExchangeSpecification in use for this exchange
+   */
   ExchangeSpecification getExchangeSpecification();
 
   /**

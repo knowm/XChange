@@ -12,7 +12,6 @@ import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import java.io.IOException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kraken.KrakenExchange;
@@ -21,7 +20,9 @@ import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** @author makarid */
+/**
+ * @author makarid
+ */
 public class KrakenStreamingExchange extends KrakenExchange implements StreamingExchange {
 
   private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingExchange.class);
@@ -49,20 +50,24 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
             (Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_BETA),
             Boolean.FALSE);
     Boolean spreadForTicker =
-            MoreObjects.firstNonNull(
-                    (Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_SPREAD_FOR_TICKER),
-                    Boolean.FALSE);
+        MoreObjects.firstNonNull(
+            (Boolean)
+                exchangeSpecification.getExchangeSpecificParametersItem(USE_SPREAD_FOR_TICKER),
+            Boolean.FALSE);
 
     KrakenAccountServiceRaw accountService = (KrakenAccountServiceRaw) getAccountService();
 
     this.streamingService =
-        new KrakenStreamingService(this, false, pickUri(false, useBeta), () -> authData(accountService));
+        new KrakenStreamingService(
+            this, false, pickUri(false, useBeta), () -> authData(accountService));
     applyStreamingSpecification(getExchangeSpecification(), streamingService);
-    this.streamingMarketDataService = new KrakenStreamingMarketDataService(streamingService, spreadForTicker);
+    this.streamingMarketDataService =
+        new KrakenStreamingMarketDataService(streamingService, spreadForTicker);
 
     if (StringUtils.isNotEmpty(exchangeSpecification.getApiKey())) {
       this.privateStreamingService =
-          new KrakenStreamingService(this, true, pickUri(true, useBeta), () -> authData(accountService));
+          new KrakenStreamingService(
+              this, true, pickUri(true, useBeta), () -> authData(accountService));
       applyStreamingSpecification(getExchangeSpecification(), privateStreamingService);
     }
 
@@ -189,25 +194,25 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
 
   public Observable<KrakenSystemStatus> getSystemStatusChanges() {
     return streamingService
-            .subscribeSystemChannel(KrakenEventType.systemStatus)
-            .filter(e -> e instanceof KrakenSystemStatus)
-            .map(e -> ((KrakenSystemStatus) e))
-            .share();
+        .subscribeSystemChannel(KrakenEventType.systemStatus)
+        .filter(e -> e instanceof KrakenSystemStatus)
+        .map(e -> ((KrakenSystemStatus) e))
+        .share();
   }
 
   public Observable<KrakenSubscriptionStatusMessage> getPublicSubscriptionStatusChanges() {
     return streamingService
-            .subscribeSystemChannel(KrakenEventType.subscriptionStatus)
-            .filter(e -> e instanceof KrakenSubscriptionStatusMessage)
-            .map(e -> ((KrakenSubscriptionStatusMessage) e))
-            .share();
+        .subscribeSystemChannel(KrakenEventType.subscriptionStatus)
+        .filter(e -> e instanceof KrakenSubscriptionStatusMessage)
+        .map(e -> ((KrakenSubscriptionStatusMessage) e))
+        .share();
   }
 
   public Observable<KrakenSubscriptionStatusMessage> getPrivateSubscriptionStatusChanges() {
     return privateStreamingService
-            .subscribeSystemChannel(KrakenEventType.subscriptionStatus)
-            .filter(e -> e instanceof KrakenSubscriptionStatusMessage)
-            .map(e -> ((KrakenSubscriptionStatusMessage) e))
-            .share();
+        .subscribeSystemChannel(KrakenEventType.subscriptionStatus)
+        .filter(e -> e instanceof KrakenSubscriptionStatusMessage)
+        .map(e -> ((KrakenSubscriptionStatusMessage) e))
+        .share();
   }
 }

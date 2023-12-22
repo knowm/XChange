@@ -5,17 +5,21 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import org.knowm.xchange.bitso.util.BitsoTransactionTypeDeserializer;
 
-/** @author Piotr Ładyżyński */
+/**
+ * @author Piotr Ładyżyński
+ */
 public final class BitsoUserTransaction {
 
   private final String datetime;
   private final long id;
   private final String order_id;
   private final TransactionType type;
+
   /** MXN amount, negative -> BID, positive -> ASK */
   private final BigDecimal mxn;
 
   private final BigDecimal btc;
+
   /** price, has the reciprocal sign compared to 'mxn' value */
   private final BigDecimal rate;
 

@@ -45,19 +45,25 @@ public final class OpenOrders implements Serializable {
     this.hiddenOrders = hiddenOrders;
   }
 
-  /** @return LimitOrders which are shown on the order book. */
+  /**
+   * @return LimitOrders which are shown on the order book.
+   */
   public List<LimitOrder> getOpenOrders() {
     return openOrders;
   }
 
-  /** @return All Orders which are shown on the order book. */
+  /**
+   * @return All Orders which are shown on the order book.
+   */
   public List<Order> getAllOpenOrders() {
     List<Order> allOpenOrders = new ArrayList<>(openOrders);
     allOpenOrders.addAll(hiddenOrders);
     return allOpenOrders;
   }
 
-  /** @return Orders which are not shown on the order book, such as untriggered stop orders. */
+  /**
+   * @return Orders which are not shown on the order book, such as untriggered stop orders.
+   */
   public List<? extends Order> getHiddenOrders() {
     return hiddenOrders;
   }

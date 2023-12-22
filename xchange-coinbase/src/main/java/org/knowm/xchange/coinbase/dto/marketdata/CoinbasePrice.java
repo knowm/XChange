@@ -11,7 +11,9 @@ import java.io.IOException;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbasePrice.CoibasePriceDeserializer;
 import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 @JsonDeserialize(using = CoibasePriceDeserializer.class)
 public class CoinbasePrice {
 

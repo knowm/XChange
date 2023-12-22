@@ -61,13 +61,17 @@ public class BitcointoyouOrderBook {
     this.bids = bids;
   }
 
-  /** @return The asks */
+  /**
+   * @return The asks
+   */
   public List<List<BigDecimal>> getAsks() {
 
     return asks;
   }
 
-  /** @return The bids */
+  /**
+   * @return The bids
+   */
   public List<List<BigDecimal>> getBids() {
 
     return bids;

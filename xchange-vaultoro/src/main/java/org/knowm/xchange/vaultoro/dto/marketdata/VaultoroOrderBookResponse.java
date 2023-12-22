@@ -25,28 +25,36 @@ public class VaultoroOrderBookResponse {
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /** @return The status */
+  /**
+   * @return The status
+   */
   @JsonProperty("status")
   public String getStatus() {
 
     return status;
   }
 
-  /** @param status The status */
+  /**
+   * @param status The status
+   */
   @JsonProperty("status")
   public void setStatus(String status) {
 
     this.status = status;
   }
 
-  /** @return The data */
+  /**
+   * @return The data
+   */
   @JsonProperty("data")
   public List<VaultoroOrderBook> getData() {
 
     return data;
   }
 
-  /** @param data The data */
+  /**
+   * @param data The data
+   */
   @JsonProperty("data")
   public void setData(List<VaultoroOrderBook> data) {
 

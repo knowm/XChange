@@ -9,6 +9,7 @@ public class BatchStatus {
 
   public final OrderStatus status;
   public final String orderId;
+
   /**
    * For placement only. The arbitrary string provided client-side when the order was sent for the
    * purpose of mapping order sending instructions to the API’s response

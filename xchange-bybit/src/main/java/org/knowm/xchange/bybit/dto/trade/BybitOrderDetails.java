@@ -72,5 +72,4 @@ public class BybitOrderDetails {
 
   @JsonProperty("locked")
   String locked;
-
 }

@@ -19,13 +19,17 @@ import org.knowm.xchange.quoine.dto.trade.QuoineTransaction;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransactionsResponse;
 import si.mazi.rescu.HttpStatusIOException;
 
-/** @author gnandiga */
+/**
+ * @author gnandiga
+ */
 public class QuoineTradeServiceRaw extends QuoineBaseService {
 
   private boolean useMargin;
   private int leverageLevel;
 
-  /** @param exchange */
+  /**
+   * @param exchange
+   */
   public QuoineTradeServiceRaw(Exchange exchange, boolean useMargin) {
 
     super(exchange);

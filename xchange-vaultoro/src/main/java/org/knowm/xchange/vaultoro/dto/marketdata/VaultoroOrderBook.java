@@ -25,28 +25,36 @@ public class VaultoroOrderBook {
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /** @return The b */
+  /**
+   * @return The b
+   */
   @JsonProperty("b")
   public List<VaultoroOrder> getBuys() {
 
     return b;
   }
 
-  /** @param b The b */
+  /**
+   * @param b The b
+   */
   @JsonProperty("b")
   public void setB(List<VaultoroOrder> b) {
 
     this.b = b;
   }
 
-  /** @return The s */
+  /**
+   * @return The s
+   */
   @JsonProperty("s")
   public List<VaultoroOrder> getSells() {
 
     return s;
   }
 
-  /** @param s The s */
+  /**
+   * @param s The s
+   */
   @JsonProperty("s")
   public void setS(List<VaultoroOrder> s) {
 

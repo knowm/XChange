@@ -12,7 +12,9 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.examples.btcturk.BTCTurkDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTrukTradeDemo {
 
   public static void main(String[] args) throws IOException {

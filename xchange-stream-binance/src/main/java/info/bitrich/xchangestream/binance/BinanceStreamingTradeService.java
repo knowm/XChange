@@ -44,7 +44,7 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
   public Observable<Order> getOrderChanges(boolean isFuture) {
     return getRawExecutionReports()
         .filter(r -> !r.getExecutionType().equals(ExecutionType.REJECTED))
-        .map(binanceExec-> binanceExec.toOrder(isFuture));
+        .map(binanceExec -> binanceExec.toOrder(isFuture));
   }
 
   @Override
@@ -59,18 +59,20 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
 
   @Override
   public Observable<Order> getOrderChanges(Instrument instrument, Object... args) {
-    return getOrderChanges(instrument instanceof FuturesContract).filter(oc -> instrument.equals(oc.getInstrument()));
+    return getOrderChanges(instrument instanceof FuturesContract)
+        .filter(oc -> instrument.equals(oc.getInstrument()));
   }
 
   @Override
   public Observable<UserTrade> getUserTrades(Instrument instrument, Object... args) {
-    return getUserTrades(instrument instanceof FuturesContract).filter(t -> t.getInstrument().equals(instrument));
+    return getUserTrades(instrument instanceof FuturesContract)
+        .filter(t -> t.getInstrument().equals(instrument));
   }
 
   public Observable<UserTrade> getUserTrades(boolean isFuture) {
     return getRawExecutionReports()
         .filter(r -> r.getExecutionType().equals(ExecutionType.TRADE))
-        .map(binanceExec-> binanceExec.toUserTrade(isFuture));
+        .map(binanceExec -> binanceExec.toUserTrade(isFuture));
   }
 
   /** Registers subsriptions with the streaming service for the given products. */

@@ -29,7 +29,7 @@ public class UserTradeTest {
     final String orderUserReference = "orderUserReference";
 
     final UserTrade copy =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
             .currencyPair(currencyPair)
@@ -67,7 +67,7 @@ public class UserTradeTest {
     final Currency feeCurrency = Currency.BTC;
 
     final UserTrade original =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
             .currencyPair(currencyPair)
@@ -79,7 +79,7 @@ public class UserTradeTest {
             .feeCurrency(feeCurrency)
             .build();
 
-    final UserTrade copy = UserTrade.Builder.from(original).build();
+    final UserTrade copy = UserTrade.builder().from(original).build();
 
     assertThat(copy.getType()).isEqualTo(original.getType());
     assertThat(copy.getOriginalAmount()).isEqualTo(original.getOriginalAmount());
@@ -104,7 +104,7 @@ public class UserTradeTest {
     final BigDecimal feeAmount = new BigDecimal("0");
     final Currency feeCurrency = Currency.BTC;
     final UserTrade original =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
             .currencyPair(currencyPair)
@@ -136,7 +136,7 @@ public class UserTradeTest {
     final Currency feeCurrency = Currency.BTC;
 
     final UserTrade original =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
             .currencyPair(currencyPair)
@@ -148,7 +148,7 @@ public class UserTradeTest {
             .feeCurrency(feeCurrency)
             .build();
     final UserTrade copy =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
             .currencyPair(currencyPair)
@@ -173,7 +173,7 @@ public class UserTradeTest {
     final String id = "id";
 
     final UserTrade original =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
             .currencyPair(currencyPair)
@@ -186,7 +186,7 @@ public class UserTradeTest {
             .build();
 
     final UserTrade copy =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
             .currencyPair(currencyPair)
@@ -210,7 +210,7 @@ public class UserTradeTest {
     final Date timestamp = new Date();
 
     final UserTrade original =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
             .currencyPair(currencyPair)
@@ -223,7 +223,7 @@ public class UserTradeTest {
             .build();
 
     final UserTrade copy =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
             .currencyPair(currencyPair)

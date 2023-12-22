@@ -7,7 +7,9 @@ import org.knowm.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseAccountChange {
 
   private final String id;

@@ -7,7 +7,9 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.MarketSuspendedException;
 import org.knowm.xchange.livecoin.dto.LivecoinException;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class LivecoinErrorAdapter {
 
   private static final Pattern UNKNOWN_CURRENCY_MESSAGE =

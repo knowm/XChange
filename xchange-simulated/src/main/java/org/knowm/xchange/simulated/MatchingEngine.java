@@ -270,7 +270,7 @@ final class MatchingEngine {
     Date timestamp = new Date();
 
     UserTrade takerTrade =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .currencyPair(currencyPair)
             .id(randomUUID().toString())
             .originalAmount(tradeAmount)
@@ -291,7 +291,7 @@ final class MatchingEngine {
 
     OrderType makerType = takerOrder.getType() == OrderType.ASK ? OrderType.BID : OrderType.ASK;
     UserTrade makerTrade =
-        new UserTrade.Builder()
+        UserTrade.builder()
             .currencyPair(currencyPair)
             .id(randomUUID().toString())
             .originalAmount(tradeAmount)

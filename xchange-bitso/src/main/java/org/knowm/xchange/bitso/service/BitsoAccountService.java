@@ -13,7 +13,9 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class BitsoAccountService extends BitsoAccountServiceRaw implements AccountService {
 
   public BitsoAccountService(Exchange exchange) {

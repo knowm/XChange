@@ -1,5 +1,7 @@
 package org.knowm.xchange.livecoin.service;
 
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.junit.Rule;
 import org.knowm.xchange.Exchange;
@@ -7,10 +9,12 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.livecoin.LivecoinExchange;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class BaseMockedIntegrationTest {
 
-  @Rule public WireMockRule wireMockRule = new WireMockRule();
+  @Rule public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
 
   public Exchange createExchange() {
     Exchange exchange =

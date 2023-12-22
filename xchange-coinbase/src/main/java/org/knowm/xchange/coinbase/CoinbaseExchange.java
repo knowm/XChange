@@ -7,7 +7,9 @@ import org.knowm.xchange.coinbase.service.CoinbaseAccountService;
 import org.knowm.xchange.coinbase.service.CoinbaseMarketDataService;
 import org.knowm.xchange.coinbase.service.CoinbaseTradeService;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseExchange extends BaseExchange implements Exchange {
 
   @Override

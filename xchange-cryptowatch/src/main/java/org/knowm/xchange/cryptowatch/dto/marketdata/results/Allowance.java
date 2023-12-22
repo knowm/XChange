@@ -1,6 +1,8 @@
 package org.knowm.xchange.cryptowatch.dto.marketdata.results;
 
-/** @author massi.gerardi */
+/**
+ * @author massi.gerardi
+ */
 public class Allowance {
 
   private long cost;

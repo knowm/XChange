@@ -32,6 +32,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
 
   /** The stop price */
   protected final BigDecimal stopPrice;
+
   /**
    * The limit price this should be null if the stop order should be treated as a market order once
    * the stop price is hit
@@ -268,19 +269,25 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     this.trailValue = trailValue;
   }
 
-  /** @return The stop price */
+  /**
+   * @return The stop price
+   */
   public BigDecimal getStopPrice() {
 
     return stopPrice;
   }
 
-  /** @return The limit price */
+  /**
+   * @return The limit price
+   */
   public BigDecimal getLimitPrice() {
 
     return limitPrice;
   }
 
-  /** @return The order intention */
+  /**
+   * @return The order intention
+   */
   public Intention getIntention() {
     return intention;
   }
@@ -291,12 +298,16 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
 
   @Override
   public String toString() {
-    return "StopOrder{" +
-            "stopPrice=" + stopPrice +
-            ", limitPrice=" + limitPrice +
-            ", intention=" + intention +
-            ", trailValue=" + trailValue +
-            '}';
+    return "StopOrder{"
+        + "stopPrice="
+        + stopPrice
+        + ", limitPrice="
+        + limitPrice
+        + ", intention="
+        + intention
+        + ", trailValue="
+        + trailValue
+        + '}';
   }
 
   @Override

@@ -99,8 +99,10 @@ public class LunoAccountService extends LunoBaseService implements AccountServic
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
     // currently no support for deposits!
 
     List<FundingRecord> result = new ArrayList<>();

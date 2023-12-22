@@ -10,14 +10,19 @@ public class OkexDepositRecord {
 
   /** token */
   private String currency;
+
   /** deposit amount */
   private BigDecimal amount;
+
   /** deposit arrival date */
   private String timestamp;
+
   /** deposit address */
   private String to;
+
   /** TXID */
   private String txid;
+
   /**
    * The status of deposits (0: waiting for confirmation; 1: confirmation account; 2: recharge
    * success);

@@ -51,8 +51,7 @@ public class BinanceManualExample {
         exchange
             .getStreamingMarketDataService()
             .getTrades(CurrencyPair.BTC_USDT)
-            .subscribe(
-                trade -> LOG.info("Trade: {}", trade));
+            .subscribe(trade -> LOG.info("Trade: {}", trade));
 
     Disposable orderChanges = null;
     Disposable userTrades = null;
@@ -130,15 +129,16 @@ public class BinanceManualExample {
         .getStreamingMarketDataService()
         .getOrderBook(CurrencyPair.LTC_BTC)
         .subscribe(
-            orderBook -> LOG.info(
-                "Order Book ({}): askDepth={} ask={} askSize={} bidDepth={}. bid={}, bidSize={}",
-                identifier,
-                orderBook.getAsks().size(),
-                orderBook.getAsks().get(0).getLimitPrice(),
-                orderBook.getAsks().get(0).getRemainingAmount(),
-                orderBook.getBids().size(),
-                orderBook.getBids().get(0).getLimitPrice(),
-                orderBook.getBids().get(0).getRemainingAmount()),
+            orderBook ->
+                LOG.info(
+                    "Order Book ({}): askDepth={} ask={} askSize={} bidDepth={}. bid={}, bidSize={}",
+                    identifier,
+                    orderBook.getAsks().size(),
+                    orderBook.getAsks().get(0).getLimitPrice(),
+                    orderBook.getAsks().get(0).getRemainingAmount(),
+                    orderBook.getBids().size(),
+                    orderBook.getBids().get(0).getLimitPrice(),
+                    orderBook.getBids().get(0).getRemainingAmount()),
             throwable -> LOG.error("ERROR in getting order book: ", throwable));
   }
 

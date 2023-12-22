@@ -13,6 +13,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -64,7 +65,10 @@ public class KrakenUtilsTest {
 
     assertThat(filteredKrakenTradeMap.size()).isEqualTo(2);
 
-    UserTrades userTrades = KrakenAdapters.adaptTradesHistory(filteredKrakenTradeMap);
+    UserTrades userTrades =
+        new UserTrades(
+            KrakenAdapters.adaptTradesHistory(filteredKrakenTradeMap).getUserTrades(),
+            TradeSortType.SortByID);
 
     UserTrade trade0 = userTrades.getUserTrades().get(0);
     assertThat(trade0).isInstanceOf(KrakenUserTrade.class);

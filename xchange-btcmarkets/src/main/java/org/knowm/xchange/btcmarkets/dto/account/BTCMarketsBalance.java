@@ -6,7 +6,9 @@ import java.math.BigDecimal;
 import org.knowm.xchange.utils.jackson.BtcToSatoshi;
 import org.knowm.xchange.utils.jackson.SatoshiToBtc;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class BTCMarketsBalance {
 
   @JsonSerialize(using = BtcToSatoshi.class)

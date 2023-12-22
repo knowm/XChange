@@ -130,10 +130,10 @@ public class LatokenExchange extends BaseExchange {
     pairs.put(
         pair,
         new InstrumentMetaData.Builder()
-                .tradingFee(pairMetadata.getTradingFee())
-                .minimumAmount(pairMetadata.getMinimumAmount())
-                .maximumAmount(maxAmount)
-                .priceScale(pairMetadata.getPriceScale())
-                .build());
+            .tradingFee(pairMetadata.getTradingFee())
+            .minimumAmount(pairMetadata.getMinimumAmount())
+            .maximumAmount(maxAmount)
+            .priceScale(pairMetadata.getPriceScale())
+            .build());
   }
 }

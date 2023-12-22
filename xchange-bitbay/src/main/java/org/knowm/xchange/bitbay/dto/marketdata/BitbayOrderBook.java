@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-/** @author kpysniak */
+/**
+ * @author kpysniak
+ */
 public class BitbayOrderBook {
 
   private final BigDecimal[][] asks;

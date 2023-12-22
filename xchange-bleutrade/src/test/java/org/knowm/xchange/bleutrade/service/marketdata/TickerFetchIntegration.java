@@ -12,7 +12,9 @@ import org.knowm.xchange.bleutrade.service.BleutradeMarketDataService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.CertHelper;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class TickerFetchIntegration {
 
   @Test

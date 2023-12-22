@@ -64,6 +64,7 @@ public class GlobitexAdapters {
   public static String adaptOrderType(Order.OrderType orderType) {
     return (orderType.equals(Order.OrderType.ASK)) ? "sell" : "buy";
   }
+
   //  private static CurrencyPair adaptGlobitexSymbolToCurrencyPair(
   //      String symbol, Map<Currency, CurrencyMetaData> currencies) {
   //    String counter = "";
@@ -205,7 +206,7 @@ public class GlobitexAdapters {
   }
 
   private static UserTrade adaptToUserTrade(GlobitexUserTrade globitexUserTrade) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(
             (globitexUserTrade.getSide().equals("sell")
                 ? Order.OrderType.ASK
@@ -266,11 +267,11 @@ public class GlobitexAdapters {
               currencyPairs.put(
                   adaptGlobitexSymbolToCurrencyPair(globitexSymbol),
                   new InstrumentMetaData.Builder()
-                          .tradingFee(BigDecimal.valueOf(0.002))
-                          .minimumAmount(globitexSymbol.getSizeMin())
-                          .priceScale(globitexSymbol.getPriceIncrement().scale())
-                          .feeTiers(resultFeeTiers.toArray(new FeeTier[resultFeeTiers.size()]))
-                          .build());
+                      .tradingFee(BigDecimal.valueOf(0.002))
+                      .minimumAmount(globitexSymbol.getSizeMin())
+                      .priceScale(globitexSymbol.getPriceIncrement().scale())
+                      .feeTiers(resultFeeTiers.toArray(new FeeTier[resultFeeTiers.size()]))
+                      .build());
               currencies.put(
                   new Currency(convertXBTtoBTC(globitexSymbol.getCurrency())),
                   new CurrencyMetaData(globitexSymbol.getPriceIncrement().scale(), null));

@@ -7,7 +7,9 @@ import org.knowm.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseButton.CoinbaseButtonInfo;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseSubscription {
 
   private final CoinbaseSubscriptionInfo subscription;

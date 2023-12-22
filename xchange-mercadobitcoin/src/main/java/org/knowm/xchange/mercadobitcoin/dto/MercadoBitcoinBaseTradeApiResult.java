@@ -2,7 +2,9 @@ package org.knowm.xchange.mercadobitcoin.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** @author Felipe Micaroni Lalli */
+/**
+ * @author Felipe Micaroni Lalli
+ */
 public class MercadoBitcoinBaseTradeApiResult<R> {
 
   private final Integer success;

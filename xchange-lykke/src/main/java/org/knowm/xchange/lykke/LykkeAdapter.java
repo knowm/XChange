@@ -80,7 +80,7 @@ public class LykkeAdapter {
 
   /** *****Adapter for LykkeOpenOrders***** */
   public static List<LimitOrder> adaptOpenOrders(
-          List<Instrument> currencyPairList, List<LykkeOrder> lykkeOrders) throws IOException {
+      List<Instrument> currencyPairList, List<LykkeOrder> lykkeOrders) throws IOException {
     List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (LykkeOrder lykkeOrder : lykkeOrders) {
@@ -89,8 +89,8 @@ public class LykkeAdapter {
     return limitOrders;
   }
 
-  public static LimitOrder adaptLimitOrder(
-      List<Instrument> currencyPairList, LykkeOrder lykkeOrder) throws IOException {
+  public static LimitOrder adaptLimitOrder(List<Instrument> currencyPairList, LykkeOrder lykkeOrder)
+      throws IOException {
 
     return new LimitOrder(
         getOrderTypeFromVolumeSign(lykkeOrder.getVolume()),
@@ -120,7 +120,7 @@ public class LykkeAdapter {
   private static UserTrade adaptUserTrade(
       List<Instrument> currencyPairList, LykkeOrder tradeHistory) throws IOException {
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(getOrderTypeFromVolumeSign(tradeHistory.getVolume()))
         .originalAmount(
             BigDecimal.valueOf(Math.abs(tradeHistory.getVolume()))

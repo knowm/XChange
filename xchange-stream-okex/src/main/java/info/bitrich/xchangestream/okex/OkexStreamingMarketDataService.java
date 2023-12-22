@@ -25,7 +25,8 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
   private final OkexStreamingService service;
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-  private final Map<Instrument, PublishSubject<List<OrderBookUpdate>>> orderBookUpdatesSubscriptions;
+  private final Map<Instrument, PublishSubject<List<OrderBookUpdate>>>
+      orderBookUpdatesSubscriptions;
 
   public OkexStreamingMarketDataService(OkexStreamingService service) {
     this.service = service;
@@ -191,6 +192,5 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
       orderBookUpdates.add(o);
     }
     orderBookUpdatesSubscriptions.get(instrument).onNext(orderBookUpdates);
-    }
-
+  }
 }

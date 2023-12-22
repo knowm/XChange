@@ -2,7 +2,6 @@ package org.knowm.xchange.coinmate.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class CoinmateTradingFeesResponseData {
@@ -17,8 +16,7 @@ public class CoinmateTradingFeesResponseData {
   public CoinmateTradingFeesResponseData(
       @JsonProperty("maker") BigDecimal maker,
       @JsonProperty("taker") BigDecimal taker,
-      @JsonProperty("timestamp") long timestamp
-  ) {
+      @JsonProperty("timestamp") long timestamp) {
     this.maker = maker;
     this.taker = taker;
     this.timestamp = timestamp;

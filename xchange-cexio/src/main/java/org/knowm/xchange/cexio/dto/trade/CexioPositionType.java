@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
-/** @author Andrea Fossi. */
+/**
+ * @author Andrea Fossi.
+ */
 public enum CexioPositionType {
   LONG,
   SHORT;

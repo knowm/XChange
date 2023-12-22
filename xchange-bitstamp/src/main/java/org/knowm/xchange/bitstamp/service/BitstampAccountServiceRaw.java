@@ -29,7 +29,9 @@ import org.knowm.xchange.exceptions.FundsExceededException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author gnandiga */
+/**
+ * @author gnandiga
+ */
 public class BitstampAccountServiceRaw extends BitstampBaseService {
 
   private static final String API_VERSION = "v2";

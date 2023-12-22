@@ -30,6 +30,7 @@ public class OkexSwapInstrument {
 
   /** Creation time, ie "2018-08-28T02:43:23.000Z" */
   private String listing;
+
   /** Settlement time, ie "2019-06-20T14:00:00.000Z" */
   private String delivery;
 

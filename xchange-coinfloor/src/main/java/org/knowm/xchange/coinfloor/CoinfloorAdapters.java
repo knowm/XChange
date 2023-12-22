@@ -129,7 +129,7 @@ public class CoinfloorAdapters {
       final BigDecimal feeAmount = transaction.getFee();
 
       UserTrade trade =
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(transaction.getSide())
               .originalAmount(transaction.getAmount().abs())
               .currencyPair(transaction.getCurrencyPair())

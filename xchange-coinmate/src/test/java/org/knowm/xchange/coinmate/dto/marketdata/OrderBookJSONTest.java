@@ -31,7 +31,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class OrderBookJSONTest {
 
   @Test

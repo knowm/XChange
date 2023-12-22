@@ -11,7 +11,9 @@ import org.knowm.xchange.coinbase.dto.common.CoinbaseRepeat;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseButton extends CoinbaseBaseResponse {
 
   @JsonProperty("button")

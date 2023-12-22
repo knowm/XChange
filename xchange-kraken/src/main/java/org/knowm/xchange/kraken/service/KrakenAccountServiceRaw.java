@@ -34,7 +34,9 @@ import org.knowm.xchange.kraken.dto.account.results.WithdrawResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawStatusResult;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class KrakenAccountServiceRaw extends KrakenBaseService {
 
   /**

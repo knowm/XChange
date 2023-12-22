@@ -23,5 +23,7 @@
  */
 package org.knowm.xchange;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class ExchangeSpecificationTest {}

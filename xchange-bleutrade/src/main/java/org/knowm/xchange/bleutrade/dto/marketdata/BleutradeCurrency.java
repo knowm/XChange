@@ -36,84 +36,108 @@ public class BleutradeCurrency {
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /** @return The Currency */
+  /**
+   * @return The Currency
+   */
   @JsonProperty("Currency")
   public String getCurrency() {
 
     return Currency;
   }
 
-  /** @param Currency The Currency */
+  /**
+   * @param Currency The Currency
+   */
   @JsonProperty("Currency")
   public void setCurrency(String Currency) {
 
     this.Currency = Currency;
   }
 
-  /** @return The CurrencyLong */
+  /**
+   * @return The CurrencyLong
+   */
   @JsonProperty("CurrencyLong")
   public String getCurrencyLong() {
 
     return CurrencyLong;
   }
 
-  /** @param CurrencyLong The CurrencyLong */
+  /**
+   * @param CurrencyLong The CurrencyLong
+   */
   @JsonProperty("CurrencyLong")
   public void setCurrencyLong(String CurrencyLong) {
 
     this.CurrencyLong = CurrencyLong;
   }
 
-  /** @return The MinConfirmation */
+  /**
+   * @return The MinConfirmation
+   */
   @JsonProperty("MinConfirmation")
   public Integer getMinConfirmation() {
 
     return MinConfirmation;
   }
 
-  /** @param MinConfirmation The MinConfirmation */
+  /**
+   * @param MinConfirmation The MinConfirmation
+   */
   @JsonProperty("MinConfirmation")
   public void setMinConfirmation(Integer MinConfirmation) {
 
     this.MinConfirmation = MinConfirmation;
   }
 
-  /** @return The TxFee */
+  /**
+   * @return The TxFee
+   */
   @JsonProperty("TxFee")
   public BigDecimal getTxFee() {
 
     return TxFee;
   }
 
-  /** @param TxFee The TxFee */
+  /**
+   * @param TxFee The TxFee
+   */
   @JsonProperty("TxFee")
   public void setTxFee(BigDecimal TxFee) {
 
     this.TxFee = TxFee;
   }
 
-  /** @return The IsActive */
+  /**
+   * @return The IsActive
+   */
   @JsonProperty("IsActive")
   public Boolean getIsActive() {
 
     return IsActive;
   }
 
-  /** @param IsActive The IsActive */
+  /**
+   * @param IsActive The IsActive
+   */
   @JsonProperty("IsActive")
   public void setIsActive(Boolean IsActive) {
 
     this.IsActive = IsActive;
   }
 
-  /** @return The CoinType */
+  /**
+   * @return The CoinType
+   */
   @JsonProperty("CoinType")
   public String getCoinType() {
 
     return CoinType;
   }
 
-  /** @param CoinType The CoinType */
+  /**
+   * @param CoinType The CoinType
+   */
   @JsonProperty("CoinType")
   public void setCoinType(String CoinType) {
 

@@ -12,7 +12,9 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkAccountService extends BTCTurkAccountServiceRaw implements AccountService {
 
   public BTCTurkAccountService(Exchange exchange) {

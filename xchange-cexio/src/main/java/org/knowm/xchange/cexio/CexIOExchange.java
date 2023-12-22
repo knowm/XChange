@@ -54,23 +54,27 @@ public class CexIOExchange extends BaseExchange implements Exchange {
     for (CexIOCurrencyLimits.Pair pair : currencyLimits.getData().getPairs()) {
       CurrencyPair currencyPair = new CurrencyPair(pair.getSymbol1(), pair.getSymbol2());
       InstrumentMetaData metaData =
-          new InstrumentMetaData.Builder().minimumAmount(pair.getMinLotSize()).maximumAmount(pair.getMaxLotSize()).build();
+          new InstrumentMetaData.Builder()
+              .minimumAmount(pair.getMinLotSize())
+              .maximumAmount(pair.getMaxLotSize())
+              .build();
       currencyPairs.merge(
           currencyPair,
           metaData,
           (oldMetaData, newMetaData) ->
-                  new InstrumentMetaData.Builder()
-                          .tradingFee(oldMetaData.getTradingFee())
-                          .minimumAmount(newMetaData.getMinimumAmount())
-                          .maximumAmount(newMetaData.getMaximumAmount() != null
-                                  ? newMetaData.getMaximumAmount()
-                                  : oldMetaData.getMaximumAmount())
-                          .priceScale(oldMetaData.getPriceScale())
-                          .feeTiers(newMetaData.getFeeTiers() != null
-                                  ? newMetaData.getFeeTiers()
-                                  : oldMetaData.getFeeTiers())
-                          .build());
-
+              new InstrumentMetaData.Builder()
+                  .tradingFee(oldMetaData.getTradingFee())
+                  .minimumAmount(newMetaData.getMinimumAmount())
+                  .maximumAmount(
+                      newMetaData.getMaximumAmount() != null
+                          ? newMetaData.getMaximumAmount()
+                          : oldMetaData.getMaximumAmount())
+                  .priceScale(oldMetaData.getPriceScale())
+                  .feeTiers(
+                      newMetaData.getFeeTiers() != null
+                          ? newMetaData.getFeeTiers()
+                          : oldMetaData.getFeeTiers())
+                  .build());
     }
     logger.info("remoteInit successful for {}", getExchangeSpecification().getExchangeName());
   }

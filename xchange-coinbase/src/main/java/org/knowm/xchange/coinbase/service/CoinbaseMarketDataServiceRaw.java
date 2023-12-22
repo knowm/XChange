@@ -8,7 +8,9 @@ import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbasePrice;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService {
 
   /**

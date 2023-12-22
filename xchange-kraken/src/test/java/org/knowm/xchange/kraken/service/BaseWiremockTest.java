@@ -1,17 +1,21 @@
 package org.knowm.xchange.kraken.service;
 
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableMap;
 import org.junit.Rule;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.kraken.*;
-import org.knowm.xchange.kraken.dto.marketdata.*;
+import org.knowm.xchange.kraken.KrakenExchange;
+import org.knowm.xchange.kraken.KrakenUtils;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 
 public class BaseWiremockTest {
 
-  @Rule public WireMockRule wireMockRule = new WireMockRule();
+  @Rule public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
 
   public Exchange createExchange() {
     KrakenUtils.setKrakenAssets(ASSETS);

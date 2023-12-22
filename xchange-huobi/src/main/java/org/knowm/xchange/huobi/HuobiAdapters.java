@@ -155,21 +155,20 @@ public class HuobiAdapters {
     return HuobiUtils.translateHuobiCurrencyPair(currencyPair);
   }
 
-  private static InstrumentMetaData adaptPair(
-      HuobiAssetPair pair, InstrumentMetaData metadata) {
+  private static InstrumentMetaData adaptPair(HuobiAssetPair pair, InstrumentMetaData metadata) {
     BigDecimal minQty =
         metadata == null
             ? null
             : metadata.getMinimumAmount().setScale(pair.getAmountPrecision(), RoundingMode.DOWN);
     FeeTier[] feeTiers = metadata == null ? null : metadata.getFeeTiers();
     return new InstrumentMetaData.Builder()
-            .tradingFee(fee)
-            .minimumAmount(minQty)
-            .priceScale(pair.getPricePrecision())
-            .volumeScale(pair.getAmountPrecision())
-            .feeTiers(feeTiers)
-            .marketOrderEnabled(true)
-            .build();
+        .tradingFee(fee)
+        .minimumAmount(minQty)
+        .priceScale(pair.getPricePrecision())
+        .volumeScale(pair.getAmountPrecision())
+        .feeTiers(feeTiers)
+        .marketOrderEnabled(true)
+        .build();
   }
 
   private static Currency adaptCurrency(String currency) {
@@ -237,9 +236,7 @@ public class HuobiAdapters {
       openOrderAvgPrice = BigDecimal.ZERO;
     } else {
       openOrderAvgPrice =
-          openOrder
-              .getFieldCashAmount()
-              .divide(openOrder.getFieldAmount(), 8, RoundingMode.DOWN);
+          openOrder.getFieldCashAmount().divide(openOrder.getFieldAmount(), 8, RoundingMode.DOWN);
     }
     if (openOrder.isMarket()) {
       order =
@@ -273,18 +270,21 @@ public class HuobiAdapters {
     if (openOrder.isStop()) {
       order =
           new StopOrder.Builder(orderType, currencyPair)
-                  .originalAmount(openOrder.getAmount())
-                  .id(String.valueOf(openOrder.getId()))
-                  .timestamp(openOrder.getCreatedAt())
-                  .stopPrice(openOrder.getStopPrice())
-                  .limitPrice(openOrder.getPrice())
-                  .averagePrice(openOrderAvgPrice)
-                  .cumulativeAmount(openOrder.getFieldAmount())
-                  .fee(openOrder.getFieldFees())
-                  .orderStatus(adaptOrderStatus(openOrder.getState()))
-                  .userReference(openOrder.getClOrdId())
-                  .intention(openOrder.getOperator().equals("lte") ? Intention.STOP_LOSS : Intention.TAKE_PROFIT)
-                  .build();
+              .originalAmount(openOrder.getAmount())
+              .id(String.valueOf(openOrder.getId()))
+              .timestamp(openOrder.getCreatedAt())
+              .stopPrice(openOrder.getStopPrice())
+              .limitPrice(openOrder.getPrice())
+              .averagePrice(openOrderAvgPrice)
+              .cumulativeAmount(openOrder.getFieldAmount())
+              .fee(openOrder.getFieldFees())
+              .orderStatus(adaptOrderStatus(openOrder.getState()))
+              .userReference(openOrder.getClOrdId())
+              .intention(
+                  openOrder.getOperator().equals("lte")
+                      ? Intention.STOP_LOSS
+                      : Intention.TAKE_PROFIT)
+              .build();
     }
 
     order.setAveragePrice(openOrderAvgPrice);
@@ -304,7 +304,7 @@ public class HuobiAdapters {
             .multiply(order.getLimitPrice())
             .multiply(fee)
             .setScale(8, RoundingMode.DOWN);
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(order.getType())
         .originalAmount(order.getCumulativeAmount())
         .currencyPair(order.getCurrencyPair())
@@ -363,9 +363,12 @@ public class HuobiAdapters {
     return orders;
   }
 
-  public static List<UserTrade> adaptUserTradeList(HuobiOrder[] tradeHistory){
-    return Arrays.stream(tradeHistory).sequential()
-            .map(huobiOrder -> new UserTrade.Builder()
+  public static List<UserTrade> adaptUserTradeList(HuobiOrder[] tradeHistory) {
+    return Arrays.stream(tradeHistory)
+        .sequential()
+        .map(
+            huobiOrder ->
+                UserTrade.builder()
                     .id(Long.toString(huobiOrder.getId()))
                     .instrument(adaptCurrencyPair(huobiOrder.getSymbol()))
                     .orderUserReference(huobiOrder.getClOrdId())
@@ -375,11 +378,13 @@ public class HuobiAdapters {
                     .type(adaptOrderType(huobiOrder.getType()))
                     .feeAmount(huobiOrder.getFieldFees())
                     .orderId(Long.toString(huobiOrder.getId()))
-                    .build()).collect(Collectors.toList());
+                    .build())
+        .collect(Collectors.toList());
   }
 
   public static UserTrades adaptTradeHistory(HuobiOrder[] tradeHistoryOrders) {
-    UserTrades userTrades = new UserTrades(adaptUserTradeList(tradeHistoryOrders), TradeSortType.SortByTimestamp);
+    UserTrades userTrades =
+        new UserTrades(adaptUserTradeList(tradeHistoryOrders), TradeSortType.SortByTimestamp);
     Collections.reverse(userTrades.getUserTrades());
     return userTrades;
   }

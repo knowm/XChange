@@ -3,12 +3,13 @@ package org.knowm.xchange.krakenfutures.dto.marketData;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import lombok.Getter;
 import lombok.ToString;
 import org.knowm.xchange.krakenfutures.dto.KrakenFuturesResult;
 
-/** @author Jean-Christophe Laruelle */
+/**
+ * @author Jean-Christophe Laruelle
+ */
 @Getter
 @ToString
 public class KrakenFuturesTicker extends KrakenFuturesResult {

@@ -56,7 +56,7 @@ public final class BityAdapters {
     Date date = order.getTimestampCreated();
     String orderId = order.getResourceUri();
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(orderType)
         .originalAmount(amount)
         .currencyPair(currencyPair)

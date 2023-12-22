@@ -18,8 +18,8 @@ public enum PoloniexChartDataPeriodType {
     PoloniexChartDataPeriodType result = null;
     for (PoloniexChartDataPeriodType period : PoloniexChartDataPeriodType.values()) {
       if (period.periodInSecs == periodInSecs) {
-          result = period;
-          break;
+        result = period;
+        break;
       }
     }
     return result;
@@ -29,7 +29,7 @@ public enum PoloniexChartDataPeriodType {
     long[] result = new long[PoloniexChartDataPeriodType.values().length];
     int index = 0;
     for (PoloniexChartDataPeriodType period : PoloniexChartDataPeriodType.values()) {
-        result[index++] = period.getPeriodInSecs();
+      result[index++] = period.getPeriodInSecs();
     }
     return result;
   }

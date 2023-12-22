@@ -1,7 +1,6 @@
 package org.knowm.xchange.coinmate.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class CoinmateBuyFixRateResponseData {
@@ -23,8 +22,7 @@ public class CoinmateBuyFixRateResponseData {
       @JsonProperty("rate") BigDecimal rate,
       @JsonProperty("currencyPair") String currencyPair,
       @JsonProperty("expiresAt") Long expiresAt,
-      @JsonProperty("amountReceived") BigDecimal amountReceived
-  ) {
+      @JsonProperty("amountReceived") BigDecimal amountReceived) {
     this.rateId = rateId;
     this.total = total;
     this.amountReceived = amountReceived;

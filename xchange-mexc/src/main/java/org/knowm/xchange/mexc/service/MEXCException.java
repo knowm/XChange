@@ -1,10 +1,9 @@
 package org.knowm.xchange.mexc.service;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.mexc.MEXCErrorUtils;
-import si.mazi.rescu.HttpStatusExceptionSupport;
-
 import static org.knowm.xchange.mexc.MEXCErrorUtils.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class MEXCException extends HttpStatusExceptionSupport {
 

@@ -9,7 +9,9 @@ import java.util.Map;
 import org.knowm.xchange.cexio.dto.CexIOApiResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** @author ujjwal on 14/02/18. */
+/**
+ * @author ujjwal on 14/02/18.
+ */
 public class CexIOFeeInfo extends CexIOApiResponse<Map<CurrencyPair, CexIOFeeInfo.FeeDetails>> {
 
   public CexIOFeeInfo(
