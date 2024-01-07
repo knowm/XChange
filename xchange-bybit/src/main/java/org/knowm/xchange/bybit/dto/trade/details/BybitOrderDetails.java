@@ -17,6 +17,8 @@ import org.knowm.xchange.bybit.dto.trade.details.spot.BybitSpotOrderDetail;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "category", visible = true)
 @JsonSubTypes({
   @Type(value = BybitLinearOrderDetails.class, name = "linear"),
+  @Type(value = BybitOrderDetails.class, name = "inverse"),
+  @Type(value = BybitOrderDetails.class, name = "option"),
   @Type(value = BybitSpotOrderDetails.class, name = "spot"),
 })
 public class BybitOrderDetails<T extends BybitOrderDetail> extends BybitCategorizedPayload<T> {

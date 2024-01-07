@@ -26,10 +26,10 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
     Assert.notNull(instrument, "Null instrument");
 
-    BybitCategory category = getCategory(args);
+    BybitCategory category = BybitAdapters.getCategory(instrument);
 
     BybitResult<BybitTickers<BybitTicker>> response =
-        getTicker24h(category, BybitAdapters.convertToBybitSymbol(instrument.toString()));
+        getTicker24h(category, BybitAdapters.convertToBybitSymbol(instrument));
 
     if (response.getResult().getList().isEmpty()) {
       return new Ticker.Builder().build();
@@ -50,14 +50,6 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
         default:
           throw new IllegalStateException("Unexpected value: " + category);
       }
-    }
-  }
-
-  private static BybitCategory getCategory(Object[] args) {
-    if (args.length > 0 && args[0] != null) {
-      return (BybitCategory) args[0];
-    } else {
-      return BybitCategory.LINEAR;
     }
   }
 

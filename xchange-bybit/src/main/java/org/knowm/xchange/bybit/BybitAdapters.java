@@ -1,14 +1,22 @@
 package org.knowm.xchange.bybit;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitCoinWalletBalance;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInverseInstrumentInfo;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.spot.BybitSpotInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.option.BybitOptionTicker;
@@ -19,17 +27,24 @@ import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.service.BybitException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.derivative.OptionsContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Ticker.Builder;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 
 public class BybitAdapters {
 
+  private static final SimpleDateFormat OPTION_DATE_FORMAT = new SimpleDateFormat("ddMMMyy");
   public static final List<String> QUOTE_CURRENCIES = Arrays.asList("USDT", "USDC", "BTC", "DAI");
 
   public static Wallet adaptBybitBalances(List<BybitCoinWalletBalance> coinWalletBalances) {
@@ -76,8 +91,26 @@ public class BybitAdapters {
     throw new IllegalArgumentException("invalid order type");
   }
 
-  public static String convertToBybitSymbol(String instrumentName) {
-    return instrumentName.replace("/", "").toUpperCase();
+  public static String convertToBybitSymbol(Instrument instrument) {
+    BybitCategory category = getCategory(instrument);
+    switch (category) {
+      case SPOT:
+      case LINEAR:
+      case INVERSE:
+        String[] parts = instrument.toString().split("/");
+        return String.format("%s%s", parts[0], parts[1]).toUpperCase();
+      case OPTION:
+        OptionsContract optionsContract = ((OptionsContract) instrument);
+        return String.format(
+                "%s-%s-%s-%s",
+                optionsContract.getBase(),
+                OPTION_DATE_FORMAT.format(optionsContract.getExpireDate()),
+                optionsContract.getStrike(),
+                optionsContract.getType().equals(OptionsContract.OptionType.PUT) ? "P" : "C")
+            .toUpperCase();
+      default:
+        throw new IllegalStateException("Unexpected value: " + category);
+    }
   }
 
   public static CurrencyPair guessSymbol(String symbol) {
@@ -91,19 +124,121 @@ public class BybitAdapters {
     return new CurrencyPair(symbol.substring(0, splitIndex), symbol.substring(splitIndex));
   }
 
-  public static LimitOrder adaptBybitOrderDetails(BybitOrderDetail bybitOrderResult) {
-    LimitOrder limitOrder =
-        new LimitOrder(
-            getOrderType(bybitOrderResult.getSide()),
-            bybitOrderResult.getQty(),
-            bybitOrderResult.getCumExecQty(),
-            guessSymbol(bybitOrderResult.getSymbol()),
-            bybitOrderResult.getOrderId(),
-            bybitOrderResult.getCreatedTime(),
-            bybitOrderResult.getPrice()) {};
-    limitOrder.setAveragePrice(bybitOrderResult.getAvgPrice());
-    limitOrder.setOrderStatus(adaptBybitOrderStatus(bybitOrderResult.getOrderStatus()));
-    return limitOrder;
+  public static Instrument adaptInstrumentInfo(BybitInstrumentInfo instrumentInfo) {
+    if (instrumentInfo instanceof BybitSpotInstrumentInfo) {
+      return new CurrencyPair(instrumentInfo.getBaseCoin(), instrumentInfo.getQuoteCoin());
+
+    } else if (instrumentInfo instanceof BybitLinearInverseInstrumentInfo) {
+      return new FuturesContract(
+          new CurrencyPair(instrumentInfo.getBaseCoin(), instrumentInfo.getQuoteCoin()),
+          BybitAdapters.getPrompt(
+              ((BybitLinearInverseInstrumentInfo) instrumentInfo).getContractType()));
+
+    } else if (instrumentInfo instanceof BybitOptionInstrumentInfo) {
+      try {
+        BybitOptionInstrumentInfo optionInstrumentInfo = (BybitOptionInstrumentInfo) instrumentInfo;
+
+        String[] parts = optionInstrumentInfo.getSymbol().split("-");
+        String expireDateString = parts[1];
+        BigDecimal strike = new BigDecimal(parts[2]);
+
+        return new OptionsContract.Builder()
+            .currencyPair(
+                new CurrencyPair(instrumentInfo.getBaseCoin(), instrumentInfo.getQuoteCoin()))
+            .expireDate(OPTION_DATE_FORMAT.parse(expireDateString))
+            .strike(strike)
+            .type(
+                optionInstrumentInfo.getOptionsType().equals(OptionType.CALL)
+                    ? OptionsContract.OptionType.CALL
+                    : OptionsContract.OptionType.PUT)
+            .build();
+      } catch (ParseException e) {
+        throw new ExchangeException("Unable to convert instrument info.", e);
+      }
+    }
+
+    throw new IllegalStateException(
+        "Unexpected instrument info instance: " + instrumentInfo.getClass().getSimpleName());
+  }
+
+  public static InstrumentMetaData symbolToCurrencyPairMetaData(
+      BybitSpotInstrumentInfo instrumentInfo) {
+    return new InstrumentMetaData.Builder()
+        .marketOrderEnabled(true)
+        .minimumAmount(instrumentInfo.getLotSizeFilter().getMinOrderQty())
+        .maximumAmount(instrumentInfo.getLotSizeFilter().getMaxOrderQty())
+        .counterMinimumAmount(instrumentInfo.getLotSizeFilter().getMinOrderAmt())
+        .counterMaximumAmount(instrumentInfo.getLotSizeFilter().getMaxOrderAmt())
+        .priceScale(instrumentInfo.getPriceFilter().getTickSize().scale())
+        .volumeScale(instrumentInfo.getLotSizeFilter().getBasePrecision().scale())
+        .amountStepSize(instrumentInfo.getLotSizeFilter().getBasePrecision())
+        .priceStepSize(instrumentInfo.getPriceFilter().getTickSize())
+        .build();
+  }
+
+  public static InstrumentMetaData symbolToCurrencyPairMetaData(
+      BybitLinearInverseInstrumentInfo instrumentInfo) {
+    return new InstrumentMetaData.Builder()
+        .marketOrderEnabled(true)
+        .minimumAmount(instrumentInfo.getLotSizeFilter().getMinOrderQty())
+        .maximumAmount(instrumentInfo.getLotSizeFilter().getMaxOrderQty())
+        .priceScale(instrumentInfo.getPriceFilter().getTickSize().scale())
+        .priceStepSize(instrumentInfo.getPriceFilter().getTickSize())
+        .tradingFee(instrumentInfo.getDeliveryFeeRate())
+        .build();
+  }
+
+  public static InstrumentMetaData symbolToCurrencyPairMetaData(
+      BybitOptionInstrumentInfo instrumentInfo) {
+    return new InstrumentMetaData.Builder()
+        .marketOrderEnabled(true)
+        .minimumAmount(instrumentInfo.getLotSizeFilter().getMinOrderQty())
+        .maximumAmount(instrumentInfo.getLotSizeFilter().getMaxOrderQty())
+        .priceScale(instrumentInfo.getPriceFilter().getTickSize().scale())
+        .priceStepSize(instrumentInfo.getPriceFilter().getTickSize())
+        .tradingFee(instrumentInfo.getDeliveryFeeRate())
+        .build();
+  }
+
+  public static Order adaptBybitOrderDetails(BybitOrderDetail bybitOrderResult) {
+    Order.Builder builder;
+
+    switch (bybitOrderResult.getOrderType()) {
+      case MARKET:
+        builder =
+            new MarketOrder.Builder(
+                adaptOrderType(bybitOrderResult), guessSymbol(bybitOrderResult.getSymbol()));
+        break;
+      case LIMIT:
+        builder =
+            new LimitOrder.Builder(
+                    adaptOrderType(bybitOrderResult), guessSymbol(bybitOrderResult.getSymbol()))
+                .limitPrice(bybitOrderResult.getPrice());
+        break;
+      default:
+        throw new IllegalStateException("Unexpected value: " + bybitOrderResult.getOrderType());
+    }
+
+    return builder
+        .orderType(getOrderType(bybitOrderResult.getSide()))
+        .originalAmount(bybitOrderResult.getQty())
+        .cumulativeAmount(bybitOrderResult.getCumExecQty())
+        .id(bybitOrderResult.getOrderId())
+        .timestamp(bybitOrderResult.getCreatedTime())
+        .averagePrice(bybitOrderResult.getAvgPrice())
+        .orderStatus(adaptBybitOrderStatus(bybitOrderResult.getOrderStatus()))
+        .build();
+  }
+
+  private static OrderType adaptOrderType(BybitOrderDetail bybitOrderResult) {
+    switch (bybitOrderResult.getSide()) {
+      case BUY:
+        return OrderType.BID;
+      case SELL:
+        return OrderType.ASK;
+      default:
+        throw new IllegalStateException("Unexpected value: " + bybitOrderResult.getSide());
+    }
   }
 
   private static OrderStatus adaptBybitOrderStatus(BybitOrderStatus orderStatus) {
@@ -133,9 +268,38 @@ public class BybitAdapters {
     }
   }
 
-  public static <T> BybitException createBybitExceptionFromResult(BybitResult<T> walletBalances) {
+  public static <T> BybitException createBybitExceptionFromResult(BybitResult<T> bybitResult) {
     return new BybitException(
-        walletBalances.getRetCode(), walletBalances.getRetMsg(), walletBalances.getRetExtInfo());
+        bybitResult.getRetCode(), bybitResult.getRetMsg(), bybitResult.getRetExtInfo());
+  }
+
+  public static BybitCategory getCategory(Instrument instrument) {
+    if (instrument instanceof CurrencyPair) {
+      return BybitCategory.SPOT;
+    } else if (instrument instanceof FuturesContract) {
+      return BybitAdapters.isInverse(instrument) ? BybitCategory.INVERSE : BybitCategory.LINEAR;
+    } else if (instrument instanceof OptionsContract) {
+      return BybitCategory.OPTION;
+    }
+    throw new IllegalStateException(
+        "Unexpected instrument instance type: " + instrument.getClass().getSimpleName());
+  }
+
+  public static String getPrompt(BybitLinearInverseInstrumentInfo.ContractType contractType) {
+    switch (contractType) {
+      case INVERSE_PERPETUAL:
+      case LINEAR_PERPETUAL:
+        return "PERP";
+      case LINEAR_FUTURES:
+      case INVERSE_FUTURES:
+        return "SWAP";
+      default:
+        throw new IllegalStateException("Unexpected value: " + contractType);
+    }
+  }
+
+  public static Boolean isInverse(Instrument pair) {
+    return pair instanceof FuturesContract && pair.getCounter().equals(Currency.USD);
   }
 
   public static Ticker adaptBybitLinearInverseTicker(

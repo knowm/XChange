@@ -7,6 +7,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.matching.StringValuePattern;
 import jakarta.ws.rs.core.Response.Status;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -38,6 +39,22 @@ public class BaseWiremockTest {
   protected void initGetStub(String url, String responseBody) throws IOException {
     stubFor(
         get(urlPathEqualTo(url))
+            .willReturn(
+                aResponse()
+                    .withStatus(Status.OK.getStatusCode())
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(IOUtils.resourceToString(responseBody, StandardCharsets.UTF_8))));
+  }
+
+  protected void initGetStub(
+      String baseUrl,
+      String responseBody,
+      String queryParams,
+      StringValuePattern stringValuePattern)
+      throws IOException {
+    stubFor(
+        get(urlPathEqualTo(baseUrl))
+            .withQueryParam(queryParams, stringValuePattern)
             .willReturn(
                 aResponse()
                     .withStatus(Status.OK.getStatusCode())

@@ -6,16 +6,12 @@ import java.util.Date;
 import lombok.Value;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 
 @SuperBuilder
 @Jacksonized
 @Value
 public class BybitSpotOrderDetail extends BybitOrderDetail {
-
-  @JsonProperty("orderType")
-  BybitOrderType orderType;
 
   @JsonProperty("orderLinkId")
   String orderLinkId;

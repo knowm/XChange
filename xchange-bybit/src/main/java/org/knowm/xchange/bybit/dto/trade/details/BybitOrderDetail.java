@@ -6,14 +6,18 @@ import java.util.Date;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
 import org.knowm.xchange.bybit.dto.trade.BybitSide;
 
 @SuperBuilder
 @Data
-public abstract class BybitOrderDetail {
+public class BybitOrderDetail {
 
   @JsonProperty("symbol")
   String symbol;
+
+  @JsonProperty("orderType")
+  BybitOrderType orderType;
 
   @JsonProperty("side")
   BybitSide side;

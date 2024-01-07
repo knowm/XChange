@@ -7,8 +7,8 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -26,9 +26,9 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
   public void testGetTickerWithInverseArg() throws Exception {
     initGetStub("/v5/market/tickers", "/getTickerInverse.json5");
 
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD, BybitCategory.INVERSE);
+    Ticker ticker = marketDataService.getTicker(new FuturesContract(CurrencyPair.BTC_USD, "PERP"));
 
-    assertThat(ticker.getInstrument().toString()).isEqualTo("BTC/USD");
+    assertThat(ticker.getInstrument().toString()).isEqualTo("BTC/USD/PERP");
     assertThat(ticker.getOpen()).isEqualTo(new BigDecimal("16464.50"));
     assertThat(ticker.getLast()).isEqualTo(new BigDecimal("16597.00"));
     assertThat(ticker.getBid()).isEqualTo(new BigDecimal("16596.00"));
@@ -48,7 +48,7 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
   public void testGetTickerWithSpotArg() throws Exception {
     initGetStub("/v5/market/tickers", "/getTickerSpot.json5");
 
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD, BybitCategory.SPOT);
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
 
     assertThat(ticker.getInstrument().toString()).isEqualTo("BTC/USD");
     assertThat(ticker.getOpen()).isEqualTo(new BigDecimal("20393.48"));

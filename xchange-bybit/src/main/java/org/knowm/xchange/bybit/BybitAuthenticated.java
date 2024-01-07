@@ -4,7 +4,6 @@ import static org.knowm.xchange.bybit.service.BybitDigest.X_BAPI_API_KEY;
 import static org.knowm.xchange.bybit.service.BybitDigest.X_BAPI_SIGN;
 import static org.knowm.xchange.bybit.service.BybitDigest.X_BAPI_TIMESTAMP;
 
-import jakarta.ws.rs.*;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -85,7 +84,7 @@ public interface BybitAuthenticated {
    */
   @POST
   @Path("/order/create")
-  BybitResult<BybitOrderResponse> placeOrder(
+  BybitResult<BybitOrderResponse> placeMarketOrder(
       @HeaderParam(X_BAPI_API_KEY) String apiKey,
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
@@ -94,5 +93,24 @@ public interface BybitAuthenticated {
       @FormParam("side") String side,
       @FormParam("orderType") String orderType,
       @FormParam("qty") BigDecimal qty)
+      throws IOException, BybitException;
+
+  /**
+   * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/order/create-order">API</a>
+   */
+  @POST
+  @Path("/order/create")
+  BybitResult<BybitOrderResponse> placeLimitOrder(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      @FormParam("category") String category,
+      @FormParam("symbol") String symbol,
+      @FormParam("side") String side,
+      @FormParam("orderType") String orderType,
+      @FormParam("qty") BigDecimal qty,
+      @FormParam("price") BigDecimal price,
+      @FormParam("positionIdx") Integer positionIdx,
+      @FormParam("reduceOnly") Boolean reduceOnly)
       throws IOException, BybitException;
 }

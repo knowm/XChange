@@ -5,10 +5,9 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
-import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
-import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentsInfo;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInverseInstrumentInfo;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.spot.BybitSpotInstrumentInfo;
-import org.knowm.xchange.bybit.mappers.MarketDataMapper;
 import org.knowm.xchange.bybit.service.BybitAccountService;
 import org.knowm.xchange.bybit.service.BybitMarketDataService;
 import org.knowm.xchange.bybit.service.BybitMarketDataServiceRaw;
@@ -46,19 +45,56 @@ public class BybitExchange extends BaseExchange {
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
-    // initialize currency pairs
-    BybitInstrumentsInfo<BybitInstrumentInfo> instrumentInfos =
-        ((BybitMarketDataServiceRaw) marketDataService)
-            .getInstrumentsInfo(BybitCategory.SPOT)
-            .getResult();
+    ((BybitMarketDataServiceRaw) marketDataService)
+        .getInstrumentsInfo(BybitCategory.SPOT)
+        .getResult()
+        .getList()
+        .forEach(
+            instrumentInfo ->
+                exchangeMetaData
+                    .getInstruments()
+                    .put(
+                        BybitAdapters.adaptInstrumentInfo(instrumentInfo),
+                        BybitAdapters.symbolToCurrencyPairMetaData(
+                            (BybitSpotInstrumentInfo) instrumentInfo)));
 
-    for (BybitInstrumentInfo instrumentInfo : instrumentInfos.getList()) {
-      exchangeMetaData
-          .getInstruments()
-          .put(
-              MarketDataMapper.symbolToCurrencyPair(instrumentInfo),
-              MarketDataMapper.symbolToCurrencyPairMetaData(
-                  (BybitSpotInstrumentInfo) instrumentInfo));
-    }
+    ((BybitMarketDataServiceRaw) marketDataService)
+        .getInstrumentsInfo(BybitCategory.LINEAR)
+        .getResult()
+        .getList()
+        .forEach(
+            instrumentInfo ->
+                exchangeMetaData
+                    .getInstruments()
+                    .put(
+                        BybitAdapters.adaptInstrumentInfo(instrumentInfo),
+                        BybitAdapters.symbolToCurrencyPairMetaData(
+                            (BybitLinearInverseInstrumentInfo) instrumentInfo)));
+
+    ((BybitMarketDataServiceRaw) marketDataService)
+        .getInstrumentsInfo(BybitCategory.INVERSE)
+        .getResult()
+        .getList()
+        .forEach(
+            instrumentInfo ->
+                exchangeMetaData
+                    .getInstruments()
+                    .put(
+                        BybitAdapters.adaptInstrumentInfo(instrumentInfo),
+                        BybitAdapters.symbolToCurrencyPairMetaData(
+                            (BybitLinearInverseInstrumentInfo) instrumentInfo)));
+
+    ((BybitMarketDataServiceRaw) marketDataService)
+        .getInstrumentsInfo(BybitCategory.OPTION)
+        .getResult()
+        .getList()
+        .forEach(
+            instrumentInfo ->
+                exchangeMetaData
+                    .getInstruments()
+                    .put(
+                        BybitAdapters.adaptInstrumentInfo(instrumentInfo),
+                        BybitAdapters.symbolToCurrencyPairMetaData(
+                            (BybitOptionInstrumentInfo) instrumentInfo)));
   }
 }

@@ -7,6 +7,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.github.tomakehurst.wiremock.matching.ContainsPattern;
 import jakarta.ws.rs.core.Response.Status;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -85,6 +86,7 @@ public class BybitTradeServiceTest extends BaseWiremockTest {
 
     stubFor(
         get(urlPathEqualTo("/v5/order/realtime"))
+            .withQueryParam("orderId", new ContainsPattern("fd4300ae-7847-404e-b947-b46980a4d140"))
             .willReturn(
                 aResponse()
                     .withStatus(Status.OK.getStatusCode())

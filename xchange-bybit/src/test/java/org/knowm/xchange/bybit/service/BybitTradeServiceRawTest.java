@@ -19,7 +19,6 @@ import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;
-import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
 import org.knowm.xchange.bybit.dto.trade.BybitSide;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
@@ -224,7 +223,7 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testPlaceBybitOrder() throws IOException {
+  public void testPlaceBybitMarketOrder() throws IOException {
     Exchange bybitExchange = createExchange();
     BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange);
 
@@ -249,12 +248,55 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
                     .withBody(orderPlacementResponse)));
 
     BybitResult<BybitOrderResponse> order =
-        bybitAccountServiceRaw.placeOrder(
+        bybitAccountServiceRaw.placeMarketOrder(
+            BybitCategory.SPOT, "BTCUSDT", BybitSide.BUY, BigDecimal.valueOf(0.1));
+
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode responseObject = mapper.readTree(orderPlacementResponse);
+
+    BybitOrderResponse orderRequestResult = order.getResult();
+    JsonNode responseObjectResult = responseObject.get("result");
+
+    assertThat(responseObjectResult.get("orderLinkId").textValue())
+        .isEqualTo(orderRequestResult.getOrderLinkId());
+    assertThat(responseObjectResult.get("orderId").textValue())
+        .isEqualTo(orderRequestResult.getOrderId());
+
+    System.out.println(order);
+  }
+
+  @Test
+  public void testPlaceBybitLimitOrder() throws IOException {
+    Exchange bybitExchange = createExchange();
+    BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange);
+
+    String orderPlacementResponse =
+        "{\n"
+            + "    \"retCode\": 0,\n"
+            + "    \"retMsg\": \"OK\",\n"
+            + "    \"result\": {\n"
+            + "        \"orderId\": \"1321003749386327552\",\n"
+            + "        \"orderLinkId\": \"spot-test-postonly\"\n"
+            + "    },\n"
+            + "    \"retExtInfo\": {},\n"
+            + "    \"time\": 1672211918471\n"
+            + "}";
+
+    stubFor(
+        post(urlPathEqualTo("/v5/order/create"))
+            .willReturn(
+                aResponse()
+                    .withStatus(Status.OK.getStatusCode())
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(orderPlacementResponse)));
+
+    BybitResult<BybitOrderResponse> order =
+        bybitAccountServiceRaw.placeLimitOrder(
             BybitCategory.SPOT,
             "BTCUSDT",
             BybitSide.BUY,
-            BybitOrderType.LIMIT,
-            BigDecimal.valueOf(0.1));
+            BigDecimal.valueOf(0.1),
+            BigDecimal.valueOf(1000));
 
     ObjectMapper mapper = new ObjectMapper();
     JsonNode responseObject = mapper.readTree(orderPlacementResponse);
