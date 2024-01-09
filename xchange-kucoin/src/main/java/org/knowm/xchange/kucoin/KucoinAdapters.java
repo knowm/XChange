@@ -147,7 +147,7 @@ public class KucoinAdapters {
       BigDecimal minQuoteSize = symbol.getQuoteMinSize();
       BigDecimal maxQuoteSize = symbol.getQuoteMaxSize();
       int baseScale = symbol.getBaseIncrement().stripTrailingZeros().scale();
-      int priceScale = symbol.getQuoteIncrement().stripTrailingZeros().scale();
+      int priceScale = symbol.getPriceIncrement().stripTrailingZeros().scale();
       FeeTier[] feeTiers = staticMetaData != null ? staticMetaData.getFeeTiers() : null;
       Currency feeCurrency = new Currency(symbol.getFeeCurrency());
 
