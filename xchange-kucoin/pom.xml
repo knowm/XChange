@@ -9,7 +9,7 @@
 	</parent>
 
 	<properties>
-		<project.version>CHRONOS-5.2.0</project.version>
+		<project.version>CHRONOS-5.3.0</project.version>
 	</properties>
 
 	<groupId>io.github.chronos-labs</groupId>
