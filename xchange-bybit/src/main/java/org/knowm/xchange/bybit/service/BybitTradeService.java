@@ -31,7 +31,8 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
             BybitAdapters.getCategory(marketOrder.getInstrument()),
             BybitAdapters.convertToBybitSymbol(marketOrder.getInstrument()),
             BybitAdapters.getSideString(marketOrder.getType()),
-            marketOrder.getOriginalAmount());
+            marketOrder.getOriginalAmount(),
+            marketOrder.getId());
 
     return orderResponseBybitResult.getResult().getOrderId();
   }
@@ -44,7 +45,8 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
             BybitAdapters.convertToBybitSymbol(limitOrder.getInstrument()),
             BybitAdapters.getSideString(limitOrder.getType()),
             limitOrder.getOriginalAmount(),
-            limitOrder.getLimitPrice());
+            limitOrder.getLimitPrice(),
+            limitOrder.getId());
 
     return orderResponseBybitResult.getResult().getOrderId();
   }

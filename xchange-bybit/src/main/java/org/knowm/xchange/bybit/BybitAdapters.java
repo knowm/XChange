@@ -91,14 +91,39 @@ public class BybitAdapters {
     throw new IllegalArgumentException("invalid order type");
   }
 
+  /**
+   * Converts instruments to Bybit symbols. For futures contracts, the prompt must represent the
+   * date.
+   */
   public static String convertToBybitSymbol(Instrument instrument) {
     BybitCategory category = getCategory(instrument);
+    FuturesContract futuresContract;
+
     switch (category) {
       case SPOT:
+        return String.format("%s%s", instrument.getBase(), instrument.getCounter()).toUpperCase();
       case LINEAR:
+        futuresContract = (FuturesContract) instrument;
+        if (futuresContract.isPerpetual() && !instrument.getCounter().getSymbol().equals("USDC")) {
+          // eg. contractType: LINEAR_PERPETUAL, symbol: ETHUSDT, base: ETH, quote: USDT
+          return String.format("%s%s", instrument.getBase(), instrument.getCounter());
+        } else if (futuresContract.isPerpetual()
+            && instrument.getCounter().getSymbol().equals("USDC")) {
+          // eg. contractType: LINEAR_PERPETUAL, symbol: ETHPERP, base: ETH, quote: USDC
+          return String.format("%sPERP", instrument.getBase());
+        } else {
+          // eg. contractType: LINEAR_FUTURES, symbol: ETH-02FEB24, base: ETH, quote: USDC
+          return String.format("%s-%s", instrument.getBase(), futuresContract.getPrompt());
+        }
       case INVERSE:
-        String[] parts = instrument.toString().split("/");
-        return String.format("%s%s", parts[0], parts[1]).toUpperCase();
+        futuresContract = (FuturesContract) instrument;
+        // eg. contractType: INVERSE_FUTURES, symbol: ETHUSDH24, base: ETH, quote: USD
+        return String.format(
+                "%s%s%s",
+                futuresContract.getBase(),
+                futuresContract.getCounter(),
+                futuresContract.isPerpetual() ? "" : futuresContract.getPrompt())
+            .toUpperCase();
       case OPTION:
         OptionsContract optionsContract = ((OptionsContract) instrument);
         return String.format(
@@ -131,8 +156,7 @@ public class BybitAdapters {
     } else if (instrumentInfo instanceof BybitLinearInverseInstrumentInfo) {
       return new FuturesContract(
           new CurrencyPair(instrumentInfo.getBaseCoin(), instrumentInfo.getQuoteCoin()),
-          BybitAdapters.getPrompt(
-              ((BybitLinearInverseInstrumentInfo) instrumentInfo).getContractType()));
+          BybitAdapters.getPrompt((BybitLinearInverseInstrumentInfo) instrumentInfo));
 
     } else if (instrumentInfo instanceof BybitOptionInstrumentInfo) {
       try {
@@ -285,16 +309,19 @@ public class BybitAdapters {
         "Unexpected instrument instance type: " + instrument.getClass().getSimpleName());
   }
 
-  public static String getPrompt(BybitLinearInverseInstrumentInfo.ContractType contractType) {
-    switch (contractType) {
+  public static String getPrompt(BybitLinearInverseInstrumentInfo instrumentInfo) {
+    switch (instrumentInfo.getContractType()) {
       case INVERSE_PERPETUAL:
       case LINEAR_PERPETUAL:
         return "PERP";
       case LINEAR_FUTURES:
+        return instrumentInfo.getSymbol().split("-")[1];
       case INVERSE_FUTURES:
-        return "SWAP";
+        return instrumentInfo
+            .getSymbol()
+            .replace(instrumentInfo.getBaseCoin() + instrumentInfo.getQuoteCoin(), "");
       default:
-        throw new IllegalStateException("Unexpected value: " + contractType);
+        throw new IllegalStateException("Unexpected value: " + instrumentInfo.getContractType());
     }
   }
 

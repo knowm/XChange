@@ -92,7 +92,8 @@ public interface BybitAuthenticated {
       @FormParam("symbol") String symbol,
       @FormParam("side") String side,
       @FormParam("orderType") String orderType,
-      @FormParam("qty") BigDecimal qty)
+      @FormParam("qty") BigDecimal qty,
+      @FormParam("orderLinkId") String orderLinkId)
       throws IOException, BybitException;
 
   /**
@@ -111,6 +112,7 @@ public interface BybitAuthenticated {
       @FormParam("qty") BigDecimal qty,
       @FormParam("price") BigDecimal price,
       @FormParam("positionIdx") Integer positionIdx,
+      @FormParam("orderLinkId") String orderLinkId,
       @FormParam("reduceOnly") Boolean reduceOnly)
       throws IOException, BybitException;
 }

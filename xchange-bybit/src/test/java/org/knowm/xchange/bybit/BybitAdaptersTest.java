@@ -20,11 +20,19 @@ public class BybitAdaptersTest {
   }
 
   @Test
-  public void testInstrumentOptionSymbol() {
+  public void testConvertToByBitSymbol() {
     assertThat(BybitAdapters.convertToBybitSymbol(new CurrencyPair("BTC/USDC")))
         .isEqualTo("BTCUSDC");
-    assertThat(BybitAdapters.convertToBybitSymbol(new FuturesContract("BTC/USDC/PERP")))
-        .isEqualTo("BTCUSDC");
+
+    assertThat(BybitAdapters.convertToBybitSymbol(new FuturesContract("ETH/USDT/PERP")))
+        .isEqualTo("ETHUSDT");
+    assertThat(BybitAdapters.convertToBybitSymbol(new FuturesContract("ETH/USDC/PERP")))
+        .isEqualTo("ETHPERP");
+    assertThat(BybitAdapters.convertToBybitSymbol(new FuturesContract("ETH/USDC/02FEB24")))
+        .isEqualTo("ETH-02FEB24");
+    assertThat(BybitAdapters.convertToBybitSymbol(new FuturesContract("ETH/USD/H24")))
+        .isEqualTo("ETHUSDH24");
+
     assertThat(BybitAdapters.convertToBybitSymbol(new OptionsContract("BTC/USDC/240110/45500/P")))
         .isEqualTo("BTC-10JAN24-45500-P");
   }

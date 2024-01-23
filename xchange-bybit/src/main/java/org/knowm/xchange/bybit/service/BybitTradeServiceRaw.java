@@ -31,7 +31,8 @@ public class BybitTradeServiceRaw extends BybitBaseService {
   }
 
   public BybitResult<BybitOrderResponse> placeMarketOrder(
-      BybitCategory category, String symbol, BybitSide side, BigDecimal qty) throws IOException {
+      BybitCategory category, String symbol, BybitSide side, BigDecimal qty, String orderLinkId)
+      throws IOException {
     BybitResult<BybitOrderResponse> placeOrder =
         bybitAuthenticated.placeMarketOrder(
             apiKey,
@@ -41,7 +42,8 @@ public class BybitTradeServiceRaw extends BybitBaseService {
             symbol,
             side.getValue(),
             BybitOrderType.MARKET.getValue(),
-            qty);
+            qty,
+            orderLinkId);
     if (!placeOrder.isSuccess()) {
       throw createBybitExceptionFromResult(placeOrder);
     }
@@ -49,7 +51,12 @@ public class BybitTradeServiceRaw extends BybitBaseService {
   }
 
   public BybitResult<BybitOrderResponse> placeLimitOrder(
-      BybitCategory category, String symbol, BybitSide side, BigDecimal qty, BigDecimal limitPrice)
+      BybitCategory category,
+      String symbol,
+      BybitSide side,
+      BigDecimal qty,
+      BigDecimal limitPrice,
+      String orderLinkId)
       throws IOException {
     BybitResult<BybitOrderResponse> placeOrder =
         bybitAuthenticated.placeLimitOrder(
@@ -63,6 +70,7 @@ public class BybitTradeServiceRaw extends BybitBaseService {
             qty,
             limitPrice,
             0,
+            orderLinkId,
             false);
     if (!placeOrder.isSuccess()) {
       throw createBybitExceptionFromResult(placeOrder);

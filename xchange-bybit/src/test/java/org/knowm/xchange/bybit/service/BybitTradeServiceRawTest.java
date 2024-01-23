@@ -249,7 +249,7 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
 
     BybitResult<BybitOrderResponse> order =
         bybitAccountServiceRaw.placeMarketOrder(
-            BybitCategory.SPOT, "BTCUSDT", BybitSide.BUY, BigDecimal.valueOf(0.1));
+            BybitCategory.SPOT, "BTCUSDT", BybitSide.BUY, BigDecimal.valueOf(0.1), null);
 
     ObjectMapper mapper = new ObjectMapper();
     JsonNode responseObject = mapper.readTree(orderPlacementResponse);
@@ -296,7 +296,8 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
             "BTCUSDT",
             BybitSide.BUY,
             BigDecimal.valueOf(0.1),
-            BigDecimal.valueOf(1000));
+            BigDecimal.valueOf(1000),
+            null);
 
     ObjectMapper mapper = new ObjectMapper();
     JsonNode responseObject = mapper.readTree(orderPlacementResponse);
