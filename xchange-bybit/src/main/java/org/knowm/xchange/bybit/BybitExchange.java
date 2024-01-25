@@ -1,11 +1,13 @@
 package org.knowm.xchange.bybit;
 
 import java.io.IOException;
-import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bybit.dto.marketdata.BybitSymbol;
-import org.knowm.xchange.bybit.mappers.MarketDataMapper;
+import org.knowm.xchange.bybit.dto.BybitCategory;
+import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInverseInstrumentInfo;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo;
+import org.knowm.xchange.bybit.dto.marketdata.instruments.spot.BybitSpotInstrumentInfo;
 import org.knowm.xchange.bybit.service.BybitAccountService;
 import org.knowm.xchange.bybit.service.BybitMarketDataService;
 import org.knowm.xchange.bybit.service.BybitMarketDataServiceRaw;
@@ -14,11 +16,18 @@ import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BybitExchange extends BaseExchange {
 
+  public static final String SPECIFIC_PARAM_ACCOUNT_TYPE = "accountType";
+
   @Override
   protected void initServices() {
     marketDataService = new BybitMarketDataService(this);
     tradeService = new BybitTradeService(this);
-    accountService = new BybitAccountService(this);
+    accountService =
+        new BybitAccountService(
+            this,
+            (BybitAccountType)
+                getExchangeSpecification()
+                    .getExchangeSpecificParametersItem(SPECIFIC_PARAM_ACCOUNT_TYPE));
   }
 
   @Override
@@ -29,20 +38,63 @@ public class BybitExchange extends BaseExchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bybit");
     exchangeSpecification.setExchangeDescription("BYBIT");
+    exchangeSpecification.setExchangeSpecificParametersItem(
+        SPECIFIC_PARAM_ACCOUNT_TYPE, BybitAccountType.UNIFIED);
     return exchangeSpecification;
   }
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
-    // initialize currency pairs
-    List<BybitSymbol> symbols =
-        ((BybitMarketDataServiceRaw) marketDataService).getSymbols().getResult();
-    symbols.forEach(
-        bybitSymbol ->
-            exchangeMetaData
-                .getInstruments()
-                .put(
-                    MarketDataMapper.symbolToCurrencyPair(bybitSymbol),
-                    MarketDataMapper.symbolToCurrencyPairMetaData(bybitSymbol)));
+    ((BybitMarketDataServiceRaw) marketDataService)
+        .getInstrumentsInfo(BybitCategory.SPOT)
+        .getResult()
+        .getList()
+        .forEach(
+            instrumentInfo ->
+                exchangeMetaData
+                    .getInstruments()
+                    .put(
+                        BybitAdapters.adaptInstrumentInfo(instrumentInfo),
+                        BybitAdapters.symbolToCurrencyPairMetaData(
+                            (BybitSpotInstrumentInfo) instrumentInfo)));
+
+    ((BybitMarketDataServiceRaw) marketDataService)
+        .getInstrumentsInfo(BybitCategory.LINEAR)
+        .getResult()
+        .getList()
+        .forEach(
+            instrumentInfo ->
+                exchangeMetaData
+                    .getInstruments()
+                    .put(
+                        BybitAdapters.adaptInstrumentInfo(instrumentInfo),
+                        BybitAdapters.symbolToCurrencyPairMetaData(
+                            (BybitLinearInverseInstrumentInfo) instrumentInfo)));
+
+    ((BybitMarketDataServiceRaw) marketDataService)
+        .getInstrumentsInfo(BybitCategory.INVERSE)
+        .getResult()
+        .getList()
+        .forEach(
+            instrumentInfo ->
+                exchangeMetaData
+                    .getInstruments()
+                    .put(
+                        BybitAdapters.adaptInstrumentInfo(instrumentInfo),
+                        BybitAdapters.symbolToCurrencyPairMetaData(
+                            (BybitLinearInverseInstrumentInfo) instrumentInfo)));
+
+    ((BybitMarketDataServiceRaw) marketDataService)
+        .getInstrumentsInfo(BybitCategory.OPTION)
+        .getResult()
+        .getList()
+        .forEach(
+            instrumentInfo ->
+                exchangeMetaData
+                    .getInstruments()
+                    .put(
+                        BybitAdapters.adaptInstrumentInfo(instrumentInfo),
+                        BybitAdapters.symbolToCurrencyPairMetaData(
+                            (BybitOptionInstrumentInfo) instrumentInfo)));
   }
 }
