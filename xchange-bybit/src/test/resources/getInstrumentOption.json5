@@ -1,0 +1,33 @@
+{
+  "retCode": 0,
+  "retMsg": "OK",
+  "result": {
+    "category": "option",
+    "nextPageCursor": "",
+    "list": [
+      {
+        "symbol": "ETH-3JAN23-1250-P",
+        "status": "Trading",
+        "baseCoin": "ETH",
+        "quoteCoin": "USD",
+        "settleCoin": "USDC",
+        "optionsType": "Put",
+        "launchTime": "1672560000000",
+        "deliveryTime": "1672732800000",
+        "deliveryFeeRate": "0.00015",
+        "priceFilter": {
+          "minPrice": "0.1",
+          "maxPrice": "10000000",
+          "tickSize": "0.1"
+        },
+        "lotSizeFilter": {
+          "maxOrderQty": "1500",
+          "minOrderQty": "0.1",
+          "qtyStep": "0.1"
+        }
+      }
+    ]
+  },
+  "retExtInfo": {},
+  "time": 1672712537130
+}

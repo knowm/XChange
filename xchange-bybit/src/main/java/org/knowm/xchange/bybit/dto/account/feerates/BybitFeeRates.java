@@ -1,4 +1,4 @@
-package org.knowm.xchange.bybit.dto.account;
+package org.knowm.xchange.bybit.dto.account.feerates;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
@@ -9,8 +9,8 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 @Value
-public class BybitBalances {
+public class BybitFeeRates {
 
-  @JsonProperty("balances")
-  List<BybitBalance> balances;
+  @JsonProperty("list")
+  List<BybitFeeRate> list;
 }
