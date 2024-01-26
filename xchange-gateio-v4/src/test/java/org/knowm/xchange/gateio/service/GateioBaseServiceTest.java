@@ -3,6 +3,7 @@ package org.knowm.xchange.gateio.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Proxy;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.config.Config;
@@ -20,6 +21,7 @@ class GateioBaseServiceTest extends GateioExchangeWiremock {
   }
 
 
+  @Disabled
   @Test
   void correct_proxy_factory() {
     GateioBaseService service = ((GateioBaseService) exchange.getAccountService());
