@@ -28,7 +28,7 @@ public class CoinbaseTransactionV2Expand {
     CoinbaseAmount amount;
     CoinbaseAmount total;
     CoinbaseAmount subtotal;
-    CoinbaseUnitPrice unit_price;
+    CoinbaseUnitPrice unitPrice;
     String idem;
     String next_step;
 
@@ -69,7 +69,7 @@ public class CoinbaseTransactionV2Expand {
         this.amount = amount;
         this.total = total;
         this.subtotal = subtotal;
-        this.unit_price = unitPrice;
+        this.unitPrice = unitPrice;
         this.idem = idem;
         this.next_step = nextStep;
     }
