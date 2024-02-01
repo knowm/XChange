@@ -2,6 +2,7 @@ package org.knowm.xchange.coinbase.v2;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -16,6 +17,7 @@ import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountsData;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseBuyData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseExpandTransactionsResponse;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseSellData;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
@@ -59,6 +61,20 @@ public interface CoinbaseAuthenticated extends Coinbase {
       @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
       @PathParam("accountId") String accountId)
       throws IOException, CoinbaseException;
+
+  @GET
+  @Path("accounts/{accountId}/transactions")
+  CoinbaseExpandTransactionsResponse getExpandedTransactions(
+          @HeaderParam(CB_VERSION) String apiVersion,
+          @HeaderParam(CB_ACCESS_KEY) String apiKey,
+          @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
+          @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+          @PathParam("accountId") String accountId,
+          @QueryParam("expand[]") ArrayList<String> expand,
+          @QueryParam("limit") int limit,
+          @QueryParam("order") String orderType,
+          @QueryParam("starting_after") String startingFrom)
+          throws IOException, CoinbaseException;
 
   @GET
   @Path("accounts/{accountId}/buys")

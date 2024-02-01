@@ -8,12 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javax.ws.rs.core.MediaType;
+import lombok.NonNull;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseExpandTransactionsResponse;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData.CoinbasePaymentMethod;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
+import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseShowTransactionV2;
 import org.knowm.xchange.currency.Currency;
 
 public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
@@ -28,6 +32,39 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
 
     return coinbase.getTransactions(
         Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, accountId);
+  }
+
+  public List<CoinbaseShowTransactionV2> getExpandTransactions(String accountId, CoinbaseTradeHistoryParams params,
+                                                               @NonNull TransactionType transactionType) throws IOException {
+    String apiKey = exchange.getExchangeSpecification().getApiKey();
+    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
+
+    ArrayList<String> expandTypes = new ArrayList<>();
+    expandTypes.add(TransactionType.BUY.getName());
+    expandTypes.add(TransactionType.SELL.getName());
+
+    List<CoinbaseShowTransactionV2> result = new ArrayList<>();
+    String orderType = "asc";
+    boolean isNextPage = true;
+    while (isNextPage) {
+      CoinbaseExpandTransactionsResponse response = coinbase.getExpandedTransactions(
+              Coinbase.CB_VERSION_VALUE, apiKey,
+              signatureCreator2, timestamp,
+              accountId,
+              expandTypes,
+              params.getLimit(),
+              orderType,
+              params.getStartId());
+      if(response.getPagination().getNextUri() == null) {
+        isNextPage = false;
+      }
+      if(!response.getData().isEmpty()) {
+        CoinbaseShowTransactionV2 lastTx = response.getData().get(0);
+        params.setStartId(lastTx.getId());
+        result.addAll(response.getData());
+      }
+    }
+    return result.stream().filter(tx -> tx.getType().equals(transactionType.getName())).collect(Collectors.toList());
   }
 
   public Map getDeposits(String accountId) throws IOException {
