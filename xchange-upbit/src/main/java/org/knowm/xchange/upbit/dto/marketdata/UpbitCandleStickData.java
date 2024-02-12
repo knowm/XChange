@@ -2,7 +2,11 @@ package org.knowm.xchange.upbit.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
+@Getter
 public class UpbitCandleStickData {
 
   private final String market;
@@ -40,81 +44,5 @@ public class UpbitCandleStickData {
     this.candleAccTradePrice = candleAccTradePrice;
     this.candleAccTradeVolume = candleAccTradeVolume;
     this.firstDayOfPeriod = firstDayOfPeriod;
-  }
-
-  public String getMarket() {
-    return market;
-  }
-
-  public String getCandleDateTimeUtc() {
-    return candleDateTimeUtc;
-  }
-
-  public String getCandleDateTimeKst() {
-    return candleDateTimeKst;
-  }
-
-  public BigDecimal getOpeningPrice() {
-    return openingPrice;
-  }
-
-  public BigDecimal getHighPrice() {
-    return highPrice;
-  }
-
-  public BigDecimal getLowPrice() {
-    return lowPrice;
-  }
-
-  public BigDecimal getTracePrice() {
-    return tracePrice;
-  }
-
-  public Long getTimestamp() {
-    return timestamp;
-  }
-
-  public BigDecimal getCandleAccTradePrice() {
-    return candleAccTradePrice;
-  }
-
-  public BigDecimal getCandleAccTradeVolume() {
-    return candleAccTradeVolume;
-  }
-
-  public String getFirstDayOfPeriod() {
-    return firstDayOfPeriod;
-  }
-
-  @Override
-  public String toString() {
-    return "UpbitCandleStickData{"
-        + "market='"
-        + market
-        + '\''
-        + ", candleDateTimeUtc='"
-        + candleDateTimeUtc
-        + '\''
-        + ", candleDateTimeKst='"
-        + candleDateTimeKst
-        + '\''
-        + ", openingPrice="
-        + openingPrice
-        + ", highPrice="
-        + highPrice
-        + ", lowPrice="
-        + lowPrice
-        + ", tracePrice="
-        + tracePrice
-        + ", timestamp="
-        + timestamp
-        + ", candleAccTradePrice="
-        + candleAccTradePrice
-        + ", candleAccTradeVolume="
-        + candleAccTradeVolume
-        + ", firstDayOfPeriod='"
-        + firstDayOfPeriod
-        + '\''
-        + '}';
   }
 }
