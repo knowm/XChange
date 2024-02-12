@@ -23,7 +23,8 @@ public enum LedgerType {
   STAKING,
   ROLLOVER,
   TRANSFER,
-  ADJUSTMENT;
+  ADJUSTMENT,
+  SALE;
 
   private static final Map<String, LedgerType> fromString = new HashMap<>();
 
