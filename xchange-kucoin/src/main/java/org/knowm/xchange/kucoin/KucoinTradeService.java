@@ -25,10 +25,12 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kucoin.dto.response.HistOrdersResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderCancelByClientOrderIdResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderCancelResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderResponse;
 import org.knowm.xchange.kucoin.dto.response.Pagination;
 import org.knowm.xchange.kucoin.dto.response.TradeResponse;
+import org.knowm.xchange.kucoin.service.OrderCancelByClientOrderIdAPI;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelAllOrders;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
@@ -206,6 +208,15 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   public boolean cancelOrder(String orderId) throws IOException {
     OrderCancelResponse response = kucoinCancelOrder(orderId);
     return response.getCancelledOrderIds().contains(orderId);
+  }
+
+  /*
+   * Kucion has a seperate endpoint for cancelling by client order id
+   * for some absurd reason: https://www.kucoin.com/docs/rest/spot-trading/orders/cancel-order-by-clientoid.
+   */
+  public boolean cancelOrderByClientOrderId(String clientOrderId) throws IOException {
+    OrderCancelByClientOrderIdResponse response = kucoinCancelOrderByClientOrderId(clientOrderId);
+    return response.getClientOid().equals(clientOrderId);
   }
 
   @Override

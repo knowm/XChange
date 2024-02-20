@@ -9,6 +9,7 @@ import java.util.List;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.HistOrdersResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderCancelByClientOrderIdResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderCancelResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderCreateResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderResponse;
@@ -156,6 +157,24 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
                     passphrase,
                     apiKeyVersion,
                     orderId))
+            .withRetry(retry("kucoinCancelOrder"))
+            .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+            .call()
+    );
+  }
+
+  public OrderCancelByClientOrderIdResponse kucoinCancelOrderByClientOrderId(String clientOrderId) throws IOException {
+    checkAuthenticated();
+    return classifyingExceptions(
+        () -> decorateApiCall(
+            () ->
+                orderCancelByClientOrderIdAPI.cancelOrderByClientOrderId(
+                    apiKey,
+                    digest,
+                    nonceFactory,
+                    passphrase,
+                    apiKeyVersion,
+                    clientOrderId))
             .withRetry(retry("kucoinCancelOrder"))
             .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
             .call()
