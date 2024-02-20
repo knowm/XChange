@@ -10,7 +10,7 @@
     </parent>
 
     <properties>
-        <project.version>CHRONOS-5.3.0</project.version>
+        <project.version>CHRONOS-5.4.0</project.version>
     </properties>
 
     <name>XChange Kucoin Stream</name>
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
 
