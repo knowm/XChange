@@ -16,6 +16,7 @@ import org.knowm.xchange.kucoin.service.KucoinDigest;
 import org.knowm.xchange.kucoin.service.LimitOrderAPI;
 import org.knowm.xchange.kucoin.service.OrderAPI;
 import org.knowm.xchange.kucoin.service.OrderBookAPI;
+import org.knowm.xchange.kucoin.service.OrderCancelByClientOrderIdAPI;
 import org.knowm.xchange.kucoin.service.SymbolAPI;
 import org.knowm.xchange.kucoin.service.TradingFeeAPI;
 import org.knowm.xchange.kucoin.service.WebsocketAPI;
@@ -33,6 +34,7 @@ public class KucoinBaseService extends BaseResilientExchangeService<KucoinExchan
   protected final WithdrawalAPI withdrawalAPI;
   protected final DepositAPI depositAPI;
   protected final OrderAPI orderApi;
+  protected final OrderCancelByClientOrderIdAPI orderCancelByClientOrderIdAPI;
   protected final LimitOrderAPI limitOrderAPI;
   protected final FillAPI fillApi;
   protected final HistOrdersAPI histOrdersApi;
@@ -55,6 +57,7 @@ public class KucoinBaseService extends BaseResilientExchangeService<KucoinExchan
     this.withdrawalAPI = service(exchange, WithdrawalAPI.class);
     this.depositAPI = service(exchange, DepositAPI.class);
     this.orderApi = service(exchange, OrderAPI.class);
+    this.orderCancelByClientOrderIdAPI = service(exchange, OrderCancelByClientOrderIdAPI.class);
     this.limitOrderAPI = service(exchange, LimitOrderAPI.class);
     this.fillApi = service(exchange, FillAPI.class);
     this.histOrdersApi = service(exchange, HistOrdersAPI.class);
