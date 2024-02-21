@@ -112,6 +112,45 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
     }
   }
 
+  public BitstampOrder placeBitstampInstantSellMarketOrder(
+      CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal amount, boolean amountInCounter)
+      throws IOException {
+
+    try {
+      return bitstampAuthenticatedV2.placeInstantSellMarketOrder(
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          side,
+          new BitstampV2.Pair(pair),
+          amount,
+          amountInCounter);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampOrder placeBitstampInstantMarketOrder(
+      CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal amount)
+      throws IOException {
+
+    try {
+      return bitstampAuthenticatedV2.placeInstantMarketOrder(
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          side,
+          new BitstampV2.Pair(pair),
+          amount);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
   public boolean cancelBitstampOrder(long orderId) throws IOException {
 
     try {
