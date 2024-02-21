@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.ftx;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;

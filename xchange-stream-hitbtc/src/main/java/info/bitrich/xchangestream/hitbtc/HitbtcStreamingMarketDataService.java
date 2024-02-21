@@ -9,7 +9,7 @@ import info.bitrich.xchangestream.hitbtc.dto.HitbtcWebSocketTickerTransaction;
 import info.bitrich.xchangestream.hitbtc.dto.HitbtcWebSocketTradeParams;
 import info.bitrich.xchangestream.hitbtc.dto.HitbtcWebSocketTradesTransaction;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;

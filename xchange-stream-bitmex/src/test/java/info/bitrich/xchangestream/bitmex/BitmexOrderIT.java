@@ -6,7 +6,7 @@ import info.bitrich.xchangestream.bitmex.dto.BitmexExecution;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.util.LocalExchangeConfig;
 import info.bitrich.xchangestream.util.PropsLoader;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -223,7 +223,7 @@ public class BitmexOrderIT {
     executionObservable
         .test()
         .awaitCount(5)
-        .assertNever(execution -> Objects.equals(execution.getClOrdID(), clOrdId))
+        .assertValue(execution -> !Objects.equals(execution.getClOrdID(), clOrdId))
         .dispose();
 
     scheduler.shutdown();

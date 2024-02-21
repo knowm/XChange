@@ -1,7 +1,7 @@
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import io.reactivex.Completable;
+import io.reactivex.rxjava3.core.Completable;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
