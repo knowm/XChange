@@ -41,7 +41,7 @@
     <version.knowm.xchart>3.8.6</version.knowm.xchart>
     <version.qos.logback>1.4.12</version.qos.logback>
     <version.reflections>0.10.2</version.reflections>
-    <version.slf4j>2.0.6</version.slf4j>
+    <version.slf4j>2.0.12</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
     <version.java-jwt>4.4.0</version.java-jwt>
     <version.wiremock>3.2.0</version.wiremock>
