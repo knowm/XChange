@@ -1,0 +1,10 @@
+{
+  "time": 1691622305,
+  "time_ms": 1691622305567,
+  "id": 8578128440611119318,
+  "channel": "spot.order_book",
+  "event": "subscribe",
+  "result": {
+    "status": "success"
+  }
+}

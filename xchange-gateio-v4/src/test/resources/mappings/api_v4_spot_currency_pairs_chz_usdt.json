@@ -1,0 +1,15 @@
+{
+  "id" : "9cb9e274-4bf7-419e-9b28-ed6c7dbf8f52",
+  "name" : "api_v4_spot_currency_pairs_chz_usdt",
+  "request" : {
+    "url" : "/api/v4/spot/currency_pairs/CHZ_USDT",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_spot_currency_pairs_chz_usdt.json"
+  },
+  "uuid" : "9cb9e274-4bf7-419e-9b28-ed6c7dbf8f52",
+  "persistent" : true,
+  "insertionIndex" : 13
+}

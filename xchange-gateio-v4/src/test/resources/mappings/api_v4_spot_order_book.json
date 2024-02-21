@@ -1,0 +1,15 @@
+{
+  "id" : "b24dfa78-b1a7-4468-b85c-fa299b82170c",
+  "name" : "api_v4_spot_order_book",
+  "request" : {
+    "url" : "/api/v4/spot/order_book?currency_pair=BTC_USDT&with_id=false",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_spot_order_book.json"
+  },
+  "uuid" : "b24dfa78-b1a7-4468-b85c-fa299b82170c",
+  "persistent" : true,
+  "insertionIndex" : 3
+}

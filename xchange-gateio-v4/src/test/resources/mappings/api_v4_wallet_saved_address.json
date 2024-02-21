@@ -1,0 +1,15 @@
+{
+  "id" : "59a47010-ed6f-4950-9c65-ab57f2e23af3",
+  "name" : "api_v4_wallet_saved_address",
+  "request" : {
+    "url" : "/api/v4/wallet/saved_address?currency=USDT",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_wallet_saved_address.json"
+  },
+  "uuid" : "59a47010-ed6f-4950-9c65-ab57f2e23af3",
+  "persistent" : true,
+  "insertionIndex" : 28
+}

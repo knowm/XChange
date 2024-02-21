@@ -1,0 +1,15 @@
+{
+  "id" : "ace4cfb1-40e9-42ca-b7c9-eb6b97d70351",
+  "name" : "api_v4_wallet_deposits",
+  "request" : {
+    "url" : "/api/v4/wallet/deposits?from=1685833987&to=1688339587",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_wallet_deposits.json"
+  },
+  "uuid" : "ace4cfb1-40e9-42ca-b7c9-eb6b97d70351",
+  "persistent" : true,
+  "insertionIndex" : 34
+}

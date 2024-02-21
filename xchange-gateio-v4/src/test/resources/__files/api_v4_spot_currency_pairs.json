@@ -1,0 +1,40 @@
+[
+  {
+    "id": "BTC_USDT",
+    "base": "BTC",
+    "quote": "USDT",
+    "fee": "0.2",
+    "min_base_amount": "0.0001",
+    "min_quote_amount": "1",
+    "amount_precision": 4,
+    "precision": 1,
+    "trade_status": "tradable",
+    "sell_start": 0,
+    "buy_start": 0
+  },
+  {
+    "id": "CHZ_USDT",
+    "base": "CHZ",
+    "quote": "USDT",
+    "fee": "0.2",
+    "min_quote_amount": "1",
+    "amount_precision": 2,
+    "precision": 5,
+    "trade_status": "tradable",
+    "sell_start": 1608782400,
+    "buy_start": 1608789600
+  },
+  {
+    "id": "ETH_USDT",
+    "base": "ETH",
+    "quote": "USDT",
+    "fee": "0.2",
+    "min_base_amount": "0.001",
+    "min_quote_amount": "1",
+    "amount_precision": 4,
+    "precision": 2,
+    "trade_status": "tradable",
+    "sell_start": 0,
+    "buy_start": 0
+  }
+]

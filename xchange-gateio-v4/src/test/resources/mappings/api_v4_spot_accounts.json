@@ -1,0 +1,15 @@
+{
+  "id" : "2e902638-c6b5-450a-911c-d501d9a5ee44",
+  "name" : "api_v4_spot_accounts",
+  "request" : {
+    "url" : "/api/v4/spot/accounts",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_spot_accounts.json"
+  },
+  "uuid" : "2e902638-c6b5-450a-911c-d501d9a5ee44",
+  "persistent" : true,
+  "insertionIndex" : 10
+}

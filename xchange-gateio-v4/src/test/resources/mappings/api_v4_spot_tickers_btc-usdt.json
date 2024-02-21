@@ -1,0 +1,15 @@
+{
+  "id" : "9330316c-b079-4bea-9c63-186a5d5bc943",
+  "name" : "api_v4_spot_tickers",
+  "request" : {
+    "url" : "/api/v4/spot/tickers?currency_pair=BTC_USDT",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_spot_tickers_btc-usdt.json"
+  },
+  "uuid" : "9330316c-b079-4bea-9c63-186a5d5bc943",
+  "persistent" : true,
+  "insertionIndex" : 27
+}

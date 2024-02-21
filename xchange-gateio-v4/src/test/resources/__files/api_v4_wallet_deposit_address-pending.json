@@ -1,0 +1,13 @@
+{
+  "currency": "ITA",
+  "address": "New address is being generated for you, please wait a moment and refresh this page. ",
+  "multichain_addresses": [
+    {
+      "chain": "CHZ",
+      "address": "",
+      "payment_id": "",
+      "payment_name": "",
+      "obtain_failed": 1
+    }
+  ]
+}

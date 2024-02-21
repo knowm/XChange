@@ -1,0 +1,15 @@
+{
+  "id" : "27c5026f-0655-4b5a-a621-04dbc34684e5",
+  "name" : "api_v4_wallet_withdrawals",
+  "request" : {
+    "url" : "/api/v4/wallet/withdrawals",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_wallet_withdrawals-records.json"
+  },
+  "uuid" : "27c5026f-0655-4b5a-a621-04dbc34684e5",
+  "persistent" : true,
+  "insertionIndex" : 21
+}

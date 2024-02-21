@@ -1,0 +1,4 @@
+{
+  "label": "INVALID_PARAM_VALUE",
+  "message": "Error: Invalid amount or below minimum amount limit."
+}

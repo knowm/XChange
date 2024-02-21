@@ -1,0 +1,15 @@
+{
+  "id" : "b2066635-52eb-404f-880b-0d0b6f6714f3",
+  "name" : "api_v4_spot_tickers",
+  "request" : {
+    "url" : "/api/v4/spot/tickers",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_spot_tickers.json"
+  },
+  "uuid" : "b2066635-52eb-404f-880b-0d0b6f6714f3",
+  "persistent" : true,
+  "insertionIndex" : 26
+}

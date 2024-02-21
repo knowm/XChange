@@ -1,0 +1,20 @@
+{
+  "id" : "3311168b-7ef3-44cc-b356-ffa5737b3bfe",
+  "name" : "api_v4_spot_orders",
+  "request" : {
+    "url" : "/api/v4/spot/orders",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"text\":\"t-valid-market-buy-order\",\"currency_pair\":\"BTC_USDT\",\"type\":\"market\",\"account\":\"spot\",\"side\":\"buy\",\"amount\":20,\"time_in_force\":\"ioc\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "bodyFileName" : "api_v4_spot_orders-valid-market-buy-order.json"
+  },
+  "uuid" : "3311168b-7ef3-44cc-b356-ffa5737b3bfe",
+  "persistent" : true,
+  "insertionIndex" : 18
+}

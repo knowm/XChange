@@ -1,0 +1,20 @@
+{
+  "id" : "abed53fd-b0fb-46df-9bc7-07cb19f48a48",
+  "name" : "api_v4_withdrawals",
+  "request" : {
+    "url" : "/api/v4/withdrawals",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"withdraw_order_id\":\"invalid-address-id\",\"amount\":0,\"currency\":\"USDT\",\"address\":\"invalid-address\",\"memo\":\"\",\"chain\":\"SOL\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "exceptions/api_v4_withdrawals_invalid-address.json"
+  },
+  "uuid" : "abed53fd-b0fb-46df-9bc7-07cb19f48a48",
+  "persistent" : true,
+  "insertionIndex" : 25
+}

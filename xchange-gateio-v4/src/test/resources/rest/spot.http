@@ -1,0 +1,38 @@
+### List personal trading history
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("GET", request);
+%}
+
+GET {{api_v4}}/spot/my_trades
+KEY: {{api_key}}
+SIGN: {{sign}}
+Timestamp: {{timestamp}}
+Content-Type: application/json
+
+
+### Query account book
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("GET", request);
+%}
+
+GET {{api_v4}}/spot/account_book
+KEY: {{api_key}}
+SIGN: {{sign}}
+Timestamp: {{timestamp}}
+Content-Type: application/json
+
+
+### List orders
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("GET", request);
+%}
+
+GET {{api_v4}}/spot/orders?currency_pair=VAI_USDT&status=finished
+KEY: {{api_key}}
+SIGN: {{sign}}
+Timestamp: {{timestamp}}
+Content-Type: application/json
+

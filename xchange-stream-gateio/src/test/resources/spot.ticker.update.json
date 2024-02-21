@@ -1,0 +1,17 @@
+{
+  "time": 1691620566,
+  "time_ms": 1691620566926,
+  "channel": "spot.tickers",
+  "event": "update",
+  "result": {
+    "currency_pair": "BTC_USDT",
+    "last": "29573.7",
+    "lowest_ask": "29573.7",
+    "highest_bid": "29573.6",
+    "change_percentage": "-0.6601",
+    "base_volume": "5777.7777606776",
+    "quote_volume": "171784719.492586746",
+    "high_24h": "30232.8",
+    "low_24h": "29176.1"
+  }
+}

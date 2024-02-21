@@ -1,0 +1,20 @@
+{
+  "id" : "87f03a6d-42bc-45a3-81c2-f817403bda44",
+  "name" : "api_v4_spot_orders",
+  "request" : {
+    "url" : "/api/v4/spot/orders",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"text\":\"t-balance-test\",\"currency_pair\":\"BTC_USDT\",\"type\":\"market\",\"side\":\"buy\",\"amount\":100,\"time_in_force\":\"ioc\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "exceptions/api_v4_spot_orders-balance-not-enough.json"
+  },
+  "uuid" : "87f03a6d-42bc-45a3-81c2-f817403bda44",
+  "persistent" : true,
+  "insertionIndex" : 17
+}

@@ -1,0 +1,15 @@
+{
+  "id" : "b1d0529b-1196-4a9c-a74b-fe474197b70f",
+  "name" : "api_v4_spot_orders_425539509181",
+  "request" : {
+    "url" : "/api/v4/spot/orders/425539509181?currency_pair=VAI_USDT",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_spot_orders_sell-order-details.json"
+  },
+  "uuid" : "b1d0529b-1196-4a9c-a74b-fe474197b70f",
+  "persistent" : true,
+  "insertionIndex" : 35
+}

@@ -1,0 +1,15 @@
+{
+  "id" : "000454cc-bd9d-41de-ba6e-34717cddc6ac",
+  "name" : "api_v4_spot_orders_internal-server-error",
+  "request" : {
+    "url" : "/api/v4/wallet/withdraw_status?currency=INTERNAL-SERVER-ERROR",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 500,
+    "bodyFileName" : "exceptions/api_v4_wallet_withdraw_status_internal-server-error.json"
+  },
+  "uuid" : "000454cc-bd9d-41de-ba6e-34717cddc6ac",
+  "persistent" : true,
+  "insertionIndex" : 29
+}

@@ -1,0 +1,15 @@
+{
+  "id" : "d6adff40-80fe-4dd1-827a-57de56020d50",
+  "name" : "api_v4_wallet_withdraw_status",
+  "request" : {
+    "url" : "/api/v4/wallet/withdraw_status?currency=RETURN-FORBIDDEN",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 403,
+    "bodyFileName" : "exceptions/api_v4_wallet_withdraw_status-forbidden.json"
+  },
+  "uuid" : "d6adff40-80fe-4dd1-827a-57de56020d50",
+  "persistent" : true,
+  "insertionIndex" : 16
+}

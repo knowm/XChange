@@ -1,0 +1,20 @@
+{
+  "id" : "cb6973a2-5831-427d-9430-d5a7d01b9a4d",
+  "name" : "api_v4_withdrawals",
+  "request" : {
+    "url" : "/api/v4/withdrawals",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"withdraw_order_id\":\"valid-withdrawal-id\",\"amount\":3,\"currency\":\"USDT\",\"address\":\"6vLyxJ9dBziamyaw2vDcs9n2NwQdW1uk3aooJwrEscnA\",\"memo\":\"\",\"chain\":\"SOL\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_withdrawals-create-new.json"
+  },
+  "uuid" : "cb6973a2-5831-427d-9430-d5a7d01b9a4d",
+  "persistent" : true,
+  "insertionIndex" : 22
+}

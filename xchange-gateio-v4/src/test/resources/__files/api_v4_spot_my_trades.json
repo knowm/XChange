@@ -1,0 +1,34 @@
+[
+  {
+    "id": "6068816979",
+    "create_time": "1691702924",
+    "create_time_ms": "1691702924010.071000",
+    "currency_pair": "BTC_USDT",
+    "side": "buy",
+    "role": "taker",
+    "amount": "0.00003",
+    "price": "29454.6",
+    "order_id": "381068734893",
+    "fee": "0.00000006",
+    "fee_currency": "BTC",
+    "point_fee": "0",
+    "gt_fee": "0",
+    "amend_text": "-"
+  },
+  {
+    "id": "6068789332",
+    "create_time": "1691702286",
+    "create_time_ms": "1691702286356.911000",
+    "currency_pair": "BTC_USDT",
+    "side": "sell",
+    "role": "taker",
+    "amount": "0.00005",
+    "price": "29447.2",
+    "order_id": "381064942553",
+    "fee": "0.00294472",
+    "fee_currency": "USDT",
+    "point_fee": "0",
+    "gt_fee": "0",
+    "amend_text": "-"
+  }
+]

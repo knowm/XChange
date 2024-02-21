@@ -1,0 +1,15 @@
+{
+  "id" : "19776ad5-01d9-4071-a458-530f6b562dd2",
+  "name" : "api_v4_wallet_currency_chains",
+  "request" : {
+    "url" : "/api/v4/wallet/currency_chains?currency=BTC",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_wallet_currency_chains.json"
+  },
+  "uuid" : "19776ad5-01d9-4071-a458-530f6b562dd2",
+  "persistent" : true,
+  "insertionIndex" : 5
+}
