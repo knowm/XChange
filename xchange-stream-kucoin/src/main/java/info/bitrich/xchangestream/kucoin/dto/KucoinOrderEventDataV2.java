@@ -39,6 +39,9 @@ public class KucoinOrderEventDataV2 {
     @JsonProperty("clientOid")
     private String clientOid;
 
+    @JsonProperty("tradeId")
+    private String tradeId;
+
     @JsonProperty("remainSize")
     private BigDecimal remainSize;
 

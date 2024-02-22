@@ -10,7 +10,7 @@
     </parent>
 
     <properties>
-        <project.version>CHRONOS-5.4.0</project.version>
+        <project.version>CHRONOS-5.5.0</project.version>
     </properties>
 
     <name>XChange Kucoin Stream</name>
