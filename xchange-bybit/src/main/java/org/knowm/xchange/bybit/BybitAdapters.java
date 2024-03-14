@@ -55,8 +55,8 @@ public class BybitAdapters {
       balances.add(
           new Balance(
               new Currency(bybitCoinBalance.getCoin()),
-              new BigDecimal(bybitCoinBalance.getEquity()),
-              new BigDecimal(bybitCoinBalance.getAvailableToWithdraw())));
+              new BigDecimal((bybitCoinBalance.getWalletBalance().isBlank()?"0":bybitCoinBalance.getWalletBalance())),
+              new BigDecimal(bybitCoinBalance.getFree().isBlank()?"0":bybitCoinBalance.getFree())));
     }
     return Wallet.Builder.from(balances).build();
   }
