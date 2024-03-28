@@ -333,10 +333,12 @@ public class KrakenAdapters {
     return krakenType.equals(KrakenType.BUY) ? OrderType.BID : OrderType.ASK;
   }
 
-  public static AddressWithTag adaptKrakenDepositAddress(KrakenDepositAddress[] krakenDepositAddress) {
+  public static AddressWithTag adaptKrakenDepositAddress(
+      KrakenDepositAddress[] krakenDepositAddress) {
     return AddressWithTag.builder()
         .address(krakenDepositAddress[0].getAddress())
-        .addressTag(krakenDepositAddress[0].getTag()).build();
+        .addressTag(krakenDepositAddress[0].getTag())
+        .build();
   }
 
   public static String adaptOrderId(KrakenOrderResponse orderResponse) {

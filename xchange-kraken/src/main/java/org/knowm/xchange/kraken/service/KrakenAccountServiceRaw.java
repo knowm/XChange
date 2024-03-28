@@ -38,11 +38,14 @@ import org.knowm.xchange.kraken.dto.account.results.WithdrawResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawStatusResult;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 @Slf4j
 public class KrakenAccountServiceRaw extends KrakenBaseService {
 
-  private ConcurrentHashMap<String, KrakenDepositMethods[]> depositMethods = new ConcurrentHashMap<>();
+  private ConcurrentHashMap<String, KrakenDepositMethods[]> depositMethods =
+      new ConcurrentHashMap<>();
 
   /**
    * Constructor
@@ -88,14 +91,16 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
       throws IOException {
     if (shouldCacheDepositMethods()) {
       try {
-        return depositMethods.computeIfAbsent(String.format("%s%s", assetPairs, assets), k -> {
-          try {
-            return getDepositMethodsFromRemote(assetPairs, assets);
-          } catch (IOException e) {
-            throw new RuntimeException(e);
-          }
-        });
-      } catch(RuntimeException e) {
+        return depositMethods.computeIfAbsent(
+            String.format("%s%s", assetPairs, assets),
+            k -> {
+              try {
+                return getDepositMethodsFromRemote(assetPairs, assets);
+              } catch (IOException e) {
+                throw new RuntimeException(e);
+              }
+            });
+      } catch (RuntimeException e) {
         if (e.getCause() instanceof IOException) {
           throw (IOException) e.getCause();
         }

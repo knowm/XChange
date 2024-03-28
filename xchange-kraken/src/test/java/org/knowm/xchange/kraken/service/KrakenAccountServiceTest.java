@@ -162,7 +162,9 @@ public class KrakenAccountServiceTest extends BaseWiremockTest {
                         loadFile(
                             "/org/knowm/xchange/kraken/dto/account/example-deposit-addresses-trx.json"))));
 
-    exchange.getExchangeSpecification().setExchangeSpecificParametersItem("cacheDepositMethods", true);
+    exchange
+        .getExchangeSpecification()
+        .setExchangeSpecificParametersItem("cacheDepositMethods", true);
 
     DefaultRequestDepositAddressParams params =
         DefaultRequestDepositAddressParams.builder().currency(Currency.TRX).build();
@@ -199,7 +201,9 @@ public class KrakenAccountServiceTest extends BaseWiremockTest {
     DefaultRequestDepositAddressParams params =
         DefaultRequestDepositAddressParams.builder().currency(Currency.TRX).build();
 
-    exchange.getExchangeSpecification().setExchangeSpecificParametersItem("cacheDepositMethods", false);
+    exchange
+        .getExchangeSpecification()
+        .setExchangeSpecificParametersItem("cacheDepositMethods", false);
 
     classUnderTest.requestDepositAddress(params);
     classUnderTest.requestDepositAddress(params);
