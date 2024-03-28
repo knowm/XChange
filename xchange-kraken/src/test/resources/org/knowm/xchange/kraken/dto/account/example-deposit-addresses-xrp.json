@@ -1,0 +1,11 @@
+{
+  "error": [],
+  "result": [
+    {
+      "address": "testXrpAddress",
+      "expiretm": "0",
+      "new": true,
+      "tag": "123"
+    }
+  ]
+}

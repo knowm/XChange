@@ -1,0 +1,42 @@
+{
+  "error": [],
+  "result": [
+    {
+      "method": "USDT - Ethereum (Unified)",
+      "limit": false,
+      "gen-address": true,
+      "minimum": "7.11000000"
+    },
+    {
+      "method": "Tether USD (TRC20)",
+      "limit": false,
+      "gen-address": true,
+      "minimum": "5.00000000"
+    },
+    {
+      "method": "Tether USD (SPL)",
+      "limit": false,
+      "fee": "0.00000000",
+      "gen-address": true,
+      "minimum": "0.40000000"
+    },
+    {
+      "method": "USDT - Polygon (Unified)",
+      "limit": false,
+      "gen-address": true,
+      "minimum": "2.00000000"
+    },
+    {
+      "method": "USDT - Arbitrum One (Unified)",
+      "limit": false,
+      "gen-address": true,
+      "minimum": "2.50000000"
+    },
+    {
+      "method": "USDT - Optimism (Unified)",
+      "limit": false,
+      "gen-address": true,
+      "minimum": "2.50000000"
+    }
+  ]
+}

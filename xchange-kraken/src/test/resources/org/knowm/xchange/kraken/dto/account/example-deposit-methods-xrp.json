@@ -1,0 +1,11 @@
+{
+  "error": [],
+  "result": [
+    {
+      "method": "Ripple XRP",
+      "limit": false,
+      "gen-address": true,
+      "minimum": "1"
+    }
+  ]
+}
