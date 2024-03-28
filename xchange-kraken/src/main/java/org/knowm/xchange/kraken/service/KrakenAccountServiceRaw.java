@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
@@ -41,7 +42,7 @@ import org.knowm.xchange.utils.DateUtils;
 @Slf4j
 public class KrakenAccountServiceRaw extends KrakenBaseService {
 
-  private KrakenDepositMethods[] depositMethods;
+  private ConcurrentHashMap<String, KrakenDepositMethods[]> depositMethods = new ConcurrentHashMap<>();
 
   /**
    * Constructor
@@ -85,20 +86,35 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
 
   public KrakenDepositMethods[] getDepositMethods(String assetPairs, String assets)
       throws IOException {
-    if (shouldCacheDepositMethods() && depositMethods != null) {
-      return depositMethods;
+    if (shouldCacheDepositMethods()) {
+      try {
+        return depositMethods.computeIfAbsent(String.format("%s%s", assetPairs, assets), k -> {
+          try {
+            return getDepositMethodsFromRemote(assetPairs, assets);
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        });
+      } catch(RuntimeException e) {
+        if (e.getCause() instanceof IOException) {
+          throw (IOException) e.getCause();
+        }
+        throw e;
+      }
     }
 
-    depositMethods =
-        checkResult(
-            kraken.getDepositMethods(
-                assetPairs,
-                assets,
-                exchange.getExchangeSpecification().getApiKey(),
-                signatureCreator,
-                exchange.getNonceFactory()));
+    return getDepositMethodsFromRemote(assetPairs, assets);
+  }
 
-    return depositMethods;
+  private KrakenDepositMethods[] getDepositMethodsFromRemote(String assetPairs, String assets)
+      throws IOException {
+    return checkResult(
+        kraken.getDepositMethods(
+            assetPairs,
+            assets,
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory()));
   }
 
   protected String findDepositMethod(Currency currency, String network) throws IOException {

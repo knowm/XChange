@@ -18,6 +18,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -332,8 +333,10 @@ public class KrakenAdapters {
     return krakenType.equals(KrakenType.BUY) ? OrderType.BID : OrderType.ASK;
   }
 
-  public static String adaptKrakenDepositAddress(KrakenDepositAddress[] krakenDepositAddress) {
-    return krakenDepositAddress[0].getAddress();
+  public static AddressWithTag adaptKrakenDepositAddress(KrakenDepositAddress[] krakenDepositAddress) {
+    return AddressWithTag.builder()
+        .address(krakenDepositAddress[0].getAddress())
+        .addressTag(krakenDepositAddress[0].getTag()).build();
   }
 
   public static String adaptOrderId(KrakenOrderResponse orderResponse) {
