@@ -2,12 +2,16 @@ package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.DepositAddressAmbiguousException;
 import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.account.DepostitStatus;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
@@ -23,7 +27,6 @@ import org.knowm.xchange.kraken.dto.account.WithdrawStatus;
 import org.knowm.xchange.kraken.dto.account.results.DepositStatusResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
-import org.knowm.xchange.kraken.dto.account.results.KrakenDepositMethodsResults;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
@@ -34,10 +37,11 @@ import org.knowm.xchange.kraken.dto.account.results.WithdrawResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawStatusResult;
 import org.knowm.xchange.utils.DateUtils;
 
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
+@Slf4j
 public class KrakenAccountServiceRaw extends KrakenBaseService {
+
+  private KrakenDepositMethods[] depositMethods;
 
   /**
    * Constructor
@@ -45,7 +49,6 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    * @param exchange
    */
   public KrakenAccountServiceRaw(Exchange exchange) {
-
     super(exchange);
   }
 
@@ -82,14 +85,47 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
 
   public KrakenDepositMethods[] getDepositMethods(String assetPairs, String assets)
       throws IOException {
-    KrakenDepositMethodsResults depositMethods =
-        kraken.getDepositMethods(
-            assetPairs,
-            assets,
-            exchange.getExchangeSpecification().getApiKey(),
-            signatureCreator,
-            exchange.getNonceFactory());
-    return checkResult(depositMethods);
+    if (shouldCacheDepositMethods() && depositMethods != null) {
+      return depositMethods;
+    }
+
+    depositMethods =
+        checkResult(
+            kraken.getDepositMethods(
+                assetPairs,
+                assets,
+                exchange.getExchangeSpecification().getApiKey(),
+                signatureCreator,
+                exchange.getNonceFactory()));
+
+    return depositMethods;
+  }
+
+  protected String findDepositMethod(Currency currency, String network) throws IOException {
+    KrakenDepositMethods[] depositMethods = getDepositMethods(null, currency.toString());
+
+    if (depositMethods == null || depositMethods.length == 0) {
+      return network;
+    }
+
+    if (depositMethods.length == 1) {
+      return depositMethods[0].getMethod();
+    }
+
+    log.warn(
+        "Multiple methods for currency {} {}",
+        currency,
+        Arrays.stream(depositMethods).map(KrakenDepositMethods::getMethod).toArray());
+
+    if (network == null) {
+      throw new DepositAddressAmbiguousException(
+          Arrays.stream(depositMethods)
+              .map(KrakenDepositMethods::getMethod)
+              .collect(Collectors.toList()),
+          "Multiple deposit methods available for " + currency + ", require to specify network");
+    }
+
+    return network; // Use network if requested
   }
 
   public WithdrawInfo getWithdrawInfo(
@@ -304,5 +340,13 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
             signatureCreator,
             exchange.getNonceFactory());
     return checkResult(result);
+  }
+
+  private boolean shouldCacheDepositMethods() {
+    return (boolean)
+        exchange
+            .getExchangeSpecification()
+            .getExchangeSpecificParameters()
+            .getOrDefault("cacheDepositMethods", false);
   }
 }
