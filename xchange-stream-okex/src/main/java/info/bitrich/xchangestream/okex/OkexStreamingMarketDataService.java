@@ -150,7 +150,9 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
             });
   }
 
-  public Observable<List<OrderBookUpdate>> getOrderBookUpdates(Instrument instrument) {
+  @Override
+  public Observable<List<OrderBookUpdate>> getOrderBookUpdates(Instrument instrument,
+      Object... args) {
     return orderBookUpdatesSubscriptions.computeIfAbsent(instrument, v -> PublishSubject.create());
   }
 
