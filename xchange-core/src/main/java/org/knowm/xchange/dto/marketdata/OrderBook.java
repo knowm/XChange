@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.locks.StampedLock;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.Getter;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
@@ -22,12 +23,15 @@ public final class OrderBook implements Serializable {
   private static final long serialVersionUID = -7788306758114464314L;
   @JsonIgnore public final StampedLock lock = new StampedLock();
   /** the asks */
+  @Getter
   private final List<LimitOrder> asks;
 
   /** the bids */
+  @Getter
   private final List<LimitOrder> bids;
 
   /** the timestamp of the orderbook according to the exchange's server, null if not provided */
+  @Getter
   private Date timeStamp;
 
   /**
@@ -113,21 +117,6 @@ public final class OrderBook implements Serializable {
     Date date = limitOrder.getTimestamp();
     BigDecimal limit = limitOrder.getLimitPrice();
     return new LimitOrder(type, tradeableAmount, instrument, id, date, limit);
-  }
-
-  public Date getTimeStamp() {
-
-    return timeStamp;
-  }
-
-  public List<LimitOrder> getAsks() {
-
-    return asks;
-  }
-
-  public List<LimitOrder> getBids() {
-
-    return bids;
   }
 
   public List<LimitOrder> getOrders(OrderType type) {
