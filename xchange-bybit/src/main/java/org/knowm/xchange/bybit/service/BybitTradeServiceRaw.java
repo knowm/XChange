@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
+import org.knowm.xchange.bybit.dto.trade.BybitPlaceOrderPayload;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
@@ -33,17 +34,14 @@ public class BybitTradeServiceRaw extends BybitBaseService {
   public BybitResult<BybitOrderResponse> placeMarketOrder(
       BybitCategory category, String symbol, BybitSide side, BigDecimal qty, String orderLinkId)
       throws IOException {
+    BybitPlaceOrderPayload payload = new BybitPlaceOrderPayload(category.getValue(),
+        symbol, side.getValue(), BybitOrderType.MARKET.getValue(), qty, orderLinkId);
     BybitResult<BybitOrderResponse> placeOrder =
         bybitAuthenticated.placeMarketOrder(
             apiKey,
             signatureCreator,
             nonceFactory,
-            category.getValue(),
-            symbol,
-            side.getValue(),
-            BybitOrderType.MARKET.getValue(),
-            qty,
-            orderLinkId);
+            payload);
     if (!placeOrder.isSuccess()) {
       throw createBybitExceptionFromResult(placeOrder);
     }
@@ -51,27 +49,17 @@ public class BybitTradeServiceRaw extends BybitBaseService {
   }
 
   public BybitResult<BybitOrderResponse> placeLimitOrder(
-      BybitCategory category,
-      String symbol,
-      BybitSide side,
-      BigDecimal qty,
-      BigDecimal limitPrice,
+      BybitCategory category, String symbol, BybitSide side, BigDecimal qty, BigDecimal limitPrice,
       String orderLinkId)
       throws IOException {
+    BybitPlaceOrderPayload payload = new BybitPlaceOrderPayload(category.getValue(),
+        symbol, side.getValue(), BybitOrderType.LIMIT.getValue(), qty, orderLinkId, limitPrice);
     BybitResult<BybitOrderResponse> placeOrder =
         bybitAuthenticated.placeLimitOrder(
             apiKey,
             signatureCreator,
             nonceFactory,
-            category.getValue(),
-            symbol,
-            side.getValue(),
-            BybitOrderType.LIMIT.getValue(),
-            qty,
-            limitPrice,
-            0,
-            orderLinkId,
-            false);
+            payload);
     if (!placeOrder.isSuccess()) {
       throw createBybitExceptionFromResult(placeOrder);
     }

@@ -4,7 +4,7 @@ import static org.knowm.xchange.bybit.service.BybitDigest.X_BAPI_API_KEY;
 import static org.knowm.xchange.bybit.service.BybitDigest.X_BAPI_SIGN;
 import static org.knowm.xchange.bybit.service.BybitDigest.X_BAPI_TIMESTAMP;
 
-import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
@@ -13,7 +13,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.math.BigDecimal;
+import org.knowm.xchange.bybit.dto.trade.BybitPlaceOrderPayload;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
 import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
@@ -84,16 +84,12 @@ public interface BybitAuthenticated {
    */
   @POST
   @Path("/order/create")
+  @Consumes(MediaType.APPLICATION_JSON)
   BybitResult<BybitOrderResponse> placeMarketOrder(
       @HeaderParam(X_BAPI_API_KEY) String apiKey,
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
-      @FormParam("category") String category,
-      @FormParam("symbol") String symbol,
-      @FormParam("side") String side,
-      @FormParam("orderType") String orderType,
-      @FormParam("qty") BigDecimal qty,
-      @FormParam("orderLinkId") String orderLinkId)
+      BybitPlaceOrderPayload payload)
       throws IOException, BybitException;
 
   /**
@@ -101,18 +97,13 @@ public interface BybitAuthenticated {
    */
   @POST
   @Path("/order/create")
+  @Consumes(MediaType.APPLICATION_JSON)
   BybitResult<BybitOrderResponse> placeLimitOrder(
       @HeaderParam(X_BAPI_API_KEY) String apiKey,
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
-      @FormParam("category") String category,
-      @FormParam("symbol") String symbol,
-      @FormParam("side") String side,
-      @FormParam("orderType") String orderType,
-      @FormParam("qty") BigDecimal qty,
-      @FormParam("price") BigDecimal price,
-      @FormParam("positionIdx") Integer positionIdx,
-      @FormParam("orderLinkId") String orderLinkId,
-      @FormParam("reduceOnly") Boolean reduceOnly)
-      throws IOException, BybitException;
+      BybitPlaceOrderPayload payload)
+//      @FormParam("positionIdx")
+//      @FormParam("reduceOnly")
+      throws IOException,BybitException;
 }
