@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
@@ -44,7 +45,7 @@ import org.knowm.xchange.instrument.Instrument;
 
 public class BybitAdapters {
 
-  private static final SimpleDateFormat OPTION_DATE_FORMAT = new SimpleDateFormat("ddMMMyy");
+  private static final SimpleDateFormat OPTION_DATE_FORMAT = new SimpleDateFormat("ddMMMyy", Locale.US);
   public static final List<String> QUOTE_CURRENCIES = Arrays.asList("USDT", "USDC", "BTC", "DAI");
 
   public static Wallet adaptBybitBalances(List<BybitCoinWalletBalance> coinWalletBalances) {
