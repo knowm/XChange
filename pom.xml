@@ -188,6 +188,7 @@
     <module>xchange-stream-bitmex</module>
     <module>xchange-stream-bitstamp</module>
     <module>xchange-stream-btcmarkets</module>
+    <module>xchange-stream-bybit</module>
     <module>xchange-stream-cexio</module>
     <module>xchange-stream-coinbasepro</module>
     <module>xchange-stream-coinjar</module>
