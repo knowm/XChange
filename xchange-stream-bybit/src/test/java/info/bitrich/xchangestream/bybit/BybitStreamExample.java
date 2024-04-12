@@ -21,11 +21,11 @@ import org.knowm.xchange.instrument.Instrument;
 public class BybitStreamExample {
 
   public static void main(String[] args) {
-//    try {
-//      spot();
-//    } catch (IOException e) {
-//      throw new RuntimeException(e);
-//    }
+    try {
+      spot();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     futures();
   }
 
@@ -123,11 +123,15 @@ public class BybitStreamExample {
     booksUpdatesDisposable.add(exchange
         .getStreamingMarketDataService()
         .getOrderBookUpdates(BTC_PERP)
-        .subscribe());
+        .subscribe(
+            orderBookUpdates -> System.out.printf("orderBookUpdates: %s\n", orderBookUpdates)
+        ));
     booksUpdatesDisposable.add(exchange
         .getStreamingMarketDataService()
         .getOrderBookUpdates(ETH_PERP)
-        .subscribe());
+        .subscribe(
+            orderBookUpdates -> System.out.printf("orderBookUpdates: %s\n", orderBookUpdates)
+        ));
     tradesDisposable.add(exchange
         .getStreamingMarketDataService().getTrades(BTC_PERP).subscribe(
             trade -> System.out.println("trade: " + trade)));

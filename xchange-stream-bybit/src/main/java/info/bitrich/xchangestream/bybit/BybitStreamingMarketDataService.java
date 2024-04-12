@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import dto.marketdata.BybitOrderbook;
 import dto.trade.BybitTrade;
+import java.util.concurrent.atomic.AtomicLong;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
@@ -36,7 +37,6 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
   public static final String TICKER = "tickers.";
 
   private final Map<String, OrderBook> orderBookMap = new HashMap<>();
-  private long orderBookUpdateIdPrev;
   private final Map<Instrument, PublishSubject<List<OrderBookUpdate>>>
       orderBookUpdatesSubscriptions;
 
@@ -55,6 +55,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
   @Override
   public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
     String depth = "50";
+    AtomicLong orderBookUpdateIdPrev = new AtomicLong();
     if (args.length > 0 && args[0] != null) {
       depth = args[0].toString();
     }
@@ -69,25 +70,24 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
               String type = bybitOrderbooks.getDataType();
               if (type.equalsIgnoreCase("snapshot")) {
                 OrderBook orderBook = BybitStreamAdapters.adaptOrderBook(bybitOrderbooks, instrument);
-                orderBookUpdateIdPrev = bybitOrderbooks.getData().getU();
+                orderBookUpdateIdPrev.set(bybitOrderbooks.getData().getU());
                 orderBookMap.put(channelUniqueId, orderBook);
                 return Observable.just(orderBook);
               } else if (type.equalsIgnoreCase("delta")) {
-                return applyDeltaSnapshot(channelUniqueId, instrument, bybitOrderbooks);
+                return applyDeltaSnapshot(channelUniqueId, instrument, bybitOrderbooks, orderBookUpdateIdPrev);
               }
               return Observable.fromIterable(new LinkedList<>());
             });
   }
 
   private Observable<OrderBook> applyDeltaSnapshot(String channelUniqueId, Instrument instrument,
-      BybitOrderbook bybitOrderBookUpdate) {
+      BybitOrderbook bybitOrderBookUpdate,AtomicLong orderBookUpdateIdPrev) {
     OrderBook orderBook = orderBookMap.getOrDefault(channelUniqueId, null);
     if (orderBook == null) {
       LOG.error("Failed to get orderBook, channelUniqueId= {}", channelUniqueId);
       return Observable.fromIterable(new LinkedList<>());
     }
-    orderBookUpdateIdPrev++;
-    if (orderBookUpdateIdPrev == bybitOrderBookUpdate.getData().getU()) {
+    if (orderBookUpdateIdPrev.incrementAndGet() == bybitOrderBookUpdate.getData().getU()) {
       LOG.debug("orderBookUpdate id {}, seq {} ", bybitOrderBookUpdate.getData().getU(),
           bybitOrderBookUpdate.getData().getSeq());
       List<BybitPublicOrder> asks = bybitOrderBookUpdate.getData().getAsk();
