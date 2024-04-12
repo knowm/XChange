@@ -21,12 +21,11 @@ import org.knowm.xchange.instrument.Instrument;
 public class BybitStreamExample {
 
   public static void main(String[] args) {
-    try {
-      spot();
-
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+//    try {
+//      spot();
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
     futures();
   }
 
@@ -69,7 +68,7 @@ public class BybitStreamExample {
 
     System.out.println(exchange.getMarketDataService().getTicker(BTC_SPOT));
     System.out.println(exchange.getMarketDataService().getTicker(BTC_PERP));
-   List<Disposable> tradesDisposable = new ArrayList<>();
+    List<Disposable> tradesDisposable = new ArrayList<>();
     Disposable bookDisposable =
         exchange
             .getStreamingMarketDataService()
@@ -87,8 +86,9 @@ public class BybitStreamExample {
         InterruptedException ignored) {
     }
     bookDisposable.dispose();
-    for(Disposable disposable:tradesDisposable)
+    for (Disposable disposable : tradesDisposable) {
       disposable.dispose();
+    }
 
     try {
       Thread.sleep(5000);
@@ -110,12 +110,27 @@ public class BybitStreamExample {
         exchangeSpecification);
     exchange.connect().blockingAwait();
     List<Disposable> tradesDisposable = new ArrayList<>();
-    Disposable booksDisposable =
-        exchange
-            .getStreamingMarketDataService()
-            .getOrderBook(BTC_PERP)
-            .subscribe();
-
+    List<Disposable> booksDisposable = new ArrayList<>();
+    List<Disposable> booksUpdatesDisposable = new ArrayList<>();
+    booksDisposable.add(exchange
+        .getStreamingMarketDataService()
+        .getOrderBook(BTC_PERP)
+        .subscribe());
+    booksDisposable.add(exchange
+        .getStreamingMarketDataService()
+        .getOrderBook(ETH_PERP)
+        .subscribe());
+    booksUpdatesDisposable.add(exchange
+        .getStreamingMarketDataService()
+        .getOrderBookUpdates(BTC_PERP)
+        .subscribe());
+    booksUpdatesDisposable.add(exchange
+        .getStreamingMarketDataService()
+        .getOrderBookUpdates(ETH_PERP)
+        .subscribe());
+    tradesDisposable.add(exchange
+        .getStreamingMarketDataService().getTrades(BTC_PERP).subscribe(
+            trade -> System.out.println("trade: " + trade)));
     tradesDisposable.add(exchange
         .getStreamingMarketDataService().getTrades(ETH_PERP).subscribe(
             trade -> System.out.println("trade: " + trade)));
@@ -124,10 +139,15 @@ public class BybitStreamExample {
     } catch (InterruptedException ignored) {
 
     }
-    booksDisposable.dispose();
-    for(Disposable disposable:tradesDisposable)
+    for (Disposable disposable : booksUpdatesDisposable) {
       disposable.dispose();
-
+    }
+    for (Disposable disposable : booksDisposable) {
+      disposable.dispose();
+    }
+    for (Disposable disposable : tradesDisposable) {
+      disposable.dispose();
+    }
     try {
       Thread.sleep(5000);
     } catch (InterruptedException ignored) {
