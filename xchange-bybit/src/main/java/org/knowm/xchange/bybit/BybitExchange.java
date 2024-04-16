@@ -43,6 +43,8 @@ public class BybitExchange extends BaseExchange {
     exchangeSpecification.setExchangeDescription("BYBIT");
     exchangeSpecification.setExchangeSpecificParametersItem(
         SPECIFIC_PARAM_ACCOUNT_TYPE, BybitAccountType.UNIFIED);
+    exchangeSpecification.setExchangeSpecificParametersItem(
+        Exchange.USE_SANDBOX, false);
     return exchangeSpecification;
   }
 
