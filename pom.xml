@@ -142,6 +142,7 @@
     <module>xchange-examples</module>
     <module>xchange-ftx</module>
     <module>xchange-gateio</module>
+    <module>xchange-gateio-v4</module>
     <module>xchange-globitex</module>
     <module>xchange-gemini</module>
     <module>xchange-hitbtc</module>
@@ -325,6 +326,13 @@
         <groupId>org.wiremock</groupId>
         <artifactId>wiremock</artifactId>
         <version>${version.wiremock}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${version.junit}</version>
         <scope>test</scope>
       </dependency>
 

@@ -25,6 +25,12 @@ bin/
 log/
 classes/
 
+# maven wrapper
+.mvn
+mvnw
+mvnw.cmd
+
+
 # Misc.
 .DS_Store
 *.swp
