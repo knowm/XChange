@@ -2,6 +2,7 @@ package org.knowm.xchange.bybit;
 
 import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
@@ -17,6 +18,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 public class BybitExchange extends BaseExchange {
 
   public static final String SPECIFIC_PARAM_ACCOUNT_TYPE = "accountType";
+  private static final String BASE_URL = "https://api.bybit.com";
+  private static final String DEMO_URL = "https://api-demo.bybit.com";
 
   @Override
   protected void initServices() {
@@ -33,13 +36,15 @@ public class BybitExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
-    exchangeSpecification.setSslUri("https://api.bybit.com");
+    exchangeSpecification.setSslUri(BASE_URL);
     exchangeSpecification.setHost("bybit.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bybit");
     exchangeSpecification.setExchangeDescription("BYBIT");
     exchangeSpecification.setExchangeSpecificParametersItem(
         SPECIFIC_PARAM_ACCOUNT_TYPE, BybitAccountType.UNIFIED);
+    exchangeSpecification.setExchangeSpecificParametersItem(
+        Exchange.USE_SANDBOX, false);
     return exchangeSpecification;
   }
 
@@ -96,5 +101,15 @@ public class BybitExchange extends BaseExchange {
                         BybitAdapters.adaptInstrumentInfo(instrumentInfo),
                         BybitAdapters.symbolToCurrencyPairMetaData(
                             (BybitOptionInstrumentInfo) instrumentInfo)));
+  }
+
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+    if (exchangeSpecification
+        .getExchangeSpecificParametersItem(Exchange.USE_SANDBOX)
+        .equals(true)) {
+      exchangeSpecification.setSslUri(DEMO_URL);
+    }
+    super.applySpecification(exchangeSpecification);
   }
 }
