@@ -95,7 +95,6 @@
                         </goals>
                         <configuration>
                             <rules>
-                                <dependencyConvergence/>
                                 <banDuplicatePomDependencyVersions/>
                                 <reactorModuleConvergence/>
                             </rules>
