@@ -160,6 +160,27 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("since_id") String sinceId)
       throws BitstampException, IOException;
 
+  @POST
+  @Path("{currency}_withdrawal/")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  BitstampWithdrawal withdrawCrypto(
+      @HeaderParam("X-Auth") String apiKey,
+      @HeaderParam("X-Auth-Signature") ParamsDigest signer,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,
+      @HeaderParam("X-Auth-Timestamp") SynchronizedValueFactory<String> timestamp,
+      @HeaderParam("X-Auth-Version") String version,
+      @PathParam("currency") String currency,
+      @FormParam("address") String address,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("contact_thirdparty") Boolean contactThirdparty,
+      @FormParam("contact_uuid") String contactUuid,
+      @FormParam("destination_tag") String destinationTag,
+      @FormParam("memo_id") String memoId,
+      @FormParam("network") String network,
+      @FormParam("transfer_id") Integer transferId,
+      @FormParam("vasp_uuid") String vaspUuid)
+      throws BitstampException, IOException;
+
   /**
    * please keep in mind that the methods below are called through reflections with naming pattern
    * "withdraw" + Currency code
@@ -743,6 +764,35 @@ public interface BitstampAuthenticatedV2 {
       @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,
       @HeaderParam("X-Auth-Timestamp") SynchronizedValueFactory<String> timeStamp,
       @HeaderParam("X-Auth-Version") String version)
+      throws BitstampException, IOException;
+
+  @POST
+  @Path("{side}/instant/{pair}/")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  BitstampOrder placeInstantMarketOrder(
+      @HeaderParam("X-Auth") String apiKey,
+      @HeaderParam("X-Auth-Signature") ParamsDigest signer,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,
+      @HeaderParam("X-Auth-Timestamp") SynchronizedValueFactory<String> timeStamp,
+      @HeaderParam("X-Auth-Version") String version,
+      @PathParam("side") Side side,
+      @PathParam("pair") BitstampV2.Pair pair,
+      @FormParam("amount") BigDecimal amount)
+      throws BitstampException, IOException;
+
+  @POST
+  @Path("{side}/instant/{pair}/")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  BitstampOrder placeInstantSellMarketOrder(
+      @HeaderParam("X-Auth") String apiKey,
+      @HeaderParam("X-Auth-Signature") ParamsDigest signer,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,
+      @HeaderParam("X-Auth-Timestamp") SynchronizedValueFactory<String> timeStamp,
+      @HeaderParam("X-Auth-Version") String version,
+      @PathParam("side") Side side,
+      @PathParam("pair") BitstampV2.Pair pair,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("amount_in_counter") boolean amountInCounter)
       throws BitstampException, IOException;
 
   enum Side {
