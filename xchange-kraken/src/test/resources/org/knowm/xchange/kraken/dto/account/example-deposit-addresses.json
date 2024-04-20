@@ -1,0 +1,10 @@
+{
+  "error": [],
+  "result": [
+    {
+      "address": "testBtcAddress",
+      "expiretm": "0",
+      "new": true
+    }
+  ]
+}
