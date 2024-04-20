@@ -11,10 +11,7 @@
     <name>XChange Gate.io Stream</name>
 
     <properties>
-        <version.archunit>1.0.1</version.archunit>
-        <version.maven-enforcer-plugin>3.2.1</version.maven-enforcer-plugin>
         <version.mockito>5.3.1</version.mockito>
-        <version.sortpom-maven-plugin>3.2.0</version.sortpom-maven-plugin>
     </properties>
 
     <dependencies>
@@ -25,12 +22,6 @@
             <version>${version.fasterxml}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.tngtech.archunit</groupId>
-            <artifactId>archunit-junit5</artifactId>
-            <version>${version.archunit}</version>
-            <scope>test</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -59,51 +50,5 @@
 
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.github.ekryd.sortpom</groupId>
-                <artifactId>sortpom-maven-plugin</artifactId>
-                <version>${version.sortpom-maven-plugin}</version>
-                <configuration>
-                    <sortProperties>true</sortProperties>
-                    <createBackupFile>false</createBackupFile>
-                    <sortDependencies>groupId,artifactId</sortDependencies>
-                    <sortModules>true</sortModules>
-                    <nrOfIndentSpace>4</nrOfIndentSpace>
-                    <sortPlugins>groupId,artifactId</sortPlugins>
-                    <expandEmptyElements>false</expandEmptyElements>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>sort</goal>
-                        </goals>
-                        <phase>verify</phase>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>${version.maven-enforcer-plugin}</version>
-                <executions>
-                    <execution>
-                        <id>enforce</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <banDuplicatePomDependencyVersions/>
-                                <reactorModuleConvergence/>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
-    </build>
 
 </project>
