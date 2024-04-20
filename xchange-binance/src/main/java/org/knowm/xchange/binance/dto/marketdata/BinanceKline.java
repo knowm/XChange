@@ -38,7 +38,7 @@ public final class BinanceKline {
     this.numberOfTrades = Long.parseLong(obj[8].toString());
     this.takerBuyBaseAssetVolume = new BigDecimal(obj[9].toString());
     this.takerBuyQuoteAssetVolume = new BigDecimal(obj[10].toString());
-    this.closed = (Boolean) obj[11];
+    this.closed = Boolean.parseBoolean(obj[11].toString());
   }
 
   public BigDecimal getAveragePrice() {
