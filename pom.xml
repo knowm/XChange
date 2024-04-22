@@ -33,7 +33,7 @@
     <version.java>1.8</version.java>
     <version.assertj>3.25.3</version.assertj>
     <version.commons.lang3>3.14.0</version.commons.lang3>
-    <version.fasterxml>2.14.3</version.fasterxml>
+    <version.fasterxml>2.17.0</version.fasterxml>
     <version.github.mmazi>3.0</version.github.mmazi>
     <version.resilience4j>1.7.1</version.resilience4j>
     <version.junit>5.10.2</version.junit>
