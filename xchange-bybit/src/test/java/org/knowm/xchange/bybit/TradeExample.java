@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -39,6 +40,10 @@ public class TradeExample {
     Instrument BTC_USDT_PERP = new FuturesContract(new CurrencyPair("BTC/USDT"), "PERP");
     Instrument ETH_USDT_PERP = new FuturesContract(new CurrencyPair("ETH/USDT"), "PERP");
 
+//    System.out.printf("Tickers SPOT %s", exchange.getMarketDataService().getTickers(BybitCategory.SPOT));
+//    System.out.printf("Tickers LINEAR %s", exchange.getMarketDataService().getTickers(BybitCategory.LINEAR));
+//    System.out.printf("Tickers INVERSE %s", exchange.getMarketDataService().getTickers(BybitCategory.INVERSE));
+//    System.out.printf("Tickers OPTION %s", exchange.getMarketDataService().getTickers(BybitCategory.OPTION));
     System.out.printf("Wallets: %n%s%n",
         exchange.getAccountService().getAccountInfo().getWallets());
     Ticker ticker = exchange
