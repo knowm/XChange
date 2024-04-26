@@ -33,6 +33,9 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
     assertThat(orderBook).hasNoNullFieldsOrProperties();
     assertThat(orderBook.getBids()).hasSize(10);
     assertThat(orderBook.getAsks()).hasSize(10);
+
+    // bids should be lower than asks
+    assertThat(orderBook.getBids().get(0).getLimitPrice()).isLessThan(orderBook.getAsks().get(0).getLimitPrice());
   }
 
 
