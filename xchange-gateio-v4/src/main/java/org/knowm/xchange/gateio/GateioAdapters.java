@@ -147,8 +147,12 @@ public class GateioAdapters {
       builder.cumulativeAmount(gateioOrder.getFilledTotalQuote());
     }
     else if (orderType == OrderType.ASK) {
-      BigDecimal filledAssetAmount = gateioOrder.getFilledTotalQuote().divide(gateioOrder.getAvgDealPrice(), MathContext.DECIMAL32);
-      builder.cumulativeAmount(filledAssetAmount);
+      if(gateioOrder.getAvgDealPrice()==null||gateioOrder.getFilledTotalQuote()==null){
+        builder.cumulativeAmount(BigDecimal.ZERO);
+      }else {
+        BigDecimal filledAssetAmount = gateioOrder.getFilledTotalQuote().divide(gateioOrder.getAvgDealPrice(), MathContext.DECIMAL32);
+        builder.cumulativeAmount(filledAssetAmount);
+      }
     }
     else {
       throw new IllegalArgumentException("Can't map " + orderType);
