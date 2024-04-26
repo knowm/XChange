@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -22,16 +23,18 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
-public class BitstampStreamingMarketDataServiceV2Test
-    extends BitstampStreamingMarketDataServiceBaseTest {
-  @Mock private BitstampStreamingService streamingService;
+@RunWith(MockitoJUnitRunner.class)
+public class BitstampStreamingMarketDataServiceV2Test extends BitstampStreamingMarketDataServiceBaseTest {
+
+  @Mock
+  private BitstampStreamingService streamingService;
+
   private BitstampStreamingMarketDataService marketDataService;
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
     marketDataService = new BitstampStreamingMarketDataService(streamingService);
   }
 
