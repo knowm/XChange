@@ -2,7 +2,10 @@ package org.knowm.xchange.upbit.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.upbit.UpbitUtils;
 import org.knowm.xchange.upbit.dto.account.UpbitBalances;
 import org.knowm.xchange.upbit.dto.trade.UpbitOrderRequest;
@@ -21,15 +24,34 @@ public class UpbitTradeServiceRaw extends UpbitBaseService {
   }
 
   public UpbitOrderResponse limitOrder(LimitOrder limitOrder) throws IOException {
+    final Instrument instrument = limitOrder.getInstrument();
+    final String marketId = instrument.getCounter() + "-" + instrument.getBase();
+
     UpbitOrderRequest upbitOrderRequest = new UpbitOrderRequest();
-    String marketId =
-        limitOrder.getCurrencyPair().counter + "-" + limitOrder.getCurrencyPair().base;
     upbitOrderRequest.setMarketId(marketId);
     upbitOrderRequest.setVolume(limitOrder.getOriginalAmount().toString());
     upbitOrderRequest.setPrice(limitOrder.getLimitPrice().toString());
     upbitOrderRequest.setSide(UpbitUtils.toSide(limitOrder.getType()));
     upbitOrderRequest.setOrderType("limit");
-    return upbit.limitOrder(this.signatureCreator, upbitOrderRequest);
+    return upbit.placeOrder(this.signatureCreator, upbitOrderRequest);
+  }
+
+  public UpbitOrderResponse marketOrder(MarketOrder marketOrder) throws IOException {
+    final Instrument instrument = marketOrder.getInstrument();
+    final String marketId = instrument.getCounter() + "-" + instrument.getBase();
+
+    UpbitOrderRequest upbitOrderRequest = new UpbitOrderRequest();
+    upbitOrderRequest.setMarketId(marketId);
+    upbitOrderRequest.setSide(UpbitUtils.toSide(marketOrder.getType()));
+
+    if (marketOrder.getType() == OrderType.BID) {
+      upbitOrderRequest.setPrice(marketOrder.getOriginalAmount().toString());
+      upbitOrderRequest.setOrderType("price");
+    } else if (marketOrder.getType() == OrderType.ASK) {
+      upbitOrderRequest.setVolume(marketOrder.getOriginalAmount().toString());
+      upbitOrderRequest.setOrderType("market");
+    }
+    return upbit.placeOrder(this.signatureCreator, upbitOrderRequest);
   }
 
   public UpbitOrderResponse cancelOrderRaw(String cancelId) throws IOException {

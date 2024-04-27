@@ -1,0 +1,52 @@
+{
+  "retCode": 0,
+  "retMsg": "OK",
+  "result": {
+    "nextPageCursor": "page_args%3Dfd4300ae-7847-404e-b947-b46980a4d140%26symbol%3D6%26",
+    "category": "spot",
+    "list": [
+      {
+        "symbol": "ETHUSDT",
+        "orderType": "Market",
+        "orderLinkId": "test-000005",
+        "orderId": "fd4300ae-7847-404e-b947-b46980a4d140",
+        "cancelType": "UNKNOWN",
+        "avgPrice": "25905.97",
+        "stopOrderType": "",
+        "lastPriceOnCreated": "",
+        "orderStatus": "PartiallyFilledCanceled",
+        "takeProfit": "",
+        "cumExecValue": "19.99940884",
+        "smpType": "None",
+        "triggerDirection": 0,
+        "blockTradeId": "",
+        "isLeverage": "0",
+        "rejectReason": "EC_CancelForNoFullFill",
+        "price": "0",
+        "orderIv": "",
+        "createdTime": "1684738540559",
+        "tpTriggerBy": "",
+        "positionIdx": 0,
+        "timeInForce": "IOC",
+        "leavesValue": "0.00059116",
+        "updatedTime": "1684738540561",
+        "side": "Buy",
+        "smpGroup": 0,
+        "triggerPrice": "0.00",
+        "cumExecFee": "0.000000772",
+        "leavesQty": "0.000000",
+        "slTriggerBy": "",
+        "closeOnTrigger": false,
+        "placeType": "",
+        "cumExecQty": "0.000772",
+        "reduceOnly": false,
+        "qty": "20.000000",
+        "stopLoss": "",
+        "smpOrderId": "",
+        "triggerBy": ""
+      }
+    ]
+  },
+  "retExtInfo": {},
+  "time": 1694634580983
+}

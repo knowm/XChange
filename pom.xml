@@ -31,17 +31,17 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <version.java>1.8</version.java>
-    <version.assertj>3.24.2</version.assertj>
+    <version.assertj>3.25.3</version.assertj>
     <version.commons.lang3>3.14.0</version.commons.lang3>
     <version.fasterxml>2.14.3</version.fasterxml>
     <version.github.mmazi>3.0</version.github.mmazi>
-    <version.resilience4j>1.7.0</version.resilience4j>
-    <version.junit>5.9.3</version.junit>
-    <version.lombok>1.18.26</version.lombok>
+    <version.resilience4j>1.7.1</version.resilience4j>
+    <version.junit>5.10.2</version.junit>
+    <version.lombok>1.18.32</version.lombok>
     <version.knowm.xchart>3.8.6</version.knowm.xchart>
     <version.qos.logback>1.4.12</version.qos.logback>
     <version.reflections>0.10.2</version.reflections>
-    <version.slf4j>2.0.6</version.slf4j>
+    <version.slf4j>2.0.13</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
     <version.java-jwt>4.4.0</version.java-jwt>
     <version.wiremock>3.2.0</version.wiremock>
@@ -142,6 +142,7 @@
     <module>xchange-examples</module>
     <module>xchange-ftx</module>
     <module>xchange-gateio</module>
+    <module>xchange-gateio-v4</module>
     <module>xchange-globitex</module>
     <module>xchange-gemini</module>
     <module>xchange-hitbtc</module>
@@ -188,6 +189,7 @@
     <module>xchange-stream-bitmex</module>
     <module>xchange-stream-bitstamp</module>
     <module>xchange-stream-btcmarkets</module>
+    <module>xchange-stream-bybit</module>
     <module>xchange-stream-cexio</module>
     <module>xchange-stream-coinbasepro</module>
     <module>xchange-stream-coinjar</module>
@@ -228,6 +230,11 @@
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
+    </repository>
+    <repository>
+      <id>maven_central</id>
+      <name>Maven Central</name>
+      <url>https://repo.maven.apache.org/maven2/</url>
     </repository>
   </repositories>
 
@@ -324,6 +331,13 @@
         <groupId>org.wiremock</groupId>
         <artifactId>wiremock</artifactId>
         <version>${version.wiremock}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${version.junit}</version>
         <scope>test</scope>
       </dependency>
 
@@ -425,7 +439,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.0.1</version>
+            <version>3.2.3</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>

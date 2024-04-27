@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
@@ -53,7 +54,7 @@ public class DeribitAdapters {
   private static final String PERPETUAL = "PERPETUAL";
   private static final int CURRENCY_SCALE = 8;
   private static final ThreadLocal<DateFormat> DATE_PARSER =
-      ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy"));
+      ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy", Locale.US));
 
   public static String adaptInstrumentName(Instrument instrument) {
     if (instrument instanceof FuturesContract) {

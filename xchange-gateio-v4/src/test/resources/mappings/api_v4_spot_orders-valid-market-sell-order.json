@@ -1,0 +1,20 @@
+{
+  "id" : "d63d7d0f-8d8b-496e-a00c-db2a6b1305bb",
+  "name" : "api_v4_spot_orders",
+  "request" : {
+    "url" : "/api/v4/spot/orders",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"text\":\"t-valid-market-sell-order\",\"currency_pair\":\"BTC_USDT\",\"type\":\"market\",\"account\":\"spot\",\"side\":\"sell\",\"amount\":0.0007,\"time_in_force\":\"ioc\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "bodyFileName" : "api_v4_spot_orders-valid-market-sell-order.json"
+  },
+  "uuid" : "d63d7d0f-8d8b-496e-a00c-db2a6b1305bb",
+  "persistent" : true,
+  "insertionIndex" : 20
+}
