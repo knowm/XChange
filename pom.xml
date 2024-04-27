@@ -91,7 +91,6 @@
   </scm>
 
   <modules>
-    <module>xchange-bankera</module>
     <module>xchange-bibox</module>
     <module>xchange-binance</module>
     <module>xchange-bitbay</module>
@@ -182,7 +181,6 @@
     <module>xchange-enigma</module>
 
 
-    <module>xchange-stream-bankera</module>
     <module>xchange-stream-binance</module>
     <module>xchange-stream-bitfinex</module>
     <module>xchange-stream-bitflyer</module>
