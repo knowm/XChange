@@ -342,11 +342,6 @@
 			<artifactId>xchange-dvchain</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-  		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-bankera</artifactId>
-			<version>${project.version}</version>
-		</dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-enigma</artifactId>
