@@ -1,14 +1,19 @@
 package org.knowm.xchange.binance;
 
+import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
+import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
+import org.knowm.xchange.binance.service.BinanceMarketDataServiceRaw;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -26,6 +31,8 @@ public class BinanceExchange extends BaseExchange implements Exchange {
   public static final String SANDBOX_FUTURES_URL = "https://testnet.binancefuture.com";
   protected static ResilienceRegistries RESILIENCE_REGISTRIES;
   protected SynchronizedValueFactory<Long> timestampFactory;
+
+  static final Map<String, CurrencyPair> SYMBOL_TO_CURRENCY_PAIR = new HashMap<>();
 
   @Override
   protected void initServices() {
@@ -103,32 +110,36 @@ public class BinanceExchange extends BaseExchange implements Exchange {
   public void remoteInit() {
 
     try {
-      BinanceMarketDataService marketDataService =
-          (BinanceMarketDataService) this.marketDataService;
+      BinanceMarketDataServiceRaw marketDataServiceRaw = (BinanceMarketDataServiceRaw) marketDataService;
 
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
       Map<String, AssetDetail> assetDetailMap = null;
       if (!usingSandbox() && isAuthenticated()) {
         assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
       }
+
+      BinanceExchangeInfo exchangeInfo;
       if (usingSandbox()) {
         if (isFuturesSandbox()) {
-          BinanceAdapters.adaptFutureExchangeMetaData(
-              exchangeMetaData, marketDataService.getFutureExchangeInfo());
+          exchangeInfo = marketDataServiceRaw.getFutureExchangeInfo();
+          BinanceAdapters.adaptFutureExchangeMetaData(exchangeMetaData, exchangeInfo);
         } else {
-          exchangeMetaData =
-              BinanceAdapters.adaptExchangeMetaData(
-                  marketDataService.getExchangeInfo(), assetDetailMap);
+          exchangeInfo = marketDataServiceRaw.getExchangeInfo();
+          exchangeMetaData = BinanceAdapters.adaptExchangeMetaData(exchangeInfo, assetDetailMap);
         }
       } else {
-        exchangeMetaData =
-            BinanceAdapters.adaptExchangeMetaData(
-                marketDataService.getExchangeInfo(), assetDetailMap);
+        exchangeInfo = marketDataServiceRaw.getExchangeInfo();
+        exchangeMetaData = BinanceAdapters.adaptExchangeMetaData(exchangeInfo, assetDetailMap);
         if (isFuturesEnabled()) {
-          BinanceAdapters.adaptFutureExchangeMetaData(
-              exchangeMetaData, marketDataService.getFutureExchangeInfo());
+          exchangeInfo = marketDataServiceRaw.getFutureExchangeInfo();
+          BinanceAdapters.adaptFutureExchangeMetaData(exchangeMetaData, exchangeInfo);
         }
       }
+
+      // init symbol mappings
+      exchangeInfo.getSymbols().stream()
+          .filter(symbol -> ObjectUtils.allNotNull(symbol.getBaseAsset(), symbol.getQuoteAsset(), symbol.getSymbol()))
+          .forEach(symbol -> SYMBOL_TO_CURRENCY_PAIR.put(symbol.getSymbol(), new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset())));
 
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
@@ -158,4 +169,11 @@ public class BinanceExchange extends BaseExchange implements Exchange {
             exchangeSpecification.getExchangeSpecificParametersItem(
                 SPECIFIC_PARAM_USE_FUTURES_SANDBOX));
   }
+
+
+  public static CurrencyPair toCurrencyPair(String symbol) {
+    return SYMBOL_TO_CURRENCY_PAIR.get(symbol);
+  }
+
+
 }

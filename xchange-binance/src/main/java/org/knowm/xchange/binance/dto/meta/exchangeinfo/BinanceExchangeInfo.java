@@ -1,22 +1,23 @@
 package org.knowm.xchange.binance.dto.meta.exchangeinfo;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.List;
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
 
-@Getter
-@Setter
-@ToString
+@Data
+@Builder
+@Jacksonized
 public class BinanceExchangeInfo {
   private String timezone;
 
-  private Symbol[] symbols;
+  private List<Symbol> symbols;
 
   private String serverTime;
 
-  private RateLimit[] rateLimits;
+  private List<RateLimit> rateLimits;
 
-  private String[] exchangeFilters;
+  private List<String> exchangeFilters;
 
-  private String[] permissions;
+  private List<String> permissions;
 }

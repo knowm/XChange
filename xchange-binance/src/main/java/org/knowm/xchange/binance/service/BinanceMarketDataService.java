@@ -1,22 +1,34 @@
 package org.knowm.xchange.binance.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.knowm.xchange.binance.*;
+import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.BinanceErrorAdapter;
+import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
+import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
+import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.marketdata.FundingRate;
+import org.knowm.xchange.dto.marketdata.FundingRates;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
     implements MarketDataService {
@@ -47,6 +59,29 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
     try {
       return ticker24hAllProducts(instrument).toTicker(instrument instanceof FuturesContract);
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
+  }
+
+
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+    return getTicker((Instrument) currencyPair, args);
+  }
+
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    try {
+      Map<Instrument, BigDecimal> prices = tickerAllPrices().stream()
+          .filter(BinancePrice::isValid)
+          .collect(Collectors.toMap(BinancePrice::getCurrencyPair, BinancePrice::getPrice));
+
+      return tickerAllBookTickers().stream()
+          .filter(BinancePriceQuantity::isValid)
+          .map(binancePriceQuantity -> BinanceAdapters.toTicker(binancePriceQuantity, prices, false))
+          .collect(Collectors.toList());
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
