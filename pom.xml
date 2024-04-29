@@ -95,7 +95,6 @@
     <module>xchange-binance</module>
     <module>xchange-bitbay</module>
     <module>xchange-bitcoinaverage</module>
-    <module>xchange-bitcoincharts</module>
     <module>xchange-bitcoincore</module>
     <module>xchange-bitcoinde</module>
     <module>xchange-bitcointoyou</module>
