@@ -25,7 +25,7 @@ public class ExchangeMetaDataIntegration extends BinanceExchangeIntegration {
 
   @Test
   public void valid_symbol_mapping() {
-    assertThat(BinanceExchange.toCurrencyPair("BTCUSDT")).isEqualTo(CurrencyPair.BTC_USDT);
+    assertThat(BinanceAdapters.toCurrencyPair("BTCUSDT")).isEqualTo(CurrencyPair.BTC_USDT);
   }
 
 }

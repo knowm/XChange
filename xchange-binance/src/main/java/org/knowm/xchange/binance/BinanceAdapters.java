@@ -65,6 +65,9 @@ public class BinanceAdapters {
   private static final DateTimeFormatter DATE_TIME_FMT =
       DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+  private static final Map<String, CurrencyPair> SYMBOL_TO_CURRENCY_PAIR = new HashMap<>();
+
+
   private BinanceAdapters() {}
 
   /**
@@ -184,8 +187,19 @@ public class BinanceAdapters {
     return isBuyer ? OrderType.BID : OrderType.ASK;
   }
 
+
+  public static void putSymbolMapping(String symbol, CurrencyPair currencyPair) {
+    SYMBOL_TO_CURRENCY_PAIR.put(symbol, currencyPair);
+  }
+
+
+  public static CurrencyPair toCurrencyPair(String symbol) {
+    return SYMBOL_TO_CURRENCY_PAIR.get(symbol);
+  }
+
+
   public static Instrument adaptSymbol(String symbol, boolean isFuture) {
-    CurrencyPair currencyPair = BinanceExchange.toCurrencyPair(symbol);
+    CurrencyPair currencyPair = toCurrencyPair(symbol);
 
     return (isFuture) ? new FuturesContract(currencyPair, "PERP") : currencyPair;
   }

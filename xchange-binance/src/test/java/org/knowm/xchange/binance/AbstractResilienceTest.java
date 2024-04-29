@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.currency.CurrencyPair;
 
 public class AbstractResilienceTest {
 
@@ -46,7 +45,6 @@ public class AbstractResilienceTest {
     specification.getResilience().setRateLimiterEnabled(rateLimiterEnabled);
     exchange.applySpecification(specification);
 
-    BinanceExchange.SYMBOL_TO_CURRENCY_PAIR.put("LTCBTC", CurrencyPair.LTC_BTC);
     return exchange;
   }
 }

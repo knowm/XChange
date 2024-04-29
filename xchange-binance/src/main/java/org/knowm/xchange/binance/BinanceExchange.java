@@ -1,6 +1,5 @@
 package org.knowm.xchange.binance;
 
-import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.BaseExchange;
@@ -32,7 +31,6 @@ public class BinanceExchange extends BaseExchange implements Exchange {
   protected static ResilienceRegistries RESILIENCE_REGISTRIES;
   protected SynchronizedValueFactory<Long> timestampFactory;
 
-  static final Map<String, CurrencyPair> SYMBOL_TO_CURRENCY_PAIR = new HashMap<>();
 
   @Override
   protected void initServices() {
@@ -139,7 +137,7 @@ public class BinanceExchange extends BaseExchange implements Exchange {
       // init symbol mappings
       exchangeInfo.getSymbols().stream()
           .filter(symbol -> ObjectUtils.allNotNull(symbol.getBaseAsset(), symbol.getQuoteAsset(), symbol.getSymbol()))
-          .forEach(symbol -> SYMBOL_TO_CURRENCY_PAIR.put(symbol.getSymbol(), new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset())));
+          .forEach(symbol -> BinanceAdapters.putSymbolMapping(symbol.getSymbol(), new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset())));
 
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
@@ -168,11 +166,6 @@ public class BinanceExchange extends BaseExchange implements Exchange {
         || Boolean.TRUE.equals(
             exchangeSpecification.getExchangeSpecificParametersItem(
                 SPECIFIC_PARAM_USE_FUTURES_SANDBOX));
-  }
-
-
-  public static CurrencyPair toCurrencyPair(String symbol) {
-    return SYMBOL_TO_CURRENCY_PAIR.get(symbol);
   }
 
 
