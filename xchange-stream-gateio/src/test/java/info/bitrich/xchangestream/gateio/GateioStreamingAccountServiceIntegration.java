@@ -33,7 +33,7 @@ class GateioStreamingAccountServiceIntegration extends GateioStreamingExchangeIT
 
     Balance balance = testObserver
         .assertSubscribed()
-        .awaitCount(1, TestWaitStrategy.SLEEP_10MS, 2000000)
+        .awaitCount(1, TestWaitStrategy.SPIN, 2000000)
         .assertNoTimeout()
         .values().get(0);
 

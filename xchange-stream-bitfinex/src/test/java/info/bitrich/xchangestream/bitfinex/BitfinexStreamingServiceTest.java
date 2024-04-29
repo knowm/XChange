@@ -13,21 +13,15 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitfinexStreamingServiceTest {
 
   private BitfinexStreamingService service;
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  @Mock SynchronizedValueFactory<Long> nonceFactory;
-
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
-    service = new BitfinexStreamingService(BitfinexStreamingExchange.API_URI, nonceFactory);
+    service = new BitfinexStreamingService(BitfinexStreamingExchange.API_URI, null);
   }
 
   @Test
@@ -132,8 +126,8 @@ public class BitfinexStreamingServiceTest {
             "exchange", "USD", new BigDecimal("69.4747619"), BigDecimal.ZERO, null);
     test.assertNoErrors();
     test.assertValueCount(2);
-    assertThat(test.values().contains(expected));
-    assertThat(test.values().contains(expected1));
+    assertThat(test.values()).contains(expected);
+    assertThat(test.values()).contains(expected1);
   }
 
   @Test

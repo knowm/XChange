@@ -1,7 +1,7 @@
 package org.knowm.xchange.simulated;
 
+import java.util.Objects;
 import org.assertj.core.api.AbstractObjectAssert;
-import org.assertj.core.util.Objects;
 import org.knowm.xchange.dto.marketdata.Trade;
 
 /**
@@ -38,7 +38,7 @@ abstract class AbstractTradeAssert<S extends AbstractTradeAssert<S, A>, A extend
 
     // null safe check
     org.knowm.xchange.currency.CurrencyPair actualCurrencyPair = actual.getCurrencyPair();
-    if (!Objects.areEqual(actualCurrencyPair, currencyPair)) {
+    if (!Objects.deepEquals(actualCurrencyPair, currencyPair)) {
       failWithMessage(assertjErrorMessage, actual, currencyPair, actualCurrencyPair);
     }
 
@@ -62,7 +62,7 @@ abstract class AbstractTradeAssert<S extends AbstractTradeAssert<S, A>, A extend
 
     // null safe check
     String actualId = actual.getId();
-    if (!Objects.areEqual(actualId, id)) {
+    if (!Objects.deepEquals(actualId, id)) {
       failWithMessage(assertjErrorMessage, actual, id, actualId);
     }
 
@@ -102,7 +102,7 @@ abstract class AbstractTradeAssert<S extends AbstractTradeAssert<S, A>, A extend
 
     // null safe check
     String actualMakerOrderId = actual.getMakerOrderId();
-    if (!Objects.areEqual(actualMakerOrderId, makerOrderId)) {
+    if (!Objects.deepEquals(actualMakerOrderId, makerOrderId)) {
       failWithMessage(assertjErrorMessage, actual, makerOrderId, actualMakerOrderId);
     }
 
@@ -127,7 +127,7 @@ abstract class AbstractTradeAssert<S extends AbstractTradeAssert<S, A>, A extend
 
     // null safe check
     java.math.BigDecimal actualOriginalAmount = actual.getOriginalAmount();
-    if (!Objects.areEqual(actualOriginalAmount, originalAmount)) {
+    if (!Objects.deepEquals(actualOriginalAmount, originalAmount)) {
       failWithMessage(assertjErrorMessage, actual, originalAmount, actualOriginalAmount);
     }
 
@@ -151,7 +151,7 @@ abstract class AbstractTradeAssert<S extends AbstractTradeAssert<S, A>, A extend
 
     // null safe check
     java.math.BigDecimal actualPrice = actual.getPrice();
-    if (!Objects.areEqual(actualPrice, price)) {
+    if (!Objects.deepEquals(actualPrice, price)) {
       failWithMessage(assertjErrorMessage, actual, price, actualPrice);
     }
 
@@ -176,7 +176,7 @@ abstract class AbstractTradeAssert<S extends AbstractTradeAssert<S, A>, A extend
 
     // null safe check
     String actualTakerOrderId = actual.getTakerOrderId();
-    if (!Objects.areEqual(actualTakerOrderId, takerOrderId)) {
+    if (!Objects.deepEquals(actualTakerOrderId, takerOrderId)) {
       failWithMessage(assertjErrorMessage, actual, takerOrderId, actualTakerOrderId);
     }
 
@@ -201,7 +201,7 @@ abstract class AbstractTradeAssert<S extends AbstractTradeAssert<S, A>, A extend
 
     // null safe check
     java.util.Date actualTimestamp = actual.getTimestamp();
-    if (!Objects.areEqual(actualTimestamp, timestamp)) {
+    if (!Objects.deepEquals(actualTimestamp, timestamp)) {
       failWithMessage(assertjErrorMessage, actual, timestamp, actualTimestamp);
     }
 
@@ -225,7 +225,7 @@ abstract class AbstractTradeAssert<S extends AbstractTradeAssert<S, A>, A extend
 
     // null safe check
     org.knowm.xchange.dto.Order.OrderType actualType = actual.getType();
-    if (!Objects.areEqual(actualType, type)) {
+    if (!Objects.deepEquals(actualType, type)) {
       failWithMessage(assertjErrorMessage, actual, type, actualType);
     }
 

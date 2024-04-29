@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.Validate;
@@ -30,10 +31,10 @@ public class GateioTradeServiceRaw extends GateioBaseService {
 
   public List<GateioOrder> listOrders(Instrument instrument, OrderStatus orderStatus) throws IOException {
     // validate arguments
-    Validate.notNull(orderStatus);
+    Objects.requireNonNull(orderStatus);
     Set<OrderStatus> allowedOrderStatuses = EnumSet.of(OrderStatus.OPEN, OrderStatus.CLOSED);
     Validate.validState(allowedOrderStatuses.contains(orderStatus), "Allowed order statuses are: {}", allowedOrderStatuses);
-    Validate.notNull(instrument);
+    Objects.requireNonNull(instrument);
 
     return gateioV4Authenticated.listOrders(apiKey, exchange.getNonceFactory(),
         gateioV4ParamsDigest, GateioAdapters.toString(instrument), GateioAdapters.toString(orderStatus)
