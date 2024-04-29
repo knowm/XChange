@@ -44,7 +44,7 @@
     <version.slf4j>2.0.13</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
     <version.java-jwt>4.4.0</version.java-jwt>
-    <version.wiremock>3.2.0</version.wiremock>
+    <version.wiremock>3.5.4</version.wiremock>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
