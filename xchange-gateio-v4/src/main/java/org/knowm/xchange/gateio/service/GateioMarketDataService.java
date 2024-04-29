@@ -3,6 +3,7 @@ package org.knowm.xchange.gateio.service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -37,7 +38,7 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw implemen
 
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
-    Validate.notNull(instrument);
+    Objects.requireNonNull(instrument);
     try {
       List<GateioTicker> tickers = getGateioTickers(instrument);
       Validate.validState(tickers.size() == 1);
