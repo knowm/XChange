@@ -36,3 +36,37 @@ SIGN: {{sign}}
 Timestamp: {{timestamp}}
 Content-Type: application/json
 
+
+### Create an order
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("POST", request);
+%}
+
+POST {{api_v4}}/spot/orders
+KEY: {{api_key}}
+SIGN: {{sign}}
+Timestamp: {{timestamp}}
+Content-Type: application/json
+
+{
+  "currency_pair": "BTC_USDT",
+  "type": "limit",
+  "side": "buy",
+  "amount": "0.001",
+  "price": "60000"
+}
+
+
+### Cancel a single order
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("DELETE", request);
+%}
+
+DELETE {{api_v4}}/spot/orders/123456?currency_pair=BTC_USDT
+KEY: {{api_key}}
+SIGN: {{sign}}
+Timestamp: {{timestamp}}
+Content-Type: application/json
+

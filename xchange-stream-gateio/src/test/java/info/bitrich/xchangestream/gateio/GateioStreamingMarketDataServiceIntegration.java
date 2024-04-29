@@ -24,7 +24,7 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
 
     OrderBook orderBook = testObserver
         .assertSubscribed()
-        .awaitCount(1, TestWaitStrategy.SLEEP_10MS, 20000)
+        .awaitCount(1, TestWaitStrategy.SPIN, 20000)
         .assertNoTimeout()
         .values().get(0);
 
@@ -49,7 +49,7 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
 
     Trade trade = testObserver
         .assertSubscribed()
-        .awaitCount(1, TestWaitStrategy.SLEEP_10MS, 20000)
+        .awaitCount(1, TestWaitStrategy.SPIN, 20000)
         .assertNoTimeout()
         .values().get(0);
 
@@ -71,7 +71,7 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
 
     Ticker ticker = testObserver
         .assertSubscribed()
-        .awaitCount(1, TestWaitStrategy.SLEEP_10MS, 70000)
+        .awaitCount(1, TestWaitStrategy.SPIN, 70000)
         .assertNoTimeout()
         .values()
         .get(0);
