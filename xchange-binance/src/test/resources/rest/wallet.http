@@ -1,0 +1,8 @@
+### All Coins' Information (USER_DATA)
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+
+GET {{api_host}}/sapi/v1/capital/config/getall?timestamp={{timestamp}}&signature={{signature}}
+X-MBX-APIKEY: {{api_key}}
