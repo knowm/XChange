@@ -88,6 +88,12 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
   }
 
   @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    return getOrderBook((Instrument) currencyPair, args);
+  }
+
+
+  @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
     return getBinanceOrderBook(instrument, args);
   }
