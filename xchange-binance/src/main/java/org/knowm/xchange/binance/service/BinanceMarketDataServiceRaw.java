@@ -125,7 +125,6 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
             .withRetry(retry("ticker24h"))
             .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
             .call();
-    ticker24h.setInstrument(pair);
     return ticker24h;
   }
 
