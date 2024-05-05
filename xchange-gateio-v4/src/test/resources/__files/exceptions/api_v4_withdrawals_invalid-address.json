@@ -1,0 +1,4 @@
+{
+  "label": "INVALID_PARAM_VALUE",
+  "message": "Error: only used addresses or verified addresses are allowed for api withdrawal"
+}

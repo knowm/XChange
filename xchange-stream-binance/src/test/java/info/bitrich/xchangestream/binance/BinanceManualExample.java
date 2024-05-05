@@ -143,7 +143,7 @@ public class BinanceManualExample {
   }
 
   private static Disposable orderbooksIncremental(
-      BinanceStreamingExchange exchange, String identifier) {
+      StreamingExchange exchange, String identifier) {
     return exchange
         .getStreamingMarketDataService()
         .getOrderBookUpdates(CurrencyPair.LTC_BTC)

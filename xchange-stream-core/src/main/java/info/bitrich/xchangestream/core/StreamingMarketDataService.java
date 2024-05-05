@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.core;
 
 import io.reactivex.Observable;
+import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -91,5 +92,17 @@ public interface StreamingMarketDataService {
    */
   default Observable<FundingRates> getFundingRates() {
     throw new NotYetImplementedForExchangeException("getFundingRates");
+  }
+
+  /**
+   * Get snapshots of orderBook update separately.
+   * Work only with {@link #getOrderBook(Instrument, Object...)} subscription.
+   *
+   * @return {@link Observable} that emits {@link OrderBookUpdate} when exchange sends the orderBook
+   * snapshot.
+   */
+  default Observable<List<OrderBookUpdate>> getOrderBookUpdates(Instrument instrument,
+      Object... args) {
+    throw new NotYetImplementedForExchangeException("getOrderBookUpdates");
   }
 }

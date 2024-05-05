@@ -1,0 +1,27 @@
+{
+  "time": 1691692159,
+  "time_ms": 1691692159338,
+  "channel": "spot.usertrades",
+  "event": "update",
+  "result": [
+    {
+      "id": 6068323582,
+      "user_id": 13439717,
+      "order_id": "381004078014",
+      "currency_pair": "BTC_USDT",
+      "create_time": 1691692159,
+      "create_time_ms": "1691692159330.475",
+      "side": "buy",
+      "amount": "0.00003",
+      "role": "taker",
+      "price": "29441.1",
+      "fee": "0.00000006",
+      "fee_currency": "BTC",
+      "point_fee": "0",
+      "gt_fee": "0",
+      "text": "3",
+      "amend_text": "-",
+      "biz_info": "-"
+    }
+  ]
+}

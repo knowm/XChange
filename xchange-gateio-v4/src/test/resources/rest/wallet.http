@@ -1,0 +1,29 @@
+### Retrieve withdrawal status
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("GET", request);
+%}
+
+GET {{api_v4}}/wallet/withdraw_status?currency=usdt
+KEY: {{api_key}}
+SIGN: {{sign}}
+Timestamp: {{timestamp}}
+Content-Type: application/json
+
+
+### Retrieve transfer records between main and sub accounts
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("GET", request);
+%}
+
+GET {{api_v4}}/wallet/sub_account_transfers
+KEY: {{api_key}}
+SIGN: {{sign}}
+Timestamp: {{timestamp}}
+Content-Type: application/json
+
+
+### List chains supported for specified currency
+GET {{api_v4}}/wallet/currency_chains?currency=BTC
+Content-Type: application/json

@@ -1,0 +1,15 @@
+{
+  "id" : "6a2422dc-c1e6-4f5b-95e9-89a626210111",
+  "name" : "api_v4_spot_currency_pairs",
+  "request" : {
+    "url" : "/api/v4/spot/currency_pairs",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_spot_currency_pairs.json"
+  },
+  "uuid" : "6a2422dc-c1e6-4f5b-95e9-89a626210111",
+  "persistent" : true,
+  "insertionIndex" : 11
+}
