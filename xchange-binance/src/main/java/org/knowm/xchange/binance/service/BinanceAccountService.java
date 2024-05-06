@@ -1,5 +1,7 @@
 package org.knowm.xchange.binance.service;
 
+import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -9,6 +11,7 @@ import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
+import org.knowm.xchange.binance.dto.ExchangeType;
 import org.knowm.xchange.binance.dto.account.*;
 import org.knowm.xchange.binance.dto.account.BinanceMasterAccountTransferHistoryParams;
 import org.knowm.xchange.binance.dto.account.BinanceSubAccountTransferHistoryParams;
@@ -91,25 +94,19 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     try {
       List<Wallet> wallets = new ArrayList<>();
       List<OpenPosition> openPositions = new ArrayList<>();
-
-      if (exchange.usingSandbox()) {
-        if (exchange.isFuturesSandbox()) {
-          BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
-          wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
-          openPositions.addAll(
-              BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
-
-        } else {
+      switch (exchange.getExchangeSpecification().getExchangeSpecificParametersItem(
+          EXCHANGE_TYPE).toString()) {
+        case "SPOT": {
           wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
+          break;
         }
-      } else {
-        if (exchange.isFuturesEnabled()) {
+        case "FUTURES": {
           BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
           wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
           openPositions.addAll(
               BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
+          break;
         }
-        wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
       }
       return new AccountInfo(
           exchange.getExchangeSpecification().getUserName(),
