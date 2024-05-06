@@ -1,6 +1,10 @@
 package info.bitrich.xchangestream.binance;
 
+import static info.bitrich.xchangestream.binance.BinanceStreamingExchange.USE_REALTIME_BOOK_TICKER;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
+import static org.knowm.xchange.binance.BinanceExchange.FUTURES_URL;
+import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
 
 import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
 import info.bitrich.xchangestream.core.ProductSubscription;
@@ -11,11 +15,11 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
-@Ignore
 public class BinanceFuturesPublicStreamsTest {
 
   StreamingExchange exchange;
@@ -23,8 +27,12 @@ public class BinanceFuturesPublicStreamsTest {
 
   @Before
   public void setup() {
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(BinanceFutureStreamingExchange.class);
+    exchangeSpecification.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);
     exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(BinanceFutureStreamingExchange.class);
+        StreamingExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+
     exchange
         .connect(
             ProductSubscription.create()
