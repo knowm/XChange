@@ -8,7 +8,9 @@ import javax.crypto.spec.SecretKeySpec;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkDigest extends BaseParamsDigest {
 
   private byte[] SecretKey;

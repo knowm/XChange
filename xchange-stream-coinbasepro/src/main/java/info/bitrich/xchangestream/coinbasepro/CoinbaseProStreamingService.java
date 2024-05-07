@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
@@ -32,10 +31,12 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   private static final String SUBSCRIBE = "subscribe";
   private static final String UNSUBSCRIBE = "unsubscribe";
   private static final String SHARE_CHANNEL_NAME = "ALL";
-  private static final String[] ALL_CHANNEL_NAMES = Stream.concat(
-          Stream.of("matches", "ticker"),
-          Arrays.stream(CoinbaseProOrderBookMode.values()).map(CoinbaseProOrderBookMode::getName)
-  ).toArray(String[]::new);
+  private static final String[] ALL_CHANNEL_NAMES =
+      Stream.concat(
+              Stream.of("matches", "ticker"),
+              Arrays.stream(CoinbaseProOrderBookMode.values())
+                  .map(CoinbaseProOrderBookMode::getName))
+          .toArray(String[]::new);
   private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
   private ProductSubscription product = null;
   private final Supplier<CoinbaseProWebsocketAuthData> authData;
@@ -128,8 +129,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   @Override
   public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     CoinbaseProWebSocketSubscriptionMessage subscribeMessage =
-        new CoinbaseProWebSocketSubscriptionMessage(
-            UNSUBSCRIBE, ALL_CHANNEL_NAMES, authData.get());
+        new CoinbaseProWebSocketSubscriptionMessage(UNSUBSCRIBE, ALL_CHANNEL_NAMES, authData.get());
     return objectMapper.writeValueAsString(subscribeMessage);
   }
 
@@ -165,21 +165,41 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
     }
   }
 
-  private static CoinbaseProWebSocketTransaction mapToTransaction(ObjectMapper mapper, JsonNode node) throws JsonProcessingException {
+  private static CoinbaseProWebSocketTransaction mapToTransaction(
+      ObjectMapper mapper, JsonNode node) throws JsonProcessingException {
     String type = getText(node.get("type"));
     // use manual JSON to object conversion for the heaviest transaction types
     if (type != null && (type.equals("l2update") || type.equals("snapshot"))) {
-      return new CoinbaseProWebSocketTransaction(type,
-              null, null, null, null, null, null, null, null, null, null, null, null, null,
-              getL2Array(node.get("bids")),
-              getL2Array(node.get("asks")),
-              getL2Array(node.get("changes")),
-              null,
-              getText(node.get("product_id")),
-              0,
-              getText(node.get("time")),
-              null, 0, null, null, null, null, null, null
-      );
+      return new CoinbaseProWebSocketTransaction(
+          type,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          getL2Array(node.get("bids")),
+          getL2Array(node.get("asks")),
+          getL2Array(node.get("changes")),
+          null,
+          getText(node.get("product_id")),
+          0,
+          getText(node.get("time")),
+          null,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null);
     }
     return mapper.treeToValue(node, CoinbaseProWebSocketTransaction.class);
   }
@@ -189,19 +209,16 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   }
 
   private static String[][] getL2Array(JsonNode node) {
-    if (node == null)
-      return null;
+    if (node == null) return null;
 
     String[][] result = new String[node.size()][];
-    for (int i = 0; i < result.length; i++)
-      result[i] = getArray(node.get(i));
+    for (int i = 0; i < result.length; i++) result[i] = getArray(node.get(i));
     return result;
   }
 
   private static String[] getArray(JsonNode node) {
     String[] result = new String[node.size()];
-    for (int i = 0; i < result.length; i++)
-      result[i] = node.get(i).asText();
+    for (int i = 0; i < result.length; i++) result[i] = node.get(i).asText();
     return result;
   }
 

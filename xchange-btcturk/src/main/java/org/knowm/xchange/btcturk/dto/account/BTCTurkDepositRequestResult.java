@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.List;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkDepositRequestResult {
 
   private final String id;

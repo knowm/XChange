@@ -1,0 +1,19 @@
+### Withdraw
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("POST", request);
+%}
+
+POST {{api_v4}}/withdrawals
+KEY: {{api_key}}
+SIGN: {{sign}}
+Timestamp: {{timestamp}}
+Content-Type: application/json
+
+{
+  "amount": 0,
+  "currency": "usdt",
+  "address": "0x3dca2ae4d1d065220a731cf69f5a934914afc435",
+  "memo": "",
+  "chain": "BSC"
+}

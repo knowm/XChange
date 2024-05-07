@@ -15,7 +15,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamMultiCurrencyPair
 import org.knowm.xchange.service.trade.params.TradeHistoryParamNextPageCursor;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeService {
 
   public BitbayTradeService(Exchange exchange) {

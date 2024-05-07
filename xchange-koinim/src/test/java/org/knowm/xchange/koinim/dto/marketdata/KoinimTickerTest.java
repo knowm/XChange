@@ -8,7 +8,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
 
-/** @author ahmetoz */
+/**
+ * @author ahmetoz
+ */
 public class KoinimTickerTest {
 
   @Test

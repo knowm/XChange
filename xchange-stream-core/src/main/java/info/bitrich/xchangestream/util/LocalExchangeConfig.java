@@ -1,6 +1,8 @@
 package info.bitrich.xchangestream.util;
 
-/** @author Foat Akhmadeev 08/06/2018 */
+/**
+ * @author Foat Akhmadeev 08/06/2018
+ */
 public class LocalExchangeConfig {
   private String apiKey;
   private String secretKey;

@@ -2,6 +2,7 @@ package org.knowm.xchange.oer.service;
 
 import java.io.IOException;
 import org.junit.Test;
+
 // import org.mockito.Mockito;
 // import org.powermock.reflect.Whitebox;
 

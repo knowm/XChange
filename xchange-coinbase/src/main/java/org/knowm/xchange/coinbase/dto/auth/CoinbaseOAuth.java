@@ -2,7 +2,9 @@ package org.knowm.xchange.coinbase.dto.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseOAuth {
 
   private final String accessToken;

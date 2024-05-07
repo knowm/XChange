@@ -34,6 +34,7 @@ public class BitfinexTradingFeeResponse {
   }
 
   private final BitfinexTradingFeeResponseRow[] tradingFeeResponseRows;
+
   /**
    * Constructor
    *

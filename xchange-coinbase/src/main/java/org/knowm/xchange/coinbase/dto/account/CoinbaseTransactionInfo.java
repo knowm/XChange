@@ -5,7 +5,9 @@ import java.util.Date;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public interface CoinbaseTransactionInfo {
 
   @JsonIgnore

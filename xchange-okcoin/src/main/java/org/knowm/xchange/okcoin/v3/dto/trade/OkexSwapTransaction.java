@@ -16,8 +16,10 @@ public class OkexSwapTransaction {
   @JsonProperty("instrument_id")
   /** trading pair */
   private String instrumentId;
+
   /** price */
   private BigDecimal price;
+
   /** Quantity */
   @JsonProperty("order_qty")
   private BigDecimal orderQty;
@@ -36,6 +38,7 @@ public class OkexSwapTransaction {
   private String execType;
 
   private BigDecimal fee;
+
   /** bills side (buy, sell or points_fee) */
   private SwapSide side;
 

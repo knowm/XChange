@@ -7,12 +7,16 @@ public class MEXCOrderRequestPayload {
 
   @JsonProperty("symbol")
   private String symbol;
+
   @JsonProperty("price")
   private String price;
+
   @JsonProperty("quantity")
   private String quantity;
+
   @JsonProperty("trade_type")
   private String tradeType;
+
   @JsonProperty("order_type")
   private String orderType;
 
@@ -20,13 +24,13 @@ public class MEXCOrderRequestPayload {
   @JsonProperty("client_order_id")
   private String clientOrderId;
 
-
-  public MEXCOrderRequestPayload(String symbol,
-                                 String price,
-                                 String quantity,
-                                 String tradeType,
-                                 String orderType,
-                                 String clientOrderId) {
+  public MEXCOrderRequestPayload(
+      String symbol,
+      String price,
+      String quantity,
+      String tradeType,
+      String orderType,
+      String clientOrderId) {
     this.symbol = symbol;
     this.price = price;
     this.quantity = quantity;
@@ -34,7 +38,4 @@ public class MEXCOrderRequestPayload {
     this.orderType = orderType;
     this.clientOrderId = clientOrderId;
   }
-
-
-
 }

@@ -9,7 +9,9 @@ import org.knowm.xchange.oer.OER;
 import org.knowm.xchange.oer.dto.marketdata.OERRates;
 import org.knowm.xchange.oer.dto.marketdata.OERTickers;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class OERMarketDataServiceRaw extends OERBaseService {
 
   private final OER openExchangeRates;

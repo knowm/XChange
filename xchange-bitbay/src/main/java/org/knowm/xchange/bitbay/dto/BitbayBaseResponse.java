@@ -3,7 +3,9 @@ package org.knowm.xchange.bitbay.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** @author Z. Dolezal */
+/**
+ * @author Z. Dolezal
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BitbayBaseResponse {
 

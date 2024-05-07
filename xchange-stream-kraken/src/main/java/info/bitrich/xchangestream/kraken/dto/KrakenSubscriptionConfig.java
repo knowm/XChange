@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 
-/** @author makarid, pchertalev */
+/**
+ * @author makarid, pchertalev
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class KrakenSubscriptionConfig {
 
@@ -31,16 +33,18 @@ public class KrakenSubscriptionConfig {
   private Integer interval;
 
   public KrakenSubscriptionConfig(KrakenSubscriptionName name) {
-    this(name, null, null);
+    this(name, null, null, null);
   }
 
   @JsonCreator
   public KrakenSubscriptionConfig(
       @JsonProperty("name") KrakenSubscriptionName name,
       @JsonProperty("depth") Integer depth,
+      @JsonProperty("interval") Integer interval,
       @JsonProperty("token") String token) {
     this.name = name;
     this.depth = depth;
+    this.interval = interval;
     this.token = token;
   }
 

@@ -7,7 +7,9 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** @author Foat Akhmadeev 08/06/2018 */
+/**
+ * @author Foat Akhmadeev 08/06/2018
+ */
 public class PropsLoader {
   private static final Logger LOG = LoggerFactory.getLogger(PropsLoader.class);
 

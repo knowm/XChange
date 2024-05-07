@@ -76,169 +76,225 @@ public class BiboxCoin {
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /** @return The totalBalance */
+  /**
+   * @return The totalBalance
+   */
   @JsonProperty("totalBalance")
   public BigDecimal getTotalBalance() {
     return totalBalance;
   }
 
-  /** @param totalBalance The totalBalance */
+  /**
+   * @param totalBalance The totalBalance
+   */
   @JsonProperty("totalBalance")
   public void setTotalBalance(BigDecimal totalBalance) {
     this.totalBalance = totalBalance;
   }
 
-  /** @return The balance */
+  /**
+   * @return The balance
+   */
   @JsonProperty("balance")
   public BigDecimal getBalance() {
     return balance;
   }
 
-  /** @param balance The balance */
+  /**
+   * @param balance The balance
+   */
   @JsonProperty("balance")
   public void setBalance(BigDecimal balance) {
     this.balance = balance;
   }
 
-  /** @return The freeze */
+  /**
+   * @return The freeze
+   */
   @JsonProperty("freeze")
   public BigDecimal getFreeze() {
     return freeze;
   }
 
-  /** @param freeze The freeze */
+  /**
+   * @param freeze The freeze
+   */
   @JsonProperty("freeze")
   public void setFreeze(BigDecimal freeze) {
     this.freeze = freeze;
   }
 
-  /** @return The id */
+  /**
+   * @return The id
+   */
   @JsonProperty("id")
   public Integer getId() {
     return id;
   }
 
-  /** @param id The id */
+  /**
+   * @param id The id
+   */
   @JsonProperty("id")
   public void setId(Integer id) {
     this.id = id;
   }
 
-  /** @return The symbol */
+  /**
+   * @return The symbol
+   */
   @JsonProperty("symbol")
   public String getSymbol() {
     return symbol;
   }
 
-  /** @param symbol The symbol */
+  /**
+   * @param symbol The symbol
+   */
   @JsonProperty("symbol")
   public void setSymbol(String symbol) {
     this.symbol = symbol;
   }
 
-  /** @return The iconUrl */
+  /**
+   * @return The iconUrl
+   */
   @JsonProperty("icon_url")
   public URI getIconUrl() {
     return iconUrl;
   }
 
-  /** @param iconUrl The icon_url */
+  /**
+   * @param iconUrl The icon_url
+   */
   @JsonProperty("icon_url")
   public void setIconUrl(URI iconUrl) {
     this.iconUrl = iconUrl;
   }
 
-  /** @return The describeUrl */
+  /**
+   * @return The describeUrl
+   */
   @JsonProperty("describe_url")
   public String getDescribeUrl() {
     return describeUrl;
   }
 
-  /** @param describeUrl The describe_url */
+  /**
+   * @param describeUrl The describe_url
+   */
   @JsonProperty("describe_url")
   public void setDescribeUrl(String describeUrl) {
     this.describeUrl = describeUrl;
   }
 
-  /** @return The name */
+  /**
+   * @return The name
+   */
   @JsonProperty("name")
   public String getName() {
     return name;
   }
 
-  /** @param name The name */
+  /**
+   * @param name The name
+   */
   @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
 
-  /** @return The enableWithdraw */
+  /**
+   * @return The enableWithdraw
+   */
   @JsonProperty("enable_withdraw")
   public boolean getEnableWithdraw() {
     return enableWithdraw;
   }
 
-  /** @param enableWithdraw The enable_withdraw */
+  /**
+   * @param enableWithdraw The enable_withdraw
+   */
   @JsonProperty("enable_withdraw")
   public void setEnableWithdraw(boolean enableWithdraw) {
     this.enableWithdraw = enableWithdraw;
   }
 
-  /** @return The enableDeposit */
+  /**
+   * @return The enableDeposit
+   */
   @JsonProperty("enable_deposit")
   public boolean getEnableDeposit() {
     return enableDeposit;
   }
 
-  /** @param enableDeposit The enable_deposit */
+  /**
+   * @param enableDeposit The enable_deposit
+   */
   @JsonProperty("enable_deposit")
   public void setEnableDeposit(boolean enableDeposit) {
     this.enableDeposit = enableDeposit;
   }
 
-  /** @return The confirmCount */
+  /**
+   * @return The confirmCount
+   */
   @JsonProperty("confirm_count")
   public Integer getConfirmCount() {
     return confirmCount;
   }
 
-  /** @param confirmCount The confirm_count */
+  /**
+   * @param confirmCount The confirm_count
+   */
   @JsonProperty("confirm_count")
   public void setConfirmCount(Integer confirmCount) {
     this.confirmCount = confirmCount;
   }
 
-  /** @return The btcValue */
+  /**
+   * @return The btcValue
+   */
   @JsonProperty("BTCValue")
   public BigDecimal getBtcValue() {
     return btcValue;
   }
 
-  /** @param btcValue The BTCValue */
+  /**
+   * @param btcValue The BTCValue
+   */
   @JsonProperty("BTCValue")
   public void setBtcValue(BigDecimal bTCValue) {
     this.btcValue = bTCValue;
   }
 
-  /** @return The cnyValue */
+  /**
+   * @return The cnyValue
+   */
   @JsonProperty("CNYValue")
   public BigDecimal getCnyValue() {
     return cnyValue;
   }
 
-  /** @param cnyValue The CNYValue */
+  /**
+   * @param cnyValue The CNYValue
+   */
   @JsonProperty("CNYValue")
   public void setCnyValue(BigDecimal cNYValue) {
     this.cnyValue = cNYValue;
   }
 
-  /** @return The usdValue */
+  /**
+   * @return The usdValue
+   */
   @JsonProperty("USDValue")
   public BigDecimal getUsdValue() {
     return usdValue;
   }
 
-  /** @param usdValue The USDValue */
+  /**
+   * @param usdValue The USDValue
+   */
   @JsonProperty("USDValue")
   public void setUsdValue(BigDecimal usdValue) {
     this.usdValue = usdValue;

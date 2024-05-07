@@ -234,7 +234,7 @@ public final class BitstampAdapters {
       final CurrencyPair pair =
           new CurrencyPair(t.getBaseCurrency().toUpperCase(), t.getCounterCurrency().toUpperCase());
       UserTrade trade =
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(orderType)
               .originalAmount(t.getBaseAmount().abs())
               .currencyPair(pair)
@@ -406,8 +406,7 @@ public final class BitstampAdapters {
   public static Map<Instrument, InstrumentMetaData> adaptCurrencyPairs(
       Collection<BitstampPairInfo> bitstampPairInfo) {
 
-    Map<Instrument, InstrumentMetaData> currencyPairs =
-            new HashMap<>();
+    Map<Instrument, InstrumentMetaData> currencyPairs = new HashMap<>();
     for (BitstampPairInfo pairInfo : bitstampPairInfo) {
       String[] pairInfos = pairInfo.getName().split("/");
       currencyPairs.put(
@@ -425,6 +424,7 @@ public final class BitstampAdapters {
         .counterMinimumAmount(minOrder)
         .priceScale(pairInfo.getCounterDecimals())
         .volumeScale(pairInfo.getBaseDecimals())
+        .marketOrderEnabled(pairInfo.isMarketOrdersEnabled())
         .build();
   }
 

@@ -23,17 +23,23 @@ public class CCEXTrades {
     this.result = result;
   }
 
-  /** @return The success */
+  /**
+   * @return The success
+   */
   public Boolean getSuccess() {
     return success;
   }
 
-  /** @return The message */
+  /**
+   * @return The message
+   */
   public String getMessage() {
     return message;
   }
 
-  /** @return The message */
+  /**
+   * @return The message
+   */
   public List<CCEXTrade> getResult() {
     return result;
   }

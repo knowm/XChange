@@ -18,8 +18,7 @@ import org.knowm.xchange.currency.Currency;
 public class BinanceAccountServiceRaw extends BinanceBaseService {
 
   public BinanceAccountServiceRaw(
-      BinanceExchange exchange,
-      ResilienceRegistries resilienceRegistries) {
+      BinanceExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
 
@@ -33,10 +32,12 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
 
   public BinanceFutureAccountInformation futuresAccount() throws BinanceException, IOException {
     return decorateApiCall(
-            () -> binanceFutures.futuresAccount(getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
-            .withRetry(retry("futures-account"))
-            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
-            .call();
+            () ->
+                binanceFutures.futuresAccount(
+                    getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
+        .withRetry(retry("futures-account"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
+        .call();
   }
 
   public WithdrawResponse withdraw(String coin, String address, BigDecimal amount)

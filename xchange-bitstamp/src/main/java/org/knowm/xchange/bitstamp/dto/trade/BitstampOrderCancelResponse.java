@@ -7,6 +7,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 public class BitstampOrderCancelResponse {
 
   private long id;
+
   /** 0 - buy (bid); 1 - sell (ask) */
   private int type;
 

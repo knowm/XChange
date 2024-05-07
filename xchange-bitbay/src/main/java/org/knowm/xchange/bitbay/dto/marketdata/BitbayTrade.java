@@ -3,7 +3,9 @@ package org.knowm.xchange.bitbay.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author kpysniak */
+/**
+ * @author kpysniak
+ */
 public class BitbayTrade {
 
   private final long date;

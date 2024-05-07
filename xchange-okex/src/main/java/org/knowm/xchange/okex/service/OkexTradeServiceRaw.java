@@ -1,5 +1,8 @@
 package org.knowm.xchange.okex.service;
 
+import static org.knowm.xchange.okex.OkexExchange.PARAM_PASSPHRASE;
+import static org.knowm.xchange.okex.OkexExchange.PARAM_SIMULATED;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -15,9 +18,6 @@ import org.knowm.xchange.okex.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.dto.trade.OkexOrderRequest;
 import org.knowm.xchange.okex.dto.trade.OkexOrderResponse;
 import org.knowm.xchange.utils.DateUtils;
-
-import static org.knowm.xchange.okex.OkexExchange.PARAM_PASSPHRASE;
-import static org.knowm.xchange.okex.OkexExchange.PARAM_SIMULATED;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexTradeServiceRaw extends OkexBaseService {
@@ -64,28 +64,29 @@ public class OkexTradeServiceRaw extends OkexBaseService {
     }
   }
 
-  public OkexResponse<List<OkexPosition>> getPositions(String instrumentType, String instrumentId, String positionId)
-          throws OkexException, IOException {
+  public OkexResponse<List<OkexPosition>> getPositions(
+      String instrumentType, String instrumentId, String positionId)
+      throws OkexException, IOException {
     try {
       return decorateApiCall(
               () ->
-                      okexAuthenticated.getPositions(
-                              instrumentType,
-                              instrumentId,
-                              positionId,
-                              exchange.getExchangeSpecification().getApiKey(),
-                              signatureCreator,
-                              DateUtils.toUTCISODateString(new Date()),
-                              (String)
-                                      exchange
-                                              .getExchangeSpecification()
-                                              .getExchangeSpecificParametersItem(PARAM_PASSPHRASE),
-                              (String)
-                                      exchange
-                                              .getExchangeSpecification()
-                                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
-              .withRateLimiter(rateLimiter(OkexAuthenticated.positionsPath))
-              .call();
+                  okexAuthenticated.getPositions(
+                      instrumentType,
+                      instrumentId,
+                      positionId,
+                      exchange.getExchangeSpecification().getApiKey(),
+                      signatureCreator,
+                      DateUtils.toUTCISODateString(new Date()),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem(PARAM_PASSPHRASE),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
+          .withRateLimiter(rateLimiter(OkexAuthenticated.positionsPath))
+          .call();
     } catch (OkexException e) {
       throw handleError(e);
     }

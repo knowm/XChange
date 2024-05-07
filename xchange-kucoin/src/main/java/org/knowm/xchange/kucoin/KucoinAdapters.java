@@ -151,7 +151,9 @@ public class KucoinAdapters {
       FeeTier[] feeTiers = staticMetaData != null ? staticMetaData.getFeeTiers() : null;
       Currency feeCurrency = new Currency(symbol.getFeeCurrency());
 
-      currencyPairs.put(pair, new InstrumentMetaData.Builder()
+      currencyPairs.put(
+          pair,
+          new InstrumentMetaData.Builder()
               .tradingFee(takerTradingFee)
               .minimumAmount(minSize)
               .maximumAmount(maxSize)
@@ -229,7 +231,7 @@ public class KucoinAdapters {
             .sorted(Ordering.natural().onResultOf((PriceAndSize s) -> s.price).reversed())
             .map(s -> adaptLimitOrder(currencyPair, BID, s, timestamp))
             .collect(toCollection(LinkedList::new));
-    return new OrderBook(timestamp, asks, bids);
+    return new OrderBook(timestamp, asks, bids, true);
   }
 
   private static LimitOrder adaptLimitOrder(
@@ -325,7 +327,7 @@ public class KucoinAdapters {
   }
 
   public static UserTrade adaptUserTrade(TradeResponse trade) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .currencyPair(adaptCurrencyPair(trade.getSymbol()))
         .feeAmount(trade.getFee())
         .feeCurrency(Currency.getInstance(trade.getFeeCurrency()))
@@ -340,7 +342,7 @@ public class KucoinAdapters {
 
   public static UserTrade adaptHistOrder(HistOrdersResponse histOrder) {
     CurrencyPair currencyPair = adaptCurrencyPair(histOrder.getSymbol());
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .currencyPair(currencyPair)
         .feeAmount(histOrder.getFee())
         .feeCurrency(currencyPair.base)

@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +38,7 @@ import org.knowm.xchange.instrument.Instrument;
 public class FtxStreamingAdapters {
 
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+
   /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
   private static final ThreadLocal<DecimalFormat> dfp =
       ThreadLocal.withInitial(
@@ -222,13 +224,13 @@ public class FtxStreamingAdapters {
     JsonNode data = jsonNode.get("data");
 
     Builder userTradeBuilder =
-        new Builder()
+        UserTrade.builder()
             .currencyPair(new CurrencyPair(data.get("market").asText()))
             .type("buy".equals(data.get("side").asText()) ? OrderType.BID : OrderType.ASK)
             .instrument(new CurrencyPair(data.get("market").asText()))
             .originalAmount(data.get("size").decimalValue())
             .price(data.get("price").decimalValue())
-            .timestamp(Date.from(Instant.ofEpochMilli(data.get("time").asLong())))
+            .timestamp(Date.from(OffsetDateTime.parse(data.get("time").asText()).toInstant()))
             .id(data.get("id").asText())
             .orderId(data.get("orderId").asText())
             .feeAmount(data.get("fee").decimalValue())

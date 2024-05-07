@@ -2,6 +2,8 @@ package org.knowm.xchange.coinmate.service;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
+import java.util.Map;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.ExchangeUtils;
@@ -10,9 +12,6 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
-
-import java.io.IOException;
-import java.util.Map;
 
 /**
  * Integration tests for Wallet retrieval. For these tests to function, a file

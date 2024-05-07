@@ -6,7 +6,9 @@ import java.time.OffsetDateTime;
 import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** @author Dat Bui */
+/**
+ * @author Dat Bui
+ */
 public class KunaUtils {
 
   public static final String DATE_FORMAT_NO_MILLIS = "yyyy-MM-dd'T'HH:mm:ss'Z'";

@@ -1,6 +1,8 @@
 package org.knowm.xchange.btcturk.dto.trade;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkCancelOrderRequest {
   private long id;
 

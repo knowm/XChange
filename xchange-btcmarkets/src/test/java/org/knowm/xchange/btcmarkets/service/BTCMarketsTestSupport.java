@@ -157,7 +157,7 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
 
   protected static UserTrade[] expectedUserTrades() {
     return new UserTrade[] {
-      new UserTrade.Builder()
+      UserTrade.builder()
           .type(Order.OrderType.ASK)
           .originalAmount(new BigDecimal("20.00000000"))
           .currencyPair(CurrencyPair.BTC_AUD)
@@ -167,7 +167,7 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
           .feeAmount(BigDecimal.ONE)
           .feeCurrency(Currency.AUD)
           .build(),
-      new UserTrade.Builder()
+      UserTrade.builder()
           .type(Order.OrderType.ASK)
           .originalAmount(new BigDecimal("40.00000000"))
           .currencyPair(CurrencyPair.BTC_AUD)
@@ -177,7 +177,7 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
           .feeAmount(BigDecimal.valueOf(2))
           .feeCurrency(Currency.AUD)
           .build(),
-      new UserTrade.Builder()
+      UserTrade.builder()
           .type(Order.OrderType.BID)
           .originalAmount(new BigDecimal("60.00000000"))
           .currencyPair(CurrencyPair.BTC_AUD)
@@ -187,7 +187,7 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
           .feeAmount(BigDecimal.valueOf(3))
           .feeCurrency(Currency.AUD)
           .build(),
-      new UserTrade.Builder()
+      UserTrade.builder()
           .type(Order.OrderType.BID)
           .originalAmount(new BigDecimal("80.00000000"))
           .currencyPair(CurrencyPair.BTC_AUD)
@@ -197,7 +197,7 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
           .feeAmount(BigDecimal.valueOf(4))
           .feeCurrency(Currency.AUD)
           .build(),
-      new UserTrade.Builder()
+      UserTrade.builder()
           .type(Order.OrderType.BID)
           .originalAmount(BigDecimal.ZERO)
           .currencyPair(CurrencyPair.BTC_AUD)

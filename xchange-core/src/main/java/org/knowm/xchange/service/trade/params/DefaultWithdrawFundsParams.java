@@ -1,20 +1,26 @@
 package org.knowm.xchange.service.trade.params;
 
 import java.math.BigDecimal;
-import javax.annotation.Nullable;
+import lombok.Value;
+import lombok.experimental.NonFinal;
+import lombok.experimental.SuperBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AddressWithTag;
 
+@Value
+@NonFinal
+@SuperBuilder
 public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
-  public final String address;
 
-  private final String addressTag;
+  String address;
 
-  public final Currency currency;
+  String addressTag;
 
-  public final BigDecimal amount;
+  Currency currency;
 
-  @Nullable public final BigDecimal commission;
+  BigDecimal amount;
+
+  BigDecimal commission;
 
   public DefaultWithdrawFundsParams(String address, Currency currency, BigDecimal amount) {
     this(address, currency, amount, null);
@@ -53,43 +59,5 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
     this.currency = currency;
     this.amount = amount;
     this.commission = commission;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public String getAddressTag() {
-    return addressTag;
-  }
-
-  public Currency getCurrency() {
-    return currency;
-  }
-
-  public BigDecimal getAmount() {
-    return amount;
-  }
-
-  @Nullable
-  public BigDecimal getCommission() {
-    return commission;
-  }
-
-  @Override
-  public String toString() {
-    return "DefaultWithdrawFundsParams{"
-        + "address='"
-        + getAddress()
-        + ", addressTag="
-        + getAddressTag()
-        + '\''
-        + ", currency="
-        + getCurrency()
-        + ", amount="
-        + getAmount()
-        + ", commission="
-        + getCommission()
-        + '}';
   }
 }

@@ -12,7 +12,9 @@ import org.knowm.xchange.kuna.dto.KunaTimeTicker;
 import org.knowm.xchange.kuna.dto.KunaTrade;
 import org.knowm.xchange.kuna.util.KunaUtils;
 
-/** @author Dat Bui */
+/**
+ * @author Dat Bui
+ */
 public class KunaMarketDataServiceRaw extends KunaBaseService {
   /**
    * Constructor.

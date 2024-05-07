@@ -11,7 +11,9 @@ import java.util.Date;
 import java.util.TimeZone;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** @author Zach Holmes */
+/**
+ * @author Zach Holmes
+ */
 public class PoloniexUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {

@@ -3,7 +3,9 @@ package org.knowm.xchange.kraken.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** @author Raphael Voellmy */
+/**
+ * @author Raphael Voellmy
+ */
 public class KrakenResult<V> {
 
   private final V result;

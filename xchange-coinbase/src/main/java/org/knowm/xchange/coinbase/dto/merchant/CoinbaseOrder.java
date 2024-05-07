@@ -20,7 +20,9 @@ import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
 import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseOrder extends CoinbaseBaseResponse {
 
   @JsonProperty("order")

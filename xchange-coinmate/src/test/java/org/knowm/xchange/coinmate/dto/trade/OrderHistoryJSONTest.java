@@ -30,10 +30,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.junit.Test;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class OrderHistoryJSONTest {
 
   @Test

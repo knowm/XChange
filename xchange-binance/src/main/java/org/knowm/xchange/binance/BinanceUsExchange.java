@@ -24,7 +24,9 @@ public class BinanceUsExchange extends BinanceExchange {
 
   @Override
   protected void initServices() {
-    this.timestampFactory = new BinanceTimestampFactory(getExchangeSpecification().getResilience(), getResilienceRegistries());
+    this.timestampFactory =
+        new BinanceTimestampFactory(
+            getExchangeSpecification().getResilience(), getResilienceRegistries());
     this.marketDataService = new BinanceMarketDataService(this, getResilienceRegistries());
     this.tradeService = new BinanceTradeService(this, getResilienceRegistries());
     this.accountService = new BinanceUsAccountService(this, getResilienceRegistries());
@@ -34,7 +36,8 @@ public class BinanceUsExchange extends BinanceExchange {
   public void remoteInit() {
     BinanceMarketDataService marketDataService = (BinanceMarketDataService) this.marketDataService;
     try {
-      exchangeMetaData = BinanceAdapters.adaptExchangeMetaData(marketDataService.getExchangeInfo(),null);
+      exchangeMetaData =
+          BinanceAdapters.adaptExchangeMetaData(marketDataService.getExchangeInfo(), null);
     } catch (IOException e) {
       e.printStackTrace();
     }

@@ -7,7 +7,9 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
 
-/** @author Andraž Prinčič */
+/**
+ * @author Andraž Prinčič
+ */
 public class CCEXBaseService extends BaseExchangeService implements BaseService {
 
   protected final String apiKey;

@@ -16,8 +16,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 
 import java.math.BigDecimal;
@@ -26,6 +26,7 @@ import java.util.function.Consumer;
 import org.assertj.core.matcher.AssertionMatcher;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -35,8 +36,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class TestMatchingEngine {
 
   private static final String MAKER = "MAKER";
@@ -51,7 +53,6 @@ public class TestMatchingEngine {
 
   @Before
   public void setup() {
-    MockitoAnnotations.initMocks(this);
     Mockito.when(accountFactory.get(Mockito.anyString())).thenReturn(account);
     matchingEngine =
         new MatchingEngine(accountFactory, BTC_USD, 2, new BigDecimal("0.001"), onFill);
@@ -131,7 +132,7 @@ public class TestMatchingEngine {
     // Then
     assertThat(result.getId()).isNotNull();
     assertThat(result.getStatus()).isEqualTo(NEW);
-    verifyZeroInteractions(onFill);
+    verifyNoInteractions(onFill);
     verify(account, never()).fill(any(UserTrade.class), any(Boolean.class));
     verify(account, times(1)).reserve(any(LimitOrder.class));
     verify(account, never()).release(any(LimitOrder.class));
@@ -155,7 +156,7 @@ public class TestMatchingEngine {
     // Then
     assertThat(result.getId()).isNotNull();
     assertThat(result.getStatus()).isEqualTo(NEW);
-    verifyZeroInteractions(onFill);
+    verifyNoInteractions(onFill);
     verify(account, never()).fill(any(UserTrade.class), any(Boolean.class));
     verify(account, times(1)).reserve(any(LimitOrder.class));
     verify(account, never()).release(any(LimitOrder.class));
@@ -585,8 +586,8 @@ public class TestMatchingEngine {
     assertThat(bids.get(1).getLimitPrice()).isEqualTo("98");
     assertThat(bids.get(1).getOriginalAmount()).isEqualTo("2");
     assertThat(bids.get(1).getType()).isEqualTo(BID);
-//    System.out.println("Asks:" + asks);
-//    System.out.println("Bids:" + bids);
+    //    System.out.println("Asks:" + asks);
+    //    System.out.println("Bids:" + bids);
   }
 
   @SuppressWarnings("unchecked")

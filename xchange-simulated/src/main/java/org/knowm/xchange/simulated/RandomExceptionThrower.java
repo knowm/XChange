@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.RateLimiter;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.Random;
-import org.apache.commons.lang3.RandomUtils;
+import java.util.concurrent.ThreadLocalRandom;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
 import org.knowm.xchange.exceptions.NonceException;
@@ -63,7 +63,7 @@ public class RandomExceptionThrower implements SimulatedExchangeOperationListene
           "System overloads are a common error on some exchanges. " + GENERIC_GUIDE);
     }
     if (!rateLimiter.tryAcquire()) {
-      if (RandomUtils.nextBoolean()) {
+      if (ThreadLocalRandom.current().nextBoolean()) {
         throw new RateLimitExceededException(RATE_LIMIT_EXCEEDED);
       } else {
         throw new FrequencyLimitExceededException(RATE_LIMIT_EXCEEDED);

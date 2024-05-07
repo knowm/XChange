@@ -1,13 +1,15 @@
 package org.knowm.xchange.blockchain;
 
+import static org.knowm.xchange.blockchain.BlockchainConstants.EXCEPTION_MESSAGE;
+
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.exceptions.*;
 
-import static org.knowm.xchange.blockchain.BlockchainConstants.EXCEPTION_MESSAGE;
-
-/** @author scuevas */
+/**
+ * @author scuevas
+ */
 @UtilityClass
 public final class BlockchainErrorAdapter {
 

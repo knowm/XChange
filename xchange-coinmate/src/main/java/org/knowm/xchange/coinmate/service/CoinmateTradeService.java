@@ -27,8 +27,8 @@ import org.knowm.xchange.coinmate.CoinmateException;
 import org.knowm.xchange.coinmate.CoinmateUtils;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOrderFlags;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOrder;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrderFlags;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateReplaceResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeHistory;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
@@ -53,7 +53,9 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class CoinmateTradeService extends CoinmateTradeServiceRaw implements TradeService {
 
   public CoinmateTradeService(Exchange exchange) {
@@ -109,15 +111,13 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
           sellCoinmateInstant(
               marketOrder.getOriginalAmount(),
               CoinmateUtils.getPair(marketOrder.getCurrencyPair()),
-              marketOrder.getUserReference()
-          );
+              marketOrder.getUserReference());
     } else if (marketOrder.getType().equals(Order.OrderType.BID)) {
       response =
           buyCoinmateInstant(
               marketOrder.getOriginalAmount(),
               CoinmateUtils.getPair(marketOrder.getCurrencyPair()),
-              marketOrder.getUserReference()
-          );
+              marketOrder.getUserReference());
     } else {
       throw new CoinmateException("Unknown order type");
     }
@@ -145,8 +145,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0,
-              limitOrder.getUserReference()
-          );
+              limitOrder.getUserReference());
     } else if (limitOrder.getType().equals(Order.OrderType.BID)) {
       response =
           buyCoinmateLimit(
@@ -158,8 +157,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0,
-              limitOrder.getUserReference()
-          );
+              limitOrder.getUserReference());
     } else {
       throw new CoinmateException("Unknown order type");
     }
@@ -187,8 +185,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0,
-              stopOrder.getUserReference()
-          );
+              stopOrder.getUserReference());
     } else if (stopOrder.getType().equals(Order.OrderType.BID)) {
       response =
           buyCoinmateLimit(
@@ -200,8 +197,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0,
-              stopOrder.getUserReference()
-          );
+              stopOrder.getUserReference());
     } else {
       throw new CoinmateException("Unknown order type");
     }
@@ -298,8 +294,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0,
-              limitOrder.getUserReference()
-          );
+              limitOrder.getUserReference());
     } else if (limitOrder.getType().equals(Order.OrderType.BID)) {
       response =
           coinmateReplaceByBuyLimit(
@@ -312,8 +307,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0,
-              limitOrder.getUserReference()
-          );
+              limitOrder.getUserReference());
     } else {
       throw new CoinmateException("Unknown order type");
     }

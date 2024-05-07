@@ -18,7 +18,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author allenday */
+/**
+ * @author allenday
+ */
 public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServiceRaw
     implements MarketDataService {
 

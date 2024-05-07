@@ -10,10 +10,12 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.Side;
 import org.knowm.xchange.bitstamp.BitstampUtils;
 import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderFlags;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -39,7 +41,9 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.DateUtils;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class BitstampTradeService extends BitstampTradeServiceRaw implements TradeService {
 
   public BitstampTradeService(Exchange exchange) {
@@ -78,17 +82,48 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     return new OpenOrders(limitOrders);
   }
 
-  @Override
+  private String placeInstantMarketOrder(MarketOrder order) throws IOException, BitstampException {
+    BitstampAuthenticatedV2.Side side =
+        order.getType().equals(BID)
+            ? BitstampAuthenticatedV2.Side.buy
+            : BitstampAuthenticatedV2.Side.sell;
+
+    BitstampOrder bitstampOrder;
+    if (side == Side.sell) {
+      boolean amountInCounter = order.hasFlag(BitstampOrderFlags.INSTANT_AMOUNT_IN_COUNTER);
+      bitstampOrder =
+          placeBitstampInstantSellMarketOrder(order.getCurrencyPair(), side, order.getOriginalAmount(), amountInCounter);
+    } else {
+      bitstampOrder =
+          placeBitstampInstantMarketOrder(order.getCurrencyPair(), side, order.getOriginalAmount());
+
+    }
+
+    if (bitstampOrder.getErrorMessage() != null) {
+      throw new ExchangeException(bitstampOrder.getErrorMessage());
+    }
+
+    return Long.toString(bitstampOrder.getId());
+  }
+
+    @Override
   public String placeMarketOrder(MarketOrder order) throws IOException, BitstampException {
     BitstampAuthenticatedV2.Side side =
         order.getType().equals(BID)
             ? BitstampAuthenticatedV2.Side.buy
             : BitstampAuthenticatedV2.Side.sell;
+
+    if (order.hasFlag(BitstampOrderFlags.INSTANT_MARKET)) {
+      return placeInstantMarketOrder(order);
+    }
+
     BitstampOrder bitstampOrder =
         placeBitstampMarketOrder(order.getCurrencyPair(), side, order.getOriginalAmount());
+
     if (bitstampOrder.getErrorMessage() != null) {
       throw new ExchangeException(bitstampOrder.getErrorMessage());
     }
+
     return Long.toString(bitstampOrder.getId());
   }
 

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>5.1.1-SNAPSHOT</version>
+		<version>5.1.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
@@ -78,12 +78,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-bittrex</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- XChange BitcoinCharts support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-bitcoincharts</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange Bitcoinde support -->
@@ -259,7 +253,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-cryptofacilities</artifactId>
+			<artifactId>xchange-krakenfutures</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -342,11 +336,6 @@
 			<artifactId>xchange-dvchain</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-  		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-bankera</artifactId>
-			<version>${project.version}</version>
-		</dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-enigma</artifactId>
@@ -362,6 +351,7 @@
 			<artifactId>xchange-deribit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 	</dependencies>
 
 </project>

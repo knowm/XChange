@@ -12,7 +12,9 @@ import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 
-/** @author Zach Holmes */
+/**
+ * @author Zach Holmes
+ */
 public class PoloniexBaseService extends BaseExchangeService implements BaseService {
 
   protected final String apiKey;

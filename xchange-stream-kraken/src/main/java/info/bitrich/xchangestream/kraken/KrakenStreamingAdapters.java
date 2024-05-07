@@ -1,27 +1,37 @@
 package info.bitrich.xchangestream.kraken;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.node.*;
+import static info.bitrich.xchangestream.kraken.KrakenStreamingChecksum.createCrcChecksum;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
-import com.google.common.collect.*;
-import org.knowm.xchange.dto.*;
-import org.knowm.xchange.dto.marketdata.*;
-import org.knowm.xchange.dto.trade.*;
-import org.knowm.xchange.instrument.*;
-import org.knowm.xchange.kraken.*;
-import org.knowm.xchange.kraken.dto.trade.*;
-import org.knowm.xchange.utils.*;
-import org.slf4j.*;
-
-import java.math.*;
-import java.util.*;
-import java.util.concurrent.atomic.*;
-import java.util.stream.*;
-
-import static info.bitrich.xchangestream.kraken.KrakenStreamingChecksum.*;
+import info.bitrich.xchangestream.kraken.dto.KrakenStreamingOhlc;
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.kraken.KrakenAdapters;
+import org.knowm.xchange.kraken.dto.trade.KrakenType;
+import org.knowm.xchange.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Kraken streaming adapters */
 public class KrakenStreamingAdapters {
+
   private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingAdapters.class);
 
   static final String ASK_SNAPSHOT = "as";
@@ -188,13 +198,14 @@ public class KrakenStreamingAdapters {
     ArrayNode data = (ArrayNode) arrayNode.get(1);
 
     return new Ticker.Builder()
-            .ask(arrayNodeItemAsDecimal(data, 1))
-            .bid(arrayNodeItemAsDecimal(data, 0))
-            .askSize(arrayNodeItemAsDecimal(data, 4))
-            .bidSize(arrayNodeItemAsDecimal(data, 3))
-            .timestamp(DateUtils.fromMillisUtc((long) (Double.parseDouble(data.get(2).textValue()) * 1000)))
-            .instrument(instrument)
-            .build();
+        .ask(arrayNodeItemAsDecimal(data, 1))
+        .bid(arrayNodeItemAsDecimal(data, 0))
+        .askSize(arrayNodeItemAsDecimal(data, 4))
+        .bidSize(arrayNodeItemAsDecimal(data, 3))
+        .timestamp(
+            DateUtils.fromMillisUtc((long) (Double.parseDouble(data.get(2).textValue()) * 1000)))
+        .instrument(instrument)
+        .build();
   }
 
   /** Adapt an JsonNode into a list of Trade */
@@ -221,6 +232,22 @@ public class KrakenStreamingAdapters {
         .type(nextNodeAsOrderType(iterator))
         .instrument(instrument)
         .build();
+  }
+
+  public static KrakenStreamingOhlc adaptOhlc(Instrument instrument, ArrayNode arrayNode) {
+    ArrayNode data = (ArrayNode) arrayNode.get(1);
+
+    return new KrakenStreamingOhlc(
+        (long) (Double.parseDouble(data.get(0).textValue()) * 1000), // time in millis since epoch
+        (long) (Double.parseDouble(data.get(1).textValue()) * 1000),
+        // etime time in millis since epoch
+        arrayNodeItemAsDecimal(data, 2), // open
+        arrayNodeItemAsDecimal(data, 3), // high
+        arrayNodeItemAsDecimal(data, 4), // low
+        arrayNodeItemAsDecimal(data, 5), // close
+        arrayNodeItemAsDecimal(data, 6), // vwap
+        arrayNodeItemAsDecimal(data, 7), // volume
+        arrayNodeItemAsDecimal(data, 8).longValue()); // count
   }
 
   /**
@@ -257,8 +284,7 @@ public class KrakenStreamingAdapters {
     if (iterator == null || !iterator.hasNext()) {
       return null;
     }
-    return DateUtils.fromMillisUtc(
-            (long) (Double.parseDouble(iterator.next().textValue()) * 1000));
+    return DateUtils.fromMillisUtc((long) (Double.parseDouble(iterator.next().textValue()) * 1000));
   }
 
   /**

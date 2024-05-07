@@ -1,7 +1,6 @@
 package org.knowm.xchange.dto.trade;
 
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -9,6 +8,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order.OrderType;
+import java.util.List;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -33,7 +33,9 @@ public class UserTrades extends Trades {
         super((List) trades, lastID, tradeSortType, nextPageCursor);
     }
 
-    public List<UserTrade> getUserTrades() {
-        return (List) getTrades();
-    }
+  @JsonIgnore
+  public List<UserTrade> getUserTrades() {
+
+    return (List) getTrades();
+  }
 }

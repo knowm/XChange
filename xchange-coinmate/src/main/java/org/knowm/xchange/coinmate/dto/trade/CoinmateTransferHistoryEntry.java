@@ -14,6 +14,7 @@ public class CoinmateTransferHistoryEntry {
   private final String walletType;
   private final String destination;
   private final String destinationTag;
+  private final String txid;
 
   public CoinmateTransferHistoryEntry(
       @JsonProperty("transactionId") long id,
@@ -25,9 +26,9 @@ public class CoinmateTransferHistoryEntry {
       @JsonProperty("amountCurrency") String amountCurrency,
       @JsonProperty("walletType") String walletType,
       @JsonProperty("destination") String destination,
-      @JsonProperty("destinationTag") String destinationTag
+      @JsonProperty("destinationTag") String destinationTag,
+      @JsonProperty("txid") String txid
   ) {
-
     this.fee = fee;
     this.transferType = transferType;
     this.timestamp = timestamp;
@@ -38,10 +39,39 @@ public class CoinmateTransferHistoryEntry {
     this.walletType = walletType;
     this.destination = destination;
     this.destinationTag = destinationTag;
+    this.txid = txid;
   }
 
   public long getId() {
     return id;
+  }
+
+  public BigDecimal getFee() {
+    return fee;
+  }
+
+  public String getTransferType() {
+    return transferType;
+  }
+
+  public long getTimestamp() {
+    return timestamp;
+  }
+
+  public String getTransferStatus() {
+    return transferStatus;
+  }
+
+  public BigDecimal getAmount() {
+    return amount;
+  }
+
+  public String getAmountCurrency() {
+    return amountCurrency;
+  }
+
+  public String getWalletType() {
+    return walletType;
   }
 
   public String getDestination() {
@@ -52,4 +82,5 @@ public class CoinmateTransferHistoryEntry {
     return destinationTag;
   }
 
+  public String getTxid() { return txid; }
 }

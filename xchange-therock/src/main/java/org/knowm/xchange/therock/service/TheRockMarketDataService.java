@@ -13,7 +13,9 @@ import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.dto.marketdata.TheRockOrderBook;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTicker;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class TheRockMarketDataService extends TheRockMarketDataServiceRaw
     implements MarketDataService {
 

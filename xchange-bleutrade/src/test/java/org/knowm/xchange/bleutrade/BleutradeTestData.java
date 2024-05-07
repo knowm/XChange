@@ -16,7 +16,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 public class BleutradeTestData {
 
   protected static final CurrencyPair BLEU_BTC_CP = new CurrencyPair("BLEU", "BTC");
-  protected static final InstrumentMetaData INSTRUMENT_META_DATA = new InstrumentMetaData.Builder()
+  protected static final InstrumentMetaData INSTRUMENT_META_DATA =
+      new InstrumentMetaData.Builder()
           .tradingFee(new BigDecimal("0.0025"))
           .minimumAmount(BigDecimal.valueOf(0.1).stripTrailingZeros())
           .volumeScale(8)
@@ -180,16 +181,10 @@ public class BleutradeTestData {
   }
 
   protected static InstrumentMetaData[] expectedMetaDataList() {
-    return new InstrumentMetaData[] {
-            INSTRUMENT_META_DATA,
-            INSTRUMENT_META_DATA
-    };
+    return new InstrumentMetaData[] {INSTRUMENT_META_DATA, INSTRUMENT_META_DATA};
   }
 
   protected static String[] expectedMetaDataStr() {
-    return new String[] {
-      INSTRUMENT_META_DATA.toString(),
-      INSTRUMENT_META_DATA.toString()
-    };
+    return new String[] {INSTRUMENT_META_DATA.toString(), INSTRUMENT_META_DATA.toString()};
   }
 }

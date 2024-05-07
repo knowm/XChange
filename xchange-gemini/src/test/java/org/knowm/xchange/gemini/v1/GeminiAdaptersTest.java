@@ -409,8 +409,8 @@ public class GeminiAdaptersTest {
         mapper.readValue(is, GeminiTrailingVolumeResponse.class);
 
     List<Instrument> fakeSupportedCurrencyPairs =
-            new ArrayList<>(
-                    Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_LTC, CurrencyPair.LTC_XRP));
+        new ArrayList<>(
+            Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_LTC, CurrencyPair.LTC_XRP));
     Map<Instrument, Fee> dynamicFees =
         GeminiAdapters.AdaptDynamicTradingFees(trailingVolumeResp, fakeSupportedCurrencyPairs);
 

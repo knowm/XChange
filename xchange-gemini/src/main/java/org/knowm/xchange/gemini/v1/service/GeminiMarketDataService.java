@@ -52,7 +52,9 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw
         getGeminiTicker(GeminiUtils.toPairString(currencyPair)), currencyPair);
   }
 
-  /** @param args If two integers are provided, then those count as limit bid and limit ask count */
+  /**
+   * @param args If two integers are provided, then those count as limit bid and limit ask count
+   */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 

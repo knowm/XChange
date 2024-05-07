@@ -12,7 +12,9 @@ import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseMerchant;
 import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 @JsonInclude(Include.NON_NULL)
 public class CoinbaseUser extends CoinbaseBaseResponse {
 

@@ -3,7 +3,9 @@ package org.knowm.xchange.mercadobitcoin.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author Felipe Micaroni Lalli */
+/**
+ * @author Felipe Micaroni Lalli
+ */
 public final class OperationEntry {
 
   private final BigDecimal volume;

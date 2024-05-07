@@ -49,6 +49,7 @@ public class FuturesMultipleOrderPlacementRequest {
 
     /** required, The buying or selling quantityd */
     private BigDecimal size;
+
     /**
      * optional, Order at best counter party price? (0:no 1:yes) the parameter is defaulted as 0. If
      * it is set as 1, the price parameter will be ignored，When posting orders at best bid price,

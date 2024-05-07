@@ -1,5 +1,6 @@
 package org.knowm.xchange.upbit;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -16,23 +17,13 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.upbit.dto.account.UpbitBalances;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitMarket;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBook;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBookData;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBooks;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTicker;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTickers;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTrade;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTrades;
+import org.knowm.xchange.upbit.dto.marketdata.*;
 import org.knowm.xchange.upbit.dto.trade.UpbitOrderResponse;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -129,11 +120,12 @@ public final class UpbitAdapters {
     List<Balance> balances = new ArrayList<>();
     Arrays.stream(wallets.getBalances())
         .forEach(
-            balance -> balances.add(
-                new Balance(
-                    Currency.getInstance(balance.getCurrency()),
-                    balance.getBalance().add(balance.getLocked()),
-                    balance.getBalance())));
+            balance ->
+                balances.add(
+                    new Balance(
+                        Currency.getInstance(balance.getCurrency()),
+                        balance.getBalance().add(balance.getLocked()),
+                        balance.getBalance())));
     return Wallet.Builder.from(balances).build();
   }
 
@@ -174,5 +166,24 @@ public final class UpbitAdapters {
                 Collectors.toMap(
                     Function.identity(), cp -> new InstrumentMetaData.Builder().build()));
     return new ExchangeMetaData(pairMeta, null, null, null, null);
+  }
+
+  public static CandleStickData adaptCandleStickData(
+      List<UpbitCandleStickData> candleStickData, CurrencyPair currencyPair) throws IOException {
+
+    List<CandleStick> candleSticks = new ArrayList<>();
+    for (UpbitCandleStickData it : candleStickData) {
+      candleSticks.add(
+          new CandleStick.Builder()
+              .timestamp(DateUtils.fromISO8601DateString(it.getCandleDateTimeUtc()))
+              .open(it.getOpeningPrice())
+              .high(it.getHighPrice())
+              .low(it.getLowPrice())
+              .close(it.getTracePrice())
+              .volume(it.getCandleAccTradeVolume())
+              .quotaVolume(it.getCandleAccTradePrice())
+              .build());
+    }
+    return new CandleStickData(currencyPair, candleSticks);
   }
 }

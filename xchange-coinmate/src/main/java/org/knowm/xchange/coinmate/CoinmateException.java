@@ -25,7 +25,9 @@ package org.knowm.xchange.coinmate;
 
 import org.knowm.xchange.exceptions.ExchangeException;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class CoinmateException extends ExchangeException {
 
   public CoinmateException(String errorMessage) {

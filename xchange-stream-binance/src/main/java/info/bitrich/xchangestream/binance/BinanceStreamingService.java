@@ -7,10 +7,10 @@ import info.bitrich.xchangestream.binance.dto.BinanceWebSocketSubscriptionMessag
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
+import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BinanceStreamingService extends JsonNettyStreamingService {
 
@@ -32,10 +34,16 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
   private final KlineSubscription klineSubscription;
 
   private boolean isLiveSubscriptionEnabled = false;
+
+  private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
+
   private final Map<Integer, BinanceWebSocketSubscriptionMessage> liveSubscriptionMessage =
       new ConcurrentHashMap<>();
 
-  public BinanceStreamingService(String baseUri, ProductSubscription productSubscription, KlineSubscription klineSubscription) {
+  public BinanceStreamingService(
+      String baseUri,
+      ProductSubscription productSubscription,
+      KlineSubscription klineSubscription) {
     super(baseUri, Integer.MAX_VALUE);
     this.productSubscription = productSubscription;
     this.klineSubscription = klineSubscription;
@@ -98,8 +106,8 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
   /**
    * We override this method because we must not use Live Subscription in case of reconnection. The
    * reason is that Binance has a Websocket limits to 5 incoming messages per second. If we pass
-   * this limit the socket is closed automatically by Binance. See
-   * <a href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#websocket-limits">...</a>
+   * this limit the socket is closed automatically by Binance. See <a
+   * href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#websocket-limits">...</a>
    * for more details. All the channels will be resubscribed at connection time.
    */
   @Override
@@ -216,8 +224,8 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
 
   /**
    * Live Unsubscription from stream. This send a message through the websocket to Binance with
-   * method UNSUBSCRIBE. (see
-   * <a href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#unsubscribe-to-a-stream">...</a>
+   * method UNSUBSCRIBE. (see <a
+   * href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#unsubscribe-to-a-stream">...</a>
    * for more details) This is the only way to really stop receiving data from the stream
    * (Disposable.dispose() dispose the resource but don't stop the data to be received from
    * Binance).
@@ -234,6 +242,41 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
       } catch (Exception e) {
         LOGGER.warn("Failed to unsubscribe channel: {}", channelId, e);
       }
+    }
+  }
+
+  @Override
+  protected WebSocketClientHandler getWebSocketClientHandler(
+      WebSocketClientHandshaker handshake, WebSocketClientHandler.WebSocketMessageHandler handler) {
+    LOGGER.info("Registering BinanceWebSocketClientHandler");
+    return new BinanceWebSocketClientHandler(handshake, handler);
+  }
+
+  public void setChannelInactiveHandler(
+      WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+    this.channelInactiveHandler = channelInactiveHandler;
+  }
+
+  /**
+   * Custom client handler in order to execute an external, user-provided handler on channel events.
+   */
+  class BinanceWebSocketClientHandler extends NettyWebSocketClientHandler {
+
+    public BinanceWebSocketClientHandler(
+        WebSocketClientHandshaker handshake, WebSocketMessageHandler handler) {
+      super(handshake, handler);
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) {
+      super.channelActive(ctx);
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) {
+      super.channelInactive(ctx);
+      if (channelInactiveHandler != null)
+        channelInactiveHandler.onMessage("WebSocket Client disconnected!");
     }
   }
 }

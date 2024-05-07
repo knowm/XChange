@@ -6,7 +6,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 
-/** @author matthewdowney */
+/**
+ * @author matthewdowney
+ */
 public class BitcoindeOrderBook {
 
   private final BigDecimal[][] asks;

@@ -14,7 +14,9 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
-/** @author interwater */
+/**
+ * @author interwater
+ */
 public class CoinoneTradeService extends CoinoneTradeServiceRaw implements TradeService {
   /**
    * Constructor
@@ -48,8 +50,10 @@ public class CoinoneTradeService extends CoinoneTradeServiceRaw implements Trade
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
     CoinoneTradeResponse response = super.cancerOrder((CoinoneTradeCancelRequest) orderParams);
     if (!response.getErrorCode().equals("0")) {
       throw new CoinoneException(CoinoneException.resMsgMap.get(response.getErrorCode()));

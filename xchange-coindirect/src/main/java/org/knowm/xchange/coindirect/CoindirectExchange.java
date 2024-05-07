@@ -49,12 +49,14 @@ public class CoindirectExchange extends BaseExchange {
       for (CoindirectMarket market : coindirectMarketList) {
         CurrencyPair currencyPair = CoindirectAdapters.toCurrencyPair(market.symbol);
         InstrumentMetaData staticMeta = currencyPairs.get(currencyPair);
-        currencyPairs.put(currencyPair, new InstrumentMetaData.Builder()
-                        .tradingFee(staticMeta.getTradingFee())
-                        .minimumAmount(market.minimumQuantity)
-                        .maximumAmount(market.maximumQuantity)
-                        .priceScale(staticMeta.getPriceScale())
-                        .feeTiers(staticMeta.getFeeTiers())
+        currencyPairs.put(
+            currencyPair,
+            new InstrumentMetaData.Builder()
+                .tradingFee(staticMeta.getTradingFee())
+                .minimumAmount(market.minimumQuantity)
+                .maximumAmount(market.maximumQuantity)
+                .priceScale(staticMeta.getPriceScale())
+                .feeTiers(staticMeta.getFeeTiers())
                 .build());
       }
 

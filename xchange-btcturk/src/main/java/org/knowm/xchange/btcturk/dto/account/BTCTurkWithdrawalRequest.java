@@ -2,7 +2,9 @@ package org.knowm.xchange.btcturk.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkWithdrawalRequest {
 
   private final String iban;

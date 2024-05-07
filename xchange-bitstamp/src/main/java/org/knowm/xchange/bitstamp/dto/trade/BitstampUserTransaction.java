@@ -11,7 +11,9 @@ import java.util.Set;
 import org.knowm.xchange.bitstamp.BitstampUtils;
 import org.knowm.xchange.currency.Currency;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public final class BitstampUserTransaction {
 
   private final Date datetime;

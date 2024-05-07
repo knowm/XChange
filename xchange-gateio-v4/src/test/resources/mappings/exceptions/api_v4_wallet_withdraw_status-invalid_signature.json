@@ -1,0 +1,15 @@
+{
+  "id" : "56aff0c3-822e-4e4c-adbd-45c89cbd5aad",
+  "name" : "api_v4_wallet_withdraw_status",
+  "request" : {
+    "url" : "/api/v4/wallet/withdraw_status?currency=THROW_401",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 401,
+    "bodyFileName" : "exceptions/api_v4_wallet_withdraw_status-invalid_signature.json"
+  },
+  "uuid" : "56aff0c3-822e-4e4c-adbd-45c89cbd5aad",
+  "persistent" : true,
+  "insertionIndex" : 9
+}

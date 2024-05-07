@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
@@ -53,7 +54,7 @@ public class DeribitAdapters {
   private static final String PERPETUAL = "PERPETUAL";
   private static final int CURRENCY_SCALE = 8;
   private static final ThreadLocal<DateFormat> DATE_PARSER =
-      ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy"));
+      ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy", Locale.US));
 
   public static String adaptInstrumentName(Instrument instrument) {
     if (instrument instanceof FuturesContract) {
@@ -66,9 +67,9 @@ public class DeribitAdapters {
 
   public static String adaptInstrumentName(FuturesContract future) {
     return future.getCurrencyPair().base
-            + (future.getCurrencyPair().counter == Currency.USDC ? "_USDC" : "")
-            + "-"
-            + (future.getPrompt() == null ? PERPETUAL : (future.getPrompt()));
+        + (future.getCurrencyPair().counter == Currency.USDC ? "_USDC" : "")
+        + "-"
+        + (future.getPrompt() == null ? PERPETUAL : (future.getPrompt()));
   }
 
   public static String adaptInstrumentName(OptionsContract option) {
@@ -284,11 +285,11 @@ public class DeribitAdapters {
     String[] parts = instrumentName.split("-");
     if (parts.length == 2) {
       DeribitInstrument future = new DeribitInstrument();
-      if(parts[0].contains("_")){
+      if (parts[0].contains("_")) {
         String[] subParts = parts[0].split("_");
         future.setBaseCurrency(subParts[0]);
         future.setQuoteCurrency(subParts[1]);
-      }else {
+      } else {
         future.setBaseCurrency(parts[0]);
         future.setQuoteCurrency(IMPLIED_COUNTER);
       }
@@ -351,7 +352,7 @@ public class DeribitAdapters {
   }
 
   private static UserTrade adaptUserTrade(org.knowm.xchange.deribit.v2.dto.trade.Trade trade) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(adapt(trade.getDirection()))
         .originalAmount(trade.getAmount())
         .instrument(adaptInstrument(trade.getInstrumentName()))

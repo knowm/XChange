@@ -74,6 +74,7 @@ public final class BTCTurkAdapters {
     }
     return result;
   }
+
   /**
    * Adapts a BTCTurkTrade[] to a Trades Object
    *

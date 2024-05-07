@@ -4,7 +4,9 @@ import org.junit.BeforeClass;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 
-/** @author Dat Bui */
+/**
+ * @author Dat Bui
+ */
 public class BaseKunaTest {
 
   private static Exchange exchange;

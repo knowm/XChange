@@ -26,6 +26,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class GeminiAccountServiceRaw extends GeminiBaseService {
 
   protected final List<Instrument> allCurrencyPairs;
+
   /**
    * Constructor
    *
@@ -34,7 +35,7 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
   public GeminiAccountServiceRaw(Exchange exchange) {
     super(exchange);
     this.allCurrencyPairs =
-            new ArrayList<>(exchange.getExchangeMetaData().getInstruments().keySet());
+        new ArrayList<>(exchange.getExchangeMetaData().getInstruments().keySet());
   }
 
   public List<GeminiTransfer> transfers(Date from, Integer limit) throws IOException {

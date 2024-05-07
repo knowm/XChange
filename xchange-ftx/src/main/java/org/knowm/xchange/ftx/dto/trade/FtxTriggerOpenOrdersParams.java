@@ -5,19 +5,19 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair
 
 public class FtxTriggerOpenOrdersParams implements OpenOrdersParamCurrencyPair {
 
-    private CurrencyPair currencyPair;
+  private CurrencyPair currencyPair;
 
-    public FtxTriggerOpenOrdersParams(CurrencyPair currencyPair) {
-        this.currencyPair = currencyPair;
-    }
+  public FtxTriggerOpenOrdersParams(CurrencyPair currencyPair) {
+    this.currencyPair = currencyPair;
+  }
 
-    @Override
-    public CurrencyPair getCurrencyPair() {
-        return currencyPair;
-    }
+  @Override
+  public CurrencyPair getCurrencyPair() {
+    return currencyPair;
+  }
 
-    @Override
-    public void setCurrencyPair(CurrencyPair pair) {
-        this.currencyPair = pair;
-    }
+  @Override
+  public void setCurrencyPair(CurrencyPair pair) {
+    this.currencyPair = pair;
+  }
 }

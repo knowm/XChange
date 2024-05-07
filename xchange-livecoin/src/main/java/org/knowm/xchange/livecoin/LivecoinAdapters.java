@@ -101,10 +101,15 @@ public class LivecoinAdapters {
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     for (LivecoinRestriction product : products) {
       CurrencyPair pair = adaptCurrencyPair(product);
-      currencyPairs.put(pair, new InstrumentMetaData.Builder()
-                      .priceScale((product.getPriceScale() == null) ? FALLBACK_PRICE_SCALE : product.getPriceScale())
-                      .volumeScale(LIVECOIN_BASE_SCALE)
-                      .minimumAmount(product.getMinLimitQuantity())
+      currencyPairs.put(
+          pair,
+          new InstrumentMetaData.Builder()
+              .priceScale(
+                  (product.getPriceScale() == null)
+                      ? FALLBACK_PRICE_SCALE
+                      : product.getPriceScale())
+              .volumeScale(LIVECOIN_BASE_SCALE)
+              .minimumAmount(product.getMinLimitQuantity())
               .build());
 
       if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
@@ -231,7 +236,7 @@ public class LivecoinAdapters {
 
     String id = map.get("id").toString();
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(type)
         .originalAmount(amountA)
         .currencyPair(new CurrencyPair(ccyA, ccyB))

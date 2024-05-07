@@ -9,7 +9,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.HashMap;
 import java.util.Map;
 
-/** @author kaiserfr */
+/**
+ * @author kaiserfr
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"message", "start", "end"})
 public class BitcoindeMaintenance {

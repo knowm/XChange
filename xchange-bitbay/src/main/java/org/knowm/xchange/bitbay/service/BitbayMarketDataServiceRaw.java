@@ -7,7 +7,9 @@ import org.knowm.xchange.bitbay.dto.marketdata.BitbayTicker;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** @author kpysniak */
+/**
+ * @author kpysniak
+ */
 public class BitbayMarketDataServiceRaw extends BitbayBaseService {
 
   /**

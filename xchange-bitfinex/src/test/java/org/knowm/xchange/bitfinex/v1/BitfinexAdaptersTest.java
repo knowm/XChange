@@ -52,13 +52,13 @@ public class BitfinexAdaptersTest {
         mapper.readValue(is, BitfinexTradingFeeResponse[].class);
     assertEquals(2, readValues.length);
     List<Instrument> currencyPairs =
-            new ArrayList<>(
-                Arrays.asList(
-                        CurrencyPair.BTC_LTC,
-                        CurrencyPair.LTC_AUD,
-                        CurrencyPair.ETH_BTC,
-                        CurrencyPair.DGC_BTC,
-                        CurrencyPair.BTC_USD));
+        new ArrayList<>(
+            Arrays.asList(
+                CurrencyPair.BTC_LTC,
+                CurrencyPair.LTC_AUD,
+                CurrencyPair.ETH_BTC,
+                CurrencyPair.DGC_BTC,
+                CurrencyPair.BTC_USD));
     Map<Instrument, Fee> feesPerPair =
         BitfinexAdapters.adaptDynamicTradingFees(readValues, currencyPairs);
     assertEquals(currencyPairs.size(), feesPerPair.size());

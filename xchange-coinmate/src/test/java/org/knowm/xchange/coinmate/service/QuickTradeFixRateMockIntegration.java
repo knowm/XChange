@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -51,8 +50,11 @@ public class QuickTradeFixRateMockIntegration {
   @Test
   public void testGetBuyQuickRate() throws Exception {
     Exchange exchange = createMockExchangeUnauthenticated();
-    CoinmateMarketDataServiceRaw marketDataService = (CoinmateMarketDataServiceRaw) exchange.getMarketDataService();
-    CoinmateQuickRate response = marketDataService.getCoinmateBuyQuickRate(new BigDecimal("1.0"), CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
+    CoinmateMarketDataServiceRaw marketDataService =
+        (CoinmateMarketDataServiceRaw) exchange.getMarketDataService();
+    CoinmateQuickRate response =
+        marketDataService.getCoinmateBuyQuickRate(
+            new BigDecimal("1.0"), CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
     assertFalse(response.isError());
     assertNull(response.getErrorMessage());
     assertNotNull(response.getData());
@@ -61,8 +63,11 @@ public class QuickTradeFixRateMockIntegration {
   @Test
   public void testGetSellQuickRate() throws Exception {
     Exchange exchange = createMockExchangeUnauthenticated();
-    CoinmateMarketDataServiceRaw marketDataService = (CoinmateMarketDataServiceRaw) exchange.getMarketDataService();
-    CoinmateQuickRate response = marketDataService.getCoinmateSellQuickRate(new BigDecimal("1.0"), CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
+    CoinmateMarketDataServiceRaw marketDataService =
+        (CoinmateMarketDataServiceRaw) exchange.getMarketDataService();
+    CoinmateQuickRate response =
+        marketDataService.getCoinmateSellQuickRate(
+            new BigDecimal("1.0"), CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
     assertFalse(response.isError());
     assertNull(response.getErrorMessage());
     assertNotNull(response.getData());
@@ -74,11 +79,9 @@ public class QuickTradeFixRateMockIntegration {
     TradeService tradeService = exchange.getTradeService();
     CoinmateTradeServiceRaw tradeServiceRaw = (CoinmateTradeServiceRaw) tradeService;
 
-    CoinmateBuyFixRateResponse response = tradeServiceRaw.coinmateBuyQuickFixRate(
-        new BigDecimal("1.0"),
-        null,
-        CoinmateUtils.getPair(CurrencyPair.BTC_EUR)
-    );
+    CoinmateBuyFixRateResponse response =
+        tradeServiceRaw.coinmateBuyQuickFixRate(
+            new BigDecimal("1.0"), null, CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
     assertFalse(response.isError());
     assertNull(response.getErrorMessage());
     CoinmateBuyFixRateResponseData data = response.getData();
@@ -96,11 +99,9 @@ public class QuickTradeFixRateMockIntegration {
     TradeService tradeService = exchange.getTradeService();
     CoinmateTradeServiceRaw tradeServiceRaw = (CoinmateTradeServiceRaw) tradeService;
 
-    CoinmateBuyFixRateResponse response = tradeServiceRaw.coinmateBuyQuickFixRate(
-        null,
-        new BigDecimal("100.0"),
-        CoinmateUtils.getPair(CurrencyPair.BTC_EUR)
-    );
+    CoinmateBuyFixRateResponse response =
+        tradeServiceRaw.coinmateBuyQuickFixRate(
+            null, new BigDecimal("100.0"), CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
     assertFalse(response.isError());
     assertNull(response.getErrorMessage());
     CoinmateBuyFixRateResponseData data = response.getData();
@@ -118,11 +119,9 @@ public class QuickTradeFixRateMockIntegration {
     TradeService tradeService = exchange.getTradeService();
     CoinmateTradeServiceRaw tradeServiceRaw = (CoinmateTradeServiceRaw) tradeService;
 
-    CoinmateSellFixRateResponse response = tradeServiceRaw.coinmateSellQuickFixRate(
-        new BigDecimal("1.0"),
-        null,
-        CoinmateUtils.getPair(CurrencyPair.BTC_EUR)
-    );
+    CoinmateSellFixRateResponse response =
+        tradeServiceRaw.coinmateSellQuickFixRate(
+            new BigDecimal("1.0"), null, CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
     assertFalse(response.isError());
     assertNull(response.getErrorMessage());
     CoinmateSellFixRateResponseData data = response.getData();
@@ -140,11 +139,9 @@ public class QuickTradeFixRateMockIntegration {
     TradeService tradeService = exchange.getTradeService();
     CoinmateTradeServiceRaw tradeServiceRaw = (CoinmateTradeServiceRaw) tradeService;
 
-    CoinmateSellFixRateResponse response = tradeServiceRaw.coinmateSellQuickFixRate(
-        null,
-        new BigDecimal("100.0"),
-        CoinmateUtils.getPair(CurrencyPair.BTC_EUR)
-    );
+    CoinmateSellFixRateResponse response =
+        tradeServiceRaw.coinmateSellQuickFixRate(
+            null, new BigDecimal("100.0"), CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
     assertFalse(response.isError());
     assertNull(response.getErrorMessage());
     CoinmateSellFixRateResponseData data = response.getData();
@@ -162,11 +159,9 @@ public class QuickTradeFixRateMockIntegration {
     TradeService tradeService = exchange.getTradeService();
     CoinmateTradeServiceRaw tradeServiceRaw = (CoinmateTradeServiceRaw) tradeService;
 
-    CoinmateBuyFixRateResponse response = tradeServiceRaw.coinmateBuyQuickFixRate(
-        null,
-        new BigDecimal("100.0"),
-        CoinmateUtils.getPair(CurrencyPair.BTC_EUR)
-    );
+    CoinmateBuyFixRateResponse response =
+        tradeServiceRaw.coinmateBuyQuickFixRate(
+            null, new BigDecimal("100.0"), CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
     assertFalse(response.isError());
     assertNull(response.getErrorMessage());
     CoinmateBuyFixRateResponseData data = response.getData();
@@ -185,11 +180,9 @@ public class QuickTradeFixRateMockIntegration {
     TradeService tradeService = exchange.getTradeService();
     CoinmateTradeServiceRaw tradeServiceRaw = (CoinmateTradeServiceRaw) tradeService;
 
-    CoinmateSellFixRateResponse response = tradeServiceRaw.coinmateSellQuickFixRate(
-        new BigDecimal("1.0"),
-        null,
-        CoinmateUtils.getPair(CurrencyPair.BTC_EUR)
-    );
+    CoinmateSellFixRateResponse response =
+        tradeServiceRaw.coinmateSellQuickFixRate(
+            new BigDecimal("1.0"), null, CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
     assertFalse(response.isError());
     assertNull(response.getErrorMessage());
     CoinmateSellFixRateResponseData data = response.getData();

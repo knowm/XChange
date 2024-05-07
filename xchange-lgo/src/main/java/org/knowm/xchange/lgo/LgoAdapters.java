@@ -69,15 +69,15 @@ public final class LgoAdapters {
       currencyPairs.put(
           toPair(product),
           new InstrumentMetaData.Builder()
-                  .minimumAmount(minAmount)
-                  .maximumAmount(maxAmount)
-                  .volumeScale(baseScale)
-                  .priceScale(increment.scale())
-                  .amountStepSize(increment)
-                  .feeTiers(new FeeTier[0])
-                  .tradingFeeCurrency(Currency.USD)
-                  .marketOrderEnabled(true)
-                  .build());
+              .minimumAmount(minAmount)
+              .maximumAmount(maxAmount)
+              .volumeScale(baseScale)
+              .priceScale(increment.scale())
+              .amountStepSize(increment)
+              .feeTiers(new FeeTier[0])
+              .tradingFeeCurrency(Currency.USD)
+              .marketOrderEnabled(true)
+              .build());
     }
     return metaData;
   }
@@ -160,7 +160,7 @@ public final class LgoAdapters {
     OrderType type = adaptUserTradeType(lgoUserTrade);
     CurrencyPair currencyPair = adaptProductId(lgoUserTrade.getProductId());
     Date creationDate = lgoUserTrade.getCreationDate();
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(type)
         .originalAmount(lgoUserTrade.getQuantity())
         .currencyPair(currencyPair)

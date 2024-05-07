@@ -18,6 +18,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -100,23 +101,24 @@ public class KrakenAdapters {
     krakenOpenPositionMap
         .values()
         .forEach(
-            krakenOpenPosition -> openPositionsList.add(
-                new OpenPosition.Builder()
-                    .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
-                    .type(
-                        krakenOpenPosition.getType() == KrakenType.BUY
-                            ? OpenPosition.Type.LONG
-                            : OpenPosition.Type.SHORT)
-                    .size(krakenOpenPosition.getCost())
-                    .price(
-                        krakenOpenPosition
-                            .getCost()
-                            .divide(
-                                krakenOpenPosition
-                                    .getVolume()
-                                    .subtract(krakenOpenPosition.getVolumeClosed()),
-                                RoundingMode.HALF_EVEN))
-                    .build()));
+            krakenOpenPosition ->
+                openPositionsList.add(
+                    new OpenPosition.Builder()
+                        .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
+                        .type(
+                            krakenOpenPosition.getType() == KrakenType.BUY
+                                ? OpenPosition.Type.LONG
+                                : OpenPosition.Type.SHORT)
+                        .size(krakenOpenPosition.getCost())
+                        .price(
+                            krakenOpenPosition
+                                .getCost()
+                                .divide(
+                                    krakenOpenPosition
+                                        .getVolume()
+                                        .subtract(krakenOpenPosition.getVolumeClosed()),
+                                    RoundingMode.HALF_EVEN))
+                        .build()));
 
     return new OpenPositions(openPositionsList);
   }
@@ -331,8 +333,12 @@ public class KrakenAdapters {
     return krakenType.equals(KrakenType.BUY) ? OrderType.BID : OrderType.ASK;
   }
 
-  public static String adaptKrakenDepositAddress(KrakenDepositAddress[] krakenDepositAddress) {
-    return krakenDepositAddress[0].getAddress();
+  public static AddressWithTag adaptKrakenDepositAddress(
+      KrakenDepositAddress[] krakenDepositAddress) {
+    return AddressWithTag.builder()
+        .address(krakenDepositAddress[0].getAddress())
+        .addressTag(krakenDepositAddress[0].getTag())
+        .build();
   }
 
   public static String adaptOrderId(KrakenOrderResponse orderResponse) {
@@ -464,14 +470,15 @@ public class KrakenAdapters {
   private static InstrumentMetaData adaptPair(
       KrakenAssetPair krakenPair, InstrumentMetaData OriginalMeta) {
     return new InstrumentMetaData.Builder()
-            .tradingFee(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)))
-            .minimumAmount(krakenPair.getOrderMin())
-            .priceScale(krakenPair.getPairScale())
-            .volumeScale(krakenPair.getVolumeLotScale())
-            .feeTiers(adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()))
-            .tradingFeeCurrency(KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()))
-            .marketOrderEnabled(true)
-            .build();
+        .tradingFee(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)))
+        .minimumAmount(krakenPair.getOrderMin())
+        .priceScale(krakenPair.getPairScale())
+        .volumeScale(krakenPair.getVolumeLotScale())
+        .feeTiers(adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()))
+        .tradingFeeCurrency(
+            KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()))
+        .marketOrderEnabled(true)
+        .build();
   }
 
   public static List<FundingRecord> adaptFundingHistory(

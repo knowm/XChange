@@ -2,8 +2,8 @@ package info.bitrich.xchangestream.bitmex;
 
 import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
 
+import info.bitrich.xchangestream.core.StreamingExchange;
 import java.math.BigDecimal;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -19,9 +19,9 @@ import org.knowm.xchange.utils.CertHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import info.bitrich.xchangestream.core.StreamingExchange;
-
-/** @author Nikita Belenkiy on 18/05/2018. */
+/**
+ * @author Nikita Belenkiy on 18/05/2018.
+ */
 public class BitmexDeadManSwitchTest {
   private static final Logger logger = LoggerFactory.getLogger(BitmexDeadManSwitchTest.class);
 
@@ -84,7 +84,7 @@ public class BitmexDeadManSwitchTest {
     //    OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(Currency.BTC,
     // Currency.USD), BitmexPrompt.BIQUARTERLY);
 
-//    System.out.println("orderBook = " + orderBook);
+    //    System.out.println("orderBook = " + orderBook);
 
     streamingMarketDataService.enableDeadManSwitch(10000, 30000);
 
@@ -101,8 +101,8 @@ public class BitmexDeadManSwitchTest {
     String xbtusd = tradeService.placeLimitOrder(limitOrder);
     logger.info("!!!!!PRIVATE_ORDER!!!! {}", xbtusd);
     Thread.sleep(100000);
-//    System.out.println();
-//    System.out.println();
+    //    System.out.println();
+    //    System.out.println();
 
     exchange.disconnect();
   }

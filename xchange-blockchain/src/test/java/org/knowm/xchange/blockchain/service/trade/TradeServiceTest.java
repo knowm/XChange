@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,156 +42,152 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-
 import si.mazi.rescu.HttpStatusIOException;
 
 public class TradeServiceTest extends BlockchainBaseTest {
-    private TradeService service;
+  private TradeService service;
 
-    @Before
-    public void init() {
-        BlockchainExchange exchange = createExchange();
-        service = exchange.getTradeService();
-    }
+  @Before
+  public void init() {
+    BlockchainExchange exchange = createExchange();
+    service = exchange.getTradeService();
+  }
 
-    @Test(timeout = 5000)
-    public void getOpenOrdersSuccess() throws Exception {
-        stubGet(ORDERS_JSON, 200, URL_ORDERS);
-        OpenOrders response = service.getOpenOrders();
-        assertThat(response).isNotNull();
-        List<Order> allOrders = response.getAllOpenOrders();
-        assertThat(allOrders).isNotEmpty();
-        Order order = allOrders.get(0);
-        assertThat(order).isNotNull();
-        assertThat(order.getOriginalAmount()).isNotNull().isPositive();
-        assertThat(order.getId()).isEqualTo(ORDER_ID);
-    }
+  @Test(timeout = 5000)
+  public void getOpenOrdersSuccess() throws Exception {
+    stubGet(ORDERS_JSON, 200, URL_ORDERS);
+    OpenOrders response = service.getOpenOrders();
+    assertThat(response).isNotNull();
+    List<Order> allOrders = response.getAllOpenOrders();
+    assertThat(allOrders).isNotEmpty();
+    Order order = allOrders.get(0);
+    assertThat(order).isNotNull();
+    assertThat(order.getOriginalAmount()).isNotNull().isPositive();
+    assertThat(order.getId()).isEqualTo(ORDER_ID);
+  }
 
-    @Test(timeout = 2000)
-    public void placeLimitOrderSuccess() throws Exception {
-        String response = placeLimitOrder();
-        assertThat(response).isEqualTo(ORDER_ID);
-    }
+  @Test(timeout = 2000)
+  public void placeLimitOrderSuccess() throws Exception {
+    String response = placeLimitOrder();
+    assertThat(response).isEqualTo(ORDER_ID);
+  }
 
-    @Test(timeout = 2000)
-    public void placeMarketOrderSuccess() throws Exception {
-        String response = placeMarketOrder();
-        assertThat(response).isEqualTo(MARKET_ORDER_ID);
-    }
+  @Test(timeout = 2000)
+  public void placeMarketOrderSuccess() throws Exception {
+    String response = placeMarketOrder();
+    assertThat(response).isEqualTo(MARKET_ORDER_ID);
+  }
 
-    @Test(timeout = 2000)
-    public void placeStopOrderSuccess() throws Exception {
-        String response = placeStopOrder();
-        assertThat(response).isEqualTo(STOP_ORDER_ID);
-    }
+  @Test(timeout = 2000)
+  public void placeStopOrderSuccess() throws Exception {
+    String response = placeStopOrder();
+    assertThat(response).isEqualTo(STOP_ORDER_ID);
+  }
 
-    @Test(timeout = 2000)
-    public void cancelOrderSuccess() throws Exception {
-        Boolean response = cancelOrder(200);
-        assertThat(response).isEqualTo(true);
-    }
+  @Test(timeout = 2000)
+  public void cancelOrderSuccess() throws Exception {
+    Boolean response = cancelOrder(200);
+    assertThat(response).isEqualTo(true);
+  }
 
-    @Test(timeout = 2000)
-    public void cancelOrderFailure() {
-        Throwable exception = catchThrowable(() -> cancelOrder(400));
-        assertThat(exception)
-                .isInstanceOf(HttpStatusIOException.class)
-                .hasMessage(HTTP_CODE_400);
-    }
+  @Test(timeout = 2000)
+  public void cancelOrderFailure() {
+    Throwable exception = catchThrowable(() -> cancelOrder(400));
+    assertThat(exception).isInstanceOf(HttpStatusIOException.class).hasMessage(HTTP_CODE_400);
+  }
 
-    @Test(timeout = 2000)
-    public void cancelOrderByCurrency() throws Exception {
-        CancelOrderByCurrencyPair cancelOrderByCurrencyPair = () -> new CurrencyPair("BTC/USD");
-        Boolean response = cancelAllOrder(cancelOrderByCurrencyPair);
-        assertThat(response).isEqualTo(true);
-    }
+  @Test(timeout = 2000)
+  public void cancelOrderByCurrency() throws Exception {
+    CancelOrderByCurrencyPair cancelOrderByCurrencyPair = () -> new CurrencyPair("BTC/USD");
+    Boolean response = cancelAllOrder(cancelOrderByCurrencyPair);
+    assertThat(response).isEqualTo(true);
+  }
 
-    @Test(timeout = 2000)
-    public void getTrades() throws Exception {
-        BlockchainTradeHistoryParams params = (BlockchainTradeHistoryParams) service.createTradeHistoryParams();
-        ((TradeHistoryParamsTimeSpan) params).setStartTime(
-                new Date(System.currentTimeMillis() - END_TIME));
+  @Test(timeout = 2000)
+  public void getTrades() throws Exception {
+    BlockchainTradeHistoryParams params =
+        (BlockchainTradeHistoryParams) service.createTradeHistoryParams();
+    ((TradeHistoryParamsTimeSpan) params)
+        .setStartTime(new Date(System.currentTimeMillis() - END_TIME));
 
-        params.setCurrencyPair(CurrencyPair.BTC_USDT);
+    params.setCurrencyPair(CurrencyPair.BTC_USDT);
 
-        stubGet(ORDERS_JSON, 200, URL_TRADES);
-        UserTrades response = service.getTradeHistory(params);
-        assertThat(response).isNotNull();
-        List<UserTrade> userTrades = response.getUserTrades();
-        assertThat(userTrades).isNotEmpty();
-        UserTrade trade = userTrades.get(0);
-        assertThat(trade).isNotNull();
-        assertThat(trade.getOriginalAmount()).isNotNull().isPositive();
-        assertThat(trade.getPrice()).isNotNull().isPositive();
-    }
+    stubGet(ORDERS_JSON, 200, URL_TRADES);
+    UserTrades response = service.getTradeHistory(params);
+    assertThat(response).isNotNull();
+    List<UserTrade> userTrades = response.getUserTrades();
+    assertThat(userTrades).isNotEmpty();
+    UserTrade trade = userTrades.get(0);
+    assertThat(trade).isNotNull();
+    assertThat(trade.getOriginalAmount()).isNotNull().isPositive();
+    assertThat(trade.getPrice()).isNotNull().isPositive();
+  }
 
-    @Test(timeout = 2000)
-    public void getOrderSuccess() throws Exception {
-        stubGet(NEW_ORDER_LIMIT_JSON, 200, URL_ORDERS_BY_ID_1);
-        stubGet(NEW_ORDER_MARKET_JSON, 200, URL_ORDERS_BY_ID_2);
-        Collection<Order> response = service.getOrder("11111111", "22222222");
-        assertThat(response).isNotNull();
-        assertThat(response).isNotEmpty();
-        response.forEach(
-                record -> Assert.assertTrue(record.getOriginalAmount().compareTo(BigDecimal.ZERO) > 0));
+  @Test(timeout = 2000)
+  public void getOrderSuccess() throws Exception {
+    stubGet(NEW_ORDER_LIMIT_JSON, 200, URL_ORDERS_BY_ID_1);
+    stubGet(NEW_ORDER_MARKET_JSON, 200, URL_ORDERS_BY_ID_2);
+    Collection<Order> response = service.getOrder("11111111", "22222222");
+    assertThat(response).isNotNull();
+    assertThat(response).isNotEmpty();
+    response.forEach(
+        record -> Assert.assertTrue(record.getOriginalAmount().compareTo(BigDecimal.ZERO) > 0));
+  }
 
-    }
+  @Test(timeout = 2000)
+  public void getOrderFailure() {
+    stubGet(ORDER_NOT_FOUND_JSON, 404, URL_ORDERS_BY_ID);
+    Throwable exception = catchThrowable(() -> service.getOrder("111111211"));
+    assertThat(exception)
+        .isInstanceOf(RateLimitExceededException.class)
+        .hasMessage(STATUS_CODE_404);
+  }
 
-    @Test(timeout = 2000)
-    public void getOrderFailure() {
-        stubGet(ORDER_NOT_FOUND_JSON, 404, URL_ORDERS_BY_ID);
-        Throwable exception = catchThrowable(() -> service.getOrder("111111211"));
-        assertThat(exception)
-                .isInstanceOf(RateLimitExceededException.class)
-                .hasMessage(STATUS_CODE_404);
+  private String placeLimitOrder() throws IOException {
+    stubPost(NEW_ORDER_LIMIT_JSON, 200, URL_ORDERS);
 
-    }
+    LimitOrder limitOrder =
+        new LimitOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_USDT)
+            .originalAmount(new BigDecimal("45.0"))
+            .limitPrice(new BigDecimal("0.23"))
+            .build();
 
-    private String placeLimitOrder() throws IOException {
-        stubPost(NEW_ORDER_LIMIT_JSON, 200, URL_ORDERS);
+    return service.placeLimitOrder(limitOrder);
+  }
 
-        LimitOrder limitOrder =
-                new LimitOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_USDT)
-                        .originalAmount(new BigDecimal("45.0"))
-                        .limitPrice(new BigDecimal("0.23"))
-                        .build();
+  private String placeMarketOrder() throws IOException {
+    stubPost(NEW_ORDER_MARKET_JSON, 200, URL_ORDERS);
 
-        return service.placeLimitOrder(limitOrder);
-    }
+    MarketOrder marketOrder =
+        new MarketOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_USDT)
+            .originalAmount(new BigDecimal("15.0"))
+            .cumulativeAmount(new BigDecimal("0.22"))
+            .build();
 
-    private String placeMarketOrder() throws IOException {
-        stubPost(NEW_ORDER_MARKET_JSON, 200, URL_ORDERS);
+    return service.placeMarketOrder(marketOrder);
+  }
 
-        MarketOrder marketOrder =
-                new MarketOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_USDT)
-                        .originalAmount(new BigDecimal("15.0"))
-                        .cumulativeAmount(new BigDecimal("0.22"))
-                        .build();
+  private String placeStopOrder() throws IOException {
+    stubPost(NEW_ORDER_STOP_JSON, 200, URL_ORDERS);
 
-        return service.placeMarketOrder(marketOrder);
-    }
+    StopOrder stopOrder =
+        new StopOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_USDT)
+            .originalAmount(new BigDecimal("67.0"))
+            .stopPrice(new BigDecimal("0.21"))
+            .build();
 
-    private String placeStopOrder() throws IOException {
-        stubPost(NEW_ORDER_STOP_JSON, 200, URL_ORDERS);
+    return service.placeStopOrder(stopOrder);
+  }
 
-        StopOrder stopOrder =
-                new StopOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_USDT)
-                        .originalAmount(new BigDecimal("67.0"))
-                        .stopPrice(new BigDecimal("0.21"))
-                        .build();
+  private Boolean cancelOrder(int statusCode) throws IOException {
+    stubDelete(statusCode, URL_ORDERS_BY_ID_1);
 
-        return service.placeStopOrder(stopOrder);
-    }
+    return service.cancelOrder(ORDER_ID);
+  }
 
-    private Boolean cancelOrder(int statusCode) throws IOException {
-        stubDelete(statusCode, URL_ORDERS_BY_ID_1);
+  private Boolean cancelAllOrder(CancelOrderByCurrencyPair orderParams) throws IOException {
+    stubDelete(200, URL_ORDERS);
 
-        return service.cancelOrder(ORDER_ID);
-    }
-
-    private Boolean cancelAllOrder(CancelOrderByCurrencyPair orderParams) throws IOException {
-        stubDelete(200, URL_ORDERS);
-
-        return service.cancelOrder(orderParams);
-    }
+    return service.cancelOrder(orderParams);
+  }
 }

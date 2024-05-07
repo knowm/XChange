@@ -114,8 +114,10 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
     throw new NotAvailableFromExchangeException();
   }
 

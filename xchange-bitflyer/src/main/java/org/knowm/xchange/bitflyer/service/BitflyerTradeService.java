@@ -44,7 +44,8 @@ public class BitflyerTradeService extends BitflyerTradeServiceRaw implements Tra
     // US and EUR only have one pair available
     if (pairs.size() == 1) {
       return BitflyerAdapters.adaptOpenOrdersFromChildOrderResults(
-          super.getChildOrders(BitflyerUtils.bitflyerProductCode((CurrencyPair) pairs.get(0)), "ACTIVE"));
+          super.getChildOrders(
+              BitflyerUtils.bitflyerProductCode((CurrencyPair) pairs.get(0)), "ACTIVE"));
     }
 
     // JPY has about three pairs so we need to combine the results
@@ -55,7 +56,8 @@ public class BitflyerTradeService extends BitflyerTradeServiceRaw implements Tra
           try {
             orders.addAll(
                 BitflyerAdapters.adaptOpenOrdersFromChildOrderResults(
-                        super.getChildOrders(BitflyerUtils.bitflyerProductCode((CurrencyPair) pair), "ACTIVE"))
+                        super.getChildOrders(
+                            BitflyerUtils.bitflyerProductCode((CurrencyPair) pair), "ACTIVE"))
                     .getOpenOrders());
           } catch (IOException e) {
             LOG.trace("IOException adapting open orders for {}", pair, e);

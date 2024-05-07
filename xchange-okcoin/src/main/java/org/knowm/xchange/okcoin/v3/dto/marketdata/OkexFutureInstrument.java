@@ -39,13 +39,17 @@ public class OkexFutureInstrument {
 
   /** Underlying index，eg：BTC-USD */
   private String underlying;
+
   /** Transaction currency，eg:BTC in BTC-USD,BTC in BTC-USDT */
   private String baseCurrency;
+
   /** Settlement currency，eg:BTC */
   private String settlementCurrency;
+
   /** (true or false) ,inverse contract or not */
   @JsonProperty("is_inverse")
   private boolean inverse;
+
   /** Contract denomination currency eg: USD，BTC，LTC，ETC , XRP, EOS */
   private String contractValCurrency;
 }

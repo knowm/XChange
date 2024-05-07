@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 import java.util.Date;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class UnixTimestampSerializer extends JsonSerializer<Date> {
 
   @Override

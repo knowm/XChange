@@ -33,8 +33,10 @@ public class CexIOFullOrder extends CexIOOpenOrder {
 
   /** ta:{symbol2} string total amount in current currency (Maker) */
   public final String totalAmountMaker;
+
   /** tta:{symbol2} string total amount in current currency (Taker) */
   public final String totalAmountTaker;
+
   /** fa:{symbol2} string fee amount in current currency (Maker) */
   public final String feeMaker;
 

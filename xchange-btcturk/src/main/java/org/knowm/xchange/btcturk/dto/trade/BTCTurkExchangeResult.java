@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.btcturk.dto.BTCTurkOrderTypes;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkExchangeResult {
 
   private final String id;

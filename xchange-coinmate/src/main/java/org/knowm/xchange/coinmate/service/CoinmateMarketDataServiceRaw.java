@@ -23,18 +23,20 @@
  */
 package org.knowm.xchange.coinmate.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinmate.Coinmate;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateQuickRate;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
+import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTickers;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class CoinmateMarketDataServiceRaw extends CoinmateBaseService {
 
   private final Coinmate coinmate;
@@ -52,6 +54,14 @@ public class CoinmateMarketDataServiceRaw extends CoinmateBaseService {
     throwExceptionIfError(ticker);
 
     return ticker;
+  }
+
+  public CoinmateTickers getCoinmateTickers() throws IOException {
+    CoinmateTickers tickers = coinmate.getAllTickers();
+
+    throwExceptionIfError(tickers);
+
+    return tickers;
   }
 
   public CoinmateOrderBook getCoinmateOrderBook(String currencyPair, boolean groupByPriceLimit)
@@ -73,7 +83,7 @@ public class CoinmateMarketDataServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateQuickRate getCoinmateBuyQuickRate(BigDecimal total, String currencyPair)
-    throws IOException {
+      throws IOException {
     CoinmateQuickRate response = coinmate.getBuyQuickRate(total, currencyPair);
 
     throwExceptionIfError(response);
@@ -82,7 +92,7 @@ public class CoinmateMarketDataServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateQuickRate getCoinmateSellQuickRate(BigDecimal amount, String currencyPair)
-    throws IOException {
+      throws IOException {
     CoinmateQuickRate response = coinmate.getSellQuickRate(amount, currencyPair);
 
     throwExceptionIfError(response);

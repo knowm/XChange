@@ -3,7 +3,9 @@ package org.knowm.xchange.bitstamp.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class BitstampTransaction {
 
   private final long date;

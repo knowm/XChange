@@ -1,4 +1,3 @@
 package org.knowm.xchange.service.trade.params;
 
-public interface CandleStickDataParams {
-}
+public interface CandleStickDataParams {}

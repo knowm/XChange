@@ -113,8 +113,7 @@ public final class GateioAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  public static LimitOrder adaptOrder(
-      GateioOpenOrder order, Collection<Instrument> currencyPairs) {
+  public static LimitOrder adaptOrder(GateioOpenOrder order, Collection<Instrument> currencyPairs) {
 
     String[] currencyPairSplit = order.getCurrencyPair().split("_");
     CurrencyPair currencyPair = new CurrencyPair(currencyPairSplit[0], currencyPairSplit[1]);
@@ -215,7 +214,7 @@ public final class GateioAdapters {
     Date timestamp = DateUtils.fromMillisUtc(gateioTrade.getTimeUnix() * 1000);
     CurrencyPair currencyPair = adaptCurrencyPair(gateioTrade.getPair());
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(orderType)
         .originalAmount(gateioTrade.getAmount())
         .currencyPair(currencyPair)
@@ -233,15 +232,17 @@ public final class GateioAdapters {
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     for (Entry<CurrencyPair, GateioMarketInfo> entry :
-        marketDataService.getBTERMarketInfo().entrySet()) {
+        marketDataService.getGateioMarketInfo().entrySet()) {
 
       CurrencyPair currencyPair = entry.getKey();
       GateioMarketInfo btermarketInfo = entry.getValue();
 
-      currencyPairs.put(currencyPair, new InstrumentMetaData.Builder()
-                      .tradingFee(btermarketInfo.getFee())
-                      .minimumAmount(btermarketInfo.getMinAmount())
-                      .priceScale(btermarketInfo.getDecimalPlaces())
+      currencyPairs.put(
+          currencyPair,
+          new InstrumentMetaData.Builder()
+              .tradingFee(btermarketInfo.getFee())
+              .minimumAmount(btermarketInfo.getMinAmount())
+              .priceScale(btermarketInfo.getDecimalPlaces())
               .build());
     }
 

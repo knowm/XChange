@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.*;
-
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
@@ -33,25 +32,23 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BinanceAccountService extends BinanceAccountServiceRaw implements AccountService {
 
-    public BinanceAccountService(
-            BinanceExchange exchange,
-            ResilienceRegistries resilienceRegistries) {
-        super(exchange, resilienceRegistries);
-    }
+  public BinanceAccountService(
+      BinanceExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
+  }
 
-    private static FundingRecord.Status transferHistoryStatus(String historyStatus) {
-        Status status;
-        switch (historyStatus) {
-            case "SUCCESS":
-                status = Status.COMPLETE;
-                break;
-            default:
-                status
-                        = Status.resolveStatus(
-                                historyStatus); // FIXME not documented yet in Binance spot api docs
-                if (status == null) {
-                    status = Status.FAILED;
-                }
+  private static FundingRecord.Status transferHistoryStatus(String historyStatus) {
+    Status status;
+    switch (historyStatus) {
+      case "SUCCESS":
+        status = Status.COMPLETE;
+        break;
+      default:
+        status =
+            Status.resolveStatus(
+                historyStatus); // FIXME not documented yet in Binance spot api docs
+        if (status == null) {
+          status = Status.FAILED;
         }
         return status;
     }
@@ -92,52 +89,52 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                 throw new RuntimeException("Unknown binance deposit status: " + status);
         }
     }
+  }
 
-    @Override
-    public AccountInfo getAccountInfo() throws IOException {
-        try {
-            List<Wallet> wallets = new ArrayList<>();
-            List<OpenPosition> openPositions = new ArrayList<>();
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
+    try {
+      List<Wallet> wallets = new ArrayList<>();
+      List<OpenPosition> openPositions = new ArrayList<>();
 
-            if (exchange.usingSandbox()) {
-                if (exchange.isFuturesSandbox()) {
-                    BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
-                    wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
-                    openPositions.addAll(BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
+      if (exchange.usingSandbox()) {
+        if (exchange.isFuturesSandbox()) {
+          BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
+          wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
+          openPositions.addAll(
+              BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
 
-                } else {
-                    wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
-                }
-            } else {
-                wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
-
-                if (exchange.getExchangeSpecification().getExchangeClass().equals(BinanceExchange.class)) {
-                    BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
-                    wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
-                    openPositions.addAll(BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
-                }
-            }
-            return new AccountInfo(
-                    exchange.getExchangeSpecification().getUserName(),
-                    null,
-                    wallets,
-                    openPositions,
-                    Date.from(Instant.now())
-            );
-        } catch (BinanceException e) {
-            throw BinanceErrorAdapter.adapt(e);
+        } else {
+          wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
         }
+      } else {
+        if (exchange.isFuturesEnabled()) {
+          BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
+          wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
+          openPositions.addAll(
+              BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
+        }
+        wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
+      }
+      return new AccountInfo(
+          exchange.getExchangeSpecification().getUserName(),
+          null,
+          wallets,
+          openPositions,
+          Date.from(Instant.now()));
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
     }
 
-    @Override
-    public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
-        try {
-            BinanceAccountInformation acc = account();
-            BigDecimal makerFee
-                    = acc.makerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
-            BigDecimal takerFee
-                    = acc.takerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
-
+  @Override
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
+    try {
+      BinanceAccountInformation acc = account();
+      BigDecimal makerFee =
+          acc.makerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
+      BigDecimal takerFee =
+          acc.takerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
+      
             Map<Instrument, Fee> tradingFees = new HashMap<>();
             List<Instrument> pairs = exchange.getExchangeInstruments();
 
@@ -386,5 +383,121 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         } catch (BinanceException e) {
             throw BinanceErrorAdapter.adapt(e);
         }
+      }
+
+      String email = null;
+      boolean subAccount = false;
+
+      // Get transfer history from a master account to a sub account
+      if (params instanceof BinanceMasterAccountTransferHistoryParams) {
+        email = ((BinanceMasterAccountTransferHistoryParams) params).getEmail();
+      }
+
+      // Get transfer history from a sub account to a master/sub account
+      if (params instanceof BinanceSubAccountTransferHistoryParams) {
+        subAccount = true;
+      }
+
+      List<FundingRecord> result = new ArrayList<>();
+      if (withdrawals) {
+        super.withdrawHistory(asset, startTime, endTime)
+            .forEach(
+                w ->
+                    result.add(
+                        new FundingRecord(
+                            w.getAddress(),
+                            w.getAddressTag(),
+                            BinanceAdapters.toDate(w.getApplyTime()),
+                            Currency.getInstance(w.getCoin()),
+                            w.getAmount(),
+                            w.getId(),
+                            w.getTxId(),
+                            Type.WITHDRAWAL,
+                            withdrawStatus(w.getStatus()),
+                            null,
+                            w.getTransactionFee(),
+                            null)));
+      }
+
+      if (deposits) {
+        super.depositHistory(asset, startTime, endTime)
+            .forEach(
+                d ->
+                    result.add(
+                        new FundingRecord(
+                            d.getAddress(),
+                            d.getAddressTag(),
+                            new Date(d.getInsertTime()),
+                            Currency.getInstance(d.getCoin()),
+                            d.getAmount(),
+                            null,
+                            d.getTxId(),
+                            Type.DEPOSIT,
+                            depositStatus(d.getStatus()),
+                            null,
+                            null,
+                            null)));
+      }
+
+      if (otherInflow) {
+        super.getAssetDividend(asset, startTime, endTime)
+            .forEach(
+                a ->
+                    result.add(
+                        new FundingRecord(
+                            null,
+                            null,
+                            new Date(a.getDivTime()),
+                            Currency.getInstance(a.getAsset()),
+                            a.getAmount(),
+                            null,
+                            String.valueOf(a.getTranId()),
+                            Type.OTHER_INFLOW,
+                            Status.COMPLETE,
+                            null,
+                            null,
+                            a.getEnInfo())));
+      }
+
+      final String finalEmail = email;
+
+      if (email != null) {
+        super.getTransferHistory(email, startTime, endTime, page, limit)
+            .forEach(
+                a ->
+                    result.add(
+                        new FundingRecord.Builder()
+                            .setAddress(finalEmail)
+                            .setDate(new Date(a.getTime()))
+                            .setCurrency(Currency.getInstance(a.getAsset()))
+                            .setAmount(a.getQty())
+                            .setType(Type.INTERNAL_WITHDRAWAL)
+                            .setStatus(transferHistoryStatus(a.getStatus()))
+                            .build()));
+      }
+
+      if (subAccount) {
+
+        Integer type = deposits && withdrawals ? null : deposits ? 1 : 0;
+        super.getSubUserHistory(asset, type, startTime, endTime, limit)
+            .forEach(
+                a ->
+                    result.add(
+                        new FundingRecord.Builder()
+                            .setAddress(a.getEmail())
+                            .setDate(new Date(a.getTime()))
+                            .setCurrency(Currency.getInstance(a.getAsset()))
+                            .setAmount(a.getQty())
+                            .setType(
+                                a.getType().equals(1)
+                                    ? Type.INTERNAL_DEPOSIT
+                                    : Type.INTERNAL_WITHDRAWAL)
+                            .setStatus(Status.COMPLETE)
+                            .build()));
+      }
+
+      return result;
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
     }
 }

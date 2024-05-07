@@ -6,7 +6,9 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.poloniex.dto.PoloniexException;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class PoloniexErrorAdapter {
 
   private static final String INVALID_CURRENCY_MESSAGE_START = "Invalid currency pair";

@@ -125,10 +125,12 @@ public class CCEXAdapters {
       if (existingMetaForPair != null) {
         existingFeeTiers = existingMetaForPair.getFeeTiers();
       }
-      currencyPairs.put(pair, new InstrumentMetaData.Builder()
-                      .minimumAmount(minSize)
-                      .priceScale(0)
-                      .feeTiers(existingFeeTiers)
+      currencyPairs.put(
+          pair,
+          new InstrumentMetaData.Builder()
+              .minimumAmount(minSize)
+              .priceScale(0)
+              .feeTiers(existingFeeTiers)
               .build());
       currencies.put(pair.base, null);
       currencies.put(pair.counter, null);
@@ -228,7 +230,7 @@ public class CCEXAdapters {
       price = trade.getLimit();
     }
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(orderType)
         .originalAmount(amount)
         .currencyPair(currencyPair)

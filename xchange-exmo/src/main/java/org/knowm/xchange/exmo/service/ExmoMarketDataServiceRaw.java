@@ -77,12 +77,14 @@ public class ExmoMarketDataServiceRaw extends BaseExmoService {
 
       InstrumentMetaData staticMeta = currencyPairs.get(currencyPair);
       // min_quantity or min_amount ???
-      currencyPairs.put(currencyPair, new InstrumentMetaData.Builder()
-                      .tradingFee(tradingFee)
-                      .minimumAmount(new BigDecimal(data.get("min_quantity")))
-                      .maximumAmount(new BigDecimal(data.get("max_quantity")))
-                      .priceScale(priceScale)
-                      .feeTiers(staticMeta != null ? staticMeta.getFeeTiers() : null)
+      currencyPairs.put(
+          currencyPair,
+          new InstrumentMetaData.Builder()
+              .tradingFee(tradingFee)
+              .minimumAmount(new BigDecimal(data.get("min_quantity")))
+              .maximumAmount(new BigDecimal(data.get("max_quantity")))
+              .priceScale(priceScale)
+              .feeTiers(staticMeta != null ? staticMeta.getFeeTiers() : null)
               .build());
 
       if (!currencies.containsKey(currencyPair.base))

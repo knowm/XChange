@@ -15,6 +15,7 @@ public class CoindirectBaseService extends BaseExchangeService implements BaseSe
   protected final String apiKey;
   protected final CoindirectAuthenticated coindirect;
   protected final ParamsDigest signatureCreator;
+
   /**
    * Constructor
    *
