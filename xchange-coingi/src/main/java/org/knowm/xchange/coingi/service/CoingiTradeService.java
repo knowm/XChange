@@ -19,10 +19,8 @@ import org.knowm.xchange.coingi.dto.trade.CoingiPlaceLimitOrderRequest;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -54,17 +52,6 @@ public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeSe
     } catch (CoingiException e) {
       throw CoingiErrorAdapter.adapt(e);
     }
-  }
-
-  @Override
-  public String placeMarketOrder(MarketOrder order) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public String placeStopOrder(org.knowm.xchange.dto.trade.StopOrder stopOrder)
-      throws java.io.IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

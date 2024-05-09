@@ -14,10 +14,7 @@ import java.util.SortedMap;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,13 +87,4 @@ class CoinjarStreamingMarketDataService implements StreamingMarketDataService {
         .filter(orderbook -> !orderbook.getBids().isEmpty() && !orderbook.getAsks().isEmpty());
   }
 
-  @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

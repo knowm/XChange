@@ -15,7 +15,6 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,9 +77,4 @@ public class BTCMarketsStreamingAdapters {
         .build();
   }
 
-  public static OrderBook adaptOrderUpdateMessageToOrderBook(
-      BTCMarketsWebSocketOrderbookMessage message) {
-
-    throw new NotYetImplementedForExchangeException();
-  }
 }

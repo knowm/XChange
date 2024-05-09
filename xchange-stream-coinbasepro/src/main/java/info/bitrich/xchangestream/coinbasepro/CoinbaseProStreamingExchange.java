@@ -2,18 +2,16 @@ package info.bitrich.xchangestream.coinbasepro;
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProOrderBookMode;
 import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import java.util.*;
+import java.util.Arrays;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 /** CoinbasePro Streaming Exchange. Connects to live WebSocket feed. */
 public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements StreamingExchange {
@@ -155,11 +153,6 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
   @Override
   public CoinbaseProStreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
-  }
-
-  @Override
-  public StreamingAccountService getStreamingAccountService() {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

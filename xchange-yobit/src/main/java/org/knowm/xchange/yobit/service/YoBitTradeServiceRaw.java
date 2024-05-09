@@ -8,9 +8,7 @@ import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
@@ -24,11 +22,6 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
 
   public YoBitTradeServiceRaw(YoBitExchange exchange) {
     super(YoBit.class, exchange);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders() throws IOException {
-    throw new NotYetImplementedForExchangeException("Need to specify OpenOrdersParams");
   }
 
   public BaseYoBitResponse activeOrders(OpenOrdersParamCurrencyPair params) throws IOException {
