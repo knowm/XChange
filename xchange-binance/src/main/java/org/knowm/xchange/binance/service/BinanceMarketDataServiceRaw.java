@@ -108,11 +108,17 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
         .collect(Collectors.toList());
   }
 
-  public List<BinanceTicker24h> ticker24hAllProducts() throws IOException {
-    return decorateApiCall(binance::ticker24h)
-        .withRetry(retry("ticker24h"))
-        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 40)
-        .call();
+  public List<BinanceTicker24h> ticker24hAllProducts(boolean isFutures) throws IOException {
+    if(isFutures)
+      return decorateApiCall(binanceFutures::ticker24h)
+          .withRetry(retry("ticker24h"))
+          .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 40)
+          .call();
+    else
+      return  decorateApiCall(binance::ticker24h)
+          .withRetry(retry("ticker24h"))
+          .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 80)
+          .call();
   }
 
   public BinanceTicker24h ticker24hAllProducts(Instrument pair) throws IOException {
