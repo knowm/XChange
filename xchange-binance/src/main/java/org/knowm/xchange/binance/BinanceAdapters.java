@@ -23,7 +23,6 @@ import org.knowm.xchange.binance.dto.account.futures.BinancePosition;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRate;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
-import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
@@ -47,7 +46,6 @@ import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.FundingRate;
 import org.knowm.xchange.dto.marketdata.FundingRates;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -247,18 +245,6 @@ public class BinanceAdapters {
       builder.flag(BinanceOrderFlags.withClientId(order.clientOrderId));
     }
     return builder.build();
-  }
-
-  public static Ticker toTicker(BinancePriceQuantity priceQuantity, Map<Instrument, BigDecimal> prices, boolean isFuture) {
-    Instrument instrument = (isFuture) ? new FuturesContract(priceQuantity.getCurrencyPair(), "PERP") : priceQuantity.getCurrencyPair();
-    return new Builder()
-        .instrument(instrument)
-        .last(prices.get(instrument))
-        .ask(priceQuantity.getAskPrice())
-        .askSize(priceQuantity.getAskQty())
-        .bid(priceQuantity.getBidPrice())
-        .bidSize(priceQuantity.getBidQty())
-        .build();
   }
 
 

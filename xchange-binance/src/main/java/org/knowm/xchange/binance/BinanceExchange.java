@@ -31,7 +31,6 @@ public class BinanceExchange extends BaseExchange implements Exchange {
   protected static ResilienceRegistries RESILIENCE_REGISTRIES;
   protected SynchronizedValueFactory<Long> timestampFactory;
 
-
   @Override
   protected void initServices() {
     this.timestampFactory =
@@ -167,6 +166,4 @@ public class BinanceExchange extends BaseExchange implements Exchange {
             exchangeSpecification.getExchangeSpecificParametersItem(
                 SPECIFIC_PARAM_USE_FUTURES_SANDBOX));
   }
-
-
 }
