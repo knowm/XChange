@@ -7,6 +7,7 @@ import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
 import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
 
 import java.io.IOException;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -19,6 +20,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.instrument.Instrument;
 
+// Github build give http 451 error(Unavailable For Legal Reasons)
+@Ignore
 public class BinanceExchangeTypeTest {
 
   @Test
@@ -30,7 +33,7 @@ public class BinanceExchangeTypeTest {
   }
 
   private static void testConnection(Instrument instrument, ExchangeSpecification spec)
-      throws InterruptedException, IOException {
+      throws IOException {
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(spec);
     Trades trades = exchange.getMarketDataService().getTrades(instrument);
@@ -39,7 +42,6 @@ public class BinanceExchangeTypeTest {
     }
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
     tickerCheck(ticker, instrument);
-    Thread.sleep(500L);
   }
 
   private static void tickerCheck(Ticker ticker, Instrument instrument) {

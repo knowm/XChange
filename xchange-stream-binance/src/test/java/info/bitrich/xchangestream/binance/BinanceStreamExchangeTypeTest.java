@@ -14,6 +14,7 @@ import io.reactivex.disposables.Disposable;
 import java.io.IOException;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.ExchangeType;
@@ -24,6 +25,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.instrument.Instrument;
 
+// Github build give http 451 error(Unavailable For Legal Reasons)
+@Ignore
 public class BinanceStreamExchangeTypeTest {
 
   @Test
