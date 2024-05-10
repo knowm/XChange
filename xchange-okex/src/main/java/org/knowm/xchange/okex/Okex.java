@@ -22,12 +22,16 @@ import org.knowm.xchange.okex.dto.marketdata.*;
 @Produces(APPLICATION_JSON)
 public interface Okex {
   String instrumentsPath = "/public/instruments"; // Stated as 20 req/2 sec
+  String tickerPath = "/market/ticker"; // Stated as 20 req/2 sec
+  String tickersPath = "/market/tickers"; // Stated as 20 req/2 sec
 
   // To avoid 429s, actual req/second may need to be lowered!
   Map<String, List<Integer>> publicPathRateLimits =
       new HashMap<String, List<Integer>>() {
         {
           put(instrumentsPath, Arrays.asList(8, 1));
+          put(tickerPath, Arrays.asList(8, 1));
+          put(tickersPath, Arrays.asList(8, 1));
         }
       };
 
@@ -56,6 +60,14 @@ public interface Okex {
       @QueryParam("instId") String instrument,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
       throws IOException, OkexException;
+
+  @GET
+  @Path("/market/tickers")
+  @Consumes(MediaType.APPLICATION_JSON)
+  OkexResponse<List<OkexTicker>> getTickers(
+          @QueryParam("instType") String instType,
+          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+          throws IOException, OkexException;
 
   @GET
   @Path("/market/books")
