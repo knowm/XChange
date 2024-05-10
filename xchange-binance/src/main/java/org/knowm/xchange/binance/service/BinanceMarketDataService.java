@@ -58,7 +58,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
     try {
-      if (this.exchange.isFuturesEnabled() || this.exchange.isFuturesSandbox()) {
+      if (this.exchange.isFuturesEnabled()) {
         return ticker24hAllProducts(true).stream().map(f -> f.toTicker(true))
             .collect(Collectors.toList());
       } else {
