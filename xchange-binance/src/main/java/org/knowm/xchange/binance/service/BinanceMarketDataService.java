@@ -11,6 +11,7 @@ import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
+import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -54,7 +55,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
     try {
-      return ticker24hAllProducts(instrument).toTicker(instrument instanceof FuturesContract);
+      return BinanceAdapters.toTicker(ticker24hAllProducts(instrument), instrument instanceof FuturesContract);
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -70,13 +71,12 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
     try {
-      if (this.exchange.isFuturesEnabled() || this.exchange.isFuturesSandbox()) {
-        return ticker24hAllProducts(true).stream().map(f -> f.toTicker(true))
-            .collect(Collectors.toList());
-      } else {
-        return ticker24hAllProducts(false).stream().map(f -> f.toTicker(false))
-            .collect(Collectors.toList());
-      }
+      boolean isFutures = exchange.isFuturesEnabled() || exchange.isFuturesSandbox();
+
+      return ticker24hAllProducts(isFutures).stream()
+          .filter(BinanceTicker24h::isValid)
+          .map(binanceTicker24h -> BinanceAdapters.toTicker(binanceTicker24h, isFutures))
+          .collect(Collectors.toList());
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
