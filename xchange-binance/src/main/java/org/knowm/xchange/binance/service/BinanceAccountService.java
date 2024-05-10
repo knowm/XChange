@@ -1,6 +1,8 @@
 package org.knowm.xchange.binance.service;
 
 import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
+import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
+import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -94,13 +96,13 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     try {
       List<Wallet> wallets = new ArrayList<>();
       List<OpenPosition> openPositions = new ArrayList<>();
-      switch (exchange.getExchangeSpecification().getExchangeSpecificParametersItem(
-          EXCHANGE_TYPE).toString()) {
-        case "SPOT": {
+      switch ((ExchangeType)exchange.getExchangeSpecification().getExchangeSpecificParametersItem(
+          EXCHANGE_TYPE)) {
+        case SPOT: {
           wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
           break;
         }
-        case "FUTURES": {
+        case FUTURES: {
           BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
           wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
           openPositions.addAll(
