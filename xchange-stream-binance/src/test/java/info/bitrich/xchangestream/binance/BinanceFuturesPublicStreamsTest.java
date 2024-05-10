@@ -1,9 +1,7 @@
 package info.bitrich.xchangestream.binance;
 
-import static info.bitrich.xchangestream.binance.BinanceStreamingExchange.USE_REALTIME_BOOK_TICKER;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
-import static org.knowm.xchange.binance.BinanceExchange.FUTURES_URL;
 import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
 
 import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
@@ -20,6 +18,8 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
+// Github build give http 451 error(Unavailable For Legal Reasons)
+@Ignore
 public class BinanceFuturesPublicStreamsTest {
 
   StreamingExchange exchange;
