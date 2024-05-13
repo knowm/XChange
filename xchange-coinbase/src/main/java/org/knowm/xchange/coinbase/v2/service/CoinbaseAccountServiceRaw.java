@@ -42,6 +42,8 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
     ArrayList<String> expandTypes = new ArrayList<>();
     expandTypes.add(TransactionType.BUY.getName());
     expandTypes.add(TransactionType.SELL.getName());
+    expandTypes.add(TransactionType.RECEIVE.getName());
+    expandTypes.add(TransactionType.SEND.getName());
 
     List<CoinbaseShowTransactionV2> result = new ArrayList<>();
     String orderType = "asc";

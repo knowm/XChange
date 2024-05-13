@@ -2,7 +2,9 @@ package org.knowm.xchange.coinbase.v2.service;
 
 public enum TransactionType {
     BUY("buy"),
-    SELL("sell");
+    SELL("sell"),
+    RECEIVE("receive"),
+    SEND("send");
 
     String name;
 
