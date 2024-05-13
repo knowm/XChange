@@ -19,7 +19,9 @@ public class BybitExchange extends BaseExchange {
 
   public static final String SPECIFIC_PARAM_ACCOUNT_TYPE = "accountType";
   private static final String BASE_URL = "https://api.bybit.com";
-  private static final String DEMO_URL = "https://api-demo.bybit.com";
+//  private static final String DEMO_URL = "https://api-demo.bybit.com";
+  private static final String TESTNET_URL = "https://api-testnet.bybit.com";
+
 
   @Override
   protected void initServices() {
@@ -108,7 +110,7 @@ public class BybitExchange extends BaseExchange {
     if (exchangeSpecification
         .getExchangeSpecificParametersItem(Exchange.USE_SANDBOX)
         .equals(true)) {
-      exchangeSpecification.setSslUri(DEMO_URL);
+      exchangeSpecification.setSslUri(TESTNET_URL);
     }
     super.applySpecification(exchangeSpecification);
   }
