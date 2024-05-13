@@ -1,10 +1,17 @@
 package org.knowm.xchange.binance;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.knowm.xchange.Exchange.USE_SANDBOX;
+import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
+import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -43,16 +50,15 @@ public class BinanceFutureTest {
     Properties prop = new Properties();
     prop.load(this.getClass().getResourceAsStream("/secret.keys"));
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class);
-
-    ExchangeSpecification spec = exchange.getExchangeSpecification();
+    ExchangeSpecification spec = new ExchangeSpecification(BinanceExchange.class);
 
     spec.setApiKey(prop.getProperty("apikey"));
     spec.setSecretKey(prop.getProperty("secret"));
-    spec.setExchangeSpecificParametersItem(
-        BinanceExchange.SPECIFIC_PARAM_USE_FUTURES_SANDBOX, true);
-    exchange.applySpecification(spec);
+    spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
+    spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);
 
+    Exchange exchange =
+        ExchangeFactory.INSTANCE.createExchange(spec);
     binanceExchange = exchange;
   }
 

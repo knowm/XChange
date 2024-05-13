@@ -1,23 +1,39 @@
 package org.knowm.xchange.binance.service;
 
+import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.account.*;
+import org.knowm.xchange.binance.dto.ExchangeType;
+import org.knowm.xchange.binance.dto.account.AssetDetail;
+import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
+import org.knowm.xchange.binance.dto.account.BinanceFundingHistoryParams;
 import org.knowm.xchange.binance.dto.account.BinanceMasterAccountTransferHistoryParams;
 import org.knowm.xchange.binance.dto.account.BinanceSubAccountTransferHistoryParams;
+import org.knowm.xchange.binance.dto.account.DepositAddress;
+import org.knowm.xchange.binance.dto.account.WithdrawResponse;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.AddressWithTag;
+import org.knowm.xchange.dto.account.Fee;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
+import org.knowm.xchange.dto.account.OpenPosition;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -91,25 +107,19 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     try {
       List<Wallet> wallets = new ArrayList<>();
       List<OpenPosition> openPositions = new ArrayList<>();
-
-      if (exchange.usingSandbox()) {
-        if (exchange.isFuturesSandbox()) {
-          BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
-          wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
-          openPositions.addAll(
-              BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
-
-        } else {
+      switch ((ExchangeType)exchange.getExchangeSpecification().getExchangeSpecificParametersItem(
+          EXCHANGE_TYPE)) {
+        case SPOT: {
           wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
+          break;
         }
-      } else {
-        if (exchange.isFuturesEnabled()) {
+        case FUTURES: {
           BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
           wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
           openPositions.addAll(
               BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
+          break;
         }
-        wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
       }
       return new AccountInfo(
           exchange.getExchangeSpecification().getUserName(),

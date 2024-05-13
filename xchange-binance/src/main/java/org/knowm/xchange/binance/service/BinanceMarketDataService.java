@@ -71,7 +71,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
     try {
-      boolean isFutures = exchange.isFuturesEnabled() || exchange.isFuturesSandbox();
+      boolean isFutures = exchange.isFuturesEnabled();
 
       return ticker24hAllProducts(isFutures).stream()
           .filter(BinanceTicker24h::isValid)
