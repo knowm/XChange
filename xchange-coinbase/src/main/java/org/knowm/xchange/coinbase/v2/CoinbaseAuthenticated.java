@@ -70,7 +70,6 @@ public interface CoinbaseAuthenticated extends Coinbase {
           @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
           @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
           @PathParam("accountId") String accountId,
-          @QueryParam("expand[]") ArrayList<String> expand,
           @QueryParam("limit") int limit,
           @QueryParam("order") String orderType,
           @QueryParam("starting_after") String startingFrom)
