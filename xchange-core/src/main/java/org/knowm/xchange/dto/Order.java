@@ -380,7 +380,6 @@ public abstract class Order implements Serializable {
     ASK,
     SEND,
     RECEIVE,
-
     /**
      * This is to close a short position when trading crypto currency derivatives such as swaps,
      * futures for CFD's.
