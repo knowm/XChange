@@ -64,17 +64,17 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
         .subscribeChannel(channelUniqueId)
         .flatMap(
             jsonNode -> {
-              BybitOrderbook bybitOrderbooks = mapper.treeToValue(jsonNode, BybitOrderbook.class);
-              String type = bybitOrderbooks.getDataType();
+              BybitOrderbook bybitOrderBooks = mapper.treeToValue(jsonNode, BybitOrderbook.class);
+              String type = bybitOrderBooks.getDataType();
               if (type.equalsIgnoreCase("snapshot")) {
                 OrderBook orderBook =
-                    BybitStreamAdapters.adaptOrderBook(bybitOrderbooks, instrument);
-                orderBookUpdateIdPrev.set(bybitOrderbooks.getData().getU());
+                    BybitStreamAdapters.adaptOrderBook(bybitOrderBooks, instrument);
+                orderBookUpdateIdPrev.set(bybitOrderBooks.getData().getU());
                 orderBookMap.put(channelUniqueId, orderBook);
                 return Observable.just(orderBook);
               } else if (type.equalsIgnoreCase("delta")) {
                 return applyDeltaSnapshot(
-                    channelUniqueId, instrument, bybitOrderbooks, orderBookUpdateIdPrev);
+                    channelUniqueId, instrument, bybitOrderBooks, orderBookUpdateIdPrev);
               }
               return Observable.fromIterable(new LinkedList<>());
             });

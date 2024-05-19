@@ -23,6 +23,12 @@
             <artifactId>xchange-stream-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

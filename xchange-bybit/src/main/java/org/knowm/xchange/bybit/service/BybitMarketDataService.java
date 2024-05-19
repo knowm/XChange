@@ -12,6 +12,7 @@ import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTickers;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.option.BybitOptionTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.spot.BybitSpotTicker;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -22,8 +23,8 @@ import org.knowm.xchange.utils.Assert;
 
 public class BybitMarketDataService extends BybitMarketDataServiceRaw implements MarketDataService {
 
-  public BybitMarketDataService(BybitExchange exchange) {
-    super(exchange);
+  public BybitMarketDataService(BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange,resilienceRegistries);
   }
 
   @Override
