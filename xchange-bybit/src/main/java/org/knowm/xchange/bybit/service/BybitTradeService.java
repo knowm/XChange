@@ -10,6 +10,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.trade.BybitAdvancedOrder;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
@@ -48,6 +49,24 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
             limitOrder.getLimitPrice(),
             limitOrder.getId());
 
+    return orderResponseBybitResult.getResult().getOrderId();
+  }
+
+  public String placeAdvancedOrder(BybitAdvancedOrder order) throws IOException {
+    BybitResult<BybitOrderResponse> orderResponseBybitResult =
+        placeAdvancedOrder(
+            BybitAdapters.getCategory(order.getInstrument()),
+            BybitAdapters.convertToBybitSymbol(order.getInstrument()),
+            BybitAdapters.getSideString(order.getType()),
+            order.getOrderType(),
+            order.getOriginalAmount(),
+            order.getAveragePrice(),
+            order.getUserReference(), order.getSLTriggerPrice(),
+            order.getSlTriggerBy(),
+            order.getSlLimitPrice(),
+            order.getSlOrderType(),
+            order.isReduceOnly(),
+            order.getTimeInForce());
     return orderResponseBybitResult.getResult().getOrderId();
   }
 

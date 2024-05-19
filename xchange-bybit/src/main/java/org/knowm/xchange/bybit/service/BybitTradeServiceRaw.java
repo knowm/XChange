@@ -1,11 +1,16 @@
 package org.knowm.xchange.bybit.service;
 
 import static org.knowm.xchange.bybit.BybitAdapters.createBybitExceptionFromResult;
+import static org.knowm.xchange.bybit.dto.trade.BybitAdvancedOrder.TpslMode.FULL;
+import static org.knowm.xchange.bybit.dto.trade.BybitAdvancedOrder.TpslMode.PARTIAL;
+import static org.knowm.xchange.bybit.dto.trade.BybitOrderType.MARKET;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
+import org.knowm.xchange.bybit.dto.trade.BybitAdvancedOrder.SlTriggerBy;
+import org.knowm.xchange.bybit.dto.trade.BybitAdvancedOrder.TimeInForce;
 import org.knowm.xchange.bybit.dto.trade.BybitPlaceOrderPayload;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
@@ -34,8 +39,8 @@ public class BybitTradeServiceRaw extends BybitBaseService {
   public BybitResult<BybitOrderResponse> placeMarketOrder(
       BybitCategory category, String symbol, BybitSide side, BigDecimal qty, String orderLinkId)
       throws IOException {
-    BybitPlaceOrderPayload payload = new BybitPlaceOrderPayload(category.getValue(),
-        symbol, side.getValue(), BybitOrderType.MARKET.getValue(), qty, orderLinkId);
+    BybitPlaceOrderPayload payload = new BybitPlaceOrderPayload(category,
+        symbol, side, MARKET, qty, orderLinkId);
     BybitResult<BybitOrderResponse> placeOrder =
         bybitAuthenticated.placeMarketOrder(
             apiKey,
@@ -52,14 +57,48 @@ public class BybitTradeServiceRaw extends BybitBaseService {
       BybitCategory category, String symbol, BybitSide side, BigDecimal qty, BigDecimal limitPrice,
       String orderLinkId)
       throws IOException {
-    BybitPlaceOrderPayload payload = new BybitPlaceOrderPayload(category.getValue(),
-        symbol, side.getValue(), BybitOrderType.LIMIT.getValue(), qty, orderLinkId, limitPrice);
+    BybitPlaceOrderPayload payload = new BybitPlaceOrderPayload(category,
+        symbol, side, BybitOrderType.LIMIT, qty, orderLinkId, limitPrice);
     BybitResult<BybitOrderResponse> placeOrder =
         bybitAuthenticated.placeLimitOrder(
             apiKey,
             signatureCreator,
             nonceFactory,
             payload);
+    if (!placeOrder.isSuccess()) {
+      throw createBybitExceptionFromResult(placeOrder);
+    }
+    return placeOrder;
+  }
+
+  public BybitResult<BybitOrderResponse> placeAdvancedOrder(BybitCategory category, String symbol,
+      BybitSide side, BybitOrderType orderType, BigDecimal qty, BigDecimal limitPrice,
+      String orderLinkId, BigDecimal stopLoss, SlTriggerBy slTriggerBy, BigDecimal slLimitPrice,
+      BybitOrderType slOrderType, boolean reduceOnly, TimeInForce timeInForce)
+      throws IOException {
+
+    BybitPlaceOrderPayload payload = new BybitPlaceOrderPayload(category, symbol, side, orderType,
+        qty, orderLinkId, limitPrice);
+    if (stopLoss != null && slTriggerBy != null && slLimitPrice != null && slOrderType != null) {
+      payload.setStopLoss(stopLoss.toString());
+      payload.setSlTriggerBy(slTriggerBy.getValue());
+      payload.setSlLimitPrice(slLimitPrice.toString());
+      payload.setSlOrderType(slOrderType.getValue());
+      if (slOrderType.equals(MARKET))
+        payload.setTpslMode(FULL.getValue());
+      else
+        payload.setTpslMode(PARTIAL.getValue());
+    }
+    if(reduceOnly)
+      payload.setReduceOnly("true");
+    if (timeInForce != null) {
+      payload.setTimeInForce(timeInForce);
+    }
+    BybitResult<BybitOrderResponse> placeOrder = bybitAuthenticated.placeAdvancedOrder(
+        apiKey,
+        signatureCreator,
+        nonceFactory,
+        payload);
     if (!placeOrder.isSuccess()) {
       throw createBybitExceptionFromResult(placeOrder);
     }

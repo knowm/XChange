@@ -153,6 +153,24 @@ public class BybitAdapters {
     return new CurrencyPair(symbol.substring(0, splitIndex), symbol.substring(splitIndex));
   }
 
+  public static Instrument guessSymbol(String symbol, BybitCategory category) {
+    switch (category) {
+      case SPOT: {
+        return guessSymbol(symbol);
+      }
+      case LINEAR: {
+        if (symbol.endsWith("USDT")) {
+          int splitIndex = symbol.lastIndexOf("USDT");
+          return new FuturesContract((symbol.substring(0, splitIndex)+"/"+ symbol.substring(splitIndex)+"/PERP"));
+        } else if (symbol.endsWith("PERP")) {
+          int splitIndex = symbol.lastIndexOf("PERP");
+          return new FuturesContract((symbol.substring(0, splitIndex)+"/"+ "USDC/PERP"));
+        }
+      }
+    }
+    return null;
+  }
+
   public static Instrument adaptInstrumentInfo(BybitInstrumentInfo instrumentInfo) {
     if (instrumentInfo instanceof BybitSpotInstrumentInfo) {
       return new CurrencyPair(instrumentInfo.getBaseCoin(), instrumentInfo.getQuoteCoin());
@@ -213,6 +231,8 @@ public class BybitAdapters {
         .priceScale(instrumentInfo.getPriceFilter().getTickSize().scale())
         .priceStepSize(instrumentInfo.getPriceFilter().getTickSize())
         .tradingFee(instrumentInfo.getDeliveryFeeRate())
+        .volumeScale(instrumentInfo.getLotSizeFilter().getQtyStep().scale())
+        .amountStepSize(instrumentInfo.getLotSizeFilter().getQtyStep())
         .build();
   }
 
@@ -269,7 +289,7 @@ public class BybitAdapters {
     }
   }
 
-  private static OrderStatus adaptBybitOrderStatus(BybitOrderStatus orderStatus) {
+  public static OrderStatus adaptBybitOrderStatus(BybitOrderStatus orderStatus) {
     switch (orderStatus) {
       case CREATED:
         return OrderStatus.OPEN;
