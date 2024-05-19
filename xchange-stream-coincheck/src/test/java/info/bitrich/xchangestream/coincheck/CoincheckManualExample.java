@@ -1,7 +1,7 @@
 package info.bitrich.xchangestream.coincheck;
 
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.math.BigDecimal;
 import java.time.Duration;
 import lombok.SneakyThrows;

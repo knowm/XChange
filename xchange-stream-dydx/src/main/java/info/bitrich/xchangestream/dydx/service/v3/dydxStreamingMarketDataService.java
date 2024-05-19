@@ -8,7 +8,7 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.dydx.dto.v3.dydxInitialOrderBookMessage;
 import info.bitrich.xchangestream.dydx.dto.v3.dydxUpdateOrderBookMessage;
 import info.bitrich.xchangestream.dydx.dydxStreamingService;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
