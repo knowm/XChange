@@ -1,0 +1,47 @@
+[
+  {
+    "currency": "BTC",
+    "delisted": false,
+    "withdraw_disabled": false,
+    "withdraw_delayed": false,
+    "deposit_disabled": false,
+    "trade_disabled": false,
+    "chain": "BTC"
+  },
+  {
+    "currency": "BTC_BSC",
+    "delisted": false,
+    "withdraw_disabled": false,
+    "withdraw_delayed": false,
+    "deposit_disabled": false,
+    "trade_disabled": false,
+    "chain": "BSC"
+  },
+  {
+    "currency": "BTC_HT",
+    "delisted": false,
+    "withdraw_disabled": true,
+    "withdraw_delayed": false,
+    "deposit_disabled": true,
+    "trade_disabled": false,
+    "chain": "HT"
+  },
+  {
+    "currency": "ETH",
+    "delisted": false,
+    "withdraw_disabled": false,
+    "withdraw_delayed": false,
+    "deposit_disabled": false,
+    "trade_disabled": false,
+    "chain": "ETH"
+  },
+  {
+    "currency": "ETH_BSC",
+    "delisted": false,
+    "withdraw_disabled": false,
+    "withdraw_delayed": false,
+    "deposit_disabled": false,
+    "trade_disabled": false,
+    "chain": "BSC"
+  }
+]

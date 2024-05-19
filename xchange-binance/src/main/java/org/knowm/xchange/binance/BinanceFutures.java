@@ -65,6 +65,18 @@ public interface BinanceFutures {
       throws IOException, BinanceException;
 
   /**
+   * 24 hour price change statistics for all symbols
+   *
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("fapi/v1/ticker/24hr")
+  List<BinanceTicker24h> ticker24h()
+      throws IOException, BinanceException;
+
+  /**
    * Get compressed, aggregate trades. Trades that fill at the time, from the same order, with the
    * same price will have the quantity aggregated.<br>
    * If both startTime and endTime are sent, limit should not be sent AND the distance between

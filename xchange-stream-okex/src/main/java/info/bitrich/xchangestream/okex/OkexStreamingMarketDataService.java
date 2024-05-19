@@ -5,8 +5,8 @@ import static info.bitrich.xchangestream.okex.OkexStreamingService.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -105,13 +105,13 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
               // "books5" channel pushes 5 depth levels every time.
               String action =
                   channelName.equals(ORDERBOOK5) ? "snapshot" : jsonNode.get("action").asText();
+              List<OkexOrderbook> okexOrderbooks =
+                  mapper.treeToValue(
+                      jsonNode.get("data"),
+                      mapper
+                          .getTypeFactory()
+                          .constructCollectionType(List.class, OkexOrderbook.class));
               if ("snapshot".equalsIgnoreCase(action)) {
-                List<OkexOrderbook> okexOrderbooks =
-                    mapper.treeToValue(
-                        jsonNode.get("data"),
-                        mapper
-                            .getTypeFactory()
-                            .constructCollectionType(List.class, OkexOrderbook.class));
                 OrderBook orderBook = OkexAdapters.adaptOrderBook(okexOrderbooks, instrument);
                 orderBookMap.put(instId, orderBook);
                 return Observable.just(orderBook);
@@ -121,36 +121,24 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                   LOG.error(String.format("Failed to get orderBook, instId=%s.", instId));
                   return Observable.fromIterable(new LinkedList<>());
                 }
-                List<OkexPublicOrder> asks =
-                    mapper.treeToValue(
-                        jsonNode.get("data").get(0).get("asks"),
-                        mapper
-                            .getTypeFactory()
-                            .constructCollectionType(List.class, OkexPublicOrder.class));
-                asks.forEach(
+                Date timestamp = new Timestamp(
+                    Long.parseLong(okexOrderbooks.get(0).getTs()));
+                okexOrderbooks.get(0).getAsks().forEach(
                     okexPublicOrder ->
                         orderBook.update(
                             OkexAdapters.adaptLimitOrder(
-                                okexPublicOrder, instrument, Order.OrderType.ASK)));
-
-                List<OkexPublicOrder> bids =
-                    mapper.treeToValue(
-                        jsonNode.get("data").get(0).get("bids"),
-                        mapper
-                            .getTypeFactory()
-                            .constructCollectionType(List.class, OkexPublicOrder.class));
-                bids.forEach(
+                                okexPublicOrder, instrument, Order.OrderType.ASK, timestamp)));
+                okexOrderbooks.get(0).getBids().forEach(
                     okexPublicOrder ->
                         orderBook.update(
                             OkexAdapters.adaptLimitOrder(
-                                okexPublicOrder, instrument, Order.OrderType.BID)));
+                                okexPublicOrder, instrument, Order.OrderType.BID, timestamp)));
                 if (orderBookUpdatesSubscriptions.get(instrument) != null) {
                   orderBookUpdatesSubscriptions(
                       instrument,
-                      asks,
-                      bids,
-                      new Timestamp(
-                          Long.parseLong(jsonNode.get("data").get(0).get("ts").asText())));
+                      okexOrderbooks.get(0).getAsks(),
+                      okexOrderbooks.get(0).getBids(),
+                      timestamp);
                 }
                 return Observable.just(orderBook);
 
@@ -162,7 +150,9 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
             });
   }
 
-  public Observable<List<OrderBookUpdate>> getOrderBookUpdates(Instrument instrument) {
+  @Override
+  public Observable<List<OrderBookUpdate>> getOrderBookUpdates(Instrument instrument,
+      Object... args) {
     return orderBookUpdatesSubscriptions.computeIfAbsent(instrument, v -> PublishSubject.create());
   }
 

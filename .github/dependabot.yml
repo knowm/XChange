@@ -6,18 +6,3 @@ updates:
     interval: daily
     time: "12:00"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: com.fasterxml.jackson.core:jackson-databind
-    versions:
-    - 2.12.1
-    - 2.12.2
-  - dependency-name: com.fasterxml.jackson.dataformat:jackson-dataformat-csv
-    versions:
-    - 2.12.1
-    - 2.12.2
-  - dependency-name: io.netty:netty-all
-    versions:
-    - 4.1.61.Final
-  - dependency-name: com.pubnub:pubnub-gson
-    versions:
-    - 4.35.0

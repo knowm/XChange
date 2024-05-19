@@ -1,0 +1,15 @@
+{
+  "id" : "2cfb7047-1b43-4d6a-af84-d2cc987e16c0",
+  "name" : "api_v4_wallet_deposit_address",
+  "request" : {
+    "url" : "/api/v4/wallet/deposit_address?currency=ITA",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_wallet_deposit_address-pending.json"
+  },
+  "uuid" : "2cfb7047-1b43-4d6a-af84-d2cc987e16c0",
+  "persistent" : true,
+  "insertionIndex" : 20
+}

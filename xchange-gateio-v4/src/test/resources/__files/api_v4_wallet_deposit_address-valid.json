@@ -1,0 +1,13 @@
+{
+  "currency": "ABBC",
+  "address": "gateioioabbc 00cceed3f9cb5069",
+  "multichain_addresses": [
+    {
+      "chain": "ABBC",
+      "address": "gateioioabbc",
+      "payment_id": "00cceed3f9cb5069",
+      "payment_name": "Memo",
+      "obtain_failed": 0
+    }
+  ]
+}

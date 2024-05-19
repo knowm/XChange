@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebsocketBalance;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;

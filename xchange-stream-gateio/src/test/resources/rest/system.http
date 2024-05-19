@@ -1,0 +1,8 @@
+### Application ping pong
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "time": {{$timestamp}},
+  "channel": "spot.ping"
+}

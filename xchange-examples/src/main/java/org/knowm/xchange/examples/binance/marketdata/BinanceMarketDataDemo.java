@@ -51,7 +51,7 @@ public class BinanceMarketDataDemo {
   public static void rawAll(BinanceExchange exchange, BinanceMarketDataService marketDataService)
       throws IOException {
 
-    List<BinanceTicker24h> tickers = new ArrayList<>(marketDataService.ticker24hAllProducts());
+    List<BinanceTicker24h> tickers = new ArrayList<>(marketDataService.ticker24hAllProducts(false));
     tickers.sort((t1, t2) -> t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent()));
 
     tickers.forEach(

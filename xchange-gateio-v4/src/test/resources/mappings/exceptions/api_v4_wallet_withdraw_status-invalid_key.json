@@ -1,0 +1,15 @@
+{
+  "id" : "b6ca7675-7276-4e62-adb6-bc7a73e4769a",
+  "name" : "api_v4_wallet_withdraw_status",
+  "request" : {
+    "url" : "/api/v4/wallet/withdraw_status?currency=INVALID_KEY",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 401,
+    "bodyFileName" : "exceptions/api_v4_wallet_withdraw_status-invalid_key.json"
+  },
+  "uuid" : "b6ca7675-7276-4e62-adb6-bc7a73e4769a",
+  "persistent" : true,
+  "insertionIndex" : 8
+}

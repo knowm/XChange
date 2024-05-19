@@ -28,7 +28,7 @@ public interface UpbitAuthenticated extends Upbit {
 
   @POST
   @Path("orders")
-  UpbitOrderResponse limitOrder(
+  UpbitOrderResponse placeOrder(
       @HeaderParam("Authorization") ParamsDigest signatureCreator,
       UpbitOrderRequest upbitOrderRequest)
       throws IOException, UpbitException;

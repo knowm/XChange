@@ -80,12 +80,6 @@
 			<artifactId>xchange-bittrex</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange BitcoinCharts support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-bitcoincharts</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange Bitcoinde support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -340,11 +334,6 @@
   	<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-dvchain</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-  		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-bankera</artifactId>
 			<version>${project.version}</version>
 		</dependency>
         <dependency>

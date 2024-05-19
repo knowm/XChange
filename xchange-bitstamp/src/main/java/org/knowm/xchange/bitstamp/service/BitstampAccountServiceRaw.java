@@ -113,7 +113,21 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     } else if (currency.equals(Currency.XLM)) {
       response = withdrawXLM(amount, address, tag);
     } else {
-      response = withdrawAddrAmount(currency, amount, address);
+      response = checkAndReturnWithdrawal(bitstampAuthenticatedV2.withdrawCrypto(apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          currency.getCurrencyCode().toLowerCase(),
+          address,
+          amount,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null));
     }
 
     if (response.error != null) {
@@ -125,42 +139,6 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     }
 
     return response;
-  }
-
-  /** To prevent code repetition we try to resolve client method */
-  public BitstampWithdrawal withdrawAddrAmount(
-      Currency currency, BigDecimal amount, String address) {
-    try {
-      Class<? extends BitstampAuthenticatedV2> clientClass = bitstampAuthenticatedV2.getClass();
-      Method withdrawMethod =
-          clientClass.getMethod(
-              "withdraw" + currency.getCurrencyCode(),
-              String.class,
-              ParamsDigest.class,
-              SynchronizedValueFactory.class,
-              SynchronizedValueFactory.class,
-              String.class,
-              BigDecimal.class,
-              String.class);
-
-      BitstampWithdrawal response =
-          (BitstampWithdrawal)
-              withdrawMethod.invoke(
-                  bitstampAuthenticatedV2,
-                  apiKeyForV2Requests,
-                  signatureCreatorV2,
-                  uuidNonceFactory,
-                  timestampFactory,
-                  API_VERSION,
-                  amount,
-                  address);
-      return checkAndReturnWithdrawal(response);
-    } catch (BitstampException e) {
-      throw handleError(e);
-    } catch (Exception e) {
-      throw new RuntimeException(
-          "Failed to call bitstamp withdraw method on authenticated client", e);
-    }
   }
 
   public BitstampWithdrawal withdrawRippleFunds(
