@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.bybit.BybitAdapters.guessSymbol;
 
 import org.junit.Test;
+import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.derivative.OptionsContract;
@@ -17,6 +18,9 @@ public class BybitAdaptersTest {
     assertThat(guessSymbol("LTCBTC")).isEqualTo(new CurrencyPair("LTC", "BTC"));
     assertThat(guessSymbol("BTCDAI")).isEqualTo(new CurrencyPair("BTC", "DAI"));
     assertThat(guessSymbol("ABCDEFG")).isEqualTo(new CurrencyPair("ABCD", "EFG"));
+
+    assertThat(guessSymbol("BTCUSDT", BybitCategory.LINEAR)).isEqualTo(new FuturesContract("BTC/USDT/PERP"));
+    assertThat(guessSymbol("ETHPERP", BybitCategory.LINEAR)).isEqualTo(new FuturesContract("ETH/USDC/PERP"));
   }
 
   @Test
