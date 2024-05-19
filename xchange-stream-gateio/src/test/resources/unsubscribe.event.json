@@ -1,0 +1,10 @@
+{
+  "time": 1691622369,
+  "time_ms": 1691622369168,
+  "id": 2644197385697665557,
+  "channel": "spot.trades",
+  "event": "unsubscribe",
+  "result": {
+    "status": "success"
+  }
+}

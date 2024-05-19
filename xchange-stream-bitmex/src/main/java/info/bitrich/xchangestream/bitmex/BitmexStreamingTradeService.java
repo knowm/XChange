@@ -1,7 +1,7 @@
 package info.bitrich.xchangestream.bitmex;
 
 import info.bitrich.xchangestream.bitmex.dto.BitmexOrder;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.CurrencyPair;

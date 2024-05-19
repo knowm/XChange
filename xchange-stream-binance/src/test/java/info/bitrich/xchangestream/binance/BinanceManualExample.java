@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.binance;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
@@ -143,7 +143,7 @@ public class BinanceManualExample {
   }
 
   private static Disposable orderbooksIncremental(
-      BinanceStreamingExchange exchange, String identifier) {
+      StreamingExchange exchange, String identifier) {
     return exchange
         .getStreamingMarketDataService()
         .getOrderBookUpdates(CurrencyPair.LTC_BTC)

@@ -3,16 +3,23 @@ package org.knowm.xchange.okex.service;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
+import org.knowm.xchange.dto.marketdata.FundingRate;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.OkexAdapters;
 import org.knowm.xchange.okex.OkexExchange;
+import org.knowm.xchange.okex.dto.OkexInstType;
 import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.marketdata.OkexCandleStick;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParamWithLimit;
@@ -77,5 +84,14 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   public FundingRate getFundingRate(Instrument instrument) throws IOException {
     return OkexAdapters.adaptFundingRate(
         getOkexFundingRate(OkexAdapters.adaptInstrument(instrument)).getData());
+  }
+
+
+  public List<Ticker> getTickers(Params params) throws IOException {
+    if (!(params instanceof OkexInstType)) {
+      throw new IllegalArgumentException("Params must be instance of OkexInstType");
+    }
+    OkexInstType instType = (OkexInstType) params;
+    return getOkexTickers(instType).getData().stream().map(OkexAdapters::adaptTicker).collect(Collectors.toList());
   }
 }

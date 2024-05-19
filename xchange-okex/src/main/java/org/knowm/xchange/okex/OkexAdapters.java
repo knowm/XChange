@@ -190,27 +190,28 @@ public class OkexAdapters {
   }
 
   public static LimitOrder adaptLimitOrder(
-      OkexPublicOrder okexPublicOrder, Instrument instrument, OrderType orderType) {
+      OkexPublicOrder okexPublicOrder, Instrument instrument, OrderType orderType, Date timestamp) {
     return adaptOrderbookOrder(
-        okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType);
+        okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType,timestamp);
   }
 
   public static OrderBook adaptOrderBook(
       List<OkexOrderbook> okexOrderbooks, Instrument instrument) {
     List<LimitOrder> asks = new ArrayList<>();
     List<LimitOrder> bids = new ArrayList<>();
+    Date timeStamp = new Date(Long.parseLong(okexOrderbooks.get(0).getTs()));
 
     okexOrderbooks
         .get(0)
         .getAsks()
-        .forEach(okexAsk -> asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK)));
+        .forEach(okexAsk -> asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK, timeStamp)));
 
     okexOrderbooks
         .get(0)
         .getBids()
-        .forEach(okexBid -> bids.add(adaptLimitOrder(okexBid, instrument, OrderType.BID)));
+        .forEach(okexBid -> bids.add(adaptLimitOrder(okexBid, instrument, OrderType.BID, timeStamp)));
 
-    return new OrderBook(Date.from(Instant.now()), asks, bids);
+    return new OrderBook(timeStamp, asks, bids);
   }
 
   public static OrderBook adaptOrderBook(
@@ -219,9 +220,9 @@ public class OkexAdapters {
   }
 
   public static LimitOrder adaptOrderbookOrder(
-      BigDecimal amount, BigDecimal price, Instrument instrument, Order.OrderType orderType) {
+      BigDecimal amount, BigDecimal price, Instrument instrument, Order.OrderType orderType, Date timestamp) {
 
-    return new LimitOrder(orderType, amount, instrument, "", null, price);
+    return new LimitOrder(orderType, amount, instrument, "", timestamp, price);
   }
 
   public static Ticker adaptTicker(OkexTicker okexTicker) {
@@ -234,8 +235,10 @@ public class OkexAdapters {
         .high(okexTicker.getHigh24h())
         .low(okexTicker.getLow24h())
         // .vwap(null)
-        .volume(okexTicker.getVolume24h())
-        .quoteVolume(okexTicker.getVolumeCurrency24h())
+        .volume((okexTicker.getInstrumentType().equals("SWAP") || okexTicker.getInstrumentType().equals("FUTURES")) ?
+            okexTicker.getVolumeCurrency24h() : okexTicker.getVolume24h())
+        .quoteVolume((okexTicker.getInstrumentType().equals("SWAP") || okexTicker.getInstrumentType().equals("FUTURES")) ?
+            okexTicker.getVolumeCurrency24h().multiply(okexTicker.getLast()) : okexTicker.getVolumeCurrency24h())
         .timestamp(okexTicker.getTimestamp())
         .bidSize(okexTicker.getBidSize())
         .askSize(okexTicker.getAskSize())

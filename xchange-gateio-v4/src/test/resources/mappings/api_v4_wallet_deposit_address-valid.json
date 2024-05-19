@@ -1,0 +1,15 @@
+{
+  "id" : "9dee83de-0703-43c6-a41d-4e74c90b6635",
+  "name" : "api_v4_wallet_deposit_address",
+  "request" : {
+    "url" : "/api/v4/wallet/deposit_address?currency=ABBC",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_wallet_deposit_address-valid.json"
+  },
+  "uuid" : "9dee83de-0703-43c6-a41d-4e74c90b6635",
+  "persistent" : true,
+  "insertionIndex" : 28
+}

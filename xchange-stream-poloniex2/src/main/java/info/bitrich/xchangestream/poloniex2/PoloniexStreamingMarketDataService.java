@@ -17,7 +17,7 @@ import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketOrderbookModifi
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketTickerTransaction;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketTradeEvent;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;

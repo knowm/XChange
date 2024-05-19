@@ -1,0 +1,15 @@
+{
+  "id" : "0f4c0848-df10-4f1e-b5e7-1b5213fa2f18",
+  "name" : "api_v4_spot_account_book",
+  "request" : {
+    "url" : "/api/v4/spot/account_book?currency=USDT&from=1691447482&to=1691533882&limit=2&page=1&type=order_fee",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_spot_account_book.json"
+  },
+  "uuid" : "0f4c0848-df10-4f1e-b5e7-1b5213fa2f18",
+  "persistent" : true,
+  "insertionIndex" : 35
+}

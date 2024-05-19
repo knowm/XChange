@@ -1,0 +1,20 @@
+{
+  "time": 1691707273,
+  "time_ms": 1691707273893,
+  "channel": "spot.balances",
+  "event": "update",
+  "result": [
+    {
+      "timestamp": "1691707273",
+      "timestamp_ms": "1691707273890",
+      "user": "13439717",
+      "currency": "USDT",
+      "change": "0",
+      "total": "43.06583427604872431142",
+      "available": "42.06583427604872431142",
+      "freeze": "1",
+      "freeze_change": "1.00000000000",
+      "change_type": "order-create"
+    }
+  ]
+}

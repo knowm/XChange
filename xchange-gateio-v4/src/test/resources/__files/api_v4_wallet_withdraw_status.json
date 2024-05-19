@@ -1,0 +1,48 @@
+[
+  {
+    "currency": "GT",
+    "name": "GateToken",
+    "name_cn": "狗头",
+    "deposit": "0",
+    "withdraw_percent": "0%",
+    "withdraw_fix": "0.02",
+    "withdraw_day_limit": "500000",
+    "withdraw_day_limit_remain": "499999",
+    "withdraw_amount_mini": "0.12",
+    "withdraw_eachtime_limit": "499999",
+    "withdraw_fix_on_chains": {
+      "ETH": "0.93",
+      "GTEVM": "0.0049"
+    }
+  },
+  {
+    "currency": "USDT",
+    "name": "Tether",
+    "name_cn": "Tether",
+    "deposit": "0",
+    "withdraw_percent": "0%",
+    "withdraw_fix": "65",
+    "withdraw_day_limit": "300000",
+    "withdraw_day_limit_remain": "299999",
+    "withdraw_amount_mini": "66",
+    "withdraw_eachtime_limit": "299999",
+    "withdraw_fix_on_chains": {
+      "BTC": "65",
+      "ETH": "5",
+      "TRX": "1",
+      "BSC": "1",
+      "GTEVM": "0.024",
+      "EOS": "10",
+      "HT": "0.5",
+      "SOL": "0.1",
+      "ALGO": "5",
+      "NEAR": "0.5",
+      "MATIC": "1",
+      "ARBEVM": "1",
+      "OPETH": "1",
+      "KSMSM": "2",
+      "DOTSM": "2",
+      "OKT": "1"
+    }
+  }
+]

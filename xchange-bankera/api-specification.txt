@@ -1,8 +1,0 @@
-Bankera api spec
-
-url: https://exchange.bankera.com
-doc: https://exchange.bankera.com/api-documentation.html
-
-You need an extra parameters:
-exSpec.setExchangeSpecificParametersItem("clientId", "clientId");
-exSpec.setExchangeSpecificParametersItem("clientSecret", "clientSecret");
