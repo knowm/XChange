@@ -1,29 +1,33 @@
 package org.knowm.xchange.binance;
 
+import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
+
 import java.util.Map;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.binance.dto.ExchangeType;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange implements Exchange {
-  public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
-  public static final String SPECIFIC_PARAM_USE_FUTURES_SANDBOX = "Use_Sandbox_Futures";
-  public static final String SPECIFIC_PARAM_FUTURES_ENABLED = "Futures_Enabled";
-  public static final String SPECIFIC_PARAM_PORTFOLIO_MARGIN_ENABLED = "Portfolio_Margin_Enabled";
+  public static String EXCHANGE_TYPE = "Exchange_Type";
   private static final String SPOT_URL = "https://api.binance.com";
-  public static final String FUTURES_URL = "https://dapi.binance.com";
+  public static final String FUTURES_URL = "https://fapi.binance.com";
   public static final String INVERSE_FUTURES_URL = "https://dapi.binance.com";
   public static final String PORTFOLIO_MARGIN_URL = "https://papi.binance.com";
 
+  public static final String SANDBOX_SPOT_URL = "https://testnet.binance.vision";
   public static final String SANDBOX_FUTURES_URL = "https://testnet.binancefuture.com";
+  public static final String SANDBOX_INVERSE_FUTURES_URL = "https://testnet.binancefuture.com";
+
   protected static ResilienceRegistries RESILIENCE_REGISTRIES;
   protected SynchronizedValueFactory<Long> timestampFactory;
 
@@ -61,13 +65,14 @@ public class BinanceExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-
     ExchangeSpecification spec = new ExchangeSpecification(this.getClass());
     spec.setSslUri(SPOT_URL);
     spec.setHost("www.binance.com");
     spec.setPort(80);
     spec.setExchangeName("Binance");
     spec.setExchangeDescription("Binance Exchange.");
+    spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, SPOT);
+    spec.setExchangeSpecificParametersItem(USE_SANDBOX, false);
     AuthUtils.setApiAndSecretKey(spec, "binance");
     return spec;
   }
@@ -78,21 +83,14 @@ public class BinanceExchange extends BaseExchange implements Exchange {
     super.applySpecification(exchangeSpecification);
   }
 
-  public boolean isFuturesSandbox() {
-    return Boolean.TRUE.equals(
-        exchangeSpecification.getExchangeSpecificParametersItem(
-            SPECIFIC_PARAM_USE_FUTURES_SANDBOX));
-  }
-
   public boolean isFuturesEnabled() {
-    return Boolean.TRUE.equals(
-        exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_FUTURES_ENABLED));
+    return ExchangeType.FUTURES.equals(exchangeSpecification.
+        getExchangeSpecificParametersItem(EXCHANGE_TYPE));
   }
 
   public boolean isPortfolioMarginEnabled() {
-    return Boolean.TRUE.equals(
-        exchangeSpecification.getExchangeSpecificParametersItem(
-            SPECIFIC_PARAM_PORTFOLIO_MARGIN_ENABLED));
+    return ExchangeType.PORTFOLIO_MARGIN.equals(exchangeSpecification
+        .getExchangeSpecificParametersItem(EXCHANGE_TYPE));
   }
 
   public boolean usingSandbox() {
@@ -101,35 +99,35 @@ public class BinanceExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() {
-
     try {
       BinanceMarketDataService marketDataService =
           (BinanceMarketDataService) this.marketDataService;
-
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
       Map<String, AssetDetail> assetDetailMap = null;
       if (!usingSandbox() && isAuthenticated()) {
         assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
       }
-      if (usingSandbox()) {
-        if (isFuturesSandbox()) {
-          BinanceAdapters.adaptFutureExchangeMetaData(
-              exchangeMetaData, marketDataService.getFutureExchangeInfo());
-        } else {
-          exchangeMetaData =
-              BinanceAdapters.adaptExchangeMetaData(
-                  marketDataService.getExchangeInfo(), assetDetailMap);
-        }
-      } else {
+      //hook for Binance US
+      if(exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE) ==null) {
         exchangeMetaData =
             BinanceAdapters.adaptExchangeMetaData(
                 marketDataService.getExchangeInfo(), assetDetailMap);
-        if (isFuturesEnabled()) {
-          BinanceAdapters.adaptFutureExchangeMetaData(
-              exchangeMetaData, marketDataService.getFutureExchangeInfo());
+      } else {
+        switch ((ExchangeType) exchangeSpecification.getExchangeSpecificParametersItem(
+            EXCHANGE_TYPE)) {
+          case SPOT: {
+            exchangeMetaData =
+                BinanceAdapters.adaptExchangeMetaData(
+                    marketDataService.getExchangeInfo(), assetDetailMap);
+            break;
+          }
+          case FUTURES: {
+            BinanceAdapters.adaptFutureExchangeMetaData(
+                exchangeMetaData, marketDataService.getFutureExchangeInfo());
+            break;
+          }
         }
       }
-
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
     }
@@ -141,21 +139,38 @@ public class BinanceExchange extends BaseExchange implements Exchange {
         && exchangeSpecification.getSecretKey() != null;
   }
 
-  /** Adjust host parameters depending on exchange specific parameters */
+  /**
+   * Adjust host parameters depending on exchange specific parameters
+   */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
-    if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (enabledSandbox(exchangeSpecification)) {
-        exchangeSpecification.setSslUri("https://testnet.binance.vision");
-        exchangeSpecification.setHost("testnet.binance.vision");
+    if(exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE) != null) {
+      switch ((ExchangeType)exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE)) {
+        case SPOT: {
+          if (enabledSandbox(exchangeSpecification))
+            exchangeSpecification.setSslUri(SANDBOX_SPOT_URL);
+          break;
+        }
+        case FUTURES: {
+          if (!enabledSandbox(exchangeSpecification))
+            exchangeSpecification.setSslUri(FUTURES_URL);
+          else
+            exchangeSpecification.setSslUri(SANDBOX_FUTURES_URL);
+          break;
+        }
+        case INVERSE: {
+          if (!enabledSandbox(exchangeSpecification))
+            exchangeSpecification.setSslUri(INVERSE_FUTURES_URL);
+          else
+            exchangeSpecification.setSslUri(SANDBOX_INVERSE_FUTURES_URL);
+          break;
+        }
       }
     }
   }
 
+
   private static boolean enabledSandbox(ExchangeSpecification exchangeSpecification) {
-    return Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX))
-        || Boolean.TRUE.equals(
-            exchangeSpecification.getExchangeSpecificParametersItem(
-                SPECIFIC_PARAM_USE_FUTURES_SANDBOX));
+    return Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX));
   }
+
 }
