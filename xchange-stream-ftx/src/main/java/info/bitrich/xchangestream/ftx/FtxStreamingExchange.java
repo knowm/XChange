@@ -6,8 +6,8 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.ftx.dto.FtxWebsocketCredential;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.ftx.FtxExchange;
 

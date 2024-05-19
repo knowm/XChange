@@ -2,9 +2,8 @@ package info.bitrich.xchangestream.gateio;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.reactivex.Observable;
-import io.reactivex.observers.BaseTestConsumer.TestWaitStrategy;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.observers.TestObserver;
 import java.time.Duration;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -23,9 +22,7 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
     TestObserver<OrderBook> testObserver = observable.test();
 
     OrderBook orderBook = testObserver
-        .assertSubscribed()
-        .awaitCount(1, TestWaitStrategy.SLEEP_10MS, 20000)
-        .assertNoTimeout()
+        .awaitCount(1)
         .values().get(0);
 
     testObserver.dispose();
@@ -33,6 +30,9 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
     assertThat(orderBook).hasNoNullFieldsOrProperties();
     assertThat(orderBook.getBids()).hasSize(10);
     assertThat(orderBook.getAsks()).hasSize(10);
+
+    // bids should be lower than asks
+    assertThat(orderBook.getBids().get(0).getLimitPrice()).isLessThan(orderBook.getAsks().get(0).getLimitPrice());
   }
 
 
@@ -45,9 +45,7 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
     TestObserver<Trade> testObserver = observable.test();
 
     Trade trade = testObserver
-        .assertSubscribed()
-        .awaitCount(1, TestWaitStrategy.SLEEP_10MS, 20000)
-        .assertNoTimeout()
+        .awaitCount(1)
         .values().get(0);
 
     testObserver.dispose();
@@ -67,9 +65,7 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
     TestObserver<Ticker> testObserver = observable.test();
 
     Ticker ticker = testObserver
-        .assertSubscribed()
-        .awaitCount(1, TestWaitStrategy.SLEEP_10MS, 70000)
-        .assertNoTimeout()
+        .awaitCount(1)
         .values()
         .get(0);
 

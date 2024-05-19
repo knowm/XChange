@@ -7,7 +7,7 @@ import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingMarketDataService
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.service.ConnectableService;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import org.apache.commons.lang3.concurrent.TimedSemaphore;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;

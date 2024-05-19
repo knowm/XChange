@@ -34,7 +34,7 @@ public class BinanceAdaptersTest {
         .contains(BinanceOrderFlags.withClientId("gzcLIkn86ag3FycOCEl6Vi"));
 
     MarketOrder copy = ObjectMapperHelper.viaJSON(marketOrder);
-    assertThat(copy).isEqualToComparingFieldByField(marketOrder);
+    assertThat(copy).usingRecursiveComparison().isEqualTo(marketOrder);
   }
 
   @Test

@@ -2,7 +2,7 @@ package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
 import java.util.List;
-import org.apache.commons.lang3.Validate;
+import java.util.Objects;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
@@ -86,7 +86,7 @@ public class GateioAccountServiceRaw extends GateioBaseService {
 
 
   public List<GateioAddressRecord> getSavedAddresses(Currency currency) throws IOException {
-    Validate.notNull(currency);
+    Objects.requireNonNull(currency);
     return gateioV4Authenticated.getSavedAddresses(apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currency.getCurrencyCode());
   }
 

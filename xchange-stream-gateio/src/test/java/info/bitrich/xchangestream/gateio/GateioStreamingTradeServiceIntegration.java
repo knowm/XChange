@@ -3,9 +3,8 @@ package info.bitrich.xchangestream.gateio;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-import io.reactivex.Observable;
-import io.reactivex.observers.BaseTestConsumer.TestWaitStrategy;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.observers.TestObserver;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -32,9 +31,7 @@ class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
     TestObserver<UserTrade> testObserver = observable.test();
 
     UserTrade userTrade = testObserver
-        .assertSubscribed()
-        .awaitCount(1, TestWaitStrategy.SLEEP_10MS, 2000000)
-        .assertNoTimeout()
+        .awaitCount(1)
         .values().get(0);
 
     testObserver.dispose();
@@ -53,9 +50,7 @@ class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
     TestObserver<UserTrade> testObserver = observable.test();
 
     UserTrade userTrade = testObserver
-        .assertSubscribed()
-        .awaitCount(1, TestWaitStrategy.SLEEP_10MS, 2000000)
-        .assertNoTimeout()
+        .awaitCount(1)
         .values().get(0);
 
     testObserver.dispose();
