@@ -14,10 +14,6 @@
     <name>XChange Gate.io V4</name>
     <description>XChange implementation for the Gate.io Exchange</description>
 
-    <properties>
-        <version.mockito>5.3.1</version.mockito>
-    </properties>
-
     <dependencies>
 
         <dependency>
@@ -53,7 +49,6 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>${version.mockito}</version>
             <scope>test</scope>
         </dependency>
 

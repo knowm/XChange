@@ -23,7 +23,7 @@ import org.knowm.xchange.binance.dto.account.futures.BinancePosition;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRate;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
-import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
+import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
@@ -46,7 +46,6 @@ import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.FundingRate;
 import org.knowm.xchange.dto.marketdata.FundingRates;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -248,15 +247,25 @@ public class BinanceAdapters {
     return builder.build();
   }
 
-  public static Ticker toTicker(BinancePriceQuantity priceQuantity, Map<Instrument, BigDecimal> prices, boolean isFuture) {
-    Instrument instrument = (isFuture) ? new FuturesContract(priceQuantity.getCurrencyPair(), "PERP") : priceQuantity.getCurrencyPair();
-    return new Builder()
+
+  public static Ticker toTicker(BinanceTicker24h binanceTicker24h, boolean isFuture) {
+    Instrument instrument = (isFuture) ? new FuturesContract(binanceTicker24h.getCurrencyPair(), "PERP"): binanceTicker24h.getCurrencyPair();
+    return new Ticker.Builder()
         .instrument(instrument)
-        .last(prices.get(instrument))
-        .ask(priceQuantity.getAskPrice())
-        .askSize(priceQuantity.getAskQty())
-        .bid(priceQuantity.getBidPrice())
-        .bidSize(priceQuantity.getBidQty())
+        .open(binanceTicker24h.getOpenPrice())
+        .ask(binanceTicker24h.getAskPrice())
+        .bid(binanceTicker24h.getBidPrice())
+        .last(binanceTicker24h.getLastPrice())
+        .high(binanceTicker24h.getHighPrice())
+        .low(binanceTicker24h.getLowPrice())
+        .volume(binanceTicker24h.getVolume())
+        .vwap(binanceTicker24h.getWeightedAvgPrice())
+        .askSize(binanceTicker24h.getAskQty())
+        .bidSize(binanceTicker24h.getBidQty())
+        .quoteVolume(binanceTicker24h.getQuoteVolume())
+        .timestamp(
+            binanceTicker24h.getCloseTime() > 0 ? new Date(binanceTicker24h.getCloseTime()) : null)
+        .percentageChange(binanceTicker24h.getPriceChangePercent())
         .build();
   }
 

@@ -1,3 +1,7 @@
+### 24hr Ticker Price Change Statistics
+GET {{api_host}}/api/v3/ticker/24hr
+
+
 ### Symbol Price Ticker
 GET {{api_host}}/api/v3/ticker/price
 
