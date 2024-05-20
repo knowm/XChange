@@ -1,0 +1,36 @@
+package org.knowm.xchange.coinex.service;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import org.knowm.xchange.coinex.CoinexAdapters;
+import org.knowm.xchange.coinex.CoinexExchange;
+import org.knowm.xchange.coinex.dto.marketdata.CoinexAllMarketStatisticsV1;
+import org.knowm.xchange.coinex.dto.marketdata.CoinexCurrencyPairInfo;
+import org.knowm.xchange.coinex.dto.marketdata.CoinexSingleMarketStatisticsV1;
+import org.knowm.xchange.instrument.Instrument;
+
+public class CoinexMarketDataServiceRaw extends CoinexBaseService {
+
+  public CoinexMarketDataServiceRaw(CoinexExchange exchange) {
+    super(exchange);
+  }
+
+
+  public CoinexAllMarketStatisticsV1 getCoinexAllMarketStatisticsV1() throws IOException {
+    return coinex.allMarketStatistics().getData();
+  }
+
+
+  public CoinexSingleMarketStatisticsV1 getCoinexSingleMarketStatisticsV1(Instrument instrument) throws IOException {
+    String market = CoinexAdapters.toString(instrument);
+    return coinex.singleMarketStatistics(market).getData();
+  }
+
+
+  public List<CoinexCurrencyPairInfo> getCoinexCurrencyPairInfos(Collection<Instrument> instruments) throws IOException {
+    String marketsParam = CoinexAdapters.instrumentsToString(instruments);
+    return coinex.marketStatus(marketsParam).getData();
+  }
+
+}
