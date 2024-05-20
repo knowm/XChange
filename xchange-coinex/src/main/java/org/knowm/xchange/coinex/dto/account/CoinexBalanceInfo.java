@@ -1,29 +1,25 @@
 package org.knowm.xchange.coinex.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.coinex.config.converter.StringToCurrencyConverter;
+import org.knowm.xchange.currency.Currency;
 
+@Data
+@Builder
+@Jacksonized
 public class CoinexBalanceInfo {
 
-  private final BigDecimal available;
-  private final BigDecimal frozen;
+  @JsonProperty("ccy")
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency currency;
 
-  public CoinexBalanceInfo(
-      @JsonProperty("available") BigDecimal available, @JsonProperty("frozen") BigDecimal frozen) {
-    this.available = available;
-    this.frozen = frozen;
-  }
+  private BigDecimal available;
 
-  public BigDecimal getAvailable() {
-    return available;
-  }
+  private BigDecimal frozen;
 
-  public BigDecimal getFrozen() {
-    return frozen;
-  }
-
-  @Override
-  public String toString() {
-    return "CoinexBalanceInfo{" + "available=" + available + ", frozen=" + frozen + '}';
-  }
 }
