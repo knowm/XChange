@@ -11,7 +11,7 @@ import info.bitrich.xchangestream.btcmarkets.dto.BTCMarketsWebSocketTickerMessag
 import info.bitrich.xchangestream.btcmarkets.dto.BTCMarketsWebSocketTradeMessage;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
