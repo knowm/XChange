@@ -1,0 +1,16 @@
+### Get Market Status
+GET {{api_host}}/v2/spot/market
+
+
+### Get Market Information
+GET {{api_host}}/v2/spot/ticker
+
+
+### Get Market Index
+GET {{api_host}}/v2/spot/index
+
+
+### Get Market Depth
+GET {{api_host}}/v2/spot/depth
+
+
