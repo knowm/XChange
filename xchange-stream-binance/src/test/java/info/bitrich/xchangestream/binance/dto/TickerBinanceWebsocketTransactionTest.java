@@ -25,6 +25,7 @@ public class TickerBinanceWebsocketTransactionTest {
 
   @Test
   public void test_deserialization_of_transaction_message() throws IOException {
+    BinanceAdapters.putSymbolMapping("ETHBTC", CurrencyPair.ETH_BTC);
     InputStream stream =
         TickerBinanceWebsocketTransactionTest.class.getResourceAsStream("testTickerEvent.json");
     BinanceWebsocketTransaction<TickerBinanceWebsocketTransaction> transaction =

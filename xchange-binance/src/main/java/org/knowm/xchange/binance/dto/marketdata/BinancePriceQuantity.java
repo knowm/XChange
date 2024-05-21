@@ -1,26 +1,38 @@
 package org.knowm.xchange.binance.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
+import org.apache.commons.lang3.ObjectUtils;
+import org.knowm.xchange.binance.config.converter.StringToCurrencyPairConverter;
+import org.knowm.xchange.currency.CurrencyPair;
 
+@Data
+@Builder
+@Jacksonized
 public final class BinancePriceQuantity {
 
-  public final String symbol;
-  public final BigDecimal bidPrice;
-  public final BigDecimal bidQty;
-  public final BigDecimal askPrice;
-  public final BigDecimal askQty;
+  @JsonProperty("symbol")
+  @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
+  CurrencyPair currencyPair;
 
-  public BinancePriceQuantity(
-      @JsonProperty("symbol") String symbol,
-      @JsonProperty("bidPrice") BigDecimal bidPrice,
-      @JsonProperty("bidQty") BigDecimal bidQty,
-      @JsonProperty("askPrice") BigDecimal askPrice,
-      @JsonProperty("askQty") BigDecimal askQty) {
-    this.symbol = symbol;
-    this.bidPrice = bidPrice;
-    this.bidQty = bidQty;
-    this.askPrice = askPrice;
-    this.askQty = askQty;
+  @JsonProperty("bidPrice")
+  BigDecimal bidPrice;
+
+  @JsonProperty("bidQty")
+  BigDecimal bidQty;
+
+  @JsonProperty("askPrice")
+  BigDecimal askPrice;
+
+  @JsonProperty("askQty")
+  BigDecimal askQty;
+
+  public boolean isValid() {
+    return ObjectUtils.allNotNull(currencyPair, bidPrice, bidQty, askPrice, askQty);
   }
+
 }

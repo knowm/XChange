@@ -1,7 +1,5 @@
 package org.knowm.xchange.binance;
 
-import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
-
 import java.io.IOException;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;

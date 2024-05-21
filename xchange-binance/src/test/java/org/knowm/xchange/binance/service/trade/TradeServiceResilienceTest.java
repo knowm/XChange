@@ -12,6 +12,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.binance.AbstractResilienceTest;
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -30,6 +31,7 @@ public class TradeServiceResilienceTest extends AbstractResilienceTest {
   @Test
   public void shouldSucceedIfFirstCallTimeoutedAndRetryIsEnabled() throws Exception {
     // given
+    BinanceAdapters.putSymbolMapping("LTCBTC", CurrencyPair.LTC_BTC);
     TradeService service = createExchangeWithRetryEnabled().getTradeService();
     stubForOpenOrdersWithFirstCallTimetoutAndSecondSuccessful();
     OpenOrdersParams params = service.createOpenOrdersParams();
