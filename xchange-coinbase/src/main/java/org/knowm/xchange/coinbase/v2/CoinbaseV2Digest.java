@@ -10,7 +10,7 @@ import static org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated.CB_ACCESS_TIME
 
 public class CoinbaseV2Digest extends BaseParamsDigest {
 
-  public static final String ADVANCED_TRADING_V3 = "/v3/brokerage/";
+  public static final String ADVANCED_TRADING_V3 = "api/v3/brokerage/";
 
   private CoinbaseV2Digest(String secretKey) {
     super(secretKey, HMAC_SHA_256);
