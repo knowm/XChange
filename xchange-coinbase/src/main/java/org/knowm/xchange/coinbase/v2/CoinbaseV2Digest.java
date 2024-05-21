@@ -29,7 +29,10 @@ public class CoinbaseV2Digest extends BaseParamsDigest {
     } else {
       path = path.replace(restInvocation.getBaseUrl(), "");
     }
-    final String message = timestamp + restInvocation.getHttpMethod() + path;
+    String message = timestamp + restInvocation.getHttpMethod() + path;
+    if (path.contains(ADVANCED_TRADING_V3)){
+      message = message.toLowerCase();
+    }
     return DigestUtils.bytesToHex(getMac().doFinal(message.getBytes()));
   }
 }
