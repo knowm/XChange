@@ -8,9 +8,11 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.coinex.dto.CoinexException;
 import org.knowm.xchange.coinex.dto.CoinexResponse;
 import org.knowm.xchange.coinex.dto.marketdata.CoinexAllMarketStatisticsV1;
+import org.knowm.xchange.coinex.dto.marketdata.CoinexChainInfo;
 import org.knowm.xchange.coinex.dto.marketdata.CoinexCurrencyPairInfo;
 import org.knowm.xchange.coinex.dto.marketdata.CoinexSingleMarketStatisticsV1;
 
@@ -18,6 +20,12 @@ import org.knowm.xchange.coinex.dto.marketdata.CoinexSingleMarketStatisticsV1;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface Coinex {
+
+  @GET
+  @Path("v1/common/asset/config")
+  CoinexResponse<Map<String, CoinexChainInfo>> allChainInfos()
+      throws IOException, CoinexException;
+
 
   @GET
   @Path("v1/market/ticker/all")
