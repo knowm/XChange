@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import junit.framework.TestCase;
 import org.junit.Test;
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -22,6 +23,7 @@ public class KlineBinanceWebSocketTransactionTest extends TestCase {
 
   @Test
   public void testMapping() throws IOException {
+    BinanceAdapters.putSymbolMapping("XMRUSDT", CurrencyPair.XMR_USDT);
     InputStream stream = this.getClass().getResourceAsStream("testKlineEvent.json");
 
     KlineBinanceWebSocketTransaction klineBinanceWebSocketTransaction =
