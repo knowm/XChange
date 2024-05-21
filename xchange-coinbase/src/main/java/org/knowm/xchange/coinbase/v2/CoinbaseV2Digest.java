@@ -25,11 +25,11 @@ public class CoinbaseV2Digest extends BaseParamsDigest {
     String path = restInvocation.getInvocationUrl();
     final String timestamp = restInvocation.getParamValue(HeaderParam.class, CB_ACCESS_TIMESTAMP).toString();
     if (path.contains(ADVANCED_TRADING_V3)) {
-      path = restInvocation.getPath();
+      path = "/" + restInvocation.getPath();
     } else {
       path = path.replace(restInvocation.getBaseUrl(), "");
     }
     String message = timestamp + restInvocation.getHttpMethod() + path;
-    return DigestUtils.bytesToHex(getMac().doFinal(message.getBytes())).toLowerCase();
+    return DigestUtils.bytesToHex(getMac().doFinal(message.getBytes()));
   }
 }
