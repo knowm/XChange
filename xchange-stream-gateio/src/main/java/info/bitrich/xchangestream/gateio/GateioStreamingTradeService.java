@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.gateio;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUserTradeNotification;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.UserTrade;
 

@@ -11,7 +11,7 @@ import info.bitrich.xchangestream.bitflyer.dto.BitflyerTrade;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.pubnub.PubnubStreamingService;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;

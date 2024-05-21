@@ -7,7 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
