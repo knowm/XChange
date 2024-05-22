@@ -25,4 +25,14 @@ public class CoinbaseAdvancedTradeFill {
         this.orderSide = orderSide;
     }
 
+    @Override
+    public String toString() {
+        return "{\"CoinbaseAdvancedTradeFill\":{"
+                + "\"fillPrice\":\"" + fillPrice + "\""
+                + ", \"productId\":\"" + productId + "\""
+                + ", \"orderId\":\"" + orderId + "\""
+                + ", \"commission\":\"" + commission + "\""
+                + ", \"orderSide\":\"" + orderSide + "\""
+                + "}}";
+    }
 }
