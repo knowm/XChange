@@ -23,7 +23,7 @@ public class CoinbaseTransactionV2Expand {
     CoinbaseTransactionV2Field payment_method;
     boolean committed;
     String payout_at;
-    boolean instant;
+    String paymentMethodName;
     CoinbaseAmount fee;
     CoinbaseAmount amount;
     CoinbaseAmount total;
@@ -44,7 +44,7 @@ public class CoinbaseTransactionV2Expand {
             @JsonProperty("payment_method") CoinbaseTransactionV2Field paymentMethod,
             @JsonProperty("committed") boolean committed,
             @JsonProperty("payout_at") String payoutAt,
-            @JsonProperty("instant") boolean instant,
+            @JsonProperty("payment_method_name") String paymentMethodName,
             @JsonProperty("fee") CoinbaseAmount fee,
             @JsonProperty("amount") CoinbaseAmount amount,
             @JsonProperty("total") CoinbaseAmount total,
@@ -64,7 +64,7 @@ public class CoinbaseTransactionV2Expand {
         this.payment_method = paymentMethod;
         this.committed = committed;
         this.payout_at = payoutAt;
-        this.instant = instant;
+        this.paymentMethodName = paymentMethodName;
         this.fee = fee;
         this.amount = amount;
         this.total = total;
