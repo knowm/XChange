@@ -16,7 +16,16 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.account.*;
+import org.knowm.xchange.binance.dto.account.AssetDetail;
+import org.knowm.xchange.binance.dto.account.AssetDividendResponse;
+import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
+import org.knowm.xchange.binance.dto.account.BinanceCurrencyInfo;
+import org.knowm.xchange.binance.dto.account.BinanceDeposit;
+import org.knowm.xchange.binance.dto.account.BinanceWithdraw;
+import org.knowm.xchange.binance.dto.account.DepositAddress;
+import org.knowm.xchange.binance.dto.account.TransferHistory;
+import org.knowm.xchange.binance.dto.account.TransferSubUserHistory;
+import org.knowm.xchange.binance.dto.account.WithdrawResponse;
 import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceDustLog;
 import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
@@ -328,6 +337,17 @@ public interface BinanceAuthenticated extends Binance {
       @HeaderParam(X_MBX_APIKEY) String apiKey,
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
+
+
+  @GET
+  @Path("/sapi/v1/capital/config/getall")
+  List<BinanceCurrencyInfo> getCurrencyInfos(
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
 
   /**
    * Submit a withdraw request.
