@@ -6,10 +6,21 @@ import lombok.Getter;
 @Getter
 public class CoinbaseTransactionV2NetworkField {
 
-  private String status;
+  private final String status;
+  private final String networkName;
+  private final String transactionFee;
+  private final String hash;
 
-  public CoinbaseTransactionV2NetworkField(@JsonProperty("status") String status) {
+  public CoinbaseTransactionV2NetworkField(
+          @JsonProperty("status") String status,
+          @JsonProperty("network_name") String networkName,
+          @JsonProperty("transaction_fee") String transactionFee,
+            @JsonProperty("hash") String hash
+  ) {
     this.status = status;
+    this.networkName = networkName;
+    this.transactionFee = transactionFee;
+    this.hash = hash;
   }
 
   @Override
