@@ -13,12 +13,10 @@ import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -57,20 +55,6 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
     }
 
     return CexIOAdapters.adaptOpenOrders(cexIOOrderList);
-  }
-
-  @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    /*
-    Only in market order!
-    Presently, the exchange is designed in such way that, depending on the BID/ASK the currency changes
-      (accordingly, you must specify the amount in another currency)
-    Example: CurrencyPair.BCH_USD, Order.OrderType.ASK, Amount = 0.02 (BCH)
-    Example: CurrencyPair.BCH_USD, Order.OrderType.BID, Amount = 20 (USD)
-    Сurrently cannot be implemented!
-    */
-
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
