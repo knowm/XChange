@@ -25,7 +25,7 @@ public class CoinbaseShowTransactionV2 {
     private final String idem;
     private final CoinbaseTransactionV2Expand buy;
     private final CoinbaseTransactionV2Expand sell;
-    private final CoinbaseTransactionV2Field trade;
+    private final CoinbaseTrade trade;
 
     public CoinbaseShowTransactionV2(
             @JsonProperty("id") String id,
@@ -45,7 +45,7 @@ public class CoinbaseShowTransactionV2 {
             @JsonProperty("idem") String idem,
             @JsonProperty("buy") CoinbaseTransactionV2Expand buy,
             @JsonProperty("sell") CoinbaseTransactionV2Expand sell,
-            @JsonProperty("trade") CoinbaseTransactionV2Field trade
+            @JsonProperty("trade") CoinbaseTrade trade
             )
     {
         this.id = id;
