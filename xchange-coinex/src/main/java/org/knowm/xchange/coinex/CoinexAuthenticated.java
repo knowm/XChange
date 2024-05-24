@@ -1,6 +1,5 @@
 package org.knowm.xchange.coinex;
 
-import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
@@ -16,7 +15,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 public interface CoinexAuthenticated {
 
   @GET
