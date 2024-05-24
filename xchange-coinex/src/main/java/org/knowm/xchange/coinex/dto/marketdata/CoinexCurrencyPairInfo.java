@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.coinex.config.converter.StringToCurrencyConverter;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 
 @Data
 @Builder
@@ -45,5 +46,10 @@ public class CoinexCurrencyPairInfo {
 
   @JsonProperty("min_amount")
   private BigDecimal minAssetAmount;
+
+
+  public CurrencyPair getCurrencyPair() {
+    return new CurrencyPair(baseCurrency, quoteCurrency);
+  }
 
 }

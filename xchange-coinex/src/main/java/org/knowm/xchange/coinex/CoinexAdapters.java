@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 import org.knowm.xchange.coinex.dto.account.CoinexBalanceInfo;
+import org.knowm.xchange.coinex.dto.marketdata.CoinexCurrencyPairInfo;
 import org.knowm.xchange.coinex.dto.marketdata.CoinexMarketDepth;
 import org.knowm.xchange.coinex.dto.marketdata.CoinexTickerV1;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -18,6 +19,7 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Ticker.Builder;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -52,6 +54,16 @@ public class CoinexAdapters {
 
   public CurrencyPair toCurrencyPair(String symbol) {
     return SYMBOL_TO_CURRENCY_PAIR.get(symbol);
+  }
+
+
+  public InstrumentMetaData toInstrumentMetaData(CoinexCurrencyPairInfo coinexCurrencyPairInfo) {
+    return new InstrumentMetaData.Builder()
+        .tradingFee(coinexCurrencyPairInfo.getTakerFeeRate())
+        .minimumAmount(coinexCurrencyPairInfo.getMinAssetAmount())
+        .volumeScale(coinexCurrencyPairInfo.getBaseCurrencyPrecision())
+        .priceScale(coinexCurrencyPairInfo.getQuoteCurrencyPrecision())
+        .build();
   }
 
 
