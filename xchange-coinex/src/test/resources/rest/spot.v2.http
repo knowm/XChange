@@ -11,6 +11,6 @@ GET {{api_host}}/v2/spot/index
 
 
 ### Get Market Depth
-GET {{api_host}}/v2/spot/depth
+GET {{api_host}}/v2/spot/depth?market=BTCUSDT&limit=50&interval=0
 
 
