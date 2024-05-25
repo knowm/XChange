@@ -14,7 +14,7 @@ public class CoinexResponse<T> {
 
   public void setCode(Integer code) {
     if (code != 0) {
-      throw new ExceptionalReturnContentException(null);
+      throw new ExceptionalReturnContentException(String.valueOf(code));
     }
     this.code = code;
   }
