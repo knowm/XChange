@@ -1,6 +1,7 @@
 package org.knowm.xchange.bybit.service;
 
 import static org.knowm.xchange.bybit.BybitAdapters.adaptBybitOrderDetails;
+import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,4 +73,15 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
 
     return results;
   }
+
+  public String cancelOrder(Order order) throws IOException {
+    BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
+    BybitResult<BybitOrderResponse> response = cancelOrder(category,
+        convertToBybitSymbol(order.getInstrument()), order.getId(), order.getUserReference());
+    if (response != null) {
+      return response.getResult().getOrderId();
+    } else
+      return "";
+  }
+
 }
