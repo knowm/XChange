@@ -1,9 +1,7 @@
 package org.knowm.xchange.blockchain.service;
 
-import static org.knowm.xchange.blockchain.BlockchainConstants.NOT_IMPLEMENTED_YET;
 
 import java.io.IOException;
-import java.util.List;
 import org.knowm.xchange.blockchain.BlockchainAdapters;
 import org.knowm.xchange.blockchain.BlockchainAuthenticated;
 import org.knowm.xchange.blockchain.BlockchainErrorAdapter;
@@ -12,12 +10,8 @@ import org.knowm.xchange.blockchain.dto.BlockchainException;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.Params;
 
 public class BlockchainMarketDataService extends BlockchainMarketDataServiceRaw
     implements MarketDataService {
@@ -27,21 +21,6 @@ public class BlockchainMarketDataService extends BlockchainMarketDataServiceRaw
       BlockchainAuthenticated blockchainApi,
       ResilienceRegistries resilienceRegistries) {
     super(exchange, blockchainApi, resilienceRegistries);
-  }
-
-  @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
-  }
-
-  @Override
-  public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
-  }
-
-  @Override
-  public List<Ticker> getTickers(Params params) {
-    throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
   }
 
   @Override
@@ -63,13 +42,4 @@ public class BlockchainMarketDataService extends BlockchainMarketDataServiceRaw
     }
   }
 
-  @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
-  }
-
-  @Override
-  public Trades getTrades(Instrument instrument, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
-  }
 }

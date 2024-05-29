@@ -18,9 +18,6 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 20-02-2021 */
@@ -89,13 +86,4 @@ public class dydxStreamingMarketDataService implements StreamingMarketDataServic
             });
   }
 
-  @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException("Not yet implemented!");
-  }
-
-  @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException("Not yet implemented!");
-  }
 }
