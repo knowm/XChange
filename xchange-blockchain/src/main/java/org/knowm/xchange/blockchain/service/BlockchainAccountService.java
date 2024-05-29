@@ -1,9 +1,9 @@
 package org.knowm.xchange.blockchain.service;
 
-import static org.knowm.xchange.blockchain.BlockchainConstants.*;
+import static org.knowm.xchange.blockchain.BlockchainConstants.FUNDING_RECORD_TYPE_UNSUPPORTED;
+import static org.knowm.xchange.blockchain.BlockchainConstants.WITHDRAWAL_EXCEPTION;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,11 +21,18 @@ import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.account.*;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.AddressWithTag;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BlockchainAccountService extends BlockchainAccountServiceRaw
     implements AccountService {
@@ -55,20 +62,6 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw
     } catch (BlockchainException e) {
       throw BlockchainErrorAdapter.adapt(e);
     }
-  }
-
-  /** Use {@link String withdrawFunds(WithdrawFundsParams params)} instead */
-  @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-      throws IOException {
-    throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
-  }
-
-  /** Use {@link String withdrawFunds(WithdrawFundsParams params)} instead */
-  @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address)
-      throws IOException {
-    throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
   }
 
   /** For more information see {@link WithdrawFundsParams} */

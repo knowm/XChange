@@ -7,10 +7,8 @@ import org.knowm.xchange.bibox.dto.BiboxAdapters;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -71,21 +69,4 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
     return BiboxAdapters.adaptUserTrades(getBiboxOrderHistory());
   }
 
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException(
-        "This operation is not yet implemented for this exchange");
-  }
-
-  @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException(
-        "This operation is not yet implemented for this exchange");
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder arg0) throws IOException {
-    throw new NotYetImplementedForExchangeException(
-        "This operation is not yet implemented for this exchange");
-  }
 }

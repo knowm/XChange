@@ -1,6 +1,7 @@
 package org.knowm.xchange.blockchain.service;
 
-import static org.knowm.xchange.blockchain.BlockchainConstants.*;
+import static org.knowm.xchange.blockchain.BlockchainConstants.CURRENCY_PAIR_EXCEPTION;
+import static org.knowm.xchange.blockchain.BlockchainConstants.REJECTED;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,13 +17,26 @@ import org.knowm.xchange.blockchain.params.BlockchainTradeHistoryParams;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.account.OpenPositions;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.*;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class BlockchainTradeService extends BlockchainTradeServiceRaw implements TradeService {
 
@@ -117,11 +131,6 @@ public class BlockchainTradeService extends BlockchainTradeServiceRaw implements
   @Override
   public Class[] getRequiredCancelOrderParamClasses() {
     return new Class[] {CancelOrderByIdParams.class, CancelOrderByCurrencyPair.class};
-  }
-
-  @Override
-  public OpenPositions getOpenPositions() {
-    throw new NotYetImplementedForExchangeException(NOT_IMPLEMENTED_YET);
   }
 
   @Override

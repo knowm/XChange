@@ -14,8 +14,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kucoin.KucoinAdapters;
 import org.knowm.xchange.kucoin.KucoinMarketDataService;
 import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
@@ -141,11 +139,6 @@ public class KucoinStreamingMarketDataService implements StreamingMarketDataServ
     Consumer<T> NOOP = whatever -> {};
     observable.subscribe(NOOP);
     return observable;
-  }
-
-  @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException();
   }
 
   private final class OrderbookSubscription {

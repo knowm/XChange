@@ -12,9 +12,7 @@ import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public class CexioStreamingMarketDataService implements StreamingMarketDataService {
 
@@ -115,8 +113,4 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
                     && prev.getAsk().compareTo(next.getAsk()) == 0);
   }
 
-  @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException();
-  }
 }
