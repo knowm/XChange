@@ -1,5 +1,7 @@
 package org.knowm.xchange.binance.service.account;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.binance.BinanceExchangeIntegration;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
+import org.knowm.xchange.binance.dto.account.BinanceCurrencyInfo;
 import org.knowm.xchange.binance.dto.account.BinanceDeposit;
 import org.knowm.xchange.binance.dto.account.TransferHistory;
 import org.knowm.xchange.binance.service.BinanceAccountService;
@@ -47,6 +50,15 @@ public class AccountServiceIntegration extends BinanceExchangeIntegration {
     Assert.assertNotNull(assetDetails);
     Assert.assertFalse(assetDetails.isEmpty());
   }
+
+
+  @Test
+  public void testCurrencyInfos() throws Exception {
+    assumeProduction();
+    List<BinanceCurrencyInfo> currencyInfos = accountService.currencyInfos();
+    assertThat(currencyInfos).isNotEmpty();
+  }
+
 
   @Test
   public void testMetaData() {

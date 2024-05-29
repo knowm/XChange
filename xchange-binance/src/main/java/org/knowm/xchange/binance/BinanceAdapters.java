@@ -7,8 +7,13 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
@@ -18,7 +23,7 @@ import org.knowm.xchange.binance.dto.account.futures.BinancePosition;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRate;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
-import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
+import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
@@ -36,17 +41,31 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.marketdata.CandleStick;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
+import org.knowm.xchange.dto.marketdata.FundingRate;
+import org.knowm.xchange.dto.marketdata.FundingRates;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 
 public class BinanceAdapters {
   private static final DateTimeFormatter DATE_TIME_FMT =
       DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+  private static final Map<String, CurrencyPair> SYMBOL_TO_CURRENCY_PAIR = new HashMap<>();
+
 
   private BinanceAdapters() {}
 
@@ -134,17 +153,6 @@ public class BinanceAdapters {
     }
   }
 
-  public static CurrencyPair convert(String symbol) {
-    // Iterate by base currency priority at binance.
-    for (Currency base : Arrays.asList(Currency.BTC, Currency.ETH, Currency.BNB, Currency.USDT)) {
-      if (symbol.contains(base.toString())) {
-        String counter = symbol.replace(base.toString(), "");
-        return new CurrencyPair(base, new Currency(counter));
-      }
-    }
-    throw new IllegalArgumentException("Could not parse currency pair from '" + symbol + "'");
-  }
-
   public static long id(String id) {
     try {
       return Long.parseLong(id);
@@ -178,23 +186,19 @@ public class BinanceAdapters {
     return isBuyer ? OrderType.BID : OrderType.ASK;
   }
 
+
+  public static void putSymbolMapping(String symbol, CurrencyPair currencyPair) {
+    SYMBOL_TO_CURRENCY_PAIR.put(symbol, currencyPair);
+  }
+
+
+  public static CurrencyPair toCurrencyPair(String symbol) {
+    return SYMBOL_TO_CURRENCY_PAIR.get(symbol);
+  }
+
+
   public static Instrument adaptSymbol(String symbol, boolean isFuture) {
-    int pairLength = symbol.length();
-    CurrencyPair currencyPair;
-    if (symbol.endsWith("USDT")) {
-      currencyPair = new CurrencyPair(symbol.substring(0, pairLength - 4), "USDT");
-    } else if (symbol.endsWith("USDC")) {
-      currencyPair = new CurrencyPair(symbol.substring(0, pairLength - 4), "USDC");
-    } else if (symbol.endsWith("TUSD")) {
-      currencyPair = new CurrencyPair(symbol.substring(0, pairLength - 4), "TUSD");
-    } else if (symbol.endsWith("USDS")) {
-      currencyPair = new CurrencyPair(symbol.substring(0, pairLength - 4), "USDS");
-    } else if (symbol.endsWith("BUSD")) {
-      currencyPair = new CurrencyPair(symbol.substring(0, pairLength - 4), "BUSD");
-    } else {
-      currencyPair =
-          new CurrencyPair(symbol.substring(0, pairLength - 3), symbol.substring(pairLength - 3));
-    }
+    CurrencyPair currencyPair = toCurrencyPair(symbol);
 
     return (isFuture) ? new FuturesContract(currencyPair, "PERP") : currencyPair;
   }
@@ -243,22 +247,28 @@ public class BinanceAdapters {
     return builder.build();
   }
 
-  private static Ticker adaptPriceQuantity(BinancePriceQuantity priceQuantity, boolean isFuture) {
+
+  public static Ticker toTicker(BinanceTicker24h binanceTicker24h, boolean isFuture) {
+    Instrument instrument = (isFuture) ? new FuturesContract(binanceTicker24h.getCurrencyPair(), "PERP"): binanceTicker24h.getCurrencyPair();
     return new Ticker.Builder()
-        .instrument(adaptSymbol(priceQuantity.symbol, isFuture))
-        .ask(priceQuantity.askPrice)
-        .askSize(priceQuantity.askQty)
-        .bid(priceQuantity.bidPrice)
-        .bidSize(priceQuantity.bidQty)
+        .instrument(instrument)
+        .open(binanceTicker24h.getOpenPrice())
+        .ask(binanceTicker24h.getAskPrice())
+        .bid(binanceTicker24h.getBidPrice())
+        .last(binanceTicker24h.getLastPrice())
+        .high(binanceTicker24h.getHighPrice())
+        .low(binanceTicker24h.getLowPrice())
+        .volume(binanceTicker24h.getVolume())
+        .vwap(binanceTicker24h.getWeightedAvgPrice())
+        .askSize(binanceTicker24h.getAskQty())
+        .bidSize(binanceTicker24h.getBidQty())
+        .quoteVolume(binanceTicker24h.getQuoteVolume())
+        .timestamp(
+            binanceTicker24h.getCloseTime() > 0 ? new Date(binanceTicker24h.getCloseTime()) : null)
+        .percentageChange(binanceTicker24h.getPriceChangePercent())
         .build();
   }
 
-  public static List<Ticker> adaptPriceQuantities(
-      List<BinancePriceQuantity> priceQuantities, boolean isFuture) {
-    return priceQuantities.stream()
-        .map(binancePriceQuantity -> adaptPriceQuantity(binancePriceQuantity, isFuture))
-        .collect(Collectors.toList());
-  }
 
   static CurrencyMetaData adaptCurrencyMetaData(
       Map<Currency, CurrencyMetaData> currencies,
@@ -462,7 +472,7 @@ public class BinanceAdapters {
 
   public static void adaptFutureExchangeMetaData(
       ExchangeMetaData exchangeMetaData, BinanceExchangeInfo binanceExchangeInfo) {
-    Symbol[] futureSymbols = binanceExchangeInfo.getSymbols();
+    List<Symbol> futureSymbols = binanceExchangeInfo.getSymbols();
 
     for (Symbol futureSymbol : futureSymbols) {
       if (futureSymbol.getStatus().equals("TRADING")) { // Symbols which are trading
@@ -527,7 +537,7 @@ public class BinanceAdapters {
     Map<Instrument, InstrumentMetaData> instruments = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
-    Symbol[] symbols = binanceExchangeInfo.getSymbols();
+    List<Symbol> symbols = binanceExchangeInfo.getSymbols();
 
     for (Symbol symbol : symbols) {
       if (symbol.getStatus().equals("TRADING")) { // Symbols which are trading
