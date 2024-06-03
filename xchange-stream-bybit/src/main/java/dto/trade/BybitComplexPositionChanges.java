@@ -2,11 +2,13 @@ package dto.trade;
 
 import java.math.BigDecimal;
 import lombok.Getter;
+import lombok.Setter;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.instrument.Instrument;
 
 @Getter
+@Setter
 public class BybitComplexPositionChanges extends OpenPosition {
   private BigDecimal positionValue;
   private BigDecimal leverage;
