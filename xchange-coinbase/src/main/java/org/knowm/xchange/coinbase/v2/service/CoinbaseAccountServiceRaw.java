@@ -36,12 +36,13 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
       throws IOException {
 
     String apiKey = exchange.getExchangeSpecification().getApiKey();
-    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
 
     List<CoinbaseShowTransactionV2> result = new ArrayList<>();
     String orderType = "asc";
     boolean isNextPage = true;
     while (isNextPage) {
+      BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
+
       CoinbaseExpandTransactionsResponse response = coinbase.getExpandedTransactions(
               Coinbase.CB_VERSION_VALUE, apiKey,
               signatureCreator2, timestamp,
