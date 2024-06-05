@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
+import lombok.Getter;
 import org.knowm.xchange.bitstamp.BitstampUtils;
 import org.knowm.xchange.currency.Currency;
 
+@Getter
 public class WithdrawalRequest {
 
   private final Date datetime;
@@ -24,26 +26,11 @@ public class WithdrawalRequest {
 
   @JsonProperty("transaction_id")
   private String transactionId; // Transaction id (bitcoin withdrawals only).
+  private String txid;
 
   public WithdrawalRequest(@JsonProperty("datetime") String datetime) {
     super();
     this.datetime = BitstampUtils.parseDate(datetime);
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public Date getDatetime() {
-    return datetime;
-  }
-
-  public Type getType() {
-    return type;
-  }
-
-  public BigDecimal getAmount() {
-    return amount;
   }
 
   public Status getStatus() {
@@ -53,22 +40,6 @@ public class WithdrawalRequest {
   @JsonProperty("status")
   public String getStatusOriginal() {
     return statusOriginal;
-  }
-
-  public String getData() {
-    return data;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public String getTransactionId() {
-    return transactionId;
-  }
-
-  public Currency getCurrency() {
-    return currency;
   }
 
   @Override
