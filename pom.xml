@@ -33,7 +33,7 @@
     <version.java>8</version.java>
     <version.assertj>3.25.3</version.assertj>
     <version.commons.lang3>3.14.0</version.commons.lang3>
-    <version.fasterxml>2.14.3</version.fasterxml>
+    <version.fasterxml>2.17.1</version.fasterxml>
     <version.github.mmazi>3.0</version.github.mmazi>
     <version.mockito>5.11.0</version.mockito>
     <version.resilience4j>1.7.1</version.resilience4j>
