@@ -40,6 +40,7 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
     List<CoinbaseShowTransactionV2> result = new ArrayList<>();
     String orderType = "asc";
     boolean isNextPage = true;
+
     while (isNextPage) {
       BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
 
@@ -54,9 +55,8 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
         isNextPage = false;
       }
       if(!response.getData().isEmpty()) {
-        CoinbaseShowTransactionV2 lastTx = response.getData().get(0);
-        params.setStartId(lastTx.getId());
         result.addAll(response.getData());
+        params.setStartId(response.getData().get(response.getData().size() - 1).getId());
       }
     }
     return result;
