@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>5.2.0</version>
+        <version>5.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-coinex</artifactId>
@@ -102,9 +102,9 @@
                         </goals>
                         <configuration>
                             <rules>
-                                <dependencyConvergence/>
-                                <banDuplicatePomDependencyVersions/>
-                                <reactorModuleConvergence/>
+                                <dependencyConvergence />
+                                <banDuplicatePomDependencyVersions />
+                                <reactorModuleConvergence />
                             </rules>
                         </configuration>
                     </execution>
