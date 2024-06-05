@@ -6,7 +6,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>5.1.2-SNAPSHOT</version>
+        <version>5.2.0</version>
     </parent>
 
     <name>XChange Okex Stream</name>
