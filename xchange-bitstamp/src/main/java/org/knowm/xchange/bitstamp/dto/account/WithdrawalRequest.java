@@ -62,6 +62,8 @@ public class WithdrawalRequest {
         + address
         + ", transactionId="
         + transactionId
+        + ", txid="
+        + txid
         + "]";
   }
 
