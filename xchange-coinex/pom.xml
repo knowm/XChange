@@ -22,7 +22,7 @@
 
     <properties>
         <version.maven-enforcer-plugin>3.2.1</version.maven-enforcer-plugin>
-        <version.sortpom-maven-plugin>3.2.0</version.sortpom-maven-plugin>
+        <version.sortpom-maven-plugin>4.0.0</version.sortpom-maven-plugin>
     </properties>
 
     <dependencies>
