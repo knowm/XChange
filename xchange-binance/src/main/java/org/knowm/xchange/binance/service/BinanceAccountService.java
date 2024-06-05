@@ -1,6 +1,8 @@
 package org.knowm.xchange.binance.service;
 
 import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
+import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
+import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
 
 import java.io.IOException;
 import java.math.BigDecimal;

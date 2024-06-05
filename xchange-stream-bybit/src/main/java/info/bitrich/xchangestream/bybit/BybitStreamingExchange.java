@@ -4,6 +4,7 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import io.reactivex.rxjava3.core.Completable;
 import org.knowm.xchange.bybit.BybitExchange;
+import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,25 +15,30 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
   //https://bybit-exchange.github.io/docs/v5/ws/connect
   public static final String URI = "wss://stream.bybit.com/v5/public";
   public static final String TESTNET_URI = "wss://stream-testnet.bybit.com/v5/public";
+  // DEMO_URI websocket not worked(401 error)
+  public static final String DEMO_URI = "wss://stream-demo.bybit.com/v5/public";
+
   public static final String AUTH_URI = "wss://stream.bybit.com/v5/private";
   public static final String TESTNET_AUTH_URI = "wss://stream-testnet.bybit.com/v5/private";
+  public static final String DEMO_AUTH_URI = "wss://stream-demo.bybit.com/v5/private";
 
   //spot, linear, inverse or option
-  public static final String EXCHANGE_TYPE = "EXCHANGE_TYPE";
+  public static final String EXCHANGE_TYPE = "Exchange_Type";
 
   private BybitStreamingService streamingService;
   private BybitStreamingMarketDataService streamingMarketDataService;
+  private BybitStreamingTradeService streamingTradeService;
 
   @Override
   protected void initServices() {
     super.initServices();
-    this.streamingService = new BybitStreamingService(getApiUrl(),
-        exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE));
+    this.streamingService = new BybitStreamingService(getApiUrl(), exchangeSpecification);
     this.streamingMarketDataService = new BybitStreamingMarketDataService(streamingService);
+    this.streamingTradeService = new BybitStreamingTradeService(streamingService);
   }
 
   private String getApiUrl() {
-    String apiUrl = null;
+    String apiUrl;
     if (exchangeSpecification.getApiKey() == null) {
       if (Boolean.TRUE.equals(
           exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
@@ -40,9 +46,15 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
       } else {
         apiUrl = URI;
       }
-      apiUrl += "/" + exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE);
+      apiUrl += "/" + ((BybitCategory)exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE)).getValue();
+    } else {
+      if (Boolean.TRUE.equals(
+          exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
+        apiUrl = TESTNET_AUTH_URI;
+      } else {
+        apiUrl = AUTH_URI;
+      }
     }
-// TODO auth
     return apiUrl;
   }
 
@@ -71,6 +83,11 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
   @Override
   public BybitStreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
+  }
+
+  @Override
+  public BybitStreamingTradeService getStreamingTradeService() {
+    return streamingTradeService;
   }
 
 }
