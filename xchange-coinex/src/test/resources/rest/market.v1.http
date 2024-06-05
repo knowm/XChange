@@ -1,0 +1,12 @@
+### Acquire Single Market Statistics
+GET {{api_host}}/v1/market/ticker?market=BTCUSDT
+
+
+### Acquire All Market Statistics
+GET {{api_host}}/v1/market/ticker/all
+
+
+### Acquire Asset Allocation
+GET {{api_host}}/v1/common/asset/config
+
+

@@ -353,6 +353,12 @@
         <version>${version.qos.logback}</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${version.slf4j}</version>
+      </dependency>
+
       <!-- jwt for auth -->
       <dependency>
         <groupId>com.auth0</groupId>
@@ -388,7 +394,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>${version.slf4j}</version>
     </dependency>
 
     <!-- javax APIs -->
