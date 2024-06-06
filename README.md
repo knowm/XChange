@@ -193,6 +193,7 @@ generate dependency tree          | `mvn dependency:tree`
 check for dependency updates      | `mvn versions:display-dependency-updates`
 check for plugin updates          | `mvn versions:display-plugin-updates`
 code format                       | `mvn com.spotify.fmt:fmt-maven-plugin:format`
+pom format/organize               | `mvn com.github.ekryd.sortpom:sortpom-maven-plugin:sort`
 
 ## Bugs
 

@@ -8,11 +8,16 @@
         <artifactId>xchange-parent</artifactId>
         <version>5.2.1-SNAPSHOT</version>
     </parent>
-
-    <name>XChange Cex.io Stream</name>
     <artifactId>xchange-stream-cexio</artifactId>
 
+    <name>XChange Cex.io Stream</name>
+
     <dependencies>
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-cexio</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-stream-core</artifactId>
@@ -21,11 +26,6 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-stream-service-netty</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-cexio</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>

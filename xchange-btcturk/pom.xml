@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
+        <artifactId>xchange-parent</artifactId>
         <version>5.2.1-SNAPSHOT</version>
     </parent>
 
@@ -26,7 +26,7 @@
             <name>Semih Unaldi</name>
             <email>semihunaldi@gmail.com</email>
         </developer>
-		<developer>
+        <developer>
             <name>Mert Güner</name>
             <email>m.mertguner@gmail.com</email>
         </developer>

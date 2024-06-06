@@ -8,11 +8,16 @@
         <artifactId>xchange-parent</artifactId>
         <version>5.2.1-SNAPSHOT</version>
     </parent>
-
-    <name>XChange CoinbasePro Stream</name>
     <artifactId>xchange-stream-coinbasepro</artifactId>
 
+    <name>XChange CoinbasePro Stream</name>
+
     <dependencies>
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-coinbasepro</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-stream-core</artifactId>
@@ -23,10 +28,5 @@
             <artifactId>xchange-stream-service-netty</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-coinbasepro</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
     </dependencies>
-</project> 
+</project>

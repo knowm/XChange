@@ -8,9 +8,9 @@
         <artifactId>xchange-parent</artifactId>
         <version>5.2.1-SNAPSHOT</version>
     </parent>
+    <artifactId>xchange-stream-ftx</artifactId>
 
     <name>XChange Ftx Stream</name>
-    <artifactId>xchange-stream-ftx</artifactId>
 
     <dependencies>
         <dependency>

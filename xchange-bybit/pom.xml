@@ -32,9 +32,9 @@
         </dependency>
 
         <dependency>
-          <groupId>org.wiremock</groupId>
-          <artifactId>wiremock</artifactId>
-          <scope>test</scope>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

@@ -3,24 +3,24 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <name>XChange Gemini Stream V2</name>
-    <artifactId>xchange-stream-gemini-v2</artifactId>
-
     <parent>
-        <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
+        <artifactId>xchange-parent</artifactId>
         <version>5.2.1-SNAPSHOT</version>
     </parent>
+    <artifactId>xchange-stream-gemini-v2</artifactId>
+
+    <name>XChange Gemini Stream V2</name>
 
     <dependencies>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-stream-core</artifactId>
+            <artifactId>xchange-gemini</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-gemini</artifactId>
+            <artifactId>xchange-stream-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

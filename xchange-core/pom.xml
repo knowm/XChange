@@ -1,38 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.knowm.xchange</groupId>
-		<artifactId>xchange-parent</artifactId>
-		<version>5.2.1-SNAPSHOT</version>
-	</parent>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.knowm.xchange</groupId>
+        <artifactId>xchange-parent</artifactId>
+        <version>5.2.1-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>xchange-core</artifactId>
+    <artifactId>xchange-core</artifactId>
 
-	<name>XChange Core</name>
-	<description>Core functionality used by all other modules.</description>
+    <name>XChange Core</name>
+    <description>Core functionality used by all other modules.</description>
 
-	<url>http://knowm.org/open-source/xchange/</url>
-	<inceptionYear>2012</inceptionYear>
+    <url>http://knowm.org/open-source/xchange/</url>
+    <inceptionYear>2012</inceptionYear>
 
-	<organization>
-		<name>Knowm Inc.</name>
-		<url>http://knowm.org/open-source/xchange/</url>
-	</organization>
+    <organization>
+        <name>Knowm Inc.</name>
+        <url>http://knowm.org/open-source/xchange/</url>
+    </organization>
 
-	<!-- Parent provides default configuration for dependencies -->
-	<dependencies>
+    <!-- Parent provides default configuration for dependencies -->
+    <dependencies>
 
         <!-- Third party dependencies -->
 
         <dependency>
             <groupId>com.github.mmazi</groupId>
             <artifactId>rescu</artifactId>
-        </dependency>
-
-        <!--For String Joining, etc. -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
         </dependency>
 
         <dependency>
@@ -48,6 +43,12 @@
         <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-retry</artifactId>
+        </dependency>
+
+        <!--For String Joining, etc. -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
 
         <dependency>
