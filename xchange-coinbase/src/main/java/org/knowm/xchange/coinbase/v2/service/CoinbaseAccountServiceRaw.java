@@ -32,34 +32,19 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
         Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, accountId);
   }
 
-  public List<CoinbaseShowTransactionV2> getExpandTransactions(String accountId, CoinbaseTradeHistoryParams params)
+  public CoinbaseExpandTransactionsResponse getExpandTransactions(String accountId, CoinbaseTradeHistoryParams params, String orderType)
       throws IOException {
 
     String apiKey = exchange.getExchangeSpecification().getApiKey();
+    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
 
-    List<CoinbaseShowTransactionV2> result = new ArrayList<>();
-    String orderType = "asc";
-    boolean isNextPage = true;
-
-    while (isNextPage) {
-      BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
-
-      CoinbaseExpandTransactionsResponse response = coinbase.getExpandedTransactions(
+    return coinbase.getExpandedTransactions(
               Coinbase.CB_VERSION_VALUE, apiKey,
               signatureCreator2, timestamp,
               accountId,
               params.getLimit(),
               orderType,
               params.getStartId());
-      if(response.getPagination().getNextUri() == null) {
-        isNextPage = false;
-      }
-      if(!response.getData().isEmpty()) {
-        result.addAll(response.getData());
-        params.setStartId(response.getData().get(response.getData().size() - 1).getId());
-      }
-    }
-    return result;
   }
 
   public Map getDeposits(String accountId) throws IOException {
