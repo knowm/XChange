@@ -10,6 +10,7 @@ import org.knowm.xchange.coinex.CoinexExchange;
 import org.knowm.xchange.coinex.dto.CoinexException;
 import org.knowm.xchange.coinex.dto.account.CoinexOrder;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
@@ -18,6 +19,18 @@ public class CoinexTradeService extends CoinexTradeServiceRaw implements TradeSe
 
   public CoinexTradeService(CoinexExchange exchange) {
     super(exchange);
+  }
+
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    try {
+      CoinexOrder coinexOrder = createOrder(CoinexAdapters.toCoinexOrder(marketOrder));
+      return String.valueOf(coinexOrder.getOrderId());
+    }
+    catch (CoinexException e) {
+      throw CoinexErrorAdapter.adapt(e);
+    }
   }
 
 

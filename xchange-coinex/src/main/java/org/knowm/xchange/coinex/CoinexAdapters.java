@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 import org.knowm.xchange.coinex.dto.account.CoinexBalanceInfo;
+import org.knowm.xchange.coinex.dto.account.CoinexMarketType;
 import org.knowm.xchange.coinex.dto.account.CoinexOrder;
 import org.knowm.xchange.coinex.dto.marketdata.CoinexCurrencyPairInfo;
 import org.knowm.xchange.coinex.dto.marketdata.CoinexMarketDepth;
@@ -52,6 +53,18 @@ public class CoinexAdapters {
         .currency(balance.getCurrency())
         .available(balance.getAvailable())
         .frozen(balance.getFrozen())
+        .build();
+  }
+
+
+  public CoinexOrder toCoinexOrder(MarketOrder marketOrder) {
+    return CoinexOrder.builder()
+        .currencyPair((CurrencyPair) marketOrder.getInstrument())
+        .marketType(CoinexMarketType.SPOT)
+        .side(marketOrder.getType())
+        .type("market")
+        .clientId(marketOrder.getUserReference())
+        .amount(marketOrder.getOriginalAmount())
         .build();
   }
 

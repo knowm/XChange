@@ -8,6 +8,7 @@ import java.time.Instant;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.coinex.config.converter.CurrencyPairToStringConverter;
 import org.knowm.xchange.coinex.config.converter.OrderTypeToStringConverter;
 import org.knowm.xchange.coinex.config.converter.StringToCurrencyConverter;
 import org.knowm.xchange.coinex.config.converter.StringToCurrencyPairConverter;
@@ -59,6 +60,7 @@ public class CoinexOrder {
 
   @JsonProperty("market")
   @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
+  @JsonSerialize(converter = CurrencyPairToStringConverter.class)
   CurrencyPair currencyPair;
 
   @JsonProperty("market_type")

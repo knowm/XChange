@@ -1,7 +1,9 @@
 package org.knowm.xchange.coinex;
 
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
@@ -27,6 +29,15 @@ public interface CoinexAuthenticated {
       @HeaderParam("X-COINEX-SIGN") ParamsDigest signer)
       throws IOException, CoinexException;
 
+  @POST
+  @Path("v2/spot/order")
+  @Consumes(MediaType.APPLICATION_JSON)
+  CoinexResponse<CoinexOrder> createOrder(
+      @HeaderParam("X-COINEX-KEY") String apiKey,
+      @HeaderParam("X-COINEX-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("X-COINEX-SIGN") ParamsDigest signer,
+      CoinexOrder coinexOrder)
+      throws IOException, CoinexException;
 
   @GET
   @Path("v2/spot/order-status")
