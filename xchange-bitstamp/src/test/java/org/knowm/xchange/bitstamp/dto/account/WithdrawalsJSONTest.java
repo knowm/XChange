@@ -34,6 +34,7 @@ public class WithdrawalsJSONTest {
 
     assertThat(withdrawals.get(1).getType()).isEqualTo(Type.litecoin);
     assertThat(withdrawals.get(1).getStatus()).isEqualTo(Status.finished);
+    assertThat(withdrawals.get(1).getTxid()).isEqualTo("1");
 
     assertThat(withdrawals.get(2).getType()).isEqualTo(Type.XRP);
     assertThat(withdrawals.get(2).getStatus()).isEqualTo(Status.unknown);

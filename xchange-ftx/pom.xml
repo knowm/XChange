@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>5.1.2-SNAPSHOT</version>
+        <artifactId>xchange-parent</artifactId>
+        <version>5.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-ftx</artifactId>

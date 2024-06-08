@@ -1,604 +1,626 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <prerequisites>
-    <maven>3.0</maven>
-  </prerequisites>
+    <groupId>org.knowm.xchange</groupId>
+    <artifactId>xchange-parent</artifactId>
+    <version>5.2.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-  <groupId>org.knowm.xchange</groupId>
-  <artifactId>xchange-parent</artifactId>
-  <version>5.1.2-SNAPSHOT</version>
-  <packaging>pom</packaging>
+    <name>XChange</name>
+    <description>XChange is a Java library providing a simple and consistent API for interacting with
+    a diverse set of cryptocurrency exchanges.</description>
 
-  <name>XChange</name>
-  <description>XChange is a Java library providing a simple and consistent API for interacting with
-    a diverse set of cryptocurrency exchanges.
-  </description>
+    <url>http://knowm.org/open-source/xchange</url>
+    <inceptionYear>2012</inceptionYear>
 
-  <url>http://knowm.org/open-source/xchange</url>
-  <inceptionYear>2012</inceptionYear>
+    <organization>
+        <name>Knowm Inc.</name>
+        <url>http://knowm.org/open-source/xchange/</url>
+    </organization>
 
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+            <comments>All source code is under the MIT license.</comments>
+        </license>
+    </licenses>
 
-  <organization>
-    <name>Knowm Inc.</name>
-    <url>http://knowm.org/open-source/xchange/</url>
-  </organization>
+    <developers>
+        <developer>
+            <name>Tim Molter</name>
+        </developer>
+    </developers>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
 
-    <version.java>8</version.java>
-    <version.assertj>3.25.3</version.assertj>
-    <version.commons.lang3>3.14.0</version.commons.lang3>
-    <version.fasterxml>2.14.3</version.fasterxml>
-    <version.github.mmazi>3.0</version.github.mmazi>
-    <version.mockito>5.11.0</version.mockito>
-    <version.resilience4j>1.7.1</version.resilience4j>
-    <version.junit>5.10.2</version.junit>
-    <version.lombok>1.18.32</version.lombok>
-    <version.knowm.xchart>3.8.7</version.knowm.xchart>
-    <version.qos.logback>1.5.6</version.qos.logback>
-    <version.reflections>0.10.2</version.reflections>
-    <version.slf4j>2.0.13</version.slf4j>
-    <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>4.4.0</version.java-jwt>
-    <version.wiremock>3.2.0</version.wiremock>
+    <modules>
+        <module>xchange-ascendex</module>
+        <module>xchange-bibox</module>
+        <module>xchange-binance</module>
+        <module>xchange-bitbay</module>
+        <module>xchange-bitcoinaverage</module>
+        <module>xchange-bitcoincore</module>
+        <module>xchange-bitcoinde</module>
+        <module>xchange-bitcointoyou</module>
+        <module>xchange-bitfinex</module>
+        <module>xchange-bitflyer</module>
+        <module>xchange-bithumb</module>
+        <module>xchange-bitmex</module>
+        <module>xchange-bitso</module>
+        <module>xchange-bitstamp</module>
+        <module>xchange-bittrex</module>
+        <module>xchange-bity</module>
+        <module>xchange-bitz</module>
+        <module>xchange-bl3p</module>
+        <module>xchange-bleutrade</module>
+        <module>xchange-blockchain</module>
+        <module>xchange-btcc</module>
+        <module>xchange-btcmarkets</module>
+        <module>xchange-btcturk</module>
+        <module>xchange-bybit</module>
+        <module>xchange-ccex</module>
+        <module>xchange-cexio</module>
+        <module>xchange-coinbase</module>
+        <module>xchange-coinbasepro</module>
+        <module>xchange-coincheck</module>
+        <module>xchange-coindeal</module>
+        <module>xchange-coindirect</module>
+        <module>xchange-coinegg</module>
+        <module>xchange-coinex</module>
+        <module>xchange-coinfloor</module>
+        <module>xchange-coingi</module>
+        <module>xchange-coinjar</module>
+        <module>xchange-coinmarketcap</module>
+        <module>xchange-coinmate</module>
+        <module>xchange-coinone</module>
+        <module>xchange-core</module>
+        <module>xchange-cryptowatch</module>
+        <module>xchange-deribit</module>
+        <module>xchange-dvchain</module>
+        <module>xchange-dydx</module>
+        <module>xchange-enigma</module>
+        <module>xchange-examples</module>
+        <module>xchange-exmo</module>
+        <module>xchange-ftx</module>
+        <module>xchange-gateio</module>
+        <module>xchange-gateio-v4</module>
+        <module>xchange-gemini</module>
+        <module>xchange-globitex</module>
+        <module>xchange-hitbtc</module>
+        <module>xchange-huobi</module>
+        <module>xchange-idex</module>
+        <module>xchange-independentreserve</module>
+        <module>xchange-itbit</module>
+        <module>xchange-koineks</module>
+        <module>xchange-koinim</module>
+        <module>xchange-kraken</module>
+        <module>xchange-krakenfutures</module>
+        <module>xchange-kucoin</module>
+        <module>xchange-kuna</module>
+        <module>xchange-latoken</module>
+        <module>xchange-lgo</module>
+        <module>xchange-livecoin</module>
+        <module>xchange-luno</module>
+        <module>xchange-lykke</module>
+        <module>xchange-mercadobitcoin</module>
+        <module>xchange-mexc</module>
+        <module>xchange-okcoin</module>
+        <module>xchange-okex</module>
+        <module>xchange-openexchangerates</module>
+        <module>xchange-paribu</module>
+        <module>xchange-paymium</module>
+        <module>xchange-poloniex</module>
+        <module>xchange-quoine</module>
+        <module>xchange-ripple</module>
+        <module>xchange-serum</module>
+        <module>xchange-simulated</module>
 
-    <skipIntegrationTests>true</skipIntegrationTests>
-  </properties>
+        <module>xchange-stream-binance</module>
+        <module>xchange-stream-bitfinex</module>
+        <module>xchange-stream-bitflyer</module>
+        <module>xchange-stream-bitmex</module>
+        <module>xchange-stream-bitstamp</module>
+        <module>xchange-stream-btcmarkets</module>
+        <module>xchange-stream-bybit</module>
+        <module>xchange-stream-cexio</module>
+        <module>xchange-stream-coinbasepro</module>
+        <module>xchange-stream-coincheck</module>
+        <module>xchange-stream-coinjar</module>
+        <module>xchange-stream-coinmate</module>
+        <module>xchange-stream-core</module>
+        <module>xchange-stream-dydx</module>
+        <module>xchange-stream-ftx</module>
+        <module>xchange-stream-gateio</module>
+        <module>xchange-stream-gemini</module>
+        <module>xchange-stream-gemini-v2</module>
+        <module>xchange-stream-hitbtc</module>
+        <module>xchange-stream-huobi</module>
+        <module>xchange-stream-kraken</module>
+        <module>xchange-stream-krakenfutures</module>
+        <module>xchange-stream-kucoin</module>
+        <module>xchange-stream-lgo</module>
+        <module>xchange-stream-okcoin</module>
+        <module>xchange-stream-okex</module>
+        <module>xchange-stream-poloniex2</module>
+        <module>xchange-stream-serum</module>
+        <module>xchange-stream-service-core</module>
+        <module>xchange-stream-service-netty</module>
+        <module>xchange-stream-service-pubnub</module>
+        <module>xchange-therock</module>
+        <module>xchange-tradeogre</module>
+        <module>xchange-truefx</module>
+        <module>xchange-upbit</module>
+        <module>xchange-vaultoro</module>
+        <module>xchange-yobit</module>
+        <module>xchange-zaif</module>
+    </modules>
 
-  <developers>
-    <developer>
-      <name>Tim Molter</name>
-    </developer>
-  </developers>
+    <scm>
+        <connection>scm:git:git@github.com:knowm/XChange.git</connection>
+        <developerConnection>scm:git:git@github.com:knowm/XChange.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>git@github.com:knowm/XChange.git</url>
+    </scm>
 
-  <licenses>
-    <license>
-      <name>MIT</name>
-      <url>http://www.opensource.org/licenses/mit-license.php</url>
-      <distribution>repo</distribution>
-      <comments>All source code is under the MIT license.</comments>
-    </license>
-  </licenses>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/knowm/XChange/issues</url>
+    </issueManagement>
 
-  <issueManagement>
-    <system>GitHub</system>
-    <url>https://github.com/knowm/XChange/issues</url>
-  </issueManagement>
+    <ciManagement>
+        <url>https://travis-ci.org/github/knowm/XChange</url>
+    </ciManagement>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Nexus Release Repository</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-    <downloadUrl>https://oss.sonatype.org/content/groups/public/org/knowm/xchange</downloadUrl>
-  </distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Nexus Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <downloadUrl>https://oss.sonatype.org/content/groups/public/org/knowm/xchange</downloadUrl>
+    </distributionManagement>
 
-  <scm>
-    <connection>scm:git:git@github.com:knowm/XChange.git</connection>
-    <developerConnection>scm:git:git@github.com:knowm/XChange.git</developerConnection>
-    <url>git@github.com:knowm/XChange.git</url>
-    <tag>HEAD</tag>
-  </scm>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-  <modules>
-    <module>xchange-bibox</module>
-    <module>xchange-binance</module>
-    <module>xchange-bitbay</module>
-    <module>xchange-bitcoinaverage</module>
-    <module>xchange-bitcoincore</module>
-    <module>xchange-bitcoinde</module>
-    <module>xchange-bitcointoyou</module>
-    <module>xchange-bitfinex</module>
-    <module>xchange-bitflyer</module>
-    <module>xchange-bithumb</module>
-    <module>xchange-ascendex</module>
-    <module>xchange-bitmex</module>
-    <module>xchange-bitso</module>
-    <module>xchange-bitstamp</module>
-    <module>xchange-bittrex</module>
-    <module>xchange-bity</module>
-    <module>xchange-bitz</module>
-    <module>xchange-bl3p</module>
-    <module>xchange-bleutrade</module>
-    <module>xchange-blockchain</module>
-    <module>xchange-btcc</module>
-    <module>xchange-btcmarkets</module>
-    <module>xchange-btcturk</module>
-    <module>xchange-bybit</module>
-    <module>xchange-ccex</module>
-    <module>xchange-cexio</module>
-    <module>xchange-coinbase</module>
-    <module>xchange-coinbasepro</module>
-    <module>xchange-coincheck</module>
-    <module>xchange-coindeal</module>
-    <module>xchange-coindirect</module>
-    <module>xchange-coinjar</module>
-    <module>xchange-coinegg</module>
-    <module>xchange-coinex</module>
-    <module>xchange-coinone</module>
-    <module>xchange-coinfloor</module>
-    <module>xchange-coingi</module>
-    <module>xchange-coinmarketcap</module>
-    <module>xchange-coinmate</module>
-    <module>xchange-core</module>
-    <module>xchange-krakenfutures</module>
-    <module>xchange-cryptowatch</module>
-    <module>xchange-deribit</module>
-    <module>xchange-dvchain</module>
-    <module>xchange-dydx</module>
-    <module>xchange-exmo</module>
-    <module>xchange-examples</module>
-    <module>xchange-ftx</module>
-    <module>xchange-gateio</module>
-    <module>xchange-gateio-v4</module>
-    <module>xchange-globitex</module>
-    <module>xchange-gemini</module>
-    <module>xchange-hitbtc</module>
-    <module>xchange-huobi</module>
-    <module>xchange-idex</module>
-    <module>xchange-independentreserve</module>
-    <module>xchange-itbit</module>
-    <module>xchange-koineks</module>
-    <module>xchange-koinim</module>
-    <module>xchange-kraken</module>
-    <module>xchange-kucoin</module>
-    <module>xchange-kuna</module>
-    <module>xchange-lgo</module>
-    <module>xchange-latoken</module>
-    <module>xchange-livecoin</module>
-    <module>xchange-luno</module>
-    <module>xchange-lykke</module>
-    <module>xchange-mercadobitcoin</module>
-    <module>xchange-mexc</module>
-    <module>xchange-okcoin</module>
-    <module>xchange-okex</module>
-    <module>xchange-openexchangerates</module>
-    <module>xchange-paribu</module>
-    <module>xchange-paymium</module>
-    <module>xchange-poloniex</module>
-    <module>xchange-quoine</module>
-    <module>xchange-ripple</module>
-    <module>xchange-serum</module>
-    <module>xchange-simulated</module>
-    <module>xchange-therock</module>
-    <module>xchange-tradeogre</module>
-    <module>xchange-truefx</module>
-    <module>xchange-upbit</module>
-    <module>xchange-vaultoro</module>
-    <module>xchange-yobit</module>
-    <module>xchange-zaif</module>
-    <module>xchange-enigma</module>
+        <skipIntegrationTests>true</skipIntegrationTests>
+        <version.assertj>3.25.3</version.assertj>
+        <version.commons.lang3>3.14.0</version.commons.lang3>
+        <version.crypto>5.0.0</version.crypto>
+        <version.fasterxml>2.14.3</version.fasterxml>
+        <version.github.mmazi>3.0</version.github.mmazi>
 
+        <version.java>8</version.java>
+        <version.java-jwt>4.4.0</version.java-jwt>
+        <version.junit>5.10.2</version.junit>
+        <version.knowm.xchart>3.8.8</version.knowm.xchart>
+        <version.lombok>1.18.32</version.lombok>
+        <version.mockito>5.11.0</version.mockito>
+        <version.qos.logback>1.5.6</version.qos.logback>
+        <version.reflections>0.10.2</version.reflections>
+        <version.resilience4j>1.7.1</version.resilience4j>
+        <version.slf4j>2.0.13</version.slf4j>
+        <version.wiremock>3.2.0</version.wiremock>
+    </properties>
 
-    <module>xchange-stream-binance</module>
-    <module>xchange-stream-bitfinex</module>
-    <module>xchange-stream-bitflyer</module>
-    <module>xchange-stream-bitmex</module>
-    <module>xchange-stream-bitstamp</module>
-    <module>xchange-stream-btcmarkets</module>
-    <module>xchange-stream-bybit</module>
-    <module>xchange-stream-cexio</module>
-    <module>xchange-stream-coinbasepro</module>
-    <module>xchange-stream-coinjar</module>
-    <module>xchange-stream-coinmate</module>
-    <module>xchange-stream-core</module>
-    <module>xchange-stream-dydx</module>
-    <module>xchange-stream-ftx</module>
-    <module>xchange-stream-gateio</module>
-    <module>xchange-stream-gemini</module>
-    <module>xchange-stream-gemini-v2</module>
-    <module>xchange-stream-hitbtc</module>
-    <module>xchange-stream-huobi</module>
-    <module>xchange-stream-kraken</module>
-    <module>xchange-stream-kucoin</module>
-    <module>xchange-stream-lgo</module>
-    <module>xchange-stream-okcoin</module>
-    <module>xchange-stream-okex</module>
-    <module>xchange-stream-poloniex2</module>
-    <module>xchange-stream-serum</module>
-    <module>xchange-stream-service-core</module>
-    <module>xchange-stream-service-netty</module>
-    <module>xchange-stream-service-pubnub</module>
-    <module>xchange-stream-coincheck</module>
-    <module>xchange-stream-krakenfutures</module>
-  </modules>
+    <dependencyManagement>
+        <dependencies>
 
-  <ciManagement>
-    <url>https://travis-ci.org/github/knowm/XChange</url>
-  </ciManagement>
+            <!-- SLF4J implementation for use in examples -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${version.qos.logback}</version>
+            </dependency>
 
-  <repositories>
-    <repository>
-      <id>sonatype-oss-public</id>
-      <url>https://oss.sonatype.org/content/groups/public/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>maven_central</id>
-      <name>Maven Central</name>
-      <url>https://repo.maven.apache.org/maven2/</url>
-    </repository>
-  </repositories>
+            <!-- jwt for auth -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${version.java-jwt}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${version.fasterxml}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${version.fasterxml}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${version.fasterxml}</version>
+            </dependency>
 
-  <dependencyManagement>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-csv</artifactId>
+                <version>${version.fasterxml}</version>
+            </dependency>
+
+            <!-- Rest client -->
+            <dependency>
+                <groupId>com.github.mmazi</groupId>
+                <artifactId>rescu</artifactId>
+                <version>${version.github.mmazi}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-codec</groupId>
+                        <artifactId>commons-codec</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>33.2.1-jre</version>
+            </dependency>
+            <dependency>
+                <groupId>com.pubnub</groupId>
+                <artifactId>pubnub-gson</artifactId>
+                <version>4.31.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-ratelimiter</artifactId>
+                <version>${version.resilience4j}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-retry</artifactId>
+                <version>${version.resilience4j}</version>
+            </dependency>
+            <!-- Netty version compatible with service-wamp -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.1.110.Final</version>
+            </dependency>
+
+            <!-- for streaming-->
+            <dependency>
+                <groupId>io.reactivex.rxjava3</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>3.1.8</version>
+            </dependency>
+
+            <!--For String Joining, etc. -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${version.commons.lang3}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${version.junit}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Charting -->
+            <dependency>
+                <groupId>org.knowm.xchart</groupId>
+                <artifactId>xchart</artifactId>
+                <version>${version.knowm.xchart}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${version.mockito}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${version.mockito}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Reflections - java runtime metadata analysis for integration testing -->
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${version.reflections}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${version.slf4j}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.web3j</groupId>
+                <artifactId>crypto</artifactId>
+                <version>${version.crypto}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.wiremock</groupId>
+                <artifactId>wiremock</artifactId>
+                <version>${version.wiremock}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+
+    <!-- All children will have these dependencies -->
     <dependencies>
 
-      <!-- Rest client -->
-      <dependency>
-        <groupId>com.github.mmazi</groupId>
-        <artifactId>rescu</artifactId>
-        <version>${version.github.mmazi}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>io.github.resilience4j</groupId>
-        <artifactId>resilience4j-ratelimiter</artifactId>
-        <version>${version.resilience4j}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>io.github.resilience4j</groupId>
-        <artifactId>resilience4j-retry</artifactId>
-        <version>${version.resilience4j}</version>
-      </dependency>
-
-      <!--For String Joining, etc. -->
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>${version.commons.lang3}</version>
-      </dependency>
-
-      <!-- Charting -->
-      <dependency>
-        <groupId>org.knowm.xchart</groupId>
-        <artifactId>xchart</artifactId>
-        <version>${version.knowm.xchart}</version>
-      </dependency>
-
-      <!-- Reflections - java runtime metadata analysis for integration testing -->
-      <dependency>
-        <groupId>org.reflections</groupId>
-        <artifactId>reflections</artifactId>
-        <version>${version.reflections}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>com.fasterxml.jackson.dataformat</groupId>
-        <artifactId>jackson-dataformat-csv</artifactId>
-        <version>${version.fasterxml}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>${version.fasterxml}</version>
-      </dependency>
+        <!-- SLF4J implementation for use in examples -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${version.fasterxml}</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
         </dependency>
+
+        <!-- javax APIs -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${version.fasterxml}</version>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
         </dependency>
-      <dependency>
-        <groupId>org.web3j</groupId>
-        <artifactId>crypto</artifactId>
-        <version>${version.crypto}</version>
-      </dependency>
 
-      <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>32.1.3-jre</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
-        <version>${version.mockito}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-junit-jupiter</artifactId>
-        <version>${version.mockito}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.wiremock</groupId>
-        <artifactId>wiremock</artifactId>
-        <version>${version.wiremock}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>${version.junit}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <!-- SLF4J implementation for use in examples -->
-      <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>${version.qos.logback}</version>
-      </dependency>
-
-      <!-- jwt for auth -->
-      <dependency>
-        <groupId>com.auth0</groupId>
-        <artifactId>java-jwt</artifactId>
-        <version>${version.java-jwt}</version>
-      </dependency>
-
-      <!-- for streaming-->
-      <dependency>
-        <groupId>io.reactivex.rxjava3</groupId>
-        <artifactId>rxjava</artifactId>
-        <version>3.1.8</version>
-      </dependency>
-      <dependency>
-        <groupId>com.pubnub</groupId>
-        <artifactId>pubnub-gson</artifactId>
-        <version>4.31.3</version>
-      </dependency>
-        <!-- Netty version compatible with service-wamp -->
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.96.Final</version>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${version.assertj}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit for testing -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Lombok for boilerplate -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${version.lombok}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Logging is through SLF4J -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
 
     </dependencies>
 
-  </dependencyManagement>
+    <repositories>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>sonatype-oss-public</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>maven_central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+    </repositories>
 
-  <!-- All children will have these dependencies -->
-  <dependencies>
-    <!-- Logging is through SLF4J -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${version.slf4j}</version>
-    </dependency>
+    <build>
 
-    <!-- javax APIs -->
-    <dependency>
-      <groupId>javax.annotation</groupId>
-      <artifactId>javax.annotation-api</artifactId>
-      <version>1.3.2</version>
-    </dependency>
-
-    <!-- SLF4J implementation for use in examples -->
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- JUnit for testing -->
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <version>${version.junit}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>${version.assertj}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- Lombok for boilerplate -->
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>${version.lombok}</version>
-      <scope>provided</scope>
-    </dependency>
-
-  </dependencies>
-
-  <profiles>
-    <profile>
-      <id>release-sign-artifacts</id>
-      <activation>
-        <property>
-            <name>gpg.passphrase</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.2.3</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-                  <configuration>
-                      <gpgArguments>
-                          <arg>--pinentry-mode</arg>
-                          <arg>loopback</arg>
-                      </gpgArguments>
-                  </configuration>
-              </execution>
-            </executions>
-
-
-          </plugin>
-
-          <!-- Generates a source code JAR during package -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>3.2.1</version>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!-- Generates JavaDocs during package -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.5.0</version>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
+            <plugin>
+                <groupId>com.github.ekryd.sortpom</groupId>
+                <artifactId>sortpom-maven-plugin</artifactId>
+                <version>4.0.0</version>
                 <configuration>
-                  <doclint>none</doclint>
+                    <sortProperties>true</sortProperties>
+                    <createBackupFile>false</createBackupFile>
+                    <sortDependencies>groupId,artifactId</sortDependencies>
+                    <sortModules>true</sortModules>
+                    <nrOfIndentSpace>4</nrOfIndentSpace>
+                    <sortPlugins>groupId,artifactId</sortPlugins>
+                    <expandEmptyElements>false</expandEmptyElements>
                 </configuration>
-              </execution>
-            </executions>
-          </plugin>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>sort</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify.fmt</groupId>
+                <artifactId>fmt-maven-plugin</artifactId>
+                <version>2.23</version>
+                <configuration>
+                    <filesNamePattern>.*\.java</filesNamePattern>
+                    <skip>false</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!--              <goal>format</goal>-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Ensure compilation is done under Java 8 in all environments -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>${version.java}</release>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <skipTests>${skipIntegrationTests}</skipTests>
+                    <includes>
+                        <include>**/*Integration.java</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <quiet>true</quiet>
+                    <doclint>none</doclint>
+                    <source>${version.java}</source>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- for deploying to Maven Central -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
         </plugins>
-      </build>
-    </profile>
-  </profiles>
+    </build>
 
-  <build>
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>gpg.passphrase</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.2.3</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <phase>verify</phase>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
 
-    <plugins>
-      <!-- Ensure compilation is done under Java 8 in all environments -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.13.0</version>
-        <configuration>
-          <release>${version.java}</release>
-          <showDeprecation>true</showDeprecation>
-          <showWarnings>true</showWarnings>
-        </configuration>
-      </plugin>
-      <!-- for deploying to Maven Central -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>3.0.1</version>
-        <configuration>
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-        </configuration>
-      </plugin>
+                    </plugin>
+                    <!-- Generates JavaDocs during package -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.7.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <doclint>none</doclint>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>3.2.1</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.5.0</version>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <quiet>true</quiet>
-          <doclint>none</doclint>
-          <source>${version.java}</source>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.2</version>
-      </plugin>
+                    <!-- Generates a source code JAR during package -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <version>3.0.0</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>integration-test</goal>
-              <goal>verify</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <skipTests>${skipIntegrationTests}</skipTests>
-          <includes>
-            <include>**/*Integration.java</include>
-          </includes>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>com.spotify.fmt</groupId>
-        <artifactId>fmt-maven-plugin</artifactId>
-        <version>2.23</version>
-        <configuration>
-          <filesNamePattern>.*\.java</filesNamePattern>
-          <skip>false</skip>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-<!--              <goal>format</goal>-->
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-    </plugins>
-  </build>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

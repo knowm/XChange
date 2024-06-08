@@ -34,9 +34,9 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Nikita Belenkiy on 18/05/2018.
  */
-public class BitmexOrderIT {
+public class BitmexOrderIntegration {
   private CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
-  private static final Logger LOG = LoggerFactory.getLogger(BitmexOrderIT.class);
+  private static final Logger LOG = LoggerFactory.getLogger(BitmexOrderIntegration.class);
 
   private static final BigDecimal priceShift = new BigDecimal("50");
 

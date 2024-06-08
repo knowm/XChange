@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Foat Akhmadeev 18/06/2018
  */
-public class BitmexWithProxyIT {
-  private static final Logger LOG = LoggerFactory.getLogger(BitmexWithProxyIT.class);
+public class BitmexWithProxyIntegration {
+  private static final Logger LOG = LoggerFactory.getLogger(BitmexWithProxyIntegration.class);
 
   private StreamingExchange exchange;
   private ProxyUtil proxyUtil;
