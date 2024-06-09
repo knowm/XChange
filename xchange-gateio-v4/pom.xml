@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>5.1.2-SNAPSHOT</version>
+        <version>5.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-gateio-v4</artifactId>
@@ -59,6 +59,5 @@
         </dependency>
 
     </dependencies>
-
 
 </project>
