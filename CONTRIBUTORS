@@ -16,7 +16,6 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
-
 AGP-PC\AliGökalp
 Aaron Jang
 AbstractBike
@@ -80,6 +79,7 @@ Cray Imperative
 Cristian Lucaci
 Cryptonit Exchange
 Cyril
+Damiano Derin
 Daniel
 Daniel Cohen
 Daniela Hajnikova
@@ -174,6 +174,7 @@ Jianzhong Chen
 Jim Northrup
 Joakim Johansson
 Joe Zhou
+Johan Lindkvist
 Johannes Zweng
 John Bergqvist
 Jonathan Heusser
@@ -182,6 +183,8 @@ Jonathan Tse
 Jonny Heggheim
 Joseph Marcilla
 Josua Troesch
+Juan
+Juan Fernandez
 Julian Liebl
 Juliusz Choinski
 Jure Grabnar
@@ -567,6 +570,7 @@ stevenuray
 straumat
 suchac
 swiesend
+sydowma
 taoruifu
 tbosman
 theluckysuccess

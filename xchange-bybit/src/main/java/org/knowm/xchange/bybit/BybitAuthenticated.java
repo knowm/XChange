@@ -13,6 +13,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
+import org.knowm.xchange.bybit.dto.trade.BybitAmendOrderPayload;
 import org.knowm.xchange.bybit.dto.trade.BybitPlaceOrderPayload;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
@@ -103,8 +104,19 @@ public interface BybitAuthenticated {
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
       BybitPlaceOrderPayload payload)
-//      @FormParam("positionIdx")
-//      @FormParam("reduceOnly")
+      throws IOException,BybitException;
+
+  /**
+   * @apiSpec <https://bybit-exchange.github.io/docs/v5/order/amend-order">API</a>
+   */
+  @POST
+  @Path("/order/amend")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BybitResult<BybitOrderResponse> amendOrder(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      BybitAmendOrderPayload payload)
       throws IOException,BybitException;
 
   /**
