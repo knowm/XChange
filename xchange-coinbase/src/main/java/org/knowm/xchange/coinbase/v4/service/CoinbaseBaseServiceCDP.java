@@ -1,0 +1,104 @@
+package org.knowm.xchange.coinbase.v4.service;
+
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.coinbase.service.CoinbaseDigest;
+import org.knowm.xchange.coinbase.v3.CoinbaseAuthenticatedV3CDP;
+import org.knowm.xchange.coinbase.v4.CoinbaseCDP;
+import org.knowm.xchange.coinbase.v4.CoinbaseAuthenticatedCDP;
+import org.knowm.xchange.coinbase.v4.CoinbaseV2DigestCDP;
+import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData.CoinbaseCurrency;
+import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseTimeData.CoinbaseTime;
+import org.knowm.xchange.service.BaseExchangeService;
+import org.knowm.xchange.service.BaseService;
+import org.knowm.xchange.utils.DigestUtils;
+
+import javax.crypto.Mac;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+public class CoinbaseBaseServiceCDP extends BaseExchangeService implements BaseService {
+
+  protected final CoinbaseAuthenticatedCDP coinbase;
+  protected final CoinbaseAuthenticatedV3CDP coinbaseV3;
+  protected final CoinbaseV2DigestCDP signatureCreator2;
+
+  protected CoinbaseBaseServiceCDP(Exchange exchange) {
+
+    super(exchange);
+    coinbase =
+        ExchangeRestProxyBuilder.forInterface(
+                CoinbaseAuthenticatedCDP.class, exchange.getExchangeSpecification())
+            .build();
+
+    coinbaseV3 =
+        ExchangeRestProxyBuilder.forInterface(
+                        CoinbaseAuthenticatedV3CDP.class, exchange.getExchangeSpecification())
+            .build();
+
+    signatureCreator2 =
+        CoinbaseV2DigestCDP.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getApiKey());
+  }
+
+  /**
+   * Unauthenticated resource that returns currencies supported on Coinbase.
+   *
+   * @return A list of currency names and their corresponding ISO code.
+   * @see <a
+   *     href="https://developers.coinbase.com/api/v2#get-currencies">developers.coinbase.com/api/v2#get-currencies</a>
+   */
+  public List<CoinbaseCurrency> getCoinbaseCurrencies() throws IOException {
+
+    return coinbase.getCurrencies(CoinbaseCDP.CB_VERSION_VALUE).getData();
+  }
+
+  /**
+   * Unauthenticated resource that tells you the server time.
+   *
+   * @return The current server time.
+   * @see <a
+   *     href="https://developers.coinbase.com/api/v2#get-current-time">developers.coinbase.com/api/v2#get-current-time</a>
+   */
+  public CoinbaseTime getCoinbaseTime() throws IOException {
+
+    return coinbase.getTime(CoinbaseCDP.CB_VERSION_VALUE).getData();
+  }
+
+  protected String getSignature(BigDecimal timestamp, HttpMethod method, String path, String body) {
+    String secretKey = exchange.getExchangeSpecification().getSecretKey();
+    String message = timestamp + method.toString() + path + (body != null ? body : "");
+    final Mac mac = CoinbaseDigest.createInstance(secretKey).getMac();
+    byte[] bytes = mac.doFinal(message.getBytes(StandardCharsets.UTF_8));
+    return DigestUtils.bytesToHex(bytes);
+  }
+
+  protected void showCurl(
+      HttpMethod method,
+      String apiKey,
+      BigDecimal timestamp,
+      String signature,
+      String path,
+      String json) {
+    String headers =
+        String.format(
+            "-H 'CB-VERSION: 2017-11-26' -H 'CB-ACCESS-KEY: %s' -H 'CB-ACCESS-SIGN: %s' -H 'CB-ACCESS-TIMESTAMP: %s'",
+            apiKey, signature, timestamp);
+    if (method == HttpMethod.GET) {
+      CoinbaseCDP.LOG.debug(String.format("curl %s https://api.coinbase.com%s", headers, path));
+    } else if (method == HttpMethod.POST) {
+      String payload = "-d '" + json + "'";
+      CoinbaseCDP.LOG.debug(
+          String.format(
+              "curl -X %s -H 'Content-Type: %s' %s %s https://api.coinbase.com%s",
+              method, MediaType.APPLICATION_JSON, headers, payload, path));
+    }
+  }
+
+  public enum HttpMethod {
+    GET,
+    POST
+  }
+}
