@@ -175,7 +175,7 @@ public class CoinexAdapters {
 
     builder
         .open(coinexTickerV1.getOpen24h())
-        .last(coinexTickerV1.getVolume24h())
+        .last(coinexTickerV1.getLast())
         .bid(coinexTickerV1.getBestBidPrice())
         .ask(coinexTickerV1.getBestAskPrice())
         .high(coinexTickerV1.getHigh24h())
