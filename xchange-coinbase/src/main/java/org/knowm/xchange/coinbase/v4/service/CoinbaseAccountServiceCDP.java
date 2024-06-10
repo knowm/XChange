@@ -3,7 +3,7 @@ package org.knowm.xchange.coinbase.v4.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.CoinbaseAdapters;
 import org.knowm.xchange.coinbase.v2.service.CoinbaseTradeHistoryParams;
-import org.knowm.xchange.coinbase.v4.CoinbaseCDP;
+import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseAmount;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData;
 import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellResponse;
@@ -78,7 +78,7 @@ public final class CoinbaseAccountServiceCDP extends CoinbaseAccountServiceRawCD
   public List<FundingRecord> getWithdrawalHistory(CoinbaseTradeHistoryParams params, String accountId)
           throws IOException {
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
-    final BigDecimal timestamp = coinbase.getTime(CoinbaseCDP.CB_VERSION_VALUE).getData().getEpoch();
+    final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     final CoinbaseBuySellResponse withdrawals =
             coinbase.getAllWithdrawals(
                     signatureCreator2,
@@ -96,7 +96,7 @@ public final class CoinbaseAccountServiceCDP extends CoinbaseAccountServiceRawCD
   public List<FundingRecord> getDepositHistory(CoinbaseTradeHistoryParams params, String accountId)
           throws IOException {
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
-    final BigDecimal timestamp = coinbase.getTime(CoinbaseCDP.CB_VERSION_VALUE).getData().getEpoch();
+    final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     final CoinbaseBuySellResponse deposits =
             coinbase.getAllDeposits(
                     signatureCreator2,

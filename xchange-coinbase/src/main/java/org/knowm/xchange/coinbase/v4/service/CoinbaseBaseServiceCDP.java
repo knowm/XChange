@@ -4,7 +4,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinbase.service.CoinbaseDigest;
 import org.knowm.xchange.coinbase.v3.CoinbaseAuthenticatedV3CDP;
-import org.knowm.xchange.coinbase.v4.CoinbaseCDP;
+import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v4.CoinbaseAuthenticatedCDP;
 import org.knowm.xchange.coinbase.v4.CoinbaseV2DigestCDP;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData.CoinbaseCurrency;
@@ -52,7 +52,7 @@ public class CoinbaseBaseServiceCDP extends BaseExchangeService implements BaseS
    */
   public List<CoinbaseCurrency> getCoinbaseCurrencies() throws IOException {
 
-    return coinbase.getCurrencies(CoinbaseCDP.CB_VERSION_VALUE).getData();
+    return coinbase.getCurrencies(Coinbase.CB_VERSION_VALUE).getData();
   }
 
   /**
@@ -64,7 +64,7 @@ public class CoinbaseBaseServiceCDP extends BaseExchangeService implements BaseS
    */
   public CoinbaseTime getCoinbaseTime() throws IOException {
 
-    return coinbase.getTime(CoinbaseCDP.CB_VERSION_VALUE).getData();
+    return coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData();
   }
 
   protected String getSignature(BigDecimal timestamp, HttpMethod method, String path, String body) {
@@ -87,10 +87,10 @@ public class CoinbaseBaseServiceCDP extends BaseExchangeService implements BaseS
             "-H 'CB-VERSION: 2017-11-26' -H 'CB-ACCESS-KEY: %s' -H 'CB-ACCESS-SIGN: %s' -H 'CB-ACCESS-TIMESTAMP: %s'",
             apiKey, signature, timestamp);
     if (method == HttpMethod.GET) {
-      CoinbaseCDP.LOG.debug(String.format("curl %s https://api.coinbase.com%s", headers, path));
+      Coinbase.LOG.debug(String.format("curl %s https://api.coinbase.com%s", headers, path));
     } else if (method == HttpMethod.POST) {
       String payload = "-d '" + json + "'";
-      CoinbaseCDP.LOG.debug(
+      Coinbase.LOG.debug(
           String.format(
               "curl -X %s -H 'Content-Type: %s' %s %s https://api.coinbase.com%s",
               method, MediaType.APPLICATION_JSON, headers, payload, path));

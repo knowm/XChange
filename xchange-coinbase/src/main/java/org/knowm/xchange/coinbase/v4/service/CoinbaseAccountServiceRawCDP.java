@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.service.CoinbaseTradeHistoryParams;
-import org.knowm.xchange.coinbase.v4.CoinbaseCDP;
+import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseExpandTransactionsResponse;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData.CoinbasePaymentMethod;
@@ -44,18 +44,18 @@ public class CoinbaseAccountServiceRawCDP extends CoinbaseBaseServiceCDP {
 
   public Map getDeposits(String accountId) throws IOException {
     String apiKey = exchange.getExchangeSpecification().getApiKey();
-    BigDecimal timestamp = coinbase.getTime(CoinbaseCDP.CB_VERSION_VALUE).getData().getEpoch();
+    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
 
     return coinbase.getDeposits(
-        CoinbaseCDP.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, accountId);
+        Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, accountId);
   }
 
   public Map getWithdrawals(String accountId) throws IOException {
     String apiKey = exchange.getExchangeSpecification().getApiKey();
-    BigDecimal timestamp = coinbase.getTime(CoinbaseCDP.CB_VERSION_VALUE).getData().getEpoch();
+    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
 
     return coinbase.getWithdrawals(
-        CoinbaseCDP.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, accountId);
+        Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, accountId);
   }
 
   /**
@@ -128,7 +128,7 @@ public class CoinbaseAccountServiceRawCDP extends CoinbaseBaseServiceCDP {
 
     String path = "/v2/accounts";
     String apiKey = exchange.getExchangeSpecification().getApiKey();
-    BigDecimal timestamp = coinbase.getTime(CoinbaseCDP.CB_VERSION_VALUE).getData().getEpoch();
+    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     String body = new ObjectMapper().writeValueAsString(payload);
     String signature = getSignature(timestamp, HttpMethod.POST, path, body);
     showCurl(HttpMethod.POST, apiKey, timestamp, signature, path, body);
@@ -136,7 +136,7 @@ public class CoinbaseAccountServiceRawCDP extends CoinbaseBaseServiceCDP {
     return coinbase
         .createAccount(
             MediaType.APPLICATION_JSON,
-            CoinbaseCDP.CB_VERSION_VALUE,
+            Coinbase.CB_VERSION_VALUE,
             apiKey,
             signature,
             timestamp,

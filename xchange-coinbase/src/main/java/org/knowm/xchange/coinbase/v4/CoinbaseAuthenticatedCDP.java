@@ -1,11 +1,26 @@
 package org.knowm.xchange.coinbase.v4;
 
+import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
-import org.knowm.xchange.coinbase.v2.dto.account.*;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountsData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseBuyData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseExpandTransactionsResponse;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseSellData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
 import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellResponse;
 import si.mazi.rescu.ParamsDigest;
 
-import javax.ws.rs.*;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -13,7 +28,7 @@ import java.util.Map;
 
 @Path("/v2")
 @Produces(MediaType.APPLICATION_JSON)
-public interface CoinbaseAuthenticatedCDP extends CoinbaseCDP {
+public interface CoinbaseAuthenticatedCDP extends Coinbase {
 
   /**
    * All API key requests must be signed and contain the following headers.

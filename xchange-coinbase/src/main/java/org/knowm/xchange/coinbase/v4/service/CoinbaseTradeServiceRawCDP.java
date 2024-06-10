@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.service.CoinbaseTradeHistoryParams;
-import org.knowm.xchange.coinbase.v4.CoinbaseCDP;
+import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseBuyData.CoinbaseBuy;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseSellData.CoinbaseSell;
 import org.knowm.xchange.coinbase.v3.dto.transactions.CoinbaseAdvancedTradeAccountsResponse;
@@ -37,7 +37,7 @@ class CoinbaseTradeServiceRawCDP extends CoinbaseBaseServiceCDP {
 
     String path = "/v2/accounts/" + accountId + "/buys";
     String apiKey = exchange.getExchangeSpecification().getApiKey();
-    BigDecimal timestamp = coinbase.getTime(CoinbaseCDP.CB_VERSION_VALUE).getData().getEpoch();
+    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     BuyPayload payload = new BuyPayload(total, currency.getCurrencyCode(), commit, false);
     String body = new ObjectMapper().writeValueAsString(payload);
     String signature = getSignature(timestamp, HttpMethod.POST, path, body);
@@ -47,7 +47,7 @@ class CoinbaseTradeServiceRawCDP extends CoinbaseBaseServiceCDP {
     return coinbase
         .buy(
             MediaType.APPLICATION_JSON,
-            CoinbaseCDP.CB_VERSION_VALUE,
+            Coinbase.CB_VERSION_VALUE,
             apiKey,
             signature,
             timestamp,
@@ -80,7 +80,7 @@ class CoinbaseTradeServiceRawCDP extends CoinbaseBaseServiceCDP {
   public List<CoinbaseAdvancedTradeFills> getAdvancedTradeOrderFills(CoinbaseTradeHistoryParams params)
           throws IOException {
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
-    final BigDecimal timestamp = coinbase.getTime(CoinbaseCDP.CB_VERSION_VALUE).getData().getEpoch();
+    final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     String start = params.getStartDatetime().toString();
     String end = params.getEndDateTime().toString();
     return coinbaseV3.getFills(
@@ -109,7 +109,7 @@ class CoinbaseTradeServiceRawCDP extends CoinbaseBaseServiceCDP {
    */
   public CoinbaseAdvancedTradeAccountsResponse getAdvancedTradeAccounts() throws IOException {
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
-    final BigDecimal timestamp = coinbase.getTime(CoinbaseCDP.CB_VERSION_VALUE).getData().getEpoch();
+    final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
       return coinbaseV3.getAccounts(
               signatureCreator2, null, null);
   }
@@ -132,7 +132,7 @@ class CoinbaseTradeServiceRawCDP extends CoinbaseBaseServiceCDP {
 
     String path = "/v2/accounts/" + accountId + "/sells";
     String apiKey = exchange.getExchangeSpecification().getApiKey();
-    BigDecimal timestamp = coinbase.getTime(CoinbaseCDP.CB_VERSION_VALUE).getData().getEpoch();
+    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     String body = new ObjectMapper().writeValueAsString(payload);
     String signature = getSignature(timestamp, HttpMethod.POST, path, body);
 
@@ -141,7 +141,7 @@ class CoinbaseTradeServiceRawCDP extends CoinbaseBaseServiceCDP {
     return coinbase
         .sell(
             MediaType.APPLICATION_JSON,
-            CoinbaseCDP.CB_VERSION_VALUE,
+            Coinbase.CB_VERSION_VALUE,
             apiKey,
             signature,
             timestamp,
