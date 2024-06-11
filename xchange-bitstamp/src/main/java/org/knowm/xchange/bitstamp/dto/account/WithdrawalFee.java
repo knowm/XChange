@@ -9,9 +9,9 @@ import org.knowm.xchange.currency.Currency;
 @Builder
 public class WithdrawalFee {
 
-  private String network;
+  String network;
 
-  private BigDecimal fee;
+  BigDecimal fee;
 
-  private Currency currency;
+  Currency currency;
 }
