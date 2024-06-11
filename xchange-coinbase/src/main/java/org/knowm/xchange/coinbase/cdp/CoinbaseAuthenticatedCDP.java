@@ -1,4 +1,4 @@
-package org.knowm.xchange.coinbase.v4;
+package org.knowm.xchange.coinbase.cdp;
 
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
@@ -58,7 +58,7 @@ public interface CoinbaseAuthenticatedCDP extends Coinbase {
   @GET
   @Path("accounts/{accountId}/transactions")
   CoinbaseTransactionsResponse getTransactions(
-      @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam("Authorization") ParamsDigest signature,
       @PathParam("accountId") String accountId)
       throws IOException, CoinbaseException;
 

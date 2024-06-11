@@ -1,4 +1,4 @@
-package org.knowm.xchange.coinbase.v4;
+package org.knowm.xchange.coinbase.cdp;
 
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -53,7 +53,7 @@ public class CoinbaseV2DigestCDP extends BaseParamsDigest {
     Security.addProvider(new BouncyCastleProvider());
 
     // Load environment variables
-    String privateKeyPEM = cdpPrivateKey;
+    String privateKeyPEM = cdpPrivateKey.replace("\\n", "\n");
     String name = cdpName;
 
     // create header object

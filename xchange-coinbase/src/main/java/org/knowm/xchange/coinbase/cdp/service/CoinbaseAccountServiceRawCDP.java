@@ -1,4 +1,4 @@
-package org.knowm.xchange.coinbase.v4.service;
+package org.knowm.xchange.coinbase.cdp.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;

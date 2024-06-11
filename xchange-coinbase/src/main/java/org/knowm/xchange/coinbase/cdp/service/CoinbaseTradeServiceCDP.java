@@ -1,4 +1,4 @@
-package org.knowm.xchange.coinbase.v4.service;
+package org.knowm.xchange.coinbase.cdp.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.CoinbaseAdapters;

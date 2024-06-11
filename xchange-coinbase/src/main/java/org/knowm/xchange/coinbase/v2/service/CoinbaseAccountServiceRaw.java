@@ -2,21 +2,21 @@ package org.knowm.xchange.coinbase.v2.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseExpandTransactionsResponse;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData.CoinbasePaymentMethod;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
-import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseShowTransactionV2;
 import org.knowm.xchange.currency.Currency;
+
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
 
