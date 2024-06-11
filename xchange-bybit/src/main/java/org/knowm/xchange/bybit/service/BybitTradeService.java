@@ -11,15 +11,12 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
-import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTickers;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.service.trade.TradeService;
 
 public class BybitTradeService extends BybitTradeServiceRaw implements TradeService {
@@ -93,6 +90,17 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
       return response.getResult().getOrderId();
     }
     return "";
+  }
+
+
+  public String cancelOrder(Order order) throws IOException {
+    BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
+    BybitResult<BybitOrderResponse> response = cancelOrder(category,
+        convertToBybitSymbol(order.getInstrument()), order.getId(), order.getUserReference());
+    if (response != null) {
+      return response.getResult().getOrderId();
+    } else
+      return "";
   }
 
 }
