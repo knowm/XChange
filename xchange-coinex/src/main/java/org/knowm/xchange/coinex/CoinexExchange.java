@@ -10,6 +10,7 @@ import org.knowm.xchange.coinex.dto.marketdata.CoinexCurrencyPairInfo;
 import org.knowm.xchange.coinex.service.CoinexAccountService;
 import org.knowm.xchange.coinex.service.CoinexMarketDataService;
 import org.knowm.xchange.coinex.service.CoinexMarketDataServiceRaw;
+import org.knowm.xchange.coinex.service.CoinexTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
@@ -21,6 +22,7 @@ public class CoinexExchange extends BaseExchange {
   protected void initServices() {
     accountService = new CoinexAccountService(this);
     marketDataService = new CoinexMarketDataService(this);
+    tradeService = new CoinexTradeService(this);
   }
 
   @Override
