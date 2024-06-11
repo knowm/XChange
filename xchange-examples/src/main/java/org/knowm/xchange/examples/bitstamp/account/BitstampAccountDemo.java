@@ -8,6 +8,7 @@ import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
 import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
+import org.knowm.xchange.bitstamp.dto.account.WithdrawalFee;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest;
 import org.knowm.xchange.bitstamp.service.BitstampAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
@@ -65,6 +66,12 @@ public class BitstampAccountDemo {
     System.out.println("Unconfirmed deposits:");
     for (DepositTransaction unconfirmedDeposit : unconfirmedDeposits) {
       System.out.println(unconfirmedDeposit);
+    }
+
+    final List<WithdrawalFee> withdrawalFees = accountService.getWithdrawalFees();
+    System.out.println("Withdrawal requests:");
+    for (WithdrawalFee withdrawalFee : withdrawalFees) {
+      System.out.println(withdrawalFee);
     }
 
     final List<WithdrawalRequest> withdrawalRequests =
