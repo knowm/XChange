@@ -1,16 +1,12 @@
 package org.knowm.xchange.bitstamp.dto.account;
 
 import java.math.BigDecimal;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Value;
 import org.knowm.xchange.currency.Currency;
 
-@Getter
-@ToString
+@Value
 @Builder
-@AllArgsConstructor
 public class WithdrawalFee {
 
   private String network;
@@ -18,8 +14,4 @@ public class WithdrawalFee {
   private BigDecimal fee;
 
   private Currency currency;
-
-  public WithdrawalFee() {
-    super();
-  }
 }
