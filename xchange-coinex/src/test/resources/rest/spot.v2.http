@@ -1,0 +1,65 @@
+### Get Market Status
+GET {{api_host}}/v2/spot/market
+
+
+### Get Market Information
+GET {{api_host}}/v2/spot/ticker
+
+
+### Get Market Index
+GET {{api_host}}/v2/spot/index
+
+
+### Get Market Depth
+GET {{api_host}}/v2/spot/depth?market=BTCUSDT&limit=50&interval=0
+
+
+### Order Status Query
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("GET", request);
+%}
+GET {{api_host}}/v2/spot/order-status?market=BTCUSDT&order_id=120357286483
+X-COINEX-KEY: {{api_key}}
+X-COINEX-TIMESTAMP: {{timestamp}}
+X-COINEX-SIGN: {{sign}}
+
+
+### Place Order
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("POST", request);
+%}
+POST {{api_host}}/v2/spot/order
+X-COINEX-KEY: {{api_key}}
+X-COINEX-TIMESTAMP: {{timestamp}}
+X-COINEX-SIGN: {{sign}}
+
+{
+    "market": "BTCUSDT",
+    "market_type": "SPOT",
+    "side": "buy",
+    "type": "limit",
+    "amount": "10",
+    "price": "1",
+    "client_id": "{{$random.alphanumeric(32)}}",
+    "is_hide": false
+}
+
+
+### Cancel Order
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("POST", request);
+%}
+POST {{api_host}}/v2/spot/cancel-order
+X-COINEX-KEY: {{api_key}}
+X-COINEX-TIMESTAMP: {{timestamp}}
+X-COINEX-SIGN: {{sign}}
+
+{
+    "market": "BTCUSDT",
+    "market_type": "SPOT",
+    "order_id": 120325813375
+}
+

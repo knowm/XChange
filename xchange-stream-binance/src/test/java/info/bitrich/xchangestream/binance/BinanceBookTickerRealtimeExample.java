@@ -22,7 +22,8 @@ public class BinanceBookTickerRealtimeExample {
     StreamingExchange exchange =
         StreamingExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     ProductSubscription subscription =
-        exchange.getExchangeSymbols().stream()
+        exchange.getExchangeInstruments().stream()
+            .filter(instrument -> instrument instanceof CurrencyPair)
             .limit(50)
             .reduce(
                 ProductSubscription.create(),
@@ -34,8 +35,8 @@ public class BinanceBookTickerRealtimeExample {
     exchange.connect(subscription).blockingAwait();
     exchange
         .getStreamingMarketDataService()
-        .getTicker(CurrencyPair.LTC_BTC)
-        .forEach(System.out::println);
+        .getTicker(subscription.getTicker().get(0))
+        .subscribe(System.out::println);
     Thread.sleep(Long.MAX_VALUE);
   }
 }

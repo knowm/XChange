@@ -23,28 +23,36 @@ public class BleutradeDepositAddress {
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /** @return The Currency */
+  /**
+   * @return The Currency
+   */
   @JsonProperty("Currency")
   public String getCurrency() {
 
     return Currency;
   }
 
-  /** @param Currency The Currency */
+  /**
+   * @param Currency The Currency
+   */
   @JsonProperty("Currency")
   public void setCurrency(String Currency) {
 
     this.Currency = Currency;
   }
 
-  /** @return The Address */
+  /**
+   * @return The Address
+   */
   @JsonProperty("Address")
   public String getAddress() {
 
     return Address;
   }
 
-  /** @param Address The Address */
+  /**
+   * @param Address The Address
+   */
   @JsonProperty("Address")
   public void setAddress(String Address) {
 

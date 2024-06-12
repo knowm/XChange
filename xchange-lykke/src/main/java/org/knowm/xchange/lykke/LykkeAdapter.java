@@ -18,6 +18,7 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.lykke.dto.account.LykkeWallet;
 import org.knowm.xchange.lykke.dto.marketdata.LykkeOrderBook;
 import org.knowm.xchange.lykke.dto.marketdata.LykkePrices;
@@ -79,7 +80,7 @@ public class LykkeAdapter {
 
   /** *****Adapter for LykkeOpenOrders***** */
   public static List<LimitOrder> adaptOpenOrders(
-      List<CurrencyPair> currencyPairList, List<LykkeOrder> lykkeOrders) throws IOException {
+      List<Instrument> currencyPairList, List<LykkeOrder> lykkeOrders) throws IOException {
     List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (LykkeOrder lykkeOrder : lykkeOrders) {
@@ -88,8 +89,8 @@ public class LykkeAdapter {
     return limitOrders;
   }
 
-  public static LimitOrder adaptLimitOrder(
-      List<CurrencyPair> currencyPairList, LykkeOrder lykkeOrder) throws IOException {
+  public static LimitOrder adaptLimitOrder(List<Instrument> currencyPairList, LykkeOrder lykkeOrder)
+      throws IOException {
 
     return new LimitOrder(
         getOrderTypeFromVolumeSign(lykkeOrder.getVolume()),
@@ -107,7 +108,7 @@ public class LykkeAdapter {
 
   /** **Adapter for LykkeTradeHistory*** */
   public static List<UserTrade> adaptUserTrades(
-      List<CurrencyPair> currencyPairList, List<LykkeOrder> tradeHistoryList) throws IOException {
+      List<Instrument> currencyPairList, List<LykkeOrder> tradeHistoryList) throws IOException {
     List<UserTrade> userTrades = new ArrayList<>();
 
     for (LykkeOrder lykkeTradeHistory : tradeHistoryList) {
@@ -117,9 +118,9 @@ public class LykkeAdapter {
   }
 
   private static UserTrade adaptUserTrade(
-      List<CurrencyPair> currencyPairList, LykkeOrder tradeHistory) throws IOException {
+      List<Instrument> currencyPairList, LykkeOrder tradeHistory) throws IOException {
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(getOrderTypeFromVolumeSign(tradeHistory.getVolume()))
         .originalAmount(
             BigDecimal.valueOf(Math.abs(tradeHistory.getVolume()))
@@ -172,10 +173,10 @@ public class LykkeAdapter {
   }
 
   private static CurrencyPair adaptToCurrencyPair(
-      List<CurrencyPair> currencyPairList, String assetPair) throws IOException {
-    for (CurrencyPair currencyPair : currencyPairList) {
+      List<Instrument> currencyPairList, String assetPair) throws IOException {
+    for (Instrument currencyPair : currencyPairList) {
       if (currencyPair.toString().replace("/", "").equals(assetPair)) {
-        return currencyPair;
+        return (CurrencyPair) currencyPair;
       }
     }
     throw new IOException("This assetPair doesn't exist in Lykke exchange.");

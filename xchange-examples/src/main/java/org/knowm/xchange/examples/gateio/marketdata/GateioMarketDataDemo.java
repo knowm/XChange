@@ -18,6 +18,7 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory.GateioPublicTrade;
 import org.knowm.xchange.gateio.service.GateioMarketDataServiceRaw;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class GateioMarketDataDemo {
@@ -53,10 +54,10 @@ public class GateioMarketDataDemo {
 
   private static void raw(GateioMarketDataServiceRaw marketDataService) throws IOException {
 
-    Map<CurrencyPair, GateioMarketInfo> marketInfoMap = marketDataService.getBTERMarketInfo();
+    Map<CurrencyPair, GateioMarketInfo> marketInfoMap = marketDataService.getGateioMarketInfo();
     System.out.println(marketInfoMap);
 
-    Collection<CurrencyPair> pairs = marketDataService.getExchangeSymbols();
+    Collection<Instrument> pairs = marketDataService.getExchangeSymbols();
     System.out.println(pairs);
 
     Map<CurrencyPair, Ticker> tickers = marketDataService.getGateioTickers();

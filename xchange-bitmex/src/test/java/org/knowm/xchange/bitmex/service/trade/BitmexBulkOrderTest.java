@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.BitmexExchange;
@@ -22,7 +23,9 @@ import org.knowm.xchange.utils.CertHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** @author Nikita Belenkiy on 18/05/2018. */
+/**
+ * @author Nikita Belenkiy on 18/05/2018.
+ */
 public class BitmexBulkOrderTest {
   private static final Logger logger = LoggerFactory.getLogger(BitmexBulkOrderTest.class);
 
@@ -36,7 +39,7 @@ public class BitmexBulkOrderTest {
         (BitmexExchange) ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class);
     ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
 
-    defaultExchangeSpecification.setExchangeSpecificParametersItem("Use_Sandbox", true);
+    defaultExchangeSpecification.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, true);
 
     defaultExchangeSpecification.setApiKey("QW8Ao_gx38e-8KFvDkFn-Ym4");
     defaultExchangeSpecification.setSecretKey("tn7rpzvOXSKThZD0f-xXehtydt4OTHZVf42gCCyxPixiiVOb");

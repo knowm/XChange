@@ -1,39 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.knowm.xchange</groupId>
-		<artifactId>xchange-parent</artifactId>
-		<version>5.0.14-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.knowm.xchange</groupId>
+        <artifactId>xchange-parent</artifactId>
+        <version>5.2.1-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>xchange-truefx</artifactId>
+    <artifactId>xchange-truefx</artifactId>
 
-	<name>XChange Bitcoin Core</name>
-	<description>XChange implementation for TrueFX</description>
+    <name>XChange Bitcoin Core</name>
+    <description>XChange implementation for TrueFX</description>
 
-	<url>http://knowm.org/open-source/xchange/</url>
-	<inceptionYear>2012</inceptionYear>
+    <url>http://knowm.org/open-source/xchange/</url>
+    <inceptionYear>2012</inceptionYear>
 
-	<organization>
-		<name>Knowm Inc.</name>
-		<url>http://knowm.org/open-source/xchange/</url>
-	</organization>
+    <organization>
+        <name>Knowm Inc.</name>
+        <url>http://knowm.org/open-source/xchange/</url>
+    </organization>
 
-	<!-- Parent provides default configuration for dependencies -->
-	<dependencies>
+    <!-- Parent provides default configuration for dependencies -->
+    <dependencies>
 
-		<dependency>
-			<groupId>org.knowm.xchange</groupId>
-			<artifactId>xchange-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-csv</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-csv</artifactId>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

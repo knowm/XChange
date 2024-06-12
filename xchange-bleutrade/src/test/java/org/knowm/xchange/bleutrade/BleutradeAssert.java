@@ -9,7 +9,7 @@ import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTicker;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class BleutradeAssert {
@@ -67,10 +67,12 @@ public class BleutradeAssert {
     assertThat(o1.getVwap()).isEqualTo(o2.getVwap());
   }
 
-  public static void assertEquals(CurrencyPairMetaData o1, CurrencyPairMetaData o2) {
-    assertThat(o1.getMinimumAmount()).isEqualTo(o2.getMinimumAmount());
+  public static void assertEquals(InstrumentMetaData o1, InstrumentMetaData o2) {
+    assertThat(o1.getMinimumAmount().stripTrailingZeros())
+        .isEqualTo(o2.getMinimumAmount().stripTrailingZeros());
     assertThat(o1.getPriceScale()).isEqualTo(o2.getPriceScale());
-    assertThat(o1.getTradingFee()).isEqualTo(o2.getTradingFee());
+    assertThat(o1.getTradingFee().stripTrailingZeros())
+        .isEqualTo(o2.getTradingFee().stripTrailingZeros());
   }
 
   public static void assertEquals(BleutradeCurrency o1, BleutradeCurrency o2) {

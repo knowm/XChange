@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 import org.knowm.xchange.livecoin.dto.LivecoinBaseResponse;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class LivecoinPaymentOutResponse extends LivecoinBaseResponse {
 
   private final Map data;

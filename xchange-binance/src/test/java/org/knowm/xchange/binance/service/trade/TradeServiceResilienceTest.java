@@ -12,12 +12,13 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.binance.AbstractResilienceTest;
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class TradeServiceResilienceTest extends AbstractResilienceTest {
@@ -30,10 +31,11 @@ public class TradeServiceResilienceTest extends AbstractResilienceTest {
   @Test
   public void shouldSucceedIfFirstCallTimeoutedAndRetryIsEnabled() throws Exception {
     // given
+    BinanceAdapters.putSymbolMapping("LTCBTC", CurrencyPair.LTC_BTC);
     TradeService service = createExchangeWithRetryEnabled().getTradeService();
     stubForOpenOrdersWithFirstCallTimetoutAndSecondSuccessful();
     OpenOrdersParams params = service.createOpenOrdersParams();
-    ((OpenOrdersParamCurrencyPair) params).setCurrencyPair(CurrencyPair.LTC_BTC);
+    ((OpenOrdersParamInstrument) params).setInstrument(CurrencyPair.LTC_BTC);
 
     // when
     OpenOrders openOrders = service.getOpenOrders(params);
@@ -47,12 +49,12 @@ public class TradeServiceResilienceTest extends AbstractResilienceTest {
   }
 
   @Test
-  public void shouldFailIfFirstCallTimeoutedAndRetryIsDisabled() throws Exception {
+  public void shouldFailIfFirstCallTimeoutedAndRetryIsDisabled() {
     // given
     TradeService service = createExchangeWithRetryDisabled().getTradeService();
     stubForOpenOrdersWithFirstCallTimetoutAndSecondSuccessful();
     OpenOrdersParams params = service.createOpenOrdersParams();
-    ((OpenOrdersParamCurrencyPair) params).setCurrencyPair(CurrencyPair.LTC_BTC);
+    ((OpenOrdersParamInstrument) params).setInstrument(CurrencyPair.LTC_BTC);
 
     // when
     Throwable exception = catchThrowable(() -> service.getOpenOrders(params));

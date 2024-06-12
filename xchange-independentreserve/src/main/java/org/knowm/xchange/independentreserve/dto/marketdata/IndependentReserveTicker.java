@@ -6,7 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/** @author Stuart Low */
+/**
+ * @author Stuart Low
+ */
 public final class IndependentReserveTicker {
   private final BigDecimal last;
   private final BigDecimal high;

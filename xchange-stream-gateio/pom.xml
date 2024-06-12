@@ -1,30 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>xchange-parent</artifactId>
-        <groupId>org.knowm.xchange</groupId>
-        <version>5.0.14-SNAPSHOT</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <name>XChange Gate.io Stream</name>
+    <parent>
+        <groupId>org.knowm.xchange</groupId>
+        <artifactId>xchange-parent</artifactId>
+        <version>5.2.1-SNAPSHOT</version>
+    </parent>
     <artifactId>xchange-stream-gateio</artifactId>
 
+    <name>XChange Gate.io Stream</name>
+
     <dependencies>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${version.fasterxml}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-gateio-v4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-stream-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-gateio</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${version.lombok}</version>
-        </dependency>
+
     </dependencies>
+
 </project>

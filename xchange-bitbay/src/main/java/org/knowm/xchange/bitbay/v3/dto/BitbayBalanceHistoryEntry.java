@@ -1,16 +1,15 @@
 package org.knowm.xchange.bitbay.v3.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
 import java.util.UUID;
 import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 @Value
 @Builder
-@JsonDeserialize(builder = BitbayBalanceHistoryEntry.BitbayBalanceHistoryEntryBuilder.class)
+@Jacksonized
 public class BitbayBalanceHistoryEntry {
 
   UUID historyId;
@@ -23,21 +22,15 @@ public class BitbayBalanceHistoryEntry {
   FundsInfo fundsAfter;
   FundsInfo change;
 
-  @JsonPOJOBuilder(withPrefix = "")
-  public static class BitbayBalanceHistoryEntryBuilder {}
-
   @Value
   @Builder
-  @JsonDeserialize(builder = BalanceInfo.BalanceInfoBuilder.class)
+  @Jacksonized
   public static class BalanceInfo {
     UUID id;
     String currency;
     BalanceType type;
     UUID userId;
     String name;
-
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class BalanceInfoBuilder {}
   }
 
   public enum BalanceType {
@@ -57,13 +50,10 @@ public class BitbayBalanceHistoryEntry {
 
   @Value
   @Builder
-  @JsonDeserialize(builder = FundsInfo.FundsInfoBuilder.class)
+  @Jacksonized
   public static class FundsInfo {
     BigDecimal total;
     BigDecimal available;
     BigDecimal locked;
-
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class FundsInfoBuilder {}
   }
 }

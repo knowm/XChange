@@ -10,8 +10,9 @@ import org.knowm.xchange.cexio.service.CexIOAccountService;
 import org.knowm.xchange.cexio.service.CexIOMarketDataService;
 import org.knowm.xchange.cexio.service.CexIOTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -47,30 +48,33 @@ public class CexIOExchange extends BaseExchange implements Exchange {
     final CexIOCurrencyLimits currencyLimits =
         ((CexIOMarketDataService) this.marketDataService).getCurrencyLimits();
     // Working with the live map so the changes reflect
-    final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        getExchangeMetaData().getCurrencyPairs();
+    final Map<Instrument, InstrumentMetaData> currencyPairs =
+        getExchangeMetaData().getInstruments();
 
     for (CexIOCurrencyLimits.Pair pair : currencyLimits.getData().getPairs()) {
       CurrencyPair currencyPair = new CurrencyPair(pair.getSymbol1(), pair.getSymbol2());
-      CurrencyPairMetaData metaData =
-          new CurrencyPairMetaData(null, pair.getMinLotSize(), pair.getMaxLotSize(), null, null);
+      InstrumentMetaData metaData =
+          new InstrumentMetaData.Builder()
+              .minimumAmount(pair.getMinLotSize())
+              .maximumAmount(pair.getMaxLotSize())
+              .build();
       currencyPairs.merge(
           currencyPair,
           metaData,
           (oldMetaData, newMetaData) ->
-              new CurrencyPairMetaData(
-                  // trading fee is not present in this response. using the previous values.
-                  oldMetaData.getTradingFee(),
-                  newMetaData.getMinimumAmount(),
-                  // some maximumAmount's in the currency_limits api response are null - using the
-                  // json values
-                  newMetaData.getMaximumAmount() != null
-                      ? newMetaData.getMaximumAmount()
-                      : oldMetaData.getMaximumAmount(),
-                  oldMetaData.getPriceScale(),
-                  newMetaData.getFeeTiers() != null
-                      ? newMetaData.getFeeTiers()
-                      : oldMetaData.getFeeTiers()));
+              new InstrumentMetaData.Builder()
+                  .tradingFee(oldMetaData.getTradingFee())
+                  .minimumAmount(newMetaData.getMinimumAmount())
+                  .maximumAmount(
+                      newMetaData.getMaximumAmount() != null
+                          ? newMetaData.getMaximumAmount()
+                          : oldMetaData.getMaximumAmount())
+                  .priceScale(oldMetaData.getPriceScale())
+                  .feeTiers(
+                      newMetaData.getFeeTiers() != null
+                          ? newMetaData.getFeeTiers()
+                          : oldMetaData.getFeeTiers())
+                  .build());
     }
     logger.info("remoteInit successful for {}", getExchangeSpecification().getExchangeName());
   }

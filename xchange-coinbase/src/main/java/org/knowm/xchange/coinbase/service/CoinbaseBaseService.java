@@ -14,7 +14,9 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseBaseService extends BaseExchangeService implements BaseService {
 
   protected final CoinbaseAuthenticated coinbase;

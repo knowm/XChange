@@ -17,7 +17,7 @@ import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketOrderbookModifi
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketTickerTransaction;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketTradeEvent;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -52,8 +52,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
                     .map(
                         s -> {
                           PoloniexWebSocketTickerTransaction ticker =
-                              mapper.readValue(
-                                  s.toString(), PoloniexWebSocketTickerTransaction.class);
+                              mapper.treeToValue(s, PoloniexWebSocketTickerTransaction.class);
                           CurrencyPair currencyPair = currencyIdMap.get(ticker.getPairId());
                           return adaptPoloniexTicker(
                               ticker.toPoloniexTicker(currencyPair), currencyPair);

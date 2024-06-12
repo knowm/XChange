@@ -12,6 +12,7 @@ import org.knowm.xchange.examples.huobi.HuobiDemoUtils;
 import org.knowm.xchange.huobi.HuobiExchange;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiTicker;
 import org.knowm.xchange.huobi.service.HuobiMarketDataService;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class HuobiMarketDataDemo {
@@ -29,9 +30,9 @@ public class HuobiMarketDataDemo {
       throws IOException {
 
     List<HuobiTicker> tickers = new ArrayList<>();
-    for (CurrencyPair cp : exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
-      if (cp.counter == Currency.USDT) {
-        tickers.add(marketDataService.getHuobiTicker(cp));
+    for (Instrument cp : exchange.getExchangeMetaData().getInstruments().keySet()) {
+      if (cp.getCounter() == Currency.USDT) {
+        tickers.add(marketDataService.getHuobiTicker((CurrencyPair) cp));
       }
     }
 

@@ -1,12 +1,10 @@
 package org.knowm.xchange.coinone.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinone.dto.CoinoneException;
 import org.knowm.xchange.coinone.dto.trade.CoinoneTradeCancelRequest;
 import org.knowm.xchange.coinone.dto.trade.CoinoneTradeResponse;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
@@ -15,9 +13,10 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
-/** @author interwater */
+/**
+ * @author interwater
+ */
 public class CoinoneTradeService extends CoinoneTradeServiceRaw implements TradeService {
   /**
    * Constructor
@@ -50,14 +49,11 @@ public class CoinoneTradeService extends CoinoneTradeServiceRaw implements Trade
   }
 
   @Override
-  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(CancelOrderParams orderParams)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
     CoinoneTradeResponse response = super.cancerOrder((CoinoneTradeCancelRequest) orderParams);
     if (!response.getErrorCode().equals("0")) {
       throw new CoinoneException(CoinoneException.resMsgMap.get(response.getErrorCode()));

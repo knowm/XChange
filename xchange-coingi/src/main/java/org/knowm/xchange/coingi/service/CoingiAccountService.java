@@ -2,7 +2,6 @@ package org.knowm.xchange.coingi.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coingi.CoingiAdapters;
 import org.knowm.xchange.coingi.CoingiErrorAdapter;
@@ -14,7 +13,6 @@ import org.knowm.xchange.coingi.dto.account.CoingiWithdrawalRequest;
 import org.knowm.xchange.coingi.dto.trade.CoingiTransactionHistoryRequest;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
@@ -56,9 +54,9 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
         DefaultWithdrawFundsParams params = (DefaultWithdrawFundsParams) p;
         CoingiWithdrawalRequest request =
             new CoingiWithdrawalRequest()
-                .setAddress(params.address)
-                .setAmount(params.amount)
-                .setCurrency(params.currency.getCurrencyCode().toUpperCase());
+                .setAddress(params.getAddress())
+                .setAmount(params.getAmount())
+                .setCurrency(params.getCurrency().getCurrencyCode().toUpperCase());
 
         return withdraw(request).toString();
       }
@@ -104,9 +102,4 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
     }
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
-      throws NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

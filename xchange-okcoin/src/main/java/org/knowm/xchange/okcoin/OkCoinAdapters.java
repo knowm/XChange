@@ -32,6 +32,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFunds;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
@@ -55,9 +56,11 @@ public final class OkCoinAdapters {
 
   private OkCoinAdapters() {}
 
-  public static String adaptSymbol(CurrencyPair currencyPair) {
+  public static String adaptSymbol(Instrument currencyPair) {
 
-    return (currencyPair.base.getCurrencyCode() + "_" + currencyPair.counter.getCurrencyCode())
+    return (currencyPair.getBase().getCurrencyCode()
+            + "_"
+            + currencyPair.getCounter().getCurrencyCode())
         .toLowerCase();
   }
 
@@ -321,7 +324,7 @@ public final class OkCoinAdapters {
     // instead.
     String tradeId, orderId;
     tradeId = orderId = String.valueOf(order.getOrderId());
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(adaptOrderType(order.getType()))
         .originalAmount(order.getDealAmount())
         .currencyPair(adaptSymbol(order.getSymbol()))
@@ -334,7 +337,7 @@ public final class OkCoinAdapters {
 
   private static UserTrade adaptTradeFutures(OkCoinFuturesOrder order) {
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(adaptOrderType(order.getType()))
         .originalAmount(order.getDealAmount())
         .currencyPair(adaptSymbol(order.getSymbol()))
@@ -367,7 +370,7 @@ public final class OkCoinAdapters {
 
       BigDecimal feeAmount = BigDecimal.ZERO;
       UserTrade trade =
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(orderType)
               .originalAmount(originalAmount)
               .currencyPair(currencyPair)

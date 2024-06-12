@@ -18,9 +18,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -37,6 +37,7 @@ import org.knowm.xchange.globitex.dto.marketdata.GlobitexTrades;
 import org.knowm.xchange.globitex.dto.trade.GlobitexActiveOrders;
 import org.knowm.xchange.globitex.dto.trade.GlobitexUserTrade;
 import org.knowm.xchange.globitex.dto.trade.GlobitexUserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class GlobitexAdapters {
@@ -63,6 +64,7 @@ public class GlobitexAdapters {
   public static String adaptOrderType(Order.OrderType orderType) {
     return (orderType.equals(Order.OrderType.ASK)) ? "sell" : "buy";
   }
+
   //  private static CurrencyPair adaptGlobitexSymbolToCurrencyPair(
   //      String symbol, Map<Currency, CurrencyMetaData> currencies) {
   //    String counter = "";
@@ -204,7 +206,7 @@ public class GlobitexAdapters {
   }
 
   private static UserTrade adaptToUserTrade(GlobitexUserTrade globitexUserTrade) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(
             (globitexUserTrade.getSide().equals("sell")
                 ? Order.OrderType.ASK
@@ -252,7 +254,7 @@ public class GlobitexAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(GlobitexSymbols globitexSymbols) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     List<FeeTier> resultFeeTiers = new ArrayList<FeeTier>();
     resultFeeTiers.add(
@@ -264,12 +266,12 @@ public class GlobitexAdapters {
             globitexSymbol -> {
               currencyPairs.put(
                   adaptGlobitexSymbolToCurrencyPair(globitexSymbol),
-                  new CurrencyPairMetaData(
-                      BigDecimal.valueOf(0.002),
-                      globitexSymbol.getSizeMin(),
-                      null,
-                      globitexSymbol.getPriceIncrement().scale(),
-                      resultFeeTiers.toArray(new FeeTier[resultFeeTiers.size()])));
+                  new InstrumentMetaData.Builder()
+                      .tradingFee(BigDecimal.valueOf(0.002))
+                      .minimumAmount(globitexSymbol.getSizeMin())
+                      .priceScale(globitexSymbol.getPriceIncrement().scale())
+                      .feeTiers(resultFeeTiers.toArray(new FeeTier[resultFeeTiers.size()]))
+                      .build());
               currencies.put(
                   new Currency(convertXBTtoBTC(globitexSymbol.getCurrency())),
                   new CurrencyMetaData(globitexSymbol.getPriceIncrement().scale(), null));

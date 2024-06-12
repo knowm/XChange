@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.lgo.domain.LgoGroupedLevel2Update;
 import info.bitrich.xchangestream.lgo.dto.LgoLevel2Update;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -36,7 +36,7 @@ class LgoLevel2BatchSubscription {
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return service
         .subscribeChannel(LgoAdapter.channelName("level2", currencyPair))
-        .map(s -> mapper.readValue(s.toString(), LgoLevel2Update.class))
+        .map(s -> mapper.treeToValue(s, LgoLevel2Update.class))
         .scan(
             new LgoGroupedLevel2Update(),
             (acc, s) -> {

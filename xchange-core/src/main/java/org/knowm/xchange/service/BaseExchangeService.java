@@ -3,8 +3,8 @@ package org.knowm.xchange.service;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 
@@ -30,7 +30,7 @@ public abstract class BaseExchangeService<E extends Exchange> {
     BigDecimal price = limitOrder.getLimitPrice().stripTrailingZeros();
 
     if (price.scale()
-        > exchangeMetaData.getCurrencyPairs().get(limitOrder.getCurrencyPair()).getPriceScale()) {
+        > exchangeMetaData.getInstruments().get(limitOrder.getCurrencyPair()).getPriceScale()) {
       throw new IllegalArgumentException("Unsupported price scale " + price.scale());
     }
   }
@@ -42,8 +42,7 @@ public abstract class BaseExchangeService<E extends Exchange> {
 
   protected final void verifyOrder(Order order, ExchangeMetaData exchangeMetaData) {
 
-    CurrencyPairMetaData metaData =
-        exchangeMetaData.getCurrencyPairs().get(order.getCurrencyPair());
+    InstrumentMetaData metaData = exchangeMetaData.getInstruments().get(order.getCurrencyPair());
     if (metaData == null) {
       throw new IllegalArgumentException("Invalid CurrencyPair");
     }

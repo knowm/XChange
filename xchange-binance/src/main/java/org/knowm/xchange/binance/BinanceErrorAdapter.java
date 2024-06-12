@@ -12,7 +12,9 @@ import org.knowm.xchange.exceptions.OrderAmountUnderMinimumException;
 import org.knowm.xchange.exceptions.OrderNotValidException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public final class BinanceErrorAdapter {
 
   private BinanceErrorAdapter() {}

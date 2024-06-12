@@ -15,7 +15,9 @@ import org.knowm.xchange.gemini.v2.dto.marketdata.GeminiCandle;
 import org.knowm.xchange.gemini.v2.dto.marketdata.GeminiTicker2;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class TickerFetchIntegration {
 
   @Test

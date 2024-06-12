@@ -8,13 +8,17 @@ import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
 import org.knowm.xchange.bitso.dto.trade.BitsoUserTransaction;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 
-/** @author Piotr Ładyżyński */
+/**
+ * @author Piotr Ładyżyński
+ */
 public class BitsoTradeServiceRaw extends BitsoBaseService {
 
   private final BitsoAuthenticated bitsoAuthenticated;
   private final BitsoDigest signatureCreator;
 
-  /** @param exchange */
+  /**
+   * @param exchange
+   */
   public BitsoTradeServiceRaw(Exchange exchange) {
 
     super(exchange);

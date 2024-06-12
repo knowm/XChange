@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.currency.CurrencyPair;
 
@@ -24,6 +25,7 @@ public class TickerBinanceWebsocketTransactionTest {
 
   @Test
   public void test_deserialization_of_transaction_message() throws IOException {
+    BinanceAdapters.putSymbolMapping("ETHBTC", CurrencyPair.ETH_BTC);
     InputStream stream =
         TickerBinanceWebsocketTransactionTest.class.getResourceAsStream("testTickerEvent.json");
     BinanceWebsocketTransaction<TickerBinanceWebsocketTransaction> transaction =
@@ -36,7 +38,8 @@ public class TickerBinanceWebsocketTransactionTest {
     assertThat(tickerTransaction).isNotNull();
     assertThat(tickerTransaction.eventType).isEqualTo(TICKER_24_HR);
     assertThat(tickerTransaction.getEventTime().getTime()).isEqualTo(1516135684559L);
-    assertThat(tickerTransaction.getCurrencyPair()).isEqualTo(CurrencyPair.ETH_BTC);
+    assertThat(BinanceAdapters.adaptSymbol(tickerTransaction.getSymbol(), false))
+        .isEqualTo(CurrencyPair.ETH_BTC);
 
     BinanceTicker24h ticker = tickerTransaction.getTicker();
     assertThat(ticker.getPriceChange()).isEqualByComparingTo(BigDecimal.valueOf(-0.00271700));
@@ -55,10 +58,10 @@ public class TickerBinanceWebsocketTransactionTest {
     assertThat(ticker.getLowPrice()).isEqualByComparingTo(BigDecimal.valueOf(0.08100000));
     assertThat(ticker.getVolume()).isEqualByComparingTo(BigDecimal.valueOf(287542.79200000));
     assertThat(ticker.getQuoteVolume()).isEqualByComparingTo(BigDecimal.valueOf(26334.24227973));
-    assertThat(ticker.getOpenTime().getTime()).isEqualTo(1516049284557L);
-    assertThat(ticker.getCloseTime().getTime()).isEqualTo(1516135684557L);
-    assertThat(ticker.getFirstTradeId()).isEqualTo(21702040L);
-    assertThat(ticker.getLastTradeId()).isEqualTo(22120714L);
-    assertThat(ticker.getTradeCount()).isEqualTo(418675L);
+    assertThat(ticker.getOpenTime()).isEqualTo(1516049284557L);
+    assertThat(ticker.getCloseTime()).isEqualTo(1516135684557L);
+    assertThat(ticker.getFirstId()).isEqualTo(21702040L);
+    assertThat(ticker.getLastId()).isEqualTo(22120714L);
+    assertThat(ticker.getCount()).isEqualTo(418675L);
   }
 }

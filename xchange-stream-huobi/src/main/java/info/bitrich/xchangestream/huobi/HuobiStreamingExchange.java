@@ -4,8 +4,8 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.huobi.HuobiExchange;
 
 public class HuobiStreamingExchange extends HuobiExchange implements StreamingExchange {
@@ -26,6 +26,7 @@ public class HuobiStreamingExchange extends HuobiExchange implements StreamingEx
                 .getOrDefault("AWS", Boolean.FALSE);
     this.streamingService = new HuobiStreamingService(aws ? API_URI_AWS : API_BASE_URI);
     this.streamingService.useCompressedMessages(true);
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     streamingMarketDataService = new HuobiStreamingMarketDataService(streamingService);
   }
 

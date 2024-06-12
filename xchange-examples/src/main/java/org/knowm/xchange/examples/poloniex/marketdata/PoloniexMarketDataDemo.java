@@ -10,7 +10,9 @@ import org.knowm.xchange.poloniex.PoloniexExchange;
 import org.knowm.xchange.poloniex.service.PoloniexMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author Zach Holmes */
+/**
+ * @author Zach Holmes
+ */
 public class PoloniexMarketDataDemo {
 
   private static Exchange poloniex;
@@ -44,7 +46,7 @@ public class PoloniexMarketDataDemo {
 
     System.out.println("------------RAW------------");
     System.out.println(dataService.getPoloniexCurrencyInfo());
-    System.out.println(poloniex.getExchangeSymbols());
+    System.out.println(poloniex.getExchangeInstruments());
     System.out.println(dataService.getAllPoloniexTickers());
     System.out.println(dataService.getPoloniexTicker(currencyPair));
     System.out.println(dataService.getAllPoloniexDepths());

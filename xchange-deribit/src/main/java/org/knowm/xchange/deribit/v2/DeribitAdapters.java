@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
@@ -37,8 +38,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.DerivativeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -53,7 +54,7 @@ public class DeribitAdapters {
   private static final String PERPETUAL = "PERPETUAL";
   private static final int CURRENCY_SCALE = 8;
   private static final ThreadLocal<DateFormat> DATE_PARSER =
-      ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy"));
+      ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy", Locale.US));
 
   public static String adaptInstrumentName(Instrument instrument) {
     if (instrument instanceof FuturesContract) {
@@ -66,6 +67,7 @@ public class DeribitAdapters {
 
   public static String adaptInstrumentName(FuturesContract future) {
     return future.getCurrencyPair().base
+        + (future.getCurrencyPair().counter == Currency.USDC ? "_USDC" : "")
         + "-"
         + (future.getPrompt() == null ? PERPETUAL : (future.getPrompt()));
   }
@@ -283,8 +285,14 @@ public class DeribitAdapters {
     String[] parts = instrumentName.split("-");
     if (parts.length == 2) {
       DeribitInstrument future = new DeribitInstrument();
-      future.setBaseCurrency(parts[0]);
-      future.setQuoteCurrency(IMPLIED_COUNTER);
+      if (parts[0].contains("_")) {
+        String[] subParts = parts[0].split("_");
+        future.setBaseCurrency(subParts[0]);
+        future.setQuoteCurrency(subParts[1]);
+      } else {
+        future.setBaseCurrency(parts[0]);
+        future.setQuoteCurrency(IMPLIED_COUNTER);
+      }
       if (PERPETUAL.equalsIgnoreCase(parts[1])) {
         future.setSettlementPeriod(PERPETUAL);
       } else {
@@ -318,17 +326,17 @@ public class DeribitAdapters {
         "Could not adapt instrument from name '" + instrumentName + "'");
   }
 
-  public static DerivativeMetaData adaptMeta(DeribitInstrument instrument) {
+  public static InstrumentMetaData adaptMeta(DeribitInstrument instrument) {
     FeeTier[] feeTiers = {
       new FeeTier(
           BigDecimal.ZERO,
           new Fee(instrument.getMakerCommission(), instrument.getTakerCommission()))
     };
-    return new DerivativeMetaData.Builder()
+    return new InstrumentMetaData.Builder()
         .tradingFee(instrument.getTakerCommission())
         .feeTiers(feeTiers)
         .minimumAmount(instrument.getMinTradeAmount())
-        .amountScale(instrument.getMinTradeAmount().scale())
+        .volumeScale(instrument.getMinTradeAmount().scale())
         .priceScale(instrument.getTickSize().scale())
         .priceStepSize(instrument.getTickSize())
         .build();
@@ -344,7 +352,7 @@ public class DeribitAdapters {
   }
 
   private static UserTrade adaptUserTrade(org.knowm.xchange.deribit.v2.dto.trade.Trade trade) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(adapt(trade.getDirection()))
         .originalAmount(trade.getAmount())
         .instrument(adaptInstrument(trade.getInstrumentName()))

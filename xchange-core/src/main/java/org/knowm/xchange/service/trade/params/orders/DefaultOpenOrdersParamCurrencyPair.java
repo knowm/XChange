@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 
 public class DefaultOpenOrdersParamCurrencyPair implements OpenOrdersParamCurrencyPair {
 
@@ -15,8 +16,8 @@ public class DefaultOpenOrdersParamCurrencyPair implements OpenOrdersParamCurren
     this.pair = pair;
   }
 
-  public static List<CurrencyPair> getPairs(OpenOrdersParams params, Exchange exchange) {
-    List<CurrencyPair> pairs = new ArrayList<>();
+  public static List<Instrument> getPairs(OpenOrdersParams params, Exchange exchange) {
+    List<Instrument> pairs = new ArrayList<>();
     if (params instanceof OpenOrdersParamCurrencyPair) {
       final CurrencyPair paramsCp = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
       if (paramsCp != null) {
@@ -24,7 +25,7 @@ public class DefaultOpenOrdersParamCurrencyPair implements OpenOrdersParamCurren
       }
     }
     if (pairs.isEmpty()) {
-      pairs = exchange.getExchangeSymbols();
+      pairs = exchange.getExchangeInstruments();
     }
     return pairs;
   }

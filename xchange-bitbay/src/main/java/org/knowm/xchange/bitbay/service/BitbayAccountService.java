@@ -17,7 +17,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/** @author Z. Dolezal */
+/**
+ * @author Z. Dolezal
+ */
 public class BitbayAccountService extends BitbayAccountServiceRaw implements AccountService {
 
   public BitbayAccountService(Exchange exchange) {

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collection;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPositions;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -102,9 +101,10 @@ public interface TradeService extends BaseService {
   /**
    * Place a market order
    *
-   * <p>If your orders amount does to meet the restrictions dictated by {@link CurrencyPairMetaData}
-   * then the exchange will reject your order. Use {@link org.knowm.xchange.utils.OrderValuesHelper}
-   * to validate and / or adjust it while you'r building an order.
+   * <p>If your orders amount does to meet the restrictions dictated by {@link
+   * org.knowm.xchange.dto.meta.InstrumentMetaData} then the exchange will reject your order. Use
+   * {@link org.knowm.xchange.utils.OrderValuesHelper} to validate and / or adjust it while you'r
+   * building an order.
    *
    * @param marketOrder
    * @return the order ID
@@ -125,9 +125,9 @@ public interface TradeService extends BaseService {
    * Place a limit order
    *
    * <p>If your orders amount or limit price does to meet the restrictions dictated by {@link
-   * CurrencyPairMetaData} then the exchange will reject your order. Use {@link
-   * org.knowm.xchange.utils.OrderValuesHelper} to validate and / or adjust those values while you'r
-   * building an order.
+   * org.knowm.xchange.dto.meta.InstrumentMetaData} then the exchange will reject your order. Use
+   * {@link org.knowm.xchange.utils.OrderValuesHelper} to validate and / or adjust those values
+   * while you'r building an order.
    *
    * @param limitOrder
    * @return the order ID
@@ -148,9 +148,9 @@ public interface TradeService extends BaseService {
    * Place a stop order
    *
    * <p>If your orders amount or spot price does to meet the restrictions dictated by {@link
-   * CurrencyPairMetaData} then the exchange will reject your order. Use {@link
-   * org.knowm.xchange.utils.OrderValuesHelper} to validate and / or adjust those values while you'r
-   * building an order.
+   * org.knowm.xchange.dto.meta.InstrumentMetaData} then the exchange will reject your order. Use
+   * {@link org.knowm.xchange.utils.OrderValuesHelper} to validate and / or adjust those values
+   * while you'r building an order.
    *
    * @param stopOrder
    * @return the order ID
@@ -334,6 +334,32 @@ public interface TradeService extends BaseService {
       res[i] = new DefaultQueryOrderParam(orderId);
     }
     return res;
+  }
+
+  static String[] toOrderIds(OrderQueryParams... orderQueryParams) {
+    String[] orderIds = new String[orderQueryParams.length];
+    int index = 0;
+    for (OrderQueryParams orderQueryParam : orderQueryParams) {
+      orderIds[index++] = orderQueryParam.getOrderId();
+    }
+    return orderIds;
+  }
+
+  /**
+   * Returns required get order parameter as classes
+   *
+   * <p>Different trading services requires different parameters for order querying. To provide
+   * generic operation of the trade service interface, This method returns {@link Class} of the
+   * parameter objects as an array. This class information can be utilized by the caller of {@link
+   * #getOrder(OrderQueryParams...)} to create instances of the required parameter such as {@link
+   * org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair}, {@link
+   * org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument} etc...
+   *
+   * @return Class type for the required parameter class. Default implementation returns an instance
+   *     of {@link OrderQueryParams} element
+   */
+  default Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParams.class;
   }
 
   /**

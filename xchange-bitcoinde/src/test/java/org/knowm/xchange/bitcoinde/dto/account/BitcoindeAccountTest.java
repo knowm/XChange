@@ -10,7 +10,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
 
-/** @author kaiserfr */
+/**
+ * @author kaiserfr
+ */
 public class BitcoindeAccountTest {
 
   @Test
@@ -26,7 +28,7 @@ public class BitcoindeAccountTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcoindeAccountWrapper bitcoindeTradesWrapper =
         mapper.readValue(is, BitcoindeAccountWrapper.class);
-    System.out.println("bitcoindeTradesWrapper = " + bitcoindeTradesWrapper);
+    //    System.out.println("bitcoindeTradesWrapper = " + bitcoindeTradesWrapper);
 
     // Make sure trade values are correct
 
@@ -38,9 +40,9 @@ public class BitcoindeAccountTest {
     BigDecimal reservedAmount =
         bitcoindeTradesWrapper.getData().getFidorReservation().getAvailableAmount();
 
-    System.out.println(btcBalance);
-    System.out.println(ethBalance);
-    System.out.println(reservedAmount);
+    //    System.out.println(btcBalance);
+    //    System.out.println(ethBalance);
+    //    System.out.println(reservedAmount);
 
     assertEquals(btcBalance, new BigDecimal("0.009"));
     assertEquals(ethBalance, new BigDecimal("0.06463044"));

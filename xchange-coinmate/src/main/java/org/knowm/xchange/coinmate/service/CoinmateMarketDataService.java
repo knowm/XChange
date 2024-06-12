@@ -24,6 +24,7 @@
 package org.knowm.xchange.coinmate.service;
 
 import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
 import org.knowm.xchange.coinmate.CoinmateUtils;
@@ -32,8 +33,11 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
-/** @author Martin Stachon */
+/**
+ * @author Martin Stachon
+ */
 public class CoinmateMarketDataService extends CoinmateMarketDataServiceRaw
     implements MarketDataService {
 
@@ -48,6 +52,11 @@ public class CoinmateMarketDataService extends CoinmateMarketDataServiceRaw
 
     return CoinmateAdapters.adaptTicker(
         getCoinmateTicker(CoinmateUtils.getPair(currencyPair)), currencyPair);
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    return CoinmateAdapters.adaptTickers(getCoinmateTickers());
   }
 
   @Override

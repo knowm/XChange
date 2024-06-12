@@ -30,11 +30,12 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 
 public class CCEXAdapters {
 
@@ -111,22 +112,26 @@ public class CCEXAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(
       ExchangeMetaData exchangeMetaData, List<CCEXMarket> products) {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
-    Map<CurrencyPair, CurrencyPairMetaData> existingCurrencyPairMetadata =
-        exchangeMetaData.getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> currencyPairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> existingCurrencyPairMetadata =
+        exchangeMetaData.getInstruments();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     for (CCEXMarket product : products) {
       BigDecimal minSize = product.getMinTradeSize();
       CurrencyPair pair = adaptCurrencyPair(product);
-      CurrencyPairMetaData existingMetaForPair = existingCurrencyPairMetadata.get(pair);
+      InstrumentMetaData existingMetaForPair = existingCurrencyPairMetadata.get(pair);
       FeeTier[] existingFeeTiers = null;
       if (existingMetaForPair != null) {
         existingFeeTiers = existingMetaForPair.getFeeTiers();
       }
-      CurrencyPairMetaData cpmd =
-          new CurrencyPairMetaData(null, minSize, null, 0, existingFeeTiers);
-      currencyPairs.put(pair, cpmd);
+      currencyPairs.put(
+          pair,
+          new InstrumentMetaData.Builder()
+              .minimumAmount(minSize)
+              .priceScale(0)
+              .feeTiers(existingFeeTiers)
+              .build());
       currencies.put(pair.base, null);
       currencies.put(pair.counter, null);
     }
@@ -225,7 +230,7 @@ public class CCEXAdapters {
       price = trade.getLimit();
     }
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(orderType)
         .originalAmount(amount)
         .currencyPair(currencyPair)

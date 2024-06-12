@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +17,8 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
@@ -167,11 +164,6 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (!(orderParams instanceof CancelOrderByIdParams)
         || !(orderParams instanceof CancelOrderByCurrencyPair)) {
@@ -284,11 +276,6 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return new DefaultOpenOrdersParamCurrencyPair();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

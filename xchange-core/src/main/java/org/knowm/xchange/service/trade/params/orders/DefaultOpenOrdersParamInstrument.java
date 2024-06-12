@@ -3,7 +3,6 @@ package org.knowm.xchange.service.trade.params.orders;
 import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 
 public class DefaultOpenOrdersParamInstrument implements OpenOrdersParamInstrument {
@@ -12,7 +11,7 @@ public class DefaultOpenOrdersParamInstrument implements OpenOrdersParamInstrume
 
   public DefaultOpenOrdersParamInstrument() {}
 
-  public DefaultOpenOrdersParamInstrument(CurrencyPair instrument) {
+  public DefaultOpenOrdersParamInstrument(Instrument instrument) {
     this.instrument = instrument;
   }
 

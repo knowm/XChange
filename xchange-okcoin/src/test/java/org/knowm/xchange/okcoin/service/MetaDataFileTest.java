@@ -24,14 +24,14 @@ public class MetaDataFileTest {
     Assert.isTrue(
         "okcoin_china".equals(metaDataFileName),
         "the meta data file name not equal \"okcoin_china\" ???");
-    System.out.println("metaDataFileName=" + metaDataFileName);
+    //    System.out.println("metaDataFileName=" + metaDataFileName);
 
     exSpec.setExchangeSpecificParametersItem("Use_Intl", true);
     metaDataFileName = ((BaseExchange) exchange).getMetaDataFileName(exSpec);
     Assert.isTrue(
         "okcoin_intl".equals(metaDataFileName),
         "the meta data file name not equal \"okcoin_intl\" ???");
-    System.out.println("metaDataFileName=" + metaDataFileName);
+    //    System.out.println("metaDataFileName=" + metaDataFileName);
 
     exSpec.setExchangeSpecificParametersItem("Use_Intl", true);
     exSpec.setExchangeSpecificParametersItem("Use_Futures", true);
@@ -39,7 +39,7 @@ public class MetaDataFileTest {
     Assert.isTrue(
         "okcoin_futures".equals(metaDataFileName),
         "the meta data file name not equal \"okcoin_futures\" ???");
-    System.out.println("metaDataFileName=" + metaDataFileName);
+    //    System.out.println("metaDataFileName=" + metaDataFileName);
   }
 
   @Test
@@ -69,6 +69,6 @@ public class MetaDataFileTest {
             .lines()
             .collect(Collectors.joining("\n"));
 
-    System.out.println(strContents);
+    //    System.out.println(strContents);
   }
 }

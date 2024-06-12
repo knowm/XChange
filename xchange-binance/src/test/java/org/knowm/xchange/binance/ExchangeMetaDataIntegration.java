@@ -2,38 +2,30 @@ package org.knowm.xchange.binance;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.BeforeClass;
+import java.util.Map;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 
 public class ExchangeMetaDataIntegration extends BinanceExchangeIntegration {
 
-  static ExchangeMetaData metaData;
-
-  @BeforeClass
-  public static void fetchMetaData() throws Exception {
-    createExchange();
-    metaData = exchange.getExchangeMetaData();
-  }
 
   @Test
-  public void testEthBtcPairMetaData() {
-    CurrencyPairMetaData pairMetaData = metaData.getCurrencyPairs().get(CurrencyPair.ETH_BTC);
-    assertThat(pairMetaData.getPriceScale()).isEqualByComparingTo(6);
-    assertThat(pairMetaData.getMinimumAmount()).isEqualByComparingTo("0.001");
-    assertThat(pairMetaData.getMaximumAmount().longValueExact()).isEqualTo(100000);
-    assertThat(pairMetaData.getAmountStepSize()).isEqualByComparingTo("0.001");
+  public void valid_instrumentsMetaData() {
+    Map<Instrument, InstrumentMetaData> instruments = exchange.getExchangeMetaData().getInstruments();
+    assertThat(instruments.values()).allSatisfy(instrumentMetaData -> {
+      assertThat(instrumentMetaData.getPriceScale()).isNotNull();
+      assertThat(instrumentMetaData.getAmountStepSize()).isNotNull();
+
+      assertThat(instrumentMetaData.getMinimumAmount()).isLessThan(instrumentMetaData.getMaximumAmount());
+    });
   }
 
+
   @Test
-  public void testLtcBtcPairMetaData() {
-    CurrencyPairMetaData pairMetaData =
-        metaData.getCurrencyPairs().get(new CurrencyPair("LTC/BTC"));
-    assertThat(pairMetaData.getPriceScale()).isEqualByComparingTo(6);
-    assertThat(pairMetaData.getMinimumAmount()).isEqualByComparingTo("0.01");
-    assertThat(pairMetaData.getMaximumAmount().longValueExact()).isEqualTo(100000);
-    assertThat(pairMetaData.getAmountStepSize()).isEqualByComparingTo("0.01");
+  public void valid_symbol_mapping() {
+    assertThat(BinanceAdapters.toCurrencyPair("BTCUSDT")).isEqualTo(CurrencyPair.BTC_USDT);
   }
+
 }

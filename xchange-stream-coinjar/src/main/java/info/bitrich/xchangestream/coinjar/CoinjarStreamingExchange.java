@@ -3,8 +3,8 @@ package info.bitrich.xchangestream.coinjar;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.coinjar.CoinjarExchange;
 
 public class CoinjarStreamingExchange extends CoinjarExchange implements StreamingExchange {
@@ -21,6 +21,7 @@ public class CoinjarStreamingExchange extends CoinjarExchange implements Streami
 
     this.streamingService =
         new CoinjarStreamingService(API_URI, this.exchangeSpecification.getApiKey());
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
     this.streamingMarketDataService = new CoinjarStreamingMarketDataService(streamingService);
     this.streamingTradeService = new CoinjarStreamingTradeService(streamingService);
   }

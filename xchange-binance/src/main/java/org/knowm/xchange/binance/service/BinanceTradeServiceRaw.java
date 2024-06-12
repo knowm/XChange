@@ -10,58 +10,96 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.knowm.xchange.binance.BinanceAdapters;
-import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceDustLog;
-import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
-import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceTrade;
-import org.knowm.xchange.binance.dto.trade.OrderSide;
-import org.knowm.xchange.binance.dto.trade.OrderType;
-import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.account.futures.BinancePosition;
+import org.knowm.xchange.binance.dto.trade.*;
+import org.knowm.xchange.binance.dto.trade.futures.BinanceFutureNewOrder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BinanceTradeServiceRaw extends BinanceBaseService {
 
   protected BinanceTradeServiceRaw(
-      BinanceExchange exchange,
-      BinanceAuthenticated binance,
-      ResilienceRegistries resilienceRegistries) {
-    super(exchange, binance, resilienceRegistries);
+      BinanceExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
-  public List<BinanceOrder> openOrders() throws BinanceException, IOException {
-    return openOrders(null);
+  public List<BinanceOrder> openOrdersAllProducts() throws BinanceException, IOException {
+    return openOrdersAllProducts(null);
   }
 
-  public List<BinanceOrder> openOrders(CurrencyPair pair) throws BinanceException, IOException {
-    return decorateApiCall(
-            () ->
-                binance.openOrders(
-                    Optional.ofNullable(pair).map(BinanceAdapters::toSymbol).orElse(null),
-                    getRecvWindow(),
-                    getTimestampFactory(),
-                    apiKey,
-                    signatureCreator))
-        .withRetry(retry("openOrders"))
-        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), openOrdersPermits(pair))
-        .call();
+  public List<BinanceOrder> openOrdersAllProducts(Instrument pair)
+      throws BinanceException, IOException {
+    if (exchange.isPortfolioMarginEnabled()) {
+      return decorateApiCall(
+              () ->
+                  (pair instanceof FuturesContract)
+                      ? (BinanceAdapters.isInverse(pair)
+                          ? binanceFutures.futureOpenPortfolioMarginInverseOrders(
+                              Optional.of(pair).map(BinanceAdapters::toInverseSymbol).orElse(null),
+                              getRecvWindow(),
+                              getTimestampFactory(),
+                              apiKey,
+                              signatureCreator)
+                          : binanceFutures.futureOpenPortfolioMarginOrders(
+                              Optional.of(pair).map(BinanceAdapters::toSymbol).orElse(null),
+                              getRecvWindow(),
+                              getTimestampFactory(),
+                              apiKey,
+                              signatureCreator))
+                      : binance.openOrders(
+                          Optional.ofNullable(pair).map(BinanceAdapters::toSymbol).orElse(null),
+                          getRecvWindow(),
+                          getTimestampFactory(),
+                          apiKey,
+                          signatureCreator))
+          .withRetry(retry("openOrders"))
+          .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), openOrdersPermits(pair))
+          .call();
+    } else {
+      return decorateApiCall(
+              () ->
+                  (pair instanceof FuturesContract)
+                      ? (BinanceAdapters.isInverse(pair)
+                          ? inverseBinanceFutures.futureOpenInverseOrders(
+                              Optional.of(pair).map(BinanceAdapters::toInverseSymbol).orElse(null),
+                              getRecvWindow(),
+                              getTimestampFactory(),
+                              apiKey,
+                              signatureCreator)
+                          : binanceFutures.futureOpenOrders(
+                              Optional.of(pair).map(BinanceAdapters::toSymbol).orElse(null),
+                              getRecvWindow(),
+                              getTimestampFactory(),
+                              apiKey,
+                              signatureCreator))
+                      : binance.openOrders(
+                          Optional.ofNullable(pair).map(BinanceAdapters::toSymbol).orElse(null),
+                          getRecvWindow(),
+                          getTimestampFactory(),
+                          apiKey,
+                          signatureCreator))
+          .withRetry(retry("openOrders"))
+          .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), openOrdersPermits(pair))
+          .call();
+    }
   }
 
   public BinanceNewOrder newOrder(
-      CurrencyPair pair,
+      Instrument pair,
       OrderSide side,
       OrderType type,
       TimeInForce timeInForce,
       BigDecimal quantity,
+      BigDecimal quoteOrderQty,
       BigDecimal price,
       String newClientOrderId,
       BigDecimal stopPrice,
+      Long trailingDelta,
       BigDecimal icebergQty,
       BinanceNewOrder.NewOrderResponseType newOrderRespType)
       throws IOException, BinanceException {
@@ -73,9 +111,11 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
                     type,
                     timeInForce,
                     quantity,
+                    quoteOrderQty,
                     price,
                     newClientOrderId,
                     stopPrice,
+                    trailingDelta,
                     icebergQty,
                     newOrderRespType,
                     getRecvWindow(),
@@ -89,15 +129,169 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public void testNewOrder(
-      CurrencyPair pair,
+  public BinanceFutureNewOrder newPortfolioMarginFutureOrder(
+      Instrument pair,
       OrderSide side,
       OrderType type,
       TimeInForce timeInForce,
       BigDecimal quantity,
+      boolean reduceOnly,
+      BigDecimal price,
+      String newClientOrderId,
+      BinanceNewOrder.NewOrderResponseType newOrderRespType)
+      throws IOException, BinanceException {
+    return decorateApiCall(
+            () ->
+                binanceFutures.newPortfolioMarginLinearOrder(
+                    BinanceAdapters.toSymbol(pair),
+                    side,
+                    type,
+                    timeInForce,
+                    quantity,
+                    reduceOnly,
+                    price,
+                    newClientOrderId,
+                    newOrderRespType,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
+        .withRetry(retry("newFutureOrder", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
+        .withRateLimiter(rateLimiter(ORDERS_PER_SECOND_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(ORDERS_PER_DAY_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
+  }
+
+  public BinanceFutureNewOrder newPortfolioMarginInverseFutureOrder(
+      Instrument pair,
+      OrderSide side,
+      OrderType type,
+      TimeInForce timeInForce,
+      BigDecimal quantity,
+      boolean reduceOnly,
+      BigDecimal price,
+      String newClientOrderId,
+      BinanceNewOrder.NewOrderResponseType newOrderRespType)
+      throws IOException, BinanceException {
+    return decorateApiCall(
+            () ->
+                binanceFutures.newPortfolioMarginInverseOrder(
+                    BinanceAdapters.toSymbol(pair, true),
+                    side,
+                    type,
+                    timeInForce,
+                    quantity,
+                    reduceOnly,
+                    price,
+                    newClientOrderId,
+                    newOrderRespType,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
+        .withRetry(retry("newFutureOrder", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
+        .withRateLimiter(rateLimiter(ORDERS_PER_SECOND_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(ORDERS_PER_DAY_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
+  }
+
+  public BinanceFutureNewOrder newFutureOrder(
+      Instrument pair,
+      OrderSide side,
+      OrderType type,
+      TimeInForce timeInForce,
+      BigDecimal quantity,
+      boolean reduceOnly,
       BigDecimal price,
       String newClientOrderId,
       BigDecimal stopPrice,
+      boolean closePosition,
+      BigDecimal activationPrice,
+      BigDecimal callbackRate,
+      BinanceNewOrder.NewOrderResponseType newOrderRespType)
+      throws IOException, BinanceException {
+    return decorateApiCall(
+            () ->
+                binanceFutures.newOrder(
+                    BinanceAdapters.toSymbol(pair),
+                    side,
+                    type,
+                    timeInForce,
+                    quantity,
+                    reduceOnly,
+                    price,
+                    newClientOrderId,
+                    stopPrice,
+                    closePosition,
+                    activationPrice,
+                    callbackRate,
+                    newOrderRespType,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
+        .withRetry(retry("newFutureOrder", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
+        .withRateLimiter(rateLimiter(ORDERS_PER_SECOND_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(ORDERS_PER_DAY_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
+  }
+
+  public BinanceFutureNewOrder newInverseFutureOrder(
+      Instrument pair,
+      OrderSide side,
+      OrderType type,
+      TimeInForce timeInForce,
+      BigDecimal quantity,
+      boolean reduceOnly,
+      BigDecimal price,
+      String newClientOrderId,
+      BigDecimal stopPrice,
+      boolean closePosition,
+      BigDecimal activationPrice,
+      BigDecimal callbackRate,
+      BinanceNewOrder.NewOrderResponseType newOrderRespType)
+      throws IOException, BinanceException {
+    return decorateApiCall(
+            () ->
+                inverseBinanceFutures.newInverseOrder(
+                    BinanceAdapters.toSymbol(pair, true),
+                    side,
+                    type,
+                    timeInForce,
+                    quantity,
+                    reduceOnly,
+                    price,
+                    newClientOrderId,
+                    stopPrice,
+                    closePosition,
+                    activationPrice,
+                    callbackRate,
+                    newOrderRespType,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
+        .withRetry(retry("newFutureOrder", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
+        .withRateLimiter(rateLimiter(ORDERS_PER_SECOND_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(ORDERS_PER_DAY_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
+  }
+
+  public void testNewOrder(
+      Instrument pair,
+      OrderSide side,
+      OrderType type,
+      TimeInForce timeInForce,
+      BigDecimal quantity,
+      BigDecimal quoteOrderQty,
+      BigDecimal price,
+      String newClientOrderId,
+      BigDecimal stopPrice,
+      Long trailingDelta,
       BigDecimal icebergQty)
       throws IOException, BinanceException {
     decorateApiCall(
@@ -108,9 +302,11 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
                     type,
                     timeInForce,
                     quantity,
+                    quoteOrderQty,
                     price,
                     newClientOrderId,
                     stopPrice,
+                    trailingDelta,
                     icebergQty,
                     getRecvWindow(),
                     getTimestampFactory(),
@@ -121,52 +317,167 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public BinanceOrder orderStatus(CurrencyPair pair, Long orderId, String origClientOrderId)
+  public BinanceOrder orderStatusAllProducts(
+      Instrument pair, Long orderId, String origClientOrderId)
       throws IOException, BinanceException {
-    return decorateApiCall(
-            () ->
-                binance.orderStatus(
-                    BinanceAdapters.toSymbol(pair),
-                    orderId,
-                    origClientOrderId,
-                    getRecvWindow(),
-                    getTimestampFactory(),
-                    super.apiKey,
-                    super.signatureCreator))
-        .withRetry(retry("orderStatus"))
-        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
-        .call();
+    if (exchange.isPortfolioMarginEnabled()) {
+
+      return decorateApiCall(
+              () ->
+                  (pair instanceof FuturesContract)
+                      ? (BinanceAdapters.isInverse(pair)
+                          ? binanceFutures.futurePortfolioMarginInverseOrderStatus(
+                              BinanceAdapters.toInverseSymbol(pair),
+                              orderId,
+                              origClientOrderId,
+                              getRecvWindow(),
+                              getTimestampFactory(),
+                              super.apiKey,
+                              super.signatureCreator)
+                          : binanceFutures.futurePortfolioMarginOrderStatus(
+                              BinanceAdapters.toSymbol(pair),
+                              orderId,
+                              origClientOrderId,
+                              getRecvWindow(),
+                              getTimestampFactory(),
+                              super.apiKey,
+                              super.signatureCreator))
+                      : binance.orderStatus(
+                          BinanceAdapters.toSymbol(pair),
+                          orderId,
+                          origClientOrderId,
+                          getRecvWindow(),
+                          getTimestampFactory(),
+                          super.apiKey,
+                          super.signatureCreator))
+          .withRetry(retry("orderStatus"))
+          .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+          .call();
+    } else {
+      return decorateApiCall(
+              () ->
+                  (pair instanceof FuturesContract)
+                      ? (BinanceAdapters.isInverse(pair)
+                          ? inverseBinanceFutures.futureInverseOrderStatus(
+                              BinanceAdapters.toInverseSymbol(pair),
+                              orderId,
+                              origClientOrderId,
+                              getRecvWindow(),
+                              getTimestampFactory(),
+                              super.apiKey,
+                              super.signatureCreator)
+                          : binanceFutures.futureOrderStatus(
+                              BinanceAdapters.toSymbol(pair),
+                              orderId,
+                              origClientOrderId,
+                              getRecvWindow(),
+                              getTimestampFactory(),
+                              super.apiKey,
+                              super.signatureCreator))
+                      : binance.orderStatus(
+                          BinanceAdapters.toSymbol(pair),
+                          orderId,
+                          origClientOrderId,
+                          getRecvWindow(),
+                          getTimestampFactory(),
+                          super.apiKey,
+                          super.signatureCreator))
+          .withRetry(retry("orderStatus"))
+          .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+          .call();
+    }
   }
 
-  public BinanceCancelledOrder cancelOrder(
-      CurrencyPair pair, Long orderId, String origClientOrderId, String newClientOrderId)
+  public BinanceCancelledOrder cancelOrderAllProducts(
+      Instrument pair, Long orderId, String origClientOrderId, String newClientOrderId)
       throws IOException, BinanceException {
-    return decorateApiCall(
-            () ->
-                binance.cancelOrder(
-                    BinanceAdapters.toSymbol(pair),
-                    orderId,
-                    origClientOrderId,
-                    newClientOrderId,
-                    getRecvWindow(),
-                    getTimestampFactory(),
-                    super.apiKey,
-                    super.signatureCreator))
-        .withRetry(retry("cancelOrder"))
-        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
-        .call();
+    if (exchange.isPortfolioMarginEnabled()) {
+
+      return decorateApiCall(
+              () ->
+                  (pair instanceof FuturesContract)
+                      ? (BinanceAdapters.isInverse(pair)
+                          ? binanceFutures.cancelPortfolioMarginInverseFutureOrder(
+                              BinanceAdapters.toSymbol(pair, true),
+                              orderId,
+                              origClientOrderId,
+                              getRecvWindow(),
+                              getTimestampFactory(),
+                              super.apiKey,
+                              super.signatureCreator)
+                          : binanceFutures.cancelPortfolioMarginFutureOrder(
+                              BinanceAdapters.toSymbol(pair),
+                              orderId,
+                              origClientOrderId,
+                              getRecvWindow(),
+                              getTimestampFactory(),
+                              super.apiKey,
+                              super.signatureCreator))
+                      : binance.cancelOrder(
+                          BinanceAdapters.toSymbol(pair),
+                          orderId,
+                          origClientOrderId,
+                          newClientOrderId,
+                          getRecvWindow(),
+                          getTimestampFactory(),
+                          super.apiKey,
+                          super.signatureCreator))
+          .withRetry(retry("cancelOrder"))
+          .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+          .call();
+    } else {
+      return decorateApiCall(
+              () ->
+                  (pair instanceof FuturesContract)
+                      ? (BinanceAdapters.isInverse(pair)
+                          ? binanceFutures.cancelInverseFutureOrder(
+                              BinanceAdapters.toSymbol(pair, true),
+                              orderId,
+                              origClientOrderId,
+                              getRecvWindow(),
+                              getTimestampFactory(),
+                              super.apiKey,
+                              super.signatureCreator)
+                          : binanceFutures.cancelFutureOrder(
+                              BinanceAdapters.toSymbol(pair),
+                              orderId,
+                              origClientOrderId,
+                              getRecvWindow(),
+                              getTimestampFactory(),
+                              super.apiKey,
+                              super.signatureCreator))
+                      : binance.cancelOrder(
+                          BinanceAdapters.toSymbol(pair),
+                          orderId,
+                          origClientOrderId,
+                          newClientOrderId,
+                          getRecvWindow(),
+                          getTimestampFactory(),
+                          super.apiKey,
+                          super.signatureCreator))
+          .withRetry(retry("cancelOrder"))
+          .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+          .call();
+    }
   }
 
-  public List<BinanceCancelledOrder> cancelAllOpenOrders(CurrencyPair pair)
+  public List<BinanceCancelledOrder> cancelAllOpenOrdersAllProducts(Instrument pair)
       throws IOException, BinanceException {
     return decorateApiCall(
             () ->
-                binance.cancelAllOpenOrders(
-                    BinanceAdapters.toSymbol(pair),
-                    getRecvWindow(),
-                    getTimestampFactory(),
-                    super.apiKey,
-                    super.signatureCreator))
+                (pair instanceof FuturesContract)
+                    ? binanceFutures.cancelAllFutureOpenOrders(
+                        BinanceAdapters.toSymbol(pair),
+                        getRecvWindow(),
+                        getTimestampFactory(),
+                        super.apiKey,
+                        super.signatureCreator)
+                    : binance.cancelAllOpenOrders(
+                        BinanceAdapters.toSymbol(pair),
+                        getRecvWindow(),
+                        getTimestampFactory(),
+                        super.apiKey,
+                        super.signatureCreator))
         .withRetry(retry("cancelAllOpenOrders"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
         .call();
@@ -189,25 +500,48 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public List<BinanceTrade> myTrades(
-      CurrencyPair pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit)
+  public List<BinanceTrade> myTradesAllProducts(
+      Instrument pair, Long orderId, Long startTime, Long endTime, Long fromId, Integer limit)
       throws BinanceException, IOException {
     return decorateApiCall(
             () ->
-                binance.myTrades(
-                    BinanceAdapters.toSymbol(pair),
-                    orderId,
-                    startTime,
-                    endTime,
-                    fromId,
-                    limit,
-                    getRecvWindow(),
-                    getTimestampFactory(),
-                    apiKey,
-                    signatureCreator))
+                (pair instanceof FuturesContract)
+                    ? binanceFutures.myFutureTrades(
+                        BinanceAdapters.toSymbol(pair),
+                        orderId,
+                        startTime,
+                        endTime,
+                        fromId,
+                        limit,
+                        getRecvWindow(),
+                        getTimestampFactory(),
+                        apiKey,
+                        signatureCreator)
+                    : binance.myTrades(
+                        BinanceAdapters.toSymbol(pair),
+                        orderId,
+                        startTime,
+                        endTime,
+                        fromId,
+                        limit,
+                        getRecvWindow(),
+                        getTimestampFactory(),
+                        apiKey,
+                        signatureCreator))
         .withRetry(retry("myTrades"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), myTradesPermits(limit))
         .call();
+  }
+
+  public List<BinancePosition> openPositions() throws BinanceException, IOException {
+    return decorateApiCall(
+            () ->
+                binanceFutures.futuresAccount(
+                    getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
+        .withRetry(retry("futures-account"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
+        .call()
+        .getPositions();
   }
 
   /**
@@ -261,7 +595,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  protected int openOrdersPermits(CurrencyPair pair) {
+  protected int openOrdersPermits(Instrument pair) {
     return pair != null ? 1 : 40;
   }
 

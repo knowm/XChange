@@ -22,7 +22,7 @@ public class BinanceAdaptersTest {
             BinanceAdaptersTest.class.getResource(
                 "/org/knowm/xchange/binance/filled-market-order.json"),
             BinanceOrder.class);
-    Order order = BinanceAdapters.adaptOrder(binanceOrder);
+    Order order = BinanceAdapters.adaptOrder(binanceOrder, false);
     assertThat(order).isInstanceOf(MarketOrder.class);
     MarketOrder marketOrder = (MarketOrder) order;
     assertThat(marketOrder.getStatus()).isEqualByComparingTo(Order.OrderStatus.FILLED);
@@ -34,7 +34,7 @@ public class BinanceAdaptersTest {
         .contains(BinanceOrderFlags.withClientId("gzcLIkn86ag3FycOCEl6Vi"));
 
     MarketOrder copy = ObjectMapperHelper.viaJSON(marketOrder);
-    assertThat(copy).isEqualToComparingFieldByField(marketOrder);
+    assertThat(copy).usingRecursiveComparison().isEqualTo(marketOrder);
   }
 
   @Test

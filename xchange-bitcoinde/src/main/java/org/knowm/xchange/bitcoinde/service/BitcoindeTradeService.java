@@ -9,7 +9,9 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
-/** @author kaiserfr */
+/**
+ * @author kaiserfr
+ */
 public class BitcoindeTradeService extends BitcoindeTradeServiceRaw implements TradeService {
 
   public BitcoindeTradeService(Exchange exchange) {

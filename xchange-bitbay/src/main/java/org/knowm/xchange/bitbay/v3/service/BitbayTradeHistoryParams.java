@@ -7,7 +7,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamMultiCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamNextPageCursor;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class BitbayTradeHistoryParams
     implements TradeHistoryParamLimit,
         TradeHistoryParamNextPageCursor,

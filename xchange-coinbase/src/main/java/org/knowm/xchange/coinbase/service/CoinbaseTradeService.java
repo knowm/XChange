@@ -20,7 +20,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implements TradeService {
 
   /**

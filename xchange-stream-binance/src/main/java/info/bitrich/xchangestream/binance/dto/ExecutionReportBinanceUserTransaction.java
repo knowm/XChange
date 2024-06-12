@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.binance.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import lombok.Getter;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
@@ -12,6 +13,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 
+@Getter
 public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSocketTransaction {
 
   public enum ExecutionType {
@@ -97,100 +99,12 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     this.cumulativeQuoteAssetTransactedQuantity = cumulativeQuoteAssetTransactedQuantity;
   }
 
-  public String getClientOrderId() {
-    return clientOrderId;
-  }
-
-  public OrderSide getSide() {
-    return side;
-  }
-
-  public OrderType getOrderType() {
-    return orderType;
-  }
-
-  public TimeInForce getTimeInForce() {
-    return timeInForce;
-  }
-
-  public BigDecimal getOrderQuantity() {
-    return orderQuantity;
-  }
-
-  public BigDecimal getOrderPrice() {
-    return orderPrice;
-  }
-
-  public BigDecimal getStopPrice() {
-    return stopPrice;
-  }
-
-  public BigDecimal getIcebergQuantity() {
-    return icebergQuantity;
-  }
-
-  public ExecutionType getExecutionType() {
-    return executionType;
-  }
-
-  public OrderStatus getCurrentOrderStatus() {
-    return currentOrderStatus;
-  }
-
-  public String getOrderRejectReason() {
-    return orderRejectReason;
-  }
-
-  public long getOrderId() {
-    return orderId;
-  }
-
-  public BigDecimal getLastExecutedQuantity() {
-    return lastExecutedQuantity;
-  }
-
-  public BigDecimal getCumulativeFilledQuantity() {
-    return cumulativeFilledQuantity;
-  }
-
-  public BigDecimal getLastExecutedPrice() {
-    return lastExecutedPrice;
-  }
-
-  public BigDecimal getCommissionAmount() {
-    return commissionAmount;
-  }
-
-  public String getCommissionAsset() {
-    return commissionAsset;
-  }
-
-  public long getTimestamp() {
-    return timestamp;
-  }
-
-  public long getTradeId() {
-    return tradeId;
-  }
-
-  public boolean isWorking() {
-    return working;
-  }
-
-  public boolean isBuyerMarketMaker() {
-    return buyerMarketMaker;
-  }
-
-  public BigDecimal getCumulativeQuoteAssetTransactedQuantity() {
-    return cumulativeQuoteAssetTransactedQuantity;
-  }
-
-  public UserTrade toUserTrade() {
+  public UserTrade toUserTrade(boolean isFuture) {
     if (executionType != ExecutionType.TRADE) throw new IllegalStateException("Not a trade");
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(BinanceAdapters.convert(side))
         .originalAmount(lastExecutedQuantity)
-        .currencyPair(currencyPair)
+        .instrument(BinanceAdapters.adaptSymbol(symbol, isFuture))
         .price(lastExecutedPrice)
         .timestamp(getEventTime())
         .id(Long.toString(tradeId))
@@ -200,10 +114,10 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
         .build();
   }
 
-  public Order toOrder() {
+  public Order toOrder(boolean isFuture) {
     return BinanceAdapters.adaptOrder(
         new BinanceOrder(
-            BinanceAdapters.toSymbol(getCurrencyPair()),
+            getSymbol(),
             orderId,
             clientOrderId,
             orderPrice,
@@ -216,7 +130,8 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
             side,
             stopPrice,
             BigDecimal.ZERO,
-            timestamp));
+            timestamp),
+        isFuture);
   }
 
   @Override
@@ -224,7 +139,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     return "ExecutionReportBinanceUserTransaction [eventTime="
         + getEventTime()
         + ", currencyPair="
-        + getCurrencyPair()
+        + getSymbol()
         + ", clientOrderId="
         + clientOrderId
         + ", side="

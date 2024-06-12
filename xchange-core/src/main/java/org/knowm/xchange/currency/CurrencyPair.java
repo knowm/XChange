@@ -364,7 +364,7 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair ETC_7D =
       new CurrencyPair(Currency.ETC, Currency.getInstance("7D"));
 
-  // Bankera Exchange pairs
+  // Bankera pairs
   public static final CurrencyPair BNK_BTC = new CurrencyPair(Currency.BNK, Currency.BTC);
   public static final CurrencyPair BNK_ETH = new CurrencyPair(Currency.BNK, Currency.ETH);
   public static final CurrencyPair BNK_USDT = new CurrencyPair(Currency.BNK, Currency.USDT);
@@ -451,6 +451,16 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
 
     this.base = Currency.getInstance(base);
     this.counter = Currency.getInstance(counter);
+  }
+
+  @Override
+  public Currency getBase() {
+    return base;
+  }
+
+  @Override
+  public Currency getCounter() {
+    return counter;
   }
 
   @JsonValue

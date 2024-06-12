@@ -9,7 +9,7 @@ import info.bitrich.xchangestream.lgo.domain.LgoOrderEvent;
 import info.bitrich.xchangestream.lgo.dto.LgoAckUpdate;
 import info.bitrich.xchangestream.lgo.dto.LgoSocketPlaceOrder;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
@@ -131,7 +131,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
     afrSubscription =
         streamingService
             .subscribeChannel("afr")
-            .map(s -> mapper.readValue(s.toString(), LgoAckUpdate.class))
+            .map(s -> mapper.treeToValue(s, LgoAckUpdate.class))
             .map(LgoAckUpdate::getData)
             .flatMap(Observable::<LgoOrderEvent>fromIterable)
             .share();

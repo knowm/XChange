@@ -3,7 +3,9 @@ package org.knowm.xchange.bitcoinde.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author matthewdowney */
+/**
+ * @author matthewdowney
+ */
 public class BitcoindeTrade {
 
   private final long date;

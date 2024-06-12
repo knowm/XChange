@@ -32,6 +32,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
 
   /** The stop price */
   protected final BigDecimal stopPrice;
+
   /**
    * The limit price this should be null if the stop order should be treated as a market order once
    * the stop price is hit
@@ -40,6 +41,9 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
 
   /** Some exchanges requires to define the goal of stop order */
   protected Intention intention = null;
+
+  /** TrailValue is being used when the stop order is a trailing one */
+  protected BigDecimal trailValue = null;
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -245,7 +249,8 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       BigDecimal fee,
       OrderStatus status,
       String userReference,
-      Intention intention) {
+      Intention intention,
+      BigDecimal trailValue) {
 
     super(
         type,
@@ -261,37 +266,48 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     this.stopPrice = stopPrice;
     this.limitPrice = limitPrice;
     this.intention = intention;
+    this.trailValue = trailValue;
   }
 
-  /** @return The stop price */
+  /**
+   * @return The stop price
+   */
   public BigDecimal getStopPrice() {
 
     return stopPrice;
   }
 
-  /** @return The limit price */
+  /**
+   * @return The limit price
+   */
   public BigDecimal getLimitPrice() {
 
     return limitPrice;
   }
 
-  /** @return The order intention */
+  /**
+   * @return The order intention
+   */
   public Intention getIntention() {
     return intention;
   }
 
+  public BigDecimal getTrailValue() {
+    return trailValue;
+  }
+
   @Override
   public String toString() {
-
-    return "StopOrder [stopPrice="
+    return "StopOrder{"
+        + "stopPrice="
         + stopPrice
         + ", limitPrice="
         + limitPrice
         + ", intention="
         + intention
-        + ", "
-        + super.toString()
-        + "]";
+        + ", trailValue="
+        + trailValue
+        + '}';
   }
 
   @Override
@@ -329,6 +345,9 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     if (!Objects.equals(intention, stopOrder.intention)) {
       return false;
     }
+    if (!Objects.equals(trailValue, stopOrder.trailValue)) {
+      return false;
+    }
     return true;
   }
 
@@ -338,6 +357,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     result = 31 * result + stopPrice.hashCode();
     result = 31 * result + (limitPrice != null ? limitPrice.hashCode() : 0);
     result = 31 * result + (intention != null ? intention.hashCode() : 0);
+    result = 31 * result + (trailValue != null ? trailValue.hashCode() : 0);
     return result;
   }
 
@@ -349,6 +369,8 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     protected BigDecimal limitPrice;
 
     protected Intention intention;
+
+    protected BigDecimal trailValue;
 
     @JsonCreator
     public Builder(
@@ -376,6 +398,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
         builder.stopPrice(stopOrder.getStopPrice());
         builder.limitPrice(stopOrder.getLimitPrice());
         builder.intention(stopOrder.getIntention());
+        builder.trailValue(stopOrder.getTrailValue());
       }
       return builder;
     }
@@ -483,6 +506,12 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       return this;
     }
 
+    public Builder trailValue(BigDecimal trailValue) {
+
+      this.trailValue = trailValue;
+      return this;
+    }
+
     @Override
     public StopOrder build() {
 
@@ -502,7 +531,8 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
               fee,
               status,
               userReference,
-              intention);
+              intention,
+              trailValue);
 
       order.setOrderFlags(flags);
       order.setLeverage(leverage);

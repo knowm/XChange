@@ -5,7 +5,9 @@ import org.knowm.xchange.bittrex.dto.BittrexException;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class BittrexErrorAdapter {
 
   public static ExchangeException adapt(BittrexException e) {

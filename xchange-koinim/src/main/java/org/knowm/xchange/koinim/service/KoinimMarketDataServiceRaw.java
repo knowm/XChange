@@ -6,7 +6,9 @@ import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.koinim.Koinim;
 import org.knowm.xchange.koinim.dto.marketdata.KoinimTicker;
 
-/** @author ahmet.oz */
+/**
+ * @author ahmet.oz
+ */
 public class KoinimMarketDataServiceRaw extends KoinimBaseService {
 
   private final Koinim koinim;

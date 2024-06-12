@@ -1,16 +1,14 @@
 package org.knowm.xchange.coinbasepro.service;
 
+import jakarta.ws.rs.HeaderParam;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import javax.crypto.Mac;
-import javax.ws.rs.HeaderParam;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
 public class CoinbaseProDigest extends BaseParamsDigest {
-
-  private String signature = "";
 
   private CoinbaseProDigest(byte[] secretKey) {
 
@@ -41,11 +39,6 @@ public class CoinbaseProDigest extends BaseParamsDigest {
       throw new ExchangeException("Digest encoding exception", e);
     }
 
-    signature = Base64.getEncoder().encodeToString(mac256.doFinal());
-    return signature;
-  }
-
-  public String getSignature() {
-    return signature;
+    return Base64.getEncoder().encodeToString(mac256.doFinal());
   }
 }

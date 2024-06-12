@@ -1,48 +1,47 @@
 package org.knowm.xchange.binance;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
+import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
+
 import java.util.Map;
+import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.BaseExchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.binance.dto.ExchangeType;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
-import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
-import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
+import org.knowm.xchange.binance.service.BinanceMarketDataServiceRaw;
 import org.knowm.xchange.binance.service.BinanceTradeService;
-import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class BinanceExchange extends BaseExchange {
-  public static final String SPECIFIC_PARAM_USE_SANDBOX = "Use_Sandbox";
+public class BinanceExchange extends BaseExchange implements Exchange {
+  public static String EXCHANGE_TYPE = "Exchange_Type";
+  private static final String SPOT_URL = "https://api.binance.com";
+  public static final String FUTURES_URL = "https://fapi.binance.com";
+  public static final String INVERSE_FUTURES_URL = "https://dapi.binance.com";
+  public static final String PORTFOLIO_MARGIN_URL = "https://papi.binance.com";
+
+  public static final String SANDBOX_SPOT_URL = "https://testnet.binance.vision";
+  public static final String SANDBOX_FUTURES_URL = "https://testnet.binancefuture.com";
+  public static final String SANDBOX_INVERSE_FUTURES_URL = "https://testnet.binancefuture.com";
 
   protected static ResilienceRegistries RESILIENCE_REGISTRIES;
-
-  protected BinanceExchangeInfo exchangeInfo;
-  protected BinanceAuthenticated binance;
   protected SynchronizedValueFactory<Long> timestampFactory;
 
   @Override
   protected void initServices() {
-    this.binance =
-        ExchangeRestProxyBuilder.forInterface(
-                BinanceAuthenticated.class, getExchangeSpecification())
-            .build();
     this.timestampFactory =
         new BinanceTimestampFactory(
-            binance, getExchangeSpecification().getResilience(), getResilienceRegistries());
-    this.marketDataService = new BinanceMarketDataService(this, binance, getResilienceRegistries());
-    this.tradeService = new BinanceTradeService(this, binance, getResilienceRegistries());
-    this.accountService = new BinanceAccountService(this, binance, getResilienceRegistries());
+            getExchangeSpecification().getResilience(), getResilienceRegistries());
+    this.marketDataService = new BinanceMarketDataService(this, getResilienceRegistries());
+    this.tradeService = new BinanceTradeService(this, getResilienceRegistries());
+    this.accountService = new BinanceAccountService(this, getResilienceRegistries());
   }
 
   public SynchronizedValueFactory<Long> getTimestampFactory() {
@@ -69,13 +68,14 @@ public class BinanceExchange extends BaseExchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-
     ExchangeSpecification spec = new ExchangeSpecification(this.getClass());
-    spec.setSslUri("https://api.binance.com");
+    spec.setSslUri(SPOT_URL);
     spec.setHost("www.binance.com");
     spec.setPort(80);
     spec.setExchangeName("Binance");
     spec.setExchangeDescription("Binance Exchange.");
+    spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, SPOT);
+    spec.setExchangeSpecificParametersItem(USE_SANDBOX, false);
     AuthUtils.setApiAndSecretKey(spec, "binance");
     return spec;
   }
@@ -86,8 +86,14 @@ public class BinanceExchange extends BaseExchange {
     super.applySpecification(exchangeSpecification);
   }
 
-  public BinanceExchangeInfo getExchangeInfo() {
-    return exchangeInfo;
+  public boolean isFuturesEnabled() {
+    return ExchangeType.FUTURES.equals(exchangeSpecification.
+        getExchangeSpecificParametersItem(EXCHANGE_TYPE));
+  }
+
+  public boolean isPortfolioMarginEnabled() {
+    return ExchangeType.PORTFOLIO_MARGIN.equals(exchangeSpecification
+        .getExchangeSpecificParametersItem(EXCHANGE_TYPE));
   }
 
   public boolean usingSandbox() {
@@ -96,125 +102,76 @@ public class BinanceExchange extends BaseExchange {
 
   @Override
   public void remoteInit() {
-
     try {
-      BinanceMarketDataService marketDataService =
-          (BinanceMarketDataService) this.marketDataService;
-      exchangeInfo = marketDataService.getExchangeInfo();
-
+      BinanceMarketDataServiceRaw marketDataServiceRaw = (BinanceMarketDataServiceRaw) marketDataService;
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
       Map<String, AssetDetail> assetDetailMap = null;
       if (!usingSandbox() && isAuthenticated()) {
         assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
       }
 
-      postInit(assetDetailMap);
+      BinanceExchangeInfo exchangeInfo;
+      // get exchange type or SPOT as default
+      ExchangeType exchangeType = (ExchangeType) ObjectUtils.defaultIfNull(exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE), SPOT);
+
+      switch (exchangeType) {
+        case FUTURES:
+          exchangeInfo = marketDataServiceRaw.getFutureExchangeInfo();
+          BinanceAdapters.adaptFutureExchangeMetaData(exchangeMetaData, exchangeInfo);
+          break;
+        default:
+          exchangeInfo = marketDataServiceRaw.getExchangeInfo();
+          exchangeMetaData = BinanceAdapters.adaptExchangeMetaData(exchangeInfo, assetDetailMap);
+      }
+
+      // init symbol mappings
+      exchangeInfo.getSymbols().stream()
+          .filter(symbol -> ObjectUtils.allNotNull(symbol.getBaseAsset(), symbol.getQuoteAsset(), symbol.getSymbol()))
+          .forEach(symbol -> BinanceAdapters.putSymbolMapping(symbol.getSymbol(), new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset())));
 
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
     }
   }
 
-  protected void postInit(Map<String, AssetDetail> assetDetailMap) {
-    // populate currency pair keys only, exchange does not provide any other metadata for download
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
-    Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
-
-    // Clear all hardcoded currencies when loading dynamically from exchange.
-    if (assetDetailMap != null) {
-      currencies.clear();
-    }
-
-    Symbol[] symbols = exchangeInfo.getSymbols();
-
-    for (Symbol symbol : symbols) {
-      if (symbol.getStatus().equals("TRADING")) { // Symbols which are trading
-        int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
-        int counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
-        int pairPrecision = 8;
-        int amountPrecision = 8;
-
-        BigDecimal minQty = null;
-        BigDecimal maxQty = null;
-        BigDecimal stepSize = null;
-
-        BigDecimal counterMinQty = null;
-        BigDecimal counterMaxQty = null;
-
-        Filter[] filters = symbol.getFilters();
-
-        CurrencyPair currentCurrencyPair =
-            new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset());
-
-        for (Filter filter : filters) {
-          if (filter.getFilterType().equals("PRICE_FILTER")) {
-            pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getTickSize()));
-            counterMaxQty = new BigDecimal(filter.getMaxPrice()).stripTrailingZeros();
-          } else if (filter.getFilterType().equals("LOT_SIZE")) {
-            amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getStepSize()));
-            minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
-            maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
-            stepSize = new BigDecimal(filter.getStepSize()).stripTrailingZeros();
-          } else if (filter.getFilterType().equals("MIN_NOTIONAL")) {
-            counterMinQty = new BigDecimal(filter.getMinNotional()).stripTrailingZeros();
-          }
-        }
-
-        boolean marketOrderAllowed = Arrays.asList(symbol.getOrderTypes()).contains("MARKET");
-        currencyPairs.put(
-            currentCurrencyPair,
-            new CurrencyPairMetaData(
-                new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
-                minQty, // Min amount
-                maxQty, // Max amount
-                counterMinQty,
-                counterMaxQty,
-                amountPrecision, // base precision
-                pairPrecision, // counter precision
-                null,
-                null, /* TODO get fee tiers, although this is not necessary now
-                      because their API returns current fee directly */
-                stepSize,
-                null,
-                marketOrderAllowed));
-
-        Currency baseCurrency = currentCurrencyPair.base;
-        CurrencyMetaData baseCurrencyMetaData =
-            BinanceAdapters.adaptCurrencyMetaData(
-                currencies, baseCurrency, assetDetailMap, basePrecision);
-        currencies.put(baseCurrency, baseCurrencyMetaData);
-
-        Currency counterCurrency = currentCurrencyPair.counter;
-        CurrencyMetaData counterCurrencyMetaData =
-            BinanceAdapters.adaptCurrencyMetaData(
-                currencies, counterCurrency, assetDetailMap, counterPrecision);
-        currencies.put(counterCurrency, counterCurrencyMetaData);
-      }
-    }
-  }
-
-  private boolean isAuthenticated() {
+  protected boolean isAuthenticated() {
     return exchangeSpecification != null
         && exchangeSpecification.getApiKey() != null
         && exchangeSpecification.getSecretKey() != null;
   }
 
-  private int numberOfDecimals(String value) {
-    return new BigDecimal(value).stripTrailingZeros().scale();
-  }
-
-  /** Adjust host parameters depending on exchange specific parameters */
+  /**
+   * Adjust host parameters depending on exchange specific parameters
+   */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
-    if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (enabledSandbox(exchangeSpecification)) {
-        exchangeSpecification.setSslUri("https://testnet.binance.vision");
-        exchangeSpecification.setHost("testnet.binance.vision");
+    if(exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE) != null) {
+      switch ((ExchangeType)exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE)) {
+        case SPOT: {
+          if (enabledSandbox(exchangeSpecification))
+            exchangeSpecification.setSslUri(SANDBOX_SPOT_URL);
+          break;
+        }
+        case FUTURES: {
+          if (!enabledSandbox(exchangeSpecification))
+            exchangeSpecification.setSslUri(FUTURES_URL);
+          else
+            exchangeSpecification.setSslUri(SANDBOX_FUTURES_URL);
+          break;
+        }
+        case INVERSE: {
+          if (!enabledSandbox(exchangeSpecification))
+            exchangeSpecification.setSslUri(INVERSE_FUTURES_URL);
+          else
+            exchangeSpecification.setSslUri(SANDBOX_INVERSE_FUTURES_URL);
+          break;
+        }
       }
     }
   }
 
+
   private static boolean enabledSandbox(ExchangeSpecification exchangeSpecification) {
-    return Boolean.TRUE.equals(
-        exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_USE_SANDBOX));
+    return Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX));
   }
+
 }

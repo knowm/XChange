@@ -2,20 +2,16 @@ package org.knowm.xchange.bitz.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitz.BitZ;
 import org.knowm.xchange.bitz.BitZAuthenticated;
 import org.knowm.xchange.bitz.dto.account.result.BitZUserAssetsResult;
-import org.knowm.xchange.bitz.dto.marketdata.BitZPublicOrder;
 import org.knowm.xchange.bitz.dto.trade.result.BitZEntrustSheetInfoResult;
 import org.knowm.xchange.bitz.dto.trade.result.BitZTradeAddResult;
 import org.knowm.xchange.bitz.dto.trade.result.BitZTradeCancelListResult;
 import org.knowm.xchange.bitz.dto.trade.result.BitZTradeCancelResult;
 import org.knowm.xchange.bitz.dto.trade.result.BitZUserHistoryResult;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitZTradeServiceRaw extends BitZBaseService {
@@ -51,21 +47,10 @@ public class BitZTradeServiceRaw extends BitZBaseService {
     this.nonce = nonceFactory.toString().substring(nonceFactory.toString().length() - 6);
   }
 
-  // TODO: Implement Method
-  public boolean cancelBitZTrade(int orderId) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  // TODO: Implement Method
-  public BitZTradeAddResult placeBitZTrade(
-      CurrencyPair currencyPair, BitZPublicOrder limitOrder, Date time, boolean sell)
-      throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   private String getTimeStamp() {
     return String.valueOf(System.currentTimeMillis() / 1000);
   }
+
   /**
    * 提交委托单(下订单)
    *

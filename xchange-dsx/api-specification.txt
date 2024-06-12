@@ -1,4 +1,0 @@
-DSX Exchange API specification
-======================================
-
-https://api.dsxglobal.com/

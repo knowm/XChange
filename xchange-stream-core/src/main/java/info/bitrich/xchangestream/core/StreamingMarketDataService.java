@@ -1,10 +1,9 @@
 package info.bitrich.xchangestream.core;
 
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
+import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -31,6 +30,7 @@ public interface StreamingMarketDataService {
     }
     throw new NotYetImplementedForExchangeException("getOrderBook");
   }
+
   /**
    * Get a ticker representing the current exchange rate. Emits {@link
    * info.bitrich.xchangestream.service.exception.NotConnectedException} When not connected to the
@@ -73,5 +73,36 @@ public interface StreamingMarketDataService {
       return getTrades((CurrencyPair) instrument, args);
     }
     throw new NotYetImplementedForExchangeException("getTrades");
+  }
+
+  /**
+   * Get funding rate of specific instrument.
+   *
+   * @param instrument Instrument to get the funding rate for
+   * @return {@link Observable} that emits {@link FundingRate} when exchange sends the update.
+   */
+  default Observable<FundingRate> getFundingRate(Instrument instrument, Object... args) {
+    throw new NotYetImplementedForExchangeException("getFundingRate");
+  }
+
+  /**
+   * Get funding rates for all instruments of the platform.
+   *
+   * @return {@link Observable} that emits {@link FundingRates} when exchange sends the update.
+   */
+  default Observable<FundingRates> getFundingRates() {
+    throw new NotYetImplementedForExchangeException("getFundingRates");
+  }
+
+  /**
+   * Get snapshots of orderBook update separately.
+   * Work only with {@link #getOrderBook(Instrument, Object...)} subscription.
+   *
+   * @return {@link Observable} that emits {@link OrderBookUpdate} when exchange sends the orderBook
+   * snapshot.
+   */
+  default Observable<List<OrderBookUpdate>> getOrderBookUpdates(Instrument instrument,
+      Object... args) {
+    throw new NotYetImplementedForExchangeException("getOrderBookUpdates");
   }
 }

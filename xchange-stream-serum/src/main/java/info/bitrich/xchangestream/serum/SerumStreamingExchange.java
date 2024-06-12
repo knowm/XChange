@@ -6,8 +6,8 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 
 public class SerumStreamingExchange extends SerumExchange implements StreamingExchange {
@@ -22,6 +22,7 @@ public class SerumStreamingExchange extends SerumExchange implements StreamingEx
                 String.valueOf(getExchangeSpecification().getExchangeSpecificParametersItem("Env")))
             .wsUrl();
     this.streamingService = new SerumStreamingService(url);
+    applyStreamingSpecification(getExchangeSpecification(), this.streamingService);
     return this.streamingService.connect();
   }
 

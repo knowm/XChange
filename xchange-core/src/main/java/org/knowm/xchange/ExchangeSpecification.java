@@ -34,6 +34,7 @@ public class ExchangeSpecification {
   private ResilienceSpecification resilience = new ResilienceSpecification();
   private String metaDataJsonFileOverride = null;
   private boolean shouldLoadRemoteMetaData = true; // default value
+
   /** arbitrary exchange params that can be set for unique cases */
   private Map<String, Object> exchangeSpecificParameters = new HashMap<>();
 
@@ -58,7 +59,9 @@ public class ExchangeSpecification {
     this.exchangeClass = exchangeClass;
   }
 
-  /** @return The exchange class for loading at runtime */
+  /**
+   * @return The exchange class for loading at runtime
+   */
   public Class<? extends Exchange> getExchangeClass() {
     return exchangeClass;
   }

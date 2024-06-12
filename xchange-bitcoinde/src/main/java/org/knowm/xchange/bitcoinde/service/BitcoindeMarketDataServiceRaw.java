@@ -9,7 +9,9 @@ import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTradesWrapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author matthewdowney */
+/**
+ * @author matthewdowney
+ */
 public class BitcoindeMarketDataServiceRaw extends BitcoindeBaseService {
 
   private final SynchronizedValueFactory<Long> nonceFactory;

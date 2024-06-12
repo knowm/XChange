@@ -13,12 +13,10 @@ import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -26,6 +24,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 /** Author: brox Since: 2/6/14 */
 public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeService {
@@ -56,20 +55,6 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
     }
 
     return CexIOAdapters.adaptOpenOrders(cexIOOrderList);
-  }
-
-  @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    /*
-    Only in market order!
-    Presently, the exchange is designed in such way that, depending on the BID/ASK the currency changes
-      (accordingly, you must specify the amount in another currency)
-    Example: CurrencyPair.BCH_USD, Order.OrderType.ASK, Amount = 0.02 (BCH)
-    Example: CurrencyPair.BCH_USD, Order.OrderType.BID, Amount = 20 (USD)
-    Сurrently cannot be implemented!
-    */
-
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -133,11 +118,10 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-
-    List<Order> orders = new ArrayList<>();
-    for (String orderId : orderIds) {
-      CexIOOpenOrder cexIOOrder = getOrderDetail(orderId);
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    List<Order> orders = new ArrayList<>(orderQueryParams.length);
+    for (OrderQueryParams params : orderQueryParams) {
+      CexIOOpenOrder cexIOOrder = getOrderDetail(params.getOrderId());
       orders.add(CexIOAdapters.adaptOrder(cexIOOrder));
     }
     return orders;

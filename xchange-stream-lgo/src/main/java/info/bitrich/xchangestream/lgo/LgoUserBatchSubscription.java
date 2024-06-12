@@ -9,7 +9,7 @@ import info.bitrich.xchangestream.lgo.dto.LgoUserMessage;
 import info.bitrich.xchangestream.lgo.dto.LgoUserSnapshot;
 import info.bitrich.xchangestream.lgo.dto.LgoUserUpdate;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -47,7 +47,7 @@ class LgoUserBatchSubscription {
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return streamingService
         .subscribeChannel(LgoAdapter.channelName("user", currencyPair))
-        .map(s -> mapper.readValue(s.toString(), LgoUserMessage.class))
+        .map(s -> mapper.treeToValue(s, LgoUserMessage.class))
         .scan(
             new LgoGroupedUserUpdate(),
             (acc, s) -> {

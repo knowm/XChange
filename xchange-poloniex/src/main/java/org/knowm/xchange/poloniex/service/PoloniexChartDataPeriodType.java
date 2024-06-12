@@ -8,13 +8,33 @@ public enum PoloniexChartDataPeriodType {
   PERIOD_14400(14400),
   PERIOD_86400(86400);
 
-  private final int period;
+  private final long periodInSecs;
 
-  PoloniexChartDataPeriodType(int period) {
-    this.period = period;
+  PoloniexChartDataPeriodType(int periodInSecs) {
+    this.periodInSecs = periodInSecs;
   }
 
-  public int getPeriod() {
-    return period;
+  static PoloniexChartDataPeriodType getPeriodTypeFromSecs(long periodInSecs) {
+    PoloniexChartDataPeriodType result = null;
+    for (PoloniexChartDataPeriodType period : PoloniexChartDataPeriodType.values()) {
+      if (period.periodInSecs == periodInSecs) {
+        result = period;
+        break;
+      }
+    }
+    return result;
+  }
+
+  public static long[] getSupportedPeriodsInSecs() {
+    long[] result = new long[PoloniexChartDataPeriodType.values().length];
+    int index = 0;
+    for (PoloniexChartDataPeriodType period : PoloniexChartDataPeriodType.values()) {
+      result[index++] = period.getPeriodInSecs();
+    }
+    return result;
+  }
+
+  public long getPeriodInSecs() {
+    return periodInSecs;
   }
 }

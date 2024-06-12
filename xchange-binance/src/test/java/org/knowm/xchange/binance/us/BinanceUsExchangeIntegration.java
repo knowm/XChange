@@ -6,9 +6,9 @@ import java.io.IOException;
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.BinanceUsExchange;
 import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
 import org.knowm.xchange.binance.service.BinanceUsAccountService;
@@ -47,10 +47,8 @@ public class BinanceUsExchangeIntegration {
     exchange = ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BinanceUsExchange.class);
     ExchangeSpecification spec = exchange.getDefaultExchangeSpecification();
     boolean useSandbox =
-        Boolean.parseBoolean(
-            System.getProperty(
-                BinanceExchange.SPECIFIC_PARAM_USE_SANDBOX, Boolean.FALSE.toString()));
-    spec.setExchangeSpecificParametersItem(BinanceExchange.SPECIFIC_PARAM_USE_SANDBOX, useSandbox);
+        Boolean.parseBoolean(System.getProperty(Exchange.USE_SANDBOX, Boolean.FALSE.toString()));
+    spec.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, useSandbox);
     exchange.applySpecification(spec);
   }
 

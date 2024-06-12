@@ -215,7 +215,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
                       }
 
                       UserTrade ut =
-                          new UserTrade.Builder()
+                          UserTrade.builder()
                               .currencyPair(p)
                               .id(t.getLedgerId())
                               .orderId(o.getOrderId())
@@ -295,7 +295,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
                       }
 
                       UserTrade ut =
-                          new UserTrade.Builder()
+                          UserTrade.builder()
                               .currencyPair(p)
                               .id(t.getLedgerId())
                               .orderId(o.getOrderId())

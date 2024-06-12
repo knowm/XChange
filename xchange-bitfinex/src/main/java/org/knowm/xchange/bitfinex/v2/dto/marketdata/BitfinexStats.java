@@ -7,7 +7,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.Value;
 
-/** @see https://docs.bitfinex.com/reference#rest-public-stats1 */
+/**
+ * @see https://docs.bitfinex.com/reference#rest-public-stats1
+ */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 @Value
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)

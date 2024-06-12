@@ -21,7 +21,9 @@ import org.knowm.xchange.kuna.dto.KunaTrade;
 import org.knowm.xchange.kuna.dto.enums.KunaOrderType;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author Dat Bui */
+/**
+ * @author Dat Bui
+ */
 public class KunaMarketDataService extends KunaMarketDataServiceRaw implements MarketDataService {
 
   /**

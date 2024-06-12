@@ -7,7 +7,9 @@ import java.util.Date;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 
-/** @author Nikita Belenkiy on 05/06/2018. */
+/**
+ * @author Nikita Belenkiy on 05/06/2018.
+ */
 public class BitmexExecution {
 
   protected String execID;

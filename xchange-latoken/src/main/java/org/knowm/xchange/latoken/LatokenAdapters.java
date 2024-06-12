@@ -16,7 +16,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -47,14 +47,18 @@ public class LatokenAdapters {
     return new CurrencyPair(base, counter);
   }
 
-  public static CurrencyPairMetaData adaptPairMetaData(LatokenPair latokenPair) {
+  public static InstrumentMetaData adaptPairMetaData(LatokenPair latokenPair) {
     BigDecimal tradingFee = latokenPair.getTakerFee();
     BigDecimal minAmount =
         latokenPair
             .getMinOrderAmount()
             .setScale(latokenPair.getAmountPrecision(), RoundingMode.HALF_DOWN);
     int priceScale = latokenPair.getPricePrecision();
-    return new CurrencyPairMetaData(tradingFee, minAmount, null, priceScale, null);
+    return new InstrumentMetaData.Builder()
+        .tradingFee(tradingFee)
+        .minimumAmount(minAmount)
+        .priceScale(priceScale)
+        .build();
   }
 
   public static CurrencyPair adaptCurrencyPair(Exchange exchange, String latokenSymbol) {
@@ -200,7 +204,7 @@ public class LatokenAdapters {
   }
 
   public static UserTrade adaptUserTrade(LatokenUserTrade latokenUserTrade, CurrencyPair pair) {
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(adaptOrderType(latokenUserTrade.getSide()))
         .originalAmount(latokenUserTrade.getAmount())
         .currencyPair(pair)

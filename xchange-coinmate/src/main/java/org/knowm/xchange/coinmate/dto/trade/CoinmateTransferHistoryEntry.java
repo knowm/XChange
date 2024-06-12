@@ -12,17 +12,23 @@ public class CoinmateTransferHistoryEntry {
   private final BigDecimal amount;
   private final String amountCurrency;
   private final String walletType;
+  private final String destination;
+  private final String destinationTag;
+  private final String txid;
 
   public CoinmateTransferHistoryEntry(
-      @JsonProperty("id") long id,
+      @JsonProperty("transactionId") long id,
       @JsonProperty("fee") BigDecimal fee,
       @JsonProperty("transferType") String transferType,
       @JsonProperty("timestamp") long timestamp,
       @JsonProperty("transferStatus") String transferStatus,
       @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("amountCurrency") String amountCurrency,
-      @JsonProperty("walletType") String walletType) {
-
+      @JsonProperty("walletType") String walletType,
+      @JsonProperty("destination") String destination,
+      @JsonProperty("destinationTag") String destinationTag,
+      @JsonProperty("txid") String txid
+  ) {
     this.fee = fee;
     this.transferType = transferType;
     this.timestamp = timestamp;
@@ -31,5 +37,50 @@ public class CoinmateTransferHistoryEntry {
     this.amount = amount;
     this.amountCurrency = amountCurrency;
     this.walletType = walletType;
+    this.destination = destination;
+    this.destinationTag = destinationTag;
+    this.txid = txid;
   }
+
+  public long getId() {
+    return id;
+  }
+
+  public BigDecimal getFee() {
+    return fee;
+  }
+
+  public String getTransferType() {
+    return transferType;
+  }
+
+  public long getTimestamp() {
+    return timestamp;
+  }
+
+  public String getTransferStatus() {
+    return transferStatus;
+  }
+
+  public BigDecimal getAmount() {
+    return amount;
+  }
+
+  public String getAmountCurrency() {
+    return amountCurrency;
+  }
+
+  public String getWalletType() {
+    return walletType;
+  }
+
+  public String getDestination() {
+    return destination;
+  }
+
+  public String getDestinationTag() {
+    return destinationTag;
+  }
+
+  public String getTxid() { return txid; }
 }

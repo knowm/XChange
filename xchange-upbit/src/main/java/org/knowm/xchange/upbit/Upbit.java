@@ -1,15 +1,13 @@
 package org.knowm.xchange.upbit;
 
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.QueryParam;
 import java.io.IOException;
 import java.util.List;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
 import org.knowm.xchange.upbit.dto.UpbitException;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitMarket;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBooks;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTickers;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTrades;
+import org.knowm.xchange.upbit.dto.marketdata.*;
 
 @Path("v1")
 public interface Upbit {
@@ -30,5 +28,15 @@ public interface Upbit {
   @GET
   @Path("trades/ticks")
   UpbitTrades getTrades(@QueryParam("market") String market, @QueryParam("count") int count)
+      throws IOException, UpbitException;
+
+  @GET
+  @Path("candles/{timeUnit}/{timeUnitCount}")
+  List<UpbitCandleStickData> getCandleStick(
+      @PathParam("timeUnit") String timeUnit,
+      @PathParam("timeUnitCount") long timeUnitCount,
+      @QueryParam("market") String market,
+      @QueryParam("to") String to,
+      @QueryParam("count") Integer count)
       throws IOException, UpbitException;
 }

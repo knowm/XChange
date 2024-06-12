@@ -8,25 +8,14 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPositions;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.ftx.FtxException;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.FtxPositionDto;
-import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
-import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
-import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
-import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.CurrencyPairParam;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.ftx.dto.trade.*;
+import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class FtxTradeServiceRaw extends FtxBaseService {
@@ -134,6 +123,9 @@ public class FtxTradeServiceRaw extends FtxBaseService {
     } else if (orderParams instanceof CancelOrderByUserReferenceParams) {
       return cancelFtxByClientId(
           subaccount, ((CancelOrderByUserReferenceParams) orderParams).getUserReference());
+    } else if (orderParams instanceof CancelConditionalOrderFtxParams) {
+      return cancelFtxConditionalOrderForSubAccount(
+          subaccount, ((CancelConditionalOrderFtxParams) orderParams).getOrderId());
     } else {
       throw new IOException(
           "CancelOrderParams must implement CancelOrderByCurrencyPair interface.");
@@ -179,20 +171,55 @@ public class FtxTradeServiceRaw extends FtxBaseService {
     }
   }
 
-  public UserTrades getTradeHistoryForSubaccount(String subaccount, TradeHistoryParams params)
+  public OpenOrders getOrderHistoryForSubaccount(String subaccount, TradeHistoryParams params)
       throws IOException {
     if (params instanceof TradeHistoryParamCurrencyPair) {
-      return FtxAdapters.adaptUserTrades(
+      return FtxAdapters.adaptOpenOrders(
           getFtxOrderHistory(
+              subaccount,
+              FtxAdapters.adaptCurrencyPairToFtxMarket(
+                  ((TradeHistoryParamCurrencyPair) params).getCurrencyPair()),
+              ((TradeHistoryParamsAll) params).getStartTime().getTime(),
+              ((TradeHistoryParamsAll) params).getEndTime().getTime()));
+    } else if (params instanceof TradeHistoryParamInstrument) {
+      CurrencyPair currencyPair =
+          new CurrencyPair(((TradeHistoryParamInstrument) params).getInstrument().toString());
+      return FtxAdapters.adaptOpenOrders(
+          getFtxOrderHistory(
+              subaccount, FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair), null, null));
+    } else {
+      throw new IOException(
+          "TradeHistoryParams must implement TradeHistoryParamCurrencyPair or TradeHistoryParamInstrument interface.");
+    }
+  }
+
+  public UserTrades getTradeHistoryForSubaccount(String subaccount, TradeHistoryParams params)
+      throws IOException {
+    if (params instanceof TradeHistoryParamsAll) {
+      CurrencyPair currencyPair =
+          new CurrencyPair(((TradeHistoryParamsAll) params).getInstrument().toString());
+      return FtxAdapters.adaptUserTrades(
+          getFtxFills(
+                  subaccount,
+                  FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair),
+                  ((TradeHistoryParamsAll) params).getStartTime().getTime(),
+                  ((TradeHistoryParamsAll) params).getEndTime().getTime())
+              .getResult());
+    } else if (params instanceof TradeHistoryParamCurrencyPair) {
+      return FtxAdapters.adaptUserTrades(
+          getFtxFills(
                   subaccount,
                   FtxAdapters.adaptCurrencyPairToFtxMarket(
-                      ((TradeHistoryParamCurrencyPair) params).getCurrencyPair()))
+                      ((TradeHistoryParamCurrencyPair) params).getCurrencyPair()),
+                  null,
+                  null)
               .getResult());
     } else if (params instanceof TradeHistoryParamInstrument) {
       CurrencyPair currencyPair =
           new CurrencyPair(((TradeHistoryParamInstrument) params).getInstrument().toString());
       return FtxAdapters.adaptUserTrades(
-          getFtxOrderHistory(subaccount, FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair))
+          getFtxFills(
+                  subaccount, FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair), null, null)
               .getResult());
     } else {
       throw new IOException(
@@ -200,7 +227,8 @@ public class FtxTradeServiceRaw extends FtxBaseService {
     }
   }
 
-  public FtxResponse<List<FtxOrderDto>> getFtxOrderHistory(String subaccount, String market)
+  public FtxResponse<List<FtxOrderDto>> getFtxOrderHistory(
+      String subaccount, String market, Long startTime, Long endTime)
       throws FtxException, IOException {
     try {
       return ftx.orderHistory(
@@ -208,7 +236,26 @@ public class FtxTradeServiceRaw extends FtxBaseService {
           exchange.getNonceFactory().createValue(),
           signatureCreator,
           subaccount,
-          market);
+          market,
+          startTime,
+          endTime);
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<List<FtxFillDto>> getFtxFills(
+      String subaccount, String market, Long startTime, Long endTime)
+      throws FtxException, IOException {
+    try {
+      return ftx.fills(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          subaccount,
+          market,
+          startTime,
+          endTime);
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }
@@ -220,7 +267,13 @@ public class FtxTradeServiceRaw extends FtxBaseService {
 
   public OpenOrders getOpenOrdersForSubaccount(String subaccount, OpenOrdersParams params)
       throws IOException {
-    if (params instanceof CurrencyPairParam) {
+    if (params instanceof FtxTriggerOpenOrdersParams) {
+      return FtxAdapters.adaptTriggerOpenOrders(
+          getFtxOpenConditionalOrdersForSubAccount(
+              subaccount,
+              FtxAdapters.adaptCurrencyPairToFtxMarket(
+                  ((OpenOrdersParamCurrencyPair) params).getCurrencyPair())));
+    } else if (params instanceof CurrencyPairParam) {
       return FtxAdapters.adaptOpenOrders(
           getFtxOpenOrders(
               subaccount,
@@ -269,9 +322,122 @@ public class FtxTradeServiceRaw extends FtxBaseService {
           exchange.getExchangeSpecification().getApiKey(),
           exchange.getNonceFactory().createValue(),
           signatureCreator,
-          subaccount);
+          subaccount,
+          true);
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }
+  }
+
+  public String placeStopOrderForSubAccount(String subaccount, StopOrder stopOrder)
+      throws IOException {
+    return placeNewFtxConditionalOrderForSubAccount(
+            subaccount, FtxAdapters.adaptStopOrderToFtxOrderPayload(stopOrder))
+        .getResult()
+        .getId();
+  }
+
+  public boolean cancelStopOrder(String orderId) throws IOException {
+    return cancelFtxConditionalOrderForSubAccount(
+        exchange.getExchangeSpecification().getUserName(), orderId);
+  }
+
+  public String changeStopOrder(StopOrder stopOrder) throws IOException {
+    return modifyFtxConditionalOrderForSubAccount(
+            exchange.getExchangeSpecification().getUserName(),
+            stopOrder.getId(),
+            FtxAdapters.adaptModifyConditionalOrderToFtxOrderPayload(stopOrder))
+        .getResult()
+        .getId();
+  }
+
+  public FtxResponse<FtxConditionalOrderDto> placeNewFtxConditionalOrderForSubAccount(
+      String subaccount, FtxConditionalOrderRequestPayload payload)
+      throws FtxException, IOException {
+    try {
+      return ftx.placeConditionalOrder(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          subaccount,
+          payload);
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<FtxConditionalOrderDto> modifyFtxConditionalOrderForSubAccount(
+      String subaccount, String orderId, FtxModifyConditionalOrderRequestPayload payload)
+      throws FtxException, IOException {
+
+    return ftx.modifyConditionalOrder(
+        exchange.getExchangeSpecification().getApiKey(),
+        exchange.getNonceFactory().createValue(),
+        signatureCreator,
+        subaccount,
+        orderId,
+        payload);
+  }
+
+  public boolean cancelFtxConditionalOrderForSubAccount(String subaccount, String orderId)
+      throws FtxException, IOException {
+    try {
+      return ftx.cancelConditionalOrder(
+              exchange.getExchangeSpecification().getApiKey(),
+              exchange.getNonceFactory().createValue(),
+              signatureCreator,
+              subaccount,
+              orderId)
+          .isSuccess();
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<List<FtxConditionalOrderDto>> getFtxOpenConditionalOrdersForSubAccount(
+      String subaccount, String market) throws FtxException, IOException {
+    try {
+      return ftx.openConditionalOrders(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          subaccount,
+          market);
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<List<FtxConditionalOrderDto>> getFtxConditionalOrderHistory(
+      String subaccount, String market) throws FtxException, IOException {
+    try {
+      return ftx.conditionalOrderHistory(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          subaccount,
+          market);
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<List<FtxTriggerDto>> getFtxTriggersForSubAccount(
+      String subaccount, String orderId) throws FtxException, IOException {
+    try {
+      return ftx.getTriggers(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          subaccount,
+          orderId);
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public List<FtxTriggerDto> getFtxTriggers(String orderId) throws FtxException, IOException {
+    return getFtxTriggersForSubAccount(exchange.getExchangeSpecification().getUserName(), orderId)
+        .getResult();
   }
 }

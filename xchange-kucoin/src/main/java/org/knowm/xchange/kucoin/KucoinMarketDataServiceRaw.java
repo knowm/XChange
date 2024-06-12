@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.kucoin.dto.KlineIntervalType;
 import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
 import org.knowm.xchange.kucoin.dto.response.CurrenciesResponse;
+import org.knowm.xchange.kucoin.dto.response.CurrencyResponseV2;
 import org.knowm.xchange.kucoin.dto.response.KucoinKline;
 import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
@@ -89,6 +91,10 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
                 .call());
   }
 
+  /**
+   * @deprecated use {@link #getKucoinSymbolsV2()}
+   */
+  @Deprecated
   public List<SymbolResponse> getKucoinSymbols() throws IOException {
     return classifyingExceptions(
         () ->
@@ -98,10 +104,28 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
                 .call());
   }
 
+  public List<SymbolResponse> getKucoinSymbolsV2() throws IOException {
+    return classifyingExceptions(
+        () ->
+            decorateApiCall(symbolApi::getSymbolsV2)
+                .withRetry(retry("symbols"))
+                .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
+                .call());
+  }
+
   public List<CurrenciesResponse> getKucoinCurrencies() throws IOException {
     return classifyingExceptions(
         () ->
             decorateApiCall(symbolApi::getCurrencies)
+                .withRetry(retry("currencies"))
+                .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
+                .call());
+  }
+
+  public CurrencyResponseV2 getKucoinCurrencies(Currency currency) throws IOException {
+    return classifyingExceptions(
+        () ->
+            decorateApiCall(() -> symbolApi.getCurrencies(currency.getCurrencyCode()))
                 .withRetry(retry("currencies"))
                 .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
                 .call());

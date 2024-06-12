@@ -1,17 +1,18 @@
 package org.knowm.xchange.bittrex;
 
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 
 /** A central place for shared Bittrex utility operations */
 public final class BittrexUtils {
 
   public static final String MARKET_NAME_SEPARATOR = "-";
 
-  public static String toPairString(CurrencyPair currencyPair) {
+  public static String toPairString(Instrument currencyPair) {
     if (currencyPair == null) return null;
-    return currencyPair.base.getCurrencyCode().toUpperCase()
+    return currencyPair.getBase().getCurrencyCode().toUpperCase()
         + MARKET_NAME_SEPARATOR
-        + currencyPair.counter.getCurrencyCode().toUpperCase();
+        + currencyPair.getCounter().getCurrencyCode().toUpperCase();
   }
 
   public static CurrencyPair toCurrencyPair(String pairString) {

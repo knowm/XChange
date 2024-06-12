@@ -2,7 +2,9 @@ package org.knowm.xchange.cexio.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** @author Andrea Fossi. */
+/**
+ * @author Andrea Fossi.
+ */
 public class CexioPositionPair {
   private final String symbol1;
   private final String symbol2;

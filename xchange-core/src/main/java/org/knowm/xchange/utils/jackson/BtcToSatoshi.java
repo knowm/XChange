@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class BtcToSatoshi extends JsonSerializer<BigDecimal> {
 
   @Override

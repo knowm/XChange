@@ -3,7 +3,9 @@ package org.knowm.xchange.bitbay.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
 
-/** @author Z. Dolezal */
+/**
+ * @author Z. Dolezal
+ */
 public class BitbayCancelResponse extends BitbayBaseResponse {
 
   public BitbayCancelResponse(

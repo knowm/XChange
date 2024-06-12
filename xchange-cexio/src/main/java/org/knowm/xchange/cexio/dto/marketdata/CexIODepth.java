@@ -33,7 +33,9 @@ public class CexIODepth {
     return error;
   }
 
-  /** @return Timestamp in Unix milliseconds */
+  /**
+   * @return Timestamp in Unix milliseconds
+   */
   public Long getTimestamp() {
 
     return timestamp;

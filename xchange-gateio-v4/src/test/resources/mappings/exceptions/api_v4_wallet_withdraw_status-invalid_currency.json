@@ -1,0 +1,15 @@
+{
+  "id" : "850454cc-bd9d-41de-ba6e-34717cddc6ac",
+  "name" : "api_v4_wallet_withdraw_status",
+  "request" : {
+    "url" : "/api/v4/wallet/withdraw_status?currency=INVALID-CURRENCY",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "exceptions/api_v4_wallet_withdraw_status-invalid_currency.json"
+  },
+  "uuid" : "850454cc-bd9d-41de-ba6e-34717cddc6ac",
+  "persistent" : true,
+  "insertionIndex" : 7
+}

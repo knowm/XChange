@@ -15,7 +15,7 @@ import info.bitrich.xchangestream.lgo.domain.LgoOpenOrderEvent;
 import info.bitrich.xchangestream.lgo.domain.LgoOrderEvent;
 import info.bitrich.xchangestream.lgo.domain.LgoPendingOrderEvent;
 import info.bitrich.xchangestream.lgo.domain.LgoReceivedOrderEvent;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
@@ -254,7 +254,7 @@ public class LgoStreamingTradeServiceTest {
     assertThat(trades.get(0))
         .usingRecursiveComparison()
         .isEqualTo(
-            new UserTrade.Builder()
+            UserTrade.builder()
                 .type(Order.OrderType.ASK)
                 .originalAmount(new BigDecimal("0.50000000"))
                 .currencyPair(CurrencyPair.BTC_USD)

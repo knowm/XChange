@@ -97,7 +97,7 @@ public class CoindirectTradeService extends CoindirectTradeServiceRaw implements
                   if (t.executedAmount == null || t.executedAmount.signum() == 0) {
                     return null;
                   }
-                  return new UserTrade.Builder()
+                  return UserTrade.builder()
                       .type(CoindirectAdapters.convert(t.side))
                       .originalAmount(t.executedAmount)
                       .currencyPair(CoindirectAdapters.toCurrencyPair(t.symbol))
@@ -173,15 +173,6 @@ public class CoindirectTradeService extends CoindirectTradeServiceRaw implements
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new CoindirectTradeHistoryParams();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    List<Order> orderList = new ArrayList<>();
-    for (String orderId : orderIds) {
-      orderList.add(CoindirectAdapters.adaptOrder(getExchangeOrder(orderId)));
-    }
-    return orderList;
   }
 
   @Override

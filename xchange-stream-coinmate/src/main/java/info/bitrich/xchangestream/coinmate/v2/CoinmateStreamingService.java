@@ -72,7 +72,9 @@ class CoinmateStreamingService extends JsonNettyStreamingService {
     return new CoinmateUnsubscribeMessage(channelName);
   }
 
-  /** @return Client ID needed for private channel */
+  /**
+   * @return Client ID needed for private channel
+   */
   String getUserId() {
     return authParams.getUserId();
   }

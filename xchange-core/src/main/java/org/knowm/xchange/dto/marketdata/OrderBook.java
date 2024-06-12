@@ -1,6 +1,7 @@
 package org.knowm.xchange.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -8,22 +9,29 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.locks.StampedLock;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.knowm.xchange.currency.CurrencyPair;
+import lombok.Getter;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 /** DTO representing the exchange order book */
 public final class OrderBook implements Serializable {
 
   private static final long serialVersionUID = -7788306758114464314L;
-
+  @JsonIgnore public final StampedLock lock = new StampedLock();
   /** the asks */
+  @Getter
   private final List<LimitOrder> asks;
+
   /** the bids */
+  @Getter
   private final List<LimitOrder> bids;
+
   /** the timestamp of the orderbook according to the exchange's server, null if not provided */
+  @Getter
   private Date timeStamp;
 
   /**
@@ -104,26 +112,11 @@ public final class OrderBook implements Serializable {
   private static LimitOrder withAmount(LimitOrder limitOrder, BigDecimal tradeableAmount) {
 
     OrderType type = limitOrder.getType();
-    CurrencyPair currencyPair = limitOrder.getCurrencyPair();
+    Instrument instrument = limitOrder.getInstrument();
     String id = limitOrder.getId();
     Date date = limitOrder.getTimestamp();
     BigDecimal limit = limitOrder.getLimitPrice();
-    return new LimitOrder(type, tradeableAmount, currencyPair, id, date, limit);
-  }
-
-  public Date getTimeStamp() {
-
-    return timeStamp;
-  }
-
-  public List<LimitOrder> getAsks() {
-
-    return asks;
-  }
-
-  public List<LimitOrder> getBids() {
-
-    return bids;
+    return new LimitOrder(type, tradeableAmount, instrument, id, date, limit);
   }
 
   public List<LimitOrder> getOrders(OrderType type) {
@@ -139,23 +132,35 @@ public final class OrderBook implements Serializable {
    * @param limitOrder the new LimitOrder
    */
   public void update(LimitOrder limitOrder) {
-
     update(getOrders(limitOrder.getType()), limitOrder);
-    updateDate(limitOrder.getTimestamp());
   }
 
   // Replace the amount for limitOrder's price in the provided list.
-  private void update(List<LimitOrder> asks, LimitOrder limitOrder) {
-
-    int idx = Collections.binarySearch(asks, limitOrder);
-    if (idx >= 0) {
-      asks.remove(idx);
-    } else {
-      idx = -idx - 1;
-    }
-
-    if (limitOrder.getRemainingAmount().compareTo(BigDecimal.ZERO) != 0) {
-      asks.add(idx, limitOrder);
+  private void update(List<LimitOrder> limitOrders, LimitOrder limitOrder) {
+    long stamp = lock.readLock();
+    int idx = Collections.binarySearch(limitOrders, limitOrder);
+    try {
+      while (true) {
+        long writeStamp = lock.tryConvertToWriteLock(stamp);
+        if (writeStamp != 0L) {
+          stamp = writeStamp;
+          if (idx >= 0) limitOrders.remove(idx);
+          else idx = -idx - 1;
+          if (limitOrder.getRemainingAmount().compareTo(BigDecimal.ZERO) != 0)
+            limitOrders.add(idx, limitOrder);
+          updateDate(limitOrder.getTimestamp());
+          break;
+        } else {
+          lock.unlockRead(stamp);
+          stamp = lock.writeLock();
+          // here wee need to recheck idx, because it is possible that orderBook changed between
+          // unlockRead and lockWrite
+          if (recheckIdx(limitOrders, limitOrder, idx))
+            idx = Collections.binarySearch(limitOrders, limitOrder);
+        }
+      }
+    } finally {
+      lock.unlock(stamp);
     }
   }
 
@@ -167,22 +172,54 @@ public final class OrderBook implements Serializable {
    * @param orderBookUpdate the new OrderBookUpdate
    */
   public void update(OrderBookUpdate orderBookUpdate) {
-
+    long stamp = lock.readLock();
     LimitOrder limitOrder = orderBookUpdate.getLimitOrder();
     List<LimitOrder> limitOrders = getOrders(limitOrder.getType());
     int idx = Collections.binarySearch(limitOrders, limitOrder);
+    try {
+      while (true) {
+        long writeStamp = lock.tryConvertToWriteLock(stamp);
+        if (writeStamp != 0L) {
+          stamp = writeStamp;
+          if (idx >= 0) limitOrders.remove(idx);
+          else idx = -idx - 1;
+          if (orderBookUpdate.getTotalVolume().compareTo(BigDecimal.ZERO) != 0) {
+            LimitOrder updatedOrder = withAmount(limitOrder, orderBookUpdate.getTotalVolume());
+            limitOrders.add(idx, updatedOrder);
+          }
+          updateDate(limitOrder.getTimestamp());
+          break;
+        } else {
+          lock.unlockRead(stamp);
+          stamp = lock.writeLock();
+          // here wee need to recheck idx, because it is possible that orderBook changed between
+          // unlockRead and lockWrite
+          if (recheckIdx(limitOrders, limitOrder, idx))
+            idx = Collections.binarySearch(limitOrders, limitOrder);
+        }
+      }
+    } finally {
+      lock.unlock(stamp);
+    }
+  }
+
+  private boolean recheckIdx(List<LimitOrder> limitOrders, LimitOrder limitOrder, int idx) {
     if (idx >= 0) {
-      limitOrders.remove(idx);
+      // if positive, null check or compare
+      return limitOrders.get(idx) == null || limitOrders.get(idx).compareTo(limitOrder) != 0;
     } else {
-      idx = -idx - 1;
+      // on end of array, null check or one check
+      if (limitOrders.size() == -idx - 1) {
+        return limitOrders.get(-idx - 2) == null
+            || limitOrders.get(-idx - 2).compareTo(limitOrder) >= 0;
+      } else
+        // if negative, check that of limitOrders.get(reversed idx) limitOrders.get(reversed idx-1)
+        // and is lower and bigger than limitOrder
+        return (limitOrders.get(-idx - 1) == null
+            || limitOrders.get(-idx - 1).compareTo(limitOrder) <= 0)
+            && (limitOrders.get(-idx - 2) == null
+            || limitOrders.get(-idx - 2).compareTo(limitOrder) >= 0);
     }
-
-    if (orderBookUpdate.getTotalVolume().compareTo(BigDecimal.ZERO) != 0) {
-      LimitOrder updatedOrder = withAmount(limitOrder, orderBookUpdate.getTotalVolume());
-      limitOrders.add(idx, updatedOrder);
-    }
-
-    updateDate(limitOrder.getTimestamp());
   }
 
   // Replace timeStamp if the provided date is non-null and in the future

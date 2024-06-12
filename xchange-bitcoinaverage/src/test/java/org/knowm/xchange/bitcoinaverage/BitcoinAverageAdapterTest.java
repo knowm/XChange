@@ -28,7 +28,7 @@ public class BitcoinAverageAdapterTest {
     BitcoinAverageTicker BitcoinAverageTicker = mapper.readValue(is, BitcoinAverageTicker.class);
 
     Ticker ticker = BitcoinAverageAdapters.adaptTicker(BitcoinAverageTicker, CurrencyPair.BTC_USD);
-    System.out.println(ticker.toString());
+    //    System.out.println(ticker.toString());
 
     assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     assertThat(ticker.getLast().toString()).isEqualTo("629.45");

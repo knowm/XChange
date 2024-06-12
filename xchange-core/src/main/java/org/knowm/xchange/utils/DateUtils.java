@@ -50,6 +50,13 @@ public class DateUtils {
     return isoDateFormat.format(date);
   }
 
+  public static String toISO8601DateString(Date date) {
+
+    SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    iso8601Format.setTimeZone(TimeZone.getTimeZone("GMT"));
+    return iso8601Format.format(date);
+  }
+
   public static String toISODateString(Date date) {
     SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     return isoDateFormat.format(date);
@@ -167,5 +174,10 @@ public class DateUtils {
   /** Convert unix time to Java Date */
   public static Date fromUnixTime(long unix) {
     return new Date(unix * 1000);
+  }
+
+  /** Convert unix time with milliseconds to Java Date */
+  public static Date fromUnixTimeWithMilliseconds(long milliseconds) {
+    return new Date(milliseconds);
   }
 }

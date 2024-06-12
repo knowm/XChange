@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -90,10 +90,10 @@ public abstract class BaseExchange implements Exchange {
     } else if (this.exchangeSpecification.getExchangeName()
         != null) { // load the metadata from the classpath
 
+      String metadataFileName = getMetaDataFileName(this.exchangeSpecification) + ".json";
+      logger.debug("Loading metadata from {}", metadataFileName);
       try (InputStream is =
-          BaseExchangeService.class
-              .getClassLoader()
-              .getResourceAsStream(getMetaDataFileName(this.exchangeSpecification) + ".json")) {
+          BaseExchangeService.class.getClassLoader().getResourceAsStream(metadataFileName)) {
 
         loadExchangeMetaData(is);
       } catch (IOException e) {
@@ -153,9 +153,9 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public List<Instrument> getExchangeInstruments() {
 
-    return new ArrayList<>(getExchangeMetaData().getCurrencyPairs().keySet());
+    return new ArrayList<>(getExchangeMetaData().getInstruments().keySet());
   }
 
   public String getMetaDataFileName(ExchangeSpecification exchangeSpecification) {

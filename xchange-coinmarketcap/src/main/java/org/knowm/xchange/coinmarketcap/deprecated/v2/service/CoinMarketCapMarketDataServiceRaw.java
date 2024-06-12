@@ -13,7 +13,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
-/** @author allenday */
+/**
+ * @author allenday
+ */
 class CoinMarketCapMarketDataServiceRaw extends BaseExchangeService implements BaseService {
 
   private final CoinMarketCap coinmarketcap;

@@ -11,9 +11,13 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.exceptions.DepositAddressCreationException;
+import org.knowm.xchange.exceptions.DepositAddressNotFoundException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
@@ -21,6 +25,8 @@ import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
 import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.account.params.DefaultRequestDepositAddressParams;
+import org.knowm.xchange.service.account.params.RequestDepositAddressParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
@@ -66,14 +72,10 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
   }
 
   @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
     return KrakenAdapters.adaptFees(
         super.getTradeVolume(
-            exchange
-                .getExchangeMetaData()
-                .getCurrencyPairs()
-                .keySet()
-                .toArray(new CurrencyPair[0])));
+            exchange.getExchangeMetaData().getInstruments().keySet().toArray(new CurrencyPair[0])));
   }
 
   @Override
@@ -93,49 +95,87 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
   }
 
   @Override
+  public AddressWithTag requestDepositAddressData(Currency currency, String... args)
+      throws IOException {
+    return requestDepositAddressData(DefaultRequestDepositAddressParams.create(currency, args));
+  }
+
+  @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
+    return requestDepositAddressData(DefaultRequestDepositAddressParams.create(currency, args))
+        .getAddress();
+  }
+
+  @Override
+  public String requestDepositAddress(RequestDepositAddressParams requestDepositAddressParams)
+      throws IOException {
+    return requestDepositAddressData(requestDepositAddressParams).getAddress();
+  }
+
+  @Override
+  public AddressWithTag requestDepositAddressData(
+      RequestDepositAddressParams requestDepositAddressParams) throws IOException {
+    Currency currency = requestDepositAddressParams.getCurrency();
+    boolean newAddress = requestDepositAddressParams.isNewAddress();
+    String depositMethod = null;
+
     KrakenDepositAddress[] depositAddresses;
     if (Currency.BTC.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin", newAddress);
     } else if (Currency.LTC.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Litecoin", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Litecoin", newAddress);
     } else if (Currency.ETH.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Ether (Hex)", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Ethereum (ERC20)", newAddress);
     } else if (Currency.ZEC.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Zcash (Transparent)", false);
+      depositAddresses =
+          getDepositAddresses(currency.toString(), "Zcash (Transparent)", newAddress);
     } else if (Currency.ADA.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "ADA", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "ADA", newAddress);
     } else if (Currency.XMR.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Monero", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Monero", newAddress);
     } else if (Currency.XRP.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Ripple XRP", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Ripple XRP", newAddress);
     } else if (Currency.XLM.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Stellar XLM", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Stellar XLM", newAddress);
     } else if (Currency.BCH.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin Cash", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin Cash", newAddress);
     } else if (Currency.REP.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "REP", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "REP", newAddress);
     } else if (Currency.USD.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "SynapsePay (US Wire)", false);
+      depositAddresses =
+          getDepositAddresses(currency.toString(), "SynapsePay (US Wire)", newAddress);
     } else if (Currency.XDG.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Dogecoin", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Dogecoin", newAddress);
     } else if (Currency.MLN.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "MLN", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "MLN", newAddress);
     } else if (Currency.GNO.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "GNO", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "GNO", newAddress);
     } else if (Currency.QTUM.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "QTUM", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "QTUM", newAddress);
     } else if (Currency.XTZ.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "XTZ", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "XTZ", newAddress);
     } else if (Currency.ATOM.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Cosmos", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Cosmos", newAddress);
     } else if (Currency.EOS.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "EOS", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "EOS", newAddress);
     } else if (Currency.DASH.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Dash", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Dash", newAddress);
     } else {
-      throw new RuntimeException("Not implemented yet, Kraken works only for BTC and LTC");
+      depositMethod = findDepositMethod(currency, requestDepositAddressParams.getNetwork());
+      depositAddresses = getDepositAddresses(currency.toString(), depositMethod, newAddress);
     }
+
+    if (depositAddresses.length == 0 && !newAddress) {
+      throw new DepositAddressNotFoundException(
+          String.format("No deposit addresses found for %s method: %s", currency, depositMethod));
+    }
+
+    if (depositAddresses.length == 0) {
+      throw new DepositAddressCreationException(
+          String.format(
+              "Deposit address could not be created for %s method: %s", currency, depositMethod));
+    }
+
     return KrakenAdapters.adaptKrakenDepositAddress(depositAddresses);
   }
 

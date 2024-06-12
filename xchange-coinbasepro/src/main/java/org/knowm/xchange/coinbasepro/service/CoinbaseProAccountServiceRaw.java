@@ -22,6 +22,8 @@ import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.utils.timestamp.UnixTimestampFactory;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestInvocation;
 
 public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
 
@@ -92,7 +94,7 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
   }
 
   /** https://docs.pro.coinbase.com/#get-an-account */
-  public List<Map<?, ?>> ledger(String accountId, Integer startingOrderId) throws IOException {
+  public List<Map<?, ?>> ledger(String accountId, String startingOrderId) throws IOException {
     return decorateApiCall(
             () ->
                 coinbasePro.ledger(
@@ -201,13 +203,27 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
   public CoinbaseProWebsocketAuthData getWebsocketAuthData()
       throws CoinbaseProException, IOException {
     long timestamp = UnixTimestampFactory.INSTANCE.createValue();
+    WebhookAuthDataParamsDigestProxy digestProxy = new WebhookAuthDataParamsDigestProxy();
     JsonNode json =
-        decorateApiCall(() -> coinbasePro.getVerifyId(apiKey, digest, timestamp, passphrase))
+        decorateApiCall(() -> coinbasePro.getVerifyId(apiKey, digestProxy, timestamp, passphrase))
             .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
             .call();
     String userId = json.get("id").asText();
-    CoinbaseProDigest coinbaseProDigest = (CoinbaseProDigest) digest;
     return new CoinbaseProWebsocketAuthData(
-        userId, apiKey, passphrase, coinbaseProDigest.getSignature(), timestamp);
+        userId, apiKey, passphrase, digestProxy.getSignature(), timestamp);
+  }
+
+  private class WebhookAuthDataParamsDigestProxy implements ParamsDigest {
+    private String signature;
+
+    @Override
+    public String digestParams(RestInvocation restInvocation) {
+      signature = digest.digestParams(restInvocation);
+      return signature;
+    }
+
+    public String getSignature() {
+      return signature;
+    }
   }
 }

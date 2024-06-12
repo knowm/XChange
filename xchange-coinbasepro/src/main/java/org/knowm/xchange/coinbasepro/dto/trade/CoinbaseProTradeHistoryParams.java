@@ -17,11 +17,29 @@ public class CoinbaseProTradeHistoryParams
   private String txId;
   private Integer afterTradeId;
   private Integer beforeTradeId;
+  private String afterTransferId;
+  private String beforeTransferId;
   private Integer limit;
   private Type type;
 
   public Integer getAfterTradeId() {
     return afterTradeId;
+  }
+
+  public String getAfterTransferId() {
+    return afterTransferId;
+  }
+
+  public void setAfterTransferId(String afterTransferId) {
+    this.afterTransferId = afterTransferId;
+  }
+
+  public String getBeforeTransferId() {
+    return beforeTransferId;
+  }
+
+  public void setBeforeTransferId(String beforeTransferId) {
+    this.beforeTransferId = beforeTransferId;
   }
 
   public void setAfterTradeId(Integer startingOrderId) {

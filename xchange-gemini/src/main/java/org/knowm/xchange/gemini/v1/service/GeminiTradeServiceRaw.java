@@ -216,4 +216,19 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
       throw handleException(e);
     }
   }
+
+  public GeminiOrderStatusResponse heartBeat() throws IOException {
+    try {
+      GeminiOrderStatusResponse orderStatus =
+          gemini.heartBeat(
+              apiKey,
+              payloadCreator,
+              signatureCreator,
+              new GeminiNonceOnlyRequest(
+                  "/v1/heartbeat", String.valueOf(exchange.getNonceFactory().createValue())));
+      return orderStatus;
+    } catch (GeminiException e) {
+      throw handleException(e);
+    }
+  }
 }

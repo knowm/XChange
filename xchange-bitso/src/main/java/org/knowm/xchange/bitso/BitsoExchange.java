@@ -7,7 +7,9 @@ import org.knowm.xchange.bitso.service.BitsoAccountService;
 import org.knowm.xchange.bitso.service.BitsoMarketDataService;
 import org.knowm.xchange.bitso.service.BitsoTradeService;
 
-/** @author Matija Mazi, Piotr Ładyżyński */
+/**
+ * @author Matija Mazi, Piotr Ładyżyński
+ */
 public class BitsoExchange extends BaseExchange implements Exchange {
 
   @Override

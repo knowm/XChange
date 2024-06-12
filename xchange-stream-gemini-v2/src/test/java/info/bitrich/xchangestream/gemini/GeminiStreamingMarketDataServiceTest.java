@@ -39,7 +39,7 @@ public class GeminiStreamingMarketDataServiceTest {
     try {
       geminiStreamingMarketDataService.getOrderBook(LTC_USD).subscribe(orderBook -> {});
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      //      System.out.println(e.getMessage());
       assertEquals(
           String.format("The currency pair %s is not subscribed for orderbook", LTC_USD),
           e.getMessage());

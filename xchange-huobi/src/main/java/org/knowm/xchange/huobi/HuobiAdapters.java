@@ -2,11 +2,7 @@ package org.knowm.xchange.huobi;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -19,11 +15,7 @@ import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.FeeTier;
-import org.knowm.xchange.dto.meta.WalletHealth;
+import org.knowm.xchange.dto.meta.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -42,12 +34,13 @@ import org.knowm.xchange.huobi.dto.marketdata.HuobiCurrency;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiCurrencyWrapper;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiTicker;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 public class HuobiAdapters {
   private static final String ONLINE = "allowed";
   private static final String DELISTED = "delisted";
   private static final String TARGET_NETWORK = "ERC20";
-  private static BigDecimal fee = new BigDecimal("0.002"); // Trading fee at Huobi is 0.2 %
+  private static final BigDecimal fee = new BigDecimal("0.002"); // Trading fee at Huobi is 0.2 %
 
   public static Ticker adaptTicker(HuobiTicker huobiTicker, CurrencyPair currencyPair) {
     Ticker.Builder builder = new Ticker.Builder();
@@ -97,8 +90,8 @@ public class HuobiAdapters {
     HuobiUtils.setHuobiAssets(assets);
     HuobiUtils.setHuobiAssetPairs(assetPairs);
 
-    Map<CurrencyPair, CurrencyPairMetaData> pairsMetaData = staticMetaData.getCurrencyPairs();
-    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> pairsMetaData = staticMetaData.getInstruments();
+    Map<Instrument, InstrumentMetaData> pairs = new HashMap<>();
     for (HuobiAssetPair assetPair : assetPairs) {
       CurrencyPair pair = adaptCurrencyPair(assetPair.getKey());
       pairs.put(pair, adaptPair(assetPair, pairsMetaData.getOrDefault(pair, null)));
@@ -137,7 +130,7 @@ public class HuobiAdapters {
   private static CurrencyMetaData getCurrencyMetaData(
       HuobiCurrency huobiCurrency, boolean isDelisted) {
     int withdrawPrecision = huobiCurrency.getWithdrawPrecision();
-    BigDecimal transactFeeWithdraw = new BigDecimal(huobiCurrency.getTransactFeeWithdraw());
+    BigDecimal transactFeeWithdraw = huobiCurrency.getTransactFeeWithdraw();
     BigDecimal minWithdrawAmt = new BigDecimal(huobiCurrency.getMinWithdrawAmt());
     WalletHealth walletHealthStatus =
         isDelisted ? WalletHealth.OFFLINE : getWalletHealthStatus(huobiCurrency);
@@ -162,26 +155,20 @@ public class HuobiAdapters {
     return HuobiUtils.translateHuobiCurrencyPair(currencyPair);
   }
 
-  private static CurrencyPairMetaData adaptPair(
-      HuobiAssetPair pair, CurrencyPairMetaData metadata) {
+  private static InstrumentMetaData adaptPair(HuobiAssetPair pair, InstrumentMetaData metadata) {
     BigDecimal minQty =
         metadata == null
             ? null
             : metadata.getMinimumAmount().setScale(pair.getAmountPrecision(), RoundingMode.DOWN);
     FeeTier[] feeTiers = metadata == null ? null : metadata.getFeeTiers();
-    return new CurrencyPairMetaData(
-        fee,
-        minQty,
-        null,
-        null,
-        null,
-        new Integer(pair.getAmountPrecision()),
-        new Integer(pair.getPricePrecision()),
-        null,
-        feeTiers,
-        null,
-        null,
-        true);
+    return new InstrumentMetaData.Builder()
+        .tradingFee(fee)
+        .minimumAmount(minQty)
+        .priceScale(pair.getPricePrecision())
+        .volumeScale(pair.getAmountPrecision())
+        .feeTiers(feeTiers)
+        .marketOrderEnabled(true)
+        .build();
   }
 
   private static Currency adaptCurrency(String currency) {
@@ -249,9 +236,7 @@ public class HuobiAdapters {
       openOrderAvgPrice = BigDecimal.ZERO;
     } else {
       openOrderAvgPrice =
-          openOrder
-              .getFieldCashAmount()
-              .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN);
+          openOrder.getFieldCashAmount().divide(openOrder.getFieldAmount(), 8, RoundingMode.DOWN);
     }
     if (openOrder.isMarket()) {
       order =
@@ -284,20 +269,22 @@ public class HuobiAdapters {
     }
     if (openOrder.isStop()) {
       order =
-          new StopOrder(
-              orderType,
-              openOrder.getAmount(),
-              currencyPair,
-              String.valueOf(openOrder.getId()),
-              openOrder.getCreatedAt(),
-              openOrder.getStopPrice(),
-              openOrder.getPrice(),
-              openOrderAvgPrice,
-              openOrder.getFieldAmount(),
-              openOrder.getFieldFees(),
-              adaptOrderStatus(openOrder.getState()),
-              openOrder.getClOrdId(),
-              openOrder.getOperator().equals("lte") ? Intention.STOP_LOSS : Intention.TAKE_PROFIT);
+          new StopOrder.Builder(orderType, currencyPair)
+              .originalAmount(openOrder.getAmount())
+              .id(String.valueOf(openOrder.getId()))
+              .timestamp(openOrder.getCreatedAt())
+              .stopPrice(openOrder.getStopPrice())
+              .limitPrice(openOrder.getPrice())
+              .averagePrice(openOrderAvgPrice)
+              .cumulativeAmount(openOrder.getFieldAmount())
+              .fee(openOrder.getFieldFees())
+              .orderStatus(adaptOrderStatus(openOrder.getState()))
+              .userReference(openOrder.getClOrdId())
+              .intention(
+                  openOrder.getOperator().equals("lte")
+                      ? Intention.STOP_LOSS
+                      : Intention.TAKE_PROFIT)
+              .build();
     }
 
     order.setAveragePrice(openOrderAvgPrice);
@@ -317,7 +304,7 @@ public class HuobiAdapters {
             .multiply(order.getLimitPrice())
             .multiply(fee)
             .setScale(8, RoundingMode.DOWN);
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(order.getType())
         .originalAmount(order.getCumulativeAmount())
         .currencyPair(order.getCurrencyPair())
@@ -376,13 +363,30 @@ public class HuobiAdapters {
     return orders;
   }
 
-  public static UserTrades adaptTradeHistory(HuobiOrder[] openOrders) {
-    OpenOrders orders = adaptOpenOrders(openOrders);
-    List<UserTrade> trades = new ArrayList<>();
-    for (LimitOrder order : orders.getOpenOrders()) {
-      trades.add(adaptTrade(order));
-    }
-    return new UserTrades(trades, TradeSortType.SortByTimestamp);
+  public static List<UserTrade> adaptUserTradeList(HuobiOrder[] tradeHistory) {
+    return Arrays.stream(tradeHistory)
+        .sequential()
+        .map(
+            huobiOrder ->
+                UserTrade.builder()
+                    .id(Long.toString(huobiOrder.getId()))
+                    .instrument(adaptCurrencyPair(huobiOrder.getSymbol()))
+                    .orderUserReference(huobiOrder.getClOrdId())
+                    .originalAmount(huobiOrder.getFieldAmount())
+                    .price(huobiOrder.getPrice())
+                    .timestamp(huobiOrder.getFinishedAt())
+                    .type(adaptOrderType(huobiOrder.getType()))
+                    .feeAmount(huobiOrder.getFieldFees())
+                    .orderId(Long.toString(huobiOrder.getId()))
+                    .build())
+        .collect(Collectors.toList());
+  }
+
+  public static UserTrades adaptTradeHistory(HuobiOrder[] tradeHistoryOrders) {
+    UserTrades userTrades =
+        new UserTrades(adaptUserTradeList(tradeHistoryOrders), TradeSortType.SortByTimestamp);
+    Collections.reverse(userTrades.getUserTrades());
+    return userTrades;
   }
 
   public static List<FundingRecord> adaptFundingHistory(HuobiFundingRecord[] fundingRecords) {

@@ -27,10 +27,11 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairs;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
+import org.knowm.xchange.instrument.Instrument;
 
 public class GateioAdapterTest {
 
-  Collection<CurrencyPair> currencyPairs;
+  Collection<Instrument> currencyPairs;
 
   @Before
   public void before() throws JsonParseException, JsonMappingException, IOException {

@@ -77,22 +77,24 @@ public class StopOrderTest {
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
     final String reference = "reference";
     final StopOrder.Intention intention = StopOrder.Intention.TAKE_PROFIT;
+    final BigDecimal trailValue = new BigDecimal("50");
 
     final StopOrder original =
-        new StopOrder(
-            type,
-            originalAmount,
-            currencyPair,
-            id,
-            timestamp,
-            stopPrice,
-            limitPrice,
-            averagePrice,
-            cumulativeAmount,
-            fee,
-            status,
-            reference,
-            intention);
+        new StopOrder.Builder(type, currencyPair)
+            .originalAmount(originalAmount)
+            .id(id)
+            .timestamp(timestamp)
+            .stopPrice(stopPrice)
+            .limitPrice(limitPrice)
+            .averagePrice(averagePrice)
+            .cumulativeAmount(cumulativeAmount)
+            .fee(fee)
+            .orderStatus(status)
+            .userReference(reference)
+            .intention(intention)
+            .trailValue(trailValue)
+            .build();
+
     original.addOrderFlag(TestFlags.TEST1);
     original.addOrderFlag(TestFlags.TEST3);
     final StopOrder copy = StopOrder.Builder.from(original).build();
@@ -115,22 +117,24 @@ public class StopOrderTest {
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
     final String reference = "reference";
     final StopOrder.Intention intention = StopOrder.Intention.TAKE_PROFIT;
+    final BigDecimal trailValue = new BigDecimal("50");
 
     final StopOrder original =
-        new StopOrder(
-            type,
-            originalAmount,
-            currencyPair,
-            id,
-            timestamp,
-            stopPrice,
-            limitPrice,
-            averagePrice,
-            cumulativeAmount,
-            fee,
-            status,
-            reference,
-            intention);
+        new StopOrder.Builder(type, currencyPair)
+            .originalAmount(originalAmount)
+            .id(id)
+            .timestamp(timestamp)
+            .stopPrice(stopPrice)
+            .limitPrice(limitPrice)
+            .averagePrice(averagePrice)
+            .cumulativeAmount(cumulativeAmount)
+            .fee(fee)
+            .orderStatus(status)
+            .userReference(reference)
+            .intention(intention)
+            .trailValue(trailValue)
+            .build();
+
     original.addOrderFlag(TestFlags.TEST1);
     original.addOrderFlag(TestFlags.TEST3);
 

@@ -150,6 +150,11 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
   }
 
   @Override
+  public Class getRequiredOrderQueryParamClass() {
+    return OrderQueryParamCurrencyPair.class;
+  }
+
+  @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) {
     return Arrays.stream(orderQueryParams)
         .flatMap(

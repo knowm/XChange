@@ -1,7 +1,6 @@
 package org.knowm.xchange.bibox.service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
@@ -11,14 +10,14 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public class BiboxAccountService extends BiboxAccountServiceRaw implements AccountService {
 
   public BiboxAccountService(Exchange exchange) {
@@ -29,19 +28,6 @@ public class BiboxAccountService extends BiboxAccountServiceRaw implements Accou
   public AccountInfo getAccountInfo() throws IOException {
     // TODO could be improved with a batched call to get other infos
     return BiboxAdapters.adaptAccountInfo(getBiboxAccountInfo());
-  }
-
-  @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-      throws IOException {
-    throw new NotYetImplementedForExchangeException(
-        "This operation is not yet implemented for this exchange");
-  }
-
-  @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException(
-        "This operation is not yet implemented for this exchange");
   }
 
   @Override

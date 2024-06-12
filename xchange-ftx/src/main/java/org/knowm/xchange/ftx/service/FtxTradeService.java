@@ -2,20 +2,21 @@ package org.knowm.xchange.ftx.service;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.ftx.FtxAdapters;
+import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
-import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class FtxTradeService extends FtxTradeServiceRaw implements TradeService {
 
@@ -36,8 +37,27 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
   }
 
   @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    return placeStopOrderForSubAccount(
+        exchange.getExchangeSpecification().getUserName(), stopOrder);
+  }
+
+  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     return getTradeHistoryForSubaccount(exchange.getExchangeSpecification().getUserName(), params);
+  }
+
+  @Override
+  public Collection<String> cancelAllOrders(CancelAllOrders orderParams) throws IOException {
+    if (orderParams instanceof CancelAllFtxOrdersParams) {
+      cancelAllFtxOrders(
+          exchange.getExchangeSpecification().getUserName(),
+          (CancelAllFtxOrdersParams) orderParams);
+      return Collections.singletonList("");
+    } else {
+      throw new IOException(
+          "Cancel all orders supports only " + CancelAllFtxOrdersParams.class.getSimpleName());
+    }
   }
 
   @Override
@@ -58,6 +78,13 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     return getOrderFromSubaccount(exchange.getExchangeSpecification().getUserName(), orderIds);
+  }
+
+  @Override
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    return getOrderFromSubaccount(
+        exchange.getExchangeSpecification().getUserName(),
+        TradeService.toOrderIds(orderQueryParams));
   }
 
   @Override

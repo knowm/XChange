@@ -4,8 +4,8 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.lgo.LgoEnv;
 import org.knowm.xchange.lgo.LgoExchange;
@@ -36,7 +36,10 @@ public class LgoStreamingExchange extends LgoExchange implements StreamingExchan
   private LgoStreamingService createStreamingService() {
     String apiUrl =
         getExchangeSpecification().getExchangeSpecificParameters().get(LgoEnv.WS_URL).toString();
-    return new LgoStreamingService(this.getSignatureService(), apiUrl);
+    LgoStreamingService streamingService =
+        new LgoStreamingService(this.getSignatureService(), apiUrl);
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
+    return streamingService;
   }
 
   @Override

@@ -15,7 +15,9 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 
-/** @author matthewdowney */
+/**
+ * @author matthewdowney
+ */
 public class BitcoindeAdapterTest {
 
   @Test

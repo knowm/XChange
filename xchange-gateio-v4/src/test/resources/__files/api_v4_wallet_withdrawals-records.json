@@ -1,0 +1,15 @@
+[
+  {
+    "id": "w35874123",
+    "currency": "LUFFY",
+    "address": "0x3dca2ae4d1d065220a731cf69f5a934914afc435",
+    "amount": "1030645.8587",
+    "fee": "10000",
+    "txid": "0x8f72d42b016a2b7b543149e707ff37fadded2ff3ef6767bee30b6003330f604b",
+    "chain": "ETH",
+    "timestamp": "1685619255",
+    "status": "DONE",
+    "withdraw_order_id": "a",
+    "memo": "b"
+  }
+]

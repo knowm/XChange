@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public enum BiboxOrderSide {
   BID(1, OrderType.BID),
   ASK(2, OrderType.ASK);

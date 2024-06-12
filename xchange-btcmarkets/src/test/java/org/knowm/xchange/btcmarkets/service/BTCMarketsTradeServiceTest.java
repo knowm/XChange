@@ -1,6 +1,7 @@
 package org.knowm.xchange.btcmarkets.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -23,7 +24,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -43,7 +43,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
     BTCMarketsPlaceOrderResponse orderResponse = new BTCMarketsPlaceOrderResponse("11111");
 
     when(btcMarketsAuthenticatedV3.placeOrder(
-            Mockito.eq(SPECIFICATION_API_KEY),
+            eq(SPECIFICATION_API_KEY),
             Mockito.any(SynchronizedValueFactory.class),
             Mockito.any(BTCMarketsDigestV3.class),
             Mockito.refEq(btcMarketsOrder)))
@@ -84,7 +84,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
     BTCMarketsPlaceOrderResponse orderResponse = new BTCMarketsPlaceOrderResponse("11111");
 
     when(btcMarketsAuthenticatedV3.placeOrder(
-            Mockito.eq(SPECIFICATION_API_KEY),
+            eq(SPECIFICATION_API_KEY),
             Mockito.any(SynchronizedValueFactory.class),
             Mockito.any(BTCMarketsDigestV3.class),
             Mockito.refEq(expectedRequest)))
@@ -126,7 +126,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
     BTCMarketsPlaceOrderResponse orderResponse = new BTCMarketsPlaceOrderResponse("11111");
 
     when(btcMarketsAuthenticatedV3.placeOrder(
-            Mockito.eq(SPECIFICATION_API_KEY),
+            eq(SPECIFICATION_API_KEY),
             Mockito.any(SynchronizedValueFactory.class),
             Mockito.any(BTCMarketsDigestV3.class),
             Mockito.refEq(expectedRequest)))
@@ -168,7 +168,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
     BTCMarketsPlaceOrderResponse orderResponse = new BTCMarketsPlaceOrderResponse("11111");
 
     when(btcMarketsAuthenticatedV3.placeOrder(
-            Mockito.eq(SPECIFICATION_API_KEY),
+            eq(SPECIFICATION_API_KEY),
             Mockito.any(SynchronizedValueFactory.class),
             Mockito.any(BTCMarketsDigestV3.class),
             Mockito.refEq(expectedRequest)))
@@ -194,7 +194,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
             Arrays.asList(new BTCMarketsException(true, null, 0, "12345", 111L, null)));
 
     when(btcMarketsAuthenticated.cancelOrder(
-            Mockito.eq(SPECIFICATION_API_KEY),
+            eq(SPECIFICATION_API_KEY),
             Mockito.any(SynchronizedValueFactory.class),
             Mockito.any(BTCMarketsDigest.class),
             Mockito.refEq(cancelOrderRequest)))
@@ -227,10 +227,10 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
     BTCMarketsOrders btcMarketsOrders = new BTCMarketsOrders(true, "", 0, new ArrayList<>());
 
     when(btcMarketsAuthenticated.getOrderDetails(
-            Mockito.eq(SPECIFICATION_API_KEY),
+            eq(SPECIFICATION_API_KEY),
             Mockito.any(SynchronizedValueFactory.class),
             Mockito.any(BTCMarketsDigest.class),
-            Matchers.eq(btcMarketsOrderDetailsRequest)))
+            eq(btcMarketsOrderDetailsRequest)))
         .thenReturn(btcMarketsOrders);
     // when
     Collection<Order> orders = btcMarketsTradeService.getOrder("1000");

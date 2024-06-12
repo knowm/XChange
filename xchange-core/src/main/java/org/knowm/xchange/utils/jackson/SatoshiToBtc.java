@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class SatoshiToBtc extends JsonDeserializer<BigDecimal> {
 
   @Override

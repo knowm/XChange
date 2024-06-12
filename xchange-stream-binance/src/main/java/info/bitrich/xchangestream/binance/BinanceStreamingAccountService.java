@@ -3,13 +3,13 @@ package info.bitrich.xchangestream.binance;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.OutboundAccountInfoBinanceWebsocketTransaction;
+import info.bitrich.xchangestream.binance.dto.OutboundAccountPositionBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.Subject;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
+import io.reactivex.rxjava3.subjects.Subject;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -17,9 +17,9 @@ import org.knowm.xchange.exceptions.ExchangeSecurityException;
 
 public class BinanceStreamingAccountService implements StreamingAccountService {
 
-  private final BehaviorSubject<OutboundAccountInfoBinanceWebsocketTransaction> accountInfoLast =
-      BehaviorSubject.create();
-  private final Subject<OutboundAccountInfoBinanceWebsocketTransaction> accountInfoPublisher =
+  private final BehaviorSubject<OutboundAccountPositionBinanceWebsocketTransaction>
+      accountInfoLast = BehaviorSubject.create();
+  private final Subject<OutboundAccountPositionBinanceWebsocketTransaction> accountInfoPublisher =
       accountInfoLast.toSerialized();
 
   private volatile Disposable accountInfo;
@@ -32,7 +32,7 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
     this.binanceUserDataStreamingService = binanceUserDataStreamingService;
   }
 
-  public Observable<OutboundAccountInfoBinanceWebsocketTransaction> getRawAccountInfo() {
+  public Observable<OutboundAccountPositionBinanceWebsocketTransaction> getRawAccountInfo() {
     checkConnected();
     return accountInfoPublisher;
   }
@@ -40,7 +40,7 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
   public Observable<Balance> getBalanceChanges() {
     checkConnected();
     return getRawAccountInfo()
-        .map(OutboundAccountInfoBinanceWebsocketTransaction::toBalanceList)
+        .map(OutboundAccountPositionBinanceWebsocketTransaction::toBalanceList)
         .flatMap(Observable::fromIterable);
   }
 
@@ -65,7 +65,7 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
       accountInfo =
           binanceUserDataStreamingService
               .subscribeChannel(
-                  BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.OUTBOUND_ACCOUNT_INFO)
+                  BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.OUTBOUND_ACCOUNT_POSITION)
               .map(this::accountInfo)
               .filter(
                   m ->
@@ -87,9 +87,9 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
     openSubscriptions();
   }
 
-  private OutboundAccountInfoBinanceWebsocketTransaction accountInfo(JsonNode json) {
+  private OutboundAccountPositionBinanceWebsocketTransaction accountInfo(JsonNode json) {
     try {
-      return mapper.treeToValue(json, OutboundAccountInfoBinanceWebsocketTransaction.class);
+      return mapper.treeToValue(json, OutboundAccountPositionBinanceWebsocketTransaction.class);
     } catch (Exception e) {
       throw new ExchangeException("Unable to parse account info", e);
     }

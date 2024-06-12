@@ -18,13 +18,14 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.lgo.dto.WithCursor;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrency;
@@ -53,7 +54,7 @@ public final class LgoAdapters {
 
   public static ExchangeMetaData adaptMetadata(
       ExchangeMetaData metaData, LgoProducts products, LgoCurrencies currencies) {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = metaData.getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> currencyPairs = metaData.getInstruments();
     Map<Currency, CurrencyMetaData> currency = metaData.getCurrencies();
     for (LgoCurrency lgoCurrency : currencies.getCurrencies()) {
       currency.put(
@@ -67,19 +68,16 @@ public final class LgoAdapters {
       BigDecimal increment = product.getQuote().getIncrement().stripTrailingZeros();
       currencyPairs.put(
           toPair(product),
-          new CurrencyPairMetaData(
-              null,
-              minAmount,
-              maxAmount,
-              null,
-              null,
-              baseScale,
-              increment.scale(),
-              null,
-              new FeeTier[0],
-              increment,
-              Currency.USD,
-              true));
+          new InstrumentMetaData.Builder()
+              .minimumAmount(minAmount)
+              .maximumAmount(maxAmount)
+              .volumeScale(baseScale)
+              .priceScale(increment.scale())
+              .amountStepSize(increment)
+              .feeTiers(new FeeTier[0])
+              .tradingFeeCurrency(Currency.USD)
+              .marketOrderEnabled(true)
+              .build());
     }
     return metaData;
   }
@@ -162,7 +160,7 @@ public final class LgoAdapters {
     OrderType type = adaptUserTradeType(lgoUserTrade);
     CurrencyPair currencyPair = adaptProductId(lgoUserTrade.getProductId());
     Date creationDate = lgoUserTrade.getCreationDate();
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(type)
         .originalAmount(lgoUserTrade.getQuantity())
         .currencyPair(currencyPair)

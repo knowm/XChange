@@ -2,20 +2,20 @@ package org.knowm.xchange.coinbasepro;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinbasepro.dto.CoinbasePagedResponse;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
@@ -239,7 +239,7 @@ public interface CoinbasePro {
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("account_id") String accountId,
-      @QueryParam("after") Integer startingOrderId)
+      @QueryParam("after") String startingOrderId)
       throws CoinbaseProException, IOException;
 
   @GET

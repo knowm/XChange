@@ -10,14 +10,16 @@ import org.knowm.xchange.cexio.CexIOExchange;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOCurrencyLimits;
 import org.knowm.xchange.cexio.service.CexIOMarketDataService;
 
-/** @author ujjwal on 14/02/18. */
+/**
+ * @author ujjwal on 14/02/18.
+ */
 public class RemoteInitIntegration {
   @Test
   public void integrationTest() throws IOException {
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CexIOExchange.class);
 
     assertThat(exchange).isNotNull();
-    assertThat(exchange.getExchangeMetaData().getCurrencyPairs()).isNotEmpty();
+    assertThat(exchange.getExchangeMetaData().getInstruments()).isNotEmpty();
 
     final CexIOCurrencyLimits currencyLimits =
         ((CexIOMarketDataService) exchange.getMarketDataService()).getCurrencyLimits();

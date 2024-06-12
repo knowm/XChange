@@ -4,8 +4,8 @@ import info.bitrich.xchangestream.bitmex.dto.BitmexTicker;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.util.BookSanityChecker;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +18,9 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** @author Foat Akhmadeev 31/05/2018 */
+/**
+ * @author Foat Akhmadeev 31/05/2018
+ */
 @Ignore // Requires Bitmex to be up and contactable or the build fails.
 public class BitmexTest {
   private static final Logger LOG = LoggerFactory.getLogger(BitmexTest.class);
@@ -49,10 +51,8 @@ public class BitmexTest {
   private <T> void awaitDataCount(Observable<T> observable) {
     observable
         .test()
-        .assertSubscribed()
         .assertNoErrors()
         .awaitCount(BitmexTest.MIN_DATA_COUNT)
-        .assertNoTimeout()
         .dispose();
   }
 
@@ -85,16 +85,14 @@ public class BitmexTest {
     streamingMarketDataService
         .getOrderBook(xbtUsd)
         .test()
-        .assertSubscribed()
-        .assertNoErrors()
+        .assertComplete()
         .awaitCount(10)
-        .assertNever(
+        .assertValue(
             book -> {
               String err = BookSanityChecker.hasErrors(book);
               LOG.info("err {}", err);
-              return err != null;
+              return err == null;
             })
-        .assertNoTimeout()
         .dispose();
   }
 }

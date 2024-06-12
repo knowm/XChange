@@ -10,7 +10,9 @@ public enum Withdrawal {
     this.value = value;
   }
 
-  /** @return the value */
+  /**
+   * @return the value
+   */
   public int getValue() {
     return value;
   }

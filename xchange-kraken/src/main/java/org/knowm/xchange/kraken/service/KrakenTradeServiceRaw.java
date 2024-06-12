@@ -1,21 +1,17 @@
 package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.*;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
-import org.knowm.xchange.kraken.dto.trade.KrakenOpenPosition;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
-import org.knowm.xchange.kraken.dto.trade.KrakenStandardOrder;
+import org.knowm.xchange.kraken.dto.trade.*;
 import org.knowm.xchange.kraken.dto.trade.KrakenStandardOrder.KrakenOrderBuilder;
-import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
-import org.knowm.xchange.kraken.dto.trade.KrakenType;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenCancelOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenCancelOrderResult.KrakenCancelOrderResponse;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenClosedOrdersResult;
@@ -217,9 +213,17 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
                 limitOrder.getOriginalAmount())
             .withUserRefId(limitOrder.getUserReference())
             .withOrderFlags(limitOrder.getOrderFlags())
-            .withLeverage(limitOrder.getLeverage());
+            .withLeverage(limitOrder.getLeverage())
+            .withTimeInForce(timeInForceFromOrder(limitOrder).orElse(null));
 
     return placeKrakenOrder(krakenOrderBuilder.buildOrder());
+  }
+
+  private Optional<TimeInForce> timeInForceFromOrder(Order order) {
+    return order.getOrderFlags().stream()
+        .filter(flag -> flag instanceof TimeInForce)
+        .map(flag -> (TimeInForce) flag)
+        .findFirst();
   }
 
   public KrakenOrderResponse placeKrakenOrder(KrakenStandardOrder krakenStandardOrder)
@@ -242,6 +246,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
               krakenStandardOrder.getExpireTime(),
               krakenStandardOrder.getUserRefId(),
               krakenStandardOrder.getCloseOrder(),
+              nullSafeToString(krakenStandardOrder.getTimeInForce()),
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory());
@@ -262,6 +267,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
               krakenStandardOrder.getUserRefId(),
               true,
               krakenStandardOrder.getCloseOrder(),
+              nullSafeToString(krakenStandardOrder.getTimeInForce()),
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory());
@@ -308,5 +314,9 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
             exchange.getNonceFactory());
 
     return checkResult(krakenOrderResult);
+  }
+
+  private String nullSafeToString(Object value) {
+    return value == null ? null : value.toString();
   }
 }

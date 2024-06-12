@@ -2,19 +2,27 @@ package org.knowm.xchange.kraken.service;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.tomakehurst.wiremock.verification.*;
+import java.math.*;
+import java.util.*;
+import java.util.stream.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.kraken.dto.trade.*;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 
@@ -117,6 +125,57 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
     assertThat(secondUserTrade.getOriginalAmount()).isNotNull().isPositive();
     assertThat(secondUserTrade.getId()).isNotBlank();
     assertThat(secondUserTrade.getInstrument()).isEqualTo(CurrencyPair.LTC_USD);
+  }
+
+  @Test
+  public void placeOrderTest() throws Exception {
+    stubAddOrderApi();
+
+    String orderId = classUnderTest.placeLimitOrder(LIMIT_ORDER);
+    assertThat(orderId).isEqualTo("OUF4EM-FRGI2-MQMWZD");
+
+    List<LoggedRequest> requests =
+        wireMockRule.findAll(postRequestedFor(urlEqualTo("/0/private/AddOrder")));
+    assertThat(requests).hasSize(1);
+
+    Map<String, String> requestParams = parseAddOrderRequestBody(requests.get(0));
+    assertThat(requestParams.get("type")).isEqualTo("buy");
+    assertThat(requestParams.get("volume")).isEqualTo("2.12340000");
+    assertThat(requestParams.get("pair")).isEqualTo("XXBTZUSD");
+    assertThat(requestParams.get("price")).isEqualTo("45000.1");
+  }
+
+  @Test
+  public void placeOrderWithTimeInForceTest() throws Exception {
+    stubAddOrderApi();
+
+    LimitOrder order = LIMIT_ORDER;
+    order.addOrderFlag(TimeInForce.IOC);
+
+    classUnderTest.placeLimitOrder(order);
+
+    List<LoggedRequest> requests =
+        wireMockRule.findAll(postRequestedFor(urlEqualTo("/0/private/AddOrder")));
+    assertThat(requests).hasSize(1);
+
+    Map<String, String> requestParams = parseAddOrderRequestBody(requests.get(0));
+    assertThat(requestParams.get("timeinforce")).isEqualTo("IOC");
+  }
+
+  private void stubAddOrderApi() {
+    stubFor(
+        post(urlPathEqualTo("/0/private/AddOrder"))
+            .willReturn(
+                aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(PLACE_ORDER_RESPONSE_BODY)));
+  }
+
+  private Map<String, String> parseAddOrderRequestBody(LoggedRequest request) {
+    return Arrays.stream(request.getBodyAsString().split("&"))
+        .map(keyValueString -> keyValueString.split("=", 2))
+        .collect(Collectors.toMap(a -> a[0], b -> b[1]));
   }
 
   private static String OPEN_ORDERS_BODY =
@@ -973,6 +1032,29 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
           + "      }\n"
           + "    },\n"
           + "    \"count\": 2346\n"
+          + "  }\n"
+          + "}";
+
+  public static final LimitOrder LIMIT_ORDER =
+      new LimitOrder(
+          Order.OrderType.BID,
+          new BigDecimal("2.12340000"),
+          CurrencyPair.XBT_USD,
+          null,
+          null,
+          new BigDecimal("45000.1"));
+
+  private static String PLACE_ORDER_RESPONSE_BODY =
+      "{\n"
+          + "  \"error\": [],\n"
+          + "  \"result\": {\n"
+          + "    \"descr\": {\n"
+          + "      \"order\": \"buy 2.12340000 XBTUSD @ limit 45000.1 with 2:1 leverage\",\n"
+          + "      \"close\": \"close position @ stop loss 38000.0 -> limit 36000.0\"\n"
+          + "    },\n"
+          + "    \"txid\": [\n"
+          + "      \"OUF4EM-FRGI2-MQMWZD\"\n"
+          + "    ]\n"
           + "  }\n"
           + "}";
 }

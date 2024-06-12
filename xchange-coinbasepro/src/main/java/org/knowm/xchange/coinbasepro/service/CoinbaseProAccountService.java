@@ -14,17 +14,18 @@ import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFee;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProTransfersWithHeader;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
@@ -46,11 +47,11 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   }
 
   @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
     CoinbaseProFee fees = getCoinbaseProFees();
 
-    Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
-    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
+    Map<Instrument, Fee> tradingFees = new HashMap<>();
+    List<Instrument> pairs = exchange.getExchangeInstruments();
 
     pairs.forEach(pair -> tradingFees.put(pair, new Fee(fees.getMakerRate(), fees.getTakerRate())));
     return tradingFees;
@@ -141,6 +142,62 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
     return new CoinbaseProTradeHistoryParams();
+  }
+
+  public CoinbaseProTransfersWithHeader getTransfersWithPagination(TradeHistoryParams params)
+      throws IOException {
+
+    String fundingRecordType;
+    if (params instanceof HistoryParamsFundingType
+        && ((HistoryParamsFundingType) params).getType() != null) {
+      FundingRecord.Type type = ((HistoryParamsFundingType) params).getType();
+      fundingRecordType = type == FundingRecord.Type.WITHDRAWAL ? "withdraw" : "deposit";
+    } else {
+      throw new ExchangeException(
+          "Type 'deposit' or 'withdraw' must be supplied using FundingRecord.Type");
+    }
+    String beforeItem = "";
+    String afterItem = "";
+    int maxPageSize = 100;
+    if (params instanceof CoinbaseProTradeHistoryParams) {
+      maxPageSize = ((CoinbaseProTradeHistoryParams) params).getLimit();
+      afterItem = ((CoinbaseProTradeHistoryParams) params).getAfterTransferId();
+      beforeItem = ((CoinbaseProTradeHistoryParams) params).getBeforeTransferId();
+    }
+
+    List<FundingRecord> fundingHistory = new ArrayList<>();
+
+    Map<String, String> accountToCurrencyMap =
+        Stream.of(getCoinbaseProAccountInfo())
+            .collect(
+                Collectors.toMap(
+                    org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount::getId,
+                    org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount::getCurrency));
+
+    while (true) {
+      CoinbaseProTransfers transfers =
+          transfers(fundingRecordType, null, beforeItem, afterItem, maxPageSize);
+
+      for (CoinbaseProTransfer coinbaseProTransfer : transfers) {
+        Currency currency =
+            Currency.getInstance(accountToCurrencyMap.get(coinbaseProTransfer.getAccountId()));
+        fundingHistory.add(CoinbaseProAdapters.adaptFundingRecord(currency, coinbaseProTransfer));
+      }
+      if (transfers.size() > 0) {
+        afterItem = transfers.getHeader("Cb-After");
+        beforeItem = transfers.getHeader("Cb-Before");
+      }
+
+      if (transfers.size() < maxPageSize) {
+        break;
+      }
+    }
+
+    CoinbaseProTransfersWithHeader allTransfers = new CoinbaseProTransfersWithHeader();
+    allTransfers.setCbAfter(afterItem);
+    allTransfers.setCbBefore(beforeItem);
+    allTransfers.setFundingRecords(fundingHistory);
+    return allTransfers;
   }
 
   @Override

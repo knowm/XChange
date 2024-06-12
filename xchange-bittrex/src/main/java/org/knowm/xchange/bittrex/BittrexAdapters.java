@@ -36,11 +36,12 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 
 public final class BittrexAdapters {
 
@@ -145,7 +146,7 @@ public final class BittrexAdapters {
     return bittrexUserTrades.stream()
         .map(
             bittrexOrder ->
-                new UserTrade.Builder()
+                UserTrade.builder()
                     .type(
                         BittrexConstants.BUY.equalsIgnoreCase(bittrexOrder.getDirection())
                             ? OrderType.BID
@@ -241,12 +242,11 @@ public final class BittrexAdapters {
   public static void adaptMetaData(
       List<BittrexSymbol> rawSymbols,
       List<BittrexCurrency> bittrexCurrencies,
-      Map<CurrencyPair, Fee> dynamicTradingFees,
+      Map<Instrument, Fee> dynamicTradingFees,
       ExchangeMetaData metaData) {
     List<CurrencyPair> currencyPairs = BittrexAdapters.adaptCurrencyPairs(rawSymbols);
     for (CurrencyPair currencyPair : currencyPairs) {
-      CurrencyPairMetaData defaultCurrencyPairMetaData =
-          metaData.getCurrencyPairs().get(currencyPair);
+      InstrumentMetaData defaultCurrencyPairMetaData = metaData.getInstruments().get(currencyPair);
       BigDecimal resultingFee = null;
       // Prioritize dynamic fee
       if (dynamicTradingFees != null) {
@@ -260,23 +260,23 @@ public final class BittrexAdapters {
         }
       }
 
-      CurrencyPairMetaData newCurrencyPairMetaData;
+      InstrumentMetaData newCurrencyPairMetaData;
       if (defaultCurrencyPairMetaData != null) {
         newCurrencyPairMetaData =
-            new CurrencyPairMetaData(
-                resultingFee,
-                defaultCurrencyPairMetaData.getMinimumAmount(),
-                defaultCurrencyPairMetaData.getMaximumAmount(),
-                defaultCurrencyPairMetaData.getPriceScale(),
-                defaultCurrencyPairMetaData.getVolumeScale(),
-                defaultCurrencyPairMetaData.getFeeTiers(),
-                defaultCurrencyPairMetaData.getTradingFeeCurrency());
+            new InstrumentMetaData.Builder()
+                .tradingFee(resultingFee)
+                .minimumAmount(defaultCurrencyPairMetaData.getMinimumAmount())
+                .maximumAmount(defaultCurrencyPairMetaData.getMaximumAmount())
+                .priceScale(defaultCurrencyPairMetaData.getPriceScale())
+                .volumeScale(defaultCurrencyPairMetaData.getVolumeScale())
+                .feeTiers(defaultCurrencyPairMetaData.getFeeTiers())
+                .tradingFeeCurrency(defaultCurrencyPairMetaData.getTradingFeeCurrency())
+                .build();
       } else {
-        newCurrencyPairMetaData =
-            new CurrencyPairMetaData(resultingFee, null, null, null, null, null, null);
+        newCurrencyPairMetaData = new InstrumentMetaData.Builder().tradingFee(resultingFee).build();
       }
 
-      metaData.getCurrencyPairs().put(currencyPair, newCurrencyPairMetaData);
+      metaData.getInstruments().put(currencyPair, newCurrencyPairMetaData);
     }
 
     for (BittrexCurrency bittrexCurrency : bittrexCurrencies) {

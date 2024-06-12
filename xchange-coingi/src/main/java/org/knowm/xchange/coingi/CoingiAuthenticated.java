@@ -1,11 +1,11 @@
 package org.knowm.xchange.coingi;
 
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coingi.dto.CoingiException;
 import org.knowm.xchange.coingi.dto.account.CoingiBalanceRequest;
 import org.knowm.xchange.coingi.dto.account.CoingiBalances;
@@ -32,7 +32,9 @@ public interface CoingiAuthenticated {
   CoingiPlaceOrderResponse placeLimitOrder(CoingiPlaceLimitOrderRequest request)
       throws CoingiException, IOException;
 
-  /** @return true if order has been canceled. */
+  /**
+   * @return true if order has been canceled.
+   */
   @POST
   @Path("cancel-order")
   CoingiOrder cancelOrder(CoingiCancelOrderRequest request) throws CoingiException, IOException;

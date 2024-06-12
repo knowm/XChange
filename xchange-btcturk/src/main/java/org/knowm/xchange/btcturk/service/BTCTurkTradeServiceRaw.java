@@ -18,7 +18,9 @@ import org.knowm.xchange.btcturk.dto.trade.BTCTurkOpenOrders;
 import org.knowm.xchange.btcturk.dto.trade.BTCTurkOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public class BTCTurkTradeServiceRaw extends BTCTurkBaseService {
 
   public BTCTurkTradeServiceRaw(Exchange exchange) {

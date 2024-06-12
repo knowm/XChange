@@ -18,7 +18,9 @@ import org.knowm.xchange.bibox.dto.account.BiboxWithdrawal;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-/** @author odrotleff */
+/**
+ * @author odrotleff
+ */
 public class BiboxAccountServiceRaw extends BiboxBaseService {
 
   protected BiboxAccountServiceRaw(Exchange exchange) {

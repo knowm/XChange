@@ -23,7 +23,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeService {
 
   /**

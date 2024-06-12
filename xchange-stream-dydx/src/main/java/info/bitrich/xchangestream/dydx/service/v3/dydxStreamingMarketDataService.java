@@ -8,7 +8,7 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.dydx.dto.v3.dydxInitialOrderBookMessage;
 import info.bitrich.xchangestream.dydx.dto.v3.dydxUpdateOrderBookMessage;
 import info.bitrich.xchangestream.dydx.dydxStreamingService;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
@@ -18,9 +18,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 20-02-2021 */
 public class dydxStreamingMarketDataService implements StreamingMarketDataService {
@@ -36,7 +34,7 @@ public class dydxStreamingMarketDataService implements StreamingMarketDataServic
     this.service = service;
   }
 
-  private boolean containsPair(List<CurrencyPair> pairs, CurrencyPair pair) {
+  private boolean containsPair(List<Instrument> pairs, CurrencyPair pair) {
     return pairs.stream().anyMatch(p -> p.equals(pair));
   }
 
@@ -74,13 +72,4 @@ public class dydxStreamingMarketDataService implements StreamingMarketDataServic
             });
   }
 
-  @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException("Not yet implemented!");
-  }
-
-  @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException("Not yet implemented!");
-  }
 }

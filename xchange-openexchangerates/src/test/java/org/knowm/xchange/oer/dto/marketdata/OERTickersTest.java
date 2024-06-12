@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.junit.Test;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class OERTickersTest {
 
   @Test
@@ -25,10 +27,10 @@ public class OERTickersTest {
     OERTickers oERTickers = mapper.readValue(is, OERTickers.class);
 
     // Verify that the example data was unmarshalled correctly
-    System.out.println(oERTickers.getTimestamp().toString());
+    //    System.out.println(oERTickers.getTimestamp().toString());
     assertThat(oERTickers.getTimestamp()).isEqualTo(1354687208L);
 
-    System.out.println(oERTickers.getRates().getAED());
+    //    System.out.println(oERTickers.getRates().getAED());
     assertThat(oERTickers.getRates().getAED()).isEqualTo(3.672989);
   }
 }

@@ -13,7 +13,9 @@ import org.knowm.xchange.coinbase.dto.merchant.CoinbaseButtonStyle.CoinbaseButto
 import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
 import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 @JsonDeserialize(using = CoinbaseButtonStyleDeserializer.class)
 @JsonSerialize(using = EnumLowercaseJsonSerializer.class)
 public enum CoinbaseButtonStyle {

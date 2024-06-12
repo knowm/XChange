@@ -181,18 +181,6 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-
-    Collection<Order> orders = new ArrayList<>(orderIds.length);
-
-    for (String orderId : orderIds) {
-      orders.add(GeminiAdapters.adaptOrder(super.getGeminiOrderStatus(orderId)));
-    }
-
-    return orders;
-  }
-
-  @Override
   public Collection<Order> getOrder(OrderQueryParams... params) throws IOException {
 
     Collection<Order> orders = new ArrayList<>(params.length);

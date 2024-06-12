@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
@@ -21,11 +20,13 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfer;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
+import org.knowm.xchange.instrument.Instrument;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class GeminiAccountServiceRaw extends GeminiBaseService {
 
-  protected final List<CurrencyPair> allCurrencyPairs;
+  protected final List<Instrument> allCurrencyPairs;
+
   /**
    * Constructor
    *
@@ -34,7 +35,7 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
   public GeminiAccountServiceRaw(Exchange exchange) {
     super(exchange);
     this.allCurrencyPairs =
-        new ArrayList<CurrencyPair>(exchange.getExchangeMetaData().getCurrencyPairs().keySet());
+        new ArrayList<>(exchange.getExchangeMetaData().getInstruments().keySet());
   }
 
   public List<GeminiTransfer> transfers(Date from, Integer limit) throws IOException {
@@ -48,9 +49,7 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
     try {
       GeminiBalancesRequest request =
           new GeminiBalancesRequest(String.valueOf(exchange.getNonceFactory().createValue()));
-      GeminiBalancesResponse[] balances =
-          gemini.balances(apiKey, payloadCreator, signatureCreator, request);
-      return balances;
+      return gemini.balances(apiKey, payloadCreator, signatureCreator, request);
     } catch (GeminiException e) {
       throw handleException(e);
     }
@@ -99,9 +98,7 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
       GeminiTrailingVolumeRequest request =
           new GeminiTrailingVolumeRequest(String.valueOf(exchange.getNonceFactory().createValue()));
 
-      GeminiTrailingVolumeResponse trailingVolResp =
-          gemini.TrailingVolume(apiKey, payloadCreator, signatureCreator, request);
-      return trailingVolResp;
+      return gemini.TrailingVolume(apiKey, payloadCreator, signatureCreator, request);
     } catch (GeminiException e) {
       throw handleException(e);
     }

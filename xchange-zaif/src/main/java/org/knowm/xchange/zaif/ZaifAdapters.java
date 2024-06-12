@@ -7,9 +7,10 @@ import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.zaif.dto.marketdata.ZaifFullBook;
 import org.knowm.xchange.zaif.dto.marketdata.ZaifFullBookTier;
 import org.knowm.xchange.zaif.dto.marketdata.ZaifMarket;
@@ -46,9 +47,9 @@ public class ZaifAdapters {
   }
 
   public static ExchangeMetaData adaptMetadata(List<ZaifMarket> markets) {
-    Map<CurrencyPair, CurrencyPairMetaData> pairMeta = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> pairMeta = new HashMap<>();
     for (ZaifMarket zaifMarket : markets) {
-      pairMeta.put(zaifMarket.getName(), new CurrencyPairMetaData(null, null, null, null, null));
+      pairMeta.put(zaifMarket.getName(), new InstrumentMetaData.Builder().build());
     }
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }

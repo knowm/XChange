@@ -1,31 +1,53 @@
 package org.knowm.xchange.coinex;
 
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.coinex.dto.account.CoinexBalances;
+import java.util.List;
+import org.knowm.xchange.coinex.dto.CoinexException;
+import org.knowm.xchange.coinex.dto.CoinexResponse;
+import org.knowm.xchange.coinex.dto.account.CoinexBalanceInfo;
+import org.knowm.xchange.coinex.dto.account.CoinexOrder;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-@Path("v1")
+@Path("")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 public interface CoinexAuthenticated {
 
-  String HEADER_AUTHORIZATION = "authorization";
-  String HEADER_USER_AGENT = "User-Agent";
+  @GET
+  @Path("v2/assets/spot/balance")
+  CoinexResponse<List<CoinexBalanceInfo>> balances(
+      @HeaderParam("X-COINEX-KEY") String apiKey,
+      @HeaderParam("X-COINEX-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("X-COINEX-SIGN") ParamsDigest signer)
+      throws IOException, CoinexException;
+
+  @POST
+  @Path("v2/spot/order")
+  @Consumes(MediaType.APPLICATION_JSON)
+  CoinexResponse<CoinexOrder> createOrder(
+      @HeaderParam("X-COINEX-KEY") String apiKey,
+      @HeaderParam("X-COINEX-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("X-COINEX-SIGN") ParamsDigest signer,
+      CoinexOrder coinexOrder)
+      throws IOException, CoinexException;
 
   @GET
-  @Path("balance/info")
-  CoinexBalances getWallet(
-      //            @HeaderParam(HEADER_USER_AGENT) String user_agent_info,
-      @HeaderParam(HEADER_AUTHORIZATION) ParamsDigest sign,
-      @QueryParam("access_id") String access_id,
-      @QueryParam("tonce") SynchronizedValueFactory<Long> tonce)
-      throws IOException;
+  @Path("v2/spot/order-status")
+  CoinexResponse<CoinexOrder> orderStatus(
+      @HeaderParam("X-COINEX-KEY") String apiKey,
+      @HeaderParam("X-COINEX-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("X-COINEX-SIGN") ParamsDigest signer,
+      @QueryParam("market") String market,
+      @QueryParam("order_id") String orderId)
+      throws IOException, CoinexException;
+
+
 }

@@ -6,7 +6,9 @@ import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public class CexIOBaseService extends BaseExchangeService implements BaseService {
 
   protected final CexIOAuthenticated cexIOAuthenticated;

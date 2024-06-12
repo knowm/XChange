@@ -130,7 +130,7 @@ public class LgoStreamingExchangeExample {
                     null,
                     new Date(),
                     new BigDecimal("12000")));
-    System.out.println("Order was placed with reference: " + ref);
+    //    System.out.println("Order was placed with reference: " + ref);
   }
 
   @Test
@@ -145,7 +145,7 @@ public class LgoStreamingExchangeExample {
                     CurrencyPair.BTC_USD,
                     null,
                     new Date()));
-    System.out.println("Order was placed with reference: " + ref);
+    //    System.out.println("Order was placed with reference: " + ref);
   }
 
   @Test

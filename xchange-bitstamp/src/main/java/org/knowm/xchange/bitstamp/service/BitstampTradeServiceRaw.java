@@ -16,7 +16,9 @@ import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author gnandiga */
+/**
+ * @author gnandiga
+ */
 public class BitstampTradeServiceRaw extends BitstampBaseService {
 
   private static final String API_VERSION = "v2";
@@ -105,6 +107,45 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
           new BitstampV2.Pair(pair),
           originalAmount,
           price);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampOrder placeBitstampInstantSellMarketOrder(
+      CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal amount, boolean amountInCounter)
+      throws IOException {
+
+    try {
+      return bitstampAuthenticatedV2.placeInstantSellMarketOrder(
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          side,
+          new BitstampV2.Pair(pair),
+          amount,
+          amountInCounter);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampOrder placeBitstampInstantMarketOrder(
+      CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal amount)
+      throws IOException {
+
+    try {
+      return bitstampAuthenticatedV2.placeInstantMarketOrder(
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          side,
+          new BitstampV2.Pair(pair),
+          amount);
     } catch (BitstampException e) {
       throw handleError(e);
     }

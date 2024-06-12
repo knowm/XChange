@@ -1,5 +1,6 @@
 package org.knowm.xchange.binance;
 
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
@@ -8,6 +9,7 @@ import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
@@ -15,7 +17,7 @@ import org.knowm.xchange.binance.service.BinanceAccountService;
 
 public class BinanceExchangeIntegration {
   protected static BinanceExchange exchange;
-  @Rule public WireMockRule wireMockRule = new WireMockRule();
+  @Rule public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
 
   @BeforeClass
   public static void beforeClass() throws Exception {
@@ -35,10 +37,8 @@ public class BinanceExchangeIntegration {
     exchange = ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BinanceExchange.class);
     ExchangeSpecification spec = exchange.getDefaultExchangeSpecification();
     boolean useSandbox =
-        Boolean.parseBoolean(
-            System.getProperty(
-                BinanceExchange.SPECIFIC_PARAM_USE_SANDBOX, Boolean.FALSE.toString()));
-    spec.setExchangeSpecificParametersItem(BinanceExchange.SPECIFIC_PARAM_USE_SANDBOX, useSandbox);
+        Boolean.parseBoolean(System.getProperty(Exchange.USE_SANDBOX, Boolean.FALSE.toString()));
+    spec.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, useSandbox);
     exchange.applySpecification(spec);
   }
 

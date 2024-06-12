@@ -16,9 +16,10 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 public class CryptowatchAdapters {
 
@@ -26,10 +27,10 @@ public class CryptowatchAdapters {
       ExchangeMetaData exchangeMetaData,
       List<CryptowatchAssetPair> assetPairs,
       List<CryptowatchAsset> assets) {
-    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> pairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     if (exchangeMetaData != null) {
-      pairs.putAll(exchangeMetaData.getCurrencyPairs());
+      pairs.putAll(exchangeMetaData.getInstruments());
       currencies.putAll(exchangeMetaData.getCurrencies());
     }
     pairs.putAll(
@@ -68,12 +69,12 @@ public class CryptowatchAdapters {
     return Currency.getInstance(asset.getSymbol());
   }
 
-  private static CurrencyPairMetaData adaptToCurrencyPairMetadata(
-      CurrencyPairMetaData currencyPairMetaData) {
+  private static InstrumentMetaData adaptToCurrencyPairMetadata(
+      InstrumentMetaData currencyPairMetaData) {
     if (currencyPairMetaData != null) {
       return currencyPairMetaData;
     } else {
-      return new CurrencyPairMetaData(null, null, null, null, null);
+      return new InstrumentMetaData.Builder().build();
     }
   }
 

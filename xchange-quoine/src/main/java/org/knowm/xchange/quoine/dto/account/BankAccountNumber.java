@@ -2,7 +2,9 @@ package org.knowm.xchange.quoine.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** @author timmolter */
+/**
+ * @author timmolter
+ */
 public final class BankAccountNumber {
 
   private final String accountNumber;

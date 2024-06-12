@@ -21,7 +21,8 @@ public class CoinbaseProWebSocketSubscriptionMessageTest {
             .addTicker(CurrencyPair.BTC_USD)
             .build();
     CoinbaseProWebSocketSubscriptionMessage message =
-        new CoinbaseProWebSocketSubscriptionMessage("subscribe", productSubscription, false, null);
+        new CoinbaseProWebSocketSubscriptionMessage(
+            "subscribe", productSubscription, CoinbaseProOrderBookMode.Default, null);
 
     final ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
@@ -43,7 +44,8 @@ public class CoinbaseProWebSocketSubscriptionMessageTest {
             .addTicker(CurrencyPair.BTC_USD)
             .build();
     CoinbaseProWebSocketSubscriptionMessage message =
-        new CoinbaseProWebSocketSubscriptionMessage("subscribe", productSubscription, true, null);
+        new CoinbaseProWebSocketSubscriptionMessage(
+            "subscribe", productSubscription, CoinbaseProOrderBookMode.Full, null);
 
     final ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
@@ -52,6 +54,29 @@ public class CoinbaseProWebSocketSubscriptionMessageTest {
 
     Assert.assertEquals(
         "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"full\",\"product_ids\":[\"BTC-USD\"]}]}",
+        serialized);
+  }
+
+  @Test
+  public void testWebSocketMessageSerializationBatch() throws JsonProcessingException {
+
+    ProductSubscription productSubscription =
+        ProductSubscription.create()
+            .addOrderbook(CurrencyPair.BTC_USD)
+            .addTrades(CurrencyPair.BTC_USD)
+            .addTicker(CurrencyPair.BTC_USD)
+            .build();
+    CoinbaseProWebSocketSubscriptionMessage message =
+        new CoinbaseProWebSocketSubscriptionMessage(
+            "subscribe", productSubscription, CoinbaseProOrderBookMode.Batch, null);
+
+    final ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+
+    String serialized = mapper.writeValueAsString(message);
+
+    Assert.assertEquals(
+        "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2_batch\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]}]}",
         serialized);
   }
 }

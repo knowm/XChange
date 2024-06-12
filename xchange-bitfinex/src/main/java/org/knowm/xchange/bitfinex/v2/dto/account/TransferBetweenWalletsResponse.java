@@ -14,8 +14,10 @@ import lombok.Value;
 public class TransferBetweenWalletsResponse {
   /** Millisecond Time Stamp of the update */
   private long timestamp;
+
   /** acc_tf */
   private String type;
+
   /** unique ID of the message */
   private Long messageId;
 
@@ -24,8 +26,10 @@ public class TransferBetweenWalletsResponse {
 
   /** Work in progress */
   private Integer code;
+
   /** Status of the notification; it may vary over time (SUCCESS, ERROR, FAILURE, ...) */
   private String status;
+
   /** Text of the notification */
   private String text;
 
@@ -39,18 +43,23 @@ public class TransferBetweenWalletsResponse {
   public static class Transfer {
     /** Millisecond Time Stamp when the transfer was created */
     private long timestamp;
+
     /** Starting wallet */
     private String walletFrom;
+
     /** Destination wallet */
     private String walletTo;
 
     private Object placeHolder0;
+
     /** Currency */
     private String currency;
+
     /** Currency converted to */
     private String currencyTo;
 
     private Object placeHolder1;
+
     /** Amount of Transfer */
     private BigDecimal amount;
 

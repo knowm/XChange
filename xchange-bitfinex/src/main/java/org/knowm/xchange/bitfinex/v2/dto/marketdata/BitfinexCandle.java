@@ -8,7 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
-/** @author cyrus13 * */
+/**
+ * @author cyrus13 *
+ */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 @Jacksonized
 @Data

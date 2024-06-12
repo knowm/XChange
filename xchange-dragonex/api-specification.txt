@@ -1,6 +1,0 @@
-Dragonex Exchange API specification
-================================
-
-Documentation
--------------
-https://github.com/Dragonexio/OpenApi/tree/master/docs

@@ -12,7 +12,8 @@ public class ExchangeInitIntegration {
   public void ftxInitializationTest() {
     Exchange ftx = ExchangeFactory.INSTANCE.createExchange(FtxExchange.class);
 
-    assertThat(ftx.getExchangeSymbols().isEmpty()).isFalse();
     assertThat(ftx.getExchangeInstruments().isEmpty()).isFalse();
+    assertThat(ftx.getExchangeInstruments().isEmpty()).isFalse();
+    assertThat(ftx.getExchangeMetaData().getInstruments().isEmpty()).isFalse();
   }
 }

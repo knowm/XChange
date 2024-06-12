@@ -30,6 +30,7 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiWalletJSONTest;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
+import org.knowm.xchange.instrument.Instrument;
 
 public class GeminiAdaptersTest {
 
@@ -407,14 +408,14 @@ public class GeminiAdaptersTest {
     GeminiTrailingVolumeResponse trailingVolumeResp =
         mapper.readValue(is, GeminiTrailingVolumeResponse.class);
 
-    List<CurrencyPair> fakeSupportedCurrencyPairs =
-        new ArrayList<CurrencyPair>(
+    List<Instrument> fakeSupportedCurrencyPairs =
+        new ArrayList<>(
             Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_LTC, CurrencyPair.LTC_XRP));
-    Map<CurrencyPair, Fee> dynamicFees =
+    Map<Instrument, Fee> dynamicFees =
         GeminiAdapters.AdaptDynamicTradingFees(trailingVolumeResp, fakeSupportedCurrencyPairs);
 
     assertThat(dynamicFees.size()).isEqualTo(fakeSupportedCurrencyPairs.size());
-    for (CurrencyPair pair : fakeSupportedCurrencyPairs) {
+    for (Instrument pair : fakeSupportedCurrencyPairs) {
       assertThat(dynamicFees.get(pair).getMakerFee()).isEqualTo(new BigDecimal("0.0035"));
       assertThat(dynamicFees.get(pair).getTakerFee()).isEqualTo(new BigDecimal("0.0010"));
     }

@@ -19,11 +19,12 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitAsksBidsData;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
@@ -56,7 +57,7 @@ public class YoBitAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(
       ExchangeMetaData exchangeMetaData, YoBitInfo products) {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> currencyPairs = exchangeMetaData.getInstruments();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
     YoBitPairs pairs = products.getPairs();
@@ -70,14 +71,16 @@ public class YoBitAdapters {
       Integer priceScale = value.getDecimal_places();
       currencyPairs.put(
           pair,
-          new CurrencyPairMetaData(
-              value.getFee(),
-              minSize,
-              null,
-              priceScale,
-              new FeeTier[] {
-                new FeeTier(BigDecimal.ZERO, new Fee(value.getFee_seller(), value.getFee_buyer()))
-              }));
+          new InstrumentMetaData.Builder()
+              .tradingFee(value.getFee())
+              .minimumAmount(minSize)
+              .priceScale(priceScale)
+              .feeTiers(
+                  new FeeTier[] {
+                    new FeeTier(
+                        BigDecimal.ZERO, new Fee(value.getFee_seller(), value.getFee_buyer()))
+                  })
+              .build());
 
       if (!currencies.containsKey(pair.base)) {
         CurrencyMetaData currencyMetaData = exchangeMetaData.getCurrencies().get(pair.base);
@@ -241,7 +244,7 @@ public class YoBitAdapters {
 
     Date time = DateUtils.fromUnixTime(Long.parseLong(timestamp));
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(adaptType(type))
         .originalAmount(new BigDecimal(amount))
         .currencyPair(adaptCurrencyPair(pair))

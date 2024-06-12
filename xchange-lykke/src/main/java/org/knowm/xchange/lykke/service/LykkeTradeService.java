@@ -1,14 +1,10 @@
 package org.knowm.xchange.lykke.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.lykke.LykkeAdapter;
@@ -20,7 +16,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class LykkeTradeService extends LykkeTradeServiceRaw implements TradeService {
 
@@ -32,28 +27,18 @@ public class LykkeTradeService extends LykkeTradeServiceRaw implements TradeServ
   public OpenOrders getOpenOrders() throws IOException {
     // default: 100
     return new OpenOrders(
-        LykkeAdapter.adaptOpenOrders(exchange.getExchangeSymbols(), getLastOrders()));
+        LykkeAdapter.adaptOpenOrders(exchange.getExchangeInstruments(), getLastOrders()));
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     return new OpenOrders(
-        LykkeAdapter.adaptOpenOrders(exchange.getExchangeSymbols(), getLastOrders()));
-  }
-
-  @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+        LykkeAdapter.adaptOpenOrders(exchange.getExchangeInstruments(), getLastOrders()));
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     return placeLimitOrder(LykkeAdapter.adaptLykkeOrder(limitOrder));
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -79,7 +64,7 @@ public class LykkeTradeService extends LykkeTradeServiceRaw implements TradeServ
     if (params instanceof TradeHistoryParamsAll) {
       return new UserTrades(
           LykkeAdapter.adaptUserTrades(
-              exchange.getExchangeSymbols(),
+              exchange.getExchangeInstruments(),
               getMathedOrders(((TradeHistoryParamsAll) params).getPageLength())),
           Trades.TradeSortType.SortByTimestamp);
     }
@@ -95,15 +80,5 @@ public class LykkeTradeService extends LykkeTradeServiceRaw implements TradeServ
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return new DefaultOpenOrdersParamCurrencyPair();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 }

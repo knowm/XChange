@@ -18,6 +18,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public final class CoindealTradeService extends CoindealTradeServiceRaw implements TradeService {
 
@@ -62,9 +63,9 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     return Collections.singletonList(
-        CoindealAdapters.adaptOrder(getCoindealOrderById(orderIds[0])));
+        CoindealAdapters.adaptOrder(getCoindealOrderById(orderQueryParams[0].getOrderId())));
   }
 
   @Override

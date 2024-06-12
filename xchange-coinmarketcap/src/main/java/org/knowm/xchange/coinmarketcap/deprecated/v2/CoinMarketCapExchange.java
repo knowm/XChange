@@ -11,11 +11,14 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
 
-/** @author allenday */
+/**
+ * @author allenday
+ */
 public class CoinMarketCapExchange extends BaseExchange implements Exchange {
 
   private CoinMarketCapMarketDataService marketDataService;
@@ -81,10 +84,10 @@ public class CoinMarketCapExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public List<Instrument> getExchangeInstruments() {
     List<Currency> currencies = marketDataService.getCurrencies();
 
-    List<CurrencyPair> pairs = new ArrayList<>();
+    List<Instrument> pairs = new ArrayList<>();
     for (Currency currency : currencies) {
       pairs.add(new CurrencyPair(currency, Currency.USD));
       pairs.add(new CurrencyPair(currency, Currency.BTC));

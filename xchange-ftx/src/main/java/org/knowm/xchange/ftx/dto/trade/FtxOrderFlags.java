@@ -5,5 +5,6 @@ import org.knowm.xchange.dto.Order;
 public enum FtxOrderFlags implements Order.IOrderFlags {
   POST_ONLY,
   REDUCE_ONLY,
-  IOC
+  IOC,
+  RETRY_UNTIL_FILLED
 }

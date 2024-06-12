@@ -17,7 +17,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author jamespedwards42 */
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseMarketDataDemo {
 
   public static void main(String[] args) throws IOException {

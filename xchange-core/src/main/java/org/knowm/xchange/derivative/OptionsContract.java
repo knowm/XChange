@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Objects;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -152,6 +153,16 @@ public class OptionsContract extends Instrument
     public OptionsContract build() {
       return new OptionsContract(currencyPair, expireDate, strike, type);
     }
+  }
+
+  @Override
+  public Currency getBase() {
+    return currencyPair.base;
+  }
+
+  @Override
+  public Currency getCounter() {
+    return currencyPair.counter;
   }
 
   @JsonValue

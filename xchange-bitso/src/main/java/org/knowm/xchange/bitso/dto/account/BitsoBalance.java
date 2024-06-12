@@ -3,7 +3,9 @@ package org.knowm.xchange.bitso.dto.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public final class BitsoBalance {
 
   private final BigDecimal mxnBalance;

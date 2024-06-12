@@ -1,31 +1,22 @@
 package org.knowm.xchange.coinex.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import si.mazi.rescu.ExceptionalReturnContentException;
 
+@Data
 public class CoinexResponse<T> {
 
-  private final int code;
-  private final T data;
-  private final String message;
+  private Integer code;
 
-  public CoinexResponse(
-      @JsonProperty("code") int code,
-      @JsonProperty("data") T data,
-      @JsonProperty("message") String message) {
+  private T data;
+
+  private String message;
+
+  public void setCode(Integer code) {
+    if (code != 0) {
+      throw new ExceptionalReturnContentException(String.valueOf(code));
+    }
     this.code = code;
-    this.data = data;
-    this.message = message;
   }
 
-  public int getCode() {
-    return code;
-  }
-
-  public T getData() {
-    return data;
-  }
-
-  public String getMessage() {
-    return message;
-  }
 }

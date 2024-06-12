@@ -1,6 +1,6 @@
 package org.knowm.xchange.simulated;
 
-import org.assertj.core.util.Objects;
+import java.util.Objects;
 import org.knowm.xchange.dto.trade.UserTrade;
 
 /**
@@ -38,7 +38,7 @@ abstract class AbstractUserTradeAssert<S extends AbstractUserTradeAssert<S, A>, 
 
     // null safe check
     java.math.BigDecimal actualFeeAmount = actual.getFeeAmount();
-    if (!Objects.areEqual(actualFeeAmount, feeAmount)) {
+    if (!Objects.deepEquals(actualFeeAmount, feeAmount)) {
       failWithMessage(assertjErrorMessage, actual, feeAmount, actualFeeAmount);
     }
 
@@ -63,7 +63,7 @@ abstract class AbstractUserTradeAssert<S extends AbstractUserTradeAssert<S, A>, 
 
     // null safe check
     org.knowm.xchange.currency.Currency actualFeeCurrency = actual.getFeeCurrency();
-    if (!Objects.areEqual(actualFeeCurrency, feeCurrency)) {
+    if (!Objects.deepEquals(actualFeeCurrency, feeCurrency)) {
       failWithMessage(assertjErrorMessage, actual, feeCurrency, actualFeeCurrency);
     }
 
@@ -88,7 +88,7 @@ abstract class AbstractUserTradeAssert<S extends AbstractUserTradeAssert<S, A>, 
 
     // null safe check
     String actualOrderId = actual.getOrderId();
-    if (!Objects.areEqual(actualOrderId, orderId)) {
+    if (!Objects.deepEquals(actualOrderId, orderId)) {
       failWithMessage(assertjErrorMessage, actual, orderId, actualOrderId);
     }
 

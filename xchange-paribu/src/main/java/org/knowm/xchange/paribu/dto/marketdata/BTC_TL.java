@@ -3,7 +3,9 @@ package org.knowm.xchange.paribu.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** @author semihunaldi */
+/**
+ * @author semihunaldi
+ */
 public final class BTC_TL {
 
   private final BigDecimal last;

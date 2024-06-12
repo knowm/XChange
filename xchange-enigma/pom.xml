@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>5.0.14-SNAPSHOT</version>
+        <artifactId>xchange-parent</artifactId>
+        <version>5.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-enigma</artifactId>
@@ -28,10 +28,6 @@
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>compile</scope>
-        </dependency>
+
     </dependencies>
 </project>

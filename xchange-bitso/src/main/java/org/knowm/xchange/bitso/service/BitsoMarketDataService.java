@@ -9,7 +9,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author Piotr Ładyżyński */
+/**
+ * @author Piotr Ładyżyński
+ */
 public class BitsoMarketDataService extends BitsoMarketDataServiceRaw implements MarketDataService {
 
   public BitsoMarketDataService(Exchange exchange) {

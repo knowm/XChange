@@ -25,8 +25,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -45,6 +45,7 @@ import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTicker;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -416,7 +417,7 @@ public final class GeminiAdapters {
       Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
       final BigDecimal fee = trade.getFeeAmount();
       pastTrades.add(
-          new UserTrade.Builder()
+          UserTrade.builder()
               .type(orderType)
               .originalAmount(trade.getAmount())
               .currencyPair(currencyPair)
@@ -440,7 +441,7 @@ public final class GeminiAdapters {
   public static ExchangeMetaData adaptMetaData(
       List<CurrencyPair> currencyPairs, ExchangeMetaData metaData) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> pairsMap = metaData.getInstruments();
     Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
     for (CurrencyPair c : currencyPairs) {
       if (!pairsMap.containsKey(c)) {
@@ -457,16 +458,16 @@ public final class GeminiAdapters {
     return metaData;
   }
 
-  public static Map<CurrencyPair, Fee> AdaptDynamicTradingFees(
-      GeminiTrailingVolumeResponse volumeResponse, List<CurrencyPair> currencyPairs) {
-    Map<CurrencyPair, Fee> result = new Hashtable<>();
+  public static Map<Instrument, Fee> AdaptDynamicTradingFees(
+      GeminiTrailingVolumeResponse volumeResponse, List<Instrument> currencyPairs) {
+    Map<Instrument, Fee> result = new Hashtable<>();
     BigDecimal bpsToFraction =
         BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(4), 4, RoundingMode.HALF_EVEN);
     Fee feeAcrossCurrencies =
         new Fee(
             volumeResponse.apiMakerFeeBPS.multiply(bpsToFraction),
             volumeResponse.apiTakerFeeBPS.multiply(bpsToFraction));
-    for (CurrencyPair currencyPair : currencyPairs) {
+    for (Instrument currencyPair : currencyPairs) {
       result.put(currencyPair, feeAcrossCurrencies);
     }
 

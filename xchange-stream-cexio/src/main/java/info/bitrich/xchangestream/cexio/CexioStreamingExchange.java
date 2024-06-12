@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.cexio;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import io.reactivex.Completable;
+import io.reactivex.rxjava3.core.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.cexio.CexIOExchange;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -55,6 +55,7 @@ public class CexioStreamingExchange extends CexIOExchange implements StreamingEx
   public void applySpecification(ExchangeSpecification specification) {
     super.applySpecification(specification);
     ExchangeSpecification finalSpec = getExchangeSpecification();
+    applyStreamingSpecification(getExchangeSpecification(), streamingOrderDataService);
     String apiKey = finalSpec.getApiKey();
     String secretKey = finalSpec.getSecretKey();
     if (apiKey != null && secretKey != null) {

@@ -26,42 +26,54 @@ public class BleutradePlaceOrderReturn {
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /** @return The success */
+  /**
+   * @return The success
+   */
   @JsonProperty("success")
   public Boolean getSuccess() {
 
     return success;
   }
 
-  /** @param success The success */
+  /**
+   * @param success The success
+   */
   @JsonProperty("success")
   public void setSuccess(Boolean success) {
 
     this.success = success;
   }
 
-  /** @return The message */
+  /**
+   * @return The message
+   */
   @JsonProperty("message")
   public String getMessage() {
 
     return message;
   }
 
-  /** @param message The message */
+  /**
+   * @param message The message
+   */
   @JsonProperty("message")
   public void setMessage(String message) {
 
     this.message = message;
   }
 
-  /** @return The result */
+  /**
+   * @return The result
+   */
   @JsonProperty("result")
   public BleutradeOrderId getResult() {
 
     return result;
   }
 
-  /** @param result The result */
+  /**
+   * @param result The result
+   */
   @JsonProperty("result")
   public void setResult(BleutradeOrderId result) {
 

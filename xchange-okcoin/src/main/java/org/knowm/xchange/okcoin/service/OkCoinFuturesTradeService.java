@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,10 +16,9 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okcoin.FuturesContract;
 import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.OkCoinUtils;
@@ -30,7 +28,7 @@ import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinPriceLimit;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
@@ -38,7 +36,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,12 +73,12 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     // TODO use params for currency pair
-    List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
+    List<Instrument> exchangeSymbols = exchange.getExchangeInstruments();
 
     List<OkCoinFuturesOrderResult> orderResults = new ArrayList<>(exchangeSymbols.size());
 
     for (int i = 0; i < exchangeSymbols.size(); i++) {
-      CurrencyPair symbol = exchangeSymbols.get(i);
+      Instrument symbol = exchangeSymbols.get(i);
       log.debug("Getting order: {}", symbol);
 
       OkCoinFuturesOrderResult orderResult =
@@ -166,11 +164,6 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     }
   }
 
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   /** Liquidate long or short contract using a limit order */
   public String liquidateLimitOrder(LimitOrder limitOrder) throws IOException {
 
@@ -193,7 +186,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   public boolean cancelOrder(String orderId) throws IOException {
 
     boolean ret = false;
-    for (CurrencyPair symbol : exchange.getExchangeSymbols()) {
+    for (Instrument symbol : exchange.getExchangeInstruments()) {
       for (FuturesContract futuresContract : getExchangeContracts()) {
         if (cancelOrder(new OkCoinFuturesCancelOrderParams(symbol, futuresContract, orderId))) {
           ret = true;
@@ -209,9 +202,9 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
     OkCoinFuturesCancelOrderParams myParams = (OkCoinFuturesCancelOrderParams) orderParams;
 
-    CurrencyPair currencyPair = myParams.getCurrencyPair();
+    Instrument currencyPair = myParams.getInstrument();
     FuturesContract reqFuturesContract = myParams.futuresContract;
-    long orderId = myParams.getOrderId() != null ? Long.valueOf(myParams.getOrderId()) : -1;
+    long orderId = myParams.getOrderId() != null ? Long.parseLong(myParams.getOrderId()) : -1;
     boolean ret = false;
 
     try {
@@ -267,36 +260,31 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    Map<CurrencyPair, Map<FuturesContract, Set<String>>> ordersToQuery =
-        new HashMap<CurrencyPair, Map<FuturesContract, Set<String>>>();
+    Map<Instrument, Map<FuturesContract, Set<String>>> ordersToQuery = new HashMap<>();
     List<String> orderIdsRequest = new ArrayList<>();
     List<OkCoinFuturesOrder> orderResults = new ArrayList<>();
     List<Order> openOrders = new ArrayList<>();
 
     for (OrderQueryParams orderQueryParam : orderQueryParams) {
       OkCoinFuturesOrderQueryParams myParams = (OkCoinFuturesOrderQueryParams) orderQueryParam;
-      CurrencyPair currencyPair = myParams.getCurrencyPair();
+      Instrument currencyPair = myParams.getInstrument();
       FuturesContract reqFuturesContract = myParams.futuresContract;
-      long orderId = myParams.getOrderId() != null ? Long.valueOf(myParams.getOrderId()) : -1;
+      long orderId = myParams.getOrderId() != null ? Long.parseLong(myParams.getOrderId()) : -1;
 
       if (ordersToQuery.get(currencyPair) == null) {
-        Set<String> orderSet = new HashSet<>();
-        orderSet.add(String.valueOf(orderId));
-        HashMap<FuturesContract, Set<String>> futuresContractMap =
-            new HashMap<FuturesContract, Set<String>>();
+        Set<String> orderSet = Collections.singleton(String.valueOf(orderId));
+        HashMap<FuturesContract, Set<String>> futuresContractMap = new HashMap<>();
         futuresContractMap.put(reqFuturesContract, orderSet);
         ordersToQuery.put(currencyPair, futuresContractMap);
 
       } else if (ordersToQuery.get(currencyPair).get(reqFuturesContract) == null) {
-        Set<String> orderSet = new HashSet<>();
-        orderSet.add(String.valueOf(orderId));
+        Set<String> orderSet = Collections.singleton(String.valueOf(orderId));
         ordersToQuery.get(currencyPair).put(reqFuturesContract, orderSet);
-
       } else {
         ordersToQuery.get(currencyPair).get(reqFuturesContract).add(String.valueOf(orderId));
       }
     }
-    for (CurrencyPair pair : ordersToQuery.keySet()) {
+    for (Instrument pair : ordersToQuery.keySet()) {
       for (FuturesContract contract : ordersToQuery.get(pair).keySet()) {
         int count = 0;
         orderIdsRequest.clear();
@@ -345,9 +333,9 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    List<OkCoinFuturesOrderQueryParams> params = new ArrayList<OkCoinFuturesOrderQueryParams>();
+    List<OkCoinFuturesOrderQueryParams> params = new ArrayList<>();
 
-    for (CurrencyPair symbol : exchange.getExchangeSymbols()) {
+    for (Instrument symbol : exchange.getExchangeInstruments()) {
       for (String orderId : orderIds) {
         params.add(new OkCoinFuturesOrderQueryParams(symbol, futuresContract, orderId));
       }
@@ -450,29 +438,29 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   public static final class OkCoinFuturesOrderQueryParams extends DefaultQueryOrderParam
-      implements OrderQueryParamCurrencyPair, OrderQueryParamFuturesContract {
-    private CurrencyPair currencyPair;
+      implements OrderQueryParamInstrument, OrderQueryParamFuturesContract {
+    private Instrument instrument;
     private FuturesContract futuresContract;
     private String orderId;
 
     public OkCoinFuturesOrderQueryParams() {}
 
     public OkCoinFuturesOrderQueryParams(
-        CurrencyPair currencyPair, FuturesContract futuresContract, String orderId) {
+        Instrument instrument, FuturesContract futuresContract, String orderId) {
       super(orderId);
-      this.currencyPair = currencyPair;
+      this.instrument = instrument;
       this.futuresContract = futuresContract;
       this.orderId = orderId;
     }
 
     @Override
-    public CurrencyPair getCurrencyPair() {
-      return currencyPair;
+    public Instrument getInstrument() {
+      return instrument;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair pair) {
-      this.currencyPair = pair;
+    public void setInstrument(Instrument instrument) {
+      this.instrument = instrument;
     }
 
     @Override
@@ -497,24 +485,24 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   public static final class OkCoinFuturesCancelOrderParams extends DefaultCancelOrderParamId
-      implements CancelOrderByCurrencyPair, CancelOrderParamFuturesContract {
-    private CurrencyPair currencyPair;
+      implements CancelOrderByInstrument, CancelOrderParamFuturesContract {
+    private Instrument instrument;
     private FuturesContract futuresContract;
     private String orderId;
 
     public OkCoinFuturesCancelOrderParams() {}
 
     public OkCoinFuturesCancelOrderParams(
-        CurrencyPair currencyPair, FuturesContract futuresContract, String orderId) {
+        Instrument instrument, FuturesContract futuresContract, String orderId) {
       super(orderId);
-      this.currencyPair = currencyPair;
+      this.instrument = instrument;
       this.futuresContract = futuresContract;
       this.orderId = orderId;
     }
 
     @Override
-    public CurrencyPair getCurrencyPair() {
-      return currencyPair;
+    public Instrument getInstrument() {
+      return instrument;
     }
 
     @Override

@@ -1,8 +1,8 @@
 package org.knowm.xchange.btcmarkets.service;
 
+import jakarta.ws.rs.HeaderParam;
 import java.util.Base64;
 import javax.crypto.Mac;
-import javax.ws.rs.HeaderParam;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 

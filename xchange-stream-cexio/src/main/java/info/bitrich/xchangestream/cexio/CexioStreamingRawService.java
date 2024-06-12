@@ -15,11 +15,11 @@ import info.bitrich.xchangestream.cexio.dto.CexioWebSocketTransaction;
 import info.bitrich.xchangestream.cexio.dto.CexioWebSocketTransactionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
-import io.reactivex.CompletableOnSubscribe;
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableEmitter;
+import io.reactivex.rxjava3.core.CompletableOnSubscribe;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -65,7 +65,7 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
       final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
       JsonNode dataNode = message.get("data");
       CexioWebSocketOrderBookSubscribeResponse orderBookSubResp =
-          mapper.readValue(dataNode.toString(), CexioWebSocketOrderBookSubscribeResponse.class);
+          mapper.treeToValue(dataNode, CexioWebSocketOrderBookSubscribeResponse.class);
       CurrencyPair currencyPair = CexioAdapters.adaptCurrencyPair(orderBookSubResp.pair);
       return GetOrderBookChannelForCurrencyPair(currencyPair);
     } else {

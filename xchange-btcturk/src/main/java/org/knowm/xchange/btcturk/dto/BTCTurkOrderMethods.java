@@ -1,6 +1,8 @@
 package org.knowm.xchange.btcturk.dto;
 
-/** @author mertguner */
+/**
+ * @author mertguner
+ */
 public enum BTCTurkOrderMethods {
   LIMIT(0),
   MARKET(1),

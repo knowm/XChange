@@ -53,6 +53,7 @@ public class OkexOpenOrder {
 
   /** buy or sell */
   private Side side;
+
   /** quantity */
   private BigDecimal size;
 
@@ -61,6 +62,7 @@ public class OkexOpenOrder {
    * Filled,"3":Submitting,"4":Cancelling,）
    */
   private String state;
+
   /** order status */
   private String status;
 

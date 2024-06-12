@@ -55,8 +55,10 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
       return withdrawFunds(

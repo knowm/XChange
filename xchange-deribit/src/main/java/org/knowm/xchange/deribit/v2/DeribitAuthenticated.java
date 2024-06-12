@@ -1,14 +1,14 @@
 package org.knowm.xchange.deribit.v2;
 
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.deribit.v2.dto.DeribitException;
 import org.knowm.xchange.deribit.v2.dto.DeribitResponse;
 import org.knowm.xchange.deribit.v2.dto.Kind;
@@ -168,6 +168,17 @@ public interface DeribitAuthenticated {
   @Path("cancel_by_label")
   DeribitResponse<Integer> cancelByLabel(
       @QueryParam("label") String label, @HeaderParam("Authorization") ParamsDigest auth)
+      throws DeribitException, IOException;
+
+  /**
+   * This method cancels all users orders and trigger orders within all currencies and instrument
+   * kinds.
+   *
+   * @see <a href="https://docs.deribit.com/#private-cancel_all">docs.deribit.com</a>
+   */
+  @GET
+  @Path("cancel_all")
+  DeribitResponse<Integer> cancelAll(@HeaderParam("Authorization") ParamsDigest auth)
       throws DeribitException, IOException;
 
   /**

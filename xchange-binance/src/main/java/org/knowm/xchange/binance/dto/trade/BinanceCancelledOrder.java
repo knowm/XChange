@@ -1,7 +1,9 @@
 package org.knowm.xchange.binance.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public final class BinanceCancelledOrder {
 
   public final String symbol;

@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import si.mazi.rescu.ExceptionalReturnContentException;
 
-/** @author Piotr Ładyżyński */
+/**
+ * @author Piotr Ładyżyński
+ */
 public class BitsoOrderBook {
 
   private final Long timestamp;
@@ -32,7 +34,9 @@ public class BitsoOrderBook {
     this.timestamp = timestamp;
   }
 
-  /** @return Timestamp in Unix milliseconds */
+  /**
+   * @return Timestamp in Unix milliseconds
+   */
   public Long getTimestamp() {
 
     return timestamp;

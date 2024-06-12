@@ -8,10 +8,8 @@ import java.util.Map;
 import java.util.function.Function;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.BinanceResilience;
-import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 
 public class BinanceBaseServiceTest {
   /**
@@ -65,9 +63,6 @@ public class BinanceBaseServiceTest {
           }
         };
     exchange.applySpecification(spec);
-    return new BinanceBaseService(
-        exchange,
-        ExchangeRestProxyBuilder.forInterface(BinanceAuthenticated.class, spec).build(),
-        BinanceResilience.createRegistries());
+    return new BinanceBaseService(exchange, BinanceResilience.createRegistries());
   }
 }

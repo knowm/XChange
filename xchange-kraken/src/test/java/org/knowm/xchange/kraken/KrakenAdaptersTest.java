@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -32,6 +32,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
@@ -53,9 +54,10 @@ import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.Krake
 
 public class KrakenAdaptersTest {
 
-  @Before
-  public void before() throws IOException {
+  @BeforeClass
+  public static void before() throws IOException {
 
+    KrakenUtils.clearAssets();
     // Read in the JSON from the example resources
     InputStream is =
         KrakenAdaptersTest.class.getResourceAsStream(
@@ -358,25 +360,24 @@ public class KrakenAdaptersTest {
             "/org/knowm/xchange/kraken/dto/account/example-tradevolume-data-2.json");
 
     // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
     KrakenTradeVolumeResult krakenTradeVolumeResult =
-        mapper.readValue(is, KrakenTradeVolumeResult.class);
+        new ObjectMapper().readValue(is, KrakenTradeVolumeResult.class);
     KrakenTradeVolume krakenTradeVolume = krakenTradeVolumeResult.getResult();
 
-    Map<CurrencyPair, Fee> feeMap = KrakenAdapters.adaptFees(krakenTradeVolume);
+    Map<Instrument, Fee> feeMap = KrakenAdapters.adaptFees(krakenTradeVolume);
 
-    assertThat(feeMap.size()).isEqualTo(279);
+    assertThat(feeMap.size()).isEqualTo(krakenTradeVolume.getFees().size());
   }
 
   @Test
   public void testAdaptFeeTiers1() {
-    List<KrakenFee> krakenMakerFees = new ArrayList<KrakenFee>();
-    List<KrakenFee> krakenTakerFees = new ArrayList<KrakenFee>();
+    List<KrakenFee> krakenMakerFees = new ArrayList<>();
+    List<KrakenFee> krakenTakerFees = new ArrayList<>();
 
     krakenMakerFees.add(new KrakenFee(BigDecimal.TEN, BigDecimal.ONE));
     krakenTakerFees.add(new KrakenFee(BigDecimal.TEN, new BigDecimal(2)));
-    krakenMakerFees.add(new KrakenFee(new BigDecimal(45), new BigDecimal(0.5)));
-    krakenTakerFees.add(new KrakenFee(new BigDecimal(30), new BigDecimal(0.75)));
+    krakenMakerFees.add(new KrakenFee(new BigDecimal(45), new BigDecimal("0.5")));
+    krakenTakerFees.add(new KrakenFee(new BigDecimal(30), new BigDecimal("0.75")));
 
     FeeTier[] adaptedFeeTiers = KrakenAdapters.adaptFeeTiers(krakenMakerFees, krakenTakerFees);
     assertThat(adaptedFeeTiers.length).isEqualTo(3);

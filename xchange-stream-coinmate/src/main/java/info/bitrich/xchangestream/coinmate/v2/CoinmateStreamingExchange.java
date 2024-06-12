@@ -6,7 +6,7 @@ import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import io.reactivex.Completable;
+import io.reactivex.rxjava3.core.Completable;
 import org.knowm.xchange.coinmate.CoinmateExchange;
 
 public class CoinmateStreamingExchange extends CoinmateExchange implements StreamingExchange {
@@ -33,6 +33,7 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
     }
 
     streamingService = new CoinmateStreamingService(API_BASE, authParams);
+    applyStreamingSpecification(getExchangeSpecification(), streamingService);
   }
 
   @Override

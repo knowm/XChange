@@ -12,9 +12,10 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.lykke.dto.marketdata.LykkeAsset;
 import org.knowm.xchange.lykke.dto.marketdata.LykkeAssetPair;
 import org.knowm.xchange.lykke.service.LykkeAccountService;
@@ -47,9 +48,9 @@ public class LykkeExchange extends BaseExchange implements Exchange {
   public void remoteInit() throws IOException, ExchangeException {
     try {
       // populate currency pair keys only, exchange does not provide any other metadata for download
-      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
+      Map<Instrument, InstrumentMetaData> currencyPairs = exchangeMetaData.getInstruments();
       Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
-      List<CurrencyPair> currencyPairList = getExchangeSymbols();
+      List<Instrument> currencyPairList = getExchangeInstruments();
       List<FeeTier> feeTiers = new ArrayList<>();
       feeTiers.add(new FeeTier(BigDecimal.ZERO, new Fee(BigDecimal.ZERO, BigDecimal.ZERO)));
 
@@ -60,13 +61,11 @@ public class LykkeExchange extends BaseExchange implements Exchange {
         CurrencyPair currencyPair =
             new CurrencyPair(
                 lykkeAssetPair.getName().split("/")[0], lykkeAssetPair.getQuotingAssetId());
-        CurrencyPairMetaData currencyPairMetaData =
-            new CurrencyPairMetaData(
-                null,
-                null,
-                null,
-                lykkeAssetPair.getAccuracy(),
-                feeTiers.toArray(new FeeTier[feeTiers.size()]));
+        InstrumentMetaData currencyPairMetaData =
+            new InstrumentMetaData.Builder()
+                .feeTiers(feeTiers.toArray(new FeeTier[feeTiers.size()]))
+                .priceScale(lykkeAssetPair.getAccuracy())
+                .build();
         currencyPairs.put(currencyPair, currencyPairMetaData);
         currencyPairList.add(currencyPair);
       }

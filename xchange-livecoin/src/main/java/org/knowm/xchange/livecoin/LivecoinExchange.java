@@ -54,7 +54,7 @@ public class LivecoinExchange extends BaseExchange implements Exchange {
     try {
       List<LivecoinRestriction> products =
           ((LivecoinMarketDataServiceRaw) marketDataService).getRestrictions();
-      exchangeMetaData = LivecoinAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
+      exchangeMetaData = LivecoinAdapters.adaptToExchangeMetaData(products);
     } catch (LivecoinException e) {
       throw LivecoinErrorAdapter.adapt(e);
     }

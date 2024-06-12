@@ -3,7 +3,9 @@ package org.knowm.xchange.livecoin.dto.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.livecoin.dto.LivecoinBaseResponse;
 
-/** @author walec51 */
+/**
+ * @author walec51
+ */
 public class LivecoinWalletAddressResponse extends LivecoinBaseResponse {
 
   private final String wallet;

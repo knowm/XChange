@@ -2,7 +2,7 @@ package org.knowm.xchange.examples.okex;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.okex.v5.OkexExchange;
+import org.knowm.xchange.okex.OkexExchange;
 
 public class OkexExampleUtils {
 

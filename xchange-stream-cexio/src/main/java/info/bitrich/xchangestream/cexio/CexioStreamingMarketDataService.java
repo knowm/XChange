@@ -5,16 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.cexio.dto.CexioWebSocketOrderBookSubscribeResponse;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public class CexioStreamingMarketDataService implements StreamingMarketDataService {
 
@@ -25,7 +23,7 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
   }
 
   static class OrderBookUpdateConsumer
-      implements io.reactivex.functions.Function<
+      implements io.reactivex.rxjava3.functions.Function<
           CexioWebSocketOrderBookSubscribeResponse, OrderBook> {
     BigInteger prevID = null;
     OrderBook orderBookSoFar =
@@ -76,8 +74,7 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
         .map(
             s -> {
               JsonNode dataNode = s.get("data");
-              return mapper.readValue(
-                  dataNode.toString(), CexioWebSocketOrderBookSubscribeResponse.class);
+              return mapper.treeToValue(dataNode, CexioWebSocketOrderBookSubscribeResponse.class);
             })
         .map(orderBookConsumer);
   }
@@ -98,8 +95,7 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
         .map(
             s -> {
               JsonNode dataNode = s.get("data");
-              return mapper.readValue(
-                  dataNode.toString(), CexioWebSocketOrderBookSubscribeResponse.class);
+              return mapper.treeToValue(dataNode, CexioWebSocketOrderBookSubscribeResponse.class);
             })
         .map(orderBookConsumer)
         .filter(orderBook -> !orderBook.getBids().isEmpty() && !orderBook.getAsks().isEmpty())
@@ -117,8 +113,4 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
                     && prev.getAsk().compareTo(next.getAsk()) == 0);
   }
 
-  @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

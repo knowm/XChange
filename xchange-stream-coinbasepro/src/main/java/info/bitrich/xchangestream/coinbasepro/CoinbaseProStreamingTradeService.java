@@ -4,7 +4,7 @@ import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptTradeHistor
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.util.Collections;
 import java.util.List;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
@@ -13,6 +13,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,9 +29,9 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
     this.service = service;
   }
 
-  private boolean containsPair(List<CurrencyPair> pairs, CurrencyPair pair) {
-    for (CurrencyPair item : pairs) {
-      if (item.compareTo(pair) == 0) {
+  private boolean containsPair(List<Instrument> pairs, CurrencyPair pair) {
+    for (Instrument item : pairs) {
+      if (pair.compareTo((CurrencyPair) item) == 0) {
         return true;
       }
     }
@@ -56,6 +57,7 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
   }
 
   private boolean orderChangesWarningLogged;
+
   /**
    * <strong>Warning:</strong> the order change stream is not yet fully implemented for Coinbase
    * Pro. Orders are not fully populated, containing only the values changed since the last update.

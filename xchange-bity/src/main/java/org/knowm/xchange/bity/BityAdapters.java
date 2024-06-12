@@ -18,10 +18,11 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 
 public final class BityAdapters {
 
@@ -55,7 +56,7 @@ public final class BityAdapters {
     Date date = order.getTimestampCreated();
     String orderId = order.getResourceUri();
 
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(orderType)
         .originalAmount(amount)
         .currencyPair(currencyPair)
@@ -73,7 +74,7 @@ public final class BityAdapters {
 
     List<CurrencyPair> currencyPairs = BityAdapters.adaptCurrencyPairs(rawSymbols);
 
-    Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> pairsMap = metaData.getInstruments();
     Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
 
     for (CurrencyPair c : currencyPairs) {
