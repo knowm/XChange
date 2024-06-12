@@ -1,7 +1,7 @@
 package org.knowm.xchange.bitstamp;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
@@ -68,8 +68,8 @@ public class BitstampExchange extends BaseExchange implements Exchange {
   public void remoteInit() throws IOException, ExchangeException {
     BitstampMarketDataServiceRaw dataService =
         (BitstampMarketDataServiceRaw) this.marketDataService;
-    BitstampPairInfo[] bitstampPairInfos = dataService.getTradingPairsInfo();
+    List<BitstampPairInfo> bitstampPairInfos = dataService.getTradingPairsInfo();
     exchangeMetaData =
-        BitstampAdapters.adaptMetaData(Arrays.asList(bitstampPairInfos), exchangeMetaData);
+        BitstampAdapters.adaptMetaData(bitstampPairInfos, exchangeMetaData);
   }
 }
