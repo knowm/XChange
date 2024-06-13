@@ -10,6 +10,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.BitstampTransferBalanceResponse;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
@@ -647,7 +648,7 @@ public interface BitstampAuthenticatedV2 {
   @POST
   @Path("withdrawal-requests/")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  WithdrawalRequest[] getWithdrawalRequests(
+  List<WithdrawalRequest> getWithdrawalRequests(
       @HeaderParam("X-Auth") String apiKey,
       @HeaderParam("X-Auth-Signature") ParamsDigest signer,
       @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,
@@ -658,7 +659,7 @@ public interface BitstampAuthenticatedV2 {
 
   @POST
   @Path("fees/withdrawal/")
-  WithdrawalFee[] getWithdrawalFees(
+  List<WithdrawalFee> getWithdrawalFees(
       @HeaderParam("X-Auth") String apiKey,
       @HeaderParam("X-Auth-Signature") ParamsDigest signer,
       @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,

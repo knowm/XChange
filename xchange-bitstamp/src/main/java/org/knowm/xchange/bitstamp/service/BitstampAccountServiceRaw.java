@@ -350,16 +350,13 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   public List<WithdrawalRequest> getWithdrawalRequests(Long timeDelta) throws IOException {
 
     try {
-      final List<WithdrawalRequest> response =
-          Arrays.asList(
-              bitstampAuthenticatedV2.getWithdrawalRequests(
+      return bitstampAuthenticatedV2.getWithdrawalRequests(
                   apiKeyForV2Requests,
                   signatureCreatorV2,
                   uuidNonceFactory,
                   timestampFactory,
                   API_VERSION,
-                  timeDelta));
-      return response;
+                  timeDelta);
     } catch (BitstampException e) {
       throw handleError(e);
     }
@@ -368,13 +365,12 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   public List<WithdrawalFee> getWithdrawalFees() throws IOException {
 
     try {
-      return Arrays.asList(
-              bitstampAuthenticatedV2.getWithdrawalFees(
+      return bitstampAuthenticatedV2.getWithdrawalFees(
                   apiKeyForV2Requests,
                   signatureCreatorV2,
                   uuidNonceFactory,
                   timestampFactory,
-                  API_VERSION));
+                  API_VERSION);
     } catch (BitstampException e) {
       throw handleError(e);
     }
