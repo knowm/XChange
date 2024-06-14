@@ -35,7 +35,8 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     Integer orderBookLevel = (Integer) ArrayUtils.get(args, 0, MAX_DEPTH_DEFAULT);
-    Duration updateSpeed = (Duration) ArrayUtils.get(args, 1, UPDATE_INTERVAL_DEFAULT);
+    Integer updateTime = Integer.parseInt(ArrayUtils.get(args, 1, UPDATE_INTERVAL_DEFAULT).toString());
+    Duration updateSpeed =  Duration.ofMillis(updateTime);
     return service
         .subscribeChannel(Config.SPOT_ORDERBOOK_CHANNEL, new Object[]{currencyPair, orderBookLevel, updateSpeed})
         .map(GateioOrderBookNotification.class::cast)

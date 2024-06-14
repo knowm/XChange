@@ -103,7 +103,7 @@ public class GateioAdapters {
     return GateioOrder.builder()
         .currencyPair((CurrencyPair) marketOrder.getInstrument())
         .side(marketOrder.getType())
-        .clientOrderId(marketOrder.getUserReference())
+        .clientOrderId("t-"+marketOrder.getUserReference())
         .account("spot")
         .type("market")
         .timeInForce("ioc")
@@ -116,7 +116,7 @@ public class GateioAdapters {
     return GateioOrder.builder()
         .currencyPair((CurrencyPair) limitOrder.getInstrument())
         .side(limitOrder.getType())
-        .clientOrderId(limitOrder.getUserReference())
+        .clientOrderId("t-"+limitOrder.getUserReference())
         .account("spot")
         .type("limit")
         .timeInForce("gtc")
@@ -147,8 +147,12 @@ public class GateioAdapters {
       builder.cumulativeAmount(gateioOrder.getFilledTotalQuote());
     }
     else if (orderType == OrderType.ASK) {
-      BigDecimal filledAssetAmount = gateioOrder.getFilledTotalQuote().divide(gateioOrder.getAvgDealPrice(), MathContext.DECIMAL32);
-      builder.cumulativeAmount(filledAssetAmount);
+      if(gateioOrder.getAvgDealPrice()==null||gateioOrder.getFilledTotalQuote()==null){
+        builder.cumulativeAmount(BigDecimal.ZERO);
+      }else {
+        BigDecimal filledAssetAmount = gateioOrder.getFilledTotalQuote().divide(gateioOrder.getAvgDealPrice(), MathContext.DECIMAL32);
+        builder.cumulativeAmount(filledAssetAmount);
+      }
     }
     else {
       throw new IllegalArgumentException("Can't map " + orderType);

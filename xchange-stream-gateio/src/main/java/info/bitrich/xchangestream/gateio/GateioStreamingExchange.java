@@ -16,18 +16,24 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
   private StreamingMarketDataService streamingMarketDataService;
   private StreamingTradeService streamingTradeService;
   private StreamingAccountService streamingAccountService;
+  public static final String WS_CHANNEL_URI = "wss://api.gateio.ws/ws/v4/";
 
   public GateioStreamingExchange() {}
 
   @Override
   public Completable connect(ProductSubscription... args) {
-    streamingService = new GateioStreamingService(exchangeSpecification.getSslUri(), exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
+    streamingService = new GateioStreamingService(getApiUrl(), exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
     applyStreamingSpecification(exchangeSpecification, streamingService);
     streamingMarketDataService = new GateioStreamingMarketDataService(streamingService);
     streamingTradeService = new GateioStreamingTradeService(streamingService);
     streamingAccountService = new GateioStreamingAccountService(streamingService);
 
     return streamingService.connect();
+  }
+
+
+  private String getApiUrl() {
+    return WS_CHANNEL_URI;
   }
 
   @Override
