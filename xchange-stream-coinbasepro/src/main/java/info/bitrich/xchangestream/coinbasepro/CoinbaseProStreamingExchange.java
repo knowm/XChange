@@ -13,6 +13,8 @@ import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
 
+import java.io.IOException;
+
 /** CoinbasePro Streaming Exchange. Connects to live WebSocket feed. */
 public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements StreamingExchange {
   private static final String API_URI = "wss://ws-feed.pro.coinbase.com";
@@ -178,6 +180,16 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
   @Override
   public void useCompressedMessages(boolean compressedMessages) {
     streamingService.useCompressedMessages(compressedMessages);
+  }
+
+  @Override
+  public void resubscribeChannels() {
+    try {
+      streamingService.sendMessage(streamingService.getUnsubscribeMessage(null));
+    } catch(IOException e) {
+      logger.error("Failed to unsubscribe", e)
+    }
+    streamingService.resubscribeChannels();
   }
 
   public void setOverrideApiUri(String overrideApiUri) {
