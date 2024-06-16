@@ -27,6 +27,9 @@ public final class CoinexV2Digest extends BaseParamsDigest {
     String path = restInvocation.getPath();
 
     String query = StringUtils.defaultIfEmpty(restInvocation.getQueryString(), "");
+    if (StringUtils.isNotEmpty(query)) {
+      query = "?" + query;
+    }
     String body = StringUtils.defaultIfEmpty(restInvocation.getRequestBody(), "");
 
     String timestamp = restInvocation.getHttpHeadersFromParams().get("X-COINEX-TIMESTAMP");

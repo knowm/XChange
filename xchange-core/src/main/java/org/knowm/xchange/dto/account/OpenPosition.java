@@ -6,8 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import lombok.Getter;
 import org.knowm.xchange.instrument.Instrument;
 
+@Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OpenPosition implements Serializable {
   /** The instrument */
@@ -43,29 +45,6 @@ public class OpenPosition implements Serializable {
     this.unRealisedPnl = unRealisedPnl;
   }
 
-  public Instrument getInstrument() {
-    return instrument;
-  }
-
-  public Type getType() {
-    return type;
-  }
-
-  public BigDecimal getSize() {
-    return size;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public BigDecimal getLiquidationPrice() {
-    return liquidationPrice;
-  }
-
-  public BigDecimal getUnRealisedPnl() {
-    return unRealisedPnl;
-  }
 
   @Override
   public boolean equals(final Object o) {

@@ -54,7 +54,7 @@ public interface BitstampV2 {
 
   @GET
   @Path("trading-pairs-info/")
-  BitstampPairInfo[] getTradingPairsInfo() throws IOException, BitstampException;
+  List<BitstampPairInfo> getTradingPairsInfo() throws IOException, BitstampException;
 
   class Pair {
     public final CurrencyPair pair;

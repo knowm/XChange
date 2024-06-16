@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.bybit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dto.trade.BybitComplexOrderChanges;
 import dto.trade.BybitComplexPositionChanges;
 import dto.trade.BybitOrderChangesResponse;
 import dto.trade.BybitPositionChangesResponse;
@@ -32,6 +33,20 @@ public class BybitStreamingTradeService implements StreamingTradeService {
           return Observable.fromIterable(
               BybitStreamAdapters.adaptOrdersChanges(bybitOrderChangesResponse.getData()));
         });
+  }
+
+  public Observable<BybitComplexOrderChanges> getComplexOrderChanges(BybitCategory category) {
+    String channelUniqueId = "order";
+    if(category != null) {
+      channelUniqueId += "." + category.getValue();
+    }
+    return streamingService
+        .subscribeChannel(channelUniqueId).flatMap(
+            node -> {
+              BybitOrderChangesResponse bybitOrderChangesResponse = mapper.treeToValue(node, BybitOrderChangesResponse.class);
+              return Observable.fromIterable(
+                  BybitStreamAdapters.adaptComplexOrdersChanges(bybitOrderChangesResponse.getData()));
+            });
   }
 
   public Observable<OpenPosition> getPositionChanges(BybitCategory category) {
