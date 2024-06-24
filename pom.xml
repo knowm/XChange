@@ -212,7 +212,7 @@
         <version.reflections>0.10.2</version.reflections>
         <version.resilience4j>1.7.1</version.resilience4j>
         <version.slf4j>2.0.13</version.slf4j>
-        <version.wiremock>3.2.0</version.wiremock>
+        <version.wiremock>3.7.0</version.wiremock>
     </properties>
 
     <dependencyManagement>
