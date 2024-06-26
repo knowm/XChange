@@ -48,7 +48,8 @@ import org.knowm.xchange.instrument.Instrument;
 
 public class BybitAdapters {
 
-  private static final SimpleDateFormat OPTION_DATE_FORMAT = new SimpleDateFormat("ddMMMyy", Locale.US);
+  private static final ThreadLocal<SimpleDateFormat> OPTION_DATE_FORMAT = ThreadLocal.withInitial(
+      () -> new SimpleDateFormat("ddMMMyy"));
   public static final List<String> QUOTE_CURRENCIES = Arrays.asList("USDT", "USDC", "EUR", "BTC", "ETH", "DAI", "BRZ");
 
   public static Wallet adaptBybitBalances(List<BybitCoinWalletBalance> coinWalletBalances) {
@@ -133,7 +134,7 @@ public class BybitAdapters {
         return String.format(
                 "%s-%s-%s-%s",
                 optionsContract.getBase(),
-                OPTION_DATE_FORMAT.format(optionsContract.getExpireDate()),
+                OPTION_DATE_FORMAT.get().format(optionsContract.getExpireDate()),
                 optionsContract.getStrike(),
                 optionsContract.getType().equals(OptionsContract.OptionType.PUT) ? "P" : "C")
             .toUpperCase();
@@ -191,7 +192,7 @@ public class BybitAdapters {
         return new OptionsContract.Builder()
             .currencyPair(
                 new CurrencyPair(instrumentInfo.getBaseCoin(), instrumentInfo.getQuoteCoin()))
-            .expireDate(OPTION_DATE_FORMAT.parse(expireDateString))
+            .expireDate(OPTION_DATE_FORMAT.get().parse(expireDateString))
             .strike(strike)
             .type(
                 optionInstrumentInfo.getOptionsType().equals(OptionType.CALL)
