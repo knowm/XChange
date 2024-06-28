@@ -206,7 +206,7 @@
         <version.java-jwt>4.4.0</version.java-jwt>
         <version.junit>5.10.2</version.junit>
         <version.knowm.xchart>3.8.8</version.knowm.xchart>
-        <version.lombok>1.18.32</version.lombok>
+        <version.lombok>1.18.34</version.lombok>
         <version.mockito>5.11.0</version.mockito>
         <version.qos.logback>1.5.6</version.qos.logback>
         <version.reflections>0.10.2</version.reflections>
