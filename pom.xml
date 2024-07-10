@@ -196,7 +196,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <skipIntegrationTests>true</skipIntegrationTests>
-        <version.assertj>3.25.3</version.assertj>
+        <version.assertj>3.26.3</version.assertj>
         <version.commons.lang3>3.14.0</version.commons.lang3>
         <version.crypto>5.0.0</version.crypto>
         <version.fasterxml>2.14.3</version.fasterxml>
