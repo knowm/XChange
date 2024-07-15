@@ -7,8 +7,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <project.version>CHRONOS-LOCAL-5.6.0</project.version>
+    </properties>
+
     <name>XChange Core Stream</name>
     <artifactId>xchange-stream-core</artifactId>
+    <version>${project.version}</version>
 
     <dependencies>
         <dependency>
