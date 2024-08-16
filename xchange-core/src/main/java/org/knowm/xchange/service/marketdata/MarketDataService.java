@@ -4,7 +4,13 @@ import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
+import org.knowm.xchange.dto.marketdata.FundingRate;
+import org.knowm.xchange.dto.marketdata.FundingRates;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.ExchangeHealth;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -24,6 +30,15 @@ import org.knowm.xchange.service.trade.params.CandleStickDataParams;
  * some kind
  */
 public interface MarketDataService extends BaseService {
+
+  /**
+   * Get exchange health
+   *
+   * @return The exchange health
+   */
+  default ExchangeHealth getExchangeHealth() {
+    return ExchangeHealth.ONLINE;
+  }
 
   /**
    * Get a ticker representing the current exchange rate

@@ -71,7 +71,7 @@ public class BitstampMarketDataServiceRaw extends BitstampBaseService {
     }
   }
 
-  public BitstampPairInfo[] getTradingPairsInfo() throws IOException {
+  public List<BitstampPairInfo> getTradingPairsInfo() throws IOException {
     try {
       return bitstampV2.getTradingPairsInfo();
     } catch (BitstampException e) {

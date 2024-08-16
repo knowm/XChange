@@ -6,15 +6,24 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
-import org.knowm.xchange.gateio.dto.GateioException;
-import org.knowm.xchange.gateio.dto.marketdata.*;
-
 import java.io.IOException;
 import java.util.List;
+import org.knowm.xchange.gateio.dto.GateioException;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyChain;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
+import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
+import org.knowm.xchange.gateio.dto.marketdata.GateioServerTime;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 
 @Path("api/v4")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Gateio {
+
+  @GET
+  @Path("spot/time")
+  GateioServerTime getServerTime() throws IOException, GateioException;
+
 
   @GET
   @Path("spot/currencies")

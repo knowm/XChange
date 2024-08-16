@@ -9,9 +9,16 @@ import org.knowm.xchange.binance.BinanceExchangeIntegration;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.meta.ExchangeHealth;
 import org.knowm.xchange.instrument.Instrument;
 
 public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
+
+  @Test
+  public void exchange_health() {
+    assertThat(exchange.getMarketDataService().getExchangeHealth()).isEqualTo(ExchangeHealth.ONLINE);
+  }
+
 
   @Test
   public void valid_timestamp() {
