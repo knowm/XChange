@@ -3,7 +3,6 @@ package org.knowm.xchange.bybit.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
@@ -65,11 +64,19 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
-    if (!(params instanceof BybitCategory)) {
+    // get category
+    BybitCategory category;
+    if (params == null) {
+      category = BybitCategory.SPOT;
+    }
+    else if (!(params instanceof BybitCategory)) {
       throw new IllegalArgumentException("Params must be instance of BybitCategory");
     }
-    BybitCategory category = (BybitCategory) params;
-    if (category.equals(BybitCategory.OPTION)) {
+    else {
+      category = (BybitCategory) params;
+    }
+
+    if (category == BybitCategory.OPTION) {
       throw new NotYetImplementedForExchangeException("category OPTION not yet implemented");
     }
     BybitResult<BybitTickers<BybitTicker>> response = getTickers(category);
