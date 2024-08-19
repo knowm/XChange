@@ -488,7 +488,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.2.5</version>
+                <version>3.4.0</version>
                 <configuration>
                     <skipTests>${skipIntegrationTests}</skipTests>
                     <includes>
