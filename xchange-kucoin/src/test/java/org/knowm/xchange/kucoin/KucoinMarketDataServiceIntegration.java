@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.knowm.xchange.kucoin.KucoinMarketDataService.PARAM_PARTIAL_SHALLOW_ORDERBOOK;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -74,6 +75,25 @@ public class KucoinMarketDataServiceIntegration {
     assertThat(ticker.getQuoteVolume()).isNotNull().isGreaterThanOrEqualTo(BigDecimal.ZERO);
     assertThat(ticker.getCurrencyPair()).isEqualTo(ETH);
     checkTimestamp(ticker.getTimestamp());
+  }
+
+
+  @Test
+  public void valid_tickers() throws IOException {
+    List<Ticker> tickers = exchange().getMarketDataService().getTickers(null);
+    assertThat(tickers).isNotEmpty();
+
+    assertThat(tickers).allSatisfy(ticker -> {
+      assertThat(ticker.getInstrument()).isNotNull();
+      assertThat(ticker.getLast()).isPositive();
+
+      assertThat(ticker.getBidSize()).isPositive();
+      assertThat(ticker.getAskSize()).isPositive();
+
+      assertThat(ticker.getAsk()).isPositive();
+      assertThat(ticker.getBid()).isPositive();
+      assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+    });
   }
 
   @Test
