@@ -1,0 +1,8 @@
+### Get Coin Info
+GET {{api_host}}/api/v2/spot/public/coins
+
+
+### Get Symbol Info
+GET {{api_host}}/api/v2/spot/public/symbols
+
+
