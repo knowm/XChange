@@ -1,9 +1,17 @@
 package org.knowm.xchange.bitget;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.bitget.dto.BitgetSymbolDto;
 import org.knowm.xchange.bitget.service.BitgetMarketDataService;
+import org.knowm.xchange.bitget.service.BitgetMarketDataServiceRaw;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BitgetExchange extends BaseExchange {
 
@@ -25,5 +33,23 @@ public class BitgetExchange extends BaseExchange {
 
   @Override
   public void remoteInit() throws IOException {
+    BitgetMarketDataServiceRaw bitgetMarketDataServiceRaw = (BitgetMarketDataServiceRaw) marketDataService;
+
+    // initialize symbol mappings
+    List<BitgetSymbolDto> bitgetSymbolDtos = bitgetMarketDataServiceRaw.getBitgetSymbolDtos(null);
+    bitgetSymbolDtos.forEach(bitgetSymbolDto -> {
+      BitgetAdapters.putSymbolMapping(bitgetSymbolDto.getSymbol(), bitgetSymbolDto.getCurrencyPair());
+    });
+
+
+    // initialize instrument metadata
+    Map<Instrument, InstrumentMetaData> instruments = bitgetSymbolDtos.stream()
+        .collect(Collectors.toMap(
+            BitgetSymbolDto::getCurrencyPair,
+            BitgetAdapters::toInstrumentMetaData)
+        );
+
+    exchangeMetaData = new ExchangeMetaData(instruments, null, null, null, null);
+
   }
 }
