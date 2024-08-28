@@ -11,7 +11,9 @@ public class AllTickersTickerResponse {
   private BigDecimal last;
   private BigDecimal low;
   private BigDecimal buy;
+  private BigDecimal bestBidSize;
   private BigDecimal sell;
+  private BigDecimal bestAskSize;
   private BigDecimal changePrice;
   private BigDecimal changeRate;
   private BigDecimal volValue;
