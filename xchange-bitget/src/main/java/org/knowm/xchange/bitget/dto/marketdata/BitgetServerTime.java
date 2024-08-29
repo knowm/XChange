@@ -1,4 +1,4 @@
-package org.knowm.xchange.bitget.dto;
+package org.knowm.xchange.bitget.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;

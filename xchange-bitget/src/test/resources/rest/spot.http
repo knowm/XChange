@@ -6,3 +6,7 @@ GET {{api_host}}/api/v2/spot/public/coins
 GET {{api_host}}/api/v2/spot/public/symbols
 
 
+### Get Ticker Information
+GET {{api_host}}/api/v2/spot/market/tickers
+
+

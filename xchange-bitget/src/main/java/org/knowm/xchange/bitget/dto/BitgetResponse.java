@@ -5,6 +5,7 @@ import java.time.Instant;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 @Data
 @Builder
@@ -12,7 +13,7 @@ import lombok.extern.jackson.Jacksonized;
 public class BitgetResponse<T> {
 
     @JsonProperty("code")
-    private String code;
+    private Integer code;
 
     @JsonProperty("msg")
     private String message;
@@ -22,5 +23,12 @@ public class BitgetResponse<T> {
 
     @JsonProperty("data")
     private T data;
+
+    public void setCode(Integer code) {
+        if (code != 0) {
+            throw new ExceptionalReturnContentException(String.valueOf(code));
+        }
+        this.code = code;
+    }
 
 }

@@ -1,31 +1,55 @@
 package org.knowm.xchange.bitget.service;
 
-import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.io.IOException;
-import java.time.Instant;
-import org.junit.jupiter.api.BeforeEach;
+import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.bitget.BitgetExchange;
-import org.knowm.xchange.dto.meta.ExchangeHealth;
+import org.knowm.xchange.bitget.BitgetIntegrationTestParent;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.exceptions.InstrumentNotValidException;
 
-class BitgetMarketDataServiceIntegration {
+class BitgetMarketDataServiceIntegration extends BitgetIntegrationTestParent {
 
-  BitgetExchange exchange = ExchangeFactory.INSTANCE.createExchange(BitgetExchange.class);
+  @Test
+  void valid_single_ticker() throws IOException {
+    Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_USDT);
 
+    assertThat(ticker.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
+    assertThat(ticker.getLast()).isNotNull();
 
-  @BeforeEach
-  void exchange_online() {
-      // skip if offline
-      assumeThat(exchange.getMarketDataService().getExchangeHealth()).isEqualTo(ExchangeHealth.ONLINE);
+    if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
+      assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+    }
+
   }
 
 
   @Test
-  void server_time() throws IOException {
-    Instant a = ((BitgetMarketDataServiceRaw) exchange.getMarketDataService()).getBitgetServerTime().getServerTime();
-    System.out.println(a);
+  void check_exceptions() {
+    assertThatExceptionOfType(InstrumentNotValidException.class)
+        .isThrownBy(() ->
+            exchange.getMarketDataService().getTicker(new CurrencyPair("NONEXISTING/NONEXISTING")));
+
   }
+
+
+  @Test
+  void valid_tickers() throws IOException {
+    List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
+    assertThat(tickers).isNotEmpty();
+
+    assertThat(tickers).allSatisfy(ticker -> {
+      assertThat(ticker.getInstrument()).isNotNull();
+      assertThat(ticker.getLast()).isNotNull();
+
+      if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
+        assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+      }
+    });
+  }
+
 
 }

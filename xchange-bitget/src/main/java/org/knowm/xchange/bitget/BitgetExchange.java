@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitget.dto.BitgetSymbolDto;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
 import org.knowm.xchange.bitget.service.BitgetMarketDataService;
 import org.knowm.xchange.bitget.service.BitgetMarketDataServiceRaw;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;

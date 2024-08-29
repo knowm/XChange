@@ -3,10 +3,12 @@ package org.knowm.xchange.bitget;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.experimental.UtilityClass;
-import org.knowm.xchange.bitget.dto.BitgetSymbolDto;
-import org.knowm.xchange.bitget.dto.BitgetSymbolDto.Status;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto.Status;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -14,6 +16,11 @@ import org.knowm.xchange.instrument.Instrument;
 public class BitgetAdapters {
 
   private final Map<String, CurrencyPair> SYMBOL_TO_CURRENCY_PAIR = new HashMap<>();
+
+
+  public CurrencyPair toCurrencyPair(String symbol) {
+    return SYMBOL_TO_CURRENCY_PAIR.get(symbol);
+  }
 
 
   public String toString(Instrument instrument) {
@@ -42,5 +49,29 @@ public class BitgetAdapters {
 
     return builder.build();
   }
+
+
+  public Ticker toTicker(BitgetTickerDto bitgetTickerDto) {
+    CurrencyPair currencyPair = toCurrencyPair(bitgetTickerDto.getSymbol());
+    if (currencyPair == null) {
+      return null;
+    }
+    return new Ticker.Builder()
+        .instrument(currencyPair)
+        .open(bitgetTickerDto.getOpen24h())
+        .last(bitgetTickerDto.getLastPrice())
+        .bid(bitgetTickerDto.getBestBidPrice())
+        .ask(bitgetTickerDto.getBestAskPrice())
+        .high(bitgetTickerDto.getHigh24h())
+        .low(bitgetTickerDto.getLow24h())
+        .volume(bitgetTickerDto.getAssetVolume24h())
+        .quoteVolume(bitgetTickerDto.getQuoteVolume24h())
+        .timestamp(bitgetTickerDto.getTimestampAsDate())
+        .bidSize(bitgetTickerDto.getBestBidSize())
+        .askSize(bitgetTickerDto.getBestAskSize())
+        .percentageChange(bitgetTickerDto.getChange24h())
+        .build();
+  }
+
 
 }
