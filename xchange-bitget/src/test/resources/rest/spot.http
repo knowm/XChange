@@ -1,5 +1,5 @@
 ### Get Coin Info
-GET {{api_host}}/api/v2/spot/public/coins
+GET {{api_host}}/api/v2/spot/public/coins?coin=usdt
 
 
 ### Get Symbol Info

@@ -36,6 +36,13 @@ public class BitgetAdapters {
   }
 
 
+  public String toString(Currency currency) {
+    return Optional.ofNullable(currency)
+        .map(Currency::getCurrencyCode)
+        .orElse(null);
+  }
+
+
   public void putSymbolMapping(String symbol, CurrencyPair currencyPair) {
     SYMBOL_TO_CURRENCY_PAIR.put(symbol, currencyPair);
   }

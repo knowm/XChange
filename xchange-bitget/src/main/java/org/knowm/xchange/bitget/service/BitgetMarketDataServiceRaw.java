@@ -8,6 +8,7 @@ import org.knowm.xchange.bitget.dto.marketdata.BitgetCoinDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetServerTime;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.instrument.Instrument;
 
 public class BitgetMarketDataServiceRaw extends BitgetBaseService {
@@ -23,8 +24,8 @@ public class BitgetMarketDataServiceRaw extends BitgetBaseService {
   }
 
 
-  public List<BitgetCoinDto> getBitgetCoinDtoList() throws IOException {
-    return bitget.coins().getData();
+  public List<BitgetCoinDto> getBitgetCoinDtoList(Currency currency) throws IOException {
+    return bitget.coins(BitgetAdapters.toString(currency)).getData();
   }
 
 

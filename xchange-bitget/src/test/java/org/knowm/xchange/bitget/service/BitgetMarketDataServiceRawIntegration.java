@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitget.BitgetIntegrationTestParent;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetCoinDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
+import org.knowm.xchange.currency.Currency;
 
 class BitgetMarketDataServiceRawIntegration extends BitgetIntegrationTestParent {
 
@@ -16,7 +17,7 @@ class BitgetMarketDataServiceRawIntegration extends BitgetIntegrationTestParent 
 
   @Test
   void valid_coins() throws IOException {
-    List<BitgetCoinDto> coins = bitgetMarketDataServiceRaw.getBitgetCoinDtoList();
+    List<BitgetCoinDto> coins = bitgetMarketDataServiceRaw.getBitgetCoinDtoList(null);
 
     assertThat(coins).isNotEmpty();
 
@@ -31,6 +32,21 @@ class BitgetMarketDataServiceRawIntegration extends BitgetIntegrationTestParent 
       });
 
     });
+  }
+
+
+  @Test
+  void valid_coin() throws IOException {
+    List<BitgetCoinDto> coins = bitgetMarketDataServiceRaw.getBitgetCoinDtoList(Currency.USDT);
+
+    assertThat(coins).hasSize(1);
+
+    assertThat(coins.get(0).getCurrency()).isEqualTo(Currency.USDT);
+    assertThat(coins.get(0).getCoinId()).isNotNull();
+    assertThat(coins.get(0).getChains()).allSatisfy(chain -> {
+      assertThat(chain.getChain()).isNotNull();
+    });
+
   }
 
 

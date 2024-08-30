@@ -25,7 +25,7 @@ public interface Bitget {
 
   @GET
   @Path("api/v2/spot/public/coins")
-  BitgetResponse<List<BitgetCoinDto>> coins() throws IOException, BitgetException;
+  BitgetResponse<List<BitgetCoinDto>> coins(@QueryParam("coin") String coin) throws IOException, BitgetException;
 
 
   @GET
