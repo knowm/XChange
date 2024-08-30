@@ -2,6 +2,10 @@
 GET {{api_host}}/api/v2/spot/public/coins?coin=usdt
 
 
+### Get OrderBook Depth
+GET {{api_host}}/api/v2/spot/market/orderbook?symbol=btcusdt
+
+
 ### Get Symbol Info
 GET {{api_host}}/api/v2/spot/public/symbols
 

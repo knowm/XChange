@@ -5,6 +5,7 @@ import java.util.List;
 import org.knowm.xchange.bitget.BitgetAdapters;
 import org.knowm.xchange.bitget.BitgetExchange;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetCoinDto;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetMarketDepthDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetServerTime;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
@@ -36,6 +37,11 @@ public class BitgetMarketDataServiceRaw extends BitgetBaseService {
 
   public List<BitgetTickerDto> getBitgetTickerDtos(Instrument instrument) throws IOException {
     return bitget.tickers(BitgetAdapters.toString(instrument)).getData();
+  }
+
+
+  public BitgetMarketDepthDto getBitgetMarketDepthDtos(Instrument instrument) throws IOException {
+    return bitget.orderbook(BitgetAdapters.toString(instrument)).getData();
   }
 
 

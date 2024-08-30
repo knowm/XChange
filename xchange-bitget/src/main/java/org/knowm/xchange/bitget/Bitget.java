@@ -10,6 +10,7 @@ import java.util.List;
 import org.knowm.xchange.bitget.dto.BitgetException;
 import org.knowm.xchange.bitget.dto.BitgetResponse;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetCoinDto;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetMarketDepthDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetServerTime;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
@@ -37,6 +38,12 @@ public interface Bitget {
   @GET
   @Path("api/v2/spot/market/tickers")
   BitgetResponse<List<BitgetTickerDto>> tickers(@QueryParam("symbol") String symbol)
+      throws IOException, BitgetException;
+
+
+  @GET
+  @Path("api/v2/spot/market/orderbook")
+  BitgetResponse<BitgetMarketDepthDto> orderbook(@QueryParam("symbol") String symbol)
       throws IOException, BitgetException;
 
 

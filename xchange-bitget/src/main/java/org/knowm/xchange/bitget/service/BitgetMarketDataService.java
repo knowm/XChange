@@ -13,6 +13,7 @@ import org.knowm.xchange.bitget.config.Config;
 import org.knowm.xchange.bitget.dto.BitgetException;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.ExchangeHealth;
 import org.knowm.xchange.instrument.Instrument;
@@ -70,6 +71,24 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implemen
           .filter(Objects::nonNull)
           .collect(Collectors.toList());
 
+    } catch (BitgetException e) {
+      throw BitgetErrorAdapter.adapt(e);
+    }
+  }
+
+
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    return getOrderBook((Instrument) currencyPair, args);
+  }
+
+
+  @Override
+  public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
+    Objects.requireNonNull(instrument);
+
+    try {
+      return BitgetAdapters.toOrderBook(getBitgetMarketDepthDtos(instrument), instrument);
     } catch (BitgetException e) {
       throw BitgetErrorAdapter.adapt(e);
     }

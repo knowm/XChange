@@ -9,15 +9,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 import org.knowm.xchange.bitget.dto.account.BitgetBalanceDto;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetMarketDepthDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto.Status;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
 
 @UtilityClass
@@ -112,6 +116,35 @@ public class BitgetAdapters {
         .collect(Collectors.toList());
 
     return Wallet.Builder.from(balances).id("spot").build();
+  }
+
+
+  public OrderBook toOrderBook(BitgetMarketDepthDto bitgetMarketDepthDto, Instrument instrument) {
+    List<LimitOrder> asks = bitgetMarketDepthDto.getAsks().stream()
+        .map(priceSizeEntry ->
+            new LimitOrder(
+                OrderType.ASK,
+                priceSizeEntry.getSize(),
+                instrument,
+                null,
+                null,
+                priceSizeEntry.getPrice())
+        )
+        .collect(Collectors.toList());
+
+    List<LimitOrder> bids = bitgetMarketDepthDto.getBids().stream()
+        .map(priceSizeEntry ->
+            new LimitOrder(
+                OrderType.BID,
+                priceSizeEntry.getSize(),
+                instrument,
+                null,
+                null,
+                priceSizeEntry.getPrice())
+        )
+        .collect(Collectors.toList());
+
+    return new OrderBook(toDate(bitgetMarketDepthDto.getTimestamp()), asks, bids);
   }
 
 
