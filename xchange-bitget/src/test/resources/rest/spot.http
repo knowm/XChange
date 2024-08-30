@@ -10,3 +10,27 @@ GET {{api_host}}/api/v2/spot/public/symbols
 GET {{api_host}}/api/v2/spot/market/tickers
 
 
+### Get Account Information
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("GET", request);
+%}
+GET {{api_host}}/api/v2/spot/account/info
+ACCESS-KEY: {{api_key}}
+ACCESS-SIGN: {{sign}}
+ACCESS-TIMESTAMP: {{timestamp}}
+ACCESS-PASSPHRASE: {{api_passphrase}}
+
+
+### Get Account assets
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("GET", request);
+%}
+GET {{api_host}}/api/v2/spot/account/assets
+ACCESS-KEY: {{api_key}}
+ACCESS-SIGN: {{sign}}
+ACCESS-TIMESTAMP: {{timestamp}}
+ACCESS-PASSPHRASE: {{api_passphrase}}
+
+

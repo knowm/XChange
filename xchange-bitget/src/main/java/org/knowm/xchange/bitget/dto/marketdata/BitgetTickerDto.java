@@ -3,8 +3,6 @@ package org.knowm.xchange.bitget.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Date;
-import java.util.Optional;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
@@ -61,11 +59,5 @@ public class BitgetTickerDto {
 
     @JsonProperty("change24h")
     private BigDecimal change24h;
-
-    public Date getTimestampAsDate() {
-        return Optional.ofNullable(timestamp)
-            .map(Date::from)
-            .orElse(null);
-    }
 
 }

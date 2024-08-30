@@ -1,13 +1,21 @@
 package org.knowm.xchange.bitget;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
+import org.knowm.xchange.bitget.dto.account.BitgetBalanceDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto.Status;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
@@ -66,11 +74,37 @@ public class BitgetAdapters {
         .low(bitgetTickerDto.getLow24h())
         .volume(bitgetTickerDto.getAssetVolume24h())
         .quoteVolume(bitgetTickerDto.getQuoteVolume24h())
-        .timestamp(bitgetTickerDto.getTimestampAsDate())
+        .timestamp(toDate(bitgetTickerDto.getTimestamp()))
         .bidSize(bitgetTickerDto.getBestBidSize())
         .askSize(bitgetTickerDto.getBestAskSize())
         .percentageChange(bitgetTickerDto.getChange24h())
         .build();
+  }
+
+
+  public Date toDate(Instant instant) {
+    return Optional.ofNullable(instant)
+        .map(Date::from)
+        .orElse(null);
+  }
+
+
+  public Balance toBalance(BitgetBalanceDto balance) {
+    return new Balance.Builder()
+        .currency(balance.getCurrency())
+        .available(balance.getAvailable())
+        .frozen(balance.getFrozen())
+        .timestamp(toDate(balance.getTimestamp()))
+        .build();
+  }
+
+
+  public Wallet toWallet(List<BitgetBalanceDto> bitgetBalanceDtos) {
+    List<Balance> balances = bitgetBalanceDtos.stream()
+        .map(BitgetAdapters::toBalance)
+        .collect(Collectors.toList());
+
+    return Wallet.Builder.from(balances).id("spot").build();
   }
 
 
