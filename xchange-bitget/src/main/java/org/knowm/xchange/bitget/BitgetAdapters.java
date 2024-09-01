@@ -1,10 +1,12 @@
 package org.knowm.xchange.bitget;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
@@ -13,8 +15,12 @@ import org.knowm.xchange.bitget.dto.marketdata.BitgetMarketDepthDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto.Status;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
+import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto;
+import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto.BitgetOrderStatus;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
@@ -22,6 +28,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.instrument.Instrument;
 
 @UtilityClass
@@ -145,6 +152,70 @@ public class BitgetAdapters {
         .collect(Collectors.toList());
 
     return new OrderBook(toDate(bitgetMarketDepthDto.getTimestamp()), asks, bids);
+  }
+
+
+  public Order toOrder(BitgetOrderInfoDto order) {
+    if (order == null) {
+      return null;
+    }
+
+    Instrument instrument = toCurrencyPair(order.getSymbol());
+    Objects.requireNonNull(instrument);
+    OrderType orderType = order.getOrderSide();
+
+    Order.Builder builder;
+    switch (order.getOrderType()) {
+      case MARKET:
+        builder = new MarketOrder.Builder(orderType, instrument);
+        break;
+      case LIMIT:
+        builder = new LimitOrder.Builder(orderType, instrument)
+            .limitPrice(order.getPrice());
+        break;
+      default:
+        throw new IllegalArgumentException("Can't map " + order.getOrderType());
+    }
+
+    if (orderType == OrderType.BID) {
+      // buy orders fill quote
+      builder.cumulativeAmount(order.getQuoteVolume());
+    } else if (orderType == OrderType.ASK) {
+      // sell orders fill asset
+      builder.cumulativeAmount(order.getBaseVolume());
+    } else {
+      throw new IllegalArgumentException("Can't map " + orderType);
+    }
+
+    BigDecimal fee = order.getFee();
+    if (fee != null) {
+      builder.fee(fee);
+    }
+
+    return builder
+        .id(String.valueOf(order.getOrderId()))
+        .averagePrice(order.getPriceAvg())
+        .originalAmount(order.getSize())
+        .userReference(order.getClientOid())
+        .timestamp(toDate(order.getCreatedAt()))
+        .orderStatus(toOrderStatus(order.getOrderStatus()))
+        .build();
+  }
+
+
+  public OrderStatus toOrderStatus(BitgetOrderStatus bitgetOrderStatus) {
+    switch (bitgetOrderStatus) {
+      case PENDING:
+        return OrderStatus.NEW;
+      case PARTIALLY_FILLED:
+        return OrderStatus.PARTIALLY_FILLED;
+      case FILLED:
+        return OrderStatus.FILLED;
+      case CANCELLED:
+        return OrderStatus.CANCELED;
+      default:
+        throw new IllegalArgumentException("Can't map " + bitgetOrderStatus);
+    }
   }
 
 

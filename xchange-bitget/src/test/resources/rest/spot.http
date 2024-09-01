@@ -38,3 +38,57 @@ ACCESS-TIMESTAMP: {{timestamp}}
 ACCESS-PASSPHRASE: {{api_passphrase}}
 
 
+### Get Order Info
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("GET", request);
+%}
+GET {{api_host}}/api/v2/spot/trade/orderInfo?orderId=1213530920130613257
+ACCESS-KEY: {{api_key}}
+ACCESS-SIGN: {{sign}}
+ACCESS-TIMESTAMP: {{timestamp}}
+ACCESS-PASSPHRASE: {{api_passphrase}}
+
+
+### Place Market Buy Order
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("POST", request);
+%}
+POST {{api_host}}/api/v2/spot/trade/place-order
+ACCESS-KEY: {{api_key}}
+ACCESS-SIGN: {{sign}}
+ACCESS-TIMESTAMP: {{timestamp}}
+ACCESS-PASSPHRASE: {{api_passphrase}}
+Content-Type: application/json
+
+{
+  "symbol": "GOMININGUSDT",
+  "side": "buy",
+  "orderType": "market",
+  "size": "2",
+  "clientOid": "{{$random.uuid}}"
+}
+
+
+### Place Market Sell Order
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("POST", request);
+%}
+POST {{api_host}}/api/v2/spot/trade/place-order
+ACCESS-KEY: {{api_key}}
+ACCESS-SIGN: {{sign}}
+ACCESS-TIMESTAMP: {{timestamp}}
+ACCESS-PASSPHRASE: {{api_passphrase}}
+Content-Type: application/json
+
+{
+  "symbol": "GOMININGUSDT",
+  "side": "sell",
+  "orderType": "market",
+  "size": "3",
+  "clientOid": "{{$random.uuid}}"
+}
+
+

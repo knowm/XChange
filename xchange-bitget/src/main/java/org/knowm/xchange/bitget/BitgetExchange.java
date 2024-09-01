@@ -10,6 +10,7 @@ import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
 import org.knowm.xchange.bitget.service.BitgetAccountService;
 import org.knowm.xchange.bitget.service.BitgetMarketDataService;
 import org.knowm.xchange.bitget.service.BitgetMarketDataServiceRaw;
+import org.knowm.xchange.bitget.service.BitgetTradeService;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
@@ -20,7 +21,7 @@ public class BitgetExchange extends BaseExchange {
   protected void initServices() {
     accountService = new BitgetAccountService(this);
     marketDataService = new BitgetMarketDataService(this);
-//    tradeService = new BitgetTradeService(this);
+    tradeService = new BitgetTradeService(this);
   }
 
   @Override

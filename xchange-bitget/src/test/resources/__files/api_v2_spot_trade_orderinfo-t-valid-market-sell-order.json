@@ -1,0 +1,30 @@
+{
+  "code": "00000",
+  "msg": "success",
+  "requestTime": 1725192128082,
+  "data": [
+    {
+      "userId": "1548914322",
+      "symbol": "GOMININGUSDT",
+      "orderId": "1213530920130613257",
+      "clientOid": "t-valid-market-sell-order",
+      "price": "0",
+      "size": "3.0000000000000000",
+      "orderType": "market",
+      "side": "sell",
+      "status": "filled",
+      "priceAvg": "0.3784600000000000",
+      "baseVolume": "3.0000000000000000",
+      "quoteVolume": "1.1353800000000000",
+      "enterPointSource": "API",
+      "feeDetail": "{\"newFees\":{\"c\":0,\"d\":0,\"deduction\":false,\"r\":-0.00113538,\"t\":-0.00113538,\"totalDeductionFee\":0},\"USDT\":{\"deduction\":false,\"feeCoinCode\":\"USDT\",\"totalDeductionFee\":0,\"totalFee\":-0.0011353800000000}}",
+      "orderSource": "market",
+      "tpslType": "normal",
+      "triggerPrice": null,
+      "quoteCoin": "USDT",
+      "baseCoin": "GOMINING",
+      "cTime": "1725054238350",
+      "uTime": "1725054238441"
+    }
+  ]
+}

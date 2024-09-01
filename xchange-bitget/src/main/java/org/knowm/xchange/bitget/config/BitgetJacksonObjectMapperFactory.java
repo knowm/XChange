@@ -18,6 +18,9 @@ public class BitgetJacksonObjectMapperFactory extends DefaultJacksonObjectMapper
     // don't write nulls
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
+    // don't fail un unknown properties
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
     // enable parsing to Instant
     objectMapper.registerModule(new JavaTimeModule());
   }
