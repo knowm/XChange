@@ -1,7 +1,9 @@
 package org.knowm.xchange.bitget;
 
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
@@ -12,6 +14,7 @@ import org.knowm.xchange.bitget.dto.BitgetException;
 import org.knowm.xchange.bitget.dto.BitgetResponse;
 import org.knowm.xchange.bitget.dto.account.BitgetBalanceDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto;
+import org.knowm.xchange.bitget.dto.trade.BitgetPlaceOrderDto;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -37,6 +40,18 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
       @QueryParam("orderId") String orderId)
+      throws IOException, BitgetException;
+
+
+  @POST
+  @Path("api/v2/spot/trade/place-order")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BitgetResponse<BitgetOrderInfoDto> createOrder(
+      @HeaderParam("ACCESS-KEY") String apiKey,
+      @HeaderParam("ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
+      BitgetPlaceOrderDto bitgetPlaceOrderDto)
       throws IOException, BitgetException;
 
 

@@ -17,6 +17,7 @@ import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto.Status;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto.BitgetOrderStatus;
+import org.knowm.xchange.bitget.dto.trade.BitgetPlaceOrderDto;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -216,6 +217,17 @@ public class BitgetAdapters {
       default:
         throw new IllegalArgumentException("Can't map " + bitgetOrderStatus);
     }
+  }
+
+
+  public BitgetPlaceOrderDto toBitgetPlaceOrderDto(MarketOrder marketOrder) {
+    return BitgetPlaceOrderDto.builder()
+        .symbol(toString(marketOrder.getInstrument()))
+        .orderSide(marketOrder.getType())
+        .orderType(BitgetOrderInfoDto.OrderType.MARKET)
+        .clientOid(marketOrder.getUserReference())
+        .size(marketOrder.getOriginalAmount())
+        .build();
   }
 
 

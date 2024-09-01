@@ -10,6 +10,7 @@ import org.knowm.xchange.bitget.BitgetExchange;
 import org.knowm.xchange.bitget.dto.BitgetException;
 import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
@@ -36,4 +37,17 @@ public class BitgetTradeService extends BitgetTradeServiceRaw implements TradeSe
     }
 
   }
+
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    try {
+      return createOrder(BitgetAdapters.toBitgetPlaceOrderDto(marketOrder)).getOrderId();
+    }
+    catch (BitgetException e) {
+      throw BitgetErrorAdapter.adapt(e);
+    }
+  }
+
+
 }

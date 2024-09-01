@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.bitget.BitgetExchange;
 import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto;
+import org.knowm.xchange.bitget.dto.trade.BitgetPlaceOrderDto;
 
 public class BitgetTradeServiceRaw extends BitgetBaseService {
 
@@ -19,6 +20,11 @@ public class BitgetTradeServiceRaw extends BitgetBaseService {
       return null;
     }
     return results.get(0);
+  }
+
+
+  public BitgetOrderInfoDto createOrder(BitgetPlaceOrderDto bitgetPlaceOrderDto) throws IOException {
+    return bitgetAuthenticated.createOrder(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(), bitgetPlaceOrderDto).getData();
   }
 
 }

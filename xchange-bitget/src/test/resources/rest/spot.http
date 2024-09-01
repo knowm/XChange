@@ -63,7 +63,7 @@ ACCESS-PASSPHRASE: {{api_passphrase}}
 Content-Type: application/json
 
 {
-  "symbol": "GOMININGUSDT",
+  "symbol": "BGBUSDT",
   "side": "buy",
   "orderType": "market",
   "size": "2",
@@ -84,7 +84,7 @@ ACCESS-PASSPHRASE: {{api_passphrase}}
 Content-Type: application/json
 
 {
-  "symbol": "GOMININGUSDT",
+  "symbol": "BGBUSDT",
   "side": "sell",
   "orderType": "market",
   "size": "3",
