@@ -1,39 +1,31 @@
-package org.knowm.xchange.gateio.service;
+package org.knowm.xchange.kraken.service;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.util.List;
-import org.apache.commons.lang3.ObjectUtils;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.meta.ExchangeHealth;
-import org.knowm.xchange.gateio.GateioExchange;
+import org.knowm.xchange.kraken.KrakenExchange;
 
-class GateioMarketDataServiceIntegration {
+public class KrakenMarketDataServiceIntegration {
 
-  GateioExchange exchange = ExchangeFactory.INSTANCE.createExchange(GateioExchange.class);
-
-  @Test
-  void exchange_health() {
-    ExchangeHealth actual = exchange.getMarketDataService().getExchangeHealth();
-    assertThat(actual).isEqualTo(ExchangeHealth.ONLINE);
-  }
-
+  KrakenExchange exchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class);
 
   @Test
-  void valid_tickers() throws IOException {
+  public void valid_tickers() throws IOException {
     List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
 
     assertThat(tickers).allSatisfy(ticker -> {
       assertThat(ticker.getInstrument()).isNotNull();
       assertThat(ticker.getLast()).isNotNull();
-      if (ObjectUtils.allNotNull(ticker.getBid(), ticker.getAsk()) && ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
+      if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
         assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
       }
     });
@@ -41,7 +33,21 @@ class GateioMarketDataServiceIntegration {
 
 
   @Test
-  void valid_orderbook() throws IOException {
+  public void valid_single_ticker() throws IOException {
+    Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_USDT);
+
+    assertThat(ticker.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
+    assertThat(ticker.getLast()).isNotNull();
+
+    if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
+      assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+    }
+
+  }
+
+
+  @Test
+  public void valid_orderbook() throws IOException {
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(CurrencyPair.BTC_USDT);
 
     assertThat(orderBook.getBids()).isNotEmpty();
@@ -60,6 +66,5 @@ class GateioMarketDataServiceIntegration {
     });
 
   }
-
 
 }

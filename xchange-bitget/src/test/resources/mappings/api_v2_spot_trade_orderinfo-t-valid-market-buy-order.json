@@ -1,0 +1,15 @@
+{
+  "id" : "aebaa168-bbc9-4819-98f5-c2336d01ca43",
+  "name" : "api_v2_spot_trade_orderinfo",
+  "request" : {
+    "url" : "/api/v2/spot/trade/orderInfo?orderId=1214189703404097539",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_spot_trade_orderinfo-t-valid-market-buy-order.json"
+  },
+  "uuid" : "aebaa168-bbc9-4819-98f5-c2336d01ca43",
+  "persistent" : true,
+  "insertionIndex" : 1
+}
