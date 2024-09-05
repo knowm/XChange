@@ -1,0 +1,20 @@
+{
+  "id" : "bf637b08-636e-4c43-af21-90ccb86586f4",
+  "name" : "api_v2_spot_trade_place-order",
+  "request" : {
+    "url" : "/api/v2/spot/trade/place-order",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"symbol\":\"BGBUSDT\",\"side\":\"buy\",\"orderType\":\"market\",\"size\":2,\"clientOid\":\"t-valid-market-buy-order\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_spot_trade_place-buy-order.json"
+  },
+  "uuid" : "bf637b08-636e-4c43-af21-90ccb86586f4",
+  "persistent" : true,
+  "insertionIndex" : 3
+}
