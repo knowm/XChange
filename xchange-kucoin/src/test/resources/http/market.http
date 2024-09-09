@@ -1,0 +1,8 @@
+### Get Ticker
+GET {{api_host}}/api/v1/market/orderbook/level1?symbol=BTC-USDT
+
+### Get All Tickers
+GET {{api_host}}/api/v1/market/allTickers
+
+### Get 24hr Stats
+GET {{api_host}}/api/v1/market/stats?symbol=BTC-USDT

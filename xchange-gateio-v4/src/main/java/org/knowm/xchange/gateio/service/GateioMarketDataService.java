@@ -1,6 +1,8 @@
 package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -11,10 +13,12 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.meta.ExchangeHealth;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
+import org.knowm.xchange.gateio.config.Config;
 import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
@@ -31,10 +35,26 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw implemen
   }
 
   @Override
+  public ExchangeHealth getExchangeHealth() {
+    try {
+      Instant serverTime = getGateioServerTime().getTime();
+      Instant localTime = Instant.now(Config.getInstance().getClock());
+
+      // timestamps shouldn't diverge by more than 10 minutes
+      if (Duration.between(serverTime, localTime).toMinutes() < 10) {
+        return ExchangeHealth.ONLINE;
+      }
+    } catch (GateioException | IOException e) {
+      return ExchangeHealth.OFFLINE;
+    }
+
+    return ExchangeHealth.OFFLINE;
+  }
+
+  @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return getTicker((Instrument) currencyPair, args);
   }
-
 
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {

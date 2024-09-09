@@ -111,4 +111,15 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
     return "";
   }
 
+
+  public String cancelOrder(Order order) throws IOException {
+    BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
+    BybitResult<BybitOrderResponse> response = cancelOrder(category,
+        convertToBybitSymbol(order.getInstrument()), order.getId(), order.getUserReference());
+    if (response != null) {
+      return response.getResult().getOrderId();
+    } else
+      return "";
+  }
+
 }

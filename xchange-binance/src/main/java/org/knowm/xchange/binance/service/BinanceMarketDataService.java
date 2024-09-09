@@ -21,6 +21,7 @@ import org.knowm.xchange.dto.marketdata.FundingRates;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.ExchangeHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
@@ -34,6 +35,20 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
       BinanceExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
+
+
+  @Override
+  public ExchangeHealth getExchangeHealth() {
+    try {
+      if (getSystemStatus().getStatus().equals("0")) {
+        return ExchangeHealth.ONLINE;
+      }
+    } catch (IOException e) {
+      return ExchangeHealth.OFFLINE;
+    }
+    return ExchangeHealth.OFFLINE;
+  }
+
 
   /**
    * optional parameters provided in the args array:

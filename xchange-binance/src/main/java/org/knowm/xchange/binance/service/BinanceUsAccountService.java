@@ -88,6 +88,6 @@ public class BinanceUsAccountService extends BinanceAccountService {
   @Override
   public BinanceSystemStatus getSystemStatus() {
     LOG.warn("getSystemStatus: {}", NOT_SUPPORTED);
-    return new BinanceSystemStatus();
+    return BinanceSystemStatus.builder().build();
   }
 }
