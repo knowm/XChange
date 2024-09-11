@@ -57,10 +57,11 @@ public class BybitTradeServiceRaw extends BybitBaseService {
 
   public BybitResult<BybitOrderResponse> placeLimitOrder(
       BybitCategory category, String symbol, BybitSide side, BigDecimal qty, BigDecimal limitPrice,
-      String orderLinkId)
+      String orderLinkId, boolean reduceOnly)
       throws IOException {
     BybitPlaceOrderPayload payload = new BybitPlaceOrderPayload(category,
         symbol, side, BybitOrderType.LIMIT, qty, orderLinkId, limitPrice);
+    payload.setReduceOnly(String.valueOf(reduceOnly));
     BybitResult<BybitOrderResponse> placeOrder =
         bybitAuthenticated.placeLimitOrder(
             apiKey,
@@ -98,11 +99,11 @@ public class BybitTradeServiceRaw extends BybitBaseService {
   public BybitResult<BybitOrderResponse> placeAdvancedOrder(BybitCategory category, String symbol,
       BybitSide side, BybitOrderType orderType, BigDecimal qty, BigDecimal limitPrice,
       String orderLinkId, BigDecimal stopLoss, SlTriggerBy slTriggerBy, BigDecimal slLimitPrice,
-      BybitOrderType slOrderType, boolean reduceOnly, TimeInForce timeInForce)
+      BybitOrderType slOrderType, boolean reduceOnly, int positionIdx, TimeInForce timeInForce)
       throws IOException {
 
     BybitPlaceOrderPayload payload = new BybitPlaceOrderPayload(category, symbol, side, orderType,
-        qty, orderLinkId, limitPrice);
+        qty, orderLinkId, positionIdx, limitPrice);
     if (stopLoss != null && slTriggerBy != null && slLimitPrice != null && slOrderType != null) {
       payload.setStopLoss(stopLoss.toString());
       payload.setSlTriggerBy(slTriggerBy.getValue());

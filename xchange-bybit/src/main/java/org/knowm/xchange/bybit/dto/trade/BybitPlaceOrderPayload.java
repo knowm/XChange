@@ -25,6 +25,7 @@ public class BybitPlaceOrderPayload {
   private String slOrderType;
   private String tpslMode;
   private String reduceOnly = "false";
+  private int positionIdx = 0;
   private TimeInForce timeInForce;
 
   public BybitPlaceOrderPayload(BybitCategory category, String symbol, BybitSide side,
@@ -37,7 +38,19 @@ public class BybitPlaceOrderPayload {
     this.orderLinkId = orderLinkId;
   }
   public BybitPlaceOrderPayload(BybitCategory category, String symbol, BybitSide side, BybitOrderType orderType,
-      BigDecimal qty, String orderLinkId, BigDecimal price) {
+      BigDecimal qty, String orderLinkId, int positionIdx, BigDecimal price) {
+    this.category = category.getValue();
+    this.symbol = symbol;
+    this.side = side.getValue();
+    this.orderType = orderType.getValue();
+    this.qty = qty.toString();
+    this.orderLinkId = orderLinkId;
+    this.positionIdx = positionIdx;
+    this.price = price.toString();
+  }
+
+  public BybitPlaceOrderPayload(BybitCategory category, String symbol, BybitSide side, BybitOrderType orderType,
+      BigDecimal qty, String orderLinkId,  BigDecimal price) {
     this.category = category.getValue();
     this.symbol = symbol;
     this.side = side.getValue();

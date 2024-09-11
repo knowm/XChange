@@ -68,14 +68,14 @@ public class AdvancedOrderExample {
         ETH_USDT_PERP, minAmountFuture, ticker.getLast(), new Date(),
         ticker.getLast().multiply(new BigDecimal("0.995")), LASTPRICE,
         ticker.getLast().multiply(new BigDecimal("0.995")), BybitOrderType.LIMIT,
-        new BigDecimal("0"), TimeInForce.POSTONLY, false);
+        new BigDecimal("0"), TimeInForce.POSTONLY, false,1);
 
     BybitAdvancedOrder advancedOrder1 = new BybitAdvancedOrder(OrderType.BID, BybitOrderType.LIMIT,"",
          ETH_USDT_PERP, minAmountFuture, ticker.getLast(), new Date());
 
     BybitTradeService tradeService = (BybitTradeService)exchange.getTradeService();
     String advancedOrderId =
-        tradeService.placeAdvancedOrder(advancedOrder1);
+        tradeService.placeAdvancedOrder(advancedOrder);
     System.out.println("advanced order id: " + advancedOrderId);
   }
 

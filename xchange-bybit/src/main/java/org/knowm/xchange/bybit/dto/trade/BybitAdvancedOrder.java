@@ -19,11 +19,12 @@ public class BybitAdvancedOrder extends Order {
   private BybitOrderType slOrderType;
   private BybitOrderType orderType;
   private boolean reduceOnly = false;
+  private int positionIdx = 0;
   private TimeInForce timeInForce;
 
   public BybitAdvancedOrder(OrderType type, BybitOrderType orderType, String userId,  Instrument instrument,
       BigDecimal amount, BigDecimal price, Date timestamp, BigDecimal sLTriggerPrice, SlTriggerBy slTriggerBy, BigDecimal slLimitPrice,
-      BybitOrderType slOrderType, BigDecimal fee, TimeInForce timeInForce, boolean reduceOnly) {
+      BybitOrderType slOrderType, BigDecimal fee, TimeInForce timeInForce, boolean reduceOnly, int positionIdx) {
     super(type, amount, instrument, "", timestamp, price, amount, fee,
         OrderStatus.PENDING_NEW, userId);
     this.orderType = orderType;
@@ -33,6 +34,7 @@ public class BybitAdvancedOrder extends Order {
     this.slOrderType = slOrderType;
     this.timeInForce = timeInForce;
     this.reduceOnly = reduceOnly;
+    this.positionIdx = positionIdx;
   }
 
   public BybitAdvancedOrder(OrderType type, BybitOrderType orderType, String userId, Instrument instrument,

@@ -77,10 +77,10 @@ public class BybitAdapters {
   }
 
   public static BybitSide getSideString(Order.OrderType type) {
-    if (type == Order.OrderType.ASK) {
+    if (type == Order.OrderType.ASK || type == OrderType.EXIT_BID) {
       return BybitSide.SELL;
     }
-    if (type == Order.OrderType.BID) {
+    if (type == Order.OrderType.BID || type == OrderType.EXIT_ASK) {
       return BybitSide.BUY;
     }
     throw new IllegalArgumentException("invalid order type");
