@@ -3,14 +3,12 @@ package org.knowm.xchange.blockchain.service.account;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.ACCOUNT_INFORMATION_JSON;
-import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.ADDRESS;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.ADDRESS_DEPOSIT;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.BENEFICIARY;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.DEPOSIT_FAILURE_JSON;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.DEPOSIT_HISTORY_SUCCESS_JSON;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.DEPOSIT_SUCCESS_JSON;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.FEES_JSON;
-import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.NOT_IMPLEMENTED_YET;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.STATUS_CODE_400;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.STATUS_CODE_401;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.SYMBOL_JSON;
@@ -41,7 +39,6 @@ import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
@@ -74,14 +71,6 @@ public class AccountServiceTest extends BlockchainBaseTest {
   public void withdrawFailure() {
     Throwable exception = catchThrowable(() -> withdraw(WITHDRAWAL_FAILURE_JSON, 401));
     assertThat(exception).isInstanceOf(ExchangeSecurityException.class).hasMessage(STATUS_CODE_401);
-  }
-
-  @Test(timeout = 2000)
-  public void withdrawException() {
-    Throwable exception = catchThrowable(this::withdrawExcept);
-    assertThat(exception)
-        .isInstanceOf(NotYetImplementedForExchangeException.class)
-        .hasMessage(NOT_IMPLEMENTED_YET);
   }
 
   @Test(timeout = 2000)
@@ -137,11 +126,6 @@ public class AccountServiceTest extends BlockchainBaseTest {
             .build();
 
     return service.withdrawFunds(params);
-  }
-
-  private void withdrawExcept() throws IOException {
-    stubPost(WITHDRAWAL_SUCCESS_JSON, 200, URL_WITHDRAWALS);
-    service.withdrawFunds(Currency.BTC, BigDecimal.valueOf(0.005), ADDRESS);
   }
 
   private String requestDeposit(String responseFileName, int statusCode) throws IOException {

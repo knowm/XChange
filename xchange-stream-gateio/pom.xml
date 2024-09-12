@@ -4,15 +4,11 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>5.1.2-SNAPSHOT</version>
+        <version>5.2.1-SNAPSHOT</version>
     </parent>
     <artifactId>xchange-stream-gateio</artifactId>
 
     <name>XChange Gate.io Stream</name>
-
-    <properties>
-        <version.mockito>5.3.1</version.mockito>
-    </properties>
 
     <dependencies>
 
@@ -21,7 +17,6 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${version.fasterxml}</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -44,11 +39,9 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>${version.mockito}</version>
             <scope>test</scope>
         </dependency>
 
     </dependencies>
-
 
 </project>

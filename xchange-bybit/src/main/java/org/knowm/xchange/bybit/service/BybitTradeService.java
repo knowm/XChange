@@ -1,6 +1,7 @@
 package org.knowm.xchange.bybit.service;
 
 import static org.knowm.xchange.bybit.BybitAdapters.adaptBybitOrderDetails;
+import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
             BybitAdapters.convertToBybitSymbol(marketOrder.getInstrument()),
             BybitAdapters.getSideString(marketOrder.getType()),
             marketOrder.getOriginalAmount(),
-            marketOrder.getId());
+            marketOrder.getUserReference());
 
     return orderResponseBybitResult.getResult().getOrderId();
   }
@@ -46,7 +47,7 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
             BybitAdapters.getSideString(limitOrder.getType()),
             limitOrder.getOriginalAmount(),
             limitOrder.getLimitPrice(),
-            limitOrder.getId());
+            limitOrder.getUserReference());
 
     return orderResponseBybitResult.getResult().getOrderId();
   }
@@ -72,4 +73,34 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
 
     return results;
   }
+
+
+  public String amendOrder(Order order) throws IOException {
+    BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
+    BybitResult<BybitOrderResponse> response = null;
+    if (order instanceof LimitOrder) {
+      response = amendOrder(category,
+          convertToBybitSymbol(order.getInstrument()), order.getId(), order.getUserReference(),
+          null, order.getOriginalAmount().toString(), ((LimitOrder) order)
+              .getLimitPrice().toString(), null, null, null,
+          null, null, null, null, null);
+    }
+    //Todo order instanceof StopOrder
+    if (response != null) {
+      return response.getResult().getOrderId();
+    }
+    return "";
+  }
+
+
+  public String cancelOrder(Order order) throws IOException {
+    BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
+    BybitResult<BybitOrderResponse> response = cancelOrder(category,
+        convertToBybitSymbol(order.getInstrument()), order.getId(), order.getUserReference());
+    if (response != null) {
+      return response.getResult().getOrderId();
+    } else
+      return "";
+  }
+
 }

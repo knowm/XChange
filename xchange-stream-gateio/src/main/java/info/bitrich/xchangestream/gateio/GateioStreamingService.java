@@ -19,11 +19,12 @@ import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUser
 import info.bitrich.xchangestream.service.netty.NettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
@@ -108,7 +109,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
       case Config.SPOT_TICKERS_CHANNEL:
       case Config.SPOT_TRADES_CHANNEL: {
         CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
-        Validate.notNull(currencyPair);
+        Objects.requireNonNull(currencyPair);
 
         payload = CurrencyPairPayload.builder()
             .currencyPair(currencyPair)

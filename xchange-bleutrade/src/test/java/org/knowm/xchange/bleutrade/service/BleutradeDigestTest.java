@@ -8,7 +8,7 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import si.mazi.rescu.RequestWriterResolver;
 import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.RestMethodMetadata;

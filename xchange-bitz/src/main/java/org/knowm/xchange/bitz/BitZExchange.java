@@ -6,9 +6,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitz.service.BitZMarketDataService;
 import org.knowm.xchange.bitz.service.BitZTradeService;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.TradeService;
 
 public class BitZExchange extends BaseExchange implements Exchange {
 
@@ -29,12 +27,6 @@ public class BitZExchange extends BaseExchange implements Exchange {
         "Bit-Z is a Bitcoin exchange registered in Hong Kong.");
 
     return exchangeSpecification;
-  }
-
-  @Override
-  public TradeService getTradeService() {
-    throw new NotYetImplementedForExchangeException(
-        "Parital implementation due to partial implementation by the exchange");
   }
 
   @Override

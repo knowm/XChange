@@ -94,7 +94,7 @@ public class GateioStreamingAdapters {
     Stream<LimitOrder> asks = orderBookPayload.getAsks().stream()
         .map(priceSizeEntry -> new LimitOrder(OrderType.ASK, priceSizeEntry.getSize(), orderBookPayload.getCurrencyPair(), null, null, priceSizeEntry.getPrice()));
 
-    Stream<LimitOrder> bids = orderBookPayload.getAsks().stream()
+    Stream<LimitOrder> bids = orderBookPayload.getBids().stream()
         .map(priceSizeEntry -> new LimitOrder(OrderType.BID, priceSizeEntry.getSize(), orderBookPayload.getCurrencyPair(), null, null, priceSizeEntry.getPrice()));
 
     return new OrderBook(Date.from(orderBookPayload.getTimestamp()), asks, bids);

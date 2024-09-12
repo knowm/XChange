@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.bitfinex;
 
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
 import info.bitrich.xchangestream.core.StreamingAccountService;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeException;

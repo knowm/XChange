@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.knowm.xchange</groupId>
+        <artifactId>xchange-parent</artifactId>
+        <version>5.2.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>xchange-bitget</artifactId>
+
+    <name>XChange Bitget</name>
+    <description>XChange implementation for the Bitget Exchange</description>
+
+    <url>http://knowm.org/open-source/xchange/</url>
+    <inceptionYear>2012</inceptionYear>
+
+    <organization>
+        <name>Knowm Inc.</name>
+        <url>http://knowm.org/open-source/xchange/</url>
+    </organization>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${version.fasterxml}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <configuration>
+                        <systemPropertiesFile>integration-test.env.properties</systemPropertiesFile>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+    </build>
+
+</project>

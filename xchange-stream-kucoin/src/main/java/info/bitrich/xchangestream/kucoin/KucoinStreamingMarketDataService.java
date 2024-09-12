@@ -6,16 +6,14 @@ import info.bitrich.xchangestream.kucoin.dto.KucoinOrderBookEvent;
 import info.bitrich.xchangestream.kucoin.dto.KucoinOrderBookEventData;
 import info.bitrich.xchangestream.kucoin.dto.KucoinTickerEvent;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.functions.Consumer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kucoin.KucoinAdapters;
 import org.knowm.xchange.kucoin.KucoinMarketDataService;
 import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
@@ -141,11 +139,6 @@ public class KucoinStreamingMarketDataService implements StreamingMarketDataServ
     Consumer<T> NOOP = whatever -> {};
     observable.subscribe(NOOP);
     return observable;
-  }
-
-  @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException();
   }
 
   private final class OrderbookSubscription {

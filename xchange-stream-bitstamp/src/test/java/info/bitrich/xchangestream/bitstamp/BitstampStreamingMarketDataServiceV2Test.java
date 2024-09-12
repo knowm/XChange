@@ -6,8 +6,8 @@ import static org.mockito.Mockito.when;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingMarketDataService;
 import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingService;
-import io.reactivex.Observable;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.observers.TestObserver;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -22,16 +23,18 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
-public class BitstampStreamingMarketDataServiceV2Test
-    extends BitstampStreamingMarketDataServiceBaseTest {
-  @Mock private BitstampStreamingService streamingService;
+@RunWith(MockitoJUnitRunner.class)
+public class BitstampStreamingMarketDataServiceV2Test extends BitstampStreamingMarketDataServiceBaseTest {
+
+  @Mock
+  private BitstampStreamingService streamingService;
+
   private BitstampStreamingMarketDataService marketDataService;
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
     marketDataService = new BitstampStreamingMarketDataService(streamingService);
   }
 

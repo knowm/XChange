@@ -4,7 +4,7 @@ import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptTradeHistor
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.util.Collections;
 import java.util.List;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;

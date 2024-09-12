@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.gemini;
 
 import com.google.common.base.MoreObjects;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.SortedMap;
@@ -10,9 +10,6 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 /** Adapted from V1 by Max Gao on 01-09-2021 */
 public class GeminiStreamingMarketDataService implements StreamingMarketDataService {
@@ -51,13 +48,4 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
             });
   }
 
-  @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException("Not Yet Implemented!");
-  }
-
-  @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException("Not Yet Implemented!");
-  }
 }

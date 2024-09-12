@@ -1,9 +1,12 @@
 package info.bitrich.xchangestream.binance;
 
+import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
+import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
+
 import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +30,7 @@ public class BinanceLiveFutureSubscriptionExample {
         StreamingExchangeFactory.INSTANCE
             .createExchange(BinanceFutureStreamingExchange.class)
             .getDefaultExchangeSpecification();
+    spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);
     BinanceFutureStreamingExchange exchange =
         (BinanceFutureStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
 

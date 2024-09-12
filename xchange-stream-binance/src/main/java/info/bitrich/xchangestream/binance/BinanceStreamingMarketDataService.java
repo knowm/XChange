@@ -9,21 +9,33 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.RateLimiter;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import info.bitrich.xchangestream.binance.dto.*;
+import info.bitrich.xchangestream.binance.dto.BinanceRawTrade;
+import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
+import info.bitrich.xchangestream.binance.dto.BookTickerBinanceWebSocketTransaction;
+import info.bitrich.xchangestream.binance.dto.DepthBinanceWebSocketTransaction;
+import info.bitrich.xchangestream.binance.dto.FundingRateWebsocketTransaction;
+import info.bitrich.xchangestream.binance.dto.KlineBinanceWebSocketTransaction;
+import info.bitrich.xchangestream.binance.dto.TickerBinanceWebsocketTransaction;
+import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.exceptions.UpFrontSubscriptionRequiredException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
-import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -34,12 +46,20 @@ import java.util.stream.Stream;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.marketdata.*;
+import org.knowm.xchange.binance.dto.marketdata.BinanceBookTicker;
+import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
+import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
+import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
+import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.marketdata.FundingRate;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.instrument.Instrument;
@@ -127,7 +147,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     if (realtimeOrderBookTicker) {
       return getRawBookTicker(currencyPair).map(raw -> raw.toTicker(false));
     }
-    return getRawTicker(currencyPair).map(raw -> raw.toTicker(false));
+    return getRawTicker(currencyPair).map(raw -> BinanceAdapters.toTicker(raw, false));
   }
 
   @Override
@@ -151,7 +171,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
       return getRawBookTicker(instrument)
           .map(raw -> raw.toTicker(instrument instanceof FuturesContract));
     }
-    return getRawTicker(instrument).map(raw -> raw.toTicker(instrument instanceof FuturesContract));
+    return getRawTicker(instrument).map(raw -> BinanceAdapters.toTicker(raw, instrument instanceof FuturesContract));
   }
 
   @Override

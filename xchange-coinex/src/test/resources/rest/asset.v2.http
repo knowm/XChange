@@ -1,0 +1,11 @@
+### Get Balance in Spot Account
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("GET", request);
+%}
+GET {{api_host}}/v2/assets/spot/balance
+X-COINEX-KEY: {{api_key}}
+X-COINEX-TIMESTAMP: {{timestamp}}
+X-COINEX-SIGN: {{sign}}
+
+

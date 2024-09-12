@@ -1,0 +1,24 @@
+### 24hr Ticker Price Change Statistics
+GET {{api_host}}/api/v3/ticker/24hr
+
+
+### Symbol Price Ticker
+GET {{api_host}}/api/v3/ticker/price
+
+
+### Symbol Order Book Ticker (Single)
+GET {{api_host}}/api/v3/ticker/bookTicker?symbol=BTCUSDT
+
+
+### Symbol Order Book Ticker (Several)
+GET {{api_host}}/api/v3/ticker/bookTicker?symbols=["BTCUSDT","BNBUSDT"]
+
+
+### Symbol Order Book Ticker (All)
+GET {{api_host}}/api/v3/ticker/bookTicker
+
+
+### Exchange Information
+GET {{api_host}}//api/v3/exchangeInfo
+
+

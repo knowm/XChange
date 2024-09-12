@@ -44,19 +44,19 @@ public class BinanceMarketDataDemo {
     tickers.forEach(
         t ->
             System.out.println(
-                t.getSymbol() + " => " + String.format("%+.2f%%", t.getPriceChangePercent())));
+                t.getCurrencyPair() + " => " + String.format("%+.2f%%", t.getPriceChangePercent())));
     System.out.println("raw out end");
   }
 
   public static void rawAll(BinanceExchange exchange, BinanceMarketDataService marketDataService)
       throws IOException {
 
-    List<BinanceTicker24h> tickers = new ArrayList<>(marketDataService.ticker24hAllProducts());
+    List<BinanceTicker24h> tickers = new ArrayList<>(marketDataService.ticker24hAllProducts(false));
     tickers.sort((t1, t2) -> t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent()));
 
     tickers.forEach(
         t ->
             System.out.println(
-                t.getSymbol() + " => " + String.format("%+.2f%%", t.getLastPrice())));
+                t.getCurrencyPair() + " => " + String.format("%+.2f%%", t.getLastPrice())));
   }
 }

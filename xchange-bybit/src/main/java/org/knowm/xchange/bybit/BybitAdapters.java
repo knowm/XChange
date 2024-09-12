@@ -1,5 +1,8 @@
 package org.knowm.xchange.bybit;
 
+import static org.knowm.xchange.bybit.dto.BybitCategory.INVERSE;
+import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,8 +48,9 @@ import org.knowm.xchange.instrument.Instrument;
 
 public class BybitAdapters {
 
-  private static final SimpleDateFormat OPTION_DATE_FORMAT = new SimpleDateFormat("ddMMMyy", Locale.US);
-  public static final List<String> QUOTE_CURRENCIES = Arrays.asList("USDT", "USDC", "BTC", "DAI");
+  private static final ThreadLocal<SimpleDateFormat> OPTION_DATE_FORMAT = ThreadLocal.withInitial(
+      () -> new SimpleDateFormat("ddMMMyy"));
+  public static final List<String> QUOTE_CURRENCIES = Arrays.asList("USDT", "USDC", "EUR", "BTC", "ETH", "DAI", "BRZ");
 
   public static Wallet adaptBybitBalances(List<BybitCoinWalletBalance> coinWalletBalances) {
     List<Balance> balances = new ArrayList<>(coinWalletBalances.size());
@@ -130,7 +134,7 @@ public class BybitAdapters {
         return String.format(
                 "%s-%s-%s-%s",
                 optionsContract.getBase(),
-                OPTION_DATE_FORMAT.format(optionsContract.getExpireDate()),
+                OPTION_DATE_FORMAT.get().format(optionsContract.getExpireDate()),
                 optionsContract.getStrike(),
                 optionsContract.getType().equals(OptionsContract.OptionType.PUT) ? "P" : "C")
             .toUpperCase();
@@ -148,6 +152,24 @@ public class BybitAdapters {
     }
     int splitIndex = symbol.length() - 3;
     return new CurrencyPair(symbol.substring(0, splitIndex), symbol.substring(splitIndex));
+  }
+
+  public static Instrument guessSymbol(String symbol, BybitCategory category) {
+    switch (category) {
+      case SPOT: {
+        return guessSymbol(symbol);
+      }
+      case LINEAR: {
+        if (symbol.endsWith("USDT")) {
+          int splitIndex = symbol.lastIndexOf("USDT");
+          return new FuturesContract((symbol.substring(0, splitIndex)+"/"+ symbol.substring(splitIndex)+"/PERP"));
+        } else if (symbol.endsWith("PERP")) {
+          int splitIndex = symbol.lastIndexOf("PERP");
+          return new FuturesContract((symbol.substring(0, splitIndex)+"/"+ "USDC/PERP"));
+        }
+      }
+    }
+    return null;
   }
 
   public static Instrument adaptInstrumentInfo(BybitInstrumentInfo instrumentInfo) {
@@ -170,7 +192,7 @@ public class BybitAdapters {
         return new OptionsContract.Builder()
             .currencyPair(
                 new CurrencyPair(instrumentInfo.getBaseCoin(), instrumentInfo.getQuoteCoin()))
-            .expireDate(OPTION_DATE_FORMAT.parse(expireDateString))
+            .expireDate(OPTION_DATE_FORMAT.get().parse(expireDateString))
             .strike(strike)
             .type(
                 optionInstrumentInfo.getOptionsType().equals(OptionType.CALL)
@@ -210,6 +232,8 @@ public class BybitAdapters {
         .priceScale(instrumentInfo.getPriceFilter().getTickSize().scale())
         .priceStepSize(instrumentInfo.getPriceFilter().getTickSize())
         .tradingFee(instrumentInfo.getDeliveryFeeRate())
+        .volumeScale(instrumentInfo.getLotSizeFilter().getQtyStep().scale())
+        .amountStepSize(instrumentInfo.getLotSizeFilter().getQtyStep())
         .build();
   }
 
@@ -266,7 +290,7 @@ public class BybitAdapters {
     }
   }
 
-  private static OrderStatus adaptBybitOrderStatus(BybitOrderStatus orderStatus) {
+  public static OrderStatus adaptBybitOrderStatus(BybitOrderStatus orderStatus) {
     switch (orderStatus) {
       case CREATED:
         return OrderStatus.OPEN;
@@ -302,9 +326,9 @@ public class BybitAdapters {
     if (instrument instanceof CurrencyPair) {
       return BybitCategory.SPOT;
     } else if (instrument instanceof FuturesContract) {
-      return BybitAdapters.isInverse(instrument) ? BybitCategory.INVERSE : BybitCategory.LINEAR;
+      return BybitAdapters.isInverse(instrument) ? INVERSE : BybitCategory.LINEAR;
     } else if (instrument instanceof OptionsContract) {
-      return BybitCategory.OPTION;
+      return OPTION;
     }
     throw new IllegalStateException(
         "Unexpected instrument instance type: " + instrument.getClass().getSimpleName());
@@ -365,5 +389,35 @@ public class BybitAdapters {
         .low(bybitTicker.getLowPrice24h())
         .quoteVolume(bybitTicker.getTurnover24h())
         .volume(bybitTicker.getVolume24h());
+  }
+
+  public static Instrument convertBybitSymbolToInstrument(String symbol, BybitCategory category) {
+    switch (category) {
+      case SPOT: {
+        return guessSymbol(symbol);
+      }
+      case LINEAR: {
+        if (symbol.endsWith("USDT")) {
+          int splitIndex = symbol.lastIndexOf("USDT");
+          return new FuturesContract(new CurrencyPair(symbol.substring(0, splitIndex), "USDT"),"PERP");
+        }
+        if (symbol.endsWith("PERP")) {
+          int splitIndex = symbol.lastIndexOf("PERP");
+          return new FuturesContract(new CurrencyPair(symbol.substring(0, splitIndex), "USDC"),"PERP");
+        }
+        //USDC Futures
+        int splitIndex = symbol.lastIndexOf("-");
+        return new FuturesContract(new CurrencyPair(symbol.substring(0, splitIndex),
+            "USDC"),symbol.substring(splitIndex+1));
+      }
+      case INVERSE: {
+        int splitIndex = symbol.lastIndexOf("USD");
+        String perp = symbol.length() > splitIndex+3 ? symbol.substring(splitIndex+3) : "";
+        return new FuturesContract(new CurrencyPair(symbol.substring(0, splitIndex), "USD"),
+            perp);
+      }
+      case OPTION: {}
+    }
+    return null;
   }
 }

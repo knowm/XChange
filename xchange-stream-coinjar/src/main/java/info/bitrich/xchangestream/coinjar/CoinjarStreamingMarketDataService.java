@@ -6,7 +6,7 @@ import com.google.common.collect.Maps;
 import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketBookEvent;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +14,7 @@ import java.util.SortedMap;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,13 +87,4 @@ class CoinjarStreamingMarketDataService implements StreamingMarketDataService {
         .filter(orderbook -> !orderbook.getBids().isEmpty() && !orderbook.getAsks().isEmpty());
   }
 
-  @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.coincheck;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicInteger;

@@ -6,17 +6,13 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>5.1.2-SNAPSHOT</version>
+        <version>5.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-gateio-v4</artifactId>
 
     <name>XChange Gate.io V4</name>
     <description>XChange implementation for the Gate.io Exchange</description>
-
-    <properties>
-        <version.mockito>5.3.1</version.mockito>
-    </properties>
 
     <dependencies>
 
@@ -53,7 +49,6 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>${version.mockito}</version>
             <scope>test</scope>
         </dependency>
 
@@ -64,6 +59,5 @@
         </dependency>
 
     </dependencies>
-
 
 </project>

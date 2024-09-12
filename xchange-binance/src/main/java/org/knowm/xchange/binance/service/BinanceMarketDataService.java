@@ -6,17 +6,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.knowm.xchange.binance.*;
+import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.BinanceErrorAdapter;
+import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
+import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.marketdata.FundingRate;
+import org.knowm.xchange.dto.marketdata.FundingRates;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.ExchangeHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
     implements MarketDataService {
@@ -25,6 +35,20 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
       BinanceExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
+
+
+  @Override
+  public ExchangeHealth getExchangeHealth() {
+    try {
+      if (getSystemStatus().getStatus().equals("0")) {
+        return ExchangeHealth.ONLINE;
+      }
+    } catch (IOException e) {
+      return ExchangeHealth.OFFLINE;
+    }
+    return ExchangeHealth.OFFLINE;
+  }
+
 
   /**
    * optional parameters provided in the args array:
@@ -46,11 +70,38 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
     try {
-      return ticker24hAllProducts(instrument).toTicker(instrument instanceof FuturesContract);
+      return BinanceAdapters.toTicker(ticker24hAllProducts(instrument), instrument instanceof FuturesContract);
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
   }
+
+
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+    return getTicker((Instrument) currencyPair, args);
+  }
+
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    try {
+      boolean isFutures = exchange.isFuturesEnabled();
+
+      return ticker24hAllProducts(isFutures).stream()
+          .filter(BinanceTicker24h::isValid)
+          .map(binanceTicker24h -> BinanceAdapters.toTicker(binanceTicker24h, isFutures))
+          .collect(Collectors.toList());
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
+  }
+
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    return getOrderBook((Instrument) currencyPair, args);
+  }
+
 
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
