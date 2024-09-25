@@ -88,11 +88,11 @@ public final class BitstampUserTransaction {
   }
 
   public boolean isDeposit() {
-    return type == TransactionType.deposit;
+    return type == TransactionType.deposit || type == TransactionType.rippleDeposit || type == TransactionType.settlementTransfer;
   }
 
   public boolean isWithdrawal() {
-    return type == TransactionType.withdrawal;
+    return type == TransactionType.withdrawal || type == TransactionType.rippleWithdrawal;
   }
 
   public boolean isMarketTrade() {
