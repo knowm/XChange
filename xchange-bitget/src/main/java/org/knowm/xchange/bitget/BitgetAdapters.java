@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
+import org.knowm.xchange.bitget.dto.account.BitgetAccountType;
 import org.knowm.xchange.bitget.dto.account.BitgetBalanceDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetMarketDepthDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
@@ -238,5 +239,13 @@ public class BitgetAdapters {
         bitgetFillDto.getPrice(), toDate(bitgetFillDto.getUpdatedAt()), bitgetFillDto.getTradeId(), bitgetFillDto.getOrderId(),
         bitgetFillDto.getFeeDetail().getTotalFee().abs(), bitgetFillDto.getFeeDetail().getCurrency(), null);
   }
+  
+  
+  public String toString(BitgetAccountType bitgetAccountType) {
+    return Optional.ofNullable(bitgetAccountType)
+        .map(BitgetAccountType::getValue)
+        .orElse(null);
+  }
+
 
 }

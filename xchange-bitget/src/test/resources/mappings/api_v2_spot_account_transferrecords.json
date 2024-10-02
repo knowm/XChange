@@ -1,0 +1,15 @@
+{
+  "id" : "2b0c78d1-70f1-4a68-8f64-629c9c6833ef",
+  "name" : "api_v2_spot_account_transferrecords",
+  "request" : {
+    "url" : "/api/v2/spot/account/transferRecords?coin=USDT&limit=1&fromType=spot&startTime=1727904561900&endTime=1727905505000&idLessThan=1225486043893731328",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_spot_account_transferrecords.json"
+  },
+  "uuid" : "2b0c78d1-70f1-4a68-8f64-629c9c6833ef",
+  "persistent" : true,
+  "insertionIndex" : 7
+}

@@ -109,8 +109,31 @@ ACCESS-PASSPHRASE: {{api_passphrase}}
   import {gen_sign} from 'sign.js'
   gen_sign(request);
 %}
-#GET {{api_host}}/api/v2/spot/trade/fills?symbol=ASMUSDT&limit=1000&orderId=1225428954737188883&startTime=1727890950945&endTime=1727890950947&idLessThan=1225428955008811105
 GET {{api_host}}/api/v2/spot/trade/fills?symbol=BTCUSDT
+ACCESS-KEY: {{api_key}}
+ACCESS-SIGN: {{sign}}
+ACCESS-TIMESTAMP: {{timestamp}}
+ACCESS-PASSPHRASE: {{api_passphrase}}
+
+
+### Get Transfer Record
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_host}}/api/v2/spot/account/transferRecords?coin=USDT&fromType=spot&endTime=1727904561971
+ACCESS-KEY: {{api_key}}
+ACCESS-SIGN: {{sign}}
+ACCESS-TIMESTAMP: {{timestamp}}
+ACCESS-PASSPHRASE: {{api_passphrase}}
+
+
+### Get MainSub Transfer Record
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_host}}/api/v2/spot/account/sub-main-trans-record
 ACCESS-KEY: {{api_key}}
 ACCESS-SIGN: {{sign}}
 ACCESS-TIMESTAMP: {{timestamp}}
