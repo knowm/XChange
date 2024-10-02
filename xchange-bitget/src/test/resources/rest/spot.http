@@ -17,7 +17,7 @@ GET {{api_host}}/api/v2/spot/market/tickers
 ### Get Account Information
 < {%
   import {gen_sign} from 'sign.js'
-  gen_sign("GET", request);
+  gen_sign(request);
 %}
 GET {{api_host}}/api/v2/spot/account/info
 ACCESS-KEY: {{api_key}}
@@ -29,7 +29,7 @@ ACCESS-PASSPHRASE: {{api_passphrase}}
 ### Get Account assets
 < {%
   import {gen_sign} from 'sign.js'
-  gen_sign("GET", request);
+  gen_sign(request);
 %}
 GET {{api_host}}/api/v2/spot/account/assets
 ACCESS-KEY: {{api_key}}
@@ -41,7 +41,7 @@ ACCESS-PASSPHRASE: {{api_passphrase}}
 ### Get Order Info
 < {%
   import {gen_sign} from 'sign.js'
-  gen_sign("GET", request);
+  gen_sign(request);
 %}
 GET {{api_host}}/api/v2/spot/trade/orderInfo?orderId=1213530920130613257
 ACCESS-KEY: {{api_key}}
@@ -53,7 +53,7 @@ ACCESS-PASSPHRASE: {{api_passphrase}}
 ### Place Market Buy Order
 < {%
   import {gen_sign} from 'sign.js'
-  gen_sign("POST", request);
+  gen_sign(request);
 %}
 POST {{api_host}}/api/v2/spot/trade/place-order
 ACCESS-KEY: {{api_key}}
@@ -74,7 +74,7 @@ Content-Type: application/json
 ### Place Market Sell Order
 < {%
   import {gen_sign} from 'sign.js'
-  gen_sign("POST", request);
+  gen_sign(request);
 %}
 POST {{api_host}}/api/v2/spot/trade/place-order
 ACCESS-KEY: {{api_key}}
