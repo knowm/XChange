@@ -1,0 +1,27 @@
+{
+  "code": "00000",
+  "msg": "success",
+  "requestTime": 1727902784656,
+  "data": [
+    {
+      "userId": "1548914322",
+      "symbol": "BTCUSDT",
+      "orderId": "1225475622585147396",
+      "tradeId": "1225475622852575236",
+      "orderType": "market",
+      "side": "buy",
+      "priceAvg": "60775.01",
+      "size": "0.000246",
+      "amount": "14.95065246",
+      "feeDetail": {
+        "deduction": "no",
+        "feeCoin": "BTC",
+        "totalDeductionFee": "",
+        "totalFee": "-0.000000246"
+      },
+      "tradeScope": "taker",
+      "cTime": "1727902077401",
+      "uTime": "1727902077419"
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import org.knowm.xchange.bitget.dto.marketdata.BitgetMarketDepthDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto.Status;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
+import org.knowm.xchange.bitget.dto.trade.BitgetFillDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto.BitgetOrderStatus;
 import org.knowm.xchange.bitget.dto.trade.BitgetPlaceOrderDto;
@@ -30,6 +31,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.instrument.Instrument;
 
 @UtilityClass
@@ -230,5 +232,11 @@ public class BitgetAdapters {
         .build();
   }
 
+
+  public UserTrade toUserTrade(BitgetFillDto bitgetFillDto) {
+    return new UserTrade(bitgetFillDto.getOrderSide(), bitgetFillDto.getAssetAmount(), toCurrencyPair(bitgetFillDto.getSymbol()),
+        bitgetFillDto.getPrice(), toDate(bitgetFillDto.getUpdatedAt()), bitgetFillDto.getTradeId(), bitgetFillDto.getOrderId(),
+        bitgetFillDto.getFeeDetail().getTotalFee().abs(), bitgetFillDto.getFeeDetail().getCurrency(), null);
+  }
 
 }

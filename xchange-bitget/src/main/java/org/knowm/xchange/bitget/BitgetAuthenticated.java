@@ -13,6 +13,7 @@ import java.util.List;
 import org.knowm.xchange.bitget.dto.BitgetException;
 import org.knowm.xchange.bitget.dto.BitgetResponse;
 import org.knowm.xchange.bitget.dto.account.BitgetBalanceDto;
+import org.knowm.xchange.bitget.dto.trade.BitgetFillDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetPlaceOrderDto;
 import si.mazi.rescu.ParamsDigest;
@@ -52,6 +53,19 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
       BitgetPlaceOrderDto bitgetPlaceOrderDto)
+      throws IOException, BitgetException;
+
+
+  @GET
+  @Path("api/v2/spot/trade/fills")
+  BitgetResponse<List<BitgetFillDto>> fills(
+      @HeaderParam("ACCESS-KEY") String apiKey,
+      @HeaderParam("ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("symbol") String symbol, @QueryParam("limit") Integer limit, @QueryParam("orderId") String orderId,
+      @QueryParam("startTime") Long startTime, @QueryParam("endTime") Long endTime,
+      @QueryParam("idLessThan") String idLessThan)
       throws IOException, BitgetException;
 
 
