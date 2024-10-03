@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 import org.knowm.xchange.bitget.dto.account.BitgetAccountType;
 import org.knowm.xchange.bitget.dto.account.BitgetBalanceDto;
+import org.knowm.xchange.bitget.dto.account.params.BitgetMainSubTransferHistoryParams;
+import org.knowm.xchange.bitget.dto.account.params.BitgetMainSubTransferHistoryParams.Role;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetMarketDepthDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto.Status;
@@ -244,6 +246,13 @@ public class BitgetAdapters {
   public String toString(BitgetAccountType bitgetAccountType) {
     return Optional.ofNullable(bitgetAccountType)
         .map(BitgetAccountType::getValue)
+        .orElse(null);
+  }
+
+
+  public String toString(BitgetMainSubTransferHistoryParams.Role role) {
+    return Optional.ofNullable(role)
+        .map(Role::getValue)
         .orElse(null);
   }
 

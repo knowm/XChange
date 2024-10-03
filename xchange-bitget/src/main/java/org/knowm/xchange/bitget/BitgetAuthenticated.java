@@ -13,6 +13,7 @@ import java.util.List;
 import org.knowm.xchange.bitget.dto.BitgetException;
 import org.knowm.xchange.bitget.dto.BitgetResponse;
 import org.knowm.xchange.bitget.dto.account.BitgetBalanceDto;
+import org.knowm.xchange.bitget.dto.account.BitgetMainSubTransferRecordDto;
 import org.knowm.xchange.bitget.dto.account.BitgetTransferRecordDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetFillDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto;
@@ -79,6 +80,20 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
       @QueryParam("coin") String currency, @QueryParam("limit") Integer limit, @QueryParam("clientOid") String clientOid,
       @QueryParam("fromType") String fromType,
+      @QueryParam("startTime") Long startTime, @QueryParam("endTime") Long endTime,
+      @QueryParam("idLessThan") String idLessThan)
+      throws IOException, BitgetException;
+
+
+  @GET
+  @Path("api/v2/spot/account/sub-main-trans-record")
+  BitgetResponse<List<BitgetMainSubTransferRecordDto>> mainSubTransferRecords(
+      @HeaderParam("ACCESS-KEY") String apiKey,
+      @HeaderParam("ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("coin") String currency, @QueryParam("limit") Integer limit, @QueryParam("clientOid") String clientOid,
+      @QueryParam("role") String role, @QueryParam("subUid") String subAccountUid,
       @QueryParam("startTime") Long startTime, @QueryParam("endTime") Long endTime,
       @QueryParam("idLessThan") String idLessThan)
       throws IOException, BitgetException;

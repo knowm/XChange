@@ -10,8 +10,11 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitget.BitgetExchangeWiremock;
 import org.knowm.xchange.bitget.dto.account.BitgetAccountType;
+import org.knowm.xchange.bitget.dto.account.BitgetMainSubTransferRecordDto;
 import org.knowm.xchange.bitget.dto.account.BitgetTransferRecordDto;
 import org.knowm.xchange.bitget.dto.account.BitgetTransferRecordDto.Status;
+import org.knowm.xchange.bitget.dto.account.params.BitgetMainSubTransferHistoryParams;
+import org.knowm.xchange.bitget.dto.account.params.BitgetMainSubTransferHistoryParams.Role;
 import org.knowm.xchange.bitget.dto.account.params.BitgetTransferHistoryParams;
 
 class BitgetAccountServiceRawTest extends BitgetExchangeWiremock {
@@ -43,6 +46,38 @@ class BitgetAccountServiceRawTest extends BitgetExchangeWiremock {
         .endId("1225486043893731328")
         .build();
     List<BitgetTransferRecordDto> actual = bitgetAccountServiceRaw.getBitgetTransferRecords(params);
+
+    assertThat(actual).hasSize(1);
+    assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
+  }
+
+
+  @Test
+  void main_sub_transfer_records() throws IOException {
+    BitgetMainSubTransferRecordDto expected = BitgetMainSubTransferRecordDto.builder()
+        .clientOid("1225490042499895296")
+        .currency(USDT)
+        .fromAccountType(BitgetAccountType.SPOT)
+        .toAccountType(BitgetAccountType.SPOT)
+        .fromUserId("7326856338")
+        .toUserId("1548914322")
+        .size(new BigDecimal("1.00000000"))
+        .status(BitgetMainSubTransferRecordDto.Status.SUCCESSFUL)
+        .timestamp(Instant.ofEpochMilli(1727905515312L))
+        .transferId("72990567")
+        .build();
+
+    BitgetMainSubTransferHistoryParams params = BitgetMainSubTransferHistoryParams.builder()
+        .currency(USDT)
+        .role(Role.INITIATOR)
+        .subAccountUid("7326856338")
+        .startTime(Instant.ofEpochMilli(1727905515300L))
+        .endTime(Instant.ofEpochMilli(1727905515399L))
+        .clientOid("1225490042499895296")
+        .limit(1)
+        .endId("1225490042499895296")
+        .build();
+    List<BitgetMainSubTransferRecordDto> actual = bitgetAccountServiceRaw.getBitgetMainSubTransferRecords(params);
 
     assertThat(actual).hasSize(1);
     assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);

@@ -5,7 +5,9 @@ import java.util.List;
 import org.knowm.xchange.bitget.BitgetAdapters;
 import org.knowm.xchange.bitget.BitgetExchange;
 import org.knowm.xchange.bitget.dto.account.BitgetBalanceDto;
+import org.knowm.xchange.bitget.dto.account.BitgetMainSubTransferRecordDto;
 import org.knowm.xchange.bitget.dto.account.BitgetTransferRecordDto;
+import org.knowm.xchange.bitget.dto.account.params.BitgetMainSubTransferHistoryParams;
 import org.knowm.xchange.bitget.dto.account.params.BitgetTransferHistoryParams;
 
 public class BitgetAccountServiceRaw extends BitgetBaseService {
@@ -27,6 +29,17 @@ public class BitgetAccountServiceRaw extends BitgetBaseService {
     return bitgetAuthenticated.transferRecords(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(),
         BitgetAdapters.toString(params.getCurrency()), params.getLimit(), params.getClientOid(),
         BitgetAdapters.toString(params.getFromAccountType()), from, to, params.getEndId()).getData();
+  }
+
+
+  public List<BitgetMainSubTransferRecordDto> getBitgetMainSubTransferRecords(
+      BitgetMainSubTransferHistoryParams params) throws IOException {
+    Long from = params.getStartTime() != null ? params.getStartTime().toEpochMilli() : null;
+    Long to = params.getEndTime() != null ? params.getEndTime().toEpochMilli() : null;
+
+    return bitgetAuthenticated.mainSubTransferRecords(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(),
+        BitgetAdapters.toString(params.getCurrency()), params.getLimit(), params.getClientOid(),
+        BitgetAdapters.toString(params.getRole()), params.getSubAccountUid(), from, to, params.getEndId()).getData();
   }
 
 
