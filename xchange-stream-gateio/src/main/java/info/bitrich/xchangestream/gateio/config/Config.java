@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public final class Config {
 
-  public static final String V4_URL = "wss://api.gateio.ws/ws/v4/";
+  public static final String V4_URL = "https://api.gateio.ws/";
 
   public static final String SPOT_ORDERBOOK_CHANNEL = "spot.order_book";
   public static final String SPOT_TRADES_CHANNEL = "spot.trades";
