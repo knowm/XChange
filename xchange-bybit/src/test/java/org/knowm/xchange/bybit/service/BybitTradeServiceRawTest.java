@@ -297,7 +297,8 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
             BybitSide.BUY,
             BigDecimal.valueOf(0.1),
             BigDecimal.valueOf(1000),
-            null);
+            null,
+            false);
 
     ObjectMapper mapper = new ObjectMapper();
     JsonNode responseObject = mapper.readTree(orderPlacementResponse);
