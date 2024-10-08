@@ -23,12 +23,14 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 public class BybitStreamExample {
+
   private static final Logger log = LoggerFactory.getLogger(BybitStreamExample.class);
 
   public static void main(String[] args) {
@@ -63,41 +65,53 @@ public class BybitStreamExample {
         exchangeSpecification);
     exchange.connect().blockingAwait();
     Ticker ticker = (exchange.getMarketDataService().getTicker(DOGE_PERP));
-    BigDecimal amount = exchange.getExchangeMetaData().getInstruments().get(DOGE_PERP).getMinimumAmount();
-    if(amount.multiply(ticker.getLast()).compareTo(new BigDecimal("5.0")) <= 0) {
-      amount = new BigDecimal("5").divide(ticker.getAsk(), exchange.getExchangeMetaData().getInstruments().get(DOGE_PERP).getVolumeScale(), UP);
+    BigDecimal amount = exchange.getExchangeMetaData().getInstruments().get(DOGE_PERP)
+        .getMinimumAmount();
+    if (amount.multiply(ticker.getLast()).compareTo(new BigDecimal("5.0")) <= 0) {
+      amount = new BigDecimal("5").divide(ticker.getAsk(),
+          exchange.getExchangeMetaData().getInstruments().get(DOGE_PERP).getVolumeScale(), UP);
     }
-    LimitOrder limitOrder = new LimitOrder(OrderType.BID,amount, DOGE_PERP, "", new Date(), ticker.getAsk());
+    LimitOrder limitOrder = new LimitOrder(OrderType.BID, amount, DOGE_PERP, "", new Date(),
+        ticker.getAsk());
+    MarketOrder marketOrder = new MarketOrder(OrderType.BID, amount, DOGE_PERP);
     Thread.sleep(2000L);
     AtomicReference<Order> order = new AtomicReference<>();
-    Disposable disposableOrderChanges = ((BybitStreamingTradeService)exchange.getStreamingTradeService()).getOrderChanges(BybitCategory.LINEAR)
+    Disposable disposableOrderChanges = ((BybitStreamingTradeService) exchange.getStreamingTradeService()).getOrderChanges(
+            BybitCategory.LINEAR)
         .doOnError(
-            error -> log.error("OrderChanges error {}",error.getMessage()))
-        .subscribe( c -> {
+            error -> log.error("OrderChanges error {}", error.getMessage()))
+        .subscribe(c -> {
               log.info("Order Changes {}", c);
               order.set(c);
             },
-            throwable -> log.error("OrderChanges throwable,{}",throwable.getMessage()));
+            throwable -> log.error("OrderChanges throwable,{}", throwable.getMessage()));
 //    Disposable disposablePositionChanges = ((BybitStreamingTradeService)exchange.getStreamingTradeService()).getPositionChanges(BybitCategory.LINEAR)
 //        .doOnError(
 //            error -> log.error("PositionChanges error {}",error.getMessage()))
 //        .subscribe( p -> log.info("PositionChanges Changes {}", p),
 //            throwable -> log.error("Position throwable,{}",throwable.getMessage()));
-
-    Disposable disposableComplexPositionChanges = ((BybitStreamingTradeService)exchange.getStreamingTradeService()).getBybitPositionChanges(BybitCategory.LINEAR)
+    Disposable disposableByBitPositionChanges = ((BybitStreamingTradeService) exchange.getStreamingTradeService()).getBybitPositionChanges(
+            BybitCategory.LINEAR)
         .doOnError(
-            error -> log.error("ComplexPositionChanges error {}",error.getMessage()))
-        .subscribe( p -> log.info("ComplexPositionChanges Changes {}", p),
-            throwable -> log.error("ComplexPosition throwable,{}",throwable.getMessage()));
+            error -> log.error("PositionChanges error {}",error,error))
+        .subscribe(p -> log.info("PositionChanges Changes {}", p),
+            throwable -> log.error("Position throwable,{}",throwable ,throwable));
+    Disposable disposableComplexPositionChanges = ((BybitStreamingTradeService) exchange.getStreamingTradeService()).getBybitPositionChanges(
+            BybitCategory.LINEAR)
+        .doOnError(
+            error -> log.error("ComplexPositionChanges error {}", error.getMessage()))
+        .subscribe(p -> log.info("ComplexPositionChanges Changes {}", p),
+            throwable -> log.error("ComplexPosition throwable,{}", throwable.getMessage()));
 
     Thread.sleep(3000L);
     exchange.getTradeService().placeLimitOrder(limitOrder);
+    exchange.getTradeService().placeMarketOrder(marketOrder);
     Thread.sleep(30000L);
     disposableOrderChanges.dispose();
-//    disposablePositionChanges.dispose();
+    disposableByBitPositionChanges.dispose();
     disposableComplexPositionChanges.dispose();
     exchange.disconnect().blockingAwait();
-    }
+  }
 
   public static void spot() throws IOException {
     ExchangeSpecification exchangeSpecification =

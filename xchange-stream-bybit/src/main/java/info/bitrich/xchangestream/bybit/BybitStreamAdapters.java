@@ -140,14 +140,32 @@ public class BybitStreamAdapters {
       if (!position.getLiqPrice().isEmpty()) {
         liqPrice = new BigDecimal(position.getLiqPrice());
       }
+      BigDecimal bustPrice = null;
+      if(!position.getBustPrice().isEmpty()) {
+        bustPrice = new BigDecimal(position.getBustPrice());
+      }
+      BigDecimal sessionAvgPrice = null;
+      if (!position.getSessionAvgPrice().isEmpty()) {
+        sessionAvgPrice = new BigDecimal(position.getSessionAvgPrice());
+      }
       BybitComplexPositionChanges positionChanges = new BybitComplexPositionChanges(
           guessSymbol(position.getSymbol(),
-              position.getCategory()), type, new BigDecimal(position.getSize()), liqPrice,
-          new BigDecimal(position.getUnrealisedPnl()),
-          new BigDecimal(position.getPositionValue()), new BigDecimal(position.getEntryPrice()),
+              position.getCategory()), type, new BigDecimal(position.getSize()),
+          new BigDecimal(position.getEntryPrice()), liqPrice,
+          new BigDecimal(position.getUnrealisedPnl()), position.getPositionIdx(),
+          position.getTradeMode(), position.getRiskId(), position.getRiskLimitValue(),
+          new BigDecimal(position.getMarkPrice()),
+          new BigDecimal(position.getPositionBalance()), position.getAutoAddMargin(),
+          new BigDecimal(position.getPositionMM()),
+          new BigDecimal(position.getPositionIM()),
+          bustPrice, new BigDecimal(position.getPositionValue()),
           new BigDecimal(position.getLeverage()),
           new BigDecimal(position.getTakeProfit()), new BigDecimal(position.getStopLoss()),
+          new BigDecimal(position.getTrailingStop()),
           new BigDecimal(position.getCurRealisedPnl()),
+          sessionAvgPrice, position.getPositionStatus(),
+          position.getAdlRankIndicator(), position.isReduceOnly(),
+          position.getMmrSysUpdatedTime(), position.getLeverageSysUpdatedTime(),
           Long.parseLong(position.getCreatedTime()), Long.parseLong(position.getUpdatedTime()),
           position.getSeq());
       result.add(positionChanges);
@@ -160,9 +178,11 @@ public class BybitStreamAdapters {
     List<BybitComplexOrderChanges> result = new ArrayList<>();
     for (BybitOrderChanges change : data) {
       Order.OrderType orderType = getOrderType(change.getSide());
-      BigDecimal avgPrice = change.getAvgPrice().isEmpty() ? null : new BigDecimal(change.getAvgPrice());
+      BigDecimal avgPrice =
+          change.getAvgPrice().isEmpty() ? null : new BigDecimal(change.getAvgPrice());
       BybitComplexOrderChanges orderChanges = new BybitComplexOrderChanges(orderType,
-          new BigDecimal(change.getQty()), guessSymbol(change.getSymbol(),change.getCategory()), change.getOrderId(),
+          new BigDecimal(change.getQty()), guessSymbol(change.getSymbol(), change.getCategory()),
+          change.getOrderId(),
           new Date(Long.parseLong(change.getCreatedTime())), avgPrice,
           new BigDecimal(change.getCumExecQty()), new BigDecimal(change.getCumExecFee()),
           adaptBybitOrderStatus(change.getOrderStatus()), change.getOrderLinkId(),
