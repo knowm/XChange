@@ -123,9 +123,8 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
         convertToBybitSymbol(order.getInstrument()), order.getId(), order.getUserReference());
     if (response != null) {
       return response.getResult().getOrderId();
-    } else {
+    } else
       return "";
-    }
   }
 
 }
