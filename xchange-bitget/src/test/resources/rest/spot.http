@@ -140,3 +140,27 @@ ACCESS-TIMESTAMP: {{timestamp}}
 ACCESS-PASSPHRASE: {{api_passphrase}}
 
 
+### Get Deposit Records
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_host}}/api/v2/spot/wallet/deposit-records?startTime=1721643200000&endTime=1727970869665
+ACCESS-KEY: {{api_key}}
+ACCESS-SIGN: {{sign}}
+ACCESS-TIMESTAMP: {{timestamp}}
+ACCESS-PASSPHRASE: {{api_passphrase}}
+
+
+### Get Withdrawal Records
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_host}}/api/v2/spot/wallet/withdrawal-records?startTime=1721643200000&endTime=1727970869665
+ACCESS-KEY: {{api_key}}
+ACCESS-SIGN: {{sign}}
+ACCESS-TIMESTAMP: {{timestamp}}
+ACCESS-PASSPHRASE: {{api_passphrase}}
+
+
