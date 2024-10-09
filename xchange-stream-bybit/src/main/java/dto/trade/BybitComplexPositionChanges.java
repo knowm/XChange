@@ -12,6 +12,7 @@ import org.knowm.xchange.instrument.Instrument;
 @Setter
 @ToString
 public class BybitComplexPositionChanges extends OpenPosition {
+
   private int positionIdx;
   private int tradeMode;
   private int riskId;
@@ -63,21 +64,40 @@ public class BybitComplexPositionChanges extends OpenPosition {
   public BybitComplexPositionChanges(BybitComplexPositionChanges changes) {
     super(changes.getInstrument(), changes.getType(), changes.getSize(), changes.getPrice(),
         changes.getLiquidationPrice(), changes.getUnRealisedPnl());
+    this.positionIdx = changes.positionIdx;
+    this.tradeMode = changes.tradeMode;
+    this.riskId = changes.riskId;
+    this.riskLimitValue = changes.riskLimitValue;
+    this.markPrice = changes.markPrice;
+    this.positionBalance = changes.positionBalance;
+    this.autoAddMargin = changes.autoAddMargin;
+    this.positionMM = changes.positionMM;
+    this.positionIM = changes.positionIM;
+    this.bustPrice = changes.bustPrice;
     this.positionValue = changes.positionValue;
     this.leverage = changes.leverage;
     this.takeProfit = changes.takeProfit;
     this.stopLoss = changes.stopLoss;
+    this.trailingStop = changes.trailingStop;
     this.curRealisedPnl = changes.curRealisedPnl;
+    this.sessionAvgPrice = changes.sessionAvgPrice;
+    this.positionStatus = changes.positionStatus;
+    this.adlRankIndicator = changes.adlRankIndicator;
+    this.isReduceOnly = changes.isReduceOnly;
+    this.mmrSysUpdatedTime = changes.mmrSysUpdatedTime;
+    this.leverageSysUpdatedTime = changes.leverageSysUpdatedTime;
     this.createdTime = changes.createdTime;
     this.updatedTime = changes.updatedTime;
     this.seq = changes.seq;
   }
+
   public BybitComplexPositionChanges(Instrument instrument, Type type, BigDecimal size,
       BigDecimal price, BigDecimal liquidationPrice, BigDecimal unRealisedPnl, int positionIdx,
       int tradeMode, int riskId, String riskLimitValue, BigDecimal markPrice,
       BigDecimal positionBalance, int autoAddMargin, BigDecimal positionMM, BigDecimal positionIM,
       BigDecimal bustPrice, BigDecimal positionValue, BigDecimal leverage,
-      BigDecimal takeProfit, BigDecimal stopLoss, BigDecimal trailingStop, BigDecimal curRealisedPnl,
+      BigDecimal takeProfit, BigDecimal stopLoss, BigDecimal trailingStop,
+      BigDecimal curRealisedPnl,
       BigDecimal sessionAvgPrice, String positionStatus, int adlRankIndicator, boolean isReduceOnly,
       String mmrSysUpdatedTime, String leverageSysUpdatedTime, long createdTime, long updatedTime,
       long seq) {
