@@ -6,16 +6,21 @@ import static org.knowm.xchange.currency.Currency.USDT;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitget.BitgetExchangeWiremock;
 import org.knowm.xchange.bitget.dto.account.BitgetAccountType;
+import org.knowm.xchange.bitget.dto.account.BitgetDepositWithdrawRecordDto;
+import org.knowm.xchange.bitget.dto.account.BitgetDepositWithdrawRecordDto.DepositType;
 import org.knowm.xchange.bitget.dto.account.BitgetMainSubTransferRecordDto;
 import org.knowm.xchange.bitget.dto.account.BitgetTransferRecordDto;
 import org.knowm.xchange.bitget.dto.account.BitgetTransferRecordDto.Status;
 import org.knowm.xchange.bitget.dto.account.params.BitgetMainSubTransferHistoryParams;
 import org.knowm.xchange.bitget.dto.account.params.BitgetMainSubTransferHistoryParams.Role;
 import org.knowm.xchange.bitget.dto.account.params.BitgetTransferHistoryParams;
+import org.knowm.xchange.bitget.service.params.BitgetFundingHistoryParams;
+import org.knowm.xchange.dto.account.FundingRecord;
 
 class BitgetAccountServiceRawTest extends BitgetExchangeWiremock {
 
@@ -78,6 +83,36 @@ class BitgetAccountServiceRawTest extends BitgetExchangeWiremock {
         .endId("1225490042499895296")
         .build();
     List<BitgetMainSubTransferRecordDto> actual = bitgetAccountServiceRaw.getBitgetMainSubTransferRecords(params);
+
+    assertThat(actual).hasSize(1);
+    assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
+  }
+
+
+  @Test
+  void sub_account_deposit_records() throws IOException {
+    BitgetDepositWithdrawRecordDto expected = BitgetDepositWithdrawRecordDto.builder()
+        .chain("TON(TON)")
+        .orderId("1227960429565849600")
+        .tradeId("x_8NF1B51t2lLOu-RYxl-7FOwfM4d6UgPhqlr_CAO8s=")
+        .currency(USDT)
+        .depositType(DepositType.ON_CHAIN)
+        .toAddress("EQCJLo0UPRm6RToIXgD0eMpoak5cuj4BTt99NYCY14yOUcoT")
+        .size(new BigDecimal("10.00000000"))
+        .status(FundingRecord.Status.COMPLETE)
+        .createdAt(Instant.ofEpochMilli(1728494501487L))
+        .updatedAt(Instant.ofEpochMilli(1728494528012L))
+        .build();
+
+    BitgetFundingHistoryParams params = BitgetFundingHistoryParams.builder()
+        .currency(USDT)
+        .subAccountUid("7831928986")
+        .startTime(Date.from(Instant.ofEpochMilli(1728494500000L)))
+        .endTime(Date.from(Instant.ofEpochMilli(1728494529999L)))
+        .limit(1)
+        .endId("1227960429565849609")
+        .build();
+    List<BitgetDepositWithdrawRecordDto> actual = bitgetAccountServiceRaw.getBitgetSubAccountDepositRecords(params);
 
     assertThat(actual).hasSize(1);
     assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);

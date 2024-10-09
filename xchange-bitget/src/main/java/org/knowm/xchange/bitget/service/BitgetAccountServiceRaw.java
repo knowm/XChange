@@ -10,6 +10,7 @@ import org.knowm.xchange.bitget.dto.account.BitgetMainSubTransferRecordDto;
 import org.knowm.xchange.bitget.dto.account.BitgetTransferRecordDto;
 import org.knowm.xchange.bitget.dto.account.params.BitgetMainSubTransferHistoryParams;
 import org.knowm.xchange.bitget.dto.account.params.BitgetTransferHistoryParams;
+import org.knowm.xchange.bitget.service.params.BitgetFundingHistoryParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamClientOid;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
@@ -88,6 +89,25 @@ public class BitgetAccountServiceRaw extends BitgetBaseService {
 
     return bitgetAuthenticated.depositRecords(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(),
         BitgetAdapters.toString(currency), limit, orderId, from, to, lastTradeId).getData();
+  }
+
+
+  public List<BitgetDepositWithdrawRecordDto> getBitgetSubAccountDepositRecords(TradeHistoryParams params) throws IOException {
+    // get arguments
+    Currency currency = params instanceof TradeHistoryParamCurrency ? ((TradeHistoryParamCurrency) params).getCurrency() : null;
+    String subAccountUid = params instanceof BitgetFundingHistoryParams ? ((BitgetFundingHistoryParams) params).getSubAccountUid() : null;
+    Integer limit = params instanceof TradeHistoryParamLimit ? ((TradeHistoryParamLimit) params).getLimit() : null;
+    String lastTradeId = params instanceof TradeHistoryParamsIdSpan ? ((TradeHistoryParamsIdSpan) params).getEndId() : null;
+    Long from = null;
+    Long to = null;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan paramsTimeSpan = ((TradeHistoryParamsTimeSpan) params);
+      from = paramsTimeSpan.getStartTime() != null ? paramsTimeSpan.getStartTime().getTime() : null;
+      to = paramsTimeSpan.getEndTime() != null ? paramsTimeSpan.getEndTime().getTime() : null;
+    }
+
+    return bitgetAuthenticated.subDepositRecords(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(),
+        BitgetAdapters.toString(currency), limit, subAccountUid, from, to, lastTradeId).getData();
   }
 
 

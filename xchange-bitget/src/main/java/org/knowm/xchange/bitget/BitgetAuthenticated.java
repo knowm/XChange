@@ -114,6 +114,19 @@ public interface BitgetAuthenticated {
 
 
   @GET
+  @Path("api/v2/spot/wallet/subaccount-deposit-records")
+  BitgetResponse<List<BitgetDepositWithdrawRecordDto>> subDepositRecords(
+      @HeaderParam("ACCESS-KEY") String apiKey,
+      @HeaderParam("ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("coin") String currency, @QueryParam("limit") Integer limit, @QueryParam("subUid") String subAccountUid,
+      @QueryParam("startTime") Long startTime, @QueryParam("endTime") Long endTime,
+      @QueryParam("idLessThan") String idLessThan)
+      throws IOException, BitgetException;
+
+
+  @GET
   @Path("api/v2/spot/wallet/withdrawal-records")
   BitgetResponse<List<BitgetDepositWithdrawRecordDto>> withdrawalRecords(
       @HeaderParam("ACCESS-KEY") String apiKey,

@@ -19,6 +19,8 @@ public class BitgetFundingHistoryParams implements TradeHistoryParamCurrency, Tr
 
   private Currency currency;
 
+  private String subAccountUid;
+
   private String orderId;
 
   private String clientOid;

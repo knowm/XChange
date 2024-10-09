@@ -38,6 +38,18 @@ ACCESS-TIMESTAMP: {{timestamp}}
 ACCESS-PASSPHRASE: {{api_passphrase}}
 
 
+### Get Sub-accounts Assets
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_host}}/api/v2/spot/account/subaccount-assets
+ACCESS-KEY: {{api_key}}
+ACCESS-SIGN: {{sign}}
+ACCESS-TIMESTAMP: {{timestamp}}
+ACCESS-PASSPHRASE: {{api_passphrase}}
+
+
 ### Get Order Info
 < {%
   import {gen_sign} from 'sign.js'
@@ -158,6 +170,18 @@ ACCESS-PASSPHRASE: {{api_passphrase}}
   gen_sign(request);
 %}
 GET {{api_host}}/api/v2/spot/wallet/withdrawal-records?startTime=1721643200000&endTime=1727970869665
+ACCESS-KEY: {{api_key}}
+ACCESS-SIGN: {{sign}}
+ACCESS-TIMESTAMP: {{timestamp}}
+ACCESS-PASSPHRASE: {{api_passphrase}}
+
+
+### Get SubAccount Deposit Records
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_host}}/api/v2/spot/wallet/subaccount-deposit-records?subUid=7831928986
 ACCESS-KEY: {{api_key}}
 ACCESS-SIGN: {{sign}}
 ACCESS-TIMESTAMP: {{timestamp}}
