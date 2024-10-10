@@ -26,7 +26,7 @@ public class BitgetAccountService extends BitgetAccountServiceRaw implements Acc
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     try {
-      List<BitgetBalanceDto> spotBalances = getBitgetBalances();
+      List<BitgetBalanceDto> spotBalances = getBitgetBalances(null);
       Wallet wallet = BitgetAdapters.toWallet(spotBalances);
       return new AccountInfo(wallet);
 

@@ -27,8 +27,9 @@ public class BitgetAccountServiceRaw extends BitgetBaseService {
   }
 
 
-  public List<BitgetBalanceDto> getBitgetBalances() throws IOException {
-    return bitgetAuthenticated.balances(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory()).getData();
+  public List<BitgetBalanceDto> getBitgetBalances(Currency currency) throws IOException {
+    return bitgetAuthenticated.balances(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(),
+        BitgetAdapters.toString(currency)).getData();
   }
 
 

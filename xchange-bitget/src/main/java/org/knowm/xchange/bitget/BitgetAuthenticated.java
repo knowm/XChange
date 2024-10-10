@@ -32,7 +32,8 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-KEY") String apiKey,
       @HeaderParam("ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
-      @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp)
+      @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("coin") String currency)
       throws IOException, BitgetException;
 
 
