@@ -15,6 +15,7 @@ import org.knowm.xchange.bitget.dto.BitgetResponse;
 import org.knowm.xchange.bitget.dto.account.BitgetBalanceDto;
 import org.knowm.xchange.bitget.dto.account.BitgetDepositWithdrawRecordDto;
 import org.knowm.xchange.bitget.dto.account.BitgetMainSubTransferRecordDto;
+import org.knowm.xchange.bitget.dto.account.BitgetSubBalanceDto;
 import org.knowm.xchange.bitget.dto.account.BitgetTransferRecordDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetFillDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto;
@@ -34,6 +35,16 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
       @QueryParam("coin") String currency)
+      throws IOException, BitgetException;
+
+
+  @GET
+  @Path("api/v2/spot/account/subaccount-assets")
+  BitgetResponse<List<BitgetSubBalanceDto>> subBalances(
+      @HeaderParam("ACCESS-KEY") String apiKey,
+      @HeaderParam("ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp)
       throws IOException, BitgetException;
 
 

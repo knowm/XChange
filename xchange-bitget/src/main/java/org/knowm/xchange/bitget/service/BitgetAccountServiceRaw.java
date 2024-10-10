@@ -7,6 +7,7 @@ import org.knowm.xchange.bitget.BitgetExchange;
 import org.knowm.xchange.bitget.dto.account.BitgetBalanceDto;
 import org.knowm.xchange.bitget.dto.account.BitgetDepositWithdrawRecordDto;
 import org.knowm.xchange.bitget.dto.account.BitgetMainSubTransferRecordDto;
+import org.knowm.xchange.bitget.dto.account.BitgetSubBalanceDto;
 import org.knowm.xchange.bitget.dto.account.BitgetTransferRecordDto;
 import org.knowm.xchange.bitget.dto.account.params.BitgetMainSubTransferHistoryParams;
 import org.knowm.xchange.bitget.dto.account.params.BitgetTransferHistoryParams;
@@ -30,6 +31,11 @@ public class BitgetAccountServiceRaw extends BitgetBaseService {
   public List<BitgetBalanceDto> getBitgetBalances(Currency currency) throws IOException {
     return bitgetAuthenticated.balances(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(),
         BitgetAdapters.toString(currency)).getData();
+  }
+
+
+  public List<BitgetSubBalanceDto> getSubBitgetBalances() throws IOException {
+    return bitgetAuthenticated.subBalances(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory()).getData();
   }
 
 

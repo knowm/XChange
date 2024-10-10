@@ -1,0 +1,15 @@
+{
+  "id" : "e8bb683e-fc63-4ea4-ad22-ff70537d51f3",
+  "name" : "api_v2_spot_account_subaccount-assets",
+  "request" : {
+    "url" : "/api/v2/spot/account/subaccount-assets",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_spot_account_subaccount-assets.json"
+  },
+  "uuid" : "e8bb683e-fc63-4ea4-ad22-ff70537d51f3",
+  "persistent" : true,
+  "insertionIndex" : 12
+}

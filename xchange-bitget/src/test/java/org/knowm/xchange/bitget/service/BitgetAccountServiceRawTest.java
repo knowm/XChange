@@ -6,14 +6,17 @@ import static org.knowm.xchange.currency.Currency.USDT;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitget.BitgetExchangeWiremock;
 import org.knowm.xchange.bitget.dto.account.BitgetAccountType;
+import org.knowm.xchange.bitget.dto.account.BitgetBalanceDto;
 import org.knowm.xchange.bitget.dto.account.BitgetDepositWithdrawRecordDto;
 import org.knowm.xchange.bitget.dto.account.BitgetDepositWithdrawRecordDto.DepositType;
 import org.knowm.xchange.bitget.dto.account.BitgetMainSubTransferRecordDto;
+import org.knowm.xchange.bitget.dto.account.BitgetSubBalanceDto;
 import org.knowm.xchange.bitget.dto.account.BitgetTransferRecordDto;
 import org.knowm.xchange.bitget.dto.account.BitgetTransferRecordDto.Status;
 import org.knowm.xchange.bitget.dto.account.params.BitgetMainSubTransferHistoryParams;
@@ -113,6 +116,26 @@ class BitgetAccountServiceRawTest extends BitgetExchangeWiremock {
         .endId("1227960429565849609")
         .build();
     List<BitgetDepositWithdrawRecordDto> actual = bitgetAccountServiceRaw.getBitgetSubAccountDepositRecords(params);
+
+    assertThat(actual).hasSize(1);
+    assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
+  }
+
+
+  @Test
+  void sub_account_balances() throws IOException {
+    BitgetSubBalanceDto expected = BitgetSubBalanceDto.builder()
+        .userId("7831928986")
+        .balances(Collections.singletonList(BitgetBalanceDto.builder()
+            .currency(USDT)
+            .available(new BigDecimal("55.44646499"))
+            .limitAvailable(BigDecimal.ZERO)
+            .frozen(BigDecimal.ZERO)
+            .locked(BigDecimal.ZERO)
+            .build()))
+        .build();
+
+    List<BitgetSubBalanceDto> actual = bitgetAccountServiceRaw.getSubBitgetBalances();
 
     assertThat(actual).hasSize(1);
     assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
