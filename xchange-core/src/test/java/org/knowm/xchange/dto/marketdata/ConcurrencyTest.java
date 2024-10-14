@@ -239,7 +239,7 @@ public class ConcurrencyTest {
           }
         }
       } else {
-        var stamp = orderBook.lock.readLock();
+        long stamp = orderBook.lock.readLock();
         for (LimitOrder ask : orderBook.getAsks()) {
           temp += ask.hashCode();
         }
