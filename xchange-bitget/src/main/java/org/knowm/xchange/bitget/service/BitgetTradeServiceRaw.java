@@ -12,19 +12,22 @@ public class BitgetTradeServiceRaw extends BitgetBaseService {
     super(exchange);
   }
 
-
   public BitgetOrderInfoDto bitgetOrderInfoDto(String orderId) throws IOException {
-    List<BitgetOrderInfoDto> results = bitgetAuthenticated.orderInfo(
-        apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(), orderId).getData();
+    List<BitgetOrderInfoDto> results =
+        bitgetAuthenticated
+            .orderInfo(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(), orderId)
+            .getData();
     if (results.size() != 1) {
       return null;
     }
     return results.get(0);
   }
 
-
-  public BitgetOrderInfoDto createOrder(BitgetPlaceOrderDto bitgetPlaceOrderDto) throws IOException {
-    return bitgetAuthenticated.createOrder(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(), bitgetPlaceOrderDto).getData();
+  public BitgetOrderInfoDto createOrder(BitgetPlaceOrderDto bitgetPlaceOrderDto)
+      throws IOException {
+    return bitgetAuthenticated
+        .createOrder(
+            apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(), bitgetPlaceOrderDto)
+        .getData();
   }
-
 }

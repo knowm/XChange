@@ -50,7 +50,6 @@ public class GateioDepositRecord {
   @JsonProperty("chain")
   String chain;
 
-
   @Getter
   @AllArgsConstructor
   public static enum Status {
@@ -69,7 +68,5 @@ public class GateioDepositRecord {
     SPLITPEND("the order is automatically split due to large amount");
 
     private final String description;
-
   }
-
 }

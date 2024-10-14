@@ -31,7 +31,6 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp)
       throws IOException, BitgetException;
 
-
   @GET
   @Path("api/v2/spot/trade/orderInfo")
   BitgetResponse<List<BitgetOrderInfoDto>> orderInfo(
@@ -41,7 +40,6 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
       @QueryParam("orderId") String orderId)
       throws IOException, BitgetException;
-
 
   @POST
   @Path("api/v2/spot/trade/place-order")
@@ -53,6 +51,4 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
       BitgetPlaceOrderDto bitgetPlaceOrderDto)
       throws IOException, BitgetException;
-
-
 }

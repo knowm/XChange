@@ -33,5 +33,4 @@ public class GateioAddressRecord {
   @JsonProperty("verified")
   @JsonDeserialize(converter = StringToBooleanConverter.class)
   Boolean verified;
-
 }

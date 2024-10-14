@@ -66,7 +66,6 @@ public class BinanceAdapters {
 
   private static final Map<String, CurrencyPair> SYMBOL_TO_CURRENCY_PAIR = new HashMap<>();
 
-
   private BinanceAdapters() {}
 
   /**
@@ -186,16 +185,13 @@ public class BinanceAdapters {
     return isBuyer ? OrderType.BID : OrderType.ASK;
   }
 
-
   public static void putSymbolMapping(String symbol, CurrencyPair currencyPair) {
     SYMBOL_TO_CURRENCY_PAIR.put(symbol, currencyPair);
   }
 
-
   public static CurrencyPair toCurrencyPair(String symbol) {
     return SYMBOL_TO_CURRENCY_PAIR.get(symbol);
   }
-
 
   public static Instrument adaptSymbol(String symbol, boolean isFuture) {
     CurrencyPair currencyPair = toCurrencyPair(symbol);
@@ -247,9 +243,11 @@ public class BinanceAdapters {
     return builder.build();
   }
 
-
   public static Ticker toTicker(BinanceTicker24h binanceTicker24h, boolean isFuture) {
-    Instrument instrument = (isFuture) ? new FuturesContract(binanceTicker24h.getCurrencyPair(), "PERP"): binanceTicker24h.getCurrencyPair();
+    Instrument instrument =
+        (isFuture)
+            ? new FuturesContract(binanceTicker24h.getCurrencyPair(), "PERP")
+            : binanceTicker24h.getCurrencyPair();
     return new Ticker.Builder()
         .instrument(instrument)
         .open(binanceTicker24h.getOpenPrice())
@@ -268,7 +266,6 @@ public class BinanceAdapters {
         .percentageChange(binanceTicker24h.getPriceChangePercent())
         .build();
   }
-
 
   static CurrencyMetaData adaptCurrencyMetaData(
       Map<Currency, CurrencyMetaData> currencies,

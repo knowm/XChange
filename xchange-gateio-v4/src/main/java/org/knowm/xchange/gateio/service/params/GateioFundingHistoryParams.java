@@ -9,7 +9,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 @Data
 @Builder
-public class GateioFundingHistoryParams implements TradeHistoryParamPaging, TradeHistoryParamsTimeSpan {
+public class GateioFundingHistoryParams
+    implements TradeHistoryParamPaging, TradeHistoryParamsTimeSpan {
 
   private Currency currency;
 
@@ -22,5 +23,4 @@ public class GateioFundingHistoryParams implements TradeHistoryParamPaging, Trad
   private Date endTime;
 
   private String type;
-
 }

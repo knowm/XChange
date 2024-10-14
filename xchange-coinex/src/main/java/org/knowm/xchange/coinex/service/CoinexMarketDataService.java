@@ -23,31 +23,32 @@ import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 import org.knowm.xchange.service.marketdata.params.InstrumentsParams;
 import org.knowm.xchange.service.marketdata.params.Params;
 
-public class CoinexMarketDataService extends CoinexMarketDataServiceRaw implements MarketDataService {
-
+public class CoinexMarketDataService extends CoinexMarketDataServiceRaw
+    implements MarketDataService {
 
   public CoinexMarketDataService(CoinexExchange exchange) {
     super(exchange);
   }
-
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return getTicker((Instrument) currencyPair, args);
   }
 
-
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
     try {
-      CoinexSingleMarketStatisticsV1 singleMarketStatisticsV1 = getCoinexSingleMarketStatisticsV1(instrument);
-      return CoinexAdapters.toTicker(instrument, singleMarketStatisticsV1.getTicker(), singleMarketStatisticsV1.getTimestamp());
+      CoinexSingleMarketStatisticsV1 singleMarketStatisticsV1 =
+          getCoinexSingleMarketStatisticsV1(instrument);
+      return CoinexAdapters.toTicker(
+          instrument,
+          singleMarketStatisticsV1.getTicker(),
+          singleMarketStatisticsV1.getTimestamp());
 
     } catch (CoinexException e) {
       throw CoinexErrorAdapter.adapt(e);
     }
   }
-
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
@@ -56,9 +57,9 @@ public class CoinexMarketDataService extends CoinexMarketDataServiceRaw implemen
     if (params instanceof InstrumentsParams) {
       instruments = ((InstrumentsParams) params).getInstruments();
     } else if (params instanceof CurrencyPairsParam) {
-      instruments = ((CurrencyPairsParam) params).getCurrencyPairs().stream()
-          .map(Instrument.class::cast)
-          .collect(Collectors.toList());
+      instruments =
+          ((CurrencyPairsParam) params)
+              .getCurrencyPairs().stream().map(Instrument.class::cast).collect(Collectors.toList());
     }
 
     try {
@@ -66,11 +67,15 @@ public class CoinexMarketDataService extends CoinexMarketDataServiceRaw implemen
       if (instruments.isEmpty()) {
         CoinexAllMarketStatisticsV1 coinexAllMarketStatisticsV1 = getCoinexAllMarketStatisticsV1();
         return coinexAllMarketStatisticsV1.getTickers().entrySet().stream()
-            .map(entry -> CoinexAdapters.toTicker(entry.getKey(), entry.getValue(), coinexAllMarketStatisticsV1.getTimestamp()))
+            .map(
+                entry ->
+                    CoinexAdapters.toTicker(
+                        entry.getKey(),
+                        entry.getValue(),
+                        coinexAllMarketStatisticsV1.getTimestamp()))
             .filter(ticker -> ticker.getInstrument() != null)
             .collect(Collectors.toList());
-      }
-      else {
+      } else {
         // get the first one
         Instrument instrument = instruments.iterator().next();
         return Collections.singletonList(getTicker(instrument));
@@ -81,26 +86,23 @@ public class CoinexMarketDataService extends CoinexMarketDataServiceRaw implemen
     }
   }
 
-
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     return getOrderBook((Instrument) currencyPair, args);
   }
-
 
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
     Integer limit = (Integer) ArrayUtils.get(args, 0);
     Integer interval = (Integer) ArrayUtils.get(args, 1);
 
-    return getOrderBook(CoinexOrderBookParams.builder()
-        .instrument(instrument)
-        .limit(limit)
-        .interval(interval)
-        .build()
-    );
+    return getOrderBook(
+        CoinexOrderBookParams.builder()
+            .instrument(instrument)
+            .limit(limit)
+            .interval(interval)
+            .build());
   }
-
 
   @Override
   public OrderBook getOrderBook(Params params) throws IOException {

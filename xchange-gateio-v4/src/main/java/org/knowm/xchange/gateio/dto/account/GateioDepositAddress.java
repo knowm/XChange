@@ -21,7 +21,6 @@ public class GateioDepositAddress {
   @JsonProperty("multichain_addresses")
   List<MultichainAddress> multichainAddresses;
 
-
   @Data
   @Builder
   @Jacksonized
@@ -41,8 +40,5 @@ public class GateioDepositAddress {
 
     @JsonProperty("obtain_failed")
     Boolean failed;
-
   }
-
-
 }

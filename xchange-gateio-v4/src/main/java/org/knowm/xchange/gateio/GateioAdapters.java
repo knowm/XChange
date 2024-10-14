@@ -29,38 +29,52 @@ import org.knowm.xchange.gateio.dto.trade.GateioUserTradeRaw;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
 
-
 @UtilityClass
 public class GateioAdapters {
-
 
   public String toString(Instrument instrument) {
     if (instrument == null) {
       return null;
-    }
-    else {
-      return String.format("%s_%s",
-                      instrument.getBase().getCurrencyCode(),
-                      instrument.getCounter().getCurrencyCode())
-              .toUpperCase(Locale.ROOT);
+    } else {
+      return String.format(
+              "%s_%s",
+              instrument.getBase().getCurrencyCode(), instrument.getCounter().getCurrencyCode())
+          .toUpperCase(Locale.ROOT);
     }
   }
 
-
   public OrderBook toOrderBook(GateioOrderBook gateioOrderBook, Instrument instrument) {
-    List<LimitOrder> asks = gateioOrderBook.getAsks().stream()
-        .map(priceSizeEntry -> new LimitOrder(OrderType.ASK, priceSizeEntry.getSize(), instrument, null, null, priceSizeEntry.getPrice()))
-        .collect(Collectors.toList());
+    List<LimitOrder> asks =
+        gateioOrderBook.getAsks().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.ASK,
+                        priceSizeEntry.getSize(),
+                        instrument,
+                        null,
+                        null,
+                        priceSizeEntry.getPrice()))
+            .collect(Collectors.toList());
 
-    List<LimitOrder> bids = gateioOrderBook.getBids().stream()
-        .map(priceSizeEntry -> new LimitOrder(OrderType.BID, priceSizeEntry.getSize(), instrument, null, null, priceSizeEntry.getPrice()))
-        .collect(Collectors.toList());
+    List<LimitOrder> bids =
+        gateioOrderBook.getBids().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.BID,
+                        priceSizeEntry.getSize(),
+                        instrument,
+                        null,
+                        null,
+                        priceSizeEntry.getPrice()))
+            .collect(Collectors.toList());
 
     return new OrderBook(Date.from(gateioOrderBook.getGeneratedAt()), asks, bids);
   }
 
-
-  public InstrumentMetaData toInstrumentMetaData(GateioCurrencyPairDetails gateioCurrencyPairDetails) {
+  public InstrumentMetaData toInstrumentMetaData(
+      GateioCurrencyPairDetails gateioCurrencyPairDetails) {
     return new InstrumentMetaData.Builder()
         .tradingFee(gateioCurrencyPairDetails.getFee())
         .minimumAmount(gateioCurrencyPairDetails.getMinAssetAmount())
@@ -69,7 +83,6 @@ public class GateioAdapters {
         .priceScale(gateioCurrencyPairDetails.getQuoteScale())
         .build();
   }
-
 
   public String toString(OrderStatus orderStatus) {
     switch (orderStatus) {
@@ -81,7 +94,6 @@ public class GateioAdapters {
         throw new IllegalArgumentException("Can't map " + orderStatus);
     }
   }
-
 
   public OrderStatus toOrderStatus(String gateioOrderStatus) {
     switch (gateioOrderStatus) {
@@ -98,7 +110,6 @@ public class GateioAdapters {
     }
   }
 
-
   public GateioOrder toGateioOrder(MarketOrder marketOrder) {
     return GateioOrder.builder()
         .currencyPair((CurrencyPair) marketOrder.getInstrument())
@@ -110,7 +121,6 @@ public class GateioAdapters {
         .amount(marketOrder.getOriginalAmount())
         .build();
   }
-
 
   public GateioOrder toGateioOrder(LimitOrder limitOrder) {
     return GateioOrder.builder()
@@ -125,7 +135,6 @@ public class GateioAdapters {
         .build();
   }
 
-
   public Order toOrder(GateioOrder gateioOrder) {
     Order.Builder builder;
     Instrument instrument = gateioOrder.getCurrencyPair();
@@ -136,8 +145,7 @@ public class GateioAdapters {
         builder = new MarketOrder.Builder(orderType, instrument);
         break;
       case "limit":
-        builder = new LimitOrder.Builder(orderType, instrument)
-            .limitPrice(gateioOrder.getPrice());
+        builder = new LimitOrder.Builder(orderType, instrument).limitPrice(gateioOrder.getPrice());
         break;
       default:
         throw new IllegalArgumentException("Can't map " + gateioOrder.getType());
@@ -145,12 +153,13 @@ public class GateioAdapters {
 
     if (orderType == OrderType.BID) {
       builder.cumulativeAmount(gateioOrder.getFilledTotalQuote());
-    }
-    else if (orderType == OrderType.ASK) {
-      BigDecimal filledAssetAmount = gateioOrder.getFilledTotalQuote().divide(gateioOrder.getAvgDealPrice(), MathContext.DECIMAL32);
+    } else if (orderType == OrderType.ASK) {
+      BigDecimal filledAssetAmount =
+          gateioOrder
+              .getFilledTotalQuote()
+              .divide(gateioOrder.getAvgDealPrice(), MathContext.DECIMAL32);
       builder.cumulativeAmount(filledAssetAmount);
-    }
-    else {
+    } else {
       throw new IllegalArgumentException("Can't map " + orderType);
     }
 
@@ -165,15 +174,20 @@ public class GateioAdapters {
         .build();
   }
 
-
   public UserTrade toUserTrade(GateioUserTradeRaw gateioUserTradeRaw) {
-    return new GateioUserTrade(gateioUserTradeRaw.getSide(), gateioUserTradeRaw.getAmount(), gateioUserTradeRaw.getCurrencyPair(),
-        gateioUserTradeRaw.getPrice(), Date.from(gateioUserTradeRaw.getTimeMs()), String.valueOf(
-        gateioUserTradeRaw.getId()),
-        String.valueOf(gateioUserTradeRaw.getOrderId()), gateioUserTradeRaw.getFee(), gateioUserTradeRaw.getFeeCurrency(),
-        gateioUserTradeRaw.getRemark(), gateioUserTradeRaw.getRole());
+    return new GateioUserTrade(
+        gateioUserTradeRaw.getSide(),
+        gateioUserTradeRaw.getAmount(),
+        gateioUserTradeRaw.getCurrencyPair(),
+        gateioUserTradeRaw.getPrice(),
+        Date.from(gateioUserTradeRaw.getTimeMs()),
+        String.valueOf(gateioUserTradeRaw.getId()),
+        String.valueOf(gateioUserTradeRaw.getOrderId()),
+        gateioUserTradeRaw.getFee(),
+        gateioUserTradeRaw.getFeeCurrency(),
+        gateioUserTradeRaw.getRemark(),
+        gateioUserTradeRaw.getRole());
   }
-
 
   public GateioWithdrawalRequest toGateioWithdrawalRequest(GateioWithdrawFundsParams p) {
     return GateioWithdrawalRequest.builder()
@@ -184,24 +198,21 @@ public class GateioAdapters {
         .amount(p.getAmount())
         .currency(p.getCurrency())
         .build();
-
   }
-
 
   public Ticker toTicker(GateioTicker gateioTicker) {
     return new Ticker.Builder()
-            .instrument(gateioTicker.getCurrencyPair())
-            .last(gateioTicker.getLastPrice())
-            .bid(gateioTicker.getHighestBid())
-            .ask(gateioTicker.getLowestAsk())
-            .high(gateioTicker.getMaxPrice24h())
-            .low(gateioTicker.getMinPrice24h())
-            .volume(gateioTicker.getAssetVolume())
-            .quoteVolume(gateioTicker.getQuoteVolume())
-            .percentageChange(gateioTicker.getChangePercentage24h())
-            .build();
+        .instrument(gateioTicker.getCurrencyPair())
+        .last(gateioTicker.getLastPrice())
+        .bid(gateioTicker.getHighestBid())
+        .ask(gateioTicker.getLowestAsk())
+        .high(gateioTicker.getMaxPrice24h())
+        .low(gateioTicker.getMinPrice24h())
+        .volume(gateioTicker.getAssetVolume())
+        .quoteVolume(gateioTicker.getQuoteVolume())
+        .percentageChange(gateioTicker.getChangePercentage24h())
+        .build();
   }
-
 
   public FundingRecord toFundingRecords(GateioAccountBookRecord gateioAccountBookRecord) {
     return new FundingRecord.Builder()

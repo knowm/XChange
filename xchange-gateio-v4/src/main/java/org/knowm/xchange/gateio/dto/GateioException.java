@@ -15,5 +15,4 @@ public class GateioException extends RuntimeException {
 
   @JsonProperty("message")
   String message;
-
 }

@@ -28,7 +28,8 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
-public class GateioMarketDataService extends GateioMarketDataServiceRaw implements MarketDataService {
+public class GateioMarketDataService extends GateioMarketDataServiceRaw
+    implements MarketDataService {
 
   public GateioMarketDataService(GateioExchange exchange) {
     super(exchange);
@@ -69,15 +70,12 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw implemen
     }
   }
 
-
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
     try {
       List<GateioTicker> tickers = getGateioTickers(null);
 
-      return tickers.stream()
-              .map(GateioAdapters::toTicker)
-              .collect(Collectors.toList());
+      return tickers.stream().map(GateioAdapters::toTicker).collect(Collectors.toList());
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
@@ -98,7 +96,6 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw implemen
     }
   }
 
-
   public List<Currency> getCurrencies() throws IOException {
     try {
       List<GateioCurrencyInfo> currencyInfos = getGateioCurrencyInfos();
@@ -113,7 +110,6 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw implemen
     }
   }
 
-
   public List<CurrencyPair> getCurrencyPairs() throws IOException {
     try {
       List<GateioCurrencyPairDetails> metadata = getCurrencyPairDetails();
@@ -122,27 +118,25 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw implemen
           .filter(details -> "tradable".equals(details.getTradeStatus()))
           .map(details -> new CurrencyPair(details.getAsset(), details.getQuote()))
           .collect(Collectors.toList());
-    }
-    catch (GateioException e) {
+    } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
   }
-
 
   public Map<Instrument, InstrumentMetaData> getMetaDataByInstrument() throws IOException {
     try {
       List<GateioCurrencyPairDetails> metadata = getCurrencyPairDetails();
 
       return metadata.stream()
-          .collect(Collectors.toMap(
-              gateioCurrencyPairDetails -> new CurrencyPair(gateioCurrencyPairDetails.getAsset(), gateioCurrencyPairDetails.getQuote()),
-              GateioAdapters::toInstrumentMetaData
-          ));
-    }
-    catch (GateioException e) {
+          .collect(
+              Collectors.toMap(
+                  gateioCurrencyPairDetails ->
+                      new CurrencyPair(
+                          gateioCurrencyPairDetails.getAsset(),
+                          gateioCurrencyPairDetails.getQuote()),
+                  GateioAdapters::toInstrumentMetaData));
+    } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
   }
-
-
 }

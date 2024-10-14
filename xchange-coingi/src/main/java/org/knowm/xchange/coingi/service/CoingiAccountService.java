@@ -101,5 +101,4 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
       throw CoingiErrorAdapter.adapt(e);
     }
   }
-
 }

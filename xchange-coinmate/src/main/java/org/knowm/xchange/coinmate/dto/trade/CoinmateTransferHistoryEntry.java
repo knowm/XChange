@@ -27,8 +27,7 @@ public class CoinmateTransferHistoryEntry {
       @JsonProperty("walletType") String walletType,
       @JsonProperty("destination") String destination,
       @JsonProperty("destinationTag") String destinationTag,
-      @JsonProperty("txid") String txid
-  ) {
+      @JsonProperty("txid") String txid) {
     this.fee = fee;
     this.transferType = transferType;
     this.timestamp = timestamp;
@@ -82,5 +81,7 @@ public class CoinmateTransferHistoryEntry {
     return destinationTag;
   }
 
-  public String getTxid() { return txid; }
+  public String getTxid() {
+    return txid;
+  }
 }

@@ -28,5 +28,4 @@ public class CurrencyPairLevelIntervalPayload {
   public String renderUpdateSpeed() {
     return updateSpeed.toMillis() + "ms";
   }
-
 }

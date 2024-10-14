@@ -68,5 +68,4 @@ public class UserTradePayload {
 
   @JsonProperty("text")
   String remark;
-
 }

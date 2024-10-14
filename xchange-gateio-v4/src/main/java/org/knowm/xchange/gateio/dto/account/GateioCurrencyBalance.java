@@ -23,5 +23,4 @@ public class GateioCurrencyBalance {
 
   @JsonProperty("locked")
   BigDecimal locked;
-
 }

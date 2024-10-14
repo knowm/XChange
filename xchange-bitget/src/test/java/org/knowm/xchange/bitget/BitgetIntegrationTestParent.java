@@ -19,8 +19,7 @@ public class BitgetIntegrationTestParent {
   @BeforeEach
   void exchange_online() {
     // skip if offline
-    assumeThat(exchange.getMarketDataService().getExchangeHealth()).isEqualTo(ExchangeHealth.ONLINE);
+    assumeThat(exchange.getMarketDataService().getExchangeHealth())
+        .isEqualTo(ExchangeHealth.ONLINE);
   }
-
-
 }

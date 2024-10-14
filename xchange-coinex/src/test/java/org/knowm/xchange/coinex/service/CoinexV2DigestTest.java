@@ -14,8 +14,7 @@ import si.mazi.rescu.RestInvocation;
 @ExtendWith(MockitoExtension.class)
 class CoinexV2DigestTest {
 
-  @Mock
-  RestInvocation restInvocation;
+  @Mock RestInvocation restInvocation;
 
   @Test
   void signature_no_query_params() {
@@ -35,7 +34,6 @@ class CoinexV2DigestTest {
     assertThat(actual).isEqualTo(expected);
   }
 
-
   @Test
   void signature_with_query_params() {
     CoinexV2Digest coinexV2Digest = CoinexV2Digest.createInstance("a");
@@ -53,6 +51,4 @@ class CoinexV2DigestTest {
 
     assertThat(actual).isEqualTo(expected);
   }
-
-
 }

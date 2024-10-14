@@ -48,5 +48,4 @@ public class GateioCurrencyPairDetails {
   @JsonProperty("buy_start")
   @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)
   Instant startOfBuys;
-
 }

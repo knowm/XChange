@@ -33,30 +33,25 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
     super(exchange);
   }
 
-
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     try {
       GateioOrder order = createOrder(GateioAdapters.toGateioOrder(marketOrder));
       return order.getId();
-    }
-    catch (GateioException e) {
+    } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
   }
-
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     try {
       GateioOrder order = createOrder(GateioAdapters.toGateioOrder(limitOrder));
       return order.getId();
-    }
-    catch (GateioException e) {
+    } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
   }
-
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
@@ -69,34 +64,30 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
     try {
       GateioOrder gateioOrder = getOrder(params.getOrderId(), params.getInstrument());
       return Collections.singletonList(GateioAdapters.toOrder(gateioOrder));
-    }
-    catch (GateioException e) {
+    } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
   }
-
 
   public Order cancelOrder(String orderId, Instrument instrument) throws IOException {
     try {
       GateioOrder gateioOrder = cancelOrderRaw(orderId, instrument);
       return GateioAdapters.toOrder(gateioOrder);
-    }
-    catch (GateioException e) {
+    } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
   }
 
-
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     Validate.isInstanceOf(DefaultCancelOrderByInstrumentAndIdParams.class, orderParams);
-    DefaultCancelOrderByInstrumentAndIdParams params = (DefaultCancelOrderByInstrumentAndIdParams) orderParams;
+    DefaultCancelOrderByInstrumentAndIdParams params =
+        (DefaultCancelOrderByInstrumentAndIdParams) orderParams;
 
     try {
       Order order = cancelOrder(params.getOrderId(), params.getInstrument());
       return order.getStatus() == OrderStatus.CANCELED;
-    }
-    catch (GateioException e) {
+    } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
   }
@@ -104,12 +95,12 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     try {
-      List<UserTrade> userTradeList = getGateioUserTrades(params).stream()
-          .map(GateioAdapters::toUserTrade)
-          .collect(Collectors.toList());
+      List<UserTrade> userTradeList =
+          getGateioUserTrades(params).stream()
+              .map(GateioAdapters::toUserTrade)
+              .collect(Collectors.toList());
       return new UserTrades(userTradeList, TradeSortType.SortByID);
-    }
-    catch (GateioException e) {
+    } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
   }
@@ -119,11 +110,8 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
     return new Class[] {DefaultCancelOrderByInstrumentAndIdParams.class};
   }
 
-
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return GateioTradeHistoryParams.builder().build();
   }
-
-
 }

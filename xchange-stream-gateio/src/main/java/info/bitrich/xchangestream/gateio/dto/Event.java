@@ -11,8 +11,5 @@ public enum Event {
   UNSUBSCRIBE("unsubscribe"),
   UPDATE("update");
 
-  @JsonValue
-  private final String value;
-
-
+  @JsonValue private final String value;
 }

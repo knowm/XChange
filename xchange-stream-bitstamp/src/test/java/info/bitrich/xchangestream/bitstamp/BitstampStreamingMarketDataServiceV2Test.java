@@ -26,10 +26,10 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BitstampStreamingMarketDataServiceV2Test extends BitstampStreamingMarketDataServiceBaseTest {
+public class BitstampStreamingMarketDataServiceV2Test
+    extends BitstampStreamingMarketDataServiceBaseTest {
 
-  @Mock
-  private BitstampStreamingService streamingService;
+  @Mock private BitstampStreamingService streamingService;
 
   private BitstampStreamingMarketDataService marketDataService;
 

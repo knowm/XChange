@@ -21,7 +21,6 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
 
   TradeService tradeService = exchange.getTradeService();
 
-
   @Test
   void sell_order_details() throws IOException {
     MarketOrder expected =
@@ -38,11 +37,12 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
 
     Collection<Order> orders = tradeService.getOrder("1214193970718347264");
     assertThat(orders).hasSize(1);
-    assertThat(orders).first()
+    assertThat(orders)
+        .first()
         .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
-        .usingRecursiveComparison().isEqualTo(expected);
+        .usingRecursiveComparison()
+        .isEqualTo(expected);
   }
-
 
   @Test
   void buy_order_details() throws IOException {
@@ -58,13 +58,15 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
             .fee(new BigDecimal("0.0020706"))
             .build();
 
-    Collection<Order> orders = tradeService.getOrder(new DefaultQueryOrderParamInstrument(null, "1214189703404097539"));
+    Collection<Order> orders =
+        tradeService.getOrder(new DefaultQueryOrderParamInstrument(null, "1214189703404097539"));
     assertThat(orders).hasSize(1);
-    assertThat(orders).first()
+    assertThat(orders)
+        .first()
         .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
-        .usingRecursiveComparison().isEqualTo(expected);
+        .usingRecursiveComparison()
+        .isEqualTo(expected);
   }
-
 
   @Test
   void place_market_buy_order() throws IOException {
@@ -78,7 +80,6 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
     assertThat(actualResponse).isEqualTo("1214189703404097539");
   }
 
-
   @Test
   void place_market_sell_order() throws IOException {
     MarketOrder marketOrder =
@@ -90,6 +91,4 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
     String actualResponse = exchange.getTradeService().placeMarketOrder(marketOrder);
     assertThat(actualResponse).isEqualTo("1214193970718347264");
   }
-
-
 }

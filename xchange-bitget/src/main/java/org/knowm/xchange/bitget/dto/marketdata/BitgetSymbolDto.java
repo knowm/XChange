@@ -16,71 +16,69 @@ import org.knowm.xchange.currency.CurrencyPair;
 @Jacksonized
 public class BitgetSymbolDto {
 
-    @JsonProperty("symbol")
-    private String symbol;
+  @JsonProperty("symbol")
+  private String symbol;
 
-    @JsonProperty("baseCoin")
-    @JsonDeserialize(converter = StringToCurrencyConverter.class)
-    private Currency base;
+  @JsonProperty("baseCoin")
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency base;
 
-    @JsonProperty("quoteCoin")
-    @JsonDeserialize(converter = StringToCurrencyConverter.class)
-    private Currency quote;
+  @JsonProperty("quoteCoin")
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency quote;
 
-    @JsonProperty("minTradeAmount")
-    private BigDecimal minTradeAmount;
+  @JsonProperty("minTradeAmount")
+  private BigDecimal minTradeAmount;
 
-    @JsonProperty("maxTradeAmount")
-    private BigDecimal maxTradeAmount;
+  @JsonProperty("maxTradeAmount")
+  private BigDecimal maxTradeAmount;
 
-    @JsonProperty("takerFeeRate")
-    private BigDecimal takerFeeRate;
+  @JsonProperty("takerFeeRate")
+  private BigDecimal takerFeeRate;
 
-    @JsonProperty("makerFeeRate")
-    private BigDecimal makerFeeRate;
+  @JsonProperty("makerFeeRate")
+  private BigDecimal makerFeeRate;
 
-    @JsonProperty("pricePrecision")
-    private Integer pricePrecision;
+  @JsonProperty("pricePrecision")
+  private Integer pricePrecision;
 
-    @JsonProperty("quantityPrecision")
-    private Integer quantityPrecision;
+  @JsonProperty("quantityPrecision")
+  private Integer quantityPrecision;
 
-    @JsonProperty("quotePrecision")
-    private Integer quotePrecision;
+  @JsonProperty("quotePrecision")
+  private Integer quotePrecision;
 
-    @JsonProperty("status")
-    private Status status;
+  @JsonProperty("status")
+  private Status status;
 
-    @JsonProperty("minTradeUSDT")
-    private BigDecimal minTradeUSDT;
+  @JsonProperty("minTradeUSDT")
+  private BigDecimal minTradeUSDT;
 
-    @JsonProperty("buyLimitPriceRatio")
-    private BigDecimal buyLimitPriceRatio;
+  @JsonProperty("buyLimitPriceRatio")
+  private BigDecimal buyLimitPriceRatio;
 
-    @JsonProperty("sellLimitPriceRatio")
-    private BigDecimal sellLimitPriceRatio;
+  @JsonProperty("sellLimitPriceRatio")
+  private BigDecimal sellLimitPriceRatio;
 
-    @JsonProperty("areaSymbol")
-    @JsonDeserialize(converter = StringToBooleanConverter.class)
-    private Boolean isAreaSymbol;
+  @JsonProperty("areaSymbol")
+  @JsonDeserialize(converter = StringToBooleanConverter.class)
+  private Boolean isAreaSymbol;
 
+  public CurrencyPair getCurrencyPair() {
+    return new CurrencyPair(base, quote);
+  }
 
-    public CurrencyPair getCurrencyPair() {
-        return new CurrencyPair(base, quote);
-    }
+  public static enum Status {
+    @JsonProperty("offline")
+    OFFLINE,
 
+    @JsonProperty("gray")
+    GRAY,
 
-    public static enum Status {
-        @JsonProperty("offline")
-        OFFLINE,
+    @JsonProperty("online")
+    ONLINE,
 
-        @JsonProperty("gray")
-        GRAY,
-
-        @JsonProperty("online")
-        ONLINE,
-
-        @JsonProperty("halt")
-        HALT
-    }
+    @JsonProperty("halt")
+    HALT
+  }
 }

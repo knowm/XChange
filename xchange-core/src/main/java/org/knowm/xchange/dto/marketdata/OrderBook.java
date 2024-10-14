@@ -22,17 +22,15 @@ public final class OrderBook implements Serializable {
 
   private static final long serialVersionUID = -7788306758114464314L;
   @JsonIgnore public final StampedLock lock = new StampedLock();
+
   /** the asks */
-  @Getter
-  private final List<LimitOrder> asks;
+  @Getter private final List<LimitOrder> asks;
 
   /** the bids */
-  @Getter
-  private final List<LimitOrder> bids;
+  @Getter private final List<LimitOrder> bids;
 
   /** the timestamp of the orderbook according to the exchange's server, null if not provided */
-  @Getter
-  private Date timeStamp;
+  @Getter private Date timeStamp;
 
   /**
    * Constructor
@@ -216,9 +214,9 @@ public final class OrderBook implements Serializable {
         // if negative, check that of limitOrders.get(reversed idx) limitOrders.get(reversed idx-1)
         // and is lower and bigger than limitOrder
         return (limitOrders.get(-idx - 1) == null
-            || limitOrders.get(-idx - 1).compareTo(limitOrder) <= 0)
+                || limitOrders.get(-idx - 1).compareTo(limitOrder) <= 0)
             && (limitOrders.get(-idx - 2) == null
-            || limitOrders.get(-idx - 2).compareTo(limitOrder) >= 0);
+                || limitOrders.get(-idx - 2).compareTo(limitOrder) >= 0);
     }
   }
 

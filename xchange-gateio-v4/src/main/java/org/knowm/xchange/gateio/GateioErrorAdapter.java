@@ -25,7 +25,6 @@ public class GateioErrorAdapter {
   public final String INVALID_PARAM_VALUE = "INVALID_PARAM_VALUE";
   public final String SERVER_ERROR = "SERVER_ERROR";
 
-
   public ExchangeException adapt(GateioException e) {
 
     switch (e.getLabel()) {
@@ -51,15 +50,12 @@ public class GateioErrorAdapter {
       case INVALID_PARAM_VALUE:
         if (e.getMessage().contains("below minimum") || e.getMessage().contains("too small")) {
           return new OrderAmountUnderMinimumException(e.getMessage(), e);
-        }
-        else {
+        } else {
           return new OrderNotValidException(e.getMessage(), e);
         }
 
       default:
         return new ExchangeException(e.getMessage(), e);
     }
-
   }
-
 }

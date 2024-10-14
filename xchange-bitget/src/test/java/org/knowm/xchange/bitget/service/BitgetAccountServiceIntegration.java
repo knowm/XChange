@@ -15,7 +15,6 @@ class BitgetAccountServiceIntegration {
 
   static BitgetExchange exchange;
 
-
   @BeforeAll
   public static void credentialsPresent() {
     // skip if there are no credentials
@@ -33,12 +32,9 @@ class BitgetAccountServiceIntegration {
     exchange = (BitgetExchange) ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 
-
   @Test
   void valid_balances() throws IOException {
     AccountInfo accountInfo = exchange.getAccountService().getAccountInfo();
     assertThat(accountInfo.getWallet("spot").getBalances()).isNotEmpty();
   }
-
-
 }

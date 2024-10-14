@@ -73,8 +73,7 @@ public interface BinanceFutures {
    */
   @GET
   @Path("fapi/v1/ticker/24hr")
-  List<BinanceTicker24h> ticker24h()
-      throws IOException, BinanceException;
+  List<BinanceTicker24h> ticker24h() throws IOException, BinanceException;
 
   /**
    * Get compressed, aggregate trades. Trades that fill at the time, from the same order, with the

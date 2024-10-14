@@ -37,75 +37,95 @@ public class TradeExample {
     exchangeSpecification.setExchangeSpecificParametersItem(
         SPECIFIC_PARAM_ACCOUNT_TYPE, BybitAccountType.UNIFIED);
     exchangeSpecification.setExchangeSpecificParametersItem(USE_SANDBOX, true);
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(
-        exchangeSpecification);
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     Instrument ETH_USDT = new CurrencyPair("ETH/USDT");
     Instrument BTC_USDT_PERP = new FuturesContract(new CurrencyPair("BTC/USDT"), "PERP");
     Instrument ETH_USDT_PERP = new FuturesContract(new CurrencyPair("ETH/USDT"), "PERP");
 
-//    System.out.printf("Tickers SPOT %s", exchange.getMarketDataService().getTickers(BybitCategory.SPOT));
-//    System.out.printf("Tickers LINEAR %s", exchange.getMarketDataService().getTickers(BybitCategory.LINEAR));
-//    System.out.printf("Tickers INVERSE %s", exchange.getMarketDataService().getTickers(BybitCategory.INVERSE));
-//    System.out.printf("Tickers OPTION %s", exchange.getMarketDataService().getTickers(BybitCategory.OPTION));
-    System.out.printf("Wallets: %n%s%n",
-        exchange.getAccountService().getAccountInfo().getWallets());
-    Ticker tickerETH_USDT_PERP = exchange
-        .getMarketDataService()
-        .getTicker(ETH_USDT_PERP);
-    Ticker tickerETH_USDT = exchange
-        .getMarketDataService()
-        .getTicker(ETH_USDT);
+    //    System.out.printf("Tickers SPOT %s",
+    // exchange.getMarketDataService().getTickers(BybitCategory.SPOT));
+    //    System.out.printf("Tickers LINEAR %s",
+    // exchange.getMarketDataService().getTickers(BybitCategory.LINEAR));
+    //    System.out.printf("Tickers INVERSE %s",
+    // exchange.getMarketDataService().getTickers(BybitCategory.INVERSE));
+    //    System.out.printf("Tickers OPTION %s",
+    // exchange.getMarketDataService().getTickers(BybitCategory.OPTION));
+    System.out.printf(
+        "Wallets: %n%s%n", exchange.getAccountService().getAccountInfo().getWallets());
+    Ticker tickerETH_USDT_PERP = exchange.getMarketDataService().getTicker(ETH_USDT_PERP);
+    Ticker tickerETH_USDT = exchange.getMarketDataService().getTicker(ETH_USDT);
     System.out.println(tickerETH_USDT_PERP.toString());
 
-    System.out.printf("Instrument %s:%n %s", ETH_USDT, exchange.getExchangeMetaData()
-        .getInstruments().get(ETH_USDT));
-    System.out.printf("Instrument %s:%n %s", ETH_USDT_PERP, exchange.getExchangeMetaData()
-        .getInstruments().get(ETH_USDT_PERP));
-    BigDecimal minAmountSpot = exchange.getExchangeMetaData().getInstruments().get(ETH_USDT)
-        .getMinimumAmount();
+    System.out.printf(
+        "Instrument %s:%n %s",
+        ETH_USDT, exchange.getExchangeMetaData().getInstruments().get(ETH_USDT));
+    System.out.printf(
+        "Instrument %s:%n %s",
+        ETH_USDT_PERP, exchange.getExchangeMetaData().getInstruments().get(ETH_USDT_PERP));
+    BigDecimal minAmountSpot =
+        exchange.getExchangeMetaData().getInstruments().get(ETH_USDT).getMinimumAmount();
 
-    //sell
+    // sell
     MarketOrder marketOrderSpot = new MarketOrder(OrderType.ASK, minAmountSpot, ETH_USDT);
     String marketSpotOrderId = exchange.getTradeService().placeMarketOrder(marketOrderSpot);
     System.out.println("Market Spot order id: " + marketSpotOrderId);
 
-    BigDecimal minAmountFuture = exchange.getExchangeMetaData().getInstruments().get(ETH_USDT_PERP)
-        .getMinimumAmount();
+    BigDecimal minAmountFuture =
+        exchange.getExchangeMetaData().getInstruments().get(ETH_USDT_PERP).getMinimumAmount();
 
-    //long
+    // long
     String marketFutureOrderId =
         exchange
             .getTradeService()
-            .placeMarketOrder(
-                new MarketOrder(OrderType.BID, minAmountFuture, ETH_USDT_PERP));
+            .placeMarketOrder(new MarketOrder(OrderType.BID, minAmountFuture, ETH_USDT_PERP));
     System.out.println("Market Future order id: " + marketFutureOrderId);
 
-    //short
-    LimitOrder limitOrderFuture = new LimitOrder(OrderType.ASK, minAmountFuture, ETH_USDT_PERP,
-        null, null, tickerETH_USDT_PERP.getHigh());
-    String limitFutureOrderId =
-        exchange.getTradeService().placeLimitOrder(limitOrderFuture);
+    // short
+    LimitOrder limitOrderFuture =
+        new LimitOrder(
+            OrderType.ASK,
+            minAmountFuture,
+            ETH_USDT_PERP,
+            null,
+            null,
+            tickerETH_USDT_PERP.getHigh());
+    String limitFutureOrderId = exchange.getTradeService().placeLimitOrder(limitOrderFuture);
     System.out.println("Limit Future order id: " + limitFutureOrderId);
 
-    //amend order by order id
-    LimitOrder amendOrder1 = new LimitOrder(limitOrderFuture.getType(),
-        limitOrderFuture.getOriginalAmount().multiply(new BigDecimal(2)),
-        limitOrderFuture.getInstrument(), limitFutureOrderId, limitOrderFuture.getTimestamp(),
-        tickerETH_USDT_PERP.getHigh(),
-        null, null, null, OrderStatus.PENDING_NEW, null);
+    // amend order by order id
+    LimitOrder amendOrder1 =
+        new LimitOrder(
+            limitOrderFuture.getType(),
+            limitOrderFuture.getOriginalAmount().multiply(new BigDecimal(2)),
+            limitOrderFuture.getInstrument(),
+            limitFutureOrderId,
+            limitOrderFuture.getTimestamp(),
+            tickerETH_USDT_PERP.getHigh(),
+            null,
+            null,
+            null,
+            OrderStatus.PENDING_NEW,
+            null);
     String limitFutureOrderAmend1 =
         ((BybitTradeService) exchange.getTradeService()).amendOrder(amendOrder1);
     System.out.printf("amend limit order %s%n", limitFutureOrderAmend1);
 
-    //amend order by user id
-    LimitOrder amendOrder2 = new LimitOrder(limitOrderFuture.getType(),
-        limitOrderFuture.getOriginalAmount(), limitOrderFuture.getInstrument(),
-        "", limitOrderFuture.getTimestamp(), tickerETH_USDT_PERP.getLast(),
-        null, null, null, OrderStatus.PENDING_NEW, limitOrderFuture.getUserReference());
+    // amend order by user id
+    LimitOrder amendOrder2 =
+        new LimitOrder(
+            limitOrderFuture.getType(),
+            limitOrderFuture.getOriginalAmount(),
+            limitOrderFuture.getInstrument(),
+            "",
+            limitOrderFuture.getTimestamp(),
+            tickerETH_USDT_PERP.getLast(),
+            null,
+            null,
+            null,
+            OrderStatus.PENDING_NEW,
+            limitOrderFuture.getUserReference());
     String limitFutureOrderAmend2 =
-        ((BybitTradeService) exchange.getTradeService())
-            .amendOrder(amendOrder2);
+        ((BybitTradeService) exchange.getTradeService()).amendOrder(amendOrder2);
     System.out.printf("amend limit order %s%n", limitFutureOrderAmend2);
-
   }
 }

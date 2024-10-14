@@ -18,12 +18,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,7 +27,6 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.Getter;
-import lombok.var;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -46,14 +41,14 @@ public class BybitStreamingService extends JsonNettyStreamingService {
   private final Observable<Long> pingPongSrc = Observable.interval(15, 20, TimeUnit.SECONDS);
   private Disposable pingPongSubscription;
   private final ExchangeSpecification spec;
-  @Getter
-  private boolean isAuthorized = false;
+  @Getter private boolean isAuthorized = false;
 
   public BybitStreamingService(String apiUrl, ExchangeSpecification spec) {
     super(apiUrl);
-    this.exchange_type = ((BybitCategory)spec.getExchangeSpecificParametersItem(EXCHANGE_TYPE)).getValue();
+    this.exchange_type =
+        ((BybitCategory) spec.getExchangeSpecificParametersItem(EXCHANGE_TYPE)).getValue();
     this.spec = spec;
-//    this.setEnableLoggingHandler(true);
+    //    this.setEnableLoggingHandler(true);
   }
 
   @Override
@@ -66,8 +61,8 @@ public class BybitStreamingService extends JsonNettyStreamingService {
                 login();
               }
               pingPongDisconnectIfConnected();
-              pingPongSubscription = pingPongSrc.subscribe(
-                  o -> this.sendMessage("{\"op\":\"ping\"}"));
+              pingPongSubscription =
+                  pingPongSrc.subscribe(o -> this.sendMessage("{\"op\":\"ping\"}"));
               completable.onComplete();
             });
   }
@@ -83,8 +78,8 @@ public class BybitStreamingService extends JsonNettyStreamingService {
               spec.getSecretKey().getBytes(StandardCharsets.UTF_8), BaseParamsDigest.HMAC_SHA_256);
       mac.init(secretKey);
       String signature = bytesToHex(mac.doFinal(_val.getBytes(StandardCharsets.UTF_8)));
-      List<String> args = Stream.of(key, String.valueOf(expires), signature)
-          .collect(Collectors.toList());
+      List<String> args =
+          Stream.of(key, String.valueOf(expires), signature).collect(Collectors.toList());
       String message = objectMapper.writeValueAsString(new BybitSubscribeMessage("auth", args));
       this.sendMessage(message);
     } catch (NoSuchAlgorithmException | InvalidKeyException e) {
@@ -138,13 +133,15 @@ public class BybitStreamingService extends JsonNettyStreamingService {
       switch (op) {
         case "pong":
         case "subscribe":
-        case "unsubscribe": {
-          break;
-        }
-        case "auth": {
-          isAuthorized = true;
-          break;
-        }
+        case "unsubscribe":
+          {
+            break;
+          }
+        case "auth":
+          {
+            isAuthorized = true;
+            break;
+          }
       }
       return;
     }

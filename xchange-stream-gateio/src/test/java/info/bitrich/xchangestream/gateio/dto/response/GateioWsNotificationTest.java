@@ -22,13 +22,11 @@ public class GateioWsNotificationTest {
     assertThat(notification).isInstanceOf(GateioTradeNotification.class);
   }
 
-
   @Test
   void deserialize_ticker() throws Exception {
     GateioWsNotification notification = readNotification("spot.ticker.update.json");
     assertThat(notification).isInstanceOf(GateioTickerNotification.class);
   }
-
 
   @Test
   void deserialize_orderbook() throws Exception {
@@ -36,13 +34,11 @@ public class GateioWsNotificationTest {
     assertThat(notification).isInstanceOf(GateioOrderBookNotification.class);
   }
 
-
   @Test
   void deserialize_usertrades() throws Exception {
     GateioWsNotification notification = readNotification("spot.usertrades.update.json");
     assertThat(notification).isInstanceOf(GateioMultipleUserTradeNotification.class);
   }
-
 
   @Test
   void deserialize_balances() throws Exception {
@@ -50,13 +46,8 @@ public class GateioWsNotificationTest {
     assertThat(notification).isInstanceOf(GateioMultipleSpotBalanceNotification.class);
   }
 
-
   private GateioWsNotification readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(
-        getClass().getClassLoader().getResourceAsStream(resourceName),
-        GateioWsNotification.class
-    );
+        getClass().getClassLoader().getResourceAsStream(resourceName), GateioWsNotification.class);
   }
-
-
 }

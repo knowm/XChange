@@ -12,16 +12,16 @@ public class CoinexTradeServiceRaw extends CoinexBaseService {
     super(exchange);
   }
 
-
   public CoinexOrder createOrder(CoinexOrder coinexOrder) throws IOException {
-    return coinexAuthenticated.createOrder(apiKey, exchange.getNonceFactory(), coinexV2ParamsDigest, coinexOrder).getData();
+    return coinexAuthenticated
+        .createOrder(apiKey, exchange.getNonceFactory(), coinexV2ParamsDigest, coinexOrder)
+        .getData();
   }
-
 
   public CoinexOrder orderStatus(Instrument instrument, String orderId) throws IOException {
     String market = CoinexAdapters.toString(instrument);
-    return coinexAuthenticated.orderStatus(apiKey, exchange.getNonceFactory(), coinexV2ParamsDigest, market, orderId).getData();
+    return coinexAuthenticated
+        .orderStatus(apiKey, exchange.getNonceFactory(), coinexV2ParamsDigest, market, orderId)
+        .getData();
   }
-
-
 }

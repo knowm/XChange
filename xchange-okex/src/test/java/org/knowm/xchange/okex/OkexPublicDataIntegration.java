@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -79,8 +78,11 @@ public class OkexPublicDataIntegration {
     List<Ticker> spotTickers = exchange.getMarketDataService().getTickers(OkexInstType.SPOT);
     List<Ticker> swapTickers = exchange.getMarketDataService().getTickers(OkexInstType.SWAP);
 
-    assertTrue(spotTickers.stream().anyMatch(f->f.getInstrument().equals(new CurrencyPair("BTC/USDT"))));
-    assertTrue(swapTickers.stream().anyMatch(f -> f.getInstrument().equals(new FuturesContract("BTC/USDT/SWAP"))));
+    assertTrue(
+        spotTickers.stream().anyMatch(f -> f.getInstrument().equals(new CurrencyPair("BTC/USDT"))));
+    assertTrue(
+        swapTickers.stream()
+            .anyMatch(f -> f.getInstrument().equals(new FuturesContract("BTC/USDT/SWAP"))));
   }
 
   @Test
