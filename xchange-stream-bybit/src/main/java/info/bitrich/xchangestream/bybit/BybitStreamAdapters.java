@@ -162,7 +162,7 @@ public class BybitStreamAdapters {
           new BigDecimal(position.getLeverage()),
           new BigDecimal(position.getTakeProfit()), new BigDecimal(position.getStopLoss()),
           new BigDecimal(position.getTrailingStop()),
-          new BigDecimal(position.getCurRealisedPnl()),
+          new BigDecimal(position.getCurRealisedPnl()),new BigDecimal(position.getCumRealisedPnl()),
           sessionAvgPrice, position.getPositionStatus(),
           position.getAdlRankIndicator(), position.isReduceOnly(),
           position.getMmrSysUpdatedTime(), position.getLeverageSysUpdatedTime(),
