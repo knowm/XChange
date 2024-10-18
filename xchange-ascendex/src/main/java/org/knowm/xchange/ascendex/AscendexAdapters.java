@@ -13,6 +13,7 @@ import org.knowm.xchange.ascendex.dto.marketdata.AscendexAssetDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexMarketTradesDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexOrderbookDto;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexProductDto;
+import org.knowm.xchange.ascendex.dto.trade.AscendexCancelOrderRequestPayload;
 import org.knowm.xchange.ascendex.dto.trade.AscendexFlags;
 import org.knowm.xchange.ascendex.dto.trade.AscendexOpenOrdersResponse;
 import org.knowm.xchange.ascendex.dto.trade.AscendexPlaceOrderRequestPayload;
@@ -33,6 +34,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class AscendexAdapters {
@@ -109,6 +111,16 @@ public class AscendexAdapters {
         limitOrder.hasFlag(AscendexFlags.POST_ONLY),
         null,
         null);
+  }
+
+  public static AscendexCancelOrderRequestPayload adaptCancelOrderRequestToAscendexCancelOrderRequestPayload(
+          DefaultCancelOrderByInstrumentAndIdParams params
+  ) {
+    return new AscendexCancelOrderRequestPayload(
+            params.getOrderId(),
+            params.getInstrument().toString(),
+            Date.from(Instant.now()).toInstant().toEpochMilli()
+    );
   }
 
   public static UserTrades adaptUserTrades(
