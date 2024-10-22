@@ -17,131 +17,122 @@ import org.knowm.xchange.dto.Order;
 @Jacksonized
 public class BitgetOrderInfoDto {
 
-    @JsonProperty("userId")
-    private String acccountId;
+  @JsonProperty("userId")
+  private String acccountId;
 
-    @JsonProperty("symbol")
-    private String symbol;
+  @JsonProperty("symbol")
+  private String symbol;
 
-    @JsonProperty("orderId")
-    private String orderId;
+  @JsonProperty("orderId")
+  private String orderId;
 
-    @JsonProperty("clientOid")
-    private String clientOid;
+  @JsonProperty("clientOid")
+  private String clientOid;
 
-    @JsonProperty("price")
-    private BigDecimal price;
+  @JsonProperty("price")
+  private BigDecimal price;
 
-    @JsonProperty("size")
-    private BigDecimal size;
+  @JsonProperty("size")
+  private BigDecimal size;
 
-    @JsonProperty("orderType")
-    private OrderType orderType;
+  @JsonProperty("orderType")
+  private OrderType orderType;
 
-    @JsonProperty("side")
-    @JsonDeserialize(converter = StringToOrderTypeConverter.class)
-    private Order.OrderType orderSide;
+  @JsonProperty("side")
+  @JsonDeserialize(converter = StringToOrderTypeConverter.class)
+  private Order.OrderType orderSide;
 
-    @JsonProperty("status")
-    private BitgetOrderStatus orderStatus;
+  @JsonProperty("status")
+  private BitgetOrderStatus orderStatus;
 
-    @JsonProperty("priceAvg")
-    private BigDecimal priceAvg;
+  @JsonProperty("priceAvg")
+  private BigDecimal priceAvg;
 
-    @JsonProperty("baseVolume")
-    private BigDecimal baseVolume;
+  @JsonProperty("baseVolume")
+  private BigDecimal baseVolume;
 
-    @JsonProperty("quoteVolume")
-    private BigDecimal quoteVolume;
+  @JsonProperty("quoteVolume")
+  private BigDecimal quoteVolume;
 
-    @JsonProperty("enterPointSource")
-    private String enterPointSource;
+  @JsonProperty("enterPointSource")
+  private String enterPointSource;
 
-    @JsonProperty("cTime")
-    private Instant createdAt;
+  @JsonProperty("cTime")
+  private Instant createdAt;
 
-    @JsonProperty("uTime")
-    private Instant updatedAt;
+  @JsonProperty("uTime")
+  private Instant updatedAt;
 
-    @JsonProperty("orderSource")
-    private OrderSource orderSource;
+  @JsonProperty("orderSource")
+  private OrderSource orderSource;
 
-    @JsonProperty("feeDetail")
-    @JsonDeserialize(using = FeeDetailDeserializer.class)
-    private FeeDetail feeDetail;
+  @JsonProperty("feeDetail")
+  @JsonDeserialize(using = FeeDetailDeserializer.class)
+  private FeeDetail feeDetail;
 
+  public BigDecimal getFee() {
+    return Optional.ofNullable(feeDetail)
+        .map(FeeDetail::getNewFees)
+        .map(NewFees::getTotalFee)
+        .map(BigDecimal::abs)
+        .orElse(null);
+  }
 
-    public BigDecimal getFee() {
-        return Optional.ofNullable(feeDetail)
-            .map(FeeDetail::getNewFees)
-            .map(NewFees::getTotalFee)
-            .map(BigDecimal::abs)
-            .orElse(null);
-    }
+  public static enum OrderType {
+    @JsonProperty("limit")
+    LIMIT,
 
+    @JsonProperty("market")
+    MARKET
+  }
 
-    public static enum OrderType {
-        @JsonProperty("limit")
-        LIMIT,
+  public static enum BitgetOrderStatus {
+    @JsonProperty("live")
+    PENDING,
 
-        @JsonProperty("market")
-        MARKET
-    }
+    @JsonProperty("partially_filled")
+    PARTIALLY_FILLED,
 
+    @JsonProperty("filled")
+    FILLED,
 
-    public static enum BitgetOrderStatus {
-        @JsonProperty("live")
-        PENDING,
+    @JsonProperty("cancelled")
+    CANCELLED
+  }
 
-        @JsonProperty("partially_filled")
-        PARTIALLY_FILLED,
+  public static enum OrderSource {
+    @JsonProperty("normal")
+    NORMAL,
 
-        @JsonProperty("filled")
-        FILLED,
+    @JsonProperty("market")
+    MARKET,
 
-        @JsonProperty("cancelled")
-        CANCELLED
+    @JsonProperty("spot_trader_buy")
+    SPOT_TRADER_BUY,
 
-    }
+    @JsonProperty("spot_follower_buy")
+    SPOT_FOLLOWER_BUY,
 
+    @JsonProperty("spot_trader_sell")
+    SPOT_TRADER_SELL,
 
-    public static enum OrderSource {
-        @JsonProperty("normal")
-        NORMAL,
+    @JsonProperty("spot_follower_sell")
+    SPOT_FOLLOWER_SELL
+  }
 
-        @JsonProperty("market")
-        MARKET,
+  @Data
+  @Builder
+  @Jacksonized
+  public static class NewFees {
+    @JsonProperty("t")
+    private BigDecimal totalFee;
+  }
 
-        @JsonProperty("spot_trader_buy")
-        SPOT_TRADER_BUY,
-
-        @JsonProperty("spot_follower_buy")
-        SPOT_FOLLOWER_BUY,
-
-        @JsonProperty("spot_trader_sell")
-        SPOT_TRADER_SELL,
-
-        @JsonProperty("spot_follower_sell")
-        SPOT_FOLLOWER_SELL
-
-    }
-
-
-    @Data
-    @Builder
-    @Jacksonized
-    public static class NewFees {
-        @JsonProperty("t")
-        private BigDecimal totalFee;
-    }
-
-
-    @Data
-    @Builder
-    @Jacksonized
-    public static class FeeDetail {
-        @JsonProperty("newFees")
-        private NewFees newFees;
-    }
-
+  @Data
+  @Builder
+  @Jacksonized
+  public static class FeeDetail {
+    @JsonProperty("newFees")
+    private NewFees newFees;
+  }
 }

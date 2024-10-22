@@ -65,9 +65,9 @@ public interface Okex {
   @Path("/market/tickers")
   @Consumes(MediaType.APPLICATION_JSON)
   OkexResponse<List<OkexTicker>> getTickers(
-          @QueryParam("instType") String instType,
-          @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
-          throws IOException, OkexException;
+      @QueryParam("instType") String instType,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+      throws IOException, OkexException;
 
   @GET
   @Path("/market/books")

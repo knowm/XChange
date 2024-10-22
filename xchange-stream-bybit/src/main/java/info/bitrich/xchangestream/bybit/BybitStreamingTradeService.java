@@ -23,60 +23,68 @@ public class BybitStreamingTradeService implements StreamingTradeService {
 
   public Observable<Order> getOrderChanges(BybitCategory category) {
     String channelUniqueId = "order";
-    if(category != null) {
+    if (category != null) {
       channelUniqueId += "." + category.getValue();
     }
     return streamingService
-        .subscribeChannel(channelUniqueId).flatMap(
-        node -> {
-          BybitOrderChangesResponse bybitOrderChangesResponse = mapper.treeToValue(node, BybitOrderChangesResponse.class);
-          return Observable.fromIterable(
-              BybitStreamAdapters.adaptOrdersChanges(bybitOrderChangesResponse.getData()));
-        });
+        .subscribeChannel(channelUniqueId)
+        .flatMap(
+            node -> {
+              BybitOrderChangesResponse bybitOrderChangesResponse =
+                  mapper.treeToValue(node, BybitOrderChangesResponse.class);
+              return Observable.fromIterable(
+                  BybitStreamAdapters.adaptOrdersChanges(bybitOrderChangesResponse.getData()));
+            });
   }
 
   public Observable<BybitComplexOrderChanges> getComplexOrderChanges(BybitCategory category) {
     String channelUniqueId = "order";
-    if(category != null) {
+    if (category != null) {
       channelUniqueId += "." + category.getValue();
     }
     return streamingService
-        .subscribeChannel(channelUniqueId).flatMap(
+        .subscribeChannel(channelUniqueId)
+        .flatMap(
             node -> {
-              BybitOrderChangesResponse bybitOrderChangesResponse = mapper.treeToValue(node, BybitOrderChangesResponse.class);
+              BybitOrderChangesResponse bybitOrderChangesResponse =
+                  mapper.treeToValue(node, BybitOrderChangesResponse.class);
               return Observable.fromIterable(
-                  BybitStreamAdapters.adaptComplexOrdersChanges(bybitOrderChangesResponse.getData()));
+                  BybitStreamAdapters.adaptComplexOrdersChanges(
+                      bybitOrderChangesResponse.getData()));
             });
   }
 
   public Observable<OpenPosition> getPositionChanges(BybitCategory category) {
     String channelUniqueId = "position";
-    if(category != null) {
+    if (category != null) {
       channelUniqueId += "." + category.getValue();
     }
     return streamingService
-        .subscribeChannel(channelUniqueId).flatMap(
+        .subscribeChannel(channelUniqueId)
+        .flatMap(
             node -> {
-              BybitPositionChangesResponse bybitPositionChangesResponse = mapper.treeToValue(node,
-                  BybitPositionChangesResponse.class);
+              BybitPositionChangesResponse bybitPositionChangesResponse =
+                  mapper.treeToValue(node, BybitPositionChangesResponse.class);
               return Observable.fromIterable(
-                  BybitStreamAdapters.adaptPositionChanges(bybitPositionChangesResponse.getData()).
-                      getOpenPositions());
+                  BybitStreamAdapters.adaptPositionChanges(bybitPositionChangesResponse.getData())
+                      .getOpenPositions());
             });
   }
 
   public Observable<BybitComplexPositionChanges> getBybitPositionChanges(BybitCategory category) {
     String channelUniqueId = "position";
-    if(category != null) {
+    if (category != null) {
       channelUniqueId += "." + category.getValue();
     }
     return streamingService
-        .subscribeChannel(channelUniqueId).flatMap(
+        .subscribeChannel(channelUniqueId)
+        .flatMap(
             node -> {
-              BybitPositionChangesResponse bybitPositionChangesResponse = mapper.treeToValue(node,
-                  BybitPositionChangesResponse.class);
+              BybitPositionChangesResponse bybitPositionChangesResponse =
+                  mapper.treeToValue(node, BybitPositionChangesResponse.class);
               return Observable.fromIterable(
-                  BybitStreamAdapters.adaptComplexPositionChanges(bybitPositionChangesResponse.getData()));
+                  BybitStreamAdapters.adaptComplexPositionChanges(
+                      bybitPositionChangesResponse.getData()));
             });
   }
 }

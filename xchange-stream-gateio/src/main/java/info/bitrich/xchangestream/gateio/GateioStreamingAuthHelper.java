@@ -13,10 +13,7 @@ public class GateioStreamingAuthHelper {
     gateioV4Digest = GateioV4Digest.createInstance(apiSecret);
   }
 
-
-  /**
-   * Generates signature based on payload
-   */
+  /** Generates signature based on payload */
   public String sign(String channel, String event, String timestamp) {
     Mac mac = gateioV4Digest.getMac();
 
@@ -25,5 +22,4 @@ public class GateioStreamingAuthHelper {
 
     return DigestUtils.bytesToHex(mac.doFinal());
   }
-
 }

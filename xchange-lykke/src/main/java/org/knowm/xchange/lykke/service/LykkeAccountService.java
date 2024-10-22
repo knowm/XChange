@@ -16,5 +16,4 @@ public class LykkeAccountService extends LykkeAccountServiceRaw implements Accou
   public AccountInfo getAccountInfo() throws IOException {
     return LykkeAdapter.adaptAccountInfo(getWallets());
   }
-
 }

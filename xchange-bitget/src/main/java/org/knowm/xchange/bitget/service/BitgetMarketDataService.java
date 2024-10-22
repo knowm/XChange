@@ -20,8 +20,8 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
-public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implements
-    MarketDataService {
+public class BitgetMarketDataService extends BitgetMarketDataServiceRaw
+    implements MarketDataService {
 
   public BitgetMarketDataService(BitgetExchange exchange) {
     super(exchange);
@@ -44,12 +44,10 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implemen
     return ExchangeHealth.OFFLINE;
   }
 
-
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return getTicker((Instrument) currencyPair, args);
   }
-
 
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
@@ -61,7 +59,6 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implemen
       throw BitgetErrorAdapter.adapt(e);
     }
   }
-
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
@@ -76,12 +73,10 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implemen
     }
   }
 
-
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     return getOrderBook((Instrument) currencyPair, args);
   }
-
 
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {

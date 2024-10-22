@@ -14,7 +14,7 @@ public abstract class BitgetExchangeWiremock {
 
   protected static BitgetExchange exchange;
 
-//    private static final boolean IS_RECORDING = true;
+  //    private static final boolean IS_RECORDING = true;
   private static final boolean IS_RECORDING = false;
 
   private static WireMockServer wireMockServer;

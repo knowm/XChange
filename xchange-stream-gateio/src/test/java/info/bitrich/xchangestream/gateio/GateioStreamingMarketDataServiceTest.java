@@ -28,8 +28,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class GateioStreamingMarketDataServiceTest {
 
-  @Mock
-  GateioStreamingService gateioStreamingService;
+  @Mock GateioStreamingService gateioStreamingService;
   GateioStreamingMarketDataService gateioStreamingMarketDataService;
 
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
@@ -39,21 +38,20 @@ class GateioStreamingMarketDataServiceTest {
     gateioStreamingMarketDataService = new GateioStreamingMarketDataService(gateioStreamingService);
   }
 
-
   @Test
   void order_book() throws Exception {
     GateioWsNotification notification = readNotification("spot.order_book.update.json");
-    when(gateioStreamingService.subscribeChannel(eq("spot.order_book"), eq(CurrencyPair.BTC_USDT), eq(10), eq(Duration.ofMillis(100))))
+    when(gateioStreamingService.subscribeChannel(
+            eq("spot.order_book"), eq(CurrencyPair.BTC_USDT), eq(10), eq(Duration.ofMillis(100))))
         .thenReturn(Observable.just(notification));
 
-    Observable<OrderBook> observable = gateioStreamingMarketDataService
-        .getOrderBook(CurrencyPair.BTC_USDT, 10, Duration.ofMillis(100));
+    Observable<OrderBook> observable =
+        gateioStreamingMarketDataService.getOrderBook(
+            CurrencyPair.BTC_USDT, 10, Duration.ofMillis(100));
 
     TestObserver<OrderBook> testObserver = observable.test();
 
-    OrderBook actual = testObserver
-        .awaitCount(1)
-        .values().get(0);
+    OrderBook actual = testObserver.awaitCount(1).values().get(0);
 
     testObserver.dispose();
 
@@ -62,35 +60,34 @@ class GateioStreamingMarketDataServiceTest {
     assertThat(actual.getAsks()).hasSize(10);
   }
 
-
   @Test
   void ticker() throws Exception {
     GateioWsNotification notification = readNotification("spot.ticker.update.json");
     when(gateioStreamingService.subscribeChannel(eq("spot.tickers"), eq(CurrencyPair.BTC_USDT)))
         .thenReturn(Observable.just(notification));
 
-    Observable<Ticker> observable = gateioStreamingMarketDataService.getTicker(CurrencyPair.BTC_USDT);
+    Observable<Ticker> observable =
+        gateioStreamingMarketDataService.getTicker(CurrencyPair.BTC_USDT);
 
     TestObserver<Ticker> testObserver = observable.test();
 
-    Ticker actual = testObserver
-        .awaitCount(1)
-        .values().get(0);
+    Ticker actual = testObserver.awaitCount(1).values().get(0);
 
     testObserver.dispose();
 
-    Ticker expected = new Ticker.Builder()
-        .instrument(CurrencyPair.BTC_USDT)
-        .timestamp(Date.from(Instant.ofEpochMilli(1691620566926L)))
-        .ask(new BigDecimal("29573.7"))
-        .bid(new BigDecimal("29573.6"))
-        .high(new BigDecimal("30232.8"))
-        .low(new BigDecimal("29176.1"))
-        .last(new BigDecimal("29573.7"))
-        .percentageChange(new BigDecimal("-0.6601"))
-        .quoteVolume(new BigDecimal("171784719.492586746"))
-        .volume(new BigDecimal("5777.7777606776"))
-        .build();
+    Ticker expected =
+        new Ticker.Builder()
+            .instrument(CurrencyPair.BTC_USDT)
+            .timestamp(Date.from(Instant.ofEpochMilli(1691620566926L)))
+            .ask(new BigDecimal("29573.7"))
+            .bid(new BigDecimal("29573.6"))
+            .high(new BigDecimal("30232.8"))
+            .low(new BigDecimal("29176.1"))
+            .last(new BigDecimal("29573.7"))
+            .percentageChange(new BigDecimal("-0.6601"))
+            .quoteVolume(new BigDecimal("171784719.492586746"))
+            .volume(new BigDecimal("5777.7777606776"))
+            .build();
 
     assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
   }
@@ -101,34 +98,30 @@ class GateioStreamingMarketDataServiceTest {
     when(gateioStreamingService.subscribeChannel(eq("spot.trades"), eq(CurrencyPair.BTC_USDT)))
         .thenReturn(Observable.just(notification));
 
-    Observable<Trade> observable = gateioStreamingMarketDataService.getTrades(CurrencyPair.BTC_USDT);
+    Observable<Trade> observable =
+        gateioStreamingMarketDataService.getTrades(CurrencyPair.BTC_USDT);
 
     TestObserver<Trade> testObserver = observable.test();
 
-    Trade actual = testObserver
-        .awaitCount(1)
-        .values().get(0);
+    Trade actual = testObserver.awaitCount(1).values().get(0);
 
     testObserver.dispose();
 
-    Trade expected = new Trade.Builder()
-        .instrument(CurrencyPair.BTC_USDT)
-        .id("6064666343")
-        .originalAmount(new BigDecimal("0.0003009"))
-        .price(new BigDecimal("29573.7"))
-        .timestamp(Date.from(Instant.ofEpochMilli(1691620568789L)))
-        .type(OrderType.BID)
-        .build();
+    Trade expected =
+        new Trade.Builder()
+            .instrument(CurrencyPair.BTC_USDT)
+            .id("6064666343")
+            .originalAmount(new BigDecimal("0.0003009"))
+            .price(new BigDecimal("29573.7"))
+            .timestamp(Date.from(Instant.ofEpochMilli(1691620568789L)))
+            .type(OrderType.BID)
+            .build();
 
     assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
   }
 
-
   private GateioWsNotification readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(
-        getClass().getClassLoader().getResourceAsStream(resourceName),
-        GateioWsNotification.class
-    );
+        getClass().getClassLoader().getResourceAsStream(resourceName), GateioWsNotification.class);
   }
-
 }

@@ -18,26 +18,39 @@ public class GateioBaseService extends BaseExchangeService<GateioExchange> imple
   protected final GateioV4Authenticated gateioV4Authenticated;
   protected final ParamsDigest gateioV4ParamsDigest;
 
-
   @SneakyThrows
   public GateioBaseService(GateioExchange exchange) {
     super(exchange);
 
-    gateio = ExchangeRestProxyBuilder
-        .forInterface(Gateio.class, exchange.getExchangeSpecification())
-        .clientConfigCustomizer(clientConfig -> clientConfig.setJacksonObjectMapperFactory(new GateioJacksonObjectMapperFactory()))
-        .restProxyFactory(Config.getInstance().getRestProxyFactoryClass().getDeclaredConstructor().newInstance())
-        .build();
+    gateio =
+        ExchangeRestProxyBuilder.forInterface(Gateio.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(
+                clientConfig ->
+                    clientConfig.setJacksonObjectMapperFactory(
+                        new GateioJacksonObjectMapperFactory()))
+            .restProxyFactory(
+                Config.getInstance()
+                    .getRestProxyFactoryClass()
+                    .getDeclaredConstructor()
+                    .newInstance())
+            .build();
     apiKey = exchange.getExchangeSpecification().getApiKey();
 
-    gateioV4Authenticated = ExchangeRestProxyBuilder
-        .forInterface(GateioV4Authenticated.class, exchange.getExchangeSpecification())
-        .clientConfigCustomizer(clientConfig -> clientConfig.setJacksonObjectMapperFactory(new GateioJacksonObjectMapperFactory()))
-        .restProxyFactory(Config.getInstance().getRestProxyFactoryClass().getDeclaredConstructor().newInstance())
-        .build();
+    gateioV4Authenticated =
+        ExchangeRestProxyBuilder.forInterface(
+                GateioV4Authenticated.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(
+                clientConfig ->
+                    clientConfig.setJacksonObjectMapperFactory(
+                        new GateioJacksonObjectMapperFactory()))
+            .restProxyFactory(
+                Config.getInstance()
+                    .getRestProxyFactoryClass()
+                    .getDeclaredConstructor()
+                    .newInstance())
+            .build();
 
     gateioV4ParamsDigest =
         GateioV4Digest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
-
 }

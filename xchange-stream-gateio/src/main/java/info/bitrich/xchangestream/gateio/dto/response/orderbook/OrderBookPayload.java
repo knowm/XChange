@@ -25,13 +25,11 @@ public class OrderBookPayload {
   @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
   CurrencyPair currencyPair;
 
-
   @JsonProperty("asks")
   List<PriceSizeEntry> asks;
 
   @JsonProperty("bids")
   List<PriceSizeEntry> bids;
-
 
   @Data
   @Builder
@@ -42,8 +40,5 @@ public class OrderBookPayload {
     BigDecimal price;
 
     BigDecimal size;
-
   }
-
-
 }

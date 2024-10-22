@@ -11,59 +11,56 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class BitgetChainDto {
 
-    @JsonProperty("chain")
-    private String chain;
+  @JsonProperty("chain")
+  private String chain;
 
-    @JsonProperty("needTag")
-    private Boolean needTag;
+  @JsonProperty("needTag")
+  private Boolean needTag;
 
-    @JsonProperty("withdrawable")
-    private Boolean isWithdrawEnabled;
+  @JsonProperty("withdrawable")
+  private Boolean isWithdrawEnabled;
 
-    @JsonProperty("rechargeable")
-    private Boolean isDepositEnabled;
+  @JsonProperty("rechargeable")
+  private Boolean isDepositEnabled;
 
-    @JsonProperty("withdrawFee")
-    private BigDecimal withdrawFee;
+  @JsonProperty("withdrawFee")
+  private BigDecimal withdrawFee;
 
-    @JsonProperty("extraWithdrawFee")
-    private BigDecimal extraWithdrawFee;
+  @JsonProperty("extraWithdrawFee")
+  private BigDecimal extraWithdrawFee;
 
-    @JsonProperty("depositConfirm")
-    private Integer depositConfirmBlockCount;
+  @JsonProperty("depositConfirm")
+  private Integer depositConfirmBlockCount;
 
-    @JsonProperty("withdrawConfirm")
-    private Integer withdrawConfirmBlockCount;
+  @JsonProperty("withdrawConfirm")
+  private Integer withdrawConfirmBlockCount;
 
-    @JsonProperty("minDepositAmount")
-    private BigDecimal minDepositAmount;
+  @JsonProperty("minDepositAmount")
+  private BigDecimal minDepositAmount;
 
-    @JsonProperty("minWithdrawAmount")
-    private BigDecimal minWithdrawAmount;
+  @JsonProperty("minWithdrawAmount")
+  private BigDecimal minWithdrawAmount;
 
-    @JsonProperty("browserUrl")
-    private String browserUrl;
+  @JsonProperty("browserUrl")
+  private String browserUrl;
 
-    @JsonProperty("contractAddress")
-    private String contractAddress;
+  @JsonProperty("contractAddress")
+  private String contractAddress;
 
-    @JsonProperty("withdrawStep")
-    private Integer withdrawStep;
+  @JsonProperty("withdrawStep")
+  private Integer withdrawStep;
 
-    @JsonProperty("withdrawMinScale")
-    private Integer withdrawMinScale;
+  @JsonProperty("withdrawMinScale")
+  private Integer withdrawMinScale;
 
-    @JsonProperty("congestion")
-    private Congestion congestion;
+  @JsonProperty("congestion")
+  private Congestion congestion;
 
+  public static enum Congestion {
+    @JsonProperty("normal")
+    NORMAL,
 
-    public static enum Congestion {
-        @JsonProperty("normal")
-        NORMAL,
-
-        @JsonProperty("congested")
-        CONGESTED;
-    }
-
+    @JsonProperty("congested")
+    CONGESTED;
+  }
 }
-

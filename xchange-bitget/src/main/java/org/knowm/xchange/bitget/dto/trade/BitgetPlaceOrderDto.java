@@ -18,94 +18,89 @@ import org.knowm.xchange.dto.Order;
 @Jacksonized
 public class BitgetPlaceOrderDto {
 
-    @JsonProperty("symbol")
-    private String symbol;
+  @JsonProperty("symbol")
+  private String symbol;
 
-    @JsonProperty("side")
-    @JsonDeserialize(converter = StringToOrderTypeConverter.class)
-    @JsonSerialize(converter = OrderTypeToStringConverter.class)
-    private Order.OrderType orderSide;
+  @JsonProperty("side")
+  @JsonDeserialize(converter = StringToOrderTypeConverter.class)
+  @JsonSerialize(converter = OrderTypeToStringConverter.class)
+  private Order.OrderType orderSide;
 
-    @JsonProperty("orderType")
-    private OrderType orderType;
+  @JsonProperty("orderType")
+  private OrderType orderType;
 
-    @JsonProperty("force")
-    private TimeInForce timeInForce;
+  @JsonProperty("force")
+  private TimeInForce timeInForce;
 
-    @JsonProperty("price")
-    private BigDecimal price;
+  @JsonProperty("price")
+  private BigDecimal price;
 
-    @JsonProperty("size")
-    private BigDecimal size;
+  @JsonProperty("size")
+  private BigDecimal size;
 
-    @JsonProperty("clientOid")
-    private String clientOid;
+  @JsonProperty("clientOid")
+  private String clientOid;
 
-    @JsonProperty("triggerPrice")
-    private BigDecimal triggerPrice;
+  @JsonProperty("triggerPrice")
+  private BigDecimal triggerPrice;
 
-    @JsonProperty("tpslType")
-    private TpSlType tpSlType;
+  @JsonProperty("tpslType")
+  private TpSlType tpSlType;
 
-    @JsonProperty("requestTime")
-    private Instant requestTime;
+  @JsonProperty("requestTime")
+  private Instant requestTime;
 
-    @JsonProperty("receiveWindow")
-    private Instant receiveWindow;
+  @JsonProperty("receiveWindow")
+  private Instant receiveWindow;
 
-    @JsonProperty("stpMode")
-    private StpMode stpMode;
+  @JsonProperty("stpMode")
+  private StpMode stpMode;
 
-    @JsonProperty("presetTakeProfitPrice")
-    private BigDecimal presetTakeProfitPrice;
+  @JsonProperty("presetTakeProfitPrice")
+  private BigDecimal presetTakeProfitPrice;
 
-    @JsonProperty("executeTakeProfitPrice")
-    private BigDecimal executeTakeProfitPrice;
+  @JsonProperty("executeTakeProfitPrice")
+  private BigDecimal executeTakeProfitPrice;
 
-    @JsonProperty("presetStopLossPrice")
-    private BigDecimal presetStopLossPrice;
+  @JsonProperty("presetStopLossPrice")
+  private BigDecimal presetStopLossPrice;
 
-    @JsonProperty("executeStopLossPrice")
-    private BigDecimal executeStopLossPrice;
+  @JsonProperty("executeStopLossPrice")
+  private BigDecimal executeStopLossPrice;
 
+  public enum TimeInForce {
+    @JsonProperty("gtc")
+    GOOD_TIL_CANCELLED,
 
-    public enum TimeInForce {
-        @JsonProperty("gtc")
-        GOOD_TIL_CANCELLED,
+    @JsonProperty("post_only")
+    POST_ONLY,
 
-        @JsonProperty("post_only")
-        POST_ONLY,
+    @JsonProperty("fok")
+    FILL_OR_KILL,
 
-        @JsonProperty("fok")
-        FILL_OR_KILL,
+    @JsonProperty("ioc")
+    IMMEDIATE_OR_CANCEL
+  }
 
-        @JsonProperty("ioc")
-        IMMEDIATE_OR_CANCEL
-    }
+  public enum TpSlType {
+    @JsonProperty("normal")
+    NORMAL,
 
+    @JsonProperty("tpsl")
+    SPOT_TP_SL
+  }
 
-    public enum TpSlType {
-        @JsonProperty("normal")
-        NORMAL,
+  public enum StpMode {
+    @JsonProperty("none")
+    NONE,
 
-        @JsonProperty("tpsl")
-        SPOT_TP_SL
-    }
+    @JsonProperty("cancel_taker")
+    CANCEL_TAKER,
 
+    @JsonProperty("cancel_maker")
+    CANCEL_MAKER,
 
-    public enum StpMode {
-        @JsonProperty("none")
-        NONE,
-
-        @JsonProperty("cancel_taker")
-        CANCEL_TAKER,
-
-        @JsonProperty("cancel_maker")
-        CANCEL_MAKER,
-
-        @JsonProperty("cancel_both")
-        CANCEL_BOTH
-    }
-
-
+    @JsonProperty("cancel_both")
+    CANCEL_BOTH
+  }
 }

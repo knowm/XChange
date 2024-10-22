@@ -21,7 +21,11 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
 
   @Override
   public Completable connect(ProductSubscription... args) {
-    streamingService = new GateioStreamingService(exchangeSpecification.getSslUri(), exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
+    streamingService =
+        new GateioStreamingService(
+            exchangeSpecification.getSslUri(),
+            exchangeSpecification.getApiKey(),
+            exchangeSpecification.getSecretKey());
     applyStreamingSpecification(exchangeSpecification, streamingService);
     streamingMarketDataService = new GateioStreamingMarketDataService(streamingService);
     streamingTradeService = new GateioStreamingTradeService(streamingService);

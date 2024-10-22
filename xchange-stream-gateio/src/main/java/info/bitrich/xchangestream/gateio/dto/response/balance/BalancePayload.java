@@ -39,8 +39,6 @@ public class BalancePayload {
   @JsonProperty("freeze_change")
   BigDecimal freezeChange;
 
-
   @JsonProperty("change_type")
   String changeType;
-
 }

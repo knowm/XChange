@@ -24,8 +24,7 @@ public class WithdrawalFeesJSONTest {
 
     List<WithdrawalFee> withdrawalFees =
         mapper.readValue(
-            is,
-            mapper.getTypeFactory().constructCollectionType(List.class, WithdrawalFee.class));
+            is, mapper.getTypeFactory().constructCollectionType(List.class, WithdrawalFee.class));
 
     assertThat(withdrawalFees.size()).isEqualTo(1);
     assertThat(withdrawalFees.get(0).getNetwork()).isEqualTo("bitcoin");

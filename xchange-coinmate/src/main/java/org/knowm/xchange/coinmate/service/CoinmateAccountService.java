@@ -105,7 +105,14 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
     } else if (currency.equals(Currency.SOL)) {
       response = coinmateSolanaWithdrawal(amount, address);
     } else if (currency.equals(Currency.USDT)) {
-      Long tradeId = coinmateWithdrawVirtualCurrency(amount, address, Currency.USDT.getCurrencyCode(), AmountType.GROSS, FeePriority.HIGH, null);
+      Long tradeId =
+          coinmateWithdrawVirtualCurrency(
+              amount,
+              address,
+              Currency.USDT.getCurrencyCode(),
+              AmountType.GROSS,
+              FeePriority.HIGH,
+              null);
       return Long.toString(tradeId);
     } else {
       throw new IOException(
@@ -119,7 +126,14 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
   public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address)
       throws IOException {
     if (currency.equals(Currency.XRP)) {
-      Long tradeId = coinmateWithdrawVirtualCurrency(amount, address.getAddress(), currency.getCurrencyCode(), AmountType.GROSS, FeePriority.HIGH, address.getAddressTag());
+      Long tradeId =
+          coinmateWithdrawVirtualCurrency(
+              amount,
+              address.getAddress(),
+              currency.getCurrencyCode(),
+              AmountType.GROSS,
+              FeePriority.HIGH,
+              address.getAddressTag());
       return Long.toString(tradeId);
     } else {
       return withdrawFunds(currency, amount, address.getAddress());
@@ -132,7 +146,14 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
 
       if (defaultParams.getCurrency().equals(Currency.XRP)) {
-        Long tradeId = coinmateWithdrawVirtualCurrency(defaultParams.getAmount(), defaultParams.getAddress(), defaultParams.getCurrency().getCurrencyCode(), AmountType.GROSS, FeePriority.HIGH, defaultParams.getAddressTag());
+        Long tradeId =
+            coinmateWithdrawVirtualCurrency(
+                defaultParams.getAmount(),
+                defaultParams.getAddress(),
+                defaultParams.getCurrency().getCurrencyCode(),
+                AmountType.GROSS,
+                FeePriority.HIGH,
+                defaultParams.getAddressTag());
         return Long.toString(tradeId);
       }
 
@@ -158,7 +179,8 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
     } else if (currency.equals(Currency.SOL)) {
       addresses = coinmateSolanaDepositAddresses();
     } else if (currency.equals(Currency.USDT)) {
-      List<String> addressesAll = coinmateVirtualCurrencyDepositAddresses(currency.getCurrencyCode());
+      List<String> addressesAll =
+          coinmateVirtualCurrencyDepositAddresses(currency.getCurrencyCode());
       if (addressesAll.isEmpty()) {
         return null;
       }

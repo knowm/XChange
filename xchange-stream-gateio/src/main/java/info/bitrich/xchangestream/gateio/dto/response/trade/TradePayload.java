@@ -42,5 +42,4 @@ public class TradePayload {
 
   @JsonProperty("price")
   BigDecimal price;
-
 }
