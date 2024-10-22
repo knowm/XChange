@@ -10,7 +10,7 @@ import org.knowm.xchange.instrument.Instrument;
 
 @Getter
 @Setter
-@ToString(callSuper = true)
+@ToString
 public class BybitComplexPositionChanges extends OpenPosition {
 
   private int positionIdx;
@@ -29,7 +29,6 @@ public class BybitComplexPositionChanges extends OpenPosition {
   private BigDecimal stopLoss;
   private BigDecimal trailingStop;
   private BigDecimal curRealisedPnl;
-  private BigDecimal cumRealisedPnl;
   private BigDecimal sessionAvgPrice; //USDC contract session avg price
   private String positionStatus;
   private int adlRankIndicator;
@@ -43,7 +42,7 @@ public class BybitComplexPositionChanges extends OpenPosition {
   public BybitComplexPositionChanges(Instrument instrument, Type type, BigDecimal size,
       BigDecimal liquidationPrice, BigDecimal unRealisedPnl,
       BigDecimal positionValue, BigDecimal entryPrice, BigDecimal leverage, BigDecimal takeProfit,
-      BigDecimal stopLoss, BigDecimal curRealisedPnl, BigDecimal cumRealisedPnl,long createdTime, long updatedTime,
+      BigDecimal stopLoss, BigDecimal curRealisedPnl, long createdTime, long updatedTime,
       long seq) {
     super(instrument, type, size, entryPrice, liquidationPrice, unRealisedPnl);
     this.positionValue = positionValue;
@@ -51,7 +50,6 @@ public class BybitComplexPositionChanges extends OpenPosition {
     this.takeProfit = takeProfit;
     this.stopLoss = stopLoss;
     this.curRealisedPnl = curRealisedPnl;
-    this.cumRealisedPnl = cumRealisedPnl;
     this.createdTime = createdTime;
     this.updatedTime = updatedTime;
     this.seq = seq;
@@ -82,7 +80,6 @@ public class BybitComplexPositionChanges extends OpenPosition {
     this.stopLoss = changes.stopLoss;
     this.trailingStop = changes.trailingStop;
     this.curRealisedPnl = changes.curRealisedPnl;
-    this.cumRealisedPnl = changes.cumRealisedPnl;
     this.sessionAvgPrice = changes.sessionAvgPrice;
     this.positionStatus = changes.positionStatus;
     this.adlRankIndicator = changes.adlRankIndicator;
@@ -100,7 +97,7 @@ public class BybitComplexPositionChanges extends OpenPosition {
       BigDecimal positionBalance, int autoAddMargin, BigDecimal positionMM, BigDecimal positionIM,
       BigDecimal bustPrice, BigDecimal positionValue, BigDecimal leverage,
       BigDecimal takeProfit, BigDecimal stopLoss, BigDecimal trailingStop,
-      BigDecimal curRealisedPnl,BigDecimal cumRealisedPnl,
+      BigDecimal curRealisedPnl,
       BigDecimal sessionAvgPrice, String positionStatus, int adlRankIndicator, boolean isReduceOnly,
       String mmrSysUpdatedTime, String leverageSysUpdatedTime, long createdTime, long updatedTime,
       long seq) {
@@ -121,7 +118,6 @@ public class BybitComplexPositionChanges extends OpenPosition {
     this.stopLoss = stopLoss;
     this.trailingStop = trailingStop;
     this.curRealisedPnl = curRealisedPnl;
-    this.cumRealisedPnl = cumRealisedPnl;
     this.sessionAvgPrice = sessionAvgPrice;
     this.positionStatus = positionStatus;
     this.adlRankIndicator = adlRankIndicator;
