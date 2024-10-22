@@ -155,7 +155,7 @@ public class BybitStreamExample {
         exchange
             .getStreamingMarketDataService()
             .getOrderBook(ETH_SPOT)
-            .subscribe();
+            .subscribe());
     tradesDisposable.add(exchange
         .getStreamingMarketDataService().getTrades(ETH_SPOT).subscribe(
             trade -> System.out.println("trade: " + trade)));
