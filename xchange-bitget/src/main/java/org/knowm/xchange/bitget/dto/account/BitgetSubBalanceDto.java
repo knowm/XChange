@@ -11,10 +11,9 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class BitgetSubBalanceDto {
 
-    @JsonProperty("userId")
-    private String userId;
+  @JsonProperty("userId")
+  private String userId;
 
-    @JsonProperty("assetsList")
-    private List<BitgetBalanceDto> balances;
-
+  @JsonProperty("assetsList")
+  private List<BitgetBalanceDto> balances;
 }

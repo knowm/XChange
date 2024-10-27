@@ -12,52 +12,51 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class BitgetTickerDto {
 
-    @JsonProperty("symbol")
-    private String symbol;
+  @JsonProperty("symbol")
+  private String symbol;
 
-    @JsonProperty("high24h")
-    private BigDecimal high24h;
+  @JsonProperty("high24h")
+  private BigDecimal high24h;
 
-    @JsonProperty("open")
-    private BigDecimal open24h;
+  @JsonProperty("open")
+  private BigDecimal open24h;
 
-    @JsonProperty("lastPr")
-    private BigDecimal lastPrice;
+  @JsonProperty("lastPr")
+  private BigDecimal lastPrice;
 
-    @JsonProperty("low24h")
-    private BigDecimal low24h;
+  @JsonProperty("low24h")
+  private BigDecimal low24h;
 
-    @JsonProperty("quoteVolume")
-    private BigDecimal quoteVolume24h;
+  @JsonProperty("quoteVolume")
+  private BigDecimal quoteVolume24h;
 
-    @JsonProperty("baseVolume")
-    private BigDecimal assetVolume24h;
+  @JsonProperty("baseVolume")
+  private BigDecimal assetVolume24h;
 
-    @JsonProperty("usdtVolume")
-    private BigDecimal usdtVolume24h;
+  @JsonProperty("usdtVolume")
+  private BigDecimal usdtVolume24h;
 
-    @JsonProperty("bidPr")
-    private BigDecimal bestBidPrice;
+  @JsonProperty("bidPr")
+  private BigDecimal bestBidPrice;
 
-    @JsonProperty("bidSz")
-    private BigDecimal bestBidSize;
+  @JsonProperty("bidSz")
+  private BigDecimal bestBidSize;
 
-    @JsonProperty("askPr")
-    private BigDecimal bestAskPrice;
+  @JsonProperty("askPr")
+  private BigDecimal bestAskPrice;
 
-    @JsonProperty("askSz")
-    private BigDecimal bestAskSize;
+  @JsonProperty("askSz")
+  private BigDecimal bestAskSize;
 
-    @JsonProperty("openUtc")
-    private BigDecimal openUtc;
+  @JsonProperty("openUtc")
+  private BigDecimal openUtc;
 
-    @JsonProperty("ts")
-    private Instant timestamp;
+  @JsonProperty("ts")
+  private Instant timestamp;
 
-    @JsonProperty("changeUtc24h")
-    private BigDecimal changeUtc24h;
+  @JsonProperty("changeUtc24h")
+  private BigDecimal changeUtc24h;
 
-    @JsonProperty("change24h")
-    private BigDecimal change24h;
-
+  @JsonProperty("change24h")
+  private BigDecimal change24h;
 }

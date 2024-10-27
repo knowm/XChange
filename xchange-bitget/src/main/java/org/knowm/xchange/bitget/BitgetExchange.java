@@ -35,23 +35,24 @@ public class BitgetExchange extends BaseExchange {
 
   @Override
   public void remoteInit() throws IOException {
-    BitgetMarketDataServiceRaw bitgetMarketDataServiceRaw = (BitgetMarketDataServiceRaw) marketDataService;
+    BitgetMarketDataServiceRaw bitgetMarketDataServiceRaw =
+        (BitgetMarketDataServiceRaw) marketDataService;
 
     // initialize symbol mappings
     List<BitgetSymbolDto> bitgetSymbolDtos = bitgetMarketDataServiceRaw.getBitgetSymbolDtos(null);
-    bitgetSymbolDtos.forEach(bitgetSymbolDto -> {
-      BitgetAdapters.putSymbolMapping(bitgetSymbolDto.getSymbol(), bitgetSymbolDto.getCurrencyPair());
-    });
-
+    bitgetSymbolDtos.forEach(
+        bitgetSymbolDto -> {
+          BitgetAdapters.putSymbolMapping(
+              bitgetSymbolDto.getSymbol(), bitgetSymbolDto.getCurrencyPair());
+        });
 
     // initialize instrument metadata
-    Map<Instrument, InstrumentMetaData> instruments = bitgetSymbolDtos.stream()
-        .collect(Collectors.toMap(
-            BitgetSymbolDto::getCurrencyPair,
-            BitgetAdapters::toInstrumentMetaData)
-        );
+    Map<Instrument, InstrumentMetaData> instruments =
+        bitgetSymbolDtos.stream()
+            .collect(
+                Collectors.toMap(
+                    BitgetSymbolDto::getCurrencyPair, BitgetAdapters::toInstrumentMetaData));
 
     exchangeMetaData = new ExchangeMetaData(instruments, null, null, null, null);
-
   }
 }

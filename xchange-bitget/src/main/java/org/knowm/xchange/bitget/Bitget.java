@@ -23,28 +23,23 @@ public interface Bitget {
   @Path("api/v2/public/time")
   BitgetResponse<BitgetServerTime> serverTime() throws IOException, BitgetException;
 
-
   @GET
   @Path("api/v2/spot/public/coins")
-  BitgetResponse<List<BitgetCoinDto>> coins(@QueryParam("coin") String coin) throws IOException, BitgetException;
-
+  BitgetResponse<List<BitgetCoinDto>> coins(@QueryParam("coin") String coin)
+      throws IOException, BitgetException;
 
   @GET
   @Path("api/v2/spot/public/symbols")
   BitgetResponse<List<BitgetSymbolDto>> symbols(@QueryParam("symbol") String symbol)
       throws IOException, BitgetException;
 
-
   @GET
   @Path("api/v2/spot/market/tickers")
   BitgetResponse<List<BitgetTickerDto>> tickers(@QueryParam("symbol") String symbol)
       throws IOException, BitgetException;
 
-
   @GET
   @Path("api/v2/spot/market/orderbook")
   BitgetResponse<BitgetMarketDepthDto> orderbook(@QueryParam("symbol") String symbol)
       throws IOException, BitgetException;
-
-
 }

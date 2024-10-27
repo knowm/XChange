@@ -37,7 +37,6 @@ public interface BitgetAuthenticated {
       @QueryParam("coin") String currency)
       throws IOException, BitgetException;
 
-
   @GET
   @Path("api/v2/spot/account/subaccount-assets")
   BitgetResponse<List<BitgetSubBalanceDto>> subBalances(
@@ -46,7 +45,6 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp)
       throws IOException, BitgetException;
-
 
   @GET
   @Path("api/v2/spot/trade/orderInfo")
@@ -57,7 +55,6 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
       @QueryParam("orderId") String orderId)
       throws IOException, BitgetException;
-
 
   @POST
   @Path("api/v2/spot/trade/place-order")
@@ -70,7 +67,6 @@ public interface BitgetAuthenticated {
       BitgetPlaceOrderDto bitgetPlaceOrderDto)
       throws IOException, BitgetException;
 
-
   @GET
   @Path("api/v2/spot/trade/fills")
   BitgetResponse<List<BitgetFillDto>> fills(
@@ -78,11 +74,13 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
-      @QueryParam("symbol") String symbol, @QueryParam("limit") Integer limit, @QueryParam("orderId") String orderId,
-      @QueryParam("startTime") Long startTime, @QueryParam("endTime") Long endTime,
+      @QueryParam("symbol") String symbol,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("orderId") String orderId,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
       @QueryParam("idLessThan") String idLessThan)
       throws IOException, BitgetException;
-
 
   @GET
   @Path("api/v2/spot/account/transferRecords")
@@ -91,12 +89,14 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
-      @QueryParam("coin") String currency, @QueryParam("limit") Integer limit, @QueryParam("clientOid") String clientOid,
+      @QueryParam("coin") String currency,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("clientOid") String clientOid,
       @QueryParam("fromType") String fromType,
-      @QueryParam("startTime") Long startTime, @QueryParam("endTime") Long endTime,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
       @QueryParam("idLessThan") String idLessThan)
       throws IOException, BitgetException;
-
 
   @GET
   @Path("api/v2/spot/account/sub-main-trans-record")
@@ -105,12 +105,15 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
-      @QueryParam("coin") String currency, @QueryParam("limit") Integer limit, @QueryParam("clientOid") String clientOid,
-      @QueryParam("role") String role, @QueryParam("subUid") String subAccountUid,
-      @QueryParam("startTime") Long startTime, @QueryParam("endTime") Long endTime,
+      @QueryParam("coin") String currency,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("clientOid") String clientOid,
+      @QueryParam("role") String role,
+      @QueryParam("subUid") String subAccountUid,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
       @QueryParam("idLessThan") String idLessThan)
       throws IOException, BitgetException;
-
 
   @GET
   @Path("api/v2/spot/wallet/deposit-records")
@@ -119,11 +122,13 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
-      @QueryParam("coin") String currency, @QueryParam("limit") Integer limit, @QueryParam("orderId") String orderId,
-      @QueryParam("startTime") Long startTime, @QueryParam("endTime") Long endTime,
+      @QueryParam("coin") String currency,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("orderId") String orderId,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
       @QueryParam("idLessThan") String idLessThan)
       throws IOException, BitgetException;
-
 
   @GET
   @Path("api/v2/spot/wallet/subaccount-deposit-records")
@@ -132,11 +137,13 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
-      @QueryParam("coin") String currency, @QueryParam("limit") Integer limit, @QueryParam("subUid") String subAccountUid,
-      @QueryParam("startTime") Long startTime, @QueryParam("endTime") Long endTime,
+      @QueryParam("coin") String currency,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("subUid") String subAccountUid,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
       @QueryParam("idLessThan") String idLessThan)
       throws IOException, BitgetException;
-
 
   @GET
   @Path("api/v2/spot/wallet/withdrawal-records")
@@ -145,11 +152,12 @@ public interface BitgetAuthenticated {
       @HeaderParam("ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
-      @QueryParam("coin") String currency, @QueryParam("limit") Integer limit,
-      @QueryParam("orderId") String orderId, @QueryParam("clientOid") String clientOid,
-      @QueryParam("startTime") Long startTime, @QueryParam("endTime") Long endTime,
+      @QueryParam("coin") String currency,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("orderId") String orderId,
+      @QueryParam("clientOid") String clientOid,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
       @QueryParam("idLessThan") String idLessThan)
       throws IOException, BitgetException;
-
-
 }

@@ -22,5 +22,4 @@ public class BitgetException extends RuntimeException {
 
   @JsonProperty("data")
   Object data;
-
 }

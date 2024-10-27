@@ -18,18 +18,24 @@ public class BitgetBaseService extends BaseExchangeService<BitgetExchange> imple
 
   public BitgetBaseService(BitgetExchange exchange) {
     super(exchange);
-    bitget = ExchangeRestProxyBuilder
-        .forInterface(Bitget.class, exchange.getExchangeSpecification())
-        .clientConfigCustomizer(clientConfig -> clientConfig.setJacksonObjectMapperFactory(new BitgetJacksonObjectMapperFactory()))
-        .build();
-    bitgetAuthenticated = ExchangeRestProxyBuilder
-        .forInterface(BitgetAuthenticated.class, exchange.getExchangeSpecification())
-        .clientConfigCustomizer(clientConfig -> clientConfig.setJacksonObjectMapperFactory(new BitgetJacksonObjectMapperFactory()))
-        .build();
+    bitget =
+        ExchangeRestProxyBuilder.forInterface(Bitget.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(
+                clientConfig ->
+                    clientConfig.setJacksonObjectMapperFactory(
+                        new BitgetJacksonObjectMapperFactory()))
+            .build();
+    bitgetAuthenticated =
+        ExchangeRestProxyBuilder.forInterface(
+                BitgetAuthenticated.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(
+                clientConfig ->
+                    clientConfig.setJacksonObjectMapperFactory(
+                        new BitgetJacksonObjectMapperFactory()))
+            .build();
 
     apiKey = exchange.getExchangeSpecification().getApiKey();
     passphrase = exchange.getExchangeSpecification().getPassword();
     bitgetDigest = BitgetDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-
   }
 }

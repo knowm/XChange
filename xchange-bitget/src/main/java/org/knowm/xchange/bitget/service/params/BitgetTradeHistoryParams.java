@@ -12,9 +12,12 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 @Data
 @SuperBuilder
-public class BitgetTradeHistoryParams implements TradeHistoryParamInstrument,
-    TradeHistoryParamLimit, TradeHistoryParamsTimeSpan, TradeHistoryParamsIdSpan,
-    TradeHistoryParamOrderId {
+public class BitgetTradeHistoryParams
+    implements TradeHistoryParamInstrument,
+        TradeHistoryParamLimit,
+        TradeHistoryParamsTimeSpan,
+        TradeHistoryParamsIdSpan,
+        TradeHistoryParamOrderId {
 
   private Instrument instrument;
 
@@ -29,6 +32,4 @@ public class BitgetTradeHistoryParams implements TradeHistoryParamInstrument,
   private String startId;
 
   private String endId;
-
-
 }

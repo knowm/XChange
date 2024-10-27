@@ -27,46 +27,89 @@ public class BitgetAccountServiceRaw extends BitgetBaseService {
     super(exchange);
   }
 
-
   public List<BitgetBalanceDto> getBitgetBalances(Currency currency) throws IOException {
-    return bitgetAuthenticated.balances(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(),
-        BitgetAdapters.toString(currency)).getData();
+    return bitgetAuthenticated
+        .balances(
+            apiKey,
+            bitgetDigest,
+            passphrase,
+            exchange.getNonceFactory(),
+            BitgetAdapters.toString(currency))
+        .getData();
   }
-
 
   public List<BitgetSubBalanceDto> getSubBitgetBalances() throws IOException {
-    return bitgetAuthenticated.subBalances(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory()).getData();
+    return bitgetAuthenticated
+        .subBalances(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory())
+        .getData();
   }
 
-
-  public List<BitgetTransferRecordDto> getBitgetTransferRecords(BitgetTransferHistoryParams params) throws IOException {
+  public List<BitgetTransferRecordDto> getBitgetTransferRecords(BitgetTransferHistoryParams params)
+      throws IOException {
     Long from = params.getStartTime() != null ? params.getStartTime().toEpochMilli() : null;
     Long to = params.getEndTime() != null ? params.getEndTime().toEpochMilli() : null;
 
-    return bitgetAuthenticated.transferRecords(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(),
-        BitgetAdapters.toString(params.getCurrency()), params.getLimit(), params.getClientOid(),
-        BitgetAdapters.toString(params.getFromAccountType()), from, to, params.getEndId()).getData();
+    return bitgetAuthenticated
+        .transferRecords(
+            apiKey,
+            bitgetDigest,
+            passphrase,
+            exchange.getNonceFactory(),
+            BitgetAdapters.toString(params.getCurrency()),
+            params.getLimit(),
+            params.getClientOid(),
+            BitgetAdapters.toString(params.getFromAccountType()),
+            from,
+            to,
+            params.getEndId())
+        .getData();
   }
-
 
   public List<BitgetMainSubTransferRecordDto> getBitgetMainSubTransferRecords(
       BitgetMainSubTransferHistoryParams params) throws IOException {
     Long from = params.getStartTime() != null ? params.getStartTime().toEpochMilli() : null;
     Long to = params.getEndTime() != null ? params.getEndTime().toEpochMilli() : null;
 
-    return bitgetAuthenticated.mainSubTransferRecords(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(),
-        BitgetAdapters.toString(params.getCurrency()), params.getLimit(), params.getClientOid(),
-        BitgetAdapters.toString(params.getRole()), params.getSubAccountUid(), from, to, params.getEndId()).getData();
+    return bitgetAuthenticated
+        .mainSubTransferRecords(
+            apiKey,
+            bitgetDigest,
+            passphrase,
+            exchange.getNonceFactory(),
+            BitgetAdapters.toString(params.getCurrency()),
+            params.getLimit(),
+            params.getClientOid(),
+            BitgetAdapters.toString(params.getRole()),
+            params.getSubAccountUid(),
+            from,
+            to,
+            params.getEndId())
+        .getData();
   }
 
-
-  public List<BitgetDepositWithdrawRecordDto> getBitgetWithdrawRecords(TradeHistoryParams params) throws IOException {
+  public List<BitgetDepositWithdrawRecordDto> getBitgetWithdrawRecords(TradeHistoryParams params)
+      throws IOException {
     // get arguments
-    Currency currency = params instanceof TradeHistoryParamCurrency ? ((TradeHistoryParamCurrency) params).getCurrency() : null;
-    String orderId = params instanceof TradeHistoryParamOrderId ? ((TradeHistoryParamOrderId) params).getOrderId() : null;
-    String clientOid = params instanceof TradeHistoryParamClientOid ? ((TradeHistoryParamClientOid) params).getClientOid() : null;
-    Integer limit = params instanceof TradeHistoryParamLimit ? ((TradeHistoryParamLimit) params).getLimit() : null;
-    String lastTradeId = params instanceof TradeHistoryParamsIdSpan ? ((TradeHistoryParamsIdSpan) params).getEndId() : null;
+    Currency currency =
+        params instanceof TradeHistoryParamCurrency
+            ? ((TradeHistoryParamCurrency) params).getCurrency()
+            : null;
+    String orderId =
+        params instanceof TradeHistoryParamOrderId
+            ? ((TradeHistoryParamOrderId) params).getOrderId()
+            : null;
+    String clientOid =
+        params instanceof TradeHistoryParamClientOid
+            ? ((TradeHistoryParamClientOid) params).getClientOid()
+            : null;
+    Integer limit =
+        params instanceof TradeHistoryParamLimit
+            ? ((TradeHistoryParamLimit) params).getLimit()
+            : null;
+    String lastTradeId =
+        params instanceof TradeHistoryParamsIdSpan
+            ? ((TradeHistoryParamsIdSpan) params).getEndId()
+            : null;
     Long from = null;
     Long to = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
@@ -75,17 +118,41 @@ public class BitgetAccountServiceRaw extends BitgetBaseService {
       to = paramsTimeSpan.getEndTime() != null ? paramsTimeSpan.getEndTime().getTime() : null;
     }
 
-    return bitgetAuthenticated.withdrawalRecords(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(),
-        BitgetAdapters.toString(currency), limit, orderId, clientOid, from, to, lastTradeId).getData();
+    return bitgetAuthenticated
+        .withdrawalRecords(
+            apiKey,
+            bitgetDigest,
+            passphrase,
+            exchange.getNonceFactory(),
+            BitgetAdapters.toString(currency),
+            limit,
+            orderId,
+            clientOid,
+            from,
+            to,
+            lastTradeId)
+        .getData();
   }
 
-
-  public List<BitgetDepositWithdrawRecordDto> getBitgetDepositRecords(TradeHistoryParams params) throws IOException {
+  public List<BitgetDepositWithdrawRecordDto> getBitgetDepositRecords(TradeHistoryParams params)
+      throws IOException {
     // get arguments
-    Currency currency = params instanceof TradeHistoryParamCurrency ? ((TradeHistoryParamCurrency) params).getCurrency() : null;
-    String orderId = params instanceof TradeHistoryParamOrderId ? ((TradeHistoryParamOrderId) params).getOrderId() : null;
-    Integer limit = params instanceof TradeHistoryParamLimit ? ((TradeHistoryParamLimit) params).getLimit() : null;
-    String lastTradeId = params instanceof TradeHistoryParamsIdSpan ? ((TradeHistoryParamsIdSpan) params).getEndId() : null;
+    Currency currency =
+        params instanceof TradeHistoryParamCurrency
+            ? ((TradeHistoryParamCurrency) params).getCurrency()
+            : null;
+    String orderId =
+        params instanceof TradeHistoryParamOrderId
+            ? ((TradeHistoryParamOrderId) params).getOrderId()
+            : null;
+    Integer limit =
+        params instanceof TradeHistoryParamLimit
+            ? ((TradeHistoryParamLimit) params).getLimit()
+            : null;
+    String lastTradeId =
+        params instanceof TradeHistoryParamsIdSpan
+            ? ((TradeHistoryParamsIdSpan) params).getEndId()
+            : null;
     Long from = null;
     Long to = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
@@ -94,17 +161,40 @@ public class BitgetAccountServiceRaw extends BitgetBaseService {
       to = paramsTimeSpan.getEndTime() != null ? paramsTimeSpan.getEndTime().getTime() : null;
     }
 
-    return bitgetAuthenticated.depositRecords(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(),
-        BitgetAdapters.toString(currency), limit, orderId, from, to, lastTradeId).getData();
+    return bitgetAuthenticated
+        .depositRecords(
+            apiKey,
+            bitgetDigest,
+            passphrase,
+            exchange.getNonceFactory(),
+            BitgetAdapters.toString(currency),
+            limit,
+            orderId,
+            from,
+            to,
+            lastTradeId)
+        .getData();
   }
 
-
-  public List<BitgetDepositWithdrawRecordDto> getBitgetSubAccountDepositRecords(TradeHistoryParams params) throws IOException {
+  public List<BitgetDepositWithdrawRecordDto> getBitgetSubAccountDepositRecords(
+      TradeHistoryParams params) throws IOException {
     // get arguments
-    Currency currency = params instanceof TradeHistoryParamCurrency ? ((TradeHistoryParamCurrency) params).getCurrency() : null;
-    String subAccountUid = params instanceof BitgetFundingHistoryParams ? ((BitgetFundingHistoryParams) params).getSubAccountUid() : null;
-    Integer limit = params instanceof TradeHistoryParamLimit ? ((TradeHistoryParamLimit) params).getLimit() : null;
-    String lastTradeId = params instanceof TradeHistoryParamsIdSpan ? ((TradeHistoryParamsIdSpan) params).getEndId() : null;
+    Currency currency =
+        params instanceof TradeHistoryParamCurrency
+            ? ((TradeHistoryParamCurrency) params).getCurrency()
+            : null;
+    String subAccountUid =
+        params instanceof BitgetFundingHistoryParams
+            ? ((BitgetFundingHistoryParams) params).getSubAccountUid()
+            : null;
+    Integer limit =
+        params instanceof TradeHistoryParamLimit
+            ? ((TradeHistoryParamLimit) params).getLimit()
+            : null;
+    String lastTradeId =
+        params instanceof TradeHistoryParamsIdSpan
+            ? ((TradeHistoryParamsIdSpan) params).getEndId()
+            : null;
     Long from = null;
     Long to = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
@@ -113,9 +203,18 @@ public class BitgetAccountServiceRaw extends BitgetBaseService {
       to = paramsTimeSpan.getEndTime() != null ? paramsTimeSpan.getEndTime().getTime() : null;
     }
 
-    return bitgetAuthenticated.subDepositRecords(apiKey, bitgetDigest, passphrase, exchange.getNonceFactory(),
-        BitgetAdapters.toString(currency), limit, subAccountUid, from, to, lastTradeId).getData();
+    return bitgetAuthenticated
+        .subDepositRecords(
+            apiKey,
+            bitgetDigest,
+            passphrase,
+            exchange.getNonceFactory(),
+            BitgetAdapters.toString(currency),
+            limit,
+            subAccountUid,
+            from,
+            to,
+            lastTradeId)
+        .getData();
   }
-
-
 }

@@ -18,85 +18,79 @@ import org.knowm.xchange.dto.Order;
 @Jacksonized
 public class BitgetFillDto {
 
-    @JsonProperty("userId")
-    private String acccountId;
+  @JsonProperty("userId")
+  private String acccountId;
 
-    @JsonProperty("symbol")
-    private String symbol;
+  @JsonProperty("symbol")
+  private String symbol;
 
-    @JsonProperty("orderId")
-    private String orderId;
+  @JsonProperty("orderId")
+  private String orderId;
 
-    @JsonProperty("tradeId")
-    private String tradeId;
+  @JsonProperty("tradeId")
+  private String tradeId;
 
-    @JsonProperty("orderType")
-    private OrderType orderType;
+  @JsonProperty("orderType")
+  private OrderType orderType;
 
-    @JsonProperty("side")
-    @JsonDeserialize(converter = StringToOrderTypeConverter.class)
-    private Order.OrderType orderSide;
+  @JsonProperty("side")
+  @JsonDeserialize(converter = StringToOrderTypeConverter.class)
+  private Order.OrderType orderSide;
 
-    @JsonProperty("priceAvg")
-    private BigDecimal price;
+  @JsonProperty("priceAvg")
+  private BigDecimal price;
 
-    @JsonProperty("size")
-    private BigDecimal assetAmount;
+  @JsonProperty("size")
+  private BigDecimal assetAmount;
 
-    @JsonProperty("amount")
-    private BigDecimal quoteAmount;
+  @JsonProperty("amount")
+  private BigDecimal quoteAmount;
 
-    @JsonProperty("feeDetail")
-    private FeeDetail feeDetail;
+  @JsonProperty("feeDetail")
+  private FeeDetail feeDetail;
 
-    @JsonProperty("tradeScope")
-    private TradeScope tradeScope;
+  @JsonProperty("tradeScope")
+  private TradeScope tradeScope;
 
-    @JsonProperty("cTime")
-    private Instant createdAt;
+  @JsonProperty("cTime")
+  private Instant createdAt;
 
-    @JsonProperty("uTime")
-    private Instant updatedAt;
+  @JsonProperty("uTime")
+  private Instant updatedAt;
 
+  public static enum OrderType {
+    @JsonProperty("limit")
+    LIMIT,
 
-    public static enum OrderType {
-        @JsonProperty("limit")
-        LIMIT,
+    @JsonProperty("market")
+    MARKET
+  }
 
-        @JsonProperty("market")
-        MARKET
-    }
+  public static enum TradeScope {
+    @JsonProperty("taker")
+    TAKER,
 
+    @JsonProperty("maker")
+    MAKER
+  }
 
-    public static enum TradeScope {
-        @JsonProperty("taker")
-        TAKER,
+  @Data
+  @Builder
+  @Jacksonized
+  public static class FeeDetail {
 
-        @JsonProperty("maker")
-        MAKER
+    @JsonProperty("deduction")
+    @JsonDeserialize(converter = StringToBooleanConverter.class)
+    private Boolean deduction;
 
-    }
+    @JsonProperty("feeCoin")
+    @JsonDeserialize(converter = StringToCurrencyConverter.class)
+    private Currency currency;
 
+    @JsonProperty("totalDeductionFee")
+    private BigDecimal totalDeductionFee;
 
-    @Data
-    @Builder
-    @Jacksonized
-    public static class FeeDetail {
-
-        @JsonProperty("deduction")
-        @JsonDeserialize(converter = StringToBooleanConverter.class)
-        private Boolean deduction;
-
-        @JsonProperty("feeCoin")
-        @JsonDeserialize(converter = StringToCurrencyConverter.class)
-        private Currency currency;
-
-        @JsonProperty("totalDeductionFee")
-        private BigDecimal totalDeductionFee;
-
-        @JsonProperty("totalFee")
-        private BigDecimal totalFee;
-
-    }
-
+    @JsonProperty("totalFee")
+    private BigDecimal totalFee;
+  }
 }

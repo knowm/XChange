@@ -27,52 +27,52 @@ class BitgetMarketDataServiceIntegration extends BitgetIntegrationTestParent {
     if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
       assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
     }
-
   }
-
 
   @Test
   void valid_currencies() throws IOException {
-    List<Currency> currencies = ((BitgetMarketDataService) exchange.getMarketDataService()).getCurrencies();
+    List<Currency> currencies =
+        ((BitgetMarketDataService) exchange.getMarketDataService()).getCurrencies();
 
     assertThat(currencies).isNotEmpty();
     assertThat(currencies.stream().distinct().count()).isEqualTo(currencies.size());
   }
 
-
   @Test
   void valid_instruments() throws IOException {
-    List<Instrument> instruments = ((BitgetMarketDataService) exchange.getMarketDataService()).getInstruments();
+    List<Instrument> instruments =
+        ((BitgetMarketDataService) exchange.getMarketDataService()).getInstruments();
 
     assertThat(instruments).isNotEmpty();
     assertThat(instruments.stream().distinct().count()).isEqualTo(instruments.size());
   }
 
-
   @Test
   void check_exceptions() {
     assertThatExceptionOfType(InstrumentNotValidException.class)
-        .isThrownBy(() ->
-            exchange.getMarketDataService().getTicker(new CurrencyPair("NONEXISTING/NONEXISTING")));
-
+        .isThrownBy(
+            () ->
+                exchange
+                    .getMarketDataService()
+                    .getTicker(new CurrencyPair("NONEXISTING/NONEXISTING")));
   }
-
 
   @Test
   void valid_tickers() throws IOException {
     List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
 
-    assertThat(tickers).allSatisfy(ticker -> {
-      assertThat(ticker.getInstrument()).isNotNull();
-      assertThat(ticker.getLast()).isNotNull();
+    assertThat(tickers)
+        .allSatisfy(
+            ticker -> {
+              assertThat(ticker.getInstrument()).isNotNull();
+              assertThat(ticker.getLast()).isNotNull();
 
-      if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
-        assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
-      }
-    });
+              if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
+                assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+              }
+            });
   }
-
 
   @Test
   void valid_orderbook() throws IOException {
@@ -81,18 +81,21 @@ class BitgetMarketDataServiceIntegration extends BitgetIntegrationTestParent {
     assertThat(orderBook.getBids()).isNotEmpty();
     assertThat(orderBook.getAsks()).isNotEmpty();
 
-    assertThat(orderBook.getAsks().get(0).getLimitPrice()).isGreaterThan(orderBook.getBids().get(0).getLimitPrice());
+    assertThat(orderBook.getAsks().get(0).getLimitPrice())
+        .isGreaterThan(orderBook.getBids().get(0).getLimitPrice());
 
-    assertThat(orderBook.getBids()).allSatisfy(limitOrder -> {
-      assertThat(limitOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
-      assertThat(limitOrder.getType()).isEqualTo(OrderType.BID);
-    });
+    assertThat(orderBook.getBids())
+        .allSatisfy(
+            limitOrder -> {
+              assertThat(limitOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
+              assertThat(limitOrder.getType()).isEqualTo(OrderType.BID);
+            });
 
-    assertThat(orderBook.getAsks()).allSatisfy(limitOrder -> {
-      assertThat(limitOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
-      assertThat(limitOrder.getType()).isEqualTo(OrderType.ASK);
-    });
+    assertThat(orderBook.getAsks())
+        .allSatisfy(
+            limitOrder -> {
+              assertThat(limitOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
+              assertThat(limitOrder.getType()).isEqualTo(OrderType.ASK);
+            });
   }
-
-
 }

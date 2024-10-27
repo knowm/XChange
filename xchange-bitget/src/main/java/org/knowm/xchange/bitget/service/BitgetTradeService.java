@@ -27,7 +27,6 @@ public class BitgetTradeService extends BitgetTradeServiceRaw implements TradeSe
     super(exchange);
   }
 
-
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     Validate.validState(orderQueryParams.length == 1);
@@ -37,37 +36,30 @@ public class BitgetTradeService extends BitgetTradeServiceRaw implements TradeSe
     try {
       BitgetOrderInfoDto orderStatus = bitgetOrderInfoDto(params.getOrderId());
       return Collections.singletonList(BitgetAdapters.toOrder(orderStatus));
-    }
-    catch (BitgetException e) {
+    } catch (BitgetException e) {
       throw BitgetErrorAdapter.adapt(e);
     }
-
   }
-
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     try {
-      List<UserTrade> userTradeList = bitgetFills(params).stream()
-          .map(BitgetAdapters::toUserTrade)
-          .collect(Collectors.toList());
+      List<UserTrade> userTradeList =
+          bitgetFills(params).stream()
+              .map(BitgetAdapters::toUserTrade)
+              .collect(Collectors.toList());
       return new UserTrades(userTradeList, TradeSortType.SortByID);
-    }
-    catch (BitgetException e) {
+    } catch (BitgetException e) {
       throw BitgetErrorAdapter.adapt(e);
     }
   }
-
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     try {
       return createOrder(BitgetAdapters.toBitgetPlaceOrderDto(marketOrder)).getOrderId();
-    }
-    catch (BitgetException e) {
+    } catch (BitgetException e) {
       throw BitgetErrorAdapter.adapt(e);
     }
   }
-
-
 }

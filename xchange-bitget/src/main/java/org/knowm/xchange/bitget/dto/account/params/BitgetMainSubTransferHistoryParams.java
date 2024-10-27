@@ -29,7 +29,6 @@ public class BitgetMainSubTransferHistoryParams {
 
   private String endId;
 
-
   @Getter
   @AllArgsConstructor
   public static enum Role {
@@ -38,9 +37,6 @@ public class BitgetMainSubTransferHistoryParams {
     @JsonProperty
     RECEIVER("receiver");
 
-    @JsonValue
-    private final String value;
-
-    }
-
+    @JsonValue private final String value;
+  }
 }
