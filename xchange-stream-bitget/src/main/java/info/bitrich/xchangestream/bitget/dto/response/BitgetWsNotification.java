@@ -21,6 +21,9 @@ import lombok.extern.jackson.Jacksonized;
 )
 @JsonSubTypes({
     @Type(value = BitgetTickerNotification.class, name = "ticker"),
+    @Type(value = BitgetWsOrderBookSnapshotNotification.class, name = "books1"),
+    @Type(value = BitgetWsOrderBookSnapshotNotification.class, name = "books5"),
+    @Type(value = BitgetWsOrderBookSnapshotNotification.class, name = "books15"),
 })
 @Data
 @SuperBuilder

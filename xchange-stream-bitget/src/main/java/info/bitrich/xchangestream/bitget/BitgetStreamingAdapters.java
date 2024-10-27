@@ -5,13 +5,20 @@ import info.bitrich.xchangestream.bitget.dto.common.BitgetChannel.ChannelType;
 import info.bitrich.xchangestream.bitget.dto.common.BitgetChannel.MarketType;
 import info.bitrich.xchangestream.bitget.dto.response.BitgetTickerNotification;
 import info.bitrich.xchangestream.bitget.dto.response.BitgetTickerNotification.TickerData;
+import info.bitrich.xchangestream.bitget.dto.response.BitgetWsOrderBookSnapshotNotification;
+import info.bitrich.xchangestream.bitget.dto.response.BitgetWsOrderBookSnapshotNotification.OrderBookData;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.bitget.BitgetAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 @UtilityClass
 public class BitgetStreamingAdapters {
@@ -68,5 +75,35 @@ public class BitgetStreamingAdapters {
         .build();
   }
 
+  public OrderBook toOrderBook(BitgetWsOrderBookSnapshotNotification notification, Instrument instrument) {
+    OrderBookData orderBookData = notification.getData().get(0);
+    List<LimitOrder> asks =
+        orderBookData.getAsks().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.ASK,
+                        priceSizeEntry.getSize(),
+                        instrument,
+                        null,
+                        null,
+                        priceSizeEntry.getPrice()))
+            .collect(Collectors.toList());
+
+    List<LimitOrder> bids =
+        orderBookData.getBids().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.BID,
+                        priceSizeEntry.getSize(),
+                        instrument,
+                        null,
+                        null,
+                        priceSizeEntry.getPrice()))
+            .collect(Collectors.toList());
+
+    return new OrderBook(BitgetAdapters.toDate(orderBookData.getTimestamp()), asks, bids);
+  }
 
 }

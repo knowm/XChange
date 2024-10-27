@@ -126,6 +126,7 @@ public class BitgetStreamingService extends NettyStreamingService<BitgetWsNotifi
 
     } catch (IOException e) {
       log.error("Error parsing incoming message to JSON: {}", message);
+      log.error(e.getMessage(), e);
       return;
     }
 

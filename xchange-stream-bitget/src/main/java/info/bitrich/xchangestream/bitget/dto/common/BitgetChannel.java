@@ -32,7 +32,12 @@ public class BitgetChannel {
   @Getter
   @AllArgsConstructor
   public static enum ChannelType {
-    TICKER("ticker");
+    TICKER("ticker"),
+
+    DEPTH("books"),
+    DEPTH1("books1"),
+    DEPTH5("books5"),
+    DEPTH15("books15");
 
     @JsonValue
     private final String value;

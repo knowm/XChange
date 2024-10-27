@@ -1,0 +1,37 @@
+### Subscribe Depth Channel
+WEBSOCKET {{base_url}}/v2/ws/public
+Content-Type: application/json
+
+{
+    "op": "subscribe",
+    "args": [
+        {
+            "instType": "SPOT",
+            "channel": "books5",
+            "instId": "BTCUSDT"
+        },
+        {
+            "instType": "SPOT",
+            "channel": "books5",
+            "instId": "ETHUSDT"
+        }
+    ]
+}
+
+
+### Unsubscribe Depth Channel
+WEBSOCKET {{base_url}}/v2/ws/public
+Content-Type: application/json
+
+{
+    "op": "unsubscribe",
+    "args": [
+        {
+            "instType": "SPOT",
+            "channel": "books5",
+            "instId": "ETHUSDT"
+        }
+    ]
+}
+
+
