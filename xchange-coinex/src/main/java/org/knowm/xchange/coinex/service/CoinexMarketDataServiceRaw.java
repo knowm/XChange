@@ -21,35 +21,36 @@ public class CoinexMarketDataServiceRaw extends CoinexBaseService {
     super(exchange);
   }
 
-
   public List<CoinexChainInfo> getAllCoinexChainInfos() throws IOException {
     return new ArrayList<>(coinex.allChainInfos().getData().values());
   }
-
 
   public CoinexAllMarketStatisticsV1 getCoinexAllMarketStatisticsV1() throws IOException {
     return coinex.allMarketStatistics().getData();
   }
 
-
-  public CoinexSingleMarketStatisticsV1 getCoinexSingleMarketStatisticsV1(Instrument instrument) throws IOException {
+  public CoinexSingleMarketStatisticsV1 getCoinexSingleMarketStatisticsV1(Instrument instrument)
+      throws IOException {
     String market = CoinexAdapters.toString(instrument);
     return coinex.singleMarketStatistics(market).getData();
   }
 
-
-  public List<CoinexCurrencyPairInfo> getCoinexCurrencyPairInfos(Collection<Instrument> instruments) throws IOException {
+  public List<CoinexCurrencyPairInfo> getCoinexCurrencyPairInfos(Collection<Instrument> instruments)
+      throws IOException {
     String marketsParam = CoinexAdapters.instrumentsToString(instruments);
     return coinex.marketStatus(marketsParam).getData();
   }
 
-
-  public CoinexMarketDepth getCoinexOrderBook(CoinexOrderBookParams coinexOrderBookParams) throws IOException {
+  public CoinexMarketDepth getCoinexOrderBook(CoinexOrderBookParams coinexOrderBookParams)
+      throws IOException {
     String instrument = CoinexAdapters.toString(coinexOrderBookParams.getInstrument());
-    Integer limit = Optional.ofNullable(coinexOrderBookParams.getLimit()).orElse(CoinexOrderBookParams.DEFAULT_LIMIT);
-    Integer interval = Optional.ofNullable(coinexOrderBookParams.getInterval()).orElse(CoinexOrderBookParams.DEFAULT_INTERVAL);
+    Integer limit =
+        Optional.ofNullable(coinexOrderBookParams.getLimit())
+            .orElse(CoinexOrderBookParams.DEFAULT_LIMIT);
+    Integer interval =
+        Optional.ofNullable(coinexOrderBookParams.getInterval())
+            .orElse(CoinexOrderBookParams.DEFAULT_INTERVAL);
 
     return coinex.marketDepth(instrument, limit, interval).getData();
   }
-
 }

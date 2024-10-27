@@ -12,27 +12,26 @@ import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.UserTrade;
 
-@Disabled("Needs authenticated exchange and real user trade. Set env vars GATEIO_API_KEY/GATEIO_API_SECRET")
+@Disabled(
+    "Needs authenticated exchange and real user trade. Set env vars GATEIO_API_KEY/GATEIO_API_SECRET")
 class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
 
   @BeforeEach
   void authConfigured() {
-    assumeTrue(StringUtils.isNotEmpty(exchange.getExchangeSpecification().getApiKey()), "Needs auth");
-    assumeTrue(StringUtils.isNotEmpty(exchange.getExchangeSpecification().getSecretKey()), "Needs auth");
+    assumeTrue(
+        StringUtils.isNotEmpty(exchange.getExchangeSpecification().getApiKey()), "Needs auth");
+    assumeTrue(
+        StringUtils.isNotEmpty(exchange.getExchangeSpecification().getSecretKey()), "Needs auth");
   }
-
 
   @Test
   void user_trades_btc() {
-    Observable<UserTrade> observable = exchange
-        .getStreamingTradeService()
-        .getUserTrades(CurrencyPair.BTC_USDT);
+    Observable<UserTrade> observable =
+        exchange.getStreamingTradeService().getUserTrades(CurrencyPair.BTC_USDT);
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    UserTrade userTrade = testObserver
-        .awaitCount(1)
-        .values().get(0);
+    UserTrade userTrade = testObserver.awaitCount(1).values().get(0);
 
     testObserver.dispose();
 
@@ -40,22 +39,16 @@ class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
     assertThat(userTrade.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
   }
 
-
   @Test
   void user_trades_all() {
-    Observable<UserTrade> observable = exchange
-        .getStreamingTradeService()
-        .getUserTrades();
+    Observable<UserTrade> observable = exchange.getStreamingTradeService().getUserTrades();
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    UserTrade userTrade = testObserver
-        .awaitCount(1)
-        .values().get(0);
+    UserTrade userTrade = testObserver.awaitCount(1).values().get(0);
 
     testObserver.dispose();
 
     assertThat(userTrade).hasNoNullFieldsOrPropertiesExcept("makerOrderId", "takerOrderId");
   }
-
 }

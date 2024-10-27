@@ -34,10 +34,9 @@ public class BinanceExchangeTypeIntegration {
 
   private static void testConnection(Instrument instrument, ExchangeSpecification spec)
       throws IOException {
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(spec);
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
     Trades trades = exchange.getMarketDataService().getTrades(instrument);
-    for(Trade trade : trades.getTrades()) {
+    for (Trade trade : trades.getTrades()) {
       tradeCheck(trade, instrument);
     }
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
@@ -70,8 +69,7 @@ public class BinanceExchangeTypeIntegration {
 
   private static ExchangeSpecification getSpec1(ExchangeType exchangeType, boolean useSandbox) {
     ExchangeSpecification exchangeSpecification;
-    exchangeSpecification =
-        new ExchangeSpecification(BinanceExchange.class);
+    exchangeSpecification = new ExchangeSpecification(BinanceExchange.class);
     exchangeSpecification.setExchangeSpecificParametersItem(EXCHANGE_TYPE, exchangeType);
     if (useSandbox) {
       exchangeSpecification.setExchangeSpecificParametersItem(USE_SANDBOX, true);

@@ -30,8 +30,7 @@ public class BinanceFuturesPublicStreamsTest {
     ExchangeSpecification exchangeSpecification =
         new ExchangeSpecification(BinanceFutureStreamingExchange.class);
     exchangeSpecification.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);
-    exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    exchange = StreamingExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     exchange
         .connect(

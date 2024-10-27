@@ -20,7 +20,8 @@ public final class Config {
   public static final String SPOT_TICKERS_CHANNEL = "spot.tickers";
   public static final String SPOT_BALANCES_CHANNEL = "spot.balances";
   public static final String SPOT_USER_TRADES_CHANNEL = "spot.usertrades";
-  public static final List<String> PRIVATE_CHANNELS = Arrays.asList(SPOT_BALANCES_CHANNEL, SPOT_USER_TRADES_CHANNEL);
+  public static final List<String> PRIVATE_CHANNELS =
+      Arrays.asList(SPOT_BALANCES_CHANNEL, SPOT_USER_TRADES_CHANNEL);
 
   public static final String CHANNEL_NAME_DELIMITER = "-";
 
@@ -48,10 +49,7 @@ public final class Config {
     objectMapper.registerModule(new JavaTimeModule());
   }
 
-
   public static Config getInstance() {
     return instance;
   }
-
-
 }

@@ -44,5 +44,4 @@ public class GateioSubAccountTransfer {
 
   @JsonProperty("sub_account_type")
   String subAccountType;
-
 }

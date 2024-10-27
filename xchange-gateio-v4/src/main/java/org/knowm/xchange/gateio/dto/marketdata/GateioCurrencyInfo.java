@@ -31,14 +31,11 @@ public class GateioCurrencyInfo {
   @JsonProperty("chain")
   String chain;
 
-
   public boolean isWithdrawEnabled() {
     return (withdrawDisabled != null) && !withdrawDisabled;
   }
 
-
   public boolean isDepositEnabled() {
     return (depositDisabled != null) && !depositDisabled;
   }
-
 }

@@ -55,32 +55,32 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
     try {
       return decorateApiCall(
               () ->
-                      okex.getTicker(
-                              instrumentId,
-                              (String)
-                                      exchange
-                                              .getExchangeSpecification()
-                                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
-              .withRateLimiter(rateLimiter(Okex.tickerPath))
-              .call();
+                  okex.getTicker(
+                      instrumentId,
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
+          .withRateLimiter(rateLimiter(Okex.tickerPath))
+          .call();
     } catch (OkexException e) {
       throw handleError(e);
     }
   }
 
   public OkexResponse<List<OkexTicker>> getOkexTickers(OkexInstType instType)
-          throws OkexException, IOException {
+      throws OkexException, IOException {
     try {
       return decorateApiCall(
               () ->
-                      okex.getTickers(
-                              instType.toString(),
-                              (String)
-                                      exchange
-                                              .getExchangeSpecification()
-                                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
-              .withRateLimiter(rateLimiter(Okex.tickersPath))
-              .call();
+                  okex.getTickers(
+                      instType.toString(),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
+          .withRateLimiter(rateLimiter(Okex.tickersPath))
+          .call();
     } catch (OkexException e) {
       throw handleError(e);
     }

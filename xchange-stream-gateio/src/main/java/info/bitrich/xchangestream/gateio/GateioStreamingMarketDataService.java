@@ -23,7 +23,6 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
     this.service = service;
   }
 
-
   /**
    * Uses the limited-level snapshot method:
    * https://www.gate.io/docs/apiv4/ws/index.html#limited-level-full-order-book-snapshot
@@ -31,17 +30,16 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
    * @param currencyPair Currency pair of the order book
    * @param args Order book level: {@link Integer}, update speed: {@link Duration}
    */
-
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     Integer orderBookLevel = (Integer) ArrayUtils.get(args, 0, MAX_DEPTH_DEFAULT);
     Duration updateSpeed = (Duration) ArrayUtils.get(args, 1, UPDATE_INTERVAL_DEFAULT);
     return service
-        .subscribeChannel(Config.SPOT_ORDERBOOK_CHANNEL, new Object[]{currencyPair, orderBookLevel, updateSpeed})
+        .subscribeChannel(
+            Config.SPOT_ORDERBOOK_CHANNEL, new Object[] {currencyPair, orderBookLevel, updateSpeed})
         .map(GateioOrderBookNotification.class::cast)
         .map(GateioStreamingAdapters::toOrderBook);
   }
-
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
@@ -50,7 +48,6 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
         .map(GateioTickerNotification.class::cast)
         .map(GateioStreamingAdapters::toTicker);
   }
-
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {

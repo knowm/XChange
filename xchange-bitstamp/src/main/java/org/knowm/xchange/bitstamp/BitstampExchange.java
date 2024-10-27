@@ -69,7 +69,6 @@ public class BitstampExchange extends BaseExchange implements Exchange {
     BitstampMarketDataServiceRaw dataService =
         (BitstampMarketDataServiceRaw) this.marketDataService;
     List<BitstampPairInfo> bitstampPairInfos = dataService.getTradingPairsInfo();
-    exchangeMetaData =
-        BitstampAdapters.adaptMetaData(bitstampPairInfos, exchangeMetaData);
+    exchangeMetaData = BitstampAdapters.adaptMetaData(bitstampPairInfos, exchangeMetaData);
   }
 }

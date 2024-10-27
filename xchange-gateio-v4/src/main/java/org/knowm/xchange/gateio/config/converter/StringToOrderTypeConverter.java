@@ -3,9 +3,7 @@ package org.knowm.xchange.gateio.config.converter;
 import com.fasterxml.jackson.databind.util.StdConverter;
 import org.knowm.xchange.dto.Order.OrderType;
 
-/**
- * Converts string to {@code OrderType}
- */
+/** Converts string to {@code OrderType} */
 public class StringToOrderTypeConverter extends StdConverter<String, OrderType> {
 
   @Override

@@ -51,14 +51,12 @@ public class AccountServiceIntegration extends BinanceExchangeIntegration {
     Assert.assertFalse(assetDetails.isEmpty());
   }
 
-
   @Test
   public void testCurrencyInfos() throws Exception {
     assumeProduction();
     List<BinanceCurrencyInfo> currencyInfos = accountService.currencyInfos();
     assertThat(currencyInfos).isNotEmpty();
   }
-
 
   @Test
   public void testMetaData() {

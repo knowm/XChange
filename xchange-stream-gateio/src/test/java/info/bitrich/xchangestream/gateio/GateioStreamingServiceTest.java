@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.gateio;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,14 +20,12 @@ public class GateioStreamingServiceTest {
     assertThat(actual).isEqualTo("spot.order_book-BTC/USDT");
   }
 
-
   @Test
   void channel_name_from_ticker_update() throws Exception {
     GateioWsNotification notification = readNotification("spot.ticker.update.json");
     String actual = gateioStreamingService.getChannelNameFromMessage(notification);
     assertThat(actual).isEqualTo("spot.tickers-BTC/USDT");
   }
-
 
   @Test
   void channel_name_from_trade_update() throws Exception {
@@ -37,14 +34,12 @@ public class GateioStreamingServiceTest {
     assertThat(actual).isEqualTo("spot.trades-BTC/USDT");
   }
 
-
   @Test
   void channel_name_from_subscribe_event() throws Exception {
     GateioWsNotification notification = readNotification("subscribe.event.json");
     String actual = gateioStreamingService.getChannelNameFromMessage(notification);
     assertThat(actual).isEqualTo("spot.order_book");
   }
-
 
   @Test
   void channel_name_from_unsubscribe_event() throws Exception {
@@ -55,10 +50,6 @@ public class GateioStreamingServiceTest {
 
   private GateioWsNotification readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(
-        getClass().getClassLoader().getResourceAsStream(resourceName),
-        GateioWsNotification.class
-    );
+        getClass().getClassLoader().getResourceAsStream(resourceName), GateioWsNotification.class);
   }
-
-
 }

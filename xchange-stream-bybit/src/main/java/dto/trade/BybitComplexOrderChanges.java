@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.knowm.xchange.bybit.dto.BybitCategory;
-import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
 import org.knowm.xchange.bybit.dto.trade.BybitSide;
 import org.knowm.xchange.dto.Order;
@@ -28,22 +27,63 @@ public class BybitComplexOrderChanges extends Order {
   private boolean reduceOnly;
   private Date updatedTime;
 
-  public BybitComplexOrderChanges(OrderType type, BigDecimal originalAmount,
-      Instrument instrument, String id, Date timestamp,
-      BigDecimal averagePrice, BigDecimal cumulativeAmount,
-      BigDecimal fee, OrderStatus status, String userReference) {
-    super(type, originalAmount, instrument, id, timestamp, averagePrice, cumulativeAmount, fee,
-        status, userReference);
+  public BybitComplexOrderChanges(
+      OrderType type,
+      BigDecimal originalAmount,
+      Instrument instrument,
+      String id,
+      Date timestamp,
+      BigDecimal averagePrice,
+      BigDecimal cumulativeAmount,
+      BigDecimal fee,
+      OrderStatus status,
+      String userReference) {
+    super(
+        type,
+        originalAmount,
+        instrument,
+        id,
+        timestamp,
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        status,
+        userReference);
   }
 
-  public BybitComplexOrderChanges(OrderType type, BigDecimal originalAmount, Instrument instrument,
-      String id, Date timestamp, BigDecimal averagePrice, BigDecimal cumulativeAmount,
-      BigDecimal fee, OrderStatus status, String userReference, BybitCategory category,
-      BigDecimal price, BybitSide side, BigDecimal leavesQty, BigDecimal leavesValue,
-      BigDecimal cumExecValue, String feeCurrency, TimeInForce timeInForce,
-      BybitOrderType orderType, boolean reduceOnly, Date updatedTime) {
-    super(type, originalAmount, instrument, id, timestamp, averagePrice, cumulativeAmount, fee,
-        status, userReference);
+  public BybitComplexOrderChanges(
+      OrderType type,
+      BigDecimal originalAmount,
+      Instrument instrument,
+      String id,
+      Date timestamp,
+      BigDecimal averagePrice,
+      BigDecimal cumulativeAmount,
+      BigDecimal fee,
+      OrderStatus status,
+      String userReference,
+      BybitCategory category,
+      BigDecimal price,
+      BybitSide side,
+      BigDecimal leavesQty,
+      BigDecimal leavesValue,
+      BigDecimal cumExecValue,
+      String feeCurrency,
+      TimeInForce timeInForce,
+      BybitOrderType orderType,
+      boolean reduceOnly,
+      Date updatedTime) {
+    super(
+        type,
+        originalAmount,
+        instrument,
+        id,
+        timestamp,
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        status,
+        userReference);
     this.category = category;
     this.price = price;
     this.side = side;
@@ -64,7 +104,6 @@ public class BybitComplexOrderChanges extends Order {
     IOC("IOC"),
     FOK("FOK"),
     POSTONLY("PostOnly");
-    @JsonValue
-    private final String value;
+    @JsonValue private final String value;
   }
 }

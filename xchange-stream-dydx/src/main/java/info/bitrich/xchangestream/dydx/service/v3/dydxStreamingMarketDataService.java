@@ -71,5 +71,4 @@ public class dydxStreamingMarketDataService implements StreamingMarketDataServic
               }
             });
   }
-
 }

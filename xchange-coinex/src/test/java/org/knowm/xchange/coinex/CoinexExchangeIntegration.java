@@ -13,13 +13,11 @@ class CoinexExchangeIntegration {
 
   CoinexExchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinexExchange.class);
 
-
   @Test
   void valid_metadata() {
     assertThat(exchange.getExchangeMetaData()).isNotNull();
-    Map<Instrument, InstrumentMetaData> instruments = exchange.getExchangeMetaData().getInstruments();
+    Map<Instrument, InstrumentMetaData> instruments =
+        exchange.getExchangeMetaData().getInstruments();
     assertThat(instruments).containsKey(CurrencyPair.BTC_USDT);
   }
-
-
 }

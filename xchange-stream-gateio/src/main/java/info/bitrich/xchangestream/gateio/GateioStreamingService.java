@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.gateio;
 
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
@@ -34,9 +33,11 @@ import org.knowm.xchange.currency.CurrencyPair;
 @Slf4j
 public class GateioStreamingService extends NettyStreamingService<GateioWsNotification> {
 
-  private static final String USERTRADES_BROADCAST_CHANNEL_NAME = Config.SPOT_USER_TRADES_CHANNEL + Config.CHANNEL_NAME_DELIMITER + "null";
+  private static final String USERTRADES_BROADCAST_CHANNEL_NAME =
+      Config.SPOT_USER_TRADES_CHANNEL + Config.CHANNEL_NAME_DELIMITER + "null";
 
-  private final Map<String, Observable<GateioWsNotification>> subscriptions = new ConcurrentHashMap<>();
+  private final Map<String, Observable<GateioWsNotification>> subscriptions =
+      new ConcurrentHashMap<>();
 
   private final ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 
@@ -86,20 +87,20 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
   @Override
   public String getSubscribeMessage(String uniqueChannelName, Object... args) throws IOException {
     String generalChannelName = uniqueChannelName.split(Config.CHANNEL_NAME_DELIMITER)[0];
-    GateioWsRequest request = getWsRequest(generalChannelName, Event.SUBSCRIBE , args);
+    GateioWsRequest request = getWsRequest(generalChannelName, Event.SUBSCRIBE, args);
     return objectMapper.writeValueAsString(request);
   }
-
 
   private GateioWsRequest getWsRequest(String channelName, Event event, Object... args) {
     // create request common part
 
-    GateioWsRequest request = GateioWsRequest.builder()
-        .id(IdGenerator.getInstance().requestId())
-        .channel(channelName)
-        .event(event)
-        .time(Instant.now(Config.getInstance().getClock()))
-        .build();
+    GateioWsRequest request =
+        GateioWsRequest.builder()
+            .id(IdGenerator.getInstance().requestId())
+            .channel(channelName)
+            .event(event)
+            .time(Instant.now(Config.getInstance().getClock()))
+            .build();
 
     // create channel specific payload
     Object payload;
@@ -107,45 +108,43 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
 
       // channels require only currency pair in payload
       case Config.SPOT_TICKERS_CHANNEL:
-      case Config.SPOT_TRADES_CHANNEL: {
-        CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
-        Objects.requireNonNull(currencyPair);
+      case Config.SPOT_TRADES_CHANNEL:
+        {
+          CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
+          Objects.requireNonNull(currencyPair);
 
-        payload = CurrencyPairPayload.builder()
-            .currencyPair(currencyPair)
-            .build();
-        break;
-      }
+          payload = CurrencyPairPayload.builder().currencyPair(currencyPair).build();
+          break;
+        }
 
       // channel requires currency pair, level, interval in payload
-      case Config.SPOT_ORDERBOOK_CHANNEL: {
-        CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
-        Integer orderBookLevel = (Integer) ArrayUtils.get(args, 1);
-        Duration updateSpeed = (Duration) ArrayUtils.get(args, 2);
-        Validate.noNullElements(new Object[]{currencyPair, orderBookLevel, updateSpeed});
+      case Config.SPOT_ORDERBOOK_CHANNEL:
+        {
+          CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
+          Integer orderBookLevel = (Integer) ArrayUtils.get(args, 1);
+          Duration updateSpeed = (Duration) ArrayUtils.get(args, 2);
+          Validate.noNullElements(new Object[] {currencyPair, orderBookLevel, updateSpeed});
 
-        payload = CurrencyPairLevelIntervalPayload.builder()
-            .currencyPair(currencyPair)
-            .orderBookLevel(orderBookLevel)
-            .updateSpeed(updateSpeed)
-            .build();
-        break;
-      }
+          payload =
+              CurrencyPairLevelIntervalPayload.builder()
+                  .currencyPair(currencyPair)
+                  .orderBookLevel(orderBookLevel)
+                  .updateSpeed(updateSpeed)
+                  .build();
+          break;
+        }
 
       // channel requires currency pair or default value for all
-      case Config.SPOT_USER_TRADES_CHANNEL: {
-        CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
-        if (currencyPair == null) {
-          payload = StringPayload.builder()
-              .data("!all")
-              .build();
-        } else {
-          payload = CurrencyPairPayload.builder()
-              .currencyPair(currencyPair)
-              .build();
+      case Config.SPOT_USER_TRADES_CHANNEL:
+        {
+          CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
+          if (currencyPair == null) {
+            payload = StringPayload.builder().data("!all").build();
+          } else {
+            payload = CurrencyPairPayload.builder().currencyPair(currencyPair).build();
+          }
+          break;
         }
-        break;
-      }
 
       default:
         payload = EmptyPayload.builder().build();
@@ -153,23 +152,26 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
 
     // add auth for private channels
     if (Config.PRIVATE_CHANNELS.contains(channelName)) {
-      request.setAuthInfo(AuthInfo.builder()
+      request.setAuthInfo(
+          AuthInfo.builder()
               .method("api_key")
               .key(apiKey)
-              .sign(gateioStreamingAuthHelper.sign(channelName, event.getValue(), String.valueOf(request.getTime().getEpochSecond())))
-          .build());
+              .sign(
+                  gateioStreamingAuthHelper.sign(
+                      channelName,
+                      event.getValue(),
+                      String.valueOf(request.getTime().getEpochSecond())))
+              .build());
     }
 
     request.setPayload(payload);
     return request;
   }
 
-
   @Override
   protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
     return WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler.INSTANCE;
   }
-
 
   /**
    * Returns a JSON String containing the unsubscribe message.
@@ -199,26 +201,25 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
         return;
       }
 
-      GateioWsNotification notification = objectMapper.treeToValue(jsonNode, GateioWsNotification.class);
+      GateioWsNotification notification =
+          objectMapper.treeToValue(jsonNode, GateioWsNotification.class);
 
       // process arrays in "result" field -> emit each item separately
       if (notification instanceof GateioMultipleUserTradeNotification) {
-        GateioMultipleUserTradeNotification multipleNotification = (GateioMultipleUserTradeNotification) notification;
+        GateioMultipleUserTradeNotification multipleNotification =
+            (GateioMultipleUserTradeNotification) notification;
         multipleNotification.toSingleNotifications().forEach(this::handleMessage);
-      }
-      else if (notification instanceof GateioMultipleSpotBalanceNotification) {
-        GateioMultipleSpotBalanceNotification multipleNotification = (GateioMultipleSpotBalanceNotification) notification;
+      } else if (notification instanceof GateioMultipleSpotBalanceNotification) {
+        GateioMultipleSpotBalanceNotification multipleNotification =
+            (GateioMultipleSpotBalanceNotification) notification;
         multipleNotification.toSingleNotifications().forEach(this::handleMessage);
-      }
-      else {
+      } else {
         handleMessage(notification);
       }
     } catch (IOException e) {
       log.error("Error parsing incoming message to JSON: {}", message);
     }
-
   }
-
 
   @Override
   protected void handleChannelMessage(String channel, GateioWsNotification message) {
@@ -231,8 +232,8 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
     if (message instanceof GateioSingleUserTradeNotification) {
 
       // subscription that listens to all currency pairs
-      NettyStreamingService<GateioWsNotification>.Subscription broadcast = channels.get(
-          USERTRADES_BROADCAST_CHANNEL_NAME);
+      NettyStreamingService<GateioWsNotification>.Subscription broadcast =
+          channels.get(USERTRADES_BROADCAST_CHANNEL_NAME);
       if (broadcast != null && broadcast.getEmitter() != null) {
         broadcast.getEmitter().onNext(message);
       }
@@ -243,10 +244,8 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
         specific.getEmitter().onNext(message);
       }
 
-    }
-    else {
+    } else {
       super.handleChannelMessage(channel, message);
     }
-
   }
 }

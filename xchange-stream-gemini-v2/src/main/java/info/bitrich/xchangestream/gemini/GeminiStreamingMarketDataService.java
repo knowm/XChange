@@ -47,5 +47,4 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                   bids.get(currencyPair), asks.get(currencyPair), maxDepth, currencyPair);
             });
   }
-
 }

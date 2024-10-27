@@ -19,9 +19,8 @@ public class BybitExchange extends BaseExchange {
 
   public static final String SPECIFIC_PARAM_ACCOUNT_TYPE = "accountType";
   private static final String BASE_URL = "https://api.bybit.com";
-//  private static final String DEMO_URL = "https://api-demo.bybit.com";
+  //  private static final String DEMO_URL = "https://api-demo.bybit.com";
   private static final String TESTNET_URL = "https://api-testnet.bybit.com";
-
 
   @Override
   protected void initServices() {
@@ -45,8 +44,7 @@ public class BybitExchange extends BaseExchange {
     exchangeSpecification.setExchangeDescription("BYBIT");
     exchangeSpecification.setExchangeSpecificParametersItem(
         SPECIFIC_PARAM_ACCOUNT_TYPE, BybitAccountType.UNIFIED);
-    exchangeSpecification.setExchangeSpecificParametersItem(
-        Exchange.USE_SANDBOX, false);
+    exchangeSpecification.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, false);
     return exchangeSpecification;
   }
 
