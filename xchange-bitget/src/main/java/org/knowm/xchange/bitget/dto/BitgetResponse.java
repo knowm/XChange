@@ -12,23 +12,22 @@ import si.mazi.rescu.ExceptionalReturnContentException;
 @Jacksonized
 public class BitgetResponse<T> {
 
-    @JsonProperty("code")
-    private Integer code;
+  @JsonProperty("code")
+  private Integer code;
 
-    @JsonProperty("msg")
-    private String message;
+  @JsonProperty("msg")
+  private String message;
 
-    @JsonProperty("requestTime")
-    private Instant requestTime;
+  @JsonProperty("requestTime")
+  private Instant requestTime;
 
-    @JsonProperty("data")
-    private T data;
+  @JsonProperty("data")
+  private T data;
 
-    public void setCode(Integer code) {
-        if (code != 0) {
-            throw new ExceptionalReturnContentException(String.valueOf(code));
-        }
-        this.code = code;
+  public void setCode(Integer code) {
+    if (code != 0) {
+      throw new ExceptionalReturnContentException(String.valueOf(code));
     }
-
+    this.code = code;
+  }
 }

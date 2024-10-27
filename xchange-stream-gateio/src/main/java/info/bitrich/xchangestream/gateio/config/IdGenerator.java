@@ -6,17 +6,13 @@ public final class IdGenerator {
 
   private static IdGenerator instance = new IdGenerator();
 
-  private IdGenerator() {
-  }
+  private IdGenerator() {}
 
   public static IdGenerator getInstance() {
     return instance;
   }
 
-
   public Long requestId() {
     return ThreadLocalRandom.current().nextLong();
   }
 }
-
-

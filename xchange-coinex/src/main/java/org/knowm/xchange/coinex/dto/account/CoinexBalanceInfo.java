@@ -21,5 +21,4 @@ public class CoinexBalanceInfo {
   private BigDecimal available;
 
   private BigDecimal frozen;
-
 }

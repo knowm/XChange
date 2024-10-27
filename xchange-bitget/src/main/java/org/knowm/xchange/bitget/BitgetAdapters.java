@@ -47,37 +47,33 @@ public class BitgetAdapters {
 
   private final Map<String, CurrencyPair> SYMBOL_TO_CURRENCY_PAIR = new HashMap<>();
 
-
   public CurrencyPair toCurrencyPair(String symbol) {
     return SYMBOL_TO_CURRENCY_PAIR.get(symbol);
   }
 
-
   public String toString(Instrument instrument) {
-    return instrument == null ? null : instrument.getBase().toString() + instrument.getCounter().toString();
+    return instrument == null
+        ? null
+        : instrument.getBase().toString() + instrument.getCounter().toString();
   }
-
 
   public String toString(Currency currency) {
-    return Optional.ofNullable(currency)
-        .map(Currency::getCurrencyCode)
-        .orElse(null);
+    return Optional.ofNullable(currency).map(Currency::getCurrencyCode).orElse(null);
   }
-
 
   public void putSymbolMapping(String symbol, CurrencyPair currencyPair) {
     SYMBOL_TO_CURRENCY_PAIR.put(symbol, currencyPair);
   }
 
-
   public InstrumentMetaData toInstrumentMetaData(BitgetSymbolDto bitgetSymbolDto) {
-    InstrumentMetaData.Builder builder = new InstrumentMetaData.Builder()
-        .tradingFee(bitgetSymbolDto.getTakerFeeRate())
-        .minimumAmount(bitgetSymbolDto.getMinTradeAmount())
-        .maximumAmount(bitgetSymbolDto.getMaxTradeAmount())
-        .volumeScale(bitgetSymbolDto.getQuantityPrecision())
-        .priceScale(bitgetSymbolDto.getPricePrecision())
-        .marketOrderEnabled(bitgetSymbolDto.getStatus() == Status.ONLINE);
+    InstrumentMetaData.Builder builder =
+        new InstrumentMetaData.Builder()
+            .tradingFee(bitgetSymbolDto.getTakerFeeRate())
+            .minimumAmount(bitgetSymbolDto.getMinTradeAmount())
+            .maximumAmount(bitgetSymbolDto.getMaxTradeAmount())
+            .volumeScale(bitgetSymbolDto.getQuantityPrecision())
+            .priceScale(bitgetSymbolDto.getPricePrecision())
+            .marketOrderEnabled(bitgetSymbolDto.getStatus() == Status.ONLINE);
 
     // set min quote amount for USDT
     if (bitgetSymbolDto.getCurrencyPair().getCounter().equals(Currency.USDT)) {
@@ -86,7 +82,6 @@ public class BitgetAdapters {
 
     return builder.build();
   }
-
 
   public Ticker toTicker(BitgetTickerDto bitgetTickerDto) {
     CurrencyPair currencyPair = toCurrencyPair(bitgetTickerDto.getSymbol());
@@ -110,13 +105,9 @@ public class BitgetAdapters {
         .build();
   }
 
-
   public Date toDate(Instant instant) {
-    return Optional.ofNullable(instant)
-        .map(Date::from)
-        .orElse(null);
+    return Optional.ofNullable(instant).map(Date::from).orElse(null);
   }
-
 
   public Balance toBalance(BitgetBalanceDto balance) {
     return new Balance.Builder()
@@ -127,44 +118,42 @@ public class BitgetAdapters {
         .build();
   }
 
-
   public Wallet toWallet(List<BitgetBalanceDto> bitgetBalanceDtos) {
-    List<Balance> balances = bitgetBalanceDtos.stream()
-        .map(BitgetAdapters::toBalance)
-        .collect(Collectors.toList());
+    List<Balance> balances =
+        bitgetBalanceDtos.stream().map(BitgetAdapters::toBalance).collect(Collectors.toList());
 
     return Wallet.Builder.from(balances).id("spot").build();
   }
 
-
   public OrderBook toOrderBook(BitgetMarketDepthDto bitgetMarketDepthDto, Instrument instrument) {
-    List<LimitOrder> asks = bitgetMarketDepthDto.getAsks().stream()
-        .map(priceSizeEntry ->
-            new LimitOrder(
-                OrderType.ASK,
-                priceSizeEntry.getSize(),
-                instrument,
-                null,
-                null,
-                priceSizeEntry.getPrice())
-        )
-        .collect(Collectors.toList());
+    List<LimitOrder> asks =
+        bitgetMarketDepthDto.getAsks().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.ASK,
+                        priceSizeEntry.getSize(),
+                        instrument,
+                        null,
+                        null,
+                        priceSizeEntry.getPrice()))
+            .collect(Collectors.toList());
 
-    List<LimitOrder> bids = bitgetMarketDepthDto.getBids().stream()
-        .map(priceSizeEntry ->
-            new LimitOrder(
-                OrderType.BID,
-                priceSizeEntry.getSize(),
-                instrument,
-                null,
-                null,
-                priceSizeEntry.getPrice())
-        )
-        .collect(Collectors.toList());
+    List<LimitOrder> bids =
+        bitgetMarketDepthDto.getBids().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.BID,
+                        priceSizeEntry.getSize(),
+                        instrument,
+                        null,
+                        null,
+                        priceSizeEntry.getPrice()))
+            .collect(Collectors.toList());
 
     return new OrderBook(toDate(bitgetMarketDepthDto.getTimestamp()), asks, bids);
   }
-
 
   public Order toOrder(BitgetOrderInfoDto order) {
     if (order == null) {
@@ -181,8 +170,7 @@ public class BitgetAdapters {
         builder = new MarketOrder.Builder(orderType, instrument);
         break;
       case LIMIT:
-        builder = new LimitOrder.Builder(orderType, instrument)
-            .limitPrice(order.getPrice());
+        builder = new LimitOrder.Builder(orderType, instrument).limitPrice(order.getPrice());
         break;
       default:
         throw new IllegalArgumentException("Can't map " + order.getOrderType());
@@ -213,7 +201,6 @@ public class BitgetAdapters {
         .build();
   }
 
-
   public OrderStatus toOrderStatus(BitgetOrderStatus bitgetOrderStatus) {
     switch (bitgetOrderStatus) {
       case PENDING:
@@ -229,7 +216,6 @@ public class BitgetAdapters {
     }
   }
 
-
   public BitgetPlaceOrderDto toBitgetPlaceOrderDto(MarketOrder marketOrder) {
     return BitgetPlaceOrderDto.builder()
         .symbol(toString(marketOrder.getInstrument()))
@@ -240,27 +226,27 @@ public class BitgetAdapters {
         .build();
   }
 
-
   public UserTrade toUserTrade(BitgetFillDto bitgetFillDto) {
-    return new UserTrade(bitgetFillDto.getOrderSide(), bitgetFillDto.getAssetAmount(), toCurrencyPair(bitgetFillDto.getSymbol()),
-        bitgetFillDto.getPrice(), toDate(bitgetFillDto.getUpdatedAt()), bitgetFillDto.getTradeId(), bitgetFillDto.getOrderId(),
-        bitgetFillDto.getFeeDetail().getTotalFee().abs(), bitgetFillDto.getFeeDetail().getCurrency(), null);
-  }
-  
-  
-  public String toString(BitgetAccountType bitgetAccountType) {
-    return Optional.ofNullable(bitgetAccountType)
-        .map(BitgetAccountType::getValue)
-        .orElse(null);
+    return new UserTrade(
+        bitgetFillDto.getOrderSide(),
+        bitgetFillDto.getAssetAmount(),
+        toCurrencyPair(bitgetFillDto.getSymbol()),
+        bitgetFillDto.getPrice(),
+        toDate(bitgetFillDto.getUpdatedAt()),
+        bitgetFillDto.getTradeId(),
+        bitgetFillDto.getOrderId(),
+        bitgetFillDto.getFeeDetail().getTotalFee().abs(),
+        bitgetFillDto.getFeeDetail().getCurrency(),
+        null);
   }
 
+  public String toString(BitgetAccountType bitgetAccountType) {
+    return Optional.ofNullable(bitgetAccountType).map(BitgetAccountType::getValue).orElse(null);
+  }
 
   public String toString(BitgetMainSubTransferHistoryParams.Role role) {
-    return Optional.ofNullable(role)
-        .map(Role::getValue)
-        .orElse(null);
+    return Optional.ofNullable(role).map(Role::getValue).orElse(null);
   }
-
 
   public FundingRecord toFundingRecord(BitgetDepositWithdrawRecordDto record) {
     return new FundingRecord.Builder()
@@ -277,23 +263,23 @@ public class BitgetAdapters {
         .build();
   }
 
-
   public FundingRecord.Type toFundingRecordType(BitgetDepositWithdrawRecordDto record) {
-    if (record.getDepositType() == DepositType.ON_CHAIN && record.getType() == RecordType.WITHDRAW) {
+    if (record.getDepositType() == DepositType.ON_CHAIN
+        && record.getType() == RecordType.WITHDRAW) {
       return Type.WITHDRAWAL;
     }
     if (record.getDepositType() == DepositType.ON_CHAIN && record.getType() == RecordType.DEPOSIT) {
       return Type.DEPOSIT;
     }
-    if (record.getDepositType() == DepositType.INTERNAL_TRANSFER && record.getType() == RecordType.WITHDRAW) {
+    if (record.getDepositType() == DepositType.INTERNAL_TRANSFER
+        && record.getType() == RecordType.WITHDRAW) {
       return Type.INTERNAL_WITHDRAWAL;
     }
-    if (record.getDepositType() == DepositType.INTERNAL_TRANSFER && record.getType() == RecordType.DEPOSIT) {
+    if (record.getDepositType() == DepositType.INTERNAL_TRANSFER
+        && record.getType() == RecordType.DEPOSIT) {
       return Type.INTERNAL_DEPOSIT;
     }
 
     return null;
   }
-
-
 }

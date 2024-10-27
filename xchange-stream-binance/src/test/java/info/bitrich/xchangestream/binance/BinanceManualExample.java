@@ -142,8 +142,7 @@ public class BinanceManualExample {
             throwable -> LOG.error("ERROR in getting order book: ", throwable));
   }
 
-  private static Disposable orderbooksIncremental(
-      StreamingExchange exchange, String identifier) {
+  private static Disposable orderbooksIncremental(StreamingExchange exchange, String identifier) {
     return exchange
         .getStreamingMarketDataService()
         .getOrderBookUpdates(CurrencyPair.LTC_BTC)

@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.util.StdConverter;
 import java.util.Locale;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 
-/**
- * Converts string to {@code FundingRecord.Status}
- */
+/** Converts string to {@code FundingRecord.Status} */
 public class StringToFundingRecordStatusConverter extends StdConverter<String, Status> {
 
   @Override

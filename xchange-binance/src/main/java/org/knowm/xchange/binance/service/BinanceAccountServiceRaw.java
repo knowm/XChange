@@ -39,15 +39,15 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         .call();
   }
 
-
   public List<BinanceCurrencyInfo> currencyInfos() throws BinanceException, IOException {
     return decorateApiCall(
-            () -> binance.getCurrencyInfos(getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
+            () ->
+                binance.getCurrencyInfos(
+                    getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
         .withRetry(retry("currencyInfo"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
         .call();
   }
-
 
   public BinanceFutureAccountInformation futuresAccount() throws BinanceException, IOException {
     return decorateApiCall(

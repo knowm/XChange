@@ -15,7 +15,6 @@ public class GateioStreamingTradeService implements StreamingTradeService {
     this.service = service;
   }
 
-
   @Override
   public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     return service

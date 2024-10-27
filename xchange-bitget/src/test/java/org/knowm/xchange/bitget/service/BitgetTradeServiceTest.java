@@ -26,7 +26,6 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
 
   TradeService tradeService = exchange.getTradeService();
 
-
   @Test
   void sell_order_details() throws IOException {
     MarketOrder expected =
@@ -43,11 +42,12 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
 
     Collection<Order> orders = tradeService.getOrder("1214193970718347264");
     assertThat(orders).hasSize(1);
-    assertThat(orders).first()
+    assertThat(orders)
+        .first()
         .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
-        .usingRecursiveComparison().isEqualTo(expected);
+        .usingRecursiveComparison()
+        .isEqualTo(expected);
   }
-
 
   @Test
   void buy_order_details() throws IOException {
@@ -63,13 +63,15 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
             .fee(new BigDecimal("0.0020706"))
             .build();
 
-    Collection<Order> orders = tradeService.getOrder(new DefaultQueryOrderParamInstrument(null, "1214189703404097539"));
+    Collection<Order> orders =
+        tradeService.getOrder(new DefaultQueryOrderParamInstrument(null, "1214189703404097539"));
     assertThat(orders).hasSize(1);
-    assertThat(orders).first()
+    assertThat(orders)
+        .first()
         .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
-        .usingRecursiveComparison().isEqualTo(expected);
+        .usingRecursiveComparison()
+        .isEqualTo(expected);
   }
-
 
   @Test
   void place_market_buy_order() throws IOException {
@@ -83,7 +85,6 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
     assertThat(actualResponse).isEqualTo("1214189703404097539");
   }
 
-
   @Test
   void place_market_sell_order() throws IOException {
     MarketOrder marketOrder =
@@ -96,28 +97,36 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
     assertThat(actualResponse).isEqualTo("1214193970718347264");
   }
 
-
   @Test
   void trade_history() throws IOException {
-    UserTrades userTrades = exchange.getTradeService().getTradeHistory(
-        BitgetTradeHistoryParams.builder()
-        .instrument(BTC_USDT)
-        .limit(2)
-        .orderId("1225475622585147396")
-        .startTime(Date.from(Instant.ofEpochMilli(1727902077418L)))
-        .endTime(Date.from(Instant.ofEpochMilli(1727902077420L)))
-        .endId("1225475622852575236")
-        .build()
-    );
+    UserTrades userTrades =
+        exchange
+            .getTradeService()
+            .getTradeHistory(
+                BitgetTradeHistoryParams.builder()
+                    .instrument(BTC_USDT)
+                    .limit(2)
+                    .orderId("1225475622585147396")
+                    .startTime(Date.from(Instant.ofEpochMilli(1727902077418L)))
+                    .endTime(Date.from(Instant.ofEpochMilli(1727902077420L)))
+                    .endId("1225475622852575236")
+                    .build());
 
     assertThat(userTrades.getUserTrades()).hasSize(1);
 
-    UserTrade expected = new UserTrade(OrderType.BID, new BigDecimal("0.000246"), BTC_USDT,
-        new BigDecimal("60775.01"), Date.from(Instant.ofEpochMilli(1727902077419L)), "1225475622852575236",
-        "1225475622585147396", new BigDecimal("0.000000246"), Currency.BTC, null);
+    UserTrade expected =
+        new UserTrade(
+            OrderType.BID,
+            new BigDecimal("0.000246"),
+            BTC_USDT,
+            new BigDecimal("60775.01"),
+            Date.from(Instant.ofEpochMilli(1727902077419L)),
+            "1225475622852575236",
+            "1225475622585147396",
+            new BigDecimal("0.000000246"),
+            Currency.BTC,
+            null);
 
     assertThat(userTrades.getUserTrades()).first().usingRecursiveComparison().isEqualTo(expected);
   }
-
-
 }

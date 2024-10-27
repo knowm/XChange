@@ -14,5 +14,4 @@ public class CoinexException extends RuntimeException {
   Object data;
 
   String message;
-
 }

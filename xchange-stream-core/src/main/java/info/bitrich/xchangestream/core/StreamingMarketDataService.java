@@ -95,14 +95,14 @@ public interface StreamingMarketDataService {
   }
 
   /**
-   * Get snapshots of orderBook update separately.
-   * Work only with {@link #getOrderBook(Instrument, Object...)} subscription.
+   * Get snapshots of orderBook update separately. Work only with {@link #getOrderBook(Instrument,
+   * Object...)} subscription.
    *
    * @return {@link Observable} that emits {@link OrderBookUpdate} when exchange sends the orderBook
-   * snapshot.
+   *     snapshot.
    */
-  default Observable<List<OrderBookUpdate>> getOrderBookUpdates(Instrument instrument,
-      Object... args) {
+  default Observable<List<OrderBookUpdate>> getOrderBookUpdates(
+      Instrument instrument, Object... args) {
     throw new NotYetImplementedForExchangeException("getOrderBookUpdates");
   }
 }

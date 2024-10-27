@@ -15,11 +15,9 @@ public final class BitgetDigest extends BaseParamsDigest {
     super(secretKeyBase64, HMAC_SHA_256);
   }
 
-
   public static BitgetDigest createInstance(String secretKeyBase64) {
     return secretKeyBase64 == null ? null : new BitgetDigest(secretKeyBase64);
   }
-
 
   @SneakyThrows
   @Override

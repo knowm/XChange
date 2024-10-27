@@ -92,11 +92,11 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     if (side == Side.sell) {
       boolean amountInCounter = order.hasFlag(BitstampOrderFlags.INSTANT_AMOUNT_IN_COUNTER);
       bitstampOrder =
-          placeBitstampInstantSellMarketOrder(order.getCurrencyPair(), side, order.getOriginalAmount(), amountInCounter);
+          placeBitstampInstantSellMarketOrder(
+              order.getCurrencyPair(), side, order.getOriginalAmount(), amountInCounter);
     } else {
       bitstampOrder =
           placeBitstampInstantMarketOrder(order.getCurrencyPair(), side, order.getOriginalAmount());
-
     }
 
     if (bitstampOrder.getErrorMessage() != null) {
@@ -106,7 +106,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     return Long.toString(bitstampOrder.getId());
   }
 
-    @Override
+  @Override
   public String placeMarketOrder(MarketOrder order) throws IOException, BitstampException {
     BitstampAuthenticatedV2.Side side =
         order.getType().equals(BID)

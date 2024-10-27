@@ -19,8 +19,10 @@ public class BybitAdaptersTest {
     assertThat(guessSymbol("BTCDAI")).isEqualTo(new CurrencyPair("BTC", "DAI"));
     assertThat(guessSymbol("ABCDEFG")).isEqualTo(new CurrencyPair("ABCD", "EFG"));
 
-    assertThat(guessSymbol("BTCUSDT", BybitCategory.LINEAR)).isEqualTo(new FuturesContract("BTC/USDT/PERP"));
-    assertThat(guessSymbol("ETHPERP", BybitCategory.LINEAR)).isEqualTo(new FuturesContract("ETH/USDC/PERP"));
+    assertThat(guessSymbol("BTCUSDT", BybitCategory.LINEAR))
+        .isEqualTo(new FuturesContract("BTC/USDT/PERP"));
+    assertThat(guessSymbol("ETHPERP", BybitCategory.LINEAR))
+        .isEqualTo(new FuturesContract("ETH/USDC/PERP"));
   }
 
   @Test
@@ -55,6 +57,5 @@ public class BybitAdaptersTest {
 
     assertThat(BybitAdapters.convertBybitSymbolToInstrument("ETHUSDH24", BybitCategory.INVERSE))
         .isEqualTo(new FuturesContract("ETH/USD/H24"));
-
   }
 }

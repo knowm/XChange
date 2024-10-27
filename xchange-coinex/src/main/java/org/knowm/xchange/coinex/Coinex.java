@@ -22,33 +22,28 @@ public interface Coinex {
 
   @GET
   @Path("v1/common/asset/config")
-  CoinexResponse<Map<String, CoinexChainInfo>> allChainInfos()
-      throws IOException, CoinexException;
-
+  CoinexResponse<Map<String, CoinexChainInfo>> allChainInfos() throws IOException, CoinexException;
 
   @GET
   @Path("v1/market/ticker/all")
   CoinexResponse<CoinexAllMarketStatisticsV1> allMarketStatistics()
       throws IOException, CoinexException;
 
-
   @GET
   @Path("v1/market/ticker")
-  CoinexResponse<CoinexSingleMarketStatisticsV1> singleMarketStatistics(@QueryParam("market") String market)
-      throws IOException, CoinexException;
-
+  CoinexResponse<CoinexSingleMarketStatisticsV1> singleMarketStatistics(
+      @QueryParam("market") String market) throws IOException, CoinexException;
 
   @GET
   @Path("v2/spot/market")
   CoinexResponse<List<CoinexCurrencyPairInfo>> marketStatus(@QueryParam("market") String markets)
       throws IOException, CoinexException;
 
-
   @GET
   @Path("v2/spot/depth")
-  CoinexResponse<CoinexMarketDepth> marketDepth(@QueryParam("market") String market,
-      @QueryParam("limit") Integer limit, @QueryParam("interval") Integer interval)
+  CoinexResponse<CoinexMarketDepth> marketDepth(
+      @QueryParam("market") String market,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("interval") Integer interval)
       throws IOException, CoinexException;
-
-
 }

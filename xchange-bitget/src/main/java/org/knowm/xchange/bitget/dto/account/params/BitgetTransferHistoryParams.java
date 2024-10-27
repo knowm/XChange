@@ -23,5 +23,4 @@ public class BitgetTransferHistoryParams {
   private Integer limit;
 
   private String endId;
-
 }

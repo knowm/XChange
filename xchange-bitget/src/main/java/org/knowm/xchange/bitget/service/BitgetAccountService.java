@@ -22,7 +22,6 @@ public class BitgetAccountService extends BitgetAccountServiceRaw implements Acc
     super(exchange);
   }
 
-
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     try {
@@ -35,12 +34,10 @@ public class BitgetAccountService extends BitgetAccountServiceRaw implements Acc
     }
   }
 
-
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
     return BitgetFundingHistoryParams.builder().build();
   }
-
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {

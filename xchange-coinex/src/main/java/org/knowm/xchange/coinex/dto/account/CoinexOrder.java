@@ -95,5 +95,4 @@ public class CoinexOrder {
 
   @JsonProperty("updated_at")
   private Instant updatedAt;
-
 }

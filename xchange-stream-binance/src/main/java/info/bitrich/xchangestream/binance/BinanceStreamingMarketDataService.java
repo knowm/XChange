@@ -171,7 +171,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
       return getRawBookTicker(instrument)
           .map(raw -> raw.toTicker(instrument instanceof FuturesContract));
     }
-    return getRawTicker(instrument).map(raw -> BinanceAdapters.toTicker(raw, instrument instanceof FuturesContract));
+    return getRawTicker(instrument)
+        .map(raw -> BinanceAdapters.toTicker(raw, instrument instanceof FuturesContract));
   }
 
   @Override
@@ -274,8 +275,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
    * subscribe to this api and {@link #getOrderBook(Instrument, Object...)} at the same time.
    */
   @Override
-  public Observable<List<OrderBookUpdate>> getOrderBookUpdates(Instrument instrument,
-      Object... args) {
+  public Observable<List<OrderBookUpdate>> getOrderBookUpdates(
+      Instrument instrument, Object... args) {
     if (!service.isLiveSubscriptionEnabled()
         && !service.getProductSubscription().getOrderBook().contains(instrument)) {
       throw new UpFrontSubscriptionRequiredException();

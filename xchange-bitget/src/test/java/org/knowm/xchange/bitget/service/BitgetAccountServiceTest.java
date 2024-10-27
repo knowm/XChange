@@ -19,27 +19,29 @@ class BitgetAccountServiceTest extends BitgetExchangeWiremock {
 
   @Test
   void funding_history() throws IOException {
-    List<FundingRecord> actual = exchange.getAccountService().getFundingHistory(
-        BitgetFundingHistoryParams.builder()
-        .startTime(Date.from(Instant.ofEpochMilli(1721643200000L)))
-        .endTime(Date.from(Instant.ofEpochMilli(1727970869665L)))
-        .endId("1203378295345901568")
-        .build());
+    List<FundingRecord> actual =
+        exchange
+            .getAccountService()
+            .getFundingHistory(
+                BitgetFundingHistoryParams.builder()
+                    .startTime(Date.from(Instant.ofEpochMilli(1721643200000L)))
+                    .endTime(Date.from(Instant.ofEpochMilli(1727970869665L)))
+                    .endId("1203378295345901568")
+                    .build());
 
-    FundingRecord expected = new FundingRecord.Builder()
-        .setInternalId("1200126632376020992")
-        .setDate(Date.from(Instant.ofEpochMilli(1721858437064L)))
-        .setAddress("EQAPOcvrl-4fjsw9W5iUBC8np6UtVgE0QPDzLgfsTJh9NYX5")
-        .setBlockchainTransactionHash("scWb5s8OtLL_kSE8rQv5fDvreOGUe82wcV9KXrGNNww=")
-        .setCurrency(Currency.USDT)
-        .setType(Type.DEPOSIT)
-        .setAmount(new BigDecimal("100.00000000"))
-        .setStatus(Status.COMPLETE)
-        .build();
+    FundingRecord expected =
+        new FundingRecord.Builder()
+            .setInternalId("1200126632376020992")
+            .setDate(Date.from(Instant.ofEpochMilli(1721858437064L)))
+            .setAddress("EQAPOcvrl-4fjsw9W5iUBC8np6UtVgE0QPDzLgfsTJh9NYX5")
+            .setBlockchainTransactionHash("scWb5s8OtLL_kSE8rQv5fDvreOGUe82wcV9KXrGNNww=")
+            .setCurrency(Currency.USDT)
+            .setType(Type.DEPOSIT)
+            .setAmount(new BigDecimal("100.00000000"))
+            .setStatus(Status.COMPLETE)
+            .build();
 
     assertThat(actual).hasSize(2);
     assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
   }
-
-
 }

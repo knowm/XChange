@@ -13,9 +13,13 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 @Data
 @Builder
-public class BitgetFundingHistoryParams implements TradeHistoryParamCurrency, TradeHistoryParamLimit,
-    TradeHistoryParamOrderId, TradeHistoryParamsTimeSpan, TradeHistoryParamsIdSpan,
-    TradeHistoryParamClientOid {
+public class BitgetFundingHistoryParams
+    implements TradeHistoryParamCurrency,
+        TradeHistoryParamLimit,
+        TradeHistoryParamOrderId,
+        TradeHistoryParamsTimeSpan,
+        TradeHistoryParamsIdSpan,
+        TradeHistoryParamClientOid {
 
   private Currency currency;
 
@@ -34,5 +38,4 @@ public class BitgetFundingHistoryParams implements TradeHistoryParamCurrency, Tr
   private String startId;
 
   private String endId;
-
 }

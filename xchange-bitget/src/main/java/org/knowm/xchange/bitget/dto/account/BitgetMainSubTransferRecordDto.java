@@ -15,48 +15,45 @@ import org.knowm.xchange.currency.Currency;
 @Jacksonized
 public class BitgetMainSubTransferRecordDto {
 
-    @JsonProperty("clientOid")
-    private String clientOid;
+  @JsonProperty("clientOid")
+  private String clientOid;
 
-    @JsonProperty("transferId")
-    private String transferId;
+  @JsonProperty("transferId")
+  private String transferId;
 
-    @JsonProperty("coin")
-    @JsonDeserialize(converter = StringToCurrencyConverter.class)
-    private Currency currency;
+  @JsonProperty("coin")
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency currency;
 
-    @JsonProperty("status")
-    private Status status;
+  @JsonProperty("status")
+  private Status status;
 
-    @JsonProperty("toType")
-    private BitgetAccountType toAccountType;
+  @JsonProperty("toType")
+  private BitgetAccountType toAccountType;
 
-    @JsonProperty("fromType")
-    private BitgetAccountType fromAccountType;
+  @JsonProperty("fromType")
+  private BitgetAccountType fromAccountType;
 
-    @JsonProperty("size")
-    private BigDecimal size;
+  @JsonProperty("size")
+  private BigDecimal size;
 
-    @JsonProperty("ts")
-    private Instant timestamp;
+  @JsonProperty("ts")
+  private Instant timestamp;
 
-    @JsonProperty("fromUserId")
-    private String fromUserId;
+  @JsonProperty("fromUserId")
+  private String fromUserId;
 
-    @JsonProperty("toUserId")
-    private String toUserId;
+  @JsonProperty("toUserId")
+  private String toUserId;
 
+  public static enum Status {
+    @JsonProperty("Successful")
+    SUCCESSFUL,
 
-    public static enum Status {
-        @JsonProperty("Successful")
-        SUCCESSFUL,
+    @JsonProperty("Processing")
+    PROCESSING,
 
-        @JsonProperty("Processing")
-        PROCESSING,
-
-        @JsonProperty("Failed")
-        FAILED
-    }
-
-
+    @JsonProperty("Failed")
+    FAILED
+  }
 }

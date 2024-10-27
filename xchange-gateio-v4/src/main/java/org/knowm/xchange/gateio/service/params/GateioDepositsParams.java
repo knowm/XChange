@@ -22,5 +22,4 @@ public class GateioDepositsParams {
   private Instant startTime;
 
   private Instant endTime;
-
 }

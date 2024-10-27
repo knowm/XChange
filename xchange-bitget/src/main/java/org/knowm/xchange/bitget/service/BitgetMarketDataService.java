@@ -24,13 +24,12 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
-public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implements
-    MarketDataService {
+public class BitgetMarketDataService extends BitgetMarketDataServiceRaw
+    implements MarketDataService {
 
   public BitgetMarketDataService(BitgetExchange exchange) {
     super(exchange);
   }
-
 
   public List<Currency> getCurrencies() throws IOException {
     try {
@@ -38,12 +37,10 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implemen
           .map(BitgetCoinDto::getCurrency)
           .distinct()
           .collect(Collectors.toList());
-    }
-    catch (BitgetException e) {
+    } catch (BitgetException e) {
       throw BitgetErrorAdapter.adapt(e);
     }
   }
-
 
   public List<Instrument> getInstruments() throws IOException {
     try {
@@ -54,12 +51,10 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implemen
           .map(BitgetSymbolDto::getCurrencyPair)
           .distinct()
           .collect(Collectors.toList());
-    }
-    catch (BitgetException e) {
+    } catch (BitgetException e) {
       throw BitgetErrorAdapter.adapt(e);
     }
   }
-
 
   @Override
   public ExchangeHealth getExchangeHealth() {
@@ -78,12 +73,10 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implemen
     return ExchangeHealth.OFFLINE;
   }
 
-
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return getTicker((Instrument) currencyPair, args);
   }
-
 
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
@@ -95,7 +88,6 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implemen
       throw BitgetErrorAdapter.adapt(e);
     }
   }
-
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
@@ -110,12 +102,10 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implemen
     }
   }
 
-
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     return getOrderBook((Instrument) currencyPair, args);
   }
-
 
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {

@@ -15,7 +15,5 @@ public enum BitgetAccountType {
   CROSSED_MARGIN("crossed_margin"),
   ISOLATED_MARGIN("isolated_margin");
 
-  @JsonValue
-  private final String value;
-
+  @JsonValue private final String value;
 }

@@ -66,7 +66,7 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
 
   @Override
   public Completable disconnect() {
-    if(streamingService != null) {
+    if (streamingService != null) {
       streamingService.pingPongDisconnectIfConnected();
       return streamingService.disconnect();
     }
