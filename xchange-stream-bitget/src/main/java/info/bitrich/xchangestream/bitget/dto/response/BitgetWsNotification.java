@@ -44,6 +44,9 @@ public class BitgetWsNotification {
     @JsonProperty("subscribe")
     SUBSCRIBE,
 
+    @JsonProperty("unsubscribe")
+    UNSUBSCRIBE,
+
     @JsonProperty("login")
     LOGIN,
 
