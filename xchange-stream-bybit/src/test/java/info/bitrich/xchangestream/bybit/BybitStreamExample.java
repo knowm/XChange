@@ -72,12 +72,12 @@ public class BybitStreamExample {
     AtomicReference<Order> order = new AtomicReference<>();
     Disposable disposableOrderChanges = ((BybitStreamingTradeService)exchange.getStreamingTradeService()).getOrderChanges(BybitCategory.LINEAR)
         .doOnError(
-            error -> log.error("OrderChanges error {}",error.getMessage()))
+            error -> log.error("OrderChanges error",error))
         .subscribe( c -> {
               log.info("Order Changes {}", c);
               order.set(c);
             },
-            throwable -> log.error("OrderChanges throwable,{}",throwable.getMessage()));
+            throwable -> log.error("OrderChanges throwable",throwable));
 //    Disposable disposablePositionChanges = ((BybitStreamingTradeService)exchange.getStreamingTradeService()).getPositionChanges(BybitCategory.LINEAR)
 //        .doOnError(
 //            error -> log.error("PositionChanges error {}",error.getMessage()))
