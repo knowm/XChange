@@ -7,5 +7,8 @@ public enum Operation {
   SUBSCRIBE,
 
   @JsonProperty("unsubscribe")
-  UNSUBSCRIBE
+  UNSUBSCRIBE,
+
+  @JsonProperty("login")
+  LOGIN
 }

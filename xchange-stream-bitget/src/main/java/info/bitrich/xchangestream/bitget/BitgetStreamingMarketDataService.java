@@ -43,7 +43,7 @@ public class BitgetStreamingMarketDataService implements StreamingMarketDataServ
     }
 
     return service
-        .subscribeChannel(service.getSubscriptionUniqueId(channelType.name(), MarketType.SPOT, currencyPair))
+        .subscribeChannel(null, channelType, MarketType.SPOT, currencyPair)
         .map(BitgetWsOrderBookSnapshotNotification.class::cast)
         .map(notification -> BitgetStreamingAdapters.toOrderBook(notification, currencyPair));
   }
@@ -51,7 +51,7 @@ public class BitgetStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     return service
-        .subscribeChannel(service.getSubscriptionUniqueId(ChannelType.TICKER.name(), MarketType.SPOT, currencyPair))
+        .subscribeChannel(null, ChannelType.TICKER, MarketType.SPOT, currencyPair)
         .map(BitgetTickerNotification.class::cast)
         .map(BitgetStreamingAdapters::toTicker);
   }

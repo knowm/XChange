@@ -23,9 +23,17 @@ public class BitgetChannel {
   private String instrumentId;
 
 
+  @Getter
+  @AllArgsConstructor
   public static enum MarketType {
-    @JsonProperty("SPOT")
-    SPOT
+    SPOT("SPOT");
+
+    @JsonValue
+    private final String value;
+
+    public String toString() {
+      return value;
+    }
   }
 
 
@@ -37,11 +45,16 @@ public class BitgetChannel {
     DEPTH("books"),
     DEPTH1("books1"),
     DEPTH5("books5"),
-    DEPTH15("books15");
+    DEPTH15("books15"),
+
+    FILL("fill");
 
     @JsonValue
     private final String value;
 
+    public String toString() {
+      return value;
+    }
   }
 
 }

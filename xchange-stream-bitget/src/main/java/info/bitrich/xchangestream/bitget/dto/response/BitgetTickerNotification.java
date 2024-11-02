@@ -1,21 +1,18 @@
 package info.bitrich.xchangestream.bitget.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import info.bitrich.xchangestream.bitget.dto.response.BitgetTickerNotification.TickerData;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
 @Data
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @Jacksonized
-public class BitgetTickerNotification extends BitgetWsNotification {
-
-  @JsonProperty("data")
-  private List<TickerData> data;
+public class BitgetTickerNotification extends BitgetWsNotification<TickerData> {
 
 
   @Data

@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.bitget.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import info.bitrich.xchangestream.bitget.dto.response.BitgetWsOrderBookSnapshotNotification.OrderBookData;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
@@ -11,13 +12,9 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
 @Data
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @Jacksonized
-public class BitgetWsOrderBookSnapshotNotification extends BitgetWsNotification {
-
-  @JsonProperty("data")
-  private List<OrderBookData> data;
-
+public class BitgetWsOrderBookSnapshotNotification extends BitgetWsNotification<OrderBookData> {
 
   @Data
   @Builder

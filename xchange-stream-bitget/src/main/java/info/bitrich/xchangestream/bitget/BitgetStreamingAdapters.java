@@ -7,7 +7,12 @@ import info.bitrich.xchangestream.bitget.dto.response.BitgetTickerNotification;
 import info.bitrich.xchangestream.bitget.dto.response.BitgetTickerNotification.TickerData;
 import info.bitrich.xchangestream.bitget.dto.response.BitgetWsOrderBookSnapshotNotification;
 import info.bitrich.xchangestream.bitget.dto.response.BitgetWsOrderBookSnapshotNotification.OrderBookData;
+import info.bitrich.xchangestream.bitget.dto.response.BitgetWsUserTradeNotification;
+import info.bitrich.xchangestream.bitget.dto.response.BitgetWsUserTradeNotification.BitgetFillData;
+import info.bitrich.xchangestream.bitget.dto.response.BitgetWsUserTradeNotification.FeeDetail;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.experimental.UtilityClass;
@@ -18,13 +23,14 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.instrument.Instrument;
 
 @UtilityClass
 public class BitgetStreamingAdapters {
 
   public Ticker toTicker(BitgetTickerNotification notification) {
-    TickerData bitgetTickerDto = notification.getData().get(0);
+    TickerData bitgetTickerDto = notification.getPayloadItems().get(0);
 
     CurrencyPair currencyPair = BitgetAdapters.toCurrencyPair(bitgetTickerDto.getInstrument());
     if (currencyPair == null) {
@@ -58,25 +64,26 @@ public class BitgetStreamingAdapters {
         .collect(Collectors.joining("_"));
   }
 
-
   /**
-   * Parses subscription id to channel (as "marketType_channelName_instrument")
+   * Creates {@code BitgetChannel} from arguments
+   * @param args [{@code ChannelType}, {@code MarketType}, {@code Instrument}/{@code null}]
    */
-  public BitgetChannel toBitgetChannel(String subscriptionId) {
-    Object[] parsedSubscriptionId = subscriptionId.split("_");
-    String marketType = (String) ArrayUtils.get(parsedSubscriptionId, 0);
-    String channelName = (String) ArrayUtils.get(parsedSubscriptionId, 1);
-    String instrument = (String) ArrayUtils.get(parsedSubscriptionId, 2);
+  public BitgetChannel toBitgetChannel(Object... args) {
+    ChannelType channelType = (ChannelType) ArrayUtils.get(args, 0);
+    MarketType marketType = (MarketType) ArrayUtils.get(args, 1);
+    Instrument instrument = (Instrument) ArrayUtils.get(args, 2);
 
     return BitgetChannel.builder()
-        .marketType(MarketType.valueOf(marketType))
-        .channelType(ChannelType.valueOf(channelName))
-        .instrumentId(instrument)
+        .channelType(channelType)
+        .marketType(marketType)
+        .instrumentId(Optional.ofNullable(instrument)
+            .map(BitgetAdapters::toString)
+            .orElse("default"))
         .build();
   }
 
   public OrderBook toOrderBook(BitgetWsOrderBookSnapshotNotification notification, Instrument instrument) {
-    OrderBookData orderBookData = notification.getData().get(0);
+    OrderBookData orderBookData = notification.getPayloadItems().get(0);
     List<LimitOrder> asks =
         orderBookData.getAsks().stream()
             .map(
@@ -105,5 +112,22 @@ public class BitgetStreamingAdapters {
 
     return new OrderBook(BitgetAdapters.toDate(orderBookData.getTimestamp()), asks, bids);
   }
+
+
+  public UserTrade toUserTrade(BitgetWsUserTradeNotification notification) {
+    BitgetFillData bitgetFillData = notification.getPayloadItems().get(0);
+    return new UserTrade(
+        bitgetFillData.getOrderSide(),
+        bitgetFillData.getAssetAmount(),
+        BitgetAdapters.toCurrencyPair(bitgetFillData.getSymbol()),
+        bitgetFillData.getPrice(),
+        BitgetAdapters.toDate(bitgetFillData.getUpdatedAt()),
+        bitgetFillData.getTradeId(),
+        bitgetFillData.getOrderId(),
+        bitgetFillData.getFeeDetails().stream().map(FeeDetail::getTotalFee).map(BigDecimal::abs).reduce(BigDecimal.ZERO, BigDecimal::add),
+        bitgetFillData.getFeeDetails().stream().map(FeeDetail::getCurrency).findFirst().orElse(null),
+        null);
+  }
+
 
 }

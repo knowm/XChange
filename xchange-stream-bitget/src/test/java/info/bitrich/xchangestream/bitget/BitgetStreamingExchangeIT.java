@@ -7,6 +7,7 @@ import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.knowm.xchange.ExchangeSpecification;
 
 public class BitgetStreamingExchangeIT {
 
@@ -14,8 +15,16 @@ public class BitgetStreamingExchangeIT {
 
   @BeforeAll
   public static void setup() {
-      exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitgetStreamingExchange.class);
-      exchange.connect().blockingAwait();
+    ExchangeSpecification spec = StreamingExchangeFactory.INSTANCE
+            .createExchangeWithoutSpecification(BitgetStreamingExchange.class)
+            .getDefaultExchangeSpecification();
+    spec.setApiKey(System.getProperty("apiKey"));
+    spec.setSecretKey(System.getProperty("secretKey"));
+    spec.setPassword(System.getProperty("passphrase"));
+
+    exchange = StreamingExchangeFactory.INSTANCE.createExchange(spec);
+
+    exchange.connect().blockingAwait();
   }
 
 

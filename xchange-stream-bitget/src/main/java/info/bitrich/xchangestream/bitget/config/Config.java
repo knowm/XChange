@@ -12,6 +12,7 @@ import lombok.Data;
 public final class Config {
 
   public static final String V2_PUBLIC_WS_URL = "wss://ws.bitget.com/v2/ws/public";
+  public static final String V2_PRIVATE_WS_URL = "wss://ws.bitget.com/v2/ws/private";
 
   private ObjectMapper objectMapper;
   private Clock clock;
