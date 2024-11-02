@@ -20,15 +20,14 @@ import lombok.extern.jackson.Jacksonized;
     include = As.EXISTING_PROPERTY,
     property = "messageType",
     visible = true,
-    defaultImpl = BitgetWsNotification.class
-)
+    defaultImpl = BitgetWsNotification.class)
 @JsonSubTypes({
-    @Type(value = BitgetEventNotification.class, name = "event"),
-    @Type(value = BitgetTickerNotification.class, name = "ticker"),
-    @Type(value = BitgetWsOrderBookSnapshotNotification.class, name = "books1"),
-    @Type(value = BitgetWsOrderBookSnapshotNotification.class, name = "books5"),
-    @Type(value = BitgetWsOrderBookSnapshotNotification.class, name = "books15"),
-    @Type(value = BitgetWsUserTradeNotification.class, name = "fill"),
+  @Type(value = BitgetEventNotification.class, name = "event"),
+  @Type(value = BitgetTickerNotification.class, name = "ticker"),
+  @Type(value = BitgetWsOrderBookSnapshotNotification.class, name = "books1"),
+  @Type(value = BitgetWsOrderBookSnapshotNotification.class, name = "books5"),
+  @Type(value = BitgetWsOrderBookSnapshotNotification.class, name = "books15"),
+  @Type(value = BitgetWsUserTradeNotification.class, name = "fill"),
 })
 @Data
 @SuperBuilder(toBuilder = true)
@@ -47,8 +46,4 @@ public class BitgetWsNotification<T> {
   @Singular
   @JsonProperty("data")
   private List<T> payloadItems;
-
-
-
-
 }

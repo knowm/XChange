@@ -29,10 +29,11 @@ class BitgetStreamingTradeServiceIntegration extends BitgetStreamingExchangeIT {
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    List<UserTrade> userTrades = testObserver
-//        .awaitDone(10, TimeUnit.MINUTES)
-        .awaitCount(1)
-        .values();
+    List<UserTrade> userTrades =
+        testObserver
+            //        .awaitDone(10, TimeUnit.MINUTES)
+            .awaitCount(1)
+            .values();
 
     testObserver.dispose();
 
@@ -47,15 +48,15 @@ class BitgetStreamingTradeServiceIntegration extends BitgetStreamingExchangeIT {
 
   @Test
   void user_trades_single_instrument() {
-    Observable<UserTrade> observable = exchange.getStreamingTradeService().getUserTrades(
-        BTC_USDT);
+    Observable<UserTrade> observable = exchange.getStreamingTradeService().getUserTrades(BTC_USDT);
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    List<UserTrade> userTrades = testObserver
-//        .awaitDone(1, TimeUnit.MINUTES)
-        .awaitCount(1)
-        .values();
+    List<UserTrade> userTrades =
+        testObserver
+            //        .awaitDone(1, TimeUnit.MINUTES)
+            .awaitCount(1)
+            .values();
 
     testObserver.dispose();
 
@@ -67,5 +68,4 @@ class BitgetStreamingTradeServiceIntegration extends BitgetStreamingExchangeIT {
     assertThat(userTrades.get(0).getId()).isNotNull();
     assertThat(userTrades.get(0).getOrderId()).isNotNull();
   }
-
 }

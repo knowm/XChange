@@ -20,6 +20,4 @@ public class BitgetWsRequest {
   @Singular
   @JsonProperty("args")
   private List<BitgetChannel> channels;
-
-
 }

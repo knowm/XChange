@@ -21,7 +21,6 @@ import org.knowm.xchange.dto.Order;
 @Jacksonized
 public class BitgetWsUserTradeNotification extends BitgetWsNotification<BitgetFillData> {
 
-
   @Data
   @Builder
   @Jacksonized

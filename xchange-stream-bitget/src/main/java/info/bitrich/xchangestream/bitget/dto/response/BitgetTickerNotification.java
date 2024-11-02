@@ -14,7 +14,6 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class BitgetTickerNotification extends BitgetWsNotification<TickerData> {
 
-
   @Data
   @Builder
   @Jacksonized
@@ -64,6 +63,4 @@ public class BitgetTickerNotification extends BitgetWsNotification<TickerData> {
     @JsonProperty("changeUtc24h")
     private BigDecimal changeUtc24h;
   }
-
-
 }

@@ -38,10 +38,7 @@ public final class Config {
     objectMapper.registerModule(new JavaTimeModule());
   }
 
-
   public static Config getInstance() {
     return instance;
   }
-
-
 }

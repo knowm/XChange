@@ -54,18 +54,19 @@ public class BitgetStreamingAdapters {
         .build();
   }
 
-
-  /**
-   * Returns unique subscription id. Can be used as key for subscriptions caching
-   */
+  /** Returns unique subscription id. Can be used as key for subscriptions caching */
   public String toSubscriptionId(BitgetChannel bitgetChannel) {
-    return Stream.of(bitgetChannel.getMarketType(), bitgetChannel.getChannelType(), bitgetChannel.getInstrumentId())
+    return Stream.of(
+            bitgetChannel.getMarketType(),
+            bitgetChannel.getChannelType(),
+            bitgetChannel.getInstrumentId())
         .map(String::valueOf)
         .collect(Collectors.joining("_"));
   }
 
   /**
    * Creates {@code BitgetChannel} from arguments
+   *
    * @param args [{@code ChannelType}, {@code MarketType}, {@code Instrument}/{@code null}]
    */
   public BitgetChannel toBitgetChannel(Object... args) {
@@ -76,13 +77,13 @@ public class BitgetStreamingAdapters {
     return BitgetChannel.builder()
         .channelType(channelType)
         .marketType(marketType)
-        .instrumentId(Optional.ofNullable(instrument)
-            .map(BitgetAdapters::toString)
-            .orElse("default"))
+        .instrumentId(
+            Optional.ofNullable(instrument).map(BitgetAdapters::toString).orElse("default"))
         .build();
   }
 
-  public OrderBook toOrderBook(BitgetWsOrderBookSnapshotNotification notification, Instrument instrument) {
+  public OrderBook toOrderBook(
+      BitgetWsOrderBookSnapshotNotification notification, Instrument instrument) {
     OrderBookData orderBookData = notification.getPayloadItems().get(0);
     List<LimitOrder> asks =
         orderBookData.getAsks().stream()
@@ -113,7 +114,6 @@ public class BitgetStreamingAdapters {
     return new OrderBook(BitgetAdapters.toDate(orderBookData.getTimestamp()), asks, bids);
   }
 
-
   public UserTrade toUserTrade(BitgetWsUserTradeNotification notification) {
     BitgetFillData bitgetFillData = notification.getPayloadItems().get(0);
     return new UserTrade(
@@ -124,10 +124,14 @@ public class BitgetStreamingAdapters {
         BitgetAdapters.toDate(bitgetFillData.getUpdatedAt()),
         bitgetFillData.getTradeId(),
         bitgetFillData.getOrderId(),
-        bitgetFillData.getFeeDetails().stream().map(FeeDetail::getTotalFee).map(BigDecimal::abs).reduce(BigDecimal.ZERO, BigDecimal::add),
-        bitgetFillData.getFeeDetails().stream().map(FeeDetail::getCurrency).findFirst().orElse(null),
+        bitgetFillData.getFeeDetails().stream()
+            .map(FeeDetail::getTotalFee)
+            .map(BigDecimal::abs)
+            .reduce(BigDecimal.ZERO, BigDecimal::add),
+        bitgetFillData.getFeeDetails().stream()
+            .map(FeeDetail::getCurrency)
+            .findFirst()
+            .orElse(null),
         null);
   }
-
-
 }

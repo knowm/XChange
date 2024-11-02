@@ -15,7 +15,8 @@ public class BitgetStreamingExchangeIT {
 
   @BeforeAll
   public static void setup() {
-    ExchangeSpecification spec = StreamingExchangeFactory.INSTANCE
+    ExchangeSpecification spec =
+        StreamingExchangeFactory.INSTANCE
             .createExchangeWithoutSpecification(BitgetStreamingExchange.class)
             .getDefaultExchangeSpecification();
     spec.setApiKey(System.getProperty("apiKey"));
@@ -27,12 +28,10 @@ public class BitgetStreamingExchangeIT {
     exchange.connect().blockingAwait();
   }
 
-
   @BeforeEach
   void exchangeReachable() {
     assumeTrue(exchange.isAlive(), "Exchange is unreachable");
   }
-
 
   @AfterAll
   public static void cleanup() {
@@ -40,6 +39,4 @@ public class BitgetStreamingExchangeIT {
       exchange.disconnect().blockingAwait();
     }
   }
-
-
 }

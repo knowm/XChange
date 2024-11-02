@@ -40,8 +40,5 @@ public class BitgetLoginRequest {
 
     @JsonProperty("sign")
     private String signature;
-
   }
-
-
 }

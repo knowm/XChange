@@ -16,6 +16,4 @@ class BitgetStreamingAuthHelperTest {
     String expected = "t0RPH0gO4ut6hHfJWZwKgtnL7XnVsa4AUenaIIbWCuc=";
     assertThat(actual).isEqualTo(expected);
   }
-
-
 }

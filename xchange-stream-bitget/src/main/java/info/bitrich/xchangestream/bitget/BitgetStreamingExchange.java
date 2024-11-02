@@ -20,14 +20,19 @@ public class BitgetStreamingExchange extends BitgetExchange implements Streaming
   private StreamingTradeService streamingTradeService;
   private StreamingAccountService streamingAccountService;
 
-
   @Override
   public Completable connect(ProductSubscription... args) {
     publicStreamingService = new BitgetStreamingService(Config.V2_PUBLIC_WS_URL);
-    if (StringUtils.isNoneBlank(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey(), exchangeSpecification.getPassword())) {
-      privateStreamingService = new BitgetPrivateStreamingService(Config.V2_PRIVATE_WS_URL,
-          exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey(),
-          exchangeSpecification.getPassword());
+    if (StringUtils.isNoneBlank(
+        exchangeSpecification.getApiKey(),
+        exchangeSpecification.getSecretKey(),
+        exchangeSpecification.getPassword())) {
+      privateStreamingService =
+          new BitgetPrivateStreamingService(
+              Config.V2_PRIVATE_WS_URL,
+              exchangeSpecification.getApiKey(),
+              exchangeSpecification.getSecretKey(),
+              exchangeSpecification.getPassword());
       streamingTradeService = new BitgetStreamingTradeService(privateStreamingService);
       privateStreamingService.connect().blockingAwait();
     }
@@ -36,7 +41,6 @@ public class BitgetStreamingExchange extends BitgetExchange implements Streaming
 
     return publicStreamingService.connect();
   }
-
 
   @Override
   public Completable disconnect() {
@@ -48,16 +52,13 @@ public class BitgetStreamingExchange extends BitgetExchange implements Streaming
     return service.disconnect();
   }
 
-
   @Override
   public boolean isAlive() {
     return publicStreamingService != null && publicStreamingService.isSocketOpen();
   }
 
-
   @Override
   public void useCompressedMessages(boolean compressedMessages) {
     publicStreamingService.useCompressedMessages(compressedMessages);
   }
-
 }

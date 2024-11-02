@@ -14,11 +14,11 @@ import org.knowm.xchange.service.BaseParamsDigest;
 @UtilityClass
 public class BitgetStreamingAuthHelper {
 
-
   /** Generates signature based on timestamp */
   public String sign(Instant timestamp, String secretString) {
-    final SecretKey secretKey = new SecretKeySpec(secretString.getBytes(StandardCharsets.UTF_8),
-        BaseParamsDigest.HMAC_SHA_256);
+    final SecretKey secretKey =
+        new SecretKeySpec(
+            secretString.getBytes(StandardCharsets.UTF_8), BaseParamsDigest.HMAC_SHA_256);
     Mac mac = createMac(secretKey, secretKey.getAlgorithm());
 
     String payloadToSign = String.format("%sGET/user/verify", timestamp.getEpochSecond());
@@ -26,7 +26,6 @@ public class BitgetStreamingAuthHelper {
 
     return Base64.getEncoder().encodeToString(mac.doFinal());
   }
-
 
   private Mac createMac(SecretKey secretKey, String hmacString) {
     try {
@@ -40,5 +39,4 @@ public class BitgetStreamingAuthHelper {
           "Illegal algorithm for post body digest. Check the implementation.");
     }
   }
-
 }

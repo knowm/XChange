@@ -32,6 +32,4 @@ public class BitgetEventNotification extends BitgetWsNotification<Object> {
     @JsonProperty("error")
     ERROR,
   }
-
-
 }

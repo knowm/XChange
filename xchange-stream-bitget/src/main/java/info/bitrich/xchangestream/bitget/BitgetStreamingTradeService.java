@@ -14,7 +14,6 @@ public class BitgetStreamingTradeService implements StreamingTradeService {
 
   private final BitgetStreamingService service;
 
-
   @Override
   public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     return service

@@ -13,9 +13,8 @@ class BitgetStreamingMarketDataServiceIntegration extends BitgetStreamingExchang
 
   @Test
   void order_book() {
-    Observable<OrderBook> observable = exchange
-            .getStreamingMarketDataService()
-            .getOrderBook(CurrencyPair.BTC_USDT, 5);
+    Observable<OrderBook> observable =
+        exchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BTC_USDT, 5);
 
     TestObserver<OrderBook> testObserver = observable.test();
 
@@ -32,19 +31,14 @@ class BitgetStreamingMarketDataServiceIntegration extends BitgetStreamingExchang
         .isLessThan(orderBook.getAsks().get(0).getLimitPrice());
   }
 
-
   @Test
   void ticker() {
-    Observable<Ticker> observable = exchange
-        .getStreamingMarketDataService()
-        .getTicker(CurrencyPair.BTC_USDT);
+    Observable<Ticker> observable =
+        exchange.getStreamingMarketDataService().getTicker(CurrencyPair.BTC_USDT);
 
     TestObserver<Ticker> testObserver = observable.test();
 
-    Ticker ticker = testObserver
-        .awaitCount(1)
-        .values()
-        .get(0);
+    Ticker ticker = testObserver.awaitCount(1).values().get(0);
 
     testObserver.dispose();
 
@@ -54,8 +48,5 @@ class BitgetStreamingMarketDataServiceIntegration extends BitgetStreamingExchang
     if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
       assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
     }
-
   }
-
-
 }

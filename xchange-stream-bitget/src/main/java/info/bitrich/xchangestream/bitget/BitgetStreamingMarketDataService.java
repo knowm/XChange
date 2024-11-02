@@ -20,7 +20,6 @@ public class BitgetStreamingMarketDataService implements StreamingMarketDataServ
     this.service = service;
   }
 
-
   /**
    * @param currencyPair Currency pair of the order book
    * @param args Order book level: {@link Integer} 1, 5 or 15
@@ -34,11 +33,9 @@ public class BitgetStreamingMarketDataService implements StreamingMarketDataServ
     ChannelType channelType;
     if (orderBookLevel == 1) {
       channelType = ChannelType.DEPTH1;
-    }
-    else if (orderBookLevel <= 5) {
+    } else if (orderBookLevel <= 5) {
       channelType = ChannelType.DEPTH5;
-    }
-    else {
+    } else {
       channelType = ChannelType.DEPTH15;
     }
 
@@ -55,5 +52,4 @@ public class BitgetStreamingMarketDataService implements StreamingMarketDataServ
         .map(BitgetTickerNotification.class::cast)
         .map(BitgetStreamingAdapters::toTicker);
   }
-
 }

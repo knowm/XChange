@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.bitget;
 
-
 import info.bitrich.xchangestream.bitget.config.Config;
 import info.bitrich.xchangestream.bitget.dto.common.Operation;
 import info.bitrich.xchangestream.bitget.dto.request.BitgetLoginRequest;
@@ -21,18 +20,15 @@ public class BitgetPrivateStreamingService extends BitgetStreamingService {
   private final String apiSecret;
   private final String apiPassword;
 
-
-  public BitgetPrivateStreamingService(String apiUri, String apiKey, String apiSecret, String apiPassword) {
+  public BitgetPrivateStreamingService(
+      String apiUri, String apiKey, String apiSecret, String apiPassword) {
     super(apiUri);
     this.apiKey = apiKey;
     this.apiSecret = apiSecret;
     this.apiPassword = apiPassword;
   }
 
-
-  /**
-   * Sends login message right after connecting
-   */
+  /** Sends login message right after connecting */
   @Override
   public void resubscribeChannels() {
     sendLoginMessage();
@@ -52,15 +48,17 @@ public class BitgetPrivateStreamingService extends BitgetStreamingService {
   @SneakyThrows
   private void sendLoginMessage() {
     Instant timestamp = Instant.now(Config.getInstance().getClock());
-    BitgetLoginRequest bitgetLoginRequest = BitgetLoginRequest.builder()
-        .operation(Operation.LOGIN)
-        .payload(LoginPayload.builder()
-            .apiKey(apiKey)
-            .passphrase(apiPassword)
-            .timestamp(timestamp)
-            .signature(BitgetStreamingAuthHelper.sign(timestamp, apiSecret))
-            .build())
-        .build();
+    BitgetLoginRequest bitgetLoginRequest =
+        BitgetLoginRequest.builder()
+            .operation(Operation.LOGIN)
+            .payload(
+                LoginPayload.builder()
+                    .apiKey(apiKey)
+                    .passphrase(apiPassword)
+                    .timestamp(timestamp)
+                    .signature(BitgetStreamingAuthHelper.sign(timestamp, apiSecret))
+                    .build())
+            .build();
     sendMessage(objectMapper.writeValueAsString(bitgetLoginRequest));
   }
 
@@ -76,6 +74,4 @@ public class BitgetPrivateStreamingService extends BitgetStreamingService {
     }
     super.handleMessage(message);
   }
-
-
 }

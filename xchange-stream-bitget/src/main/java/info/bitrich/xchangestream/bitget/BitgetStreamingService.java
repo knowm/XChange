@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.bitget;
 
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -24,12 +23,10 @@ public class BitgetStreamingService extends NettyStreamingService<BitgetWsNotifi
     super(apiUri, Integer.MAX_VALUE);
   }
 
-
   @Override
   protected String getChannelNameFromMessage(BitgetWsNotification message) {
     return BitgetStreamingAdapters.toSubscriptionId(message.getChannel());
   }
-
 
   /**
    * @param channelName ignored
@@ -41,13 +38,10 @@ public class BitgetStreamingService extends NettyStreamingService<BitgetWsNotifi
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
     BitgetChannel bitgetChannel = BitgetStreamingAdapters.toBitgetChannel(args);
 
-    BitgetWsRequest request = BitgetWsRequest.builder()
-        .operation(Operation.SUBSCRIBE)
-        .channel(bitgetChannel)
-        .build();
+    BitgetWsRequest request =
+        BitgetWsRequest.builder().operation(Operation.SUBSCRIBE).channel(bitgetChannel).build();
     return objectMapper.writeValueAsString(request);
   }
-
 
   /**
    * @param channelName ignored
@@ -59,13 +53,10 @@ public class BitgetStreamingService extends NettyStreamingService<BitgetWsNotifi
   public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     BitgetChannel bitgetChannel = BitgetStreamingAdapters.toBitgetChannel(args);
 
-    BitgetWsRequest request = BitgetWsRequest.builder()
-        .operation(Operation.UNSUBSCRIBE)
-        .channel(bitgetChannel)
-        .build();
+    BitgetWsRequest request =
+        BitgetWsRequest.builder().operation(Operation.UNSUBSCRIBE).channel(bitgetChannel).build();
     return objectMapper.writeValueAsString(request);
   }
-
 
   @Override
   protected void handleMessage(BitgetWsNotification message) {
@@ -85,7 +76,6 @@ public class BitgetStreamingService extends NettyStreamingService<BitgetWsNotifi
     super.handleChannelMessage(channel, message);
   }
 
-
   /**
    * @param channelName name of channel
    * @param args array with [{@code MarketType}, {@code Instrument}, ...]
@@ -97,7 +87,6 @@ public class BitgetStreamingService extends NettyStreamingService<BitgetWsNotifi
 
     return BitgetStreamingAdapters.toSubscriptionId(bitgetChannel);
   }
-
 
   @Override
   public void messageHandler(String message) {
@@ -112,7 +101,7 @@ public class BitgetStreamingService extends NettyStreamingService<BitgetWsNotifi
       if (jsonNode.has("event")) {
         ((ObjectNode) jsonNode).put("messageType", "event");
       }
-      // copy nested value of arg.channel to the root of json so that the deserialization type is detected properly
+      // copy nested value of arg.channel to the root of json to detect deserialization type
       else if (jsonNode.has("arg") && jsonNode.get("arg").has("channel")) {
         ((ObjectNode) jsonNode).put("messageType", jsonNode.get("arg").get("channel").asText());
       }
@@ -126,18 +115,13 @@ public class BitgetStreamingService extends NettyStreamingService<BitgetWsNotifi
     }
 
     // if payload has several items process each item as a separate notification
-    if (bitgetWsNotification.getPayloadItems() != null && bitgetWsNotification.getPayloadItems().size() > 1) {
+    if (bitgetWsNotification.getPayloadItems() != null
+        && bitgetWsNotification.getPayloadItems().size() > 1) {
       for (Object payloadItem : bitgetWsNotification.getPayloadItems()) {
-        handleMessage(bitgetWsNotification.toBuilder()
-            .payloadItem(payloadItem)
-            .build());
+        handleMessage(bitgetWsNotification.toBuilder().payloadItem(payloadItem).build());
       }
-    }
-    else {
+    } else {
       handleMessage(bitgetWsNotification);
     }
-
   }
-
-
 }
