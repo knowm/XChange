@@ -174,7 +174,7 @@ public class BybitStreamAdapters {
           new BigDecimal(change.getLeavesQty()), new BigDecimal(change.getLeavesValue()),
           new BigDecimal(change.getCumExecQty()), new BigDecimal(change.getCumExecValue()),
           new BigDecimal(change.getCumExecFee()), change.getFeeCurrency(),
-          TimeInForce.valueOf(change.getTimeInForce()), change.getOrderType(),
+          TimeInForce.valueOf(change.getTimeInForce().toUpperCase()), change.getOrderType(),
           change.getStopOrderType(), change.getOcoTriggerBy(), change.getOrderIv(), change.getMarketUnit(),
           triggerPrice, takeProfit, stopLoss, change.getTpslMode(),
           new BigDecimal(change.getTpLimitPrice()), new BigDecimal(change.getSlLimitPrice()),
