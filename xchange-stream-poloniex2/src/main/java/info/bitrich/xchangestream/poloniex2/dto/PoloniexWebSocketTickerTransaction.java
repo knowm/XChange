@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.poloniex2.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
@@ -8,6 +9,7 @@ import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
 
 /** Created by Lukas Zaoralek on 11.11.17. */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({"channelId", "timestamp", "ticker"})
 public class PoloniexWebSocketTickerTransaction {
   public String channelId;
   public String timestamp;

@@ -2,6 +2,7 @@ package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +10,32 @@ import lombok.ToString;
 
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonPropertyOrder({
+  "symbol",
+  "timestamp",
+  "placeHolder0",
+  "derivPrice",
+  "spotPrice",
+  "placeHolder1",
+  "insuranceFundBalance",
+  "placeHolder2",
+  "nextFundingEvtTimestampMillis",
+  "nextFundingAccrued",
+  "nextFundingStep",
+  "placeHolder4",
+  "currentFunding",
+  "placeHolder5",
+  "placeHolder6",
+  "markPrice",
+  "placeHolder7",
+  "placeHolder8",
+  "openInterest",
+  "placeHolder9",
+  "placeHolder10",
+  "placeHolder11",
+  "clampMin",
+  "clampMax"
+})
 @Setter
 @Getter
 @ToString

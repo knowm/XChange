@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -12,6 +13,7 @@ import lombok.extern.jackson.Jacksonized;
  * @author cyrus13 *
  */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({"timestamp", "open", "close", "high", "low", "volume"})
 @Jacksonized
 @Data
 @Builder

@@ -3,10 +3,12 @@ package org.knowm.xchange.lgo.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({"time", "low", "high", "open", "close", "volume"})
 public class LgoCandlestick {
 
   private final Date time;

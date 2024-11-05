@@ -1,12 +1,24 @@
 package org.knowm.xchange.bitfinex.v2.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Data;
 
 /** https://docs.bitfinex.com/reference#rest-auth-ledgers */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({
+  "id",
+  "currency",
+  "placeHolder0",
+  "timestamp",
+  "placeHolder1",
+  "amount",
+  "balance",
+  "placeHolder2",
+  "description"
+})
 @Data
 public class LedgerEntry {
 

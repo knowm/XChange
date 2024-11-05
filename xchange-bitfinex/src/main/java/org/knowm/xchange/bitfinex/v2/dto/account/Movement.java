@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Value;
@@ -11,6 +12,30 @@ import lombok.Value;
 /** https://docs.bitfinex.com/reference#rest-auth-movements */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+  "ID",
+  "CURRENCY",
+  "CURRENCY_NAME",
+  "nullField1",
+  "nullField2",
+  "MTS_STARTED",
+  "MTS_UPDATED",
+  "nullField3",
+  "nullField4",
+  "STATUS",
+  "nullField5",
+  "nullField6",
+  "AMOUNT",
+  "FEES",
+  "nullField7",
+  "nullField8",
+  "DESTINATION_ADDRESS",
+  "nullField9",
+  "nullField10",
+  "nullField11",
+  "TRANSACTION_ID",
+  "nullField12"
+})
 @Value
 public class Movement {
   /* Movement identifier */

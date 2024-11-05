@@ -30,8 +30,8 @@ public class CoinbaseProWebSocketSubscriptionMessageTest {
     String serialized = mapper.writeValueAsString(message);
 
     Assert.assertEquals(
-        "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2\",\"product_ids\":[\"BTC-USD\"]}]}",
-        serialized);
+        mapper.readTree("{\"type\":\"subscribe\",\"channels\":[{\"name\":\"level2\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]}]}"),
+        mapper.readTree(serialized));
   }
 
   @Test
@@ -53,8 +53,8 @@ public class CoinbaseProWebSocketSubscriptionMessageTest {
     String serialized = mapper.writeValueAsString(message);
 
     Assert.assertEquals(
-        "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"full\",\"product_ids\":[\"BTC-USD\"]}]}",
-        serialized);
+        mapper.readTree("{\"type\":\"subscribe\",\"channels\":[{\"product_ids\":[\"BTC-USD\"],\"name\":\"full\"},{\"product_ids\":[\"BTC-USD\"],\"name\":\"ticker\"},{\"product_ids\":[\"BTC-USD\"],\"name\":\"matches\"}]}"),
+        mapper.readTree(serialized));
   }
 
   @Test
@@ -76,7 +76,7 @@ public class CoinbaseProWebSocketSubscriptionMessageTest {
     String serialized = mapper.writeValueAsString(message);
 
     Assert.assertEquals(
-        "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2_batch\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]}]}",
-        serialized);
+        mapper.readTree("{\"type\":\"subscribe\",\"channels\":[{\"product_ids\":[\"BTC-USD\"],\"name\":\"level2_batch\"},{\"product_ids\":[\"BTC-USD\"],\"name\":\"ticker\"},{\"product_ids\":[\"BTC-USD\"],\"name\":\"matches\"}]}"),
+        mapper.readTree(serialized));
   }
 }
