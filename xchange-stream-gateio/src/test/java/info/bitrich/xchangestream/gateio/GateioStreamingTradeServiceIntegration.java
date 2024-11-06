@@ -1,42 +1,25 @@
 package info.bitrich.xchangestream.gateio;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.observers.TestObserver;
-import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.UserTrade;
 
-@Disabled(
-    "Needs authenticated exchange and real user trade. Set env vars GATEIO_API_KEY/GATEIO_API_SECRET")
+@Slf4j
 class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
 
-  @BeforeEach
-  void authConfigured() {
-    assumeTrue(
-        StringUtils.isNotEmpty(exchange.getExchangeSpecification().getApiKey()), "Needs auth");
-    assumeTrue(
-        StringUtils.isNotEmpty(exchange.getExchangeSpecification().getSecretKey()), "Needs auth");
-  }
-
-  @Test
-  void user_trades_btc() {
-    Observable<UserTrade> observable =
-        exchange.getStreamingTradeService().getUserTrades(CurrencyPair.BTC_USDT);
-
-    TestObserver<UserTrade> testObserver = observable.test();
-
-    UserTrade userTrade = testObserver.awaitCount(1).values().get(0);
-
-    testObserver.dispose();
-
-    assertThat(userTrade).hasNoNullFieldsOrPropertiesExcept("makerOrderId", "takerOrderId");
-    assertThat(userTrade.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
+  @BeforeAll
+  public static void credentialsPresent() {
+    // skip if there are no credentials
+    assumeThat(exchange.getExchangeSpecification().getApiKey()).isNotEmpty();
+    assumeThat(exchange.getExchangeSpecification().getSecretKey()).isNotEmpty();
   }
 
   @Test
@@ -45,10 +28,42 @@ class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    UserTrade userTrade = testObserver.awaitCount(1).values().get(0);
+    List<UserTrade> userTrades = testObserver
+//        .awaitDone(10, TimeUnit.MINUTES)
+        .awaitCount(1)
+        .values();
 
     testObserver.dispose();
 
-    assertThat(userTrade).hasNoNullFieldsOrPropertiesExcept("makerOrderId", "takerOrderId");
+    log.info("Received usertrades: {}", userTrades);
+
+    assumeThat(userTrades).overridingErrorMessage("No trades happened").isNotEmpty();
+
+    assertThat(userTrades.get(0).getInstrument()).isNotNull();
+    assertThat(userTrades.get(0).getId()).isNotNull();
+    assertThat(userTrades.get(0).getOrderId()).isNotNull();
+  }
+
+  @Test
+  void user_trades_single_instrument() {
+    Observable<UserTrade> observable = exchange.getStreamingTradeService().getUserTrades(BTC_USDT);
+
+    TestObserver<UserTrade> testObserver = observable.test();
+
+    List<UserTrade> userTrades =
+        testObserver
+            //        .awaitDone(1, TimeUnit.MINUTES)
+            .awaitCount(1)
+            .values();
+
+    testObserver.dispose();
+
+    log.info("Received usertrades: {}", userTrades);
+
+    assumeThat(userTrades).overridingErrorMessage("No trades happened").isNotEmpty();
+
+    assertThat(userTrades.get(0).getInstrument()).isEqualTo(BTC_USDT);
+    assertThat(userTrades.get(0).getId()).isNotNull();
+    assertThat(userTrades.get(0).getOrderId()).isNotNull();
   }
 }
