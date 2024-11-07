@@ -47,7 +47,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   private static final String EVENT = "event";
   private static final String WEBSOCKET_REQUESTS_PER_SECOND =
       "Kraken_Websocket_Requests_Per_Second";
-  private final Map<Integer, String> channels = new ConcurrentHashMap<>();
+  private final Map<Long, String> channels = new ConcurrentHashMap<>();
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private final boolean isPrivate;
   private final Supplier<KrakenWebsocketToken> authData;
@@ -167,7 +167,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
             }
             statusMessage.setChannelName(channelName);
 
-            Integer channelId = statusMessage.getChannelID();
+            Long channelId = statusMessage.getChannelID();
             switch (statusMessage.getStatus()) {
               case subscribed:
                 LOG.info("Channel name={}, id={} has been subscribed", channelName, channelId);
