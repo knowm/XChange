@@ -229,7 +229,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   protected String getChannelNameFromMessage(JsonNode message) throws IOException {
     String channelName = null;
     if (message.has("channelID")) {
-      int channelId = message.get("channelID").asInt();
+      long channelId = message.get("channelID").asLong();
       return channels.getOrDefault(channelId, String.valueOf(channelId));
     }
     if (message.has("channelName")) {
@@ -238,9 +238,9 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     }
 
     if (message.isArray()) {
-      if (message.get(0).isInt()) {
-        LOG.trace("Taking channelName from ID from first field INT).");
-        int channelId = message.get(0).asInt();
+      if (message.get(0).isLong()) {
+        LOG.trace("Taking channelName from ID from first field LONG).");
+        long channelId = message.get(0).asLong();
         return channels.getOrDefault(channelId, String.valueOf(channelId));
       }
       if (message.get(1).isTextual()) {
