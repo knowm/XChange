@@ -19,10 +19,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> {
+
   private static final Logger LOG = LoggerFactory.getLogger(WebSocketClientHandler.class);
   private final StringBuilder currentMessage = new StringBuilder();
 
   public interface WebSocketMessageHandler {
+
     public void onMessage(String message);
   }
 
@@ -114,12 +116,21 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
 
   @Override
   public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-    LOG.error(
-        "WebSocket client {} encountered exception ({} - {}). Closing",
-        ctx.channel(),
-        cause.getClass().getSimpleName(),
-        cause.getMessage(),
-        cause);
+    if (cause.getMessage() != null && cause.getMessage().toLowerCase()
+        .contains("connection reset")) {
+      LOG.warn(
+          "WebSocket client {} encountered exception ({} - {}). Closing",
+          ctx.channel(),
+          cause.getClass().getSimpleName(),
+          cause.getMessage());
+    } else {
+      LOG.error(
+          "WebSocket client {} encountered exception ({} - {}). Closing",
+          ctx.channel(),
+          cause.getClass().getSimpleName(),
+          cause.getMessage(),
+          cause);
+    }
     if (!handshakeFuture.isDone()) {
       handshakeFuture.setFailure(cause);
     }
