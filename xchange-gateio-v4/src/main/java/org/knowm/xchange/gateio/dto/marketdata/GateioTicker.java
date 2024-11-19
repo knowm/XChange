@@ -60,5 +60,4 @@ public class GateioTicker {
 
   @JsonProperty("etf_leverage")
   BigDecimal etfLeverage;
-
 }

@@ -17,7 +17,6 @@ public class BitgetAccountService extends BitgetAccountServiceRaw implements Acc
     super(exchange);
   }
 
-
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     try {
@@ -29,5 +28,4 @@ public class BitgetAccountService extends BitgetAccountServiceRaw implements Acc
       throw BitgetErrorAdapter.adapt(e);
     }
   }
-
 }

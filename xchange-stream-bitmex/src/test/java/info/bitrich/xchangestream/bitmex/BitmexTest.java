@@ -49,11 +49,7 @@ public class BitmexTest {
   }
 
   private <T> void awaitDataCount(Observable<T> observable) {
-    observable
-        .test()
-        .assertNoErrors()
-        .awaitCount(BitmexTest.MIN_DATA_COUNT)
-        .dispose();
+    observable.test().assertNoErrors().awaitCount(BitmexTest.MIN_DATA_COUNT).dispose();
   }
 
   @Test

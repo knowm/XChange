@@ -74,33 +74,45 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
     return results;
   }
 
-
   public String amendOrder(Order order) throws IOException {
     BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
     BybitResult<BybitOrderResponse> response = null;
     if (order instanceof LimitOrder) {
-      response = amendOrder(category,
-          convertToBybitSymbol(order.getInstrument()), order.getId(), order.getUserReference(),
-          null, order.getOriginalAmount().toString(), ((LimitOrder) order)
-              .getLimitPrice().toString(), null, null, null,
-          null, null, null, null, null);
+      response =
+          amendOrder(
+              category,
+              convertToBybitSymbol(order.getInstrument()),
+              order.getId(),
+              order.getUserReference(),
+              null,
+              order.getOriginalAmount().toString(),
+              ((LimitOrder) order).getLimitPrice().toString(),
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null);
     }
-    //Todo order instanceof StopOrder
+    // Todo order instanceof StopOrder
     if (response != null) {
       return response.getResult().getOrderId();
     }
     return "";
   }
 
-
   public String cancelOrder(Order order) throws IOException {
     BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
-    BybitResult<BybitOrderResponse> response = cancelOrder(category,
-        convertToBybitSymbol(order.getInstrument()), order.getId(), order.getUserReference());
+    BybitResult<BybitOrderResponse> response =
+        cancelOrder(
+            category,
+            convertToBybitSymbol(order.getInstrument()),
+            order.getId(),
+            order.getUserReference());
     if (response != null) {
       return response.getResult().getOrderId();
-    } else
-      return "";
+    } else return "";
   }
-
 }

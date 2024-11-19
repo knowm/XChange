@@ -48,6 +48,4 @@ public interface CoinexAuthenticated {
       @QueryParam("market") String market,
       @QueryParam("order_id") String orderId)
       throws IOException, CoinexException;
-
-
 }

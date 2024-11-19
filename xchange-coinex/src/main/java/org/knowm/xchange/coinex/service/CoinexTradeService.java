@@ -21,18 +21,15 @@ public class CoinexTradeService extends CoinexTradeServiceRaw implements TradeSe
     super(exchange);
   }
 
-
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     try {
       CoinexOrder coinexOrder = createOrder(CoinexAdapters.toCoinexOrder(marketOrder));
       return String.valueOf(coinexOrder.getOrderId());
-    }
-    catch (CoinexException e) {
+    } catch (CoinexException e) {
       throw CoinexErrorAdapter.adapt(e);
     }
   }
-
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
@@ -44,11 +41,8 @@ public class CoinexTradeService extends CoinexTradeServiceRaw implements TradeSe
     try {
       CoinexOrder gateioOrder = orderStatus(params.getInstrument(), params.getOrderId());
       return Collections.singletonList(CoinexAdapters.toOrder(gateioOrder));
-    }
-    catch (CoinexException e) {
+    } catch (CoinexException e) {
       throw CoinexErrorAdapter.adapt(e);
     }
   }
-
-
 }

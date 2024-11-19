@@ -13,5 +13,4 @@ public class BitgetServerTime {
 
   @JsonProperty("serverTime")
   private Instant serverTime;
-
 }

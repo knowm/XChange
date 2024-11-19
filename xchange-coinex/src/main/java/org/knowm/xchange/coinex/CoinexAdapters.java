@@ -33,7 +33,6 @@ public class CoinexAdapters {
 
   private final Map<String, CurrencyPair> SYMBOL_TO_CURRENCY_PAIR = new HashMap<>();
 
-
   public String instrumentsToString(Collection<Instrument> instruments) {
     if (instruments == null || instruments.isEmpty()) {
       return null;
@@ -42,11 +41,9 @@ public class CoinexAdapters {
     }
   }
 
-
   public void putSymbolMapping(String symbol, CurrencyPair currencyPair) {
     SYMBOL_TO_CURRENCY_PAIR.put(symbol, currencyPair);
   }
-
 
   public Balance toBalance(CoinexBalanceInfo balance) {
     return new Balance.Builder()
@@ -55,7 +52,6 @@ public class CoinexAdapters {
         .frozen(balance.getFrozen())
         .build();
   }
-
 
   public CoinexOrder toCoinexOrder(MarketOrder marketOrder) {
     return CoinexOrder.builder()
@@ -68,11 +64,9 @@ public class CoinexAdapters {
         .build();
   }
 
-
   public CurrencyPair toCurrencyPair(String symbol) {
     return SYMBOL_TO_CURRENCY_PAIR.get(symbol);
   }
-
 
   public InstrumentMetaData toInstrumentMetaData(CoinexCurrencyPairInfo coinexCurrencyPairInfo) {
     return new InstrumentMetaData.Builder()
@@ -82,7 +76,6 @@ public class CoinexAdapters {
         .priceScale(coinexCurrencyPairInfo.getQuoteCurrencyPrecision())
         .build();
   }
-
 
   public Order toOrder(CoinexOrder coinexOrder) {
     Order.Builder builder;
@@ -94,8 +87,7 @@ public class CoinexAdapters {
         builder = new MarketOrder.Builder(orderType, instrument);
         break;
       case "limit":
-        builder = new LimitOrder.Builder(orderType, instrument)
-            .limitPrice(coinexOrder.getPrice());
+        builder = new LimitOrder.Builder(orderType, instrument).limitPrice(coinexOrder.getPrice());
         break;
       default:
         throw new IllegalArgumentException("Can't map " + coinexOrder.getType());
@@ -104,18 +96,21 @@ public class CoinexAdapters {
     if (orderType == OrderType.BID) {
       // buy orders fill quote
       builder.cumulativeAmount(coinexOrder.getFilledQuoteAmount());
-    }
-    else if (orderType == OrderType.ASK) {
+    } else if (orderType == OrderType.ASK) {
       // sell orders fill asset
       builder.cumulativeAmount(coinexOrder.getFilledAssetAmount());
-    }
-    else {
+    } else {
       throw new IllegalArgumentException("Can't map " + orderType);
     }
 
     // average price
-    if (coinexOrder.getFilledAssetAmount() != null && coinexOrder.getFilledQuoteAmount() != null && coinexOrder.getFilledAssetAmount().signum() > 0) {
-      builder.averagePrice(coinexOrder.getFilledQuoteAmount().divide(coinexOrder.getFilledAssetAmount(), MathContext.DECIMAL32));
+    if (coinexOrder.getFilledAssetAmount() != null
+        && coinexOrder.getFilledQuoteAmount() != null
+        && coinexOrder.getFilledAssetAmount().signum() > 0) {
+      builder.averagePrice(
+          coinexOrder
+              .getFilledQuoteAmount()
+              .divide(coinexOrder.getFilledAssetAmount(), MathContext.DECIMAL32));
     }
 
     return builder
@@ -127,35 +122,35 @@ public class CoinexAdapters {
         .build();
   }
 
-
   public OrderBook toOrderBook(CoinexMarketDepth coinexMarketDepth) {
-    List<LimitOrder> asks = coinexMarketDepth.getDepth().getAsks().stream()
-        .map(priceSizeEntry ->
-            new LimitOrder(
-                OrderType.ASK,
-                priceSizeEntry.getSize(),
-                coinexMarketDepth.getCurrencyPair(),
-                null,
-                null,
-                priceSizeEntry.getPrice())
-        )
-        .collect(Collectors.toList());
+    List<LimitOrder> asks =
+        coinexMarketDepth.getDepth().getAsks().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.ASK,
+                        priceSizeEntry.getSize(),
+                        coinexMarketDepth.getCurrencyPair(),
+                        null,
+                        null,
+                        priceSizeEntry.getPrice()))
+            .collect(Collectors.toList());
 
-    List<LimitOrder> bids = coinexMarketDepth.getDepth().getBids().stream()
-        .map(priceSizeEntry ->
-            new LimitOrder(
-                OrderType.BID,
-                priceSizeEntry.getSize(),
-                coinexMarketDepth.getCurrencyPair(),
-                null,
-                null,
-                priceSizeEntry.getPrice())
-        )
-        .collect(Collectors.toList());
+    List<LimitOrder> bids =
+        coinexMarketDepth.getDepth().getBids().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.BID,
+                        priceSizeEntry.getSize(),
+                        coinexMarketDepth.getCurrencyPair(),
+                        null,
+                        null,
+                        priceSizeEntry.getPrice()))
+            .collect(Collectors.toList());
 
     return new OrderBook(Date.from(coinexMarketDepth.getDepth().getUpdatedAt()), asks, bids);
   }
-
 
   public String toString(Instrument instrument) {
     if (instrument == null) {
@@ -164,7 +159,6 @@ public class CoinexAdapters {
       return instrument.getBase().getCurrencyCode() + instrument.getCounter().getCurrencyCode();
     }
   }
-
 
   public Ticker toTicker(Instrument instrument, CoinexTickerV1 coinexTickerV1, Instant timestamp) {
     Builder builder = new Ticker.Builder();
@@ -189,19 +183,14 @@ public class CoinexAdapters {
     return builder.build();
   }
 
-
   public Ticker toTicker(String symbol, CoinexTickerV1 coinexTickerV1, Instant timestamp) {
     return toTicker(toCurrencyPair(symbol), coinexTickerV1, timestamp);
   }
 
-
   public Wallet toWallet(List<CoinexBalanceInfo> coinexBalanceInfos) {
-    List<Balance> balances = coinexBalanceInfos.stream()
-            .map(CoinexAdapters::toBalance)
-            .collect(Collectors.toList());
+    List<Balance> balances =
+        coinexBalanceInfos.stream().map(CoinexAdapters::toBalance).collect(Collectors.toList());
 
     return Wallet.Builder.from(balances).id("spot").build();
   }
-
-
 }

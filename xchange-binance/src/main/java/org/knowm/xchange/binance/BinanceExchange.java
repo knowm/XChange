@@ -87,13 +87,13 @@ public class BinanceExchange extends BaseExchange implements Exchange {
   }
 
   public boolean isFuturesEnabled() {
-    return ExchangeType.FUTURES.equals(exchangeSpecification.
-        getExchangeSpecificParametersItem(EXCHANGE_TYPE));
+    return ExchangeType.FUTURES.equals(
+        exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE));
   }
 
   public boolean isPortfolioMarginEnabled() {
-    return ExchangeType.PORTFOLIO_MARGIN.equals(exchangeSpecification
-        .getExchangeSpecificParametersItem(EXCHANGE_TYPE));
+    return ExchangeType.PORTFOLIO_MARGIN.equals(
+        exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE));
   }
 
   public boolean usingSandbox() {
@@ -103,7 +103,8 @@ public class BinanceExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() {
     try {
-      BinanceMarketDataServiceRaw marketDataServiceRaw = (BinanceMarketDataServiceRaw) marketDataService;
+      BinanceMarketDataServiceRaw marketDataServiceRaw =
+          (BinanceMarketDataServiceRaw) marketDataService;
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
       Map<String, AssetDetail> assetDetailMap = null;
       if (!usingSandbox() && isAuthenticated()) {
@@ -112,7 +113,10 @@ public class BinanceExchange extends BaseExchange implements Exchange {
 
       BinanceExchangeInfo exchangeInfo;
       // get exchange type or SPOT as default
-      ExchangeType exchangeType = (ExchangeType) ObjectUtils.defaultIfNull(exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE), SPOT);
+      ExchangeType exchangeType =
+          (ExchangeType)
+              ObjectUtils.defaultIfNull(
+                  exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE), SPOT);
 
       switch (exchangeType) {
         case FUTURES:
@@ -126,8 +130,15 @@ public class BinanceExchange extends BaseExchange implements Exchange {
 
       // init symbol mappings
       exchangeInfo.getSymbols().stream()
-          .filter(symbol -> ObjectUtils.allNotNull(symbol.getBaseAsset(), symbol.getQuoteAsset(), symbol.getSymbol()))
-          .forEach(symbol -> BinanceAdapters.putSymbolMapping(symbol.getSymbol(), new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset())));
+          .filter(
+              symbol ->
+                  ObjectUtils.allNotNull(
+                      symbol.getBaseAsset(), symbol.getQuoteAsset(), symbol.getSymbol()))
+          .forEach(
+              symbol ->
+                  BinanceAdapters.putSymbolMapping(
+                      symbol.getSymbol(),
+                      new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset())));
 
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
@@ -140,38 +151,37 @@ public class BinanceExchange extends BaseExchange implements Exchange {
         && exchangeSpecification.getSecretKey() != null;
   }
 
-  /**
-   * Adjust host parameters depending on exchange specific parameters
-   */
+  /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
-    if(exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE) != null) {
-      switch ((ExchangeType)exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE)) {
-        case SPOT: {
-          if (enabledSandbox(exchangeSpecification))
-            exchangeSpecification.setSslUri(SANDBOX_SPOT_URL);
-          break;
-        }
-        case FUTURES: {
-          if (!enabledSandbox(exchangeSpecification))
-            exchangeSpecification.setSslUri(FUTURES_URL);
-          else
-            exchangeSpecification.setSslUri(SANDBOX_FUTURES_URL);
-          break;
-        }
-        case INVERSE: {
-          if (!enabledSandbox(exchangeSpecification))
-            exchangeSpecification.setSslUri(INVERSE_FUTURES_URL);
-          else
-            exchangeSpecification.setSslUri(SANDBOX_INVERSE_FUTURES_URL);
-          break;
-        }
+    if (exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE) != null) {
+      switch ((ExchangeType)
+          exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE)) {
+        case SPOT:
+          {
+            if (enabledSandbox(exchangeSpecification))
+              exchangeSpecification.setSslUri(SANDBOX_SPOT_URL);
+            break;
+          }
+        case FUTURES:
+          {
+            if (!enabledSandbox(exchangeSpecification))
+              exchangeSpecification.setSslUri(FUTURES_URL);
+            else exchangeSpecification.setSslUri(SANDBOX_FUTURES_URL);
+            break;
+          }
+        case INVERSE:
+          {
+            if (!enabledSandbox(exchangeSpecification))
+              exchangeSpecification.setSslUri(INVERSE_FUTURES_URL);
+            else exchangeSpecification.setSslUri(SANDBOX_INVERSE_FUTURES_URL);
+            break;
+          }
       }
     }
   }
 
-
   private static boolean enabledSandbox(ExchangeSpecification exchangeSpecification) {
-    return Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX));
+    return Boolean.TRUE.equals(
+        exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX));
   }
-
 }

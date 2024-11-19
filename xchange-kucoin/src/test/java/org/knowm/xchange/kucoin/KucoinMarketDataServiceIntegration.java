@@ -77,23 +77,24 @@ public class KucoinMarketDataServiceIntegration {
     checkTimestamp(ticker.getTimestamp());
   }
 
-
   @Test
   public void valid_tickers() throws IOException {
     List<Ticker> tickers = exchange().getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
 
-    assertThat(tickers).allSatisfy(ticker -> {
-      assertThat(ticker.getInstrument()).isNotNull();
-      assertThat(ticker.getLast()).isPositive();
+    assertThat(tickers)
+        .allSatisfy(
+            ticker -> {
+              assertThat(ticker.getInstrument()).isNotNull();
+              assertThat(ticker.getLast()).isPositive();
 
-      assertThat(ticker.getBidSize()).isPositive();
-      assertThat(ticker.getAskSize()).isPositive();
+              assertThat(ticker.getBidSize()).isPositive();
+              assertThat(ticker.getAskSize()).isPositive();
 
-      assertThat(ticker.getAsk()).isPositive();
-      assertThat(ticker.getBid()).isPositive();
-      assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
-    });
+              assertThat(ticker.getAsk()).isPositive();
+              assertThat(ticker.getBid()).isPositive();
+              assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+            });
   }
 
   @Test

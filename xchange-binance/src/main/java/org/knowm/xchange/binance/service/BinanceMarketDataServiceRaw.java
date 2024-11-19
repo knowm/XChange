@@ -40,7 +40,6 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
         .call();
   }
 
-
   public BinanceExchangeInfo getExchangeInfo() throws IOException {
     return decorateApiCall(binance::exchangeInfo)
         .withRetry(retry("exchangeInfo"))
@@ -48,14 +47,12 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
         .call();
   }
 
-
   public BinanceExchangeInfo getFutureExchangeInfo() throws IOException {
     return decorateApiCall(binanceFutures::exchangeInfo)
         .withRetry(retry("exchangeInfo"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
         .call();
   }
-
 
   public BinanceOrderbook getBinanceOrderbookAllProducts(Instrument pair, Integer limit)
       throws IOException {
@@ -109,13 +106,13 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
   }
 
   public List<BinanceTicker24h> ticker24hAllProducts(boolean isFutures) throws IOException {
-    if(isFutures)
+    if (isFutures)
       return decorateApiCall(binanceFutures::ticker24h)
           .withRetry(retry("ticker24h"))
           .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 40)
           .call();
     else
-      return  decorateApiCall(binance::ticker24h)
+      return decorateApiCall(binance::ticker24h)
           .withRetry(retry("ticker24h"))
           .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 80)
           .call();

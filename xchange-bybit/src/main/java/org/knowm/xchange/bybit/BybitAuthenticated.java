@@ -13,14 +13,14 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
-import org.knowm.xchange.bybit.dto.trade.BybitAmendOrderPayload;
-import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderPayload;
-import org.knowm.xchange.bybit.dto.trade.BybitPlaceOrderPayload;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
 import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
+import org.knowm.xchange.bybit.dto.trade.BybitAmendOrderPayload;
+import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderPayload;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
+import org.knowm.xchange.bybit.dto.trade.BybitPlaceOrderPayload;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
 import org.knowm.xchange.bybit.service.BybitException;
@@ -105,7 +105,7 @@ public interface BybitAuthenticated {
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
       BybitPlaceOrderPayload payload)
-      throws IOException,BybitException;
+      throws IOException, BybitException;
 
   /**
    * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/order/cancel-order">API</a>
@@ -118,7 +118,7 @@ public interface BybitAuthenticated {
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
       BybitCancelOrderPayload payload)
-      throws IOException,BybitException;
+      throws IOException, BybitException;
 
   /**
    * @apiSpec <https://bybit-exchange.github.io/docs/v5/order/amend-order">API</a>
@@ -131,6 +131,5 @@ public interface BybitAuthenticated {
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
       BybitAmendOrderPayload payload)
-      throws IOException,BybitException;
-
+      throws IOException, BybitException;
 }

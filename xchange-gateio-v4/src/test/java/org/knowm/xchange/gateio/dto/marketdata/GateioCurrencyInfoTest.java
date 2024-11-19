@@ -15,7 +15,6 @@ class GateioCurrencyInfoTest {
     assertThat(gateioCurrencyInfo.isWithdrawEnabled()).isTrue();
   }
 
-
   @Test
   void valid_isDepositEnabled() {
     GateioCurrencyInfo gateioCurrencyInfo = GateioCurrencyInfo.builder().build();
