@@ -1,0 +1,20 @@
+{
+  "code": "00000",
+  "msg": "success",
+  "requestTime": 1728495974426,
+  "data": [
+    {
+      "orderId": "1227960429565849600",
+      "tradeId": "x_8NF1B51t2lLOu-RYxl-7FOwfM4d6UgPhqlr_CAO8s=",
+      "coin": "USDT",
+      "size": "10.00000000",
+      "status": "success",
+      "toAddress": "EQCJLo0UPRm6RToIXgD0eMpoak5cuj4BTt99NYCY14yOUcoT",
+      "dest": "on_chain",
+      "chain": "TON(TON)",
+      "fromAddress": null,
+      "cTime": "1728494501487",
+      "uTime": "1728494528012"
+    }
+  ]
+}
