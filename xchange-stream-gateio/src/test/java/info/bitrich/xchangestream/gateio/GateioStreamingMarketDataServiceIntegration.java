@@ -22,7 +22,10 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
 
     TestObserver<OrderBook> testObserver = observable.test();
 
-    OrderBook orderBook = testObserver.awaitCount(1).values().get(0);
+    OrderBook orderBook = testObserver
+//        .awaitDone(1, TimeUnit.MINUTES)
+        .awaitCount(1)
+        .values().get(0);
 
     testObserver.dispose();
 
@@ -42,7 +45,10 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
 
     TestObserver<Trade> testObserver = observable.test();
 
-    Trade trade = testObserver.awaitCount(1).values().get(0);
+    Trade trade = testObserver
+//        .awaitDone(1, TimeUnit.MINUTES)
+        .awaitCount(1)
+        .values().get(0);
 
     testObserver.dispose();
 
@@ -57,7 +63,10 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
 
     TestObserver<Ticker> testObserver = observable.test();
 
-    Ticker ticker = testObserver.awaitCount(1).values().get(0);
+    Ticker ticker = testObserver
+        .awaitCount(1)
+//        .awaitDone(1, TimeUnit.MINUTES)
+        .values().get(0);
 
     testObserver.dispose();
 
