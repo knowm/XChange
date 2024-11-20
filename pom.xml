@@ -35,10 +35,6 @@
         </developer>
     </developers>
 
-    <prerequisites>
-        <maven>3.0</maven>
-    </prerequisites>
-
     <modules>
         <module>xchange-ascendex</module>
         <module>xchange-bibox</module>
@@ -208,6 +204,8 @@
         <version.junit>5.10.2</version.junit>
         <version.knowm.xchart>3.8.8</version.knowm.xchart>
         <version.lombok>1.18.32</version.lombok>
+        <version.maven-enforcer-plugin>3.2.1</version.maven-enforcer-plugin>
+        <version.maven-prerequisite>3.6.3</version.maven-prerequisite>
         <version.mockito>5.11.0</version.mockito>
         <version.qos.logback>1.5.6</version.qos.logback>
         <version.reflections>0.10.2</version.reflections>
@@ -484,6 +482,29 @@
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${version.maven-enforcer-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>${version.maven-prerequisite}</version>
+                                </requireMavenVersion>
+                                <dependencyConvergence/>
+                                <banDuplicatePomDependencyVersions/>
+                                <reactorModuleConvergence/>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
