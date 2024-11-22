@@ -16,29 +16,43 @@ import lombok.Getter;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/** DTO representing the exchange order book */
+/**
+ * DTO representing the exchange order book
+ */
 public final class OrderBook implements Serializable {
 
   private static final long serialVersionUID = -7788306758114464314L;
-  @JsonIgnore public final StampedLock lock = new StampedLock();
+  @JsonIgnore
+  public final StampedLock lock = new StampedLock();
 
-  /** the asks */
-  @Getter private final List<LimitOrder> asks;
+  /**
+   * the asks
+   */
+  @Getter
+  private final List<LimitOrder> asks;
 
-  /** the bids */
-  @Getter private final List<LimitOrder> bids;
+  /**
+   * the bids
+   */
+  @Getter
+  private final List<LimitOrder> bids;
 
-  /** the timestamp of the orderbook according to the exchange's server, null if not provided */
-  @Getter private Date timeStamp;
+  /**
+   * the timestamp of the orderbook according to the exchange's server, null if not provided
+   */
+  @Getter
+  private Date timeStamp;
 
   /**
    * Constructor
    *
    * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if
-   *     not provided
-   * @param asks The ASK orders
-   * @param bids The BID orders
+   *                  not provided
+   * @param asks      The ASK orders
+   * @param bids      The BID orders
    */
   @JsonCreator
   public OrderBook(
@@ -53,10 +67,10 @@ public final class OrderBook implements Serializable {
    * Constructor
    *
    * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if
-   *     not provided
-   * @param asks The ASK orders
-   * @param bids The BID orders
-   * @param sort True if the asks and bids need to be sorted
+   *                  not provided
+   * @param asks      The ASK orders
+   * @param bids      The BID orders
+   * @param sort      True if the asks and bids need to be sorted
    */
   public OrderBook(Date timeStamp, List<LimitOrder> asks, List<LimitOrder> bids, boolean sort) {
 
@@ -76,9 +90,9 @@ public final class OrderBook implements Serializable {
    * Constructor
    *
    * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if
-   *     not provided
-   * @param asks The ASK orders
-   * @param bids The BID orders
+   *                  not provided
+   * @param asks      The ASK orders
+   * @param bids      The BID orders
    */
   public OrderBook(Date timeStamp, Stream<LimitOrder> asks, Stream<LimitOrder> bids) {
 
@@ -89,10 +103,10 @@ public final class OrderBook implements Serializable {
    * Constructor
    *
    * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if
-   *     not provided
-   * @param asks The ASK orders
-   * @param bids The BID orders
-   * @param sort True if the asks and bids need to be sorted
+   *                  not provided
+   * @param asks      The ASK orders
+   * @param bids      The BID orders
+   * @param sort      True if the asks and bids need to be sorted
    */
   public OrderBook(Date timeStamp, Stream<LimitOrder> asks, Stream<LimitOrder> bids, boolean sort) {
 
@@ -142,10 +156,14 @@ public final class OrderBook implements Serializable {
         long writeStamp = lock.tryConvertToWriteLock(stamp);
         if (writeStamp != 0L) {
           stamp = writeStamp;
-          if (idx >= 0) limitOrders.remove(idx);
-          else idx = -idx - 1;
-          if (limitOrder.getRemainingAmount().compareTo(BigDecimal.ZERO) != 0)
+          if (idx >= 0) {
+            limitOrders.remove(idx);
+          } else {
+            idx = -idx - 1;
+          }
+          if (limitOrder.getRemainingAmount().compareTo(BigDecimal.ZERO) != 0) {
             limitOrders.add(idx, limitOrder);
+          }
           updateDate(limitOrder.getTimestamp());
           break;
         } else {
@@ -153,8 +171,9 @@ public final class OrderBook implements Serializable {
           stamp = lock.writeLock();
           // here wee need to recheck idx, because it is possible that orderBook changed between
           // unlockRead and lockWrite
-          if (recheckIdx(limitOrders, limitOrder, idx))
+          if (recheckIdx(limitOrders, limitOrder, idx)) {
             idx = Collections.binarySearch(limitOrders, limitOrder);
+          }
         }
       }
     } finally {
@@ -179,8 +198,11 @@ public final class OrderBook implements Serializable {
         long writeStamp = lock.tryConvertToWriteLock(stamp);
         if (writeStamp != 0L) {
           stamp = writeStamp;
-          if (idx >= 0) limitOrders.remove(idx);
-          else idx = -idx - 1;
+          if (idx >= 0) {
+            limitOrders.remove(idx);
+          } else {
+            idx = -idx - 1;
+          }
           if (orderBookUpdate.getTotalVolume().compareTo(BigDecimal.ZERO) != 0) {
             LimitOrder updatedOrder = withAmount(limitOrder, orderBookUpdate.getTotalVolume());
             limitOrders.add(idx, updatedOrder);
@@ -192,8 +214,9 @@ public final class OrderBook implements Serializable {
           stamp = lock.writeLock();
           // here wee need to recheck idx, because it is possible that orderBook changed between
           // unlockRead and lockWrite
-          if (recheckIdx(limitOrders, limitOrder, idx))
+          if (recheckIdx(limitOrders, limitOrder, idx)) {
             idx = Collections.binarySearch(limitOrders, limitOrder);
+          }
         }
       }
     } finally {
@@ -201,23 +224,37 @@ public final class OrderBook implements Serializable {
     }
   }
 
+
+  private final Logger LOG = LoggerFactory.getLogger(OrderBook.class);
+
   private boolean recheckIdx(List<LimitOrder> limitOrders, LimitOrder limitOrder, int idx) {
-    if (idx >= 0) {
-      // if positive, null check or compare
-      return limitOrders.get(idx) == null || limitOrders.get(idx).compareTo(limitOrder) != 0;
-    } else {
-      // on end of array, null check or one check
-      if (limitOrders.size() == -idx - 1) {
-        return limitOrders.get(-idx - 2) == null
-            || limitOrders.get(-idx - 2).compareTo(limitOrder) >= 0;
-      } else
+    try {
+      if (idx >= 0) {
+        // if positive, null check or compare
+        return limitOrders.get(idx) == null || limitOrders.get(idx).compareTo(limitOrder) != 0;
+      } else {
+        // on end of array, null check or one check
+        if (limitOrders.size() == -idx - 1) {
+          return limitOrders.get(-idx - 2) == null
+              || limitOrders.get(-idx - 2).compareTo(limitOrder) >= 0;
+        } else
         // if negative, check that of limitOrders.get(reversed idx) limitOrders.get(reversed idx-1)
         // and is lower and bigger than limitOrder
-        return (limitOrders.get(-idx - 1) == null
-                || limitOrders.get(-idx - 1).compareTo(limitOrder) <= 0)
-            && (limitOrders.get(-idx - 2) == null
-                || limitOrders.get(-idx - 2).compareTo(limitOrder) >= 0);
+        {
+          return (limitOrders.get(-idx - 1) == null
+              || limitOrders.get(-idx - 1).compareTo(limitOrder) <= 0)
+              && (limitOrders.get(-idx - 2) == null
+              || limitOrders.get(-idx - 2).compareTo(limitOrder) >= 0);
+        }
+      }
+    } catch (IndexOutOfBoundsException e) {
+      for(LimitOrder lo:limitOrders) {
+        LOG.error("limitOrders {}", lo);
+      }
+      LOG.error("limitOrder {}", limitOrder);
+      LOG.error("idx {}", idx);
     }
+    return false;
   }
 
   // Replace timeStamp if the provided date is non-null and in the future
