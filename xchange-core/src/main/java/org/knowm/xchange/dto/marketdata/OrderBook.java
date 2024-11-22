@@ -170,7 +170,7 @@ public final class OrderBook implements Serializable {
           lock.unlockRead(stamp);
           stamp = lock.writeLock();
           // here wee need to recheck idx, because it is possible that orderBook changed between
-          // unlockRead and lockWrite
+          // unlockRead and writeLock
           if (recheckIdx(limitOrders, limitOrder, idx)) {
             idx = Collections.binarySearch(limitOrders, limitOrder);
           }
@@ -227,34 +227,39 @@ public final class OrderBook implements Serializable {
 
   private final Logger LOG = LoggerFactory.getLogger(OrderBook.class);
 
+
+  /**
+   * @return true, if wee need to run binarySearch again
+   */
   private boolean recheckIdx(List<LimitOrder> limitOrders, LimitOrder limitOrder, int idx) {
     try {
-      if (idx >= 0) {
-        // if positive, null check or compare
-        return limitOrders.get(idx) == null || limitOrders.get(idx).compareTo(limitOrder) != 0;
-      } else {
-        // on end of array, null check or one check
-        if (limitOrders.size() == -idx - 1) {
-          return limitOrders.get(-idx - 2) == null
-              || limitOrders.get(-idx - 2).compareTo(limitOrder) >= 0;
-        } else
-        // if negative, check that of limitOrders.get(reversed idx) limitOrders.get(reversed idx-1)
-        // and is lower and bigger than limitOrder
-        {
-          return (limitOrders.get(-idx - 1) == null
-              || limitOrders.get(-idx - 1).compareTo(limitOrder) <= 0)
-              && (limitOrders.get(-idx - 2) == null
-              || limitOrders.get(-idx - 2).compareTo(limitOrder) >= 0);
+      switch (idx) {
+        case 0: {
+          if (!limitOrders.isEmpty()) {
+            //if not equals, need to recheck
+            return limitOrders.get(0).compareTo(limitOrder) != 0;
+          } else {
+            return true;
+          }
         }
+        case -1: {
+          if (limitOrders.isEmpty()) {
+            return false;
+          } else {
+            return limitOrders.get(0).compareTo(limitOrder) <= 0;
+          }
+        }
+        default:
+          return true;
       }
     } catch (IndexOutOfBoundsException e) {
-      for(LimitOrder lo:limitOrders) {
+      for (LimitOrder lo : limitOrders) {
         LOG.error("limitOrders {}", lo);
       }
       LOG.error("limitOrder {}", limitOrder);
       LOG.error("idx {}", idx);
+      throw e;
     }
-    return false;
   }
 
   // Replace timeStamp if the provided date is non-null and in the future

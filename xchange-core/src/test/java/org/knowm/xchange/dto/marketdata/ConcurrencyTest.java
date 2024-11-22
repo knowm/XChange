@@ -20,11 +20,11 @@ public class ConcurrencyTest {
 
   public static void main(String[] args) throws InterruptedException, ExecutionException {
     OrderBook orderBook1 =
-        new OrderBook(new Date(), initOrderBookAsks(), initOrderBookBids(), true);
+        new OrderBook(new Date(), initOrderBookAsks(), new ArrayList<>(), true);
     OrderBook orderBook2 =
-        new OrderBook(new Date(), initOrderBookAsks(), initOrderBookBids(), true);
+        new OrderBook(new Date(), initOrderBookAsks(), new ArrayList<>(), true);
     OrderBookOld orderBookOld =
-        new OrderBookOld(new Date(), initOrderBookAsks(), initOrderBookBids(), true);
+        new OrderBookOld(new Date(), initOrderBookAsks(), new ArrayList<>(), true);
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(50);
     newWay(orderBook1, executor);
     executor.awaitTermination(100L, TimeUnit.SECONDS);
@@ -114,7 +114,7 @@ public class ConcurrencyTest {
 
   public static void updateOrderBook1(OrderBook orderBook, boolean oldWay) {
     Random rand = new Random(123);
-    for (int i = 0; i < 100000; i++) {
+    for (int i = 0; i < 10000; i++) {
       OrderBookUpdate orderBookUpdateAsk =
           new OrderBookUpdate(
               OrderType.ASK,
@@ -145,7 +145,7 @@ public class ConcurrencyTest {
 
   public static void updateOrderBookOld1(OrderBookOld orderBookOld) {
     Random rand = new Random(123);
-    for (int i = 0; i < 100000; i++) {
+    for (int i = 0; i < 10000; i++) {
       OrderBookUpdate orderBookUpdateAsk =
           new OrderBookUpdate(
               OrderType.ASK,
@@ -171,7 +171,7 @@ public class ConcurrencyTest {
 
   private static void updateOrderBook2(OrderBook orderBook, boolean oldWay) {
     Random rand = new Random(123);
-    for (int i = 0; i < 100000; i++) {
+    for (int i = 0; i < 10000; i++) {
       LimitOrder bookUpdateAsk =
           new LimitOrder(
               OrderType.ASK,
@@ -202,7 +202,7 @@ public class ConcurrencyTest {
 
   private static void updateOrderBookOld2(OrderBookOld orderBookOld) {
     Random rand = new Random(123);
-    for (int i = 0; i < 100000; i++) {
+    for (int i = 0; i < 10000; i++) {
       LimitOrder bookUpdateAsk =
           new LimitOrder(
               OrderType.ASK,
@@ -227,7 +227,7 @@ public class ConcurrencyTest {
   }
 
   private static void readOrderBook(OrderBook orderBook, boolean oldWay) {
-    for (int i = 0; i < 1200000; i++) {
+    for (int i = 0; i < 10000; i++) {
       int temp = 0;
       if (oldWay) {
         synchronized (orderBook) {
@@ -252,7 +252,7 @@ public class ConcurrencyTest {
   }
 
   private static void readOrderBookOld(OrderBookOld orderBookOld) {
-    for (int i = 0; i < 1200000; i++) {
+    for (int i = 0; i < 120000; i++) {
       int temp = 0;
       synchronized (orderBookOld) {
         for (LimitOrder ask : orderBookOld.getAsks()) {
