@@ -232,34 +232,23 @@ public final class OrderBook implements Serializable {
    * @return true, if wee need to run binarySearch again
    */
   private boolean recheckIdx(List<LimitOrder> limitOrders, LimitOrder limitOrder, int idx) {
-    try {
       switch (idx) {
         case 0: {
           if (!limitOrders.isEmpty()) {
             //if not equals, need to recheck
             return limitOrders.get(0).compareTo(limitOrder) != 0;
-          } else {
+          } else
             return true;
-          }
         }
         case -1: {
           if (limitOrders.isEmpty()) {
             return false;
-          } else {
+          } else
             return limitOrders.get(0).compareTo(limitOrder) <= 0;
-          }
         }
         default:
           return true;
       }
-    } catch (IndexOutOfBoundsException e) {
-      for (LimitOrder lo : limitOrders) {
-        LOG.error("limitOrders {}", lo);
-      }
-      LOG.error("limitOrder {}", limitOrder);
-      LOG.error("idx {}", idx);
-      throw e;
-    }
   }
 
   // Replace timeStamp if the provided date is non-null and in the future

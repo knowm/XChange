@@ -3,10 +3,13 @@ package org.knowm.xchange.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.junit.Before;
@@ -174,4 +177,41 @@ public class OrderBookTest {
     assertThat(book.getAsks().get(0).getLimitPrice()).isEqualTo(new BigDecimal("10"));
     assertThat(book.getBids().get(0).getLimitPrice()).isEqualTo(new BigDecimal("3"));
   }
+
+  @Test
+  public void testRecheckIdx()
+      throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    Class[] cArg = new Class[3];
+    cArg[0] = List.class;
+    cArg[1] = LimitOrder.class;
+    cArg[2] = int.class;
+    Method method = OrderBook.class.getDeclaredMethod("recheckIdx", cArg);
+    method.setAccessible(true);
+    LimitOrder sameBidOrder =
+        new LimitOrder(
+            OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, "", null, BigDecimal.TEN);
+    LimitOrder smallerBidOrder =
+        new LimitOrder(
+            OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, "", null, BigDecimal.ONE);
+    LimitOrder higherBidOrder =
+        new LimitOrder(
+            OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, "", null, new BigDecimal("10.5"));
+    //idx!= -1,0
+    assertThat(method.invoke(orderBook, new ArrayList<LimitOrder>(),sameBidOrder, 1)).isEqualTo(true);
+    //idx=0, empty List
+    assertThat(method.invoke(orderBook, new ArrayList<LimitOrder>(),sameBidOrder, 0)).isEqualTo(true);
+    //idx=0, order equals
+    assertThat(method.invoke(orderBook, orderBook.getBids(),sameBidOrder, 0)).isEqualTo(false);
+    //idx=0, smallerBidOrder
+    assertThat(method.invoke(orderBook, orderBook.getBids(),smallerBidOrder, 0)).isEqualTo(true);
+    //idx=-1, empty List
+    assertThat(method.invoke(orderBook, new ArrayList<LimitOrder>(),sameBidOrder, -1)).isEqualTo(false);
+    //idx=-1, order equals
+    assertThat(method.invoke(orderBook, orderBook.getBids(),sameBidOrder, -1)).isEqualTo(true);
+    //idx=-1, smaller order
+    assertThat(method.invoke(orderBook, orderBook.getBids(),smallerBidOrder, -1)).isEqualTo(true);
+    //idx=-1, higher order
+    assertThat(method.invoke(orderBook, orderBook.getBids(),higherBidOrder, -1)).isEqualTo(false);
+  }
+
 }
