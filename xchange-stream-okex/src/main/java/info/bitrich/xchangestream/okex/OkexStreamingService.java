@@ -54,6 +54,10 @@ public class OkexStreamingService extends JsonNettyStreamingService {
 
   private final ExchangeSpecification xSpec;
 
+  private volatile boolean loginDone = false;
+
+  private volatile boolean needToResubscribeChannels = false;
+
   public OkexStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
     super(apiUrl);
     this.xSpec = exchangeSpecification;
@@ -61,6 +65,7 @@ public class OkexStreamingService extends JsonNettyStreamingService {
 
   @Override
   public Completable connect() {
+    loginDone = xSpec.getApiKey() == null;
     Completable conn = super.connect();
     return conn.andThen(
         (CompletableSource)
@@ -80,6 +85,14 @@ public class OkexStreamingService extends JsonNettyStreamingService {
                 completable.onError(e);
               }
             });
+  }
+
+  @Override
+  public void resubscribeChannels() {
+    needToResubscribeChannels = true;
+    if (loginDone) {
+      super.resubscribeChannels();
+    }
   }
 
   public void login() throws JsonProcessingException {
@@ -122,6 +135,18 @@ public class OkexStreamingService extends JsonNettyStreamingService {
       }
       LOG.error("Error parsing incoming message to JSON: {}", message);
       return;
+    }
+    // Retry after a successful login
+    if (jsonNode.has("event")) {
+      String event = jsonNode.get("event").asText();
+      if ("login".equals(event)) {
+        loginDone = true;
+        if (needToResubscribeChannels) {
+          this.resubscribeChannels();
+          needToResubscribeChannels = false;
+        }
+        return;
+      }
     }
 
     if (processArrayMessageSeparately() && jsonNode.isArray()) {
