@@ -14,5 +14,4 @@ public class CurrencyPairPayload {
 
   @JsonSerialize(converter = CurrencyPairToStringConverter.class)
   private CurrencyPair currencyPair;
-
 }

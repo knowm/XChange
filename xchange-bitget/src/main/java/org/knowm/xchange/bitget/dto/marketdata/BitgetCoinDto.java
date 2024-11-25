@@ -15,21 +15,20 @@ import org.knowm.xchange.currency.Currency;
 @Jacksonized
 public class BitgetCoinDto {
 
-    @JsonProperty("coinId")
-    private String coinId;
+  @JsonProperty("coinId")
+  private String coinId;
 
-    @JsonProperty("coin")
-    @JsonDeserialize(converter = StringToCurrencyConverter.class)
-    private Currency currency;
+  @JsonProperty("coin")
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency currency;
 
-    @JsonProperty("transfer")
-    private Boolean canTransfer;
+  @JsonProperty("transfer")
+  private Boolean canTransfer;
 
-    @JsonProperty("areaCoin")
-    @JsonDeserialize(converter = StringToBooleanConverter.class)
-    private Boolean isAreaCoin;
+  @JsonProperty("areaCoin")
+  @JsonDeserialize(converter = StringToBooleanConverter.class)
+  private Boolean isAreaCoin;
 
-    @JsonProperty("chains")
-    private List<BitgetChainDto> chains;
-
+  @JsonProperty("chains")
+  private List<BitgetChainDto> chains;
 }

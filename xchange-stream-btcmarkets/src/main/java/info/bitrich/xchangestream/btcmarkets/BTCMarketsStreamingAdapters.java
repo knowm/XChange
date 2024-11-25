@@ -76,5 +76,4 @@ public class BTCMarketsStreamingAdapters {
         .type(BTCMarketsAdapters.adaptOrderType(message.getSide()))
         .build();
   }
-
 }

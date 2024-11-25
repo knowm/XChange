@@ -112,5 +112,4 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
                 prev.getBid().compareTo(next.getBid()) == 0
                     && prev.getAsk().compareTo(next.getAsk()) == 0);
   }
-
 }

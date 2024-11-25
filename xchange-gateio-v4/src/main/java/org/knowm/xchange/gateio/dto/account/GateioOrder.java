@@ -120,5 +120,4 @@ public class GateioOrder {
 
   @JsonProperty("finish_as")
   String finishAs;
-  
 }

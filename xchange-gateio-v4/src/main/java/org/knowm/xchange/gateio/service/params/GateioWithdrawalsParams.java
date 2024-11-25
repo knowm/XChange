@@ -22,5 +22,4 @@ public class GateioWithdrawalsParams {
   private Instant startTime;
 
   private Instant endTime;
-
 }

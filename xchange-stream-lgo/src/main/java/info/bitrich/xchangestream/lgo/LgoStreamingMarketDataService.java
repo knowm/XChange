@@ -41,5 +41,4 @@ public class LgoStreamingMarketDataService implements StreamingMarketDataService
   private LgoTradeBatchSubscription createTradeSubscription(CurrencyPair currencyPair) {
     return LgoTradeBatchSubscription.create(service, currencyPair);
   }
-
 }

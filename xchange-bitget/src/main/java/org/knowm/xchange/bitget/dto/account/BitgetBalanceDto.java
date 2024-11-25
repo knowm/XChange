@@ -15,23 +15,22 @@ import org.knowm.xchange.currency.Currency;
 @Jacksonized
 public class BitgetBalanceDto {
 
-    @JsonProperty("coin")
-    @JsonDeserialize(converter = StringToCurrencyConverter.class)
-    private Currency currency;
+  @JsonProperty("coin")
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency currency;
 
-    @JsonProperty("available")
-    private BigDecimal available;
+  @JsonProperty("available")
+  private BigDecimal available;
 
-    @JsonProperty("frozen")
-    private BigDecimal frozen;
+  @JsonProperty("frozen")
+  private BigDecimal frozen;
 
-    @JsonProperty("locked")
-    private BigDecimal locked;
+  @JsonProperty("locked")
+  private BigDecimal locked;
 
-    @JsonProperty("limitAvailable")
-    private BigDecimal limitAvailable;
+  @JsonProperty("limitAvailable")
+  private BigDecimal limitAvailable;
 
-    @JsonProperty("uTime")
-    private Instant timestamp;
-
+  @JsonProperty("uTime")
+  private Instant timestamp;
 }

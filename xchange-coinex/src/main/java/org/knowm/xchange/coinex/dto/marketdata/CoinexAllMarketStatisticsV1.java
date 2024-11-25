@@ -17,5 +17,4 @@ public class CoinexAllMarketStatisticsV1 {
 
   @JsonProperty("ticker")
   private Map<String, CoinexTickerV1> tickers;
-
 }

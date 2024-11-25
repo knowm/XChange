@@ -192,7 +192,7 @@ public class OkexAdapters {
   public static LimitOrder adaptLimitOrder(
       OkexPublicOrder okexPublicOrder, Instrument instrument, OrderType orderType, Date timestamp) {
     return adaptOrderbookOrder(
-        okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType,timestamp);
+        okexPublicOrder.getVolume(), okexPublicOrder.getPrice(), instrument, orderType, timestamp);
   }
 
   public static OrderBook adaptOrderBook(
@@ -204,12 +204,14 @@ public class OkexAdapters {
     okexOrderbooks
         .get(0)
         .getAsks()
-        .forEach(okexAsk -> asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK, timeStamp)));
+        .forEach(
+            okexAsk -> asks.add(adaptLimitOrder(okexAsk, instrument, OrderType.ASK, timeStamp)));
 
     okexOrderbooks
         .get(0)
         .getBids()
-        .forEach(okexBid -> bids.add(adaptLimitOrder(okexBid, instrument, OrderType.BID, timeStamp)));
+        .forEach(
+            okexBid -> bids.add(adaptLimitOrder(okexBid, instrument, OrderType.BID, timeStamp)));
 
     return new OrderBook(timeStamp, asks, bids);
   }
@@ -220,7 +222,11 @@ public class OkexAdapters {
   }
 
   public static LimitOrder adaptOrderbookOrder(
-      BigDecimal amount, BigDecimal price, Instrument instrument, Order.OrderType orderType, Date timestamp) {
+      BigDecimal amount,
+      BigDecimal price,
+      Instrument instrument,
+      Order.OrderType orderType,
+      Date timestamp) {
 
     return new LimitOrder(orderType, amount, instrument, "", timestamp, price);
   }
@@ -235,10 +241,16 @@ public class OkexAdapters {
         .high(okexTicker.getHigh24h())
         .low(okexTicker.getLow24h())
         // .vwap(null)
-        .volume((okexTicker.getInstrumentType().equals("SWAP") || okexTicker.getInstrumentType().equals("FUTURES")) ?
-            okexTicker.getVolumeCurrency24h() : okexTicker.getVolume24h())
-        .quoteVolume((okexTicker.getInstrumentType().equals("SWAP") || okexTicker.getInstrumentType().equals("FUTURES")) ?
-            okexTicker.getVolumeCurrency24h().multiply(okexTicker.getLast()) : okexTicker.getVolumeCurrency24h())
+        .volume(
+            (okexTicker.getInstrumentType().equals("SWAP")
+                    || okexTicker.getInstrumentType().equals("FUTURES"))
+                ? okexTicker.getVolumeCurrency24h()
+                : okexTicker.getVolume24h())
+        .quoteVolume(
+            (okexTicker.getInstrumentType().equals("SWAP")
+                    || okexTicker.getInstrumentType().equals("FUTURES"))
+                ? okexTicker.getVolumeCurrency24h().multiply(okexTicker.getLast())
+                : okexTicker.getVolumeCurrency24h())
         .timestamp(okexTicker.getTimestamp())
         .bidSize(okexTicker.getBidSize())
         .askSize(okexTicker.getAskSize())

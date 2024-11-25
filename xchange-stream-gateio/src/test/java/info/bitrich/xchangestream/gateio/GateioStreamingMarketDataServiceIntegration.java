@@ -15,13 +15,15 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
 
   @Test
   void order_book() {
-    Observable<OrderBook> observable = exchange
-        .getStreamingMarketDataService()
-        .getOrderBook(CurrencyPair.BTC_USDT, 10, Duration.ofMillis(100));
+    Observable<OrderBook> observable =
+        exchange
+            .getStreamingMarketDataService()
+            .getOrderBook(CurrencyPair.BTC_USDT, 10, Duration.ofMillis(100));
 
     TestObserver<OrderBook> testObserver = observable.test();
 
     OrderBook orderBook = testObserver
+//        .awaitDone(1, TimeUnit.MINUTES)
         .awaitCount(1)
         .values().get(0);
 
@@ -32,19 +34,19 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
     assertThat(orderBook.getAsks()).hasSize(10);
 
     // bids should be lower than asks
-    assertThat(orderBook.getBids().get(0).getLimitPrice()).isLessThan(orderBook.getAsks().get(0).getLimitPrice());
+    assertThat(orderBook.getBids().get(0).getLimitPrice())
+        .isLessThan(orderBook.getAsks().get(0).getLimitPrice());
   }
-
 
   @Test
   void trades() {
-    Observable<Trade> observable = exchange
-        .getStreamingMarketDataService()
-        .getTrades(CurrencyPair.BTC_USDT);
+    Observable<Trade> observable =
+        exchange.getStreamingMarketDataService().getTrades(CurrencyPair.BTC_USDT);
 
     TestObserver<Trade> testObserver = observable.test();
 
     Trade trade = testObserver
+//        .awaitDone(1, TimeUnit.MINUTES)
         .awaitCount(1)
         .values().get(0);
 
@@ -52,28 +54,23 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
 
     assertThat(trade).hasNoNullFieldsOrPropertiesExcept("makerOrderId", "takerOrderId");
     assertThat(trade.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
-
   }
-
 
   @Test
   void ticker() {
-    Observable<Ticker> observable = exchange
-        .getStreamingMarketDataService()
-        .getTicker(CurrencyPair.BTC_USDT);
+    Observable<Ticker> observable =
+        exchange.getStreamingMarketDataService().getTicker(CurrencyPair.BTC_USDT);
 
     TestObserver<Ticker> testObserver = observable.test();
 
     Ticker ticker = testObserver
         .awaitCount(1)
-        .values()
-        .get(0);
+//        .awaitDone(1, TimeUnit.MINUTES)
+        .values().get(0);
 
     testObserver.dispose();
 
     assertThat(ticker).hasNoNullFieldsOrPropertiesExcept("open", "vwap", "bidSize", "askSize");
     assertThat(ticker.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
   }
-
-
 }
