@@ -1,0 +1,20 @@
+{
+  "code": "00000",
+  "msg": "success",
+  "requestTime": 1728557910398,
+  "data": [
+    {
+      "userId": 7831928986,
+      "assetsList": [
+        {
+          "coin": "USDT",
+          "available": "55.44646499",
+          "limitAvailable": "0",
+          "frozen": "0",
+          "locked": "0",
+          "uTime": null
+        }
+      ]
+    }
+  ]
+}

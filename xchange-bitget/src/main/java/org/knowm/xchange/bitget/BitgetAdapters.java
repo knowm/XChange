@@ -10,11 +10,18 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
+import org.knowm.xchange.bitget.dto.account.BitgetAccountType;
 import org.knowm.xchange.bitget.dto.account.BitgetBalanceDto;
+import org.knowm.xchange.bitget.dto.account.BitgetDepositWithdrawRecordDto;
+import org.knowm.xchange.bitget.dto.account.BitgetDepositWithdrawRecordDto.DepositType;
+import org.knowm.xchange.bitget.dto.account.BitgetDepositWithdrawRecordDto.RecordType;
+import org.knowm.xchange.bitget.dto.account.params.BitgetMainSubTransferHistoryParams;
+import org.knowm.xchange.bitget.dto.account.params.BitgetMainSubTransferHistoryParams.Role;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetMarketDepthDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto.Status;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
+import org.knowm.xchange.bitget.dto.trade.BitgetFillDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto;
 import org.knowm.xchange.bitget.dto.trade.BitgetOrderInfoDto.BitgetOrderStatus;
 import org.knowm.xchange.bitget.dto.trade.BitgetPlaceOrderDto;
@@ -24,12 +31,15 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.instrument.Instrument;
 
 @UtilityClass
@@ -214,5 +224,62 @@ public class BitgetAdapters {
         .clientOid(marketOrder.getUserReference())
         .size(marketOrder.getOriginalAmount())
         .build();
+  }
+
+  public UserTrade toUserTrade(BitgetFillDto bitgetFillDto) {
+    return new UserTrade(
+        bitgetFillDto.getOrderSide(),
+        bitgetFillDto.getAssetAmount(),
+        toCurrencyPair(bitgetFillDto.getSymbol()),
+        bitgetFillDto.getPrice(),
+        toDate(bitgetFillDto.getUpdatedAt()),
+        bitgetFillDto.getTradeId(),
+        bitgetFillDto.getOrderId(),
+        bitgetFillDto.getFeeDetail().getTotalFee().abs(),
+        bitgetFillDto.getFeeDetail().getCurrency(),
+        null);
+  }
+
+  public String toString(BitgetAccountType bitgetAccountType) {
+    return Optional.ofNullable(bitgetAccountType).map(BitgetAccountType::getValue).orElse(null);
+  }
+
+  public String toString(BitgetMainSubTransferHistoryParams.Role role) {
+    return Optional.ofNullable(role).map(Role::getValue).orElse(null);
+  }
+
+  public FundingRecord toFundingRecord(BitgetDepositWithdrawRecordDto record) {
+    return new FundingRecord.Builder()
+        .setInternalId(record.getOrderId())
+        .setBlockchainTransactionHash(record.getTradeId())
+        .setCurrency(record.getCurrency())
+        .setType(toFundingRecordType(record))
+        .setAmount(record.getSize())
+        .setFee(record.getFee())
+        .setStatus(record.getStatus())
+        .setAddress(record.getToAddress())
+        .setAddressTag(record.getToAddressTag())
+        .setDate(toDate(record.getUpdatedAt()))
+        .build();
+  }
+
+  public FundingRecord.Type toFundingRecordType(BitgetDepositWithdrawRecordDto record) {
+    if (record.getDepositType() == DepositType.ON_CHAIN
+        && record.getType() == RecordType.WITHDRAW) {
+      return Type.WITHDRAWAL;
+    }
+    if (record.getDepositType() == DepositType.ON_CHAIN && record.getType() == RecordType.DEPOSIT) {
+      return Type.DEPOSIT;
+    }
+    if (record.getDepositType() == DepositType.INTERNAL_TRANSFER
+        && record.getType() == RecordType.WITHDRAW) {
+      return Type.INTERNAL_WITHDRAWAL;
+    }
+    if (record.getDepositType() == DepositType.INTERNAL_TRANSFER
+        && record.getType() == RecordType.DEPOSIT) {
+      return Type.INTERNAL_DEPOSIT;
+    }
+
+    return null;
   }
 }

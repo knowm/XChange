@@ -11,7 +11,11 @@ import org.knowm.xchange.bitget.BitgetErrorAdapter;
 import org.knowm.xchange.bitget.BitgetExchange;
 import org.knowm.xchange.bitget.config.Config;
 import org.knowm.xchange.bitget.dto.BitgetException;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetCoinDto;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto.Status;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -25,6 +29,31 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw
 
   public BitgetMarketDataService(BitgetExchange exchange) {
     super(exchange);
+  }
+
+  public List<Currency> getCurrencies() throws IOException {
+    try {
+      return getBitgetCoinDtoList(null).stream()
+          .map(BitgetCoinDto::getCurrency)
+          .distinct()
+          .collect(Collectors.toList());
+    } catch (BitgetException e) {
+      throw BitgetErrorAdapter.adapt(e);
+    }
+  }
+
+  public List<Instrument> getInstruments() throws IOException {
+    try {
+      List<BitgetSymbolDto> metadata = getBitgetSymbolDtos(null);
+
+      return metadata.stream()
+          .filter(details -> details.getStatus() == Status.ONLINE)
+          .map(BitgetSymbolDto::getCurrencyPair)
+          .distinct()
+          .collect(Collectors.toList());
+    } catch (BitgetException e) {
+      throw BitgetErrorAdapter.adapt(e);
+    }
   }
 
   @Override
