@@ -23,7 +23,7 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
   public Completable connect(ProductSubscription... args) {
     streamingService =
         new GateioStreamingService(
-            getApiUri(),
+            exchangeSpecification.getSslUri(),
             exchangeSpecification.getApiKey(),
             exchangeSpecification.getSecretKey());
     applyStreamingSpecification(exchangeSpecification, streamingService);
@@ -32,15 +32,6 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
     streamingAccountService = new GateioStreamingAccountService(streamingService);
 
     return streamingService.connect();
-  }
-
-  protected String getApiUri() {
-    String overrideWebsocketApiUri = exchangeSpecification.getOverrideWebsocketApiUri();
-    if (overrideWebsocketApiUri != null) return overrideWebsocketApiUri;
-    if (isSandbox(exchangeSpecification)) {
-      return Config.SANDBOX_V4_URL;
-    }
-    return Config.V4_URL;
   }
 
   @Override
@@ -82,7 +73,7 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification specification = super.getDefaultExchangeSpecification();
     specification.setShouldLoadRemoteMetaData(false);
-    specification.setOverrideWebsocketApiUri(Config.V4_URL);
+    specification.setSslUri(Config.V4_URL);
     return specification;
   }
 }

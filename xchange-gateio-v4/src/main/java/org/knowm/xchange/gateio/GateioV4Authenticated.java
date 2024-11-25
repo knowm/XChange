@@ -13,14 +13,11 @@ import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.gateio.dto.GateioException;
-import org.knowm.xchange.gateio.dto.account.BatchFuturesOrderResponse;
-import org.knowm.xchange.gateio.dto.account.FuturesOrder;
 import org.knowm.xchange.gateio.dto.account.GateioAccountBookRecord;
 import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
 import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositRecord;
-import org.knowm.xchange.gateio.dto.account.GateioFuturesAccountBookRecord;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
 import org.knowm.xchange.gateio.dto.account.GateioSubAccountTransfer;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
@@ -187,77 +184,4 @@ public interface GateioV4Authenticated {
       @HeaderParam("SIGN") ParamsDigest signer,
       GateioWithdrawalRequest gateioWithdrawalRequest)
       throws IOException, GateioException;
-
-  @POST
-  @Path("/futures/{settle}/orders")
-  @Consumes(MediaType.APPLICATION_JSON)
-  FuturesOrder createFuturesOrder(
-      @HeaderParam("KEY") String apiKey,
-      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @PathParam("settle") String settle,
-      FuturesOrder futuresOrder)
-      throws IOException, GateioException;
-
-  @POST
-  @Path("/futures/{settle}/batch_orders")
-  @Consumes(MediaType.APPLICATION_JSON)
-  List<BatchFuturesOrderResponse> createBatchFuturesOrder(
-      @HeaderParam("KEY") String apiKey,
-      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @PathParam("settle") String settle,
-      List<FuturesOrder> futuresOrders)
-      throws IOException, GateioException;
-
-  @GET
-  @Path("/futures/{settle}/orders/{order_id}")
-  FuturesOrder getFuturesOrder(
-      @HeaderParam("KEY") String apiKey,
-      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @PathParam("settle") String settle,
-      @PathParam("order_id") String orderId)
-      throws IOException, GateioException;
-
-  @DELETE
-  @Path("/futures/{settle}/orders/{order_id}")
-  FuturesOrder cancelFuturesOrder(
-      @HeaderParam("KEY") String apiKey,
-      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @PathParam("settle") String settle,
-      @PathParam("order_id") String orderId)
-      throws IOException, GateioException;
-
-  /**
-   * @param type
-   * dnw: Deposit and withdrawal
-   * pnl: Position profit and loss
-   * fee: Trading fee
-   * refr: Referrer rebate
-   * fund: Funding fee
-   * point_dnw: Point card deposit and withdrawal
-   * point_fee: Point card trading fee
-   * point_refr: Point card referrer rebate
-   * bonus_offset: Bonus deduction
-   * @return
-   * @throws IOException
-   * @throws GateioException
-   */
-  @GET
-  @Path("/futures/{settle}/account_book")
-  List<GateioFuturesAccountBookRecord> getFuturesAccountBookRecords(
-      @HeaderParam("KEY") String apiKey,
-      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @PathParam("settle") String settle,
-      @QueryParam("contract") String contract,
-      @QueryParam("type") String type,
-      @QueryParam("limit") int limit,
-      @QueryParam("offset") int offset,
-      @QueryParam("from") Long fromTimestamp,
-      @QueryParam("to") Long toTimestamp
-  ) throws IOException, GateioException;
-
 }

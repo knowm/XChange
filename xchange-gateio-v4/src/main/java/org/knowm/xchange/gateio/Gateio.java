@@ -9,11 +9,9 @@ import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.gateio.dto.GateioException;
-import org.knowm.xchange.gateio.dto.marketdata.GateioContract;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyChain;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
-import org.knowm.xchange.gateio.dto.marketdata.GateioFuturesTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
 import org.knowm.xchange.gateio.dto.marketdata.GateioServerTime;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
@@ -53,20 +51,5 @@ public interface Gateio {
   @GET
   @Path("spot/tickers")
   List<GateioTicker> getTickers(@QueryParam("currency_pair") String currencyPair)
-      throws IOException, GateioException;
-
-  @GET
-  @Path("futures/{settle}/contracts")
-  List<GateioContract> getContracts(@PathParam("settle") String settle, @QueryParam("limit") int limit, @QueryParam("offset") int offset)
-      throws IOException, GateioException;
-
-  @GET
-  @Path("futures/{settle}/contracts/{contract}")
-  GateioContract getContract(@PathParam("contract") String contract,@PathParam("settle") String settle)
-      throws IOException, GateioException;
-
-  @GET
-  @Path("/futures/{settle}/tickers")
-  List<GateioFuturesTicker> getFuturesTickers(@QueryParam("contract") String contract,@PathParam("settle") String settle)
       throws IOException, GateioException;
 }

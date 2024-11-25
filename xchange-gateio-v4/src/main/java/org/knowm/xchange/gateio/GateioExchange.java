@@ -19,8 +19,6 @@ public class GateioExchange extends BaseExchange {
   private final SynchronizedValueFactory<Long> nonceFactory =
       new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
 
-  private static final String V4_REST_URL = "https://api.gateio.ws";
-  private static final String SANDBOX_V4_REST_URL = "https://fx-api-testnet.gateio.ws";
   @Override
   protected void initServices() {
     marketDataService = new GateioMarketDataService(this);
@@ -29,18 +27,10 @@ public class GateioExchange extends BaseExchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification){
-    if (isSandbox(exchangeSpecification)) {
-      exchangeSpecification.setSslUri(SANDBOX_V4_REST_URL);
-    }
-    super.applySpecification(exchangeSpecification);
-  }
-
-  @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification specification = new ExchangeSpecification(this.getClass());
-    specification.setSslUri(V4_REST_URL);
+    specification.setSslUri("https://api.gateio.ws");
     specification.setHost("gate.io");
     specification.setExchangeName("Gateio");
 
@@ -58,10 +48,5 @@ public class GateioExchange extends BaseExchange {
         ((GateioMarketDataService) marketDataService).getMetaDataByInstrument();
 
     exchangeMetaData = new ExchangeMetaData(instruments, null, null, null, null);
-  }
-
-  protected boolean isSandbox(ExchangeSpecification exchangeSpecification){
-    return Boolean.TRUE.equals(
-        exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX));
   }
 }
