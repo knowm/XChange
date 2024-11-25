@@ -7,11 +7,14 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.GateioException;
+import org.knowm.xchange.gateio.dto.account.BatchFuturesOrderResponse;
+import org.knowm.xchange.gateio.dto.account.FuturesOrder;
 import org.knowm.xchange.gateio.dto.account.GateioAccountBookRecord;
 import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
 import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositRecord;
+import org.knowm.xchange.gateio.dto.account.GateioFuturesAccountBookRecord;
 import org.knowm.xchange.gateio.dto.account.GateioSubAccountTransfer;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
@@ -160,4 +163,64 @@ public class GateioAccountServiceRaw extends GateioBaseService {
         params.getPageLength(),
         params.getZeroBasedPageNumber());
   }
+
+  public FuturesOrder createFuturesOrder(FuturesOrder futuresOrder, String settle)
+      throws IOException {
+    return gateioV4Authenticated.createFuturesOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        gateioV4ParamsDigest,
+        settle,
+        futuresOrder);
+  }
+
+  public List<BatchFuturesOrderResponse> createBatchFuturesOrder(List<FuturesOrder> futuresOrders,
+      String settle)
+      throws IOException {
+    return gateioV4Authenticated.createBatchFuturesOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        gateioV4ParamsDigest,
+        settle,
+        futuresOrders);
+  }
+
+  public FuturesOrder getFuturesOrder(String orderId, String settle) throws IOException {
+    return gateioV4Authenticated.getFuturesOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        gateioV4ParamsDigest,
+        settle,
+        orderId);
+  }
+
+  public FuturesOrder cancelFuturesOrder(String orderId, String settle) throws IOException {
+    return gateioV4Authenticated.cancelFuturesOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        gateioV4ParamsDigest,
+        settle,
+        orderId);
+  }
+
+  public List<GateioFuturesAccountBookRecord> getFuturesAccountBookRecords(
+      String settle,
+      String contract,
+      String type,
+      Integer limit,
+      Integer offset,
+      Long from,
+      Long to) throws IOException {
+    return gateioV4Authenticated.getFuturesAccountBookRecords(
+        apiKey,
+        exchange.getNonceFactory(),
+        gateioV4ParamsDigest,
+        settle,
+        contract,
+        type,
+        limit,
+        offset,
+        from,
+        to);
+      }
 }

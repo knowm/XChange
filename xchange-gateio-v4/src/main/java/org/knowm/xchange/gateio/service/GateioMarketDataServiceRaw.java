@@ -5,9 +5,11 @@ import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioExchange;
+import org.knowm.xchange.gateio.dto.marketdata.GateioContract;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyChain;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
+import org.knowm.xchange.gateio.dto.marketdata.GateioFuturesTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
 import org.knowm.xchange.gateio.dto.marketdata.GateioServerTime;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
@@ -46,5 +48,17 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
   public GateioCurrencyPairDetails getCurrencyPairDetails(Instrument instrument)
       throws IOException {
     return gateio.getCurrencyPairDetails(GateioAdapters.toString(instrument));
+  }
+
+  public List<GateioContract> getContracts(String settle, int limit, int offset) throws IOException{
+    return gateio.getContracts(settle, limit, offset);
+  }
+
+  public GateioContract getContract(String contract, String settle) throws IOException{
+    return gateio.getContract(contract, settle);
+  }
+
+  public List<GateioFuturesTicker> getFuturesTickers(String contract, String settle) throws IOException{
+    return gateio.getFuturesTickers(contract, settle);
   }
 }

@@ -14,11 +14,13 @@ import lombok.Data;
 public final class Config {
 
   public static final String V4_URL = "wss://api.gateio.ws/ws/v4/";
+  public static final String SANDBOX_V4_URL = "wss://fx-ws-testnet.gateio.ws/v4/ws/btc";
 
   public static final String SPOT_ORDERBOOK_CHANNEL = "spot.order_book";
   public static final String SPOT_TRADES_CHANNEL = "spot.trades";
   public static final String SPOT_TICKERS_CHANNEL = "spot.tickers";
   public static final String SPOT_BALANCES_CHANNEL = "spot.balances";
+  public static final String FUTURES_BALANCES_CHANNEL = "futures.balances";
   public static final String SPOT_USER_TRADES_CHANNEL = "spot.usertrades";
   public static final List<String> PRIVATE_CHANNELS =
       Arrays.asList(SPOT_BALANCES_CHANNEL, SPOT_USER_TRADES_CHANNEL);
