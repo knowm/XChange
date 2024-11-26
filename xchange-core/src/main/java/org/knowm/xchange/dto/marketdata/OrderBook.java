@@ -16,8 +16,6 @@ import lombok.Getter;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** DTO representing the exchange order book */
 public final class OrderBook implements Serializable {
