@@ -19,40 +19,28 @@ import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * DTO representing the exchange order book
- */
+/** DTO representing the exchange order book */
 public final class OrderBook implements Serializable {
 
   private static final long serialVersionUID = -7788306758114464314L;
-  @JsonIgnore
-  public final StampedLock lock = new StampedLock();
+  @JsonIgnore public final StampedLock lock = new StampedLock();
 
-  /**
-   * the asks
-   */
-  @Getter
-  private final List<LimitOrder> asks;
+  /** the asks */
+  @Getter private final List<LimitOrder> asks;
 
-  /**
-   * the bids
-   */
-  @Getter
-  private final List<LimitOrder> bids;
+  /** the bids */
+  @Getter private final List<LimitOrder> bids;
 
-  /**
-   * the timestamp of the orderbook according to the exchange's server, null if not provided
-   */
-  @Getter
-  private Date timeStamp;
+  /** the timestamp of the orderbook according to the exchange's server, null if not provided */
+  @Getter private Date timeStamp;
 
   /**
    * Constructor
    *
    * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if
-   *                  not provided
-   * @param asks      The ASK orders
-   * @param bids      The BID orders
+   *     not provided
+   * @param asks The ASK orders
+   * @param bids The BID orders
    */
   @JsonCreator
   public OrderBook(
@@ -67,10 +55,10 @@ public final class OrderBook implements Serializable {
    * Constructor
    *
    * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if
-   *                  not provided
-   * @param asks      The ASK orders
-   * @param bids      The BID orders
-   * @param sort      True if the asks and bids need to be sorted
+   *     not provided
+   * @param asks The ASK orders
+   * @param bids The BID orders
+   * @param sort True if the asks and bids need to be sorted
    */
   public OrderBook(Date timeStamp, List<LimitOrder> asks, List<LimitOrder> bids, boolean sort) {
 
@@ -90,9 +78,9 @@ public final class OrderBook implements Serializable {
    * Constructor
    *
    * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if
-   *                  not provided
-   * @param asks      The ASK orders
-   * @param bids      The BID orders
+   *     not provided
+   * @param asks The ASK orders
+   * @param bids The BID orders
    */
   public OrderBook(Date timeStamp, Stream<LimitOrder> asks, Stream<LimitOrder> bids) {
 
@@ -103,10 +91,10 @@ public final class OrderBook implements Serializable {
    * Constructor
    *
    * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if
-   *                  not provided
-   * @param asks      The ASK orders
-   * @param bids      The BID orders
-   * @param sort      True if the asks and bids need to be sorted
+   *     not provided
+   * @param asks The ASK orders
+   * @param bids The BID orders
+   * @param sort True if the asks and bids need to be sorted
    */
   public OrderBook(Date timeStamp, Stream<LimitOrder> asks, Stream<LimitOrder> bids, boolean sort) {
 
@@ -224,31 +212,27 @@ public final class OrderBook implements Serializable {
     }
   }
 
-
-  private final Logger LOG = LoggerFactory.getLogger(OrderBook.class);
-
-
   /**
    * @return true, if wee need to run binarySearch again
    */
   private boolean recheckIdx(List<LimitOrder> limitOrders, LimitOrder limitOrder, int idx) {
-      switch (idx) {
-        case 0: {
+    switch (idx) {
+      case 0:
+        {
           if (!limitOrders.isEmpty()) {
-            //if not equals, need to recheck
+            // if not equals, need to recheck
             return limitOrders.get(0).compareTo(limitOrder) != 0;
-          } else
-            return true;
+          } else return true;
         }
-        case -1: {
+      case -1:
+        {
           if (limitOrders.isEmpty()) {
             return false;
-          } else
-            return limitOrders.get(0).compareTo(limitOrder) <= 0;
+          } else return limitOrders.get(0).compareTo(limitOrder) <= 0;
         }
-        default:
-          return true;
-      }
+      default:
+        return true;
+    }
   }
 
   // Replace timeStamp if the provided date is non-null and in the future

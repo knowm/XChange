@@ -19,10 +19,8 @@ public class ConcurrencyTest {
   static Instrument inst = new CurrencyPair("BTC/USDT");
 
   public static void main(String[] args) throws InterruptedException, ExecutionException {
-    OrderBook orderBook1 =
-        new OrderBook(new Date(), initOrderBookAsks(), new ArrayList<>(), true);
-    OrderBook orderBook2 =
-        new OrderBook(new Date(), initOrderBookAsks(), new ArrayList<>(), true);
+    OrderBook orderBook1 = new OrderBook(new Date(), initOrderBookAsks(), new ArrayList<>(), true);
+    OrderBook orderBook2 = new OrderBook(new Date(), initOrderBookAsks(), new ArrayList<>(), true);
     OrderBookOld orderBookOld =
         new OrderBookOld(new Date(), initOrderBookAsks(), new ArrayList<>(), true);
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(50);
