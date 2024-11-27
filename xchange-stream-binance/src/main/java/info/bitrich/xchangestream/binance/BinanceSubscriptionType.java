@@ -6,6 +6,7 @@ public enum BinanceSubscriptionType {
   FUNDING_RATES("markPrice"),
   TRADE("trade"),
   TICKER("ticker"),
+  TICKER_WINDOW("ticker_"),
   BOOK_TICKER("bookTicker"),
   KLINE("kline");
 
