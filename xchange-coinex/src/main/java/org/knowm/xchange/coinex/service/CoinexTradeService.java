@@ -39,8 +39,8 @@ public class CoinexTradeService extends CoinexTradeServiceRaw implements TradeSe
     OrderQueryParamInstrument params = (OrderQueryParamInstrument) orderQueryParams[0];
 
     try {
-      CoinexOrder gateioOrder = orderStatus(params.getInstrument(), params.getOrderId());
-      return Collections.singletonList(CoinexAdapters.toOrder(gateioOrder));
+      CoinexOrder order = orderStatus(params.getInstrument(), params.getOrderId());
+      return Collections.singletonList(CoinexAdapters.toOrder(order));
     } catch (CoinexException e) {
       throw CoinexErrorAdapter.adapt(e);
     }

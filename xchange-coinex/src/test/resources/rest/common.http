@@ -1,0 +1,4 @@
+### Get Maintenance Information
+GET {{api_host}}/v2/maintain/info
+
+
