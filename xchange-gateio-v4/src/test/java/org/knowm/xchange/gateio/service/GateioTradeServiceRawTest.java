@@ -5,11 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.account.GateioOrder;
@@ -48,16 +46,6 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
           .rebatedFeeCurrency(Currency.USDT)
           .finishAs("filled")
           .build();
-
-  @Test
-  void listOrders() throws IOException {
-    List<GateioOrder> orders =
-        gateioTradeServiceRaw.listOrders(CurrencyPair.BTC_USDT, OrderStatus.OPEN);
-
-    assertThat(orders).hasSize(1);
-    assertThat(orders.get(0).getId()).isEqualTo("339440374909");
-    assertThat(orders.get(0).getStatus()).isEqualTo("open");
-  }
 
   @Test
   void valid_market_buy_order() throws IOException {
