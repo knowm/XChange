@@ -143,6 +143,26 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
+  void open_limit_order_details() throws IOException {
+    LimitOrder expected =
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+            .id("745504484392")
+            .limitPrice(new BigDecimal("80000"))
+            .timestamp(Date.from(Instant.parse("2024-12-05T23:46:54.447Z")))
+            .originalAmount(new BigDecimal("0.00012"))
+            .orderStatus(OrderStatus.OPEN)
+            .fee(BigDecimal.ZERO)
+            .userReference("web")
+            .build();
+
+    Collection<Order> orders =
+        gateioTradeService.getOrder(
+            new DefaultQueryOrderParamInstrument(CurrencyPair.BTC_USDT, "745504484392"));
+    assertThat(orders).hasSize(1);
+    assertThat(orders).first().usingRecursiveComparison().isEqualTo(expected);
+  }
+
+  @Test
   void trade_history() throws IOException {
     UserTrades userTrades =
         gateioTradeService.getTradeHistory(
