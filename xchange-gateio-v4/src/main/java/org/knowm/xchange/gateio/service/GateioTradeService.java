@@ -11,6 +11,7 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gateio.GateioAdapters;
@@ -23,7 +24,9 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
+import org.knowm.xchange.service.trade.params.InstrumentParam;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
@@ -31,6 +34,17 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
 
   public GateioTradeService(GateioExchange exchange) {
     super(exchange);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    Validate.isInstanceOf(InstrumentParam.class, params);
+    Instrument instrument = ((InstrumentParam) params).getInstrument();
+    List<LimitOrder> limitOrders = listOrders(instrument, OrderStatus.OPEN).stream()
+        .map(GateioAdapters::toOrder)
+        .map(LimitOrder.class::cast)
+        .collect(Collectors.toList());
+    return new OpenOrders(limitOrders);
   }
 
   @Override

@@ -16,6 +16,7 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.FundsExceededException;
@@ -24,6 +25,7 @@ import org.knowm.xchange.gateio.dto.trade.GateioUserTrade;
 import org.knowm.xchange.gateio.dto.trade.Role;
 import org.knowm.xchange.gateio.service.params.GateioTradeHistoryParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
 
 class GateioTradeServiceTest extends GateioExchangeWiremock {
@@ -140,6 +142,45 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
             new DefaultQueryOrderParamInstrument(new CurrencyPair("VAI/USDT"), "425539509181"));
     assertThat(orders).hasSize(1);
     assertThat(orders).first().usingRecursiveComparison().isEqualTo(expected);
+  }
+
+  @Test
+  void open_limit_order_details() throws IOException {
+    LimitOrder expected =
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+            .id("745504484392")
+            .limitPrice(new BigDecimal("80000"))
+            .timestamp(Date.from(Instant.parse("2024-12-05T23:46:54.447Z")))
+            .originalAmount(new BigDecimal("0.00012"))
+            .orderStatus(OrderStatus.OPEN)
+            .fee(BigDecimal.ZERO)
+            .userReference("web")
+            .build();
+
+    Collection<Order> orders =
+        gateioTradeService.getOrder(
+            new DefaultQueryOrderParamInstrument(CurrencyPair.BTC_USDT, "745504484392"));
+    assertThat(orders).hasSize(1);
+    assertThat(orders).first().usingRecursiveComparison().isEqualTo(expected);
+  }
+
+  @Test
+  void open_orders() throws IOException {
+    LimitOrder expected =
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+            .id("745504484392")
+            .limitPrice(new BigDecimal("80000"))
+            .timestamp(Date.from(Instant.parse("2024-12-05T23:46:54.447Z")))
+            .originalAmount(new BigDecimal("0.00012"))
+            .orderStatus(OrderStatus.OPEN)
+            .fee(BigDecimal.ZERO)
+            .userReference("web")
+            .build();
+
+    OpenOrders openOrders =
+        gateioTradeService.getOpenOrders(new DefaultOpenOrdersParamInstrument(CurrencyPair.BTC_USDT));
+    assertThat(openOrders.getOpenOrders()).hasSize(1);
+    assertThat(openOrders.getOpenOrders()).first().usingRecursiveComparison().isEqualTo(expected);
   }
 
   @Test

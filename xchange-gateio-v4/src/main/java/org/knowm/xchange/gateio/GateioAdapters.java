@@ -151,16 +151,21 @@ public class GateioAdapters {
         throw new IllegalArgumentException("Can't map " + gateioOrder.getType());
     }
 
-    if (orderType == OrderType.BID) {
-      builder.cumulativeAmount(gateioOrder.getFilledTotalQuote());
-    } else if (orderType == OrderType.ASK) {
-      BigDecimal filledAssetAmount =
-          gateioOrder
-              .getFilledTotalQuote()
-              .divide(gateioOrder.getAvgDealPrice(), MathContext.DECIMAL32);
-      builder.cumulativeAmount(filledAssetAmount);
-    } else {
-      throw new IllegalArgumentException("Can't map " + orderType);
+    // if filled then calculate amounts
+    OrderStatus status = toOrderStatus(gateioOrder.getStatus());
+
+    if (status == OrderStatus.FILLED) {
+      if (orderType == OrderType.BID) {
+        builder.cumulativeAmount(gateioOrder.getFilledTotalQuote());
+      } else if (orderType == OrderType.ASK) {
+        BigDecimal filledAssetAmount =
+            gateioOrder
+                .getFilledTotalQuote()
+                .divide(gateioOrder.getAvgDealPrice(), MathContext.DECIMAL32);
+        builder.cumulativeAmount(filledAssetAmount);
+      } else {
+        throw new IllegalArgumentException("Can't map " + orderType);
+      }
     }
 
     return builder
@@ -168,7 +173,7 @@ public class GateioAdapters {
         .originalAmount(gateioOrder.getAmount())
         .userReference(gateioOrder.getClientOrderId())
         .timestamp(Date.from(gateioOrder.getCreatedAt()))
-        .orderStatus(toOrderStatus(gateioOrder.getStatus()))
+        .orderStatus(status)
         .averagePrice(gateioOrder.getAvgDealPrice())
         .fee(gateioOrder.getFee())
         .build();
