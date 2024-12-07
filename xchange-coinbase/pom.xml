@@ -30,7 +30,31 @@
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
 
+        <!-- Nimbus JOSE+JWT -->
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>9.40</version>
+        </dependency>
+
+        <!-- Bouncy Castle Provider -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>1.78.1</version>
+        </dependency>
+
+        <!-- Bouncy Castle PKIX -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk18on</artifactId>
+            <version>1.78.1</version>
+        </dependency>
     </dependencies>
 
 </project>

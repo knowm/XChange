@@ -1,18 +1,6 @@
-package org.knowm.xchange.coinbase.v2;
+package org.knowm.xchange.coinbase.cdp;
 
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Map;
+import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountsData;
@@ -24,9 +12,23 @@ import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
 import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellResponse;
 import si.mazi.rescu.ParamsDigest;
 
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Map;
+
 @Path("/v2")
 @Produces(MediaType.APPLICATION_JSON)
-public interface CoinbaseAuthenticated extends Coinbase {
+public interface CoinbaseAuthenticatedCDP extends Coinbase {
 
   /**
    * All API key requests must be signed and contain the following headers.
@@ -47,6 +49,7 @@ public interface CoinbaseAuthenticated extends Coinbase {
    */
   String CB_ACCESS_KEY = "CB-ACCESS-KEY";
 
+
   String CB_ACCESS_SIGN = "CB-ACCESS-SIGN";
   String CB_ACCESS_TIMESTAMP = "CB-ACCESS-TIMESTAMP";
 
@@ -55,20 +58,14 @@ public interface CoinbaseAuthenticated extends Coinbase {
   @GET
   @Path("accounts/{accountId}/transactions")
   CoinbaseTransactionsResponse getTransactions(
-      @HeaderParam(CB_VERSION) String apiVersion,
-      @HeaderParam(CB_ACCESS_KEY) String apiKey,
-      @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
-      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+      @HeaderParam("Authorization") ParamsDigest signature,
       @PathParam("accountId") String accountId)
       throws IOException, CoinbaseException;
 
   @GET
   @Path("accounts/{accountId}/transactions")
   CoinbaseExpandTransactionsResponse getExpandedTransactions(
-          @HeaderParam(CB_VERSION) String apiVersion,
-          @HeaderParam(CB_ACCESS_KEY) String apiKey,
-          @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
-          @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+          @HeaderParam("Authorization") ParamsDigest signature,
           @PathParam("accountId") String accountId,
           @QueryParam("limit") int limit,
           @QueryParam("order") String orderType,
@@ -78,10 +75,7 @@ public interface CoinbaseAuthenticated extends Coinbase {
   @GET
   @Path("accounts/{accountId}/buys")
   CoinbaseBuySellResponse getBuys(
-      @HeaderParam(CB_VERSION) String apiVersion,
-      @HeaderParam(CB_ACCESS_KEY) String apiKey,
-      @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
-      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+      @HeaderParam("Authorization") ParamsDigest signature,
       @PathParam("accountId") String accountId,
       @QueryParam("limit") Integer limit,
       @QueryParam("starting_after") String startingAfter)
@@ -90,10 +84,7 @@ public interface CoinbaseAuthenticated extends Coinbase {
   @GET
   @Path("accounts/{accountId}/sells")
   CoinbaseBuySellResponse getSells(
-      @HeaderParam(CB_VERSION) String apiVersion,
-      @HeaderParam(CB_ACCESS_KEY) String apiKey,
-      @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
-      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+      @HeaderParam("Authorization") ParamsDigest signature,
       @PathParam("accountId") String accountId,
       @QueryParam("limit") Integer limit,
       @QueryParam("starting_after") String startingAfter)
@@ -102,10 +93,7 @@ public interface CoinbaseAuthenticated extends Coinbase {
   @GET
   @Path("accounts/{accountId}/deposits")
   CoinbaseBuySellResponse getAllDeposits(
-      @HeaderParam(CB_VERSION) String apiVersion,
-      @HeaderParam(CB_ACCESS_KEY) String apiKey,
-      @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
-      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+      @HeaderParam("Authorization") ParamsDigest signature,
       @PathParam("accountId") String accountId,
       @QueryParam("limit") Integer limit,
       @QueryParam("starting_after") String startingAfter)
@@ -114,10 +102,7 @@ public interface CoinbaseAuthenticated extends Coinbase {
   @GET
   @Path("accounts/{accountId}/withdrawals")
   CoinbaseBuySellResponse getAllWithdrawals(
-      @HeaderParam(CB_VERSION) String apiVersion,
-      @HeaderParam(CB_ACCESS_KEY) String apiKey,
-      @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
-      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+      @HeaderParam("Authorization") ParamsDigest signature,
       @PathParam("accountId") String accountId,
       @QueryParam("limit") Integer limit,
       @QueryParam("starting_after") String startingAfter)
@@ -146,10 +131,7 @@ public interface CoinbaseAuthenticated extends Coinbase {
   @GET
   @Path("accounts")
   CoinbaseAccountsData getAccounts(
-      @HeaderParam(CB_VERSION) String apiVersion,
-      @HeaderParam(CB_ACCESS_KEY) String apiKey,
-      @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
-      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+      @HeaderParam("Authorization") ParamsDigest signature,
       @QueryParam("limit") Integer limit,
       @QueryParam("starting_after") String starting_after)
       throws IOException, CoinbaseException;
@@ -157,10 +139,7 @@ public interface CoinbaseAuthenticated extends Coinbase {
   @GET
   @Path("accounts/{currency}")
   CoinbaseAccountData getAccount(
-      @HeaderParam(CB_VERSION) String apiVersion,
-      @HeaderParam(CB_ACCESS_KEY) String apiKey,
-      @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
-      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+      @HeaderParam("Authorization") ParamsDigest signature,
       @PathParam("currency") String currency)
       throws IOException, CoinbaseException;
 
@@ -179,10 +158,7 @@ public interface CoinbaseAuthenticated extends Coinbase {
   @GET
   @Path("payment-methods")
   CoinbasePaymentMethodsData getPaymentMethods(
-      @HeaderParam(CB_VERSION) String apiVersion,
-      @HeaderParam(CB_ACCESS_KEY) String apiKey,
-      @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
-      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp)
+      @HeaderParam("Authorization") ParamsDigest signature)
       throws IOException, CoinbaseException;
 
   @POST
