@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
@@ -38,6 +39,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BitmexAdapters {
 
@@ -127,19 +129,30 @@ public class BitmexAdapters {
         BitmexAdapters.adaptOrderStatus(rawOrder.getOrderStatus()));
   }
 
-  public static Ticker adaptTicker(BitmexTicker bitmexTicker, CurrencyPair currencyPair) {
+  public static Ticker toTicker(BitmexTicker bitmexTicker) {
+    if (bitmexTicker == null) {
+      return null;
+    }
 
-    Ticker.Builder builder = new Ticker.Builder();
-    builder.open(bitmexTicker.getPrevClosePrice());
-    builder.ask(bitmexTicker.getAskPrice());
-    builder.bid(bitmexTicker.getBidPrice());
-    builder.last(bitmexTicker.getLastPrice());
-    builder.high(bitmexTicker.getHighPrice());
-    builder.low(bitmexTicker.getLowPrice());
-    builder.vwap(new BigDecimal(bitmexTicker.getVwap().longValue()));
-    builder.volume(bitmexTicker.getVolume24h());
-    builder.currencyPair(currencyPair);
-    return builder.build();
+    BigDecimal percentageChange =
+        bitmexTicker.getLastChangePcnt() != null
+            ? bitmexTicker.getLastChangePcnt().scaleByPowerOfTen(2)
+            : null;
+
+    return new Ticker.Builder()
+        .instrument(bitmexTicker.getInstrument())
+        .open(bitmexTicker.getOpenValue())
+        .last(bitmexTicker.getLastPrice())
+        .bid(bitmexTicker.getBidPrice())
+        .ask(bitmexTicker.getAskPrice())
+        .high(bitmexTicker.getHighPrice())
+        .low(bitmexTicker.getLowPrice())
+        .vwap(bitmexTicker.getVwap())
+        .volume(bitmexTicker.getAssetVolume24h())
+        .quoteVolume(bitmexTicker.getQuoteVolume24h())
+        .timestamp(bitmexTicker.getTimestamp())
+        .percentageChange(percentageChange)
+        .build();
   }
 
   public static Trade adaptTrade(BitmexPublicTrade bitmexPublicTrade, CurrencyPair currencyPair) {
@@ -307,10 +320,11 @@ public class BitmexAdapters {
     return Currency.getInstance(currencyCode);
   }
 
-  public static String adaptCurrencyPairToSymbol(CurrencyPair currencyPair) {
-    return currencyPair == null
-        ? null
-        : currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+  public static String adaptCurrencyPairToSymbol(Instrument instrument) {
+    if (instrument == null || ObjectUtils.anyNull(instrument.getBase(), instrument.getCounter())) {
+      return null;
+    }
+    return adaptCurrency(instrument.getBase()) + adaptCurrency(instrument.getCounter());
   }
 
   public static CurrencyPair adaptSymbolToCurrencyPair(String bitmexSymbol) {

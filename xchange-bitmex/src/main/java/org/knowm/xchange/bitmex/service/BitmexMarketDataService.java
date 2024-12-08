@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
@@ -12,6 +11,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -35,32 +35,19 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(currencyPair);
+  public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
+    String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(instrument);
     List<BitmexTicker> bitmexTickers = getTicker(bitmexSymbol);
 
     if (bitmexTickers.isEmpty()) {
       return null;
     }
+    return BitmexAdapters.toTicker(bitmexTickers.get(0));
+  }
 
-    BitmexTicker bitmexTicker = bitmexTickers.get(0);
-    Ticker ticker =
-        new Ticker.Builder()
-            .currencyPair(currencyPair)
-            .open(bitmexTicker.getOpenValue())
-            .last(bitmexTicker.getLastPrice())
-            .bid(bitmexTicker.getBidPrice())
-            .ask(bitmexTicker.getAskPrice())
-            .high(bitmexTicker.getHighPrice())
-            .low(bitmexTicker.getLowPrice())
-            .vwap(new BigDecimal(bitmexTicker.getVwap()))
-            .volume(bitmexTicker.getVolume24h())
-            .quoteVolume(null)
-            .timestamp(bitmexTicker.getTimestamp())
-            .build();
-
-    return ticker;
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+    return getTicker((Instrument) currencyPair, args);
   }
 
   @Override

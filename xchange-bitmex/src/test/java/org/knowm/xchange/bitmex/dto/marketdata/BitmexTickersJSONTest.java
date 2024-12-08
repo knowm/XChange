@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.junit.Test;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+import org.knowm.xchange.currency.Currency;
 
 /** Test BitstampTicker JSON parsing */
 public class BitmexTickersJSONTest {
@@ -27,7 +28,7 @@ public class BitmexTickersJSONTest {
     assertThat(bitmexTickers[0].getSymbol()).isEqualTo("XBTZ14");
     assertThat(bitmexTickers[0].getReferenceSymbol()).isEqualTo(".XBT2H");
     assertThat(bitmexTickers[0].getRootSymbol()).isEqualTo("XBT");
-    assertThat(bitmexTickers[0].getUnderlying()).isEqualTo("XBT");
+    assertThat(bitmexTickers[0].getUnderlying()).isEqualTo(Currency.XBT);
     assertThat(bitmexTickers[0].getUnderlyingSymbol()).isEqualTo("XBT=");
   }
 }
