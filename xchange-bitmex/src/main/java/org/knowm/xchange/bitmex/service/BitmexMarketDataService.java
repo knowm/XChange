@@ -3,6 +3,7 @@ package org.knowm.xchange.bitmex.service;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
@@ -51,7 +52,7 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
 
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
-    String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(instrument);
+    String bitmexSymbol = BitmexAdapters.toString(instrument);
     List<BitmexTicker> bitmexTickers = getTicker(bitmexSymbol);
 
     if (bitmexTickers.isEmpty()) {
@@ -67,8 +68,10 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
 
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
-    String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(instrument);
-    return BitmexAdapters.toOrderBook(getBitmexDepth(bitmexSymbol), instrument);
+    Integer depth = (Integer) ArrayUtils.get(args, 0);
+    String bitmexSymbol = BitmexAdapters.toString(instrument);
+
+    return BitmexAdapters.toOrderBook(getBitmexDepth(bitmexSymbol, depth));
   }
 
   @Override
@@ -99,7 +102,7 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
       }
     }
 
-    String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(currencyPair);
+    String bitmexSymbol = BitmexAdapters.toString(currencyPair);
     List<BitmexPublicTrade> trades = getBitmexTrades(bitmexSymbol, limit, start);
     return BitmexAdapters.adaptTrades(trades, currencyPair);
   }

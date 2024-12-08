@@ -92,13 +92,20 @@ public class BitmexExchange extends BaseExchange {
     BitmexMarketDataService bitmexMarketDataService = (BitmexMarketDataService) getMarketDataService();
     List<BitmexTicker> tickers = bitmexMarketDataService.getActiveTickers();
 
-    Map<Instrument, InstrumentMetaData> instruments = tickers.stream()
+    // fill symbol mappings
+    tickers.forEach(bitmexTicker -> {
+      BitmexAdapters.putSymbolMapping(bitmexTicker.getSymbol(), BitmexAdapters.toInstrument(bitmexTicker));
+    });
+
+    // fill instruments metadata
+    Map<Instrument, InstrumentMetaData> instrumentsMetadata = tickers.stream()
         .filter(bitmexTicker -> bitmexTicker.getSymbolType() != SymbolType.UNKNOWN)
         .collect(Collectors.toMap(
             BitmexAdapters::toInstrument,
             BitmexAdapters::toInstrumentMetaData
         ));
 
+    // fill currencies metadata
     Map<Currency, CurrencyMetaData> currencyMetadata = bitmexMarketDataService.getAssets().stream()
         .collect(Collectors.toMap(
             BitmexAsset::getAsset,
@@ -107,7 +114,7 @@ public class BitmexExchange extends BaseExchange {
             }
         ));
 
-    exchangeMetaData = new ExchangeMetaData(instruments, currencyMetadata, exchangeMetaData.getPublicRateLimits(), exchangeMetaData.getPrivateRateLimits(), exchangeMetaData.isShareRateLimits());
+    exchangeMetaData = new ExchangeMetaData(instrumentsMetadata, currencyMetadata, exchangeMetaData.getPublicRateLimits(), exchangeMetaData.getPrivateRateLimits(), exchangeMetaData.isShareRateLimits());
   }
 
   public RateLimitUpdateListener getRateLimitUpdateListener() {

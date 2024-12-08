@@ -113,7 +113,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
                 exchange.getNonceFactory(),
                 signatureCreator,
                 parameters.getSymbol(),
-                parameters.getSide() != null ? parameters.getSide().getCapitalized() : null,
+                parameters.getSide() != null ? parameters.getSide().getValue() : null,
                 parameters.getOrderQuantity(),
                 parameters.getSimpleOrderQuantity(),
                 parameters.getDisplayQuantity(),

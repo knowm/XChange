@@ -42,7 +42,7 @@ public interface Bitmex {
   @GET
   @Path("orderBook/L2")
   BitmexPublicOrderList getDepth(
-      @QueryParam("symbol") String currencyPair, @QueryParam("depth") Double depth)
+      @QueryParam("symbol") String currencyPair, @QueryParam("depth") Integer depth)
       throws IOException, BitmexException;
 
   @GET

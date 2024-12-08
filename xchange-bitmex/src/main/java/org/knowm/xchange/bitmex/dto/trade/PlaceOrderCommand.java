@@ -73,7 +73,7 @@ public class PlaceOrderCommand {
   /** See {@link Bitmex#placeOrder}. */
   public PlaceOrderCommand(final BitmexPlaceOrderParameters parameters) {
     this.symbol = parameters.getSymbol();
-    this.side = parameters.getSide() != null ? parameters.getSide().getCapitalized() : null;
+    this.side = parameters.getSide() != null ? parameters.getSide().getValue() : null;
     this.orderQuantity = parameters.getOrderQuantity();
     this.simpleOrderQuantity = parameters.getSimpleOrderQuantity();
     this.displayQuantity = parameters.getDisplayQuantity();

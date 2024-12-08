@@ -1,67 +1,43 @@
 package org.knowm.xchange.bitmex.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
-import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
+import java.time.ZonedDateTime;
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.bitmex.config.converter.StringToInstrumentConverter;
+import org.knowm.xchange.bitmex.config.converter.StringToOrderTypeConverter;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.instrument.Instrument;
 
+@Data
+@Builder
+@Jacksonized
 public class BitmexPublicOrder {
 
-  private final BigDecimal price;
-  private final BigDecimal size;
-  private final String symbol;
-  private final BigDecimal id;
-  private final BitmexSide side;
+  @JsonProperty("symbol")
+  @JsonDeserialize(converter = StringToInstrumentConverter.class)
+  private Instrument instrument;
 
-  public BitmexPublicOrder(
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("id") BigDecimal id,
-      @JsonProperty("size") BigDecimal size,
-      @JsonProperty("side") BitmexSide side,
-      @JsonProperty("symbol") String symbol) {
+  @JsonProperty("id")
+  private String id;
 
-    this.symbol = symbol;
-    this.id = id;
-    this.side = side;
-    this.size = size;
-    this.price = price;
-  }
+  @JsonProperty("side")
+  @JsonDeserialize(converter = StringToOrderTypeConverter.class)
+  private OrderType orderType;
 
-  public BigDecimal getPrice() {
+  @JsonProperty("size")
+  private BigDecimal size;
 
-    return price;
-  }
+  @JsonProperty("price")
+  private BigDecimal price;
 
-  public BigDecimal getVolume() {
+  @JsonProperty("transactTime")
+  private ZonedDateTime createdAt;
 
-    return size;
-  }
+  @JsonProperty("timestamp")
+  private ZonedDateTime updatedAt;
 
-  public BitmexSide getSide() {
-
-    return side;
-  }
-
-  public BigDecimal getId() {
-
-    return id;
-  }
-
-  public String getSymbol() {
-
-    return symbol;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BitmexOrder [price="
-        + price
-        + ", volume="
-        + size
-        + ", symbol="
-        + symbol
-        + ", side="
-        + side
-        + "]";
-  }
 }

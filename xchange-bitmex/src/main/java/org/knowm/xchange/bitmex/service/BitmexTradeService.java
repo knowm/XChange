@@ -1,7 +1,5 @@
 package org.knowm.xchange.bitmex.service;
 
-import static org.knowm.xchange.bitmex.dto.trade.BitmexSide.fromOrderType;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
@@ -75,11 +73,11 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException {
-    String symbol = BitmexAdapters.adaptCurrencyPairToSymbol(marketOrder.getCurrencyPair());
+    String symbol = BitmexAdapters.toString(marketOrder.getCurrencyPair());
 
     return placeOrder(
             new BitmexPlaceOrderParameters.Builder(symbol)
-                .setSide(fromOrderType(marketOrder.getType()))
+                .setSide(BitmexAdapters.toBitmexSide(marketOrder.getType()))
                 .setOrderQuantity(marketOrder.getOriginalAmount())
                 .build())
         .getId();
@@ -87,13 +85,13 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException {
-    String symbol = BitmexAdapters.adaptCurrencyPairToSymbol(limitOrder.getCurrencyPair());
+    String symbol = BitmexAdapters.toString(limitOrder.getCurrencyPair());
 
     Builder b =
         new BitmexPlaceOrderParameters.Builder(symbol)
             .setOrderQuantity(limitOrder.getOriginalAmount())
             .setPrice(limitOrder.getLimitPrice())
-            .setSide(fromOrderType(limitOrder.getType()))
+            .setSide(BitmexAdapters.toBitmexSide(limitOrder.getType()))
             .setClOrdId(limitOrder.getId());
     if (limitOrder.hasFlag(BitmexOrderFlags.POST)) {
       b.addExecutionInstruction(BitmexExecutionInstruction.PARTICIPATE_DO_NOT_INITIATE);
@@ -103,11 +101,11 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws ExchangeException {
-    String symbol = BitmexAdapters.adaptCurrencyPairToSymbol(stopOrder.getCurrencyPair());
+    String symbol = BitmexAdapters.toString(stopOrder.getCurrencyPair());
 
     return placeOrder(
             new BitmexPlaceOrderParameters.Builder(symbol)
-                .setSide(fromOrderType(stopOrder.getType()))
+                .setSide(BitmexAdapters.toBitmexSide(stopOrder.getType()))
                 .setOrderQuantity(stopOrder.getOriginalAmount())
                 .setStopPrice(stopOrder.getStopPrice())
                 .setClOrdId(stopOrder.getId())
@@ -174,7 +172,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     String symbol = null;
     if (params instanceof TradeHistoryParamCurrencyPair) {
       symbol =
-          BitmexAdapters.adaptCurrencyPairToSymbol(
+          BitmexAdapters.toString(
               ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
     }
     Long start = null;

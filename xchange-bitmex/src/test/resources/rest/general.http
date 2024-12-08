@@ -23,3 +23,7 @@ GET {{api_v1}}/wallet/assets
 Accept: application/json
 
 
+### Get current orderbook in vertical format
+GET {{api_v1}}/orderBook/L2?symbol=XBT_USDT&depth=25
+Accept: application/json
+
