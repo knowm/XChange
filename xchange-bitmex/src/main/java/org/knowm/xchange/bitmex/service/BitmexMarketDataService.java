@@ -2,10 +2,13 @@ package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexAsset;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -88,4 +91,12 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
     List<BitmexPublicTrade> trades = getBitmexTrades(bitmexSymbol, limit, start);
     return BitmexAdapters.adaptTrades(trades, currencyPair);
   }
+
+  public List<Currency> getCurrencies() {
+    return getAssets().stream()
+        .filter(BitmexAsset::getEnabled)
+        .map(BitmexAsset::getAsset)
+        .collect(Collectors.toList());
+  }
+
 }

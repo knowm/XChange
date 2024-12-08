@@ -3,8 +3,10 @@ package org.knowm.xchange.bitmex.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitmex.BitmexIntegrationTestParent;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
@@ -21,5 +23,15 @@ class BitmexMarketDataServiceIntegration extends BitmexIntegrationTestParent {
       assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
     }
   }
+
+  @Test
+  void valid_currencies() {
+    List<Currency> currencies =
+        ((BitmexMarketDataService) exchange.getMarketDataService()).getCurrencies();
+
+    assertThat(currencies).isNotEmpty();
+    assertThat(currencies.stream().distinct().count()).isEqualTo(currencies.size());
+  }
+
 
 }
