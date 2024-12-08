@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+import org.knowm.xchange.bitmex.dto.account.BitmexTicker.State;
+import org.knowm.xchange.bitmex.dto.account.BitmexTicker.SymbolType;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexAsset;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
 import org.knowm.xchange.currency.Currency;
@@ -16,6 +18,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 /**
  * Implementation of the market data service for Bitmex
@@ -35,6 +38,15 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
   public BitmexMarketDataService(BitmexExchange exchange) {
 
     super(exchange);
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) {
+    return getActiveTickers().stream()
+        .filter(bitmexTicker -> bitmexTicker.getSymbolType() == SymbolType.SPOT)
+        .filter(bitmexTicker -> bitmexTicker.getState() == State.OPEN)
+        .map(BitmexAdapters::toTicker)
+        .collect(Collectors.toList());
   }
 
   @Override

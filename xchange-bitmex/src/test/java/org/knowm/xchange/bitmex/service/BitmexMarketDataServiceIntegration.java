@@ -33,5 +33,21 @@ class BitmexMarketDataServiceIntegration extends BitmexIntegrationTestParent {
     assertThat(currencies.stream().distinct().count()).isEqualTo(currencies.size());
   }
 
+  @Test
+  void valid_tickers() throws IOException {
+    List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
+    assertThat(tickers).isNotEmpty();
+
+    assertThat(tickers)
+        .allSatisfy(
+            ticker -> {
+              assertThat(ticker.getInstrument()).isNotNull();
+              assertThat(ticker.getLast()).isNotNull();
+
+              if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
+                assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+              }
+            });
+  }
 
 }
