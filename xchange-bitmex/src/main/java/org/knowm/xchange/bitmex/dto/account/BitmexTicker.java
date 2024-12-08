@@ -1,13 +1,16 @@
 package org.knowm.xchange.bitmex.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.config.converter.StringToCurrencyConverter;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,22 +29,22 @@ public class BitmexTicker {
   private String rootSymbol;
 
   @JsonProperty("state")
-  private String state;
+  private State state;
 
   @JsonProperty("typ")
-  private String typ;
+  private SymbolType symbolType;
 
   @JsonProperty("listing")
-  private Date listing;
+  private ZonedDateTime listing;
 
   @JsonProperty("front")
-  private Date front;
+  private ZonedDateTime front;
 
   @JsonProperty("expiry")
-  private Date expiry;
+  private ExpirationInfo expirationInfo;
 
   @JsonProperty("settle")
-  private Date settle;
+  private ZonedDateTime settle;
 
   @JsonProperty("relistInterval")
   private String relistInterval;
@@ -163,10 +166,10 @@ public class BitmexTicker {
   private String fundingPremiumSymbol;
 
   @JsonProperty("fundingTimestamp")
-  private Date fundingTimestamp;
+  private ZonedDateTime fundingTimestamp;
 
   @JsonProperty("fundingInterval")
-  private Date fundingInterval;
+  private ZonedDateTime fundingInterval;
 
   @JsonProperty("fundingRate")
   private BigDecimal fundingRate;
@@ -181,13 +184,13 @@ public class BitmexTicker {
   private String rebalanceInterval;
 
   @JsonProperty("openingTimestamp")
-  private Date openingTimestamp;
+  private ZonedDateTime openingTimestamp;
 
   @JsonProperty("closingTimestamp")
-  private Date closingTimestamp;
+  private ZonedDateTime closingTimestamp;
 
   @JsonProperty("sessionInterval")
-  private Date sessionInterval;
+  private ZonedDateTime sessionInterval;
 
   @JsonProperty("prevClosePrice")
   private BigDecimal prevClosePrice;
@@ -313,10 +316,58 @@ public class BitmexTicker {
   private BigDecimal settledPrice;
 
   @JsonProperty("timestamp")
-  private Date timestamp;
+  private ZonedDateTime timestamp;
 
   public Instrument getInstrument() {
     return new CurrencyPair(underlying, quoteCurrency);
+
+  }
+
+  public static enum SymbolType {
+    @JsonProperty("FFCCSX")
+    FUTURES,
+
+    @JsonProperty("FFWCSX")
+    PERPETUALS,
+
+    @JsonProperty("IFXXXP")
+    SPOT,
+
+    @JsonEnumDefaultValue
+    UNKNOWN,
+
+  }
+
+  public static enum State {
+    @JsonProperty("Open")
+    OPEN,
+
+    @JsonProperty("Closed")
+    CLOSED,
+
+    @JsonProperty("Unlisted")
+    UNLISTED,
+
+    @JsonProperty("Expired")
+    EXPIRED,
+
+    @JsonProperty("Cleared")
+    CLEARED,
+
+  }
+
+  @Data
+  public static class ExpirationInfo {
+
+    private ZonedDateTime expirationDate;
+
+    private String futuresCode;
+
+    @JsonCreator
+    public ExpirationInfo(ZonedDateTime expiry) {
+      expirationDate = expiry;
+      futuresCode = BitmexAdapters.toFuturesCode(expiry);
+    }
 
   }
 

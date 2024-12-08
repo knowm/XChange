@@ -7,6 +7,7 @@ import org.knowm.xchange.bitmex.BitmexAuthenticated;
 import org.knowm.xchange.bitmex.BitmexException;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.RateLimitUpdateListener;
+import org.knowm.xchange.bitmex.config.BitmexJacksonObjectMapperFactory;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
@@ -37,6 +38,11 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
     bitmex =
         ExchangeRestProxyBuilder.forInterface(
                 BitmexAuthenticated.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(
+                clientConfig ->
+                    clientConfig.setJacksonObjectMapperFactory(
+                        new BitmexJacksonObjectMapperFactory()))
+
             .build();
     signatureCreator =
         BitmexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());

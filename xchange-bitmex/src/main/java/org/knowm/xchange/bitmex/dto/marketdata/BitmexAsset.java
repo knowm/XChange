@@ -1,65 +1,143 @@
 package org.knowm.xchange.bitmex.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.math.BigDecimal;
+import java.util.List;
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.bitmex.config.converter.StringToCurrencyConverter;
+import org.knowm.xchange.currency.Currency;
 
+@Data
+@Builder
+@Jacksonized
 public class BitmexAsset {
 
-  private final String altName;
-  private final String assetClass;
-  private final int scale;
-  private final int displayScale;
+  @JsonProperty("asset")
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency asset;
+
+  @JsonProperty("name")
+  private String name;
+
+  @JsonProperty("scale")
+  private Integer scale;
+
+  @JsonProperty("enabled")
+  private Boolean enabled;
+
+  @JsonProperty("isMarginCurrency")
+  private Boolean marginCurrency;
+
+  @JsonProperty("minDepositAmount")
+  private BigDecimal minDepositAmount;
+
+  @JsonProperty("minWithdrawalAmount")
+  private BigDecimal minWithdrawalAmount;
+
+  @JsonProperty("maxWithdrawalAmount")
+  private BigDecimal maxWithdrawalAmount;
+
+  @JsonProperty("memoRequired")
+  private Boolean memoRequired;
+
+  @JsonProperty("networks")
+  List<Network> networks;
+
 
   /**
-   * Constructor
-   *
-   * @param altName
-   * @param assetClass
-   * @param scale
-   * @param displayScale
+   * @return Scaled value
    */
-  public BitmexAsset(
-      @JsonProperty("altname") String altName,
-      @JsonProperty("aclass") String assetClass,
-      @JsonProperty("decimals") int scale,
-      @JsonProperty("display_decimals") int displayScale) {
-
-    this.altName = altName;
-    this.assetClass = assetClass;
-    this.scale = scale;
-    this.displayScale = displayScale;
+  public BigDecimal getMinDepositAmount() {
+    if (minDepositAmount == null || scale == null || scale <= 0) {
+      return null;
+    }
+    return minDepositAmount.scaleByPowerOfTen(-scale);
   }
 
-  public String getAltName() {
 
-    return altName;
+  /**
+   * @return Scaled value
+   */
+  public BigDecimal getMinWithdrawalAmount() {
+    if (minWithdrawalAmount == null || scale == null || scale <= 0) {
+      return null;
+    }
+    return minWithdrawalAmount.scaleByPowerOfTen(-scale);
   }
 
-  public String getAssetClass() {
-
-    return assetClass;
+  /**
+   * @return Scaled value
+   */
+  public BigDecimal getMaxWithdrawalAmount() {
+    if (maxWithdrawalAmount == null || scale == null || scale <= 0) {
+      return null;
+    }
+    return maxWithdrawalAmount.scaleByPowerOfTen(-scale);
   }
 
-  public int getScale() {
 
-    return scale;
-  }
 
-  public int getDisplayScale() {
+  @Data
+  @Builder
+  @Jacksonized
+  public static class Network {
 
-    return displayScale;
-  }
+    @JsonIgnore
+    Integer assetScale;
 
-  @Override
-  public String toString() {
+    @JsonProperty("asset")
+    private String id;
 
-    return "KrakenAssetInfo [altName="
-        + altName
-        + ", assetClass="
-        + assetClass
-        + ", scale="
-        + scale
-        + ", displayScale="
-        + displayScale
-        + "]";
+    @JsonProperty("tokenAddress")
+    private String tokenAddress;
+
+    @JsonProperty("depositEnabled")
+    private Boolean depositEnabled;
+
+    @JsonProperty("withdrawalEnabled")
+    private Boolean withdrawalEnabled;
+
+    @JsonProperty("withdrawalFee")
+    private BigDecimal withdrawalFee;
+
+    @JsonProperty("minFee")
+    private BigDecimal minFee;
+
+    @JsonProperty("maxFee")
+    private BigDecimal maxFee;
+
+    /**
+     * @return Scaled value
+     */
+    public BigDecimal getWithdrawalFee() {
+      if (withdrawalFee == null || assetScale == null || assetScale <= 0) {
+        return null;
+      }
+      return withdrawalFee.scaleByPowerOfTen(-assetScale);
+    }
+
+    /**
+     * @return Scaled value
+     */
+    public BigDecimal getMinFee() {
+      if (minFee == null || assetScale == null || assetScale <= 0) {
+        return null;
+      }
+      return minFee.scaleByPowerOfTen(-assetScale);
+    }
+
+    /**
+     * @return Scaled value
+     */
+    public BigDecimal getMaxFee() {
+      if (maxFee == null || assetScale == null || assetScale <= 0) {
+        return null;
+      }
+      return maxFee.scaleByPowerOfTen(-assetScale);
+    }
   }
 }

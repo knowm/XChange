@@ -18,3 +18,8 @@ GET {{api_v1}}/quote?symbol=USDT
 Accept: application/json
 
 
+### Get Assets Config
+GET {{api_v1}}/wallet/assets
+Accept: application/json
+
+

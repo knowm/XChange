@@ -2,12 +2,15 @@ package org.knowm.xchange.bitmex;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
@@ -25,6 +28,7 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -152,7 +156,7 @@ public class BitmexAdapters {
         .vwap(bitmexTicker.getVwap())
         .volume(bitmexTicker.getAssetVolume24h())
         .quoteVolume(bitmexTicker.getQuoteVolume24h())
-        .timestamp(bitmexTicker.getTimestamp())
+        .timestamp(Date.from(bitmexTicker.getTimestamp().toInstant()))
         .percentageChange(percentageChange)
         .build();
   }
@@ -303,7 +307,7 @@ public class BitmexAdapters {
     }
   }
 
-  public String adaptCurrency(Currency currency) {
+  public String toString(Currency currency) {
     // bitmex seems to use a lowercase 't' in XBT
     // can test this here - https://testnet.bitmex.com/api/explorer/#!/User/User_getDepositAddress
     // uppercase 'T' will return 'Unknown currency code'
@@ -314,7 +318,7 @@ public class BitmexAdapters {
     return currency.getCurrencyCode();
   }
 
-  public Currency adaptCurrency(String currencyCode) {
+  public Currency toCurrency(String currencyCode) {
     if (currencyCode.equalsIgnoreCase("XBt")) {
       return Currency.BTC;
     }
@@ -326,7 +330,7 @@ public class BitmexAdapters {
     if (instrument == null || ObjectUtils.anyNull(instrument.getBase(), instrument.getCounter())) {
       return null;
     }
-    return adaptCurrency(instrument.getBase()) + adaptCurrency(instrument.getCounter());
+    return toString(instrument.getBase()) + toString(instrument.getCounter());
   }
 
   public CurrencyPair adaptSymbolToCurrencyPair(String bitmexSymbol) {
@@ -399,7 +403,7 @@ public class BitmexAdapters {
     return new FundingRecord(
         walletTransaction.getAddress(),
         walletTransaction.getTransactTime(),
-        adaptCurrency(walletTransaction.getCurrency()),
+        toCurrency(walletTransaction.getCurrency()),
         walletTransaction.getAmount().abs(),
         walletTransaction.getTransactID(),
         walletTransaction.getTx(),
@@ -433,5 +437,84 @@ public class BitmexAdapters {
 
   private FundingRecord.Status adaptFundingRecordStatus(final String transactStatus) {
     return FundingRecord.Status.resolveStatus(transactStatus);
+  }
+
+  public Instrument toInstrument(BitmexTicker bitmexTicker) {
+    if (bitmexTicker == null) {
+      return null;
+    }
+
+    CurrencyPair currencyPair = new CurrencyPair(bitmexTicker.getUnderlying(), bitmexTicker.getQuoteCurrency());
+    switch (bitmexTicker.getSymbolType()) {
+      case SPOT:
+        return currencyPair;
+      case FUTURES:
+        return new FuturesContract(currencyPair, bitmexTicker.getExpirationInfo().getFuturesCode());
+      case PERPETUALS:
+        return new FuturesContract(currencyPair, "PERP");
+      case UNKNOWN:
+      default:
+        return null;
+    }
+  }
+
+  public InstrumentMetaData toInstrumentMetaData(BitmexTicker bitmexTicker) {
+    BigDecimal assetMultiplier = bitmexTicker.getUnderlyingToPositionMultiplier();
+
+    BigDecimal minAssetAmount = null;
+    if (bitmexTicker.getLotSize() != null && assetMultiplier != null && assetMultiplier.signum() != 0) {
+      minAssetAmount = bitmexTicker.getLotSize().divide(assetMultiplier, MathContext.DECIMAL32);
+    }
+
+    BigDecimal maxAssetAmount = null;
+    if (bitmexTicker.getMaxOrderQty() != null && assetMultiplier != null && assetMultiplier.signum() != 0) {
+      maxAssetAmount = bitmexTicker.getMaxOrderQty().divide(assetMultiplier, MathContext.DECIMAL32);
+    }
+
+    return new InstrumentMetaData.Builder()
+        .tradingFee(bitmexTicker.getTakerFee())
+        .minimumAmount(minAssetAmount)
+        .maximumAmount(maxAssetAmount)
+        .priceScale(Optional.ofNullable(bitmexTicker.getTickSize()).map(BigDecimal::scale).orElse(null))
+        .volumeScale(Optional.ofNullable(minAssetAmount).map(BigDecimal::scale).orElse(null))
+        .priceStepSize(bitmexTicker.getTickSize())
+        .marketOrderEnabled(true)
+        .build();
+  }
+
+  public String toFuturesCode(ZonedDateTime zonedDateTime) {
+    if (zonedDateTime == null) {
+      return null;
+    }
+    // get short year
+    String futuresCode = DateTimeFormatter.ofPattern("yy").format(zonedDateTime);
+    switch (zonedDateTime.getMonth()) {
+      case JANUARY:
+        return "F" + futuresCode;
+      case FEBRUARY:
+        return "G" + futuresCode;
+      case MARCH:
+        return "H" + futuresCode;
+      case APRIL:
+        return "J" + futuresCode;
+      case MAY:
+        return "K" + futuresCode;
+      case JUNE:
+        return "M" + futuresCode;
+      case JULY:
+        return "N" + futuresCode;
+      case AUGUST:
+        return "Q" + futuresCode;
+      case SEPTEMBER:
+        return "U" + futuresCode;
+      case OCTOBER:
+        return "V" + futuresCode;
+      case NOVEMBER:
+        return "X" + futuresCode;
+      case DECEMBER:
+        return "Z" + futuresCode;
+      default:
+        return null;
+    }
   }
 }

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Date;
 import javax.annotation.Nullable;
 import org.knowm.xchange.bitmex.dto.account.BitmexTickerList;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexAsset;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexFundingList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexKlineList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrderList;
@@ -76,5 +77,10 @@ public interface Bitmex {
       @Nullable @QueryParam("reverse") Boolean reverse,
       @Nullable @QueryParam("startTime") Date startTime,
       @Nullable @QueryParam("endTime") Date endTime)
+      throws IOException, BitmexException;
+
+  @GET
+  @Path("wallet/assets")
+  HttpResponseAwareList<BitmexAsset> getAssets()
       throws IOException, BitmexException;
 }

@@ -1,6 +1,5 @@
 package org.knowm.xchange.bitmex.service;
 
-import static org.knowm.xchange.bitmex.BitmexAdapters.adaptCurrency;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -71,7 +70,7 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    String currencyCode = adaptCurrency(currency);
+    String currencyCode = BitmexAdapters.toString(currency);
     return requestDepositAddress(currencyCode);
   }
 
