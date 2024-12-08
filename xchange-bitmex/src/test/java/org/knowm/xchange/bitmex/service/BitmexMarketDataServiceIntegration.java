@@ -9,6 +9,7 @@ import org.knowm.xchange.bitmex.BitmexIntegrationTestParent;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.instrument.Instrument;
 
 class BitmexMarketDataServiceIntegration extends BitmexIntegrationTestParent {
 
@@ -31,6 +32,15 @@ class BitmexMarketDataServiceIntegration extends BitmexIntegrationTestParent {
 
     assertThat(currencies).isNotEmpty();
     assertThat(currencies.stream().distinct().count()).isEqualTo(currencies.size());
+  }
+
+  @Test
+  void valid_instruments() {
+    List<Instrument> instruments =
+        ((BitmexMarketDataService) exchange.getMarketDataService()).getInstruments();
+
+    assertThat(instruments).isNotEmpty();
+    assertThat(instruments.stream().distinct().count()).isEqualTo(instruments.size());
   }
 
   @Test

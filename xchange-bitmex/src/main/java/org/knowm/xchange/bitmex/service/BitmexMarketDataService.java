@@ -111,4 +111,12 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
         .collect(Collectors.toList());
   }
 
+  public List<Instrument> getInstruments() {
+    return getActiveTickers().stream()
+        .filter(bitmexTicker -> bitmexTicker.getSymbolType() != SymbolType.UNKNOWN)
+        .map(BitmexAdapters::toInstrument)
+        .collect(Collectors.toList());
+  }
+
+
 }
