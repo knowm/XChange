@@ -45,12 +45,12 @@ public class BitmexAdapters {
 
   private static final BigDecimal SATOSHIS_BY_BTC = BigDecimal.valueOf(100_000_000L);
 
-  public static OrderBook adaptOrderBook(BitmexDepth bitmexDepth, CurrencyPair currencyPair) {
+  public static OrderBook toOrderBook(BitmexDepth bitmexDepth, Instrument instrument) {
 
     OrdersContainer asksOrdersContainer =
-        adaptOrders(bitmexDepth.getAsks(), currencyPair, OrderType.ASK, true);
+        adaptOrders(bitmexDepth.getAsks(), instrument, OrderType.ASK, true);
     OrdersContainer bidsOrdersContainer =
-        adaptOrders(bitmexDepth.getBids(), currencyPair, OrderType.BID, false);
+        adaptOrders(bitmexDepth.getBids(), instrument, OrderType.BID, false);
 
     return new OrderBook(
         new Date(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())),
@@ -75,7 +75,7 @@ public class BitmexAdapters {
 
   public static OrdersContainer adaptOrders(
       List<BitmexPublicOrder> orders,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       OrderType orderType,
       boolean reverse) {
 
@@ -85,7 +85,7 @@ public class BitmexAdapters {
 
     int i = reverse ? orders.size() - 1 : 0;
     for (BitmexPublicOrder order : orders) {
-      limitOrders[i] = adaptOrder(order, orderType, currencyPair);
+      limitOrders[i] = adaptOrder(order, orderType, instrument);
       i += (reverse ? -1 : 1);
     }
     return new OrdersContainer(maxTimestamp, Arrays.asList(limitOrders));
@@ -104,11 +104,11 @@ public class BitmexAdapters {
   }
 
   public static LimitOrder adaptOrder(
-      BitmexPublicOrder order, OrderType orderType, CurrencyPair currencyPair) {
+      BitmexPublicOrder order, OrderType orderType, Instrument instrument) {
 
     BigDecimal volume = order.getVolume();
 
-    return new LimitOrder(orderType, volume, currencyPair, "", null, order.getPrice());
+    return new LimitOrder(orderType, volume, instrument, "", null, order.getPrice());
   }
 
   public static LimitOrder adaptOrder(BitmexPrivateOrder rawOrder) {

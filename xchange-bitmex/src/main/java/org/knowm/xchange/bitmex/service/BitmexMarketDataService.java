@@ -51,9 +51,14 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
   }
 
   @Override
+  public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
+    String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(instrument);
+    return BitmexAdapters.toOrderBook(getBitmexDepth(bitmexSymbol), instrument);
+  }
+
+  @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(currencyPair);
-    return BitmexAdapters.adaptOrderBook(getBitmexDepth(bitmexSymbol), currencyPair);
+    return getOrderBook((Instrument) currencyPair, args);
   }
 
   @Override
