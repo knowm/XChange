@@ -21,15 +21,14 @@
         <url>http://knowm.org/open-source/xchange/</url>
     </organization>
 
-    <!-- Parent provides default configuration for dependencies -->
     <dependencies>
 
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
         </dependency>
 
-        <!-- Project dependencies (version automatically set through parent) -->
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
