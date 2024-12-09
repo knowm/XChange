@@ -1,7 +1,7 @@
 ### Withdraw
 < {%
   import {gen_sign} from 'sign.js'
-  gen_sign("POST", request);
+  gen_sign(request);
 %}
 
 POST {{api_v4}}/withdrawals
