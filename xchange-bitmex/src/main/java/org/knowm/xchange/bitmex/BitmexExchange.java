@@ -105,8 +105,17 @@ public class BitmexExchange extends BaseExchange {
             BitmexAdapters::toInstrumentMetaData
         ));
 
+    List<BitmexAsset> assets = bitmexMarketDataService.getAssets();
+
+    // fill bitmex currency code mappings
+    // fill scale for currencies
+    assets.forEach(asset -> {
+      BitmexAdapters.putCurrencyCodeMapping(asset.getBitmexCurrencyCode(), asset.getAsset());
+      BitmexAdapters.putCurrencyScale(asset.getAsset(), asset.getScale());
+    });
+
     // fill currencies metadata
-    Map<Currency, CurrencyMetaData> currencyMetadata = bitmexMarketDataService.getAssets().stream()
+    Map<Currency, CurrencyMetaData> currencyMetadata = assets.stream()
         .collect(Collectors.toMap(
             BitmexAsset::getAsset,
             bitmexAsset -> {

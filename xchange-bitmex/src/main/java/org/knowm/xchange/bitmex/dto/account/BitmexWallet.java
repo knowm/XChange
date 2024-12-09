@@ -1,286 +1,64 @@
 package org.knowm.xchange.bitmex.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.ZonedDateTime;
+import lombok.Value;
 import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
+import org.knowm.xchange.bitmex.BitmexAdapters;
+import org.knowm.xchange.currency.Currency;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-  "account",
-  "currency",
-  "prevDeposited",
-  "prevWithdrawn",
-  "prevTransferIn",
-  "prevTransferOut",
-  "prevAmount",
-  "prevTimestamp",
-  "deltaDeposited",
-  "deltaWithdrawn",
-  "deltaTransferIn",
-  "deltaTransferOut",
-  "deltaAmount",
-  "deposited",
-  "withdrawn",
-  "transferIn",
-  "transferOut",
-  "amount",
-  "pendingCredit",
-  "pendingDebit",
-  "confirmedDebit",
-  "timestamp",
-  "addr",
-  "script",
-  "withdrawalLock"
-})
-public final class BitmexWallet extends AbstractHttpResponseAware {
+@Value
+public class BitmexWallet extends AbstractHttpResponseAware {
 
-  @JsonProperty("account")
-  private Integer account;
+  Integer account;
 
-  @JsonProperty("currency")
-  private String currency;
+  Currency currency;
 
-  @JsonProperty("prevDeposited")
-  private BigDecimal prevDeposited;
+  BigDecimal deposited;
 
-  @JsonProperty("prevWithdrawn")
-  private BigDecimal prevWithdrawn;
+  BigDecimal withdrawn;
 
-  @JsonProperty("prevTransferIn")
-  private BigDecimal prevTransferIn;
+  BigDecimal transferIn;
 
-  @JsonProperty("prevTransferOut")
-  private BigDecimal prevTransferOut;
+  BigDecimal transferOut;
 
-  @JsonProperty("prevAmount")
-  private BigDecimal prevAmount;
+  BigDecimal amount;
 
-  @JsonProperty("prevTimestamp")
-  private String prevTimestamp;
+  BigDecimal pendingCredit;
 
-  @JsonProperty("deltaDeposited")
-  private BigDecimal deltaDeposited;
+  BigDecimal pendingDebit;
 
-  @JsonProperty("deltaWithdrawn")
-  private BigDecimal deltaWithdrawn;
+  BigDecimal confirmedDebit;
 
-  @JsonProperty("deltaTransferIn")
-  private BigDecimal deltaTransferIn;
+  ZonedDateTime timestamp;
 
-  @JsonProperty("deltaTransferOut")
-  private BigDecimal deltaTransferOut;
+  @JsonCreator
+  public BitmexWallet(@JsonProperty("account") Integer account,
+      @JsonProperty("currency") String currencyCode,
+      @JsonProperty("deposited") BigDecimal deposited,
+      @JsonProperty("withdrawn") BigDecimal withdrawn,
+      @JsonProperty("transferIn") BigDecimal transferIn,
+      @JsonProperty("transferOut") BigDecimal transferOut,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("pendingCredit") BigDecimal pendingCredit,
+      @JsonProperty("pendingDebit") BigDecimal pendingDebit,
+      @JsonProperty("confirmedDebit") BigDecimal confirmedDebit,
+      @JsonProperty("timestamp") ZonedDateTime timestamp) {
 
-  @JsonProperty("deltaAmount")
-  private BigDecimal deltaAmount;
+    this.account = account;
+    this.currency = BitmexAdapters.bitmexCodeToCurrency(currencyCode);
+    this.timestamp = timestamp;
 
-  @JsonProperty("deposited")
-  private BigDecimal deposited;
-
-  @JsonProperty("withdrawn")
-  private BigDecimal withdrawn;
-
-  @JsonProperty("transferIn")
-  private BigDecimal transferIn;
-
-  @JsonProperty("transferOut")
-  private BigDecimal transferOut;
-
-  @JsonProperty("amount")
-  private BigDecimal amount;
-
-  @JsonProperty("pendingCredit")
-  private BigDecimal pendingCredit;
-
-  @JsonProperty("pendingDebit")
-  private BigDecimal pendingDebit;
-
-  @JsonProperty("confirmedDebit")
-  private BigDecimal confirmedDebit;
-
-  @JsonProperty("timestamp")
-  private String timestamp;
-
-  @JsonProperty("addr")
-  private String addr;
-
-  @JsonProperty("script")
-  private String script;
-
-  @JsonProperty("withdrawalLock")
-  private List<String> withdrawalLock = null;
-
-  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<>();
-
-  public Integer getAccount() {
-    return account;
-  }
-
-  public String getCurrency() {
-    return currency;
-  }
-
-  public BigDecimal getPrevDeposited() {
-    return prevDeposited;
-  }
-
-  public BigDecimal getPrevWithdrawn() {
-    return prevWithdrawn;
-  }
-
-  public BigDecimal getPrevTransferIn() {
-    return prevTransferIn;
-  }
-
-  public BigDecimal getPrevTransferOut() {
-    return prevTransferOut;
-  }
-
-  public BigDecimal getPrevAmount() {
-    return prevAmount;
-  }
-
-  public String getPrevTimestamp() {
-    return prevTimestamp;
-  }
-
-  public BigDecimal getDeltaDeposited() {
-    return deltaDeposited;
-  }
-
-  public BigDecimal getDeltaWithdrawn() {
-    return deltaWithdrawn;
-  }
-
-  public BigDecimal getDeltaTransferIn() {
-    return deltaTransferIn;
-  }
-
-  public BigDecimal getDeltaTransferOut() {
-    return deltaTransferOut;
-  }
-
-  public BigDecimal getDeltaAmount() {
-    return deltaAmount;
-  }
-
-  public BigDecimal getDeposited() {
-    return deposited;
-  }
-
-  public BigDecimal getWithdrawn() {
-    return withdrawn;
-  }
-
-  public BigDecimal getTransferIn() {
-    return transferIn;
-  }
-
-  public BigDecimal getTransferOut() {
-    return transferOut;
-  }
-
-  public BigDecimal getAmount() {
-    return amount;
-  }
-
-  public BigDecimal getPendingCredit() {
-    return pendingCredit;
-  }
-
-  public BigDecimal getPendingDebit() {
-    return pendingDebit;
-  }
-
-  public BigDecimal getConfirmedDebit() {
-    return confirmedDebit;
-  }
-
-  public String getTimestamp() {
-    return timestamp;
-  }
-
-  public String getAddr() {
-    return addr;
-  }
-
-  public String getScript() {
-    return script;
-  }
-
-  public List<String> getWithdrawalLock() {
-    return withdrawalLock;
-  }
-
-  public Map<String, Object> getAdditionalProperties() {
-    return additionalProperties;
-  }
-
-  @Override
-  public String toString() {
-    return "BitmexWallet{"
-        + "account="
-        + account
-        + ", currency='"
-        + currency
-        + '\''
-        + ", prevDeposited="
-        + prevDeposited
-        + ", prevWithdrawn="
-        + prevWithdrawn
-        + ", prevTransferIn="
-        + prevTransferIn
-        + ", prevTransferOut="
-        + prevTransferOut
-        + ", prevAmount="
-        + prevAmount
-        + ", prevTimestamp='"
-        + prevTimestamp
-        + '\''
-        + ", deltaDeposited="
-        + deltaDeposited
-        + ", deltaWithdrawn="
-        + deltaWithdrawn
-        + ", deltaTransferIn="
-        + deltaTransferIn
-        + ", deltaTransferOut="
-        + deltaTransferOut
-        + ", deltaAmount="
-        + deltaAmount
-        + ", deposited="
-        + deposited
-        + ", withdrawn="
-        + withdrawn
-        + ", transferIn="
-        + transferIn
-        + ", transferOut="
-        + transferOut
-        + ", amount="
-        + amount
-        + ", pendingCredit="
-        + pendingCredit
-        + ", pendingDebit="
-        + pendingDebit
-        + ", confirmedDebit="
-        + confirmedDebit
-        + ", timestamp='"
-        + timestamp
-        + '\''
-        + ", addr='"
-        + addr
-        + '\''
-        + ", script='"
-        + script
-        + '\''
-        + ", withdrawalLock="
-        + withdrawalLock
-        + ", additionalProperties="
-        + additionalProperties
-        + '}';
+    // scale values
+    this.deposited = BitmexAdapters.scaleAmount(deposited, currency);
+    this.withdrawn = BitmexAdapters.scaleAmount(withdrawn, currency);
+    this.transferIn = BitmexAdapters.scaleAmount(transferIn, currency);
+    this.transferOut = BitmexAdapters.scaleAmount(transferOut, currency);
+    this.amount = BitmexAdapters.scaleAmount(amount, currency);
+    this.pendingCredit = BitmexAdapters.scaleAmount(pendingCredit, currency);
+    this.pendingDebit = BitmexAdapters.scaleAmount(pendingDebit, currency);
+    this.confirmedDebit = BitmexAdapters.scaleAmount(confirmedDebit, currency);
   }
 }

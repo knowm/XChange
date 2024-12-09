@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.util.StdConverter;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.currency.Currency;
 
-/** Converts string value {@code Currency} */
+/** Converts string value to {@code Currency} */
 public class StringToCurrencyConverter extends StdConverter<String, Currency> {
 
   @Override

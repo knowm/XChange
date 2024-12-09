@@ -378,11 +378,11 @@ public interface BitmexAuthenticated extends Bitmex {
 
   @GET
   @Path("user/wallet")
-  BitmexWallet getWallet(
+  HttpResponseAwareList<BitmexWallet> getWallet(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("api-signature") ParamsDigest paramsDigest /*,
-           @Nullable @QueryParam("currency") String currency*/)
+      @HeaderParam("api-signature") ParamsDigest paramsDigest,
+      @QueryParam("currency") String currency)
       throws IOException, BitmexException;
 
   /** Get a history of all of your wallet transactions (deposits, withdrawals, PNL) */

@@ -20,6 +20,9 @@ public class BitmexAsset {
   @JsonDeserialize(converter = StringToCurrencyConverter.class)
   private Currency asset;
 
+  @JsonProperty("currency")
+  private String bitmexCurrencyCode;
+
   @JsonProperty("name")
   private String name;
 

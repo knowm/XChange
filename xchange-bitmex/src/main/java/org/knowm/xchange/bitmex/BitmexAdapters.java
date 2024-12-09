@@ -7,15 +7,19 @@ import java.time.chrono.ChronoZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
@@ -53,11 +57,70 @@ public class BitmexAdapters {
 
   private final Map<String, Instrument> SYMBOL_TO_INSTRUMENT = new HashMap<>();
   private final Map<Instrument, String> INSTRUMENT_TO_SYMBOL = new HashMap<>();
+
+  private final Map<Currency, String> CURRENCY_TO_BITMEX_CODE = new HashMap<>();
+  private final Map<String, Currency> BITMEX_CODE_TO_CURRENCY = new HashMap<>();
+
+  private Map<Currency, Integer> CURRENCY_TO_SCALE = new HashMap<>();
+
   private final BigDecimal SATOSHIS_BY_BTC = BigDecimal.valueOf(100_000_000L);
 
   public void putSymbolMapping(String symbol, Instrument instrument) {
     SYMBOL_TO_INSTRUMENT.put(symbol, instrument);
     INSTRUMENT_TO_SYMBOL.put(instrument, symbol);
+  }
+
+  public void putCurrencyCodeMapping(String bitmexCode, Currency currency) {
+    BITMEX_CODE_TO_CURRENCY.put(bitmexCode, currency);
+    CURRENCY_TO_BITMEX_CODE.put(currency, bitmexCode);
+  }
+
+  public void putCurrencyScale(Currency currency, Integer scale) {
+    CURRENCY_TO_SCALE.put(currency, scale);
+  }
+
+  public Integer getCurrencyScale(Currency currency) {
+    return CURRENCY_TO_SCALE.get(currency);
+  }
+
+  public String toBitmexCode(Currency currency) {
+    if (currency == null) {
+      return null;
+    }
+    String result = CURRENCY_TO_BITMEX_CODE.get(currency);
+
+    // try to guess if no mapping found
+    if (result == null) {
+      log.warn("No currency mapping found {}. Will guess...", currency);
+      String currencyCode = currency.getCurrencyCode();
+      result =
+          StringUtils.substring(currencyCode, 0, -1).toUpperCase(Locale.ROOT)
+              + StringUtils.substring(currencyCode, -1).toLowerCase(Locale.ROOT);
+      log.warn("Guessed {}", result);
+    }
+
+    return result;
+  }
+
+  /**
+   * Converts bitmex currency code to {@code Currency}. E.g. USDt -> USDT, Gwei -> ETH
+   * @param bitmexCode
+   * @return
+   */
+  public Currency bitmexCodeToCurrency(String bitmexCode) {
+    if (bitmexCode == null) {
+      return null;
+    }
+    Currency result = BITMEX_CODE_TO_CURRENCY.get(bitmexCode);
+
+    // try to guess if no mapping found
+    if (result == null) {
+      log.warn("No currency mapping found {}. Will guess...", bitmexCode);
+      result = Currency.getInstance(bitmexCode);
+      log.warn("Guessed {}", result);
+    }
+
+    return result;
   }
 
   public OrderBook toOrderBook(List<BitmexPublicOrder> bitmexPublicOrders) {
@@ -472,5 +535,36 @@ public class BitmexAdapters {
         .map(Date::from)
         .orElse(null);
   }
+
+  public BigDecimal scaleAmount(BigDecimal amount, Currency currency) {
+    Integer scale = getCurrencyScale(currency);
+    if (scale == null || scale == 0) {
+      log.warn("Scale for {} not found. Returning as is", currency);
+      return amount;
+    }
+    return amount.scaleByPowerOfTen(-scale);
+  }
+
+  public Wallet toWallet(List<BitmexWallet> bitmexWallets) {
+    List<Balance> balances =
+        bitmexWallets.stream().map(BitmexAdapters::toBalance).collect(Collectors.toList());
+
+
+    return Wallet.Builder
+        .from(balances)
+        .id("spot")
+        .features(EnumSet.of(Wallet.WalletFeature.TRADING))
+        .build();
+  }
+
+  public Balance toBalance(BitmexWallet bitmexWallet) {
+    return new Balance.Builder()
+        .currency(bitmexWallet.getCurrency())
+        .available(bitmexWallet.getAmount())
+        .timestamp(toDate(bitmexWallet.getTimestamp()))
+        .build();
+  }
+
+
 
 }
