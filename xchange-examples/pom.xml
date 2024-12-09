@@ -310,11 +310,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-therock</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>xchange-upbit</artifactId>
             <version>${project.version}</version>
         </dependency>
