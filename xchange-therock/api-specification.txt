@@ -1,6 +1,0 @@
-The Rock Trading Exchange API specification
-================================
-
-Documentation
--------------
-https://api.therocktrading.com/doc/v1/
