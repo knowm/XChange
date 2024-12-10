@@ -84,7 +84,6 @@
         <module>xchange-enigma</module>
         <module>xchange-examples</module>
         <module>xchange-exmo</module>
-        <module>xchange-ftx</module>
         <module>xchange-gateio</module>
         <module>xchange-gateio-v4</module>
         <module>xchange-gemini</module>
@@ -133,7 +132,6 @@
         <module>xchange-stream-coinmate</module>
         <module>xchange-stream-core</module>
         <module>xchange-stream-dydx</module>
-        <module>xchange-stream-ftx</module>
         <module>xchange-stream-gateio</module>
         <module>xchange-stream-gemini</module>
         <module>xchange-stream-gemini-v2</module>
@@ -150,7 +148,6 @@
         <module>xchange-stream-service-core</module>
         <module>xchange-stream-service-netty</module>
         <module>xchange-stream-service-pubnub</module>
-        <module>xchange-therock</module>
         <module>xchange-tradeogre</module>
         <module>xchange-truefx</module>
         <module>xchange-upbit</module>
@@ -251,6 +248,13 @@
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-csv</artifactId>
                 <version>${version.fasterxml}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${version.fasterxml}</version>
+
             </dependency>
 
             <!-- Rest client -->

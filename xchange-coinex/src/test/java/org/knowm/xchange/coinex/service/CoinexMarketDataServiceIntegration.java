@@ -11,10 +11,17 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.meta.ExchangeHealth;
 
 class CoinexMarketDataServiceIntegration {
 
   CoinexExchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinexExchange.class);
+
+  @Test
+  public void exchange_health() {
+    assertThat(exchange.getMarketDataService().getExchangeHealth()).isEqualTo(ExchangeHealth.ONLINE);
+  }
+
 
   @Test
   void valid_tickers() throws IOException {
