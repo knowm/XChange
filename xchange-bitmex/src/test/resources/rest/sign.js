@@ -8,7 +8,9 @@ export function gen_sign(request) {
 
   let query = matches[7] || "";
   if (query !== "") {
-    query = "?" + query;
+    query = "?" + encodeURI(query)
+    .replaceAll(":", "%3A")
+    .replaceAll(",", "%2C");
   }
 
   const body = request.body.tryGetSubstituted() || "";

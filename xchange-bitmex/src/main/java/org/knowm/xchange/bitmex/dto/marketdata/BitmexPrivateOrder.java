@@ -1,362 +1,109 @@
 package org.knowm.xchange.bitmex.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
-import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
+import org.knowm.xchange.bitmex.BitmexAdapters;
+import org.knowm.xchange.bitmex.config.converter.StringToCurrencyConverter;
+import org.knowm.xchange.bitmex.config.converter.StringToOrderTypeConverter;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.instrument.Instrument;
 
-/** see field description at http://www.onixs.biz/fix-dictionary/5.0.SP2/fields_by_name.html */
+@Data
+@Builder
+@AllArgsConstructor
 public class BitmexPrivateOrder extends AbstractHttpResponseAware {
 
-  private final BigDecimal price;
-  private final BigDecimal size;
-  private final String symbol;
-  private final String id;
-  private final String clOrdID;
-  private final BitmexSide side;
-  private final Date timestamp;
-  private final OrderStatus orderStatus;
-  private final String currency;
-  private final String settleCurrency;
+  @JsonProperty("account")
+  private Integer account;
 
-  private final String clOrdLinkID;
+  @JsonProperty("avgPx")
+  private BigDecimal averagePrice;
 
-  private final BigDecimal simpleOrderQty;
-  private final BigDecimal displayQty;
-  private final BigDecimal stopPx;
-  private final BigDecimal pegOffsetValue;
-  private final String pegPriceType;
-  private final String orderType;
-  private final String timeInForce;
-  private final String execInst;
-  private final String contingencyType;
-  private final String exDestination;
-  private final String triggered;
-  private final boolean workingIndicator;
-  private final String ordRejReason;
+  @JsonProperty("currency")
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency currency;
 
-  private final BigDecimal simpleLeavesQty;
-  private final BigDecimal leavesQty;
-  private final BigDecimal simpleCumQty;
-  private final BigDecimal cumQty;
-  private final BigDecimal avgPx;
+  @JsonProperty("ordStatus")
+  private OrderStatus orderStatus;
 
-  private final String multiLegReportingType;
-  private final String text;
+  @JsonProperty("ordType")
+  private OrderClass orderClass;
 
-  // "2018-06-03T05:22:49.018Z"
-  private final Date transactTime;
+  @JsonProperty("orderID")
+  private String id;
 
-  private final String error;
+  @JsonProperty("side")
+  @JsonDeserialize(converter = StringToOrderTypeConverter.class)
+  private OrderType orderType;
 
-  public BitmexPrivateOrder(
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("orderID") String id,
-      @JsonProperty("orderQty") BigDecimal size,
-      @JsonProperty("side") BitmexSide side,
-      @JsonProperty("symbol") String symbol,
-      @JsonProperty("clOrdID") String clOrdID,
-      @JsonProperty("timestamp") Date timestamp,
-      @JsonProperty("ordStatus") OrderStatus orderStatus,
-      @JsonProperty("currency") String currency,
-      @JsonProperty("settlCurrency") String settleCurrency,
-      @JsonProperty("clOrdLinkID") String clOrdLinkID,
-      @JsonProperty("simpleOrderQty") BigDecimal simpleOrderQty,
-      @JsonProperty("displayQty") BigDecimal displayQty,
-      @JsonProperty("stopPx") BigDecimal stopPx,
-      @JsonProperty("pegOffsetValue") BigDecimal pegOffsetValue,
-      @JsonProperty("pegPriceType") String pegPriceType,
-      @JsonProperty("orderType") String orderType,
-      @JsonProperty("timeInForce") String timeInForce,
-      @JsonProperty("execInst") String execInst,
-      @JsonProperty("contingencyType") String contingencyType,
-      @JsonProperty("exDestination") String exDestination,
-      @JsonProperty("triggered") String triggered,
-      @JsonProperty("workingIndicator") boolean workingIndicator,
-      @JsonProperty("ordRejReason") String ordRejReason,
-      @JsonProperty("simpleLeavesQty") BigDecimal simpleLeavesQty,
-      @JsonProperty("leavesQty") BigDecimal leavesQty,
-      @JsonProperty("simpleCumQty") BigDecimal simpleCumQty,
-      @JsonProperty("cumQty") BigDecimal cumQty,
-      @JsonProperty("avgPx") BigDecimal avgPx,
-      @JsonProperty("multiLegReportingType") String multiLegReportingType,
-      @JsonProperty("text") String text,
-      @JsonProperty("transactTime") Date transactTime,
-      @JsonProperty("error") String error) {
+  @JsonProperty("text")
+  private String text;
 
-    this.symbol = symbol;
-    this.id = id;
-    this.side = side;
-    this.size = size;
-    this.price = price;
-    this.clOrdID = clOrdID;
-    this.timestamp = timestamp;
-    this.orderStatus = orderStatus;
-    this.currency = currency;
-    this.settleCurrency = settleCurrency;
+  @JsonProperty("timeInForce")
+  private String timeInForce;
 
-    this.clOrdLinkID = clOrdLinkID;
-    this.simpleOrderQty = simpleOrderQty;
-    this.displayQty = displayQty;
-    this.stopPx = stopPx;
-    this.pegOffsetValue = pegOffsetValue;
-    this.pegPriceType = pegPriceType;
-    this.orderType = orderType;
-    this.timeInForce = timeInForce;
-    this.execInst = execInst;
-    this.contingencyType = contingencyType;
-    this.exDestination = exDestination;
-    this.triggered = triggered;
-    this.workingIndicator = workingIndicator;
-    this.ordRejReason = ordRejReason;
-    this.simpleLeavesQty = simpleLeavesQty;
-    this.leavesQty = leavesQty;
-    this.simpleCumQty = simpleCumQty;
-    this.cumQty = cumQty;
-    this.avgPx = avgPx;
-    this.multiLegReportingType = multiLegReportingType;
-    this.text = text;
-    this.transactTime = transactTime;
-    this.error = error;
+  @JsonProperty("transactTime")
+  private ZonedDateTime createdAt;
+
+  @JsonProperty("timestamp")
+  private ZonedDateTime updatedAt;
+
+  @JsonProperty("workingIndicator")
+  private Boolean workingIndicator;
+
+  private BigDecimal cumulativeAmount;
+  private BigDecimal originalAmount;
+  private BigDecimal notFilledAmount;
+
+  private Instrument instrument;
+
+  @JsonCreator
+  public BitmexPrivateOrder(@JsonProperty("cumQty") BigDecimal cumulativeAmount,
+      @JsonProperty("orderQty") BigDecimal originalAmount,
+      @JsonProperty("leavesQty") BigDecimal notFilledAmount,
+      @JsonProperty("symbol") String symbol
+  ) {
+    this.instrument = BitmexAdapters.toInstrument(symbol);
+    this.cumulativeAmount = BitmexAdapters.scaleAmount(cumulativeAmount, instrument.getBase());
+    this.originalAmount = BitmexAdapters.scaleAmount(originalAmount, instrument.getBase());
+    this.notFilledAmount = BitmexAdapters.scaleAmount(notFilledAmount, instrument.getBase());
   }
 
-  public BigDecimal getPrice() {
-
-    return price;
-  }
-
-  public BigDecimal getVolume() {
-
-    return size;
-  }
-
-  public BitmexSide getSide() {
-
-    return side;
-  }
-
-  public String getId() {
-
-    return id;
-  }
-
-  public String getSymbol() {
-
-    return symbol;
-  }
-
-  public Date getTimestamp() {
-
-    return timestamp;
-  }
-
-  public OrderStatus getOrderStatus() {
-
-    return orderStatus;
-  }
-
-  public String getCurrency() {
-    return currency;
-  }
-
-  public String getSettleCurrency() {
-    return settleCurrency;
-  }
-
-  public String getClOrdID() {
-    return clOrdID;
-  }
-
-  public String getClOrdLinkID() {
-    return clOrdLinkID;
-  }
-
-  public BigDecimal getSimpleOrderQty() {
-    return simpleOrderQty;
-  }
-
-  public BigDecimal getDisplayQty() {
-    return displayQty;
-  }
-
-  public BigDecimal getStopPx() {
-    return stopPx;
-  }
-
-  public BigDecimal getPegOffsetValue() {
-    return pegOffsetValue;
-  }
-
-  public String getPegPriceType() {
-    return pegPriceType;
-  }
-
-  public String getOrderType() {
-    return orderType;
-  }
-
-  public String getTimeInForce() {
-    return timeInForce;
-  }
-
-  public String getExecInst() {
-    return execInst;
-  }
-
-  public String getContingencyType() {
-    return contingencyType;
-  }
-
-  public String getExDestination() {
-    return exDestination;
-  }
-
-  public String getTriggered() {
-    return triggered;
-  }
-
-  public boolean isWorkingIndicator() {
-    return workingIndicator;
-  }
-
-  public String getOrdRejReason() {
-    return ordRejReason;
-  }
-
-  public BigDecimal getSimpleLeavesQty() {
-    return simpleLeavesQty;
-  }
-
-  public BigDecimal getLeavesQty() {
-    return leavesQty;
-  }
-
-  public BigDecimal getSimpleCumQty() {
-    return simpleCumQty;
-  }
-
-  public BigDecimal getCumQty() {
-    return cumQty;
-  }
-
-  public BigDecimal getAvgPx() {
-    return avgPx;
-  }
-
-  public String getMultiLegReportingType() {
-    return multiLegReportingType;
-  }
-
-  public String getText() {
-    return text;
-  }
-
-  public Date getTransactTime() {
-    return transactTime;
-  }
-
-  public String getError() {
-    return error;
-  }
-
-  @Override
-  public String toString() {
-    return "BitmexPrivateOrder{"
-        + "price="
-        + price
-        + ", size="
-        + size
-        + ", symbol='"
-        + symbol
-        + '\''
-        + ", id='"
-        + id
-        + '\''
-        + ", side="
-        + side
-        + ", timestamp="
-        + timestamp
-        + ", orderStatus="
-        + orderStatus
-        + ", currency='"
-        + currency
-        + '\''
-        + ", settleCurrency='"
-        + settleCurrency
-        + '\''
-        + ", clOrdID='"
-        + clOrdID
-        + '\''
-        + ", clOrdLinkID='"
-        + clOrdLinkID
-        + '\''
-        + ", simpleOrderQty="
-        + simpleOrderQty
-        + ", displayQty="
-        + displayQty
-        + ", stopPx="
-        + stopPx
-        + ", pegOffsetValue='"
-        + pegOffsetValue
-        + '\''
-        + ", pegPriceType='"
-        + pegPriceType
-        + '\''
-        + ", orderType='"
-        + orderType
-        + '\''
-        + ", timeInForce='"
-        + timeInForce
-        + '\''
-        + ", execInst='"
-        + execInst
-        + '\''
-        + ", contingencyType='"
-        + contingencyType
-        + '\''
-        + ", exDestination='"
-        + exDestination
-        + '\''
-        + ", triggered='"
-        + triggered
-        + '\''
-        + ", workingIndicator="
-        + workingIndicator
-        + ", ordRejReason='"
-        + ordRejReason
-        + '\''
-        + ", simpleLeavesQty="
-        + simpleLeavesQty
-        + ", leavesQty="
-        + leavesQty
-        + ", simpleCumQty="
-        + simpleCumQty
-        + ", cumQty="
-        + cumQty
-        + ", avgPx="
-        + avgPx
-        + ", multiLegReportingType='"
-        + multiLegReportingType
-        + '\''
-        + ", text='"
-        + text
-        + '\''
-        + ", transactTime='"
-        + transactTime
-        + '\''
-        + ", error='"
-        + error
-        + '\''
-        + '}';
-  }
 
   public enum OrderStatus {
-    New,
-    PartiallyFilled,
-    Filled,
-    Canceled,
-    Rejected,
-    Replaced
+    @JsonProperty("New")
+    NEW,
+
+    @JsonProperty("PartiallyFilled")
+    PARTIALLY_FILLED,
+
+    @JsonProperty("Filled")
+    FILLED,
+
+    @JsonProperty("Canceled")
+    CANCELED,
+
+    @JsonProperty("Rejected")
+    REJECTED,
+
+    @JsonProperty("Replaced")
+    REPLACED
   }
+
+  public static enum OrderClass {
+    @JsonProperty("Limit")
+    LIMIT,
+
+    @JsonProperty("Market")
+    MARKET
+  }
+
 }

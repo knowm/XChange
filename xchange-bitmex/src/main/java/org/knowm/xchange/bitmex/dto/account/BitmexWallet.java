@@ -4,14 +4,19 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.currency.Currency;
 
-@Value
+@Data
+@Builder
+@AllArgsConstructor
 public class BitmexWallet extends AbstractHttpResponseAware {
 
+  @JsonProperty("account")
   Integer account;
 
   Currency currency;
@@ -32,10 +37,11 @@ public class BitmexWallet extends AbstractHttpResponseAware {
 
   BigDecimal confirmedDebit;
 
+  @JsonProperty("timestamp")
   ZonedDateTime timestamp;
 
   @JsonCreator
-  public BitmexWallet(@JsonProperty("account") Integer account,
+  public BitmexWallet(
       @JsonProperty("currency") String currencyCode,
       @JsonProperty("deposited") BigDecimal deposited,
       @JsonProperty("withdrawn") BigDecimal withdrawn,
@@ -44,12 +50,9 @@ public class BitmexWallet extends AbstractHttpResponseAware {
       @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("pendingCredit") BigDecimal pendingCredit,
       @JsonProperty("pendingDebit") BigDecimal pendingDebit,
-      @JsonProperty("confirmedDebit") BigDecimal confirmedDebit,
-      @JsonProperty("timestamp") ZonedDateTime timestamp) {
+      @JsonProperty("confirmedDebit") BigDecimal confirmedDebit) {
 
-    this.account = account;
     this.currency = BitmexAdapters.bitmexCodeToCurrency(currencyCode);
-    this.timestamp = timestamp;
 
     // scale values
     this.deposited = BitmexAdapters.scaleAmount(deposited, currency);

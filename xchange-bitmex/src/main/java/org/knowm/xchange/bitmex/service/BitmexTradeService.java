@@ -56,15 +56,18 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     List<BitmexPrivateOrder> bitmexOrders =
         super.getBitmexOrders(null, "{\"open\": true}", null, null, null);
 
-    return new OpenOrders(
-        bitmexOrders.stream().map(BitmexAdapters::adaptOrder).collect(Collectors.toList()));
+    return new OpenOrders(bitmexOrders.stream()
+        .map(BitmexAdapters::toOrder)
+        .map(LimitOrder.class::cast)
+        .collect(Collectors.toList()));
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException {
     List<LimitOrder> limitOrders =
         super.getBitmexOrders(null, "{\"open\": true}", null, null, null).stream()
-            .map(BitmexAdapters::adaptOrder)
+            .map(BitmexAdapters::toOrder)
+            .map(LimitOrder.class::cast)
             .filter(params::accept)
             .collect(Collectors.toList());
 
@@ -159,7 +162,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     String filter = "{\"orderID\": [\"" + String.join("\",\"", orderIds) + "\"]}";
 
     List<BitmexPrivateOrder> privateOrders = getBitmexOrders(null, filter, null, null, null);
-    return privateOrders.stream().map(BitmexAdapters::adaptOrder).collect(Collectors.toList());
+    return privateOrders.stream().map(BitmexAdapters::toOrder).collect(Collectors.toList());
   }
 
   @Override

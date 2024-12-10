@@ -26,8 +26,8 @@ public abstract class BitmexExchangeWiremock {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(BitmexExchange.class);
     exSpec.setSslUri("http://localhost:" + wireMockServer.port());
-    exSpec.setApiKey("abc");
-    exSpec.setSecretKey("bcd");
+    exSpec.setApiKey(System.getProperty("apiKey", "abc"));
+    exSpec.setSecretKey(System.getProperty("secretKey", "bcd"));
 
     if (IS_RECORDING) {
       // use default url and record the requests

@@ -46,6 +46,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -148,22 +149,28 @@ public class BitmexAdapters {
         order.getId(), toDate(order.getUpdatedAt()), order.getPrice());
   }
 
-  public LimitOrder adaptOrder(BitmexPrivateOrder rawOrder) {
-    OrderType type = rawOrder.getSide() == BitmexSide.BUY ? OrderType.BID : OrderType.ASK;
+  public Order toOrder(BitmexPrivateOrder bitmexPrivateOrder) {
+    Order.Builder builder;
+    switch (bitmexPrivateOrder.getOrderClass()) {
+      case MARKET:
+        builder = new MarketOrder.Builder(bitmexPrivateOrder.getOrderType(), bitmexPrivateOrder.getInstrument());
+        break;
+      case LIMIT:
+        builder = new LimitOrder.Builder(bitmexPrivateOrder.getOrderType(), bitmexPrivateOrder.getInstrument()).limitPrice(bitmexPrivateOrder.getAveragePrice());
+        break;
+      default:
+        throw new IllegalArgumentException("Can't map " + bitmexPrivateOrder.getOrderType());
+    }
 
-    Instrument instrument = toInstrument(rawOrder.getSymbol());
-
-    return new LimitOrder(
-        type,
-        rawOrder.getVolume(),
-        instrument,
-        rawOrder.getId(),
-        rawOrder.getTimestamp(),
-        rawOrder.getPrice(),
-        rawOrder.getAvgPx(),
-        rawOrder.getCumQty(),
-        null,
-        BitmexAdapters.adaptOrderStatus(rawOrder.getOrderStatus()));
+    return builder
+        .originalAmount(bitmexPrivateOrder.getOriginalAmount())
+        .id(bitmexPrivateOrder.getId())
+        .timestamp(toDate(bitmexPrivateOrder.getUpdatedAt()))
+        .cumulativeAmount(bitmexPrivateOrder.getCumulativeAmount())
+        .averagePrice(bitmexPrivateOrder.getAveragePrice())
+        .orderStatus(toOrderStatus(bitmexPrivateOrder.getOrderStatus()))
+        .userReference(bitmexPrivateOrder.getText())
+        .build();
   }
 
   public Ticker toTicker(BitmexTicker bitmexTicker) {
@@ -302,18 +309,20 @@ public class BitmexAdapters {
     }
   }
 
-  public OrderStatus adaptOrderStatus(BitmexPrivateOrder.OrderStatus status) {
+  public OrderStatus toOrderStatus(BitmexPrivateOrder.OrderStatus status) {
     switch (status) {
-      case New:
+      case NEW:
         return OrderStatus.NEW;
-      case PartiallyFilled:
+      case PARTIALLY_FILLED:
         return OrderStatus.PARTIALLY_FILLED;
-      case Filled:
+      case FILLED:
         return OrderStatus.FILLED;
-      case Canceled:
+      case CANCELED:
         return OrderStatus.CANCELED;
-      case Rejected:
+      case REJECTED:
         return OrderStatus.REJECTED;
+      case REPLACED:
+        return OrderStatus.REPLACED;
       default:
         return null;
     }
