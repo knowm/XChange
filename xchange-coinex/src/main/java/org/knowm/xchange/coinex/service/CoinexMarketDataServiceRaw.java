@@ -22,11 +22,9 @@ public class CoinexMarketDataServiceRaw extends CoinexBaseService {
     super(exchange);
   }
 
-
   public List<CoinexMaintainInfo> getCoinexMaintainInfo() throws IOException {
     return coinex.maintainInfo().getData();
   }
-
 
   public List<CoinexChainInfo> getAllCoinexChainInfos() throws IOException {
     return new ArrayList<>(coinex.allChainInfos().getData().values());
