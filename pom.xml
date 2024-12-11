@@ -5,7 +5,7 @@
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>5.2.1</version>
+    <version>5.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
@@ -159,7 +159,7 @@
     <scm>
         <connection>scm:git:git@github.com:knowm/XChange.git</connection>
         <developerConnection>scm:git:git@github.com:knowm/XChange.git</developerConnection>
-        <tag>xchange-5.2.1</tag>
+        <tag>HEAD</tag>
         <url>git@github.com:knowm/XChange.git</url>
     </scm>
 
@@ -503,9 +503,9 @@
                                 <requireMavenVersion>
                                     <version>${version.maven-prerequisite}</version>
                                 </requireMavenVersion>
-                                <dependencyConvergence/>
-                                <banDuplicatePomDependencyVersions/>
-                                <reactorModuleConvergence/>
+                                <dependencyConvergence />
+                                <banDuplicatePomDependencyVersions />
+                                <reactorModuleConvergence />
                             </rules>
                         </configuration>
                     </execution>
