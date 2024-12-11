@@ -6,9 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum CoinexMarketType {
-
   SPOT,
   MARGIN,
   FUTURES;
-
 }

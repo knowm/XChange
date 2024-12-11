@@ -11,7 +11,11 @@ import org.knowm.xchange.bitget.BitgetErrorAdapter;
 import org.knowm.xchange.bitget.BitgetExchange;
 import org.knowm.xchange.bitget.config.Config;
 import org.knowm.xchange.bitget.dto.BitgetException;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetCoinDto;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto;
+import org.knowm.xchange.bitget.dto.marketdata.BitgetSymbolDto.Status;
 import org.knowm.xchange.bitget.dto.marketdata.BitgetTickerDto;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -20,11 +24,36 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
-public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implements
-    MarketDataService {
+public class BitgetMarketDataService extends BitgetMarketDataServiceRaw
+    implements MarketDataService {
 
   public BitgetMarketDataService(BitgetExchange exchange) {
     super(exchange);
+  }
+
+  public List<Currency> getCurrencies() throws IOException {
+    try {
+      return getBitgetCoinDtoList(null).stream()
+          .map(BitgetCoinDto::getCurrency)
+          .distinct()
+          .collect(Collectors.toList());
+    } catch (BitgetException e) {
+      throw BitgetErrorAdapter.adapt(e);
+    }
+  }
+
+  public List<Instrument> getInstruments() throws IOException {
+    try {
+      List<BitgetSymbolDto> metadata = getBitgetSymbolDtos(null);
+
+      return metadata.stream()
+          .filter(details -> details.getStatus() == Status.ONLINE)
+          .map(BitgetSymbolDto::getCurrencyPair)
+          .distinct()
+          .collect(Collectors.toList());
+    } catch (BitgetException e) {
+      throw BitgetErrorAdapter.adapt(e);
+    }
   }
 
   @Override
@@ -44,12 +73,10 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implemen
     return ExchangeHealth.OFFLINE;
   }
 
-
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return getTicker((Instrument) currencyPair, args);
   }
-
 
   @Override
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
@@ -61,7 +88,6 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implemen
       throw BitgetErrorAdapter.adapt(e);
     }
   }
-
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
@@ -76,12 +102,10 @@ public class BitgetMarketDataService extends BitgetMarketDataServiceRaw implemen
     }
   }
 
-
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     return getOrderBook((Instrument) currencyPair, args);
   }
-
 
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {

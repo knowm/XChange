@@ -7,9 +7,16 @@ public class KrakenStreamingOhlc extends KrakenOHLC {
 
   private final long etime;
 
-  public KrakenStreamingOhlc(long time, long etime, BigDecimal open,
-      BigDecimal high, BigDecimal low, BigDecimal close,
-      BigDecimal vwap, BigDecimal volume, long count) {
+  public KrakenStreamingOhlc(
+      long time,
+      long etime,
+      BigDecimal open,
+      BigDecimal high,
+      BigDecimal low,
+      BigDecimal close,
+      BigDecimal vwap,
+      BigDecimal volume,
+      long count) {
     super(time, open, high, low, close, vwap, volume, count);
     this.etime = etime;
   }

@@ -14,7 +14,11 @@ public class BybitPlaceOrderPayload {
   private String orderLinkId;
   private String price;
 
-  public BybitPlaceOrderPayload(String category, String symbol, String side, String orderType,
+  public BybitPlaceOrderPayload(
+      String category,
+      String symbol,
+      String side,
+      String orderType,
       BigDecimal qty,
       String orderLinkId) {
     this.category = category;
@@ -24,8 +28,15 @@ public class BybitPlaceOrderPayload {
     this.qty = qty.toString();
     this.orderLinkId = orderLinkId;
   }
-  public BybitPlaceOrderPayload(String category, String symbol, String side, String orderType,
-      BigDecimal qty, String orderLinkId, BigDecimal price) {
+
+  public BybitPlaceOrderPayload(
+      String category,
+      String symbol,
+      String side,
+      String orderType,
+      BigDecimal qty,
+      String orderLinkId,
+      BigDecimal price) {
     this.category = category;
     this.symbol = symbol;
     this.side = side;

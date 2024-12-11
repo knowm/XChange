@@ -1,5 +1,6 @@
-export function gen_sign(method, request) {
+export function gen_sign(request) {
   const pattern = RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
+  const method = request.method;
   const url = request.url.tryGetSubstituted();
   const matches =  url.match(pattern);
 

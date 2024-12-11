@@ -14,9 +14,7 @@ import si.mazi.rescu.RestInvocation;
 @ExtendWith(MockitoExtension.class)
 class BitgetDigestTest {
 
-  @Mock
-  RestInvocation restInvocation;
-
+  @Mock RestInvocation restInvocation;
 
   @Test
   void signature_no_query_params() {
@@ -35,6 +33,4 @@ class BitgetDigestTest {
 
     assertThat(actual).isEqualTo(expected);
   }
-
-
 }

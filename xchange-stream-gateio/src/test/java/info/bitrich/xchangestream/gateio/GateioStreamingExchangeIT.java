@@ -16,29 +16,25 @@ public class GateioStreamingExchangeIT {
   public static void setup() {
     try {
 
-    ExchangeSpecification spec =
-        StreamingExchangeFactory.INSTANCE
-            .createExchangeWithoutSpecification(GateioStreamingExchange.class)
-            .getDefaultExchangeSpecification();
-    spec.setApiKey(System.getenv("GATEIO_API_KEY"));
-    spec.setSecretKey(System.getenv("GATEIO_API_SECRET"));
+      ExchangeSpecification spec =
+          StreamingExchangeFactory.INSTANCE
+              .createExchangeWithoutSpecification(GateioStreamingExchange.class)
+              .getDefaultExchangeSpecification();
+      spec.setApiKey(System.getProperty("apiKey"));
+      spec.setSecretKey(System.getProperty("secretKey"));
 
-     exchange =
-        (GateioStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
+      exchange = (GateioStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
 
-    exchange.connect().blockingAwait();
-    }
-    catch (Exception ignored) {
+      exchange.connect().blockingAwait();
+    } catch (Exception ignored) {
 
     }
   }
-
 
   @BeforeEach
   void exchangeReachable() {
     assumeTrue(exchange.isAlive(), "Exchange is unreachable");
   }
-
 
   @AfterAll
   public static void cleanup() {
@@ -46,7 +42,4 @@ public class GateioStreamingExchangeIT {
       exchange.disconnect().blockingAwait();
     }
   }
-
-
-
 }

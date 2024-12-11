@@ -1,0 +1,15 @@
+{
+  "id" : "91e2c15a-9f3e-470a-9c7f-48fac9ad545b",
+  "name" : "api_v2_spot_wallet_deposit-records",
+  "request" : {
+    "url" : "/api/v2/spot/wallet/deposit-records?startTime=1721643200000&endTime=1727970869665&idLessThan=1203378295345901568",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_spot_wallet_deposit-records.json"
+  },
+  "uuid" : "91e2c15a-9f3e-470a-9c7f-48fac9ad545b",
+  "persistent" : true,
+  "insertionIndex" : 16
+}

@@ -41,7 +41,6 @@ public final class BinanceTicker24h {
   @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
   private CurrencyPair currencyPair;
 
-
   public boolean isValid() {
     return currencyPair != null;
   }

@@ -13,7 +13,8 @@ import org.knowm.xchange.currency.Currency;
 
 class BitgetMarketDataServiceRawIntegration extends BitgetIntegrationTestParent {
 
-  BitgetMarketDataServiceRaw bitgetMarketDataServiceRaw = (BitgetMarketDataServiceRaw) exchange.getMarketDataService();
+  BitgetMarketDataServiceRaw bitgetMarketDataServiceRaw =
+      (BitgetMarketDataServiceRaw) exchange.getMarketDataService();
 
   @Test
   void valid_coins() throws IOException {
@@ -22,18 +23,20 @@ class BitgetMarketDataServiceRawIntegration extends BitgetIntegrationTestParent 
     assertThat(coins).isNotEmpty();
 
     // validate coins
-    assertThat(coins).allSatisfy(coin -> {
-      assertThat(coin.getCoinId()).isNotNull();
-      assertThat(coin.getCurrency()).isNotNull();
+    assertThat(coins)
+        .allSatisfy(
+            coin -> {
+              assertThat(coin.getCoinId()).isNotNull();
+              assertThat(coin.getCurrency()).isNotNull();
 
-      // validate each chain
-      assertThat(coin.getChains()).allSatisfy(chain -> {
-        assertThat(chain.getChain()).isNotNull();
-      });
-
-    });
+              // validate each chain
+              assertThat(coin.getChains())
+                  .allSatisfy(
+                      chain -> {
+                        assertThat(chain.getChain()).isNotNull();
+                      });
+            });
   }
-
 
   @Test
   void valid_coin() throws IOException {
@@ -43,12 +46,12 @@ class BitgetMarketDataServiceRawIntegration extends BitgetIntegrationTestParent 
 
     assertThat(coins.get(0).getCurrency()).isEqualTo(Currency.USDT);
     assertThat(coins.get(0).getCoinId()).isNotNull();
-    assertThat(coins.get(0).getChains()).allSatisfy(chain -> {
-      assertThat(chain.getChain()).isNotNull();
-    });
-
+    assertThat(coins.get(0).getChains())
+        .allSatisfy(
+            chain -> {
+              assertThat(chain.getChain()).isNotNull();
+            });
   }
-
 
   @Test
   void valid_symbol() throws IOException {
@@ -61,9 +64,7 @@ class BitgetMarketDataServiceRawIntegration extends BitgetIntegrationTestParent 
     assertThat(symbol.getPricePrecision()).isPositive();
     assertThat(symbol.getQuantityPrecision()).isPositive();
     assertThat(symbol.getQuotePrecision()).isPositive();
-
   }
-
 
   @Test
   void valid_symbols() throws IOException {
@@ -72,14 +73,12 @@ class BitgetMarketDataServiceRawIntegration extends BitgetIntegrationTestParent 
     assertThat(symbols).isNotEmpty();
 
     // validate symbols
-    assertThat(symbols).allSatisfy(symbol -> {
-      assertThat(symbol.getCurrencyPair()).isNotNull();
-      assertThat(symbol.getBase()).isNotNull();
-      assertThat(symbol.getQuote()).isNotNull();
-
-    });
-
+    assertThat(symbols)
+        .allSatisfy(
+            symbol -> {
+              assertThat(symbol.getCurrencyPair()).isNotNull();
+              assertThat(symbol.getBase()).isNotNull();
+              assertThat(symbol.getQuote()).isNotNull();
+            });
   }
-
-
 }

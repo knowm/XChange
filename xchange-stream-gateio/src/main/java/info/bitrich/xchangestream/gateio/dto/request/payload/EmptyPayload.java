@@ -7,6 +7,4 @@ import lombok.extern.jackson.Jacksonized;
 @Data
 @SuperBuilder
 @Jacksonized
-public class EmptyPayload {
-
-}
+public class EmptyPayload {}

@@ -38,7 +38,6 @@ public class GateioWsRequest {
   @JsonFormat(shape = JsonFormat.Shape.ARRAY)
   private Object payload;
 
-
   @Data
   @SuperBuilder
   @Jacksonized
@@ -52,7 +51,5 @@ public class GateioWsRequest {
 
     @JsonProperty("sign")
     private String sign;
-
   }
-
 }

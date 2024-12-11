@@ -21,5 +21,4 @@ public final class Config {
   public static Config getInstance() {
     return instance;
   }
-
 }

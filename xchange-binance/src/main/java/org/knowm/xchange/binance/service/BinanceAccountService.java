@@ -109,19 +109,21 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     try {
       List<Wallet> wallets = new ArrayList<>();
       List<OpenPosition> openPositions = new ArrayList<>();
-      switch ((ExchangeType)exchange.getExchangeSpecification().getExchangeSpecificParametersItem(
-          EXCHANGE_TYPE)) {
-        case SPOT: {
-          wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
-          break;
-        }
-        case FUTURES: {
-          BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
-          wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
-          openPositions.addAll(
-              BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
-          break;
-        }
+      switch ((ExchangeType)
+          exchange.getExchangeSpecification().getExchangeSpecificParametersItem(EXCHANGE_TYPE)) {
+        case SPOT:
+          {
+            wallets.add(BinanceAdapters.adaptBinanceSpotWallet(account()));
+            break;
+          }
+        case FUTURES:
+          {
+            BinanceFutureAccountInformation futureAccountInformation = futuresAccount();
+            wallets.add(BinanceAdapters.adaptBinanceFutureWallet(futureAccountInformation));
+            openPositions.addAll(
+                BinanceAdapters.adaptOpenPositions(futureAccountInformation.getPositions()));
+            break;
+          }
       }
       return new AccountInfo(
           exchange.getExchangeSpecification().getUserName(),

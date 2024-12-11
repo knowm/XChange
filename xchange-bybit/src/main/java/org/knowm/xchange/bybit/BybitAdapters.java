@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
@@ -48,9 +47,10 @@ import org.knowm.xchange.instrument.Instrument;
 
 public class BybitAdapters {
 
-  private static final ThreadLocal<SimpleDateFormat> OPTION_DATE_FORMAT = ThreadLocal.withInitial(
-      () -> new SimpleDateFormat("ddMMMyy"));
-  public static final List<String> QUOTE_CURRENCIES = Arrays.asList("USDT", "USDC", "EUR", "BTC", "ETH", "DAI", "BRZ");
+  private static final ThreadLocal<SimpleDateFormat> OPTION_DATE_FORMAT =
+      ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy"));
+  public static final List<String> QUOTE_CURRENCIES =
+      Arrays.asList("USDT", "USDC", "EUR", "BTC", "ETH", "DAI", "BRZ");
 
   public static Wallet adaptBybitBalances(List<BybitCoinWalletBalance> coinWalletBalances) {
     List<Balance> balances = new ArrayList<>(coinWalletBalances.size());
@@ -156,18 +156,21 @@ public class BybitAdapters {
 
   public static Instrument guessSymbol(String symbol, BybitCategory category) {
     switch (category) {
-      case SPOT: {
-        return guessSymbol(symbol);
-      }
-      case LINEAR: {
-        if (symbol.endsWith("USDT")) {
-          int splitIndex = symbol.lastIndexOf("USDT");
-          return new FuturesContract((symbol.substring(0, splitIndex)+"/"+ symbol.substring(splitIndex)+"/PERP"));
-        } else if (symbol.endsWith("PERP")) {
-          int splitIndex = symbol.lastIndexOf("PERP");
-          return new FuturesContract((symbol.substring(0, splitIndex)+"/"+ "USDC/PERP"));
+      case SPOT:
+        {
+          return guessSymbol(symbol);
         }
-      }
+      case LINEAR:
+        {
+          if (symbol.endsWith("USDT")) {
+            int splitIndex = symbol.lastIndexOf("USDT");
+            return new FuturesContract(
+                (symbol.substring(0, splitIndex) + "/" + symbol.substring(splitIndex) + "/PERP"));
+          } else if (symbol.endsWith("PERP")) {
+            int splitIndex = symbol.lastIndexOf("PERP");
+            return new FuturesContract((symbol.substring(0, splitIndex) + "/" + "USDC/PERP"));
+          }
+        }
     }
     return null;
   }
@@ -393,30 +396,38 @@ public class BybitAdapters {
 
   public static Instrument convertBybitSymbolToInstrument(String symbol, BybitCategory category) {
     switch (category) {
-      case SPOT: {
-        return guessSymbol(symbol);
-      }
-      case LINEAR: {
-        if (symbol.endsWith("USDT")) {
-          int splitIndex = symbol.lastIndexOf("USDT");
-          return new FuturesContract(new CurrencyPair(symbol.substring(0, splitIndex), "USDT"),"PERP");
+      case SPOT:
+        {
+          return guessSymbol(symbol);
         }
-        if (symbol.endsWith("PERP")) {
-          int splitIndex = symbol.lastIndexOf("PERP");
-          return new FuturesContract(new CurrencyPair(symbol.substring(0, splitIndex), "USDC"),"PERP");
+      case LINEAR:
+        {
+          if (symbol.endsWith("USDT")) {
+            int splitIndex = symbol.lastIndexOf("USDT");
+            return new FuturesContract(
+                new CurrencyPair(symbol.substring(0, splitIndex), "USDT"), "PERP");
+          }
+          if (symbol.endsWith("PERP")) {
+            int splitIndex = symbol.lastIndexOf("PERP");
+            return new FuturesContract(
+                new CurrencyPair(symbol.substring(0, splitIndex), "USDC"), "PERP");
+          }
+          // USDC Futures
+          int splitIndex = symbol.lastIndexOf("-");
+          return new FuturesContract(
+              new CurrencyPair(symbol.substring(0, splitIndex), "USDC"),
+              symbol.substring(splitIndex + 1));
         }
-        //USDC Futures
-        int splitIndex = symbol.lastIndexOf("-");
-        return new FuturesContract(new CurrencyPair(symbol.substring(0, splitIndex),
-            "USDC"),symbol.substring(splitIndex+1));
-      }
-      case INVERSE: {
-        int splitIndex = symbol.lastIndexOf("USD");
-        String perp = symbol.length() > splitIndex+3 ? symbol.substring(splitIndex+3) : "";
-        return new FuturesContract(new CurrencyPair(symbol.substring(0, splitIndex), "USD"),
-            perp);
-      }
-      case OPTION: {}
+      case INVERSE:
+        {
+          int splitIndex = symbol.lastIndexOf("USD");
+          String perp = symbol.length() > splitIndex + 3 ? symbol.substring(splitIndex + 3) : "";
+          return new FuturesContract(
+              new CurrencyPair(symbol.substring(0, splitIndex), "USD"), perp);
+        }
+      case OPTION:
+        {
+        }
     }
     return null;
   }

@@ -26,10 +26,22 @@ public class BybitAmendOrderPayload {
   String tpLimitPrice;
   String slLimitPrice;
 
-  public BybitAmendOrderPayload(BybitCategory category, String symbol, String orderId,
-      String orderLinkId, String triggerPrice, String qty, String price,
-      String tpslMode, String takeProfit, String stopLoss, String tpTriggerBy, String slTriggerBy,
-      String triggerBy, String tpLimitPrice, String slLimitPrice) {
+  public BybitAmendOrderPayload(
+      BybitCategory category,
+      String symbol,
+      String orderId,
+      String orderLinkId,
+      String triggerPrice,
+      String qty,
+      String price,
+      String tpslMode,
+      String takeProfit,
+      String stopLoss,
+      String tpTriggerBy,
+      String slTriggerBy,
+      String triggerBy,
+      String tpLimitPrice,
+      String slLimitPrice) {
     this.category = category;
     this.symbol = symbol;
     this.orderId = orderId;

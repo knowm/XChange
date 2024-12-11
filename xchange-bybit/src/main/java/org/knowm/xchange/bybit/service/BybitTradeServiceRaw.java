@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
-import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderPayload;
-import org.knowm.xchange.bybit.dto.trade.BybitAmendOrderPayload;
-import org.knowm.xchange.bybit.dto.trade.BybitPlaceOrderPayload;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.trade.BybitAmendOrderPayload;
+import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderPayload;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
+import org.knowm.xchange.bybit.dto.trade.BybitPlaceOrderPayload;
 import org.knowm.xchange.bybit.dto.trade.BybitSide;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
@@ -36,14 +36,16 @@ public class BybitTradeServiceRaw extends BybitBaseService {
   public BybitResult<BybitOrderResponse> placeMarketOrder(
       BybitCategory category, String symbol, BybitSide side, BigDecimal qty, String orderLinkId)
       throws IOException {
-    BybitPlaceOrderPayload payload = new BybitPlaceOrderPayload(category.getValue(),
-        symbol, side.getValue(), BybitOrderType.MARKET.getValue(), qty, orderLinkId);
+    BybitPlaceOrderPayload payload =
+        new BybitPlaceOrderPayload(
+            category.getValue(),
+            symbol,
+            side.getValue(),
+            BybitOrderType.MARKET.getValue(),
+            qty,
+            orderLinkId);
     BybitResult<BybitOrderResponse> placeOrder =
-        bybitAuthenticated.placeMarketOrder(
-            apiKey,
-            signatureCreator,
-            nonceFactory,
-            payload);
+        bybitAuthenticated.placeMarketOrder(apiKey, signatureCreator, nonceFactory, payload);
     if (!placeOrder.isSuccess()) {
       throw createBybitExceptionFromResult(placeOrder);
     }
@@ -51,54 +53,81 @@ public class BybitTradeServiceRaw extends BybitBaseService {
   }
 
   public BybitResult<BybitOrderResponse> placeLimitOrder(
-      BybitCategory category, String symbol, BybitSide side, BigDecimal qty, BigDecimal limitPrice,
+      BybitCategory category,
+      String symbol,
+      BybitSide side,
+      BigDecimal qty,
+      BigDecimal limitPrice,
       String orderLinkId)
       throws IOException {
-    BybitPlaceOrderPayload payload = new BybitPlaceOrderPayload(category.getValue(),
-        symbol, side.getValue(), BybitOrderType.LIMIT.getValue(), qty, orderLinkId, limitPrice);
+    BybitPlaceOrderPayload payload =
+        new BybitPlaceOrderPayload(
+            category.getValue(),
+            symbol,
+            side.getValue(),
+            BybitOrderType.LIMIT.getValue(),
+            qty,
+            orderLinkId,
+            limitPrice);
     BybitResult<BybitOrderResponse> placeOrder =
-        bybitAuthenticated.placeLimitOrder(
-            apiKey,
-            signatureCreator,
-            nonceFactory,
-            payload);
+        bybitAuthenticated.placeLimitOrder(apiKey, signatureCreator, nonceFactory, payload);
     if (!placeOrder.isSuccess()) {
       throw createBybitExceptionFromResult(placeOrder);
     }
     return placeOrder;
   }
 
-  public BybitResult<BybitOrderResponse> amendOrder(BybitCategory category, String symbol, String orderId,
-      String orderLinkId, String triggerPrice, String qty, String price, String tpslMode, String takeProfit,
-      String stopLoss, String tpTriggerBy,String slTriggerBy,String triggerBy,String tpLimitPrice,
-  String slLimitPrice) throws IOException {
-    //if only userId is used, don't need to send id
-    if(orderId!= null && orderId.isEmpty())
-      orderId = null;
-    BybitAmendOrderPayload payload = new BybitAmendOrderPayload(category, symbol,orderId,orderLinkId,triggerPrice,qty,price,
-    tpslMode, takeProfit, stopLoss, tpTriggerBy, slTriggerBy, triggerBy, tpLimitPrice, slLimitPrice);
+  public BybitResult<BybitOrderResponse> amendOrder(
+      BybitCategory category,
+      String symbol,
+      String orderId,
+      String orderLinkId,
+      String triggerPrice,
+      String qty,
+      String price,
+      String tpslMode,
+      String takeProfit,
+      String stopLoss,
+      String tpTriggerBy,
+      String slTriggerBy,
+      String triggerBy,
+      String tpLimitPrice,
+      String slLimitPrice)
+      throws IOException {
+    // if only userId is used, don't need to send id
+    if (orderId != null && orderId.isEmpty()) orderId = null;
+    BybitAmendOrderPayload payload =
+        new BybitAmendOrderPayload(
+            category,
+            symbol,
+            orderId,
+            orderLinkId,
+            triggerPrice,
+            qty,
+            price,
+            tpslMode,
+            takeProfit,
+            stopLoss,
+            tpTriggerBy,
+            slTriggerBy,
+            triggerBy,
+            tpLimitPrice,
+            slLimitPrice);
     BybitResult<BybitOrderResponse> amendOrder =
-    bybitAuthenticated.amendOrder(
-        apiKey,
-        signatureCreator,
-        nonceFactory,
-        payload);
+        bybitAuthenticated.amendOrder(apiKey, signatureCreator, nonceFactory, payload);
     if (!amendOrder.isSuccess()) {
       throw createBybitExceptionFromResult(amendOrder);
     }
     return amendOrder;
   }
 
-
-  public BybitResult<BybitOrderResponse> cancelOrder(BybitCategory category,String symbol,
-  String orderId, String orderLinkId) throws IOException {
-    BybitCancelOrderPayload payload = new BybitCancelOrderPayload(category, symbol, orderId, orderLinkId);
+  public BybitResult<BybitOrderResponse> cancelOrder(
+      BybitCategory category, String symbol, String orderId, String orderLinkId)
+      throws IOException {
+    BybitCancelOrderPayload payload =
+        new BybitCancelOrderPayload(category, symbol, orderId, orderLinkId);
     BybitResult<BybitOrderResponse> cancelOrder =
-        bybitAuthenticated.cancelOrder(
-            apiKey,
-            signatureCreator,
-            nonceFactory,
-            payload);
+        bybitAuthenticated.cancelOrder(apiKey, signatureCreator, nonceFactory, payload);
     if (!cancelOrder.isSuccess()) {
       throw createBybitExceptionFromResult(cancelOrder);
     }

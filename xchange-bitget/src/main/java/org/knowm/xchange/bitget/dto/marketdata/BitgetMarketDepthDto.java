@@ -23,7 +23,6 @@ public class BitgetMarketDepthDto {
   @JsonProperty("ts")
   Instant timestamp;
 
-
   @Data
   @Builder
   @Jacksonized

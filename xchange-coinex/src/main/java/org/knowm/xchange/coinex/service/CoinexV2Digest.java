@@ -14,11 +14,9 @@ public final class CoinexV2Digest extends BaseParamsDigest {
     super(secretKeyBase64, HMAC_SHA_256);
   }
 
-
   public static CoinexV2Digest createInstance(String secretKeyBase64) {
     return secretKeyBase64 == null ? null : new CoinexV2Digest(secretKeyBase64);
   }
-
 
   @SneakyThrows
   @Override
@@ -34,8 +32,7 @@ public final class CoinexV2Digest extends BaseParamsDigest {
 
     String timestamp = restInvocation.getHttpHeadersFromParams().get("X-COINEX-TIMESTAMP");
 
-    String payloadToSign =
-        String.format("%s/%s%s%s%s", method, path, query, body, timestamp);
+    String payloadToSign = String.format("%s/%s%s%s%s", method, path, query, body, timestamp);
 
     Mac mac = getMac();
     mac.update(payloadToSign.getBytes(StandardCharsets.UTF_8));
