@@ -12,6 +12,7 @@ import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.config.converter.StringToCurrencyConverter;
 import org.knowm.xchange.bitmex.config.converter.StringToOrderTypeConverter;
+import org.knowm.xchange.bitmex.dto.trade.BitmexOrderType;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.instrument.Instrument;
@@ -38,7 +39,7 @@ public class BitmexPrivateOrder extends AbstractHttpResponseAware {
   private OrderStatus orderStatus;
 
   @JsonProperty("ordType")
-  private OrderClass orderClass;
+  private BitmexOrderType bitmexOrderType;
 
   @JsonProperty("orderID")
   private String id;
@@ -99,14 +100,6 @@ public class BitmexPrivateOrder extends AbstractHttpResponseAware {
 
     @JsonProperty("Replaced")
     REPLACED
-  }
-
-  public static enum OrderClass {
-    @JsonProperty("Limit")
-    LIMIT,
-
-    @JsonProperty("Market")
-    MARKET
   }
 
 }

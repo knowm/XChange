@@ -52,6 +52,7 @@ import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
@@ -153,27 +154,42 @@ public class BitmexAdapters {
         order.getId(), toDate(order.getUpdatedAt()), order.getPrice());
   }
 
-  public Order toOrder(BitmexPrivateOrder bitmexPrivateOrder) {
+  public Order toOrder(BitmexPrivateOrder bitmexOrder) {
     Order.Builder builder;
-    switch (bitmexPrivateOrder.getOrderClass()) {
+    switch (bitmexOrder.getBitmexOrderType()) {
+      case STOP:
+        builder = new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
+            .stopPrice(bitmexOrder.getOriginalPrice());
+        break;
       case MARKET:
-        builder = new MarketOrder.Builder(bitmexPrivateOrder.getOrderType(), bitmexPrivateOrder.getInstrument());
+        builder = new MarketOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument());
         break;
       case LIMIT:
-        builder = new LimitOrder.Builder(bitmexPrivateOrder.getOrderType(), bitmexPrivateOrder.getInstrument()).limitPrice(bitmexPrivateOrder.getOriginalPrice());
+        builder = new LimitOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument()).limitPrice(bitmexOrder.getOriginalPrice());
         break;
+      case STOP_LIMIT:
+        builder = new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
+            .limitPrice(bitmexOrder.getOriginalPrice())
+            .stopPrice(bitmexOrder.getAveragePrice());
+        break;
+      case PEGGED:
+      case MARKET_IF_TOUCHED:
+      case LIMIT_IF_TOUCHED:
+      case MARKET_WITH_LEFT_OVER_AS_LIMIT:
+        log.warn("Unknown order type: {}", bitmexOrder.getBitmexOrderType());
+        return null;
       default:
-        throw new IllegalArgumentException("Can't map " + bitmexPrivateOrder.getOrderType());
+        throw new IllegalArgumentException("Can't map " + bitmexOrder.getOrderType());
     }
 
     return builder
-        .originalAmount(bitmexPrivateOrder.getOriginalAmount())
-        .id(bitmexPrivateOrder.getId())
-        .timestamp(toDate(bitmexPrivateOrder.getUpdatedAt()))
-        .cumulativeAmount(bitmexPrivateOrder.getCumulativeAmount())
-        .averagePrice(bitmexPrivateOrder.getAveragePrice())
-        .orderStatus(toOrderStatus(bitmexPrivateOrder.getOrderStatus()))
-        .userReference(bitmexPrivateOrder.getText())
+        .originalAmount(bitmexOrder.getOriginalAmount())
+        .id(bitmexOrder.getId())
+        .timestamp(toDate(bitmexOrder.getUpdatedAt()))
+        .cumulativeAmount(bitmexOrder.getCumulativeAmount())
+        .averagePrice(bitmexOrder.getAveragePrice())
+        .orderStatus(toOrderStatus(bitmexOrder.getOrderStatus()))
+        .userReference(bitmexOrder.getText())
         .build();
   }
 

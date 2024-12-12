@@ -69,6 +69,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     List<LimitOrder> limitOrders =
         getBitmexOrders(null, builder.build(), null, null, null).stream()
             .map(BitmexAdapters::toOrder)
+            .filter(Objects::nonNull)
             .map(LimitOrder.class::cast)
             .filter(params::accept)
             .collect(Collectors.toList());
@@ -153,7 +154,10 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
         .build();
 
     List<BitmexPrivateOrder> privateOrders = getBitmexOrders(null, filterParam, null, null, null);
-    return privateOrders.stream().map(BitmexAdapters::toOrder).collect(Collectors.toList());
+    return privateOrders.stream()
+        .map(BitmexAdapters::toOrder)
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
   }
 
   @Override
