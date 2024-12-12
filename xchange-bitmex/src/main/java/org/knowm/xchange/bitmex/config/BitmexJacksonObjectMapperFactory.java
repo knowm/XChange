@@ -18,8 +18,8 @@ public class BitmexJacksonObjectMapperFactory extends DefaultJacksonObjectMapper
     // enable jsr310 types
     objectMapper.registerModule(new JavaTimeModule());
 
-    // don't render null's
-    objectMapper.setSerializationInclusion(Include.NON_NULL);
+    // don't render null's or empty lists
+    objectMapper.setSerializationInclusion(Include.NON_EMPTY);
 
     // store object mapper for using in module
     Config.getInstance().setObjectMapper(objectMapper);

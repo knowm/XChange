@@ -549,13 +549,29 @@ public class BitmexAdapters {
         .orElse(null);
   }
 
-  public BigDecimal scaleAmount(BigDecimal amount, Currency currency) {
+  public BigDecimal scaleToLocalAmount(BigDecimal amount, Currency currency) {
+    return scaleAmount(amount, currency, false);
+  }
+
+  public BigDecimal scaleToExchangeAmount(BigDecimal amount, Currency currency) {
+    return scaleAmount(amount, currency, true);
+  }
+
+  private BigDecimal scaleAmount(BigDecimal amount, Currency currency, boolean scaleUp) {
+    if (amount == null) {
+      return null;
+    }
     Integer scale = getCurrencyScale(currency);
     if (scale == null || scale == 0) {
       log.warn("Scale for {} not found. Returning as is", currency);
       return amount;
     }
-    return amount.scaleByPowerOfTen(-scale);
+    if (scaleUp) {
+      return amount.scaleByPowerOfTen(scale);
+    }
+    else {
+      return amount.scaleByPowerOfTen(-scale);
+    }
   }
 
   public Wallet toWallet(List<BitmexWallet> bitmexWallets) {

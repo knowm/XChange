@@ -75,9 +75,9 @@ public class BitmexPrivateOrder extends AbstractHttpResponseAware {
       @JsonProperty("symbol") String symbol
   ) {
     this.instrument = BitmexAdapters.toInstrument(symbol);
-    this.cumulativeAmount = BitmexAdapters.scaleAmount(cumulativeAmount, instrument.getBase());
-    this.originalAmount = BitmexAdapters.scaleAmount(originalAmount, instrument.getBase());
-    this.notFilledAmount = BitmexAdapters.scaleAmount(notFilledAmount, instrument.getBase());
+    this.cumulativeAmount = BitmexAdapters.scaleToLocalAmount(cumulativeAmount, instrument.getBase());
+    this.originalAmount = BitmexAdapters.scaleToLocalAmount(originalAmount, instrument.getBase());
+    this.notFilledAmount = BitmexAdapters.scaleToLocalAmount(notFilledAmount, instrument.getBase());
   }
 
 

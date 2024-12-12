@@ -2,7 +2,7 @@
   "id" : "75dbdfb2-6dc1-4563-9c05-09e7f2056889",
   "name" : "api_v1_order",
   "request" : {
-    "url" : "/api/v1/order?filter=%7B%22orderID%22%3A%5B%5D%2C%22symbol%22%3A%22XBT_USDT%22%2C%22open%22%3Atrue%7D&count=500&start=0&reverse=true",
+    "url" : "/api/v1/order?filter=%7B%22symbol%22%3A%22XBT_USDT%22%2C%22open%22%3Atrue%7D&count=500&start=0&reverse=true",
     "method" : "GET"
   },
   "response" : {

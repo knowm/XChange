@@ -15,7 +15,6 @@ import org.knowm.xchange.bitmex.dto.params.FilterParam;
 import org.knowm.xchange.bitmex.dto.trade.BitmexExecutionInstruction;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrderFlags;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
-import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters.Builder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexReplaceOrderParameters;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -79,43 +78,41 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException {
-    String symbol = BitmexAdapters.toString(marketOrder.getCurrencyPair());
-
     return placeOrder(
-            new BitmexPlaceOrderParameters.Builder(symbol)
-                .setSide(BitmexAdapters.toBitmexSide(marketOrder.getType()))
-                .setOrderQuantity(marketOrder.getOriginalAmount())
+            BitmexPlaceOrderParameters.builder()
+                .instrument(marketOrder.getInstrument())
+                .side(marketOrder.getType())
+                .orderQuantity(marketOrder.getOriginalAmount())
+                .clientOid(marketOrder.getUserReference())
                 .build())
         .getId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException {
-    String symbol = BitmexAdapters.toString(limitOrder.getCurrencyPair());
-
-    Builder b =
-        new BitmexPlaceOrderParameters.Builder(symbol)
-            .setOrderQuantity(limitOrder.getOriginalAmount())
-            .setPrice(limitOrder.getLimitPrice())
-            .setSide(BitmexAdapters.toBitmexSide(limitOrder.getType()))
-            .setClOrdId(limitOrder.getId());
+    BitmexPlaceOrderParameters.BitmexPlaceOrderParametersBuilder b =
+         BitmexPlaceOrderParameters.builder()
+             .instrument(limitOrder.getInstrument())
+            .orderQuantity(limitOrder.getOriginalAmount())
+            .price(limitOrder.getLimitPrice())
+            .side(limitOrder.getType())
+            .clientOid(limitOrder.getUserReference());
     if (limitOrder.hasFlag(BitmexOrderFlags.POST)) {
-      b.addExecutionInstruction(BitmexExecutionInstruction.PARTICIPATE_DO_NOT_INITIATE);
+      b.executionInstruction(BitmexExecutionInstruction.PARTICIPATE_DO_NOT_INITIATE);
     }
     return placeOrder(b.build()).getId();
   }
 
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws ExchangeException {
-    String symbol = BitmexAdapters.toString(stopOrder.getCurrencyPair());
-
     return placeOrder(
-            new BitmexPlaceOrderParameters.Builder(symbol)
-                .setSide(BitmexAdapters.toBitmexSide(stopOrder.getType()))
-                .setOrderQuantity(stopOrder.getOriginalAmount())
-                .setStopPrice(stopOrder.getStopPrice())
-                .setClOrdId(stopOrder.getId())
-                .build())
+        BitmexPlaceOrderParameters.builder()
+            .instrument(stopOrder.getInstrument())
+            .side(stopOrder.getType())
+            .orderQuantity(stopOrder.getOriginalAmount())
+            .stopPrice(stopOrder.getStopPrice())
+            .clientOid(stopOrder.getUserReference())
+            .build())
         .getId();
   }
 

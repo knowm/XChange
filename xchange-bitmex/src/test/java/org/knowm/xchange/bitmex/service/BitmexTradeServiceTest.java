@@ -192,4 +192,61 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
     assertThat(actual).isTrue();
   }
 
+  @Test
+  void place_limit_buy_order() throws IOException {
+    LimitOrder limitOrder =
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+            .userReference("new-limit-buy-order")
+            .originalAmount(new BigDecimal("0.0001"))
+            .limitPrice(new BigDecimal("10000.5"))
+            .build();
+
+    String actualResponse = tradeService.placeLimitOrder(limitOrder);
+    assertThat(actualResponse).isEqualTo("a125b16d-a1fb-485a-b88f-20f6e3a39314");
+  }
+
+
+  @Test
+  void place_limit_sell_order() throws IOException {
+    LimitOrder limitOrder =
+        new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
+            .userReference("new-limit-sell-order")
+            .originalAmount(new BigDecimal("0.0001"))
+            .limitPrice(new BigDecimal("110000.5"))
+            .build();
+
+    String actualResponse = tradeService.placeLimitOrder(limitOrder);
+    assertThat(actualResponse).isEqualTo("2712af57-0b78-4cdc-a81e-8fc2811fe2e3");
+  }
+
+
+  @Test
+  void place_market_buy_order() throws IOException {
+    MarketOrder marketOrder =
+        new MarketOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+            .userReference("new-market-buy-order")
+            // bitmex requires always asset amount for all orders
+            .originalAmount(new BigDecimal("0.0001"))
+            .build();
+
+    String actualResponse = tradeService.placeMarketOrder(marketOrder);
+    assertThat(actualResponse).isEqualTo("2b8a53f3-5e5d-4830-a152-f9f280d2c121");
+  }
+
+
+  @Test
+  void place_market_sell_order() throws IOException {
+    MarketOrder marketOrder =
+        new MarketOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
+            .userReference("new-market-sell-order")
+            // bitmex requires always asset amount for all orders
+            .originalAmount(new BigDecimal("0.0001"))
+            .build();
+
+    String actualResponse = tradeService.placeMarketOrder(marketOrder);
+    assertThat(actualResponse).isEqualTo("f931ef31-b94e-4e86-bab6-5a48fdd3811a");
+  }
+
+
+
 }

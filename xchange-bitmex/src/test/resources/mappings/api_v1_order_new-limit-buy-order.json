@@ -1,0 +1,20 @@
+{
+  "id" : "12748124-a176-41e3-815d-4bda4e1070b1",
+  "name" : "api_v1_order",
+  "request" : {
+    "url" : "/api/v1/order",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"symbol\":\"XBT_USDT\",\"side\":\"Buy\",\"orderQty\":10000,\"price\":10000.5,\"clOrdID\":\"new-limit-buy-order\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v1_order_new-limit-buy-order.json"
+  },
+  "uuid" : "12748124-a176-41e3-815d-4bda4e1070b1",
+  "persistent" : true,
+  "insertionIndex" : 15
+}

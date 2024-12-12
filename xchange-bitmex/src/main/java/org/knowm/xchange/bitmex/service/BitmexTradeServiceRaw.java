@@ -17,7 +17,6 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
 import org.knowm.xchange.bitmex.dto.trade.BitmexReplaceOrderParameters;
-import org.knowm.xchange.bitmex.dto.trade.PlaceOrderCommand;
 import org.knowm.xchange.bitmex.dto.trade.ReplaceOrderCommand;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.ObjectMapperHelper;
@@ -113,30 +112,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
                 apiKey,
                 exchange.getNonceFactory(),
                 signatureCreator,
-                parameters.getSymbol(),
-                parameters.getSide() != null ? parameters.getSide().getValue() : null,
-                parameters.getOrderQuantity(),
-                parameters.getSimpleOrderQuantity(),
-                parameters.getDisplayQuantity(),
-                parameters.getPrice(),
-                parameters.getStopPrice(),
-                parameters.getOrderType() != null
-                    ? parameters.getOrderType().toApiParameter()
-                    : null,
-                parameters.getClOrdId(),
-                parameters.getExecutionInstructionsAsParameter(),
-                parameters.getClOrdLinkId(),
-                parameters.getContingencyType() != null
-                    ? parameters.getContingencyType().toApiParameter()
-                    : null,
-                parameters.getPegOffsetValue(),
-                parameters.getPegPriceType() != null
-                    ? parameters.getPegPriceType().toApiParameter()
-                    : null,
-                parameters.getTimeInForce() != null
-                    ? parameters.getTimeInForce().toApiParameter()
-                    : null,
-                parameters.getText()));
+                parameters));
   }
 
   /**
@@ -164,14 +140,6 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
                 parameters.getStopPrice(),
                 parameters.getPegOffsetValue(),
                 parameters.getText()));
-  }
-
-  @Nonnull
-  public List<BitmexPrivateOrder> placeOrderBulk(@Nonnull Collection<PlaceOrderCommand> commands)
-      throws ExchangeException {
-    String s = ObjectMapperHelper.toCompactJSON(commands);
-    return updateRateLimit(
-        () -> bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s));
   }
 
   @Nonnull

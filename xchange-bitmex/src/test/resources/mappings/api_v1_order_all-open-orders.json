@@ -2,7 +2,7 @@
   "id" : "96ae8b93-b4ab-4c35-a4f7-7a4f9f1f9e43",
   "name" : "api_v1_order",
   "request" : {
-    "url" : "/api/v1/order?filter=%7B%22orderID%22%3A%5B%5D%2C%22open%22%3Atrue%7D&count=500&start=0&reverse=true",
+    "url" : "/api/v1/order?filter=%7B%22open%22%3Atrue%7D&count=500&start=0&reverse=true",
     "method" : "GET"
   },
   "response" : {

@@ -55,13 +55,13 @@ public class BitmexWallet extends AbstractHttpResponseAware {
     this.currency = BitmexAdapters.bitmexCodeToCurrency(currencyCode);
 
     // scale values
-    this.deposited = BitmexAdapters.scaleAmount(deposited, currency);
-    this.withdrawn = BitmexAdapters.scaleAmount(withdrawn, currency);
-    this.transferIn = BitmexAdapters.scaleAmount(transferIn, currency);
-    this.transferOut = BitmexAdapters.scaleAmount(transferOut, currency);
-    this.amount = BitmexAdapters.scaleAmount(amount, currency);
-    this.pendingCredit = BitmexAdapters.scaleAmount(pendingCredit, currency);
-    this.pendingDebit = BitmexAdapters.scaleAmount(pendingDebit, currency);
-    this.confirmedDebit = BitmexAdapters.scaleAmount(confirmedDebit, currency);
+    this.deposited = BitmexAdapters.scaleToLocalAmount(deposited, currency);
+    this.withdrawn = BitmexAdapters.scaleToLocalAmount(withdrawn, currency);
+    this.transferIn = BitmexAdapters.scaleToLocalAmount(transferIn, currency);
+    this.transferOut = BitmexAdapters.scaleToLocalAmount(transferOut, currency);
+    this.amount = BitmexAdapters.scaleToLocalAmount(amount, currency);
+    this.pendingCredit = BitmexAdapters.scaleToLocalAmount(pendingCredit, currency);
+    this.pendingDebit = BitmexAdapters.scaleToLocalAmount(pendingDebit, currency);
+    this.confirmedDebit = BitmexAdapters.scaleToLocalAmount(confirmedDebit, currency);
   }
 }

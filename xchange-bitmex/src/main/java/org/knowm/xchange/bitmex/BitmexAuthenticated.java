@@ -25,10 +25,10 @@ import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrderList;
 import org.knowm.xchange.bitmex.dto.params.FilterParam;
 import org.knowm.xchange.bitmex.dto.trade.BitmexCancelAll;
+import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPositionList;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
-import org.knowm.xchange.bitmex.dto.trade.PlaceOrderCommand;
 import org.knowm.xchange.bitmex.dto.trade.ReplaceOrderCommand;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -168,26 +168,13 @@ public interface BitmexAuthenticated extends Bitmex {
    */
   @POST
   @Path("order")
+  @Consumes(MediaType.APPLICATION_JSON)
   BitmexPrivateOrder placeOrder(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @FormParam("symbol") String symbol,
-      @Nullable @FormParam("side") String side,
-      @Nullable @FormParam("orderQty") BigDecimal orderQuantity,
-      @Nullable @FormParam("simpleOrderQty") BigDecimal simpleOrderQuantity,
-      @Nullable @FormParam("displayQty") BigDecimal displayQuantity,
-      @Nullable @FormParam("price") BigDecimal price,
-      @Nullable @FormParam("stopPx") BigDecimal stopPrice,
-      @Nullable @FormParam("ordType") String orderType,
-      @Nullable @FormParam("clOrdID") String clOrdID,
-      @Nullable @FormParam("execInst") String executionInstructions,
-      @Nullable @FormParam("clOrdLinkID") String clOrdLinkID,
-      @Nullable @FormParam("contingencyType") String contingencyType,
-      @Nullable @FormParam("pegOffsetValue") BigDecimal pegOffsetValue,
-      @Nullable @FormParam("pegPriceType") String pegPriceType,
-      @Nullable @FormParam("timeInForce") String timeInForce,
-      @Nullable @FormParam("text") String text)
+      BitmexPlaceOrderParameters bitmexPlaceOrderParameters
+)
       throws IOException, BitmexException;
 
   /**
@@ -237,24 +224,6 @@ public interface BitmexAuthenticated extends Bitmex {
       @Nullable @FormParam("stopPx") BigDecimal stopPrice,
       @Nullable @FormParam("pegOffsetValue") BigDecimal pegOffsetValue,
       @Nullable @FormParam("text") String text)
-      throws IOException, BitmexException;
-
-  /**
-   * @param apiKey
-   * @param nonce
-   * @param paramsDigest
-   * @param orderCommands JSON Array of order(s). Use {@link PlaceOrderCommand} to generate JSON.
-   * @return {@link BitmexPrivateOrderList} contains the results of the call.
-   * @throws IOException
-   * @throws BitmexException
-   */
-  @POST
-  @Path("order/bulk")
-  BitmexPrivateOrderList placeOrderBulk(
-      @HeaderParam("api-key") String apiKey,
-      @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @FormParam("orders") String orderCommands)
       throws IOException, BitmexException;
 
   /**
