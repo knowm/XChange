@@ -1,5 +1,6 @@
 package org.knowm.xchange.bitmex;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.ZonedDateTime;
@@ -15,15 +16,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.bitmex.config.Config;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
+import org.knowm.xchange.bitmex.dto.params.FilterParam;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrderDescription;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrderResponse;
@@ -574,6 +578,12 @@ public class BitmexAdapters {
         .build();
   }
 
+
+  @SneakyThrows
+  public String asJsonString(FilterParam filterParam) {
+    ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
+    return objectMapper.writeValueAsString(filterParam);
+  }
 
 
 }

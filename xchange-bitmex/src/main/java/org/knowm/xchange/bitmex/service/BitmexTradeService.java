@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
+import org.knowm.xchange.bitmex.dto.params.FilterParam;
 import org.knowm.xchange.bitmex.dto.trade.BitmexExecutionInstruction;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrderFlags;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
@@ -53,8 +55,9 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException {
 
+    FilterParam filterParam = FilterParam.builder().isOpen(true).build();
     List<BitmexPrivateOrder> bitmexOrders =
-        super.getBitmexOrders(null, "{\"open\": true}", null, null, null);
+        getBitmexOrders(null, filterParam, null, null, null);
 
     return new OpenOrders(bitmexOrders.stream()
         .map(BitmexAdapters::toOrder)
@@ -64,8 +67,9 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException {
+    FilterParam filterParam = FilterParam.builder().isOpen(true).build();
     List<LimitOrder> limitOrders =
-        super.getBitmexOrders(null, "{\"open\": true}", null, null, null).stream()
+        getBitmexOrders(null, filterParam, null, null, null).stream()
             .map(BitmexAdapters::toOrder)
             .map(LimitOrder.class::cast)
             .filter(params::accept)
@@ -159,9 +163,11 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     String[] orderIds = TradeService.toOrderIds(orderQueryParams);
 
-    String filter = "{\"orderID\": [\"" + String.join("\",\"", orderIds) + "\"]}";
+    FilterParam filterParam = FilterParam.builder()
+        .orderIds(Arrays.asList(orderIds))
+        .build();
 
-    List<BitmexPrivateOrder> privateOrders = getBitmexOrders(null, filter, null, null, null);
+    List<BitmexPrivateOrder> privateOrders = getBitmexOrders(null, filterParam, null, null, null);
     return privateOrders.stream().map(BitmexAdapters::toOrder).collect(Collectors.toList());
   }
 

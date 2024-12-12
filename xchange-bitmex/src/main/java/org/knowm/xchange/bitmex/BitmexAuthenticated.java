@@ -23,6 +23,7 @@ import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransactionList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrderList;
+import org.knowm.xchange.bitmex.dto.params.FilterParam;
 import org.knowm.xchange.bitmex.dto.trade.BitmexCancelAll;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPositionList;
@@ -106,7 +107,7 @@ public interface BitmexAuthenticated extends Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @Nullable @QueryParam("symbol") String symbol,
-      @Nullable @QueryParam("filter") String filter,
+      @Nullable @QueryParam("filter") FilterParam filterParam,
       @Nullable @QueryParam("columns") String columns,
       @Nullable @QueryParam("count") Integer count,
       @Nullable @QueryParam("start") Long start,

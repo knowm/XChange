@@ -11,6 +11,7 @@ import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.HttpResponseAwareList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
+import org.knowm.xchange.bitmex.dto.params.FilterParam;
 import org.knowm.xchange.bitmex.dto.trade.BitmexCancelAll;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
@@ -57,7 +58,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
    */
   public List<BitmexPrivateOrder> getBitmexOrders(
       @Nullable String symbol,
-      @Nullable String filter,
+      @Nullable FilterParam filterParam,
       @Nullable String columns,
       @Nullable Date startTime,
       @Nullable Date endTime)
@@ -74,7 +75,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
                       exchange.getNonceFactory(),
                       signatureCreator,
                       symbol,
-                      filter,
+                      filterParam,
                       columns,
                       500,
                       (long) (j * 500),

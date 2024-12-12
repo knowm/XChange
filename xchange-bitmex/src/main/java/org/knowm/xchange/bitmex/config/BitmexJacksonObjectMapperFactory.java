@@ -1,5 +1,6 @@
 package org.knowm.xchange.bitmex.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -16,6 +17,12 @@ public class BitmexJacksonObjectMapperFactory extends DefaultJacksonObjectMapper
 
     // enable jsr310 types
     objectMapper.registerModule(new JavaTimeModule());
+
+    // don't render null's
+    objectMapper.setSerializationInclusion(Include.NON_NULL);
+
+    // store object mapper for using in module
+    Config.getInstance().setObjectMapper(objectMapper);
 
   }
 }
