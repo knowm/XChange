@@ -1,0 +1,22 @@
+[
+  {
+    "execID": "00000000-006d-1000-0000-000f85e2d78f",
+    "orderID": "36b592c1-5b14-4156-81fe-83ed9a440f06",
+    "account": 2273415,
+    "symbol": "XBT_USDT",
+    "side": "Buy",
+    "orderQty": 10000,
+    "price": 90000,
+    "currency": "USDT",
+    "execType": "New",
+    "ordType": "Limit",
+    "timeInForce": "GoodTillCancel",
+    "ordStatus": "New",
+    "workingIndicator": true,
+    "leavesQty": 10000,
+    "cumQty": 0,
+    "text": "Submission from www.bitmex.com",
+    "transactTime": "2024-12-12T09:18:01.023Z",
+    "timestamp": "2024-12-12T09:18:01.023Z"
+  }
+]

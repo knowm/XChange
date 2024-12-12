@@ -30,6 +30,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelAllOrders;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
+import org.knowm.xchange.service.trade.params.InstrumentParam;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
@@ -37,6 +38,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParam;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
@@ -54,22 +56,19 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException {
-
-    FilterParam filterParam = FilterParam.builder().isOpen(true).build();
-    List<BitmexPrivateOrder> bitmexOrders =
-        getBitmexOrders(null, filterParam, null, null, null);
-
-    return new OpenOrders(bitmexOrders.stream()
-        .map(BitmexAdapters::toOrder)
-        .map(LimitOrder.class::cast)
-        .collect(Collectors.toList()));
+    return getOpenOrders(new DefaultOpenOrdersParam());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException {
-    FilterParam filterParam = FilterParam.builder().isOpen(true).build();
+    FilterParam.FilterParamBuilder builder = FilterParam.builder()
+        .isOpen(true);
+    if (params instanceof OpenOrdersParamInstrument) {
+      builder.instrument(((InstrumentParam) params).getInstrument());
+    }
+
     List<LimitOrder> limitOrders =
-        getBitmexOrders(null, filterParam, null, null, null).stream()
+        getBitmexOrders(null, builder.build(), null, null, null).stream()
             .map(BitmexAdapters::toOrder)
             .map(LimitOrder.class::cast)
             .filter(params::accept)

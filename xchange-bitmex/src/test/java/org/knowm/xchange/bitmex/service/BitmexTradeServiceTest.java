@@ -15,7 +15,9 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 
 class BitmexTradeServiceTest extends BitmexExchangeWiremock {
 
@@ -160,5 +162,28 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
         .isEqualTo(expected);
   }
 
+  @Test
+  void all_open_orders() throws IOException {
+    OpenOrders actual = tradeService.getOpenOrders();
+
+    assertThat(actual.getOpenOrders()).hasSize(2);
+    assertThat(actual.getHiddenOrders()).isEmpty();
+
+    assertThat(actual.getAllOpenOrders().get(0).getInstrument())
+        .isEqualTo(CurrencyPair.ETH_USDT);
+    assertThat(actual.getAllOpenOrders().get(1).getInstrument())
+        .isEqualTo(CurrencyPair.BTC_USDT);
+  }
+
+  @Test
+  void filtered_open_orders() throws IOException {
+    OpenOrders actual = tradeService.getOpenOrders(new DefaultOpenOrdersParamInstrument(CurrencyPair.BTC_USDT));
+
+    assertThat(actual.getOpenOrders()).hasSize(1);
+    assertThat(actual.getHiddenOrders()).isEmpty();
+
+    assertThat(actual.getAllOpenOrders().get(0).getInstrument())
+        .isEqualTo(CurrencyPair.BTC_USDT);
+  }
 
 }
