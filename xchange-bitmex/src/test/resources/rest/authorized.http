@@ -3,7 +3,8 @@
   import {gen_sign} from 'sign.js'
   gen_sign(request);
 %}
-GET {{api_v1}}/order?filter={"orderID":"5d873440-48c6-48ed-86d9-e8e4259b0e7a","ordType":"Market"}
+#GET {{api_v1}}/order?filter={"orderID":"5d873440-48c6-48ed-86d9-e8e4259b0e7a","ordType":"Market"}
+GET {{api_v1}}/order
 api-key: {{api_key}}
 api-expires: {{timestamp}}
 api-signature: {{sign}}

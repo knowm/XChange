@@ -1,0 +1,20 @@
+[
+  {
+    "account": 2273415,
+    "avgPx": 227.72,
+    "cumQty": 22000000,
+    "currency": "USDT",
+    "leavesQty": 0,
+    "ordStatus": "Filled",
+    "ordType": "Market",
+    "orderID": "4245a5fc-b7aa-400f-a11d-c4f50d24be13",
+    "orderQty": 22000000,
+    "side": "Sell",
+    "symbol": "SOL_USDT",
+    "text": "filled-market-sell-order",
+    "timeInForce": "ImmediateOrCancel",
+    "timestamp": "2024-12-11T23:20:29.099Z",
+    "transactTime": "2024-12-11T23:20:29.099Z",
+    "workingIndicator": false
+  }
+]

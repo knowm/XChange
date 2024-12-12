@@ -24,6 +24,9 @@ public class BitmexPrivateOrder extends AbstractHttpResponseAware {
   @JsonProperty("account")
   private Integer account;
 
+  @JsonProperty("price")
+  private BigDecimal originalPrice;
+
   @JsonProperty("avgPx")
   private BigDecimal averagePrice;
 

@@ -11,7 +11,7 @@
     "orderQty": 1000000,
     "side": "Buy",
     "symbol": "ETH_USDT",
-    "text": "valid-filled-market-sell-order",
+    "text": "filled-market-buy-order",
     "timeInForce": "ImmediateOrCancel",
     "timestamp": "2024-12-09T09:54:20.367Z",
     "transactTime": "2024-12-09T09:54:20.367Z",

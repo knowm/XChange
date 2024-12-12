@@ -156,7 +156,7 @@ public class BitmexAdapters {
         builder = new MarketOrder.Builder(bitmexPrivateOrder.getOrderType(), bitmexPrivateOrder.getInstrument());
         break;
       case LIMIT:
-        builder = new LimitOrder.Builder(bitmexPrivateOrder.getOrderType(), bitmexPrivateOrder.getInstrument()).limitPrice(bitmexPrivateOrder.getAveragePrice());
+        builder = new LimitOrder.Builder(bitmexPrivateOrder.getOrderType(), bitmexPrivateOrder.getInstrument()).limitPrice(bitmexPrivateOrder.getOriginalPrice());
         break;
       default:
         throw new IllegalArgumentException("Can't map " + bitmexPrivateOrder.getOrderType());
