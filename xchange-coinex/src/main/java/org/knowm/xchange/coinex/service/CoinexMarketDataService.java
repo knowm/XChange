@@ -40,20 +40,20 @@ public class CoinexMarketDataService extends CoinexMarketDataServiceRaw
     try {
       List<CoinexMaintainInfo> coinexMaintainInfos = getCoinexMaintainInfo();
 
-      for (CoinexMaintainInfo coinexMaintainInfo: coinexMaintainInfos) {
+      for (CoinexMaintainInfo coinexMaintainInfo : coinexMaintainInfos) {
         Instant now = Instant.now(Config.getInstance().getClock());
-        if (ObjectUtils.allNotNull(coinexMaintainInfo.getStartTime(),
-            coinexMaintainInfo.getEndTime())) {
-          if (now.isAfter(coinexMaintainInfo.getStartTime()) && now.isBefore(
-              coinexMaintainInfo.getEndTime())) {
+        if (ObjectUtils.allNotNull(
+            coinexMaintainInfo.getStartTime(), coinexMaintainInfo.getEndTime())) {
+          if (now.isAfter(coinexMaintainInfo.getStartTime())
+              && now.isBefore(coinexMaintainInfo.getEndTime())) {
             return ExchangeHealth.OFFLINE;
           }
         }
 
-        if (ObjectUtils.allNotNull(coinexMaintainInfo.getProtectStart(),
-            coinexMaintainInfo.getProtectEnd())) {
-          if (now.isAfter(coinexMaintainInfo.getProtectStart()) && now.isBefore(
-              coinexMaintainInfo.getProtectEnd())) {
+        if (ObjectUtils.allNotNull(
+            coinexMaintainInfo.getProtectStart(), coinexMaintainInfo.getProtectEnd())) {
+          if (now.isAfter(coinexMaintainInfo.getProtectStart())
+              && now.isBefore(coinexMaintainInfo.getProtectEnd())) {
             return ExchangeHealth.OFFLINE;
           }
         }
@@ -65,7 +65,6 @@ public class CoinexMarketDataService extends CoinexMarketDataServiceRaw
 
     return ExchangeHealth.ONLINE;
   }
-
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {

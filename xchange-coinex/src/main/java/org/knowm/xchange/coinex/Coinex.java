@@ -37,9 +37,7 @@ public interface Coinex {
 
   @GET
   @Path("v2/maintain/info")
-  CoinexResponse<List<CoinexMaintainInfo>> maintainInfo()
-      throws IOException, CoinexException;
-
+  CoinexResponse<List<CoinexMaintainInfo>> maintainInfo() throws IOException, CoinexException;
 
   @GET
   @Path("v2/spot/market")

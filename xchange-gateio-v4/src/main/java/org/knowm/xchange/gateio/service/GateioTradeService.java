@@ -40,10 +40,11 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     Validate.isInstanceOf(InstrumentParam.class, params);
     Instrument instrument = ((InstrumentParam) params).getInstrument();
-    List<LimitOrder> limitOrders = listOrders(instrument, OrderStatus.OPEN).stream()
-        .map(GateioAdapters::toOrder)
-        .map(LimitOrder.class::cast)
-        .collect(Collectors.toList());
+    List<LimitOrder> limitOrders =
+        listOrders(instrument, OrderStatus.OPEN).stream()
+            .map(GateioAdapters::toOrder)
+            .map(LimitOrder.class::cast)
+            .collect(Collectors.toList());
     return new OpenOrders(limitOrders);
   }
 

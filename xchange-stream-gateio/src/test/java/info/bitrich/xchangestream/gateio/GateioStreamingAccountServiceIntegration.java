@@ -29,10 +29,11 @@ class GateioStreamingAccountServiceIntegration extends GateioStreamingExchangeIT
 
     TestObserver<Balance> testObserver = observable.test();
 
-    List<Balance> balances = testObserver
-//        .awaitDone(10, TimeUnit.MINUTES)
-        .awaitCount(1)
-        .values();
+    List<Balance> balances =
+        testObserver
+            //        .awaitDone(10, TimeUnit.MINUTES)
+            .awaitCount(1)
+            .values();
 
     testObserver.dispose();
 
