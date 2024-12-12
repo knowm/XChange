@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
@@ -25,11 +26,10 @@ import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelAllOrders;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
 import org.knowm.xchange.service.trade.params.InstrumentParam;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
@@ -133,29 +133,18 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws ExchangeException {
-    List<BitmexPrivateOrder> orders = cancelBitmexOrder(orderId);
-
-    if (orders.isEmpty()) {
-      return true;
-    }
-    return orders.get(0).getId().equals(orderId);
-  }
-
   public boolean cancelOrder(CancelOrderParams params) throws ExchangeException {
-
-    if (params instanceof DefaultCancelOrderParamId) {
-      DefaultCancelOrderParamId paramsWithId = (DefaultCancelOrderParamId) params;
-      return cancelOrder(paramsWithId.getOrderId());
-    }
-
     if (params instanceof CancelAllOrders) {
       List<BitmexPrivateOrder> orders = cancelAllOrders();
       return !orders.isEmpty();
     }
 
-    throw new NotYetImplementedForExchangeException(
-        String.format("Unexpected type of parameter: %s", params));
+    Validate.isInstanceOf(CancelOrderByIdParams.class,params);
+    String orderId = ((CancelOrderByIdParams) params).getOrderId();
+
+    List<BitmexPrivateOrder> orders = cancelBitmexOrder(orderId);
+
+    return orders.isEmpty() || orders.get(0).getId().equals(orderId);
   }
 
   @Override

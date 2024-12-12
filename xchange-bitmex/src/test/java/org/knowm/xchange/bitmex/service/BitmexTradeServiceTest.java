@@ -186,4 +186,10 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
         .isEqualTo(CurrencyPair.BTC_USDT);
   }
 
+  @Test
+  void valid_cancel_order() throws IOException {
+    boolean actual = tradeService.cancelOrder("330ff682-ad2c-44b7-8b22-46241d7b8c2e");
+    assertThat(actual).isTrue();
+  }
+
 }

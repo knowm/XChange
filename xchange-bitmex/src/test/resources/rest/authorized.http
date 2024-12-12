@@ -4,11 +4,27 @@
   gen_sign(request);
 %}
 #GET {{api_v1}}/order?filter={"orderID":"5d873440-48c6-48ed-86d9-e8e4259b0e7a","ordType":"Market"}
-GET {{api_v1}}/order
+GET {{api_v1}}/order?filter={"open":"true"}
+#GET {{api_v1}}/order
 api-key: {{api_key}}
 api-expires: {{timestamp}}
 api-signature: {{sign}}
 Accept: application/json
+
+
+### Cancel order(s)
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+#GET {{api_v1}}/order?filter={"orderID":"5d873440-48c6-48ed-86d9-e8e4259b0e7a","ordType":"Market"}
+DELETE {{api_v1}}/order
+api-key: {{api_key}}
+api-expires: {{timestamp}}
+api-signature: {{sign}}
+Content-Type: application/x-www-form-urlencoded
+
+orderID = 36b592c1-5b14-4156-81fe-83ed9a440f06
 
 
 ### Get your current wallet information
@@ -22,4 +38,16 @@ api-expires: {{timestamp}}
 api-signature: {{sign}}
 Accept: application/json
 
+
+###
+
+# curl -X DELETE --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-With: XMLHttpRequest' -d 'orderID=asdf' 'https://www.bitmex.com/api/v1/order'
+DELETE https://www.bitmex.com/api/v1/order
+Accept: application/json
+X-Requested-With: XMLHttpRequest
+Content-Type: application/x-www-form-urlencoded
+
+orderID = asdf
+
+###
 

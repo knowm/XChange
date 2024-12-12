@@ -1,0 +1,20 @@
+[
+  {
+    "account": 2273415,
+    "cumQty": 0,
+    "currency": "USDT",
+    "leavesQty": 0,
+    "ordStatus": "Canceled",
+    "ordType": "Limit",
+    "orderID": "330ff682-ad2c-44b7-8b22-46241d7b8c2e",
+    "orderQty": 1000000,
+    "price": 3000.0,
+    "side": "Buy",
+    "symbol": "ETH_USDT",
+    "text": "Canceled\nCanceled via API.",
+    "timeInForce": "GoodTillCancel",
+    "timestamp": "2024-12-12T15:15:20.084Z",
+    "transactTime": "2024-12-12T15:15:20.084Z",
+    "workingIndicator": false
+  }
+]
