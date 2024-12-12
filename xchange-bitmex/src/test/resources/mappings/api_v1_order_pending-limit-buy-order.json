@@ -7,7 +7,7 @@
   },
   "response" : {
     "status" : 200,
-    "bodyFileName" : "api_v1_order-pending-limit-buy-order.json"
+    "bodyFileName" : "api_v1_order_pending-limit-buy-order.json"
   },
   "uuid" : "3cfcd90a-7847-4593-a88d-e46ae9ab8de2",
   "persistent" : true,

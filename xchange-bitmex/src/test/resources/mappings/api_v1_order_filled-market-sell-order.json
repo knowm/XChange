@@ -7,7 +7,7 @@
   },
   "response" : {
     "status" : 200,
-    "bodyFileName" : "api_v1_order-filled-market-sell-order.json"
+    "bodyFileName" : "api_v1_order_filled-market-sell-order.json"
   },
   "uuid" : "ad15befc-62af-47be-9d07-c192806481ad",
   "persistent" : true,
