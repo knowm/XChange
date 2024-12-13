@@ -1,9 +1,14 @@
 package org.knowm.xchange.coinex.service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import org.knowm.xchange.coinex.CoinexAdapters;
 import org.knowm.xchange.coinex.CoinexExchange;
+import org.knowm.xchange.coinex.dto.account.CoinexMarketType;
 import org.knowm.xchange.coinex.dto.account.CoinexOrder;
+import org.knowm.xchange.coinex.dto.trade.CoinexCancelOrderRequest;
+import org.knowm.xchange.coinex.service.params.CoinexOpenOrdersParams;
 import org.knowm.xchange.instrument.Instrument;
 
 public class CoinexTradeServiceRaw extends CoinexBaseService {
@@ -22,6 +27,16 @@ public class CoinexTradeServiceRaw extends CoinexBaseService {
     String market = CoinexAdapters.toString(instrument);
     return coinexAuthenticated
         .orderStatus(apiKey, exchange.getNonceFactory(), coinexV2ParamsDigest, market, orderId)
+        .getData();
+  }
+
+  public List<CoinexOrder> pendingOrders(CoinexOpenOrdersParams coinexOpenOrdersParams) throws IOException {
+    String market = CoinexAdapters.toString(coinexOpenOrdersParams.getInstrument());
+    Integer page = coinexOpenOrdersParams.getOffset();
+    Integer limit = Optional.ofNullable(coinexOpenOrdersParams.getLimit()).orElse(CoinexOpenOrdersParams.DEFAULT_LIMIT);
+    return coinexAuthenticated
+        .pendingOrders(apiKey, exchange.getNonceFactory(), coinexV2ParamsDigest, market, CoinexAdapters.toString(CoinexMarketType.SPOT),
+             null, null, page, limit)
         .getData();
   }
 }

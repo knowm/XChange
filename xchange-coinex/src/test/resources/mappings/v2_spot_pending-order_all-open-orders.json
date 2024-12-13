@@ -1,0 +1,15 @@
+{
+  "id" : "6c09969d-9280-4749-be8e-37294b537a7e",
+  "name" : "v2_spot_pending-order",
+  "request" : {
+    "url" : "/v2/spot/pending-order?market_type=SPOT&limit=1000",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_spot_pending-order_all-open-orders.json"
+  },
+  "uuid" : "6c09969d-9280-4749-be8e-37294b537a7e",
+  "persistent" : true,
+  "insertionIndex" : 2
+}

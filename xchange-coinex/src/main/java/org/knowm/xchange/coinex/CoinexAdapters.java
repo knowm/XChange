@@ -64,6 +64,18 @@ public class CoinexAdapters {
         .build();
   }
 
+  public CoinexOrder toCoinexOrder(LimitOrder limitOrder) {
+    return CoinexOrder.builder()
+        .currencyPair((CurrencyPair) limitOrder.getInstrument())
+        .marketType(CoinexMarketType.SPOT)
+        .side(limitOrder.getType())
+        .type("limit")
+        .price(limitOrder.getLimitPrice())
+        .clientId(limitOrder.getUserReference())
+        .amount(limitOrder.getOriginalAmount())
+        .build();
+  }
+
   public CurrencyPair toCurrencyPair(String symbol) {
     return SYMBOL_TO_CURRENCY_PAIR.get(symbol);
   }
@@ -193,4 +205,26 @@ public class CoinexAdapters {
 
     return Wallet.Builder.from(balances).id("spot").build();
   }
+
+  public String toString(OrderType orderType) {
+    if (orderType == null) {
+      return null;
+    }
+    switch (orderType) {
+      case BID:
+        return "buy";
+      case ASK:
+        return "sell";
+      default:
+        throw new IllegalArgumentException("Can't map " + orderType);
+    }
+  }
+
+  public String toString(CoinexMarketType coinexMarketType) {
+    if (coinexMarketType == null) {
+      return null;
+    }
+    return coinexMarketType.toString();
+  }
+
 }
