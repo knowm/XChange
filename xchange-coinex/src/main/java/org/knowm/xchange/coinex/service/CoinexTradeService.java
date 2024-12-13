@@ -96,4 +96,26 @@ public class CoinexTradeService extends CoinexTradeServiceRaw implements TradeSe
       throw CoinexErrorAdapter.adapt(e);
     }
   }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    Validate.isInstanceOf(DefaultCancelOrderByInstrumentAndIdParams.class, orderParams);
+    DefaultCancelOrderByInstrumentAndIdParams params =
+        (DefaultCancelOrderByInstrumentAndIdParams) orderParams;
+
+    try {
+      CoinexOrder order = cancelOrder(Long.valueOf(params.getOrderId()), params.getInstrument());
+      return Objects.equals(order.getOrderId(), Long.valueOf(params.getOrderId()));
+    } catch (CoinexException e) {
+      throw CoinexErrorAdapter.adapt(e);
+    }
+
+  }
+
+  @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[] {DefaultCancelOrderByInstrumentAndIdParams.class};
+  }
+
+
 }

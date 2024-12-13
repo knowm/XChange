@@ -8,6 +8,7 @@ import org.knowm.xchange.coinex.CoinexExchangeWiremock;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 
 class CoinexTradeServiceTest extends CoinexExchangeWiremock {
@@ -37,5 +38,12 @@ class CoinexTradeServiceTest extends CoinexExchangeWiremock {
     assertThat(actual.getAllOpenOrders().get(0).getInstrument())
         .isEqualTo(CurrencyPair.BTC_USDT);
   }
+
+  @Test
+  void valid_cancel_order() throws IOException {
+    boolean actual = tradeService.cancelOrder(new DefaultCancelOrderByInstrumentAndIdParams(CurrencyPair.BTC_USDT, "136215219959"));
+    assertThat(actual).isTrue();
+  }
+
 
 }

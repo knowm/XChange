@@ -23,6 +23,17 @@ public class CoinexTradeServiceRaw extends CoinexBaseService {
         .getData();
   }
 
+  public CoinexOrder cancelOrder(Long orderId, Instrument instrument) throws IOException {
+    CoinexCancelOrderRequest request = CoinexCancelOrderRequest.builder()
+        .orderId(orderId)
+        .instrument(instrument)
+        .marketType(CoinexMarketType.SPOT)
+        .build();
+    return coinexAuthenticated
+        .cancelOrder(apiKey, exchange.getNonceFactory(), coinexV2ParamsDigest, request)
+        .getData();
+  }
+
   public CoinexOrder orderStatus(Instrument instrument, String orderId) throws IOException {
     String market = CoinexAdapters.toString(instrument);
     return coinexAuthenticated

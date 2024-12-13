@@ -55,6 +55,16 @@ public interface CoinexAuthenticated {
       CoinexOrder coinexOrder)
       throws IOException, CoinexException;
 
+  @POST
+  @Path("v2/spot/cancel-order")
+  @Consumes(MediaType.APPLICATION_JSON)
+  CoinexResponse<CoinexOrder> cancelOrder(
+      @HeaderParam("X-COINEX-KEY") String apiKey,
+      @HeaderParam("X-COINEX-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("X-COINEX-SIGN") ParamsDigest signer,
+      CoinexCancelOrderRequest coinexCancelOrderRequest)
+      throws IOException, CoinexException;
+
   @GET
   @Path("v2/spot/order-status")
   CoinexResponse<CoinexOrder> orderStatus(
