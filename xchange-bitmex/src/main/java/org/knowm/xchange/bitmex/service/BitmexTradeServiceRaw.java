@@ -219,7 +219,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
 
   public HttpResponseAwareList<BitmexPrivateExecution> getTradeHistory(
       String symbol,
-      String filter,
+      FilterParam filterParam,
       String columns,
       Integer count,
       Long start,
@@ -234,7 +234,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
                 exchange.getNonceFactory(),
                 signatureCreator,
                 symbol,
-                filter,
+                filterParam,
                 columns,
                 count,
                 start,

@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Date;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitmex.BitmexExchangeWiremock;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -16,6 +17,8 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 
@@ -247,6 +250,36 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
     assertThat(actualResponse).isEqualTo("f931ef31-b94e-4e86-bab6-5a48fdd3811a");
   }
 
+  @Test
+  void trade_history() throws IOException {
+    UserTrades userTrades =
+        exchange
+            .getTradeService()
+                .getTradeHistory(BitmexTradeHistoryParams.builder()
+                    .orderId("5f563ace-005c-49dd-8c44-83fdbdd2fe65")
+                    .build());
+
+    assertThat(userTrades.getUserTrades()).hasSize(2);
+
+    UserTrade expected =
+        new UserTrade(
+            OrderType.BID,
+            new BigDecimal("9"),
+            new CurrencyPair("TRUMP/USDT"),
+            new BigDecimal("2.15"),
+            Date.from(Instant.parse("2024-12-13T14:05:13.619Z")),
+            "00000000-006d-1000-0000-000f9656d02e",
+            "5f563ace-005c-49dd-8c44-83fdbdd2fe65",
+            new BigDecimal("0.017415"),
+            Currency.USDT,
+            "63476f42-04d6-494b-84ed-2e0ccb5edb38");
+
+    assertThat(userTrades.getUserTrades())
+        .first()
+        .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
+        .usingRecursiveComparison()
+        .isEqualTo(expected);
+  }
 
 
 }

@@ -29,10 +29,12 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelAllOrders;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.CurrencyPairParam;
 import org.knowm.xchange.service.trade.params.InstrumentParam;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOrderId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -167,11 +169,17 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    FilterParam.FilterParamBuilder filterParamBuilder = FilterParam.builder();
+
+    if (params instanceof TradeHistoryParamOrderId) {
+      filterParamBuilder.orderId(((TradeHistoryParamOrderId) params).getOrderId());
+    }
+
     String symbol = null;
     if (params instanceof TradeHistoryParamCurrencyPair) {
       symbol =
           BitmexAdapters.toString(
-              ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+              ((CurrencyPairParam) params).getCurrencyPair());
     }
     Long start = null;
     if (params instanceof TradeHistoryParamOffset) {
@@ -198,8 +206,8 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
                 == TradeHistoryParamsSorted.Order.desc;
 
     List<UserTrade> userTrades =
-        getTradeHistory(symbol, null, null, count, start, reverse, startTime, endTime).stream()
-            .map(BitmexAdapters::adoptUserTrade)
+        getTradeHistory(symbol, filterParamBuilder.build(), null, count, start, reverse, startTime, endTime).stream()
+            .map(BitmexAdapters::toUserTrade)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
     return new UserTrades(userTrades, TradeSortType.SortByTimestamp);

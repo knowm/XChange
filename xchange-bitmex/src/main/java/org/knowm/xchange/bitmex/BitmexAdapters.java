@@ -404,23 +404,21 @@ public class BitmexAdapters {
     return result;
   }
 
-  public UserTrade adoptUserTrade(BitmexPrivateExecution exec) {
-    Instrument instrument = toInstrument(exec.symbol);
-    // the "lastQty" parameter is in the USD currency for ???/USD pairs
-    OrderType orderType = convertType(exec.side);
+  public UserTrade toUserTrade(BitmexPrivateExecution exec) {
+    OrderType orderType = convertType(exec.getSide());
     return orderType == null
         ? null
         : UserTrade.builder()
-            .id(exec.execID)
-            .orderId(exec.orderID)
-            .instrument(instrument)
-            .originalAmount(exec.lastQty)
-            .price(exec.lastPx)
-            .feeAmount(exec.execComm.divide(SATOSHIS_BY_BTC, MathContext.DECIMAL32))
-            .feeCurrency(Currency.XBT)
-            .timestamp(exec.timestamp)
+            .id(exec.getExecutionId())
+            .orderId(exec.getOrderId())
+            .instrument(exec.getInstrument())
+            .originalAmount(exec.getExecutedQuantity())
+            .price(exec.getPrice())
+            .feeAmount(exec.getFeeAmount())
+            .feeCurrency(exec.getFeeCurrency())
+            .timestamp(toDate(exec.getUpdatedAt()))
             .type(orderType)
-            .orderUserReference(exec.clOrdID)
+            .orderUserReference(exec.getClientOid())
             .build();
   }
 

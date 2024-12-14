@@ -57,3 +57,16 @@ api-expires: {{timestamp}}
 api-signature: {{sign}}
 Accept: application/json
 
+### Get all balance-affecting executions
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v1}}/execution/tradeHistory?filter={"orderID":"5f563ace-005c-49dd-8c44-83fdbdd2fe65"}
+#GET {{api_v1}}/execution/tradeHistory
+api-key: {{api_key}}
+api-expires: {{timestamp}}
+api-signature: {{sign}}
+Accept: application/json
+
+

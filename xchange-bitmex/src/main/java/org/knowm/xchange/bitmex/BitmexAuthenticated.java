@@ -69,7 +69,7 @@ public interface BitmexAuthenticated extends Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @Nullable @QueryParam("symbol") String symbol,
-      @Nullable @QueryParam("filter") String filter,
+      @Nullable @QueryParam("filter") FilterParam filterParam,
       @Nullable @QueryParam("columns") String columns,
       @Nullable @QueryParam("count") Integer count,
       @Nullable @QueryParam("start") Long start,

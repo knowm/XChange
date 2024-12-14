@@ -122,5 +122,30 @@
         "maxFee": 5000000
       }
     ]
+  },
+  {
+    "asset": "TRUMP",
+    "currency": "TRUMp",
+    "majorCurrency": "TRUMP",
+    "name": "MAGA (Trump)",
+    "currencyType": "Crypto",
+    "scale": 8,
+    "enabled": true,
+    "isMarginCurrency": false,
+    "minDepositAmount": 100000000,
+    "minWithdrawalAmount": 100000000,
+    "maxWithdrawalAmount": 100000000000000,
+    "memoRequired": false,
+    "networks": [
+      {
+        "asset": "eth",
+        "tokenAddress": "0x6aA56e1D98b3805921C170EB4B3fe7D4Fda6D89b",
+        "depositEnabled": true,
+        "withdrawalEnabled": true,
+        "withdrawalFee": 100000000,
+        "minFee": 100000000,
+        "maxFee": 100000000
+      }
+    ]
   }
 ]
