@@ -1,0 +1,7 @@
+{
+  "error": {
+    "message": "Account has insufficient Available Balance, 88977688800000 USDt required",
+    "name": "CodedHTTPError",
+    "details": "19000"
+  }
+}

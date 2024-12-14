@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 
@@ -279,6 +281,18 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
         .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
         .usingRecursiveComparison()
         .isEqualTo(expected);
+  }
+
+
+  @Test
+  void place_order_not_enough_balance() {
+    MarketOrder marketOrder =
+        new MarketOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+            .originalAmount(BigDecimal.valueOf(100))
+            .build();
+
+    assertThatExceptionOfType(FundsExceededException.class)
+        .isThrownBy(() -> tradeService.placeMarketOrder(marketOrder));
   }
 
 

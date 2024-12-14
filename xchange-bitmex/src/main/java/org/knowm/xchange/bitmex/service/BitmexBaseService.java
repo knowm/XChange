@@ -2,6 +2,7 @@ package org.knowm.xchange.bitmex.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.knowm.xchange.bitmex.BitmexAuthenticated;
 import org.knowm.xchange.bitmex.BitmexException;
@@ -50,13 +51,14 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
 
   protected ExchangeException handleError(Exception exception) {
     if (exception != null && exception.getMessage() != null) {
-      if (exception.getMessage().contains("Insufficient")) {
+      String message = exception.getMessage().toLowerCase(Locale.ROOT);
+      if (message.contains("insufficient")) {
         return new FundsExceededException(exception);
-      } else if (exception.getMessage().contains("Rate limit exceeded")) {
+      } else if (message.contains("rate limit exceeded")) {
         return new RateLimitExceededException(exception);
-      } else if (exception.getMessage().contains("Internal server error")) {
+      } else if (message.contains("internal server error")) {
         return new InternalServerException(exception);
-      } else if (exception.getMessage().contains("The system is currently overloaded")) {
+      } else if (message.contains("the system is currently overloaded")) {
         return new SystemOverloadException(exception);
       } else {
         return new ExchangeException(exception.getMessage(), exception);
