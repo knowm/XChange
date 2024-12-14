@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.Singular;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.bitmex.BitmexAdapters;
-import org.knowm.xchange.bitmex.config.converter.InstrumentToStringConverter;
+import org.knowm.xchange.bitmex.config.converter.InstrumentListToStringConverter;
 import org.knowm.xchange.instrument.Instrument;
 
 @Data
@@ -20,9 +20,10 @@ public class FilterParam {
   @JsonProperty("orderID")
   private List<String> orderIds;
 
+  @Singular
   @JsonProperty("symbol")
-  @JsonSerialize(converter = InstrumentToStringConverter.class)
-  private Instrument instrument;
+  @JsonSerialize(converter = InstrumentListToStringConverter.class)
+  private List<Instrument> instruments;
 
   @JsonProperty("open")
   private Boolean isOpen;

@@ -1,24 +1,39 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
+import org.knowm.xchange.bitmex.BitmexAdapters;
+import org.knowm.xchange.bitmex.config.converter.StringToCurrencyConverter;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.instrument.Instrument;
 
+@Data
+@Builder
+@AllArgsConstructor
 public class BitmexPosition extends AbstractHttpResponseAware {
+
   @JsonProperty("account")
   private Integer account;
 
-  @JsonProperty("symbol")
-  private String symbol;
+  private Instrument instrument;
 
   @JsonProperty("currency")
-  private String currency;
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private String marginCurrency;
 
   @JsonProperty("underlying")
   private String underlying;
 
   @JsonProperty("quoteCurrency")
-  private String quoteCurrency;
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency quoteCurrency;
 
   @JsonProperty("commission")
   private BigDecimal commission;
@@ -65,19 +80,15 @@ public class BitmexPosition extends AbstractHttpResponseAware {
   @JsonProperty("openingComm")
   private BigDecimal openingComm;
 
-  @JsonProperty("openOrderBuyQty")
   private BigDecimal openOrderBuyQty;
 
-  @JsonProperty("openOrderBuyCost")
   private BigDecimal openOrderBuyCost;
 
   @JsonProperty("openOrderBuyPremium")
   private BigDecimal openOrderBuyPremium;
 
-  @JsonProperty("openOrderSellQty")
   private BigDecimal openOrderSellQty;
 
-  @JsonProperty("openOrderSellCost")
   private BigDecimal openOrderSellCost;
 
   @JsonProperty("openOrderSellPremium")
@@ -270,7 +281,7 @@ public class BitmexPosition extends AbstractHttpResponseAware {
   private BigDecimal bankruptPrice;
 
   @JsonProperty("timestamp")
-  private String timestamp;
+  private ZonedDateTime timestamp;
 
   @JsonProperty("lastPrice")
   private BigDecimal lastPrice;
@@ -278,563 +289,20 @@ public class BitmexPosition extends AbstractHttpResponseAware {
   @JsonProperty("lastValue")
   private BigDecimal lastValue;
 
-  public Integer getAccount() {
-    return account;
+  @JsonCreator
+  public BitmexPosition(@JsonProperty("symbol") String symbol,
+      @JsonProperty("openOrderBuyQty") BigDecimal openOrderBuyQty,
+      @JsonProperty("openOrderBuyCost") BigDecimal openOrderBuyCost,
+      @JsonProperty("openOrderSellQty") BigDecimal openOrderSellQty,
+      @JsonProperty("openOrderSellCost") BigDecimal openOrderSellCost
+  ) {
+    // scale values
+    this.instrument = BitmexAdapters.toInstrument(symbol);
+
+    this.openOrderBuyQty = BitmexAdapters.scaleToLocalAmount(openOrderBuyQty, instrument.getCounter());
+    this.openOrderBuyCost = BitmexAdapters.scaleToLocalAmount(openOrderBuyCost, instrument.getCounter());
+    this.openOrderSellQty = BitmexAdapters.scaleToLocalAmount(openOrderSellQty, instrument.getCounter());
+    this.openOrderSellCost = BitmexAdapters.scaleToLocalAmount(openOrderSellCost, instrument.getCounter());
   }
 
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public String getCurrency() {
-    return currency;
-  }
-
-  public String getUnderlying() {
-    return underlying;
-  }
-
-  public String getQuoteCurrency() {
-    return quoteCurrency;
-  }
-
-  public BigDecimal getCommission() {
-    return commission;
-  }
-
-  public BigDecimal getInitMarginReq() {
-    return initMarginReq;
-  }
-
-  public BigDecimal getMaintMarginReq() {
-    return maintMarginReq;
-  }
-
-  public BigDecimal getRiskLimit() {
-    return riskLimit;
-  }
-
-  public BigDecimal getLeverage() {
-    return leverage;
-  }
-
-  public Boolean getCrossMargin() {
-    return crossMargin;
-  }
-
-  public BigDecimal getDeleveragePercentile() {
-    return deleveragePercentile;
-  }
-
-  public BigDecimal getRebalancedPnl() {
-    return rebalancedPnl;
-  }
-
-  public BigDecimal getPrevRealisedPnl() {
-    return prevRealisedPnl;
-  }
-
-  public BigDecimal getPrevUnrealisedPnl() {
-    return prevUnrealisedPnl;
-  }
-
-  public BigDecimal getPrevClosePrice() {
-    return prevClosePrice;
-  }
-
-  public String getOpeningTimestamp() {
-    return openingTimestamp;
-  }
-
-  public BigDecimal getOpeningQty() {
-    return openingQty;
-  }
-
-  public BigDecimal getOpeningCost() {
-    return openingCost;
-  }
-
-  public BigDecimal getOpeningComm() {
-    return openingComm;
-  }
-
-  public BigDecimal getOpenOrderBuyQty() {
-    return openOrderBuyQty;
-  }
-
-  public BigDecimal getOpenOrderBuyCost() {
-    return openOrderBuyCost;
-  }
-
-  public BigDecimal getOpenOrderBuyPremium() {
-    return openOrderBuyPremium;
-  }
-
-  public BigDecimal getOpenOrderSellQty() {
-    return openOrderSellQty;
-  }
-
-  public BigDecimal getOpenOrderSellCost() {
-    return openOrderSellCost;
-  }
-
-  public BigDecimal getOpenOrderSellPremium() {
-    return openOrderSellPremium;
-  }
-
-  public BigDecimal getExecBuyQty() {
-    return execBuyQty;
-  }
-
-  public BigDecimal getExecBuyCost() {
-    return execBuyCost;
-  }
-
-  public BigDecimal getExecSellQty() {
-    return execSellQty;
-  }
-
-  public BigDecimal getExecSellCost() {
-    return execSellCost;
-  }
-
-  public BigDecimal getExecQty() {
-    return execQty;
-  }
-
-  public BigDecimal getExecCost() {
-    return execCost;
-  }
-
-  public BigDecimal getExecComm() {
-    return execComm;
-  }
-
-  public String getCurrentTimestamp() {
-    return currentTimestamp;
-  }
-
-  public BigDecimal getCurrentQty() {
-    return currentQty;
-  }
-
-  public BigDecimal getCurrentCost() {
-    return currentCost;
-  }
-
-  public BigDecimal getCurrentComm() {
-    return currentComm;
-  }
-
-  public BigDecimal getRealisedCost() {
-    return realisedCost;
-  }
-
-  public BigDecimal getUnrealisedCost() {
-    return unrealisedCost;
-  }
-
-  public BigDecimal getGrossOpenCost() {
-    return grossOpenCost;
-  }
-
-  public BigDecimal getGrossOpenPremium() {
-    return grossOpenPremium;
-  }
-
-  public BigDecimal getGrossExecCost() {
-    return grossExecCost;
-  }
-
-  public Boolean getOpen() {
-    return isOpen;
-  }
-
-  public BigDecimal getMarkPrice() {
-    return markPrice;
-  }
-
-  public BigDecimal getMarkValue() {
-    return markValue;
-  }
-
-  public BigDecimal getRiskValue() {
-    return riskValue;
-  }
-
-  public BigDecimal getHomeNotional() {
-    return homeNotional;
-  }
-
-  public BigDecimal getForeignNotional() {
-    return foreignNotional;
-  }
-
-  public String getPosState() {
-    return posState;
-  }
-
-  public BigDecimal getPosCost() {
-    return posCost;
-  }
-
-  public BigDecimal getPosCost2() {
-    return posCost2;
-  }
-
-  public BigDecimal getPosCross() {
-    return posCross;
-  }
-
-  public BigDecimal getPosInit() {
-    return posInit;
-  }
-
-  public BigDecimal getPosComm() {
-    return posComm;
-  }
-
-  public BigDecimal getPosLoss() {
-    return posLoss;
-  }
-
-  public BigDecimal getPosMargin() {
-    return posMargin;
-  }
-
-  public BigDecimal getPosMaint() {
-    return posMaint;
-  }
-
-  public BigDecimal getPosAllowance() {
-    return posAllowance;
-  }
-
-  public BigDecimal getTaxableMargin() {
-    return taxableMargin;
-  }
-
-  public BigDecimal getInitMargin() {
-    return initMargin;
-  }
-
-  public BigDecimal getMaintMargin() {
-    return maintMargin;
-  }
-
-  public BigDecimal getSessionMargin() {
-    return sessionMargin;
-  }
-
-  public BigDecimal getTargetExcessMargin() {
-    return targetExcessMargin;
-  }
-
-  public BigDecimal getVarMargin() {
-    return varMargin;
-  }
-
-  public BigDecimal getRealisedGrossPnl() {
-    return realisedGrossPnl;
-  }
-
-  public BigDecimal getRealisedTax() {
-    return realisedTax;
-  }
-
-  public BigDecimal getRealisedPnl() {
-    return realisedPnl;
-  }
-
-  public BigDecimal getUnrealisedGrossPnl() {
-    return unrealisedGrossPnl;
-  }
-
-  public BigDecimal getLongBankrupt() {
-    return longBankrupt;
-  }
-
-  public BigDecimal getShortBankrupt() {
-    return shortBankrupt;
-  }
-
-  public BigDecimal getTaxBase() {
-    return taxBase;
-  }
-
-  public BigDecimal getIndicativeTaxRate() {
-    return indicativeTaxRate;
-  }
-
-  public BigDecimal getIndicativeTax() {
-    return indicativeTax;
-  }
-
-  public BigDecimal getUnrealisedTax() {
-    return unrealisedTax;
-  }
-
-  public BigDecimal getUnrealisedPnl() {
-    return unrealisedPnl;
-  }
-
-  public BigDecimal getUnrealisedPnlPcnt() {
-    return unrealisedPnlPcnt;
-  }
-
-  public BigDecimal getUnrealisedRoePcnt() {
-    return unrealisedRoePcnt;
-  }
-
-  public BigDecimal getSimpleQty() {
-    return simpleQty;
-  }
-
-  public BigDecimal getSimpleCost() {
-    return simpleCost;
-  }
-
-  public BigDecimal getSimpleValue() {
-    return simpleValue;
-  }
-
-  public BigDecimal getSimplePnl() {
-    return simplePnl;
-  }
-
-  public BigDecimal getSimplePnlPcnt() {
-    return simplePnlPcnt;
-  }
-
-  public BigDecimal getAvgCostPrice() {
-    return avgCostPrice;
-  }
-
-  public BigDecimal getAvgEntryPrice() {
-    return avgEntryPrice;
-  }
-
-  public BigDecimal getBreakEvenPrice() {
-    return breakEvenPrice;
-  }
-
-  public BigDecimal getMarginCallPrice() {
-    return marginCallPrice;
-  }
-
-  public BigDecimal getLiquidationPrice() {
-    return liquidationPrice;
-  }
-
-  public BigDecimal getBankruptPrice() {
-    return bankruptPrice;
-  }
-
-  public String getTimestamp() {
-    return timestamp;
-  }
-
-  public BigDecimal getLastPrice() {
-    return lastPrice;
-  }
-
-  public BigDecimal getLastValue() {
-    return lastValue;
-  }
-
-  @Override
-  public String toString() {
-    return "BitmexPosition{"
-        + "account="
-        + account
-        + ", symbol='"
-        + symbol
-        + '\''
-        + ", currency='"
-        + currency
-        + '\''
-        + ", underlying='"
-        + underlying
-        + '\''
-        + ", quoteCurrency='"
-        + quoteCurrency
-        + '\''
-        + ", commission="
-        + commission
-        + ", initMarginReq="
-        + initMarginReq
-        + ", maintMarginReq="
-        + maintMarginReq
-        + ", riskLimit="
-        + riskLimit
-        + ", leverage="
-        + leverage
-        + ", crossMargin="
-        + crossMargin
-        + ", deleveragePercentile="
-        + deleveragePercentile
-        + ", rebalancedPnl="
-        + rebalancedPnl
-        + ", prevRealisedPnl="
-        + prevRealisedPnl
-        + ", prevUnrealisedPnl="
-        + prevUnrealisedPnl
-        + ", prevClosePrice="
-        + prevClosePrice
-        + ", openingTimestamp='"
-        + openingTimestamp
-        + '\''
-        + ", openingQty="
-        + openingQty
-        + ", openingCost="
-        + openingCost
-        + ", openingComm="
-        + openingComm
-        + ", openOrderBuyQty="
-        + openOrderBuyQty
-        + ", openOrderBuyCost="
-        + openOrderBuyCost
-        + ", openOrderBuyPremium="
-        + openOrderBuyPremium
-        + ", openOrderSellQty="
-        + openOrderSellQty
-        + ", openOrderSellCost="
-        + openOrderSellCost
-        + ", openOrderSellPremium="
-        + openOrderSellPremium
-        + ", execBuyQty="
-        + execBuyQty
-        + ", execBuyCost="
-        + execBuyCost
-        + ", execSellQty="
-        + execSellQty
-        + ", execSellCost="
-        + execSellCost
-        + ", execQty="
-        + execQty
-        + ", execCost="
-        + execCost
-        + ", execComm="
-        + execComm
-        + ", currentTimestamp='"
-        + currentTimestamp
-        + '\''
-        + ", currentQty="
-        + currentQty
-        + ", currentCost="
-        + currentCost
-        + ", currentComm="
-        + currentComm
-        + ", realisedCost="
-        + realisedCost
-        + ", unrealisedCost="
-        + unrealisedCost
-        + ", grossOpenCost="
-        + grossOpenCost
-        + ", grossOpenPremium="
-        + grossOpenPremium
-        + ", grossExecCost="
-        + grossExecCost
-        + ", isOpen="
-        + isOpen
-        + ", markPrice="
-        + markPrice
-        + ", markValue="
-        + markValue
-        + ", riskValue="
-        + riskValue
-        + ", homeNotional="
-        + homeNotional
-        + ", foreignNotional="
-        + foreignNotional
-        + ", posState='"
-        + posState
-        + '\''
-        + ", posCost="
-        + posCost
-        + ", posCost2="
-        + posCost2
-        + ", posCross="
-        + posCross
-        + ", posInit="
-        + posInit
-        + ", posComm="
-        + posComm
-        + ", posLoss="
-        + posLoss
-        + ", posMargin="
-        + posMargin
-        + ", posMaint="
-        + posMaint
-        + ", posAllowance="
-        + posAllowance
-        + ", taxableMargin="
-        + taxableMargin
-        + ", initMargin="
-        + initMargin
-        + ", maintMargin="
-        + maintMargin
-        + ", sessionMargin="
-        + sessionMargin
-        + ", targetExcessMargin="
-        + targetExcessMargin
-        + ", varMargin="
-        + varMargin
-        + ", realisedGrossPnl="
-        + realisedGrossPnl
-        + ", realisedTax="
-        + realisedTax
-        + ", realisedPnl="
-        + realisedPnl
-        + ", unrealisedGrossPnl="
-        + unrealisedGrossPnl
-        + ", longBankrupt="
-        + longBankrupt
-        + ", shortBankrupt="
-        + shortBankrupt
-        + ", taxBase="
-        + taxBase
-        + ", indicativeTaxRate="
-        + indicativeTaxRate
-        + ", indicativeTax="
-        + indicativeTax
-        + ", unrealisedTax="
-        + unrealisedTax
-        + ", unrealisedPnl="
-        + unrealisedPnl
-        + ", unrealisedPnlPcnt="
-        + unrealisedPnlPcnt
-        + ", unrealisedRoePcnt="
-        + unrealisedRoePcnt
-        + ", simpleQty="
-        + simpleQty
-        + ", simpleCost="
-        + simpleCost
-        + ", simpleValue="
-        + simpleValue
-        + ", simplePnl="
-        + simplePnl
-        + ", simplePnlPcnt="
-        + simplePnlPcnt
-        + ", avgCostPrice="
-        + avgCostPrice
-        + ", avgEntryPrice="
-        + avgEntryPrice
-        + ", breakEvenPrice="
-        + breakEvenPrice
-        + ", marginCallPrice="
-        + marginCallPrice
-        + ", liquidationPrice="
-        + liquidationPrice
-        + ", bankruptPrice="
-        + bankruptPrice
-        + ", timestamp='"
-        + timestamp
-        + '\''
-        + ", lastPrice="
-        + lastPrice
-        + ", lastValue="
-        + lastValue
-        + '}';
-  }
 }

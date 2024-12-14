@@ -1,0 +1,24 @@
+[
+  {
+    "account": 2273415,
+    "symbol": "SOL_USDT",
+    "crossMargin": true,
+    "openOrderBuyQty": 2000000,
+    "openOrderBuyCost": 436020,
+    "openOrderSellQty": 3000000,
+    "openOrderSellCost": 665070,
+    "isOpen": true,
+    "timestamp": "2024-12-14T17:25:58.097Z"
+  },
+  {
+    "account": 2273415,
+    "symbol": "ETH_XBT",
+    "crossMargin": true,
+    "openOrderBuyQty": 0,
+    "openOrderBuyCost": 0,
+    "openOrderSellQty": 0,
+    "openOrderSellCost": 0,
+    "isOpen": false,
+    "timestamp": "2024-12-14T00:04:37.668Z"
+  }
+]

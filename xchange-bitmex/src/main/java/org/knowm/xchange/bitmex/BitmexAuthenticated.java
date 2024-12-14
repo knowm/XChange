@@ -326,16 +326,8 @@ public interface BitmexAuthenticated extends Bitmex {
   BitmexPositionList getPositions(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("api-signature") ParamsDigest paramsDigest)
-      throws IOException, BitmexException;
-
-  @GET
-  @Path("position")
-  BitmexPositionList getPositions(
-      @HeaderParam("api-key") String apiKey,
-      @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @Nullable @QueryParam("filter") String filter)
+      @QueryParam("filter") FilterParam filterParam)
       throws IOException, BitmexException;
 
   @GET
