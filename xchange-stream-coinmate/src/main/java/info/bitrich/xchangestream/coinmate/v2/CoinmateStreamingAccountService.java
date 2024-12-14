@@ -7,20 +7,19 @@ import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.core.Observable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.Wallet.WalletFeature;
 
 public class CoinmateStreamingAccountService implements StreamingAccountService {
 
   private final CoinmateStreamingService coinmateStreamingService;
-  private final Set<Wallet.WalletFeature> walletFeatures =
-      new HashSet<>(Arrays.asList(Wallet.WalletFeature.TRADING, Wallet.WalletFeature.FUNDING));
+  private final Set<Wallet.WalletFeature> walletFeatures = EnumSet.of(WalletFeature.TRADING, WalletFeature.FUNDING);
 
   public CoinmateStreamingAccountService(CoinmateStreamingService coinmateStreamingService) {
     this.coinmateStreamingService = coinmateStreamingService;

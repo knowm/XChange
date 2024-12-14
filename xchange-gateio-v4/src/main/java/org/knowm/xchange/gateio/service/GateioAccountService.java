@@ -1,6 +1,7 @@
 package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.Validate;
@@ -43,7 +44,11 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
                           .build())
               .collect(Collectors.toList());
 
-      Wallet wallet = Wallet.Builder.from(balances).id("spot").build();
+      Wallet wallet = Wallet.Builder
+          .from(balances)
+          .id("spot")
+          .features(EnumSet.of(Wallet.WalletFeature.TRADING))
+          .build();
 
       return new AccountInfo(wallet);
 

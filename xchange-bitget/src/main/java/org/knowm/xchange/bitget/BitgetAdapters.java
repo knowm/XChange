@@ -3,6 +3,7 @@ package org.knowm.xchange.bitget;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +123,11 @@ public class BitgetAdapters {
     List<Balance> balances =
         bitgetBalanceDtos.stream().map(BitgetAdapters::toBalance).collect(Collectors.toList());
 
-    return Wallet.Builder.from(balances).id("spot").build();
+    return Wallet.Builder
+        .from(balances)
+        .id("spot")
+        .features(EnumSet.of(Wallet.WalletFeature.TRADING))
+        .build();
   }
 
   public OrderBook toOrderBook(BitgetMarketDepthDto bitgetMarketDepthDto, Instrument instrument) {

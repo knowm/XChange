@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -374,7 +375,7 @@ public class BinanceAdapters {
     return new Wallet.Builder()
         .balances(balances)
         .id("spot")
-        .features(Collections.singleton(Wallet.WalletFeature.TRADING))
+        .features(EnumSet.of(Wallet.WalletFeature.TRADING))
         .build();
   }
 
