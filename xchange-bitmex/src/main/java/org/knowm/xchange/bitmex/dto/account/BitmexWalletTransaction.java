@@ -1,58 +1,38 @@
 package org.knowm.xchange.bitmex.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.ZonedDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
-import org.knowm.xchange.bitmex.dto.BitmexDecimalDeserializer;
+import org.knowm.xchange.bitmex.BitmexAdapters;
+import org.knowm.xchange.currency.Currency;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-  "transactID",
-  "account",
-  "currency",
-  "transactType",
-  "amount",
-  "fee",
-  "transactStatus",
-  "address",
-  "tx",
-  "text",
-  "transactTime",
-  "walletBalance",
-  "marginBalance",
-  "timestamp"
-})
+@Data
+@Builder
+@AllArgsConstructor
 public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
 
   @JsonProperty("transactID")
-  private String transactID;
+  private String transactionId;
 
   @JsonProperty("account")
   private Integer account;
 
-  @JsonProperty("currency")
-  private String currency;
+  private Currency currency;
 
   @JsonProperty("transactType")
-  private String transactType;
+  private String transactionType;
 
-  @JsonProperty("amount")
-  @JsonDeserialize(using = BitmexDecimalDeserializer.class)
   private BigDecimal amount;
 
-  @JsonProperty("fee")
-  @JsonDeserialize(using = BitmexDecimalDeserializer.class)
-  private BigDecimal fee;
+  private BigDecimal feeAmount;
 
   @JsonProperty("transactStatus")
-  private String transactStatus;
+  private String transactionStatus;
 
   @JsonProperty("address")
   private String address;
@@ -63,79 +43,32 @@ public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
   @JsonProperty("text")
   private String text;
 
-  @JsonProperty("transactTime")
-  private Date transactTime;
-
-  @JsonProperty("walletBalance")
-  @JsonDeserialize(using = BitmexDecimalDeserializer.class)
   private BigDecimal walletBalance;
 
-  @JsonProperty("marginBalance")
-  @JsonDeserialize(using = BitmexDecimalDeserializer.class)
   private BigDecimal marginBalance;
 
+  @JsonProperty("transactTime")
+  private ZonedDateTime createdAt;
+
   @JsonProperty("timestamp")
-  private Date timestamp;
+  private ZonedDateTime updatedAt;
 
-  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<>();
 
-  public String getTransactID() {
-    return transactID;
+  @JsonCreator
+  public BitmexWalletTransaction(
+      @JsonProperty("currency") String currency,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("fee") BigDecimal feeAmount,
+      @JsonProperty("marginBalance") BigDecimal marginBalance,
+      @JsonProperty("walletBalance") BigDecimal walletBalance
+  ) {
+    // scale values
+    this.currency = BitmexAdapters.bitmexCodeToCurrency(currency);
+    this.amount = BitmexAdapters.scaleToLocalAmount(amount, this.currency);
+    this.marginBalance = BitmexAdapters.scaleToLocalAmount(marginBalance, this.currency);
+    this.walletBalance = BitmexAdapters.scaleToLocalAmount(walletBalance, this.currency);
+    this.feeAmount = BitmexAdapters.scaleToLocalAmount(feeAmount, this.currency);
   }
 
-  public Integer getAccount() {
-    return account;
-  }
 
-  public String getCurrency() {
-    return currency;
-  }
-
-  public String getTransactType() {
-    return transactType;
-  }
-
-  public BigDecimal getAmount() {
-    return amount;
-  }
-
-  public BigDecimal getFee() {
-    return fee;
-  }
-
-  public String getTransactStatus() {
-    return transactStatus;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public String getTx() {
-    return tx;
-  }
-
-  public String getText() {
-    return text;
-  }
-
-  public Date getTransactTime() {
-    return transactTime;
-  }
-
-  public BigDecimal getWalletBalance() {
-    return walletBalance;
-  }
-
-  public BigDecimal getMarginBalance() {
-    return marginBalance;
-  }
-
-  public Date getTimestamp() {
-    return timestamp;
-  }
-
-  public Map<String, Object> getAdditionalProperties() {
-    return additionalProperties;
-  }
 }

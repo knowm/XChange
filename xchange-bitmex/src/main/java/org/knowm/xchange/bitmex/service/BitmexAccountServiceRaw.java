@@ -61,7 +61,7 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
                 apiKey,
                 exchange.getNonceFactory(),
                 signatureCreator,
-                BitmexAdapters.toString(ccy),
+                BitmexAdapters.toBitmexCode(ccy),
                 count,
                 start));
   }
@@ -108,6 +108,6 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
                     currency,
                     amount,
                     address));
-    return transaction.getTransactID();
+    return transaction.getTransactionId();
   }
 }

@@ -57,6 +57,20 @@ api-expires: {{timestamp}}
 api-signature: {{sign}}
 Accept: application/json
 
+
+### Get your current wallet information
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v1}}/user/walletHistory?currency=USDt
+#GET {{api_v1}}/user/walletHistory?count=10000
+api-key: {{api_key}}
+api-expires: {{timestamp}}
+api-signature: {{sign}}
+Accept: application/json
+
+
 ### Get all balance-affecting executions
 < {%
   import {gen_sign} from 'sign.js'

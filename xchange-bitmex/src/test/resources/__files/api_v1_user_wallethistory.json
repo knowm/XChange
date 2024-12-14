@@ -1,0 +1,41 @@
+[
+  {
+    "transactID": "00000000-0075-1000-0000-000042765f81",
+    "account": 2273415,
+    "currency": "USDt",
+    "transactType": "Deposit",
+    "amount": 49000000,
+    "walletBalance": 50000000,
+    "transactStatus": "Completed",
+    "transactTime": "2024-12-09T00:15:38.647Z",
+    "timestamp": "2024-12-09T00:15:38.647Z"
+  },
+  {
+    "transactID": "00000000-0075-1000-0000-00004667fb3a",
+    "account": 2273415,
+    "currency": "USDt",
+    "transactType": "SpotTrade",
+    "amount": 222790,
+    "walletBalance": 15015359,
+    "transactStatus": "Completed",
+    "address": "SOL_USDT",
+    "tx": "00000000-0075-1000-0000-00004667fb3a",
+    "orderID": "c77a48f6-8ab8-4c96-8eae-062846d2ee0f",
+    "transactTime": "2024-12-14T15:21:47.407Z",
+    "timestamp": "2024-12-14T15:21:47.407Z"
+  },
+  {
+    "transactID": "00000000-0075-1000-0000-000042c14055",
+    "account": 2273415,
+    "currency": "USDt",
+    "transactType": "SpotTrade",
+    "amount": -3882841,
+    "walletBalance": 45117159,
+    "transactStatus": "Completed",
+    "address": "ETH_USDT",
+    "tx": "00000000-0075-1000-0000-000042c14055",
+    "orderID": "5d873440-48c6-48ed-86d9-e8e4259b0e7a",
+    "transactTime": "2024-12-09T09:54:20.367Z",
+    "timestamp": "2024-12-09T09:54:20.367Z"
+  }
+]

@@ -54,7 +54,6 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 
 @Slf4j
@@ -348,19 +347,8 @@ public class BitmexAdapters {
     }
   }
 
-  public String toString(Currency currency) {
-    // bitmex seems to use a lowercase 't' in XBT
-    // can test this here - https://testnet.bitmex.com/api/explorer/#!/User/User_getDepositAddress
-    // uppercase 'T' will return 'Unknown currency code'
-    if (currency.getCurrencyCode().equals("BTC") || currency.getCurrencyCode().equals("XBT")) {
-      return "XBt";
-    }
-
-    return currency.getCurrencyCode();
-  }
-
   public Currency toCurrency(String currencyCode) {
-    if (currencyCode.equalsIgnoreCase("XBt")) {
+    if ("xbt".equalsIgnoreCase(currencyCode)) {
       return Currency.BTC;
     }
 
@@ -436,27 +424,30 @@ public class BitmexAdapters {
   public FundingRecord adaptFundingRecord(BitmexWalletTransaction walletTransaction) {
     return new FundingRecord(
         walletTransaction.getAddress(),
-        walletTransaction.getTransactTime(),
-        toCurrency(walletTransaction.getCurrency()),
+        toDate(walletTransaction.getUpdatedAt()),
+        walletTransaction.getCurrency(),
         walletTransaction.getAmount().abs(),
-        walletTransaction.getTransactID(),
+        walletTransaction.getTransactionId(),
         walletTransaction.getTx(),
         adaptFundingRecordtype(walletTransaction),
-        adaptFundingRecordStatus(walletTransaction.getTransactStatus()),
+        adaptFundingRecordStatus(walletTransaction.getTransactionStatus()),
         walletTransaction.getWalletBalance(),
-        walletTransaction.getFee(),
+        walletTransaction.getFeeAmount(),
         walletTransaction.getText());
   }
 
   private FundingRecord.Type adaptFundingRecordtype(
       final BitmexWalletTransaction walletTransaction) {
 
-    String type = walletTransaction.getTransactType();
-    if (type.equalsIgnoreCase("Deposit")) {
+    String type = walletTransaction.getTransactionType();
+    if ("Deposit".equalsIgnoreCase(type)) {
       return FundingRecord.Type.DEPOSIT;
-    } else if (type.equalsIgnoreCase("Withdrawal")) {
+    }
+    if ("Withdrawal".equalsIgnoreCase(type)) {
       return FundingRecord.Type.WITHDRAWAL;
-    } else if (type.equalsIgnoreCase("RealisedPNL") || type.equalsIgnoreCase("UnrealisedPNL")) {
+    }
+    if ("RealisedPNL".equalsIgnoreCase(type) || "UnrealisedPNL".equalsIgnoreCase(type)
+        || "SpotTrade".equalsIgnoreCase(type)) {
       // 'RealisedPNL' will always have transactStatus = Completed whereas 'UnrealisedPNL' will
       // always be transactStatus = Pending
       if (walletTransaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
@@ -466,7 +457,8 @@ public class BitmexAdapters {
       }
     }
 
-    throw new ExchangeException("Unknown FundingRecord.Type");
+    log.warn("Unknown FundingRecord.Type: {}", type);
+    return null;
   }
 
   private FundingRecord.Status adaptFundingRecordStatus(final String transactStatus) {

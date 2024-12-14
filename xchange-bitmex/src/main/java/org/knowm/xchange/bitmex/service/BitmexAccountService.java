@@ -12,7 +12,6 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
@@ -50,7 +49,7 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    String currencyCode = BitmexAdapters.toString(currency);
+    String currencyCode = BitmexAdapters.toBitmexCode(currency);
     return requestDepositAddress(currencyCode);
   }
 
@@ -63,8 +62,6 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
 
     if (params instanceof TradeHistoryParamCurrency) {
       currency = ((TradeHistoryParamCurrency) params).getCurrency();
-    } else {
-      throw new ExchangeException("Currency must be supplied");
     }
 
     if (params instanceof TradeHistoryParamLimit) {

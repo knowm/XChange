@@ -1,0 +1,15 @@
+{
+  "id" : "00ce4af4-c9dd-4dbf-a4b6-0c37317b6eae",
+  "name" : "api_v1_user_wallethistory",
+  "request" : {
+    "url" : "/api/v1/user/walletHistory?currency=USDt",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v1_user_wallethistory.json"
+  },
+  "uuid" : "00ce4af4-c9dd-4dbf-a4b6-0c37317b6eae",
+  "persistent" : true,
+  "insertionIndex" : 19
+}
