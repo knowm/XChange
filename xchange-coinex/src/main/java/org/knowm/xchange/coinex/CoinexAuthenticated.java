@@ -14,6 +14,7 @@ import org.knowm.xchange.coinex.dto.CoinexException;
 import org.knowm.xchange.coinex.dto.CoinexResponse;
 import org.knowm.xchange.coinex.dto.account.CoinexBalanceInfo;
 import org.knowm.xchange.coinex.dto.account.CoinexOrder;
+import org.knowm.xchange.coinex.dto.trade.CoinexCancelOrderRequest;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -29,6 +30,21 @@ public interface CoinexAuthenticated {
       @HeaderParam("X-COINEX-SIGN") ParamsDigest signer)
       throws IOException, CoinexException;
 
+  @GET
+  @Path("v2/spot/pending-order")
+  CoinexResponse<List<CoinexOrder>> pendingOrders(
+      @HeaderParam("X-COINEX-KEY") String apiKey,
+      @HeaderParam("X-COINEX-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("X-COINEX-SIGN") ParamsDigest signer,
+      @QueryParam("market") String market,
+      @QueryParam("market_type") String marketType,
+      @QueryParam("side") String side,
+      @QueryParam("client_id") String clientOid,
+      @QueryParam("page") Integer page,
+      @QueryParam("limit") Integer limit
+      )
+      throws IOException, CoinexException;
+
   @POST
   @Path("v2/spot/order")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -37,6 +53,16 @@ public interface CoinexAuthenticated {
       @HeaderParam("X-COINEX-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("X-COINEX-SIGN") ParamsDigest signer,
       CoinexOrder coinexOrder)
+      throws IOException, CoinexException;
+
+  @POST
+  @Path("v2/spot/cancel-order")
+  @Consumes(MediaType.APPLICATION_JSON)
+  CoinexResponse<CoinexOrder> cancelOrder(
+      @HeaderParam("X-COINEX-KEY") String apiKey,
+      @HeaderParam("X-COINEX-TIMESTAMP") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("X-COINEX-SIGN") ParamsDigest signer,
+      CoinexCancelOrderRequest coinexCancelOrderRequest)
       throws IOException, CoinexException;
 
   @GET
