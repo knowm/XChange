@@ -57,7 +57,17 @@ class BitmexAccountServiceTest extends BitmexExchangeWiremock {
             .setAmount(new BigDecimal("49"))
             .build();
 
-    assertThat(actual).hasSize(3);
+    assertThat(actual).hasSize(6);
+
+    assertThat(actual)
+        .allSatisfy(
+            fundingRecord -> {
+              assertThat(fundingRecord.getType()).isNotNull();
+              assertThat(fundingRecord.getStatus()).isNotNull();
+              assertThat(fundingRecord.getCurrency()).isEqualTo(Currency.USDT);
+            });
+
+
     assertThat(actual).first()
         .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
         .usingRecursiveComparison()

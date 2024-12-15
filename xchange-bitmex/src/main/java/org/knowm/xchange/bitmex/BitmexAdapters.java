@@ -42,6 +42,7 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -67,8 +68,6 @@ public class BitmexAdapters {
   private final Map<String, Currency> BITMEX_CODE_TO_CURRENCY = new HashMap<>();
 
   private Map<Currency, Integer> CURRENCY_TO_SCALE = new HashMap<>();
-
-  private final BigDecimal SATOSHIS_BY_BTC = BigDecimal.valueOf(100_000_000L);
 
   public void putSymbolMapping(String symbol, Instrument instrument) {
     SYMBOL_TO_INSTRUMENT.put(symbol, instrument);
@@ -429,14 +428,14 @@ public class BitmexAdapters {
         walletTransaction.getAmount().abs(),
         walletTransaction.getTransactionId(),
         walletTransaction.getTx(),
-        adaptFundingRecordtype(walletTransaction),
-        adaptFundingRecordStatus(walletTransaction.getTransactionStatus()),
+        toFundingRecordtype(walletTransaction),
+        toFundingRecordStatus(walletTransaction.getTransactionStatus()),
         walletTransaction.getWalletBalance(),
         walletTransaction.getFeeAmount(),
         walletTransaction.getText());
   }
 
-  private FundingRecord.Type adaptFundingRecordtype(
+  private FundingRecord.Type toFundingRecordtype(
       final BitmexWalletTransaction walletTransaction) {
 
     String type = walletTransaction.getTransactionType();
@@ -457,11 +456,25 @@ public class BitmexAdapters {
       }
     }
 
+    if ("Transfer".equalsIgnoreCase(type)) {
+      if (walletTransaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
+        return FundingRecord.Type.INTERNAL_DEPOSIT;
+      } else if (walletTransaction.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+        return FundingRecord.Type.INTERNAL_WITHDRAWAL;
+      }
+    }
+
     log.warn("Unknown FundingRecord.Type: {}", type);
     return null;
   }
 
-  private FundingRecord.Status adaptFundingRecordStatus(final String transactStatus) {
+  public FundingRecord.Status toFundingRecordStatus(String transactStatus) {
+    if ("Confirmed".equalsIgnoreCase(transactStatus)) {
+      return Status.COMPLETE;
+    }
+    if ("Canceled".equalsIgnoreCase(transactStatus)) {
+      return Status.CANCELLED;
+    }
     return FundingRecord.Status.resolveStatus(transactStatus);
   }
 
