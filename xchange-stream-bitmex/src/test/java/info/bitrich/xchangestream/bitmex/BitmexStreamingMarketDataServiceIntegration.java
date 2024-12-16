@@ -24,16 +24,17 @@ public class BitmexStreamingMarketDataServiceIntegration extends BitmexStreaming
 
     testObserver.dispose();
 
+    assertThat(orderBook.getTimeStamp()).isNotNull();
     assertThat(orderBook.getBids()).hasSize(10);
     assertThat(orderBook.getAsks()).hasSize(10);
 
-//    assertThat(orderBook.getBids()).allSatisfy(limitOrder -> {
-//      assertThat(limitOrder.getOriginalAmount()).hasScaleOf(8);
-//    });
-//
-//    assertThat(orderBook.getAsks()).allSatisfy(limitOrder -> {
-//      assertThat(limitOrder.getOriginalAmount()).hasScaleOf(8);
-//    });
+    // amounts are scaled
+    assertThat(orderBook.getBids()).allSatisfy(limitOrder -> {
+      assertThat(limitOrder.getOriginalAmount()).hasScaleOf(8);
+    });
+    assertThat(orderBook.getAsks()).allSatisfy(limitOrder -> {
+      assertThat(limitOrder.getOriginalAmount()).hasScaleOf(8);
+    });
 
     // bids should be lower than asks
     assertThat(orderBook.getBids().get(0).getLimitPrice())

@@ -80,8 +80,8 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
                           r -> {
                             LimitOrder order =
                                 new LimitOrder.Builder(ASK, currencyPair)
-                                    .originalAmount(r.get(1))
-                                    .limitPrice(r.get(0))
+                                    .originalAmount(r.getSize())
+                                    .limitPrice(r.getPrice())
                                     .build();
                             asks.add(order);
                           });
@@ -91,8 +91,8 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
                           r -> {
                             LimitOrder order =
                                 new LimitOrder.Builder(BID, currencyPair)
-                                    .originalAmount(r.get(1))
-                                    .limitPrice(r.get(0))
+                                    .originalAmount(r.getSize())
+                                    .limitPrice(r.getPrice())
                                     .build();
                             bids.add(order);
                           });
