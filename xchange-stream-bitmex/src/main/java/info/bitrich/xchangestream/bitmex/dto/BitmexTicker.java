@@ -1,66 +1,48 @@
 package info.bitrich.xchangestream.bitmex.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import info.bitrich.xchangestream.bitmex.BitmexStreamingAdapters;
 import java.math.BigDecimal;
-import org.knowm.xchange.dto.marketdata.Ticker;
+import java.time.ZonedDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import org.knowm.xchange.bitmex.BitmexAdapters;
+import org.knowm.xchange.currency.CurrencyPair;
 
-/** Created by Lukas Zaoralek on 13.11.17. */
-public class BitmexTicker extends BitmexMarketDataEvent {
-  private final String timestamp;
-  private final String symbol;
-  private final BigDecimal bidSize;
-  private final BigDecimal bidPrice;
-  private final BigDecimal askPrice;
-  private final BigDecimal askSize;
 
+@Data
+@Builder
+@AllArgsConstructor
+public class BitmexTicker {
+
+  @JsonProperty("timestamp")
+  private ZonedDateTime timestamp;
+
+  private CurrencyPair currencyPair;
+
+  private  BigDecimal bidSize;
+
+  @JsonProperty("bidPrice")
+  private BigDecimal bidPrice;
+
+  @JsonProperty("askPrice")
+  private BigDecimal askPrice;
+
+  private BigDecimal askSize;
+
+  @JsonCreator
   public BitmexTicker(
-      @JsonProperty("timestamp") String timestamp,
       @JsonProperty("symbol") String symbol,
       @JsonProperty("bidSize") BigDecimal bidSize,
-      @JsonProperty("bidPrice") BigDecimal bidPrice,
-      @JsonProperty("askPrice") BigDecimal askPrice,
       @JsonProperty("askSize") BigDecimal askSize) {
-    super(symbol, timestamp);
-    this.timestamp = timestamp;
-    this.symbol = symbol;
-    this.bidSize = bidSize;
-    this.bidPrice = bidPrice;
-    this.askPrice = askPrice;
-    this.askSize = askSize;
+    this.currencyPair = BitmexStreamingAdapters.toInstrument(symbol);
+
+    // scale values
+    this.bidSize = BitmexAdapters.scaleToLocalAmount(bidSize, currencyPair.getBase());
+    this.askSize = BitmexAdapters.scaleToLocalAmount(askSize, currencyPair.getBase());
   }
 
-  public String getTimestamp() {
-    return timestamp;
-  }
 
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public BigDecimal getBidSize() {
-    return bidSize;
-  }
-
-  public BigDecimal getBidPrice() {
-    return bidPrice;
-  }
-
-  public BigDecimal getAskPrice() {
-    return askPrice;
-  }
-
-  public BigDecimal getAskSize() {
-    return askSize;
-  }
-
-  public Ticker toTicker() {
-    return new Ticker.Builder()
-        .ask(askPrice)
-        .bidSize(bidSize)
-        .bid(bidPrice)
-        .askSize(askSize)
-        .timestamp(getDate())
-        .instrument(getCurrencyPair())
-        .build();
-  }
 }
