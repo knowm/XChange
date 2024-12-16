@@ -1,47 +1,43 @@
 package info.bitrich.xchangestream.bitmex.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import info.bitrich.xchangestream.bitmex.config.converter.StringToCurrencyPairConverter;
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.bitmex.config.converter.StringToOrderTypeConverter;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.Order.OrderType;
 
-/** Created by Lukas Zaoralek on 13.11.17. */
-public class BitmexTrade extends BitmexLimitOrder {
+@Data
+@Builder
+@Jacksonized
+public class BitmexTrade {
 
-  private String trdMatchID;
+  @JsonProperty("trdMatchID")
+  private String id;
 
-  @JsonCreator
-  public BitmexTrade(
-      @JsonProperty("symbol") String symbol,
-      @JsonProperty("side") String side,
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("size") BigDecimal size,
-      @JsonProperty("trdMatchID") String trdMatchID,
-      @JsonProperty("timestamp") String timestamp) {
-    super(symbol, "", side, price, size, timestamp);
-    this.trdMatchID = trdMatchID;
-  }
+  @JsonProperty("timestamp")
+  private ZonedDateTime timestamp;
 
-  public String getTimestamp() {
-    return timestamp;
-  }
+  @JsonProperty("symbol")
+  @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
+  private CurrencyPair currencyPair;
 
-  public String getTrdMatchID() {
-    return trdMatchID;
-  }
+  @JsonProperty("side")
+  @JsonDeserialize(converter = StringToOrderTypeConverter.class)
+  private OrderType side;
 
-  public Trade toTrade() {
-    CurrencyPair pair = getCurrencyPair();
-    Order.OrderType orderType = getOrderSide();
-    return new Trade.Builder()
-        .type(orderType)
-        .originalAmount(size)
-        .currencyPair(pair)
-        .price(price)
-        .timestamp(getDate())
-        .id(trdMatchID)
-        .build();
-  }
+  @JsonProperty("price")
+  private BigDecimal price;
+
+  @JsonProperty("homeNotional")
+  private BigDecimal assetAmount;
+
+  @JsonProperty("foreignNotional")
+  private BigDecimal quoteAmount;
+
 }

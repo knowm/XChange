@@ -76,8 +76,6 @@ public class BitmexStreamingMarketDataServiceIntegration extends BitmexStreaming
             .values()
             .get(0);
 
-    // amount
-
     testObserver.dispose();
 
     assertThat(trade).hasNoNullFieldsOrPropertiesExcept("makerOrderId", "takerOrderId");

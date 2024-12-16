@@ -33,7 +33,7 @@ public class RawOrderBook {
       @JsonProperty("asks") List<PriceSizeEntry> asks,
       @JsonProperty("bids") List<PriceSizeEntry> bids
   ) {
-    this.currencyPair = BitmexStreamingAdapters.toInstrument(symbol);
+    this.currencyPair = BitmexStreamingAdapters.toCurrencyPair(symbol);
 
     asks.forEach(priceSizeEntry -> priceSizeEntry.setSize(BitmexAdapters.scaleToLocalAmount(priceSizeEntry.getSize(), this.currencyPair.getBase())));
     bids.forEach(priceSizeEntry -> priceSizeEntry.setSize(BitmexAdapters.scaleToLocalAmount(priceSizeEntry.getSize(), this.currencyPair.getBase())));

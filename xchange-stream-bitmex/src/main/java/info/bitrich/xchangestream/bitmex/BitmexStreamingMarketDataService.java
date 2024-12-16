@@ -164,7 +164,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
               BitmexTrade[] bitmexTrades = s.toBitmexTrades();
               List<Trade> trades = new ArrayList<>(bitmexTrades.length);
               for (BitmexTrade bitmexTrade : bitmexTrades) {
-                trades.add(bitmexTrade.toTrade());
+                trades.add(BitmexStreamingAdapters.toTrade(bitmexTrade));
               }
               return trades;
             });

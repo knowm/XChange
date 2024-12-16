@@ -37,7 +37,7 @@ public class BitmexTicker {
       @JsonProperty("symbol") String symbol,
       @JsonProperty("bidSize") BigDecimal bidSize,
       @JsonProperty("askSize") BigDecimal askSize) {
-    this.currencyPair = BitmexStreamingAdapters.toInstrument(symbol);
+    this.currencyPair = BitmexStreamingAdapters.toCurrencyPair(symbol);
 
     // scale values
     this.bidSize = BitmexAdapters.scaleToLocalAmount(bidSize, currencyPair.getBase());
