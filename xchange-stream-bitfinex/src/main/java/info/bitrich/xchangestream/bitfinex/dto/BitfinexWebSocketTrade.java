@@ -1,11 +1,13 @@
 package info.bitrich.xchangestream.bitfinex.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 
 /** Created by Lukas Zaoralek on 7.11.17. */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({"tradeId", "timestamp", "amount", "price"})
 public class BitfinexWebSocketTrade {
   public long tradeId;
   public long timestamp;

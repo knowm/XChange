@@ -1,11 +1,16 @@
 package info.bitrich.xchangestream.bitfinex.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 
 /** Created by Lukas Zaoralek on 8.11.17. */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({
+  "channelId",
+  "tickerArr"
+})
 public class BitfinexWebSocketTickerTransaction {
 
   public String channelId;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -116,7 +116,7 @@ public class CoinbaseProWebSocketSubscriptionMessage {
       CoinbaseProOrderBookMode orderBookMode,
       CoinbaseProWebsocketAuthData authData) {
     List<CoinbaseProProductSubscription> channels = new ArrayList<>(3);
-    Map<String, List<Instrument>> pairs = new HashMap<>(3);
+    Map<String, List<Instrument>> pairs = new LinkedHashMap<>(3);
 
     pairs.put(orderBookMode.getName(), productSubscription.getOrderBook());
     pairs.put("ticker", productSubscription.getTicker());

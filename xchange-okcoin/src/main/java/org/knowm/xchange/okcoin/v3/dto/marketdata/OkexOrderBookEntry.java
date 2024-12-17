@@ -3,11 +3,13 @@ package org.knowm.xchange.okcoin.v3.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({"price", "volume", "numOrdersOnLevel"})
 public class OkexOrderBookEntry {
 
   private BigDecimal price;

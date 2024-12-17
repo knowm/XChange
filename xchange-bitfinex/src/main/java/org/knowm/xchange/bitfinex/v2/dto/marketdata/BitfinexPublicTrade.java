@@ -1,10 +1,12 @@
 package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import org.knowm.xchange.dto.Order.OrderType;
 
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({"tradeId", "timestamp", "amount", "price"})
 public class BitfinexPublicTrade {
 
   private long tradeId;

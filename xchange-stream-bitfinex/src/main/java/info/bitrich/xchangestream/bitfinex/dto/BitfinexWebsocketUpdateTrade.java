@@ -1,10 +1,12 @@
 package info.bitrich.xchangestream.bitfinex.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 
 /** Created by Lukas Zaoralek on 8.11.17. */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({"type", "trade"})
 public class BitfinexWebsocketUpdateTrade extends BitfinexWebSocketTradesTransaction {
   public String type;
   public BitfinexWebSocketTrade trade;

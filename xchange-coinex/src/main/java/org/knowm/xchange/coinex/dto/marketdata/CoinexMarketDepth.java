@@ -2,6 +2,7 @@ package org.knowm.xchange.coinex.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -49,6 +50,7 @@ public class CoinexMarketDepth {
   @Builder
   @Jacksonized
   @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+  @JsonPropertyOrder({"price", "size"})
   public static class PriceSizeEntry {
     BigDecimal price;
 

@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +13,25 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @ToString
+@JsonPropertyOrder({
+    "symbol",
+    "frr",
+    "bid",
+    "bidPeriod",
+    "bidSize",
+    "ask",
+    "askPeriod",
+    "askSize",
+    "dailyChange",
+    "dailyChangePerc",
+    "lastPrice",
+    "volume",
+    "high",
+    "low",
+    "placeHolder0",
+    "placeHolder1",
+    "frrAmountAvailable"
+})
 public class BitfinexTickerFundingCurrency implements BitfinexTicker {
 
   private String symbol;
