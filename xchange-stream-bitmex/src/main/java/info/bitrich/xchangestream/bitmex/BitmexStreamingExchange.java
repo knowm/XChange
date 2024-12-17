@@ -2,28 +2,31 @@ package info.bitrich.xchangestream.bitmex;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 
+@Getter
 public class BitmexStreamingExchange extends BitmexExchange implements StreamingExchange {
   private static final String API_URI = "wss://www.bitmex.com/realtime";
   private static final String TESTNET_API_URI = "wss://testnet.bitmex.com/realtime";
 
   private BitmexStreamingService streamingService;
   private BitmexStreamingMarketDataService streamingMarketDataService;
+  private BitmexStreamingTradeService streamingTradeService;
 
   @Override
   protected void initServices() {
     super.initServices();
     streamingService = createStreamingService();
     streamingMarketDataService = new BitmexStreamingMarketDataService(streamingService);
+    streamingTradeService = new BitmexStreamingTradeService(streamingService);
   }
 
   @Override
@@ -44,11 +47,6 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
   @Override
   public Completable disconnect() {
     return streamingService.disconnect();
-  }
-
-  @Override
-  public StreamingMarketDataService getStreamingMarketDataService() {
-    return streamingMarketDataService;
   }
 
   @Override
@@ -101,7 +99,4 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
     streamingService.resubscribeChannels();
   }
 
-  public BitmexStreamingService getStreamingService() {
-    return streamingService;
-  }
 }

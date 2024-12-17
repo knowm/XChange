@@ -1,15 +1,22 @@
 package info.bitrich.xchangestream.bitmex;
 
+import info.bitrich.xchangestream.bitmex.dto.BitmexOrder;
 import info.bitrich.xchangestream.bitmex.dto.BitmexTicker;
 import info.bitrich.xchangestream.bitmex.dto.BitmexTrade;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.StopOrder;
 
+@Slf4j
 @UtilityClass
 public class BitmexStreamingAdapters {
 
@@ -55,6 +62,45 @@ public class BitmexStreamingAdapters {
         .price(bitmexTrade.getPrice())
         .timestamp(BitmexAdapters.toDate(bitmexTrade.getTimestamp()))
         .id(bitmexTrade.getId())
+        .build();
+  }
+
+  public Order toOrder(BitmexOrder bitmexOrder) {
+    Order.Builder builder;
+    switch (bitmexOrder.getBitmexOrderType()) {
+      case STOP:
+        builder = new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
+            .stopPrice(bitmexOrder.getOriginalPrice());
+        break;
+      case MARKET:
+        builder = new MarketOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument());
+        break;
+      case LIMIT:
+        builder = new LimitOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument()).limitPrice(bitmexOrder.getOriginalPrice());
+        break;
+      case STOP_LIMIT:
+        builder = new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
+            .limitPrice(bitmexOrder.getOriginalPrice())
+            .stopPrice(bitmexOrder.getStopPrice());
+        break;
+      case PEGGED:
+      case MARKET_IF_TOUCHED:
+      case LIMIT_IF_TOUCHED:
+      case MARKET_WITH_LEFT_OVER_AS_LIMIT:
+        log.warn("Unknown order type: {}", bitmexOrder.getOrderType());
+        return null;
+      default:
+        throw new IllegalArgumentException("Can't map " + bitmexOrder.getOrderType());
+    }
+
+    return builder
+        .originalAmount(bitmexOrder.getOriginalAmount())
+        .id(bitmexOrder.getOrderId())
+        .timestamp(BitmexAdapters.toDate(bitmexOrder.getUpdatedAt()))
+        .cumulativeAmount(bitmexOrder.getCumulativeAmount())
+        .averagePrice(bitmexOrder.getAveragePrice())
+        .orderStatus(BitmexAdapters.toOrderStatus(bitmexOrder.getOrderStatus()))
+        .userReference(bitmexOrder.getText())
         .build();
   }
 
