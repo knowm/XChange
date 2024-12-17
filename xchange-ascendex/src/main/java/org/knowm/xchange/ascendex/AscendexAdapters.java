@@ -2,10 +2,9 @@ package org.knowm.xchange.ascendex;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.ascendex.dto.account.AscendexCashAccountBalanceDto;
@@ -89,7 +88,7 @@ public class AscendexAdapters {
     return new AccountInfo(
         Wallet.Builder.from(balances)
             .id("spot")
-            .features(new HashSet<>(Collections.singletonList(Wallet.WalletFeature.TRADING)))
+            .features(EnumSet.of(Wallet.WalletFeature.TRADING))
             .build());
   }
 
