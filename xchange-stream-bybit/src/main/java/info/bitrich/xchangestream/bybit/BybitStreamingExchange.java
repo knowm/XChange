@@ -15,8 +15,7 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
   // https://bybit-exchange.github.io/docs/v5/ws/connect
   public static final String URI = "wss://stream.bybit.com/v5/public";
   public static final String TESTNET_URI = "wss://stream-testnet.bybit.com/v5/public";
-  // DEMO_URI websocket not worked(401 error)
-  public static final String DEMO_URI = "wss://stream-demo.bybit.com/v5/public";
+  // DEMO_URI without auth is the same as URI
 
   public static final String AUTH_URI = "wss://stream.bybit.com/v5/private";
   public static final String TESTNET_AUTH_URI = "wss://stream-testnet.bybit.com/v5/private";
@@ -41,22 +40,24 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
     String apiUrl;
     if (exchangeSpecification.getApiKey() == null) {
       if (Boolean.TRUE.equals(
-          exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
+          exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET))) {
         apiUrl = TESTNET_URI;
       } else {
         apiUrl = URI;
       }
-      apiUrl +=
-          "/"
-              + ((BybitCategory)
-                      exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE))
-                  .getValue();
+      apiUrl += "/" + ((BybitCategory) exchangeSpecification.getExchangeSpecificParametersItem(
+          EXCHANGE_TYPE)).getValue();
     } else {
       if (Boolean.TRUE.equals(
           exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
-        apiUrl = TESTNET_AUTH_URI;
+        apiUrl = DEMO_AUTH_URI;
       } else {
-        apiUrl = AUTH_URI;
+        if (Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET))) {
+          apiUrl = TESTNET_AUTH_URI;
+        } else {
+          apiUrl = AUTH_URI;
+        }
       }
     }
     return apiUrl;
@@ -93,4 +94,5 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
   public BybitStreamingTradeService getStreamingTradeService() {
     return streamingTradeService;
   }
+
 }

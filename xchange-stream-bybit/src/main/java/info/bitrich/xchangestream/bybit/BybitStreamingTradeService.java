@@ -11,6 +11,7 @@ import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPosition;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BybitStreamingTradeService implements StreamingTradeService {
 
@@ -21,10 +22,15 @@ public class BybitStreamingTradeService implements StreamingTradeService {
     this.streamingService = streamingService;
   }
 
-  public Observable<Order> getOrderChanges(BybitCategory category) {
+  @Override
+  /*
+   * instrument param is not used
+   * arg[0] BybitCategory, if null then subscribe to all category
+   */
+  public Observable<Order> getOrderChanges(Instrument instrument, Object... args) {
     String channelUniqueId = "order";
-    if (category != null) {
-      channelUniqueId += "." + category.getValue();
+    if(args[0] != null && args[0] instanceof BybitCategory) {
+      channelUniqueId += "." + ((BybitCategory)args[0]).getValue();
     }
     return streamingService
         .subscribeChannel(channelUniqueId)
