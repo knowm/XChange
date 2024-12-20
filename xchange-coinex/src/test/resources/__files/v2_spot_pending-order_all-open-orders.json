@@ -1,0 +1,56 @@
+{
+  "code": 0,
+  "data": [
+    {
+      "order_id": 136215261928,
+      "market": "ETHUSDT",
+      "market_type": "SPOT",
+      "side": "buy",
+      "type": "limit",
+      "ccy": "ETH",
+      "amount": "0.00142842",
+      "price": "3500.37",
+      "client_id": "",
+      "created_at": 1734126286694,
+      "updated_at": 1734126286694,
+      "base_fee": "0",
+      "quote_fee": "0",
+      "discount_fee": "0",
+      "maker_fee_rate": "0.0018",
+      "taker_fee_rate": "0.0018",
+      "last_fill_amount": "0",
+      "last_fill_price": "0",
+      "unfilled_amount": "0.00142842",
+      "filled_amount": "0",
+      "filled_value": "0"
+    },
+    {
+      "order_id": 136215219959,
+      "market": "BTCUSDT",
+      "market_type": "SPOT",
+      "side": "buy",
+      "type": "limit",
+      "ccy": "BTC",
+      "amount": "0.00005263",
+      "price": "95000.99",
+      "client_id": "",
+      "created_at": 1734126246894,
+      "updated_at": 1734126246894,
+      "base_fee": "0",
+      "quote_fee": "0",
+      "discount_fee": "0",
+      "maker_fee_rate": "0.0018",
+      "taker_fee_rate": "0.0018",
+      "last_fill_amount": "0",
+      "last_fill_price": "0",
+      "unfilled_amount": "0.00005263",
+      "filled_amount": "0",
+      "filled_value": "0"
+    }
+  ],
+  "message": "OK",
+  "pagination": {
+    "total": 8,
+    "has_next": false
+  }
+}

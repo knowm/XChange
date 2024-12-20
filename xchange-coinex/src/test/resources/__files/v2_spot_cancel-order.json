@@ -1,0 +1,27 @@
+{
+  "code": 0,
+  "data": {
+    "amount": "0.00005263",
+    "base_fee": "0",
+    "ccy": "BTC",
+    "client_id": "",
+    "created_at": 1734126246894,
+    "discount_fee": "0",
+    "filled_amount": "0",
+    "filled_value": "0",
+    "last_fill_amount": "0",
+    "last_fill_price": "0",
+    "maker_fee_rate": "0.0018",
+    "market": "BTCUSDT",
+    "market_type": "SPOT",
+    "order_id": 136215219959,
+    "price": "95000.99",
+    "quote_fee": "0",
+    "side": "buy",
+    "taker_fee_rate": "0.0018",
+    "type": "limit",
+    "unfilled_amount": "0.00005263",
+    "updated_at": 1734126246894
+  },
+  "message": "OK"
+}
