@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.Date;
 import lombok.AccessLevel;
@@ -11,6 +12,7 @@ import lombok.Value;
  * @see https://docs.bitfinex.com/reference#rest-public-stats1
  */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({"millisecondTimestamp", "value"})
 @Value
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 public class BitfinexStats {

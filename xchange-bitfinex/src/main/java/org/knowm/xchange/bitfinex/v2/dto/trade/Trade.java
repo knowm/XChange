@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitfinex.v2.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Getter;
@@ -9,6 +10,19 @@ import lombok.ToString;
 
 /** https://docs.bitfinex.com/v2/reference#rest-auth-trades-hist */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({
+  "id",
+  "symbol",
+  "timestamp",
+  "orderId",
+  "execAmount",
+  "execPrice",
+  "orderType",
+  "orderPrice",
+  "maker",
+  "fee",
+  "feeCurrency"
+})
 @Setter
 @Getter
 @ToString
