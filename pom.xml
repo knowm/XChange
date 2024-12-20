@@ -451,6 +451,7 @@
                     <nrOfIndentSpace>4</nrOfIndentSpace>
                     <sortPlugins>groupId,artifactId</sortPlugins>
                     <expandEmptyElements>false</expandEmptyElements>
+                    <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
                 </configuration>
                 <executions>
                     <execution>
