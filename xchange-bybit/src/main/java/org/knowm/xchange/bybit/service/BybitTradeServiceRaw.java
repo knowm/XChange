@@ -54,50 +54,6 @@ public class BybitTradeServiceRaw extends BybitBaseService {
     return order;
   }
 
-//  BybitResult<BybitOrderResponse> placeMarketOrder(
-//      BybitCategory category, String symbol, BybitSide side, BigDecimal qty, String orderLinkId)
-//      throws IOException {
-//    BybitPlaceOrderPayload payload =
-//        new BybitPlaceOrderPayload(category, symbol, side, MARKET, qty, orderLinkId);
-//    BybitResult<BybitOrderResponse> placeOrder =
-//        decorateApiCall(
-//            () -> bybitAuthenticated.placeMarketOrder(apiKey, signatureCreator, nonceFactory,
-//                payload))
-//            .withRateLimiter(getCreateOrderRateLimiter(category))
-//            .withRateLimiter(rateLimiter(GLOBAL_RATE_LIMITER))
-//            .call();
-//    if (!placeOrder.isSuccess()) {
-//      throw createBybitExceptionFromResult(placeOrder);
-//    }
-//    return placeOrder;
-//  }
-
-//BybitResult<BybitOrderResponse> placeLimitOrder(
-//      BybitCategory category,
-//      String symbol,
-//      BybitSide side,
-//      BigDecimal qty,
-//      BigDecimal limitPrice,
-//      String orderLinkId,
-//      boolean reduceOnly)
-//      throws IOException {
-//    BybitPlaceOrderPayload payload =
-//        new BybitPlaceOrderPayload(
-//            category, symbol, side, BybitOrderType.LIMIT, qty, orderLinkId, limitPrice);
-//    payload.setReduceOnly(String.valueOf(reduceOnly));
-//    BybitResult<BybitOrderResponse> placeOrder =
-//        decorateApiCall(
-//            () -> bybitAuthenticated.placeLimitOrder(apiKey, signatureCreator, nonceFactory,
-//                payload))
-//            .withRateLimiter(getCreateOrderRateLimiter(category))
-//            .withRateLimiter(rateLimiter(GLOBAL_RATE_LIMITER))
-//            .call();
-//    if (!placeOrder.isSuccess()) {
-//      throw createBybitExceptionFromResult(placeOrder);
-//    }
-//    return placeOrder;
-//  }
-
  BybitResult<BybitOrderResponse> amendOrder(
       BybitCategory category,
       String symbol,
