@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import dto.BybitSubscribeMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
+import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
@@ -41,6 +42,7 @@ public class BybitStreamingService extends JsonNettyStreamingService {
   private final Observable<Long> pingPongSrc = Observable.interval(15, 20, TimeUnit.SECONDS);
   private Disposable pingPongSubscription;
   private final ExchangeSpecification spec;
+  private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
   @Getter private boolean isAuthorized = false;
 
   public BybitStreamingService(String apiUrl, ExchangeSpecification spec) {
@@ -157,5 +159,10 @@ public class BybitStreamingService extends JsonNettyStreamingService {
   @Override
   protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
     return WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler.INSTANCE;
+  }
+
+  public void setChannelInactiveHandler(
+          WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+    this.channelInactiveHandler = channelInactiveHandler;
   }
 }

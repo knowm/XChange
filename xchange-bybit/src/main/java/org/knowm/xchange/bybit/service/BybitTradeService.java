@@ -2,54 +2,109 @@ package org.knowm.xchange.bybit.service;
 
 import static org.knowm.xchange.bybit.BybitAdapters.adaptBybitOrderDetails;
 import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
+import static org.knowm.xchange.bybit.BybitAdapters.createBybitExceptionFromResult;
+import static org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode.TWOWAY;
+import static org.knowm.xchange.dto.Order.OrderType.ASK;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.knowm.xchange.Exchange;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import lombok.Getter;
 import org.knowm.xchange.bybit.BybitAdapters;
+import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.account.BybitCancelAllOrdersResponse;
+
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
+import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
+import org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
+import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.IOrderFlags;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelAllOrders;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
+import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 
 public class BybitTradeService extends BybitTradeServiceRaw implements TradeService {
 
-  public BybitTradeService(Exchange exchange) {
-    super(exchange);
+  public BybitTradeService(BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    BybitCategory category = BybitAdapters.getCategory(marketOrder.getInstrument());
+    int positionIdx = getPositionIdx(marketOrder);
+    boolean reduceOnly =
+          marketOrder.getType().equals(OrderType.EXIT_ASK)
+              || marketOrder.getType().equals(OrderType.EXIT_BID);
     BybitResult<BybitOrderResponse> orderResponseBybitResult =
-        placeMarketOrder(
-            BybitAdapters.getCategory(marketOrder.getInstrument()),
-            BybitAdapters.convertToBybitSymbol(marketOrder.getInstrument()),
+        placeOrder(
+            category,
+            convertToBybitSymbol(marketOrder.getInstrument()),
             BybitAdapters.getSideString(marketOrder.getType()),
+            BybitOrderType.MARKET,
             marketOrder.getOriginalAmount(),
-            marketOrder.getUserReference());
-
+            null,
+            marketOrder.getUserReference(),
+            null,
+            null,
+            null,
+            null,
+            reduceOnly,
+            positionIdx,
+            BybitTimeInForce.IOC);
     return orderResponseBybitResult.getResult().getOrderId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    BybitCategory category = BybitAdapters.getCategory(limitOrder.getInstrument());
+    BybitTimeInForce timeInForce = getOrderFlag(limitOrder, BybitTimeInForce.class).orElse(BybitTimeInForce.GTC);
+    int positionIdx = getPositionIdx(limitOrder);
+    boolean reduceOnly =
+        limitOrder.getType().equals(OrderType.EXIT_ASK)
+            || limitOrder.getType().equals(OrderType.EXIT_BID);
     BybitResult<BybitOrderResponse> orderResponseBybitResult =
-        placeLimitOrder(
-            BybitAdapters.getCategory(limitOrder.getInstrument()),
-            BybitAdapters.convertToBybitSymbol(limitOrder.getInstrument()),
+        placeOrder(
+            category,
+            convertToBybitSymbol(limitOrder.getInstrument()),
             BybitAdapters.getSideString(limitOrder.getType()),
+            BybitOrderType.LIMIT,
             limitOrder.getOriginalAmount(),
             limitOrder.getLimitPrice(),
-            limitOrder.getUserReference());
-
+            limitOrder.getUserReference(),
+            null,
+            null,
+            null,
+            null,
+            reduceOnly,
+            positionIdx,
+            timeInForce);
     return orderResponseBybitResult.getResult().getOrderId();
+  }
+
+  private <T extends IOrderFlags> Optional<T> getOrderFlag(Order order, Class<T> clazz) {
+    return (Optional<T>)
+        order.getOrderFlags().stream()
+            .filter(flag -> clazz.isAssignableFrom(flag.getClass()))
+            .findFirst();
   }
 
   @Override
@@ -63,56 +118,198 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
             getBybitOrder(category, orderId);
 
         if (bybitOrder.getResult().getCategory().equals(category)
-            && bybitOrder.getResult().getList().size() > 0) {
+            && !bybitOrder.getResult().getList().isEmpty()) {
           BybitOrderDetail bybitOrderDetail = bybitOrder.getResult().getList().get(0);
           Order order = adaptBybitOrderDetails(bybitOrderDetail);
           results.add(order);
         }
       }
     }
-
     return results;
   }
 
-  public String amendOrder(Order order) throws IOException {
+  @Override
+  public String changeOrder(LimitOrder order) throws IOException {
     BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
-    BybitResult<BybitOrderResponse> response = null;
-    if (order instanceof LimitOrder) {
-      response =
-          amendOrder(
-              category,
-              convertToBybitSymbol(order.getInstrument()),
-              order.getId(),
-              order.getUserReference(),
-              null,
-              order.getOriginalAmount().toString(),
-              ((LimitOrder) order).getLimitPrice().toString(),
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null);
-    }
-    // Todo order instanceof StopOrder
+    BybitResult<BybitOrderResponse> response = amendOrder(
+        category,
+        convertToBybitSymbol(order.getInstrument()),
+        order.getId(),
+        order.getUserReference(),
+        null,
+        order.getOriginalAmount().toString(),
+        order.getLimitPrice().toString(),
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null);
     if (response != null) {
       return response.getResult().getOrderId();
     }
     return "";
   }
 
-  public String cancelOrder(Order order) throws IOException {
-    BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
-    BybitResult<BybitOrderResponse> response =
-        cancelOrder(
-            category,
-            convertToBybitSymbol(order.getInstrument()),
-            order.getId(),
-            order.getUserReference());
-    if (response != null) {
-      return response.getResult().getOrderId();
-    } else return "";
+  @Override
+  public Class[] getRequiredCancelOrderParamClasses() {
+    return new Class[]{CancelOrderByIdParams.class, CancelOrderByInstrument.class,
+        CancelOrderByUserReferenceParams.class};
   }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams params) throws IOException {
+    if (params instanceof BybitCancelOrderParams) {
+      Instrument instrument = ((BybitCancelOrderParams) params).getInstrument();
+      BybitCategory category = BybitAdapters.getCategory(instrument);
+      String orderId = ((BybitCancelOrderParams) params).getOrderId();
+      String userReference = ((BybitCancelOrderParams) params).getUserReference();
+      if (instrument == null) {
+        throw new UnsupportedOperationException(
+            "Instrument and (orderId or userReference) required");
+      }
+      if ((orderId == null || orderId.isEmpty()) && (userReference == null
+          || userReference.isEmpty())) {
+        throw new UnsupportedOperationException("OrderId or userReference is required");
+      }
+      BybitResult<BybitOrderResponse> response =
+          cancelOrder(
+              category,
+              convertToBybitSymbol(instrument),
+              orderId,
+              userReference);
+      if (!response.isSuccess()) {
+        throw createBybitExceptionFromResult(response);
+      }
+      return true;
+    } else {
+      throw new UnsupportedOperationException("Params must be instance of BybitCancelOrderParams");
+
+    }
+  }
+
+  @Override
+  public Collection<String> cancelAllOrders(CancelAllOrders params) throws IOException {
+    if (params instanceof BybitCancelAllOrdersParams) {
+      Instrument instrument = ((BybitCancelAllOrdersParams) params).getSymbol();
+      BybitCategory category = ((BybitCancelAllOrdersParams) params).getCategory();
+      String baseCoin = ((BybitCancelAllOrdersParams) params).getBaseCoin();
+      String settleCoin = ((BybitCancelAllOrdersParams) params).getSettleCoin();
+      String orderFilter = ((BybitCancelAllOrdersParams) params).getOrderFilter();
+      String stopOrderType = ((BybitCancelAllOrdersParams) params).getStopOrderType();
+      if (category == null) {
+        throw new UnsupportedOperationException("Category is required");
+      }
+      String symbol = "";
+      BybitResult<BybitCancelAllOrdersResponse> response;
+      switch (category) {
+        case SPOT:
+        case OPTION:
+          break;
+        case LINEAR:
+        case INVERSE: {
+          if (instrument != null) {
+            symbol = convertToBybitSymbol(instrument);
+          } else if (baseCoin == null && settleCoin == null) {
+            throw new UnsupportedOperationException(
+                "For Linear or Inverse category, required instrument or baseCoin or settleCoin");
+          }
+        }
+      }
+
+      response =
+          cancelAllOrders(category.getValue(), symbol,
+              baseCoin, settleCoin, orderFilter, stopOrderType);
+      if (response != null) {
+        return response.getResult().getList().stream().map(BybitOrderResponse::getOrderId).collect(
+            Collectors.toList());
+      }
+    } else {
+      throw new UnsupportedOperationException(
+          "Params must be instance of BybitCancelAllOrdersParams");
+    }
+    return null;
+  }
+
+  private int getPositionIdx(Order order) {
+    BybitHedgeMode hedgeMode = getOrderFlag(order, BybitHedgeMode.class).orElse(BybitHedgeMode.ONEWAY);
+    int positionIdx = 0;
+    if (hedgeMode.equals(TWOWAY)) {
+      positionIdx = 1;
+      switch (order.getType()) {
+        case ASK:
+        case EXIT_ASK: {
+          positionIdx = 2;
+          break;
+        }
+        case BID:
+        case EXIT_BID: {
+          break;
+        }
+      }
+    }
+    return positionIdx;
+  }
+
+  @Getter
+  public static final class BybitCancelOrderParams extends DefaultCancelOrderByInstrumentAndIdParams
+      implements CancelOrderByUserReferenceParams {
+
+    private final String userReference;
+
+    public BybitCancelOrderParams(Instrument instrument, String orderId, String userReference) {
+      super(instrument, orderId);
+      this.userReference = userReference;
+    }
+
+    @Override
+    public String toString() {
+      return "BybitCancelOrderParams{" +
+          "instrument='" + getInstrument() + '\'' +
+          ", orderId='" + getOrderId() + '\'' +
+          ", userReference=" + getUserReference() +
+          '}';
+    }
+  }
+
+  @Getter
+  public static class BybitCancelAllOrdersParams implements CancelAllOrders {
+
+    private final BybitCategory category;
+    private final Instrument symbol;
+    private String baseCoin;
+    private String settleCoin;
+    private String orderFilter;
+    private String stopOrderType;
+
+    public BybitCancelAllOrdersParams(BybitCategory category, Instrument symbol) {
+      this.category = category;
+      this.symbol = symbol;
+    }
+
+    public BybitCancelAllOrdersParams(BybitCategory category, Instrument symbol, String baseCoin,
+        String settleCoin, String orderFilter, String stopOrderType) {
+      this.category = category;
+      this.symbol = symbol;
+      this.baseCoin = baseCoin;
+      this.settleCoin = settleCoin;
+      this.orderFilter = orderFilter;
+      this.stopOrderType = stopOrderType;
+    }
+
+    @Override
+    public String toString() {
+      return "BybitCancelAllOrdersParams{" +
+          "category=" + category +
+          ", symbol=" + symbol +
+          ", baseCoin='" + baseCoin + '\'' +
+          ", settleCoin='" + settleCoin + '\'' +
+          ", orderFilter='" + orderFilter + '\'' +
+          ", stopOrderType='" + stopOrderType + '\'' +
+          '}';
+    }
+  }
+
 }

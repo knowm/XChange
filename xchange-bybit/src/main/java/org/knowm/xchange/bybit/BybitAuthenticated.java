@@ -14,8 +14,13 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.account.BybitAccountInfoResponse;
+import org.knowm.xchange.bybit.dto.account.BybitCancelAllOrdersPayload;
+import org.knowm.xchange.bybit.dto.account.BybitCancelAllOrdersResponse;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
 import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
+import org.knowm.xchange.bybit.dto.account.position.BybitSetLeveragePayload;
+import org.knowm.xchange.bybit.dto.account.position.BybitSwitchModePayload;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
 import org.knowm.xchange.bybit.dto.trade.BybitAmendOrderPayload;
 import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderPayload;
@@ -82,32 +87,6 @@ public interface BybitAuthenticated {
       throws IOException, BybitException;
 
   /**
-   * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/order/create-order">API</a>
-   */
-  @POST
-  @Path("/order/create")
-  @Consumes(MediaType.APPLICATION_JSON)
-  BybitResult<BybitOrderResponse> placeMarketOrder(
-      @HeaderParam(X_BAPI_API_KEY) String apiKey,
-      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
-      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
-      BybitPlaceOrderPayload payload)
-      throws IOException, BybitException;
-
-  /**
-   * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/order/create-order">API</a>
-   */
-  @POST
-  @Path("/order/create")
-  @Consumes(MediaType.APPLICATION_JSON)
-  BybitResult<BybitOrderResponse> placeLimitOrder(
-      @HeaderParam(X_BAPI_API_KEY) String apiKey,
-      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
-      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
-      BybitPlaceOrderPayload payload)
-      throws IOException, BybitException;
-
-  /**
    * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/order/cancel-order">API</a>
    */
   @POST
@@ -121,7 +100,7 @@ public interface BybitAuthenticated {
       throws IOException, BybitException;
 
   /**
-   * @apiSpec <https://bybit-exchange.github.io/docs/v5/order/amend-order">API</a>
+   * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/order/amend-order">API</a>
    */
   @POST
   @Path("/order/amend")
@@ -131,5 +110,68 @@ public interface BybitAuthenticated {
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
       BybitAmendOrderPayload payload)
+      throws IOException, BybitException;
+
+  /**
+   * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/position/leverage">API</a>
+   */
+  @POST
+  @Path("/position/set-leverage")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BybitResult<Object> setLeverage(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      BybitSetLeveragePayload payload)
+      throws IOException, BybitException;
+
+  /**
+   * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/position/position-mode">API</a>
+   */
+  @POST
+  @Path("/position/switch-mode")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BybitResult<Object> switchMode(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      BybitSwitchModePayload payload)
+      throws IOException, BybitException;
+
+  /**
+   * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/order/create-order">API</a>
+   */
+  @POST
+  @Path("/order/create")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BybitResult<BybitOrderResponse> placeOrder(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      BybitPlaceOrderPayload payload)
+      throws IOException, BybitException;
+
+  /**
+   * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/account/account-info">API</a>
+   */
+  @GET
+  @Path("/account/info")
+  BybitResult<BybitAccountInfoResponse> getAccountInfo(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp)
+      throws IOException, BybitException;
+
+  /**
+   * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/order/cancel-all">API</a>
+   */
+  @POST
+  @Path("/order/cancel-all")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BybitResult<BybitCancelAllOrdersResponse> cancelAllOrders(
+      @HeaderParam(X_BAPI_API_KEY) String apiKey,
+      @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
+      @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
+      BybitCancelAllOrdersPayload payload)
       throws IOException, BybitException;
 }

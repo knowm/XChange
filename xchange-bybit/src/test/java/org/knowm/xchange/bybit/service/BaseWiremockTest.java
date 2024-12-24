@@ -2,6 +2,7 @@ package org.knowm.xchange.bybit.service;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
@@ -13,7 +14,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.junit.Rule;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.BybitExchange;
@@ -22,8 +22,8 @@ public class BaseWiremockTest {
 
   @Rule public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
 
-  public Exchange createExchange() throws IOException {
-    Exchange exchange =
+  public BybitExchange createExchange() throws IOException {
+    BybitExchange exchange =
         ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BybitExchange.class);
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
     specification.setHost("localhost");
@@ -46,6 +46,14 @@ public class BaseWiremockTest {
                     .withBody(IOUtils.resourceToString(responseBody, StandardCharsets.UTF_8))));
   }
 
+  /**
+   *
+   * @param baseUrl baseUrl
+   * @param responseBody responseBody
+   * @param queryParams queryParams
+   * @param stringValuePattern stringValuePattern
+   * @throws IOException IOException
+   */
   protected void initGetStub(
       String baseUrl,
       String responseBody,
@@ -55,6 +63,16 @@ public class BaseWiremockTest {
     stubFor(
         get(urlPathEqualTo(baseUrl))
             .withQueryParam(queryParams, stringValuePattern)
+            .willReturn(
+                aResponse()
+                    .withStatus(Status.OK.getStatusCode())
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(IOUtils.resourceToString(responseBody, StandardCharsets.UTF_8))));
+  }
+
+  protected void initPostStub(String url, String responseBody) throws IOException {
+    stubFor(
+        post(urlPathEqualTo(url))
             .willReturn(
                 aResponse()
                     .withStatus(Status.OK.getStatusCode())
