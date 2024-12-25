@@ -1,7 +1,7 @@
 package dto.trade;
 
-import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;
@@ -14,7 +14,7 @@ public class BybitOrderChangesResponse {
   String id;
   String topic;
   long creationTime;
-  List<BybitOrderChanges> data = new ArrayList<>();
+  List<BybitOrderChanges> data;
 
   @Getter
   public static class BybitOrderChanges {
@@ -45,7 +45,7 @@ public class BybitOrderChangesResponse {
     private String stopOrderType;
     private String ocoTriggerBy;
     private String orderIv;
-    private String marketUnit;
+    private String marketUnit = "";
     private String triggerPrice;
     private String takeProfit;
     private String stopLoss;
@@ -56,13 +56,13 @@ public class BybitOrderChangesResponse {
     private String slTriggerBy;
     private int triggerDirection;
     private String triggerBy;
-    private String lastPriceOnCreated;
+    private String lastPriceOnCreated = "";
     private boolean reduceOnly;
     private boolean closeOnTrigger;
     private String placeType;
     private String smpType;
     private int smpGroup;
-    private String smpOrderId;
+    private String smpOrderId = "";
     private String createdTime;
     private String updatedTime;
   }
