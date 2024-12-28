@@ -4,13 +4,17 @@ import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.Bybit;
 import org.knowm.xchange.bybit.BybitAuthenticated;
+import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.service.BaseExchangeService;
+import org.knowm.xchange.service.BaseResilientExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class BybitBaseService implements BaseService {
+public class BybitBaseService extends BaseResilientExchangeService<BybitExchange> {
 
   protected final BybitAuthenticated bybitAuthenticated;
   protected final Bybit bybit;
@@ -19,7 +23,8 @@ public class BybitBaseService implements BaseService {
       new CurrentTimeIncrementalNonceFactory(TimeUnit.MILLISECONDS);
   protected final String apiKey;
 
-  public BybitBaseService(Exchange exchange) {
+  protected BybitBaseService(BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
     bybit =
         ExchangeRestProxyBuilder.forInterface(Bybit.class, exchange.getExchangeSpecification())
             .clientConfigCustomizer(

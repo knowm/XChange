@@ -1,0 +1,10 @@
+{
+  "retCode": 0,
+  "retMsg": "OK",
+  "result": {
+    "orderId": "1321003749386327552",
+    "orderLinkId": "spot-test-postonly"
+  },
+  "retExtInfo": {},
+  "time": 1672211918471
+}

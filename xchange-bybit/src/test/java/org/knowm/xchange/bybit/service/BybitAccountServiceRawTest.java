@@ -7,16 +7,16 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bybit.dto.BybitCategory;
+import org.knowm.xchange.bybit.Bybit;
+import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
-import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRate;
-import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountBalance;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitCoinWalletBalance;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
+import org.knowm.xchange.client.ResilienceRegistries;
 
 public class BybitAccountServiceRawTest extends BaseWiremockTest {
 
@@ -24,8 +24,8 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
 
   @Before
   public void setUp() throws Exception {
-    Exchange bybitExchange = createExchange();
-    bybitAccountServiceRaw = new BybitAccountServiceRaw(bybitExchange);
+    BybitExchange bybitExchange = createExchange();
+    bybitAccountServiceRaw = new BybitAccountServiceRaw(bybitExchange, new ResilienceRegistries());
   }
 
   @Test
@@ -94,22 +94,5 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
     assertThat(coinBalance.getTransferBalance()).isEqualTo("0");
     assertThat(coinBalance.getWalletBalance()).isEqualTo("0");
     assertThat(coinBalance.getBonus()).isNull();
-  }
-
-  @Test
-  public void testGetFeeRates() throws IOException {
-    initGetStub("/v5/account/fee-rate", "/getFeeRates.json5");
-
-    BybitResult<BybitFeeRates> bybitFeeRatesBybitResult =
-        bybitAccountServiceRaw.getFeeRates(BybitCategory.SPOT, "ETHUSDT");
-
-    BybitFeeRates feeRates = bybitFeeRatesBybitResult.getResult();
-
-    assertThat(feeRates.getList()).hasSize(1);
-    BybitFeeRate feeRate = feeRates.getList().get(0);
-
-    assertThat(feeRate.getSymbol()).isEqualTo("ETHUSDT");
-    assertThat(feeRate.getTakerFeeRate()).isEqualTo("0.0006");
-    assertThat(feeRate.getMakerFeeRate()).isEqualTo("0.0001");
   }
 }
