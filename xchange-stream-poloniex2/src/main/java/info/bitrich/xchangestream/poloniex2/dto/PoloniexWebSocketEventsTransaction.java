@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.poloniex2.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
@@ -13,6 +14,7 @@ import org.knowm.xchange.dto.Order;
 
 /** Created by Lukas Zaoralek on 11.11.17. */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({"channelId", "seqId", "events"})
 public class PoloniexWebSocketEventsTransaction {
   private Long channelId;
   private Long seqId;

@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitfinex.v2.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.Date;
 import lombok.AccessLevel;
@@ -9,6 +10,16 @@ import lombok.Value;
 
 /** see https://docs.bitfinex.com/reference#rest-auth-transfer */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({
+  "timestamp",
+  "type",
+  "messageId",
+  "placeHolder0",
+  "transfer",
+  "code",
+  "status",
+  "text"
+})
 @Value
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 public class TransferBetweenWalletsResponse {
@@ -38,6 +49,16 @@ public class TransferBetweenWalletsResponse {
   }
 
   @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+  @JsonPropertyOrder({
+    "timestamp",
+    "walletFrom",
+    "walletTo",
+    "placeHolder0",
+    "currency",
+    "currencyTo",
+    "placeHolder1",
+    "amount"
+  })
   @Value
   @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
   public static class Transfer {

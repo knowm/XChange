@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitfinex.v2.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,15 @@ import lombok.Value;
 
 /** https://docs.bitfinex.com/reference#rest-auth-wallets */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({
+  "walletType",
+  "currency",
+  "balance",
+  "unsettledInterest",
+  "availableBalance",
+  "lastChange",
+  "tradeDetails"
+})
 @Value
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 public class Wallet {

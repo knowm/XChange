@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitfinex.v2.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,28 @@ import lombok.ToString;
 
 /** https://docs.bitfinex.com/v2/reference#rest-auth-positions */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonPropertyOrder({
+  "symbol",
+  "status",
+  "amount",
+  "basePrice",
+  "marginFunding",
+  "marginFundingType",
+  "pl",
+  "plPercent",
+  "priceLiq",
+  "leverage",
+  "placeHolder0",
+  "positionId",
+  "timestampCreate",
+  "timestampUpdate",
+  "placeHolder1",
+  "type",
+  "placeHolder2",
+  "collateral",
+  "collateralMin",
+  "meta"
+})
 @Setter
 @Getter
 @ToString
