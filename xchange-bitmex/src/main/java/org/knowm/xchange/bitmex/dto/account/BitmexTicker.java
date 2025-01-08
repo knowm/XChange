@@ -351,6 +351,9 @@ public class BitmexTicker {
     @JsonProperty("Expired")
     EXPIRED,
 
+    @JsonProperty("Settled")
+    SETTLED,
+
     @JsonProperty("Cleared")
     CLEARED,
 
