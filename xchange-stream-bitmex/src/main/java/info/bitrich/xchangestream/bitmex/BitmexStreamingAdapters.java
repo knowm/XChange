@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.bitmex;
 
 import info.bitrich.xchangestream.bitmex.dto.BitmexOrder;
+import info.bitrich.xchangestream.bitmex.dto.BitmexPrivateExecution;
 import info.bitrich.xchangestream.bitmex.dto.BitmexTicker;
 import info.bitrich.xchangestream.bitmex.dto.BitmexTrade;
 import java.util.HashMap;
@@ -10,11 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 
 @Slf4j
 @UtilityClass
@@ -62,6 +65,26 @@ public class BitmexStreamingAdapters {
         .price(bitmexTrade.getPrice())
         .timestamp(BitmexAdapters.toDate(bitmexTrade.getTimestamp()))
         .id(bitmexTrade.getId())
+        .build();
+  }
+
+  public UserTrade toUserTrade(BitmexPrivateExecution exec) {
+    OrderType orderType = exec.getOrderType();
+    if (orderType == null) {
+      return null;
+    }
+
+    return UserTrade.builder()
+        .id(exec.getExecutionId())
+        .orderId(exec.getOrderId())
+        .instrument(exec.getInstrument())
+        .originalAmount(exec.getExecutedQuantity())
+        .price(exec.getLastPrice())
+        .feeAmount(exec.getFeeAmount())
+        .feeCurrency(exec.getFeeCurrency())
+        .timestamp(BitmexAdapters.toDate(exec.getUpdatedAt()))
+        .type(orderType)
+        .orderUserReference(exec.getClientOid())
         .build();
   }
 
