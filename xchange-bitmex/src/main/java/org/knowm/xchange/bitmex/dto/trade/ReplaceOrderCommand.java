@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.knowm.xchange.bitmex.Bitmex;
 
 public class ReplaceOrderCommand {
 
@@ -52,7 +51,7 @@ public class ReplaceOrderCommand {
   @JsonProperty("text")
   public final String text;
 
-  /** See {@link Bitmex#replaceOrder}. */
+  /** See {@link org.knowm.xchange.bitmex.BitmexAuthenticated#replaceOrder}. */
   public ReplaceOrderCommand(@Nonnull final BitmexReplaceOrderParameters parameters) {
     this.orderId = parameters.getOrderId();
     this.origClOrdID = parameters.getOrigClOrdId();

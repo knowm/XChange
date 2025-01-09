@@ -160,7 +160,8 @@ public class BitmexPrivateExecution {
     this.executedQuantity = BitmexAdapters.scaleToLocalAmount(executedQuantity, instrument.getBase());
     this.orderQuantity = BitmexAdapters.scaleToLocalAmount(orderQuantity, instrument.getBase());
 
-    this.feeCurrency = BitmexAdapters.bitmexCodeToCurrency(feeCurrency);
+    // fees are paid in quote currency
+    this.feeCurrency = instrument.getCounter();
     this.feeAmount = BitmexAdapters.scaleToLocalAmount(feeAmount, this.feeCurrency);
   }
 }
