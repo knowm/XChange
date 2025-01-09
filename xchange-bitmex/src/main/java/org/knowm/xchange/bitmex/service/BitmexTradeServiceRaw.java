@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.HttpResponseAwareList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
@@ -50,7 +49,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   /**
-   * See {@link Bitmex#getOrders}
+   * See {@link org.knowm.xchange.bitmex.BitmexAuthenticated#getOrders}
    *
    * @return List of {@link BitmexPrivateOrder}s.
    */
@@ -89,7 +88,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   /**
-   * See {@link Bitmex#getOrders}
+   * See {@link org.knowm.xchange.bitmex.BitmexAuthenticated#getOrders}
    *
    * @return List of {@link BitmexPrivateOrder}s.
    */
@@ -98,7 +97,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   /**
-   * See {@link Bitmex#placeOrder}
+   * See {@link org.knowm.xchange.bitmex.BitmexAuthenticated#placeOrder}
    *
    * @return {@link BitmexPrivateOrder} contains the results of the call.
    */
@@ -115,7 +114,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   /**
-   * See {@link Bitmex#replaceOrder}
+   * See {@link org.knowm.xchange.bitmex.BitmexAuthenticated#replaceOrder}
    *
    * @return {@link BitmexPrivateOrder} contains the results of the call.
    */
