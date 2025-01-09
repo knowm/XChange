@@ -1,0 +1,39 @@
+{
+  "table": "position",
+  "action": "update",
+  "data": [
+    {
+      "account": 2273415,
+      "symbol": "XBTUSD",
+      "currency": "XBt",
+      "rebalancedPnl": 0,
+      "prevRealisedPnl": -118,
+      "openOrderSellQty": 0,
+      "openOrderSellCost": 0,
+      "currentQty": 0,
+      "currentCost": 0,
+      "unrealisedCost": 0,
+      "isOpen": false,
+      "markPrice": null,
+      "markValue": 0,
+      "riskValue": 0,
+      "homeNotional": 0.0,
+      "foreignNotional": 0.0,
+      "posCost": 0,
+      "posComm": 0,
+      "posMargin": 0,
+      "posMaint": 0,
+      "posInit": 0,
+      "maintMargin": 0,
+      "unrealisedPnl": 0,
+      "unrealisedPnlPcnt": 0.0,
+      "unrealisedRoePcnt": 0.0,
+      "avgCostPrice": null,
+      "avgEntryPrice": null,
+      "breakEvenPrice": null,
+      "liquidationPrice": null,
+      "bankruptPrice": null,
+      "timestamp": "2025-01-09T11:38:56.578Z"
+    }
+  ]
+}

@@ -80,6 +80,15 @@ public class BitmexWebSocketTransaction {
     return new BitmexPrivateExecution[]{};
   }
 
+  public BitmexPosition[] toBitmexPositions() {
+    try {
+      return mapper.treeToValue(data, BitmexPosition[].class);
+    } catch (IOException e) {
+      log.error("position array mapping exception", e);
+    }
+    return new BitmexPosition[]{};
+  }
+
   public BitmexOrder[] toBitmexOrders() {
     BitmexOrder[] orders = new BitmexOrder[this.data.size()];
     for (int i = 0; i < this.data.size(); ++i) {

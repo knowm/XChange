@@ -3,8 +3,10 @@ package info.bitrich.xchangestream.bitmex;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 
+import info.bitrich.xchangestream.bitmex.dto.BitmexPosition;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.observers.TestObserver;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -48,17 +50,36 @@ class BitmexStreamingTradeServiceIntegration extends BitmexStreamingExchangeIT {
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    UserTrade order = testObserver
+    UserTrade userTrade = testObserver
 //        .awaitDone(10, TimeUnit.MINUTES)
         .awaitCount(1)
         .values().get(0);
 
     testObserver.dispose();
 
-    assertThat(order.getInstrument()).isEqualTo(new CurrencyPair("SOL/USDT"));
-    assertThat(order.getType()).isNotNull();
-    assertThat(order.getId()).isNotNull();
-    assertThat(order.getTimestamp()).isNotNull();
+    assertThat(userTrade.getInstrument()).isEqualTo(new CurrencyPair("SOL/USDT"));
+    assertThat(userTrade.getType()).isNotNull();
+    assertThat(userTrade.getId()).isNotNull();
+    assertThat(userTrade.getTimestamp()).isNotNull();
+
+  }
+
+
+  @Test
+  void positions() {
+    Observable<BitmexPosition> observable = ((BitmexStreamingTradeService)(exchange.getStreamingTradeService())).getPositions();
+
+    TestObserver<BitmexPosition> testObserver = observable.test();
+
+    BitmexPosition actual = testObserver
+        .awaitDone(10, TimeUnit.MINUTES)
+        .awaitCount(1)
+        .values().get(0);
+
+    testObserver.dispose();
+
+    assertThat(actual.getInstrument()).isNotNull();
+    assertThat(actual.getTimestamp()).isNotNull();
 
   }
 }

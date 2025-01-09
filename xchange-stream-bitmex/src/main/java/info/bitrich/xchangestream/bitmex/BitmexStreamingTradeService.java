@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.bitmex;
 
 import info.bitrich.xchangestream.bitmex.dto.BitmexOrder;
+import info.bitrich.xchangestream.bitmex.dto.BitmexPosition;
 import info.bitrich.xchangestream.bitmex.dto.BitmexPrivateExecution;
 import info.bitrich.xchangestream.bitmex.dto.BitmexPrivateExecution.ExecutionType;
 import info.bitrich.xchangestream.core.StreamingTradeService;
@@ -32,6 +33,17 @@ public class BitmexStreamingTradeService implements StreamingTradeService {
                   .filter(bitmexPrivateExecution -> bitmexPrivateExecution.getExecType() == ExecutionType.TRADE)
                   .map(BitmexStreamingAdapters::toUserTrade)
                   .collect(Collectors.toList());
+            });
+  }
+
+  public Observable<BitmexPosition> getPositions() {
+    String channelName = "position";
+    return streamingService
+        .subscribeBitmexChannel(channelName)
+        .flatMapIterable(
+            s -> {
+              BitmexPosition[] bitmexPositions = s.toBitmexPositions();
+              return Arrays.asList(bitmexPositions);
             });
   }
 
