@@ -26,7 +26,7 @@ public class BitmexPosition extends AbstractHttpResponseAware {
 
   @JsonProperty("currency")
   @JsonDeserialize(converter = StringToCurrencyConverter.class)
-  private String marginCurrency;
+  private Currency marginCurrency;
 
   @JsonProperty("underlying")
   private String underlying;
