@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BitmexStreamingTradeService implements StreamingTradeService {
 
@@ -21,7 +22,7 @@ public class BitmexStreamingTradeService implements StreamingTradeService {
   }
 
   @Override
-  public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+  public Observable<UserTrade> getUserTrades(Instrument instrument, Object... args) {
     String channelName = "execution";
     return streamingService
         .subscribeBitmexChannel(channelName)
@@ -29,11 +30,16 @@ public class BitmexStreamingTradeService implements StreamingTradeService {
             s -> {
               BitmexPrivateExecution[] bitmexPrivateExecutions = s.toBitmexPrivateExecutions();
               return Arrays.stream(bitmexPrivateExecutions)
-                  .filter(bitmexPrivateExecution -> bitmexPrivateExecution.getInstrument().equals(currencyPair))
+                  .filter(bitmexPrivateExecution -> bitmexPrivateExecution.getInstrument().equals(instrument))
                   .filter(bitmexPrivateExecution -> bitmexPrivateExecution.getExecType() == ExecutionType.TRADE)
                   .map(BitmexStreamingAdapters::toUserTrade)
                   .collect(Collectors.toList());
             });
+  }
+
+  @Override
+  public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+    return getUserTrades((Instrument) currencyPair, args);
   }
 
   public Observable<BitmexPosition> getPositions() {
@@ -48,7 +54,7 @@ public class BitmexStreamingTradeService implements StreamingTradeService {
   }
 
   @Override
-  public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+  public Observable<Order> getOrderChanges(Instrument instrument, Object... args) {
     String channelName = "order";
     return streamingService
         .subscribeBitmexChannel(channelName)
@@ -56,9 +62,14 @@ public class BitmexStreamingTradeService implements StreamingTradeService {
             s -> {
               BitmexOrder[] bitmexOrders = s.toBitmexOrders();
               return Arrays.stream(bitmexOrders)
-                  .filter(bitmexOrder -> bitmexOrder.getInstrument().equals(currencyPair))
+                  .filter(bitmexOrder -> bitmexOrder.getInstrument().equals(instrument))
                   .map(BitmexStreamingAdapters::toOrder)
                   .collect(Collectors.toList());
             });
+  }
+
+  @Override
+  public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+    return getOrderChanges((Instrument) currencyPair, args);
   }
 }
