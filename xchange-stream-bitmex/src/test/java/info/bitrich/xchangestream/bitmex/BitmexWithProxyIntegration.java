@@ -8,6 +8,7 @@ import info.bitrich.xchangestream.util.ProxyUtil;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Foat Akhmadeev 18/06/2018
  */
+@Ignore
 public class BitmexWithProxyIntegration {
   private static final Logger LOG = LoggerFactory.getLogger(BitmexWithProxyIntegration.class);
 

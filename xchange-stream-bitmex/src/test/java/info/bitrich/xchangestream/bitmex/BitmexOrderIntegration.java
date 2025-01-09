@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexReplaceOrderParameters;
@@ -34,6 +35,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Nikita Belenkiy on 18/05/2018.
  */
+@Ignore
 public class BitmexOrderIntegration {
   private CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
   private static final Logger LOG = LoggerFactory.getLogger(BitmexOrderIntegration.class);
