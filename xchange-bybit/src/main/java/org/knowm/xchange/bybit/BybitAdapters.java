@@ -56,7 +56,7 @@ import org.knowm.xchange.instrument.Instrument;
 public class BybitAdapters {
 
   private static final ThreadLocal<SimpleDateFormat> OPTION_DATE_FORMAT =
-      ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy"));
+      ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy", Locale.US));
   public static final List<String> QUOTE_CURRENCIES =
       Arrays.asList("USDT", "USDC", "USDE", "EUR", "BRL", "PLN", "TRY", "SOL", "BTC", "ETH", "DAI",
           "BRZ");
