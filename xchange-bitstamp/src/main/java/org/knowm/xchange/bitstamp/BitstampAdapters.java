@@ -251,7 +251,7 @@ public final class BitstampAdapters {
   }
 
   private static BigDecimal getFeeFromString(String value) {
-    if("None".equals(value)) {
+    if ("None".equals(value)) {
       return BigDecimal.ZERO;
     }
     try {
