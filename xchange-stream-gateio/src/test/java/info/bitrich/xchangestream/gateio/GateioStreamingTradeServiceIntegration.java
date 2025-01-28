@@ -28,10 +28,11 @@ class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    List<UserTrade> userTrades = testObserver
-//        .awaitDone(10, TimeUnit.MINUTES)
-        .awaitCount(1)
-        .values();
+    List<UserTrade> userTrades =
+        testObserver
+            //        .awaitDone(10, TimeUnit.MINUTES)
+            .awaitCount(1)
+            .values();
 
     testObserver.dispose();
 

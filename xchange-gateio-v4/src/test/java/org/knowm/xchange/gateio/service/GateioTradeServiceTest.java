@@ -178,7 +178,8 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
             .build();
 
     OpenOrders openOrders =
-        gateioTradeService.getOpenOrders(new DefaultOpenOrdersParamInstrument(CurrencyPair.BTC_USDT));
+        gateioTradeService.getOpenOrders(
+            new DefaultOpenOrdersParamInstrument(CurrencyPair.BTC_USDT));
     assertThat(openOrders.getOpenOrders()).hasSize(1);
     assertThat(openOrders.getOpenOrders()).first().usingRecursiveComparison().isEqualTo(expected);
   }

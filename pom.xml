@@ -5,7 +5,7 @@
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>5.2.1-SNAPSHOT</version>
+    <version>5.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
@@ -100,7 +100,6 @@
         <module>xchange-kucoin</module>
         <module>xchange-kuna</module>
         <module>xchange-latoken</module>
-        <module>xchange-lgo</module>
         <module>xchange-livecoin</module>
         <module>xchange-luno</module>
         <module>xchange-lykke</module>
@@ -140,7 +139,6 @@
         <module>xchange-stream-kraken</module>
         <module>xchange-stream-krakenfutures</module>
         <module>xchange-stream-kucoin</module>
-        <module>xchange-stream-lgo</module>
         <module>xchange-stream-okcoin</module>
         <module>xchange-stream-okex</module>
         <module>xchange-stream-poloniex2</module>
@@ -451,6 +449,7 @@
                     <nrOfIndentSpace>4</nrOfIndentSpace>
                     <sortPlugins>groupId,artifactId</sortPlugins>
                     <expandEmptyElements>false</expandEmptyElements>
+                    <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
                 </configuration>
                 <executions>
                     <execution>
@@ -503,9 +502,9 @@
                                 <requireMavenVersion>
                                     <version>${version.maven-prerequisite}</version>
                                 </requireMavenVersion>
-                                <dependencyConvergence/>
-                                <banDuplicatePomDependencyVersions/>
-                                <reactorModuleConvergence/>
+                                <dependencyConvergence />
+                                <banDuplicatePomDependencyVersions />
+                                <reactorModuleConvergence />
                             </rules>
                         </configuration>
                     </execution>

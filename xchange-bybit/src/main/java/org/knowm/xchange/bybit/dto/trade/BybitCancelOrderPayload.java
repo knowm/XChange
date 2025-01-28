@@ -6,10 +6,10 @@ import org.knowm.xchange.bybit.dto.BybitCategory;
 @Getter
 public class BybitCancelOrderPayload {
 
-  private BybitCategory category;
-  private String symbol;
-  private String orderId;
-  private String orderLinkId;
+  private final BybitCategory category;
+  private final String symbol;
+  private final String orderId;
+  private final String orderLinkId;
   private String orderFilter;
 
   public BybitCancelOrderPayload(

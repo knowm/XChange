@@ -116,8 +116,8 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
 
   @Override
   public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-    if (cause.getMessage() != null && cause.getMessage().toLowerCase()
-        .contains("connection reset")) {
+    if (cause.getMessage() != null
+        && cause.getMessage().toLowerCase().contains("connection reset")) {
       LOG.warn(
           "WebSocket client {} encountered exception ({} - {}). Closing",
           ctx.channel(),

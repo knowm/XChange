@@ -19,9 +19,9 @@ class CoinexMarketDataServiceIntegration {
 
   @Test
   public void exchange_health() {
-    assertThat(exchange.getMarketDataService().getExchangeHealth()).isEqualTo(ExchangeHealth.ONLINE);
+    assertThat(exchange.getMarketDataService().getExchangeHealth())
+        .isEqualTo(ExchangeHealth.ONLINE);
   }
-
 
   @Test
   void valid_tickers() throws IOException {

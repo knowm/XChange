@@ -1,8 +1,0 @@
-{
-  "type": "subscribe",
-  "channels": [
-    {
-      "name": "balance"
-    }
-  ]
-}

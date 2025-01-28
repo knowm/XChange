@@ -13,25 +13,24 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class CoinexMaintainInfo {
 
-    @JsonProperty("started_at")
-    private Instant startTime;
+  @JsonProperty("started_at")
+  private Instant startTime;
 
-    @JsonProperty("ended_at")
-    private Instant endTime;
+  @JsonProperty("ended_at")
+  private Instant endTime;
 
-    @JsonProperty("scope")
-    private List<String> scope;
+  @JsonProperty("scope")
+  private List<String> scope;
 
-    @JsonProperty("announce_enabled")
-    private Boolean announceEnabled;
+  @JsonProperty("announce_enabled")
+  private Boolean announceEnabled;
 
-    @JsonProperty("announce_url")
-    private URI announceUrl;
+  @JsonProperty("announce_url")
+  private URI announceUrl;
 
-    @JsonProperty("protect_duration_start")
-    private Instant protectStart;
+  @JsonProperty("protect_duration_start")
+  private Instant protectStart;
 
-    @JsonProperty("protect_duration_end")
-    private Instant protectEnd;
-
+  @JsonProperty("protect_duration_end")
+  private Instant protectEnd;
 }

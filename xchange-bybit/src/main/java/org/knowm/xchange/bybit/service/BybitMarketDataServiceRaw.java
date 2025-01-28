@@ -9,11 +9,12 @@ import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentsInfo;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTickers;
+import org.knowm.xchange.client.ResilienceRegistries;
 
 public class BybitMarketDataServiceRaw extends BybitBaseService {
 
-  public BybitMarketDataServiceRaw(BybitExchange exchange) {
-    super(exchange);
+  public BybitMarketDataServiceRaw(BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange,resilienceRegistries);
   }
 
   public BybitResult<BybitTickers<BybitTicker>> getTicker24h(BybitCategory category, String symbol)
