@@ -88,7 +88,7 @@ public final class BitstampUserTransaction {
   }
 
   public boolean isDeposit() {
-    return type == TransactionType.deposit || type == TransactionType.rippleDeposit || type == TransactionType.settlementTransfer;
+    return type == TransactionType.deposit || type == TransactionType.rippleDeposit;
   }
 
   public boolean isWithdrawal() {
@@ -100,7 +100,7 @@ public final class BitstampUserTransaction {
   }
 
   public boolean isSubAccountTransfer() {
-    return type == TransactionType.subAccountTransfer;
+    return type == TransactionType.subAccountTransfer || type == TransactionType.settlementTransfer;
   }
 
   public BigDecimal getCounterAmount() {
