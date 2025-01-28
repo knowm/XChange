@@ -371,6 +371,7 @@ public interface BinanceAuthenticated extends Binance {
       @FormParam("addressTag") String addressTag,
       @FormParam("amount") BigDecimal amount,
       @FormParam("name") String name,
+      @FormParam("network") String network,
       @FormParam("recvWindow") Long recvWindow,
       @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
@@ -499,6 +500,7 @@ public interface BinanceAuthenticated extends Binance {
   @Path("/sapi/v1/capital/deposit/address")
   DepositAddress depositAddress(
       @QueryParam("coin") String coin,
+      @QueryParam("network") String network,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
