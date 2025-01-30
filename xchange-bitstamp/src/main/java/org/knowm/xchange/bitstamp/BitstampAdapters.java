@@ -242,12 +242,23 @@ public final class BitstampAdapters {
               .timestamp(t.getDatetime())
               .id(Long.toString(tradeId))
               .orderId(Long.toString(t.getOrderId()))
-              .feeAmount(t.getFee())
+              .feeAmount(getFeeFromString(t.getFee()))
               .feeCurrency(Currency.getInstance(t.getFeeCurrency().toUpperCase()))
               .build();
       trades.add(trade);
     }
     return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
+  }
+
+  private static BigDecimal getFeeFromString(String value) {
+    if ("None".equals(value)) {
+      return BigDecimal.ZERO;
+    }
+    try {
+      return new BigDecimal(value);
+    } catch (NumberFormatException e) {
+      return BigDecimal.ZERO;
+    }
   }
 
   public static Map.Entry<String, BigDecimal> findNonzeroAmount(BitstampUserTransaction transaction)
@@ -294,7 +305,7 @@ public final class BitstampAdapters {
                 type,
                 FundingRecord.Status.COMPLETE,
                 null,
-                trans.getFee(),
+                getFeeFromString(trans.getFee()),
                 null);
         fundingRecords.add(record);
       }
