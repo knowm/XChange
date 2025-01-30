@@ -111,6 +111,7 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("userref") String userRefId,
       @FormParam("close") Map<String, String> closeOrder,
       @FormParam("timeinforce") String timeInForce,
+      @FormParam("cl_ord_id") String clientOrderId,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
@@ -135,6 +136,7 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("validate") boolean validateOnly,
       @FormParam("close") Map<String, String> closeOrder,
       @FormParam("timeinforce") String timeInForce,
+      @FormParam("cl_ord_id") String clientOrderId,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
