@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bybit.Bybit;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;

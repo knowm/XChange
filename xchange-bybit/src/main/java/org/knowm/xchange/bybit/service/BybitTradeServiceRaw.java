@@ -23,11 +23,9 @@ import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitCancelAllOrdersPayload;
 import org.knowm.xchange.bybit.dto.account.BybitCancelAllOrdersResponse;
-
-import org.knowm.xchange.bybit.dto.trade.BybitOrder.SlTriggerBy;
-
 import org.knowm.xchange.bybit.dto.trade.BybitAmendOrderPayload;
 import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderPayload;
+import org.knowm.xchange.bybit.dto.trade.BybitOrder.SlTriggerBy;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
 import org.knowm.xchange.bybit.dto.trade.BybitPlaceOrderPayload;
@@ -39,11 +37,12 @@ import org.knowm.xchange.client.ResilienceRegistries;
 
 public class BybitTradeServiceRaw extends BybitBaseService {
 
-  protected BybitTradeServiceRaw(BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
+  protected BybitTradeServiceRaw(
+      BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
 
- BybitResult<BybitOrderDetails<BybitOrderDetail>> getBybitOrder(
+  BybitResult<BybitOrderDetails<BybitOrderDetail>> getBybitOrder(
       BybitCategory category, String orderId) throws IOException {
     BybitResult<BybitOrderDetails<BybitOrderDetail>> order =
         bybitAuthenticated.getOpenOrders(
@@ -54,7 +53,7 @@ public class BybitTradeServiceRaw extends BybitBaseService {
     return order;
   }
 
- BybitResult<BybitOrderResponse> amendOrder(
+  BybitResult<BybitOrderResponse> amendOrder(
       BybitCategory category,
       String symbol,
       String orderId,
@@ -95,7 +94,8 @@ public class BybitTradeServiceRaw extends BybitBaseService {
             slLimitPrice);
     BybitResult<BybitOrderResponse> amendOrder =
         decorateApiCall(
-            () -> bybitAuthenticated.amendOrder(apiKey, signatureCreator, nonceFactory, payload))
+                () ->
+                    bybitAuthenticated.amendOrder(apiKey, signatureCreator, nonceFactory, payload))
             .withRateLimiter(rateLimiter)
             .withRateLimiter(rateLimiter(GLOBAL_RATE_LIMITER))
             .call();
@@ -137,13 +137,15 @@ public class BybitTradeServiceRaw extends BybitBaseService {
       }
     }
     if (reduceOnly) {
-       payload.setReduceOnly("true");
+      payload.setReduceOnly("true");
     }
     if (timeInForce != null) {
       payload.setTimeInForce(timeInForce.getValue());
     }
     BybitResult<BybitOrderResponse> placeOrder =
-        decorateApiCall(() -> bybitAuthenticated.placeOrder(apiKey, signatureCreator, nonceFactory, payload))
+        decorateApiCall(
+                () ->
+                    bybitAuthenticated.placeOrder(apiKey, signatureCreator, nonceFactory, payload))
             .withRateLimiter(getCreateOrderRateLimiter(category))
             .withRateLimiter(rateLimiter(GLOBAL_RATE_LIMITER))
             .call();
@@ -160,17 +162,23 @@ public class BybitTradeServiceRaw extends BybitBaseService {
     BybitCancelOrderPayload payload =
         new BybitCancelOrderPayload(category, symbol, orderId, orderLinkId);
     return decorateApiCall(
-        () -> bybitAuthenticated.cancelOrder(apiKey, signatureCreator, nonceFactory, payload))
+            () -> bybitAuthenticated.cancelOrder(apiKey, signatureCreator, nonceFactory, payload))
         .withRateLimiter(rateLimiter)
         .withRateLimiter(rateLimiter(GLOBAL_RATE_LIMITER))
         .call();
   }
 
-  BybitResult<BybitCancelAllOrdersResponse> cancelAllOrders(String category, String symbol,
-      String baseCoin, String settleCoin, String orderFilter, String stopOrderType)
+  BybitResult<BybitCancelAllOrdersResponse> cancelAllOrders(
+      String category,
+      String symbol,
+      String baseCoin,
+      String settleCoin,
+      String orderFilter,
+      String stopOrderType)
       throws IOException {
-    BybitCancelAllOrdersPayload payload = new BybitCancelAllOrdersPayload(category, symbol,
-        baseCoin, settleCoin, orderFilter, stopOrderType);
+    BybitCancelAllOrdersPayload payload =
+        new BybitCancelAllOrdersPayload(
+            category, symbol, baseCoin, settleCoin, orderFilter, stopOrderType);
     BybitResult<BybitCancelAllOrdersResponse> response =
         bybitAuthenticated.cancelAllOrders(apiKey, signatureCreator, nonceFactory, payload);
     if (!response.isSuccess()) {
@@ -204,6 +212,7 @@ public class BybitTradeServiceRaw extends BybitBaseService {
     }
     return null;
   }
+
   private RateLimiter getAmendOrderRateLimiter(BybitCategory category) {
     switch (category) {
       case LINEAR:

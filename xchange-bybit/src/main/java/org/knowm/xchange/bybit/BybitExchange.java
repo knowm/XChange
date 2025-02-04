@@ -16,7 +16,7 @@ import org.knowm.xchange.bybit.service.BybitTradeService;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-public class BybitExchange extends BaseExchange implements Exchange{
+public class BybitExchange extends BaseExchange implements Exchange {
 
   public static final String SPECIFIC_PARAM_ACCOUNT_TYPE = "accountType";
   private static final String BASE_URL = "https://api.bybit.com";
@@ -30,14 +30,15 @@ public class BybitExchange extends BaseExchange implements Exchange{
 
   @Override
   protected void initServices() {
-    marketDataService = new BybitMarketDataService(this,getResilienceRegistries());
-    tradeService = new BybitTradeService(this,getResilienceRegistries());
+    marketDataService = new BybitMarketDataService(this, getResilienceRegistries());
+    tradeService = new BybitTradeService(this, getResilienceRegistries());
     accountService =
         new BybitAccountService(
             this,
             (BybitAccountType)
                 getExchangeSpecification()
-                    .getExchangeSpecificParametersItem(SPECIFIC_PARAM_ACCOUNT_TYPE),getResilienceRegistries());
+                    .getExchangeSpecificParametersItem(SPECIFIC_PARAM_ACCOUNT_TYPE),
+            getResilienceRegistries());
   }
 
   @Override

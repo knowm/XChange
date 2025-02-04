@@ -12,8 +12,5 @@ public enum BybitTimeInForce implements IOrderFlags {
   IOC("IOC"),
   FOK("FOK"),
   POSTONLY("PostOnly");
-  @JsonValue
-  private final String value;
+  @JsonValue private final String value;
 }
-
-
