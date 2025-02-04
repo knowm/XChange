@@ -6,7 +6,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
-import static org.knowm.xchange.bybit.dto.trade.BybitSide.BUY;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +15,6 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
@@ -24,7 +22,6 @@ import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
-import org.knowm.xchange.bybit.dto.trade.BybitSide;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
 import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
@@ -32,14 +29,14 @@ import org.knowm.xchange.bybit.dto.trade.details.linear.BybitLinearOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.spot.BybitSpotOrderDetail;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.instrument.Instrument;
 
 public class BybitTradeServiceRawTest extends BaseWiremockTest {
 
   @Test
   public void testGetBybitLinearDetailOrder() throws IOException {
     BybitExchange bybitExchange = createExchange();
-    BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
+    BybitTradeServiceRaw bybitAccountServiceRaw =
+        new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
 
     String responseFilePath = "/getOrderDetailsLinear.json5";
     initGetStub("/v5/order/realtime", responseFilePath);
@@ -142,7 +139,8 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
   @Test
   public void testGetBybitSpotDetailOrder() throws IOException {
     BybitExchange bybitExchange = createExchange();
-    BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
+    BybitTradeServiceRaw bybitAccountServiceRaw =
+        new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
 
     String responseFilePath = "/getOrderDetailsSpot.json5";
     initGetStub("/v5/order/realtime", responseFilePath);
@@ -234,7 +232,8 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
   @Test
   public void testPlaceBybitMarketOrder() throws IOException {
     BybitExchange bybitExchange = createExchange();
-    BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
+    BybitTradeServiceRaw bybitAccountServiceRaw =
+        new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
 
     String orderPlacementResponse =
         "{\n"
@@ -290,7 +289,8 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
   @Test
   public void testPlaceBybitLimitOrder() throws IOException {
     BybitExchange bybitExchange = createExchange();
-    BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
+    BybitTradeServiceRaw bybitAccountServiceRaw =
+        new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
 
     String orderPlacementResponse =
         "{\n"

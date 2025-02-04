@@ -3,16 +3,13 @@ package org.knowm.xchange.bybit;
 import static org.knowm.xchange.bybit.dto.BybitCategory.INVERSE;
 import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
 import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
-import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.PUT;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -26,7 +23,6 @@ import org.knowm.xchange.bybit.dto.account.walletbalance.BybitCoinWalletBalance;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInverseInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo;
-import org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.spot.BybitSpotInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
@@ -58,9 +54,8 @@ public class BybitAdapters {
   private static final ThreadLocal<SimpleDateFormat> OPTION_DATE_FORMAT =
       ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy", Locale.US));
   public static final List<String> QUOTE_CURRENCIES =
-      Arrays.asList("USDT", "USDC", "USDE", "EUR", "BRL", "PLN", "TRY", "SOL", "BTC", "ETH", "DAI",
-          "BRZ");
-
+      Arrays.asList(
+          "USDT", "USDC", "USDE", "EUR", "BRL", "PLN", "TRY", "SOL", "BTC", "ETH", "DAI", "BRZ");
 
   public static Wallet adaptBybitBalances(List<BybitCoinWalletBalance> coinWalletBalances) {
     List<Balance> balances = new ArrayList<>(coinWalletBalances.size());
@@ -154,7 +149,7 @@ public class BybitAdapters {
   }
 
   public static CurrencyPair guessSymbol(String symbol) {
-//SPOT Only
+    // SPOT Only
     for (String quoteCurrency : QUOTE_CURRENCIES) {
       if (symbol.endsWith(quoteCurrency)) {
         int splitIndex = symbol.lastIndexOf(quoteCurrency);
@@ -254,7 +249,7 @@ public class BybitAdapters {
       case LIMIT:
         builder =
             new LimitOrder.Builder(
-                adaptOrderType(bybitOrderResult), guessSymbol(bybitOrderResult.getSymbol()))
+                    adaptOrderType(bybitOrderResult), guessSymbol(bybitOrderResult.getSymbol()))
                 .limitPrice(bybitOrderResult.getPrice());
         break;
       default:
@@ -386,45 +381,51 @@ public class BybitAdapters {
 
   public static Instrument convertBybitSymbolToInstrument(String symbol, BybitCategory category) {
     switch (category) {
-      case SPOT: {
-        return guessSymbol(symbol);
-      }
-      case LINEAR: {
-        if (symbol.endsWith("USDT")) {
-          int splitIndex = symbol.lastIndexOf("USDT");
-          return new FuturesContract(
-              new CurrencyPair(symbol.substring(0, splitIndex), "USDT"), "PERP");
+      case SPOT:
+        {
+          return guessSymbol(symbol);
         }
-        if (symbol.endsWith("PERP")) {
-          int splitIndex = symbol.lastIndexOf("PERP");
+      case LINEAR:
+        {
+          if (symbol.endsWith("USDT")) {
+            int splitIndex = symbol.lastIndexOf("USDT");
+            return new FuturesContract(
+                new CurrencyPair(symbol.substring(0, splitIndex), "USDT"), "PERP");
+          }
+          if (symbol.endsWith("PERP")) {
+            int splitIndex = symbol.lastIndexOf("PERP");
+            return new FuturesContract(
+                new CurrencyPair(symbol.substring(0, splitIndex), "USDC"), "PERP");
+          }
+          // USDC Futures
+          int splitIndex = symbol.lastIndexOf("-");
           return new FuturesContract(
-              new CurrencyPair(symbol.substring(0, splitIndex), "USDC"), "PERP");
+              new CurrencyPair(symbol.substring(0, splitIndex), "USDC"),
+              symbol.substring(splitIndex + 1));
         }
-        // USDC Futures
-        int splitIndex = symbol.lastIndexOf("-");
-        return new FuturesContract(
-            new CurrencyPair(symbol.substring(0, splitIndex), "USDC"),
-            symbol.substring(splitIndex + 1));
-      }
-      case INVERSE: {
-        int splitIndex = symbol.lastIndexOf("USD");
-        String perp = symbol.length() > splitIndex + 3 ? symbol.substring(splitIndex + 3) : "";
-        return new FuturesContract(
-            new CurrencyPair(symbol.substring(0, splitIndex), "USD"), perp);
-      }
-      case OPTION: {
-        DateTimeFormatter dateParser = new DateTimeFormatterBuilder()
-            .parseCaseInsensitive()
-            .appendPattern("ddLLLyy")
-            .toFormatter(Locale.US);
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyMMdd");
-        String[] tokens = symbol.split("-");
-        String base = tokens[0];
-        String quote = "USDC";
-        String date =   dateFormat.format(LocalDate.parse(tokens[1], dateParser));
-        BigDecimal strike = new BigDecimal(tokens[2]);
-        return new OptionsContract(base + "/" + quote + "/" + date + "/" + strike + "/" + tokens[3]);
-      }
+      case INVERSE:
+        {
+          int splitIndex = symbol.lastIndexOf("USD");
+          String perp = symbol.length() > splitIndex + 3 ? symbol.substring(splitIndex + 3) : "";
+          return new FuturesContract(
+              new CurrencyPair(symbol.substring(0, splitIndex), "USD"), perp);
+        }
+      case OPTION:
+        {
+          DateTimeFormatter dateParser =
+              new DateTimeFormatterBuilder()
+                  .parseCaseInsensitive()
+                  .appendPattern("ddLLLyy")
+                  .toFormatter(Locale.US);
+          DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyMMdd");
+          String[] tokens = symbol.split("-");
+          String base = tokens[0];
+          String quote = "USDC";
+          String date = dateFormat.format(LocalDate.parse(tokens[1], dateParser));
+          BigDecimal strike = new BigDecimal(tokens[2]);
+          return new OptionsContract(
+              base + "/" + quote + "/" + date + "/" + strike + "/" + tokens[3]);
+        }
     }
     return null;
   }

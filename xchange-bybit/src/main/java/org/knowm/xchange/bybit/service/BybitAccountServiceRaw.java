@@ -21,7 +21,8 @@ import org.knowm.xchange.client.ResilienceRegistries;
 
 public class BybitAccountServiceRaw extends BybitBaseService {
 
-  protected BybitAccountServiceRaw(BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
+  protected BybitAccountServiceRaw(
+      BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
 
@@ -75,8 +76,9 @@ public class BybitAccountServiceRaw extends BybitBaseService {
         throw new UnsupportedOperationException("Only Linear and Inverse category");
     }
     BybitResult<Object> setLeverageResult =
-        decorateApiCall(() ->
-            bybitAuthenticated.setLeverage(apiKey, signatureCreator, nonceFactory, payload))
+        decorateApiCall(
+                () ->
+                    bybitAuthenticated.setLeverage(apiKey, signatureCreator, nonceFactory, payload))
             .withRateLimiter(rateLimiter)
             .withRateLimiter(rateLimiter(GLOBAL_RATE_LIMITER))
             .call();
@@ -100,8 +102,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     return switchModeResult;
   }
 
-  BybitResult<BybitAccountInfoResponse> accountInfoRaw()
-      throws IOException {
+  BybitResult<BybitAccountInfoResponse> accountInfoRaw() throws IOException {
     BybitResult<BybitAccountInfoResponse> accountInfo =
         bybitAuthenticated.getAccountInfo(apiKey, signatureCreator, nonceFactory);
     if (!accountInfo.isSuccess()) {
@@ -109,5 +110,4 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     }
     return accountInfo;
   }
-
 }

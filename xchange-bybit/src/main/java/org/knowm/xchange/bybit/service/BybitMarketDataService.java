@@ -24,7 +24,7 @@ import org.knowm.xchange.utils.Assert;
 public class BybitMarketDataService extends BybitMarketDataServiceRaw implements MarketDataService {
 
   public BybitMarketDataService(BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
-    super(exchange,resilienceRegistries);
+    super(exchange, resilienceRegistries);
   }
 
   @Override

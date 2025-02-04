@@ -1,27 +1,21 @@
 package org.knowm.xchange.bybit.service;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
-import jakarta.ws.rs.core.Response.Status;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
+import java.time.Duration;
 import org.junit.Test;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.BybitExchange;
+import org.knowm.xchange.bybit.BybitResilience;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRate;
 import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
-import org.knowm.xchange.bybit.service.BybitTradeService.BybitCancelAllOrdersParams;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -34,9 +28,38 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
   static BybitAccountService bybitAccountService;
 
   public void setUp() throws IOException {
-   bybitExchange = createExchange();
+    bybitExchange = createExchange();
+    // Create test-specific resilience registries with more permissive rate limits
+    ResilienceRegistries testRegistries = new ResilienceRegistries();
+    testRegistries
+        .rateLimiters()
+        .rateLimiter(
+            BybitResilience.POSITION_SET_LEVERAGE_LINEAR_RATE_LIMITER,
+            RateLimiterConfig.custom()
+                .limitRefreshPeriod(Duration.ofMillis(100))
+                .limitForPeriod(100)
+                .timeoutDuration(Duration.ofMillis(100))
+                .build());
+    testRegistries
+        .rateLimiters()
+        .rateLimiter(
+            BybitResilience.POSITION_SET_LEVERAGE_INVERSE_RATE_LIMITER,
+            RateLimiterConfig.custom()
+                .limitRefreshPeriod(Duration.ofMillis(100))
+                .limitForPeriod(100)
+                .timeoutDuration(Duration.ofMillis(100))
+                .build());
+    testRegistries
+        .rateLimiters()
+        .rateLimiter(
+            BybitResilience.GLOBAL_RATE_LIMITER,
+            RateLimiterConfig.custom()
+                .limitRefreshPeriod(Duration.ofMillis(100))
+                .limitForPeriod(100)
+                .timeoutDuration(Duration.ofMillis(100))
+                .build());
     bybitAccountService =
-        new BybitAccountService(bybitExchange, BybitAccountType.UNIFIED,bybitExchange.getResilienceRegistries());
+        new BybitAccountService(bybitExchange, BybitAccountType.UNIFIED, testRegistries);
   }
 
   @Test
@@ -54,7 +77,8 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
   public void testGetAllCoinsBalanceWithFund() throws IOException {
     BybitExchange bybitExchange = createExchange();
     BybitAccountService bybitAccountService =
-        new BybitAccountService(bybitExchange, BybitAccountType.FUND,bybitExchange.getResilienceRegistries());
+        new BybitAccountService(
+            bybitExchange, BybitAccountType.FUND, bybitExchange.getResilienceRegistries());
 
     initGetStub("/v5/asset/transfer/query-account-coins-balance", "/getAllCoinsBalance.json5");
     AccountInfo accountInfo = bybitAccountService.getAccountInfo();
@@ -85,13 +109,13 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
     setUp();
     initPostStub("/v5/position/set-leverage", "/setLeverage.json5");
     try {
-      bybitAccountService.setLeverage( new CurrencyPair("ETH/USDT"),1d);
+      bybitAccountService.setLeverage(new CurrencyPair("ETH/USDT"), 1d);
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException ignored) {
 
     }
-    boolean  bybitSetLeverageBybitResult =
-        bybitAccountService.setLeverage( new FuturesContract("ETH/USDT/PERP"),1d);
+    boolean bybitSetLeverageBybitResult =
+        bybitAccountService.setLeverage(new FuturesContract("ETH/USDT/PERP"), 1d);
     assertThat(bybitSetLeverageBybitResult).isTrue();
   }
 
@@ -100,11 +124,12 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
     setUp();
     initPostStub("/v5/position/switch-mode", "/switchPositionMode.json5");
 
-    BybitAccountService bybitAccountService = (BybitAccountService) bybitExchange.getAccountService();
-      boolean bybitSwitchPositionModeResult = bybitAccountService.switchPositionMode( BybitCategory.LINEAR,new FuturesContract("BTC/USDT/PERP"),null,0);
+    BybitAccountService bybitAccountService =
+        (BybitAccountService) bybitExchange.getAccountService();
+    boolean bybitSwitchPositionModeResult =
+        bybitAccountService.switchPositionMode(
+            BybitCategory.LINEAR, new FuturesContract("BTC/USDT/PERP"), null, 0);
 
     assertThat(bybitSwitchPositionModeResult).isTrue();
   }
-
-
 }

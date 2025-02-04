@@ -46,33 +46,25 @@ public class BybitCancelAllOrdersExample {
     Ticker tickerETH_USDT_PERP = exchange.getMarketDataService().getTicker(ETH_USDT_PERP);
     BybitAccountService bybitAccountService = (BybitAccountService) exchange.getAccountService();
 
-    //switch mode to one-way
+    // switch mode to one-way
     bybitAccountService.switchPositionMode(BybitCategory.LINEAR, ETH_USDT_PERP, "USDT", 0);
     System.out.printf(
         "Instrument %s:%n %s",
         ETH_USDT_PERP, exchange.getExchangeMetaData().getInstruments().get(ETH_USDT_PERP));
     BigDecimal price = tickerETH_USDT_PERP.getLow().add(new BigDecimal("50").negate());
     LimitOrder limitFutureOrder =
-        new LimitOrder(
-            OrderType.BID,
-            new BigDecimal("0.05"),
-            ETH_USDT_PERP,
-            null,
-            null, price);
+        new LimitOrder(OrderType.BID, new BigDecimal("0.05"), ETH_USDT_PERP, null, null, price);
     LimitOrder limitSpotOrder =
-        new LimitOrder(
-            OrderType.BID,
-            new BigDecimal("0.05"),
-            ETH_USDT,
-            null,
-            null, price);
+        new LimitOrder(OrderType.BID, new BigDecimal("0.05"), ETH_USDT, null, null, price);
     String limitFutureOrderId = exchange.getTradeService().placeLimitOrder(limitFutureOrder);
     String limitSpotOrderId = exchange.getTradeService().placeLimitOrder(limitSpotOrder);
-   TradeService tradeService = exchange.getTradeService();
-    Collection<String> resultSpot = tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(BybitCategory.SPOT, null));
-    Collection<String> resultFuture0 = tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(BybitCategory.LINEAR, ETH_USDT_PERP));
+    TradeService tradeService = exchange.getTradeService();
+    Collection<String> resultSpot =
+        tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(BybitCategory.SPOT, null));
+    Collection<String> resultFuture0 =
+        tradeService.cancelAllOrders(
+            new BybitCancelAllOrdersParams(BybitCategory.LINEAR, ETH_USDT_PERP));
     System.out.printf("cancel all orders SPOT, result %s%n", resultSpot);
     System.out.printf("cancel all orders LINEAR, result %s%n", resultFuture0);
-
   }
 }

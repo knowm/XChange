@@ -1,15 +1,12 @@
 package org.knowm.xchange.bybit.service;
 
 import java.util.concurrent.TimeUnit;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.Bybit;
 import org.knowm.xchange.bybit.BybitAuthenticated;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseResilientExchangeService;
-import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;

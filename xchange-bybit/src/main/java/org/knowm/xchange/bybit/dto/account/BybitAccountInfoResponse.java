@@ -1,6 +1,5 @@
 package org.knowm.xchange.bybit.dto.account;
 
-
 import lombok.Getter;
 
 @Getter
@@ -13,5 +12,4 @@ public class BybitAccountInfoResponse {
   private String dcpStatus;
   private int timeWindow;
   private int smpGroup;
-
 }

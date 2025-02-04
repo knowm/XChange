@@ -32,6 +32,19 @@ public class BaseWiremockTest {
     specification.setApiKey("test_api_key");
     specification.setSecretKey("test_secret_key");
     specification.setShouldLoadRemoteMetaData(false);
+
+    // Configure more permissive rate limiters for testing
+    specification.setExchangeSpecificParametersItem(
+        "rateLimit.positionSetLeverageLinear.limit", "100");
+    specification.setExchangeSpecificParametersItem(
+        "rateLimit.positionSetLeverageLinear.duration", "1");
+    specification.setExchangeSpecificParametersItem(
+        "rateLimit.positionSetLeverageInverse.limit", "100");
+    specification.setExchangeSpecificParametersItem(
+        "rateLimit.positionSetLeverageInverse.duration", "1");
+    specification.setExchangeSpecificParametersItem("rateLimit.global.limit", "100");
+    specification.setExchangeSpecificParametersItem("rateLimit.global.duration", "1");
+
     exchange.applySpecification(specification);
     return exchange;
   }
@@ -47,7 +60,6 @@ public class BaseWiremockTest {
   }
 
   /**
-   *
    * @param baseUrl baseUrl
    * @param responseBody responseBody
    * @param queryParams queryParams

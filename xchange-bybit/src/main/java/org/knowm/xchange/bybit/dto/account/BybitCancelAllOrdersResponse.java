@@ -6,13 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 
-
 @Getter
 @Setter
 public class BybitCancelAllOrdersResponse {
 
   @JsonProperty("list")
   List<BybitOrderResponse> list;
-  String success;
 
+  String success;
 }
