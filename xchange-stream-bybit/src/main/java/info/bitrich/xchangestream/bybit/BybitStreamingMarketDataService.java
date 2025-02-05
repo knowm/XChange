@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.bybit;
 import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import dto.marketdata.BybitOrderbook;
 import dto.marketdata.BybitPublicOrder;
 import dto.trade.BybitTrade;
@@ -14,7 +15,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -62,35 +62,51 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
     String channelUniqueId = ORDERBOOK + depth + "." + convertToBybitSymbol(instrument);
     return streamingService
         .subscribeChannel(channelUniqueId)
-        .flatMap(
+        .map(
             jsonNode -> {
-              BybitOrderbook bybitOrderBooks = mapper.treeToValue(jsonNode, BybitOrderbook.class);
-              String type = bybitOrderBooks.getDataType();
-              if (type.equalsIgnoreCase("snapshot")) {
-                OrderBook orderBook =
-                    BybitStreamAdapters.adaptOrderBook(bybitOrderBooks, instrument);
-                orderBookUpdateIdPrev.set(bybitOrderBooks.getData().getU());
-                orderBookMap.put(channelUniqueId, orderBook);
-                return Observable.just(orderBook);
-              } else if (type.equalsIgnoreCase("delta")) {
-                return applyDeltaSnapshot(
-                    channelUniqueId, instrument, bybitOrderBooks, orderBookUpdateIdPrev);
+              try {
+                BybitOrderbook bybitOrderBooks = mapper.treeToValue(jsonNode, BybitOrderbook.class);
+                String type = bybitOrderBooks.getDataType();
+                if (type.equalsIgnoreCase("snapshot")) {
+                  OrderBook orderBook =
+                      BybitStreamAdapters.adaptOrderBook(bybitOrderBooks, instrument);
+                  orderBookUpdateIdPrev.set(bybitOrderBooks.getData().getU());
+                  orderBookMap.put(channelUniqueId, orderBook);
+                  return orderBook;
+                } else if (type.equalsIgnoreCase("delta")) {
+                  return applyDeltaSnapshot(
+                      channelUniqueId, instrument, bybitOrderBooks, orderBookUpdateIdPrev);
+                }
+                return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
+              } catch (IllegalStateException e) {
+                LOG.warn(
+                    "Resubscribing {} channel after adapter error {}", instrument, e.getMessage());
+                // Resubscribe to the channel, triggering a new snapshot
+                orderBookMap.remove(channelUniqueId);
+                if (streamingService.isSocketOpen()) {
+                  streamingService.sendMessage(
+                      streamingService.getUnsubscribeMessage(channelUniqueId, args));
+                  streamingService.sendMessage(
+                      streamingService.getSubscribeMessage(channelUniqueId, args));
+                }
+                return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
               }
-              return Observable.fromIterable(new LinkedList<>());
-            });
+            })
+        .filter(orderBook -> !orderBook.getBids().isEmpty() && !orderBook.getAsks().isEmpty());
   }
 
-  private Observable<OrderBook> applyDeltaSnapshot(
+  private OrderBook applyDeltaSnapshot(
       String channelUniqueId,
       Instrument instrument,
       BybitOrderbook bybitOrderBookUpdate,
       AtomicLong orderBookUpdateIdPrev) {
     OrderBook orderBook = orderBookMap.getOrDefault(channelUniqueId, null);
     if (orderBook == null) {
-      LOG.error("Failed to get orderBook, channelUniqueId= {}", channelUniqueId);
-      return Observable.fromIterable(new LinkedList<>());
+      LOG.debug("Failed to get orderBook, channelUniqueId= {}", channelUniqueId);
+      return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
     }
-    if (orderBookUpdateIdPrev.incrementAndGet() == bybitOrderBookUpdate.getData().getU()) {
+    if (orderBookUpdateIdPrev.incrementAndGet() == bybitOrderBookUpdate.getData()
+        .getU()) {
       LOG.debug(
           "orderBookUpdate id {}, seq {} ",
           bybitOrderBookUpdate.getData().getU(),
@@ -111,14 +127,13 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
       if (orderBookUpdatesSubscriptions.get(instrument) != null) {
         orderBookUpdatesSubscriptions(instrument, asks, bids, timestamp);
       }
-      return Observable.just(orderBook);
+      return orderBook;
     } else {
       LOG.error(
           "orderBookUpdate id sequence failed, expected {}, in fact {}",
-          orderBookUpdateIdPrev,
+          orderBookUpdateIdPrev.get(),
           bybitOrderBookUpdate.getData().getU());
-      // resubscribe or what here?
-      return Observable.fromIterable(new LinkedList<>());
+      throw new IllegalStateException("orderBookUpdate id sequence failed");
     }
   }
 

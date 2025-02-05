@@ -42,7 +42,7 @@ public class BybitStreamPositionChangeExample {
     StreamingExchange exchange = connect(BybitCategory.LINEAR, true);
     ticker = (exchange.getMarketDataService().getTicker(ETH_PERP));
     amount = exchange.getExchangeMetaData().getInstruments().get(ETH_PERP).getMinimumAmount();
-    //minimal trade size - 5 USDT
+    // minimal trade size - 5 USDT
     if (amount.multiply(ticker.getBid()).compareTo(new BigDecimal("5.0")) <= 0) {
       amount =
           new BigDecimal("5")
@@ -82,9 +82,9 @@ public class BybitStreamPositionChangeExample {
       throw new RuntimeException(e);
     }
     positionChangesDisposable.dispose();
+    tradesDisposable.dispose();
+    exchange.disconnect().blockingAwait();
   }
 
 
 }
-
-

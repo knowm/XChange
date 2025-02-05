@@ -3,16 +3,13 @@ package org.knowm.xchange.bybit;
 import static org.knowm.xchange.bybit.dto.BybitCategory.INVERSE;
 import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
 import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
-import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.PUT;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -26,7 +23,6 @@ import org.knowm.xchange.bybit.dto.account.walletbalance.BybitCoinWalletBalance;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInverseInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo;
-import org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.spot.BybitSpotInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
@@ -65,11 +61,12 @@ public class BybitAdapters {
   public static Wallet adaptBybitBalances(List<BybitCoinWalletBalance> coinWalletBalances) {
     List<Balance> balances = new ArrayList<>(coinWalletBalances.size());
     for (BybitCoinWalletBalance bybitCoinBalance : coinWalletBalances) {
+      BigDecimal availableToWithdraw = bybitCoinBalance.getAvailableToWithdraw().isEmpty() ? BigDecimal.ZERO : new BigDecimal(bybitCoinBalance.getAvailableToWithdraw());
       balances.add(
           new Balance(
               new Currency(bybitCoinBalance.getCoin()),
               new BigDecimal(bybitCoinBalance.getEquity()),
-              new BigDecimal(bybitCoinBalance.getAvailableToWithdraw())));
+              availableToWithdraw));
     }
     return Wallet.Builder.from(balances).build();
   }
@@ -242,19 +239,19 @@ public class BybitAdapters {
         .build();
   }
 
-  public static Order adaptBybitOrderDetails(BybitOrderDetail bybitOrderResult) {
+  public static Order adaptBybitOrderDetails(BybitOrderDetail bybitOrderResult, BybitCategory category) {
     Order.Builder builder;
 
     switch (bybitOrderResult.getOrderType()) {
       case MARKET:
         builder =
             new MarketOrder.Builder(
-                adaptOrderType(bybitOrderResult), guessSymbol(bybitOrderResult.getSymbol()));
+                adaptOrderType(bybitOrderResult), convertBybitSymbolToInstrument(bybitOrderResult.getSymbol(),category));
         break;
       case LIMIT:
         builder =
             new LimitOrder.Builder(
-                adaptOrderType(bybitOrderResult), guessSymbol(bybitOrderResult.getSymbol()))
+                adaptOrderType(bybitOrderResult), convertBybitSymbolToInstrument(bybitOrderResult.getSymbol(),category))
                 .limitPrice(bybitOrderResult.getPrice());
         break;
       default:

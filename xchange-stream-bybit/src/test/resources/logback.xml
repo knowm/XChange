@@ -20,7 +20,7 @@
 <!--  <logger name="org.knowm.xchange" level="TRACE"/>-->
 <!--  <logger name="si.mazi.rescu" level="TRACE"/>-->
 <!--  <Logger name="info.bitrich.xchangestream.service.netty.JsonNettyStreamingService" level="TRACE"/>-->
-<!--  <Logger name="info.bitrich.xchangestream" level="TRACE"/>-->
+<!--  <Logger name="info.bitrich.xchangestream" level="DEBUG"/>-->
 <!--  <Logger name="info.bitrich.xchangestream.service.netty.WebSocketClientHandler" level="TRACE"/>-->
-
+<!--  <Logger name="info.bitrich.xchangestream.service.netty.NettyStreamingService" level="TRACE"/>-->
 </configuration>

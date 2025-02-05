@@ -555,6 +555,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
+      connectionStateModel.setState(State.CLOSED);
       if (isManualDisconnect.compareAndSet(true, false)) {
         // Don't attempt to reconnect
       } else {
