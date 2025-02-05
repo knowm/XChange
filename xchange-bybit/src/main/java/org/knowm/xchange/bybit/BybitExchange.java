@@ -1,6 +1,7 @@
 package org.knowm.xchange.bybit;
 
 import java.io.IOException;
+import lombok.Getter;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -15,6 +16,7 @@ import org.knowm.xchange.bybit.service.BybitMarketDataServiceRaw;
 import org.knowm.xchange.bybit.service.BybitTradeService;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.ExchangeException;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BybitExchange extends BaseExchange implements Exchange{
 
@@ -27,6 +29,9 @@ public class BybitExchange extends BaseExchange implements Exchange{
   public static final String SPECIFIC_PARAM_TESTNET = "test_net";
 
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
+
+  @Getter
+  protected SynchronizedValueFactory<Long> timeStampFactory = new BybitTimeStampFactory();
 
   @Override
   protected void initServices() {
@@ -135,4 +140,11 @@ public class BybitExchange extends BaseExchange implements Exchange{
     }
     return RESILIENCE_REGISTRIES;
   }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    throw new UnsupportedOperationException(
+        "Bybit uses timestamp/recv-window rather than a nonce");
+  }
+
 }

@@ -4,8 +4,10 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okex.OkexExchange;
@@ -101,5 +103,25 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
   public void setChannelInactiveHandler(
       WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
     streamingService.setChannelInactiveHandler(channelInactiveHandler);
+  }
+
+  @Override
+  public Observable<Throwable> reconnectFailure() {
+    return streamingService.subscribeReconnectFailure();
+  }
+
+  @Override
+  public Observable<ConnectionStateModel.State> connectionStateObservable() {
+    return streamingService.subscribeConnectionState();
+  }
+
+  @Override
+  public void resubscribeChannels() {
+    streamingService.resubscribeChannels();
+  }
+
+  @Override
+  public Observable<Object> connectionIdle() {
+    return streamingService.subscribeIdle();
   }
 }

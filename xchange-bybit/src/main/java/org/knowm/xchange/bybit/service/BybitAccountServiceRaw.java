@@ -29,7 +29,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
       throws IOException {
     BybitResult<BybitWalletBalance> walletBalances =
         bybitAuthenticated.getWalletBalance(
-            apiKey, signatureCreator, nonceFactory, accountType.name());
+            apiKey, signatureCreator, exchange.getTimeStampFactory(), accountType.name());
     if (!walletBalances.isSuccess()) {
       throw createBybitExceptionFromResult(walletBalances);
     }
@@ -40,7 +40,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
       throws IOException {
     BybitResult<BybitAllCoinsBalance> allCoinsBalance =
         bybitAuthenticated.getAllCoinsBalance(
-            apiKey, signatureCreator, nonceFactory, accountType.name());
+            apiKey, signatureCreator, exchange.getTimeStampFactory(), accountType.name());
     if (!allCoinsBalance.isSuccess()) {
       throw createBybitExceptionFromResult(allCoinsBalance);
     }
@@ -49,9 +49,11 @@ public class BybitAccountServiceRaw extends BybitBaseService {
 
   BybitResult<BybitFeeRates> getFeeRatesRaw(BybitCategory category, String symbol)
       throws IOException {
-    BybitResult<BybitFeeRates> bybitFeeRatesResult =
-        bybitAuthenticated.getFeeRates(
-            apiKey, signatureCreator, nonceFactory, category.getValue(), symbol);
+    BybitResult<BybitFeeRates> bybitFeeRatesResult;
+      bybitFeeRatesResult =
+          bybitAuthenticated.getFeeRate(
+              apiKey, signatureCreator, exchange.getTimeStampFactory(), category.getValue(), symbol);
+
     if (!bybitFeeRatesResult.isSuccess()) {
       throw createBybitExceptionFromResult(bybitFeeRatesResult);
     }
@@ -76,7 +78,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     }
     BybitResult<Object> setLeverageResult =
         decorateApiCall(() ->
-            bybitAuthenticated.setLeverage(apiKey, signatureCreator, nonceFactory, payload))
+            bybitAuthenticated.setLeverage(apiKey, signatureCreator, exchange.getTimeStampFactory(), payload))
             .withRateLimiter(rateLimiter)
             .withRateLimiter(rateLimiter(GLOBAL_RATE_LIMITER))
             .call();
@@ -92,7 +94,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     BybitSwitchModePayload payload =
         new BybitSwitchModePayload(category.getValue(), symbol, coin, mode);
     BybitResult<Object> switchModeResult =
-        bybitAuthenticated.switchMode(apiKey, signatureCreator, nonceFactory, payload);
+        bybitAuthenticated.switchMode(apiKey, signatureCreator, exchange.getTimeStampFactory(), payload);
     // retCode=110025, retMsg=Position mode is not modified - also is success
     if (!switchModeResult.isSuccess() && switchModeResult.getRetCode() != 110025) {
       throw createBybitExceptionFromResult(switchModeResult);
@@ -103,7 +105,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
   BybitResult<BybitAccountInfoResponse> accountInfoRaw()
       throws IOException {
     BybitResult<BybitAccountInfoResponse> accountInfo =
-        bybitAuthenticated.getAccountInfo(apiKey, signatureCreator, nonceFactory);
+        bybitAuthenticated.getAccountInfo(apiKey, signatureCreator, exchange.getTimeStampFactory());
     if (!accountInfo.isSuccess()) {
       throw createBybitExceptionFromResult(accountInfo);
     }

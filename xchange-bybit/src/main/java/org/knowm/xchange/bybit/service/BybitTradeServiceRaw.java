@@ -1,5 +1,6 @@
 package org.knowm.xchange.bybit.service;
 
+import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
 import static org.knowm.xchange.bybit.BybitAdapters.createBybitExceptionFromResult;
 import static org.knowm.xchange.bybit.BybitResilience.GLOBAL_RATE_LIMITER;
 import static org.knowm.xchange.bybit.BybitResilience.ORDER_AMEND_LINEAR_AND_INVERSE_RATE_LIMITER;
@@ -23,11 +24,9 @@ import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitCancelAllOrdersPayload;
 import org.knowm.xchange.bybit.dto.account.BybitCancelAllOrdersResponse;
-
-import org.knowm.xchange.bybit.dto.trade.BybitOrder.SlTriggerBy;
-
 import org.knowm.xchange.bybit.dto.trade.BybitAmendOrderPayload;
 import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderPayload;
+import org.knowm.xchange.bybit.dto.trade.BybitOrder.SlTriggerBy;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
 import org.knowm.xchange.bybit.dto.trade.BybitPlaceOrderPayload;
@@ -36,22 +35,29 @@ import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
 import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BybitTradeServiceRaw extends BybitBaseService {
 
-  protected BybitTradeServiceRaw(BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
+  protected BybitTradeServiceRaw(BybitExchange exchange,
+      ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
 
  BybitResult<BybitOrderDetails<BybitOrderDetail>> getBybitOrder(
-      BybitCategory category, String orderId) throws IOException {
-    BybitResult<BybitOrderDetails<BybitOrderDetail>> order =
-        bybitAuthenticated.getOpenOrders(
-            apiKey, signatureCreator, nonceFactory, category.getValue(), orderId);
-    if (!order.isSuccess()) {
-      throw createBybitExceptionFromResult(order);
+      BybitCategory category,Instrument instrument, String orderId) throws IOException {
+      String symbol = null;
+      if(instrument != null) {
+        symbol = convertToBybitSymbol(instrument);
+      }
+
+      BybitResult<BybitOrderDetails<BybitOrderDetail>> bybitOrder =bybitAuthenticated.getOrders(
+          apiKey, signatureCreator, exchange.getTimeStampFactory(), category.getValue(), symbol, orderId);
+
+    if (!bybitOrder.isSuccess()) {
+      throw createBybitExceptionFromResult(bybitOrder);
     }
-    return order;
+    return bybitOrder;
   }
 
  BybitResult<BybitOrderResponse> amendOrder(
@@ -71,10 +77,7 @@ public class BybitTradeServiceRaw extends BybitBaseService {
       String tpLimitPrice,
       String slLimitPrice)
       throws IOException {
-    // if only userId is used, don't need to send id
-    if (orderId != null && orderId.isEmpty()) {
-      orderId = null;
-    }
+
     RateLimiter rateLimiter = getAmendOrderRateLimiter(category);
     BybitAmendOrderPayload payload =
         new BybitAmendOrderPayload(
@@ -95,7 +98,7 @@ public class BybitTradeServiceRaw extends BybitBaseService {
             slLimitPrice);
     BybitResult<BybitOrderResponse> amendOrder =
         decorateApiCall(
-            () -> bybitAuthenticated.amendOrder(apiKey, signatureCreator, nonceFactory, payload))
+            () -> bybitAuthenticated.amendOrder(apiKey, signatureCreator, exchange.getTimeStampFactory(), payload))
             .withRateLimiter(rateLimiter)
             .withRateLimiter(rateLimiter(GLOBAL_RATE_LIMITER))
             .call();
@@ -143,7 +146,8 @@ public class BybitTradeServiceRaw extends BybitBaseService {
       payload.setTimeInForce(timeInForce.getValue());
     }
     BybitResult<BybitOrderResponse> placeOrder =
-        decorateApiCall(() -> bybitAuthenticated.placeOrder(apiKey, signatureCreator, nonceFactory, payload))
+        decorateApiCall(
+            () -> bybitAuthenticated.placeOrder(apiKey, signatureCreator, exchange.getTimeStampFactory(), payload))
             .withRateLimiter(getCreateOrderRateLimiter(category))
             .withRateLimiter(rateLimiter(GLOBAL_RATE_LIMITER))
             .call();
@@ -160,7 +164,7 @@ public class BybitTradeServiceRaw extends BybitBaseService {
     BybitCancelOrderPayload payload =
         new BybitCancelOrderPayload(category, symbol, orderId, orderLinkId);
     return decorateApiCall(
-        () -> bybitAuthenticated.cancelOrder(apiKey, signatureCreator, nonceFactory, payload))
+        () -> bybitAuthenticated.cancelOrder(apiKey, signatureCreator, exchange.getTimeStampFactory(), payload))
         .withRateLimiter(rateLimiter)
         .withRateLimiter(rateLimiter(GLOBAL_RATE_LIMITER))
         .call();
@@ -172,12 +176,13 @@ public class BybitTradeServiceRaw extends BybitBaseService {
     BybitCancelAllOrdersPayload payload = new BybitCancelAllOrdersPayload(category, symbol,
         baseCoin, settleCoin, orderFilter, stopOrderType);
     BybitResult<BybitCancelAllOrdersResponse> response =
-        bybitAuthenticated.cancelAllOrders(apiKey, signatureCreator, nonceFactory, payload);
+        bybitAuthenticated.cancelAllOrders(apiKey, signatureCreator, exchange.getTimeStampFactory(), payload);
     if (!response.isSuccess()) {
       throw createBybitExceptionFromResult(response);
     }
     return response;
   }
+
 
   private RateLimiter getCreateOrderRateLimiter(BybitCategory category) {
     switch (category) {
@@ -204,6 +209,7 @@ public class BybitTradeServiceRaw extends BybitBaseService {
     }
     return null;
   }
+
   private RateLimiter getAmendOrderRateLimiter(BybitCategory category) {
     switch (category) {
       case LINEAR:

@@ -15,7 +15,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.BybitExchange;
+import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
+import org.knowm.xchange.bybit.service.BybitAccountService;
 import org.knowm.xchange.bybit.service.BybitTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -50,6 +52,8 @@ public class BybitRateLimiterTestExample {
 
     Ticker tickerETH_USDT_PERP = exchange.getMarketDataService().getTicker(ETH_USDT_PERP);
     LimitOrder limitOrderFuture = createOrder("", tickerETH_USDT_PERP.getHigh());
+    BybitAccountService bybitAccountService = (BybitAccountService) exchange.getAccountService();
+    bybitAccountService.switchPositionMode(BybitCategory.LINEAR, ETH_USDT_PERP, "USDT", 0);
     String limitFutureOrderId = exchange.getTradeService().placeLimitOrder(limitOrderFuture);
     BybitTradeService bybitTradeService = (BybitTradeService) exchange.getTradeService();
     exchange.getResilienceRegistries().rateLimiters().rateLimiter(GLOBAL_RATE_LIMITER)
@@ -68,11 +72,11 @@ public class BybitRateLimiterTestExample {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
     for (int i = 0; i < 8; i++) {
       int finalI = i;
-//      System.out.println(sdf.format(new Date())  +
-//          " Amend order, availablePermissions: " + exchange.getResilienceRegistries()
-//              .rateLimiters()
-//              .rateLimiter(ORDER_AMEND_LINEAR_AND_INVERSE_RATE_LIMITER).getMetrics()
-//              .getAvailablePermissions());
+      System.out.println(sdf.format(new Date())  +
+          " Amend order, availablePermissions: " + exchange.getResilienceRegistries()
+              .rateLimiters()
+              .rateLimiter(ORDER_AMEND_LINEAR_AND_INVERSE_RATE_LIMITER).getMetrics()
+              .getAvailablePermissions());
       Thread.sleep(1);
       executor.execute(() -> {
         try {

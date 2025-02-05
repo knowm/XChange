@@ -13,6 +13,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitAccountInfoResponse;
 import org.knowm.xchange.bybit.dto.account.BybitCancelAllOrdersPayload;
@@ -65,12 +66,12 @@ public interface BybitAuthenticated {
    */
   @GET
   @Path("/account/fee-rate")
-  BybitResult<BybitFeeRates> getFeeRates(
+  BybitResult<BybitFeeRates> getFeeRate(
       @HeaderParam(X_BAPI_API_KEY) String apiKey,
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
       @QueryParam("category") String category,
-      @QueryParam("symbol") String symbol)
+      @Nonnull @QueryParam("symbol") String symbol)
       throws IOException, BybitException;
 
   /**
@@ -78,12 +79,13 @@ public interface BybitAuthenticated {
    */
   @GET
   @Path("/order/realtime")
-  BybitResult<BybitOrderDetails<BybitOrderDetail>> getOpenOrders(
+  BybitResult<BybitOrderDetails<BybitOrderDetail>> getOrders(
       @HeaderParam(X_BAPI_API_KEY) String apiKey,
       @HeaderParam(X_BAPI_SIGN) ParamsDigest signature,
       @HeaderParam(X_BAPI_TIMESTAMP) SynchronizedValueFactory<Long> timestamp,
       @QueryParam("category") String category,
-      @QueryParam("orderId") String orderId)
+      @Nonnull @QueryParam("symbol") String symbol,
+      @Nonnull @QueryParam("orderId") String orderId)
       throws IOException, BybitException;
 
   /**
