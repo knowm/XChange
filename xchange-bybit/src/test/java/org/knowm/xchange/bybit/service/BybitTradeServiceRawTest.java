@@ -6,7 +6,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
-import static org.knowm.xchange.bybit.dto.trade.BybitSide.BUY;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +15,6 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
@@ -24,7 +22,6 @@ import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
-import org.knowm.xchange.bybit.dto.trade.BybitSide;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
 import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
@@ -32,7 +29,6 @@ import org.knowm.xchange.bybit.dto.trade.details.linear.BybitLinearOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.spot.BybitSpotOrderDetail;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.instrument.Instrument;
 
 public class BybitTradeServiceRawTest extends BaseWiremockTest {
 
@@ -48,7 +44,7 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
 
     BybitResult<BybitOrderDetails<BybitOrderDetail>> actualOrderDetails =
         bybitAccountServiceRaw.getBybitOrder(
-            BybitCategory.LINEAR, "fd4300ae-7847-404e-b947-b46980a4d140");
+            BybitCategory.LINEAR,null,"fd4300ae-7847-404e-b947-b46980a4d140");
 
     assertThat(actualOrderDetails.getResult().getList()).hasSize(1);
 
@@ -151,7 +147,7 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
 
     BybitResult<BybitOrderDetails<BybitOrderDetail>> actualOrderDetails =
         bybitAccountServiceRaw.getBybitOrder(
-            BybitCategory.SPOT, "fd4300ae-7847-404e-b947-b46980a4d140");
+            BybitCategory.SPOT, null,"fd4300ae-7847-404e-b947-b46980a4d140");
 
     assertThat(actualOrderDetails.getResult().getList()).hasSize(1);
 

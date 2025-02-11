@@ -1,8 +1,6 @@
 package org.knowm.xchange.binance.service;
 
 import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
-import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
-import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -13,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
@@ -20,6 +19,8 @@ import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.ExchangeType;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
+import org.knowm.xchange.binance.dto.account.BinanceCurrencyInfo;
+import org.knowm.xchange.binance.dto.account.BinanceCurrencyInfo.Network;
 import org.knowm.xchange.binance.dto.account.BinanceFundingHistoryParams;
 import org.knowm.xchange.binance.dto.account.BinanceMasterAccountTransferHistoryParams;
 import org.knowm.xchange.binance.dto.account.BinanceSubAccountTransferHistoryParams;
@@ -38,8 +39,10 @@ import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.account.params.RequestDepositAddressParams;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
+import org.knowm.xchange.service.trade.params.NetworkWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
@@ -187,7 +190,17 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                 rippleParams.getCurrency().getCurrencyCode(),
                 rippleParams.getAddress(),
                 rippleParams.getTag(),
-                rippleParams.getAmount());
+                rippleParams.getAmount(),
+                Currency.XRP.getCurrencyCode());
+      } else if (params instanceof NetworkWithdrawFundsParams) {
+        NetworkWithdrawFundsParams p = (NetworkWithdrawFundsParams) params;
+        withdraw =
+            super.withdraw(
+                p.getCurrency().getCurrencyCode(),
+                p.getAddress(),
+                p.getAddressTag(),
+                p.getAmount(),
+                p.getNetwork());
       } else {
         DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
         withdraw =
@@ -195,7 +208,8 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                 p.getCurrency().getCurrencyCode(),
                 p.getAddress(),
                 p.getAddressTag(),
-                p.getAmount());
+                p.getAmount(),
+                null);
       }
       return withdraw.getId();
     } catch (BinanceException e) {
@@ -215,12 +229,58 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   @Override
   public AddressWithTag requestDepositAddressData(Currency currency, String... args)
       throws IOException {
-    DepositAddress depositAddress = super.requestDepositAddress(currency);
+    return prepareAddressWithTag(super.requestDepositAddress(currency));
+  }
+
+  @Override
+  public AddressWithTag requestDepositAddressData(
+      RequestDepositAddressParams requestDepositAddressParams) throws IOException {
+    if (StringUtils.isEmpty(requestDepositAddressParams.getNetwork())) {
+      return requestDepositAddressData(
+          requestDepositAddressParams.getCurrency(),
+          requestDepositAddressParams.getExtraArguments());
+    }
+
+    BinanceCurrencyInfo binanceCurrencyInfo =
+        super.getCurrencyInfo(requestDepositAddressParams.getCurrency())
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "Currency not supported: " + requestDepositAddressParams.getCurrency()));
+
+    Network binanceNetwork =
+        binanceCurrencyInfo.getNetworks().stream()
+            .filter(
+                network ->
+                    requestDepositAddressParams.getNetwork().equals(network.getId())
+                        || network
+                            .getId()
+                            .equals(requestDepositAddressParams.getCurrency().getCurrencyCode()))
+            .findFirst()
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "Network not supported: " + requestDepositAddressParams.getNetwork()));
+
+    DepositAddress depositAddress =
+        super.requestDepositAddressWithNetwork(
+            requestDepositAddressParams.getCurrency(), binanceNetwork.getId());
+
+    return prepareAddressWithTag(depositAddress);
+  }
+
+  private static AddressWithTag prepareAddressWithTag(DepositAddress depositAddress) {
     String destinationTag =
         (depositAddress.addressTag == null || depositAddress.addressTag.isEmpty())
             ? null
             : depositAddress.addressTag;
     return new AddressWithTag(depositAddress.address, destinationTag);
+  }
+
+  @Override
+  public String requestDepositAddress(RequestDepositAddressParams requestDepositAddressParams)
+      throws IOException {
+    return requestDepositAddressData(requestDepositAddressParams).getAddress();
   }
 
   public Map<String, AssetDetail> getAssetDetails() throws IOException {

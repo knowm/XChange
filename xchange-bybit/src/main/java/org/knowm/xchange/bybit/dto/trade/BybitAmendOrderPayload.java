@@ -6,7 +6,7 @@ import lombok.Getter;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 
 @Getter
-@JsonInclude(Include.NON_NULL)
+@JsonInclude(Include.NON_EMPTY)
 public class BybitAmendOrderPayload {
 
   BybitCategory category;

@@ -4,8 +4,6 @@ import static org.knowm.xchange.bybit.BybitAdapters.adaptBybitOrderDetails;
 import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
 import static org.knowm.xchange.bybit.BybitAdapters.createBybitExceptionFromResult;
 import static org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode.TWOWAY;
-import static org.knowm.xchange.dto.Order.OrderType.ASK;
-import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,13 +11,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.Getter;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.BybitCancelAllOrdersResponse;
-
+import org.knowm.xchange.bybit.dto.trade.BybitCancelAllOrdersParams;
+import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderParams;
+import org.knowm.xchange.bybit.dto.trade.BybitOpenOrdersParam;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
 import org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode;
@@ -32,6 +31,7 @@ import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelAllOrders;
@@ -39,7 +39,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
 import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BybitTradeService extends BybitTradeServiceRaw implements TradeService {
 
@@ -115,17 +115,39 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
       for (BybitCategory category : BybitCategory.values()) {
 
         BybitResult<BybitOrderDetails<BybitOrderDetail>> bybitOrder =
-            getBybitOrder(category, orderId);
+            getBybitOrder(category, null,orderId);
 
         if (bybitOrder.getResult().getCategory().equals(category)
             && !bybitOrder.getResult().getList().isEmpty()) {
           BybitOrderDetail bybitOrderDetail = bybitOrder.getResult().getList().get(0);
-          Order order = adaptBybitOrderDetails(bybitOrderDetail);
+          Order order = adaptBybitOrderDetails(bybitOrderDetail,category);
           results.add(order);
         }
       }
     }
     return results;
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    if (params instanceof BybitOpenOrdersParam) {
+      BybitCategory category = ((BybitOpenOrdersParam) params).getCategory();
+      Instrument instrument = ((BybitOpenOrdersParam) params).getInstrument();
+      if (category == null) {
+        throw new UnsupportedOperationException("Category is required");
+      }
+      BybitResult<BybitOrderDetails<BybitOrderDetail>> response = getBybitOrder(category, instrument, null);
+      List<LimitOrder> limitOrders = new ArrayList<>();
+      if (response != null) {
+        for(BybitOrderDetail orderDetail:response.getResult().getList())
+          limitOrders.add((LimitOrder) adaptBybitOrderDetails(orderDetail,category));
+      } else {
+        throw new UnsupportedOperationException(
+            "Params must be instance of BybitCancelAllOrdersParams");
+      }
+      return new OpenOrders(limitOrders);
+    }
+    return null;
   }
 
   @Override
@@ -251,65 +273,6 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
       }
     }
     return positionIdx;
-  }
-
-  @Getter
-  public static final class BybitCancelOrderParams extends DefaultCancelOrderByInstrumentAndIdParams
-      implements CancelOrderByUserReferenceParams {
-
-    private final String userReference;
-
-    public BybitCancelOrderParams(Instrument instrument, String orderId, String userReference) {
-      super(instrument, orderId);
-      this.userReference = userReference;
-    }
-
-    @Override
-    public String toString() {
-      return "BybitCancelOrderParams{" +
-          "instrument='" + getInstrument() + '\'' +
-          ", orderId='" + getOrderId() + '\'' +
-          ", userReference=" + getUserReference() +
-          '}';
-    }
-  }
-
-  @Getter
-  public static class BybitCancelAllOrdersParams implements CancelAllOrders {
-
-    private final BybitCategory category;
-    private final Instrument symbol;
-    private String baseCoin;
-    private String settleCoin;
-    private String orderFilter;
-    private String stopOrderType;
-
-    public BybitCancelAllOrdersParams(BybitCategory category, Instrument symbol) {
-      this.category = category;
-      this.symbol = symbol;
-    }
-
-    public BybitCancelAllOrdersParams(BybitCategory category, Instrument symbol, String baseCoin,
-        String settleCoin, String orderFilter, String stopOrderType) {
-      this.category = category;
-      this.symbol = symbol;
-      this.baseCoin = baseCoin;
-      this.settleCoin = settleCoin;
-      this.orderFilter = orderFilter;
-      this.stopOrderType = stopOrderType;
-    }
-
-    @Override
-    public String toString() {
-      return "BybitCancelAllOrdersParams{" +
-          "category=" + category +
-          ", symbol=" + symbol +
-          ", baseCoin='" + baseCoin + '\'' +
-          ", settleCoin='" + settleCoin + '\'' +
-          ", orderFilter='" + orderFilter + '\'' +
-          ", stopOrderType='" + stopOrderType + '\'' +
-          '}';
-    }
   }
 
 }
