@@ -225,12 +225,16 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
                 type,
                 limitOrder.getLimitPrice().toPlainString(),
                 limitOrder.getOriginalAmount())
-            .withUserRefId(limitOrder.getUserReference())
             .withOrderFlags(limitOrder.getOrderFlags())
             .withLeverage(limitOrder.getLeverage())
             .withTimeInForce(timeInForceFromOrder(limitOrder).orElse(null));
 
-    getClientOrderId(limitOrder).ifPresent(krakenOrderBuilder::withClientOrderId);
+    Optional<String> clientOrderId = getClientOrderId(limitOrder);
+    if (clientOrderId.isPresent()) {
+      krakenOrderBuilder.withClientOrderId(clientOrderId.get());
+    } else {
+      krakenOrderBuilder.withUserRefId(limitOrder.getUserReference());
+    }
 
     return placeKrakenOrder(krakenOrderBuilder.buildOrder());
   }

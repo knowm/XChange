@@ -137,7 +137,11 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                 .timestamp(dto.opentm == null ? null : new Date((long) (dto.opentm * 1000L)))
                 .fee(dto.fee)
                 .flags(adaptFlags(dto.oflags))
-                .userReference(dto.userref == null ? null : Integer.toString(dto.userref))
+                .userReference(
+                    dto.cl_ord_id == null
+                    ? dto.userref == null ? null : Integer.toString(dto.userref)
+                    : dto.cl_ord_id
+                )
                 .build());
       }
     }
@@ -220,6 +224,11 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                 .feeAmount(dto.fee)
                 .feeCurrency(currencyPair.counter)
                 .originalAmount(dto.vol)
+                .orderUserReference(
+                    dto.cl_ord_id == null
+                        ? dto.userref == null ? null : Integer.toString(dto.userref)
+                        : dto.cl_ord_id
+                )
                 .build());
       }
     }
