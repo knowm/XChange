@@ -2,13 +2,16 @@ package info.bitrich.xchangestream.kraken.dto;
 
 import java.math.BigDecimal;
 
-/** https://docs.kraken.com/websockets/#message-openOrders */
+/** https://docs.kraken.com/api/docs/websocket-v1/openorders */
 public class KrakenOpenOrder {
   /** Referral order transaction id that created this order */
   public String refid;
 
   /** user reference id */
   public Integer userref;
+
+  /** an optional, alphanumeric client identifier associated with this order */
+  public String cl_ord_id;
 
   /** status of order: */
   public String status;

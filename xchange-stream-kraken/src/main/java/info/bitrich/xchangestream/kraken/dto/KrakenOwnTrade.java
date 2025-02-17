@@ -6,6 +6,12 @@ public class KrakenOwnTrade {
   /** order responsible for execution of trade */
   public String ordertxid;
 
+  /** an optional, alphanumeric client identifier associated with this order. Available on update messages only. */
+  public String cl_ord_id;
+
+  /** an optional, numeric identifier associated with one or more orders. Available on update messages only. */
+  public Integer userref;
+
   /** Position trade id */
   public String postxid;
 
