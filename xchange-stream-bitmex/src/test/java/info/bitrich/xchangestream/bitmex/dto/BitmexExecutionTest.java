@@ -54,7 +54,7 @@ public class BitmexExecutionTest {
     assertEquals("", bitmexExecution.execInst);
     assertEquals("", bitmexExecution.contingencyType);
     assertEquals("XBME", bitmexExecution.exDestination);
-    assertEquals(BitmexPrivateOrder.OrderStatus.Filled, bitmexExecution.ordStatus);
+    assertEquals(BitmexPrivateOrder.OrderStatus.FILLED, bitmexExecution.ordStatus);
     assertEquals("", bitmexExecution.triggered);
     assertEquals(false, bitmexExecution.workingIndicator);
     assertEquals("", bitmexExecution.ordRejReason);

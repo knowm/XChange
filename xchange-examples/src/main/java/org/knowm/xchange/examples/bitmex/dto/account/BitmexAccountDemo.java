@@ -5,7 +5,6 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
-import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.bitmex.service.BitmexAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
@@ -37,7 +36,6 @@ public class BitmexAccountDemo {
 
   private static void walletInfo(AccountService accountService) throws IOException {
     BitmexAccountServiceRaw accountServiceRaw = (BitmexAccountServiceRaw) accountService;
-    BitmexWallet xBt = accountServiceRaw.getBitmexWallet(Currency.getInstance("XBt"));
 
     List<BitmexWalletTransaction> walletHistory =
         accountServiceRaw.getBitmexWalletHistory(Currency.getInstance("XBt"));

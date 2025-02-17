@@ -1,114 +1,25 @@
 package org.knowm.xchange.bitmex.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.ZonedDateTime;
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.bitmex.BitmexAdapters;
+import org.knowm.xchange.bitmex.config.converter.StringToCurrencyConverter;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-  "symbol",
-  "rootSymbol",
-  "state",
-  "typ",
-  "listing",
-  "front",
-  "expiry",
-  "settle",
-  "relistInterval",
-  "inverseLeg",
-  "sellLeg",
-  "buyLeg",
-  "positionCurrency",
-  "underlying",
-  "quoteCurrency",
-  "underlyingSymbol",
-  "reference",
-  "referenceSymbol",
-  "calcInterval",
-  "publishInterval",
-  "publishTime",
-  "maxOrderQty",
-  "maxPrice",
-  "lotSize",
-  "tickSize",
-  "multiplier",
-  "settlCurrency",
-  "underlyingToPositionMultiplier",
-  "underlyingToSettleMultiplier",
-  "quoteToSettleMultiplier",
-  "isQuanto",
-  "isInverse",
-  "initMargin",
-  "maintMargin",
-  "riskLimit",
-  "riskStep",
-  "limit",
-  "capped",
-  "taxed",
-  "deleverage",
-  "makerFee",
-  "takerFee",
-  "settlementFee",
-  "insuranceFee",
-  "fundingBaseSymbol",
-  "fundingQuoteSymbol",
-  "fundingPremiumSymbol",
-  "fundingTimestamp",
-  "fundingInterval",
-  "fundingRate",
-  "indicativeFundingRate",
-  "rebalanceTimestamp",
-  "rebalanceInterval",
-  "openingTimestamp",
-  "closingTimestamp",
-  "sessionInterval",
-  "prevClosePrice",
-  "limitDownPrice",
-  "limitUpPrice",
-  "bankruptLimitDownPrice",
-  "bankruptLimitUpPrice",
-  "prevTotalVolume",
-  "totalVolume",
-  "volume",
-  "volume24h",
-  "prevTotalTurnover",
-  "totalTurnover",
-  "turnover",
-  "turnover24h",
-  "prevPrice24h",
-  "vwap",
-  "highPrice",
-  "lowPrice",
-  "lastPrice",
-  "lastPriceProtected",
-  "lastTickDirection",
-  "lastChangePcnt",
-  "bidPrice",
-  "midPrice",
-  "askPrice",
-  "impactBidPrice",
-  "impactMidPrice",
-  "impactAskPrice",
-  "hasLiquidity",
-  "openInterest",
-  "openValue",
-  "fairMethod",
-  "fairBasisRate",
-  "fairBasis",
-  "fairPrice",
-  "markMethod",
-  "markPrice",
-  "indicativeTaxRate",
-  "indicativeSettlePrice",
-  "settledPrice",
-  "timestamp"
-})
+
+@Data
+@Builder
+@Jacksonized
 public class BitmexTicker {
 
   @JsonProperty("symbol")
@@ -118,22 +29,22 @@ public class BitmexTicker {
   private String rootSymbol;
 
   @JsonProperty("state")
-  private String state;
+  private State state;
 
   @JsonProperty("typ")
-  private String typ;
+  private SymbolType symbolType;
 
   @JsonProperty("listing")
-  private Date listing;
+  private ZonedDateTime listing;
 
   @JsonProperty("front")
-  private Date front;
+  private ZonedDateTime front;
 
   @JsonProperty("expiry")
-  private Date expiry;
+  private ExpirationInfo expirationInfo;
 
   @JsonProperty("settle")
-  private Date settle;
+  private ZonedDateTime settle;
 
   @JsonProperty("relistInterval")
   private String relistInterval;
@@ -151,10 +62,12 @@ public class BitmexTicker {
   private String positionCurrency;
 
   @JsonProperty("underlying")
-  private String underlying;
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency underlying;
 
   @JsonProperty("quoteCurrency")
-  private String quoteCurrency;
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency quoteCurrency;
 
   @JsonProperty("underlyingSymbol")
   private String underlyingSymbol;
@@ -253,10 +166,10 @@ public class BitmexTicker {
   private String fundingPremiumSymbol;
 
   @JsonProperty("fundingTimestamp")
-  private Date fundingTimestamp;
+  private ZonedDateTime fundingTimestamp;
 
   @JsonProperty("fundingInterval")
-  private Date fundingInterval;
+  private ZonedDateTime fundingInterval;
 
   @JsonProperty("fundingRate")
   private BigDecimal fundingRate;
@@ -271,13 +184,13 @@ public class BitmexTicker {
   private String rebalanceInterval;
 
   @JsonProperty("openingTimestamp")
-  private Date openingTimestamp;
+  private ZonedDateTime openingTimestamp;
 
   @JsonProperty("closingTimestamp")
-  private Date closingTimestamp;
+  private ZonedDateTime closingTimestamp;
 
   @JsonProperty("sessionInterval")
-  private Date sessionInterval;
+  private ZonedDateTime sessionInterval;
 
   @JsonProperty("prevClosePrice")
   private BigDecimal prevClosePrice;
@@ -318,11 +231,17 @@ public class BitmexTicker {
   @JsonProperty("turnover24h")
   private BigInteger turnover24h;
 
+  @JsonProperty("homeNotional24h")
+  private BigDecimal assetVolume24h;
+
+  @JsonProperty("foreignNotional24h")
+  private BigDecimal quoteVolume24h;
+
   @JsonProperty("prevPrice24h")
   private BigInteger prevPrice24h;
 
   @JsonProperty("vwap")
-  private BigInteger vwap;
+  private BigDecimal vwap;
 
   @JsonProperty("highPrice")
   private BigDecimal highPrice;
@@ -397,631 +316,62 @@ public class BitmexTicker {
   private BigDecimal settledPrice;
 
   @JsonProperty("timestamp")
-  private Date timestamp;
+  private ZonedDateTime timestamp;
 
-  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<>();
+  public Instrument getInstrument() {
+    return new CurrencyPair(underlying, quoteCurrency);
 
-  public String getSymbol() {
-    return symbol;
   }
 
-  public String getRootSymbol() {
-    return rootSymbol;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public String getTyp() {
-    return typ;
-  }
-
-  public Date getListing() {
-    return listing;
-  }
-
-  public Date getFront() {
-    return front;
-  }
-
-  public Date getExpiry() {
-    return expiry;
-  }
-
-  public Date getSettle() {
-    return settle;
-  }
-
-  public String getRelistInterval() {
-    return relistInterval;
-  }
-
-  public String getInverseLeg() {
-    return inverseLeg;
-  }
-
-  public String getSellLeg() {
-    return sellLeg;
-  }
-
-  public String getBuyLeg() {
-    return buyLeg;
-  }
-
-  public String getPositionCurrency() {
-    return positionCurrency;
-  }
-
-  public String getUnderlying() {
-    return underlying;
-  }
-
-  public String getQuoteCurrency() {
-    return quoteCurrency;
-  }
-
-  public String getUnderlyingSymbol() {
-    return underlyingSymbol;
-  }
-
-  public String getReference() {
-    return reference;
-  }
-
-  public String getReferenceSymbol() {
-    return referenceSymbol;
-  }
-
-  public String getCalcInterval() {
-    return calcInterval;
-  }
-
-  public String getPublishInterval() {
-    return publishInterval;
-  }
-
-  public String getPublishTime() {
-    return publishTime;
-  }
-
-  public BigDecimal getMaxOrderQty() {
-    return maxOrderQty;
-  }
-
-  public BigDecimal getMaxPrice() {
-    return maxPrice;
-  }
-
-  public BigDecimal getLotSize() {
-    return lotSize;
-  }
-
-  public BigDecimal getTickSize() {
-    return tickSize;
-  }
-
-  public BigDecimal getMultiplier() {
-    return multiplier;
-  }
-
-  public String getSettlCurrency() {
-    return settlCurrency;
-  }
-
-  public BigDecimal getUnderlyingToPositionMultiplier() {
-    return underlyingToPositionMultiplier;
-  }
-
-  public BigDecimal getUnderlyingToSettleMultiplier() {
-    return underlyingToSettleMultiplier;
-  }
-
-  public BigDecimal getQuoteToSettleMultiplier() {
-    return quoteToSettleMultiplier;
-  }
-
-  public Boolean getQuanto() {
-    return isQuanto;
-  }
-
-  public Boolean getInverse() {
-    return isInverse;
-  }
-
-  public BigDecimal getInitMargin() {
-    return initMargin;
-  }
-
-  public BigDecimal getMaintMargin() {
-    return maintMargin;
-  }
-
-  public BigInteger getRiskLimit() {
-    return riskLimit;
-  }
-
-  public BigInteger getRiskStep() {
-    return riskStep;
-  }
-
-  public BigDecimal getLimit() {
-    return limit;
-  }
-
-  public Boolean getCapped() {
-    return capped;
-  }
-
-  public Boolean getTaxed() {
-    return taxed;
-  }
-
-  public Boolean getDeleverage() {
-    return deleverage;
-  }
-
-  public BigDecimal getMakerFee() {
-    return makerFee;
-  }
-
-  public BigDecimal getTakerFee() {
-    return takerFee;
-  }
-
-  public BigDecimal getSettlementFee() {
-    return settlementFee;
-  }
-
-  public BigDecimal getInsuranceFee() {
-    return insuranceFee;
-  }
-
-  public String getFundingBaseSymbol() {
-    return fundingBaseSymbol;
-  }
-
-  public String getFundingQuoteSymbol() {
-    return fundingQuoteSymbol;
-  }
-
-  public String getFundingPremiumSymbol() {
-    return fundingPremiumSymbol;
-  }
-
-  public Date getFundingTimestamp() {
-    return fundingTimestamp;
-  }
-
-  public Date getFundingInterval() {
-    return fundingInterval;
-  }
-
-  public BigDecimal getFundingRate() {
-    return fundingRate;
-  }
-
-  public BigDecimal getIndicativeFundingRate() {
-    return indicativeFundingRate;
-  }
-
-  public String getRebalanceTimestamp() {
-    return rebalanceTimestamp;
-  }
-
-  public String getRebalanceInterval() {
-    return rebalanceInterval;
-  }
-
-  public Date getOpeningTimestamp() {
-    return openingTimestamp;
-  }
-
-  public Date getClosingTimestamp() {
-    return closingTimestamp;
-  }
-
-  public Date getSessionInterval() {
-    return sessionInterval;
-  }
-
-  public BigDecimal getPrevClosePrice() {
-    return prevClosePrice;
-  }
-
-  public BigDecimal getLimitDownPrice() {
-    return limitDownPrice;
-  }
-
-  public BigDecimal getLimitUpPrice() {
-    return limitUpPrice;
-  }
-
-  public BigDecimal getBankruptLimitDownPrice() {
-    return bankruptLimitDownPrice;
-  }
-
-  public BigDecimal getBankruptLimitUpPrice() {
-    return bankruptLimitUpPrice;
-  }
-
-  public BigDecimal getPrevTotalVolume() {
-    return prevTotalVolume;
-  }
-
-  public BigDecimal getTotalVolume() {
-    return totalVolume;
-  }
-
-  public BigDecimal getVolume() {
-    return volume;
-  }
-
-  public BigDecimal getVolume24h() {
-    return volume24h;
-  }
-
-  public BigInteger getPrevTotalTurnover() {
-    return prevTotalTurnover;
-  }
+  public static enum SymbolType {
+    @JsonProperty("FFCCSX")
+    FUTURES,
 
-  public BigInteger getTotalTurnover() {
-    return totalTurnover;
-  }
-
-  public BigInteger getTurnover() {
-    return turnover;
-  }
-
-  public BigInteger getTurnover24h() {
-    return turnover24h;
-  }
-
-  public BigInteger getPrevPrice24h() {
-    return prevPrice24h;
-  }
-
-  public BigInteger getVwap() {
-    return vwap;
-  }
-
-  public BigDecimal getHighPrice() {
-    return highPrice;
-  }
-
-  public BigDecimal getLowPrice() {
-    return lowPrice;
-  }
-
-  public BigDecimal getLastPrice() {
-    return lastPrice;
-  }
-
-  public BigDecimal getLastPriceProtected() {
-    return lastPriceProtected;
-  }
-
-  public String getLastTickDirection() {
-    return lastTickDirection;
-  }
-
-  public BigDecimal getLastChangePcnt() {
-    return lastChangePcnt;
-  }
-
-  public BigDecimal getBidPrice() {
-    return bidPrice;
-  }
-
-  public BigDecimal getMidPrice() {
-    return midPrice;
-  }
-
-  public BigDecimal getAskPrice() {
-    return askPrice;
-  }
+    @JsonProperty("FFWCSX")
+    PERPETUALS,
 
-  public BigDecimal getImpactBidPrice() {
-    return impactBidPrice;
-  }
-
-  public BigDecimal getImpactMidPrice() {
-    return impactMidPrice;
-  }
+    @JsonProperty("IFXXXP")
+    SPOT,
 
-  public BigDecimal getImpactAskPrice() {
-    return impactAskPrice;
-  }
-
-  public Boolean getHasLiquidity() {
-    return hasLiquidity;
-  }
+    @JsonEnumDefaultValue
+    UNKNOWN,
 
-  public BigDecimal getOpenInterest() {
-    return openInterest;
   }
 
-  public BigDecimal getOpenValue() {
-    return openValue;
-  }
+  public static enum State {
+    @JsonProperty("Open")
+    OPEN,
 
-  public String getFairMethod() {
-    return fairMethod;
-  }
+    @JsonProperty("Closed")
+    CLOSED,
 
-  public BigDecimal getFairBasisRate() {
-    return fairBasisRate;
-  }
+    @JsonProperty("Unlisted")
+    UNLISTED,
 
-  public BigDecimal getFairBasis() {
-    return fairBasis;
-  }
+    @JsonProperty("Expired")
+    EXPIRED,
 
-  public BigDecimal getFairPrice() {
-    return fairPrice;
-  }
+    @JsonProperty("Settled")
+    SETTLED,
 
-  public String getMarkMethod() {
-    return markMethod;
-  }
+    @JsonProperty("Cleared")
+    CLEARED,
 
-  public BigDecimal getMarkPrice() {
-    return markPrice;
   }
 
-  public BigDecimal getIndicativeTaxRate() {
-    return indicativeTaxRate;
-  }
+  @Data
+  public static class ExpirationInfo {
 
-  public BigDecimal getIndicativeSettlePrice() {
-    return indicativeSettlePrice;
-  }
+    private ZonedDateTime expirationDate;
 
-  public BigDecimal getSettledPrice() {
-    return settledPrice;
-  }
+    private String futuresCode;
 
-  public Date getTimestamp() {
-    return timestamp;
-  }
+    @JsonCreator
+    public ExpirationInfo(ZonedDateTime expiry) {
+      expirationDate = expiry;
+      futuresCode = BitmexAdapters.toFuturesCode(expiry);
+    }
 
-  public Map<String, Object> getAdditionalProperties() {
-    return additionalProperties;
   }
 
-  @Override
-  public String toString() {
-    return "BitmexTicker{"
-        + "symbol='"
-        + symbol
-        + '\''
-        + ", rootSymbol='"
-        + rootSymbol
-        + '\''
-        + ", state='"
-        + state
-        + '\''
-        + ", typ='"
-        + typ
-        + '\''
-        + ", listing='"
-        + listing
-        + '\''
-        + ", front='"
-        + front
-        + '\''
-        + ", expiry='"
-        + expiry
-        + '\''
-        + ", settle='"
-        + settle
-        + '\''
-        + ", relistInterval='"
-        + relistInterval
-        + '\''
-        + ", inverseLeg='"
-        + inverseLeg
-        + '\''
-        + ", sellLeg='"
-        + sellLeg
-        + '\''
-        + ", buyLeg='"
-        + buyLeg
-        + '\''
-        + ", positionCurrency='"
-        + positionCurrency
-        + '\''
-        + ", underlying='"
-        + underlying
-        + '\''
-        + ", quoteCurrency='"
-        + quoteCurrency
-        + '\''
-        + ", underlyingSymbol='"
-        + underlyingSymbol
-        + '\''
-        + ", reference='"
-        + reference
-        + '\''
-        + ", referenceSymbol='"
-        + referenceSymbol
-        + '\''
-        + ", calcInterval='"
-        + calcInterval
-        + '\''
-        + ", publishInterval='"
-        + publishInterval
-        + '\''
-        + ", publishTime='"
-        + publishTime
-        + '\''
-        + ", maxOrderQty="
-        + maxOrderQty
-        + ", maxPrice="
-        + maxPrice
-        + ", lotSize="
-        + lotSize
-        + ", tickSize="
-        + tickSize
-        + ", multiplier="
-        + multiplier
-        + ", settlCurrency='"
-        + settlCurrency
-        + '\''
-        + ", underlyingToPositionMultiplier="
-        + underlyingToPositionMultiplier
-        + ", underlyingToSettleMultiplier="
-        + underlyingToSettleMultiplier
-        + ", quoteToSettleMultiplier="
-        + quoteToSettleMultiplier
-        + ", isQuanto="
-        + isQuanto
-        + ", isInverse="
-        + isInverse
-        + ", initMargin="
-        + initMargin
-        + ", maintMargin="
-        + maintMargin
-        + ", riskLimit="
-        + riskLimit
-        + ", riskStep="
-        + riskStep
-        + ", limit="
-        + limit
-        + ", capped="
-        + capped
-        + ", taxed="
-        + taxed
-        + ", deleverage="
-        + deleverage
-        + ", makerFee="
-        + makerFee
-        + ", takerFee="
-        + takerFee
-        + ", settlementFee="
-        + settlementFee
-        + ", insuranceFee="
-        + insuranceFee
-        + ", fundingBaseSymbol='"
-        + fundingBaseSymbol
-        + '\''
-        + ", fundingQuoteSymbol='"
-        + fundingQuoteSymbol
-        + '\''
-        + ", fundingPremiumSymbol='"
-        + fundingPremiumSymbol
-        + '\''
-        + ", fundingTimestamp='"
-        + fundingTimestamp
-        + '\''
-        + ", fundingInterval='"
-        + fundingInterval
-        + '\''
-        + ", fundingRate="
-        + fundingRate
-        + ", indicativeFundingRate="
-        + indicativeFundingRate
-        + ", rebalanceTimestamp='"
-        + rebalanceTimestamp
-        + '\''
-        + ", rebalanceInterval='"
-        + rebalanceInterval
-        + '\''
-        + ", openingTimestamp='"
-        + openingTimestamp
-        + '\''
-        + ", closingTimestamp='"
-        + closingTimestamp
-        + '\''
-        + ", sessionInterval='"
-        + sessionInterval
-        + '\''
-        + ", prevClosePrice="
-        + prevClosePrice
-        + ", limitDownPrice="
-        + limitDownPrice
-        + ", limitUpPrice="
-        + limitUpPrice
-        + ", bankruptLimitDownPrice="
-        + bankruptLimitDownPrice
-        + ", bankruptLimitUpPrice="
-        + bankruptLimitUpPrice
-        + ", prevTotalVolume="
-        + prevTotalVolume
-        + ", totalVolume="
-        + totalVolume
-        + ", volume="
-        + volume
-        + ", volume24h="
-        + volume24h
-        + ", prevTotalTurnover="
-        + prevTotalTurnover
-        + ", totalTurnover="
-        + totalTurnover
-        + ", turnover="
-        + turnover
-        + ", turnover24h="
-        + turnover24h
-        + ", prevPrice24h="
-        + prevPrice24h
-        + ", vwap="
-        + vwap
-        + ", highPrice="
-        + highPrice
-        + ", lowPrice="
-        + lowPrice
-        + ", lastPrice="
-        + lastPrice
-        + ", lastPriceProtected="
-        + lastPriceProtected
-        + ", lastTickDirection='"
-        + lastTickDirection
-        + '\''
-        + ", lastChangePcnt="
-        + lastChangePcnt
-        + ", bidPrice="
-        + bidPrice
-        + ", midPrice="
-        + midPrice
-        + ", askPrice="
-        + askPrice
-        + ", impactBidPrice="
-        + impactBidPrice
-        + ", impactMidPrice="
-        + impactMidPrice
-        + ", impactAskPrice="
-        + impactAskPrice
-        + ", hasLiquidity="
-        + hasLiquidity
-        + ", openInterest="
-        + openInterest
-        + ", openValue="
-        + openValue
-        + ", fairMethod='"
-        + fairMethod
-        + '\''
-        + ", fairBasisRate="
-        + fairBasisRate
-        + ", fairBasis="
-        + fairBasis
-        + ", fairPrice="
-        + fairPrice
-        + ", markMethod='"
-        + markMethod
-        + '\''
-        + ", markPrice="
-        + markPrice
-        + ", indicativeTaxRate="
-        + indicativeTaxRate
-        + ", indicativeSettlePrice="
-        + indicativeSettlePrice
-        + ", settledPrice="
-        + settledPrice
-        + ", timestamp='"
-        + timestamp
-        + '\''
-        + ", additionalProperties="
-        + additionalProperties
-        + '}';
-  }
 }

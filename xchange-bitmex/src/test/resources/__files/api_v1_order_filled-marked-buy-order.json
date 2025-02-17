@@ -1,0 +1,20 @@
+[
+  {
+    "account": 2273415,
+    "avgPx": 3879.35,
+    "cumQty": 1000000,
+    "currency": "USDT",
+    "leavesQty": 0,
+    "ordStatus": "Filled",
+    "ordType": "Market",
+    "orderID": "5d873440-48c6-48ed-86d9-e8e4259b0e7a",
+    "orderQty": 1000000,
+    "side": "Buy",
+    "symbol": "ETH_USDT",
+    "text": "filled-market-buy-order",
+    "timeInForce": "ImmediateOrCancel",
+    "timestamp": "2024-12-09T09:54:20.367Z",
+    "transactTime": "2024-12-09T09:54:20.367Z",
+    "workingIndicator": false
+  }
+]

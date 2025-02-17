@@ -23,11 +23,12 @@ import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransactionList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrderList;
+import org.knowm.xchange.bitmex.dto.params.FilterParam;
 import org.knowm.xchange.bitmex.dto.trade.BitmexCancelAll;
+import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPositionList;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
-import org.knowm.xchange.bitmex.dto.trade.PlaceOrderCommand;
 import org.knowm.xchange.bitmex.dto.trade.ReplaceOrderCommand;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -68,7 +69,7 @@ public interface BitmexAuthenticated extends Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @Nullable @QueryParam("symbol") String symbol,
-      @Nullable @QueryParam("filter") String filter,
+      @Nullable @QueryParam("filter") FilterParam filterParam,
       @Nullable @QueryParam("columns") String columns,
       @Nullable @QueryParam("count") Integer count,
       @Nullable @QueryParam("start") Long start,
@@ -84,9 +85,7 @@ public interface BitmexAuthenticated extends Bitmex {
    * @param symbol Instrument symbol. Send a bare series (e.g. XBU) to get data for the nearest
    *     expiring contract in that series. You can also send a timeframe, e.g. XBU:monthly.
    *     Timeframes are daily, weekly, monthly, quarterly, and biquarterly.
-   * @param filter Generic table filter. Send JSON key/value pairs, such as {"key": "value"}. You
-   *     can key on individual fields, and do more advanced querying on timestamps. See the
-   *     Timestamp Docs for more details.
+   * @param filterParam Generic table filter
    * @param columns Generic table filter. Send JSON key/value pairs, such as {"key": "value"}. You
    *     can key on individual fields, and do more advanced querying on timestamps. See the
    *     Timestamp Docs for more details.
@@ -106,7 +105,7 @@ public interface BitmexAuthenticated extends Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @Nullable @QueryParam("symbol") String symbol,
-      @Nullable @QueryParam("filter") String filter,
+      @Nullable @QueryParam("filter") FilterParam filterParam,
       @Nullable @QueryParam("columns") String columns,
       @Nullable @QueryParam("count") Integer count,
       @Nullable @QueryParam("start") Long start,
@@ -115,78 +114,15 @@ public interface BitmexAuthenticated extends Bitmex {
       @Nullable @QueryParam("endTime") Date endTime)
       throws IOException, BitmexException;
 
-  /**
-   * @param apiKey
-   * @param nonce
-   * @param paramsDigest
-   * @param symbol Instrument symbol. e.g. {@code XBTUSD}.
-   * @param side Optional Order side. Valid options: {@code Buy}, {@code Sell}. Defaults to {@code
-   *     Buy} unless {@code orderQty} or {@code simpleOrderQty} is negative.
-   * @param orderQuantity Optional Order quantity in units of the instrument (i.e. contracts).
-   * @param simpleOrderQuantity Optional Order quantity in units of the underlying instrument (i.e.
-   *     Bitcoin).
-   * @param displayQuantity Optional quantity to display in the book. Use {@code 0} for a fully
-   *     hidden order.
-   * @param price Optional limit price for {@code Limit}, {@code StopLimit}, and {@code
-   *     LimitIfTouched} orders.
-   * @param stopPrice Optional trigger price for {@code Stop}, {@code StopLimit}, {@code
-   *     MarketIfTouched}, and {@code LimitIfTouched} orders. Use a price below the current price
-   *     for stop-sell orders and buy-if-touched orders. Use {@code execInst} of {@code MarkPrice}
-   *     or {@code LastPrice} to define the current price used for triggering.
-   * @param orderType Optional Order type. Valid options: {@code Market}, {@code Limit}, {@code
-   *     Stop}, {@code StopLimit}, {@code MarketIfTouched}, {@code LimitIfTouched}, {@code
-   *     MarketWithLeftOverAsLimit}, {@code Pegged}. Defaults to {@code Limit} when {@code price} is
-   *     specified. Defaults to {@code Stop} when {@code stopPx} is specified. Defaults to {@code
-   *     StopLimit} when {@code price} and {@code stopPx} are specified.
-   * @param clOrdID Optional Client Order ID. This {@code clOrdID} will come back on the order and
-   *     any related executions.
-   * @param executionInstructions Optional execution instructions. Valid options: {@code
-   *     ParticipateDoNotInitiate}, {@code AllOrNone}, {@code MarkPrice}, {@code IndexPrice}, {@code
-   *     LastPrice}, {@code Close}, {@code ReduceOnly}, {@code Fixed}. {@code AllOrNone} instruction
-   *     requires {@code displayQty} to be {@code 0}. {@code MarkPrice}, {@code IndexPrice} or
-   *     {@code LastPrice} instruction valid for {@code Stop}, {@code StopLimit}, {@code
-   *     MarketIfTouched}, and {@code LimitIfTouched} orders.
-   * @param clOrdLinkID Optional Client Order Link ID for contingent orders.
-   * @param contingencyType Optional contingency type for use with clOrdLinkID. Valid options:
-   *     {@code OneCancelsTheOther}, {@code OneTriggersTheOther}, {@code
-   *     OneUpdatesTheOtherAbsolute}, {@code OneUpdatesTheOtherProportional}.
-   * @param pegPriceType Optional peg price type. Valid options: {@code LastPeg}, {@code
-   *     MidPricePeg}, {@code MarketPeg}, {@code PrimaryPeg}, {@code TrailingStopPeg}.
-   * @param pegOffsetValue Optional trailing offset from the current price for {@code Stop}, {@code
-   *     StopLimit}, {@code MarketIfTouched}, and {@code LimitIfTouched} orders; use a negative
-   *     offset for stop-sell orders and buy-if-touched orders. Optional offset from the peg price
-   *     for {@code Pegged} orders.
-   * @param timeInForce Optional Time in force. Valid options: {@code Day}, {@code GoodTillCancel},
-   *     {@code ImmediateOrCancel}, {@code FillOrKill}. Defaults to {@code GoodTillCancel} for
-   *     {@code Limit}, {@code StopLimit}, {@code LimitIfTouched}, and {@code
-   *     MarketWithLeftOverAsLimit} orders.
-   * @param text Optional order annotation. e.g. {@code Take profit}.
-   * @return {@link BitmexPrivateOrder} contains the result of the call.
-   * @throws IOException
-   * @throws BitmexException
-   */
   @POST
   @Path("order")
+  @Consumes(MediaType.APPLICATION_JSON)
   BitmexPrivateOrder placeOrder(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @FormParam("symbol") String symbol,
-      @Nullable @FormParam("side") String side,
-      @Nullable @FormParam("orderQty") BigDecimal orderQuantity,
-      @Nullable @FormParam("simpleOrderQty") BigDecimal simpleOrderQuantity,
-      @Nullable @FormParam("displayQty") BigDecimal displayQuantity,
-      @Nullable @FormParam("price") BigDecimal price,
-      @Nullable @FormParam("stopPx") BigDecimal stopPrice,
-      @Nullable @FormParam("ordType") String orderType,
-      @Nullable @FormParam("clOrdID") String clOrdID,
-      @Nullable @FormParam("execInst") String executionInstructions,
-      @Nullable @FormParam("clOrdLinkID") String clOrdLinkID,
-      @Nullable @FormParam("contingencyType") String contingencyType,
-      @Nullable @FormParam("pegOffsetValue") BigDecimal pegOffsetValue,
-      @Nullable @FormParam("pegPriceType") String pegPriceType,
-      @Nullable @FormParam("timeInForce") String timeInForce,
-      @Nullable @FormParam("text") String text)
+      BitmexPlaceOrderParameters bitmexPlaceOrderParameters
+)
       throws IOException, BitmexException;
 
   /**
@@ -194,7 +130,7 @@ public interface BitmexAuthenticated extends Bitmex {
    * @param nonce
    * @param paramsDigest
    * @param orderId Order ID
-   * @param origClOrdID Client Order ID. See {@link Bitmex#placeOrder}.
+   * @param origClOrdID Client Order ID. See {@link BitmexAuthenticated#placeOrder}.
    * @param clOrdID Optional new Client Order ID, requires {@code origClOrdID}.
    * @param simpleOrderQty Optional order quantity in units of the underlying instrument (i.e.
    *     Bitcoin).
@@ -242,24 +178,6 @@ public interface BitmexAuthenticated extends Bitmex {
    * @param apiKey
    * @param nonce
    * @param paramsDigest
-   * @param orderCommands JSON Array of order(s). Use {@link PlaceOrderCommand} to generate JSON.
-   * @return {@link BitmexPrivateOrderList} contains the results of the call.
-   * @throws IOException
-   * @throws BitmexException
-   */
-  @POST
-  @Path("order/bulk")
-  BitmexPrivateOrderList placeOrderBulk(
-      @HeaderParam("api-key") String apiKey,
-      @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @FormParam("orders") String orderCommands)
-      throws IOException, BitmexException;
-
-  /**
-   * @param apiKey
-   * @param nonce
-   * @param paramsDigest
    * @param orderCommands JSON Array of order(s). Use {@link ReplaceOrderCommand} to generate JSON.
    * @return {@link BitmexPrivateOrderList} contains the results of the call.
    * @throws IOException
@@ -283,7 +201,7 @@ public interface BitmexAuthenticated extends Bitmex {
    * @param nonce
    * @param paramsDigest
    * @param orderID Order ID(s).
-   * @param clOrdID Client Order ID(s). See {@link Bitmex#placeOrder}.
+   * @param clOrdID Client Order ID(s). See {@link BitmexAuthenticated#placeOrder}.
    * @return {@link BitmexPrivateOrderList} contains the results of the call.
    * @throws IOException
    * @throws BitmexException
@@ -356,16 +274,8 @@ public interface BitmexAuthenticated extends Bitmex {
   BitmexPositionList getPositions(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("api-signature") ParamsDigest paramsDigest)
-      throws IOException, BitmexException;
-
-  @GET
-  @Path("position")
-  BitmexPositionList getPositions(
-      @HeaderParam("api-key") String apiKey,
-      @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @Nullable @QueryParam("filter") String filter)
+      @QueryParam("filter") FilterParam filterParam)
       throws IOException, BitmexException;
 
   @GET
@@ -378,11 +288,11 @@ public interface BitmexAuthenticated extends Bitmex {
 
   @GET
   @Path("user/wallet")
-  BitmexWallet getWallet(
+  HttpResponseAwareList<BitmexWallet> getWallet(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("api-signature") ParamsDigest paramsDigest /*,
-           @Nullable @QueryParam("currency") String currency*/)
+      @HeaderParam("api-signature") ParamsDigest paramsDigest,
+      @QueryParam("currency") String currency)
       throws IOException, BitmexException;
 
   /** Get a history of all of your wallet transactions (deposits, withdrawals, PNL) */

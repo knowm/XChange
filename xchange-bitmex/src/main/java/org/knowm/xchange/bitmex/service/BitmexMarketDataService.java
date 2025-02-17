@@ -1,18 +1,25 @@
 package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+import org.knowm.xchange.bitmex.dto.account.BitmexTicker.State;
+import org.knowm.xchange.bitmex.dto.account.BitmexTicker.SymbolType;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexAsset;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 /**
  * Implementation of the market data service for Bitmex
@@ -35,38 +42,41 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+  public List<Ticker> getTickers(Params params) {
+    return getActiveTickers().stream()
+        .filter(bitmexTicker -> bitmexTicker.getSymbolType() == SymbolType.SPOT)
+        .filter(bitmexTicker -> bitmexTicker.getState() == State.OPEN)
+        .map(BitmexAdapters::toTicker)
+        .collect(Collectors.toList());
+  }
 
-    String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(currencyPair);
+  @Override
+  public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
+    String bitmexSymbol = BitmexAdapters.toString(instrument);
     List<BitmexTicker> bitmexTickers = getTicker(bitmexSymbol);
 
     if (bitmexTickers.isEmpty()) {
       return null;
     }
+    return BitmexAdapters.toTicker(bitmexTickers.get(0));
+  }
 
-    BitmexTicker bitmexTicker = bitmexTickers.get(0);
-    Ticker ticker =
-        new Ticker.Builder()
-            .currencyPair(currencyPair)
-            .open(bitmexTicker.getOpenValue())
-            .last(bitmexTicker.getLastPrice())
-            .bid(bitmexTicker.getBidPrice())
-            .ask(bitmexTicker.getAskPrice())
-            .high(bitmexTicker.getHighPrice())
-            .low(bitmexTicker.getLowPrice())
-            .vwap(new BigDecimal(bitmexTicker.getVwap()))
-            .volume(bitmexTicker.getVolume24h())
-            .quoteVolume(null)
-            .timestamp(bitmexTicker.getTimestamp())
-            .build();
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+    return getTicker((Instrument) currencyPair, args);
+  }
 
-    return ticker;
+  @Override
+  public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
+    Integer depth = (Integer) ArrayUtils.get(args, 0);
+    String bitmexSymbol = BitmexAdapters.toString(instrument);
+
+    return BitmexAdapters.toOrderBook(getBitmexDepth(bitmexSymbol, depth));
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(currencyPair);
-    return BitmexAdapters.adaptOrderBook(getBitmexDepth(bitmexSymbol), currencyPair);
+    return getOrderBook((Instrument) currencyPair, args);
   }
 
   @Override
@@ -92,8 +102,24 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
       }
     }
 
-    String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(currencyPair);
+    String bitmexSymbol = BitmexAdapters.toString(currencyPair);
     List<BitmexPublicTrade> trades = getBitmexTrades(bitmexSymbol, limit, start);
     return BitmexAdapters.adaptTrades(trades, currencyPair);
   }
+
+  public List<Currency> getCurrencies() {
+    return getAssets().stream()
+        .filter(BitmexAsset::getEnabled)
+        .map(BitmexAsset::getAsset)
+        .collect(Collectors.toList());
+  }
+
+  public List<Instrument> getInstruments() {
+    return getActiveTickers().stream()
+        .filter(bitmexTicker -> bitmexTicker.getSymbolType() != SymbolType.UNKNOWN)
+        .map(BitmexAdapters::toInstrument)
+        .collect(Collectors.toList());
+  }
+
+
 }

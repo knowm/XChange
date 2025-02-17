@@ -3,9 +3,8 @@ package org.knowm.xchange.bitmex.dto.trade;
 import java.math.BigDecimal;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.knowm.xchange.bitmex.Bitmex;
 
-/** See {@link Bitmex#replaceOrder} */
+/** See {@link org.knowm.xchange.bitmex.BitmexAuthenticated#replaceOrder} */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class BitmexReplaceOrderParameters {
 
@@ -101,7 +100,7 @@ public class BitmexReplaceOrderParameters {
     return text;
   }
 
-  /** See {@link Bitmex#replaceOrder} */
+  /** See {@link org.knowm.xchange.bitmex.BitmexAuthenticated#replaceOrder} */
   public static class Builder {
 
     @Nullable private String orderId;

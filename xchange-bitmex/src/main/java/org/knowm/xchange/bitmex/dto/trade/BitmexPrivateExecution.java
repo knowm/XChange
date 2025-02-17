@@ -1,246 +1,167 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.ZonedDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import org.knowm.xchange.bitmex.BitmexAdapters;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.instrument.Instrument;
 
+@Data
+@Builder
+@AllArgsConstructor
 public class BitmexPrivateExecution {
 
   @JsonProperty("execID")
-  public String execID;
+  private String executionId;
 
   @JsonProperty("orderID")
-  public String orderID;
+  private String orderId;
 
   @JsonProperty("clOrdID")
-  public String clOrdID;
+  private String clientOid;
 
   @JsonProperty("clOrdLinkID")
-  public String clOrdLinkID;
+  private String clOrdLinkID;
 
   @JsonProperty("account")
-  public long account;
+  private long account;
 
-  @JsonProperty("symbol")
-  public String symbol;
+  private Instrument instrument;
+  private BigDecimal executedQuantity;
+  private BigDecimal orderQuantity;
 
   @JsonProperty("side")
-  public String side;
+  private String side;
 
-  @JsonProperty("lastQty")
-  public BigDecimal lastQty;
 
   @JsonProperty("lastPx")
-  public BigDecimal lastPx;
+  private BigDecimal price;
 
   @JsonProperty("underlyingLastPx")
-  public BigDecimal underlyingLastPx;
+  private BigDecimal underlyingLastPx;
 
   @JsonProperty("lastMkt")
-  public String lastMkt;
+  private String lastMkt;
 
   @JsonProperty("lastLiquidityInd")
-  public String lastLiquidityInd;
+  private String lastLiquidityInd;
 
   @JsonProperty("simpleOrderQty")
-  public BigDecimal simpleOrderQty;
-
-  @JsonProperty("orderQty")
-  public BigDecimal orderQty;
-
-  @JsonProperty("price")
-  public BigDecimal price;
+  private BigDecimal simpleOrderQty;
 
   @JsonProperty("displayQty")
-  public BigDecimal displayQty;
+  private BigDecimal displayQty;
 
   @JsonProperty("stopPx")
-  public BigDecimal stopPx;
+  private BigDecimal stopPx;
 
   @JsonProperty("pegOffsetValue")
-  public BigDecimal pegOffsetValue;
+  private BigDecimal pegOffsetValue;
 
   @JsonProperty("pegPriceType")
-  public String pegPriceType;
+  private String pegPriceType;
 
-  @JsonProperty("currency")
-  public String currency;
+  private Currency feeCurrency;
 
   @JsonProperty("settlCurrency")
-  public String settlCurrency;
+  private String settlCurrency;
 
   @JsonProperty("execType")
-  public String execType;
+  private String execType;
 
   @JsonProperty("ordType")
-  public String ordType;
+  private String ordType;
 
   @JsonProperty("timeInForce")
-  public String timeInForce;
+  private String timeInForce;
 
   @JsonProperty("execInst")
-  public String execInst;
+  private String execInst;
 
   @JsonProperty("contingencyType")
-  public String contingencyType;
+  private String contingencyType;
 
   @JsonProperty("exDestination")
-  public String exDestination;
+  private String exDestination;
 
   @JsonProperty("ordStatus")
-  public String ordStatus;
+  private String ordStatus;
 
   @JsonProperty("triggered")
-  public String triggered;
+  private String triggered;
 
   @JsonProperty("workingIndicator")
-  public boolean workingIndicator;
+  private boolean workingIndicator;
 
   @JsonProperty("ordRejReason")
-  public String ordRejReason;
+  private String ordRejReason;
 
   @JsonProperty("simpleLeavesQty")
-  public BigDecimal simpleLeavesQty;
+  private BigDecimal simpleLeavesQty;
 
   @JsonProperty("leavesQty")
-  public BigDecimal leavesQty;
+  private BigDecimal leavesQty;
 
   @JsonProperty("simpleCumQty")
-  public BigDecimal simpleCumQty;
+  private BigDecimal simpleCumQty;
 
   @JsonProperty("cumQty")
-  public BigDecimal cumQty;
+  private BigDecimal cumQty;
 
   @JsonProperty("avgPx")
-  public BigDecimal avgPx;
+  private BigDecimal avgPx;
 
   @JsonProperty("commission")
-  public BigDecimal commission;
+  private BigDecimal commission;
 
   @JsonProperty("tradePublishIndicator")
-  public String tradePublishIndicator;
+  private String tradePublishIndicator;
 
   @JsonProperty("multiLegReportingType")
-  public String multiLegReportingType;
+  private String multiLegReportingType;
 
   @JsonProperty("text")
-  public String text;
+  private String text;
 
   @JsonProperty("trdMatchID")
-  public String trdMatchID;
+  private String trdMatchID;
 
   @JsonProperty("execCost")
-  public BigDecimal execCost;
+  private BigDecimal execCost;
 
-  @JsonProperty("execComm")
-  public BigDecimal execComm;
+  private BigDecimal feeAmount;
 
   @JsonProperty("homeNotional")
-  public BigDecimal homeNotional;
+  private BigDecimal homeNotional;
 
   @JsonProperty("foreignNotional")
-  public BigDecimal foreignNotional;
+  private BigDecimal foreignNotional;
 
   @JsonProperty("transactTime")
-  public Date transactTime;
+  private ZonedDateTime createdAt;
 
   @JsonProperty("timestamp")
-  public Date timestamp;
+  private ZonedDateTime updatedAt;
 
-  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonCreator
+  public BitmexPrivateExecution(@JsonProperty("symbol") String symbol,
+      @JsonProperty("lastQty") BigDecimal executedQuantity,
+      @JsonProperty("orderQty") BigDecimal orderQuantity,
+      @JsonProperty("currency") String feeCurrency,
+      @JsonProperty("execComm") BigDecimal feeAmount
+  ) {
+    // scale values
+    this.instrument = BitmexAdapters.toInstrument(symbol);
+    this.executedQuantity = BitmexAdapters.scaleToLocalAmount(executedQuantity, instrument.getBase());
+    this.orderQuantity = BitmexAdapters.scaleToLocalAmount(orderQuantity, instrument.getBase());
 
-  @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
-    return this.additionalProperties;
-  }
-
-  @JsonAnySetter
-  public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put(name, value);
-  }
-
-  @Override
-  public String toString() {
-    return "BitmexPrivateExecution ["
-        + (execID != null ? "execID=" + execID + ", " : "")
-        + (orderID != null ? "orderID=" + orderID + ", " : "")
-        + (clOrdID != null ? "clOrdID=" + clOrdID + ", " : "")
-        + (clOrdLinkID != null ? "clOrdLinkID=" + clOrdLinkID + ", " : "")
-        + "account="
-        + account
-        + ", "
-        + (symbol != null ? "symbol=" + symbol + ", " : "")
-        + (side != null ? "side=" + side + ", " : "")
-        + "lastQty="
-        + lastQty
-        + ", lastPx="
-        + lastPx
-        + ", "
-        + (underlyingLastPx != null ? "underlyingLastPx=" + underlyingLastPx + ", " : "")
-        + (lastMkt != null ? "lastMkt=" + lastMkt + ", " : "")
-        + (lastLiquidityInd != null ? "lastLiquidityInd=" + lastLiquidityInd + ", " : "")
-        + (simpleOrderQty != null ? "simpleOrderQty=" + simpleOrderQty + ", " : "")
-        + "orderQty="
-        + orderQty
-        + ", price="
-        + price
-        + ", "
-        + (displayQty != null ? "displayQty=" + displayQty + ", " : "")
-        + (stopPx != null ? "stopPx=" + stopPx + ", " : "")
-        + (pegOffsetValue != null ? "pegOffsetValue=" + pegOffsetValue + ", " : "")
-        + (pegPriceType != null ? "pegPriceType=" + pegPriceType + ", " : "")
-        + (currency != null ? "currency=" + currency + ", " : "")
-        + (settlCurrency != null ? "settlCurrency=" + settlCurrency + ", " : "")
-        + (execType != null ? "execType=" + execType + ", " : "")
-        + (ordType != null ? "ordType=" + ordType + ", " : "")
-        + (timeInForce != null ? "timeInForce=" + timeInForce + ", " : "")
-        + (execInst != null ? "execInst=" + execInst + ", " : "")
-        + (contingencyType != null ? "contingencyType=" + contingencyType + ", " : "")
-        + (exDestination != null ? "exDestination=" + exDestination + ", " : "")
-        + (ordStatus != null ? "ordStatus=" + ordStatus + ", " : "")
-        + (triggered != null ? "triggered=" + triggered + ", " : "")
-        + "workingIndicator="
-        + workingIndicator
-        + ", "
-        + (ordRejReason != null ? "ordRejReason=" + ordRejReason + ", " : "")
-        + "simpleLeavesQty="
-        + simpleLeavesQty
-        + ", leavesQty="
-        + leavesQty
-        + ", simpleCumQty="
-        + simpleCumQty
-        + ", cumQty="
-        + cumQty
-        + ", avgPx="
-        + avgPx
-        + ", commission="
-        + commission
-        + ", "
-        + (tradePublishIndicator != null
-            ? "tradePublishIndicator=" + tradePublishIndicator + ", "
-            : "")
-        + (multiLegReportingType != null
-            ? "multiLegReportingType=" + multiLegReportingType + ", "
-            : "")
-        + (text != null ? "text=" + text + ", " : "")
-        + (trdMatchID != null ? "trdMatchID=" + trdMatchID + ", " : "")
-        + "execCost="
-        + execCost
-        + ", execComm="
-        + execComm
-        + ", homeNotional="
-        + homeNotional
-        + ", foreignNotional="
-        + foreignNotional
-        + ", "
-        + (transactTime != null ? "transactTime=" + transactTime + ", " : "")
-        + (timestamp != null ? "timestamp=" + timestamp + ", " : "")
-        + (additionalProperties != null ? "additionalProperties=" + additionalProperties : "")
-        + "]";
+    // fees are paid in quote currency
+    this.feeCurrency = instrument.getCounter();
+    this.feeAmount = BitmexAdapters.scaleToLocalAmount(feeAmount, this.feeCurrency);
   }
 }

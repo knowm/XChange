@@ -1,20 +1,33 @@
 package org.knowm.xchange.bitmex;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.ZonedDateTime;
+import java.time.chrono.ChronoZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.bitmex.config.Config;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrderList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
+import org.knowm.xchange.bitmex.dto.params.FilterParam;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrderDescription;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrderResponse;
@@ -23,10 +36,13 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -35,61 +51,91 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 
+@Slf4j
+@UtilityClass
 public class BitmexAdapters {
 
-  private static final BigDecimal SATOSHIS_BY_BTC = BigDecimal.valueOf(100_000_000L);
+  private final Map<String, Instrument> SYMBOL_TO_INSTRUMENT = new HashMap<>();
+  private final Map<Instrument, String> INSTRUMENT_TO_SYMBOL = new HashMap<>();
 
-  public static OrderBook adaptOrderBook(BitmexDepth bitmexDepth, CurrencyPair currencyPair) {
+  private final Map<Currency, String> CURRENCY_TO_BITMEX_CODE = new HashMap<>();
+  private final Map<String, Currency> BITMEX_CODE_TO_CURRENCY = new HashMap<>();
 
-    OrdersContainer asksOrdersContainer =
-        adaptOrders(bitmexDepth.getAsks(), currencyPair, OrderType.ASK, true);
-    OrdersContainer bidsOrdersContainer =
-        adaptOrders(bitmexDepth.getBids(), currencyPair, OrderType.BID, false);
+  private Map<Currency, Integer> CURRENCY_TO_SCALE = new HashMap<>();
 
-    return new OrderBook(
-        new Date(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())),
-        asksOrdersContainer.getLimitOrders(),
-        bidsOrdersContainer.getLimitOrders());
+  public void putSymbolMapping(String symbol, Instrument instrument) {
+    SYMBOL_TO_INSTRUMENT.put(symbol, instrument);
+    INSTRUMENT_TO_SYMBOL.put(instrument, symbol);
   }
 
-  public static BitmexDepth adaptDepth(BitmexPublicOrderList orders) {
+  public void putCurrencyCodeMapping(String bitmexCode, Currency currency) {
+    BITMEX_CODE_TO_CURRENCY.put(bitmexCode, currency);
+    CURRENCY_TO_BITMEX_CODE.put(currency, bitmexCode);
+  }
 
-    BitmexDepth bitmexDepth = new BitmexDepth(new ArrayList<>(), new ArrayList<>());
+  public void putCurrencyScale(Currency currency, Integer scale) {
+    CURRENCY_TO_SCALE.put(currency, scale);
+  }
 
-    for (BitmexPublicOrder bitmexOrder : orders) {
-      if (bitmexOrder.getSide().equals(BitmexSide.BUY)) {
-        bitmexDepth.getBids().add(bitmexOrder);
-      } else if (bitmexOrder.getSide().equals(BitmexSide.SELL)) {
-        bitmexDepth.getAsks().add(bitmexOrder);
-      }
+  public Integer getCurrencyScale(Currency currency) {
+    return CURRENCY_TO_SCALE.get(currency);
+  }
+
+  public String toBitmexCode(Currency currency) {
+    if (currency == null) {
+      return null;
+    }
+    String result = CURRENCY_TO_BITMEX_CODE.get(currency);
+
+    // try to guess if no mapping found
+    if (result == null) {
+      log.warn("No currency mapping found {}. Will guess...", currency);
+      String currencyCode = currency.getCurrencyCode();
+      result =
+          StringUtils.substring(currencyCode, 0, -1).toUpperCase(Locale.ROOT)
+              + StringUtils.substring(currencyCode, -1).toLowerCase(Locale.ROOT);
+      log.warn("Guessed {}", result);
     }
 
-    return bitmexDepth;
+    return result;
   }
 
-  public static OrdersContainer adaptOrders(
-      List<BitmexPublicOrder> orders,
-      CurrencyPair currencyPair,
-      OrderType orderType,
-      boolean reverse) {
-
-    // bitmex does not provide timestamps on order book
-    long maxTimestamp = System.currentTimeMillis();
-    LimitOrder[] limitOrders = new LimitOrder[orders.size()];
-
-    int i = reverse ? orders.size() - 1 : 0;
-    for (BitmexPublicOrder order : orders) {
-      limitOrders[i] = adaptOrder(order, orderType, currencyPair);
-      i += (reverse ? -1 : 1);
+  /**
+   * Converts bitmex currency code to {@code Currency}. E.g. USDt -> USDT, Gwei -> ETH
+   * @param bitmexCode
+   * @return
+   */
+  public Currency bitmexCodeToCurrency(String bitmexCode) {
+    if (bitmexCode == null) {
+      return null;
     }
-    return new OrdersContainer(maxTimestamp, Arrays.asList(limitOrders));
+    Currency result = BITMEX_CODE_TO_CURRENCY.get(bitmexCode);
+
+    // try to guess if no mapping found
+    if (result == null) {
+      log.warn("No currency mapping found {}. Will guess...", bitmexCode);
+      result = Currency.getInstance(bitmexCode);
+      log.warn("Guessed {}", result);
+    }
+
+    return result;
   }
 
-  public static Trades adaptTrades(List<BitmexPublicTrade> trades, CurrencyPair currencyPair) {
+  public OrderBook toOrderBook(List<BitmexPublicOrder> bitmexPublicOrders) {
+    Map<OrderType, List<LimitOrder>> orders = bitmexPublicOrders.stream()
+        .map(BitmexAdapters::toLimitOrder)
+        .collect(Collectors.groupingBy(Order::getType));
+
+    return new OrderBook(null, orders.get(OrderType.ASK), orders.get(OrderType.BID));
+  }
+
+  public Trades adaptTrades(List<BitmexPublicTrade> trades, CurrencyPair currencyPair) {
 
     List<Trade> tradeList = new ArrayList<>(trades.size());
     for (int i = 0; i < trades.size(); i++) {
@@ -101,48 +147,77 @@ public class BitmexAdapters {
     return new Trades(tradeList, lastTid, TradeSortType.SortByTimestamp);
   }
 
-  public static LimitOrder adaptOrder(
-      BitmexPublicOrder order, OrderType orderType, CurrencyPair currencyPair) {
-
-    BigDecimal volume = order.getVolume();
-
-    return new LimitOrder(orderType, volume, currencyPair, "", null, order.getPrice());
+  public LimitOrder toLimitOrder(BitmexPublicOrder order) {
+    return new LimitOrder(order.getOrderType(), order.getSize(), order.getInstrument(),
+        order.getId(), toDate(order.getUpdatedAt()), order.getPrice());
   }
 
-  public static LimitOrder adaptOrder(BitmexPrivateOrder rawOrder) {
-    OrderType type = rawOrder.getSide() == BitmexSide.BUY ? OrderType.BID : OrderType.ASK;
+  public Order toOrder(BitmexPrivateOrder bitmexOrder) {
+    Order.Builder builder;
+    switch (bitmexOrder.getBitmexOrderType()) {
+      case STOP:
+        builder = new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
+            .stopPrice(bitmexOrder.getOriginalPrice());
+        break;
+      case MARKET:
+        builder = new MarketOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument());
+        break;
+      case LIMIT:
+        builder = new LimitOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument()).limitPrice(bitmexOrder.getOriginalPrice());
+        break;
+      case STOP_LIMIT:
+        builder = new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
+            .limitPrice(bitmexOrder.getOriginalPrice())
+            .stopPrice(bitmexOrder.getAveragePrice());
+        break;
+      case PEGGED:
+      case MARKET_IF_TOUCHED:
+      case LIMIT_IF_TOUCHED:
+      case MARKET_WITH_LEFT_OVER_AS_LIMIT:
+        log.warn("Unknown order type: {}", bitmexOrder.getBitmexOrderType());
+        return null;
+      default:
+        throw new IllegalArgumentException("Can't map " + bitmexOrder.getOrderType());
+    }
 
-    CurrencyPair pair = adaptSymbolToCurrencyPair(rawOrder.getSymbol());
-
-    return new LimitOrder(
-        type,
-        rawOrder.getVolume(),
-        pair,
-        rawOrder.getId(),
-        rawOrder.getTimestamp(),
-        rawOrder.getPrice(),
-        rawOrder.getAvgPx(),
-        rawOrder.getCumQty(),
-        null,
-        BitmexAdapters.adaptOrderStatus(rawOrder.getOrderStatus()));
+    return builder
+        .originalAmount(bitmexOrder.getOriginalAmount())
+        .id(bitmexOrder.getId())
+        .timestamp(toDate(bitmexOrder.getUpdatedAt()))
+        .cumulativeAmount(bitmexOrder.getCumulativeAmount())
+        .averagePrice(bitmexOrder.getAveragePrice())
+        .orderStatus(toOrderStatus(bitmexOrder.getOrderStatus()))
+        .userReference(bitmexOrder.getText())
+        .build();
   }
 
-  public static Ticker adaptTicker(BitmexTicker bitmexTicker, CurrencyPair currencyPair) {
+  public Ticker toTicker(BitmexTicker bitmexTicker) {
+    if (bitmexTicker == null) {
+      return null;
+    }
 
-    Ticker.Builder builder = new Ticker.Builder();
-    builder.open(bitmexTicker.getPrevClosePrice());
-    builder.ask(bitmexTicker.getAskPrice());
-    builder.bid(bitmexTicker.getBidPrice());
-    builder.last(bitmexTicker.getLastPrice());
-    builder.high(bitmexTicker.getHighPrice());
-    builder.low(bitmexTicker.getLowPrice());
-    builder.vwap(new BigDecimal(bitmexTicker.getVwap().longValue()));
-    builder.volume(bitmexTicker.getVolume24h());
-    builder.currencyPair(currencyPair);
-    return builder.build();
+    BigDecimal percentageChange =
+        bitmexTicker.getLastChangePcnt() != null
+            ? bitmexTicker.getLastChangePcnt().scaleByPowerOfTen(2)
+            : null;
+
+    return new Ticker.Builder()
+        .instrument(bitmexTicker.getInstrument())
+        .open(bitmexTicker.getOpenValue())
+        .last(bitmexTicker.getLastPrice())
+        .bid(bitmexTicker.getBidPrice())
+        .ask(bitmexTicker.getAskPrice())
+        .high(bitmexTicker.getHighPrice())
+        .low(bitmexTicker.getLowPrice())
+        .vwap(bitmexTicker.getVwap())
+        .volume(bitmexTicker.getAssetVolume24h())
+        .quoteVolume(bitmexTicker.getQuoteVolume24h())
+        .timestamp(toDate(bitmexTicker.getTimestamp()))
+        .percentageChange(percentageChange)
+        .build();
   }
 
-  public static Trade adaptTrade(BitmexPublicTrade bitmexPublicTrade, CurrencyPair currencyPair) {
+  public Trade adaptTrade(BitmexPublicTrade bitmexPublicTrade, CurrencyPair currencyPair) {
 
     OrderType type = adaptOrderType(bitmexPublicTrade.getSide());
     BigDecimal originalAmount = bitmexPublicTrade.getSize();
@@ -160,7 +235,7 @@ public class BitmexAdapters {
         .build();
   }
 
-  public static Wallet adaptWallet(Map<String, BigDecimal> bitmexWallet) {
+  public Wallet adaptWallet(Map<String, BigDecimal> bitmexWallet) {
 
     List<Balance> balances = new ArrayList<>(bitmexWallet.size());
     for (Entry<String, BigDecimal> balancePair : bitmexWallet.entrySet()) {
@@ -171,7 +246,7 @@ public class BitmexAdapters {
     return Wallet.Builder.from(balances).build();
   }
 
-  public static OpenOrders adaptOpenOrders(Map<String, BitmexOrder> bitmexOrders) {
+  public OpenOrders adaptOpenOrders(Map<String, BitmexOrder> bitmexOrders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (Entry<String, BitmexOrder> bitmexOrderEntry : bitmexOrders.entrySet()) {
@@ -189,14 +264,14 @@ public class BitmexAdapters {
     return new OpenOrders(limitOrders);
   }
 
-  public static LimitOrder adaptLimitOrder(BitmexOrder bitmexOrder, String id) {
+  public LimitOrder adaptLimitOrder(BitmexOrder bitmexOrder, String id) {
 
     BitmexOrderDescription orderDescription = bitmexOrder.getOrderDescription();
     OrderType type = adaptOrderType(orderDescription.getType());
 
     BigDecimal originalAmount = bitmexOrder.getVolume();
     BigDecimal filledAmount = bitmexOrder.getVolumeExecuted();
-    CurrencyPair pair = BitmexAdapters.adaptSymbolToCurrencyPair(orderDescription.getAssetPair());
+    Instrument instrument = toInstrument(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (bitmexOrder.getOpenTimestamp() * 1000L));
 
     OrderStatus status = adaptOrderStatus(bitmexOrder.getStatus());
@@ -210,7 +285,7 @@ public class BitmexAdapters {
     return new LimitOrder(
         type,
         originalAmount,
-        pair,
+        instrument,
         id,
         timestamp,
         orderDescription.getPrice(),
@@ -220,38 +295,19 @@ public class BitmexAdapters {
         status);
   }
 
-  public static OrderType adaptOrderType(BitmexSide bitmexType) {
+  public OrderType adaptOrderType(BitmexSide bitmexType) {
     return bitmexType == null
         ? null
         : bitmexType.equals(BitmexSide.BUY) ? OrderType.BID : OrderType.ASK;
   }
 
-  public static String adaptOrderId(BitmexOrderResponse orderResponse) {
+  public String adaptOrderId(BitmexOrderResponse orderResponse) {
 
     List<String> orderIds = orderResponse.getTransactionIds();
     return (orderIds == null || orderIds.isEmpty()) ? "" : orderIds.get(0);
   }
 
-  private static InstrumentMetaData adaptPair(
-      BitmexTicker ticker, InstrumentMetaData originalMeta) {
-
-    if (originalMeta != null) {
-      return new InstrumentMetaData.Builder()
-          .tradingFee(ticker.getTakerFee())
-          .minimumAmount(originalMeta.getMinimumAmount())
-          .maximumAmount(originalMeta.getMaximumAmount())
-          .priceScale(Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()))
-          .feeTiers(originalMeta.getFeeTiers())
-          .build();
-    } else {
-      return new InstrumentMetaData.Builder()
-          .tradingFee(ticker.getTakerFee())
-          .priceScale(Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()))
-          .build();
-    }
-  }
-
-  public static OrderStatus adaptOrderStatus(BitmexOrderStatus status) {
+  public OrderStatus adaptOrderStatus(BitmexOrderStatus status) {
 
     switch (status) {
       case PENDING:
@@ -271,104 +327,89 @@ public class BitmexAdapters {
     }
   }
 
-  public static OrderStatus adaptOrderStatus(BitmexPrivateOrder.OrderStatus status) {
+  public OrderStatus toOrderStatus(BitmexPrivateOrder.OrderStatus status) {
     switch (status) {
-      case New:
+      case NEW:
         return OrderStatus.NEW;
-      case PartiallyFilled:
+      case PARTIALLY_FILLED:
         return OrderStatus.PARTIALLY_FILLED;
-      case Filled:
+      case FILLED:
         return OrderStatus.FILLED;
-      case Canceled:
+      case CANCELED:
         return OrderStatus.CANCELED;
-      case Rejected:
+      case REJECTED:
         return OrderStatus.REJECTED;
+      case REPLACED:
+        return OrderStatus.REPLACED;
       default:
         return null;
     }
   }
 
-  public static String adaptCurrency(Currency currency) {
-    // bitmex seems to use a lowercase 't' in XBT
-    // can test this here - https://testnet.bitmex.com/api/explorer/#!/User/User_getDepositAddress
-    // uppercase 'T' will return 'Unknown currency code'
-    if (currency.getCurrencyCode().equals("BTC") || currency.getCurrencyCode().equals("XBT")) {
-      return "XBt";
-    }
-
-    return currency.getCurrencyCode();
-  }
-
-  public static Currency adaptCurrency(String currencyCode) {
-    if (currencyCode.equalsIgnoreCase("XBt")) {
+  public Currency toCurrency(String currencyCode) {
+    if ("xbt".equalsIgnoreCase(currencyCode)) {
       return Currency.BTC;
     }
 
     return Currency.getInstance(currencyCode);
   }
 
-  public static String adaptCurrencyPairToSymbol(CurrencyPair currencyPair) {
-    return currencyPair == null
-        ? null
-        : currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
-  }
+  public String toString(Instrument instrument) {
+    if (instrument == null) {
+      return null;
+    }
+    String result = INSTRUMENT_TO_SYMBOL.get(instrument);
 
-  public static CurrencyPair adaptSymbolToCurrencyPair(String bitmexSymbol) {
-
-    // Assuming that base symbol has 3 characters
-    String baseSymbol = bitmexSymbol.substring(0, 3);
-    String counterSymbol = bitmexSymbol.substring(3);
-
-    return new CurrencyPair(baseSymbol, counterSymbol);
-  }
-
-  public static class OrdersContainer {
-
-    private final long timestamp;
-    private final List<LimitOrder> limitOrders;
-
-    /**
-     * Constructor
-     *
-     * @param timestamp
-     * @param limitOrders
-     */
-    public OrdersContainer(long timestamp, List<LimitOrder> limitOrders) {
-
-      this.timestamp = timestamp;
-      this.limitOrders = limitOrders;
+    // try to guess if no mapping found
+    if (result == null) {
+      log.warn("No symbol mapping found {}. Will guess...", instrument);
+      if (instrument instanceof CurrencyPair) {
+        result = String.format("%s_%s", instrument.getBase(), instrument.getCounter());
+        log.warn("Guessed {}", result);
+      }
     }
 
-    public long getTimestamp() {
-      return timestamp;
-    }
-
-    public List<LimitOrder> getLimitOrders() {
-      return limitOrders;
-    }
+    return result;
   }
 
-  public static UserTrade adoptUserTrade(BitmexPrivateExecution exec) {
-    CurrencyPair pair = BitmexAdapters.adaptSymbolToCurrencyPair(exec.symbol);
-    // the "lastQty" parameter is in the USD currency for ???/USD pairs
-    OrderType orderType = convertType(exec.side);
+  public Instrument toInstrument(String bitmexSymbol) {
+    if (bitmexSymbol == null) {
+      return null;
+    }
+    Instrument result = SYMBOL_TO_INSTRUMENT.get(bitmexSymbol);
+
+    // try to guess if no mapping found
+    if (result == null) {
+      log.warn("No symbol mapping found {}. Will guess...", bitmexSymbol);
+      if (bitmexSymbol.contains("_")) {
+        String[] parsed = bitmexSymbol.split("_");
+        result = new CurrencyPair(parsed[0], parsed[1]);
+        log.warn("Guessed {}", result);
+      }
+    }
+
+    return result;
+  }
+
+  public UserTrade toUserTrade(BitmexPrivateExecution exec) {
+    OrderType orderType = convertType(exec.getSide());
     return orderType == null
         ? null
         : UserTrade.builder()
-            .id(exec.execID)
-            .orderId(exec.orderID)
-            .currencyPair(pair)
-            .originalAmount(exec.lastQty)
-            .price(exec.lastPx)
-            .feeAmount(exec.execComm.divide(SATOSHIS_BY_BTC, MathContext.DECIMAL32))
-            .feeCurrency(Currency.XBT)
-            .timestamp(exec.timestamp)
+            .id(exec.getExecutionId())
+            .orderId(exec.getOrderId())
+            .instrument(exec.getInstrument())
+            .originalAmount(exec.getExecutedQuantity())
+            .price(exec.getPrice())
+            .feeAmount(exec.getFeeAmount())
+            .feeCurrency(exec.getFeeCurrency())
+            .timestamp(toDate(exec.getUpdatedAt()))
             .type(orderType)
-            .orderUserReference(exec.clOrdID)
+            .orderUserReference(exec.getClientOid())
             .build();
   }
 
-  private static OrderType convertType(String side) {
+  private OrderType convertType(String side) {
     switch (side) {
       case "Buy":
         return OrderType.BID;
@@ -379,30 +420,33 @@ public class BitmexAdapters {
     }
   }
 
-  public static FundingRecord adaptFundingRecord(BitmexWalletTransaction walletTransaction) {
+  public FundingRecord adaptFundingRecord(BitmexWalletTransaction walletTransaction) {
     return new FundingRecord(
         walletTransaction.getAddress(),
-        walletTransaction.getTransactTime(),
-        adaptCurrency(walletTransaction.getCurrency()),
+        toDate(walletTransaction.getUpdatedAt()),
+        walletTransaction.getCurrency(),
         walletTransaction.getAmount().abs(),
-        walletTransaction.getTransactID(),
+        walletTransaction.getTransactionId(),
         walletTransaction.getTx(),
-        adaptFundingRecordtype(walletTransaction),
-        adaptFundingRecordStatus(walletTransaction.getTransactStatus()),
+        toFundingRecordtype(walletTransaction),
+        toFundingRecordStatus(walletTransaction.getTransactionStatus()),
         walletTransaction.getWalletBalance(),
-        walletTransaction.getFee(),
+        walletTransaction.getFeeAmount(),
         walletTransaction.getText());
   }
 
-  private static FundingRecord.Type adaptFundingRecordtype(
+  private FundingRecord.Type toFundingRecordtype(
       final BitmexWalletTransaction walletTransaction) {
 
-    String type = walletTransaction.getTransactType();
-    if (type.equalsIgnoreCase("Deposit")) {
+    String type = walletTransaction.getTransactionType();
+    if ("Deposit".equalsIgnoreCase(type)) {
       return FundingRecord.Type.DEPOSIT;
-    } else if (type.equalsIgnoreCase("Withdrawal")) {
+    }
+    if ("Withdrawal".equalsIgnoreCase(type)) {
       return FundingRecord.Type.WITHDRAWAL;
-    } else if (type.equalsIgnoreCase("RealisedPNL") || type.equalsIgnoreCase("UnrealisedPNL")) {
+    }
+    if ("RealisedPNL".equalsIgnoreCase(type) || "UnrealisedPNL".equalsIgnoreCase(type)
+        || "SpotTrade".equalsIgnoreCase(type)) {
       // 'RealisedPNL' will always have transactStatus = Completed whereas 'UnrealisedPNL' will
       // always be transactStatus = Pending
       if (walletTransaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
@@ -412,10 +456,169 @@ public class BitmexAdapters {
       }
     }
 
-    throw new ExchangeException("Unknown FundingRecord.Type");
+    if ("Transfer".equalsIgnoreCase(type)) {
+      if (walletTransaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
+        return FundingRecord.Type.INTERNAL_DEPOSIT;
+      } else if (walletTransaction.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+        return FundingRecord.Type.INTERNAL_WITHDRAWAL;
+      }
+    }
+
+    log.warn("Unknown FundingRecord.Type: {}", type);
+    return null;
   }
 
-  private static FundingRecord.Status adaptFundingRecordStatus(final String transactStatus) {
+  public FundingRecord.Status toFundingRecordStatus(String transactStatus) {
+    if ("Confirmed".equalsIgnoreCase(transactStatus)) {
+      return Status.COMPLETE;
+    }
+    if ("Canceled".equalsIgnoreCase(transactStatus)) {
+      return Status.CANCELLED;
+    }
     return FundingRecord.Status.resolveStatus(transactStatus);
   }
+
+  public Instrument toInstrument(BitmexTicker bitmexTicker) {
+    if (bitmexTicker == null) {
+      return null;
+    }
+
+    CurrencyPair currencyPair = new CurrencyPair(bitmexTicker.getUnderlying(), bitmexTicker.getQuoteCurrency());
+    switch (bitmexTicker.getSymbolType()) {
+      case SPOT:
+        return currencyPair;
+      case FUTURES:
+        return new FuturesContract(currencyPair, bitmexTicker.getExpirationInfo().getFuturesCode());
+      case PERPETUALS:
+        return new FuturesContract(currencyPair, "PERP");
+      case UNKNOWN:
+      default:
+        return null;
+    }
+  }
+
+  public InstrumentMetaData toInstrumentMetaData(BitmexTicker bitmexTicker) {
+    BigDecimal assetMultiplier = bitmexTicker.getUnderlyingToPositionMultiplier();
+
+    BigDecimal minAssetAmount = null;
+    if (bitmexTicker.getLotSize() != null && assetMultiplier != null && assetMultiplier.signum() != 0) {
+      minAssetAmount = bitmexTicker.getLotSize().divide(assetMultiplier, MathContext.DECIMAL32);
+    }
+
+    BigDecimal maxAssetAmount = null;
+    if (bitmexTicker.getMaxOrderQty() != null && assetMultiplier != null && assetMultiplier.signum() != 0) {
+      maxAssetAmount = bitmexTicker.getMaxOrderQty().divide(assetMultiplier, MathContext.DECIMAL32);
+    }
+
+    return new InstrumentMetaData.Builder()
+        .tradingFee(bitmexTicker.getTakerFee())
+        .minimumAmount(minAssetAmount)
+        .maximumAmount(maxAssetAmount)
+        .priceScale(Optional.ofNullable(bitmexTicker.getTickSize()).map(BigDecimal::scale).orElse(null))
+        .volumeScale(Optional.ofNullable(minAssetAmount).map(BigDecimal::scale).orElse(null))
+        .priceStepSize(bitmexTicker.getTickSize())
+        .marketOrderEnabled(true)
+        .build();
+  }
+
+  public String toFuturesCode(ZonedDateTime zonedDateTime) {
+    if (zonedDateTime == null) {
+      return null;
+    }
+    // get short year
+    String futuresCode = DateTimeFormatter.ofPattern("yy").format(zonedDateTime);
+    switch (zonedDateTime.getMonth()) {
+      case JANUARY:
+        return "F" + futuresCode;
+      case FEBRUARY:
+        return "G" + futuresCode;
+      case MARCH:
+        return "H" + futuresCode;
+      case APRIL:
+        return "J" + futuresCode;
+      case MAY:
+        return "K" + futuresCode;
+      case JUNE:
+        return "M" + futuresCode;
+      case JULY:
+        return "N" + futuresCode;
+      case AUGUST:
+        return "Q" + futuresCode;
+      case SEPTEMBER:
+        return "U" + futuresCode;
+      case OCTOBER:
+        return "V" + futuresCode;
+      case NOVEMBER:
+        return "X" + futuresCode;
+      case DECEMBER:
+        return "Z" + futuresCode;
+      default:
+        return null;
+    }
+  }
+
+  public BitmexSide toBitmexSide(OrderType type) {
+    return type == OrderType.ASK ? BitmexSide.SELL : BitmexSide.BUY;
+  }
+
+  public Date toDate (ZonedDateTime zonedDateTime) {
+    return Optional.ofNullable(zonedDateTime)
+        .map(ChronoZonedDateTime::toInstant)
+        .map(Date::from)
+        .orElse(null);
+  }
+
+  public BigDecimal scaleToLocalAmount(BigDecimal amount, Currency currency) {
+    return scaleAmount(amount, currency, false);
+  }
+
+  public BigDecimal scaleToExchangeAmount(BigDecimal amount, Currency currency) {
+    return scaleAmount(amount, currency, true);
+  }
+
+  private BigDecimal scaleAmount(BigDecimal amount, Currency currency, boolean scaleUp) {
+    if (amount == null) {
+      return null;
+    }
+    Integer scale = getCurrencyScale(currency);
+    if (scale == null || scale == 0) {
+      log.warn("Scale for {} not found. Returning as is", currency);
+      return amount;
+    }
+    if (scaleUp) {
+      return amount.scaleByPowerOfTen(scale);
+    }
+    else {
+      return amount.scaleByPowerOfTen(-scale);
+    }
+  }
+
+  public Wallet toWallet(List<BitmexWallet> bitmexWallets) {
+    List<Balance> balances =
+        bitmexWallets.stream().map(BitmexAdapters::toBalance).collect(Collectors.toList());
+
+
+    return Wallet.Builder
+        .from(balances)
+        .id("spot")
+        .features(EnumSet.of(Wallet.WalletFeature.TRADING))
+        .build();
+  }
+
+  public Balance toBalance(BitmexWallet bitmexWallet) {
+    return new Balance.Builder()
+        .currency(bitmexWallet.getCurrency())
+        .available(bitmexWallet.getAmount())
+        .timestamp(toDate(bitmexWallet.getTimestamp()))
+        .build();
+  }
+
+
+  @SneakyThrows
+  public String asJsonString(FilterParam filterParam) {
+    ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
+    return objectMapper.writeValueAsString(filterParam);
+  }
+
+
 }

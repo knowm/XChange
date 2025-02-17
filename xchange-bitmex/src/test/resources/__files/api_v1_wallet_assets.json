@@ -1,0 +1,151 @@
+[
+  {
+    "asset": "USDT",
+    "currency": "USDt",
+    "majorCurrency": "USDT",
+    "name": "USD Tether",
+    "currencyType": "Crypto",
+    "scale": 6,
+    "enabled": true,
+    "isMarginCurrency": true,
+    "minDepositAmount": 1000000,
+    "minWithdrawalAmount": 10000000,
+    "maxWithdrawalAmount": 100000000000000,
+    "memoRequired": false,
+    "networks": [
+      {
+        "asset": "eth",
+        "tokenAddress": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        "depositEnabled": true,
+        "withdrawalEnabled": true,
+        "withdrawalFee": 10000000,
+        "minFee": 10000000,
+        "maxFee": 10000000
+      },
+      {
+        "asset": "sol",
+        "tokenAddress": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+        "depositEnabled": true,
+        "withdrawalEnabled": true,
+        "withdrawalFee": 1000000,
+        "minFee": 1000000,
+        "maxFee": 1000000
+      },
+      {
+        "asset": "tron",
+        "tokenAddress": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+        "depositEnabled": true,
+        "withdrawalEnabled": true,
+        "withdrawalFee": 4500000,
+        "minFee": 4500000,
+        "maxFee": 4500000
+      }
+    ]
+  },
+  {
+    "asset": "XBT",
+    "currency": "XBt",
+    "majorCurrency": "XBT",
+    "name": "Bitcoin",
+    "currencyType": "Crypto",
+    "scale": 8,
+    "enabled": true,
+    "isMarginCurrency": true,
+    "minDepositAmount": 10000,
+    "minWithdrawalAmount": 1000,
+    "maxWithdrawalAmount": 100000000000000,
+    "memoRequired": false,
+    "networks": [
+      {
+        "asset": "btc",
+        "depositEnabled": true,
+        "withdrawalEnabled": true,
+        "withdrawalFee": 1000,
+        "minFee": 5000,
+        "maxFee": 10000000
+      }
+    ]
+  },
+  {
+    "asset": "SOL",
+    "currency": "LAMp",
+    "majorCurrency": "SOL",
+    "name": "Solana",
+    "currencyType": "Crypto",
+    "scale": 9,
+    "enabled": true,
+    "isMarginCurrency": false,
+    "minDepositAmount": 10000000,
+    "minWithdrawalAmount": 20000000,
+    "maxWithdrawalAmount": 1000000000000000,
+    "memoRequired": false,
+    "networks": [
+      {
+        "asset": "sol",
+        "depositEnabled": true,
+        "withdrawalEnabled": true,
+        "withdrawalFee": 10000000,
+        "minFee": 10000000,
+        "maxFee": 10000000
+      }
+    ]
+  },
+  {
+    "asset": "ETH",
+    "currency": "Gwei",
+    "majorCurrency": "ETH",
+    "name": "Ethereum",
+    "currencyType": "Crypto",
+    "scale": 9,
+    "enabled": true,
+    "isMarginCurrency": false,
+    "minDepositAmount": 10000000,
+    "minWithdrawalAmount": 10000000,
+    "maxWithdrawalAmount": 100000000000000,
+    "memoRequired": false,
+    "networks": [
+      {
+        "asset": "bsc",
+        "tokenAddress": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
+        "depositEnabled": false,
+        "withdrawalEnabled": false,
+        "withdrawalFee": 5,
+        "minFee": 5,
+        "maxFee": 5
+      },
+      {
+        "asset": "eth",
+        "depositEnabled": true,
+        "withdrawalEnabled": true,
+        "withdrawalFee": 5000000,
+        "minFee": 5000000,
+        "maxFee": 5000000
+      }
+    ]
+  },
+  {
+    "asset": "TRUMP",
+    "currency": "TRUMp",
+    "majorCurrency": "TRUMP",
+    "name": "MAGA (Trump)",
+    "currencyType": "Crypto",
+    "scale": 8,
+    "enabled": true,
+    "isMarginCurrency": false,
+    "minDepositAmount": 100000000,
+    "minWithdrawalAmount": 100000000,
+    "maxWithdrawalAmount": 100000000000000,
+    "memoRequired": false,
+    "networks": [
+      {
+        "asset": "eth",
+        "tokenAddress": "0x6aA56e1D98b3805921C170EB4B3fe7D4Fda6D89b",
+        "depositEnabled": true,
+        "withdrawalEnabled": true,
+        "withdrawalFee": 100000000,
+        "minFee": 100000000,
+        "maxFee": 100000000
+      }
+    ]
+  }
+]

@@ -112,7 +112,7 @@ public class BitmexOrderIntegration {
     List<BitmexPrivateOrder> bitmexPrivateOrders = tradeService.cancelBitmexOrder(null, clOrdId);
     Assert.assertEquals(1, bitmexPrivateOrders.size());
     BitmexPrivateOrder order = bitmexPrivateOrders.get(0);
-    Assert.assertEquals(BitmexPrivateOrder.OrderStatus.Canceled, order.getOrderStatus());
+    Assert.assertEquals(BitmexPrivateOrder.OrderStatus.CANCELED, order.getOrderStatus());
     LOG.info("Order was cancelled = {}", order);
     return order;
   }
@@ -124,9 +124,8 @@ public class BitmexOrderIntegration {
       BitmexSide side,
       BitmexPrivateOrder bitmexPrivateOrder) {
     Assert.assertEquals(orderId, bitmexPrivateOrder.getId());
-    Assert.assertEquals(price, bitmexPrivateOrder.getPrice());
-    Assert.assertEquals(size, bitmexPrivateOrder.getVolume().toString());
-    Assert.assertEquals(side, bitmexPrivateOrder.getSide());
+    Assert.assertEquals(price, bitmexPrivateOrder.getAveragePrice());
+    Assert.assertEquals(size, bitmexPrivateOrder.getCumulativeAmount().toString());
   }
 
   @Test
@@ -195,7 +194,7 @@ public class BitmexOrderIntegration {
     Assert.assertEquals(1, bitmexPrivateOrders.size());
 
     BitmexPrivateOrder order = bitmexPrivateOrders.get(0);
-    Assert.assertEquals(BitmexPrivateOrder.OrderStatus.Filled, order.getOrderStatus());
+    Assert.assertEquals(BitmexPrivateOrder.OrderStatus.FILLED, order.getOrderStatus());
   }
 
   @Test(expected = AssertionError.class)
