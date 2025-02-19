@@ -33,9 +33,7 @@ public class BybitStreamTestNetExample {
   // Uses TEST_NET
   public static void main(String[] args) {
     try {
-
-      auth();
-
+      withAuth();
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
@@ -47,7 +45,7 @@ public class BybitStreamTestNetExample {
 
   private static final Instrument ETH_SPOT = new CurrencyPair("ETH/USDT");
 
-  private static void auth() throws IOException, InterruptedException {
+  private static void withAuth() throws IOException, InterruptedException {
     ExchangeSpecification exchangeSpecification =
         new BybitStreamingExchange().getDefaultExchangeSpecification();
     exchangeSpecification.setApiKey(System.getProperty("test_api_key"));
@@ -77,7 +75,7 @@ public class BybitStreamTestNetExample {
     Thread.sleep(2000L);
     AtomicReference<Order> order = new AtomicReference<>();
     Disposable disposableOrderChanges =
-        ((BybitStreamingTradeService) exchange.getStreamingTradeService())
+        exchange.getStreamingTradeService()
             .getOrderChanges(null,BybitCategory.LINEAR)
             .doOnError(error -> log.error("OrderChanges error", error))
             .subscribe(
@@ -96,7 +94,7 @@ public class BybitStreamTestNetExample {
                 throwable -> log.error("ComplexPosition throwable,{}", throwable.getMessage()));
     Thread.sleep(3000L);
     exchange.getTradeService().placeLimitOrder(limitOrder);
-    Thread.sleep(30000L);
+    Thread.sleep(3000L);
     disposableOrderChanges.dispose();
     disposableComplexPositionChanges.dispose();
     exchange.disconnect().blockingAwait();

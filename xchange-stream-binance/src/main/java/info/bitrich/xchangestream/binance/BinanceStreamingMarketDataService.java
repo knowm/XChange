@@ -457,6 +457,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
               intervalMap.remove(klineInterval);
               return intervalMap;
             });
+        break;
       default:
         throw new IllegalArgumentException(
             "Subscription type not supported to unsubscribe from stream");

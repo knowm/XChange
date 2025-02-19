@@ -200,14 +200,17 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                   eventLoopGroup = new NioEventLoopGroup(2);
                 }
 
-                new Bootstrap()
+                Bootstrap bootstrap = new Bootstrap()
                     .group(eventLoopGroup)
                     .option(
                         ChannelOption.CONNECT_TIMEOUT_MILLIS,
-                        java.lang.Math.toIntExact(connectionTimeout.toMillis()))
+                        Math.toIntExact(connectionTimeout.toMillis()))
                     .option(ChannelOption.SO_KEEPALIVE, true)
-                    .channel(NioSocketChannel.class)
-                    .handler(
+                    .channel(NioSocketChannel.class);
+                if (socksProxyHost != null) {
+                  bootstrap.disableResolver();
+                }
+                bootstrap.handler(
                         new ChannelInitializer<SocketChannel>() {
                           @Override
                           protected void initChannel(SocketChannel ch) {
@@ -555,6 +558,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
+      connectionStateModel.setState(State.CLOSED);
       if (isManualDisconnect.compareAndSet(true, false)) {
         // Don't attempt to reconnect
       } else {

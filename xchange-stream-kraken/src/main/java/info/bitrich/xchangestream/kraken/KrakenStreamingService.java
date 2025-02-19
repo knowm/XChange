@@ -238,7 +238,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     }
 
     if (message.isArray()) {
-      if (message.get(0).isLong()) {
+      if (message.get(0).isInt() || message.get(0).isLong()) {
         LOG.trace("Taking channelName from ID from first field LONG).");
         long channelId = message.get(0).asLong();
         return channels.getOrDefault(channelId, String.valueOf(channelId));

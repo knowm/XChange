@@ -332,4 +332,14 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
       WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
     streamingService.setChannelInactiveHandler(channelInactiveHandler);
   }
+
+  @Override
+  public void resubscribeChannels() {
+    streamingService.resubscribeChannels();
+  }
+
+  @Override
+  public Observable<Object> connectionIdle() {
+    return streamingService.subscribeIdle();
+  }
 }

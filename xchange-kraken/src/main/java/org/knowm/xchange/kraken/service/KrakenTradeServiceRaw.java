@@ -1,17 +1,26 @@
 package org.knowm.xchange.kraken.service;
 
+import static org.knowm.xchange.service.trade.params.orders.PlaceOrderKnownParams.CLIENT_ORDER_ID;
+
 import java.io.IOException;
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.*;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
-import org.knowm.xchange.kraken.dto.trade.*;
+import org.knowm.xchange.kraken.dto.trade.KrakenOpenPosition;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
+import org.knowm.xchange.kraken.dto.trade.KrakenStandardOrder;
 import org.knowm.xchange.kraken.dto.trade.KrakenStandardOrder.KrakenOrderBuilder;
+import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
+import org.knowm.xchange.kraken.dto.trade.KrakenType;
+import org.knowm.xchange.kraken.dto.trade.TimeInForce;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenCancelOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenCancelOrderResult.KrakenCancelOrderResponse;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenClosedOrdersResult;
@@ -22,6 +31,7 @@ import org.knowm.xchange.kraken.dto.trade.results.KrakenQueryOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenQueryTradeResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.KrakenTradeHistory;
+import org.knowm.xchange.service.trade.params.orders.PlaceOrderParams;
 
 public class KrakenTradeServiceRaw extends KrakenBaseService {
 
@@ -188,6 +198,8 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
             .withOrderFlags(marketOrder.getOrderFlags())
             .withLeverage(marketOrder.getLeverage());
 
+    getClientOrderId(marketOrder).ifPresent(orderBuilder::withClientOrderId);
+
     return placeKrakenOrder(orderBuilder.buildOrder());
   }
 
@@ -200,6 +212,8 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
                 marketOrder.getCurrencyPair(), type, marketOrder.getOriginalAmount())
             .withUserRefId(marketOrder.getUserReference());
 
+    getClientOrderId(marketOrder).ifPresent(orderBuilder::withClientOrderId);
+
     return placeKrakenOrder(orderBuilder.buildOrder());
   }
 
@@ -211,12 +225,26 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
                 type,
                 limitOrder.getLimitPrice().toPlainString(),
                 limitOrder.getOriginalAmount())
-            .withUserRefId(limitOrder.getUserReference())
             .withOrderFlags(limitOrder.getOrderFlags())
             .withLeverage(limitOrder.getLeverage())
             .withTimeInForce(timeInForceFromOrder(limitOrder).orElse(null));
 
+    Optional<String> clientOrderId = getClientOrderId(limitOrder);
+    if (clientOrderId.isPresent()) {
+      krakenOrderBuilder.withClientOrderId(clientOrderId.get());
+    } else {
+      krakenOrderBuilder.withUserRefId(limitOrder.getUserReference());
+    }
+
     return placeKrakenOrder(krakenOrderBuilder.buildOrder());
+  }
+
+  private Optional<String> getClientOrderId(Order order) {
+    if (order instanceof PlaceOrderParams) {
+      return Optional.ofNullable(
+          ((PlaceOrderParams) order).getOrderParam(CLIENT_ORDER_ID, String.class));
+    }
+    return Optional.empty();
   }
 
   private Optional<TimeInForce> timeInForceFromOrder(Order order) {
@@ -247,6 +275,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
               krakenStandardOrder.getUserRefId(),
               krakenStandardOrder.getCloseOrder(),
               nullSafeToString(krakenStandardOrder.getTimeInForce()),
+              krakenStandardOrder.getClientOrderId(),
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory());
@@ -268,6 +297,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
               true,
               krakenStandardOrder.getCloseOrder(),
               nullSafeToString(krakenStandardOrder.getTimeInForce()),
+              krakenStandardOrder.getClientOrderId(),
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory());

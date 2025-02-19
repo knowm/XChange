@@ -103,7 +103,7 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
 
   public BybitResult<BybitFeeRates> getFeeRates(BybitCategory category, Instrument instrument)
       throws IOException {
-    String symbol = "";
+    String symbol = null;
     if (instrument != null) {
       symbol = BybitAdapters.convertToBybitSymbol(instrument);
     }

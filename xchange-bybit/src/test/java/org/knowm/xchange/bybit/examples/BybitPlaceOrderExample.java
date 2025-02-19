@@ -11,11 +11,10 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
-
+import org.knowm.xchange.bybit.dto.trade.BybitOpenOrdersParam;
 import org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode;
 import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
 import org.knowm.xchange.bybit.service.BybitAccountService;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -76,10 +75,20 @@ public class BybitPlaceOrderExample {
             ETH_USDT_PERP,
             "",
             new Date(),
-            ticker.getLow());
+            ticker.getHigh());
     limitOrder.addOrderFlag(BybitTimeInForce.POSTONLY);
     limitOrder.addOrderFlag(BybitHedgeMode.TWOWAY);
     String limitOrderId = exchange.getTradeService().placeLimitOrder(limitOrder);
     System.out.println("limit order id: " + limitOrderId);
+
+    // Main net only
+//    for (Order order : exchange.getTradeService().getOrder(limitOrderId)) {
+//      System.out.println("get order: " + order);
+//    }
+
+    BybitOpenOrdersParam param = new BybitOpenOrdersParam(ETH_USDT_PERP, BybitCategory.LINEAR);
+    for (LimitOrder order : exchange.getTradeService().getOpenOrders(param).getOpenOrders()) {
+      System.out.println("get open orders: " + order);
+    }
   }
 }
