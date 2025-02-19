@@ -142,7 +142,7 @@ public class IdexExchange extends BaseExchange {
     }
 
     public static String getMarket(CurrencyPair currencyPair) {
-      return currencyPair.counter.getSymbol() + "_" + currencyPair.base.getSymbol();
+      return currencyPair.getCounter().getSymbol() + "_" + currencyPair.getBase().getSymbol();
     }
 
     public static CurrencyPair getCurrencyPair(String market) {

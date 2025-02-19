@@ -54,8 +54,8 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
     String channel =
         String.format(
             "ok_sub_spot_%s_%s_depth",
-            currencyPair.base.toString().toLowerCase(),
-            currencyPair.counter.toString().toLowerCase());
+            currencyPair.getBase().toString().toLowerCase(),
+            currencyPair.getCounter().toString().toLowerCase());
 
     if (args.length > 0) {
       if (args[0] instanceof FuturesContract) {
@@ -63,8 +63,8 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
         channel =
             String.format(
                 "ok_sub_future%s_%s_depth_%s",
-                currencyPair.counter.toString().toLowerCase(),
-                currencyPair.base.toString().toLowerCase(),
+                currencyPair.getCounter().toString().toLowerCase(),
+                currencyPair.getBase().toString().toLowerCase(),
                 contract.getName());
         if (args.length > 1) {
           channel = channel + "_" + args[1];
@@ -121,8 +121,8 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
     String channel =
         String.format(
             "ok_sub_spot_%s_%s_ticker",
-            currencyPair.base.toString().toLowerCase(),
-            currencyPair.counter.toString().toLowerCase());
+            currencyPair.getBase().toString().toLowerCase(),
+            currencyPair.getCounter().toString().toLowerCase());
 
     return service
         .subscribeChannel(channel)
@@ -148,8 +148,8 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
     String channel =
         String.format(
             "ok_sub_future%s_%s_ticker_%s",
-            currencyPair.counter.toString().toLowerCase(),
-            currencyPair.base.toString().toLowerCase(),
+            currencyPair.getCounter().toString().toLowerCase(),
+            currencyPair.getBase().toString().toLowerCase(),
             contract.getName());
     return service
         .subscribeChannel(channel)
@@ -171,16 +171,16 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
     String channel =
         String.format(
             "ok_sub_spot_%s_%s_deals",
-            currencyPair.base.toString().toLowerCase(),
-            currencyPair.counter.toString().toLowerCase());
+            currencyPair.getBase().toString().toLowerCase(),
+            currencyPair.getCounter().toString().toLowerCase());
 
     if (args.length > 0) {
       FuturesContract contract = (FuturesContract) args[0];
       channel =
           String.format(
               "ok_sub_future%s_%s_trade_%s",
-              currencyPair.counter.toString().toLowerCase(),
-              currencyPair.base.toString().toLowerCase(),
+              currencyPair.getCounter().toString().toLowerCase(),
+              currencyPair.getBase().toString().toLowerCase(),
               contract.getName());
     }
 

@@ -9,7 +9,10 @@ import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProOrderBookMode;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.service.netty.*;
+import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
+import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
@@ -101,7 +104,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
    */
   public Observable<CoinbaseProWebSocketTransaction> getRawWebSocketTransactions(
       CurrencyPair currencyPair, boolean filterChannelName) {
-    String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
+    String channelName = currencyPair.getBase().toString() + "-" + currencyPair.getCounter().toString();
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return subscribeChannel(channelName)
         .map(s -> mapToTransaction(mapper, s))

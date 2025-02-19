@@ -106,7 +106,7 @@ public class CoindirectTradeService extends CoindirectTradeServiceRaw implements
                       .id(t.uuid)
                       .orderId(t.uuid)
                       .feeAmount(t.executedFees)
-                      .feeCurrency(CoindirectAdapters.toCurrencyPair(t.symbol).counter)
+                      .feeCurrency(CoindirectAdapters.toCurrencyPair(t.symbol).getCounter())
                       .build();
                 })
             .filter(t -> t != null)

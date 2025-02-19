@@ -10,9 +10,9 @@ public final class BleutradeUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.base.getCurrencyCode().toUpperCase()
+    return currencyPair.getBase().getCurrencyCode().toUpperCase()
         + "_"
-        + currencyPair.counter.getCurrencyCode().toUpperCase();
+        + currencyPair.getCounter().getCurrencyCode().toUpperCase();
   }
 
   public static CurrencyPair toCurrencyPair(String pairString) {

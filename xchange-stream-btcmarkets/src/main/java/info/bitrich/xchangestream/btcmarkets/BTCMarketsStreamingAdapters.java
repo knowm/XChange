@@ -24,7 +24,7 @@ public class BTCMarketsStreamingAdapters {
   private static final Logger LOG = LoggerFactory.getLogger(BTCMarketsStreamingAdapters.class);
 
   public static String adaptCurrencyPairToMarketId(CurrencyPair currencyPair) {
-    return currencyPair.base.toString() + "-" + currencyPair.counter.toString();
+    return currencyPair.getBase().toString() + "-" + currencyPair.getCounter().toString();
   }
 
   public static CurrencyPair adaptMarketIdToCurrencyPair(String marketId) {

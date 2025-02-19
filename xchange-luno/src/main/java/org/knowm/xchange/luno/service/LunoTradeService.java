@@ -169,10 +169,10 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
       final Currency feeCurrency;
       if (t.feeBase.compareTo(BigDecimal.ZERO) > 0) {
         feeAmount = t.feeBase;
-        feeCurrency = pair.base;
+        feeCurrency = pair.getBase();
       } else {
         feeAmount = t.feeCounter;
-        feeCurrency = pair.counter;
+        feeCurrency = pair.getCounter();
       }
       trades.add(
           UserTrade.builder()

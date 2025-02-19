@@ -112,8 +112,8 @@ public class LivecoinAdapters {
               .minimumAmount(product.getMinLimitQuantity())
               .build());
 
-      if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
-      if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
+      if (!currencies.containsKey(pair.getBase())) currencies.put(pair.getBase(), null);
+      if (!currencies.containsKey(pair.getCounter())) currencies.put(pair.getCounter(), null);
     }
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
   }

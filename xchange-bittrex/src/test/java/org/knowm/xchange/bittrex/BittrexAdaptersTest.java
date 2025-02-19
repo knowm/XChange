@@ -216,7 +216,7 @@ public class BittrexAdaptersTest {
     Assert.assertEquals(order1.getClosedAt(), trade1.getTimestamp());
     Assert.assertEquals(order1.getId(), trade1.getId());
     Assert.assertEquals(order1.getCommission(), trade1.getFeeAmount());
-    Assert.assertEquals(pair.counter, trade1.getFeeCurrency());
+    Assert.assertEquals(pair.getCounter(), trade1.getFeeCurrency());
 
     UserTrade trade2 = tradesList.get(1);
     Assert.assertEquals(Order.OrderType.ASK, trade2.getType());
@@ -226,6 +226,6 @@ public class BittrexAdaptersTest {
     Assert.assertEquals(order2.getClosedAt(), trade2.getTimestamp());
     Assert.assertEquals(order2.getId(), trade2.getId());
     Assert.assertEquals(order2.getCommission(), trade2.getFeeAmount());
-    Assert.assertEquals(pair.counter, trade2.getFeeCurrency());
+    Assert.assertEquals(pair.getCounter(), trade2.getFeeCurrency());
   }
 }

@@ -46,7 +46,7 @@ public class BitbayAdapters {
               .price(trade.getRate())
               .timestamp(timestamp)
               .feeAmount(trade.getCommissionValue())
-              .feeCurrency(trade.getCommissionValue() == null ? null : pair.base)
+              .feeCurrency(trade.getCommissionValue() == null ? null : pair.getBase())
               .build());
     }
     return new UserTrades(
@@ -54,6 +54,6 @@ public class BitbayAdapters {
   }
 
   public static String adaptCurrencyPair(CurrencyPair currencyPair) {
-    return currencyPair.base + "-" + currencyPair.counter;
+    return currencyPair.getBase() + "-" + currencyPair.getCounter();
   }
 }

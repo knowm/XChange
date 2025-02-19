@@ -213,14 +213,14 @@ public class LatokenAdapters {
         .id(latokenUserTrade.getId())
         .orderId(latokenUserTrade.getOrderId())
         .feeAmount(latokenUserTrade.getFee())
-        .feeCurrency(pair.counter) // Fee is always in counter currency
+        .feeCurrency(pair.getCounter()) // Fee is always in counter currency
         .build();
   }
 
   // --------------- Convert to Latoken convention --------------------------
 
   public static String toSymbol(CurrencyPair pair) {
-    return pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+    return pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode();
   }
 
   public static String toSymbol(Currency currency) {

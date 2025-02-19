@@ -25,8 +25,8 @@ public class BitfinexStreamingTradeService implements StreamingTradeService {
         .map(BitfinexStreamingAdapters::adaptOrder)
         .doOnNext(
             o -> {
-              service.scheduleCalculatedBalanceFetch(o.getCurrencyPair().base.getCurrencyCode());
-              service.scheduleCalculatedBalanceFetch(o.getCurrencyPair().counter.getCurrencyCode());
+              service.scheduleCalculatedBalanceFetch(o.getCurrencyPair().getBase().getCurrencyCode());
+              service.scheduleCalculatedBalanceFetch(o.getCurrencyPair().getCounter().getCurrencyCode());
             });
   }
 
@@ -46,8 +46,8 @@ public class BitfinexStreamingTradeService implements StreamingTradeService {
         .map(BitfinexStreamingAdapters::adaptUserTrade)
         .doOnNext(
             t -> {
-              service.scheduleCalculatedBalanceFetch(t.getCurrencyPair().base.getCurrencyCode());
-              service.scheduleCalculatedBalanceFetch(t.getCurrencyPair().counter.getCurrencyCode());
+              service.scheduleCalculatedBalanceFetch(t.getCurrencyPair().getBase().getCurrencyCode());
+              service.scheduleCalculatedBalanceFetch(t.getCurrencyPair().getCounter().getCurrencyCode());
             });
   }
 

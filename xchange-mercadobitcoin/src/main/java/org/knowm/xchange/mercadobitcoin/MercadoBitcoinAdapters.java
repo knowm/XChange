@@ -202,7 +202,7 @@ public final class MercadoBitcoinAdapters {
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
-    return (pair.base.getCurrencyCode() + "_" + pair.counter.getCurrencyCode()).toLowerCase();
+    return (pair.getBase().getCurrencyCode() + "_" + pair.getCounter().getCurrencyCode()).toLowerCase();
   }
 
   public static UserTrades toUserTrades(

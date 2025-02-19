@@ -41,7 +41,15 @@ import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTickers;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTradeStatistics;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
-import org.knowm.xchange.coinmate.dto.trade.*;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrdersEntry;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrderHistoryEntry;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistoryEntry;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferDetail;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransferHistoryEntry;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -229,7 +237,7 @@ public class CoinmateAdapters {
                         .id(Long.toString(entry.getTransactionId()))
                         .orderId(Long.toString(entry.getOrderId()))
                         .feeAmount(entry.getFee())
-                        .feeCurrency(CoinmateUtils.getPair(entry.getCurrencyPair()).counter)
+                        .feeCurrency(CoinmateUtils.getPair(entry.getCurrencyPair()).getCounter())
                         .build())
             .collect(
                 Collectors.toCollection(

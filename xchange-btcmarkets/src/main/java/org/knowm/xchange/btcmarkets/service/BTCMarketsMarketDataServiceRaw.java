@@ -18,17 +18,17 @@ public class BTCMarketsMarketDataServiceRaw extends BTCMarketsBaseService {
 
   public BTCMarketsTicker getBTCMarketsTicker(CurrencyPair currencyPair) throws IOException {
     return btcmPublic.getTicker(
-        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode());
   }
 
   public BTCMarketsOrderBook getBTCMarketsOrderBook(CurrencyPair currencyPair) throws IOException {
     return btcmPublic.getOrderBook(
-        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode());
   }
 
   public List<BTCMarketsTrade> getBTCMarketsTrade(CurrencyPair currencyPair) throws IOException {
     return btcmPublic.getTrades(
-        currencyPair.base.getCurrencyCode() + "-" + currencyPair.counter.getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode() + "-" + currencyPair.getCounter().getCurrencyCode());
   }
 
   public List<BTCMarketsTrade> getBTCMarketsTrade(CurrencyPair currencyPair, Params parameters)
@@ -37,6 +37,6 @@ public class BTCMarketsMarketDataServiceRaw extends BTCMarketsBaseService {
         ((BTCMarketsMarketTradeParams) parameters).before,
         ((BTCMarketsMarketTradeParams) parameters).after,
         ((BTCMarketsMarketTradeParams) parameters).limit,
-        currencyPair.base.getCurrencyCode() + "-" + currencyPair.counter.getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode() + "-" + currencyPair.getCounter().getCurrencyCode());
   }
 }

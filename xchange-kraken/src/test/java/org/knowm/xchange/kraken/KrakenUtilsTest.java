@@ -49,8 +49,8 @@ public class KrakenUtilsTest {
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OU5JPQ-OIDTK-QIGIGI");
     assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("1000.000");
     assertThat(orders.getOpenOrders().get(0).getOriginalAmount()).isEqualTo("0.01000000");
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().base).isEqualTo(Currency.XBT);
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counter).isEqualTo(Currency.EUR);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().getBase()).isEqualTo(Currency.XBT);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().getCounter()).isEqualTo(Currency.EUR);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(Order.OrderType.BID);
   }
 
@@ -75,8 +75,8 @@ public class KrakenUtilsTest {
     assertThat(trade0.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD-2");
     assertThat(trade0.getPrice()).isEqualTo("32.07562");
     assertThat(trade0.getOriginalAmount()).isEqualTo("0.50000000");
-    assertThat(trade0.getCurrencyPair().base).isEqualTo(Currency.BTC);
-    assertThat(trade0.getCurrencyPair().counter).isEqualTo(Currency.USD);
+    assertThat(trade0.getCurrencyPair().getBase()).isEqualTo(Currency.BTC);
+    assertThat(trade0.getCurrencyPair().getCounter()).isEqualTo(Currency.USD);
     assertThat(trade0.getType()).isEqualTo(OrderType.ASK);
     assertThat(trade0.getFeeAmount()).isEqualTo("0.03208");
     assertThat(trade0.getFeeCurrency()).isEqualTo(Currency.USD);
@@ -87,8 +87,8 @@ public class KrakenUtilsTest {
     assertThat(trade1.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD-3");
     assertThat(trade1.getPrice()).isEqualTo("32.07562");
     assertThat(trade1.getOriginalAmount()).isEqualTo("0.50000000");
-    assertThat(trade1.getCurrencyPair().base).isEqualTo(Currency.BTC);
-    assertThat(trade1.getCurrencyPair().counter).isEqualTo(Currency.USD);
+    assertThat(trade1.getCurrencyPair().getBase()).isEqualTo(Currency.BTC);
+    assertThat(trade1.getCurrencyPair().getCounter()).isEqualTo(Currency.USD);
     assertThat(trade1.getType()).isEqualTo(OrderType.ASK);
     assertThat(trade1.getFeeAmount()).isEqualTo("0.03208");
     assertThat(trade1.getFeeCurrency()).isEqualTo(Currency.USD);

@@ -88,7 +88,7 @@ public class CoinbaseProWebSocketSubscriptionMessage {
   private String[] generateProductIds(CurrencyPair[] pairs) {
     List<String> productIds = new ArrayList<>(pairs.length);
     for (CurrencyPair pair : pairs) {
-      productIds.add(pair.base.toString() + "-" + pair.counter.toString());
+      productIds.add(pair.getBase().toString() + "-" + pair.getCounter().toString());
     }
 
     return productIds.toArray(new String[0]);

@@ -243,7 +243,7 @@ public class HitbtcAdapters {
               id,
               orderId,
               hitbtcOwnTrade.getFee(),
-              pair.counter,
+              pair.getCounter(),
               clientOrderId);
 
       trades.add(trade);
@@ -267,7 +267,7 @@ public class HitbtcAdapters {
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
 
-    return pair == null ? null : pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+    return pair == null ? null : pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode();
   }
 
   public static HitbtcSide getSide(OrderType type) {

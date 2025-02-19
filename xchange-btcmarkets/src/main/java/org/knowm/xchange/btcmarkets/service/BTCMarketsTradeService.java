@@ -86,7 +86,7 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
 
     BTCMarketsOrder.Side side =
         orderSide == BID ? BTCMarketsOrder.Side.Bid : BTCMarketsOrder.Side.Ask;
-    final String marketId = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
+    final String marketId = currencyPair.getBase().toString() + "-" + currencyPair.getCounter().toString();
     String timeInForce;
     if (flags.contains(BTCMarketsOrderFlags.FOK)) {
       timeInForce = "FOK";

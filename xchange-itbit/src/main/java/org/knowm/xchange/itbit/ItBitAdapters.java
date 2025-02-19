@@ -323,7 +323,8 @@ public final class ItBitAdapters {
 
   public static CurrencyPair adaptCurrencyPairToExchange(CurrencyPair currencyPair) {
     return new CurrencyPair(
-        adaptCurrencyToExchange(currencyPair.base), adaptCurrencyToExchange(currencyPair.counter));
+        adaptCurrencyToExchange(currencyPair.getBase()), adaptCurrencyToExchange(
+        currencyPair.getCounter()));
   }
 
   public static Currency adaptCurrencyToExchange(Currency currency) {

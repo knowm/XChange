@@ -23,7 +23,7 @@ public class OERMarketDataServiceTest {
         new OERMarketDataService(exchange) {
           @Override
           public OERRates getOERTicker(CurrencyPair pair) {
-            assertThat(pair.base).isEqualTo(Currency.USD);
+            assertThat(pair.getBase()).isEqualTo(Currency.USD);
             OERRates r = new OERRates();
             r.setAUD(1.23d);
             return r;

@@ -17,8 +17,8 @@ public class KunaUtils {
   private KunaUtils() {}
 
   public static String toPairString(CurrencyPair currencyPair) {
-    return currencyPair.base.getCurrencyCode().toLowerCase()
-        + currencyPair.counter.getCurrencyCode().toLowerCase();
+    return currencyPair.getBase().getCurrencyCode().toLowerCase()
+        + currencyPair.getCounter().getCurrencyCode().toLowerCase();
   }
 
   public static Date toDate(String dateString) {

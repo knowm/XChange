@@ -72,7 +72,7 @@ public interface CCEX {
     public String toString() {
       return String.format(
           "%s-%s",
-          pair.base.getCurrencyCode().toLowerCase(), pair.counter.getCurrencyCode().toLowerCase());
+          pair.getBase().getCurrencyCode().toLowerCase(), pair.getCounter().getCurrencyCode().toLowerCase());
     }
   }
 }

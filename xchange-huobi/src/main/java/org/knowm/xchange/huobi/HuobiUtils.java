@@ -62,7 +62,7 @@ public class HuobiUtils {
           new CurrencyPair(
               translateHuobiCurrencyCode(entry.getBaseCurrency()),
               translateHuobiCurrencyCode(entry.getQuoteCurrency()));
-      if (pair.base != null && pair.counter != null) {
+      if (pair.getBase() != null && pair.getCounter() != null) {
         assetPairMap.put(entry.getKey(), pair);
         assetPairMapReverse.put(pair, entry.getKey());
       }

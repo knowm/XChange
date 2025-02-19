@@ -46,8 +46,8 @@ public final class CoindealAdapters {
               .feeAmount(coindealTradeHistory.getFee())
               .feeCurrency(
                   (coindealTradeHistory.getSide().equals("BUY")
-                      ? currencyPair.base
-                      : currencyPair.counter))
+                      ? currencyPair.getBase()
+                      : currencyPair.getCounter()))
               .build());
     }
 

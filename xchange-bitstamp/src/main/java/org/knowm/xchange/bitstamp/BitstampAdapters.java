@@ -333,7 +333,7 @@ public final class BitstampAdapters {
   private static BigDecimal getBaseCurrencyAmountFromBitstampTransaction(
       BitstampOrderTransaction bitstampTransaction, CurrencyPair currencyPair) {
 
-    return bitstampTransaction.getAmount(currencyPair.base.getCurrencyCode().toLowerCase());
+    return bitstampTransaction.getAmount(currencyPair.getBase().getCurrencyCode().toLowerCase());
   }
 
   public static Order.OrderStatus adaptOrderStatus(BitstampOrderStatus bitstampOrderStatus) {
