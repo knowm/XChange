@@ -40,11 +40,11 @@ public class BitflyerStreamingMarketDataService implements StreamingMarketDataSe
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channelOrderbookSnapshotName =
         "lightning_board_snapshot_"
-            + currencyPair.base.toString()
+            + currencyPair.getBase().toString()
             + "_"
-            + currencyPair.counter.toString();
+            + currencyPair.getCounter().toString();
     String channelOrderbookUpdatesName =
-        "lightning_board_" + currencyPair.base.toString() + "_" + currencyPair.counter.toString();
+        "lightning_board_" + currencyPair.getBase().toString() + "_" + currencyPair.getCounter().toString();
 
     Observable<BitflyerOrderbook> snapshotTransactions =
         streamingService
@@ -81,7 +81,7 @@ public class BitflyerStreamingMarketDataService implements StreamingMarketDataSe
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     String channelName =
-        "lightning_ticker_" + currencyPair.base.toString() + "_" + currencyPair.counter.toString();
+        "lightning_ticker_" + currencyPair.getBase().toString() + "_" + currencyPair.getCounter().toString();
     Observable<BitflyerTicker> tickerTransactions =
         streamingService
             .subscribeChannel(channelName)
@@ -99,9 +99,9 @@ public class BitflyerStreamingMarketDataService implements StreamingMarketDataSe
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     String channelName =
         "lightning_executions_"
-            + currencyPair.base.toString()
+            + currencyPair.getBase().toString()
             + "_"
-            + currencyPair.counter.toString();
+            + currencyPair.getCounter().toString();
     Observable<BitflyerTrade> tradeTransactions =
         streamingService
             .subscribeChannel(channelName)

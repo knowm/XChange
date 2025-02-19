@@ -65,7 +65,7 @@ public class BitZMarketDataServiceRaw extends BitZBaseService {
     List<String> coinList = new ArrayList<>(currencyPairs.length);
     Arrays.stream(currencyPairs)
         .forEach(
-            currencyPair -> coinList.add(currencyPair.counter.getCurrencyCode().toLowerCase()));
+            currencyPair -> coinList.add(currencyPair.getCounter().getCurrencyCode().toLowerCase()));
     String coins = coinList.stream().collect(Collectors.joining(","));
     return bitz.getCurrencyCoinRate(coins).getData();
   }
@@ -179,7 +179,7 @@ public class BitZMarketDataServiceRaw extends BitZBaseService {
       throws IOException {
     List<String> coinList = new ArrayList<>(currencyPairs.length);
     Arrays.stream(currencyPairs)
-        .forEach(currencyPair -> coinList.add(currencyPair.base.getCurrencyCode().toLowerCase()));
+        .forEach(currencyPair -> coinList.add(currencyPair.getBase().getCurrencyCode().toLowerCase()));
     String coins = coinList.stream().collect(Collectors.joining(","));
     return bitz.getCurrencyCoinRate(coins).getData();
   }

@@ -158,7 +158,7 @@ public final class BittrexAdapters {
                     .id(bittrexOrder.getId())
                     .feeAmount(bittrexOrder.getCommission())
                     .feeCurrency(
-                        BittrexUtils.toCurrencyPair(bittrexOrder.getMarketSymbol()).counter)
+                        BittrexUtils.toCurrencyPair(bittrexOrder.getMarketSymbol()).getCounter())
                     .build())
         .collect(Collectors.toList());
   }

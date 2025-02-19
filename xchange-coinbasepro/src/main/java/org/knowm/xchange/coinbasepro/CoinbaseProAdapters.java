@@ -318,7 +318,7 @@ public class CoinbaseProAdapters {
               .id(String.valueOf(fill.getTradeId()))
               .orderId(fill.getOrderId())
               .feeAmount(fill.getFee())
-              .feeCurrency(currencyPair.counter)
+              .feeCurrency(currencyPair.getCounter())
               .build());
     }
 
@@ -393,7 +393,7 @@ public class CoinbaseProAdapters {
               .counterMinimumAmount(product.getMinMarketFunds())
               .counterMaximumAmount(product.getMaxMarketFunds())
               .feeTiers(staticMetaData != null ? staticMetaData.getFeeTiers() : null)
-              .tradingFeeCurrency(pair.counter)
+              .tradingFeeCurrency(pair.getCounter())
               .marketOrderEnabled(marketOrderAllowed)
               .build());
     }
@@ -422,7 +422,7 @@ public class CoinbaseProAdapters {
   public static String adaptProductID(CurrencyPair currencyPair) {
     return currencyPair == null
         ? null
-        : currencyPair.base.getCurrencyCode() + "-" + currencyPair.counter.getCurrencyCode();
+        : currencyPair.getBase().getCurrencyCode() + "-" + currencyPair.getCounter().getCurrencyCode();
   }
 
   public static CoinbaseProPlaceOrder.Side adaptSide(OrderType orderType) {

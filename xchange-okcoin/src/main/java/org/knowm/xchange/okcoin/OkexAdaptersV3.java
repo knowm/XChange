@@ -54,13 +54,13 @@ public class OkexAdaptersV3 {
 
   public static Balance convert(SwapAccountInfo rec) {
     return new Balance.Builder()
-        .currency(toPair(rec.getInstrumentId()).base)
+        .currency(toPair(rec.getInstrumentId()).getBase())
         .total(rec.getEquity())
         .build();
   }
 
   public static String toSpotInstrument(CurrencyPair pair) {
-    return pair == null ? null : pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
+    return pair == null ? null : pair.getBase().getCurrencyCode() + "-" + pair.getCounter().getCurrencyCode();
   }
 
   /**

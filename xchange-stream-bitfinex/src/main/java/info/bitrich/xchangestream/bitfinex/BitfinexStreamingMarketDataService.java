@@ -37,9 +37,9 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   private String pairToSymbol(CurrencyPair currencyPair) {
-    return (currencyPair.counter == Currency.USDT)
-        ? ("t" + currencyPair.base.getCurrencyCode() + "UST")
-        : ("t" + currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode());
+    return (currencyPair.getCounter() == Currency.USDT)
+        ? ("t" + currencyPair.getBase().getCurrencyCode() + "UST")
+        : ("t" + currencyPair.getBase().getCurrencyCode() + currencyPair.getCounter().getCurrencyCode());
   }
 
   @Override

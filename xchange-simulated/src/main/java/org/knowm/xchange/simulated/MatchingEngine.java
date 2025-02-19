@@ -282,7 +282,8 @@ final class MatchingEngine {
                 takerOrder.getType() == ASK
                     ? tradeAmount.multiply(makerOrder.getLimitPrice()).multiply(FEE_RATE)
                     : tradeAmount.multiply(FEE_RATE))
-            .feeCurrency(takerOrder.getType() == ASK ? currencyPair.counter : currencyPair.base)
+            .feeCurrency(takerOrder.getType() == ASK ? currencyPair.getCounter()
+                : currencyPair.getBase())
             .build();
 
     LOGGER.debug("Created taker trade: {}", takerTrade);
@@ -303,7 +304,7 @@ final class MatchingEngine {
                 makerType == ASK
                     ? tradeAmount.multiply(makerOrder.getLimitPrice()).multiply(FEE_RATE)
                     : tradeAmount.multiply(FEE_RATE))
-            .feeCurrency(makerType == ASK ? currencyPair.counter : currencyPair.base)
+            .feeCurrency(makerType == ASK ? currencyPair.getCounter() : currencyPair.getBase())
             .build();
 
     LOGGER.debug("Created maker trade: {}", makerOrder);

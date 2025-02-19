@@ -19,7 +19,7 @@ public class BTCCMarketDataService extends BTCCBaseService<BTCC> implements Mark
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     // Request data
-    String symbol = currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+    String symbol = currencyPair.getBase().getCurrencyCode() + currencyPair.getCounter().getCurrencyCode();
     BTCCTicker btccTicker = getBTCCTicker(symbol);
 
     // Adapt to XChange DTOs

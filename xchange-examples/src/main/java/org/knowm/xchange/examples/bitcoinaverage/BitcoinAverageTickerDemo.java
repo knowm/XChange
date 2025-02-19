@@ -31,7 +31,7 @@ public class BitcoinAverageTickerDemo {
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
     double value = ticker.getLast().doubleValue();
 
-    System.out.println("Last: " + ticker.getCurrencyPair().counter.getCurrencyCode() + "-" + value);
+    System.out.println("Last: " + ticker.getCurrencyPair().getCounter().getCurrencyCode() + "-" + value);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
   }

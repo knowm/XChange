@@ -33,12 +33,12 @@ public class BitbayTradeServiceRaw extends BitbayBaseService {
         exchange.getNonceFactory(),
         currencyPair == null
             ? null
-            : currencyPair.base.toString() + "-" + currencyPair.counter.toString());
+            : currencyPair.getBase().toString() + "-" + currencyPair.getCounter().toString());
   }
 
   public BitbayTradeResponse placeBitbayOrder(LimitOrder order) throws IOException {
-    String currency = order.getCurrencyPair().base.toString();
-    String paymentCurrency = order.getCurrencyPair().counter.toString();
+    String currency = order.getCurrencyPair().getBase().toString();
+    String paymentCurrency = order.getCurrencyPair().getCounter().toString();
     String type = order.getType() == Order.OrderType.ASK ? "ask" : "bid";
 
     BitbayTradeResponse response =

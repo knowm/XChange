@@ -62,8 +62,8 @@ public class BitmexManualExample {
     // BIQUARTERLY Contract
     CurrencyPair xbtUsdBiquarterly =
         exchange.determineActiveContract(
-            CurrencyPair.XBT_USD.base.toString(),
-            CurrencyPair.XBT_USD.counter.toString(),
+            CurrencyPair.XBT_USD.getBase().toString(),
+            CurrencyPair.XBT_USD.getCounter().toString(),
             BitmexPrompt.BIQUARTERLY);
     streamingMarketDataService
         .getOrderBook(xbtUsdBiquarterly)

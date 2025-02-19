@@ -396,9 +396,9 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair WETH_PUSD = new CurrencyPair(Currency.WETH, Currency.PUSD);
   public static final CurrencyPair PLINK_USDC = new CurrencyPair(Currency.PLINK, Currency.USDC);
 
-  public final Currency base;
+  private final Currency base;
 
-  public final Currency counter;
+  private final Currency counter;
 
   /**
    * Full constructor In general the CurrencyPair.base is what you're wanting to buy/sell. The

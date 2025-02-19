@@ -74,7 +74,7 @@ public final class GeminiAdapters {
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
 
-    return (pair.base.getCurrencyCode() + pair.counter.getCurrencyCode()).toLowerCase();
+    return (pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode()).toLowerCase();
   }
 
   public static OrderBook adaptOrderBook(GeminiDepth btceDepth, CurrencyPair currencyPair) {
@@ -447,11 +447,11 @@ public final class GeminiAdapters {
       if (!pairsMap.containsKey(c)) {
         pairsMap.put(c, null);
       }
-      if (!currenciesMap.containsKey(c.base)) {
-        currenciesMap.put(c.base, null);
+      if (!currenciesMap.containsKey(c.getBase())) {
+        currenciesMap.put(c.getBase(), null);
       }
-      if (!currenciesMap.containsKey(c.counter)) {
-        currenciesMap.put(c.counter, null);
+      if (!currenciesMap.containsKey(c.getCounter())) {
+        currenciesMap.put(c.getCounter(), null);
       }
     }
 

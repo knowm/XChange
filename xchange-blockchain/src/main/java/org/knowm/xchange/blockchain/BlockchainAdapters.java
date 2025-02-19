@@ -1,9 +1,30 @@
 package org.knowm.xchange.blockchain;
 
-import static org.knowm.xchange.blockchain.BlockchainConstants.*;
+import static org.knowm.xchange.blockchain.BlockchainConstants.BUY;
+import static org.knowm.xchange.blockchain.BlockchainConstants.CANCELED;
+import static org.knowm.xchange.blockchain.BlockchainConstants.COMPLETED;
+import static org.knowm.xchange.blockchain.BlockchainConstants.CURRENCY_PAIR_SYMBOL_FORMAT;
+import static org.knowm.xchange.blockchain.BlockchainConstants.EXPIRED;
+import static org.knowm.xchange.blockchain.BlockchainConstants.FAILED;
+import static org.knowm.xchange.blockchain.BlockchainConstants.FILLED;
+import static org.knowm.xchange.blockchain.BlockchainConstants.LIMIT;
+import static org.knowm.xchange.blockchain.BlockchainConstants.MARKET;
+import static org.knowm.xchange.blockchain.BlockchainConstants.OPEN;
+import static org.knowm.xchange.blockchain.BlockchainConstants.PART_FILLED;
+import static org.knowm.xchange.blockchain.BlockchainConstants.PENDING;
+import static org.knowm.xchange.blockchain.BlockchainConstants.REFUNDING;
+import static org.knowm.xchange.blockchain.BlockchainConstants.REJECTED;
+import static org.knowm.xchange.blockchain.BlockchainConstants.SELL;
+import static org.knowm.xchange.blockchain.BlockchainConstants.STATUS_INVALID;
+import static org.knowm.xchange.blockchain.BlockchainConstants.STOP;
+import static org.knowm.xchange.blockchain.BlockchainConstants.UNCONFIRMED;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
@@ -25,7 +46,12 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 
 @UtilityClass
@@ -34,8 +60,8 @@ public class BlockchainAdapters {
   public static String toSymbol(CurrencyPair currencyPair) {
     return String.format(
         CURRENCY_PAIR_SYMBOL_FORMAT,
-        currencyPair.base.getCurrencyCode(),
-        currencyPair.counter.getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode(),
+        currencyPair.getCounter().getCurrencyCode());
   }
 
   public static CurrencyPair toCurrencyPair(Instrument instrument) {

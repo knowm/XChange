@@ -36,7 +36,7 @@ public class GeminiStreamingService extends JsonNettyStreamingService {
 
   public Observable<GeminiWebSocketTransaction> getRawWebSocketTransactions(
       CurrencyPair currencyPair, boolean filterChannelName) {
-    String channelName = currencyPair.base.toString() + currencyPair.counter.toString();
+    String channelName = currencyPair.getBase().toString() + currencyPair.getCounter().toString();
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return subscribeChannel(channelName)
         .map(s -> mapper.treeToValue(s, GeminiWebSocketTransaction.class))

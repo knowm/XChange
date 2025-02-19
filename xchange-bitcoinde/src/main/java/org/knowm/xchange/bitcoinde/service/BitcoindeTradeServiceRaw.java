@@ -33,7 +33,7 @@ public class BitcoindeTradeServiceRaw extends BitcoindeBaseService {
       throws IOException {
     try {
       String currPair =
-          currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+          currencyPair.getBase().getCurrencyCode() + currencyPair.getCounter().getCurrencyCode();
       return bitcoinde.deleteOrder(apiKey, nonceFactory, signatureCreator, order_id, currPair);
     } catch (BitcoindeException e) {
       throw handleError(e);
@@ -44,8 +44,8 @@ public class BitcoindeTradeServiceRaw extends BitcoindeBaseService {
     try {
       String side = l.getType().equals(OrderType.ASK) ? "sell" : "buy";
       String bitcoindeCurrencyPair =
-          l.getCurrencyPair().base.getCurrencyCode()
-              + l.getCurrencyPair().counter.getCurrencyCode();
+          l.getCurrencyPair().getBase().getCurrencyCode()
+              + l.getCurrencyPair().getCounter().getCurrencyCode();
       return bitcoinde.createOrder(
           apiKey,
           nonceFactory,

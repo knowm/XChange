@@ -73,7 +73,7 @@ public class VaultoroTradeServiceRaw extends VaultoroBaseService {
       BigDecimal price)
       throws IOException {
 
-    String baseSymbol = currencyPair.base.getCurrencyCode().toLowerCase();
+    String baseSymbol = currencyPair.getBase().getCurrencyCode().toLowerCase();
 
     if (orderType == OrderType.BID) {
 

@@ -38,7 +38,7 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
       return decorateApiCall(
               () ->
                   coinbasePro.getProductTicker(
-                      currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()))
+                      currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode()))
           .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
           .call();
     } catch (CoinbaseProException e) {
@@ -57,7 +57,7 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
       return decorateApiCall(
               () ->
                   coinbasePro.getProductStats(
-                      currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()))
+                      currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode()))
           .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
           .call();
     } catch (CoinbaseProException e) {
@@ -83,8 +83,8 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
       return decorateApiCall(
               () ->
                   coinbasePro.getProductOrderBook(
-                      currencyPair.base.getCurrencyCode(),
-                      currencyPair.counter.getCurrencyCode(),
+                      currencyPair.getBase().getCurrencyCode(),
+                      currencyPair.getCounter().getCurrencyCode(),
                       String.valueOf(level)))
           .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
           .call();
@@ -99,7 +99,7 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
       return decorateApiCall(
               () ->
                   coinbasePro.getTrades(
-                      currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()))
+                      currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode()))
           .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
           .call();
     } catch (CoinbaseProException e) {
@@ -115,8 +115,8 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
       return decorateApiCall(
               () ->
                   coinbasePro.getHistoricalCandles(
-                      currencyPair.base.getCurrencyCode(),
-                      currencyPair.counter.getCurrencyCode(),
+                      currencyPair.getBase().getCurrencyCode(),
+                      currencyPair.getCounter().getCurrencyCode(),
                       start,
                       end,
                       granularity))
@@ -155,8 +155,8 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
     return decorateApiCall(
             () ->
                 coinbasePro.getTradesPageable(
-                    currencyPair.base.getCurrencyCode(),
-                    currencyPair.counter.getCurrencyCode(),
+                    currencyPair.getBase().getCurrencyCode(),
+                    currencyPair.getCounter().getCurrencyCode(),
                     after,
                     limit))
         .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))

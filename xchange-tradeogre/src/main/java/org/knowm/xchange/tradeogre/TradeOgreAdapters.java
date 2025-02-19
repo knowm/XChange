@@ -23,7 +23,7 @@ import org.knowm.xchange.tradeogre.dto.trade.TradeOgreOrder;
 public class TradeOgreAdapters {
 
   public static String adaptCurrencyPair(CurrencyPair currencyPair) {
-    return currencyPair.counter.toString() + "-" + currencyPair.base.toString();
+    return currencyPair.getCounter().toString() + "-" + currencyPair.getBase().toString();
   }
 
   public static CurrencyPair adaptTradeOgreCurrencyPair(String currencyPair) {

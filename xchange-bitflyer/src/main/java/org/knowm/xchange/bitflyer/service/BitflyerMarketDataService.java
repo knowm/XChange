@@ -27,13 +27,14 @@ public class BitflyerMarketDataService extends BitflyerMarketDataServiceRaw
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    BitflyerTicker ticker = getTicker(currencyPair.base + "_" + currencyPair.counter);
+    BitflyerTicker ticker = getTicker(currencyPair.getBase() + "_" + currencyPair.getCounter());
     return BitflyerAdapters.adaptTicker(ticker, currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    BitflyerOrderbook orderbook = getOrderbook(currencyPair.base + "_" + currencyPair.counter);
+    BitflyerOrderbook orderbook = getOrderbook(
+        currencyPair.getBase() + "_" + currencyPair.getCounter());
     List<LimitOrder> bids =
         orderbook.getBids().stream()
             .map(

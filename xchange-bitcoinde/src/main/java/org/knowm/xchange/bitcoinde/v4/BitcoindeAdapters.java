@@ -380,10 +380,10 @@ public final class BitcoindeAdapters {
       Currency feeCurrency;
       if (trade.getType() == BitcoindeType.BUY) {
         fee = trade.getFeeCurrencyToTrade();
-        feeCurrency = trade.getTradingPair().base;
+        feeCurrency = trade.getTradingPair().getBase();
       } else if (trade.getType() == BitcoindeType.SELL) {
         fee = trade.getFeeCurrencyToPay();
-        feeCurrency = trade.getTradingPair().counter;
+        feeCurrency = trade.getTradingPair().getCounter();
       } else {
         throw new TypeNotPresentException(trade.getType().toString(), null);
       }

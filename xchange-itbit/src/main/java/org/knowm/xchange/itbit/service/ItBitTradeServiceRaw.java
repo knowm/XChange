@@ -31,7 +31,7 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
             signatureCreator,
             new Date().getTime(),
             exchange.getNonceFactory(),
-            exchangePair.base.getCurrencyCode() + exchangePair.counter.getCurrencyCode(),
+            exchangePair.getBase().getCurrencyCode() + exchangePair.getCounter().getCurrencyCode(),
             "1",
             "1000",
             "open",
@@ -90,10 +90,10 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
             new ItBitPlaceOrderRequest(
                 side,
                 "limit",
-                exchangePair.base.getCurrencyCode(),
+                exchangePair.getBase().getCurrencyCode(),
                 amount,
                 price,
-                exchangePair.base.getCurrencyCode() + exchangePair.counter.getCurrencyCode(),
+                exchangePair.getBase().getCurrencyCode() + exchangePair.getCounter().getCurrencyCode(),
                 (limitOrder.getOrderFlags().contains(ItBitOrderFlags.POST_ONLY))));
 
     return postOrder;

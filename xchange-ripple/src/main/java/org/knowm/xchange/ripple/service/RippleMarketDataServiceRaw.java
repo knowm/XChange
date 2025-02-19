@@ -21,24 +21,24 @@ public class RippleMarketDataServiceRaw extends RippleBaseService {
     }
 
     final String base;
-    if (pair.base.equals(Currency.XRP)) {
-      base = pair.base.getCurrencyCode(); // XRP is the native currency - no counterparty
+    if (pair.getBase().equals(Currency.XRP)) {
+      base = pair.getBase().getCurrencyCode(); // XRP is the native currency - no counterparty
     } else if (params.getBaseCounterparty().isEmpty()) {
       throw new ExchangeException(
-          "base counterparty must be populated for currency: " + pair.base.getCurrencyCode());
+          "base counterparty must be populated for currency: " + pair.getBase().getCurrencyCode());
     } else {
-      base = String.format("%s+%s", pair.base.getCurrencyCode(), params.getBaseCounterparty());
+      base = String.format("%s+%s", pair.getBase().getCurrencyCode(), params.getBaseCounterparty());
     }
 
     final String counter;
-    if (pair.counter.equals(Currency.XRP)) {
-      counter = pair.counter.getCurrencyCode(); // XRP is the native currency - no counterparty
+    if (pair.getCounter().equals(Currency.XRP)) {
+      counter = pair.getCounter().getCurrencyCode(); // XRP is the native currency - no counterparty
     } else if (params.getCounterCounterparty().isEmpty()) {
       throw new ExchangeException(
-          "counter counterparty must be populated for currency: " + pair.counter.getCurrencyCode());
+          "counter counterparty must be populated for currency: " + pair.getCounter().getCurrencyCode());
     } else {
       counter =
-          String.format("%s+%s", pair.counter.getCurrencyCode(), params.getCounterCounterparty());
+          String.format("%s+%s", pair.getCounter().getCurrencyCode(), params.getCounterCounterparty());
     }
 
     return ripplePublic.getOrderBook(params.getAddress(), base, counter, params.getLimit());

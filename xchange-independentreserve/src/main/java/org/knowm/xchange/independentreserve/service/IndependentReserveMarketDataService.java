@@ -24,7 +24,7 @@ public class IndependentReserveMarketDataService extends IndependentReserveMarke
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     IndependentReserveTicker t =
-        getIndependentReserveTicker(currencyPair.base.toString(), currencyPair.counter.toString());
+        getIndependentReserveTicker(currencyPair.getBase().toString(), currencyPair.getCounter().toString());
     return IndependentReserveAdapters.adaptTicker(t, currencyPair);
   }
 
@@ -32,6 +32,6 @@ public class IndependentReserveMarketDataService extends IndependentReserveMarke
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     return IndependentReserveAdapters.adaptOrderBook(
         getIndependentReserveOrderBook(
-            currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()));
+            currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode()));
   }
 }

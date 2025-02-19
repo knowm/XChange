@@ -25,16 +25,16 @@ public class CoinfloorMarketDataServiceRaw extends BaseExchangeService {
   }
 
   public CoinfloorTicker getCoinfloorTicker(CurrencyPair pair) throws IOException {
-    return coinfloor.getTicker(normalise(pair.base), normalise(pair.counter));
+    return coinfloor.getTicker(normalise(pair.getBase()), normalise(pair.getCounter()));
   }
 
   public CoinfloorOrderBook getCoinfloorOrderBook(CurrencyPair pair) throws IOException {
-    return coinfloor.getOrderBook(normalise(pair.base), normalise(pair.counter));
+    return coinfloor.getOrderBook(normalise(pair.getBase()), normalise(pair.getCounter()));
   }
 
   public CoinfloorTransaction[] getCoinfloorTransactions(
       CurrencyPair pair, CoinfloorInterval interval) throws IOException {
-    return coinfloor.getTransactions(normalise(pair.base), normalise(pair.counter), interval);
+    return coinfloor.getTransactions(normalise(pair.getBase()), normalise(pair.getCounter()), interval);
   }
 
   private Currency normalise(Currency xchange) {

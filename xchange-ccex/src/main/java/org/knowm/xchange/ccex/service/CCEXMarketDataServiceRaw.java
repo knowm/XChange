@@ -33,7 +33,7 @@ public class CCEXMarketDataServiceRaw extends CCEXBaseService {
 
   public CCEXPriceResponse getTicker(CurrencyPair pair) throws IOException {
     CCEXTickerResponse response =
-        ccex.getTicker(pair.base.toString().toLowerCase(), pair.counter.toString().toLowerCase());
+        ccex.getTicker(pair.getBase().toString().toLowerCase(), pair.getCounter().toString().toLowerCase());
 
     return response.getTicker();
   }

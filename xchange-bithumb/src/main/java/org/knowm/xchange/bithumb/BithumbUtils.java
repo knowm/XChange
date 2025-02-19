@@ -15,7 +15,7 @@ public final class BithumbUtils {
 
   public static String getBaseCurrency(@Nullable CurrencyPair currencyPair) {
     return Optional.ofNullable(currencyPair)
-        .map(c -> c.base)
+        .map(c -> c.getBase())
         .map(Currency::getCurrencyCode)
         .orElse(null);
   }
