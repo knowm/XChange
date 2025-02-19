@@ -4,8 +4,8 @@ import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import java.math.BigDecimal;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -26,7 +26,7 @@ public class BitmexDeadManSwitchTest {
   private static final Logger logger = LoggerFactory.getLogger(BitmexDeadManSwitchTest.class);
 
   @Test
-  @Ignore
+  @Disabled
   public void testDeadmanSwitch() throws Exception {
     CertHelper.trustAllCerts();
     BitmexStreamingExchange exchange =
