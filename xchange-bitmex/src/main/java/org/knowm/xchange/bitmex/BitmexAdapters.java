@@ -61,7 +61,7 @@ import org.knowm.xchange.instrument.Instrument;
 @UtilityClass
 public class BitmexAdapters {
 
-  private final Map<String, Instrument> SYMBOL_TO_INSTRUMENT = new HashMap<>();
+  public final Map<String, Instrument> SYMBOL_TO_INSTRUMENT = new HashMap<>();
   private final Map<Instrument, String> INSTRUMENT_TO_SYMBOL = new HashMap<>();
 
   private final Map<Currency, String> CURRENCY_TO_BITMEX_CODE = new HashMap<>();

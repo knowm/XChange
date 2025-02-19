@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -32,7 +31,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Created by Lukas Zaoralek on 13.11.17. */
 public class BitmexStreamingMarketDataService implements StreamingMarketDataService {
   private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingMarketDataService.class);
 
@@ -40,12 +38,9 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
 
   private final BitmexStreamingService streamingService;
 
-  private final BitmexExchange bitmexExchange;
-
   private final SortedMap<String, BitmexOrderbook> orderbooks = new TreeMap<>();
 
-  public BitmexStreamingMarketDataService(
-      BitmexStreamingService streamingService, BitmexExchange bitmexExchange) {
+  public BitmexStreamingMarketDataService(BitmexStreamingService streamingService) {
     this.streamingService = streamingService;
     this.streamingService
         .subscribeConnectionSuccess()
@@ -54,24 +49,19 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
               LOG.info("Bitmex connection succeeded. Clearing orderbooks.");
               orderbooks.clear();
             });
-    this.bitmexExchange = bitmexExchange;
-  }
-
-  private String getBitmexSymbol(CurrencyPair currencyPair) {
-    return currencyPair.base.toString() + currencyPair.counter.toString();
   }
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    String instrument = getBitmexSymbol(currencyPair);
-    String channelName = String.format("orderBookL2:%s", instrument);
+    String symbol = BitmexStreamingAdapters.toString(currencyPair);
+    String channelName = String.format("orderBookL2:%s", symbol);
     boolean fullBook = false;
     if (args != null && args.length > 0) {
       if (args[0] instanceof String && "10".equals(args[0])) {
-        channelName = String.format("orderBook10:%s", instrument);
+        channelName = String.format("orderBook10:%s", symbol);
         fullBook = true;
       } else {
-        channelName = String.format("orderBookL2_25:%s", instrument);
+        channelName = String.format("orderBookL2_25:%s", symbol);
       }
     }
 
@@ -90,8 +80,8 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
                           r -> {
                             LimitOrder order =
                                 new LimitOrder.Builder(ASK, currencyPair)
-                                    .originalAmount(r.get(1))
-                                    .limitPrice(r.get(0))
+                                    .originalAmount(r.getSize())
+                                    .limitPrice(r.getPrice())
                                     .build();
                             asks.add(order);
                           });
@@ -101,8 +91,8 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
                           r -> {
                             LimitOrder order =
                                 new LimitOrder.Builder(BID, currencyPair)
-                                    .originalAmount(r.get(1))
-                                    .limitPrice(r.get(0))
+                                    .originalAmount(r.getSize())
+                                    .limitPrice(r.getPrice())
                                     .build();
                             bids.add(order);
                           });
@@ -119,9 +109,9 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
                 String action = s.getAction();
                 if ("partial".equals(action)) {
                   orderbook = s.toBitmexOrderbook();
-                  orderbooks.put(instrument, orderbook);
+                  orderbooks.put(symbol, orderbook);
                 } else {
-                  orderbook = orderbooks.get(instrument);
+                  orderbook = orderbooks.get(symbol);
                   // ignore updates until first "partial"
                   if (orderbook == null) {
                     return new OrderBook(
@@ -137,35 +127,34 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
   }
 
   public Observable<RawOrderBook> getRawOrderBook(CurrencyPair currencyPair) {
-    String instrument = getBitmexSymbol(currencyPair);
-    String channelName = String.format("orderBook10:%s", instrument);
-    return streamingService.subscribeBitmexChannel(channelName).map(s -> s.toRawOrderBook());
+    String symbol = BitmexStreamingAdapters.toString(currencyPair);
+    String channelName = String.format("orderBook10:%s", symbol);
+    return streamingService.subscribeBitmexChannel(channelName)
+        .map(BitmexWebSocketTransaction::toRawOrderBook);
   }
 
   public Observable<BitmexTicker> getRawTicker(CurrencyPair currencyPair) {
-    String instrument = getBitmexSymbol(currencyPair);
-    String channelName = String.format("quote:%s", instrument);
+    String symbol = BitmexStreamingAdapters.toString(currencyPair);
+    String channelName = String.format("quote:%s", symbol);
 
-    return streamingService.subscribeBitmexChannel(channelName).map(s -> s.toBitmexTicker());
+    return streamingService.subscribeBitmexChannel(channelName)
+        .map(BitmexWebSocketTransaction::toBitmexTicker);
   }
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    String instrument = getBitmexSymbol(currencyPair);
-    String channelName = String.format("quote:%s", instrument);
+    String symbol = BitmexStreamingAdapters.toString(currencyPair);
+    String channelName = String.format("quote:%s", symbol);
 
     return streamingService
         .subscribeBitmexChannel(channelName)
-        .map(
-            s -> {
-              BitmexTicker bitmexTicker = s.toBitmexTicker();
-              return bitmexTicker.toTicker();
-            });
+        .map(BitmexWebSocketTransaction::toBitmexTicker)
+        .map(BitmexStreamingAdapters::toTicker);
   }
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    String instrument = getBitmexSymbol(currencyPair);
+    String instrument = BitmexStreamingAdapters.toString(currencyPair);
     String channelName = String.format("trade:%s", instrument);
 
     return streamingService
@@ -175,7 +164,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
               BitmexTrade[] bitmexTrades = s.toBitmexTrades();
               List<Trade> trades = new ArrayList<>(bitmexTrades.length);
               for (BitmexTrade bitmexTrade : bitmexTrades) {
-                trades.add(bitmexTrade.toTrade());
+                trades.add(BitmexStreamingAdapters.toTrade(bitmexTrade));
               }
               return trades;
             });

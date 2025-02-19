@@ -1,0 +1,23 @@
+### Subscribe orderbookL2_25
+WEBSOCKET {{base_url}}/realtime
+Content-Type: application/json
+
+{
+  "op": "subscribe",
+  "args": [
+    "orderBookL2_25:XBTUSD"
+  ]
+}
+
+### Unsubscribe orderbookL2_25
+WEBSOCKET {{base_url}}/realtime
+Content-Type: application/json
+
+{
+  "op": "unsubscribe",
+  "args": [
+    "orderBookL2_25:XBTUSD"
+  ]
+}
+
+

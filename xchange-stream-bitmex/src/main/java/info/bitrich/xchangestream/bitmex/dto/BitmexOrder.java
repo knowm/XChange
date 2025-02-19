@@ -2,168 +2,90 @@ package info.bitrich.xchangestream.bitmex.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
+import java.time.ZonedDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import org.knowm.xchange.bitmex.BitmexAdapters;
+import org.knowm.xchange.bitmex.config.converter.StringToCurrencyConverter;
+import org.knowm.xchange.bitmex.config.converter.StringToOrderTypeConverter;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder.OrderStatus;
+import org.knowm.xchange.bitmex.dto.trade.BitmexOrderType;
+import org.knowm.xchange.bitmex.dto.trade.BitmexTimeInForce;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.instrument.Instrument;
 
-public class BitmexOrder extends BitmexMarketDataEvent {
+@Data
+@Builder
+@AllArgsConstructor
+public class BitmexOrder {
 
-  public enum OrderStatus {
-    NEW,
-    PARTIALLYFILLED,
-    FILLED,
-    TBD,
-    CANCELED,
-    REJECTED,
-    UNKNOW
-  }
+  @JsonProperty("account")
+  private Integer account;
 
-  private String orderID;
+  @JsonProperty("price")
+  private BigDecimal originalPrice;
 
-  private int account;
+  @JsonProperty("avgPx")
+  private BigDecimal averagePrice;
 
-  private String side;
+  @JsonProperty("stopPx")
+  private BigDecimal stopPrice;
 
-  private BigDecimal price;
+  @JsonProperty("currency")
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency currency;
 
-  private BigDecimal avgPx;
+  @JsonProperty("ordStatus")
+  private OrderStatus orderStatus;
 
-  private String ordType;
+  @JsonProperty("ordType")
+  private BitmexOrderType bitmexOrderType;
 
-  private OrderStatus ordStatus;
+  @JsonProperty("orderID")
+  private String orderId;
 
-  private String clOrdID;
+  @JsonProperty("clOrdID")
+  private String clientOid;
 
-  private BigDecimal orderQty;
+  @JsonProperty("side")
+  @JsonDeserialize(converter = StringToOrderTypeConverter.class)
+  private OrderType orderType;
 
-  private BigDecimal cumQty;
+  @JsonProperty("text")
+  private String text;
 
-  public boolean isNotWorkingIndicator() {
-    return !workingIndicator;
-  }
+  @JsonProperty("timeInForce")
+  private BitmexTimeInForce timeInForce;
 
-  private boolean workingIndicator;
+  @JsonProperty("transactTime")
+  private ZonedDateTime createdAt;
+
+  @JsonProperty("timestamp")
+  private ZonedDateTime updatedAt;
+
+  @JsonProperty("workingIndicator")
+  private Boolean workingIndicator;
+
+  private BigDecimal cumulativeAmount;
+  private BigDecimal originalAmount;
+  private BigDecimal notFilledAmount;
+
+  private Instrument instrument;
 
   @JsonCreator
-  public BitmexOrder(
-      @JsonProperty("symbol") String symbol,
-      @JsonProperty("timestamp") String timestamp,
-      @JsonProperty("orderID") String orderID,
-      @JsonProperty("account") int account,
-      @JsonProperty("side") String side,
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("avgPx") BigDecimal avgPx,
-      @JsonProperty("ordType") String ordType,
-      @JsonProperty("ordStatus") String ordStatus,
-      @JsonProperty("clOrdID") String clOrdID,
-      @JsonProperty("orderQty") BigDecimal orderQty,
-      @JsonProperty("cumQty") BigDecimal cumQty,
-      @JsonProperty("workingIndicator") boolean workingIndicator) {
-    super(symbol, timestamp);
-    this.orderID = orderID;
-    this.account = account;
-    this.side = side;
-    this.price = price;
-    this.avgPx = avgPx;
-    this.ordType = ordType;
-    try {
-      this.ordStatus = OrderStatus.valueOf(ordStatus.toUpperCase());
-    } catch (Exception e) {
-      this.ordStatus = OrderStatus.UNKNOW;
-    }
-    this.clOrdID = clOrdID;
-    this.orderQty = orderQty;
-    this.cumQty = cumQty;
-    this.workingIndicator = workingIndicator;
+  public BitmexOrder(@JsonProperty("cumQty") BigDecimal cumulativeAmount,
+      @JsonProperty("orderQty") BigDecimal originalAmount,
+      @JsonProperty("leavesQty") BigDecimal notFilledAmount,
+      @JsonProperty("symbol") String symbol) {
+    this.instrument = BitmexAdapters.toInstrument(symbol);
+    this.cumulativeAmount = BitmexAdapters.scaleToLocalAmount(cumulativeAmount, instrument.getBase());
+    this.originalAmount = BitmexAdapters.scaleToLocalAmount(originalAmount, instrument.getBase());
+    this.notFilledAmount = BitmexAdapters.scaleToLocalAmount(notFilledAmount, instrument.getBase());
   }
 
-  public Order toOrder() {
-    Order.Builder order;
-    if (ordType.equals("Market")) {
-      order =
-          new MarketOrder.Builder(
-              side.equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK,
-              new CurrencyPair(symbol.substring(0, 3), symbol.substring(3, symbol.length())));
-    } else {
-      order =
-          new LimitOrder.Builder(
-              side.equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK,
-              new CurrencyPair(symbol.substring(0, 3), symbol.substring(3, symbol.length())));
-    }
-    order.id(orderID).averagePrice(avgPx).originalAmount(orderQty).cumulativeAmount(cumQty);
 
-    switch (ordStatus) {
-      case NEW:
-        order.orderStatus(Order.OrderStatus.NEW);
-        break;
-      case PARTIALLYFILLED:
-        order.orderStatus(Order.OrderStatus.PARTIALLY_FILLED);
-        break;
-      case FILLED:
-        order.orderStatus(Order.OrderStatus.FILLED);
-        break;
-      case TBD:
-        order.orderStatus(Order.OrderStatus.PENDING_CANCEL);
-        break;
-      case CANCELED:
-        order.orderStatus(Order.OrderStatus.CANCELED);
-        break;
-      case REJECTED:
-        order.orderStatus(Order.OrderStatus.REJECTED);
-      default:
-        order.orderStatus(Order.OrderStatus.UNKNOWN);
-        break;
-    }
-    if (ordType.equals("Market")) {
-      return ((MarketOrder.Builder) order).build();
-    } else {
-      return ((LimitOrder.Builder) order).build();
-    }
-  }
-
-  public String getOrderID() {
-    return orderID;
-  }
-
-  public int getAccount() {
-    return account;
-  }
-
-  public String getSide() {
-    return side;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public BigDecimal getAvgPx() {
-    return avgPx;
-  }
-
-  public String getOrdType() {
-    return ordType;
-  }
-
-  public OrderStatus getOrdStatus() {
-    return ordStatus;
-  }
-
-  public String getClOrdID() {
-    return clOrdID;
-  }
-
-  public BigDecimal getOrderQty() {
-    return orderQty;
-  }
-
-  public BigDecimal getCumQty() {
-    return cumQty;
-  }
-
-  public boolean isWorkingIndicator() {
-    return workingIndicator;
-  }
 }

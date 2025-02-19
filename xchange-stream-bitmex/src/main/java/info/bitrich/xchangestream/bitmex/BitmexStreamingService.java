@@ -2,9 +2,9 @@ package info.bitrich.xchangestream.bitmex;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.google.common.collect.ImmutableSet;
+import info.bitrich.xchangestream.bitmex.config.Config;
 import info.bitrich.xchangestream.bitmex.dto.BitmexMarketDataEvent;
 import info.bitrich.xchangestream.bitmex.dto.BitmexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.bitmex.dto.BitmexWebSocketTransaction;
@@ -20,7 +20,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Date;
@@ -40,9 +39,8 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
 
   private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingService.class);
   private static final Set<String> SIMPLE_TABLES =
-      ImmutableSet.of("order", "funding", "settlement", "position", "wallet", "margin");
+      ImmutableSet.of("order", "funding", "settlement", "position", "wallet", "margin", "execution");
 
-  private final ObjectMapper mapper = new ObjectMapper();
   private final List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
   private final String apiKey;
@@ -58,19 +56,9 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
 
   public BitmexStreamingService(String apiUrl, String apiKey, String secretKey) {
     super(apiUrl, Integer.MAX_VALUE);
-    this.apiKey = apiKey;
-    this.secretKey = secretKey;
-  }
 
-  public BitmexStreamingService(
-      String apiUrl,
-      String apiKey,
-      String secretKey,
-      int maxFramePayloadLength,
-      Duration connectionTimeout,
-      Duration retryDuration,
-      int idleTimeoutSeconds) {
-    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+    Config.configureObjectMapper(objectMapper);
+
     this.apiKey = apiKey;
     this.secretKey = secretKey;
   }
@@ -84,7 +72,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
     Map<String, Object> cmd = new HashMap<>();
     cmd.put("op", "authKey");
     cmd.put("args", Arrays.asList(apiKey, expires, signature));
-    this.sendMessage(mapper.writeValueAsString(cmd));
+    this.sendMessage(objectMapper.writeValueAsString(cmd));
   }
 
   @Override

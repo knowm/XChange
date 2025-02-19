@@ -4,27 +4,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import info.bitrich.xchangestream.bitmex.config.Config;
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
+import lombok.extern.slf4j.Slf4j;
 
-/** Created by Lukas Zaoralek on 13.11.17. */
+@Slf4j
+@Data
+@Builder
+@Jacksonized
 public class BitmexWebSocketTransaction {
-  private static final Logger log = LoggerFactory.getLogger(BitmexWebSocketTransaction.class);
-  private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-  private final String table;
-  private final String action;
-  private final JsonNode data;
 
-  public BitmexWebSocketTransaction(
-      @JsonProperty("table") String table,
-      @JsonProperty("action") String action,
-      @JsonProperty("data") JsonNode data) {
-    this.table = table;
-    this.action = action;
-    this.data = data;
-  }
+  private static final ObjectMapper mapper = Config.getInstance().getObjectMapper();
+
+  @JsonProperty("table")
+  private String table;
+
+  @JsonProperty("action")
+  private String action;
+
+  @JsonProperty("data")
+  private JsonNode data;
 
   public BitmexLimitOrder[] toBitmexOrderbookLevels() {
     BitmexLimitOrder[] levels = new BitmexLimitOrder[data.size()];
@@ -69,6 +71,24 @@ public class BitmexWebSocketTransaction {
     return trades;
   }
 
+  public BitmexPrivateExecution[] toBitmexPrivateExecutions() {
+    try {
+      return mapper.treeToValue(data, BitmexPrivateExecution[].class);
+    } catch (IOException e) {
+      log.error("execution array mapping exception", e);
+    }
+    return new BitmexPrivateExecution[]{};
+  }
+
+  public BitmexPosition[] toBitmexPositions() {
+    try {
+      return mapper.treeToValue(data, BitmexPosition[].class);
+    } catch (IOException e) {
+      log.error("position array mapping exception", e);
+    }
+    return new BitmexPosition[]{};
+  }
+
   public BitmexOrder[] toBitmexOrders() {
     BitmexOrder[] orders = new BitmexOrder[this.data.size()];
     for (int i = 0; i < this.data.size(); ++i) {
@@ -103,15 +123,4 @@ public class BitmexWebSocketTransaction {
     }
   }
 
-  public String getTable() {
-    return table;
-  }
-
-  public String getAction() {
-    return action;
-  }
-
-  public JsonNode getData() {
-    return data;
-  }
 }
