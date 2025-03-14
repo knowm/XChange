@@ -366,14 +366,14 @@ public interface BinanceAuthenticated extends Binance {
   @POST
   @Path("/sapi/v1/capital/withdraw/apply")
   WithdrawResponse withdraw(
-      @FormParam("coin") String coin,
-      @FormParam("address") String address,
-      @FormParam("addressTag") String addressTag,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("name") String name,
-      @FormParam("network") String network,
-      @FormParam("recvWindow") Long recvWindow,
-      @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("coin") String coin,
+      @QueryParam("address") String address,
+      @QueryParam("addressTag") String addressTag,
+      @QueryParam("amount") BigDecimal amount,
+      @QueryParam("name") String name,
+      @QueryParam("network") String network,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
