@@ -1,8 +1,12 @@
 package org.knowm.xchange.kraken.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 public class DepostitStatus {
 
@@ -17,6 +21,7 @@ public class DepostitStatus {
   private final Date timestamp;
   private final String status;
   private final String statusProp;
+  private List<String> originators;
 
   public DepostitStatus(
       @JsonProperty("method") String method,
@@ -29,7 +34,8 @@ public class DepostitStatus {
       @JsonProperty("fee") BigDecimal fee,
       @JsonProperty("time") long unixTimestamp,
       @JsonProperty("status") String status,
-      @JsonProperty("status-prop") String statusProp) {
+      @JsonProperty("status-prop") String statusProp,
+      @JsonProperty("originators") List<String> originators) {
     super();
     this.method = method;
     this.aclass = aclass;
@@ -42,6 +48,7 @@ public class DepostitStatus {
     this.timestamp = new Date(unixTimestamp * 1000);
     this.status = status;
     this.statusProp = statusProp;
+    this.originators = originators;
   }
 
   public String getMethod() {
@@ -88,6 +95,10 @@ public class DepostitStatus {
     return statusProp;
   }
 
+  public List<String> getOriginators() {
+    return originators;
+  }
+
   @Override
   public String toString() {
     return "DepostitStatus [method="
@@ -112,6 +123,8 @@ public class DepostitStatus {
         + status
         + ", statusProp="
         + statusProp
+        + ", originators="
+        + String.join(",", Optional.ofNullable(originators).orElse(new ArrayList<>()))
         + "]";
   }
 }
