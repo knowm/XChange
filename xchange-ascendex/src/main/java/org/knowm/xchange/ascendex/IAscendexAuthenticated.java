@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.ascendex.dto.AscendexResponse;
 import org.knowm.xchange.ascendex.dto.account.AscendexCashAccountBalanceDto;
+import org.knowm.xchange.ascendex.dto.trade.AscendexCancelOrderRequestPayload;
 import org.knowm.xchange.ascendex.dto.trade.AscendexOpenOrdersResponse;
 import org.knowm.xchange.ascendex.dto.trade.AscendexOrderResponse;
 import org.knowm.xchange.ascendex.dto.trade.AscendexPlaceOrderRequestPayload;
@@ -49,9 +50,7 @@ public interface IAscendexAuthenticated extends IAscendex {
       @HeaderParam("x-auth-timestamp") Long nonce,
       @HeaderParam("x-auth-signature") ParamsDigest signature,
       @PathParam("account-category") String accountCategory,
-      @QueryParam("orderId") String orderId,
-      @QueryParam("symbol") String symbol,
-      @QueryParam("time") Long time)
+      AscendexCancelOrderRequestPayload payload)
       throws IOException;
 
   @DELETE

@@ -2,18 +2,17 @@ package org.knowm.xchange.ascendex.service;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Objects;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ascendex.AscendexAdapters;
+import org.knowm.xchange.ascendex.dto.trade.AscendexOrderResponse;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.*;
 
 public class AscendexTradeService extends AscendexTradeServiceRaw implements TradeService {
@@ -32,6 +31,20 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    if (orderParams instanceof DefaultCancelOrderByInstrumentAndIdParams) {
+      AscendexOrderResponse response = cancelAscendexOrder(
+              AscendexAdapters.adaptCancelOrderRequestToAscendexCancelOrderRequestPayload(
+                      (DefaultCancelOrderByInstrumentAndIdParams) orderParams
+              )
+      );
+      return Objects.equals(response.getStatus(), "Ack");
+    } else {
+      throw new IOException(
+              "Params must be instanceOf DefaultCancelOrderByInstrumentAndIdParams in order to cancel an order on Ascendex.");
+    }
+  }
+
+  public boolean cancelAllOrdersByCurrencyPair(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByCurrencyPair) {
       cancelAllAscendexOrdersBySymbol(
           ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair().toString());

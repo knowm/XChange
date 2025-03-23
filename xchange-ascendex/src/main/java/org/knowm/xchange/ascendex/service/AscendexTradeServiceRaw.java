@@ -36,9 +36,7 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
             exchange.getNonceFactory().createValue(),
             signatureCreator,
             ACCOUNT_CASH_CATEGORY,
-            payload.getOrderId(),
-            payload.getSymbol(),
-            payload.getTime()));
+            payload));
   }
 
   public AscendexOrderResponse cancelAllAscendexOrdersBySymbol(String symbol)
