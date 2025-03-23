@@ -1,7 +1,8 @@
-package org.knowm.xchange.coinbase.v2.service;
+package org.knowm.xchange.coinbase.cdp.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.CoinbaseAdapters;
+import org.knowm.xchange.coinbase.v2.service.CoinbaseTradeHistoryParams;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseAmount;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData;
@@ -25,10 +26,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
+public final class CoinbaseAccountServiceCDP extends CoinbaseAccountServiceRawCDP
     implements AccountService {
 
-  public CoinbaseAccountService(Exchange exchange) {
+  public CoinbaseAccountServiceCDP(Exchange exchange) {
 
     super(exchange);
   }
@@ -55,10 +56,8 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params)
-      throws ExchangeException,
-          NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException,
-          IOException {
+      throws ExchangeException, NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException, IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
       return withdrawFunds(
@@ -82,10 +81,7 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
     final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     final CoinbaseBuySellResponse withdrawals =
             coinbase.getAllWithdrawals(
-                    Coinbase.CB_VERSION_VALUE,
-                    apiKey,
                     signatureCreator2,
-                    timestamp,
                     accountId,
                     params.getLimit(),
                     params.getStartId()
@@ -103,10 +99,7 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
     final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     final CoinbaseBuySellResponse deposits =
             coinbase.getAllDeposits(
-                    Coinbase.CB_VERSION_VALUE,
-                    apiKey,
                     signatureCreator2,
-                    timestamp,
                     accountId,
                     params.getLimit(),
                     params.getStartId()

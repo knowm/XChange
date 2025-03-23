@@ -1,8 +1,9 @@
-package org.knowm.xchange.coinbase.v2.service;
+package org.knowm.xchange.coinbase.cdp.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coinbase.v2.service.CoinbaseTradeHistoryParams;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseExpandTransactionsResponse;
@@ -18,29 +19,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
+public class CoinbaseAccountServiceRawCDP extends CoinbaseBaseServiceCDP {
 
-  public CoinbaseAccountServiceRaw(Exchange exchange) {
+  public CoinbaseAccountServiceRawCDP(Exchange exchange) {
     super(exchange);
   }
 
   public CoinbaseTransactionsResponse getTransactions(String accountId) throws IOException {
-    String apiKey = exchange.getExchangeSpecification().getApiKey();
-    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
 
     return coinbase.getTransactions(
-        Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, accountId);
+        signatureCreator2, accountId);
   }
 
   public CoinbaseExpandTransactionsResponse getExpandTransactions(String accountId, CoinbaseTradeHistoryParams params, String orderType)
       throws IOException {
 
-    String apiKey = exchange.getExchangeSpecification().getApiKey();
-    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
-
     return coinbase.getExpandedTransactions(
-              Coinbase.CB_VERSION_VALUE, apiKey,
-              signatureCreator2, timestamp,
+              signatureCreator2,
               accountId,
               params.getLimit(),
               orderType,
@@ -70,20 +65,21 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
    *     href="https://developers.coinbase.com/api/v2#list-accounts">developers.coinbase.com/api/v2#list-accounts</a>
    */
   public List<CoinbaseAccount> getCoinbaseAccounts() throws IOException {
-    String apiKey = exchange.getExchangeSpecification().getApiKey();
 
     List<CoinbaseAccount> returnList = new ArrayList<>();
     List<CoinbaseAccount> tmpList = null;
 
     String lastAccount = null;
     do {
-      BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
-
-      tmpList =
-          coinbase
-              .getAccounts(
-                  Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, 100, lastAccount)
-              .getData();
+      try {
+        tmpList =
+            coinbase
+                .getAccounts(
+                        signatureCreator2, 100, lastAccount)
+                .getData();
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
 
       lastAccount = null;
       if (tmpList != null && tmpList.size() > 0) {
@@ -112,15 +108,10 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
    *     href="https://developers.coinbase.com/api/v2#show-an-account">developers.coinbase.com/api/v2#show-an-account</a>
    */
   public CoinbaseAccount getCoinbaseAccount(Currency currency) throws IOException {
-    String apiKey = exchange.getExchangeSpecification().getApiKey();
-    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
 
     return coinbase
         .getAccount(
-            Coinbase.CB_VERSION_VALUE,
-            apiKey,
             signatureCreator2,
-            timestamp,
             currency.getCurrencyCode())
         .getData();
   }
@@ -160,11 +151,9 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
    *     href="https://developers.coinbase.com/api/v2#list-payment-methods">developers.coinbase.com/api/v2?shell#list-payment-methods</a>
    */
   public List<CoinbasePaymentMethod> getCoinbasePaymentMethods() throws IOException {
-    String apiKey = exchange.getExchangeSpecification().getApiKey();
-    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
 
     return coinbase
-        .getPaymentMethods(Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp)
+        .getPaymentMethods(signatureCreator2)
         .getData();
   }
 
