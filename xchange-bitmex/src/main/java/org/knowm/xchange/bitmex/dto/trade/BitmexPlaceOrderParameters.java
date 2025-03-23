@@ -77,6 +77,4 @@ public class BitmexPlaceOrderParameters {
   public BigDecimal getDisplayQuantityScaled() {
     return BitmexAdapters.scaleToExchangeAmount(displayQuantity, instrument.getBase());
   }
-
-
 }

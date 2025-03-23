@@ -30,10 +30,7 @@ public class BybitStreamingService extends JsonNettyStreamingService {
   private final Observable<Long> pingPongSrc = Observable.interval(15, 20, TimeUnit.SECONDS);
   private Disposable pingPongSubscription;
   private final ExchangeSpecification spec;
-  @Setter
-  private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
-
-
+  @Setter private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
   public BybitStreamingService(String apiUrl, ExchangeSpecification spec) {
     super(apiUrl);
@@ -55,7 +52,6 @@ public class BybitStreamingService extends JsonNettyStreamingService {
               completable.onComplete();
             });
   }
-
 
   @Override
   protected String getChannelNameFromMessage(JsonNode message) {
@@ -158,5 +154,4 @@ public class BybitStreamingService extends JsonNettyStreamingService {
       }
     }
   }
-
 }

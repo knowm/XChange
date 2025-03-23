@@ -45,7 +45,6 @@ public class BitmexStreamingAdapters {
     return SYMBOL_TO_CURRENCY_PAIR.get(bitmexSymbol);
   }
 
-
   public Ticker toTicker(BitmexTicker bitmexTicker) {
     return new Ticker.Builder()
         .ask(bitmexTicker.getAskPrice())
@@ -92,19 +91,23 @@ public class BitmexStreamingAdapters {
     Order.Builder builder;
     switch (bitmexOrder.getBitmexOrderType()) {
       case STOP:
-        builder = new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
-            .stopPrice(bitmexOrder.getOriginalPrice());
+        builder =
+            new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
+                .stopPrice(bitmexOrder.getOriginalPrice());
         break;
       case MARKET:
         builder = new MarketOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument());
         break;
       case LIMIT:
-        builder = new LimitOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument()).limitPrice(bitmexOrder.getOriginalPrice());
+        builder =
+            new LimitOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
+                .limitPrice(bitmexOrder.getOriginalPrice());
         break;
       case STOP_LIMIT:
-        builder = new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
-            .limitPrice(bitmexOrder.getOriginalPrice())
-            .stopPrice(bitmexOrder.getStopPrice());
+        builder =
+            new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
+                .limitPrice(bitmexOrder.getOriginalPrice())
+                .stopPrice(bitmexOrder.getStopPrice());
         break;
       case PEGGED:
       case MARKET_IF_TOUCHED:
@@ -126,5 +129,4 @@ public class BitmexStreamingAdapters {
         .userReference(bitmexOrder.getText())
         .build();
   }
-
 }

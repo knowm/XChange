@@ -23,6 +23,5 @@ public class BitmexJacksonObjectMapperFactory extends DefaultJacksonObjectMapper
 
     // store object mapper for using in module
     Config.getInstance().setObjectMapper(objectMapper);
-
   }
 }

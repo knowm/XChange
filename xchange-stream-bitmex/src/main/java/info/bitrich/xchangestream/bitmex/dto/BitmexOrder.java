@@ -77,15 +77,15 @@ public class BitmexOrder {
   private Instrument instrument;
 
   @JsonCreator
-  public BitmexOrder(@JsonProperty("cumQty") BigDecimal cumulativeAmount,
+  public BitmexOrder(
+      @JsonProperty("cumQty") BigDecimal cumulativeAmount,
       @JsonProperty("orderQty") BigDecimal originalAmount,
       @JsonProperty("leavesQty") BigDecimal notFilledAmount,
       @JsonProperty("symbol") String symbol) {
     this.instrument = BitmexAdapters.toInstrument(symbol);
-    this.cumulativeAmount = BitmexAdapters.scaleToLocalAmount(cumulativeAmount, instrument.getBase());
+    this.cumulativeAmount =
+        BitmexAdapters.scaleToLocalAmount(cumulativeAmount, instrument.getBase());
     this.originalAmount = BitmexAdapters.scaleToLocalAmount(originalAmount, instrument.getBase());
     this.notFilledAmount = BitmexAdapters.scaleToLocalAmount(notFilledAmount, instrument.getBase());
   }
-
-
 }

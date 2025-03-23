@@ -38,7 +38,6 @@ public class BitmexPrivateExecution {
   @JsonProperty("side")
   private String side;
 
-
   @JsonProperty("lastPx")
   private BigDecimal price;
 
@@ -149,15 +148,16 @@ public class BitmexPrivateExecution {
   private ZonedDateTime updatedAt;
 
   @JsonCreator
-  public BitmexPrivateExecution(@JsonProperty("symbol") String symbol,
+  public BitmexPrivateExecution(
+      @JsonProperty("symbol") String symbol,
       @JsonProperty("lastQty") BigDecimal executedQuantity,
       @JsonProperty("orderQty") BigDecimal orderQuantity,
       @JsonProperty("currency") String feeCurrency,
-      @JsonProperty("execComm") BigDecimal feeAmount
-  ) {
+      @JsonProperty("execComm") BigDecimal feeAmount) {
     // scale values
     this.instrument = BitmexAdapters.toInstrument(symbol);
-    this.executedQuantity = BitmexAdapters.scaleToLocalAmount(executedQuantity, instrument.getBase());
+    this.executedQuantity =
+        BitmexAdapters.scaleToLocalAmount(executedQuantity, instrument.getBase());
     this.orderQuantity = BitmexAdapters.scaleToLocalAmount(orderQuantity, instrument.getBase());
 
     // fees are paid in quote currency

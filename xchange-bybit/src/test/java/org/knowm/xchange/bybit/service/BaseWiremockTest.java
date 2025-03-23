@@ -47,7 +47,6 @@ public class BaseWiremockTest {
   }
 
   /**
-   *
    * @param baseUrl baseUrl
    * @param responseBody responseBody
    * @param queryParams queryParams

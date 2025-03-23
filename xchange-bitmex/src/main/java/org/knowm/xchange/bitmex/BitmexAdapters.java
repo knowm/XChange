@@ -108,6 +108,7 @@ public class BitmexAdapters {
 
   /**
    * Converts bitmex currency code to {@code Currency}. E.g. USDt -> USDT, Gwei -> ETH
+   *
    * @param bitmexCode
    * @return
    */
@@ -128,9 +129,10 @@ public class BitmexAdapters {
   }
 
   public OrderBook toOrderBook(List<BitmexPublicOrder> bitmexPublicOrders) {
-    Map<OrderType, List<LimitOrder>> orders = bitmexPublicOrders.stream()
-        .map(BitmexAdapters::toLimitOrder)
-        .collect(Collectors.groupingBy(Order::getType));
+    Map<OrderType, List<LimitOrder>> orders =
+        bitmexPublicOrders.stream()
+            .map(BitmexAdapters::toLimitOrder)
+            .collect(Collectors.groupingBy(Order::getType));
 
     return new OrderBook(null, orders.get(OrderType.ASK), orders.get(OrderType.BID));
   }
@@ -148,27 +150,36 @@ public class BitmexAdapters {
   }
 
   public LimitOrder toLimitOrder(BitmexPublicOrder order) {
-    return new LimitOrder(order.getOrderType(), order.getSize(), order.getInstrument(),
-        order.getId(), toDate(order.getUpdatedAt()), order.getPrice());
+    return new LimitOrder(
+        order.getOrderType(),
+        order.getSize(),
+        order.getInstrument(),
+        order.getId(),
+        toDate(order.getUpdatedAt()),
+        order.getPrice());
   }
 
   public Order toOrder(BitmexPrivateOrder bitmexOrder) {
     Order.Builder builder;
     switch (bitmexOrder.getBitmexOrderType()) {
       case STOP:
-        builder = new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
-            .stopPrice(bitmexOrder.getOriginalPrice());
+        builder =
+            new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
+                .stopPrice(bitmexOrder.getOriginalPrice());
         break;
       case MARKET:
         builder = new MarketOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument());
         break;
       case LIMIT:
-        builder = new LimitOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument()).limitPrice(bitmexOrder.getOriginalPrice());
+        builder =
+            new LimitOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
+                .limitPrice(bitmexOrder.getOriginalPrice());
         break;
       case STOP_LIMIT:
-        builder = new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
-            .limitPrice(bitmexOrder.getOriginalPrice())
-            .stopPrice(bitmexOrder.getAveragePrice());
+        builder =
+            new StopOrder.Builder(bitmexOrder.getOrderType(), bitmexOrder.getInstrument())
+                .limitPrice(bitmexOrder.getOriginalPrice())
+                .stopPrice(bitmexOrder.getAveragePrice());
         break;
       case PEGGED:
       case MARKET_IF_TOUCHED:
@@ -435,8 +446,7 @@ public class BitmexAdapters {
         walletTransaction.getText());
   }
 
-  private FundingRecord.Type toFundingRecordtype(
-      final BitmexWalletTransaction walletTransaction) {
+  private FundingRecord.Type toFundingRecordtype(final BitmexWalletTransaction walletTransaction) {
 
     String type = walletTransaction.getTransactionType();
     if ("Deposit".equalsIgnoreCase(type)) {
@@ -445,7 +455,8 @@ public class BitmexAdapters {
     if ("Withdrawal".equalsIgnoreCase(type)) {
       return FundingRecord.Type.WITHDRAWAL;
     }
-    if ("RealisedPNL".equalsIgnoreCase(type) || "UnrealisedPNL".equalsIgnoreCase(type)
+    if ("RealisedPNL".equalsIgnoreCase(type)
+        || "UnrealisedPNL".equalsIgnoreCase(type)
         || "SpotTrade".equalsIgnoreCase(type)) {
       // 'RealisedPNL' will always have transactStatus = Completed whereas 'UnrealisedPNL' will
       // always be transactStatus = Pending
@@ -483,7 +494,8 @@ public class BitmexAdapters {
       return null;
     }
 
-    CurrencyPair currencyPair = new CurrencyPair(bitmexTicker.getUnderlying(), bitmexTicker.getQuoteCurrency());
+    CurrencyPair currencyPair =
+        new CurrencyPair(bitmexTicker.getUnderlying(), bitmexTicker.getQuoteCurrency());
     switch (bitmexTicker.getSymbolType()) {
       case SPOT:
         return currencyPair;
@@ -501,12 +513,16 @@ public class BitmexAdapters {
     BigDecimal assetMultiplier = bitmexTicker.getUnderlyingToPositionMultiplier();
 
     BigDecimal minAssetAmount = null;
-    if (bitmexTicker.getLotSize() != null && assetMultiplier != null && assetMultiplier.signum() != 0) {
+    if (bitmexTicker.getLotSize() != null
+        && assetMultiplier != null
+        && assetMultiplier.signum() != 0) {
       minAssetAmount = bitmexTicker.getLotSize().divide(assetMultiplier, MathContext.DECIMAL32);
     }
 
     BigDecimal maxAssetAmount = null;
-    if (bitmexTicker.getMaxOrderQty() != null && assetMultiplier != null && assetMultiplier.signum() != 0) {
+    if (bitmexTicker.getMaxOrderQty() != null
+        && assetMultiplier != null
+        && assetMultiplier.signum() != 0) {
       maxAssetAmount = bitmexTicker.getMaxOrderQty().divide(assetMultiplier, MathContext.DECIMAL32);
     }
 
@@ -514,7 +530,8 @@ public class BitmexAdapters {
         .tradingFee(bitmexTicker.getTakerFee())
         .minimumAmount(minAssetAmount)
         .maximumAmount(maxAssetAmount)
-        .priceScale(Optional.ofNullable(bitmexTicker.getTickSize()).map(BigDecimal::scale).orElse(null))
+        .priceScale(
+            Optional.ofNullable(bitmexTicker.getTickSize()).map(BigDecimal::scale).orElse(null))
         .volumeScale(Optional.ofNullable(minAssetAmount).map(BigDecimal::scale).orElse(null))
         .priceStepSize(bitmexTicker.getTickSize())
         .marketOrderEnabled(true)
@@ -561,7 +578,7 @@ public class BitmexAdapters {
     return type == OrderType.ASK ? BitmexSide.SELL : BitmexSide.BUY;
   }
 
-  public Date toDate (ZonedDateTime zonedDateTime) {
+  public Date toDate(ZonedDateTime zonedDateTime) {
     return Optional.ofNullable(zonedDateTime)
         .map(ChronoZonedDateTime::toInstant)
         .map(Date::from)
@@ -587,8 +604,7 @@ public class BitmexAdapters {
     }
     if (scaleUp) {
       return amount.scaleByPowerOfTen(scale);
-    }
-    else {
+    } else {
       return amount.scaleByPowerOfTen(-scale);
     }
   }
@@ -597,9 +613,7 @@ public class BitmexAdapters {
     List<Balance> balances =
         bitmexWallets.stream().map(BitmexAdapters::toBalance).collect(Collectors.toList());
 
-
-    return Wallet.Builder
-        .from(balances)
+    return Wallet.Builder.from(balances)
         .id("spot")
         .features(EnumSet.of(Wallet.WalletFeature.TRADING))
         .build();
@@ -613,12 +627,9 @@ public class BitmexAdapters {
         .build();
   }
 
-
   @SneakyThrows
   public String asJsonString(FilterParam filterParam) {
     ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
     return objectMapper.writeValueAsString(filterParam);
   }
-
-
 }

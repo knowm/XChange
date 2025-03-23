@@ -77,7 +77,7 @@ public class BitmexWebSocketTransaction {
     } catch (IOException e) {
       log.error("execution array mapping exception", e);
     }
-    return new BitmexPrivateExecution[]{};
+    return new BitmexPrivateExecution[] {};
   }
 
   public BitmexPosition[] toBitmexPositions() {
@@ -86,7 +86,7 @@ public class BitmexWebSocketTransaction {
     } catch (IOException e) {
       log.error("position array mapping exception", e);
     }
-    return new BitmexPosition[]{};
+    return new BitmexPosition[] {};
   }
 
   public BitmexOrder[] toBitmexOrders() {
@@ -122,5 +122,4 @@ public class BitmexWebSocketTransaction {
       return null;
     }
   }
-
 }

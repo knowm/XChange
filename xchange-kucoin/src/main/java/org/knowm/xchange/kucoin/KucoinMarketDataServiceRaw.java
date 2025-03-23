@@ -144,7 +144,8 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
                 .call());
   }
 
-  public OrderBookResponse getKucoinOrderBookPartialShallow(Instrument instrument) throws IOException {
+  public OrderBookResponse getKucoinOrderBookPartialShallow(Instrument instrument)
+      throws IOException {
     return classifyingExceptions(
         () ->
             decorateApiCall(

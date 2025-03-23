@@ -200,17 +200,19 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                   eventLoopGroup = new NioEventLoopGroup(2);
                 }
 
-                Bootstrap bootstrap = new Bootstrap()
-                    .group(eventLoopGroup)
-                    .option(
-                        ChannelOption.CONNECT_TIMEOUT_MILLIS,
-                        Math.toIntExact(connectionTimeout.toMillis()))
-                    .option(ChannelOption.SO_KEEPALIVE, true)
-                    .channel(NioSocketChannel.class);
+                Bootstrap bootstrap =
+                    new Bootstrap()
+                        .group(eventLoopGroup)
+                        .option(
+                            ChannelOption.CONNECT_TIMEOUT_MILLIS,
+                            Math.toIntExact(connectionTimeout.toMillis()))
+                        .option(ChannelOption.SO_KEEPALIVE, true)
+                        .channel(NioSocketChannel.class);
                 if (socksProxyHost != null) {
                   bootstrap.disableResolver();
                 }
-                bootstrap.handler(
+                bootstrap
+                    .handler(
                         new ChannelInitializer<SocketChannel>() {
                           @Override
                           protected void initChannel(SocketChannel ch) {

@@ -35,6 +35,4 @@ class BitmexAccountServiceIntegration {
     AccountInfo accountInfo = exchange.getAccountService().getAccountInfo();
     assertThat(accountInfo.getWallet(WalletFeature.TRADING).getBalances()).isNotEmpty();
   }
-
-
 }

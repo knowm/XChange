@@ -81,6 +81,5 @@ public interface Bitmex {
 
   @GET
   @Path("wallet/assets")
-  HttpResponseAwareList<BitmexAsset> getAssets()
-      throws IOException, BitmexException;
+  HttpResponseAwareList<BitmexAsset> getAssets() throws IOException, BitmexException;
 }

@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @Builder
 @AllArgsConstructor
@@ -13,5 +12,4 @@ import lombok.NoArgsConstructor;
 public class DefaultCancelOrderParamId implements CancelOrderByIdParams {
 
   private String orderId;
-
 }

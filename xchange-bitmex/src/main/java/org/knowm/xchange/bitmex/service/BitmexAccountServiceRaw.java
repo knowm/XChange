@@ -1,6 +1,5 @@
 package org.knowm.xchange.bitmex.service;
 
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -35,16 +34,12 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
   }
 
   public List<BitmexWallet> getBitmexWallet(Currency currency) throws ExchangeException {
-    String currencyParam = Optional.ofNullable(currency)
-        .map(BitmexAdapters::toBitmexCode)
-        .orElse("all");
+    String currencyParam =
+        Optional.ofNullable(currency).map(BitmexAdapters::toBitmexCode).orElse("all");
 
     return updateRateLimit(
         () ->
-            bitmex.getWallet(
-                apiKey,
-                exchange.getNonceFactory(),
-                signatureCreator, currencyParam));
+            bitmex.getWallet(apiKey, exchange.getNonceFactory(), signatureCreator, currencyParam));
   }
 
   public List<BitmexWalletTransaction> getBitmexWalletHistory(Currency ccy)

@@ -70,17 +70,17 @@ public class BitmexPrivateOrder extends AbstractHttpResponseAware {
   private Instrument instrument;
 
   @JsonCreator
-  public BitmexPrivateOrder(@JsonProperty("cumQty") BigDecimal cumulativeAmount,
+  public BitmexPrivateOrder(
+      @JsonProperty("cumQty") BigDecimal cumulativeAmount,
       @JsonProperty("orderQty") BigDecimal originalAmount,
       @JsonProperty("leavesQty") BigDecimal notFilledAmount,
-      @JsonProperty("symbol") String symbol
-  ) {
+      @JsonProperty("symbol") String symbol) {
     this.instrument = BitmexAdapters.toInstrument(symbol);
-    this.cumulativeAmount = BitmexAdapters.scaleToLocalAmount(cumulativeAmount, instrument.getBase());
+    this.cumulativeAmount =
+        BitmexAdapters.scaleToLocalAmount(cumulativeAmount, instrument.getBase());
     this.originalAmount = BitmexAdapters.scaleToLocalAmount(originalAmount, instrument.getBase());
     this.notFilledAmount = BitmexAdapters.scaleToLocalAmount(notFilledAmount, instrument.getBase());
   }
-
 
   public enum OrderStatus {
     @JsonProperty("New")
@@ -101,5 +101,4 @@ public class BitmexPrivateOrder extends AbstractHttpResponseAware {
     @JsonProperty("Replaced")
     REPLACED
   }
-
 }

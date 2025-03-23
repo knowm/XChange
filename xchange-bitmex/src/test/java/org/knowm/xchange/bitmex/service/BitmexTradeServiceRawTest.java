@@ -15,29 +15,30 @@ class BitmexTradeServiceRawTest extends BitmexExchangeWiremock {
 
   BitmexTradeServiceRaw bitmexTradeServiceRaw = (BitmexTradeServiceRaw) exchange.getTradeService();
 
-
   @Test
   void positions() {
-    FilterParam filterParam = FilterParam.builder()
-        .instrument(CurrencyPair.ETH_BTC)
-        .instrument(new CurrencyPair("SOL/USDT"))
-        .build();
+    FilterParam filterParam =
+        FilterParam.builder()
+            .instrument(CurrencyPair.ETH_BTC)
+            .instrument(new CurrencyPair("SOL/USDT"))
+            .build();
 
     List<BitmexPosition> positions = bitmexTradeServiceRaw.getBitmexPositions(filterParam);
 
     assertThat(positions).hasSize(2);
 
-    BitmexPosition expected = BitmexPosition.builder()
-        .instrument(new CurrencyPair("SOL/USDT"))
-        .crossMargin(true)
-        .account(2273415)
-        .isOpen(true)
-        .openOrderBuyCost(new BigDecimal("0.436020"))
-        .openOrderBuyQty(new BigDecimal("2"))
-        .openOrderSellCost(new BigDecimal("0.665070"))
-        .openOrderSellQty(new BigDecimal("3"))
-        .timestamp(ZonedDateTime.parse("2024-12-14T17:25:58.097Z[UTC]"))
-        .build();
+    BitmexPosition expected =
+        BitmexPosition.builder()
+            .instrument(new CurrencyPair("SOL/USDT"))
+            .crossMargin(true)
+            .account(2273415)
+            .isOpen(true)
+            .openOrderBuyCost(new BigDecimal("0.436020"))
+            .openOrderBuyQty(new BigDecimal("2"))
+            .openOrderSellCost(new BigDecimal("0.665070"))
+            .openOrderSellQty(new BigDecimal("3"))
+            .timestamp(ZonedDateTime.parse("2024-12-14T17:25:58.097Z[UTC]"))
+            .build();
 
     assertThat(positions)
         .first()
@@ -45,5 +46,4 @@ class BitmexTradeServiceRawTest extends BitmexExchangeWiremock {
         .usingRecursiveComparison()
         .isEqualTo(expected);
   }
-
 }

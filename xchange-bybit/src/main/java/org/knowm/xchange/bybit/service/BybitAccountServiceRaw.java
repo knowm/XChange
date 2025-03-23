@@ -21,7 +21,8 @@ import org.knowm.xchange.client.ResilienceRegistries;
 
 public class BybitAccountServiceRaw extends BybitBaseService {
 
-  protected BybitAccountServiceRaw(BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
+  protected BybitAccountServiceRaw(
+      BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
 
@@ -50,9 +51,9 @@ public class BybitAccountServiceRaw extends BybitBaseService {
   BybitResult<BybitFeeRates> getFeeRatesRaw(BybitCategory category, String symbol)
       throws IOException {
     BybitResult<BybitFeeRates> bybitFeeRatesResult;
-      bybitFeeRatesResult =
-          bybitAuthenticated.getFeeRate(
-              apiKey, signatureCreator, exchange.getTimeStampFactory(), category.getValue(), symbol);
+    bybitFeeRatesResult =
+        bybitAuthenticated.getFeeRate(
+            apiKey, signatureCreator, exchange.getTimeStampFactory(), category.getValue(), symbol);
 
     if (!bybitFeeRatesResult.isSuccess()) {
       throw createBybitExceptionFromResult(bybitFeeRatesResult);
@@ -77,8 +78,10 @@ public class BybitAccountServiceRaw extends BybitBaseService {
         throw new UnsupportedOperationException("Only Linear and Inverse category");
     }
     BybitResult<Object> setLeverageResult =
-        decorateApiCall(() ->
-            bybitAuthenticated.setLeverage(apiKey, signatureCreator, exchange.getTimeStampFactory(), payload))
+        decorateApiCall(
+                () ->
+                    bybitAuthenticated.setLeverage(
+                        apiKey, signatureCreator, exchange.getTimeStampFactory(), payload))
             .withRateLimiter(rateLimiter)
             .withRateLimiter(rateLimiter(GLOBAL_RATE_LIMITER))
             .call();
@@ -94,7 +97,8 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     BybitSwitchModePayload payload =
         new BybitSwitchModePayload(category.getValue(), symbol, coin, mode);
     BybitResult<Object> switchModeResult =
-        bybitAuthenticated.switchMode(apiKey, signatureCreator, exchange.getTimeStampFactory(), payload);
+        bybitAuthenticated.switchMode(
+            apiKey, signatureCreator, exchange.getTimeStampFactory(), payload);
     // retCode=110025, retMsg=Position mode is not modified - also is success
     if (!switchModeResult.isSuccess() && switchModeResult.getRetCode() != 110025) {
       throw createBybitExceptionFromResult(switchModeResult);
@@ -102,8 +106,7 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     return switchModeResult;
   }
 
-  BybitResult<BybitAccountInfoResponse> accountInfoRaw()
-      throws IOException {
+  BybitResult<BybitAccountInfoResponse> accountInfoRaw() throws IOException {
     BybitResult<BybitAccountInfoResponse> accountInfo =
         bybitAuthenticated.getAccountInfo(apiKey, signatureCreator, exchange.getTimeStampFactory());
     if (!accountInfo.isSuccess()) {
@@ -111,5 +114,4 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     }
     return accountInfo;
   }
-
 }

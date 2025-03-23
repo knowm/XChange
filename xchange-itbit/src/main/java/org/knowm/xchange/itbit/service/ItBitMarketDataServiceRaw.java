@@ -50,7 +50,9 @@ public class ItBitMarketDataServiceRaw extends ItBitBaseService {
     CurrencyPair exchangePair = ItBitAdapters.adaptCurrencyPairToExchange(currencyPair);
     ItBitTrades trades =
         itBitPublic.getTrades(
-            exchangePair.getBase().getCurrencyCode(), exchangePair.getCounter().getCurrencyCode(), since);
+            exchangePair.getBase().getCurrencyCode(),
+            exchangePair.getCounter().getCurrencyCode(),
+            since);
     return trades;
   }
 }

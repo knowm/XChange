@@ -144,21 +144,21 @@ public class BitmexPrivateExecution {
   private ZonedDateTime updatedAt;
 
   @JsonCreator
-  public BitmexPrivateExecution(@JsonProperty("symbol") String symbol,
+  public BitmexPrivateExecution(
+      @JsonProperty("symbol") String symbol,
       @JsonProperty("lastQty") BigDecimal executedQuantity,
       @JsonProperty("orderQty") BigDecimal orderQuantity,
-      @JsonProperty("execComm") BigDecimal feeAmount
-  ) {
+      @JsonProperty("execComm") BigDecimal feeAmount) {
     // scale values
     this.instrument = BitmexAdapters.toInstrument(symbol);
-    this.executedQuantity = BitmexAdapters.scaleToLocalAmount(executedQuantity, instrument.getBase());
+    this.executedQuantity =
+        BitmexAdapters.scaleToLocalAmount(executedQuantity, instrument.getBase());
     this.orderQuantity = BitmexAdapters.scaleToLocalAmount(orderQuantity, instrument.getBase());
 
     // fees are paid in quote currency
     feeCurrency = instrument.getCounter();
     this.feeAmount = BitmexAdapters.scaleToLocalAmount(feeAmount, feeCurrency);
   }
-
 
   public static enum ExecutionType {
     @JsonProperty("Trade")
@@ -176,5 +176,4 @@ public class BitmexPrivateExecution {
     @JsonEnumDefaultValue
     UNKNOWN,
   }
-
 }

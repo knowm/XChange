@@ -39,5 +39,4 @@ public class BitmexTrade {
 
   @JsonProperty("foreignNotional")
   private BigDecimal quoteAmount;
-
 }

@@ -31,7 +31,8 @@ public class CoinjarAdapters {
 
   public static String currencyPairToProduct(CurrencyPair pair) {
     String sep = "";
-    if (pair.getBase().getCurrencyCode().length() > 3 || pair.getCounter().getCurrencyCode().length() > 3) {
+    if (pair.getBase().getCurrencyCode().length() > 3
+        || pair.getCounter().getCurrencyCode().length() > 3) {
       sep = "-";
     }
     return pair.getBase().getCurrencyCode() + sep + pair.getCounter().getCurrencyCode();

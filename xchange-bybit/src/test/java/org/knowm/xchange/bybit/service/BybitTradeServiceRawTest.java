@@ -35,7 +35,8 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
   @Test
   public void testGetBybitLinearDetailOrder() throws IOException {
     BybitExchange bybitExchange = createExchange();
-    BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
+    BybitTradeServiceRaw bybitAccountServiceRaw =
+        new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
 
     String responseFilePath = "/getOrderDetailsLinear.json5";
     initGetStub("/v5/order/realtime", responseFilePath);
@@ -44,7 +45,7 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
 
     BybitResult<BybitOrderDetails<BybitOrderDetail>> actualOrderDetails =
         bybitAccountServiceRaw.getBybitOrder(
-            BybitCategory.LINEAR,null,"fd4300ae-7847-404e-b947-b46980a4d140");
+            BybitCategory.LINEAR, null, "fd4300ae-7847-404e-b947-b46980a4d140");
 
     assertThat(actualOrderDetails.getResult().getList()).hasSize(1);
 
@@ -138,7 +139,8 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
   @Test
   public void testGetBybitSpotDetailOrder() throws IOException {
     BybitExchange bybitExchange = createExchange();
-    BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
+    BybitTradeServiceRaw bybitAccountServiceRaw =
+        new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
 
     String responseFilePath = "/getOrderDetailsSpot.json5";
     initGetStub("/v5/order/realtime", responseFilePath);
@@ -147,7 +149,7 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
 
     BybitResult<BybitOrderDetails<BybitOrderDetail>> actualOrderDetails =
         bybitAccountServiceRaw.getBybitOrder(
-            BybitCategory.SPOT, null,"fd4300ae-7847-404e-b947-b46980a4d140");
+            BybitCategory.SPOT, null, "fd4300ae-7847-404e-b947-b46980a4d140");
 
     assertThat(actualOrderDetails.getResult().getList()).hasSize(1);
 
@@ -230,7 +232,8 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
   @Test
   public void testPlaceBybitMarketOrder() throws IOException {
     BybitExchange bybitExchange = createExchange();
-    BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
+    BybitTradeServiceRaw bybitAccountServiceRaw =
+        new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
 
     String orderPlacementResponse =
         "{\n"
@@ -286,7 +289,8 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
   @Test
   public void testPlaceBybitLimitOrder() throws IOException {
     BybitExchange bybitExchange = createExchange();
-    BybitTradeServiceRaw bybitAccountServiceRaw = new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
+    BybitTradeServiceRaw bybitAccountServiceRaw =
+        new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
 
     String orderPlacementResponse =
         "{\n"

@@ -62,8 +62,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException {
-    FilterParam.FilterParamBuilder builder = FilterParam.builder()
-        .isOpen(true);
+    FilterParam.FilterParamBuilder builder = FilterParam.builder().isOpen(true);
     if (params instanceof OpenOrdersParamInstrument) {
       builder.instrument(((InstrumentParam) params).getInstrument());
     }
@@ -94,8 +93,8 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException {
     BitmexPlaceOrderParameters.BitmexPlaceOrderParametersBuilder b =
-         BitmexPlaceOrderParameters.builder()
-             .instrument(limitOrder.getInstrument())
+        BitmexPlaceOrderParameters.builder()
+            .instrument(limitOrder.getInstrument())
             .orderQuantity(limitOrder.getOriginalAmount())
             .price(limitOrder.getLimitPrice())
             .side(limitOrder.getType())
@@ -109,13 +108,13 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws ExchangeException {
     return placeOrder(
-        BitmexPlaceOrderParameters.builder()
-            .instrument(stopOrder.getInstrument())
-            .side(stopOrder.getType())
-            .orderQuantity(stopOrder.getOriginalAmount())
-            .stopPrice(stopOrder.getStopPrice())
-            .clientOid(stopOrder.getUserReference())
-            .build())
+            BitmexPlaceOrderParameters.builder()
+                .instrument(stopOrder.getInstrument())
+                .side(stopOrder.getType())
+                .orderQuantity(stopOrder.getOriginalAmount())
+                .stopPrice(stopOrder.getStopPrice())
+                .clientOid(stopOrder.getUserReference())
+                .build())
         .getId();
   }
 
@@ -139,7 +138,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
       return !orders.isEmpty();
     }
 
-    Validate.isInstanceOf(CancelOrderByIdParams.class,params);
+    Validate.isInstanceOf(CancelOrderByIdParams.class, params);
     String orderId = ((CancelOrderByIdParams) params).getOrderId();
 
     List<BitmexPrivateOrder> orders = cancelBitmexOrder(orderId);
@@ -151,9 +150,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     String[] orderIds = TradeService.toOrderIds(orderQueryParams);
 
-    FilterParam filterParam = FilterParam.builder()
-        .orderIds(Arrays.asList(orderIds))
-        .build();
+    FilterParam filterParam = FilterParam.builder().orderIds(Arrays.asList(orderIds)).build();
 
     List<BitmexPrivateOrder> privateOrders = getBitmexOrders(null, filterParam, null, null, null);
     return privateOrders.stream()
@@ -177,9 +174,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
     String symbol = null;
     if (params instanceof TradeHistoryParamCurrencyPair) {
-      symbol =
-          BitmexAdapters.toString(
-              ((CurrencyPairParam) params).getCurrencyPair());
+      symbol = BitmexAdapters.toString(((CurrencyPairParam) params).getCurrencyPair());
     }
     Long start = null;
     if (params instanceof TradeHistoryParamOffset) {
@@ -206,7 +201,9 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
                 == TradeHistoryParamsSorted.Order.desc;
 
     List<UserTrade> userTrades =
-        getTradeHistory(symbol, filterParamBuilder.build(), null, count, start, reverse, startTime, endTime).stream()
+        getTradeHistory(
+                symbol, filterParamBuilder.build(), null, count, start, reverse, startTime, endTime)
+            .stream()
             .map(BitmexAdapters::toUserTrade)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());

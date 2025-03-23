@@ -60,7 +60,8 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
     } else if (args.length == 1) {
       BigDecimal time = new BigDecimal((Long) args[0]);
       transactions =
-          mercadoBitcoin.getTransactions(currencyPair.getBase().getSymbol(), time.longValue() / 1000L);
+          mercadoBitcoin.getTransactions(
+              currencyPair.getBase().getSymbol(), time.longValue() / 1000L);
 
     } else if (args.length == 2) {
       BigDecimal timeStart = new BigDecimal((Long) args[0]);

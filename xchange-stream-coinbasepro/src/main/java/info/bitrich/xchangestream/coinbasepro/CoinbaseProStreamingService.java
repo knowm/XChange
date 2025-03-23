@@ -104,7 +104,8 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
    */
   public Observable<CoinbaseProWebSocketTransaction> getRawWebSocketTransactions(
       CurrencyPair currencyPair, boolean filterChannelName) {
-    String channelName = currencyPair.getBase().toString() + "-" + currencyPair.getCounter().toString();
+    String channelName =
+        currencyPair.getBase().toString() + "-" + currencyPair.getCounter().toString();
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return subscribeChannel(channelName)
         .map(s -> mapToTransaction(mapper, s))

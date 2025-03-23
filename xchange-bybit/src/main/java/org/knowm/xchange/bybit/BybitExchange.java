@@ -18,7 +18,7 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.ExchangeException;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class BybitExchange extends BaseExchange implements Exchange{
+public class BybitExchange extends BaseExchange implements Exchange {
 
   public static final String SPECIFIC_PARAM_ACCOUNT_TYPE = "accountType";
   private static final String BASE_URL = "https://api.bybit.com";
@@ -30,19 +30,19 @@ public class BybitExchange extends BaseExchange implements Exchange{
 
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
-  @Getter
-  protected SynchronizedValueFactory<Long> timeStampFactory = new BybitTimeStampFactory();
+  @Getter protected SynchronizedValueFactory<Long> timeStampFactory = new BybitTimeStampFactory();
 
   @Override
   protected void initServices() {
-    marketDataService = new BybitMarketDataService(this,getResilienceRegistries());
-    tradeService = new BybitTradeService(this,getResilienceRegistries());
+    marketDataService = new BybitMarketDataService(this, getResilienceRegistries());
+    tradeService = new BybitTradeService(this, getResilienceRegistries());
     accountService =
         new BybitAccountService(
             this,
             (BybitAccountType)
                 getExchangeSpecification()
-                    .getExchangeSpecificParametersItem(SPECIFIC_PARAM_ACCOUNT_TYPE),getResilienceRegistries());
+                    .getExchangeSpecificParametersItem(SPECIFIC_PARAM_ACCOUNT_TYPE),
+            getResilienceRegistries());
   }
 
   @Override
@@ -143,8 +143,6 @@ public class BybitExchange extends BaseExchange implements Exchange{
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-    throw new UnsupportedOperationException(
-        "Bybit uses timestamp/recv-window rather than a nonce");
+    throw new UnsupportedOperationException("Bybit uses timestamp/recv-window rather than a nonce");
   }
-
 }

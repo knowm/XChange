@@ -52,8 +52,8 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
     BybitCategory category = BybitAdapters.getCategory(marketOrder.getInstrument());
     int positionIdx = getPositionIdx(marketOrder);
     boolean reduceOnly =
-          marketOrder.getType().equals(OrderType.EXIT_ASK)
-              || marketOrder.getType().equals(OrderType.EXIT_BID);
+        marketOrder.getType().equals(OrderType.EXIT_ASK)
+            || marketOrder.getType().equals(OrderType.EXIT_BID);
     BybitResult<BybitOrderResponse> orderResponseBybitResult =
         placeOrder(
             category,
@@ -76,7 +76,8 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     BybitCategory category = BybitAdapters.getCategory(limitOrder.getInstrument());
-    BybitTimeInForce timeInForce = getOrderFlag(limitOrder, BybitTimeInForce.class).orElse(BybitTimeInForce.GTC);
+    BybitTimeInForce timeInForce =
+        getOrderFlag(limitOrder, BybitTimeInForce.class).orElse(BybitTimeInForce.GTC);
     int positionIdx = getPositionIdx(limitOrder);
     boolean reduceOnly =
         limitOrder.getType().equals(OrderType.EXIT_ASK)
@@ -115,12 +116,12 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
       for (BybitCategory category : BybitCategory.values()) {
 
         BybitResult<BybitOrderDetails<BybitOrderDetail>> bybitOrder =
-            getBybitOrder(category, null,orderId);
+            getBybitOrder(category, null, orderId);
 
         if (bybitOrder.getResult().getCategory().equals(category)
             && !bybitOrder.getResult().getList().isEmpty()) {
           BybitOrderDetail bybitOrderDetail = bybitOrder.getResult().getList().get(0);
-          Order order = adaptBybitOrderDetails(bybitOrderDetail,category);
+          Order order = adaptBybitOrderDetails(bybitOrderDetail, category);
           results.add(order);
         }
       }
@@ -136,11 +137,12 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
       if (category == null) {
         throw new UnsupportedOperationException("Category is required");
       }
-      BybitResult<BybitOrderDetails<BybitOrderDetail>> response = getBybitOrder(category, instrument, null);
+      BybitResult<BybitOrderDetails<BybitOrderDetail>> response =
+          getBybitOrder(category, instrument, null);
       List<LimitOrder> limitOrders = new ArrayList<>();
       if (response != null) {
-        for(BybitOrderDetail orderDetail:response.getResult().getList())
-          limitOrders.add((LimitOrder) adaptBybitOrderDetails(orderDetail,category));
+        for (BybitOrderDetail orderDetail : response.getResult().getList())
+          limitOrders.add((LimitOrder) adaptBybitOrderDetails(orderDetail, category));
       } else {
         throw new UnsupportedOperationException(
             "Params must be instance of BybitCancelAllOrdersParams");
@@ -153,22 +155,23 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
   @Override
   public String changeOrder(LimitOrder order) throws IOException {
     BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
-    BybitResult<BybitOrderResponse> response = amendOrder(
-        category,
-        convertToBybitSymbol(order.getInstrument()),
-        order.getId(),
-        order.getUserReference(),
-        null,
-        order.getOriginalAmount().toString(),
-        order.getLimitPrice().toString(),
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null);
+    BybitResult<BybitOrderResponse> response =
+        amendOrder(
+            category,
+            convertToBybitSymbol(order.getInstrument()),
+            order.getId(),
+            order.getUserReference(),
+            null,
+            order.getOriginalAmount().toString(),
+            order.getLimitPrice().toString(),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
     if (response != null) {
       return response.getResult().getOrderId();
     }
@@ -177,8 +180,11 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
 
   @Override
   public Class[] getRequiredCancelOrderParamClasses() {
-    return new Class[]{CancelOrderByIdParams.class, CancelOrderByInstrument.class,
-        CancelOrderByUserReferenceParams.class};
+    return new Class[] {
+      CancelOrderByIdParams.class,
+      CancelOrderByInstrument.class,
+      CancelOrderByUserReferenceParams.class
+    };
   }
 
   @Override
@@ -192,23 +198,18 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
         throw new UnsupportedOperationException(
             "Instrument and (orderId or userReference) required");
       }
-      if ((orderId == null || orderId.isEmpty()) && (userReference == null
-          || userReference.isEmpty())) {
+      if ((orderId == null || orderId.isEmpty())
+          && (userReference == null || userReference.isEmpty())) {
         throw new UnsupportedOperationException("OrderId or userReference is required");
       }
       BybitResult<BybitOrderResponse> response =
-          cancelOrder(
-              category,
-              convertToBybitSymbol(instrument),
-              orderId,
-              userReference);
+          cancelOrder(category, convertToBybitSymbol(instrument), orderId, userReference);
       if (!response.isSuccess()) {
         throw createBybitExceptionFromResult(response);
       }
       return true;
     } else {
       throw new UnsupportedOperationException("Params must be instance of BybitCancelOrderParams");
-
     }
   }
 
@@ -231,22 +232,24 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
         case OPTION:
           break;
         case LINEAR:
-        case INVERSE: {
-          if (instrument != null) {
-            symbol = convertToBybitSymbol(instrument);
-          } else if (baseCoin == null && settleCoin == null) {
-            throw new UnsupportedOperationException(
-                "For Linear or Inverse category, required instrument or baseCoin or settleCoin");
+        case INVERSE:
+          {
+            if (instrument != null) {
+              symbol = convertToBybitSymbol(instrument);
+            } else if (baseCoin == null && settleCoin == null) {
+              throw new UnsupportedOperationException(
+                  "For Linear or Inverse category, required instrument or baseCoin or settleCoin");
+            }
           }
-        }
       }
 
       response =
-          cancelAllOrders(category.getValue(), symbol,
-              baseCoin, settleCoin, orderFilter, stopOrderType);
+          cancelAllOrders(
+              category.getValue(), symbol, baseCoin, settleCoin, orderFilter, stopOrderType);
       if (response != null) {
-        return response.getResult().getList().stream().map(BybitOrderResponse::getOrderId).collect(
-            Collectors.toList());
+        return response.getResult().getList().stream()
+            .map(BybitOrderResponse::getOrderId)
+            .collect(Collectors.toList());
       }
     } else {
       throw new UnsupportedOperationException(
@@ -256,23 +259,25 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
   }
 
   private int getPositionIdx(Order order) {
-    BybitHedgeMode hedgeMode = getOrderFlag(order, BybitHedgeMode.class).orElse(BybitHedgeMode.ONEWAY);
+    BybitHedgeMode hedgeMode =
+        getOrderFlag(order, BybitHedgeMode.class).orElse(BybitHedgeMode.ONEWAY);
     int positionIdx = 0;
     if (hedgeMode.equals(TWOWAY)) {
       positionIdx = 1;
       switch (order.getType()) {
         case ASK:
-        case EXIT_ASK: {
-          positionIdx = 2;
-          break;
-        }
+        case EXIT_ASK:
+          {
+            positionIdx = 2;
+            break;
+          }
         case BID:
-        case EXIT_BID: {
-          break;
-        }
+        case EXIT_BID:
+          {
+            break;
+          }
       }
     }
     return positionIdx;
   }
-
 }

@@ -33,12 +33,14 @@ class BitmexAccountServiceTest extends BitmexExchangeWiremock {
     Balance usdtBalance = accountInfo.getWallet().getBalance(Currency.USDT);
     assertThat(usdtBalance.getTotal()).isEqualTo(new BigDecimal("40.116243"));
     assertThat(usdtBalance.getAvailable()).isEqualTo(new BigDecimal("40.116243"));
-    assertThat(usdtBalance.getTimestamp()).isEqualTo(Date.from(Instant.parse("2024-12-09T11:17:40.965Z")));
+    assertThat(usdtBalance.getTimestamp())
+        .isEqualTo(Date.from(Instant.parse("2024-12-09T11:17:40.965Z")));
 
     Balance ethBalance = accountInfo.getWallet().getBalance(Currency.ETH);
     assertThat(ethBalance.getTotal()).isEqualTo(new BigDecimal("0.001000000"));
     assertThat(ethBalance.getAvailable()).isEqualTo(new BigDecimal("0.001000000"));
-    assertThat(ethBalance.getTimestamp()).isEqualTo(Date.from(Instant.parse("2024-12-09T09:54:20.367Z")));
+    assertThat(ethBalance.getTimestamp())
+        .isEqualTo(Date.from(Instant.parse("2024-12-09T09:54:20.367Z")));
   }
 
   @Test
@@ -67,11 +69,10 @@ class BitmexAccountServiceTest extends BitmexExchangeWiremock {
               assertThat(fundingRecord.getCurrency()).isEqualTo(Currency.USDT);
             });
 
-
-    assertThat(actual).first()
+    assertThat(actual)
+        .first()
         .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
         .usingRecursiveComparison()
         .isEqualTo(expected);
   }
-
 }

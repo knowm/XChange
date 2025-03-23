@@ -13,12 +13,13 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamOrderId;
 @SuperBuilder
 @NoArgsConstructor
 public class BitmexTradeHistoryParams
-    implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamOffset,
-    TradeHistoryParamOrderId {
+    implements TradeHistoryParamCurrencyPair,
+        TradeHistoryParamLimit,
+        TradeHistoryParamOffset,
+        TradeHistoryParamOrderId {
 
   private String orderId;
   private CurrencyPair currencyPair;
   private Integer limit;
   private Long offset;
-
 }

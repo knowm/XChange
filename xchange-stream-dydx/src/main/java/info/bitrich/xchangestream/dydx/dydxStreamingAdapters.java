@@ -57,8 +57,8 @@ public class dydxStreamingAdapters {
                   .movePointRight(
                       amounts.get(currencyPair.getBase()) - amounts.get(currencyPair.getCounter()));
           volume =
-              new BigDecimal(level[level.length - 1]).movePointLeft(amounts.get(
-                  currencyPair.getBase()));
+              new BigDecimal(level[level.length - 1])
+                  .movePointLeft(amounts.get(currencyPair.getBase()));
         } else {
           price = new BigDecimal(level[level.length - 2]);
           volume = new BigDecimal(level[level.length - 1]);

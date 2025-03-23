@@ -84,7 +84,8 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
 
   public Observable<List<PoloniexWebSocketEvent>> subscribeCurrencyPairChannel(
       CurrencyPair currencyPair) {
-    String channelName = currencyPair.getCounter().toString() + "_" + currencyPair.getBase().toString();
+    String channelName =
+        currencyPair.getCounter().toString() + "_" + currencyPair.getBase().toString();
     return subscribeChannel(channelName)
         .map(
             jsonNode ->

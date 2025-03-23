@@ -96,15 +96,17 @@ public class BybitStreamAdapters {
         case LIMIT:
           builder =
               new LimitOrder.Builder(
-                  orderType,
-                  convertBybitSymbolToInstrument(bybitOrderChange.getSymbol(),
-                      bybitOrderChange.getCategory()))
+                      orderType,
+                      convertBybitSymbolToInstrument(
+                          bybitOrderChange.getSymbol(), bybitOrderChange.getCategory()))
                   .limitPrice(new BigDecimal(bybitOrderChange.getPrice()));
           break;
         case MARKET:
-          builder = new MarketOrder.Builder(orderType,
-              convertBybitSymbolToInstrument(bybitOrderChange.getSymbol(),
-                  bybitOrderChange.getCategory()));
+          builder =
+              new MarketOrder.Builder(
+                  orderType,
+                  convertBybitSymbolToInstrument(
+                      bybitOrderChange.getSymbol(), bybitOrderChange.getCategory()));
           break;
       }
       if (!bybitOrderChange.getAvgPrice().isEmpty()) {
@@ -152,6 +154,7 @@ public class BybitStreamAdapters {
     }
     return null;
   }
+
   private static BigDecimal getLiqPrice(BybitPositionChanges position) {
     if (!position.getLiqPrice().isEmpty()) {
       return new BigDecimal(position.getLiqPrice());

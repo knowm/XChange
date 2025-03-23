@@ -20,8 +20,13 @@ public class BybitCancelAllOrdersParams implements CancelAllOrders {
     this.symbol = symbol;
   }
 
-  public BybitCancelAllOrdersParams(BybitCategory category, Instrument symbol, String baseCoin,
-      String settleCoin, String orderFilter, String stopOrderType) {
+  public BybitCancelAllOrdersParams(
+      BybitCategory category,
+      Instrument symbol,
+      String baseCoin,
+      String settleCoin,
+      String orderFilter,
+      String stopOrderType) {
     this.category = category;
     this.symbol = symbol;
     this.baseCoin = baseCoin;
@@ -32,14 +37,23 @@ public class BybitCancelAllOrdersParams implements CancelAllOrders {
 
   @Override
   public String toString() {
-    return "BybitCancelAllOrdersParams{" +
-        "category=" + category +
-        ", symbol=" + symbol +
-        ", baseCoin='" + baseCoin + '\'' +
-        ", settleCoin='" + settleCoin + '\'' +
-        ", orderFilter='" + orderFilter + '\'' +
-        ", stopOrderType='" + stopOrderType + '\'' +
-        '}';
+    return "BybitCancelAllOrdersParams{"
+        + "category="
+        + category
+        + ", symbol="
+        + symbol
+        + ", baseCoin='"
+        + baseCoin
+        + '\''
+        + ", settleCoin='"
+        + settleCoin
+        + '\''
+        + ", orderFilter='"
+        + orderFilter
+        + '\''
+        + ", stopOrderType='"
+        + stopOrderType
+        + '\''
+        + '}';
   }
 }
-

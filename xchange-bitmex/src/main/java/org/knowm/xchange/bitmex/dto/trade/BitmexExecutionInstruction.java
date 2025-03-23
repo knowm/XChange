@@ -21,5 +21,4 @@ public enum BitmexExecutionInstruction {
   FIXED,
   @JsonProperty("LastWithinMark")
   LAST_WITHIN_MARK;
-
 }

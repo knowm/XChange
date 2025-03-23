@@ -16,24 +16,14 @@ import dto.marketdata.BybitOrderbook;
 import dto.trade.BybitComplexOrderChanges;
 import dto.trade.BybitComplexPositionChanges;
 import dto.trade.BybitOrderChangesResponse;
-import dto.trade.BybitOrderChangesResponse.BybitOrderChanges;
 import dto.trade.BybitPositionChangesResponse;
-import dto.trade.BybitPositionChangesResponse.BybitPositionChanges;
 import dto.trade.BybitTrade;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.rxjava3.observers.TestObserver;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Locale;
-import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.derivative.OptionsContract;
@@ -56,8 +46,8 @@ public class BybitStreamAdaptersTest {
                 .getResourceAsStream("orderBookSnapshotResponse.json5"));
     BybitOrderbook bybitOrderbookSnapshot = mapper.treeToValue(jsonNode, BybitOrderbook.class);
 
-    OrderBook orderBook = adaptOrderBook(bybitOrderbookSnapshot,
-        new FuturesContract("BTC/USDT/PERP"));
+    OrderBook orderBook =
+        adaptOrderBook(bybitOrderbookSnapshot, new FuturesContract("BTC/USDT/PERP"));
     assertThat(orderBook.getTimeStamp().getTime()).isEqualTo(1672304484978L);
 
     assertThat(orderBook.getBids().get(0).getLimitPrice()).isEqualTo(new BigDecimal("16493.50"));
@@ -72,14 +62,15 @@ public class BybitStreamAdaptersTest {
     JsonNode jsonNode =
         mapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("tradeResponse.json5"));
-    List<BybitTrade> bybitTradeList = mapper.treeToValue(jsonNode.get("data"),
-        mapper.getTypeFactory()
-            .constructCollectionType(List.class, BybitTrade.class));
+    List<BybitTrade> bybitTradeList =
+        mapper.treeToValue(
+            jsonNode.get("data"),
+            mapper.getTypeFactory().constructCollectionType(List.class, BybitTrade.class));
     Trades trades = adaptTrades(bybitTradeList, new FuturesContract("BTC/USDT/PERP"));
     assertThat(trades.getTrades().get(0).getId()).isEqualTo("20f43950-d8dd-5b31-9112-a178eb6023af");
     assertThat(trades.getTrades().get(0).getTimestamp().getTime()).isEqualTo(1672304486865L);
-    assertThat(trades.getTrades().get(0).getInstrument()).isEqualTo(
-        new FuturesContract("BTC/USDT/PERP"));
+    assertThat(trades.getTrades().get(0).getInstrument())
+        .isEqualTo(new FuturesContract("BTC/USDT/PERP"));
     assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.BID);
     assertThat(trades.getTrades().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("0.001"));
     assertThat(trades.getTrades().get(0).getPrice()).isEqualTo(new BigDecimal("16578.50"));
@@ -90,12 +81,13 @@ public class BybitStreamAdaptersTest {
     JsonNode jsonNode =
         mapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("orderChangeResponse.json5"));
-    BybitOrderChangesResponse bybitOrderChangesResponse = mapper.treeToValue(jsonNode,
-        BybitOrderChangesResponse.class);
-    DateTimeFormatter dateParser = new DateTimeFormatterBuilder()
-        .parseCaseInsensitive()
-        .appendPattern("ddLLLyy")
-        .toFormatter(Locale.US);
+    BybitOrderChangesResponse bybitOrderChangesResponse =
+        mapper.treeToValue(jsonNode, BybitOrderChangesResponse.class);
+    DateTimeFormatter dateParser =
+        new DateTimeFormatterBuilder()
+            .parseCaseInsensitive()
+            .appendPattern("ddLLLyy")
+            .toFormatter(Locale.US);
     Order order = adaptOrdersChanges(bybitOrderChangesResponse.getData()).get(0);
     assertThat(order.getInstrument()).isEqualTo(new OptionsContract("ETH/USDC/221230/1400/C"));
     assertThat(order.getId()).isEqualTo("5cf98598-39a7-459e-97bf-76ca765ee020");
@@ -104,7 +96,7 @@ public class BybitStreamAdaptersTest {
     assert order instanceof MarketOrder;
     assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("75"));
     assertThat(order.getOriginalAmount()).isEqualTo(new BigDecimal("1"));
-    //here it's updated time, because Order don't have other field
+    // here it's updated time, because Order don't have other field
     assertThat(order.getTimestamp().getTime()).isEqualTo(1672364262457L);
     assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("1"));
     assertThat(order.getFee()).isEqualTo(new BigDecimal("0.358635"));
@@ -119,11 +111,12 @@ public class BybitStreamAdaptersTest {
             ClassLoader.getSystemClassLoader().getResourceAsStream("positionChangeResponse.json5"));
     BybitPositionChangesResponse bybitPositionChangesResponse =
         mapper.treeToValue(jsonNode, BybitPositionChangesResponse.class);
-    List<OpenPosition> openPositions = BybitStreamAdapters.adaptPositionChanges(
-        bybitPositionChangesResponse.getData()).getOpenPositions();
+    List<OpenPosition> openPositions =
+        BybitStreamAdapters.adaptPositionChanges(bybitPositionChangesResponse.getData())
+            .getOpenPositions();
     assertThat(openPositions.size()).isEqualTo(1);
-    assertThat(openPositions.get(0).getInstrument()).isEqualTo(
-        new FuturesContract("BTC/USDT/PERP"));
+    assertThat(openPositions.get(0).getInstrument())
+        .isEqualTo(new FuturesContract("BTC/USDT/PERP"));
     assertThat(openPositions.get(0).getLiquidationPrice()).isEqualTo(BigDecimal.ZERO);
     assertThat(openPositions.get(0).getPrice()).isEqualTo(BigDecimal.ZERO);
     assertThat(openPositions.get(0).getSize()).isEqualTo(BigDecimal.ZERO);
@@ -138,11 +131,11 @@ public class BybitStreamAdaptersTest {
             ClassLoader.getSystemClassLoader().getResourceAsStream("positionChangeResponse.json5"));
     BybitPositionChangesResponse bybitPositionChangesResponse =
         mapper.treeToValue(jsonNode, BybitPositionChangesResponse.class);
-    List<BybitComplexPositionChanges> bybitPositionChanges = BybitStreamAdapters.adaptComplexPositionChanges(
-        bybitPositionChangesResponse.getData());
+    List<BybitComplexPositionChanges> bybitPositionChanges =
+        BybitStreamAdapters.adaptComplexPositionChanges(bybitPositionChangesResponse.getData());
     assertThat(bybitPositionChanges.size()).isEqualTo(1);
-    assertThat(bybitPositionChanges.get(0).getInstrument()).isEqualTo(
-        new FuturesContract("BTC/USDT/PERP"));
+    assertThat(bybitPositionChanges.get(0).getInstrument())
+        .isEqualTo(new FuturesContract("BTC/USDT/PERP"));
     assertThat(bybitPositionChanges.get(0).getLiquidationPrice()).isEqualTo(BigDecimal.ZERO);
     assertThat(bybitPositionChanges.get(0).getPrice()).isEqualTo(BigDecimal.ZERO);
     assertThat(bybitPositionChanges.get(0).getSize()).isEqualTo(BigDecimal.ZERO);
@@ -162,13 +155,14 @@ public class BybitStreamAdaptersTest {
     assertThat(bybitPositionChanges.get(0).getStopLoss()).isEqualTo(BigDecimal.ZERO);
     assertThat(bybitPositionChanges.get(0).getTrailingStop()).isEqualTo(BigDecimal.ZERO);
     assertThat(bybitPositionChanges.get(0).getCurRealisedPnl()).isEqualTo(new BigDecimal("1.26"));
-    assertThat(bybitPositionChanges.get(0).getCumRealisedPnl()).isEqualTo(new BigDecimal("-25.06579337"));
+    assertThat(bybitPositionChanges.get(0).getCumRealisedPnl())
+        .isEqualTo(new BigDecimal("-25.06579337"));
     assertThat(bybitPositionChanges.get(0).getSessionAvgPrice()).isEqualTo(BigDecimal.ZERO);
     assertThat(bybitPositionChanges.get(0).getCreatedTime().getTime()).isEqualTo(1694402496913L);
     assertThat(bybitPositionChanges.get(0).getUpdatedTime().getTime()).isEqualTo(1697682317038L);
     assertThat(bybitPositionChanges.get(0).getLiquidationPrice()).isEqualTo(BigDecimal.ZERO);
-    assertThat(bybitPositionChanges.get(0).getBustPrice()==null).isTrue();
-  assertThat(bybitPositionChanges.get(0).getPositionStatus()).isEqualTo("Normal");
+    assertThat(bybitPositionChanges.get(0).getBustPrice() == null).isTrue();
+    assertThat(bybitPositionChanges.get(0).getPositionStatus()).isEqualTo("Normal");
     assertThat(bybitPositionChanges.get(0).getAdlRankIndicator()).isEqualTo(0);
     assertThat(bybitPositionChanges.get(0).getAutoAddMargin()).isEqualTo(0);
     assertThat(bybitPositionChanges.get(0).getLeverageSysUpdatedTime()).isEmpty();
@@ -182,14 +176,15 @@ public class BybitStreamAdaptersTest {
     JsonNode jsonNode =
         mapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("orderChangeResponse.json5"));
-    BybitOrderChangesResponse bybitOrderChangesResponse = mapper.treeToValue(jsonNode,
-        BybitOrderChangesResponse.class);
-    DateTimeFormatter dateParser = new DateTimeFormatterBuilder()
-        .parseCaseInsensitive()
-        .appendPattern("ddLLLyy")
-        .toFormatter(Locale.US);
-    BybitComplexOrderChanges order = adaptComplexOrdersChanges(
-        bybitOrderChangesResponse.getData()).get(0);
+    BybitOrderChangesResponse bybitOrderChangesResponse =
+        mapper.treeToValue(jsonNode, BybitOrderChangesResponse.class);
+    DateTimeFormatter dateParser =
+        new DateTimeFormatterBuilder()
+            .parseCaseInsensitive()
+            .appendPattern("ddLLLyy")
+            .toFormatter(Locale.US);
+    BybitComplexOrderChanges order =
+        adaptComplexOrdersChanges(bybitOrderChangesResponse.getData()).get(0);
     assertThat(order.getInstrument()).isEqualTo(new OptionsContract("ETH/USDC/221230/1400/C"));
     assertThat(order.getId()).isEqualTo("5cf98598-39a7-459e-97bf-76ca765ee020");
     assertThat(order.getType()).isEqualTo(OrderType.ASK);

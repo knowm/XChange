@@ -11,7 +11,6 @@ import lombok.Data;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
 
-
 @Data
 @Builder
 @AllArgsConstructor
@@ -22,7 +21,7 @@ public class BitmexTicker {
 
   private CurrencyPair currencyPair;
 
-  private  BigDecimal bidSize;
+  private BigDecimal bidSize;
 
   @JsonProperty("bidPrice")
   private BigDecimal bidPrice;
@@ -43,6 +42,4 @@ public class BitmexTicker {
     this.bidSize = BitmexAdapters.scaleToLocalAmount(bidSize, currencyPair.getBase());
     this.askSize = BitmexAdapters.scaleToLocalAmount(askSize, currencyPair.getBase());
   }
-
-
 }

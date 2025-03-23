@@ -16,7 +16,6 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 
-
 @Data
 @Builder
 @Jacksonized
@@ -320,7 +319,6 @@ public class BitmexTicker {
 
   public Instrument getInstrument() {
     return new CurrencyPair(underlying, quoteCurrency);
-
   }
 
   public static enum SymbolType {
@@ -335,7 +333,6 @@ public class BitmexTicker {
 
     @JsonEnumDefaultValue
     UNKNOWN,
-
   }
 
   public static enum State {
@@ -356,7 +353,6 @@ public class BitmexTicker {
 
     @JsonProperty("Cleared")
     CLEARED,
-
   }
 
   @Data
@@ -371,7 +367,5 @@ public class BitmexTicker {
       expirationDate = expiry;
       futuresCode = BitmexAdapters.toFuturesCode(expiry);
     }
-
   }
-
 }

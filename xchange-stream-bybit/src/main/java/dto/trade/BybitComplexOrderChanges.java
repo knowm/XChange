@@ -153,5 +153,4 @@ public class BybitComplexOrderChanges extends Order {
     this.smpOrderId = smpOrderId;
     this.updatedTime = updatedTime;
   }
-
 }

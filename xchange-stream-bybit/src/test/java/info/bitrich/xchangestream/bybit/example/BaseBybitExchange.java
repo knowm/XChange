@@ -14,7 +14,7 @@ public class BaseBybitExchange {
   public static StreamingExchange connect(BybitCategory category, boolean withAuth) {
     ExchangeSpecification exchangeSpecification =
         new BybitStreamingExchange().getDefaultExchangeSpecification();
-    if(withAuth) {
+    if (withAuth) {
       exchangeSpecification.setApiKey(System.getProperty("test_api_key"));
       exchangeSpecification.setSecretKey(System.getProperty("test_secret_key"));
     }

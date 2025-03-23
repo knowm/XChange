@@ -46,7 +46,7 @@ public class BybitStreamingTradeService implements StreamingTradeService {
 
   @Override
   public Observable<Order> getOrderChanges(CurrencyPair pair, Object... args) {
-      return getOrderChanges((Instrument) pair, args);
+    return getOrderChanges((Instrument) pair, args);
   }
 
   public Observable<BybitComplexOrderChanges> getComplexOrderChanges(BybitCategory category) {

@@ -11,6 +11,5 @@ public enum BitmexSide {
 
   SELL("Sell");
 
-  @JsonValue
-  private final String value;
+  @JsonValue private final String value;
 }

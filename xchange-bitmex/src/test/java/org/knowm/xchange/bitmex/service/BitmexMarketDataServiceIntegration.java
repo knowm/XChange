@@ -87,7 +87,6 @@ class BitmexMarketDataServiceIntegration extends BitmexIntegrationTestParent {
             });
   }
 
-
   @Test
   void valid_orderbook_depth() throws IOException {
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(CurrencyPair.BTC_USDT, 2);
@@ -95,6 +94,4 @@ class BitmexMarketDataServiceIntegration extends BitmexIntegrationTestParent {
     assertThat(orderBook.getBids()).hasSize(2);
     assertThat(orderBook.getAsks()).hasSize(2);
   }
-
-
 }

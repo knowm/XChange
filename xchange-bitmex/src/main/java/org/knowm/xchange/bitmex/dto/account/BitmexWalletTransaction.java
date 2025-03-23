@@ -53,15 +53,13 @@ public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
   @JsonProperty("timestamp")
   private ZonedDateTime updatedAt;
 
-
   @JsonCreator
   public BitmexWalletTransaction(
       @JsonProperty("currency") String currency,
       @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("fee") BigDecimal feeAmount,
       @JsonProperty("marginBalance") BigDecimal marginBalance,
-      @JsonProperty("walletBalance") BigDecimal walletBalance
-  ) {
+      @JsonProperty("walletBalance") BigDecimal walletBalance) {
     // scale values
     this.currency = BitmexAdapters.bitmexCodeToCurrency(currency);
     this.amount = BitmexAdapters.scaleToLocalAmount(amount, this.currency);
@@ -69,6 +67,4 @@ public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
     this.walletBalance = BitmexAdapters.scaleToLocalAmount(walletBalance, this.currency);
     this.feeAmount = BitmexAdapters.scaleToLocalAmount(feeAmount, this.currency);
   }
-
-
 }

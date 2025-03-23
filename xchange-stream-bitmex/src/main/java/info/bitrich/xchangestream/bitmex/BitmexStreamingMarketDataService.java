@@ -129,7 +129,8 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
   public Observable<RawOrderBook> getRawOrderBook(CurrencyPair currencyPair) {
     String symbol = BitmexStreamingAdapters.toString(currencyPair);
     String channelName = String.format("orderBook10:%s", symbol);
-    return streamingService.subscribeBitmexChannel(channelName)
+    return streamingService
+        .subscribeBitmexChannel(channelName)
         .map(BitmexWebSocketTransaction::toRawOrderBook);
   }
 
@@ -137,7 +138,8 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
     String symbol = BitmexStreamingAdapters.toString(currencyPair);
     String channelName = String.format("quote:%s", symbol);
 
-    return streamingService.subscribeBitmexChannel(channelName)
+    return streamingService
+        .subscribeBitmexChannel(channelName)
         .map(BitmexWebSocketTransaction::toBitmexTicker);
   }
 

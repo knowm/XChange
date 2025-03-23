@@ -218,7 +218,8 @@ public class KrakenAdaptersTest {
     assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("0.00001000");
     assertThat(orders.getOpenOrders().get(0).getOriginalAmount()).isEqualTo("1000.00000000");
     assertThat(orders.getOpenOrders().get(0).getCurrencyPair().getBase()).isEqualTo(Currency.XRP);
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().getCounter()).isEqualTo(Currency.BTC);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().getCounter())
+        .isEqualTo(Currency.BTC);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
   }
 
@@ -242,7 +243,8 @@ public class KrakenAdaptersTest {
     assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("500.00000");
     assertThat(orders.getOpenOrders().get(0).getOriginalAmount()).isEqualTo("1.00000000");
     assertThat(orders.getOpenOrders().get(0).getCurrencyPair().getBase()).isEqualTo(Currency.BTC);
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().getCounter()).isEqualTo(Currency.EUR);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().getCounter())
+        .isEqualTo(Currency.EUR);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
   }
 

@@ -75,8 +75,9 @@ public class BybitStreamTestNetExample {
     Thread.sleep(2000L);
     AtomicReference<Order> order = new AtomicReference<>();
     Disposable disposableOrderChanges =
-        exchange.getStreamingTradeService()
-            .getOrderChanges(null,BybitCategory.LINEAR)
+        exchange
+            .getStreamingTradeService()
+            .getOrderChanges(null, BybitCategory.LINEAR)
             .doOnError(error -> log.error("OrderChanges error", error))
             .subscribe(
                 c -> {
@@ -99,6 +100,4 @@ public class BybitStreamTestNetExample {
     disposableComplexPositionChanges.dispose();
     exchange.disconnect().blockingAwait();
   }
-
-
 }

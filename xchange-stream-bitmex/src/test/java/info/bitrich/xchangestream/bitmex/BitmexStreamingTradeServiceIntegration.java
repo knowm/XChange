@@ -24,10 +24,10 @@ class BitmexStreamingTradeServiceIntegration extends BitmexStreamingExchangeIT {
     assumeThat(exchange.getExchangeSpecification().getSecretKey()).isNotEmpty();
   }
 
-
   @Test
   void order_changes() {
-    Observable<Order> observable = exchange.getStreamingTradeService().getOrderChanges(new CurrencyPair("SOL/USDT"));
+    Observable<Order> observable =
+        exchange.getStreamingTradeService().getOrderChanges(new CurrencyPair("SOL/USDT"));
 
     TestObserver<Order> testObserver = observable.test();
 
@@ -40,20 +40,21 @@ class BitmexStreamingTradeServiceIntegration extends BitmexStreamingExchangeIT {
     assertThat(order.getId()).isNotNull();
     assertThat(order.getTimestamp()).isNotNull();
     assertThat(order.getStatus()).isNotNull();
-
   }
-
 
   @Test
   void user_trades() {
-    Observable<UserTrade> observable = exchange.getStreamingTradeService().getUserTrades(new CurrencyPair("SOL/USDT"));
+    Observable<UserTrade> observable =
+        exchange.getStreamingTradeService().getUserTrades(new CurrencyPair("SOL/USDT"));
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    UserTrade userTrade = testObserver
-//        .awaitDone(10, TimeUnit.MINUTES)
-        .awaitCount(1)
-        .values().get(0);
+    UserTrade userTrade =
+        testObserver
+            //        .awaitDone(10, TimeUnit.MINUTES)
+            .awaitCount(1)
+            .values()
+            .get(0);
 
     testObserver.dispose();
 
@@ -61,25 +62,21 @@ class BitmexStreamingTradeServiceIntegration extends BitmexStreamingExchangeIT {
     assertThat(userTrade.getType()).isNotNull();
     assertThat(userTrade.getId()).isNotNull();
     assertThat(userTrade.getTimestamp()).isNotNull();
-
   }
-
 
   @Test
   void positions() {
-    Observable<BitmexPosition> observable = ((BitmexStreamingTradeService)(exchange.getStreamingTradeService())).getPositions();
+    Observable<BitmexPosition> observable =
+        ((BitmexStreamingTradeService) (exchange.getStreamingTradeService())).getPositions();
 
     TestObserver<BitmexPosition> testObserver = observable.test();
 
-    BitmexPosition actual = testObserver
-        .awaitDone(10, TimeUnit.MINUTES)
-        .awaitCount(1)
-        .values().get(0);
+    BitmexPosition actual =
+        testObserver.awaitDone(10, TimeUnit.MINUTES).awaitCount(1).values().get(0);
 
     testObserver.dispose();
 
     assertThat(actual.getInstrument()).isNotNull();
     assertThat(actual.getTimestamp()).isNotNull();
-
   }
 }

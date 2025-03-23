@@ -74,7 +74,10 @@ public class BTCMarketsTradeServiceRaw extends BTCMarketsBaseService {
       CurrencyPair currencyPair, String before, String after, Integer limit) throws IOException {
     String marketId = null;
     if (currencyPair != null) {
-      marketId = currencyPair.getBase().getCurrencyCode() + "-" + currencyPair.getCounter().getCurrencyCode();
+      marketId =
+          currencyPair.getBase().getCurrencyCode()
+              + "-"
+              + currencyPair.getCounter().getCurrencyCode();
     }
     return btcmv3.trades(
         exchange.getExchangeSpecification().getApiKey(),

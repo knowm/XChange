@@ -204,8 +204,7 @@ public class CoinexAdapters {
     List<Balance> balances =
         coinexBalanceInfos.stream().map(CoinexAdapters::toBalance).collect(Collectors.toList());
 
-    return Wallet.Builder
-        .from(balances)
+    return Wallet.Builder.from(balances)
         .id("spot")
         .features(EnumSet.of(Wallet.WalletFeature.TRADING))
         .build();
@@ -231,5 +230,4 @@ public class CoinexAdapters {
     }
     return coinexMarketType.toString();
   }
-
 }

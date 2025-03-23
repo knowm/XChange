@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BybitTimeStampFactory implements SynchronizedValueFactory<Long> {
-    private static final Logger LOG = LoggerFactory.getLogger(BybitTimeStampFactory.class);
+  private static final Logger LOG = LoggerFactory.getLogger(BybitTimeStampFactory.class);
 
-    @Override
-    public Long createValue() {
-      return System.currentTimeMillis();
-    }
+  @Override
+  public Long createValue() {
+    return System.currentTimeMillis();
+  }
 }

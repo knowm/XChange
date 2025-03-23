@@ -56,49 +56,73 @@ public class BybitRateLimiterTestExample {
     bybitAccountService.switchPositionMode(BybitCategory.LINEAR, ETH_USDT_PERP, "USDT", 0);
     String limitFutureOrderId = exchange.getTradeService().placeLimitOrder(limitOrderFuture);
     BybitTradeService bybitTradeService = (BybitTradeService) exchange.getTradeService();
-    exchange.getResilienceRegistries().rateLimiters().rateLimiter(GLOBAL_RATE_LIMITER)
+    exchange
+        .getResilienceRegistries()
+        .rateLimiters()
+        .rateLimiter(GLOBAL_RATE_LIMITER)
         .getEventPublisher()
-        .onSuccess(event -> System.out.println(sdf.format(new Date()) +" event type " + event.getEventType() +
-            " availablePermissions: " + exchange.getResilienceRegistries()
-        .rateLimiters()
-        .rateLimiter(ORDER_AMEND_LINEAR_AND_INVERSE_RATE_LIMITER).getMetrics()
-        .getAvailablePermissions()))
-        .onFailure(event -> System.out.println(sdf.format(new Date())  +" event type " + event.getEventType()+
-            " availablePermissions: " + exchange.getResilienceRegistries()
-        .rateLimiters()
-        .rateLimiter(ORDER_AMEND_LINEAR_AND_INVERSE_RATE_LIMITER).getMetrics()
-        .getAvailablePermissions()));
-    System.out.println(sdf.format(new Date())  +" RateLimiterEnabled: "+exchange.getExchangeSpecification().getResilience().isRateLimiterEnabled());
+        .onSuccess(
+            event ->
+                System.out.println(
+                    sdf.format(new Date())
+                        + " event type "
+                        + event.getEventType()
+                        + " availablePermissions: "
+                        + exchange
+                            .getResilienceRegistries()
+                            .rateLimiters()
+                            .rateLimiter(ORDER_AMEND_LINEAR_AND_INVERSE_RATE_LIMITER)
+                            .getMetrics()
+                            .getAvailablePermissions()))
+        .onFailure(
+            event ->
+                System.out.println(
+                    sdf.format(new Date())
+                        + " event type "
+                        + event.getEventType()
+                        + " availablePermissions: "
+                        + exchange
+                            .getResilienceRegistries()
+                            .rateLimiters()
+                            .rateLimiter(ORDER_AMEND_LINEAR_AND_INVERSE_RATE_LIMITER)
+                            .getMetrics()
+                            .getAvailablePermissions()));
+    System.out.println(
+        sdf.format(new Date())
+            + " RateLimiterEnabled: "
+            + exchange.getExchangeSpecification().getResilience().isRateLimiterEnabled());
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
     for (int i = 0; i < 8; i++) {
       int finalI = i;
-      System.out.println(sdf.format(new Date())  +
-          " Amend order, availablePermissions: " + exchange.getResilienceRegistries()
-              .rateLimiters()
-              .rateLimiter(ORDER_AMEND_LINEAR_AND_INVERSE_RATE_LIMITER).getMetrics()
-              .getAvailablePermissions());
+      System.out.println(
+          sdf.format(new Date())
+              + " Amend order, availablePermissions: "
+              + exchange
+                  .getResilienceRegistries()
+                  .rateLimiters()
+                  .rateLimiter(ORDER_AMEND_LINEAR_AND_INVERSE_RATE_LIMITER)
+                  .getMetrics()
+                  .getAvailablePermissions());
       Thread.sleep(1);
-      executor.execute(() -> {
-        try {
-          String result = bybitTradeService.changeOrder(createOrder(limitFutureOrderId,
-              tickerETH_USDT_PERP.getHigh().add(new BigDecimal("0.1" + finalI))));
-          System.out.println(sdf.format(new Date())  +" amend order # "+result);
-        } catch (IOException e) {
-          System.out.println(sdf.format(new Date())  +" IOException "+e.getMessage());
-        }
-      });
+      executor.execute(
+          () -> {
+            try {
+              String result =
+                  bybitTradeService.changeOrder(
+                      createOrder(
+                          limitFutureOrderId,
+                          tickerETH_USDT_PERP.getHigh().add(new BigDecimal("0.1" + finalI))));
+              System.out.println(sdf.format(new Date()) + " amend order # " + result);
+            } catch (IOException e) {
+              System.out.println(sdf.format(new Date()) + " IOException " + e.getMessage());
+            }
+          });
     }
-    System.out.println(sdf.format(new Date())  +" end");
+    System.out.println(sdf.format(new Date()) + " end");
   }
 
   private static LimitOrder createOrder(String orderId, BigDecimal price) throws IOException {
     return new LimitOrder(
-        OrderType.ASK,
-        new BigDecimal("0.05"),
-        ETH_USDT_PERP,
-        orderId,
-        null,
-        price);
+        OrderType.ASK, new BigDecimal("0.05"), ETH_USDT_PERP, orderId, null, price);
   }
-
 }

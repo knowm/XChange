@@ -89,14 +89,14 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
     // adapt spot mappings by removing '_' symbol
     BitmexAdapters.SYMBOL_TO_INSTRUMENT.entrySet().stream()
         .filter(entry -> entry.getValue() instanceof CurrencyPair)
-        .forEach(entry -> BitmexStreamingAdapters.putSymbolMapping(
-            StringUtils.remove(entry.getKey(), "_"),
-            (CurrencyPair) entry.getValue()));
+        .forEach(
+            entry ->
+                BitmexStreamingAdapters.putSymbolMapping(
+                    StringUtils.remove(entry.getKey(), "_"), (CurrencyPair) entry.getValue()));
   }
 
   @Override
   public void resubscribeChannels() {
     streamingService.resubscribeChannels();
   }
-
 }

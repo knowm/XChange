@@ -17,14 +17,17 @@ import org.knowm.xchange.bybit.dto.trade.details.linear.BybitLinearOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.spot.BybitSpotOrderDetail;
 
 @Data
-@JsonTypeInfo(use = Id.NAME, property = "category", visible = true,defaultImpl = BybitOrderDetails.class)
+@JsonTypeInfo(
+    use = Id.NAME,
+    property = "category",
+    visible = true,
+    defaultImpl = BybitOrderDetails.class)
 @JsonSubTypes({
   @Type(value = BybitLinearOrderDetails.class, name = "linear"),
   @Type(value = BybitInverseOrderDetails.class, name = "inverse"),
   @Type(value = BybitOrderDetails.class, name = "option"),
   @Type(value = BybitSpotOrderDetails.class, name = "spot"),
 })
-
 public class BybitOrderDetails<T extends BybitOrderDetail> extends BybitCategorizedPayload<T> {
 
   @JsonProperty("nextPageCursor")

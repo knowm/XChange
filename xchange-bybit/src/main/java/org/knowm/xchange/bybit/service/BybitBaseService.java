@@ -37,5 +37,4 @@ public class BybitBaseService extends BaseResilientExchangeService<BybitExchange
         BybitDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     apiKey = exchange.getExchangeSpecification().getApiKey();
   }
-
 }

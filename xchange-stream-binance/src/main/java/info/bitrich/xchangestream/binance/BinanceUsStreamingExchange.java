@@ -1,5 +1,19 @@
 package info.bitrich.xchangestream.binance;
 
+import static java.util.Collections.emptyMap;
+
+import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannelException;
+import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
+import info.bitrich.xchangestream.util.Events;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceAuthenticated;
@@ -11,22 +25,6 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.AuthUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannelException;
-import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
-import info.bitrich.xchangestream.util.Events;
-import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.Observable;
-
-import static java.util.Collections.emptyMap;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BinanceUsStreamingExchange extends BinanceUsExchange implements StreamingExchange {
   private static final Logger LOG = LoggerFactory.getLogger(BinanceUsStreamingExchange.class);

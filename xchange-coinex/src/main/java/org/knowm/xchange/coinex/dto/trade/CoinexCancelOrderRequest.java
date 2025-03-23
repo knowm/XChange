@@ -23,5 +23,4 @@ public class CoinexCancelOrderRequest {
 
   @JsonProperty("order_id")
   private Long orderId;
-
 }

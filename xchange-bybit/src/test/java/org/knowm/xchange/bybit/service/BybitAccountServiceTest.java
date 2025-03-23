@@ -26,9 +26,10 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
   static BybitAccountService bybitAccountService;
 
   public void setUp() throws IOException {
-   bybitExchange = createExchange();
+    bybitExchange = createExchange();
     bybitAccountService =
-        new BybitAccountService(bybitExchange, BybitAccountType.UNIFIED,bybitExchange.getResilienceRegistries());
+        new BybitAccountService(
+            bybitExchange, BybitAccountType.UNIFIED, bybitExchange.getResilienceRegistries());
   }
 
   @Test
@@ -46,7 +47,8 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
   public void testGetAllCoinsBalanceWithFund() throws IOException {
     BybitExchange bybitExchange = createExchange();
     BybitAccountService bybitAccountService =
-        new BybitAccountService(bybitExchange, BybitAccountType.FUND,bybitExchange.getResilienceRegistries());
+        new BybitAccountService(
+            bybitExchange, BybitAccountType.FUND, bybitExchange.getResilienceRegistries());
 
     initGetStub("/v5/asset/transfer/query-account-coins-balance", "/getAllCoinsBalance.json5");
     AccountInfo accountInfo = bybitAccountService.getAccountInfo();
@@ -77,13 +79,13 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
     setUp();
     initPostStub("/v5/position/set-leverage", "/setLeverage.json5");
     try {
-      bybitAccountService.setLeverage( new CurrencyPair("ETH/USDT"),1d);
+      bybitAccountService.setLeverage(new CurrencyPair("ETH/USDT"), 1d);
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException ignored) {
 
     }
-    boolean  bybitSetLeverageBybitResult =
-        bybitAccountService.setLeverage( new FuturesContract("ETH/USDT/PERP"),1d);
+    boolean bybitSetLeverageBybitResult =
+        bybitAccountService.setLeverage(new FuturesContract("ETH/USDT/PERP"), 1d);
     assertThat(bybitSetLeverageBybitResult).isTrue();
   }
 
@@ -92,11 +94,12 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
     setUp();
     initPostStub("/v5/position/switch-mode", "/switchPositionMode.json5");
 
-    BybitAccountService bybitAccountService = (BybitAccountService) bybitExchange.getAccountService();
-      boolean bybitSwitchPositionModeResult = bybitAccountService.switchPositionMode( BybitCategory.LINEAR,new FuturesContract("BTC/USDT/PERP"),null,0);
+    BybitAccountService bybitAccountService =
+        (BybitAccountService) bybitExchange.getAccountService();
+    boolean bybitSwitchPositionModeResult =
+        bybitAccountService.switchPositionMode(
+            BybitCategory.LINEAR, new FuturesContract("BTC/USDT/PERP"), null, 0);
 
     assertThat(bybitSwitchPositionModeResult).isTrue();
   }
-
-
 }

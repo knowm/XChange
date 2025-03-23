@@ -19,7 +19,8 @@ import org.knowm.xchange.dto.account.Wallet.WalletFeature;
 public class CoinmateStreamingAccountService implements StreamingAccountService {
 
   private final CoinmateStreamingService coinmateStreamingService;
-  private final Set<Wallet.WalletFeature> walletFeatures = EnumSet.of(WalletFeature.TRADING, WalletFeature.FUNDING);
+  private final Set<Wallet.WalletFeature> walletFeatures =
+      EnumSet.of(WalletFeature.TRADING, WalletFeature.FUNDING);
 
   public CoinmateStreamingAccountService(CoinmateStreamingService coinmateStreamingService) {
     this.coinmateStreamingService = coinmateStreamingService;

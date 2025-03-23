@@ -35,10 +35,12 @@ public class RippleMarketDataServiceRaw extends RippleBaseService {
       counter = pair.getCounter().getCurrencyCode(); // XRP is the native currency - no counterparty
     } else if (params.getCounterCounterparty().isEmpty()) {
       throw new ExchangeException(
-          "counter counterparty must be populated for currency: " + pair.getCounter().getCurrencyCode());
+          "counter counterparty must be populated for currency: "
+              + pair.getCounter().getCurrencyCode());
     } else {
       counter =
-          String.format("%s+%s", pair.getCounter().getCurrencyCode(), params.getCounterCounterparty());
+          String.format(
+              "%s+%s", pair.getCounter().getCurrencyCode(), params.getCounterCounterparty());
     }
 
     return ripplePublic.getOrderBook(params.getAddress(), base, counter, params.getLimit());

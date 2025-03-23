@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.bitmex;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -29,12 +28,16 @@ public class BitmexStreamingMarketDataServiceIntegration extends BitmexStreaming
     assertThat(orderBook.getAsks()).hasSize(10);
 
     // amounts are scaled
-    assertThat(orderBook.getBids()).allSatisfy(limitOrder -> {
-      assertThat(limitOrder.getOriginalAmount()).hasScaleOf(8);
-    });
-    assertThat(orderBook.getAsks()).allSatisfy(limitOrder -> {
-      assertThat(limitOrder.getOriginalAmount()).hasScaleOf(8);
-    });
+    assertThat(orderBook.getBids())
+        .allSatisfy(
+            limitOrder -> {
+              assertThat(limitOrder.getOriginalAmount()).hasScaleOf(8);
+            });
+    assertThat(orderBook.getAsks())
+        .allSatisfy(
+            limitOrder -> {
+              assertThat(limitOrder.getOriginalAmount()).hasScaleOf(8);
+            });
 
     // bids should be lower than asks
     assertThat(orderBook.getBids().get(0).getLimitPrice())
@@ -81,6 +84,4 @@ public class BitmexStreamingMarketDataServiceIntegration extends BitmexStreaming
     assertThat(trade).hasNoNullFieldsOrPropertiesExcept("makerOrderId", "takerOrderId");
     assertThat(trade.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
   }
-
-
 }

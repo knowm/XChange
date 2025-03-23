@@ -41,8 +41,7 @@ public interface CoinexAuthenticated {
       @QueryParam("side") String side,
       @QueryParam("client_id") String clientOid,
       @QueryParam("page") Integer page,
-      @QueryParam("limit") Integer limit
-      )
+      @QueryParam("limit") Integer limit)
       throws IOException, CoinexException;
 
   @POST

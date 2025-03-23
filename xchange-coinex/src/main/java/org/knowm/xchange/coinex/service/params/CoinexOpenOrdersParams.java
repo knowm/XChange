@@ -10,8 +10,8 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamOffset;
 
 @Data
 @Builder
-public class CoinexOpenOrdersParams extends DefaultOpenOrdersParam implements OpenOrdersParamLimit,
-    OpenOrdersParamOffset, OpenOrdersParamInstrument {
+public class CoinexOpenOrdersParams extends DefaultOpenOrdersParam
+    implements OpenOrdersParamLimit, OpenOrdersParamOffset, OpenOrdersParamInstrument {
 
   public static final Integer DEFAULT_LIMIT = 1000;
 

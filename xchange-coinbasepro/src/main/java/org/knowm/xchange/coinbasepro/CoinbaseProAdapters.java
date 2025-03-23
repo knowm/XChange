@@ -422,7 +422,9 @@ public class CoinbaseProAdapters {
   public static String adaptProductID(CurrencyPair currencyPair) {
     return currencyPair == null
         ? null
-        : currencyPair.getBase().getCurrencyCode() + "-" + currencyPair.getCounter().getCurrencyCode();
+        : currencyPair.getBase().getCurrencyCode()
+            + "-"
+            + currencyPair.getCounter().getCurrencyCode();
   }
 
   public static CoinbaseProPlaceOrder.Side adaptSide(OrderType orderType) {

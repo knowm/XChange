@@ -88,7 +88,8 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
                 currencyPair.getCounter().getCurrencyCode(),
                 (String) args[0])
             : super.getBTERTradeHistory(
-                currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode());
+                currencyPair.getBase().getCurrencyCode(),
+                currencyPair.getCounter().getCurrencyCode());
 
     return GateioAdapters.adaptTrades(tradeHistory, currencyPair);
   }

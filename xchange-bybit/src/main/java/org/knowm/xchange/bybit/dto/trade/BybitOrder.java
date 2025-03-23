@@ -20,12 +20,16 @@ public class BybitOrder extends Order {
   private BybitOrderType slOrderType;
   private BybitOrderType orderType;
   private boolean reduceOnly = false;
+
   /**
-   * <p>0: one-way mode</p>
-   * <p>1: hedge-mode Buy side</p>
-   * <p>2: hedge-mode Sell side</p>
+   * 0: one-way mode
+   *
+   * <p>1: hedge-mode Buy side
+   *
+   * <p>2: hedge-mode Sell side
    */
   private int positionIdx;
+
   private BybitTimeInForce timeInForce;
 
   public BybitOrder(
@@ -93,8 +97,7 @@ public class BybitOrder extends Order {
     LASTPRICE("LastPrice"),
     MARKPRICE("MarkPrice"),
     INDEXPRICE("IndexPrice");
-    @JsonValue
-    private final String value;
+    @JsonValue private final String value;
   }
 
   @Getter
@@ -102,8 +105,6 @@ public class BybitOrder extends Order {
   public enum TpslMode {
     FULL("Full"),
     PARTIAL("Partial");
-    @JsonValue
-    private final String value;
+    @JsonValue private final String value;
   }
-
 }

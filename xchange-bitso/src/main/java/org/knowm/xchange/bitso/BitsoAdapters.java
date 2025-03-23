@@ -169,7 +169,9 @@ public final class BitsoAdapters {
         final CurrencyPair currencyPair = new CurrencyPair(Currency.BTC, Currency.MXN);
 
         String feeCurrency =
-            sell ? currencyPair.getCounter().getCurrencyCode() : currencyPair.getBase().getCurrencyCode();
+            sell
+                ? currencyPair.getCounter().getCurrencyCode()
+                : currencyPair.getBase().getCurrencyCode();
         UserTrade trade =
             UserTrade.builder()
                 .type(orderType)

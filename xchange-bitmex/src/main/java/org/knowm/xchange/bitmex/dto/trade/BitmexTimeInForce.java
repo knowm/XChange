@@ -11,5 +11,4 @@ public enum BitmexTimeInForce {
   IMMEDIATE_OR_CANCEL,
   @JsonProperty("FillOrKill")
   FILL_OR_KILL;
-
 }

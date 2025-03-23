@@ -41,11 +41,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   public List<BitmexPosition> getBitmexPositions(FilterParam filterParam) throws ExchangeException {
     return updateRateLimit(
         () ->
-            bitmex.getPositions(
-                apiKey,
-                exchange.getNonceFactory(),
-                signatureCreator,
-                filterParam));
+            bitmex.getPositions(apiKey, exchange.getNonceFactory(), signatureCreator, filterParam));
   }
 
   /**
@@ -105,12 +101,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   public BitmexPrivateOrder placeOrder(@Nonnull final BitmexPlaceOrderParameters parameters)
       throws ExchangeException {
     return updateRateLimit(
-        () ->
-            bitmex.placeOrder(
-                apiKey,
-                exchange.getNonceFactory(),
-                signatureCreator,
-                parameters));
+        () -> bitmex.placeOrder(apiKey, exchange.getNonceFactory(), signatureCreator, parameters));
   }
 
   /**

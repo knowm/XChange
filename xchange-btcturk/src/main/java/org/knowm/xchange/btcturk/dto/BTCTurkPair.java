@@ -34,6 +34,7 @@ public class BTCTurkPair {
   public String toString() {
     return pair == null
         ? ""
-        : String.format("%s%s", pair.getBase().getCurrencyCode(), pair.getCounter().getCurrencyCode());
+        : String.format(
+            "%s%s", pair.getBase().getCurrencyCode(), pair.getCounter().getCurrencyCode());
   }
 }

@@ -50,7 +50,8 @@ public class KrakenUtilsTest {
     assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("1000.000");
     assertThat(orders.getOpenOrders().get(0).getOriginalAmount()).isEqualTo("0.01000000");
     assertThat(orders.getOpenOrders().get(0).getCurrencyPair().getBase()).isEqualTo(Currency.XBT);
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().getCounter()).isEqualTo(Currency.EUR);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().getCounter())
+        .isEqualTo(Currency.EUR);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(Order.OrderType.BID);
   }
 

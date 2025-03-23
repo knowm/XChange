@@ -43,7 +43,6 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
                 clientConfig ->
                     clientConfig.setJacksonObjectMapperFactory(
                         new BitmexJacksonObjectMapperFactory()))
-
             .build();
     signatureCreator =
         BitmexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());

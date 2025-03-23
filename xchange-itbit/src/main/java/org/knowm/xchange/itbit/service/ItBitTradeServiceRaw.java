@@ -93,7 +93,8 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
                 exchangePair.getBase().getCurrencyCode(),
                 amount,
                 price,
-                exchangePair.getBase().getCurrencyCode() + exchangePair.getCounter().getCurrencyCode(),
+                exchangePair.getBase().getCurrencyCode()
+                    + exchangePair.getCounter().getCurrencyCode(),
                 (limitOrder.getOrderFlags().contains(ItBitOrderFlags.POST_ONLY))));
 
     return postOrder;

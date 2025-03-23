@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.trade.BybitOrder.SlTriggerBy;
-import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
 
 @Getter
 @Setter
@@ -58,7 +57,7 @@ public class BybitPlaceOrderPayload {
     this.qty = qty.toString();
     this.orderLinkId = orderLinkId;
     this.positionIdx = positionIdx;
-    if(price != null) {
+    if (price != null) {
       this.price = price.toString();
     }
   }

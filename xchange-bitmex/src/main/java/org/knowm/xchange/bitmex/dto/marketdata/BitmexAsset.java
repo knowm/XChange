@@ -50,7 +50,6 @@ public class BitmexAsset {
   @JsonProperty("networks")
   List<Network> networks;
 
-
   /**
    * @return Scaled value
    */
@@ -60,7 +59,6 @@ public class BitmexAsset {
     }
     return minDepositAmount.scaleByPowerOfTen(-scale);
   }
-
 
   /**
    * @return Scaled value
@@ -82,15 +80,12 @@ public class BitmexAsset {
     return maxWithdrawalAmount.scaleByPowerOfTen(-scale);
   }
 
-
-
   @Data
   @Builder
   @Jacksonized
   public static class Network {
 
-    @JsonIgnore
-    Integer assetScale;
+    @JsonIgnore Integer assetScale;
 
     @JsonProperty("asset")
     private String id;

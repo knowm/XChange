@@ -37,7 +37,6 @@ public class BybitStreamPositionChangeExample {
   static Ticker ticker;
   static BigDecimal amount;
 
-
   private static void positionChangeExample() throws IOException {
     StreamingExchange exchange = connect(BybitCategory.LINEAR, true);
     ticker = (exchange.getMarketDataService().getTicker(ETH_PERP));
@@ -55,7 +54,7 @@ public class BybitStreamPositionChangeExample {
     log.info(
         "switch mode to one-way, result {}",
         bybitAccountService.switchPositionMode(BybitCategory.LINEAR, null, "USDT", 0));
-//    set leverage to 1.1
+    //    set leverage to 1.1
     bybitAccountService.setLeverage(ETH_PERP, 1.1);
     Disposable positionChangesDisposable =
         ((BybitStreamingTradeService) exchange.getStreamingTradeService())
@@ -66,13 +65,14 @@ public class BybitStreamPositionChangeExample {
                 })
             .subscribe(p -> log.info("position change {}", p));
     Disposable tradesDisposable =
-        exchange.getStreamingMarketDataService().getTrades(ETH_PERP)
+        exchange
+            .getStreamingMarketDataService()
+            .getTrades(ETH_PERP)
             .doOnError(
                 error -> {
                   log.error(error.getMessage());
                 })
-            .subscribe(
-                t -> log.info("trade {}", t));
+            .subscribe(t -> log.info("trade {}", t));
     try {
       Thread.sleep(1000L);
       MarketOrder marketOrder = new MarketOrder(OrderType.BID, amount, ETH_PERP);
@@ -85,6 +85,4 @@ public class BybitStreamPositionChangeExample {
     tradesDisposable.dispose();
     exchange.disconnect().blockingAwait();
   }
-
-
 }

@@ -123,8 +123,7 @@ public class BitgetAdapters {
     List<Balance> balances =
         bitgetBalanceDtos.stream().map(BitgetAdapters::toBalance).collect(Collectors.toList());
 
-    return Wallet.Builder
-        .from(balances)
+    return Wallet.Builder.from(balances)
         .id("spot")
         .features(EnumSet.of(Wallet.WalletFeature.TRADING))
         .build();

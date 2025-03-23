@@ -31,7 +31,8 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService {
     return decorateApiCall(
             () ->
                 service.getTicker(
-                    currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode()))
+                    currencyPair.getBase().getCurrencyCode(),
+                    currencyPair.getCounter().getCurrencyCode()))
         .withRetry(retry("getTicker"))
         .call();
   }
@@ -66,7 +67,8 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService {
     return decorateApiCall(
             () ->
                 service.getTrades(
-                    currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode()))
+                    currencyPair.getBase().getCurrencyCode(),
+                    currencyPair.getCounter().getCurrencyCode()))
         .withRetry(retry("getTrades"))
         .call();
   }

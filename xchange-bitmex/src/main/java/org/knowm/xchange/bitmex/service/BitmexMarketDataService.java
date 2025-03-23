@@ -120,6 +120,4 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
         .map(BitmexAdapters::toInstrument)
         .collect(Collectors.toList());
   }
-
-
 }

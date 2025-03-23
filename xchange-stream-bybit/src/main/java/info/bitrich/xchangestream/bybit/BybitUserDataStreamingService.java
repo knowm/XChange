@@ -43,16 +43,13 @@ public class BybitUserDataStreamingService extends JsonNettyStreamingService {
   private Disposable pingPongSubscription;
   private final Observable<Long> pingPongSrc = Observable.interval(15, 20, TimeUnit.SECONDS);
   private final ExchangeSpecification spec;
-  @Getter
-  private boolean isAuthorized = false;
-  @Setter
-  private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
-
+  @Getter private boolean isAuthorized = false;
+  @Setter private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
   public BybitUserDataStreamingService(String url, ExchangeSpecification spec) {
     super(url);
     this.spec = spec;
-   // this.setEnableLoggingHandler(true);
+    // this.setEnableLoggingHandler(true);
   }
 
   @Override
@@ -68,7 +65,6 @@ public class BybitUserDataStreamingService extends JsonNettyStreamingService {
               completable.onComplete();
             });
   }
-
 
   private void login() {
     String key = spec.getApiKey();
@@ -135,28 +131,32 @@ public class BybitUserDataStreamingService extends JsonNettyStreamingService {
     if (success) {
       switch (op) {
         case "subscribe":
-        case "unsubscribe": {
-          break;
-        }
-        case "auth": {
-          isAuthorized = true;
-          resubscribeChannelsAfterLogin();
-          break;
-        }
+        case "unsubscribe":
+          {
+            break;
+          }
+        case "auth":
+          {
+            isAuthorized = true;
+            resubscribeChannelsAfterLogin();
+            break;
+          }
       }
       return;
     } else {
       switch (op) {
         // different op result of public channels and private channels
         // https://bybit-exchange.github.io/docs/v5/ws/connect#how-to-send-the-heartbeat-packet
-        case "pong": {
-          LOG.debug("Received PONG message: {}", message);
-          return;
-        }
-        case "auth": {
-          LOG.error("Received AUTH message: {}", jsonNode.get("ret_msg"));
-          return;
-        }
+        case "pong":
+          {
+            LOG.debug("Received PONG message: {}", message);
+            return;
+          }
+        case "auth":
+          {
+            LOG.error("Received AUTH message: {}", jsonNode.get("ret_msg"));
+            return;
+          }
       }
     }
     handleMessage(jsonNode);
@@ -196,6 +196,7 @@ public class BybitUserDataStreamingService extends JsonNettyStreamingService {
       }
     }
   }
+
   @Override
   public void resubscribeChannels() {
     // need to authorize first
@@ -211,6 +212,4 @@ public class BybitUserDataStreamingService extends JsonNettyStreamingService {
       }
     }
   }
-
 }
-

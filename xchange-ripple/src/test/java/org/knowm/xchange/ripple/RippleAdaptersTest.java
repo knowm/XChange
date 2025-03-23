@@ -218,8 +218,8 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     // Transfer fee = 0.000029309526038 * 0.002
     assertThat(ripple.getCounterTransferFee()).isEqualTo("0.000000058619052076");
     assertThat(ripple.getCounterTransferFeeCurrency()).isEqualTo(Currency.BTC);
-    assertThat(ripple.getCounterTransferFeeCurrency()).isEqualTo(
-        trade.getCurrencyPair().getCounter());
+    assertThat(ripple.getCounterTransferFeeCurrency())
+        .isEqualTo(trade.getCurrencyPair().getCounter());
   }
 
   @Test
@@ -268,8 +268,8 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     assertThat(ripple.getCounterCounterparty()).isEmpty();
     assertThat(ripple.getCounterTransferFee()).isZero();
     assertThat(ripple.getCounterTransferFeeCurrency()).isEqualTo(Currency.XRP);
-    assertThat(ripple.getCounterTransferFeeCurrency()).isEqualTo(
-        trade.getCurrencyPair().getCounter());
+    assertThat(ripple.getCounterTransferFeeCurrency())
+        .isEqualTo(trade.getCurrencyPair().getCounter());
   }
 
   @Test
@@ -316,8 +316,8 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     assertThat(ripple.getCounterCounterparty()).isEqualTo("rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q");
     assertThat(ripple.getCounterTransferFee()).isZero();
     assertThat(ripple.getCounterTransferFeeCurrency()).isEqualTo(Currency.BTC);
-    assertThat(ripple.getCounterTransferFeeCurrency()).isEqualTo(
-        trade.getCurrencyPair().getCounter());
+    assertThat(ripple.getCounterTransferFeeCurrency())
+        .isEqualTo(trade.getCurrencyPair().getCounter());
 
     // make sure that if the IRippleTradeTransaction is adapted again it returns the same values
     final UserTrade trade2 = RippleAdapters.adaptTrade(response, params, this, roundingScale);
@@ -377,8 +377,8 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     assertThat(ripple.getCounterCounterparty()).isEmpty();
     assertThat(ripple.getCounterTransferFee()).isZero();
     assertThat(ripple.getCounterTransferFeeCurrency()).isEqualTo(Currency.XRP);
-    assertThat(ripple.getCounterTransferFeeCurrency()).isEqualTo(
-        trade.getCurrencyPair().getCounter());
+    assertThat(ripple.getCounterTransferFeeCurrency())
+        .isEqualTo(trade.getCurrencyPair().getCounter());
   }
 
   @Test
@@ -427,8 +427,8 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     // Transfer fee = 0.501 * 0.002
     assertThat(ripple.getCounterTransferFee()).isEqualTo("0.001002");
     assertThat(ripple.getCounterTransferFeeCurrency()).isEqualTo(Currency.BTC);
-    assertThat(ripple.getCounterTransferFeeCurrency()).isEqualTo(
-        trade.getCurrencyPair().getCounter());
+    assertThat(ripple.getCounterTransferFeeCurrency())
+        .isEqualTo(trade.getCurrencyPair().getCounter());
   }
 
   @Test
@@ -477,7 +477,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     // Transfer fee = 0.501 * 0.002
     assertThat(ripple.getCounterTransferFee()).isEqualTo("0");
     assertThat(ripple.getCounterTransferFeeCurrency()).isEqualTo(Currency.BTC);
-    assertThat(ripple.getCounterTransferFeeCurrency()).isEqualTo(
-        trade.getCurrencyPair().getCounter());
+    assertThat(ripple.getCounterTransferFeeCurrency())
+        .isEqualTo(trade.getCurrencyPair().getCounter());
   }
 }

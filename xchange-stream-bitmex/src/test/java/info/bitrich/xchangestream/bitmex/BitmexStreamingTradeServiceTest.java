@@ -32,8 +32,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class BitmexStreamingTradeServiceTest {
 
-  @Mock
-  BitmexStreamingService bitmexStreamingService;
+  @Mock BitmexStreamingService bitmexStreamingService;
 
   BitmexStreamingTradeService bitmexStreamingTradeService;
 
@@ -54,184 +53,182 @@ class BitmexStreamingTradeServiceTest {
     bitmexStreamingTradeService = new BitmexStreamingTradeService(bitmexStreamingService);
   }
 
-
   @Test
   void execution_market_sell() throws Exception {
 
-    BitmexWebSocketTransaction notification = readNotification("info/bitrich/xchangestream/bitmex/dto/execution_market-sell.json");
+    BitmexWebSocketTransaction notification =
+        readNotification("info/bitrich/xchangestream/bitmex/dto/execution_market-sell.json");
 
     when(bitmexStreamingService.subscribeBitmexChannel(eq("execution")))
         .thenReturn(Observable.just(notification));
 
-    Observable<UserTrade> observable = bitmexStreamingTradeService.getUserTrades(CurrencyPair.BTC_USDT);
+    Observable<UserTrade> observable =
+        bitmexStreamingTradeService.getUserTrades(CurrencyPair.BTC_USDT);
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    UserTrade actual = testObserver
-        .awaitCount(1)
-        .values().get(0);
+    UserTrade actual = testObserver.awaitCount(1).values().get(0);
 
     testObserver.dispose();
 
-    UserTrade expected = UserTrade.builder()
-        .id("00000000-006d-1000-0000-0010f2cc63dc")
-        .orderId("082dd28b-7e7d-4643-9fd3-273af75de813")
-        .feeCurrency(Currency.USDT)
-        .type(OrderType.ASK)
-        .instrument(CurrencyPair.BTC_USDT)
-        .feeAmount(new BigDecimal("0.008535"))
-        .originalAmount(new BigDecimal("0.00010000"))
-        .price(new BigDecimal("94834.5"))
-        .timestamp(Date.from(Instant.parse("2025-01-08T23:33:24.603Z")))
-        .build();
+    UserTrade expected =
+        UserTrade.builder()
+            .id("00000000-006d-1000-0000-0010f2cc63dc")
+            .orderId("082dd28b-7e7d-4643-9fd3-273af75de813")
+            .feeCurrency(Currency.USDT)
+            .type(OrderType.ASK)
+            .instrument(CurrencyPair.BTC_USDT)
+            .feeAmount(new BigDecimal("0.008535"))
+            .originalAmount(new BigDecimal("0.00010000"))
+            .price(new BigDecimal("94834.5"))
+            .timestamp(Date.from(Instant.parse("2025-01-08T23:33:24.603Z")))
+            .build();
 
     assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
-
   }
 
   @Test
   void execution_market_buy() throws Exception {
 
-    BitmexWebSocketTransaction notification = readNotification("info/bitrich/xchangestream/bitmex/dto/execution_market-buy.json");
+    BitmexWebSocketTransaction notification =
+        readNotification("info/bitrich/xchangestream/bitmex/dto/execution_market-buy.json");
 
     when(bitmexStreamingService.subscribeBitmexChannel(eq("execution")))
         .thenReturn(Observable.just(notification));
 
-    Observable<UserTrade> observable = bitmexStreamingTradeService.getUserTrades(CurrencyPair.BTC_USDT);
+    Observable<UserTrade> observable =
+        bitmexStreamingTradeService.getUserTrades(CurrencyPair.BTC_USDT);
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    UserTrade actual = testObserver
-        .awaitCount(1)
-        .values().get(0);
+    UserTrade actual = testObserver.awaitCount(1).values().get(0);
 
     testObserver.dispose();
 
-    UserTrade expected = UserTrade.builder()
-        .id("00000000-006d-1000-0000-0010f2cbdbb0")
-        .orderId("a4f9b79f-90b3-4756-bad1-6f2db0919fef")
-        .feeCurrency(Currency.USDT)
-        .type(OrderType.BID)
-        .instrument(CurrencyPair.BTC_USDT)
-        .feeAmount(new BigDecimal("0.008545"))
-        .originalAmount(new BigDecimal("0.00010000"))
-        .price(new BigDecimal("94952"))
-        .timestamp(Date.from(Instant.parse("2025-01-08T23:33:04.091Z")))
-        .build();
+    UserTrade expected =
+        UserTrade.builder()
+            .id("00000000-006d-1000-0000-0010f2cbdbb0")
+            .orderId("a4f9b79f-90b3-4756-bad1-6f2db0919fef")
+            .feeCurrency(Currency.USDT)
+            .type(OrderType.BID)
+            .instrument(CurrencyPair.BTC_USDT)
+            .feeAmount(new BigDecimal("0.008545"))
+            .originalAmount(new BigDecimal("0.00010000"))
+            .price(new BigDecimal("94952"))
+            .timestamp(Date.from(Instant.parse("2025-01-08T23:33:04.091Z")))
+            .build();
 
     assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
-
   }
 
   @Test
   void position_initial() throws Exception {
-    BitmexWebSocketTransaction notification = readNotification("info/bitrich/xchangestream/bitmex/dto/position_initial.json");
+    BitmexWebSocketTransaction notification =
+        readNotification("info/bitrich/xchangestream/bitmex/dto/position_initial.json");
 
     when(bitmexStreamingService.subscribeBitmexChannel(eq("position")))
         .thenReturn(Observable.just(notification));
 
     Observable<BitmexPosition> observable = bitmexStreamingTradeService.getPositions();
     TestObserver<BitmexPosition> testObserver = observable.test();
-    List<BitmexPosition> actual = testObserver
-        .awaitCount(1)
-        .values();
+    List<BitmexPosition> actual = testObserver.awaitCount(1).values();
     testObserver.dispose();
 
-    BitmexPosition expected = BitmexPosition.builder()
-        .account(2273415)
-        .instrument(new CurrencyPair("SOL/USDT"))
-        .isOpen(true)
-        .openOrderBuyCost(new BigDecimal("2.286720"))
-        .openOrderBuyQty(new BigDecimal("12.000000"))
-        .openOrderSellCost(new BigDecimal("1.734750"))
-        .openOrderSellQty(new BigDecimal("9.000000"))
-        .crossMargin(true)
-        .timestamp(ZonedDateTime.parse("2025-01-09T11:52:16.827Z[UTC]"))
-        .build();
+    BitmexPosition expected =
+        BitmexPosition.builder()
+            .account(2273415)
+            .instrument(new CurrencyPair("SOL/USDT"))
+            .isOpen(true)
+            .openOrderBuyCost(new BigDecimal("2.286720"))
+            .openOrderBuyQty(new BigDecimal("12.000000"))
+            .openOrderSellCost(new BigDecimal("1.734750"))
+            .openOrderSellQty(new BigDecimal("9.000000"))
+            .crossMargin(true)
+            .timestamp(ZonedDateTime.parse("2025-01-09T11:52:16.827Z[UTC]"))
+            .build();
 
     assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
   }
 
   @Test
   void position_update_open() throws Exception {
-    BitmexWebSocketTransaction notification = readNotification("info/bitrich/xchangestream/bitmex/dto/position_update-open.json");
+    BitmexWebSocketTransaction notification =
+        readNotification("info/bitrich/xchangestream/bitmex/dto/position_update-open.json");
 
     when(bitmexStreamingService.subscribeBitmexChannel(eq("position")))
         .thenReturn(Observable.just(notification));
 
     Observable<BitmexPosition> observable = bitmexStreamingTradeService.getPositions();
     TestObserver<BitmexPosition> testObserver = observable.test();
-    List<BitmexPosition> actual = testObserver
-        .awaitCount(1)
-        .values();
+    List<BitmexPosition> actual = testObserver.awaitCount(1).values();
     testObserver.dispose();
 
-    BitmexPosition expected = BitmexPosition.builder()
-        .account(2273415)
-        .instrument(new FuturesContract("BTC/USD/PERP"))
-        .marginCurrency(Currency.BTC)
-        .initMargin(new BigDecimal("1181"))
-        .markPrice(new BigDecimal("93364.1"))
-        .isOpen(true)
-        .currentQty(BigDecimal.ZERO)
-        .openOrderBuyCost(new BigDecimal("-0.107287"))
-        .openOrderBuyQty(new BigDecimal("0.000100"))
-        .riskValue(new BigDecimal("107287"))
-        .timestamp(ZonedDateTime.parse("2025-01-09T11:37:54.817Z[UTC]"))
-        .build();
+    BitmexPosition expected =
+        BitmexPosition.builder()
+            .account(2273415)
+            .instrument(new FuturesContract("BTC/USD/PERP"))
+            .marginCurrency(Currency.BTC)
+            .initMargin(new BigDecimal("1181"))
+            .markPrice(new BigDecimal("93364.1"))
+            .isOpen(true)
+            .currentQty(BigDecimal.ZERO)
+            .openOrderBuyCost(new BigDecimal("-0.107287"))
+            .openOrderBuyQty(new BigDecimal("0.000100"))
+            .riskValue(new BigDecimal("107287"))
+            .timestamp(ZonedDateTime.parse("2025-01-09T11:37:54.817Z[UTC]"))
+            .build();
 
     assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
   }
 
   @Test
   void position_update_close() throws Exception {
-    BitmexWebSocketTransaction notification = readNotification("info/bitrich/xchangestream/bitmex/dto/position_update-close.json");
+    BitmexWebSocketTransaction notification =
+        readNotification("info/bitrich/xchangestream/bitmex/dto/position_update-close.json");
 
     when(bitmexStreamingService.subscribeBitmexChannel(eq("position")))
         .thenReturn(Observable.just(notification));
 
     Observable<BitmexPosition> observable = bitmexStreamingTradeService.getPositions();
     TestObserver<BitmexPosition> testObserver = observable.test();
-    List<BitmexPosition> actual = testObserver
-        .awaitCount(1)
-        .values();
+    List<BitmexPosition> actual = testObserver.awaitCount(1).values();
     testObserver.dispose();
 
-    BitmexPosition expected = BitmexPosition.builder()
-        .account(2273415)
-        .instrument(new FuturesContract("BTC/USD/PERP"))
-        .marginCurrency(Currency.BTC)
-        .markValue(BigDecimal.ZERO)
-        .isOpen(false)
-        .currentCost(BigDecimal.ZERO)
-        .foreignNotional(BigDecimal.ZERO)
-        .maintMargin(BigDecimal.ZERO)
-        .homeNotional(BigDecimal.ZERO)
-        .currentQty(BigDecimal.ZERO)
-        .openOrderSellCost(new BigDecimal("0.000000"))
-        .openOrderSellQty(new BigDecimal("0.000000"))
-        .posComm(BigDecimal.ZERO)
-        .posCost(BigDecimal.ZERO)
-        .posInit(BigDecimal.ZERO)
-        .posMaint(BigDecimal.ZERO)
-        .posMargin(BigDecimal.ZERO)
-        .prevRealisedPnl(new BigDecimal("-118"))
-        .rebalancedPnl(BigDecimal.ZERO)
-        .riskValue(BigDecimal.ZERO)
-        .unrealisedCost(BigDecimal.ZERO)
-        .unrealisedPnl(BigDecimal.ZERO)
-        .unrealisedPnlPcnt(BigDecimal.ZERO)
-        .unrealisedRoePcnt(BigDecimal.ZERO)
-        .timestamp(ZonedDateTime.parse("2025-01-09T11:38:56.578Z[UTC]"))
-        .build();
+    BitmexPosition expected =
+        BitmexPosition.builder()
+            .account(2273415)
+            .instrument(new FuturesContract("BTC/USD/PERP"))
+            .marginCurrency(Currency.BTC)
+            .markValue(BigDecimal.ZERO)
+            .isOpen(false)
+            .currentCost(BigDecimal.ZERO)
+            .foreignNotional(BigDecimal.ZERO)
+            .maintMargin(BigDecimal.ZERO)
+            .homeNotional(BigDecimal.ZERO)
+            .currentQty(BigDecimal.ZERO)
+            .openOrderSellCost(new BigDecimal("0.000000"))
+            .openOrderSellQty(new BigDecimal("0.000000"))
+            .posComm(BigDecimal.ZERO)
+            .posCost(BigDecimal.ZERO)
+            .posInit(BigDecimal.ZERO)
+            .posMaint(BigDecimal.ZERO)
+            .posMargin(BigDecimal.ZERO)
+            .prevRealisedPnl(new BigDecimal("-118"))
+            .rebalancedPnl(BigDecimal.ZERO)
+            .riskValue(BigDecimal.ZERO)
+            .unrealisedCost(BigDecimal.ZERO)
+            .unrealisedPnl(BigDecimal.ZERO)
+            .unrealisedPnlPcnt(BigDecimal.ZERO)
+            .unrealisedRoePcnt(BigDecimal.ZERO)
+            .timestamp(ZonedDateTime.parse("2025-01-09T11:38:56.578Z[UTC]"))
+            .build();
 
     assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
   }
 
   private BitmexWebSocketTransaction readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(
-        getClass().getClassLoader().getResourceAsStream(resourceName), BitmexWebSocketTransaction.class);
+        getClass().getClassLoader().getResourceAsStream(resourceName),
+        BitmexWebSocketTransaction.class);
   }
-
-
 }

@@ -115,7 +115,9 @@ class CmcMarketDataServiceRaw extends CmcBaseService {
     try {
       response =
           cmcAuthenticated.getLatestQuotes(
-              apiKey, currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode());
+              apiKey,
+              currencyPair.getBase().getCurrencyCode(),
+              currencyPair.getCounter().getCurrencyCode());
     } catch (HttpStatusIOException ex) {
       CmcErrorAdapter.adapt(ex);
     }

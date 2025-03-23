@@ -27,7 +27,9 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
 
   private final BybitAccountType accountType;
 
-  public BybitAccountService(BybitExchange exchange, BybitAccountType accountType,
+  public BybitAccountService(
+      BybitExchange exchange,
+      BybitAccountType accountType,
       ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
     this.accountType = accountType;
@@ -46,12 +48,9 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
    *
    * @return true, if success
    */
-  public boolean setLeverage(Instrument instrument, double leverage)
-      throws IOException {
+  public boolean setLeverage(Instrument instrument, double leverage) throws IOException {
     BybitCategory category = BybitAdapters.getCategory(instrument);
-    int retCode =
-        setLeverageRaw(category, convertToBybitSymbol(instrument), leverage)
-            .getRetCode();
+    int retCode = setLeverageRaw(category, convertToBybitSymbol(instrument), leverage).getRetCode();
     return retCode == 0 || retCode == 110043;
   }
 
@@ -59,8 +58,8 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
    * @param mode 0: Merged Single. 3: Both Sides
    * @throws IOException
    */
-  public boolean switchPositionMode(BybitCategory category, Instrument instrument, String coin, int mode)
-      throws IOException {
+  public boolean switchPositionMode(
+      BybitCategory category, Instrument instrument, String coin, int mode) throws IOException {
     String symbol = "";
     if (instrument != null) {
       symbol = BybitAdapters.convertToBybitSymbol(instrument);
@@ -110,9 +109,7 @@ public class BybitAccountService extends BybitAccountServiceRaw implements Accou
     return getFeeRatesRaw(category, symbol);
   }
 
-  /**
-   * Query the account information, like margin mode, account mode, etc.
-   */
+  /** Query the account information, like margin mode, account mode, etc. */
   public BybitAccountInfoResponse accountInfo() throws IOException {
     return accountInfoRaw().getResult();
   }

@@ -22,28 +22,26 @@ class CoinexTradeServiceTest extends CoinexExchangeWiremock {
     assertThat(actual.getOpenOrders()).hasSize(2);
     assertThat(actual.getHiddenOrders()).isEmpty();
 
-    assertThat(actual.getAllOpenOrders().get(0).getInstrument())
-        .isEqualTo(CurrencyPair.ETH_USDT);
-    assertThat(actual.getAllOpenOrders().get(1).getInstrument())
-        .isEqualTo(CurrencyPair.BTC_USDT);
+    assertThat(actual.getAllOpenOrders().get(0).getInstrument()).isEqualTo(CurrencyPair.ETH_USDT);
+    assertThat(actual.getAllOpenOrders().get(1).getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
   }
 
   @Test
   void filtered_open_orders() throws IOException {
-    OpenOrders actual = tradeService.getOpenOrders(new DefaultOpenOrdersParamInstrument(CurrencyPair.BTC_USDT));
+    OpenOrders actual =
+        tradeService.getOpenOrders(new DefaultOpenOrdersParamInstrument(CurrencyPair.BTC_USDT));
 
     assertThat(actual.getOpenOrders()).hasSize(1);
     assertThat(actual.getHiddenOrders()).isEmpty();
 
-    assertThat(actual.getAllOpenOrders().get(0).getInstrument())
-        .isEqualTo(CurrencyPair.BTC_USDT);
+    assertThat(actual.getAllOpenOrders().get(0).getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
   }
 
   @Test
   void valid_cancel_order() throws IOException {
-    boolean actual = tradeService.cancelOrder(new DefaultCancelOrderByInstrumentAndIdParams(CurrencyPair.BTC_USDT, "136215219959"));
+    boolean actual =
+        tradeService.cancelOrder(
+            new DefaultCancelOrderByInstrumentAndIdParams(CurrencyPair.BTC_USDT, "136215219959"));
     assertThat(actual).isTrue();
   }
-
-
 }

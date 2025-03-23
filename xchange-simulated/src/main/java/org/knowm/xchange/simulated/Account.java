@@ -45,7 +45,9 @@ class Account {
         break;
       case BID:
         Balance bidBalance =
-            balances.computeIfAbsent(order.getCurrencyPair().getCounter(), this::defaultBalance).get();
+            balances
+                .computeIfAbsent(order.getCurrencyPair().getCounter(), this::defaultBalance)
+                .get();
         checkBalance(order, bidAmount, bidBalance);
         break;
       default:

@@ -15,7 +15,5 @@ class BitmexAdaptersTest {
             value -> {
               assertThat(BitmexAdapters.toFundingRecordStatus(value)).isNotNull();
             });
-
   }
-
 }

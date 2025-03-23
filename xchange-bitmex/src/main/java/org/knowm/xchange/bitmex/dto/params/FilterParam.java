@@ -29,7 +29,6 @@ public class FilterParam {
   private Boolean isOpen;
 
   /**
-   *
    * @return Value rendered as json
    */
   @Override

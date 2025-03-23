@@ -228,8 +228,6 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
   }
 
   private static String resolveUserReference(String cl_ord_id, Integer userref) {
-    return cl_ord_id == null
-        ? userref == null ? null : Integer.toString(userref)
-        : cl_ord_id;
+    return cl_ord_id == null ? userref == null ? null : Integer.toString(userref) : cl_ord_id;
   }
 }

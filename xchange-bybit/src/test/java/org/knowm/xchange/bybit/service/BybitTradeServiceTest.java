@@ -55,7 +55,8 @@ public class BybitTradeServiceTest extends BaseWiremockTest {
   @Test
   public void testGetOrders() throws IOException {
     initGetStub("/v5/order/realtime", "/getOrderLinear.json5");
-    BybitOpenOrdersParam param = new BybitOpenOrdersParam(new FuturesContract("ETH/USDT/PERP"), BybitCategory.LINEAR);
+    BybitOpenOrdersParam param =
+        new BybitOpenOrdersParam(new FuturesContract("ETH/USDT/PERP"), BybitCategory.LINEAR);
     List<LimitOrder> limitOrder = tradeService.getOpenOrders(param).getOpenOrders();
 
     assertThat(limitOrder.size()).isEqualTo(1);
@@ -70,20 +71,27 @@ public class BybitTradeServiceTest extends BaseWiremockTest {
   @Test(expected = BybitException.class)
   public void testGetOrdersError() throws IOException {
     initGetStub("/v5/order/realtime", "/getOrderError.json5");
-    BybitOpenOrdersParam param = new BybitOpenOrdersParam(new FuturesContract("ETH/USDT/PERP"), BybitCategory.LINEAR);
+    BybitOpenOrdersParam param =
+        new BybitOpenOrdersParam(new FuturesContract("ETH/USDT/PERP"), BybitCategory.LINEAR);
     List<LimitOrder> limitOrder = tradeService.getOpenOrders(param).getOpenOrders();
   }
 
   @Test
   public void testPlaceBybitOrder() throws IOException {
     initPostStub("/v5/order/create", "/placeMarketOrder.json5");
-    MarketOrder marketOrder = new MarketOrder(OrderType.ASK, new BigDecimal("0.1"),
-        new CurrencyPair("BTC", "USDT"));
+    MarketOrder marketOrder =
+        new MarketOrder(OrderType.ASK, new BigDecimal("0.1"), new CurrencyPair("BTC", "USDT"));
     String marketOrderId = tradeService.placeMarketOrder(marketOrder);
     assertThat(marketOrderId).isEqualTo("1321003749386327552");
 
-    LimitOrder limitOrder = new LimitOrder(OrderType.EXIT_BID, new BigDecimal("0.1"),
-        new CurrencyPair("BTC", "USDT"), "", new Date(1672211918471L), new BigDecimal("110"));
+    LimitOrder limitOrder =
+        new LimitOrder(
+            OrderType.EXIT_BID,
+            new BigDecimal("0.1"),
+            new CurrencyPair("BTC", "USDT"),
+            "",
+            new Date(1672211918471L),
+            new BigDecimal("110"));
     String limitOrderId = tradeService.placeLimitOrder(limitOrder);
     assertThat(limitOrderId).isEqualTo("1321003749386327552");
   }
@@ -92,11 +100,16 @@ public class BybitTradeServiceTest extends BaseWiremockTest {
   public void testChangeBybitOrder() throws IOException {
     initPostStub("/v5/order/amend", "/changeOrder.json5");
 
-    LimitOrder limitOrder = new LimitOrder(OrderType.BID, new BigDecimal("0.1"),
-        new CurrencyPair("BTC", "USDT"), "", new Date(1672211918471L), new BigDecimal("110"));
+    LimitOrder limitOrder =
+        new LimitOrder(
+            OrderType.BID,
+            new BigDecimal("0.1"),
+            new CurrencyPair("BTC", "USDT"),
+            "",
+            new Date(1672211918471L),
+            new BigDecimal("110"));
 
-    String orderId =
-        tradeService.changeOrder(limitOrder);
+    String orderId = tradeService.changeOrder(limitOrder);
 
     assertThat(orderId).isEqualTo("c6f055d9-7f21-4079-913d-e6523a9cfffa");
   }
@@ -111,12 +124,14 @@ public class BybitTradeServiceTest extends BaseWiremockTest {
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException ignored) {
     }
-    boolean resultSpot = tradeService.cancelOrder(
-        new BybitCancelOrderParams(BTC_USDT, "c6f055d9-7f21-4079-913d-e6523a9cfffa", ""));
-    boolean resultFuture0 = tradeService.cancelOrder(
-        new BybitCancelOrderParams(BTC_USDT_PERP, "c6f055d9-7f21-4079-913d-e6523a9cfffa", ""));
-    boolean resultFuture1 = tradeService.cancelOrder(
-        new BybitCancelOrderParams(BTC_USDT_PERP, "", "linear-004"));
+    boolean resultSpot =
+        tradeService.cancelOrder(
+            new BybitCancelOrderParams(BTC_USDT, "c6f055d9-7f21-4079-913d-e6523a9cfffa", ""));
+    boolean resultFuture0 =
+        tradeService.cancelOrder(
+            new BybitCancelOrderParams(BTC_USDT_PERP, "c6f055d9-7f21-4079-913d-e6523a9cfffa", ""));
+    boolean resultFuture1 =
+        tradeService.cancelOrder(new BybitCancelOrderParams(BTC_USDT_PERP, "", "linear-004"));
     assertThat(resultSpot).isTrue();
     assertThat(resultFuture0).isTrue();
     assertThat(resultFuture1).isTrue();
@@ -128,8 +143,7 @@ public class BybitTradeServiceTest extends BaseWiremockTest {
     Instrument BTC_USDT_PERP = new FuturesContract("BTC/USDT/PERP");
 
     try {
-      tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(
-          null, null));
+      tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(null, null));
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException ignored) {
 
@@ -140,16 +154,14 @@ public class BybitTradeServiceTest extends BaseWiremockTest {
     } catch (UnsupportedOperationException ignored) {
 
     }
-    Collection<String> resultSpot = tradeService.cancelAllOrders(
-        new BybitCancelAllOrdersParams(
-            BybitCategory.SPOT, null));
+    Collection<String> resultSpot =
+        tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(BybitCategory.SPOT, null));
 
-    Collection<String> resultFuture0 = tradeService.cancelAllOrders(
-        new BybitCancelAllOrdersParams(BybitCategory.LINEAR, BTC_USDT_PERP));
+    Collection<String> resultFuture0 =
+        tradeService.cancelAllOrders(
+            new BybitCancelAllOrdersParams(BybitCategory.LINEAR, BTC_USDT_PERP));
 
     assertThat(resultSpot.stream().findFirst().get()).isEqualTo("1616024329462743808");
     assertThat(resultFuture0.stream().findFirst().get()).isEqualTo("1616024329462743808");
-
   }
-
 }

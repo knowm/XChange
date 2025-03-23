@@ -64,10 +64,11 @@ public class CoinexTradeService extends CoinexTradeServiceRaw implements TradeSe
       builder.offset(((OpenOrdersParamOffset) params).getOffset());
     }
 
-    List<LimitOrder> limitOrders = pendingOrders(builder.build()).stream()
-        .map(CoinexAdapters::toOrder)
-        .map(LimitOrder.class::cast)
-        .collect(Collectors.toList());
+    List<LimitOrder> limitOrders =
+        pendingOrders(builder.build()).stream()
+            .map(CoinexAdapters::toOrder)
+            .map(LimitOrder.class::cast)
+            .collect(Collectors.toList());
 
     return new OpenOrders(limitOrders);
   }
@@ -109,13 +110,10 @@ public class CoinexTradeService extends CoinexTradeServiceRaw implements TradeSe
     } catch (CoinexException e) {
       throw CoinexErrorAdapter.adapt(e);
     }
-
   }
 
   @Override
   public Class[] getRequiredCancelOrderParamClasses() {
     return new Class[] {DefaultCancelOrderByInstrumentAndIdParams.class};
   }
-
-
 }

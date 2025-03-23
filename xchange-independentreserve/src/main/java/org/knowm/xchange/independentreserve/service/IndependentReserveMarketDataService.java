@@ -24,7 +24,8 @@ public class IndependentReserveMarketDataService extends IndependentReserveMarke
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     IndependentReserveTicker t =
-        getIndependentReserveTicker(currencyPair.getBase().toString(), currencyPair.getCounter().toString());
+        getIndependentReserveTicker(
+            currencyPair.getBase().toString(), currencyPair.getCounter().toString());
     return IndependentReserveAdapters.adaptTicker(t, currencyPair);
   }
 

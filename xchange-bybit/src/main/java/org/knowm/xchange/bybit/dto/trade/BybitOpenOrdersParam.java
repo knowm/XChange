@@ -9,15 +9,20 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstr
 public class BybitOpenOrdersParam extends DefaultOpenOrdersParamInstrument {
   private final BybitCategory category;
 
-  public BybitOpenOrdersParam(Instrument instrument,  BybitCategory category) {
+  public BybitOpenOrdersParam(Instrument instrument, BybitCategory category) {
     super(instrument);
     this.category = category;
   }
+
   @Override
   public String toString() {
-    return "BybitOrderQueryParams{" +
-        "category='" + category + '\'' +
-        ", instrument='" + getInstrument() + '\'' +
-        '}';
+    return "BybitOrderQueryParams{"
+        + "category='"
+        + category
+        + '\''
+        + ", instrument='"
+        + getInstrument()
+        + '\''
+        + '}';
   }
 }

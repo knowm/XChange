@@ -40,16 +40,16 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
     super.initServices();
     this.streamingService = new BybitStreamingService(getApiUrl(), exchangeSpecification);
     if (isApiKeyValid()) {
-      this.userDataStreamingService = new BybitUserDataStreamingService(
-          getApiUrlWithAuth(), exchangeSpecification);
+      this.userDataStreamingService =
+          new BybitUserDataStreamingService(getApiUrlWithAuth(), exchangeSpecification);
     }
     this.streamingMarketDataService = new BybitStreamingMarketDataService(streamingService);
     this.streamingTradeService = new BybitStreamingTradeService(userDataStreamingService);
   }
 
   private boolean isApiKeyValid() {
-    return exchangeSpecification.getApiKey() != null && !exchangeSpecification.getApiKey()
-        .isEmpty();
+    return exchangeSpecification.getApiKey() != null
+        && !exchangeSpecification.getApiKey().isEmpty();
   }
 
   private String getApiUrl() {
@@ -60,15 +60,17 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
     } else {
       apiUrl = URI;
     }
-    apiUrl += "/" + ((BybitCategory) exchangeSpecification.getExchangeSpecificParametersItem(
-        EXCHANGE_TYPE)).getValue();
+    apiUrl +=
+        "/"
+            + ((BybitCategory)
+                    exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE))
+                .getValue();
     return apiUrl;
   }
 
   private String getApiUrlWithAuth() {
     String apiUrl;
-    if (Boolean.TRUE.equals(
-        exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
+    if (Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
       apiUrl = DEMO_AUTH_URI;
     } else {
       if (Boolean.TRUE.equals(
@@ -146,13 +148,11 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
    *
    * @param channelInactiveHandler a WebSocketMessageHandler instance.
    */
-  public void setChannelInactiveHandler(
-      WebSocketMessageHandler channelInactiveHandler) {
+  public void setChannelInactiveHandler(WebSocketMessageHandler channelInactiveHandler) {
     streamingService.setChannelInactiveHandler(channelInactiveHandler);
   }
 
-  public void setUserDataChannelInactiveHandler(
-      WebSocketMessageHandler channelInactiveHandler) {
+  public void setUserDataChannelInactiveHandler(WebSocketMessageHandler channelInactiveHandler) {
     userDataStreamingService.setChannelInactiveHandler(channelInactiveHandler);
   }
 

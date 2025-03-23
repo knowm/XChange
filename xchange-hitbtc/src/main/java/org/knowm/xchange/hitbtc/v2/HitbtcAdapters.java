@@ -267,7 +267,9 @@ public class HitbtcAdapters {
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
 
-    return pair == null ? null : pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode();
+    return pair == null
+        ? null
+        : pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode();
   }
 
   public static HitbtcSide getSide(OrderType type) {

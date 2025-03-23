@@ -18,10 +18,15 @@ public class BybitCancelOrderParams extends DefaultCancelOrderByInstrumentAndIdP
 
   @Override
   public String toString() {
-    return "BybitCancelOrderParams{" +
-        "instrument='" + getInstrument() + '\'' +
-        ", orderId='" + getOrderId() + '\'' +
-        ", userReference=" + getUserReference() +
-        '}';
+    return "BybitCancelOrderParams{"
+        + "instrument='"
+        + getInstrument()
+        + '\''
+        + ", orderId='"
+        + getOrderId()
+        + '\''
+        + ", userReference="
+        + getUserReference()
+        + '}';
   }
 }

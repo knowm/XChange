@@ -34,7 +34,8 @@ public class CoinfloorMarketDataServiceRaw extends BaseExchangeService {
 
   public CoinfloorTransaction[] getCoinfloorTransactions(
       CurrencyPair pair, CoinfloorInterval interval) throws IOException {
-    return coinfloor.getTransactions(normalise(pair.getBase()), normalise(pair.getCounter()), interval);
+    return coinfloor.getTransactions(
+        normalise(pair.getBase()), normalise(pair.getCounter()), interval);
   }
 
   private Currency normalise(Currency xchange) {

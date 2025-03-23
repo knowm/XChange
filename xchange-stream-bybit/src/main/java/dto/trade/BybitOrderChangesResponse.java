@@ -1,7 +1,6 @@
 package dto.trade;
 
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;

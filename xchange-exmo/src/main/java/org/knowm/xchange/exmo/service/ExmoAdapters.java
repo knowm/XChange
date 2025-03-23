@@ -81,6 +81,8 @@ public class ExmoAdapters {
   }
 
   public static String format(CurrencyPair currencyPair) {
-    return currencyPair.getBase().getCurrencyCode() + "_" + currencyPair.getCounter().getCurrencyCode();
+    return currencyPair.getBase().getCurrencyCode()
+        + "_"
+        + currencyPair.getCounter().getCurrencyCode();
   }
 }

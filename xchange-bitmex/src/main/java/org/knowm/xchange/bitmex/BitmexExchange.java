@@ -89,41 +89,52 @@ public class BitmexExchange extends BaseExchange {
 
   @Override
   public void remoteInit() {
-    BitmexMarketDataService bitmexMarketDataService = (BitmexMarketDataService) getMarketDataService();
+    BitmexMarketDataService bitmexMarketDataService =
+        (BitmexMarketDataService) getMarketDataService();
     List<BitmexTicker> tickers = bitmexMarketDataService.getActiveTickers();
 
     // fill symbol mappings
-    tickers.forEach(bitmexTicker -> {
-      BitmexAdapters.putSymbolMapping(bitmexTicker.getSymbol(), BitmexAdapters.toInstrument(bitmexTicker));
-    });
+    tickers.forEach(
+        bitmexTicker -> {
+          BitmexAdapters.putSymbolMapping(
+              bitmexTicker.getSymbol(), BitmexAdapters.toInstrument(bitmexTicker));
+        });
 
     // fill instruments metadata
-    Map<Instrument, InstrumentMetaData> instrumentsMetadata = tickers.stream()
-        .filter(bitmexTicker -> bitmexTicker.getSymbolType() != SymbolType.UNKNOWN)
-        .collect(Collectors.toMap(
-            BitmexAdapters::toInstrument,
-            BitmexAdapters::toInstrumentMetaData
-        ));
+    Map<Instrument, InstrumentMetaData> instrumentsMetadata =
+        tickers.stream()
+            .filter(bitmexTicker -> bitmexTicker.getSymbolType() != SymbolType.UNKNOWN)
+            .collect(
+                Collectors.toMap(
+                    BitmexAdapters::toInstrument, BitmexAdapters::toInstrumentMetaData));
 
     List<BitmexAsset> assets = bitmexMarketDataService.getAssets();
 
     // fill bitmex currency code mappings
     // fill scale for currencies
-    assets.forEach(asset -> {
-      BitmexAdapters.putCurrencyCodeMapping(asset.getBitmexCurrencyCode(), asset.getAsset());
-      BitmexAdapters.putCurrencyScale(asset.getAsset(), asset.getScale());
-    });
+    assets.forEach(
+        asset -> {
+          BitmexAdapters.putCurrencyCodeMapping(asset.getBitmexCurrencyCode(), asset.getAsset());
+          BitmexAdapters.putCurrencyScale(asset.getAsset(), asset.getScale());
+        });
 
     // fill currencies metadata
-    Map<Currency, CurrencyMetaData> currencyMetadata = assets.stream()
-        .collect(Collectors.toMap(
-            BitmexAsset::getAsset,
-            bitmexAsset -> {
-              return new CurrencyMetaData(bitmexAsset.getScale(), null);
-            }
-        ));
+    Map<Currency, CurrencyMetaData> currencyMetadata =
+        assets.stream()
+            .collect(
+                Collectors.toMap(
+                    BitmexAsset::getAsset,
+                    bitmexAsset -> {
+                      return new CurrencyMetaData(bitmexAsset.getScale(), null);
+                    }));
 
-    exchangeMetaData = new ExchangeMetaData(instrumentsMetadata, currencyMetadata, exchangeMetaData.getPublicRateLimits(), exchangeMetaData.getPrivateRateLimits(), exchangeMetaData.isShareRateLimits());
+    exchangeMetaData =
+        new ExchangeMetaData(
+            instrumentsMetadata,
+            currencyMetadata,
+            exchangeMetaData.getPublicRateLimits(),
+            exchangeMetaData.getPrivateRateLimits(),
+            exchangeMetaData.isShareRateLimits());
   }
 
   public RateLimitUpdateListener getRateLimitUpdateListener() {

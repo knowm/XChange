@@ -41,7 +41,9 @@ public class BybitStreamOrderBookExample {
 
   private static void subscribeOrderBook() {
     booksDisposable.add(
-        exchange.getStreamingMarketDataService().getOrderBook(XRP_PERP)
+        exchange
+            .getStreamingMarketDataService()
+            .getOrderBook(XRP_PERP)
             .doOnError(
                 error -> {
                   log.error(error.getMessage());
@@ -51,7 +53,8 @@ public class BybitStreamOrderBookExample {
                   subscribeOrderBook();
                 })
             .subscribe(
-                orderBook -> System.out.print("."), throwable -> {
+                orderBook -> System.out.print("."),
+                throwable -> {
                   log.error(throwable.getMessage());
                 }));
   }

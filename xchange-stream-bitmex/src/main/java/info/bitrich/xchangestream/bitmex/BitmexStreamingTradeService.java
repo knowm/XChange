@@ -30,8 +30,12 @@ public class BitmexStreamingTradeService implements StreamingTradeService {
             s -> {
               BitmexPrivateExecution[] bitmexPrivateExecutions = s.toBitmexPrivateExecutions();
               return Arrays.stream(bitmexPrivateExecutions)
-                  .filter(bitmexPrivateExecution -> bitmexPrivateExecution.getInstrument().equals(instrument))
-                  .filter(bitmexPrivateExecution -> bitmexPrivateExecution.getExecType() == ExecutionType.TRADE)
+                  .filter(
+                      bitmexPrivateExecution ->
+                          bitmexPrivateExecution.getInstrument().equals(instrument))
+                  .filter(
+                      bitmexPrivateExecution ->
+                          bitmexPrivateExecution.getExecType() == ExecutionType.TRADE)
                   .map(BitmexStreamingAdapters::toUserTrade)
                   .collect(Collectors.toList());
             });

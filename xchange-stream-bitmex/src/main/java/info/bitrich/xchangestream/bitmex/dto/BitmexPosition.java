@@ -181,19 +181,22 @@ public class BitmexPosition {
   private ZonedDateTime timestamp;
 
   @JsonCreator
-  public BitmexPosition(@JsonProperty("symbol") String symbol,
+  public BitmexPosition(
+      @JsonProperty("symbol") String symbol,
       @JsonProperty("openOrderBuyQty") BigDecimal openOrderBuyQty,
       @JsonProperty("openOrderBuyCost") BigDecimal openOrderBuyCost,
       @JsonProperty("openOrderSellQty") BigDecimal openOrderSellQty,
-      @JsonProperty("openOrderSellCost") BigDecimal openOrderSellCost
-  ) {
+      @JsonProperty("openOrderSellCost") BigDecimal openOrderSellCost) {
     // scale values
     this.instrument = BitmexAdapters.toInstrument(symbol);
 
-    this.openOrderBuyQty = BitmexAdapters.scaleToLocalAmount(openOrderBuyQty, instrument.getCounter());
-    this.openOrderBuyCost = BitmexAdapters.scaleToLocalAmount(openOrderBuyCost, instrument.getCounter());
-    this.openOrderSellQty = BitmexAdapters.scaleToLocalAmount(openOrderSellQty, instrument.getCounter());
-    this.openOrderSellCost = BitmexAdapters.scaleToLocalAmount(openOrderSellCost, instrument.getCounter());
+    this.openOrderBuyQty =
+        BitmexAdapters.scaleToLocalAmount(openOrderBuyQty, instrument.getCounter());
+    this.openOrderBuyCost =
+        BitmexAdapters.scaleToLocalAmount(openOrderBuyCost, instrument.getCounter());
+    this.openOrderSellQty =
+        BitmexAdapters.scaleToLocalAmount(openOrderSellQty, instrument.getCounter());
+    this.openOrderSellCost =
+        BitmexAdapters.scaleToLocalAmount(openOrderSellCost, instrument.getCounter());
   }
-
 }

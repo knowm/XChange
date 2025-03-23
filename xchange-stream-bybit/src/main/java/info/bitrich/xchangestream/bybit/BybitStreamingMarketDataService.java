@@ -105,8 +105,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
       LOG.debug("Failed to get orderBook, channelUniqueId= {}", channelUniqueId);
       return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
     }
-    if (orderBookUpdateIdPrev.incrementAndGet() == bybitOrderBookUpdate.getData()
-        .getU()) {
+    if (orderBookUpdateIdPrev.incrementAndGet() == bybitOrderBookUpdate.getData().getU()) {
       LOG.debug(
           "orderBookUpdate id {}, seq {} ",
           bybitOrderBookUpdate.getData().getU(),

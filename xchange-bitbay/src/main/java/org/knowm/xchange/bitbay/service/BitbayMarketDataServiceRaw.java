@@ -25,13 +25,15 @@ public class BitbayMarketDataServiceRaw extends BitbayBaseService {
   public BitbayTicker getBitbayTicker(CurrencyPair currencyPair) throws IOException {
 
     return bitbay.getBitbayTicker(
-        currencyPair.getBase().getCurrencyCode().toUpperCase() + currencyPair.getCounter().getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode().toUpperCase()
+            + currencyPair.getCounter().getCurrencyCode());
   }
 
   public BitbayOrderBook getBitbayOrderBook(CurrencyPair currencyPair) throws IOException {
 
     return bitbay.getBitbayOrderBook(
-        currencyPair.getBase().getCurrencyCode().toUpperCase() + currencyPair.getCounter().getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode().toUpperCase()
+            + currencyPair.getCounter().getCurrencyCode());
   }
 
   public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair, Object[] args)
@@ -49,7 +51,8 @@ public class BitbayMarketDataServiceRaw extends BitbayBaseService {
       limit = ((Number) args[2]).intValue();
     }
     return bitbay.getBitbayTrades(
-        currencyPair.getBase().getCurrencyCode().toUpperCase() + currencyPair.getCounter().getCurrencyCode(),
+        currencyPair.getBase().getCurrencyCode().toUpperCase()
+            + currencyPair.getCounter().getCurrencyCode(),
         since,
         sort,
         limit);

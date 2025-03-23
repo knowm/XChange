@@ -13,8 +13,9 @@ import org.knowm.xchange.client.ResilienceRegistries;
 
 public class BybitMarketDataServiceRaw extends BybitBaseService {
 
-  public BybitMarketDataServiceRaw(BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
-    super(exchange,resilienceRegistries);
+  public BybitMarketDataServiceRaw(
+      BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   public BybitResult<BybitTickers<BybitTicker>> getTicker24h(BybitCategory category, String symbol)

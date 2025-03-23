@@ -24,11 +24,12 @@ public class CoinexTradeServiceRaw extends CoinexBaseService {
   }
 
   public CoinexOrder cancelOrder(Long orderId, Instrument instrument) throws IOException {
-    CoinexCancelOrderRequest request = CoinexCancelOrderRequest.builder()
-        .orderId(orderId)
-        .instrument(instrument)
-        .marketType(CoinexMarketType.SPOT)
-        .build();
+    CoinexCancelOrderRequest request =
+        CoinexCancelOrderRequest.builder()
+            .orderId(orderId)
+            .instrument(instrument)
+            .marketType(CoinexMarketType.SPOT)
+            .build();
     return coinexAuthenticated
         .cancelOrder(apiKey, exchange.getNonceFactory(), coinexV2ParamsDigest, request)
         .getData();
@@ -41,13 +42,24 @@ public class CoinexTradeServiceRaw extends CoinexBaseService {
         .getData();
   }
 
-  public List<CoinexOrder> pendingOrders(CoinexOpenOrdersParams coinexOpenOrdersParams) throws IOException {
+  public List<CoinexOrder> pendingOrders(CoinexOpenOrdersParams coinexOpenOrdersParams)
+      throws IOException {
     String market = CoinexAdapters.toString(coinexOpenOrdersParams.getInstrument());
     Integer page = coinexOpenOrdersParams.getOffset();
-    Integer limit = Optional.ofNullable(coinexOpenOrdersParams.getLimit()).orElse(CoinexOpenOrdersParams.DEFAULT_LIMIT);
+    Integer limit =
+        Optional.ofNullable(coinexOpenOrdersParams.getLimit())
+            .orElse(CoinexOpenOrdersParams.DEFAULT_LIMIT);
     return coinexAuthenticated
-        .pendingOrders(apiKey, exchange.getNonceFactory(), coinexV2ParamsDigest, market, CoinexAdapters.toString(CoinexMarketType.SPOT),
-             null, null, page, limit)
+        .pendingOrders(
+            apiKey,
+            exchange.getNonceFactory(),
+            coinexV2ParamsDigest,
+            market,
+            CoinexAdapters.toString(CoinexMarketType.SPOT),
+            null,
+            null,
+            page,
+            limit)
         .getData();
   }
 }

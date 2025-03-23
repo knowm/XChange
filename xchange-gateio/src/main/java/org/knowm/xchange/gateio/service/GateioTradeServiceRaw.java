@@ -143,7 +143,8 @@ public class GateioTradeServiceRaw extends GateioBaseService {
 
   private String formatCurrencyPair(CurrencyPair currencyPair) {
     return String.format(
-            "%s_%s", currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode())
+            "%s_%s",
+            currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode())
         .toLowerCase();
   }
 

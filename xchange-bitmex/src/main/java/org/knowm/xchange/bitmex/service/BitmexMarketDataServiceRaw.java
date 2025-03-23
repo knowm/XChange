@@ -117,15 +117,15 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
   }
 
   public List<BitmexAsset> getAssets() throws ExchangeException {
-    return updateRateLimit(() -> {
-      HttpResponseAwareList<BitmexAsset> assets = bitmex.getAssets();
-      // set scale information for each network
-      assets.forEach(asset -> {
-        asset.getNetworks().forEach(network -> network.setAssetScale(asset.getScale()));
-      });
-      return assets;
-    });
+    return updateRateLimit(
+        () -> {
+          HttpResponseAwareList<BitmexAsset> assets = bitmex.getAssets();
+          // set scale information for each network
+          assets.forEach(
+              asset -> {
+                asset.getNetworks().forEach(network -> network.setAssetScale(asset.getScale()));
+              });
+          return assets;
+        });
   }
-
-
 }

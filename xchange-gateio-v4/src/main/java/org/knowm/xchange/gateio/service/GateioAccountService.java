@@ -44,11 +44,11 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
                           .build())
               .collect(Collectors.toList());
 
-      Wallet wallet = Wallet.Builder
-          .from(balances)
-          .id("spot")
-          .features(EnumSet.of(Wallet.WalletFeature.TRADING))
-          .build();
+      Wallet wallet =
+          Wallet.Builder.from(balances)
+              .id("spot")
+              .features(EnumSet.of(Wallet.WalletFeature.TRADING))
+              .build();
 
       return new AccountInfo(wallet);
 

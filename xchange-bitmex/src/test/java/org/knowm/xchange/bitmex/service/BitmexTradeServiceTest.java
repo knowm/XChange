@@ -50,7 +50,6 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
         .isEqualTo(expected);
   }
 
-
   @Test
   void filled_market_sell_order_details() throws IOException {
     MarketOrder expected =
@@ -72,7 +71,6 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
         .usingRecursiveComparison()
         .isEqualTo(expected);
   }
-
 
   @Test
   void pending_limit_buy_order_details() throws IOException {
@@ -96,7 +94,6 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
         .isEqualTo(expected);
   }
 
-
   @Test
   void pending_limit_sell_order_details() throws IOException {
     LimitOrder expected =
@@ -118,7 +115,6 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
         .usingRecursiveComparison()
         .isEqualTo(expected);
   }
-
 
   @Test
   void filled_limit_buy_order_details() throws IOException {
@@ -142,7 +138,6 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
         .usingRecursiveComparison()
         .isEqualTo(expected);
   }
-
 
   @Test
   void filled_limit_sell_order_details() throws IOException {
@@ -174,21 +169,19 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
     assertThat(actual.getOpenOrders()).hasSize(2);
     assertThat(actual.getHiddenOrders()).isEmpty();
 
-    assertThat(actual.getAllOpenOrders().get(0).getInstrument())
-        .isEqualTo(CurrencyPair.ETH_USDT);
-    assertThat(actual.getAllOpenOrders().get(1).getInstrument())
-        .isEqualTo(CurrencyPair.BTC_USDT);
+    assertThat(actual.getAllOpenOrders().get(0).getInstrument()).isEqualTo(CurrencyPair.ETH_USDT);
+    assertThat(actual.getAllOpenOrders().get(1).getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
   }
 
   @Test
   void filtered_open_orders() throws IOException {
-    OpenOrders actual = tradeService.getOpenOrders(new DefaultOpenOrdersParamInstrument(CurrencyPair.BTC_USDT));
+    OpenOrders actual =
+        tradeService.getOpenOrders(new DefaultOpenOrdersParamInstrument(CurrencyPair.BTC_USDT));
 
     assertThat(actual.getOpenOrders()).hasSize(1);
     assertThat(actual.getHiddenOrders()).isEmpty();
 
-    assertThat(actual.getAllOpenOrders().get(0).getInstrument())
-        .isEqualTo(CurrencyPair.BTC_USDT);
+    assertThat(actual.getAllOpenOrders().get(0).getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
   }
 
   @Test
@@ -210,7 +203,6 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
     assertThat(actualResponse).isEqualTo("a125b16d-a1fb-485a-b88f-20f6e3a39314");
   }
 
-
   @Test
   void place_limit_sell_order() throws IOException {
     LimitOrder limitOrder =
@@ -224,7 +216,6 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
     assertThat(actualResponse).isEqualTo("2712af57-0b78-4cdc-a81e-8fc2811fe2e3");
   }
 
-
   @Test
   void place_market_buy_order() throws IOException {
     MarketOrder marketOrder =
@@ -237,7 +228,6 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
     String actualResponse = tradeService.placeMarketOrder(marketOrder);
     assertThat(actualResponse).isEqualTo("2b8a53f3-5e5d-4830-a152-f9f280d2c121");
   }
-
 
   @Test
   void place_market_sell_order() throws IOException {
@@ -257,7 +247,8 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
     UserTrades userTrades =
         exchange
             .getTradeService()
-                .getTradeHistory(BitmexTradeHistoryParams.builder()
+            .getTradeHistory(
+                BitmexTradeHistoryParams.builder()
                     .orderId("5f563ace-005c-49dd-8c44-83fdbdd2fe65")
                     .build());
 
@@ -283,7 +274,6 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
         .isEqualTo(expected);
   }
 
-
   @Test
   void place_order_not_enough_balance() {
     MarketOrder marketOrder =
@@ -294,6 +284,4 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
     assertThatExceptionOfType(FundsExceededException.class)
         .isThrownBy(() -> tradeService.placeMarketOrder(marketOrder));
   }
-
-
 }

@@ -45,8 +45,8 @@ public class BybitPlaceOrderExample {
 
     Instrument ETH_USDT_PERP = new FuturesContract(new CurrencyPair("ETH/USDT"), "PERP");
 
-    System.out.printf("Wallets: %n%s%n",
-        exchange.getAccountService().getAccountInfo().getWallets());
+    System.out.printf(
+        "Wallets: %n%s%n", exchange.getAccountService().getAccountInfo().getWallets());
     Ticker ticker = exchange.getMarketDataService().getTicker(ETH_USDT_PERP);
 
     System.out.printf(
@@ -56,13 +56,9 @@ public class BybitPlaceOrderExample {
     BigDecimal minAmountFuture =
         exchange.getExchangeMetaData().getInstruments().get(ETH_USDT_PERP).getMinimumAmount();
     BybitAccountService bybitAccountService = (BybitAccountService) exchange.getAccountService();
-    //switch mode to two-way
+    // switch mode to two-way
     bybitAccountService.switchPositionMode(BybitCategory.LINEAR, ETH_USDT_PERP, "USDT", 3);
-    MarketOrder marketOrder =
-        new MarketOrder(
-            OrderType.BID,
-            minAmountFuture,
-            ETH_USDT_PERP);
+    MarketOrder marketOrder = new MarketOrder(OrderType.BID, minAmountFuture, ETH_USDT_PERP);
     marketOrder.addOrderFlag(BybitHedgeMode.TWOWAY);
     String marketOrderId = exchange.getTradeService().placeMarketOrder(marketOrder);
     System.out.println("market order id: " + marketOrderId);
@@ -82,9 +78,9 @@ public class BybitPlaceOrderExample {
     System.out.println("limit order id: " + limitOrderId);
 
     // Main net only
-//    for (Order order : exchange.getTradeService().getOrder(limitOrderId)) {
-//      System.out.println("get order: " + order);
-//    }
+    //    for (Order order : exchange.getTradeService().getOrder(limitOrderId)) {
+    //      System.out.println("get order: " + order);
+    //    }
 
     BybitOpenOrdersParam param = new BybitOpenOrdersParam(ETH_USDT_PERP, BybitCategory.LINEAR);
     for (LimitOrder order : exchange.getTradeService().getOpenOrders(param).getOpenOrders()) {

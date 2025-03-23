@@ -6,9 +6,7 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.instrument.Instrument;
 
-/**
- * Converts {@code Instrument} to String
- */
+/** Converts {@code Instrument} to String */
 public class InstrumentListToStringConverter extends StdConverter<List<Instrument>, List<String>> {
 
   @Override
@@ -16,8 +14,6 @@ public class InstrumentListToStringConverter extends StdConverter<List<Instrumen
     if (value == null) {
       return null;
     }
-    return value.stream()
-        .map(BitmexAdapters::toString)
-        .collect(Collectors.toList());
+    return value.stream().map(BitmexAdapters::toString).collect(Collectors.toList());
   }
 }

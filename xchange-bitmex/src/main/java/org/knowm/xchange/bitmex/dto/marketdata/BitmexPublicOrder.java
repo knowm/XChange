@@ -39,5 +39,4 @@ public class BitmexPublicOrder {
 
   @JsonProperty("timestamp")
   private ZonedDateTime updatedAt;
-
 }

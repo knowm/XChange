@@ -60,7 +60,9 @@ public class OkexAdaptersV3 {
   }
 
   public static String toSpotInstrument(CurrencyPair pair) {
-    return pair == null ? null : pair.getBase().getCurrencyCode() + "-" + pair.getCounter().getCurrencyCode();
+    return pair == null
+        ? null
+        : pair.getBase().getCurrencyCode() + "-" + pair.getCounter().getCurrencyCode();
   }
 
   /**

@@ -28,7 +28,9 @@ public class BTCMarketsMarketDataServiceRaw extends BTCMarketsBaseService {
 
   public List<BTCMarketsTrade> getBTCMarketsTrade(CurrencyPair currencyPair) throws IOException {
     return btcmPublic.getTrades(
-        currencyPair.getBase().getCurrencyCode() + "-" + currencyPair.getCounter().getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode()
+            + "-"
+            + currencyPair.getCounter().getCurrencyCode());
   }
 
   public List<BTCMarketsTrade> getBTCMarketsTrade(CurrencyPair currencyPair, Params parameters)
@@ -37,6 +39,8 @@ public class BTCMarketsMarketDataServiceRaw extends BTCMarketsBaseService {
         ((BTCMarketsMarketTradeParams) parameters).before,
         ((BTCMarketsMarketTradeParams) parameters).after,
         ((BTCMarketsMarketTradeParams) parameters).limit,
-        currencyPair.getBase().getCurrencyCode() + "-" + currencyPair.getCounter().getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode()
+            + "-"
+            + currencyPair.getCounter().getCurrencyCode());
   }
 }
