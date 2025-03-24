@@ -196,7 +196,7 @@
         <version.github.mmazi>3.0</version.github.mmazi>
 
         <version.java>8</version.java>
-        <version.java-jwt>4.4.0</version.java-jwt>
+        <version.java-jwt>4.5.0</version.java-jwt>
         <version.junit>5.10.3</version.junit>
         <version.knowm.xchart>3.8.8</version.knowm.xchart>
         <version.lombok>1.18.34</version.lombok>
