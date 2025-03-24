@@ -197,7 +197,7 @@
 
         <version.java>8</version.java>
         <version.java-jwt>4.4.0</version.java-jwt>
-        <version.junit>5.10.3</version.junit>
+        <version.junit>5.12.1</version.junit>
         <version.knowm.xchart>3.8.8</version.knowm.xchart>
         <version.lombok>1.18.34</version.lombok>
         <version.maven-enforcer-plugin>3.2.1</version.maven-enforcer-plugin>
