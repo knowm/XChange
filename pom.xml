@@ -192,7 +192,7 @@
         <version.assertj>3.26.3</version.assertj>
         <version.commons.lang3>3.14.0</version.commons.lang3>
         <version.crypto>5.0.0</version.crypto>
-        <version.fasterxml>2.14.3</version.fasterxml>
+        <version.fasterxml>2.18.3</version.fasterxml>
         <version.github.mmazi>3.0</version.github.mmazi>
 
         <version.java>8</version.java>
