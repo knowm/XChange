@@ -37,9 +37,8 @@ public interface GateioV4Authenticated {
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
-      @QueryParam("currency") String currency
-  ) throws IOException, GateioException;
-
+      @QueryParam("currency") String currency)
+      throws IOException, GateioException;
 
   @GET
   @Path("wallet/withdraw_status")
@@ -47,9 +46,8 @@ public interface GateioV4Authenticated {
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
-      @QueryParam("currency") String currency
-  ) throws IOException, GateioException;
-
+      @QueryParam("currency") String currency)
+      throws IOException, GateioException;
 
   @GET
   @Path("spot/accounts")
@@ -57,9 +55,8 @@ public interface GateioV4Authenticated {
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
-      @QueryParam("currency") String currency
-  ) throws IOException, GateioException;
-
+      @QueryParam("currency") String currency)
+      throws IOException, GateioException;
 
   @GET
   @Path("spot/account_book")
@@ -72,9 +69,8 @@ public interface GateioV4Authenticated {
       @QueryParam("to") Long to,
       @QueryParam("limit") Integer pageLength,
       @QueryParam("page") Integer pageNumber,
-      @QueryParam("type") String type
-  ) throws IOException, GateioException;
-
+      @QueryParam("type") String type)
+      throws IOException, GateioException;
 
   @GET
   @Path("spot/orders")
@@ -83,9 +79,8 @@ public interface GateioV4Authenticated {
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
       @QueryParam("currency_pair") String currencyPair,
-      @QueryParam("status") String status
-  ) throws IOException, GateioException;
-
+      @QueryParam("status") String status)
+      throws IOException, GateioException;
 
   @GET
   @Path("spot/orders/{order_id}")
@@ -94,9 +89,8 @@ public interface GateioV4Authenticated {
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
       @PathParam("order_id") String orderId,
-      @QueryParam("currency_pair") String currencyPair
-  ) throws IOException, GateioException;
-
+      @QueryParam("currency_pair") String currencyPair)
+      throws IOException, GateioException;
 
   @DELETE
   @Path("spot/orders/{order_id}")
@@ -105,9 +99,8 @@ public interface GateioV4Authenticated {
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
       @PathParam("order_id") String orderId,
-      @QueryParam("currency_pair") String currencyPair
-  ) throws IOException, GateioException;
-
+      @QueryParam("currency_pair") String currencyPair)
+      throws IOException, GateioException;
 
   @POST
   @Path("spot/orders")
@@ -116,9 +109,8 @@ public interface GateioV4Authenticated {
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
-      GateioOrder gateioOrder
-  ) throws IOException, GateioException;
-
+      GateioOrder gateioOrder)
+      throws IOException, GateioException;
 
   @GET
   @Path("spot/my_trades")
@@ -132,9 +124,8 @@ public interface GateioV4Authenticated {
       @QueryParam("order_id") String orderId,
       @QueryParam("account") String account,
       @QueryParam("from") Long from,
-      @QueryParam("to") Long to
-  ) throws IOException, GateioException;
-
+      @QueryParam("to") Long to)
+      throws IOException, GateioException;
 
   @GET
   @Path("wallet/saved_address")
@@ -142,9 +133,8 @@ public interface GateioV4Authenticated {
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
-      @QueryParam("currency") String currency
-  ) throws IOException, GateioException;
-
+      @QueryParam("currency") String currency)
+      throws IOException, GateioException;
 
   @GET
   @Path("wallet/sub_account_transfers")
@@ -156,9 +146,8 @@ public interface GateioV4Authenticated {
       @QueryParam("from") Long from,
       @QueryParam("to") Long to,
       @QueryParam("limit") Integer pageLength,
-      @QueryParam("offset") Integer zeroBasedPageNumber
-  ) throws IOException, GateioException;
-
+      @QueryParam("offset") Integer zeroBasedPageNumber)
+      throws IOException, GateioException;
 
   @GET
   @Path("wallet/withdrawals")
@@ -170,9 +159,8 @@ public interface GateioV4Authenticated {
       @QueryParam("from") Long from,
       @QueryParam("to") Long to,
       @QueryParam("limit") Integer pageLength,
-      @QueryParam("offset") Integer zeroBasedPageNumber
-  ) throws IOException, GateioException;
-
+      @QueryParam("offset") Integer zeroBasedPageNumber)
+      throws IOException, GateioException;
 
   @GET
   @Path("wallet/deposits")
@@ -184,9 +172,8 @@ public interface GateioV4Authenticated {
       @QueryParam("from") Long from,
       @QueryParam("to") Long to,
       @QueryParam("limit") Integer pageLength,
-      @QueryParam("offset") Integer zeroBasedPageNumber
-  ) throws IOException, GateioException;
-
+      @QueryParam("offset") Integer zeroBasedPageNumber)
+      throws IOException, GateioException;
 
   @POST
   @Path("withdrawals")
@@ -195,8 +182,6 @@ public interface GateioV4Authenticated {
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
-      GateioWithdrawalRequest gateioWithdrawalRequest
-  ) throws IOException, GateioException;
-
-
+      GateioWithdrawalRequest gateioWithdrawalRequest)
+      throws IOException, GateioException;
 }

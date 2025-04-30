@@ -101,21 +101,20 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
       String currencyName,
       AmountType amountType,
       FeePriority feePriority,
-      String destinationTag
-  )
+      String destinationTag)
       throws IOException {
-    CoinmateTradeResponse response =coinmateAuthenticated.withdrawVirtualCurrency(
-        exchange.getExchangeSpecification().getApiKey(),
-        exchange.getExchangeSpecification().getUserName(),
-        signatureCreator,
-        exchange.getNonceFactory(),
-        currencyName,
-        amount,
-        destinationTag,
-        amountType,
-        address,
-        feePriority
-    );
+    CoinmateTradeResponse response =
+        coinmateAuthenticated.withdrawVirtualCurrency(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            currencyName,
+            amount,
+            destinationTag,
+            amountType,
+            address,
+            feePriority);
 
     throwExceptionIfError(response);
 
@@ -130,8 +129,7 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
             exchange.getExchangeSpecification().getUserName(),
             signatureCreator,
             exchange.getNonceFactory(),
-            currencyName
-            );
+            currencyName);
 
     throwExceptionIfError(response);
 
@@ -146,8 +144,7 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
             exchange.getExchangeSpecification().getUserName(),
             signatureCreator,
             exchange.getNonceFactory(),
-            currencyName
-        );
+            currencyName);
 
     throwExceptionIfError(response);
 

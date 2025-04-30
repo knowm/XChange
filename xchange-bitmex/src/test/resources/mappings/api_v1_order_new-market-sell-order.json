@@ -1,0 +1,20 @@
+{
+  "id" : "9346e4b4-ddac-48fa-8dca-76ff6b608e72",
+  "name" : "api_v1_order",
+  "request" : {
+    "url" : "/api/v1/order",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"symbol\":\"XBT_USDT\",\"side\":\"Sell\",\"orderQty\":10000,\"clOrdID\":\"new-market-sell-order\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v1_order_new-market-sell-order.json"
+  },
+  "uuid" : "9346e4b4-ddac-48fa-8dca-76ff6b608e72",
+  "persistent" : true,
+  "insertionIndex" : 16
+}

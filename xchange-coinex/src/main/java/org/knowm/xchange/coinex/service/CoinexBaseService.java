@@ -17,18 +17,24 @@ public class CoinexBaseService extends BaseExchangeService<CoinexExchange> imple
 
   public CoinexBaseService(CoinexExchange exchange) {
     super(exchange);
-    coinex = ExchangeRestProxyBuilder
-        .forInterface(Coinex.class, exchange.getExchangeSpecification())
-        .clientConfigCustomizer(clientConfig -> clientConfig.setJacksonObjectMapperFactory(new CoinexJacksonObjectMapperFactory()))
-        .build();
-    coinexAuthenticated = ExchangeRestProxyBuilder
-        .forInterface(CoinexAuthenticated.class, exchange.getExchangeSpecification())
-        .clientConfigCustomizer(clientConfig -> clientConfig.setJacksonObjectMapperFactory(new CoinexJacksonObjectMapperFactory()))
-        .build();
+    coinex =
+        ExchangeRestProxyBuilder.forInterface(Coinex.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(
+                clientConfig ->
+                    clientConfig.setJacksonObjectMapperFactory(
+                        new CoinexJacksonObjectMapperFactory()))
+            .build();
+    coinexAuthenticated =
+        ExchangeRestProxyBuilder.forInterface(
+                CoinexAuthenticated.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(
+                clientConfig ->
+                    clientConfig.setJacksonObjectMapperFactory(
+                        new CoinexJacksonObjectMapperFactory()))
+            .build();
     apiKey = exchange.getExchangeSpecification().getApiKey();
 
     coinexV2ParamsDigest =
         CoinexV2Digest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-
   }
 }

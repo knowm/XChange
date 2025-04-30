@@ -1,6 +1,5 @@
 package org.knowm.xchange.blockchain.service;
 
-
 import java.io.IOException;
 import org.knowm.xchange.blockchain.BlockchainAdapters;
 import org.knowm.xchange.blockchain.BlockchainAuthenticated;
@@ -41,5 +40,4 @@ public class BlockchainMarketDataService extends BlockchainMarketDataServiceRaw
       throw BlockchainErrorAdapter.adapt(e);
     }
   }
-
 }

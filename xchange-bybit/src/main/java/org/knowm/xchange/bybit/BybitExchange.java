@@ -1,6 +1,7 @@
 package org.knowm.xchange.bybit;
 
 import java.io.IOException;
+import lombok.Getter;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -13,26 +14,35 @@ import org.knowm.xchange.bybit.service.BybitAccountService;
 import org.knowm.xchange.bybit.service.BybitMarketDataService;
 import org.knowm.xchange.bybit.service.BybitMarketDataServiceRaw;
 import org.knowm.xchange.bybit.service.BybitTradeService;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.ExchangeException;
+import si.mazi.rescu.SynchronizedValueFactory;
 
-public class BybitExchange extends BaseExchange {
+public class BybitExchange extends BaseExchange implements Exchange {
 
   public static final String SPECIFIC_PARAM_ACCOUNT_TYPE = "accountType";
   private static final String BASE_URL = "https://api.bybit.com";
-//  private static final String DEMO_URL = "https://api-demo.bybit.com";
+  private static final String DEMO_URL = "https://api-demo.bybit.com";
   private static final String TESTNET_URL = "https://api-testnet.bybit.com";
 
+  // enable DEMO mode
+  public static final String SPECIFIC_PARAM_TESTNET = "test_net";
+
+  private static ResilienceRegistries RESILIENCE_REGISTRIES;
+
+  @Getter protected SynchronizedValueFactory<Long> timeStampFactory = new BybitTimeStampFactory();
 
   @Override
   protected void initServices() {
-    marketDataService = new BybitMarketDataService(this);
-    tradeService = new BybitTradeService(this);
+    marketDataService = new BybitMarketDataService(this, getResilienceRegistries());
+    tradeService = new BybitTradeService(this, getResilienceRegistries());
     accountService =
         new BybitAccountService(
             this,
             (BybitAccountType)
                 getExchangeSpecification()
-                    .getExchangeSpecificParametersItem(SPECIFIC_PARAM_ACCOUNT_TYPE));
+                    .getExchangeSpecificParametersItem(SPECIFIC_PARAM_ACCOUNT_TYPE),
+            getResilienceRegistries());
   }
 
   @Override
@@ -45,8 +55,9 @@ public class BybitExchange extends BaseExchange {
     exchangeSpecification.setExchangeDescription("BYBIT");
     exchangeSpecification.setExchangeSpecificParametersItem(
         SPECIFIC_PARAM_ACCOUNT_TYPE, BybitAccountType.UNIFIED);
-    exchangeSpecification.setExchangeSpecificParametersItem(
-        Exchange.USE_SANDBOX, false);
+    exchangeSpecification.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, false);
+    exchangeSpecification.setExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET, false);
+    exchangeSpecification.getResilience().setRateLimiterEnabled(true);
     return exchangeSpecification;
   }
 
@@ -110,8 +121,28 @@ public class BybitExchange extends BaseExchange {
     if (exchangeSpecification
         .getExchangeSpecificParametersItem(Exchange.USE_SANDBOX)
         .equals(true)) {
+      exchangeSpecification.setSslUri(DEMO_URL);
+    }
+
+    if (exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET) != null
+        && exchangeSpecification
+            .getExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET)
+            .equals(true)) {
       exchangeSpecification.setSslUri(TESTNET_URL);
     }
     super.applySpecification(exchangeSpecification);
+  }
+
+  @Override
+  public ResilienceRegistries getResilienceRegistries() {
+    if (RESILIENCE_REGISTRIES == null) {
+      RESILIENCE_REGISTRIES = BybitResilience.createRegistries();
+    }
+    return RESILIENCE_REGISTRIES;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    throw new UnsupportedOperationException("Bybit uses timestamp/recv-window rather than a nonce");
   }
 }

@@ -11,8 +11,11 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 @Data
 @SuperBuilder
-public class GateioTradeHistoryParams implements TradeHistoryParamCurrencyPair,
-    TradeHistoryParamPaging, TradeHistoryParamTransactionId, TradeHistoryParamsTimeSpan {
+public class GateioTradeHistoryParams
+    implements TradeHistoryParamCurrencyPair,
+        TradeHistoryParamPaging,
+        TradeHistoryParamTransactionId,
+        TradeHistoryParamsTimeSpan {
 
   private CurrencyPair currencyPair;
 
@@ -25,6 +28,4 @@ public class GateioTradeHistoryParams implements TradeHistoryParamCurrencyPair,
   private Date startTime;
 
   private Date endTime;
-
-
 }

@@ -24,5 +24,4 @@ public class BinancePrice {
   public boolean isValid() {
     return currencyPair != null && price != null;
   }
-
 }

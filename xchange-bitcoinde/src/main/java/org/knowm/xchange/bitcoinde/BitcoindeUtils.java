@@ -14,8 +14,8 @@ public class BitcoindeUtils {
   private BitcoindeUtils() {}
 
   public static String createBitcoindePair(CurrencyPair currencyPair) {
-    return createBitcoindeCurrency(currencyPair.base)
-        + createBitcoindeCurrency(currencyPair.counter);
+    return createBitcoindeCurrency(currencyPair.getBase())
+        + createBitcoindeCurrency(currencyPair.getCounter());
   }
 
   public static String createBitcoindeCurrency(Currency currency) {

@@ -162,6 +162,22 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
     assertThat(requestParams.get("timeinforce")).isEqualTo("IOC");
   }
 
+  @Test
+  public void cancelAllOrdersTest() throws Exception {
+    stubFor(
+        post(urlPathEqualTo("/0/private/CancelAll"))
+            .willReturn(
+                aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(OPEN_ORDERS_BODY)));
+    classUnderTest.cancelAllOrders(null);
+    List<LoggedRequest> requests =
+        wireMockRule.findAll(postRequestedFor(urlEqualTo("/0/private/CancelAll")));
+    Map<String, String> requestParams = parseAddOrderRequestBody(requests.get(0));
+    assertThat(requestParams.get("nonce")).isLessThan(String.valueOf(System.currentTimeMillis()));
+  }
+  
   private void stubAddOrderApi() {
     stubFor(
         post(urlPathEqualTo("/0/private/AddOrder"))

@@ -20,9 +20,9 @@ import org.knowm.xchange.dto.trade.UserTrades;
 public class CoinmateStreamingAdapter {
 
   public static String getChannelPostfix(CurrencyPair currencyPair) {
-    return currencyPair.base.toString().toUpperCase()
+    return currencyPair.getBase().toString().toUpperCase()
         + "_"
-        + currencyPair.counter.toString().toUpperCase();
+        + currencyPair.getCounter().toString().toUpperCase();
   }
 
   public static UserTrades adaptWebSocketUserTrades(
@@ -47,7 +47,7 @@ public class CoinmateStreamingAdapter {
                           ? coinmateWebSocketUserTrade.getSellOrderId()
                           : coinmateWebSocketUserTrade.getBuyOrderId())
                   .feeAmount(BigDecimal.valueOf(coinmateWebSocketUserTrade.getFee()))
-                  .feeCurrency(currencyPair.counter)
+                  .feeCurrency(currencyPair.getCounter())
                   .build());
         });
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);

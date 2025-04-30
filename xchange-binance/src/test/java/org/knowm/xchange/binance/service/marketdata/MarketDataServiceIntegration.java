@@ -16,9 +16,9 @@ public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
 
   @Test
   public void exchange_health() {
-    assertThat(exchange.getMarketDataService().getExchangeHealth()).isEqualTo(ExchangeHealth.ONLINE);
+    assertThat(exchange.getMarketDataService().getExchangeHealth())
+        .isEqualTo(ExchangeHealth.ONLINE);
   }
-
 
   @Test
   public void valid_timestamp() {
@@ -27,23 +27,21 @@ public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
     assertThat(serverTime).isPositive();
   }
 
-
   @Test
   public void valid_all_tickers() throws IOException {
     List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
 
-
-    assertThat(tickers).allSatisfy(ticker -> {
-      assertThat(ticker.getInstrument()).isNotNull();
-      assertThat(ticker.getLast()).isNotNull();
-      if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
-        assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
-      }
-    });
-
+    assertThat(tickers)
+        .allSatisfy(
+            ticker -> {
+              assertThat(ticker.getInstrument()).isNotNull();
+              assertThat(ticker.getLast()).isNotNull();
+              if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
+                assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+              }
+            });
   }
-
 
   @Test
   public void valid_ticker() throws Exception {
@@ -53,15 +51,13 @@ public class MarketDataServiceIntegration extends BinanceExchangeIntegration {
     assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
   }
 
-
   @Test
   public void valid_orderBook() throws IOException {
-    OrderBook orderBook = exchange.getMarketDataService().getOrderBook((Instrument) CurrencyPair.BTC_USDT);
+    OrderBook orderBook =
+        exchange.getMarketDataService().getOrderBook((Instrument) CurrencyPair.BTC_USDT);
 
     assertThat(orderBook.getAsks()).isNotEmpty();
     assertThat(orderBook.getBids()).isNotEmpty();
     assertThat(orderBook.getBids().get(0)).isLessThan(orderBook.getAsks().get(0));
   }
-
-
 }

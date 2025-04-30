@@ -19,21 +19,21 @@ public class CoinEggMarketDataService extends CoinEggMarketDataServiceRaw
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return CoinEggAdapters.adaptTicker(
-        getCoinEggTicker(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
+        getCoinEggTicker(currencyPair.getBase().getCurrencyCode().toLowerCase()), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     return CoinEggAdapters.adaptOrders(
         getCoinEggOrders(
-            currencyPair.counter.getCurrencyCode().toLowerCase(),
-            currencyPair.base.getCurrencyCode().toLowerCase()),
+            currencyPair.getCounter().getCurrencyCode().toLowerCase(),
+            currencyPair.getBase().getCurrencyCode().toLowerCase()),
         currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     return CoinEggAdapters.adaptTrades(
-        getCoinEggTrades(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
+        getCoinEggTrades(currencyPair.getBase().getCurrencyCode().toLowerCase()), currencyPair);
   }
 }

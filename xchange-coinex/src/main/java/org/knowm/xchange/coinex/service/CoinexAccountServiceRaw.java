@@ -12,6 +12,8 @@ public class CoinexAccountServiceRaw extends CoinexBaseService {
   }
 
   public List<CoinexBalanceInfo> getCoinexBalances() throws IOException {
-    return coinexAuthenticated.balances(apiKey, exchange.getNonceFactory(), coinexV2ParamsDigest).getData();
+    return coinexAuthenticated
+        .balances(apiKey, exchange.getNonceFactory(), coinexV2ParamsDigest)
+        .getData();
   }
 }

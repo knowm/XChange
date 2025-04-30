@@ -50,12 +50,11 @@ public class GateioWithdrawStatus {
   @JsonProperty("withdraw_fix_on_chains")
   Map<String, BigDecimal> withdrawFeeByChain;
 
-
   /**
    * @return withdraw rate converted from percentage
    */
   public BigDecimal getWithdrawRate() {
-    return new BigDecimal(StringUtils.removeEnd(withdrawPercent, "%")).multiply(new BigDecimal("0.01"));
+    return new BigDecimal(StringUtils.removeEnd(withdrawPercent, "%"))
+        .multiply(new BigDecimal("0.01"));
   }
-
 }

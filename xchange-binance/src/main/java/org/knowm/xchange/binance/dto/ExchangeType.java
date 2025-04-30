@@ -9,4 +9,3 @@ public enum ExchangeType {
   INVERSE,
   PORTFOLIO_MARGIN;
 }
-

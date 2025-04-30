@@ -15,7 +15,7 @@ public class CmcAdapter {
   public static Ticker adaptTicker(CmcTicker ticker, CurrencyPair currencyPair) {
 
     Date timestamp = ticker.getLastUpdated();
-    CmcQuote cmcQuote = ticker.getQuote().get(currencyPair.counter.getCurrencyCode());
+    CmcQuote cmcQuote = ticker.getQuote().get(currencyPair.getCounter().getCurrencyCode());
     BigDecimal price = cmcQuote.getPrice();
     BigDecimal volume24h = cmcQuote.getVolume24h();
 

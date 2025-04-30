@@ -1,0 +1,15 @@
+{
+  "id" : "ed00de1b-ef6b-474a-8a0c-7e8071df933d",
+  "name" : "v2_spot_market",
+  "request" : {
+    "url" : "/v2/spot/market",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_spot_market.json"
+  },
+  "uuid" : "ed00de1b-ef6b-474a-8a0c-7e8071df933d",
+  "persistent" : true,
+  "insertionIndex" : 2
+}

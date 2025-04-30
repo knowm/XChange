@@ -1,19 +1,10 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
-@SuppressWarnings("unused")
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum BitmexContingencyType {
-  OCO("OneCancelsTheOther"),
-  OTO("OneTriggersTheOther"),
-  OUOA("OneUpdatesTheOtherAbsolute"),
-  OUOP("OneUpdatesTheOtherProportional");
-
-  private String apiParameter;
-
-  BitmexContingencyType(String apiParameter) {
-    this.apiParameter = apiParameter;
-  }
-
-  public String toApiParameter() {
-    return apiParameter;
-  }
+  @JsonProperty("OneCancelsTheOther")
+  OCO,
+  @JsonProperty("OneTriggersTheOther")
+  OTO;
 }

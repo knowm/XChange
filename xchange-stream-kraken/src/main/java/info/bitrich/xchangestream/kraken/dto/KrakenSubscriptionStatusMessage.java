@@ -10,7 +10,7 @@ import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionStatus;
  */
 public class KrakenSubscriptionStatusMessage extends KrakenEvent {
 
-  private final Integer channelID;
+  private final Long channelID;
   private final Integer reqid;
   private final KrakenSubscriptionStatus status;
   private final String pair;
@@ -21,7 +21,7 @@ public class KrakenSubscriptionStatusMessage extends KrakenEvent {
   @JsonCreator
   public KrakenSubscriptionStatusMessage(
       @JsonProperty("event") KrakenEventType event,
-      @JsonProperty("channelID") Integer channelID,
+      @JsonProperty("channelID") Long channelID,
       @JsonProperty("reqid") Integer reqid,
       @JsonProperty("status") KrakenSubscriptionStatus status,
       @JsonProperty("pair") String pair,
@@ -36,7 +36,7 @@ public class KrakenSubscriptionStatusMessage extends KrakenEvent {
     this.errorMessage = errorMessage;
   }
 
-  public Integer getChannelID() {
+  public Long getChannelID() {
     return channelID;
   }
 

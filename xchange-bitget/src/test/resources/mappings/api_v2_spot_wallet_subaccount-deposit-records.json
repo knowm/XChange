@@ -1,0 +1,15 @@
+{
+  "id" : "1f65d9db-2290-402b-af6f-c27b98930ec6",
+  "name" : "api_v2_spot_wallet_subaccount-deposit-records",
+  "request" : {
+    "url" : "/api/v2/spot/wallet/subaccount-deposit-records?coin=USDT&limit=1&subUid=7831928986&startTime=1728494500000&endTime=1728494529999&idLessThan=1227960429565849609",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_spot_wallet_subaccount-deposit-records.json"
+  },
+  "uuid" : "1f65d9db-2290-402b-af6f-c27b98930ec6",
+  "persistent" : true,
+  "insertionIndex" : 11
+}

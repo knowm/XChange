@@ -12,6 +12,7 @@ import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTickers;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.option.BybitOptionTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.spot.BybitSpotTicker;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -22,8 +23,8 @@ import org.knowm.xchange.utils.Assert;
 
 public class BybitMarketDataService extends BybitMarketDataServiceRaw implements MarketDataService {
 
-  public BybitMarketDataService(BybitExchange exchange) {
-    super(exchange);
+  public BybitMarketDataService(BybitExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   @Override
@@ -68,11 +69,9 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
     BybitCategory category;
     if (params == null) {
       category = BybitCategory.SPOT;
-    }
-    else if (!(params instanceof BybitCategory)) {
+    } else if (!(params instanceof BybitCategory)) {
       throw new IllegalArgumentException("Params must be instance of BybitCategory");
-    }
-    else {
+    } else {
       category = (BybitCategory) params;
     }
 
@@ -84,21 +83,23 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
     for (BybitTicker ticker : response.getResult().getList()) {
       switch (category) {
         case SPOT:
-          result.add(BybitAdapters.adaptBybitSpotTicker(BybitAdapters.convertBybitSymbolToInstrument
-              (ticker.getSymbol(), category), response.getTime(), (BybitSpotTicker) ticker));
+          result.add(
+              BybitAdapters.adaptBybitSpotTicker(
+                  BybitAdapters.convertBybitSymbolToInstrument(ticker.getSymbol(), category),
+                  response.getTime(),
+                  (BybitSpotTicker) ticker));
           break;
         case LINEAR:
         case INVERSE:
-          result.add(BybitAdapters.adaptBybitLinearInverseTicker(
-              BybitAdapters.convertBybitSymbolToInstrument
-                  (ticker.getSymbol(), category), response.getTime(),
-              (BybitLinearInverseTicker) ticker));
+          result.add(
+              BybitAdapters.adaptBybitLinearInverseTicker(
+                  BybitAdapters.convertBybitSymbolToInstrument(ticker.getSymbol(), category),
+                  response.getTime(),
+                  (BybitLinearInverseTicker) ticker));
           break;
         default:
       }
     }
     return result;
   }
-
 }
-

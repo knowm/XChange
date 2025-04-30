@@ -51,7 +51,7 @@ public class BitcointoyouTradeServiceRaw extends BitcointoyouBasePollingService 
   private BitcointoyouOrderResponse createOrder(String action, LimitOrder limitOrder)
       throws IOException {
     try {
-      String asset = limitOrder.getCurrencyPair().base.getSymbol();
+      String asset = limitOrder.getCurrencyPair().getBase().getSymbol();
       return bitcointoyouAuthenticated.createOrder(
           apiKey,
           exchange.getNonceFactory(),

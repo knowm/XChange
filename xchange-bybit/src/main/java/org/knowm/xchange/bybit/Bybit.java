@@ -32,16 +32,14 @@ public interface Bybit {
   @GET
   @Path("/instruments-info")
   BybitResult<BybitInstrumentsInfo<BybitInstrumentInfo>> getInstrumentsInfo(
-      @QueryParam("category") String category,
-      @QueryParam("limit") String limit) throws IOException, BybitException;
+      @QueryParam("category") String category, @QueryParam("limit") String limit)
+      throws IOException, BybitException;
 
   /**
    * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/market/tickers">API</a>
    */
   @GET
   @Path("/tickers")
-  BybitResult<BybitTickers<BybitTicker>> getTickers(
-      @QueryParam("category") String category)
+  BybitResult<BybitTickers<BybitTicker>> getTickers(@QueryParam("category") String category)
       throws IOException, BybitException;
-
 }

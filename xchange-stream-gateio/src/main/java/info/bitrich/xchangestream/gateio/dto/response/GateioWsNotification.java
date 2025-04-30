@@ -18,16 +18,13 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
 
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    property = "channel",
-    visible = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "channel", visible = true)
 @JsonSubTypes({
-    @Type(value = GateioTradeNotification.class, name = Config.SPOT_TRADES_CHANNEL),
-    @Type(value = GateioTickerNotification.class, name = Config.SPOT_TICKERS_CHANNEL),
-    @Type(value = GateioOrderBookNotification.class, name = Config.SPOT_ORDERBOOK_CHANNEL),
-    @Type(value = GateioMultipleSpotBalanceNotification.class, name = Config.SPOT_BALANCES_CHANNEL),
-    @Type(value = GateioMultipleUserTradeNotification.class, name = Config.SPOT_USER_TRADES_CHANNEL)
+  @Type(value = GateioTradeNotification.class, name = Config.SPOT_TRADES_CHANNEL),
+  @Type(value = GateioTickerNotification.class, name = Config.SPOT_TICKERS_CHANNEL),
+  @Type(value = GateioOrderBookNotification.class, name = Config.SPOT_ORDERBOOK_CHANNEL),
+  @Type(value = GateioMultipleSpotBalanceNotification.class, name = Config.SPOT_BALANCES_CHANNEL),
+  @Type(value = GateioMultipleUserTradeNotification.class, name = Config.SPOT_USER_TRADES_CHANNEL)
 })
 @Data
 @SuperBuilder
@@ -50,9 +47,7 @@ public class GateioWsNotification {
   @JsonProperty("error")
   private String error;
 
-
   public String getUniqueChannelName() {
     return channel;
   }
-
 }

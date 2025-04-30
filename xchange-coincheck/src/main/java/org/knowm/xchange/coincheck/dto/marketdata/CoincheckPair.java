@@ -24,8 +24,8 @@ public class CoincheckPair {
   }
 
   public static String pairToString(CoincheckPair pair) {
-    String base = pair.getPair().base.toString().toLowerCase(Locale.ROOT);
-    String counter = pair.getPair().counter.toString().toLowerCase(Locale.ROOT);
+    String base = pair.getPair().getBase().toString().toLowerCase(Locale.ROOT);
+    String counter = pair.getPair().getCounter().toString().toLowerCase(Locale.ROOT);
     return base + '_' + counter;
   }
 

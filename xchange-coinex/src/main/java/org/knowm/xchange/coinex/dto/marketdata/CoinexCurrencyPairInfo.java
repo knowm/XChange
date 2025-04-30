@@ -47,9 +47,7 @@ public class CoinexCurrencyPairInfo {
   @JsonProperty("min_amount")
   private BigDecimal minAssetAmount;
 
-
   public CurrencyPair getCurrencyPair() {
     return new CurrencyPair(baseCurrency, quoteCurrency);
   }
-
 }

@@ -2,6 +2,7 @@ package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -17,6 +18,7 @@ import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
 import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelAllOrders;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -95,6 +97,11 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
       return cancelOrder(((CancelOrderByUserReferenceParams) orderParams).getUserReference());
     }
     return false;
+  }
+
+  @Override
+  public Collection<String> cancelAllOrders(CancelAllOrders orderParams) throws IOException {
+    return Collections.singletonList(String.valueOf(super.cancelAllKrakenOrders().getCount()));
   }
 
   @Override

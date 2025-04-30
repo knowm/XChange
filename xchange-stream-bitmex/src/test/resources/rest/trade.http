@@ -1,0 +1,23 @@
+### Subscribe trade
+WEBSOCKET {{base_url}}/realtime
+Content-Type: application/json
+
+{
+  "op": "subscribe",
+  "args": [
+    "trade"
+  ]
+}
+
+### Unsubscribe trade
+WEBSOCKET {{base_url}}/realtime
+Content-Type: application/json
+
+{
+  "op": "unsubscribe",
+  "args": [
+    "trade"
+  ]
+}
+
+

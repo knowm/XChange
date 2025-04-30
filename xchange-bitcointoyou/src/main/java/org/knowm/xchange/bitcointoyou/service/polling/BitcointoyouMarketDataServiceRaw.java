@@ -86,7 +86,7 @@ class BitcointoyouMarketDataServiceRaw extends BitcointoyouBasePollingService {
   BitcointoyouPublicTrade[] getBitcointoyouPublicTrades(
       CurrencyPair currencyPair, Long tradeTimestamp, Long minTradeId) throws IOException {
 
-    String currency = currencyPair.base.toString();
+    String currency = currencyPair.getBase().toString();
 
     try {
       return bitcointoyou.getTrades(currency, tradeTimestamp, minTradeId);

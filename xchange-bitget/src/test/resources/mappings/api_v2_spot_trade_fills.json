@@ -1,0 +1,15 @@
+{
+  "id" : "fa553e38-ab6e-4429-9d89-130b81a346a0",
+  "name" : "api_v2_spot_trade_fills",
+  "request" : {
+    "url" : "/api/v2/spot/trade/fills?symbol=BTCUSDT&limit=2&orderId=1225475622585147396&startTime=1727902077418&endTime=1727902077420&idLessThan=1225475622852575236",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_spot_trade_fills.json"
+  },
+  "uuid" : "fa553e38-ab6e-4429-9d89-130b81a346a0",
+  "persistent" : true,
+  "insertionIndex" : 6
+}

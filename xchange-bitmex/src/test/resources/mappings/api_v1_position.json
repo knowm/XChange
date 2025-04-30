@@ -1,0 +1,15 @@
+{
+  "id" : "4f023cd0-79d3-4597-8f2c-53167cdbfd4c",
+  "name" : "api_v1_position",
+  "request" : {
+    "url" : "/api/v1/position?filter=%7B%22symbol%22%3A%5B%22ETH_XBT%22%2C%22SOL_USDT%22%5D%7D",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v1_position.json"
+  },
+  "uuid" : "4f023cd0-79d3-4597-8f2c-53167cdbfd4c",
+  "persistent" : true,
+  "insertionIndex" : 20
+}

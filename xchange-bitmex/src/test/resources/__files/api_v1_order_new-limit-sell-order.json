@@ -1,0 +1,19 @@
+{
+  "account": 2273415,
+  "clOrdID": "new-limit-sell-order",
+  "cumQty": 0,
+  "currency": "USDT",
+  "leavesQty": 10000,
+  "ordStatus": "New",
+  "ordType": "Limit",
+  "orderID": "2712af57-0b78-4cdc-a81e-8fc2811fe2e3",
+  "orderQty": 10000,
+  "price": 110000.5,
+  "side": "Sell",
+  "symbol": "XBT_USDT",
+  "text": "Submitted via API.",
+  "timeInForce": "GoodTillCancel",
+  "timestamp": "2024-12-12T17:24:56.236Z",
+  "transactTime": "2024-12-12T17:24:56.236Z",
+  "workingIndicator": true
+}

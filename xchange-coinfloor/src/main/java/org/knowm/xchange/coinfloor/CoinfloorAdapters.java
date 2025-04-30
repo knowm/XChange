@@ -138,7 +138,7 @@ public class CoinfloorAdapters {
               .id(tradeId)
               .orderId(orderId)
               .feeAmount(feeAmount)
-              .feeCurrency(transaction.getCurrencyPair().counter)
+              .feeCurrency(transaction.getCurrencyPair().getCounter())
               .build();
       trades.add(trade);
     }

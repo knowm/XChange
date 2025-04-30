@@ -1,0 +1,15 @@
+{
+  "id" : "230aca2b-ef08-420a-8463-fa7ffe1b87fd",
+  "name" : "api_v1_instrument_active",
+  "request" : {
+    "url" : "/api/v1/instrument/active",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v1_instrument_active.json"
+  },
+  "uuid" : "230aca2b-ef08-420a-8463-fa7ffe1b87fd",
+  "persistent" : true,
+  "insertionIndex" : 5
+}

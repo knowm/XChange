@@ -17,8 +17,10 @@ public class GateioOrderBookNotification extends GateioWsNotification {
 
   @Override
   public String getUniqueChannelName() {
-    String suffix = result.getCurrencyPair() != null ? Config.CHANNEL_NAME_DELIMITER + result.getCurrencyPair() : "";
+    String suffix =
+        result.getCurrencyPair() != null
+            ? Config.CHANNEL_NAME_DELIMITER + result.getCurrencyPair()
+            : "";
     return super.getUniqueChannelName() + suffix;
   }
-
 }

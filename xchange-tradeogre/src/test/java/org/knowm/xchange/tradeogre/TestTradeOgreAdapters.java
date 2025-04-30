@@ -9,7 +9,7 @@ public class TestTradeOgreAdapters {
   @Test
   public void testAdaptCurrencyPair() {
     CurrencyPair market = CurrencyPair.ETH_BTC;
-    Assert.assertEquals("BTC-ETH", TradeOgreAdapters.adaptCurrencyPair(market));
+    Assert.assertEquals("ETH-BTC", TradeOgreAdapters.adaptCurrencyPair(market));
   }
 
   @Test

@@ -45,8 +45,8 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
     if (params instanceof OpenOrdersParamCurrencyPair) {
       final CurrencyPair cp = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
       if (cp != null) {
-        primaryCurrency = cp.base.getCurrencyCode();
-        secondaryCurrency = cp.counter.getCurrencyCode();
+        primaryCurrency = cp.getBase().getCurrencyCode();
+        secondaryCurrency = cp.getCounter().getCurrencyCode();
       }
     }
     return IndependentReserveAdapters.adaptOpenOrders(

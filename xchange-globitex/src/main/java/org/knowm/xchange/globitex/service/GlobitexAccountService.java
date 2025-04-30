@@ -23,5 +23,4 @@ public class GlobitexAccountService extends GlobitexAccountServiceRaw implements
   public TradeHistoryParams createFundingHistoryParams() {
     return new TradeHistoryParamsAll();
   }
-
 }

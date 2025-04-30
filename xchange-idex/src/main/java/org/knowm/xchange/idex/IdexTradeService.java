@@ -223,8 +223,8 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
   @Override
   public String placeLimitOrder(LimitOrder placeOrder) {
     OrderType type = placeOrder.getType();
-    Currency baseCurrency = placeOrder.getCurrencyPair().base;
-    Currency counterCurrency = placeOrder.getCurrencyPair().counter;
+    Currency baseCurrency = placeOrder.getCurrencyPair().getBase();
+    Currency counterCurrency = placeOrder.getCurrencyPair().getCounter();
     BigDecimal originalAmount = placeOrder.getOriginalAmount();
     BigDecimal limitPrice = placeOrder.getLimitPrice();
     OrderReq orderReq =

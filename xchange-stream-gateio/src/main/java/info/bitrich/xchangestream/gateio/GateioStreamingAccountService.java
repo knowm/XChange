@@ -15,13 +15,14 @@ public class GateioStreamingAccountService implements StreamingAccountService {
     this.service = service;
   }
 
-
   @Override
   public Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
     return service
         .subscribeChannel(Config.SPOT_BALANCES_CHANNEL)
         .map(GateioSingleSpotBalanceNotification.class::cast)
-        .filter(notification -> (currency == null) || (notification.getResult().getCurrency().equals(currency)))
+        .filter(
+            notification ->
+                (currency == null) || (notification.getResult().getCurrency().equals(currency)))
         .map(GateioStreamingAdapters::toBalance);
   }
 }

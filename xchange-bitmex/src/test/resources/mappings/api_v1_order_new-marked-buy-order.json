@@ -1,0 +1,20 @@
+{
+  "id" : "41c9cd83-55ec-4848-88e7-4965f3bd85ca",
+  "name" : "api_v1_order",
+  "request" : {
+    "url" : "/api/v1/order",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"symbol\":\"XBT_USDT\",\"side\":\"Buy\",\"orderQty\":10000,\"clOrdID\":\"new-market-buy-order\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v1_order_new-marked-buy-order.json"
+  },
+  "uuid" : "41c9cd83-55ec-4848-88e7-4965f3bd85ca",
+  "persistent" : true,
+  "insertionIndex" : 13
+}

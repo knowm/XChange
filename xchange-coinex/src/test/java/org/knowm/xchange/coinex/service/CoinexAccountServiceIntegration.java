@@ -30,6 +30,4 @@ class CoinexAccountServiceIntegration {
     AccountInfo accountInfo = exchange.getAccountService().getAccountInfo();
     assertThat(accountInfo.getWallet("spot").getBalances()).isNotEmpty();
   }
-
-
 }

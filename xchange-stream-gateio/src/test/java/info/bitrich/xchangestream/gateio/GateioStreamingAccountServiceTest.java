@@ -25,24 +25,24 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class GateioStreamingAccountServiceTest {
 
-  @Mock
-  GateioStreamingService gateioStreamingService;
+  @Mock GateioStreamingService gateioStreamingService;
   GateioStreamingAccountService gateioStreamingAccountService;
 
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
-
 
   @BeforeEach
   public void setup() {
     gateioStreamingAccountService = new GateioStreamingAccountService(gateioStreamingService);
   }
 
-
   @Test
   void spot_balances() throws Exception {
     GateioWsNotification multipleNotification = readNotification("spot.balance.update.json");
     assertThat(multipleNotification).isInstanceOf(GateioMultipleSpotBalanceNotification.class);
-    GateioWsNotification notification = ((GateioMultipleSpotBalanceNotification) multipleNotification).toSingleNotifications().get(0);
+    GateioWsNotification notification =
+        ((GateioMultipleSpotBalanceNotification) multipleNotification)
+            .toSingleNotifications()
+            .get(0);
 
     when(gateioStreamingService.subscribeChannel(eq("spot.balances")))
         .thenReturn(Observable.just(notification));
@@ -51,30 +51,24 @@ class GateioStreamingAccountServiceTest {
 
     TestObserver<Balance> testObserver = observable.test();
 
-    Balance actual = testObserver
-        .awaitCount(1)
-        .values().get(0);
+    Balance actual = testObserver.awaitCount(1).values().get(0);
 
     testObserver.dispose();
 
-    Balance expected = new Balance.Builder()
-        .available(new BigDecimal("42.06583427604872431142"))
-        .currency(Currency.USDT)
-        .frozen(BigDecimal.ONE)
-        .timestamp(Date.from(Instant.ofEpochMilli(1691707273890L)))
-        .total(new BigDecimal("43.06583427604872431142"))
-        .build();
+    Balance expected =
+        new Balance.Builder()
+            .available(new BigDecimal("42.06583427604872431142"))
+            .currency(Currency.USDT)
+            .frozen(BigDecimal.ONE)
+            .timestamp(Date.from(Instant.ofEpochMilli(1691707273890L)))
+            .total(new BigDecimal("43.06583427604872431142"))
+            .build();
 
     assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
   }
 
-
   private GateioWsNotification readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(
-        getClass().getClassLoader().getResourceAsStream(resourceName),
-        GateioWsNotification.class
-    );
+        getClass().getClassLoader().getResourceAsStream(resourceName), GateioWsNotification.class);
   }
-
-
 }

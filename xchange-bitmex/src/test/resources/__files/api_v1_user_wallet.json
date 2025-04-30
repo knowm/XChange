@@ -1,0 +1,54 @@
+[
+  {
+    "account": 2273415,
+    "currency": "LAMp",
+    "deposited": 0,
+    "withdrawn": 0,
+    "transferIn": 0,
+    "transferOut": 0,
+    "amount": 22000000,
+    "pendingCredit": 0,
+    "pendingDebit": 0,
+    "confirmedDebit": 0,
+    "timestamp": "2024-12-09T11:17:40.965Z"
+  },
+  {
+    "account": 2273415,
+    "currency": "USDt",
+    "deposited": 49000000,
+    "withdrawn": 0,
+    "transferIn": 0,
+    "transferOut": 0,
+    "amount": 40116243,
+    "pendingCredit": 0,
+    "pendingDebit": 0,
+    "confirmedDebit": 0,
+    "timestamp": "2024-12-09T11:17:40.965Z"
+  },
+  {
+    "account": 2273415,
+    "currency": "Gwei",
+    "deposited": 0,
+    "withdrawn": 0,
+    "transferIn": 0,
+    "transferOut": 0,
+    "amount": 1000000,
+    "pendingCredit": 0,
+    "pendingDebit": 0,
+    "confirmedDebit": 0,
+    "timestamp": "2024-12-09T09:54:20.367Z"
+  },
+  {
+    "account": 2273415,
+    "currency": "XBt",
+    "deposited": 0,
+    "withdrawn": 0,
+    "transferIn": 0,
+    "transferOut": 0,
+    "amount": 0,
+    "pendingCredit": 0,
+    "pendingDebit": 0,
+    "confirmedDebit": 0,
+    "timestamp": "2024-12-06T12:10:54.920Z"
+  }
+]

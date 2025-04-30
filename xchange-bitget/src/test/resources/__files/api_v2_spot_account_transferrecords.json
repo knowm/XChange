@@ -1,0 +1,19 @@
+{
+  "code": "00000",
+  "msg": "success",
+  "requestTime": 1727909228121,
+  "data": [
+    {
+      "coin": "USDT",
+      "status": "Successful",
+      "toType": "spot",
+      "toSymbol": "",
+      "fromType": "spot",
+      "fromSymbol": "",
+      "size": "1.00000000",
+      "ts": "1727905504678",
+      "clientOid": "1225489997897666560",
+      "transferId": "1225489997897666560"
+    }
+  ]
+}

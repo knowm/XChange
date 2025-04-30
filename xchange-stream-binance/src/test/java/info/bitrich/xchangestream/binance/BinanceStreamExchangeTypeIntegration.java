@@ -29,42 +29,44 @@ public class BinanceStreamExchangeTypeIntegration {
 
   @Test
   public void testConnections() throws InterruptedException, IOException {
-    testConnection(new CurrencyPair("ETH/USDT"),  getSpec(SPOT, false));
+    testConnection(new CurrencyPair("ETH/USDT"), getSpec(SPOT, false));
     testConnection(new CurrencyPair("ETH/USDT"), getSpec1(SPOT, true));
     testConnection(new FuturesContract("ETH/USDT/PERP"), getSpec1(FUTURES, false));
-    testConnection(new FuturesContract("ETH/USDT/PERP"),  getSpec(FUTURES, true));
+    testConnection(new FuturesContract("ETH/USDT/PERP"), getSpec(FUTURES, true));
   }
 
   private static void testConnection(Instrument instrument, ExchangeSpecification spec)
       throws InterruptedException, IOException {
-    StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(spec);
-    ProductSubscription subscription = ProductSubscription.create()
-        .addOrderbook(instrument)
-        .addTicker(instrument)
-        .addFundingRates(instrument)
-        .addTrades(instrument)
-        .build();
+    StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(spec);
+    ProductSubscription subscription =
+        ProductSubscription.create()
+            .addOrderbook(instrument)
+            .addTicker(instrument)
+            .addFundingRates(instrument)
+            .addTrades(instrument)
+            .build();
     exchange.connect(subscription).blockingAwait();
     Trades trades = exchange.getMarketDataService().getTrades(instrument);
-    for(Trade trade : trades.getTrades())
-     tradeCheck(trade,instrument);
-    Disposable disposable = exchange.getStreamingMarketDataService().getTicker(instrument)
-        .subscribe(t -> tickerCheck(t, instrument));
+    for (Trade trade : trades.getTrades()) tradeCheck(trade, instrument);
+    Disposable disposable =
+        exchange
+            .getStreamingMarketDataService()
+            .getTicker(instrument)
+            .subscribe(t -> tickerCheck(t, instrument));
     Thread.sleep(3000L);
     disposable.dispose();
     Thread.sleep(500L);
     exchange.disconnect().blockingAwait();
   }
 
-  private static void tickerCheck(Ticker ticker, Instrument   instrument) {
+  private static void tickerCheck(Ticker ticker, Instrument instrument) {
     assertThat(ticker.getInstrument()).isEqualTo(instrument);
     assertThat(ticker.getHigh()).isNotNull();
     assertThat(ticker.getVolume()).isNotNull();
     assertThat(ticker.getTimestamp()).isNotNull();
   }
 
-  private static void tradeCheck(Trade trade, Instrument   instrument) {
+  private static void tradeCheck(Trade trade, Instrument instrument) {
     assertThat(trade.getInstrument()).isEqualTo(instrument);
     assertThat(trade.getOriginalAmount()).isNotNull();
     assertThat(trade.getPrice()).isNotNull();
@@ -76,7 +78,8 @@ public class BinanceStreamExchangeTypeIntegration {
     if (exchangeType == SPOT) {
       exchangeSpecification = new BinanceStreamingExchange().getDefaultExchangeSpecification();
     } else {
-      exchangeSpecification = new BinanceFutureStreamingExchange().getDefaultExchangeSpecification();
+      exchangeSpecification =
+          new BinanceFutureStreamingExchange().getDefaultExchangeSpecification();
     }
     exchangeSpecification.setExchangeSpecificParametersItem(EXCHANGE_TYPE, exchangeType);
     if (useSandbox) {
@@ -88,11 +91,9 @@ public class BinanceStreamExchangeTypeIntegration {
   private static ExchangeSpecification getSpec1(ExchangeType exchangeType, boolean useSandbox) {
     ExchangeSpecification exchangeSpecification;
     if (exchangeType == SPOT) {
-      exchangeSpecification =
-          new ExchangeSpecification(BinanceStreamingExchange.class);
+      exchangeSpecification = new ExchangeSpecification(BinanceStreamingExchange.class);
     } else {
-      exchangeSpecification =
-          new ExchangeSpecification(BinanceFutureStreamingExchange.class);
+      exchangeSpecification = new ExchangeSpecification(BinanceFutureStreamingExchange.class);
     }
     exchangeSpecification.setExchangeSpecificParametersItem(EXCHANGE_TYPE, exchangeType);
     if (useSandbox) {

@@ -1,5 +1,0 @@
-## LGO
-
-For now, only metadata, auth, trade history and order signature are supported, because the web socket should be favored for any trading activity (lowest possible latency).
-
-For web socket support, see [xchange-stream](https://github.com/bitrich-info/xchange-stream)

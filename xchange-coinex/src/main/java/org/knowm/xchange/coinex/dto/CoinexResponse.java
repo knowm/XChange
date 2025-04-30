@@ -18,5 +18,4 @@ public class CoinexResponse<T> {
     }
     this.code = code;
   }
-
 }

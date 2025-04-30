@@ -35,8 +35,8 @@ public class OERMarketDataServiceRaw extends OERBaseService {
     OERTickers oERTickers =
         openExchangeRates.getTickers(
             exchange.getExchangeSpecification().getApiKey(),
-            pair.base.toString(),
-            pair.counter.toString());
+            pair.getBase().toString(),
+            pair.getCounter().toString());
     if (oERTickers == null) {
       throw new ExchangeException("Null response returned from Open Exchange Rates!");
     }

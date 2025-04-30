@@ -27,7 +27,7 @@ public class Bl3pUtils {
   }
 
   public static String toPairString(CurrencyPair currencyPair) {
-    return currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+    return currencyPair.getBase().getCurrencyCode() + currencyPair.getCounter().getCurrencyCode();
   }
 
   public static Order.OrderType fromBl3pOrderType(String bl3pType) {

@@ -33,7 +33,7 @@ public class CmcMarketDataService extends CmcMarketDataServiceRaw implements Mar
 
     CmcTicker ticker = null;
     try {
-      ticker = super.getCmcLatestQuote(currencyPair).get(currencyPair.base.getCurrencyCode());
+      ticker = super.getCmcLatestQuote(currencyPair).get(currencyPair.getBase().getCurrencyCode());
     } catch (HttpStatusIOException ex) {
       CmcErrorAdapter.adapt(ex);
     }
@@ -53,8 +53,8 @@ public class CmcMarketDataService extends CmcMarketDataServiceRaw implements Mar
     Set<Currency> baseSymbols = new HashSet<>();
     Set<Currency> convertSymbols = new HashSet<>();
     for (CurrencyPair pair : pairs) {
-      baseSymbols.add(pair.base);
-      convertSymbols.add(pair.counter);
+      baseSymbols.add(pair.getBase());
+      convertSymbols.add(pair.getCounter());
     }
 
     Map<String, CmcTicker> cmcTickerMap = super.getCmcLatestQuotes(baseSymbols, convertSymbols);

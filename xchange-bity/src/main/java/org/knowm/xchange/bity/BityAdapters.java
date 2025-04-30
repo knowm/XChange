@@ -65,7 +65,7 @@ public final class BityAdapters {
         .id(orderId)
         .orderId(orderId)
         .feeAmount(fee)
-        .feeCurrency(currencyPair.counter)
+        .feeCurrency(currencyPair.getCounter())
         .build();
   }
 
@@ -81,11 +81,11 @@ public final class BityAdapters {
       if (!pairsMap.containsKey(c)) {
         pairsMap.put(c, null);
       }
-      if (!currenciesMap.containsKey(c.base)) {
-        currenciesMap.put(c.base, null);
+      if (!currenciesMap.containsKey(c.getBase())) {
+        currenciesMap.put(c.getBase(), null);
       }
-      if (!currenciesMap.containsKey(c.counter)) {
-        currenciesMap.put(c.counter, null);
+      if (!currenciesMap.containsKey(c.getCounter())) {
+        currenciesMap.put(c.getCounter(), null);
       }
     }
 

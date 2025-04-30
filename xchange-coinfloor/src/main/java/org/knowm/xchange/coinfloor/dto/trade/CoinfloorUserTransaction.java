@@ -133,15 +133,15 @@ public class CoinfloorUserTransaction {
 
   public BigDecimal getAmount() {
     if (isTrade()) {
-      if (getCurrencyPair().base == Currency.BTC) {
+      if (getCurrencyPair().getBase() == Currency.BTC) {
         return btc;
-      } else if (getCurrencyPair().base == Currency.XRP) {
+      } else if (getCurrencyPair().getBase() == Currency.XRP) {
         return xrp;
-      } else if (getCurrencyPair().base == Currency.LTC) {
+      } else if (getCurrencyPair().getBase() == Currency.LTC) {
         return ltc;
-      } else if (getCurrencyPair().base == Currency.ETH) {
+      } else if (getCurrencyPair().getBase() == Currency.ETH) {
         return eth;
-      } else if (getCurrencyPair().base == Currency.BCH) {
+      } else if (getCurrencyPair().getBase() == Currency.BCH) {
         return bch;
       } else {
         return BigDecimal.ZERO;

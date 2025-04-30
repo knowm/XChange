@@ -53,6 +53,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,6 +65,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   protected static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
   protected static final int DEFAULT_IDLE_TIMEOUT = 15;
 
+  @Getter
   protected class Subscription {
 
     final ObservableEmitter<T> emitter;
@@ -198,13 +200,18 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                   eventLoopGroup = new NioEventLoopGroup(2);
                 }
 
-                new Bootstrap()
-                    .group(eventLoopGroup)
-                    .option(
-                        ChannelOption.CONNECT_TIMEOUT_MILLIS,
-                        java.lang.Math.toIntExact(connectionTimeout.toMillis()))
-                    .option(ChannelOption.SO_KEEPALIVE, true)
-                    .channel(NioSocketChannel.class)
+                Bootstrap bootstrap =
+                    new Bootstrap()
+                        .group(eventLoopGroup)
+                        .option(
+                            ChannelOption.CONNECT_TIMEOUT_MILLIS,
+                            Math.toIntExact(connectionTimeout.toMillis()))
+                        .option(ChannelOption.SO_KEEPALIVE, true)
+                        .channel(NioSocketChannel.class);
+                if (socksProxyHost != null) {
+                  bootstrap.disableResolver();
+                }
+                bootstrap
                     .handler(
                         new ChannelInitializer<SocketChannel>() {
                           @Override
@@ -436,7 +443,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                 try {
                   sendMessage(getUnsubscribeMessage(subscriptionUniqueId, args));
                 } catch (IOException e) {
-                  LOG.debug("Failed to unsubscribe channel: {} {}", subscriptionUniqueId, e.toString());
+                  LOG.debug(
+                      "Failed to unsubscribe channel: {} {}", subscriptionUniqueId, e.toString());
                 } catch (Exception e) {
                   LOG.warn("Failed to unsubscribe channel: {}", subscriptionUniqueId, e);
                 }
@@ -552,6 +560,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
+      connectionStateModel.setState(State.CLOSED);
       if (isManualDisconnect.compareAndSet(true, false)) {
         // Don't attempt to reconnect
       } else {

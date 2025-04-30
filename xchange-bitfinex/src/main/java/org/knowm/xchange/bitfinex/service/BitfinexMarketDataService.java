@@ -22,6 +22,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 import org.knowm.xchange.service.marketdata.params.Params;
@@ -69,11 +70,16 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
     }
   }
 
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    return getOrderBook((Instrument) currencyPair, args);
+  }
+
   /**
    * @param args If two integers are provided, then those count as limit bid and limit ask count
    */
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+  public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
     try {
       // null will cause fetching of full order book, the default behavior in XChange
       Integer limitBids = null;
@@ -95,9 +101,9 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
       }
 
       BitfinexDepth bitfinexDepth =
-          getBitfinexOrderBook(BitfinexUtils.toPairStringV1(currencyPair), limitBids, limitAsks);
+          getBitfinexOrderBook(BitfinexUtils.toPairStringV1(instrument), limitBids, limitAsks);
 
-      OrderBook orderBook = BitfinexAdapters.adaptOrderBook(bitfinexDepth, currencyPair);
+      OrderBook orderBook = BitfinexAdapters.adaptOrderBook(bitfinexDepth, instrument);
 
       return orderBook;
     } catch (BitfinexException e) {

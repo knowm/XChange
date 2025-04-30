@@ -44,7 +44,7 @@ public class CoinoneTradeCancelRequest implements CancelOrderParams {
     this.price = limitOrder.getLimitPrice();
     this.qty = limitOrder.getOriginalAmount();
     this.isAsk = limitOrder.getType() == Order.OrderType.ASK ? true : false;
-    this.currency = limitOrder.getCurrencyPair().base.getSymbol().toLowerCase();
+    this.currency = limitOrder.getCurrencyPair().getBase().getSymbol().toLowerCase();
   }
 
   public String getAccessTocken() {

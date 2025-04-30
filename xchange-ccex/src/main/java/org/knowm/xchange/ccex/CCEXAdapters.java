@@ -132,8 +132,8 @@ public class CCEXAdapters {
               .priceScale(0)
               .feeTiers(existingFeeTiers)
               .build());
-      currencies.put(pair.base, null);
-      currencies.put(pair.counter, null);
+      currencies.put(pair.getBase(), null);
+      currencies.put(pair.getCounter(), null);
     }
 
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
@@ -239,7 +239,7 @@ public class CCEXAdapters {
         .id(orderId)
         .orderId(orderId)
         .feeAmount(trade.getCommission())
-        .feeCurrency(currencyPair.counter)
+        .feeCurrency(currencyPair.getCounter())
         .build();
   }
 

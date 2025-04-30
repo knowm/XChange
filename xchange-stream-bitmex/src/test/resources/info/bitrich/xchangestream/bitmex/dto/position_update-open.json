@@ -1,0 +1,21 @@
+{
+  "table": "position",
+  "action": "update",
+  "data": [
+    {
+      "account": 2273415,
+      "symbol": "XBTUSD",
+      "currency": "XBt",
+      "deleveragePercentile": null,
+      "openOrderBuyQty": 100,
+      "openOrderBuyCost": -107287,
+      "currentQty": 0,
+      "isOpen": true,
+      "markPrice": 93364.1,
+      "riskValue": 107287,
+      "initMargin": 1181,
+      "liquidationPrice": null,
+      "timestamp": "2025-01-09T11:37:54.817Z"
+    }
+  ]
+}

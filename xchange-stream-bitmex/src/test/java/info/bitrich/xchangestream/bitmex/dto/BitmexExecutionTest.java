@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 
@@ -54,7 +54,7 @@ public class BitmexExecutionTest {
     assertEquals("", bitmexExecution.execInst);
     assertEquals("", bitmexExecution.contingencyType);
     assertEquals("XBME", bitmexExecution.exDestination);
-    assertEquals(BitmexPrivateOrder.OrderStatus.Filled, bitmexExecution.ordStatus);
+    assertEquals(BitmexPrivateOrder.OrderStatus.FILLED, bitmexExecution.ordStatus);
     assertEquals("", bitmexExecution.triggered);
     assertEquals(false, bitmexExecution.workingIndicator);
     assertEquals("", bitmexExecution.ordRejReason);

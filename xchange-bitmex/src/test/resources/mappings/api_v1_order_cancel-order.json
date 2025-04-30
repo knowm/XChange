@@ -1,0 +1,19 @@
+{
+  "id" : "c68379b5-9c17-41aa-b220-6cb849abd431",
+  "name" : "api_v1_order",
+  "request" : {
+    "url" : "/api/v1/order",
+    "method" : "DELETE",
+    "bodyPatterns" : [ {
+      "equalTo" : "orderID=330ff682-ad2c-44b7-8b22-46241d7b8c2e",
+      "caseInsensitive" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v1_order_cancel-order.json"
+  },
+  "uuid" : "c68379b5-9c17-41aa-b220-6cb849abd431",
+  "persistent" : true,
+  "insertionIndex" : 12
+}

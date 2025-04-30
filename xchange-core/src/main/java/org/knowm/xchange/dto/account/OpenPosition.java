@@ -45,7 +45,6 @@ public class OpenPosition implements Serializable {
     this.unRealisedPnl = unRealisedPnl;
   }
 
-
   @Override
   public boolean equals(final Object o) {
     if (this == o) return true;

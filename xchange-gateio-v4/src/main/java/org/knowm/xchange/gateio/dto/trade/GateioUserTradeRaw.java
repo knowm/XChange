@@ -70,5 +70,4 @@ public class GateioUserTradeRaw {
 
   @JsonProperty("amend_text")
   String remark;
-
 }

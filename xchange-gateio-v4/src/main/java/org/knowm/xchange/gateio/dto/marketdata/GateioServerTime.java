@@ -13,5 +13,4 @@ public class GateioServerTime {
 
   @JsonProperty("server_time")
   Instant time;
-
 }

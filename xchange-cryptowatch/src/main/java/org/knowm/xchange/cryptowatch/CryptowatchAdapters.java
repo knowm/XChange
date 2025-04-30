@@ -132,6 +132,9 @@ public class CryptowatchAdapters {
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
-    return pair.base.getCurrencyCode().concat(pair.counter.getCurrencyCode()).toLowerCase();
+    return pair.getBase()
+        .getCurrencyCode()
+        .concat(pair.getCounter().getCurrencyCode())
+        .toLowerCase();
   }
 }

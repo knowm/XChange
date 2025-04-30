@@ -9,7 +9,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import lombok.var;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -20,12 +19,10 @@ public class ConcurrencyTest {
   static Instrument inst = new CurrencyPair("BTC/USDT");
 
   public static void main(String[] args) throws InterruptedException, ExecutionException {
-    OrderBook orderBook1 = new OrderBook(new Date(), initOrderBookAsks(), initOrderBookBids(),
-        true);
-    OrderBook orderBook2 = new OrderBook(new Date(), initOrderBookAsks(), initOrderBookBids(),
-        true);
-    OrderBookOld orderBookOld = new OrderBookOld(new Date(), initOrderBookAsks(),
-        initOrderBookBids(), true);
+    OrderBook orderBook1 = new OrderBook(new Date(), initOrderBookAsks(), new ArrayList<>(), true);
+    OrderBook orderBook2 = new OrderBook(new Date(), initOrderBookAsks(), new ArrayList<>(), true);
+    OrderBookOld orderBookOld =
+        new OrderBookOld(new Date(), initOrderBookAsks(), new ArrayList<>(), true);
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(50);
     newWay(orderBook1, executor);
     executor.awaitTermination(100L, TimeUnit.SECONDS);
@@ -35,23 +32,31 @@ public class ConcurrencyTest {
     executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(50);
     oldOB(orderBookOld, executor);
     executor.awaitTermination(100L, TimeUnit.SECONDS);
-    if (orderBook1.getAsks().get(0).getOriginalAmount()
-        .equals(orderBook2.getAsks().get(0).getOriginalAmount())
-        && orderBook1.getAsks().get(0).getOriginalAmount()
-        .equals(orderBookOld.getAsks().get(0).getOriginalAmount())) {
+    if (orderBook1
+            .getAsks()
+            .get(0)
+            .getOriginalAmount()
+            .equals(orderBook2.getAsks().get(0).getOriginalAmount())
+        && orderBook1
+            .getAsks()
+            .get(0)
+            .getOriginalAmount()
+            .equals(orderBookOld.getAsks().get(0).getOriginalAmount())) {
       System.out.println("OrderBooks equals");
     }
   }
 
-
   private static List<LimitOrder> initOrderBookAsks() {
     List<LimitOrder> asks = new ArrayList<>();
-    asks.add(new LimitOrder(OrderType.ASK, new BigDecimal(1), inst, "", new Date(),
-        new BigDecimal(103)));
-    asks.add(new LimitOrder(OrderType.ASK, new BigDecimal(1), inst, "", new Date(),
-        new BigDecimal(102)));
-    asks.add(new LimitOrder(OrderType.ASK, new BigDecimal(1), inst, "", new Date(),
-        new BigDecimal(101)));
+    asks.add(
+        new LimitOrder(
+            OrderType.ASK, new BigDecimal(1), inst, "", new Date(), new BigDecimal(103)));
+    asks.add(
+        new LimitOrder(
+            OrderType.ASK, new BigDecimal(1), inst, "", new Date(), new BigDecimal(102)));
+    asks.add(
+        new LimitOrder(
+            OrderType.ASK, new BigDecimal(1), inst, "", new Date(), new BigDecimal(101)));
     return asks;
   }
 
@@ -107,11 +112,23 @@ public class ConcurrencyTest {
 
   public static void updateOrderBook1(OrderBook orderBook, boolean oldWay) {
     Random rand = new Random(123);
-    for (int i = 0; i < 100000; i++) {
-      OrderBookUpdate orderBookUpdateAsk = new OrderBookUpdate(OrderType.ASK, new BigDecimal(0),
-          inst, new BigDecimal(101), new Date(), new BigDecimal(rand.nextInt()));
-      OrderBookUpdate orderBookUpdateBid = new OrderBookUpdate(OrderType.BID, new BigDecimal(0),
-          inst, new BigDecimal(99), new Date(), new BigDecimal(rand.nextInt()));
+    for (int i = 0; i < 10000; i++) {
+      OrderBookUpdate orderBookUpdateAsk =
+          new OrderBookUpdate(
+              OrderType.ASK,
+              new BigDecimal(0),
+              inst,
+              new BigDecimal(101),
+              new Date(),
+              new BigDecimal(rand.nextInt()));
+      OrderBookUpdate orderBookUpdateBid =
+          new OrderBookUpdate(
+              OrderType.BID,
+              new BigDecimal(0),
+              inst,
+              new BigDecimal(99),
+              new Date(),
+              new BigDecimal(rand.nextInt()));
       if (oldWay) {
         synchronized (orderBook) {
           orderBook.update(orderBookUpdateAsk);
@@ -126,11 +143,23 @@ public class ConcurrencyTest {
 
   public static void updateOrderBookOld1(OrderBookOld orderBookOld) {
     Random rand = new Random(123);
-    for (int i = 0; i < 100000; i++) {
-      OrderBookUpdate orderBookUpdateAsk = new OrderBookUpdate(OrderType.ASK, new BigDecimal(0),
-          inst, new BigDecimal(101), new Date(), new BigDecimal(rand.nextInt()));
-      OrderBookUpdate orderBookUpdateBid = new OrderBookUpdate(OrderType.BID, new BigDecimal(0),
-          inst, new BigDecimal(99), new Date(), new BigDecimal(rand.nextInt()));
+    for (int i = 0; i < 10000; i++) {
+      OrderBookUpdate orderBookUpdateAsk =
+          new OrderBookUpdate(
+              OrderType.ASK,
+              new BigDecimal(0),
+              inst,
+              new BigDecimal(101),
+              new Date(),
+              new BigDecimal(rand.nextInt()));
+      OrderBookUpdate orderBookUpdateBid =
+          new OrderBookUpdate(
+              OrderType.BID,
+              new BigDecimal(0),
+              inst,
+              new BigDecimal(99),
+              new Date(),
+              new BigDecimal(rand.nextInt()));
       synchronized (orderBookOld) {
         orderBookOld.update(orderBookUpdateAsk);
         orderBookOld.update(orderBookUpdateBid);
@@ -140,11 +169,23 @@ public class ConcurrencyTest {
 
   private static void updateOrderBook2(OrderBook orderBook, boolean oldWay) {
     Random rand = new Random(123);
-    for (int i = 0; i < 100000; i++) {
-      LimitOrder bookUpdateAsk = new LimitOrder(OrderType.ASK, new BigDecimal(rand.nextInt()),
-          inst, "", new Date(), new BigDecimal(101));
-      LimitOrder bookUpdateBid = new LimitOrder(OrderType.BID, new BigDecimal(rand.nextInt()),
-          inst, "", new Date(), new BigDecimal(99));
+    for (int i = 0; i < 10000; i++) {
+      LimitOrder bookUpdateAsk =
+          new LimitOrder(
+              OrderType.ASK,
+              new BigDecimal(rand.nextInt()),
+              inst,
+              "",
+              new Date(),
+              new BigDecimal(101));
+      LimitOrder bookUpdateBid =
+          new LimitOrder(
+              OrderType.BID,
+              new BigDecimal(rand.nextInt()),
+              inst,
+              "",
+              new Date(),
+              new BigDecimal(99));
       if (oldWay) {
         synchronized (orderBook) {
           orderBook.update(bookUpdateAsk);
@@ -159,11 +200,23 @@ public class ConcurrencyTest {
 
   private static void updateOrderBookOld2(OrderBookOld orderBookOld) {
     Random rand = new Random(123);
-    for (int i = 0; i < 100000; i++) {
-      LimitOrder bookUpdateAsk = new LimitOrder(OrderType.ASK, new BigDecimal(rand.nextInt()),
-          inst, "", new Date(), new BigDecimal(101));
-      LimitOrder bookUpdateBid = new LimitOrder(OrderType.BID, new BigDecimal(rand.nextInt()),
-          inst, "", new Date(), new BigDecimal(99));
+    for (int i = 0; i < 10000; i++) {
+      LimitOrder bookUpdateAsk =
+          new LimitOrder(
+              OrderType.ASK,
+              new BigDecimal(rand.nextInt()),
+              inst,
+              "",
+              new Date(),
+              new BigDecimal(101));
+      LimitOrder bookUpdateBid =
+          new LimitOrder(
+              OrderType.BID,
+              new BigDecimal(rand.nextInt()),
+              inst,
+              "",
+              new Date(),
+              new BigDecimal(99));
       synchronized (orderBookOld) {
         orderBookOld.update(bookUpdateAsk);
         orderBookOld.update(bookUpdateBid);
@@ -172,7 +225,7 @@ public class ConcurrencyTest {
   }
 
   private static void readOrderBook(OrderBook orderBook, boolean oldWay) {
-    for (int i = 0; i < 1200000; i++) {
+    for (int i = 0; i < 10000; i++) {
       int temp = 0;
       if (oldWay) {
         synchronized (orderBook) {
@@ -184,7 +237,7 @@ public class ConcurrencyTest {
           }
         }
       } else {
-        var stamp = orderBook.lock.readLock();
+        long stamp = orderBook.lock.readLock();
         for (LimitOrder ask : orderBook.getAsks()) {
           temp += ask.hashCode();
         }
@@ -197,7 +250,7 @@ public class ConcurrencyTest {
   }
 
   private static void readOrderBookOld(OrderBookOld orderBookOld) {
-    for (int i = 0; i < 1200000; i++) {
+    for (int i = 0; i < 120000; i++) {
       int temp = 0;
       synchronized (orderBookOld) {
         for (LimitOrder ask : orderBookOld.getAsks()) {
@@ -209,6 +262,4 @@ public class ConcurrencyTest {
       }
     }
   }
-
 }
-

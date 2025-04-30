@@ -1,0 +1,15 @@
+{
+  "id" : "1a8a3149-0eb1-429f-a06a-4a2242e18d42",
+  "name" : "api_v2_spot_public_symbols",
+  "request" : {
+    "url" : "/api/v2/spot/public/symbols",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_spot_public_symbols.json"
+  },
+  "uuid" : "1a8a3149-0eb1-429f-a06a-4a2242e18d42",
+  "persistent" : true,
+  "insertionIndex" : 2
+}

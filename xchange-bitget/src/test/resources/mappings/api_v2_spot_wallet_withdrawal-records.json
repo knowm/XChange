@@ -1,0 +1,15 @@
+{
+  "id" : "f75b148c-563c-49c1-af92-71150505196b",
+  "name" : "api_v2_spot_wallet_withdrawal-records",
+  "request" : {
+    "url" : "/api/v2/spot/wallet/withdrawal-records?startTime=1721643200000&endTime=1727970869665&idLessThan=1203378295345901568",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_spot_wallet_withdrawal-records.json"
+  },
+  "uuid" : "f75b148c-563c-49c1-af92-71150505196b",
+  "persistent" : true,
+  "insertionIndex" : 15
+}

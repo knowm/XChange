@@ -1,0 +1,30 @@
+{
+  "code": "00000",
+  "msg": "success",
+  "requestTime": 1725211448919,
+  "data": [
+    {
+      "userId": "1548914322",
+      "symbol": "BGBUSDT",
+      "orderId": "1214189703404097539",
+      "clientOid": "t-valid-market-buy-order",
+      "price": "0",
+      "size": "2.0000000000000000",
+      "orderType": "market",
+      "side": "buy",
+      "status": "filled",
+      "priceAvg": "0.9659000000000000",
+      "baseVolume": "2.0706000000000000",
+      "quoteVolume": "1.9999925400000000",
+      "enterPointSource": "API",
+      "feeDetail": "{\"BGB\":{\"deduction\":false,\"feeCoinCode\":\"BGB\",\"totalDeductionFee\":0,\"totalFee\":-0.0020706000000000},\"newFees\":{\"c\":0,\"d\":0,\"deduction\":false,\"r\":-0.0020706,\"t\":-0.0020706,\"totalDeductionFee\":0}}",
+      "orderSource": "market",
+      "tpslType": "normal",
+      "triggerPrice": null,
+      "quoteCoin": "USDT",
+      "baseCoin": "BGB",
+      "cTime": "1725211304522",
+      "uTime": "1725211304609"
+    }
+  ]
+}

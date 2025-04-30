@@ -63,7 +63,7 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
     if (params instanceof OpenOrdersParamCurrencyPair) {
       OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
       CurrencyPair pair = pairParams.getCurrencyPair();
-      openOrders = super.getOpenOrdersByCurrency(pair.base.getCurrencyCode(), null, null);
+      openOrders = super.getOpenOrdersByCurrency(pair.getBase().getCurrencyCode(), null, null);
     } else if (params instanceof OpenOrdersParamInstrument) {
       OpenOrdersParamInstrument instrumentParams = (OpenOrdersParamInstrument) params;
       Instrument instrument = instrumentParams.getInstrument();
@@ -236,7 +236,7 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
     if (params instanceof TradeHistoryParamCurrencyPair) {
       CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
       if (currencyPair != null) {
-        currency = currencyPair.base.getCurrencyCode();
+        currency = currencyPair.getBase().getCurrencyCode();
       }
     }
 

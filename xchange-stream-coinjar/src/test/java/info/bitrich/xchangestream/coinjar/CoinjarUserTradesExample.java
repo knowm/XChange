@@ -4,7 +4,6 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.observers.BaseTestConsumer;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.utils.AuthUtils;
@@ -25,11 +24,7 @@ public class CoinjarUserTradesExample {
       StreamingTradeService streamingTradeService = exchange.getStreamingTradeService();
 
       Disposable disposable =
-          streamingTradeService
-              .getUserTrades(null)
-              .test()
-              .awaitCount(1)
-              .assertNoErrors();
+          streamingTradeService.getUserTrades(null).test().awaitCount(1).assertNoErrors();
       disposable.dispose();
     }
   }

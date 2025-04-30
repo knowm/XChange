@@ -9,18 +9,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 
-/**
- * Sets up the wiremock for exchange
- */
+/** Sets up the wiremock for exchange */
 public abstract class GateioExchangeWiremock {
 
   protected static GateioExchange exchange;
 
-//  private static final boolean IS_RECORDING = true;
+  //  private static final boolean IS_RECORDING = true;
   private static final boolean IS_RECORDING = false;
 
   private static WireMockServer wireMockServer;
-
 
   @BeforeAll
   public static void initExchange() {
@@ -32,7 +29,6 @@ public abstract class GateioExchangeWiremock {
     exSpec.setApiKey("a");
     exSpec.setSecretKey("b");
 
-
     if (IS_RECORDING) {
       // use default url and record the requests
       wireMockServer.startRecording(
@@ -40,15 +36,11 @@ public abstract class GateioExchangeWiremock {
               .forTarget("https://api.gateio.ws")
               .matchRequestBodyWithEqualToJson()
               .extractTextBodiesOver(1L)
-              .chooseBodyMatchTypeAutomatically()
-      );
-
+              .chooseBodyMatchTypeAutomatically());
     }
 
     exchange = (GateioExchange) ExchangeFactory.INSTANCE.createExchange(exSpec);
-
   }
-
 
   @AfterAll
   public static void stop() {
@@ -57,6 +49,4 @@ public abstract class GateioExchangeWiremock {
     }
     wireMockServer.stop();
   }
-
-
 }

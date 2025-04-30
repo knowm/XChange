@@ -1,0 +1,21 @@
+{
+  "code": "00000",
+  "msg": "success",
+  "requestTime": 1728492259388,
+  "data": [
+    {
+      "orderId": "1200126632376020992",
+      "tradeId": "scWb5s8OtLL_kSE8rQv5fDvreOGUe82wcV9KXrGNNww=",
+      "coin": "USDT",
+      "type": "deposit",
+      "size": "100.00000000",
+      "status": "success",
+      "toAddress": "EQAPOcvrl-4fjsw9W5iUBC8np6UtVgE0QPDzLgfsTJh9NYX5",
+      "dest": "on_chain",
+      "chain": "TON(TON)",
+      "fromAddress": null,
+      "cTime": "1721858407110",
+      "uTime": "1721858437064"
+    }
+  ]
+}

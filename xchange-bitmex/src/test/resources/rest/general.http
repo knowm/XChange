@@ -1,0 +1,29 @@
+### Get instruments (spot)
+GET {{api_v1}}/instrument?filter={"typ":"IFXXXP"}
+Accept: application/json
+
+
+### Get instruments
+GET {{api_v1}}/instrument?symbol=XBTUSDT
+Accept: application/json
+
+
+### Get all active instruments and instruments that have expired in <24hrs
+GET {{api_v1}}/instrument/active?symbol=XBtUSDT
+Accept: application/json
+
+
+### Get quotes
+GET {{api_v1}}/quote?symbol=USDT
+Accept: application/json
+
+
+### Get Assets Config
+GET {{api_v1}}/wallet/assets
+Accept: application/json
+
+
+### Get current orderbook in vertical format
+GET {{api_v1}}/orderBook/L2?symbol=XBT_USDT&depth=25
+Accept: application/json
+

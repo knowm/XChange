@@ -21,7 +21,7 @@ public class DVChainMarketDataService extends DVChainMarketDataServiceRaw
       throws IOException, RateLimitExceededException {
     DVChainMarketResponse marketResponse = getMarketData();
     DVChainMarketData marketData =
-        marketResponse.getMarketData().get(currencyPair.base.getSymbol());
+        marketResponse.getMarketData().get(currencyPair.getBase().getSymbol());
     return DVChainAdapters.adaptOrderBook(marketData, marketData.getExpiresAt(), currencyPair);
   }
 }

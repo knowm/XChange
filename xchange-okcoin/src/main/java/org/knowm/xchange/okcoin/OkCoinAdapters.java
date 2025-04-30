@@ -379,7 +379,7 @@ public final class OkCoinAdapters {
               .id(tradeId)
               .orderId(orderId)
               .feeAmount(feeAmount)
-              .feeCurrency(Currency.getInstance(currencyPair.counter.getCurrencyCode()))
+              .feeCurrency(Currency.getInstance(currencyPair.getCounter().getCurrencyCode()))
               .build();
 
       trades.add(trade);

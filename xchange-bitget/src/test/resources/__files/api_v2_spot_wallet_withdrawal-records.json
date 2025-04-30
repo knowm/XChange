@@ -1,0 +1,25 @@
+{
+  "code": "00000",
+  "msg": "success",
+  "requestTime": 1728492260621,
+  "data": [
+    {
+      "orderId": "1200841097056755712",
+      "tradeId": "IM-ckdhPIB2PWyOESdTSA5U3o9ufyR810ECUG8Glkbw=",
+      "coin": "USDT",
+      "type": "withdraw",
+      "dest": "on_chain",
+      "size": "50.00000000",
+      "fee": "0.00000000",
+      "status": "success",
+      "toAddress": "EQBX63RAdgShn34EAFMV73Cut7Z15lUZd1hnVva68SEl7sxi",
+      "chain": "TON(TON)",
+      "confirm": "39292494",
+      "clientOid": null,
+      "tag": "300570",
+      "fromAddress": null,
+      "cTime": "1722028748764",
+      "uTime": "1722029062010"
+    }
+  ]
+}

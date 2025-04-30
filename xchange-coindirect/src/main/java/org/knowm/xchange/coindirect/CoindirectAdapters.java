@@ -14,7 +14,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 
 public class CoindirectAdapters {
   public static String toSymbol(CurrencyPair pair) {
-    return pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
+    return pair.getBase().getCurrencyCode() + "-" + pair.getCounter().getCurrencyCode();
   }
 
   public static CurrencyPair toCurrencyPair(String symbol) {

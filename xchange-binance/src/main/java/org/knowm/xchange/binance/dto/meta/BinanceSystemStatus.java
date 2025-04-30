@@ -11,11 +11,8 @@ import lombok.extern.jackson.Jacksonized;
 public class BinanceSystemStatus {
 
   // 0: normal，1：system maintenance
-  @JsonProperty
-  String status;
+  @JsonProperty String status;
 
   // normal or system maintenance
-  @JsonProperty
-  String msg;
-
+  @JsonProperty String msg;
 }

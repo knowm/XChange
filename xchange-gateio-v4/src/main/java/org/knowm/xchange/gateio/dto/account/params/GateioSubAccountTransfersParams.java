@@ -17,5 +17,4 @@ public class GateioSubAccountTransfersParams {
   private Instant startTime;
 
   private Instant endTime;
-
 }

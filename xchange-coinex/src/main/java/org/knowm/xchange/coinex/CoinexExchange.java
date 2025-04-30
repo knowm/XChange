@@ -36,22 +36,27 @@ public class CoinexExchange extends BaseExchange {
 
   @Override
   public void remoteInit() throws IOException {
-    CoinexMarketDataServiceRaw coinexMarketDataServiceRaw = (CoinexMarketDataServiceRaw) marketDataService;
+    CoinexMarketDataServiceRaw coinexMarketDataServiceRaw =
+        (CoinexMarketDataServiceRaw) marketDataService;
 
     // initialize symbol mappings
-    List<CoinexCurrencyPairInfo> currencyPairInfos = coinexMarketDataServiceRaw.getCoinexCurrencyPairInfos(null);
-    currencyPairInfos.forEach(currencyPairInfo -> {
-      CoinexAdapters.putSymbolMapping(currencyPairInfo.getSymbol(), new CurrencyPair(currencyPairInfo.getBaseCurrency(), currencyPairInfo.getQuoteCurrency()));
-    });
+    List<CoinexCurrencyPairInfo> currencyPairInfos =
+        coinexMarketDataServiceRaw.getCoinexCurrencyPairInfos(null);
+    currencyPairInfos.forEach(
+        currencyPairInfo -> {
+          CoinexAdapters.putSymbolMapping(
+              currencyPairInfo.getSymbol(),
+              new CurrencyPair(
+                  currencyPairInfo.getBaseCurrency(), currencyPairInfo.getQuoteCurrency()));
+        });
 
     // initialize instrument metadata
-    Map<Instrument, InstrumentMetaData> instruments = currencyPairInfos.stream()
-        .collect(Collectors.toMap(
-            CoinexCurrencyPairInfo::getCurrencyPair,
-            CoinexAdapters::toInstrumentMetaData)
-        );
+    Map<Instrument, InstrumentMetaData> instruments =
+        currencyPairInfos.stream()
+            .collect(
+                Collectors.toMap(
+                    CoinexCurrencyPairInfo::getCurrencyPair, CoinexAdapters::toInstrumentMetaData));
 
     exchangeMetaData = new ExchangeMetaData(instruments, null, null, null, null);
-
   }
 }

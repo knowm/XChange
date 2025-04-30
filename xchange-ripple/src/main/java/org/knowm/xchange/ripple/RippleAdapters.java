@@ -99,7 +99,7 @@ public abstract class RippleAdapters {
 
     final String[] baseSplit = splitPair[0].split("\\+");
     final String baseSymbol = baseSplit[0];
-    if (baseSymbol.equals(currencyPair.base.getCurrencyCode()) == false) {
+    if (baseSymbol.equals(currencyPair.getBase().getCurrencyCode()) == false) {
       throw new IllegalStateException(
           String.format(
               "base symbol in Ripple order book %s does not match requested base %s",
@@ -120,7 +120,7 @@ public abstract class RippleAdapters {
 
     final String[] counterSplit = splitPair[1].split("\\+");
     final String counterSymbol = counterSplit[0];
-    if (counterSymbol.equals(currencyPair.counter.getCurrencyCode()) == false) {
+    if (counterSymbol.equals(currencyPair.getCounter().getCurrencyCode()) == false) {
       throw new IllegalStateException(
           String.format(
               "counter symbol in Ripple order book %s does not match requested base %s",
@@ -317,12 +317,12 @@ public abstract class RippleAdapters {
         && (((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null)) {
       // Searching for a specific currency pair - use this direction
       final CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-      if (pair.base.getCurrencyCode().equals(balanceChanges.get(0).getCurrency())
-          && pair.counter.getCurrencyCode().equals(balanceChanges.get(1).getCurrency())) {
+      if (pair.getBase().getCurrencyCode().equals(balanceChanges.get(0).getCurrency())
+          && pair.getCounter().getCurrencyCode().equals(balanceChanges.get(1).getCurrency())) {
         base = balanceChanges.get(0);
         counter = balanceChanges.get(1);
-      } else if (pair.base.getCurrencyCode().equals(balanceChanges.get(1).getCurrency())
-          && pair.counter.getCurrencyCode().equals(balanceChanges.get(0).getCurrency())) {
+      } else if (pair.getBase().getCurrencyCode().equals(balanceChanges.get(1).getCurrency())
+          && pair.getCounter().getCurrencyCode().equals(balanceChanges.get(0).getCurrency())) {
         base = balanceChanges.get(1);
         counter = balanceChanges.get(0);
       } else {

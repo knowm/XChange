@@ -53,7 +53,6 @@ public class GateioWithdrawalRecord {
   @JsonProperty("fee")
   BigDecimal fee;
 
-
   @Getter
   @AllArgsConstructor
   public static enum Status {
@@ -72,7 +71,5 @@ public class GateioWithdrawalRecord {
     SPLITPEND("the order is automatically split due to large amount");
 
     private final String description;
-
   }
-
 }

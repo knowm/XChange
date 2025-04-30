@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 
 /** A central place for shared Bitfinex properties */
 public final class BitfinexUtils {
@@ -33,23 +34,23 @@ public final class BitfinexUtils {
       return null;
     }
 
-    String base = adaptXchangeCurrency(currencyPair.base);
-    String counter = adaptXchangeCurrency(currencyPair.counter);
+    String base = adaptXchangeCurrency(currencyPair.getBase());
+    String counter = adaptXchangeCurrency(currencyPair.getCounter());
     return "t"
         + base
         + currencySeparator(base, counter)
-        + adaptXchangeCurrency(currencyPair.counter);
+        + adaptXchangeCurrency(currencyPair.getCounter());
   }
 
-  public static String toPairStringV1(CurrencyPair currencyPair) {
+  public static String toPairStringV1(Instrument instrument) {
 
-    if (currencyPair == null) {
+    if (instrument == null) {
       return null;
     }
 
-    String base = StringUtils.lowerCase(adaptXchangeCurrency(currencyPair.base));
-    String counter = StringUtils.lowerCase(adaptXchangeCurrency(currencyPair.counter));
-    return base + currencySeparator(base, counter) + adaptXchangeCurrency(currencyPair.counter);
+    String base = StringUtils.lowerCase(adaptXchangeCurrency(instrument.getBase()));
+    String counter = StringUtils.lowerCase(adaptXchangeCurrency(instrument.getCounter()));
+    return base + currencySeparator(base, counter) + adaptXchangeCurrency(instrument.getCounter());
   }
 
   /**

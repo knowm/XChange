@@ -1,0 +1,32 @@
+{
+  "code": 0,
+  "data": [
+    {
+      "base_ccy": "ETH",
+      "base_ccy_precision": 8,
+      "is_amm_available": false,
+      "is_margin_available": true,
+      "is_pre_trading_available": false,
+      "maker_fee_rate": "0.002",
+      "market": "ETHUSDT",
+      "min_amount": "0.0005",
+      "quote_ccy": "USDT",
+      "quote_ccy_precision": 2,
+      "taker_fee_rate": "0.002"
+    },
+    {
+      "base_ccy": "BTC",
+      "base_ccy_precision": 8,
+      "is_amm_available": false,
+      "is_margin_available": true,
+      "is_pre_trading_available": false,
+      "maker_fee_rate": "0.002",
+      "market": "BTCUSDT",
+      "min_amount": "0.00005",
+      "quote_ccy": "USDT",
+      "quote_ccy_precision": 2,
+      "taker_fee_rate": "0.002"
+    }
+  ],
+  "message": "OK"
+}

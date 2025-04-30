@@ -1,0 +1,98 @@
+### Get your orders
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+#GET {{api_v1}}/order?filter={"orderID":"5d873440-48c6-48ed-86d9-e8e4259b0e7a","ordType":"Market"}
+GET {{api_v1}}/order?filter={"open":"true"}
+#GET {{api_v1}}/order
+api-key: {{api_key}}
+api-expires: {{timestamp}}
+api-signature: {{sign}}
+Accept: application/json
+
+
+### Create a new order
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{api_v1}}/order
+api-key: {{api_key}}
+api-expires: {{timestamp}}
+api-signature: {{sign}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "symbol" :"XBT_USDT",
+  "side": "Buy",
+  "orderQty": "10000",
+  "price": "10000.5"
+}
+
+
+### Cancel order(s)
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+DELETE {{api_v1}}/order
+api-key: {{api_key}}
+api-expires: {{timestamp}}
+api-signature: {{sign}}
+Content-Type: application/x-www-form-urlencoded
+
+orderID = 36b592c1-5b14-4156-81fe-83ed9a440f06
+
+
+### Get your current wallet information
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v1}}/user/wallet?currency=all
+api-key: {{api_key}}
+api-expires: {{timestamp}}
+api-signature: {{sign}}
+Accept: application/json
+
+
+### Get your current wallet information
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v1}}/user/walletHistory?currency=USDt
+#GET {{api_v1}}/user/walletHistory?count=10000
+api-key: {{api_key}}
+api-expires: {{timestamp}}
+api-signature: {{sign}}
+Accept: application/json
+
+
+### Get all balance-affecting executions
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v1}}/execution/tradeHistory?filter={"orderID":"5f563ace-005c-49dd-8c44-83fdbdd2fe65"}
+#GET {{api_v1}}/execution/tradeHistory
+api-key: {{api_key}}
+api-expires: {{timestamp}}
+api-signature: {{sign}}
+Accept: application/json
+
+
+### Get your positions
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v1}}/position?filter={"symbol":["ETH_XBT","SOL_USDT"]}
+api-key: {{api_key}}
+api-expires: {{timestamp}}
+api-signature: {{sign}}
+Accept: application/json
+
+

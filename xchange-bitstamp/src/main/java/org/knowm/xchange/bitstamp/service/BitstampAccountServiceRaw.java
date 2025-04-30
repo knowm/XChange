@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitstamp.service;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +26,6 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
@@ -114,21 +112,24 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     } else if (currency.equals(Currency.XLM)) {
       response = withdrawXLM(amount, address, tag);
     } else {
-      response = checkAndReturnWithdrawal(bitstampAuthenticatedV2.withdrawCrypto(apiKeyForV2Requests,
-          signatureCreatorV2,
-          uuidNonceFactory,
-          timestampFactory,
-          API_VERSION,
-          currency.getCurrencyCode().toLowerCase(),
-          address,
-          amount,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null));
+      response =
+          checkAndReturnWithdrawal(
+              bitstampAuthenticatedV2.withdrawCrypto(
+                  apiKeyForV2Requests,
+                  signatureCreatorV2,
+                  uuidNonceFactory,
+                  timestampFactory,
+                  API_VERSION,
+                  currency.getCurrencyCode().toLowerCase(),
+                  address,
+                  amount,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null));
     }
 
     if (response.error != null) {
@@ -351,12 +352,12 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       return bitstampAuthenticatedV2.getWithdrawalRequests(
-                  apiKeyForV2Requests,
-                  signatureCreatorV2,
-                  uuidNonceFactory,
-                  timestampFactory,
-                  API_VERSION,
-                  timeDelta);
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          timeDelta);
     } catch (BitstampException e) {
       throw handleError(e);
     }
@@ -366,11 +367,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       return bitstampAuthenticatedV2.getWithdrawalFees(
-                  apiKeyForV2Requests,
-                  signatureCreatorV2,
-                  uuidNonceFactory,
-                  timestampFactory,
-                  API_VERSION);
+          apiKeyForV2Requests, signatureCreatorV2, uuidNonceFactory, timestampFactory, API_VERSION);
     } catch (BitstampException e) {
       throw handleError(e);
     }

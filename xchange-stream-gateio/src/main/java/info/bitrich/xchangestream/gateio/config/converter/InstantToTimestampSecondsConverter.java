@@ -3,9 +3,7 @@ package info.bitrich.xchangestream.gateio.config.converter;
 import com.fasterxml.jackson.databind.util.StdConverter;
 import java.time.Instant;
 
-/**
- * Converts {@code Instant} to timestamp in seconds
- */
+/** Converts {@code Instant} to timestamp in seconds */
 public class InstantToTimestampSecondsConverter extends StdConverter<Instant, Long> {
 
   @Override

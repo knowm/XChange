@@ -19,48 +19,52 @@ import org.knowm.xchange.gateio.GateioExchangeWiremock;
 
 public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
 
-  GateioMarketDataService gateioMarketDataService = (GateioMarketDataService) exchange.getMarketDataService();
-
+  GateioMarketDataService gateioMarketDataService =
+      (GateioMarketDataService) exchange.getMarketDataService();
 
   @Test
   void getOrderBook_valid() throws IOException {
     OrderBook actual = gateioMarketDataService.getOrderBook(CurrencyPair.BTC_USDT);
 
     List<LimitOrder> expectedAsks = new ArrayList<>();
-    expectedAsks.add(new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
-        .limitPrice(new BigDecimal("200"))
-        .originalAmount(BigDecimal.ONE)
-        .build());
-    expectedAsks.add(new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
-        .limitPrice(new BigDecimal("250"))
-        .originalAmount(BigDecimal.TEN)
-        .build());
+    expectedAsks.add(
+        new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
+            .limitPrice(new BigDecimal("200"))
+            .originalAmount(BigDecimal.ONE)
+            .build());
+    expectedAsks.add(
+        new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
+            .limitPrice(new BigDecimal("250"))
+            .originalAmount(BigDecimal.TEN)
+            .build());
 
     List<LimitOrder> expectedBids = new ArrayList<>();
-    expectedBids.add(new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
-        .limitPrice(new BigDecimal("150"))
-        .originalAmount(BigDecimal.ONE)
-        .build());
-    expectedBids.add(new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
-        .limitPrice(new BigDecimal("100"))
-        .originalAmount(BigDecimal.TEN)
-        .build());
+    expectedBids.add(
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+            .limitPrice(new BigDecimal("150"))
+            .originalAmount(BigDecimal.ONE)
+            .build());
+    expectedBids.add(
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+            .limitPrice(new BigDecimal("100"))
+            .originalAmount(BigDecimal.TEN)
+            .build());
     Date expectedTimestamp = Date.from(Instant.parse("2023-05-14T22:10:10.493Z"));
 
     OrderBook expected = new OrderBook(expectedTimestamp, expectedAsks, expectedBids);
 
     assertThat(actual)
         .usingRecursiveComparison()
-        .ignoringFieldsMatchingRegexes(".*userReference",".*lock")
+        .ignoringFieldsMatchingRegexes(".*userReference", ".*lock")
         .isEqualTo(expected);
   }
-
 
   @Test
   void getTicker_valid() throws IOException {
     Ticker actual = gateioMarketDataService.getTicker(CurrencyPair.BTC_USDT);
 
-    Ticker expected = new Ticker.Builder()
+    Ticker expected =
+        new Ticker.Builder()
             .instrument(CurrencyPair.BTC_USDT)
             .last(new BigDecimal("26028.7"))
             .ask(new BigDecimal("26026.8"))
@@ -75,14 +79,12 @@ public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
     assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
   }
 
-
   @Test
   void getTickers_valid() throws IOException {
     List<Ticker> actual = gateioMarketDataService.getTickers(null);
 
     assertThat(actual).hasSize(2);
   }
-
 
   @Test
   void getCurrencies_valid() throws IOException {
@@ -91,13 +93,11 @@ public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
     assertThat(actual).containsOnly(Currency.BTC, Currency.ETH);
   }
 
-
   @Test
   void getCurrencyPairs_valid() throws IOException {
     List<CurrencyPair> actual = gateioMarketDataService.getCurrencyPairs();
 
-    assertThat(actual).containsOnly(CurrencyPair.BTC_USDT, CurrencyPair.ETH_USDT, new CurrencyPair("CHZ/USDT"));
+    assertThat(actual)
+        .containsOnly(CurrencyPair.BTC_USDT, CurrencyPair.ETH_USDT, new CurrencyPair("CHZ/USDT"));
   }
-
-
 }

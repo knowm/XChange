@@ -31,7 +31,7 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
     BigDecimal amount = limitOrder.getOriginalAmount();
     BigDecimal price = limitOrder.getAveragePrice();
     String type = limitOrder.getType() == OrderType.ASK ? "buy" : "sell";
-    String coin = limitOrder.getCurrencyPair().base.getCurrencyCode().toLowerCase();
+    String coin = limitOrder.getCurrencyPair().getBase().getCurrencyCode().toLowerCase();
 
     return CoinEggAdapters.adaptTradeAdd(getCoinEggTradeAdd(amount, price, type, coin));
   }
@@ -46,7 +46,7 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
       String coin =
           ((CancelOrderByCurrencyPair) orderParams)
               .getCurrencyPair()
-              .base
+              .getBase()
               .getCurrencyCode()
               .toLowerCase();
 

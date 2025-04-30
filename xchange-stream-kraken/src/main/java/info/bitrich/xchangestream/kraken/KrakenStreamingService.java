@@ -47,7 +47,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   private static final String EVENT = "event";
   private static final String WEBSOCKET_REQUESTS_PER_SECOND =
       "Kraken_Websocket_Requests_Per_Second";
-  private final Map<Integer, String> channels = new ConcurrentHashMap<>();
+  private final Map<Long, String> channels = new ConcurrentHashMap<>();
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private final boolean isPrivate;
   private final Supplier<KrakenWebsocketToken> authData;
@@ -100,7 +100,6 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
                   .limitForPeriod(requestsPerSecond)
                   .limitRefreshPeriod(Duration.ofSeconds(1))
                   .build());
-
     }
     return rateLimiter;
   }
@@ -168,7 +167,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
             }
             statusMessage.setChannelName(channelName);
 
-            Integer channelId = statusMessage.getChannelID();
+            Long channelId = statusMessage.getChannelID();
             switch (statusMessage.getStatus()) {
               case subscribed:
                 LOG.info("Channel name={}, id={} has been subscribed", channelName, channelId);
@@ -184,7 +183,9 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
                 break;
               case error:
                 LOG.error(
-                    "Channel name={}, id={} has been failed: {}", channelName, channelId,
+                    "Channel name={}, id={} has been failed: {}",
+                    channelName,
+                    channelId,
                     statusMessage.getErrorMessage());
                 if ("ESession:Invalid session".equals(statusMessage.getErrorMessage())) {
                   throw new ExchangeException("Issue with session validity");
@@ -213,7 +214,10 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     }
 
     if (!message.isArray() || channelName == null) {
-      LOG.error("Unknown message:  isArray={}, name={}, message={}", message.isArray(), channelName,
+      LOG.error(
+          "Unknown message:  isArray={}, name={}, message={}",
+          message.isArray(),
+          channelName,
           message);
       return;
     }
@@ -225,7 +229,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   protected String getChannelNameFromMessage(JsonNode message) throws IOException {
     String channelName = null;
     if (message.has("channelID")) {
-      int channelId = message.get("channelID").asInt();
+      long channelId = message.get("channelID").asLong();
       return channels.getOrDefault(channelId, String.valueOf(channelId));
     }
     if (message.has("channelName")) {
@@ -234,9 +238,9 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     }
 
     if (message.isArray()) {
-      if (message.get(0).isInt()) {
-        LOG.trace("Taking channelName from ID from first field INT).");
-        int channelId = message.get(0).asInt();
+      if (message.get(0).isInt() || message.get(0).isLong()) {
+        LOG.trace("Taking channelName from ID from first field LONG).");
+        long channelId = message.get(0).asLong();
         return channels.getOrDefault(channelId, String.valueOf(channelId));
       }
       if (message.get(1).isTextual()) {
@@ -266,7 +270,9 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
 
       KrakenSubscriptionMessage subscriptionMessage =
           new KrakenSubscriptionMessage(
-              reqID, subscribe, null,
+              reqID,
+              subscribe,
+              null,
               new KrakenSubscriptionConfig(subscriptionName, null, interval, token));
 
       String subscriptionMessageString = objectMapper.writeValueAsString(subscriptionMessage);
@@ -281,8 +287,8 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
               reqID,
               subscribe,
               Collections.singletonList(pair),
-              new KrakenSubscriptionConfig(subscriptionName, parseOrderBookSize(args), interval,
-                  null));
+              new KrakenSubscriptionConfig(
+                  subscriptionName, parseOrderBookSize(args), interval, null));
       String subscriptionMessageString = objectMapper.writeValueAsString(subscriptionMessage);
       return subscriptionMessageString;
     }
@@ -315,8 +321,8 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
               reqID,
               KrakenEventType.unsubscribe,
               Collections.singletonList(pair),
-              new KrakenSubscriptionConfig(subscriptionName, parseOrderBookSize(args), interval,
-                  null));
+              new KrakenSubscriptionConfig(
+                  subscriptionName, parseOrderBookSize(args), interval, null));
       return objectMapper.writeValueAsString(subscriptionMessage);
     }
   }

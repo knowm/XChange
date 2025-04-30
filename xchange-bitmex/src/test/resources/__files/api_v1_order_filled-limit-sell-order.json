@@ -1,0 +1,21 @@
+[
+  {
+    "account": 2273415,
+    "avgPx": 101145,
+    "cumQty": 10000,
+    "currency": "USDT",
+    "leavesQty": 0,
+    "ordStatus": "Filled",
+    "ordType": "Limit",
+    "orderID": "1f2698bb-36c3-489a-b44c-b3f7e094350d",
+    "orderQty": 10000,
+    "price": 101145,
+    "side": "Sell",
+    "symbol": "XBT_USDT",
+    "text": "filled-limit-sell-order",
+    "timeInForce": "GoodTillCancel",
+    "timestamp": "2024-12-12T00:00:05.803Z",
+    "transactTime": "2024-12-12T00:00:05.803Z",
+    "workingIndicator": false
+  }
+]

@@ -324,7 +324,7 @@ public class KrakenAdapters {
         tradeId,
         krakenTrade.getOrderTxId(),
         krakenTrade.getFee(),
-        pair.counter,
+        pair.getCounter(),
         krakenTrade.getCost());
   }
 

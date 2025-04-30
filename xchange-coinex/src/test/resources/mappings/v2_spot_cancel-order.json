@@ -1,0 +1,20 @@
+{
+  "id" : "339fb318-39e7-49de-9c83-452a2a524977",
+  "name" : "v2_spot_cancel-order",
+  "request" : {
+    "url" : "/v2/spot/cancel-order",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"market\":\"BTCUSDT\",\"market_type\":\"SPOT\",\"order_id\":136215219959}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_spot_cancel-order.json"
+  },
+  "uuid" : "339fb318-39e7-49de-9c83-452a2a524977",
+  "persistent" : true,
+  "insertionIndex" : 4
+}

@@ -1,0 +1,19 @@
+{
+  "account": 2273415,
+  "avgPx": 99607.0,
+  "clOrdID": "new-market-sell-order",
+  "cumQty": 10000,
+  "currency": "USDT",
+  "leavesQty": 0,
+  "ordStatus": "Filled",
+  "ordType": "Market",
+  "orderID": "f931ef31-b94e-4e86-bab6-5a48fdd3811a",
+  "orderQty": 10000,
+  "side": "Sell",
+  "symbol": "XBT_USDT",
+  "text": "Submitted via API.",
+  "timeInForce": "ImmediateOrCancel",
+  "timestamp": "2024-12-12T17:31:43.392Z",
+  "transactTime": "2024-12-12T17:31:43.392Z",
+  "workingIndicator": false
+}

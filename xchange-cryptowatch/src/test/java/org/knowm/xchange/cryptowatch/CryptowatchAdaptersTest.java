@@ -58,8 +58,8 @@ public class CryptowatchAdaptersTest {
             .orElse(null);
     CurrencyPair currencyPair = CryptowatchAdapters.adaptToCurrencyPair(assetPair);
     assertNotNull(currencyPair);
-    assertEquals("1ST", currencyPair.base.getCurrencyCode());
-    assertEquals("BTC", currencyPair.counter.getCurrencyCode());
+    assertEquals("1ST", currencyPair.getBase().getCurrencyCode());
+    assertEquals("BTC", currencyPair.getCounter().getCurrencyCode());
   }
 
   @Test
@@ -76,8 +76,8 @@ public class CryptowatchAdaptersTest {
             .orElse(null);
     CurrencyPair currencyPair = CryptowatchAdapters.adaptToCurrencyPair(assetPair);
     assertNotNull(currencyPair);
-    assertEquals("BTC", currencyPair.base.getCurrencyCode());
-    assertEquals("EUR", currencyPair.counter.getCurrencyCode());
+    assertEquals("BTC", currencyPair.getBase().getCurrencyCode());
+    assertEquals("EUR", currencyPair.getCounter().getCurrencyCode());
   }
 
   @Test

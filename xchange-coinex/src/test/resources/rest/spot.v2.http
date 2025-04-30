@@ -25,6 +25,17 @@ X-COINEX-TIMESTAMP: {{timestamp}}
 X-COINEX-SIGN: {{sign}}
 
 
+### Get Unfilled Order
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign("GET", request);
+%}
+GET {{api_host}}/v2/spot/pending-order?market_type=SPOT&limit=1000
+X-COINEX-KEY: {{api_key}}
+X-COINEX-TIMESTAMP: {{timestamp}}
+X-COINEX-SIGN: {{sign}}
+
+
 ### Place Order
 < {%
   import {gen_sign} from 'sign.js'

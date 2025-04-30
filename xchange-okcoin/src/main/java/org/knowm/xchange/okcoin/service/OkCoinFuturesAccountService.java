@@ -45,5 +45,4 @@ public class OkCoinFuturesAccountService extends OkCoinAccountServiceRaw impleme
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
   }
-
 }

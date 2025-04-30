@@ -1,0 +1,15 @@
+{
+  "id" : "f6aa1f66-28cf-4f15-a8d3-601d5cb85f76",
+  "name" : "api_v1_user_wallet",
+  "request" : {
+    "url" : "/api/v1/user/wallet?currency=all",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v1_user_wallet.json"
+  },
+  "uuid" : "f6aa1f66-28cf-4f15-a8d3-601d5cb85f76",
+  "persistent" : true,
+  "insertionIndex" : 2
+}

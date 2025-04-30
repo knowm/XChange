@@ -8,6 +8,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
@@ -43,14 +44,19 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    return getOrderBook((Instrument) currencyPair, args);
+  }
+
+  @Override
+  public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
     if (Arrays.asList(args).contains(PARAM_FULL_ORDERBOOK)) {
-      return KucoinAdapters.adaptOrderBook(currencyPair, getKucoinOrderBookFull(currencyPair));
+      return KucoinAdapters.adaptOrderBook(instrument, getKucoinOrderBookFull(instrument));
     } else {
       if (Arrays.asList(args).contains(PARAM_PARTIAL_SHALLOW_ORDERBOOK)) {
         return KucoinAdapters.adaptOrderBook(
-            currencyPair, getKucoinOrderBookPartialShallow(currencyPair));
+            instrument, getKucoinOrderBookPartialShallow(instrument));
       }
-      return KucoinAdapters.adaptOrderBook(currencyPair, getKucoinOrderBookPartial(currencyPair));
+      return KucoinAdapters.adaptOrderBook(instrument, getKucoinOrderBookPartial(instrument));
     }
   }
 

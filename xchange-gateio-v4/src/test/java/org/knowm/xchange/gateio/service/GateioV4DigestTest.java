@@ -14,8 +14,7 @@ import si.mazi.rescu.RestInvocation;
 @ExtendWith(MockitoExtension.class)
 class GateioV4DigestTest {
 
-  @Mock
-  RestInvocation restInvocation;
+  @Mock RestInvocation restInvocation;
 
   @Test
   void signature() {
@@ -30,9 +29,9 @@ class GateioV4DigestTest {
     when(restInvocation.getHttpHeadersFromParams()).thenReturn(headers);
 
     String actual = gateioV4Digest.digestParams(restInvocation);
-    String expected = "de31e211a60623ba2c41e65a3c21e550400ffccfef55578173e09f2b34cf46b426c587f01b4c12474608dc856b1ba226a71004f7989603236c885c23275d5577";
+    String expected =
+        "de31e211a60623ba2c41e65a3c21e550400ffccfef55578173e09f2b34cf46b426c587f01b4c12474608dc856b1ba226a71004f7989603236c885c23275d5577";
 
     assertThat(actual).isEqualTo(expected);
   }
-
 }

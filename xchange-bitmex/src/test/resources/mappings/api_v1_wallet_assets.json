@@ -1,0 +1,15 @@
+{
+  "id" : "c82f2676-162c-4bc1-adbb-2fc3ecaa75d2",
+  "name" : "api_v1_wallet_assets",
+  "request" : {
+    "url" : "/api/v1/wallet/assets",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v1_wallet_assets.json"
+  },
+  "uuid" : "c82f2676-162c-4bc1-adbb-2fc3ecaa75d2",
+  "persistent" : true,
+  "insertionIndex" : 4
+}

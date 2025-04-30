@@ -37,30 +37,34 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
             .build();
     ExchangeSpecification futuresSpec;
     ExchangeSpecification inverseFuturesSpec;
-    if(exchange.getExchangeSpecification().getExchangeSpecificParametersItem(EXCHANGE_TYPE) != null)
-    {
-      switch ((ExchangeType) exchange.getExchangeSpecification()
-          .getExchangeSpecificParametersItem(EXCHANGE_TYPE)) {
-        case SPOT: {
-          break;
-        }
-        case FUTURES: {
-          futuresSpec = exchange.getExchangeSpecification();
-          binanceFutures =
-              ExchangeRestProxyBuilder.forInterface(BinanceFuturesAuthenticated.class, futuresSpec)
-                  .build();
-          inverseBinanceFutures = null;
-          break;
-        }
-        case INVERSE: {
-          inverseFuturesSpec = exchange.getExchangeSpecification();
-          inverseBinanceFutures =
-              ExchangeRestProxyBuilder.forInterface(BinanceFuturesAuthenticated.class,
-                      inverseFuturesSpec)
-                  .build();
-          binanceFutures = null;
-          break;
-        }
+    if (exchange.getExchangeSpecification().getExchangeSpecificParametersItem(EXCHANGE_TYPE)
+        != null) {
+      switch ((ExchangeType)
+          exchange.getExchangeSpecification().getExchangeSpecificParametersItem(EXCHANGE_TYPE)) {
+        case SPOT:
+          {
+            break;
+          }
+        case FUTURES:
+          {
+            futuresSpec = exchange.getExchangeSpecification();
+            binanceFutures =
+                ExchangeRestProxyBuilder.forInterface(
+                        BinanceFuturesAuthenticated.class, futuresSpec)
+                    .build();
+            inverseBinanceFutures = null;
+            break;
+          }
+        case INVERSE:
+          {
+            inverseFuturesSpec = exchange.getExchangeSpecification();
+            inverseBinanceFutures =
+                ExchangeRestProxyBuilder.forInterface(
+                        BinanceFuturesAuthenticated.class, inverseFuturesSpec)
+                    .build();
+            binanceFutures = null;
+            break;
+          }
       }
     }
     this.apiKey = exchange.getExchangeSpecification().getApiKey();

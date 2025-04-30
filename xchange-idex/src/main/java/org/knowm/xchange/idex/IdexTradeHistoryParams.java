@@ -46,6 +46,6 @@ public final class IdexTradeHistoryParams extends TradeHistoryReq
 
   @Override
   public void setCurrencyPair(CurrencyPair currencyPair) {
-    setMarket(currencyPair.counter.getSymbol() + "_" + currencyPair.base.getSymbol());
+    setMarket(currencyPair.getCounter().getSymbol() + "_" + currencyPair.getBase().getSymbol());
   }
 }

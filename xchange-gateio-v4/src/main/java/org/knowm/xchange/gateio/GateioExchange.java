@@ -1,5 +1,8 @@
 package org.knowm.xchange.gateio;
 
+import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -11,14 +14,10 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 public class GateioExchange extends BaseExchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
-
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
 
   @Override
   protected void initServices() {
@@ -43,10 +42,10 @@ public class GateioExchange extends BaseExchange {
     return nonceFactory;
   }
 
-
   @Override
   public void remoteInit() throws IOException {
-    Map<Instrument, InstrumentMetaData> instruments = ((GateioMarketDataService) marketDataService).getMetaDataByInstrument();
+    Map<Instrument, InstrumentMetaData> instruments =
+        ((GateioMarketDataService) marketDataService).getMetaDataByInstrument();
 
     exchangeMetaData = new ExchangeMetaData(instruments, null, null, null, null);
   }

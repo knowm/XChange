@@ -56,8 +56,8 @@ public class CCEXTradeServiceRaw extends CCEXBaseService {
 
   public String placeCCEXLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    String lpair = limitOrder.getCurrencyPair().base.toString().toLowerCase();
-    String rpair = limitOrder.getCurrencyPair().counter.toString().toLowerCase();
+    String lpair = limitOrder.getCurrencyPair().getBase().toString().toLowerCase();
+    String rpair = limitOrder.getCurrencyPair().getCounter().toString().toLowerCase();
 
     if (limitOrder.getType() == OrderType.BID) {
       CCEXBuySellLimitResponse response =

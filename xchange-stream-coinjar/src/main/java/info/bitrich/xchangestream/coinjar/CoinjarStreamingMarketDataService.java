@@ -86,5 +86,4 @@ class CoinjarStreamingMarketDataService implements StreamingMarketDataService {
             })
         .filter(orderbook -> !orderbook.getBids().isEmpty() && !orderbook.getAsks().isEmpty());
   }
-
 }

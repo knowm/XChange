@@ -16,5 +16,4 @@ public class CoinexSingleMarketStatisticsV1 {
 
   @JsonProperty("ticker")
   private CoinexTickerV1 ticker;
-
 }

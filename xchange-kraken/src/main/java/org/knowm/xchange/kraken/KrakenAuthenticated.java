@@ -111,6 +111,7 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("userref") String userRefId,
       @FormParam("close") Map<String, String> closeOrder,
       @FormParam("timeinforce") String timeInForce,
+      @FormParam("cl_ord_id") String clientOrderId,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
@@ -135,6 +136,7 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("validate") boolean validateOnly,
       @FormParam("close") Map<String, String> closeOrder,
       @FormParam("timeinforce") String timeInForce,
+      @FormParam("cl_ord_id") String clientOrderId,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
@@ -149,6 +151,14 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("txid") String transactionId)
       throws IOException;
+
+  @POST
+  @Path("private/CancelAll")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  KrakenCancelOrderResult cancelAllOrders(
+      @HeaderParam("API-Key") String apiKey,
+      @HeaderParam("API-Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce);
 
   @POST
   @Path("private/OpenOrders")
@@ -191,14 +201,15 @@ public interface KrakenAuthenticated extends Kraken {
   /**
    * Get trades history
    *
-   * @param type ype = type of trade (optional) all = all types (default) any position = any
-   *     position (open or closed) closed position = positions that have been closed closing
-   *     position = any trade closing all or part of a position no position = non-positional trades
+   * @param type          ype = type of trade (optional) all = all types (default) any position =
+   *                      any position (open or closed) closed position = positions that have been
+   *                      closed closing position = any trade closing all or part of a position no
+   *                      position = non-positional trades
    * @param includeTrades whether or not to include trades related to position in output (optional.
-   *     default = false)
-   * @param start starting unix timestamp or trade tx id of results (optional. exclusive)
-   * @param end ending unix timestamp or trade tx id of results (optional. inclusive)
-   * @param offset result offset
+   *                      default = false)
+   * @param start         starting unix timestamp or trade tx id of results (optional. exclusive)
+   * @param end           ending unix timestamp or trade tx id of results (optional. inclusive)
+   * @param offset        result offset
    */
   @POST
   @Path("private/TradesHistory")

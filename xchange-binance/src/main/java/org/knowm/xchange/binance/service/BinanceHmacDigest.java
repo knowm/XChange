@@ -39,21 +39,16 @@ public class BinanceHmacDigest extends BaseParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
     final String input;
 
-    if (restInvocation.getPath().startsWith("wapi/")) {
-      // little dirty hack for /wapi methods
-      input = getQuery(restInvocation);
-    } else {
-      switch (restInvocation.getHttpMethod()) {
-        case "GET":
-        case "DELETE":
-          input = getQuery(restInvocation);
-          break;
-        case "POST":
-          input = restInvocation.getRequestBody();
-          break;
-        default:
-          throw new RuntimeException("Not support http method: " + restInvocation.getHttpMethod());
-      }
+    switch (restInvocation.getHttpMethod()) {
+      case "GET":
+      case "DELETE":
+        input = getQuery(restInvocation);
+        break;
+      case "POST":
+        input = getQuery(restInvocation) + restInvocation.getRequestBody();
+        break;
+      default:
+        throw new RuntimeException("Not support http method: " + restInvocation.getHttpMethod());
     }
 
     Mac mac = getMac();

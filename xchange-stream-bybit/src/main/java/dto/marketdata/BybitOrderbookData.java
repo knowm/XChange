@@ -20,7 +20,9 @@ public class BybitOrderbookData {
   private final Long seq;
 
   @ConstructorProperties({"s", "b", "a", "u", "seq"})
-  public BybitOrderbookData(String symbolName, List<BybitPublicOrder> bid,
+  public BybitOrderbookData(
+      String symbolName,
+      List<BybitPublicOrder> bid,
       List<BybitPublicOrder> ask,
       Integer u,
       Long seq) {

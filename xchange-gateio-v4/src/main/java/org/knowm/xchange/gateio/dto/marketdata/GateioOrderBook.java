@@ -29,7 +29,6 @@ public class GateioOrderBook {
   @JsonProperty("bids")
   List<PriceSizeEntry> bids;
 
-
   @Data
   @Builder
   @Jacksonized
@@ -39,7 +38,5 @@ public class GateioOrderBook {
     BigDecimal price;
 
     BigDecimal size;
-
   }
-
 }

@@ -1,0 +1,20 @@
+[
+  {
+    "account": 2273415,
+    "cumQty": 0,
+    "currency": "USDT",
+    "leavesQty": 10000,
+    "ordStatus": "New",
+    "ordType": "Limit",
+    "orderID": "fcfe266b-540c-4f06-be26-6b540cef0695",
+    "orderQty": 10000,
+    "price": 101300,
+    "side": "Buy",
+    "symbol": "XBT_USDT",
+    "text": "pending-limit-buy-order",
+    "timeInForce": "GoodTillCancel",
+    "timestamp": "2024-12-11T23:29:08.347Z",
+    "transactTime": "2024-12-11T23:29:08.347Z",
+    "workingIndicator": true
+  }
+]

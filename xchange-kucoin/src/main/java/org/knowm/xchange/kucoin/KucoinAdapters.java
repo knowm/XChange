@@ -41,7 +41,11 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.*;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
@@ -68,8 +72,10 @@ public class KucoinAdapters {
 
   private static final String TAKER_FEE_RATE = "takerFeeRate";
 
-  public static String adaptCurrencyPair(CurrencyPair pair) {
-    return pair == null ? null : pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
+  public static String adaptCurrencyPair(Instrument instrument) {
+    return instrument == null
+        ? null
+        : instrument.getBase().getCurrencyCode() + "-" + instrument.getCounter().getCurrencyCode();
   }
 
   public static CurrencyPair adaptCurrencyPair(String symbol) {
@@ -101,7 +107,9 @@ public class KucoinAdapters {
                 new Ticker.Builder()
                     .instrument(adaptCurrencyPair(ticker.getSymbol()))
                     .bid(ticker.getBuy())
+                    .bidSize(ticker.getBestBidSize())
                     .ask(ticker.getSell())
+                    .askSize(ticker.getBestAskSize())
                     .last(ticker.getLast())
                     .high(ticker.getHigh())
                     .low(ticker.getLow())
@@ -166,10 +174,12 @@ public class KucoinAdapters {
               .marketOrderEnabled(true)
               .build());
 
-      if (!currencies.containsKey(pair.base))
-        currencies.put(pair.base, stringCurrencyMetaDataMap.get(pair.base.getCurrencyCode()));
-      if (!currencies.containsKey(pair.counter))
-        currencies.put(pair.counter, stringCurrencyMetaDataMap.get(pair.counter.getCurrencyCode()));
+      if (!currencies.containsKey(pair.getBase()))
+        currencies.put(
+            pair.getBase(), stringCurrencyMetaDataMap.get(pair.getBase().getCurrencyCode()));
+      if (!currencies.containsKey(pair.getCounter()))
+        currencies.put(
+            pair.getCounter(), stringCurrencyMetaDataMap.get(pair.getCounter().getCurrencyCode()));
     }
 
     return new ExchangeMetaData(
@@ -217,26 +227,26 @@ public class KucoinAdapters {
     return walletHealth;
   }
 
-  public static OrderBook adaptOrderBook(CurrencyPair currencyPair, OrderBookResponse kc) {
+  public static OrderBook adaptOrderBook(Instrument instrument, OrderBookResponse kc) {
     Date timestamp = new Date(kc.getTime());
     List<LimitOrder> asks =
         kc.getAsks().stream()
             .map(PriceAndSize::new)
             .sorted(Ordering.natural().onResultOf(s -> s.price))
-            .map(s -> adaptLimitOrder(currencyPair, ASK, s, timestamp))
+            .map(s -> adaptLimitOrder(instrument, ASK, s, timestamp))
             .collect(toCollection(LinkedList::new));
     List<LimitOrder> bids =
         kc.getBids().stream()
             .map(PriceAndSize::new)
             .sorted(Ordering.natural().onResultOf((PriceAndSize s) -> s.price).reversed())
-            .map(s -> adaptLimitOrder(currencyPair, BID, s, timestamp))
+            .map(s -> adaptLimitOrder(instrument, BID, s, timestamp))
             .collect(toCollection(LinkedList::new));
     return new OrderBook(timestamp, asks, bids, true);
   }
 
   private static LimitOrder adaptLimitOrder(
-      CurrencyPair currencyPair, OrderType orderType, PriceAndSize priceAndSize, Date timestamp) {
-    return new LimitOrder.Builder(orderType, currencyPair)
+      Instrument instrument, OrderType orderType, PriceAndSize priceAndSize, Date timestamp) {
+    return new LimitOrder.Builder(orderType, instrument)
         .limitPrice(priceAndSize.price)
         .originalAmount(priceAndSize.size)
         .orderStatus(NEW)
@@ -345,7 +355,7 @@ public class KucoinAdapters {
     return UserTrade.builder()
         .currencyPair(currencyPair)
         .feeAmount(histOrder.getFee())
-        .feeCurrency(currencyPair.base)
+        .feeCurrency(currencyPair.getBase())
         .id(histOrder.getId())
         .originalAmount(histOrder.getAmount())
         .price(histOrder.getPrice())

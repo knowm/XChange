@@ -33,7 +33,7 @@ public class HitbtcStreamingMarketDataService implements StreamingMarketDataServ
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    String pair = currencyPair.base.toString() + currencyPair.counter.toString();
+    String pair = currencyPair.getBase().toString() + currencyPair.getCounter().toString();
     String channelName = getChannelName("orderbook", pair);
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
@@ -52,7 +52,7 @@ public class HitbtcStreamingMarketDataService implements StreamingMarketDataServ
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    String pair = currencyPair.base.toString() + currencyPair.counter.toString();
+    String pair = currencyPair.getBase().toString() + currencyPair.getCounter().toString();
     String channelName = getChannelName("trades", pair);
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
@@ -73,7 +73,7 @@ public class HitbtcStreamingMarketDataService implements StreamingMarketDataServ
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    String pair = currencyPair.base.toString() + currencyPair.counter.toString();
+    String pair = currencyPair.getBase().toString() + currencyPair.getCounter().toString();
     String channelName = getChannelName("ticker", pair);
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 

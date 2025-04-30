@@ -41,10 +41,8 @@ public class GateioStreamingAdapters {
         .build();
   }
 
-
   public Trade toTrade(GateioTradeNotification notification) {
     TradePayload tradePayload = notification.getResult();
-
 
     return new Trade.Builder()
         .type(tradePayload.getSide())
@@ -55,7 +53,6 @@ public class GateioStreamingAdapters {
         .id(String.valueOf(tradePayload.getId()))
         .build();
   }
-
 
   public UserTrade toUserTrade(GateioSingleUserTradeNotification notification) {
     UserTradePayload userTradePayload = notification.getResult();
@@ -74,7 +71,6 @@ public class GateioStreamingAdapters {
         .build();
   }
 
-
   public Balance toBalance(GateioSingleSpotBalanceNotification notification) {
     BalancePayload balancePayload = notification.getResult();
 
@@ -87,18 +83,33 @@ public class GateioStreamingAdapters {
         .build();
   }
 
-
   public OrderBook toOrderBook(GateioOrderBookNotification notification) {
     OrderBookPayload orderBookPayload = notification.getResult();
 
-    Stream<LimitOrder> asks = orderBookPayload.getAsks().stream()
-        .map(priceSizeEntry -> new LimitOrder(OrderType.ASK, priceSizeEntry.getSize(), orderBookPayload.getCurrencyPair(), null, null, priceSizeEntry.getPrice()));
+    Stream<LimitOrder> asks =
+        orderBookPayload.getAsks().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.ASK,
+                        priceSizeEntry.getSize(),
+                        orderBookPayload.getCurrencyPair(),
+                        null,
+                        null,
+                        priceSizeEntry.getPrice()));
 
-    Stream<LimitOrder> bids = orderBookPayload.getBids().stream()
-        .map(priceSizeEntry -> new LimitOrder(OrderType.BID, priceSizeEntry.getSize(), orderBookPayload.getCurrencyPair(), null, null, priceSizeEntry.getPrice()));
+    Stream<LimitOrder> bids =
+        orderBookPayload.getBids().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.BID,
+                        priceSizeEntry.getSize(),
+                        orderBookPayload.getCurrencyPair(),
+                        null,
+                        null,
+                        priceSizeEntry.getPrice()));
 
     return new OrderBook(Date.from(orderBookPayload.getTimestamp()), asks, bids);
   }
-
-
 }

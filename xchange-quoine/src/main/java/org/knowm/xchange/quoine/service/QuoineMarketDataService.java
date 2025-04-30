@@ -52,10 +52,10 @@ public class QuoineMarketDataService extends QuoineMarketDataServiceRaw
                 pairs.getCurrencyPairs().stream()
                     .anyMatch(
                         pair ->
-                            product.getBaseCurrency().equals(pair.base.getCurrencyCode())
+                            product.getBaseCurrency().equals(pair.getBase().getCurrencyCode())
                                 && product
                                     .getQuotedCurrency()
-                                    .equals(pair.counter.getCurrencyCode())))
+                                    .equals(pair.getCounter().getCurrencyCode())))
         .map(product -> QuoineAdapters.adaptTicker(product, buildCurrencyPair(product)))
         .collect(Collectors.toList());
   }

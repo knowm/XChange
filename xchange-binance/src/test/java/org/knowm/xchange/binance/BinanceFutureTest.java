@@ -57,8 +57,7 @@ public class BinanceFutureTest {
     spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
     spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);
 
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(spec);
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
     binanceExchange = exchange;
   }
 

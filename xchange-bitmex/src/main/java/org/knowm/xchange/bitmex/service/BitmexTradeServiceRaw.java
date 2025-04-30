@@ -7,16 +7,15 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.HttpResponseAwareList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
+import org.knowm.xchange.bitmex.dto.params.FilterParam;
 import org.knowm.xchange.bitmex.dto.trade.BitmexCancelAll;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
 import org.knowm.xchange.bitmex.dto.trade.BitmexReplaceOrderParameters;
-import org.knowm.xchange.bitmex.dto.trade.PlaceOrderCommand;
 import org.knowm.xchange.bitmex.dto.trade.ReplaceOrderCommand;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.ObjectMapperHelper;
@@ -36,28 +35,23 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   public List<BitmexPosition> getBitmexPositions() throws ExchangeException {
-    return updateRateLimit(
-        () -> bitmex.getPositions(apiKey, exchange.getNonceFactory(), signatureCreator));
+    return getBitmexPositions(null);
   }
 
-  public List<BitmexPosition> getBitmexPositions(String symbol) throws ExchangeException {
+  public List<BitmexPosition> getBitmexPositions(FilterParam filterParam) throws ExchangeException {
     return updateRateLimit(
         () ->
-            bitmex.getPositions(
-                apiKey,
-                exchange.getNonceFactory(),
-                signatureCreator,
-                "{\"symbol\":\"" + symbol + "\"}"));
+            bitmex.getPositions(apiKey, exchange.getNonceFactory(), signatureCreator, filterParam));
   }
 
   /**
-   * See {@link Bitmex#getOrders}
+   * See {@link org.knowm.xchange.bitmex.BitmexAuthenticated#getOrders}
    *
    * @return List of {@link BitmexPrivateOrder}s.
    */
   public List<BitmexPrivateOrder> getBitmexOrders(
       @Nullable String symbol,
-      @Nullable String filter,
+      @Nullable FilterParam filterParam,
       @Nullable String columns,
       @Nullable Date startTime,
       @Nullable Date endTime)
@@ -74,7 +68,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
                       exchange.getNonceFactory(),
                       signatureCreator,
                       symbol,
-                      filter,
+                      filterParam,
                       columns,
                       500,
                       (long) (j * 500),
@@ -90,7 +84,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   /**
-   * See {@link Bitmex#getOrders}
+   * See {@link org.knowm.xchange.bitmex.BitmexAuthenticated#getOrders}
    *
    * @return List of {@link BitmexPrivateOrder}s.
    */
@@ -99,7 +93,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   /**
-   * See {@link Bitmex#placeOrder}
+   * See {@link org.knowm.xchange.bitmex.BitmexAuthenticated#placeOrder}
    *
    * @return {@link BitmexPrivateOrder} contains the results of the call.
    */
@@ -107,39 +101,11 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   public BitmexPrivateOrder placeOrder(@Nonnull final BitmexPlaceOrderParameters parameters)
       throws ExchangeException {
     return updateRateLimit(
-        () ->
-            bitmex.placeOrder(
-                apiKey,
-                exchange.getNonceFactory(),
-                signatureCreator,
-                parameters.getSymbol(),
-                parameters.getSide() != null ? parameters.getSide().getCapitalized() : null,
-                parameters.getOrderQuantity(),
-                parameters.getSimpleOrderQuantity(),
-                parameters.getDisplayQuantity(),
-                parameters.getPrice(),
-                parameters.getStopPrice(),
-                parameters.getOrderType() != null
-                    ? parameters.getOrderType().toApiParameter()
-                    : null,
-                parameters.getClOrdId(),
-                parameters.getExecutionInstructionsAsParameter(),
-                parameters.getClOrdLinkId(),
-                parameters.getContingencyType() != null
-                    ? parameters.getContingencyType().toApiParameter()
-                    : null,
-                parameters.getPegOffsetValue(),
-                parameters.getPegPriceType() != null
-                    ? parameters.getPegPriceType().toApiParameter()
-                    : null,
-                parameters.getTimeInForce() != null
-                    ? parameters.getTimeInForce().toApiParameter()
-                    : null,
-                parameters.getText()));
+        () -> bitmex.placeOrder(apiKey, exchange.getNonceFactory(), signatureCreator, parameters));
   }
 
   /**
-   * See {@link Bitmex#replaceOrder}
+   * See {@link org.knowm.xchange.bitmex.BitmexAuthenticated#replaceOrder}
    *
    * @return {@link BitmexPrivateOrder} contains the results of the call.
    */
@@ -163,14 +129,6 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
                 parameters.getStopPrice(),
                 parameters.getPegOffsetValue(),
                 parameters.getText()));
-  }
-
-  @Nonnull
-  public List<BitmexPrivateOrder> placeOrderBulk(@Nonnull Collection<PlaceOrderCommand> commands)
-      throws ExchangeException {
-    String s = ObjectMapperHelper.toCompactJSON(commands);
-    return updateRateLimit(
-        () -> bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s));
   }
 
   @Nonnull
@@ -250,7 +208,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
 
   public HttpResponseAwareList<BitmexPrivateExecution> getTradeHistory(
       String symbol,
-      String filter,
+      FilterParam filterParam,
       String columns,
       Integer count,
       Long start,
@@ -265,7 +223,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
                 exchange.getNonceFactory(),
                 signatureCreator,
                 symbol,
-                filter,
+                filterParam,
                 columns,
                 count,
                 start,

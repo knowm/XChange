@@ -1,23 +1,22 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
-@SuppressWarnings("unused")
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum BitmexOrderType {
-  LIMIT("Limit"),
-  STOP("Stop"),
-  MARKET("Market"),
-  STOP_LIMIT("StopLimit"),
-  PEGGED("Pegged"),
-  MARKET_IF_TOUCHED("MarketIfTouched"),
-  LIMIT_IF_TOUCHED("LimitIfTouched"),
-  MARKET_WITH_LEFT_OVER_AS_LIMIT("MarketWithLeftOverAsLimit");
-
-  private String apiParameter;
-
-  BitmexOrderType(String apiParameter) {
-    this.apiParameter = apiParameter;
-  }
-
-  public String toApiParameter() {
-    return apiParameter;
-  }
+  @JsonProperty("Limit")
+  LIMIT,
+  @JsonProperty("Stop")
+  STOP,
+  @JsonProperty("Market")
+  MARKET,
+  @JsonProperty("StopLimit")
+  STOP_LIMIT,
+  @JsonProperty("Pegged")
+  PEGGED,
+  @JsonProperty("MarketIfTouched")
+  MARKET_IF_TOUCHED,
+  @JsonProperty("LimitIfTouched")
+  LIMIT_IF_TOUCHED,
+  @JsonProperty("MarketWithLeftOverAsLimit")
+  MARKET_WITH_LEFT_OVER_AS_LIMIT;
 }

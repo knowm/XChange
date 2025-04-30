@@ -103,8 +103,8 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
         new IndependentReservePlaceLimitOrderRequest(
             apiKey,
             nonce,
-            currencyPair.base.getCurrencyCode(),
-            currencyPair.counter.getCurrencyCode(),
+            currencyPair.getBase().getCurrencyCode(),
+            currencyPair.getCounter().getCurrencyCode(),
             orderType,
             limitPrice.toString(),
             originalAmount.toString());
@@ -144,8 +144,8 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
         new IndependentReservePlaceMarketOrderRequest(
             apiKey,
             nonce,
-            currencyPair.base.getCurrencyCode(),
-            currencyPair.counter.getCurrencyCode(),
+            currencyPair.getBase().getCurrencyCode(),
+            currencyPair.getCounter().getCurrencyCode(),
             orderType,
             originalAmount.toString());
     independentReservePlaceMarketOrderRequest.setSignature(

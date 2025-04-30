@@ -25,17 +25,17 @@ public final class KoineksAdapters {
    * @return The ticker
    */
   public static Ticker adaptTicker(KoineksTicker koineksTicker, CurrencyPair currencyPair) {
-    switch (currencyPair.base.getCurrencyCode()) {
+    switch (currencyPair.getBase().getCurrencyCode()) {
       case KoineksCurrency.BTC:
-        return getTickerOf(koineksTicker.getKoineksBTCTicker(), currencyPair.base);
+        return getTickerOf(koineksTicker.getKoineksBTCTicker(), currencyPair.getBase());
       case KoineksCurrency.ETH:
-        return getTickerOf(koineksTicker.getKoineksETHTicker(), currencyPair.base);
+        return getTickerOf(koineksTicker.getKoineksETHTicker(), currencyPair.getBase());
       case KoineksCurrency.LTC:
-        return getTickerOf(koineksTicker.getKoineksLTCTicker(), currencyPair.base);
+        return getTickerOf(koineksTicker.getKoineksLTCTicker(), currencyPair.getBase());
       case KoineksCurrency.DASH:
-        return getTickerOf(koineksTicker.getKoineksDASHTicker(), currencyPair.base);
+        return getTickerOf(koineksTicker.getKoineksDASHTicker(), currencyPair.getBase());
       case KoineksCurrency.DOGE:
-        return getTickerOf(koineksTicker.getKoineksDOGETicker(), currencyPair.base);
+        return getTickerOf(koineksTicker.getKoineksDOGETicker(), currencyPair.getBase());
       default:
         throw new NotAvailableFromExchangeException();
     }

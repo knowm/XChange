@@ -338,7 +338,6 @@ public interface BinanceAuthenticated extends Binance {
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
 
-
   @GET
   @Path("/sapi/v1/capital/config/getall")
   List<BinanceCurrencyInfo> getCurrencyInfos(
@@ -347,7 +346,6 @@ public interface BinanceAuthenticated extends Binance {
       @HeaderParam(X_MBX_APIKEY) String apiKey,
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
-
 
   /**
    * Submit a withdraw request.
@@ -368,13 +366,14 @@ public interface BinanceAuthenticated extends Binance {
   @POST
   @Path("/sapi/v1/capital/withdraw/apply")
   WithdrawResponse withdraw(
-      @FormParam("coin") String coin,
-      @FormParam("address") String address,
-      @FormParam("addressTag") String addressTag,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("name") String name,
-      @FormParam("recvWindow") Long recvWindow,
-      @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @QueryParam("coin") String coin,
+      @QueryParam("address") String address,
+      @QueryParam("addressTag") String addressTag,
+      @QueryParam("amount") BigDecimal amount,
+      @QueryParam("name") String name,
+      @QueryParam("network") String network,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
@@ -501,6 +500,7 @@ public interface BinanceAuthenticated extends Binance {
   @Path("/sapi/v1/capital/deposit/address")
   DepositAddress depositAddress(
       @QueryParam("coin") String coin,
+      @QueryParam("network") String network,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,

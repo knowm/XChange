@@ -10,8 +10,5 @@ public enum Role {
   TAKER("taker"),
   MAKER("maker");
 
-  @JsonValue
-  private final String value;
-
-
+  @JsonValue private final String value;
 }

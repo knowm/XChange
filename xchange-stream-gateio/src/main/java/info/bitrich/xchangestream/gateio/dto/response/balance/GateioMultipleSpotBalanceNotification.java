@@ -16,17 +16,18 @@ public class GateioMultipleSpotBalanceNotification extends GateioWsNotification 
   @JsonProperty("result")
   private List<BalancePayload> result;
 
-
   public List<GateioSingleSpotBalanceNotification> toSingleNotifications() {
     return result.stream()
-        .map(balancePayload -> GateioSingleSpotBalanceNotification.builder()
-            .result(balancePayload)
-            .time(getTime())
-            .timeMs(getTimeMs())
-            .channel(getChannel())
-            .event(getEvent())
-            .error(getError())
-            .build())
+        .map(
+            balancePayload ->
+                GateioSingleSpotBalanceNotification.builder()
+                    .result(balancePayload)
+                    .time(getTime())
+                    .timeMs(getTimeMs())
+                    .channel(getChannel())
+                    .event(getEvent())
+                    .error(getError())
+                    .build())
         .collect(Collectors.toList());
   }
 }

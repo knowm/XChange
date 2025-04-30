@@ -58,7 +58,7 @@ public class HuobiMarketDataServiceRaw extends HuobiBaseService {
       throws IOException {
     return checkResult(
         huobi.getKlines(
-            pair.base.getSymbol().toLowerCase() + pair.counter.getSymbol().toLowerCase(),
+            pair.getBase().getSymbol().toLowerCase() + pair.getCounter().getSymbol().toLowerCase(),
             interval.code(),
             limit));
   }

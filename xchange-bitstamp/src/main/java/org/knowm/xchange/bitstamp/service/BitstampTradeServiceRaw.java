@@ -113,7 +113,10 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
   }
 
   public BitstampOrder placeBitstampInstantSellMarketOrder(
-      CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal amount, boolean amountInCounter)
+      CurrencyPair pair,
+      BitstampAuthenticatedV2.Side side,
+      BigDecimal amount,
+      boolean amountInCounter)
       throws IOException {
 
     try {
@@ -133,8 +136,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
   }
 
   public BitstampOrder placeBitstampInstantMarketOrder(
-      CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal amount)
-      throws IOException {
+      CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal amount) throws IOException {
 
     try {
       return bitstampAuthenticatedV2.placeInstantMarketOrder(

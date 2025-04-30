@@ -58,7 +58,6 @@ public class BinanceCurrencyInfo {
   @JsonProperty("networkList")
   private List<Network> networks;
 
-
   @Data
   @Builder
   @Jacksonized
@@ -133,6 +132,5 @@ public class BinanceCurrencyInfo {
 
     @JsonProperty("contractAddress")
     private String contractAddress;
-
   }
 }

@@ -34,5 +34,4 @@ public final class BinancePriceQuantity {
   public boolean isValid() {
     return ObjectUtils.allNotNull(currencyPair, bidPrice, bidQty, askPrice, askQty);
   }
-
 }

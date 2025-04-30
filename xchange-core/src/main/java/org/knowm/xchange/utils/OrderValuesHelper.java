@@ -90,6 +90,11 @@ public class OrderValuesHelper {
     if (scale != null) {
       result = result.setScale(scale, roundingMode);
     }
+
+    BigDecimal stepSize = metaData.getPriceStepSize();
+    if (stepSize != null && stepSize.signum() != 0) {
+      result = BigDecimalUtils.roundToStepSize(result, stepSize, roundingMode);
+    }
     return result;
   }
 }

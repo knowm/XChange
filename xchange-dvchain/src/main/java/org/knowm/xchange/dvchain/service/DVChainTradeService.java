@@ -48,7 +48,7 @@ public class DVChainTradeService extends DVChainTradeServiceRaw implements Trade
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     DVChainMarketResponse marketResponse = marketDataService.getMarketData();
     DVChainMarketData marketData =
-        marketResponse.getMarketData().get(marketOrder.getCurrencyPair().base.getSymbol());
+        marketResponse.getMarketData().get(marketOrder.getCurrencyPair().getBase().getSymbol());
     List<DVChainLevel> levels = marketData.getLevels();
     String side = marketOrder.getType() == Order.OrderType.BID ? "Buy" : "Sell";
     DVChainNewMarketOrder dvChainNewMarketOrder =
@@ -56,7 +56,7 @@ public class DVChainTradeService extends DVChainTradeServiceRaw implements Trade
             side,
             getPriceForMarketOrder(levels, marketOrder),
             marketOrder.getOriginalAmount(),
-            marketOrder.getCurrencyPair().base.getSymbol());
+            marketOrder.getCurrencyPair().getBase().getSymbol());
     return newDVChainMarketOrder(dvChainNewMarketOrder).toString();
   }
 
@@ -68,7 +68,7 @@ public class DVChainTradeService extends DVChainTradeServiceRaw implements Trade
             side,
             limitOrder.getLimitPrice(),
             limitOrder.getOriginalAmount(),
-            limitOrder.getCurrencyPair().base.getSymbol());
+            limitOrder.getCurrencyPair().getBase().getSymbol());
     return newDVChainLimitOrder(dvChainNewLimitOrder).toString();
   }
 

@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.CRC32;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class KrakenStreamingChecksum {
@@ -23,10 +24,7 @@ public class KrakenStreamingChecksum {
                 public String load(BigDecimal key) throws Exception {
                   String result = key.toPlainString();
                   result = result.replace(".", "");
-                  while (result.startsWith("0")) {
-                    result = result.replaceFirst("0", "");
-                  }
-                  return result;
+                  return StringUtils.stripStart(result, "0");
                 }
               });
 

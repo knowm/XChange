@@ -85,7 +85,7 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
 
   private String getChannelPostfix(CurrencyPair currencyPair) {
     return "_"
-        + currencyPair.base.toString().toLowerCase()
-        + currencyPair.counter.toString().toLowerCase();
+        + currencyPair.getBase().toString().toLowerCase()
+        + currencyPair.getCounter().toString().toLowerCase();
   }
 }

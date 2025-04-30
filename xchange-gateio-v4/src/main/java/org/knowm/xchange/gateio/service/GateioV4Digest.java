@@ -28,11 +28,13 @@ public final class GateioV4Digest extends BaseParamsDigest {
     String query = restInvocation.getQueryString();
     String body = restInvocation.getRequestBody();
     MessageDigest md = MessageDigest.getInstance("SHA-512");
-    String hexedHashedBody = DigestUtils.bytesToHex(md.digest(body.getBytes(StandardCharsets.UTF_8)));
+    String hexedHashedBody =
+        DigestUtils.bytesToHex(md.digest(body.getBytes(StandardCharsets.UTF_8)));
 
     String timestamp = restInvocation.getHttpHeadersFromParams().get("Timestamp");
 
-    String payloadToSign = String.format("%s\n/%s\n%s\n%s\n%s", method, path, query, hexedHashedBody, timestamp);
+    String payloadToSign =
+        String.format("%s\n/%s\n%s\n%s\n%s", method, path, query, hexedHashedBody, timestamp);
 
     Mac mac = getMac();
     mac.update(payloadToSign.getBytes(StandardCharsets.UTF_8));

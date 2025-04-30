@@ -16,6 +16,4 @@ public class GateioSingleSpotBalanceNotification extends GateioWsNotification {
     // there is no currency specific subscription
     return super.getUniqueChannelName() + Config.CHANNEL_NAME_DELIMITER + "null";
   }
-
-
 }

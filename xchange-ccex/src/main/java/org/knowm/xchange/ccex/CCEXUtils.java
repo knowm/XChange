@@ -14,9 +14,9 @@ public class CCEXUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.counter.getCurrencyCode().toLowerCase()
+    return currencyPair.getCounter().getCurrencyCode().toLowerCase()
         + "-"
-        + currencyPair.base.getCurrencyCode().toLowerCase();
+        + currencyPair.getBase().getCurrencyCode().toLowerCase();
   }
 
   public static Date toDate(String datetime) {

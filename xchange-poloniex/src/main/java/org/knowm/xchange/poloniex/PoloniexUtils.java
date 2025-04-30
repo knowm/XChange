@@ -18,9 +18,9 @@ public class PoloniexUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.counter.getCurrencyCode().toUpperCase()
+    return currencyPair.getCounter().getCurrencyCode().toUpperCase()
         + "_"
-        + currencyPair.base.getCurrencyCode().toUpperCase();
+        + currencyPair.getBase().getCurrencyCode().toUpperCase();
   }
 
   public static CurrencyPair toCurrencyPair(String pair) {

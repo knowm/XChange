@@ -1,0 +1,37 @@
+### Subscribe Tickers Channel
+WEBSOCKET {{base_url}}/v2/ws/public
+Content-Type: application/json
+
+{
+    "op": "subscribe",
+    "args": [
+        {
+            "instType": "SPOT",
+            "channel": "ticker",
+            "instId": "BTCUSDT"
+        },
+        {
+            "instType": "SPOT",
+            "channel": "ticker",
+            "instId": "ETHUSDT"
+        }
+    ]
+}
+
+
+### Unsubscribe Tickers Channel
+WEBSOCKET {{base_url}}/v2/ws/public
+Content-Type: application/json
+
+{
+    "op": "unsubscribe",
+    "args": [
+        {
+            "instType": "SPOT",
+            "channel": "ticker",
+            "instId": "ETHUSDT"
+        }
+    ]
+}
+
+

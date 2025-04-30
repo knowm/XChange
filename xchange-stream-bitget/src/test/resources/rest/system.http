@@ -1,0 +1,6 @@
+### Application ping pong
+WEBSOCKET {{base_url}}/v2/ws/public
+Content-Type: text/plain
+
+ping
+

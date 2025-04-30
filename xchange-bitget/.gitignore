@@ -1,0 +1,5 @@
+# private properties for idea rest client
+http-client.private.env.json
+
+# private properties for integration tests
+integration-test.env.properties

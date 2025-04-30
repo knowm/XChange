@@ -1,9 +1,12 @@
 package org.knowm.xchange.kraken.dto.trade;
 
-import java.math.*;
-import java.util.*;
-import org.knowm.xchange.currency.*;
-import org.knowm.xchange.dto.Order.*;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.IOrderFlags;
 
 public class KrakenStandardOrder {
 
@@ -22,6 +25,7 @@ public class KrakenStandardOrder {
   private final boolean validateOnly;
   private final Map<String, String> closeOrder;
   private final TimeInForce timeInForce;
+  private final String clientOrderId;
 
   private KrakenStandardOrder(
       CurrencyPair currencyPair,
@@ -38,7 +42,8 @@ public class KrakenStandardOrder {
       String userRefId,
       boolean validateOnly,
       Map<String, String> closeOrder,
-      TimeInForce timeInForce) {
+      TimeInForce timeInForce,
+      String clientOrderId) {
 
     this.currencyPair = currencyPair;
     this.type = type;
@@ -55,6 +60,7 @@ public class KrakenStandardOrder {
     this.validateOnly = validateOnly;
     this.closeOrder = closeOrder;
     this.timeInForce = timeInForce;
+    this.clientOrderId = clientOrderId;
   }
 
   public static KrakenOrderBuilder getMarketOrderBuilder(
@@ -232,6 +238,10 @@ public class KrakenStandardOrder {
     return userRefId;
   }
 
+  public String getClientOrderId() {
+    return clientOrderId;
+  }
+
   public boolean isValidateOnly() {
 
     return validateOnly;
@@ -274,6 +284,8 @@ public class KrakenStandardOrder {
         + expireTime
         + ", userRefId="
         + userRefId
+        + ", clientOrderId="
+        + clientOrderId
         + ", validateOnly="
         + validateOnly
         + ", closeOrder="
@@ -297,6 +309,7 @@ public class KrakenStandardOrder {
     private String startTime;
     private String expireTime;
     private String userRefId;
+    private String clientOrderId;
     private boolean validateOnly;
     private Map<String, String> closeOrder;
     private TimeInForce timeInForce;
@@ -366,6 +379,12 @@ public class KrakenStandardOrder {
       return this;
     }
 
+    public KrakenOrderBuilder withClientOrderId(String clientOrderId) {
+
+      this.clientOrderId = clientOrderId;
+      return this;
+    }
+
     public KrakenOrderBuilder withValidateOnly(boolean validateOnly) {
 
       this.validateOnly = validateOnly;
@@ -404,7 +423,8 @@ public class KrakenStandardOrder {
           userRefId,
           validateOnly,
           closeOrder == null ? new HashMap<>() : closeOrder,
-          timeInForce);
+          timeInForce,
+          clientOrderId);
     }
 
     @Override

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +67,6 @@ public class BinanceAdapters {
 
   private static final Map<String, CurrencyPair> SYMBOL_TO_CURRENCY_PAIR = new HashMap<>();
 
-
   private BinanceAdapters() {}
 
   /**
@@ -118,8 +118,8 @@ public class BinanceAdapters {
       symbol = ((OptionsContract) pair).getCurrencyPair().toString().replace("/", "");
     } else {
       symbol =
-          ((CurrencyPair) pair).base.getCurrencyCode()
-              + ((CurrencyPair) pair).counter.getCurrencyCode();
+          ((CurrencyPair) pair).getBase().getCurrencyCode()
+              + ((CurrencyPair) pair).getCounter().getCurrencyCode();
     }
     return symbol;
   }
@@ -186,16 +186,13 @@ public class BinanceAdapters {
     return isBuyer ? OrderType.BID : OrderType.ASK;
   }
 
-
   public static void putSymbolMapping(String symbol, CurrencyPair currencyPair) {
     SYMBOL_TO_CURRENCY_PAIR.put(symbol, currencyPair);
   }
 
-
   public static CurrencyPair toCurrencyPair(String symbol) {
     return SYMBOL_TO_CURRENCY_PAIR.get(symbol);
   }
-
 
   public static Instrument adaptSymbol(String symbol, boolean isFuture) {
     CurrencyPair currencyPair = toCurrencyPair(symbol);
@@ -247,9 +244,11 @@ public class BinanceAdapters {
     return builder.build();
   }
 
-
   public static Ticker toTicker(BinanceTicker24h binanceTicker24h, boolean isFuture) {
-    Instrument instrument = (isFuture) ? new FuturesContract(binanceTicker24h.getCurrencyPair(), "PERP"): binanceTicker24h.getCurrencyPair();
+    Instrument instrument =
+        (isFuture)
+            ? new FuturesContract(binanceTicker24h.getCurrencyPair(), "PERP")
+            : binanceTicker24h.getCurrencyPair();
     return new Ticker.Builder()
         .instrument(instrument)
         .open(binanceTicker24h.getOpenPrice())
@@ -268,7 +267,6 @@ public class BinanceAdapters {
         .percentageChange(binanceTicker24h.getPriceChangePercent())
         .build();
   }
-
 
   static CurrencyMetaData adaptCurrencyMetaData(
       Map<Currency, CurrencyMetaData> currencies,
@@ -377,7 +375,7 @@ public class BinanceAdapters {
     return new Wallet.Builder()
         .balances(balances)
         .id("spot")
-        .features(Collections.singleton(Wallet.WalletFeature.TRADING))
+        .features(EnumSet.of(Wallet.WalletFeature.TRADING))
         .build();
   }
 
@@ -483,8 +481,11 @@ public class BinanceAdapters {
         BigDecimal maxQty = null;
         BigDecimal stepSize = null;
 
+        BigDecimal priceStepSize = null;
+
         BigDecimal counterMinQty = null;
         BigDecimal counterMaxQty = null;
+        BigDecimal counterMaxQtyFallback = null;
 
         Instrument currentCurrencyPair =
             new FuturesContract(
@@ -494,8 +495,10 @@ public class BinanceAdapters {
         for (Filter filter : futureSymbol.getFilters()) {
           switch (filter.getFilterType()) {
             case "PRICE_FILTER":
+              priceStepSize = new BigDecimal(filter.getTickSize()).stripTrailingZeros();
               pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getTickSize()));
-              counterMaxQty = new BigDecimal(filter.getMaxPrice()).stripTrailingZeros();
+              // why was here maxPrice as maxQty? used as fallback, but...
+              counterMaxQtyFallback = new BigDecimal(filter.getMaxPrice()).stripTrailingZeros();
               break;
             case "LOT_SIZE":
               amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getStepSize()));
@@ -503,13 +506,29 @@ public class BinanceAdapters {
               maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
               stepSize = new BigDecimal(filter.getStepSize()).stripTrailingZeros();
               break;
+            // US Binance
             case "MIN_NOTIONAL":
               counterMinQty =
                   (filter.getMinNotional() != null)
                       ? new BigDecimal(filter.getMinNotional()).stripTrailingZeros()
                       : null;
               break;
+            // NOT US Binance
+            case "NOTIONAL":
+              counterMinQty =
+                  (filter.getMinNotional() != null)
+                      ? new BigDecimal(filter.getMinNotional()).stripTrailingZeros()
+                      : null;
+              counterMaxQty =
+                  (filter.getMaxNotional() != null)
+                      ? new BigDecimal(filter.getMaxNotional()).stripTrailingZeros()
+                      : null;
+              break;
           }
+        }
+
+        if (counterMaxQty == null) {
+          counterMaxQty = counterMaxQtyFallback;
         }
 
         exchangeMetaData
@@ -523,6 +542,7 @@ public class BinanceAdapters {
                     .counterMaximumAmount(counterMaxQty)
                     .volumeScale(amountPrecision)
                     .priceScale(pairPrecision)
+                    .priceStepSize(priceStepSize)
                     .amountStepSize(stepSize)
                     .marketOrderEnabled(
                         Arrays.asList(futureSymbol.getOrderTypes()).contains("MARKET"))
@@ -550,8 +570,11 @@ public class BinanceAdapters {
         BigDecimal maxQty = null;
         BigDecimal stepSize = null;
 
+        BigDecimal priceStepSize = null;
+
         BigDecimal counterMinQty = null;
         BigDecimal counterMaxQty = null;
+        BigDecimal counterMaxQtyFallback = null;
 
         CurrencyPair currentCurrencyPair =
             new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset());
@@ -559,8 +582,10 @@ public class BinanceAdapters {
         for (Filter filter : symbol.getFilters()) {
           switch (filter.getFilterType()) {
             case "PRICE_FILTER":
+              priceStepSize = new BigDecimal(filter.getTickSize()).stripTrailingZeros();
               pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getTickSize()));
-              counterMaxQty = new BigDecimal(filter.getMaxPrice()).stripTrailingZeros();
+              // why was here maxPrice as maxQty? used as fallback, but...
+              counterMaxQtyFallback = new BigDecimal(filter.getMaxPrice()).stripTrailingZeros();
               break;
             case "LOT_SIZE":
               amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getStepSize()));
@@ -568,10 +593,29 @@ public class BinanceAdapters {
               maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
               stepSize = new BigDecimal(filter.getStepSize()).stripTrailingZeros();
               break;
+            // US Binance
             case "MIN_NOTIONAL":
-              counterMinQty = new BigDecimal(filter.getMinNotional()).stripTrailingZeros();
+              counterMinQty =
+                  (filter.getMinNotional() != null)
+                      ? new BigDecimal(filter.getMinNotional()).stripTrailingZeros()
+                      : null;
+              break;
+            // NOT US Binance
+            case "NOTIONAL":
+              counterMinQty =
+                  (filter.getMinNotional() != null)
+                      ? new BigDecimal(filter.getMinNotional()).stripTrailingZeros()
+                      : null;
+              counterMaxQty =
+                  (filter.getMaxNotional() != null)
+                      ? new BigDecimal(filter.getMaxNotional()).stripTrailingZeros()
+                      : null;
               break;
           }
+        }
+
+        if (counterMaxQty == null) {
+          counterMaxQty = counterMaxQtyFallback;
         }
 
         instruments.put(
@@ -584,16 +628,17 @@ public class BinanceAdapters {
                 .counterMaximumAmount(counterMaxQty)
                 .volumeScale(amountPrecision)
                 .priceScale(pairPrecision)
+                .priceStepSize(priceStepSize)
                 .amountStepSize(stepSize)
                 .marketOrderEnabled(Arrays.asList(symbol.getOrderTypes()).contains("MARKET"))
                 .build());
-        Currency baseCurrency = currentCurrencyPair.base;
+        Currency baseCurrency = currentCurrencyPair.getBase();
         CurrencyMetaData baseCurrencyMetaData =
             BinanceAdapters.adaptCurrencyMetaData(
                 currencies, baseCurrency, assetDetailMap, basePrecision);
         currencies.put(baseCurrency, baseCurrencyMetaData);
 
-        Currency counterCurrency = currentCurrencyPair.counter;
+        Currency counterCurrency = currentCurrencyPair.getCounter();
         CurrencyMetaData counterCurrencyMetaData =
             BinanceAdapters.adaptCurrencyMetaData(
                 currencies, counterCurrency, assetDetailMap, counterPrecision);

@@ -79,12 +79,12 @@ public class FuturesContract extends Instrument
 
   @Override
   public Currency getBase() {
-    return currencyPair.base;
+    return currencyPair.getBase();
   }
 
   @Override
   public Currency getCounter() {
-    return currencyPair.counter;
+    return currencyPair.getCounter();
   }
 
   @JsonValue

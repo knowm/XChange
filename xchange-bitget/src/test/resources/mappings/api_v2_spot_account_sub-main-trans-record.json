@@ -1,0 +1,15 @@
+{
+  "id" : "f2259cb5-ac09-44cc-8cfe-9f29489abf19",
+  "name" : "api_v2_spot_account_sub-main-trans-record",
+  "request" : {
+    "url" : "/api/v2/spot/account/sub-main-trans-record?coin=USDT&limit=1&clientOid=1225490042499895296&role=initiator&subUid=7326856338&startTime=1727905515300&endTime=1727905515399&idLessThan=1225490042499895296",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_spot_account_sub-main-trans-record.json"
+  },
+  "uuid" : "f2259cb5-ac09-44cc-8cfe-9f29489abf19",
+  "persistent" : true,
+  "insertionIndex" : 8
+}

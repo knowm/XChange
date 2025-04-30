@@ -15,32 +15,31 @@ import org.knowm.xchange.currency.Currency;
 @Jacksonized
 public class CoinexChainInfo {
 
-    @JsonProperty("asset")
-    @JsonDeserialize(converter = StringToCurrencyConverter.class)
-    private Currency currency;
+  @JsonProperty("asset")
+  @JsonDeserialize(converter = StringToCurrencyConverter.class)
+  private Currency currency;
 
-    @JsonProperty("chain")
-    private String chainName;
+  @JsonProperty("chain")
+  private String chainName;
 
-    @JsonProperty("withdrawal_precision")
-    private Integer withdrawalPrecision;
+  @JsonProperty("withdrawal_precision")
+  private Integer withdrawalPrecision;
 
-    @JsonProperty("can_deposit")
-    private Boolean depositEnabled;
+  @JsonProperty("can_deposit")
+  private Boolean depositEnabled;
 
-    @JsonProperty("can_withdraw")
-    private Boolean withdrawEnabled;
+  @JsonProperty("can_withdraw")
+  private Boolean withdrawEnabled;
 
-    @JsonProperty("deposit_least_amount")
-    private BigDecimal minDepositAmount;
+  @JsonProperty("deposit_least_amount")
+  private BigDecimal minDepositAmount;
 
-    @JsonProperty("withdraw_least_amount")
-    private BigDecimal minWitdrawAmount;
+  @JsonProperty("withdraw_least_amount")
+  private BigDecimal minWitdrawAmount;
 
-    @JsonProperty("withdraw_tx_fee")
-    private BigDecimal witdrawFeeAmount;
+  @JsonProperty("withdraw_tx_fee")
+  private BigDecimal witdrawFeeAmount;
 
-    @JsonProperty("explorer_asset_url")
-    private URI explorerAssetUrl;
-
+  @JsonProperty("explorer_asset_url")
+  private URI explorerAssetUrl;
 }

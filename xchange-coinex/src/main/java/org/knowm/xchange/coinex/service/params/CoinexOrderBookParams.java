@@ -17,5 +17,4 @@ public class CoinexOrderBookParams implements Params {
   private Integer limit;
 
   private Integer interval;
-
 }

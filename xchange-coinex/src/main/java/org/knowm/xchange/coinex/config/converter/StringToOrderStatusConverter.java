@@ -3,9 +3,7 @@ package org.knowm.xchange.coinex.config.converter;
 import com.fasterxml.jackson.databind.util.StdConverter;
 import org.knowm.xchange.dto.Order.OrderStatus;
 
-/**
- * Converts string to {@code OrderStatus}
- */
+/** Converts string to {@code OrderStatus} */
 public class StringToOrderStatusConverter extends StdConverter<String, OrderStatus> {
 
   @Override

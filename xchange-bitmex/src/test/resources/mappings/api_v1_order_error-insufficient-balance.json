@@ -1,0 +1,20 @@
+{
+  "id" : "9124f3cf-e519-4b83-9f1f-ec9d242aa490",
+  "name" : "api_v1_order",
+  "request" : {
+    "url" : "/api/v1/order",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"symbol\":\"XBT_USDT\",\"side\":\"Buy\",\"orderQty\":10000000000}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "api_v1_order_error-insufficient-balance.json"
+  },
+  "uuid" : "9124f3cf-e519-4b83-9f1f-ec9d242aa490",
+  "persistent" : true,
+  "insertionIndex" : 18
+}

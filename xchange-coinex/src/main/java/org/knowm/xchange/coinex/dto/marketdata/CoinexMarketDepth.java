@@ -43,7 +43,6 @@ public class CoinexMarketDepth {
 
     @JsonProperty("updated_at")
     Instant updatedAt;
-
   }
 
   @Data

@@ -10,5 +10,4 @@ import lombok.extern.jackson.Jacksonized;
 public class StringPayload {
 
   private String data;
-
 }

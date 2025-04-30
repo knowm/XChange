@@ -1,6 +1,7 @@
 package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.Validate;
@@ -26,34 +27,35 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
     super(exchange);
   }
 
-
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
     try {
       List<GateioCurrencyBalance> spotBalances = getSpotBalances(null);
 
-      List<Balance> balances = spotBalances.stream()
-          .map(balance -> new Balance.Builder()
-              .currency(balance.getCurrency())
-              .available(balance.getAvailable())
-              .frozen(balance.getLocked())
-              .build())
-          .collect(Collectors.toList());
+      List<Balance> balances =
+          spotBalances.stream()
+              .map(
+                  balance ->
+                      new Balance.Builder()
+                          .currency(balance.getCurrency())
+                          .available(balance.getAvailable())
+                          .frozen(balance.getLocked())
+                          .build())
+              .collect(Collectors.toList());
 
-      Wallet wallet = Wallet.Builder
-          .from(balances)
-          .id("spot")
-          .build();
+      Wallet wallet =
+          Wallet.Builder.from(balances)
+              .id("spot")
+              .features(EnumSet.of(Wallet.WalletFeature.TRADING))
+              .build();
 
       return new AccountInfo(wallet);
 
-    }
-    catch (GateioException e) {
+    } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
   }
-
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
@@ -65,12 +67,10 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
     try {
       GateioWithdrawalRecord gateioWithdrawalRecord = withdraw(gateioWithdrawalRequest);
       return gateioWithdrawalRecord.getId();
-    }
-    catch (GateioException e) {
+    } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
   }
-
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
@@ -78,8 +78,7 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
       return getAccountBookRecords(params).stream()
           .map(GateioAdapters::toFundingRecords)
           .collect(Collectors.toList());
-    }
-    catch (GateioException e) {
+    } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
   }

@@ -1,138 +1,167 @@
 package org.knowm.xchange.bybit.service;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
+import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
 
-import com.github.tomakehurst.wiremock.matching.ContainsPattern;
-import jakarta.ws.rs.core.Response.Status;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bybit.BybitExchange;
+import org.knowm.xchange.bybit.dto.BybitCategory;
+import org.knowm.xchange.bybit.dto.trade.BybitCancelAllOrdersParams;
+import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderParams;
+import org.knowm.xchange.bybit.dto.trade.BybitOpenOrdersParam;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class BybitTradeServiceTest extends BaseWiremockTest {
 
+  BybitExchange bybitExchange;
+  TradeService tradeService;
+
+  @Before
+  public void setUp() throws IOException {
+    bybitExchange = createExchange();
+    tradeService = new BybitTradeService(bybitExchange, bybitExchange.getResilienceRegistries());
+  }
+
   @Test
-  public void testGetBybitOrder() throws IOException {
-    Exchange bybitExchange = createExchange();
-    BybitTradeService bybitAccountService = new BybitTradeService(bybitExchange);
+  public void testGetBybitOrderLinear() throws IOException {
+    initGetStub("/v5/order/realtime", "/getOrderLinear.json5");
 
-    String orderDetails =
-        "{\n"
-            + "    \"retCode\": 0,\n"
-            + "    \"retMsg\": \"OK\",\n"
-            + "    \"result\": {\n"
-            + "        \"list\": [\n"
-            + "            {\n"
-            + "                \"orderId\": \"fd4300ae-7847-404e-b947-b46980a4d140\",\n"
-            + "                \"orderLinkId\": \"test-000005\",\n"
-            + "                \"blockTradeId\": \"\",\n"
-            + "                \"symbol\": \"ETHUSDT\",\n"
-            + "                \"price\": \"1600.00\",\n"
-            + "                \"qty\": \"0.10\",\n"
-            + "                \"side\": \"Buy\",\n"
-            + "                \"isLeverage\": \"\",\n"
-            + "                \"positionIdx\": 1,\n"
-            + "                \"orderStatus\": \"New\",\n"
-            + "                \"cancelType\": \"UNKNOWN\",\n"
-            + "                \"rejectReason\": \"EC_NoError\",\n"
-            + "                \"avgPrice\": \"0\",\n"
-            + "                \"leavesQty\": \"0.10\",\n"
-            + "                \"leavesValue\": \"160\",\n"
-            + "                \"cumExecQty\": \"0.00\",\n"
-            + "                \"cumExecValue\": \"0\",\n"
-            + "                \"cumExecFee\": \"0\",\n"
-            + "                \"timeInForce\": \"GTC\",\n"
-            + "                \"orderType\": \"Limit\",\n"
-            + "                \"stopOrderType\": \"UNKNOWN\",\n"
-            + "                \"orderIv\": \"\",\n"
-            + "                \"triggerPrice\": \"0.00\",\n"
-            + "                \"takeProfit\": \"2500.00\",\n"
-            + "                \"stopLoss\": \"1500.00\",\n"
-            + "                \"tpTriggerBy\": \"LastPrice\",\n"
-            + "                \"slTriggerBy\": \"LastPrice\",\n"
-            + "                \"triggerDirection\": 0,\n"
-            + "                \"triggerBy\": \"UNKNOWN\",\n"
-            + "                \"lastPriceOnCreated\": \"\",\n"
-            + "                \"reduceOnly\": false,\n"
-            + "                \"closeOnTrigger\": false,\n"
-            + "                \"smpType\": \"None\",\n"
-            + "                \"smpGroup\": 0,\n"
-            + "                \"smpOrderId\": \"\",\n"
-            + "                \"tpslMode\": \"Full\",\n"
-            + "                \"tpLimitPrice\": \"\",\n"
-            + "                \"slLimitPrice\": \"\",\n"
-            + "                \"placeType\": \"\",\n"
-            + "                \"createdTime\": \"1684738540559\",\n"
-            + "                \"updatedTime\": \"1684738540561\"\n"
-            + "            }\n"
-            + "        ],\n"
-            + "        \"nextPageCursor\": \"page_args%3Dfd4300ae-7847-404e-b947-b46980a4d140%26symbol%3D6%26\",\n"
-            + "        \"category\": \"linear\"\n"
-            + "    },\n"
-            + "    \"retExtInfo\": {},\n"
-            + "    \"time\": 1684765770483\n"
-            + "}";
-
-    stubFor(
-        get(urlPathEqualTo("/v5/order/realtime"))
-            .withQueryParam("orderId", new ContainsPattern("fd4300ae-7847-404e-b947-b46980a4d140"))
-            .willReturn(
-                aResponse()
-                    .withStatus(Status.OK.getStatusCode())
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(orderDetails)));
-
-    Collection<Order> orders = bybitAccountService.getOrder("fd4300ae-7847-404e-b947-b46980a4d140");
+    Collection<Order> orders = tradeService.getOrder("fd4300ae-7847-404e-b947-b46980a4d140");
     assertThat(orders.size()).isEqualTo(1);
 
     Order order = (Order) orders.toArray()[0];
     assertThat(order.getType()).isEqualTo(OrderType.BID);
-    assertThat(order.getInstrument()).isEqualTo(new CurrencyPair("ETH", "USDT"));
+    assertThat(order.getInstrument()).isEqualTo(new FuturesContract("ETH/USDT/PERP"));
     assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("0"));
     assertThat(order.getStatus()).isEqualTo(OrderStatus.NEW);
     assertThat(order.getOriginalAmount()).isEqualTo(new BigDecimal("0.10"));
   }
 
   @Test
+  public void testGetOrders() throws IOException {
+    initGetStub("/v5/order/realtime", "/getOrderLinear.json5");
+    BybitOpenOrdersParam param =
+        new BybitOpenOrdersParam(new FuturesContract("ETH/USDT/PERP"), BybitCategory.LINEAR);
+    List<LimitOrder> limitOrder = tradeService.getOpenOrders(param).getOpenOrders();
+
+    assertThat(limitOrder.size()).isEqualTo(1);
+
+    Order order = (Order) limitOrder.toArray()[0];
+    assertThat(order.getType()).isEqualTo(OrderType.BID);
+    assertThat(order.getInstrument()).isEqualTo(new FuturesContract("ETH/USDT/PERP"));
+    assertThat(order.getStatus()).isEqualTo(OrderStatus.NEW);
+    assertThat(order.getOriginalAmount()).isEqualTo(new BigDecimal("0.10"));
+  }
+
+  @Test(expected = BybitException.class)
+  public void testGetOrdersError() throws IOException {
+    initGetStub("/v5/order/realtime", "/getOrderError.json5");
+    BybitOpenOrdersParam param =
+        new BybitOpenOrdersParam(new FuturesContract("ETH/USDT/PERP"), BybitCategory.LINEAR);
+    List<LimitOrder> limitOrder = tradeService.getOpenOrders(param).getOpenOrders();
+  }
+
+  @Test
   public void testPlaceBybitOrder() throws IOException {
-    Exchange bybitExchange = createExchange();
-    BybitTradeService bybitAccountService = new BybitTradeService(bybitExchange);
+    initPostStub("/v5/order/create", "/placeMarketOrder.json5");
+    MarketOrder marketOrder =
+        new MarketOrder(OrderType.ASK, new BigDecimal("0.1"), new CurrencyPair("BTC", "USDT"));
+    String marketOrderId = tradeService.placeMarketOrder(marketOrder);
+    assertThat(marketOrderId).isEqualTo("1321003749386327552");
 
-    String orderPlacementResponse =
-        "{\n"
-            + "    \"retCode\": 0,\n"
-            + "    \"retMsg\": \"OK\",\n"
-            + "    \"result\": {\n"
-            + "        \"orderId\": \"1321003749386327552\",\n"
-            + "        \"orderLinkId\": \"spot-test-postonly\"\n"
-            + "    },\n"
-            + "    \"retExtInfo\": {},\n"
-            + "    \"time\": 1672211918471\n"
-            + "}";
+    LimitOrder limitOrder =
+        new LimitOrder(
+            OrderType.EXIT_BID,
+            new BigDecimal("0.1"),
+            new CurrencyPair("BTC", "USDT"),
+            "",
+            new Date(1672211918471L),
+            new BigDecimal("110"));
+    String limitOrderId = tradeService.placeLimitOrder(limitOrder);
+    assertThat(limitOrderId).isEqualTo("1321003749386327552");
+  }
 
-    stubFor(
-        post(urlPathEqualTo("/v5/order/create"))
-            .willReturn(
-                aResponse()
-                    .withStatus(Status.OK.getStatusCode())
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(orderPlacementResponse)));
+  @Test
+  public void testChangeBybitOrder() throws IOException {
+    initPostStub("/v5/order/amend", "/changeOrder.json5");
 
-    String orderId =
-        bybitAccountService.placeMarketOrder(
-            new MarketOrder(OrderType.ASK, new BigDecimal("0.1"), new CurrencyPair("BTC", "USDT")));
+    LimitOrder limitOrder =
+        new LimitOrder(
+            OrderType.BID,
+            new BigDecimal("0.1"),
+            new CurrencyPair("BTC", "USDT"),
+            "",
+            new Date(1672211918471L),
+            new BigDecimal("110"));
 
-    assertThat(orderId).isEqualTo("1321003749386327552");
+    String orderId = tradeService.changeOrder(limitOrder);
+
+    assertThat(orderId).isEqualTo("c6f055d9-7f21-4079-913d-e6523a9cfffa");
+  }
+
+  @Test
+  public void testCancelBybitOrder() throws IOException {
+    initPostStub("/v5/order/cancel", "/cancelOrder.json5");
+
+    Instrument BTC_USDT_PERP = new FuturesContract("BTC/USDT/PERP");
+    try {
+      tradeService.cancelOrder(new BybitCancelOrderParams(BTC_USDT, "", ""));
+      fail("Expected UnsupportedOperationException");
+    } catch (UnsupportedOperationException ignored) {
+    }
+    boolean resultSpot =
+        tradeService.cancelOrder(
+            new BybitCancelOrderParams(BTC_USDT, "c6f055d9-7f21-4079-913d-e6523a9cfffa", ""));
+    boolean resultFuture0 =
+        tradeService.cancelOrder(
+            new BybitCancelOrderParams(BTC_USDT_PERP, "c6f055d9-7f21-4079-913d-e6523a9cfffa", ""));
+    boolean resultFuture1 =
+        tradeService.cancelOrder(new BybitCancelOrderParams(BTC_USDT_PERP, "", "linear-004"));
+    assertThat(resultSpot).isTrue();
+    assertThat(resultFuture0).isTrue();
+    assertThat(resultFuture1).isTrue();
+  }
+
+  @Test
+  public void testCancelAllBybitOrder() throws IOException {
+    initPostStub("/v5/order/cancel-all", "/cancelAllOrders.json5");
+    Instrument BTC_USDT_PERP = new FuturesContract("BTC/USDT/PERP");
+
+    try {
+      tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(null, null));
+      fail("Expected UnsupportedOperationException");
+    } catch (UnsupportedOperationException ignored) {
+
+    }
+    try {
+      tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(BybitCategory.LINEAR, null));
+      fail("Expected UnsupportedOperationException");
+    } catch (UnsupportedOperationException ignored) {
+
+    }
+    Collection<String> resultSpot =
+        tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(BybitCategory.SPOT, null));
+
+    Collection<String> resultFuture0 =
+        tradeService.cancelAllOrders(
+            new BybitCancelAllOrdersParams(BybitCategory.LINEAR, BTC_USDT_PERP));
+
+    assertThat(resultSpot.stream().findFirst().get()).isEqualTo("1616024329462743808");
+    assertThat(resultFuture0.stream().findFirst().get()).isEqualTo("1616024329462743808");
   }
 }

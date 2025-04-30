@@ -37,5 +37,4 @@ public class TickerPayload {
 
   @JsonProperty("low_24h")
   BigDecimal lowPrice24h;
-
 }

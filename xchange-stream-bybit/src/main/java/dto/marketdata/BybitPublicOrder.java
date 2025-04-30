@@ -15,4 +15,3 @@ public class BybitPublicOrder {
     this.size = data[1];
   }
 }
-

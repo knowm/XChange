@@ -121,18 +121,23 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                   LOG.error(String.format("Failed to get orderBook, instId=%s.", instId));
                   return Observable.fromIterable(new LinkedList<>());
                 }
-                Date timestamp = new Timestamp(
-                    Long.parseLong(okexOrderbooks.get(0).getTs()));
-                okexOrderbooks.get(0).getAsks().forEach(
-                    okexPublicOrder ->
-                        orderBook.update(
-                            OkexAdapters.adaptLimitOrder(
-                                okexPublicOrder, instrument, Order.OrderType.ASK, timestamp)));
-                okexOrderbooks.get(0).getBids().forEach(
-                    okexPublicOrder ->
-                        orderBook.update(
-                            OkexAdapters.adaptLimitOrder(
-                                okexPublicOrder, instrument, Order.OrderType.BID, timestamp)));
+                Date timestamp = new Timestamp(Long.parseLong(okexOrderbooks.get(0).getTs()));
+                okexOrderbooks
+                    .get(0)
+                    .getAsks()
+                    .forEach(
+                        okexPublicOrder ->
+                            orderBook.update(
+                                OkexAdapters.adaptLimitOrder(
+                                    okexPublicOrder, instrument, Order.OrderType.ASK, timestamp)));
+                okexOrderbooks
+                    .get(0)
+                    .getBids()
+                    .forEach(
+                        okexPublicOrder ->
+                            orderBook.update(
+                                OkexAdapters.adaptLimitOrder(
+                                    okexPublicOrder, instrument, Order.OrderType.BID, timestamp)));
                 if (orderBookUpdatesSubscriptions.get(instrument) != null) {
                   orderBookUpdatesSubscriptions(
                       instrument,
@@ -151,8 +156,8 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
   }
 
   @Override
-  public Observable<List<OrderBookUpdate>> getOrderBookUpdates(Instrument instrument,
-      Object... args) {
+  public Observable<List<OrderBookUpdate>> getOrderBookUpdates(
+      Instrument instrument, Object... args) {
     return orderBookUpdatesSubscriptions.computeIfAbsent(instrument, v -> PublishSubject.create());
   }
 

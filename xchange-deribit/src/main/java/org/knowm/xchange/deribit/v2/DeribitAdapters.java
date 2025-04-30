@@ -66,8 +66,8 @@ public class DeribitAdapters {
   }
 
   public static String adaptInstrumentName(FuturesContract future) {
-    return future.getCurrencyPair().base
-        + (future.getCurrencyPair().counter == Currency.USDC ? "_USDC" : "")
+    return future.getCurrencyPair().getBase()
+        + (future.getCurrencyPair().getCounter() == Currency.USDC ? "_USDC" : "")
         + "-"
         + (future.getPrompt() == null ? PERPETUAL : (future.getPrompt()));
   }
@@ -77,7 +77,7 @@ public class DeribitAdapters {
     if (parts.length != 5) {
       throw new IllegalArgumentException("Could not adapt instrument name from '" + option + "'");
     }
-    return option.getCurrencyPair().base
+    return option.getCurrencyPair().getBase()
         + "-"
         + formatDate(option.getExpireDate())
         + "-"

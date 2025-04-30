@@ -68,5 +68,4 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     return BiboxAdapters.adaptUserTrades(getBiboxOrderHistory());
   }
-
 }

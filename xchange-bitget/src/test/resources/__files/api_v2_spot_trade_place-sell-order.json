@@ -1,0 +1,9 @@
+{
+  "code": "00000",
+  "msg": "success",
+  "requestTime": 1725212321924,
+  "data": {
+    "orderId": "1214193970718347264",
+    "clientOid": "t-valid-market-sell-order"
+  }
+}

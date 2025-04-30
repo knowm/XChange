@@ -1,0 +1,23 @@
+### Login
+< {%
+  import {gen_sign} from 'sign.js'
+  const timestamp = Math.floor(Date.now() / 1000).toFixed();
+
+  request.variables.set("timestamp", timestamp);
+  request.variables.set("sign", gen_sign(timestamp));
+%}
+
+WEBSOCKET {{base_url}}/v2/ws/private
+Content-Type: application/json
+
+{
+  "op": "login",
+  "args": [
+    {
+      "apiKey": "{{api_key}}",
+      "passphrase": "{{api_passphrase}}",
+      "timestamp": "{{timestamp}}",
+      "sign": "{{sign}}"
+    }
+  ]
+}

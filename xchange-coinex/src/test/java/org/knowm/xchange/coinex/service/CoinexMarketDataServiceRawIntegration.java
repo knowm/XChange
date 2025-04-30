@@ -15,14 +15,15 @@ class CoinexMarketDataServiceRawIntegration {
 
   @Test
   void valid_chainInfos() throws IOException {
-    CoinexMarketDataServiceRaw coinexMarketDataServiceRaw = (CoinexMarketDataServiceRaw) exchange.getMarketDataService();
+    CoinexMarketDataServiceRaw coinexMarketDataServiceRaw =
+        (CoinexMarketDataServiceRaw) exchange.getMarketDataService();
     List<CoinexChainInfo> chainInfos = coinexMarketDataServiceRaw.getAllCoinexChainInfos();
 
-    assertThat(chainInfos).allSatisfy(chainInfo -> {
-      assertThat(chainInfo.getCurrency()).isNotNull();
-      assertThat(chainInfo.getChainName()).isNotEmpty();
-    });
+    assertThat(chainInfos)
+        .allSatisfy(
+            chainInfo -> {
+              assertThat(chainInfo.getCurrency()).isNotNull();
+              assertThat(chainInfo.getChainName()).isNotEmpty();
+            });
   }
-
-
 }

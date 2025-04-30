@@ -157,20 +157,20 @@ public class OptionsContract extends Instrument
 
   @Override
   public Currency getBase() {
-    return currencyPair.base;
+    return currencyPair.getBase();
   }
 
   @Override
   public Currency getCounter() {
-    return currencyPair.counter;
+    return currencyPair.getCounter();
   }
 
   @JsonValue
   @Override
   public String toString() {
-    return currencyPair.base
+    return currencyPair.getBase()
         + "/"
-        + currencyPair.counter
+        + currencyPair.getCounter()
         + "/"
         + DATE_PARSER.get().format(this.expireDate)
         + "/"

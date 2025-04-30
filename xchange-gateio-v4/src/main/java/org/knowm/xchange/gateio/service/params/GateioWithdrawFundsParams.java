@@ -11,5 +11,4 @@ public class GateioWithdrawFundsParams extends DefaultWithdrawFundsParams {
   String clientRecordId;
 
   String chain;
-
 }

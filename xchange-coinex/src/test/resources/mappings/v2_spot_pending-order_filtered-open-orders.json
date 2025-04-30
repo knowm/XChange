@@ -1,0 +1,15 @@
+{
+  "id" : "32a5c085-969b-4539-98e1-a1eafb02fb0c",
+  "name" : "v2_spot_pending-order",
+  "request" : {
+    "url" : "/v2/spot/pending-order?market=BTCUSDT&market_type=SPOT&limit=1000",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_spot_pending-order_filtered-open-orders.json"
+  },
+  "uuid" : "32a5c085-969b-4539-98e1-a1eafb02fb0c",
+  "persistent" : true,
+  "insertionIndex" : 3
+}
