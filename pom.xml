@@ -276,7 +276,7 @@
             <dependency>
                 <groupId>com.pubnub</groupId>
                 <artifactId>pubnub-gson</artifactId>
-                <version>4.31.3</version>
+                <version>10.5.1</version>
             </dependency>
 
             <dependency>
