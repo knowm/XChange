@@ -10,10 +10,13 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 import org.knowm.xchange.coinsph.service.CoinsphAccountServiceRaw;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,6 +143,7 @@ public class CoinsphStreamingService extends JsonNettyStreamingService {
 
   private String formatChannelName(String e, JsonNode message) {
     switch (e) {
+      case "depth":
       case "depthUpdate":
         return String.format("%s@depth", message.get("s").asText().toLowerCase());
       case "24hrTicker":
@@ -191,7 +195,7 @@ public class CoinsphStreamingService extends JsonNettyStreamingService {
     com.fasterxml.jackson.databind.node.ObjectNode subscribeMessage =
         objectMapper.createObjectNode();
     subscribeMessage.put("method", SUBSCRIBE);
-    subscribeMessage.set("params", objectMapper.valueToTree(new String[] {channelName}));
+    subscribeMessage.set("params", getSubscribeParams(channelName, args));
     subscribeMessage.put("id", getTimestamp());
     return objectMapper.writeValueAsString(subscribeMessage);
   }
@@ -209,9 +213,21 @@ public class CoinsphStreamingService extends JsonNettyStreamingService {
     com.fasterxml.jackson.databind.node.ObjectNode unsubscribeMessage =
         objectMapper.createObjectNode();
     unsubscribeMessage.put("method", UNSUBSCRIBE);
-    unsubscribeMessage.set("params", objectMapper.valueToTree(new String[] {channelName}));
+    unsubscribeMessage.set("params", getSubscribeParams(channelName, args));
     unsubscribeMessage.put("id", getTimestamp());
     return objectMapper.writeValueAsString(unsubscribeMessage);
+  }
+
+  private JsonNode getSubscribeParams(String channelName, Object... args) {
+
+    if (args == null || args.length == 0) {
+      return objectMapper.valueToTree(new String[] {channelName});
+    }
+
+    List<String> collect = Arrays.stream(args).map(String::valueOf).collect(Collectors.toList());
+    String argsString = String.join("@", collect);
+
+    return objectMapper.valueToTree(new String[] {channelName + argsString});
   }
 
   // Helper to get a unique ID for subscription messages (required by Coins.ph)
@@ -383,5 +399,10 @@ public class CoinsphStreamingService extends JsonNettyStreamingService {
   public Completable disconnect() {
     closeListenKey(); // Clean up listen key on disconnect
     return super.disconnect();
+  }
+
+  @Override
+  public String getSubscriptionUniqueId(String channelName, Object... args) {
+    return channelName;
   }
 }
