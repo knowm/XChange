@@ -205,7 +205,7 @@
         <version.maven-enforcer-plugin>3.2.1</version.maven-enforcer-plugin>
         <version.maven-prerequisite>3.6.3</version.maven-prerequisite>
         <version.mockito>5.11.0</version.mockito>
-        <version.qos.logback>1.5.13</version.qos.logback>
+        <version.qos.logback>1.5.18</version.qos.logback>
         <version.reflections>0.10.2</version.reflections>
         <version.resilience4j>1.7.1</version.resilience4j>
         <version.slf4j>2.0.17</version.slf4j>
