@@ -199,7 +199,7 @@
         <version.junit>5.12.2</version.junit>
         <version.knowm.xchart>3.8.8</version.knowm.xchart>
         <version.lombok>1.18.38</version.lombok>
-        <version.maven-enforcer-plugin>3.2.1</version.maven-enforcer-plugin>
+        <version.maven-enforcer-plugin>3.6.1</version.maven-enforcer-plugin>
         <version.maven-prerequisite>3.6.3</version.maven-prerequisite>
         <version.mockito>5.18.0</version.mockito>
         <version.qos.logback>1.5.18</version.qos.logback>
