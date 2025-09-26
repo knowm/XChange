@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.time.chrono.ChronoZonedDateTime;
+import java.util.Comparator;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitmex.BitmexExchangeWiremock;
@@ -37,12 +39,15 @@ class BitmexTradeServiceRawTest extends BitmexExchangeWiremock {
             .openOrderBuyQty(new BigDecimal("2"))
             .openOrderSellCost(new BigDecimal("0.665070"))
             .openOrderSellQty(new BigDecimal("3"))
-            .timestamp(ZonedDateTime.parse("2024-12-14T17:25:58.097Z[UTC]"))
+            .timestamp(ZonedDateTime.parse("2024-12-14T17:25:58.097Z"))
             .build();
 
     assertThat(positions)
         .first()
         .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
+            .usingComparatorForType(
+                    Comparator.comparing(ChronoZonedDateTime::toInstant),
+                    ZonedDateTime.class)
         .usingRecursiveComparison()
         .isEqualTo(expected);
   }

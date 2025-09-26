@@ -1,0 +1,17 @@
+{
+  "trigger" : "limit",
+  "type" : "BID",
+  "originalAmount" : 0.00001,
+  "instrument" : "BTC/PHP",
+  "id" : "1950669200343916544",
+  "userReference" : "57e5d92f-cda6-444b-a4dd-09bafb0302e2",
+  "timestamp" : 1747273889495,
+  "orderFlags" : [ ],
+  "status" : "FILLED",
+  "cumulativeAmount" : 0.00001,
+  "averagePrice" : 5944316.40000000,
+  "fee" : null,
+  "leverage" : null,
+  "limitPrice" : 0,
+  "remainingAmount" : 0.00000
+}

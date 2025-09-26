@@ -20,6 +20,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -103,7 +104,7 @@ public class LivecoinAdapters {
       CurrencyPair pair = adaptCurrencyPair(product);
       currencyPairs.put(
           pair,
-          new InstrumentMetaData.Builder()
+          InstrumentMetaData.builder()
               .priceScale(
                   (product.getPriceScale() == null)
                       ? FALLBACK_PRICE_SCALE
@@ -128,10 +129,10 @@ public class LivecoinAdapters {
     for (LivecoinTrade trade : tradesRaw) {
       OrderType type = trade.getType().equals("SELL") ? OrderType.BID : OrderType.ASK;
       Trade t =
-          new Trade.Builder()
+          Trade.builder()
               .type(type)
               .originalAmount(trade.getQuantity())
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(trade.getPrice())
               .timestamp(parseDate(trade.getTime()))
               .id(String.valueOf(trade.getId()))
@@ -239,7 +240,7 @@ public class LivecoinAdapters {
     return UserTrade.builder()
         .type(type)
         .originalAmount(amountA)
-        .currencyPair(new CurrencyPair(ccyA, ccyB))
+        .instrument(new CurrencyPair(ccyA, ccyB))
         .price(price)
         .timestamp(DateUtils.fromMillisUtc(Long.parseLong(map.get("date").toString())))
         .id(id)
@@ -253,18 +254,16 @@ public class LivecoinAdapters {
     FundingRecord.Type type = FundingRecord.Type.WITHDRAWAL;
     if (map.get("type").toString().equals("DEPOSIT")) type = FundingRecord.Type.DEPOSIT;
 
-    return new FundingRecord(
-        Optional.ofNullable(map.get("externalKey")).map(Object::toString).orElse(null),
-        DateUtils.fromMillisUtc(Long.parseLong(map.get("date").toString())),
-        getInstance(map.get("fixedCurrency").toString()),
-        new BigDecimal(map.get("amount").toString()),
-        map.get("id").toString(),
-        null,
-        type,
-        FundingRecord.Status.COMPLETE,
-        null,
-        new BigDecimal(map.get("fee").toString()),
-        null);
+    return FundingRecord.builder()
+        .address(Optional.ofNullable(map.get("externalKey")).map(Object::toString).orElse(null))
+        .date(DateUtils.fromMillisUtc(Long.parseLong(map.get("date").toString())))
+        .currency(getInstance(map.get("fixedCurrency").toString()))
+        .amount(new BigDecimal(map.get("amount").toString()))
+        .internalId(map.get("id").toString())
+        .type(type)
+        .status(Status.COMPLETE)
+        .fee(new BigDecimal(map.get("fee").toString()))
+        .build();
   }
 
   public static Wallet adaptWallet(List<LivecoinBalance> livecoinBalances) {

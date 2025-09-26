@@ -69,8 +69,14 @@ public class CoinexOrder {
   @JsonProperty("order_id")
   private Long orderId;
 
+  @JsonProperty("stop_id")
+  private Long stopId;
+
   @JsonProperty("price")
   private BigDecimal price;
+
+  @JsonProperty("trigger_price")
+  private BigDecimal triggerPrice;
 
   @JsonProperty("quote_fee")
   private BigDecimal quoteFee;
@@ -88,11 +94,29 @@ public class CoinexOrder {
   private BigDecimal takerFeeRate;
 
   @JsonProperty("type")
-  private String type;
+  private CoinexOrderType type;
 
   @JsonProperty("unfilled_amount")
   private BigDecimal unfilledAmount;
 
   @JsonProperty("updated_at")
   private Instant updatedAt;
+
+  public enum CoinexOrderType {
+    @JsonProperty("limit")
+    LIMIT,
+
+    @JsonProperty("market")
+    MARKET,
+
+    @JsonProperty("maker_only")
+    MAKER_ONLY,
+
+    @JsonProperty("ioc")
+    IMMEDIATE_OR_CANCEL,
+
+    @JsonProperty("fok")
+    FILL_OR_KILL
+  }
+
 }

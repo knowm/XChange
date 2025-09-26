@@ -62,10 +62,10 @@ public class BitflyerTrade extends BitflyerMarketEvent {
 
   public Trade toTrade(CurrencyPair pair) {
     Order.OrderType orderType = getOrderSide();
-    return new Trade.Builder()
+    return Trade.builder()
         .type(orderType)
         .originalAmount(size)
-        .currencyPair(pair)
+        .instrument(pair)
         .price(price)
         .timestamp(getDate())
         .id(id)

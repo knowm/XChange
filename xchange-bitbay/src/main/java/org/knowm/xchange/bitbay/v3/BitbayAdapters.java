@@ -42,7 +42,7 @@ public class BitbayAdapters {
               .id(trade.getId().toString())
               .type(orderType)
               .originalAmount(trade.getAmount())
-              .currencyPair(pair)
+              .instrument(pair)
               .price(trade.getRate())
               .timestamp(timestamp)
               .feeAmount(trade.getCommissionValue())

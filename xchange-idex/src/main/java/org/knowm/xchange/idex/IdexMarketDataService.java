@@ -148,11 +148,11 @@ public class IdexMarketDataService extends BaseExchangeService implements Market
                   .stream()
                   .map(
                       tradeHistoryItem ->
-                          new Trade.Builder()
+                          Trade.builder()
                               .originalAmount(
                                   IdexExchange.Companion.safeParse(tradeHistoryItem.getAmount()))
                               .price(IdexExchange.Companion.safeParse(tradeHistoryItem.getPrice()))
-                              .currencyPair(currencyPair)
+                              .instrument(currencyPair)
                               .timestamp(
                                   new Date(tradeHistoryItem.getTimestamp().longValue() * 1000))
                               .id((tradeHistoryItem.getTransactionHash()))

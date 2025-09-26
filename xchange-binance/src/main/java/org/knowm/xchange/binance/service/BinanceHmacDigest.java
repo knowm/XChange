@@ -47,6 +47,9 @@ public class BinanceHmacDigest extends BaseParamsDigest {
       case "POST":
         input = getQuery(restInvocation) + restInvocation.getRequestBody();
         break;
+      case "PUT":
+        input = getQuery(restInvocation) + restInvocation.getRequestBody();
+        break;
       default:
         throw new RuntimeException("Not support http method: " + restInvocation.getHttpMethod());
     }

@@ -101,7 +101,7 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
     assertThat(userTrade.getType()).isEqualTo(Order.OrderType.ASK);
     assertThat(userTrade.getFeeAmount()).isEqualTo("0.00857285");
     assertThat(userTrade.getFeeCurrency()).isEqualTo(Currency.AUD);
-    assertThat(userTrade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
+    assertThat(userTrade.getInstrument()).isEqualTo(CurrencyPair.BTC_AUD);
   }
 
   @Test

@@ -1,9 +1,12 @@
 package org.knowm.xchange.okex.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
+
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
+@Getter
 public class OkexException extends HttpStatusExceptionSupport {
 
   private final String message;

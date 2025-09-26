@@ -174,7 +174,7 @@ public class BitcoindeAdaptersTest {
     assertThat(firstTrade.getId()).isEqualTo("2844111");
     assertThat(firstTrade.getPrice()).isEqualTo(new BigDecimal("2395"));
     assertThat(firstTrade.getOriginalAmount()).isEqualTo(new BigDecimal("0.08064516"));
-    assertThat(firstTrade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
+    assertThat(firstTrade.getInstrument()).isEqualTo(CurrencyPair.BTC_EUR);
     assertThat(firstTrade.getTimestamp()).isEqualTo(new Date(1500717160L * 1000));
   }
 

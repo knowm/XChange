@@ -1,6 +1,7 @@
 package org.knowm.xchange.okex;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.FundingRate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.dto.OkexInstType;
@@ -51,6 +53,15 @@ public class OkexPublicDataIntegration {
                 assertThat(instrument1.getCounter()).isEqualTo(Currency.USDT);
               }
             });
+    // full BTC/USDT/SWAP check
+    InstrumentMetaData instrumentMetaData =
+        exchange.getExchangeMetaData().getInstruments().get(instrument);
+    assertEquals(0, instrumentMetaData.getContractValue().compareTo(new BigDecimal("0.01")));
+    assertEquals(0, instrumentMetaData.getMinimumAmount().compareTo(new BigDecimal("0.0001")));
+    assertThat(instrumentMetaData.getVolumeScale()).isEqualTo(4);
+    assertEquals(0, instrumentMetaData.getAmountStepSize().compareTo(new BigDecimal("0.0001")));
+    assertThat(instrumentMetaData.getPriceScale()).isEqualTo(1);
+    assertEquals(0, instrumentMetaData.getPriceStepSize().compareTo(new BigDecimal("0.1")));
   }
 
   @Test
@@ -69,7 +80,8 @@ public class OkexPublicDataIntegration {
     Ticker spotTicker = exchange.getMarketDataService().getTicker(currencyPair);
     Ticker swapTicker = exchange.getMarketDataService().getTicker(instrument);
 
-    assertThat(spotTicker.getInstrument()).isEqualTo(currencyPair);
+    assertThat(spotTicker.getInstrument().getBase()).isEqualTo(currencyPair.getBase());
+    assertThat(spotTicker.getInstrument().getCounter()).isEqualTo(Currency.USD);
     assertThat(swapTicker.getInstrument()).isEqualTo(instrument);
   }
 
@@ -106,6 +118,15 @@ public class OkexPublicDataIntegration {
   }
 
   @Test
+  @Ignore
+  public void testCandle() throws IOException {
+    OkexResponse<List<OkexCandleStick>> barHistDtos =
+        ((OkexMarketDataService) exchange.getMarketDataService())
+            .getCandle("BTC-USDT", null, null, null, null);
+    assertTrue(Objects.nonNull(barHistDtos) && !barHistDtos.getData().isEmpty());
+  }
+
+  @Test
   public void checkFundingRate() throws IOException {
     FundingRate fundingRate = exchange.getMarketDataService().getFundingRate(instrument);
     System.out.println(fundingRate);
@@ -120,6 +141,7 @@ public class OkexPublicDataIntegration {
         .isEqualTo("BTC-USDT-SWAP");
     assertThat(OkexAdapters.adaptOkexInstrumentId("BTC-USDT"))
         .isEqualTo(new CurrencyPair("BTC/USDT"));
-    assertThat(OkexAdapters.adaptInstrument(new CurrencyPair("BTC/USDT"))).isEqualTo("BTC-USDT");
+    assertThat(OkexAdapters.adaptInstrument(new CurrencyPair("BTC/USDT"))).isEqualTo("BTC-USD");
+    assertThat(OkexAdapters.adaptInstrument(new CurrencyPair("BTC/USDC"))).isEqualTo("BTC-USD");
   }
 }

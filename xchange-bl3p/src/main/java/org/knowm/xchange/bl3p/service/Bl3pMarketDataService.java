@@ -61,10 +61,10 @@ public class Bl3pMarketDataService extends Bl3pBaseService implements MarketData
     List<Trade> tradesList = new ArrayList<>(trades.getData().getTrades().length);
     for (Bl3pTrade bl3pTrade : trades.getData().getTrades()) {
       Trade trade =
-          new Trade.Builder()
+          Trade.builder()
               .type(null) // TODO @BL3P Trade Type is not returned by API
               .originalAmount(Bl3pUtils.fromSatoshi(new BigDecimal(bl3pTrade.getAmountInt())))
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(Bl3pUtils.fromEuroshi(new BigDecimal(bl3pTrade.getPriceInt())))
               .timestamp(bl3pTrade.getDate())
               .id("" + bl3pTrade.getTradeId())

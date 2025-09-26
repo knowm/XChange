@@ -3,13 +3,16 @@ package info.bitrich.xchangestream.bitfinex;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
+import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketPosition;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.rxjava3.core.Observable;
 import java.util.function.Function;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BitfinexStreamingTradeService implements StreamingTradeService {
 
@@ -37,6 +40,13 @@ public class BitfinexStreamingTradeService implements StreamingTradeService {
     return getOrderChanges().filter(o -> currencyPair.equals(o.getCurrencyPair()));
   }
 
+
+  @Override
+  public Observable<OpenPosition> getPositionChanges(Instrument instrument) {
+    return getRawAuthenticatedPositions()
+        .map(BitfinexStreamingAdapters::toOpenPosition);
+  }
+
   /**
    * Gets a stream of all user trades to which we are subscribed.
    *
@@ -49,19 +59,23 @@ public class BitfinexStreamingTradeService implements StreamingTradeService {
         .doOnNext(
             t -> {
               service.scheduleCalculatedBalanceFetch(
-                  t.getCurrencyPair().getBase().getCurrencyCode());
+                  t.getInstrument().getBase().getCurrencyCode());
               service.scheduleCalculatedBalanceFetch(
-                  t.getCurrencyPair().getCounter().getCurrencyCode());
+                  t.getInstrument().getCounter().getCurrencyCode());
             });
   }
 
   @Override
   public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
-    return getUserTrades().filter(t -> currencyPair.equals(t.getCurrencyPair()));
+    return getUserTrades().filter(t -> currencyPair.equals(t.getInstrument()));
   }
 
   public Observable<BitfinexWebSocketAuthOrder> getRawAuthenticatedOrders() {
     return withAuthenticatedService(BitfinexStreamingService::getAuthenticatedOrders);
+  }
+
+  public Observable<BitfinexWebSocketPosition> getRawAuthenticatedPositions() {
+    return withAuthenticatedService(BitfinexStreamingService::getAuthenticatedPositions);
   }
 
   public Observable<BitfinexWebSocketAuthPreTrade> getRawAuthenticatedPreTrades() {

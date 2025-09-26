@@ -1,0 +1,33 @@
+{
+  "channel": "executions",
+  "type": "update",
+  "data": [
+    {
+      "order_id": "OPJUXZ-EPCO3-LBMAK6",
+      "order_userref": 136713322,
+      "exec_id": "TTFAEP-3NXVP-AOLCRB",
+      "exec_type": "trade",
+      "trade_id": 847415,
+      "symbol": "KEEP/EUR",
+      "side": "sell",
+      "last_qty": 49.90000000,
+      "last_price": 0.06792,
+      "liquidity_ind": "m",
+      "cost": 3.389208,
+      "order_type": "limit",
+      "timestamp": "2025-09-13T21:29:11.377120Z",
+      "order_status": "partially_filled",
+      "cum_qty": 49.90000000,
+      "cum_cost": 3.389208,
+      "avg_price": 0.06792,
+      "fee_usd_equiv": 0.0080,
+      "fees": [
+        {
+          "asset": "EUR",
+          "qty": 0.006778
+        }
+      ]
+    }
+  ],
+  "sequence": 16
+}

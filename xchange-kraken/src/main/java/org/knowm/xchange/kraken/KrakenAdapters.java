@@ -22,6 +22,7 @@ import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.account.Wallet;
@@ -103,7 +104,7 @@ public class KrakenAdapters {
         .forEach(
             krakenOpenPosition ->
                 openPositionsList.add(
-                    new OpenPosition.Builder()
+                    OpenPosition.builder()
                         .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
                         .type(
                             krakenOpenPosition.getType() == KrakenType.BUY
@@ -194,6 +195,8 @@ public class KrakenAdapters {
     builder.open(krakenTicker.getOpen());
     builder.ask(krakenTicker.getAsk().getPrice());
     builder.bid(krakenTicker.getBid().getPrice());
+    builder.askSize(krakenTicker.getAsk().getVolume());
+    builder.bidSize(krakenTicker.getBid().getVolume());
     builder.last(krakenTicker.getClose().getPrice());
     builder.high(krakenTicker.get24HourHigh());
     builder.low(krakenTicker.get24HourLow());
@@ -208,7 +211,9 @@ public class KrakenAdapters {
     List<Ticker> tickers = new ArrayList<>();
     for (Entry<String, KrakenTicker> ticker : krakenTickers.entrySet()) {
       CurrencyPair pair = KrakenUtils.translateKrakenCurrencyPair(ticker.getKey());
-      tickers.add(adaptTicker(ticker.getValue(), pair));
+      if (pair != null) {
+        tickers.add(adaptTicker(ticker.getValue(), pair));
+      }
     }
     return tickers;
   }
@@ -230,10 +235,10 @@ public class KrakenAdapters {
     BigDecimal originalAmount = krakenPublicTrade.getVolume();
     Date timestamp = new Date((long) (krakenPublicTrade.getTime() * 1000L));
 
-    return new Trade.Builder()
+    return Trade.builder()
         .type(type)
         .originalAmount(originalAmount)
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(krakenPublicTrade.getPrice())
         .timestamp(timestamp)
         .id(String.valueOf((long) (krakenPublicTrade.getTime() * 10000L)))
@@ -315,17 +320,18 @@ public class KrakenAdapters {
     BigDecimal averagePrice = krakenTrade.getAverageClosePrice();
     BigDecimal price = (averagePrice == null) ? krakenTrade.getPrice() : averagePrice;
 
-    return new KrakenUserTrade(
-        orderType,
-        originalAmount,
-        pair,
-        price,
-        timestamp,
-        tradeId,
-        krakenTrade.getOrderTxId(),
-        krakenTrade.getFee(),
-        pair.getCounter(),
-        krakenTrade.getCost());
+    return KrakenUserTrade.builder()
+        .type(orderType)
+        .originalAmount(originalAmount)
+        .instrument(pair)
+        .price(price)
+        .timestamp(timestamp)
+        .id(tradeId)
+        .orderId(krakenTrade.getOrderTxId())
+        .feeAmount(krakenTrade.getFee())
+        .feeCurrency(pair.getCounter())
+        .cost(krakenTrade.getCost())
+        .build();
   }
 
   public static OrderType adaptOrderType(KrakenType krakenType) {
@@ -468,17 +474,32 @@ public class KrakenAdapters {
   }
 
   private static InstrumentMetaData adaptPair(
-      KrakenAssetPair krakenPair, InstrumentMetaData OriginalMeta) {
-    return new InstrumentMetaData.Builder()
-        .tradingFee(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)))
-        .minimumAmount(krakenPair.getOrderMin())
-        .priceScale(krakenPair.getPairScale())
-        .volumeScale(krakenPair.getVolumeLotScale())
-        .feeTiers(adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()))
-        .tradingFeeCurrency(
-            KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()))
-        .marketOrderEnabled(true)
-        .build();
+          KrakenAssetPair krakenPair, InstrumentMetaData originalMeta) {
+    // Normalize order minimum into base units
+    BigDecimal minimumAmount = krakenPair.getOrderMin()
+            .multiply(krakenPair.getVolumeMultiplier());
+    // effective step size in base units
+    // stepSize = lot_multiplier × 10^(-lot_decimals)
+    BigDecimal volumeStepSize = BigDecimal.ONE
+            .divide(BigDecimal.TEN.pow(krakenPair.getVolumeLotScale()))
+            .multiply(krakenPair.getVolumeMultiplier());
+    // --- Trading fee: first tier as default ---
+    BigDecimal tradingFee = krakenPair.getFees().isEmpty()
+            ? BigDecimal.ZERO
+            : krakenPair.getFees().get(0).getPercentFee().divide(BigDecimal.valueOf(100));
+
+    return InstrumentMetaData.builder()
+            .tradingFee(tradingFee)
+            .feeTiers(adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()))
+            .tradingFeeCurrency(
+                    KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()))
+            .minimumAmount(minimumAmount)
+            .priceScale(krakenPair.getPairScale())
+            .priceStepSize(krakenPair.getTickSize())
+            .volumeScale(krakenPair.getVolumeLotScale())
+            .amountStepSize(volumeStepSize)
+            .marketOrderEnabled(true)
+            .build();
   }
 
   public static List<FundingRecord> adaptFundingHistory(
@@ -496,18 +517,16 @@ public class KrakenAdapters {
           if (type != null) {
             final String internalId = krakenLedger.getRefId(); // or ledgerEntry.getKey()?
             FundingRecord fundingRecordEntry =
-                new FundingRecord(
-                    null,
-                    timestamp,
-                    currency,
-                    krakenLedger.getTransactionAmount(),
-                    internalId,
-                    null,
-                    FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
-                    FundingRecord.Status.COMPLETE,
-                    krakenLedger.getBalance(),
-                    krakenLedger.getFee(),
-                    null);
+                FundingRecord.builder()
+                    .date(timestamp)
+                    .currency(currency)
+                    .amount(krakenLedger.getTransactionAmount())
+                    .internalId(internalId)
+                    .type(FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()))
+                    .status(Status.COMPLETE)
+                    .balance(krakenLedger.getBalance())
+                    .fee(krakenLedger.getFee())
+                    .build();
             fundingRecords.add(fundingRecordEntry);
           }
         }

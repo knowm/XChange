@@ -13,7 +13,9 @@ public class BitmexIntegrationTestParent {
 
   @BeforeAll
   static void init() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class);
+    if (exchange == null) {
+      exchange = ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class);
+    }
   }
 
   @BeforeEach

@@ -132,7 +132,7 @@ public class BiboxAdapters {
     for (BiboxMarket biboxMarket : markets) {
       pairMeta.put(
           new CurrencyPair(biboxMarket.getCoinSymbol(), biboxMarket.getCurrencySymbol()),
-          new InstrumentMetaData.Builder().build());
+          InstrumentMetaData.builder().build());
     }
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }
@@ -149,7 +149,7 @@ public class BiboxAdapters {
     return UserTrade.builder()
         .orderId(order.getId())
         .id(order.getId())
-        .currencyPair(new CurrencyPair(order.getCoinSymbol(), order.getCurrencySymbol()))
+        .instrument(new CurrencyPair(order.getCoinSymbol(), order.getCurrencySymbol()))
         .price(order.getPrice())
         .originalAmount(order.getAmount())
         .timestamp(new Date(order.getCreatedAt()))
@@ -174,33 +174,25 @@ public class BiboxAdapters {
   }
 
   public static FundingRecord adaptDeposit(BiboxDeposit d) {
-    return new FundingRecord(
-        d.to,
-        d.getCreatedAt(),
-        Currency.getInstance(d.coinSymbol),
-        d.amount,
-        null,
-        null,
-        Type.DEPOSIT,
-        convertStatus(d.status),
-        null,
-        null,
-        null);
+    return FundingRecord.builder()
+        .address(d.to)
+        .date(d.getCreatedAt())
+        .currency(Currency.getInstance(d.coinSymbol))
+        .amount(d.amount)
+        .type(Type.DEPOSIT)
+        .status(convertStatus(d.status))
+        .build();
   }
 
   public static FundingRecord adaptDeposit(BiboxWithdrawal w) {
-    return new FundingRecord(
-        w.toAddress,
-        w.getCreatedAt(),
-        Currency.getInstance(w.coinSymbol),
-        w.amountReal,
-        null,
-        null,
-        Type.WITHDRAWAL,
-        convertStatus(w.status),
-        null,
-        null,
-        null);
+    return FundingRecord.builder()
+        .address(w.toAddress)
+        .date(w.getCreatedAt())
+        .currency(Currency.getInstance(w.coinSymbol))
+        .amount(w.amountReal)
+        .type(Type.WITHDRAWAL)
+        .status(convertStatus(w.status))
+        .build();
   }
 
   public static Status convertStatus(int status) {
@@ -221,10 +213,10 @@ public class BiboxAdapters {
         biboxDeals.stream()
             .map(
                 d ->
-                    new Trade.Builder()
+                    Trade.builder()
                         .type(convertSide(d.getSide()))
                         .originalAmount(d.getAmount())
-                        .currencyPair(currencyPair)
+                        .instrument(currencyPair)
                         .price(d.getPrice())
                         .timestamp(new Date(d.getTime()))
                         .id(d.getId())

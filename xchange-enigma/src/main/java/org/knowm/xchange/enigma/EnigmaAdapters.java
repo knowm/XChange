@@ -49,8 +49,8 @@ public final class EnigmaAdapters {
 
   public static Trade adaptTrade(EnigmaExecutedQuote enigmaTrade) {
 
-    return new Trade.Builder()
-        .currencyPair(getCurrencyPairFromString(enigmaTrade.getProductName()))
+    return Trade.builder()
+        .instrument(getCurrencyPairFromString(enigmaTrade.getProductName()))
         .price(enigmaTrade.getPrice())
         .originalAmount(enigmaTrade.getQuantity())
         .timestamp(enigmaTrade.getCreatedAt())
@@ -59,9 +59,9 @@ public final class EnigmaAdapters {
   }
 
   public static Trade adaptTrade(EnigmaOrderSubmission enigmaTrade) {
-    return new Trade.Builder()
+    return Trade.builder()
         .id(String.valueOf(enigmaTrade.getId()))
-        .currencyPair(getCurrencyPairFromString(enigmaTrade.getProductName()))
+        .instrument(getCurrencyPairFromString(enigmaTrade.getProductName()))
         .price(enigmaTrade.getPrice())
         .originalAmount(enigmaTrade.getQuantity())
         .timestamp(enigmaTrade.getSent())
@@ -83,9 +83,9 @@ public final class EnigmaAdapters {
                         .equals(currencyPair.toString().replace("/", "-")))
             .map(
                 enigmaTransaction ->
-                    new Trade.Builder()
+                    Trade.builder()
                         .id(String.valueOf(enigmaTransaction.getOrderId()))
-                        .currencyPair(currencyPair)
+                        .instrument(currencyPair)
                         .price(enigmaTransaction.getPrice())
                         .originalAmount(enigmaTransaction.getQuantity())
                         .timestamp(enigmaTransaction.getSentAt())

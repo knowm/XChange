@@ -1,16 +1,40 @@
 package org.knowm.xchange.bitso.dto;
 
-public abstract class BitsoBaseResponse {
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
-  private final String error;
+/**
+ * Base response wrapper for Bitso API v3 responses All API v3 responses follow the structure: {
+ * "success": boolean, "payload": T }
+ *
+ * @param <T> The type of the payload
+ * @see <a href="https://docs.bitso.com/bitso-api/docs/api-overview">Bitso API v3 Documentation</a>
+ */
+@Value
+@Builder
+@Jacksonized
+public class BitsoBaseResponse<T> {
 
-  protected BitsoBaseResponse(String error) {
+  /** Indicates whether the request was successful */
+  private final Boolean success;
 
-    this.error = error;
-  }
+  /** The response payload containing the actual data */
+  private final T payload;
 
-  public String getError() {
+  /** Error message (present when success is false) */
+  private final BitsoError error;
 
-    return error;
+  /** Error details for Bitso API responses */
+  @Value
+  @Builder
+  @Jacksonized
+  public static class BitsoError {
+
+    /** Error code */
+    private final String code;
+
+    /** Error message */
+    private final String message;
   }
 }

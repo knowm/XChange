@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.binance;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.OutboundAccountPositionBinanceWebsocketTransaction;
+import info.bitrich.xchangestream.binance.dto.account.OutboundAccountPositionBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.core.Observable;

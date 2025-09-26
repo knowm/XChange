@@ -27,7 +27,7 @@ public class CoinexMarketDataServiceRaw extends CoinexBaseService {
   }
 
   public List<CoinexChainInfo> getAllCoinexChainInfos() throws IOException {
-    return new ArrayList<>(coinex.allChainInfos().getData().values());
+    return new ArrayList<>(coinex.allChainInfos().getData());
   }
 
   public CoinexAllMarketStatisticsV1 getCoinexAllMarketStatisticsV1() throws IOException {

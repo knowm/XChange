@@ -56,14 +56,20 @@ public class OkexAccountPositionRisk {
     private final String instrumentId;
     private final BigDecimal positionSize;
     private final BigDecimal notionalUsdValue;
+    private final String mgnMode;
+    private final String posSide;
 
     public PositionData(
         @JsonProperty("instId") String instrumentId,
         @JsonProperty("pos") BigDecimal positionSize,
-        @JsonProperty("notionalUsd") BigDecimal notionalUsdValue) {
+        @JsonProperty("notionalUsd") BigDecimal notionalUsdValue,
+        @JsonProperty("mgnMode") String marginMode,
+        @JsonProperty("posSide") String positionSide) {
       this.instrumentId = instrumentId;
       this.positionSize = positionSize;
       this.notionalUsdValue = notionalUsdValue;
+      this.mgnMode = marginMode;
+      this.posSide = positionSide;
     }
   }
 }

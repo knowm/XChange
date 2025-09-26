@@ -31,7 +31,7 @@ public class IdexExchange extends BaseExchange {
 
   private ReturnCurrenciesResponse allCurrenciesStatic;
 
-  InstrumentMetaData unavailableCPMeta = new InstrumentMetaData.Builder().build();
+  InstrumentMetaData unavailableCPMeta = InstrumentMetaData.builder().build();
 
   public final InstrumentMetaData getUnavailableCPMeta() {
     return unavailableCPMeta;

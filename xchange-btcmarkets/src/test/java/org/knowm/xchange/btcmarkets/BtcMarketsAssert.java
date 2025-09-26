@@ -28,7 +28,7 @@ public class BtcMarketsAssert {
   public static void assertEquals(Trade o1, Trade o2) {
     assertThat(o1.getType()).isEqualTo(o2.getType());
     assertThat(o1.getOriginalAmount()).isEqualTo(o2.getOriginalAmount());
-    assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
+    assertThat(o1.getInstrument()).isEqualTo(o2.getInstrument());
     assertThat(o1.getPrice()).isEqualTo(o2.getPrice());
     assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
     assertThat(o1.getId()).isEqualTo(o2.getId());
@@ -37,7 +37,7 @@ public class BtcMarketsAssert {
   public static void assertEquals(UserTrade o1, UserTrade o2) {
     assertThat(o1.getType()).isEqualTo(o2.getType());
     assertThat(o1.getOriginalAmount()).isEqualTo(o2.getOriginalAmount());
-    assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
+    assertThat(o1.getInstrument()).isEqualTo(o2.getInstrument());
     assertThat(o1.getPrice()).isEqualTo(o2.getPrice());
     assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
     assertThat(o1.getId()).isEqualTo(o2.getId());

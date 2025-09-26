@@ -3,15 +3,16 @@ package org.knowm.xchange.bitso.service;
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.Bitso;
+import org.knowm.xchange.bitso.BitsoJacksonObjectMapperFactory;
+import org.knowm.xchange.bitso.dto.marketdata.BitsoAvailableBooks;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
-import org.knowm.xchange.bitso.dto.marketdata.BitsoTransaction;
+import org.knowm.xchange.bitso.dto.marketdata.BitsoTrades;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 
 /**
- * @author Piotr Ładyżyński
+ * @author Piotr Ładyżyński Updated for Bitso API v3
  */
 public class BitsoMarketDataServiceRaw extends BitsoBaseService {
 
@@ -21,35 +22,48 @@ public class BitsoMarketDataServiceRaw extends BitsoBaseService {
     super(exchange);
     this.bitso =
         ExchangeRestProxyBuilder.forInterface(Bitso.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(
+                clientConfig ->
+                    clientConfig.setJacksonObjectMapperFactory(
+                        new BitsoJacksonObjectMapperFactory()))
             .build();
   }
 
-  public BitsoOrderBook getBitsoOrderBook(CurrencyPair pair) throws IOException {
-    return bitso.getOrderBook();
+  public BitsoAvailableBooks getBitsoAvailableBooks() throws IOException {
+    return bitso.getAvailableBooks();
   }
 
-  public BitsoTransaction[] getBitsoTransactions(Object... args) throws IOException {
+  public BitsoOrderBook getBitsoOrderBook(Instrument pair) throws IOException {
+    String book =
+        pair.getBase().getCurrencyCode().toLowerCase()
+            + "_"
+            + pair.getCounter().getCurrencyCode().toLowerCase();
+    return bitso.getOrderBook(book);
+  }
 
-    BitsoTransaction[] transactions = null;
+  public BitsoTrades getBitsoTrades(Instrument pair, Object... args) throws IOException {
+    String book =
+        pair.getBase().getCurrencyCode().toLowerCase()
+            + "_"
+            + pair.getCounter().getCurrencyCode().toLowerCase();
 
     if (args.length == 0) {
-      transactions = bitso.getTransactions(); // default values: offset=0, limit=100
-    } else if (args.length == 1) {
-      BitsoTime bitsoTime = BitsoTime.valueOf(((String) args[0]).toUpperCase());
-      transactions =
-          bitso.getTransactions(bitsoTime.toString().toLowerCase()); // default values: limit=100
+      return bitso.getTrades(book);
+    } else if (args.length >= 3) {
+      String marker = args[0] != null ? args[0].toString() : null;
+      String sort = args[1] != null ? args[1].toString() : null;
+      Integer limit = args[2] != null ? Integer.valueOf(args[2].toString()) : null;
+      return bitso.getTrades(book, marker, sort, limit);
     } else {
-      throw new ExchangeException("Invalid argument length. Must be 0, or 1.");
+      return bitso.getTrades(book);
     }
-    return transactions;
   }
 
-  public BitsoTicker getBitsoTicker(CurrencyPair pair) throws IOException {
-    return bitso.getTicker(pair.getBase() + "_" + pair.getCounter());
-  }
-
-  public enum BitsoTime {
-    HOUR,
-    MINUTE
+  public BitsoTicker getBitsoTicker(Instrument pair) throws IOException {
+    String book =
+        pair.getBase().getCurrencyCode().toLowerCase()
+            + "_"
+            + pair.getCounter().getCurrencyCode().toLowerCase();
+    return bitso.getTicker(book);
   }
 }

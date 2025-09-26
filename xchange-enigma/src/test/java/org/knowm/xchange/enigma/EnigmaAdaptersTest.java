@@ -25,7 +25,7 @@ public class EnigmaAdaptersTest {
     Trade trade = EnigmaAdapters.adaptTrade(orderSubmission);
 
     assertThat(trade.getId()).isEqualTo("195");
-    assertThat(trade.getCurrencyPair()).isEqualTo(getCurrencyPairFromString("BTC-USD"));
+    assertThat(trade.getInstrument()).isEqualTo(getCurrencyPairFromString("BTC-USD"));
     assertThat(trade.getType()).isEqualTo(Order.OrderType.ASK);
     assertThat(trade.getPrice()).isEqualTo(new BigDecimal("10200.5865"));
   }

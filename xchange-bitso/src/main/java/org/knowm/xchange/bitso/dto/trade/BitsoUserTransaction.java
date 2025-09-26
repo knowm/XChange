@@ -1,135 +1,60 @@
 package org.knowm.xchange.bitso.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
-import org.knowm.xchange.bitso.util.BitsoTransactionTypeDeserializer;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 /**
+ * Bitso User Transaction/Trade DTO for API v3
+ *
+ * @see <a href="https://docs.bitso.com/bitso-api/docs/list-user-trades">List Order Trades</a>
  * @author Piotr Ładyżyński
  */
-public final class BitsoUserTransaction {
+@Value
+@Builder
+@Jacksonized
+public class BitsoUserTransaction {
 
-  private final String datetime;
-  private final long id;
-  private final String order_id;
-  private final TransactionType type;
+  /** The order book symbol (e.g., "btc_mxn") */
+  private final String book;
 
-  /** MXN amount, negative -> BID, positive -> ASK */
-  private final BigDecimal mxn;
+  /** The date and time when the service executed the trade */
+  private final String createdAt;
 
-  private final BigDecimal btc;
+  /** The amount charged as trade fee */
+  private final BigDecimal feesAmount;
 
-  /** price, has the reciprocal sign compared to 'mxn' value */
-  private final BigDecimal rate;
+  /** The currency in which the service charged the trade fee */
+  private final String feesCurrency;
 
-  private final BigDecimal fee;
+  /** The major amount traded */
+  private final BigDecimal major;
 
-  /**
-   * Constructor
-   *
-   * @param datetime
-   * @param id
-   * @param order_id
-   * @param type
-   * @param mxn
-   * @param btc
-   * @param rate
-   * @param fee
-   */
-  public BitsoUserTransaction(
-      @JsonProperty("datetime") String datetime,
-      @JsonProperty("id") long id,
-      @JsonProperty("order_id") String order_id,
-      @JsonProperty("type") @JsonDeserialize(using = BitsoTransactionTypeDeserializer.class)
-          TransactionType type,
-      @JsonProperty("mxn") BigDecimal mxn,
-      @JsonProperty("btc") BigDecimal btc,
-      @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("fee") BigDecimal fee) {
+  /** The ticker of the major currency */
+  private final String majorCurrency;
 
-    this.datetime = datetime;
-    this.id = id;
-    this.order_id = order_id;
-    this.type = type;
-    this.mxn = mxn;
-    this.btc = btc;
-    this.rate = rate;
-    this.fee = fee;
-  }
+  /** The maker's side for this trade (buy or sell) */
+  private final String makerSide;
 
-  public String getDatetime() {
+  /** The minor amount traded */
+  private final BigDecimal minor;
 
-    return datetime;
-  }
+  /** The ticker of the minor currency */
+  private final String minorCurrency;
 
-  public long getId() {
+  /** The order ID */
+  private final String oid;
 
-    return id;
-  }
+  /** The order's client-supplied, unique ID (if any) */
+  private final String originId;
 
-  public String getOrderId() {
+  /** The price per unit of major */
+  private final BigDecimal price;
 
-    return order_id;
-  }
+  /** The user's side for this trade. Possible values: buy and sell */
+  private final String side;
 
-  public TransactionType getType() {
-
-    return type;
-  }
-
-  public boolean isDeposit() {
-
-    return type == TransactionType.deposit;
-  }
-
-  public boolean isWithdrawal() {
-
-    return type == TransactionType.withdrawal;
-  }
-
-  public boolean isMarketTrade() {
-
-    return type == TransactionType.trade;
-  }
-
-  public BigDecimal getMxn() {
-
-    return mxn;
-  }
-
-  public BigDecimal getBtc() {
-
-    return btc;
-  }
-
-  public BigDecimal getPrice() {
-
-    return rate;
-  }
-
-  public BigDecimal getFee() {
-
-    return fee;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format(
-        "UserTransaction{datetime=%s, id=%d, type=%s, mxn=%s, btc=%s, fee=%s}",
-        datetime, id, type, mxn, btc, fee);
-  }
-
-  public enum TransactionType {
-    deposit,
-    withdrawal,
-    trade,
-    type3_reserved,
-    type4_reserved,
-    type5_reseverd,
-    type6_reseved,
-    type7_reserved
-    // reseved so parsing won 't break in case Bitso adds new types
-  }
+  /** The trade's ID */
+  private final String tid;
 }

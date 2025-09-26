@@ -17,6 +17,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
@@ -31,6 +32,16 @@ public class CoinexTradeService extends CoinexTradeServiceRaw implements TradeSe
 
   public CoinexTradeService(CoinexExchange exchange) {
     super(exchange);
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    try {
+      CoinexOrder coinexOrder = createStopOrder(CoinexAdapters.toCoinexOrder(stopOrder));
+      return String.valueOf(coinexOrder.getStopId());
+    } catch (CoinexException e) {
+      throw CoinexErrorAdapter.adapt(e);
+    }
   }
 
   @Override

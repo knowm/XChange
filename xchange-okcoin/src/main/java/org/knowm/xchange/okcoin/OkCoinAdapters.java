@@ -238,10 +238,10 @@ public final class OkCoinAdapters {
 
   private static Trade adaptTrade(OkCoinTrade trade, CurrencyPair currencyPair) {
 
-    return new Trade.Builder()
+    return Trade.builder()
         .type(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK)
         .originalAmount(trade.getAmount())
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(trade.getPrice())
         .timestamp(trade.getDate())
         .id("" + trade.getTid())
@@ -327,7 +327,7 @@ public final class OkCoinAdapters {
     return UserTrade.builder()
         .type(adaptOrderType(order.getType()))
         .originalAmount(order.getDealAmount())
-        .currencyPair(adaptSymbol(order.getSymbol()))
+        .instrument(adaptSymbol(order.getSymbol()))
         .price(order.getAveragePrice())
         .timestamp(order.getCreateDate())
         .id(tradeId)
@@ -340,7 +340,7 @@ public final class OkCoinAdapters {
     return UserTrade.builder()
         .type(adaptOrderType(order.getType()))
         .originalAmount(order.getDealAmount())
-        .currencyPair(adaptSymbol(order.getSymbol()))
+        .instrument(adaptSymbol(order.getSymbol()))
         .price(order.getPrice())
         .timestamp(order.getCreatedDate())
         .orderId(String.valueOf(order.getOrderId()))
@@ -373,7 +373,7 @@ public final class OkCoinAdapters {
           UserTrade.builder()
               .type(orderType)
               .originalAmount(originalAmount)
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(price)
               .timestamp(timestamp)
               .id(tradeId)
@@ -417,18 +417,15 @@ public final class OkCoinAdapters {
         }
 
         fundingRecords.add(
-            new FundingRecord(
-                okCoinRecordEntry.getAddress(),
-                adaptDate(okCoinRecordEntry.getDate()),
-                c,
-                okCoinRecordEntry.getAmount(),
-                null,
-                null,
-                type,
-                status,
-                null,
-                okCoinRecordEntry.getFee(),
-                null));
+            FundingRecord.builder()
+                .address(okCoinRecordEntry.getAddress())
+                .date(adaptDate(okCoinRecordEntry.getDate()))
+                .currency(c)
+                .amount(okCoinRecordEntry.getAmount())
+                .type(type)
+                .status(status)
+                .fee(okCoinRecordEntry.getFee())
+                .build());
       }
     }
 

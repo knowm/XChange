@@ -21,12 +21,7 @@ import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.AddressWithTag;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.Fee;
-import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
@@ -142,7 +137,8 @@ public class BlockchainAccountService extends BlockchainAccountServiceRaw
   }
 
   @Override
-  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument(String... category)
+      throws IOException {
     try {
       BlockchainFees fees = this.getFees();
       Map<Instrument, Fee> tradingFees = new HashMap<>();

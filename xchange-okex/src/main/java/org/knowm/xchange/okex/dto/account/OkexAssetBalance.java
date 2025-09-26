@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 /* Author: Ali Gokalp Peker (aligokalppeker@yahoo.com) Created: 23-10-2021 */
 
-/** <a href="https://www.okex.com/docs-v5/en/#rest-api-funding-get-balance">...</a> * */
+/** <a href="https://www.okx.com/docs-v5/en/#rest-api-funding-get-balance">...</a> * */
 @Getter
 @NoArgsConstructor
 public class OkexAssetBalance {

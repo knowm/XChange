@@ -1,0 +1,20 @@
+[
+  {
+    "currency_pair": "BTC/USD",
+    "fees": [
+      {
+        "maker": "0.0012",
+        "taker": "0.0020"
+      }
+    ]
+  },
+  {
+    "currency_pair": "ETH/USD",
+    "fees": [
+      {
+        "maker": "0.0015",
+        "taker": "0.0025"
+      }
+    ]
+  }
+]

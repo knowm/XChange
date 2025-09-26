@@ -192,9 +192,9 @@ public final class BitcoindeAdapters {
         lastTradeId = tid;
       }
       trades.add(
-          new Trade.Builder()
+          Trade.builder()
               .originalAmount(bitcoindeTrade.getAmount())
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(bitcoindeTrade.getPrice())
               .timestamp(bitcoindeTrade.getDate())
               .id(String.valueOf(tid))
@@ -284,20 +284,20 @@ public final class BitcoindeAdapters {
             ledger -> {
               FundingRecord.Type type = adaptFundingRecordType(ledger.getType());
 
-              FundingRecord.Builder builder =
-                  new FundingRecord.Builder()
-                      .setType(type)
-                      .setDate(ledger.getDate())
-                      .setCurrency(currency)
-                      .setAmount(ledger.getCashflow().abs())
-                      .setBalance(ledger.getBalance())
-                      .setStatus(FundingRecord.Status.COMPLETE)
-                      .setDescription(ledger.getType().getValue());
+              FundingRecord.FundingRecordBuilder builder =
+                  FundingRecord.builder()
+                      .type(type)
+                      .date(ledger.getDate())
+                      .currency(currency)
+                      .amount(ledger.getCashflow().abs())
+                      .balance(ledger.getBalance())
+                      .status(FundingRecord.Status.COMPLETE)
+                      .description(ledger.getType().getValue());
 
               if (INPAYMENT == ledger.getType() || PAYOUT == ledger.getType()) {
-                builder.setBlockchainTransactionHash(ledger.getReference());
+                builder.blockchainTransactionHash(ledger.getReference());
               } else {
-                builder.setInternalId(ledger.getReference());
+                builder.internalId(ledger.getReference());
               }
 
               if (!leaveFeesSeperate && PAYOUT == ledger.getType()) {
@@ -305,8 +305,8 @@ public final class BitcoindeAdapters {
                     findFeeLedger(ledger.getReference(), feeLedgers);
                 if (feeLedger.isPresent()) {
                   BigDecimal fee = feeLedger.get().getCashflow().abs();
-                  builder.setAmount(ledger.getCashflow().abs().add(fee));
-                  builder.setFee(fee);
+                  builder.amount(ledger.getCashflow().abs().add(fee));
+                  builder.fee(fee);
 
                   /*
                    * There can be multiple {@code PAYOUTS}s with the same reference/ blockchain
@@ -397,7 +397,7 @@ public final class BitcoindeAdapters {
           UserTrade.builder()
               .id(trade.getTradeId())
               .timestamp(timestamp)
-              .currencyPair(trade.getTradingPair())
+              .instrument(trade.getTradingPair())
               .type(adaptOrderType(trade.getType()))
               .originalAmount(trade.getAmountCurrencyToTrade())
               .price(trade.getPrice())

@@ -201,15 +201,14 @@ public interface KrakenAuthenticated extends Kraken {
   /**
    * Get trades history
    *
-   * @param type          ype = type of trade (optional) all = all types (default) any position =
-   *                      any position (open or closed) closed position = positions that have been
-   *                      closed closing position = any trade closing all or part of a position no
-   *                      position = non-positional trades
+   * @param type ype = type of trade (optional) all = all types (default) any position = any
+   *     position (open or closed) closed position = positions that have been closed closing
+   *     position = any trade closing all or part of a position no position = non-positional trades
    * @param includeTrades whether or not to include trades related to position in output (optional.
-   *                      default = false)
-   * @param start         starting unix timestamp or trade tx id of results (optional. exclusive)
-   * @param end           ending unix timestamp or trade tx id of results (optional. inclusive)
-   * @param offset        result offset
+   *     default = false)
+   * @param start starting unix timestamp or trade tx id of results (optional. exclusive)
+   * @param end ending unix timestamp or trade tx id of results (optional. inclusive)
+   * @param offset result offset
    */
   @POST
   @Path("private/TradesHistory")

@@ -51,7 +51,7 @@ public class CoindirectExchange extends BaseExchange {
         InstrumentMetaData staticMeta = currencyPairs.get(currencyPair);
         currencyPairs.put(
             currencyPair,
-            new InstrumentMetaData.Builder()
+            InstrumentMetaData.builder()
                 .tradingFee(staticMeta.getTradingFee())
                 .minimumAmount(market.minimumQuantity)
                 .maximumAmount(market.maximumQuantity)

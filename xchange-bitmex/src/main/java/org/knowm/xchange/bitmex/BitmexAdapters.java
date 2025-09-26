@@ -236,10 +236,10 @@ public class BitmexAdapters {
     // Date timestamp = adaptTimestamp(bitmexPublicTrade.getTime());
     // new Date((long) (bitmexPublicTrade.getTime()));
 
-    return new Trade.Builder()
+    return Trade.builder()
         .type(type)
         .originalAmount(originalAmount)
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(bitmexPublicTrade.getPrice())
         .timestamp(timestamp)
         .id(String.valueOf(timestamp.getTime()))
@@ -432,18 +432,19 @@ public class BitmexAdapters {
   }
 
   public FundingRecord adaptFundingRecord(BitmexWalletTransaction walletTransaction) {
-    return new FundingRecord(
-        walletTransaction.getAddress(),
-        toDate(walletTransaction.getUpdatedAt()),
-        walletTransaction.getCurrency(),
-        walletTransaction.getAmount().abs(),
-        walletTransaction.getTransactionId(),
-        walletTransaction.getTx(),
-        toFundingRecordtype(walletTransaction),
-        toFundingRecordStatus(walletTransaction.getTransactionStatus()),
-        walletTransaction.getWalletBalance(),
-        walletTransaction.getFeeAmount(),
-        walletTransaction.getText());
+    return FundingRecord.builder()
+        .address(walletTransaction.getAddress())
+        .date(toDate(walletTransaction.getUpdatedAt()))
+        .currency(walletTransaction.getCurrency())
+        .amount(walletTransaction.getAmount().abs())
+        .internalId(walletTransaction.getTransactionId())
+        .blockchainTransactionHash(walletTransaction.getTx())
+        .type(toFundingRecordtype(walletTransaction))
+        .status(toFundingRecordStatus(walletTransaction.getTransactionStatus()))
+        .balance(walletTransaction.getWalletBalance())
+        .fee(walletTransaction.getFeeAmount())
+        .description(walletTransaction.getText())
+        .build();
   }
 
   private FundingRecord.Type toFundingRecordtype(final BitmexWalletTransaction walletTransaction) {
@@ -526,7 +527,7 @@ public class BitmexAdapters {
       maxAssetAmount = bitmexTicker.getMaxOrderQty().divide(assetMultiplier, MathContext.DECIMAL32);
     }
 
-    return new InstrumentMetaData.Builder()
+    return InstrumentMetaData.builder()
         .tradingFee(bitmexTicker.getTakerFee())
         .minimumAmount(minAssetAmount)
         .maximumAmount(maxAssetAmount)

@@ -156,9 +156,9 @@ public final class BitcoindeAdapters {
         lastTradeId = tid;
       }
       trades.add(
-          new Trade.Builder()
+          Trade.builder()
               .originalAmount(bitcoindeTrade.getAmount())
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(bitcoindeTrade.getPrice())
               .timestamp(DateUtils.fromMillisUtc(bitcoindeTrade.getDate() * 1000L))
               .id(String.valueOf(tid))

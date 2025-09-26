@@ -70,7 +70,7 @@ public class BitcoindeAdapterTest {
     assertThat(trades.getTrades().get(0).getPrice()).isEqualTo(new BigDecimal("2395"));
     assertThat(trades.getTrades().get(0).getOriginalAmount())
         .isEqualTo(new BigDecimal("0.08064516"));
-    assertThat(trades.getTrades().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
+    assertThat(trades.getTrades().get(0).getInstrument()).isEqualTo(CurrencyPair.BTC_EUR);
 
     // Verify that the date is correct
     Date date = new Date();

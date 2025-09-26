@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction.TransactionType;
 
 /** Test UserTransactions[] JSON parsing */

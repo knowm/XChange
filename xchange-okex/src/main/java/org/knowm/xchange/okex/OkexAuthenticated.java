@@ -16,7 +16,21 @@ import java.util.Map;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.okex.dto.OkexException;
 import org.knowm.xchange.okex.dto.OkexResponse;
-import org.knowm.xchange.okex.dto.account.*;
+import org.knowm.xchange.okex.dto.account.OkexAccountConfig;
+import org.knowm.xchange.okex.dto.account.OkexAccountPositionRisk;
+import org.knowm.xchange.okex.dto.account.OkexAssetBalance;
+import org.knowm.xchange.okex.dto.account.OkexBillDetails;
+import org.knowm.xchange.okex.dto.account.OkexChangeMarginRequest;
+import org.knowm.xchange.okex.dto.account.OkexChangeMarginResponse;
+import org.knowm.xchange.okex.dto.account.OkexDepositAddress;
+import org.knowm.xchange.okex.dto.account.OkexPosition;
+import org.knowm.xchange.okex.dto.account.OkexSetLeverageRequest;
+import org.knowm.xchange.okex.dto.account.OkexSetLeverageResponse;
+import org.knowm.xchange.okex.dto.account.OkexTradeFee;
+import org.knowm.xchange.okex.dto.account.OkexWalletBalance;
+import org.knowm.xchange.okex.dto.account.OkexWithdrawalRequest;
+import org.knowm.xchange.okex.dto.account.OkexWithdrawalResponse;
+import org.knowm.xchange.okex.dto.account.PiggyBalance;
 import org.knowm.xchange.okex.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.dto.subaccount.OkexSubAccountDetails;
 import org.knowm.xchange.okex.dto.trade.OkexAmendOrderRequest;
@@ -89,7 +103,8 @@ public interface OkexAuthenticated extends Okex {
       @QueryParam("instType") String instrumentType,
       @QueryParam("instId") String instrumentId,
       @QueryParam("uly") String underlying,
-      @QueryParam("category") String category,
+      @QueryParam("instFamily") String instFamily,
+      @QueryParam("ruleType") String ruleType,
       @HeaderParam("OK-ACCESS-KEY") String apiKey,
       @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
       @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,

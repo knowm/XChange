@@ -58,7 +58,7 @@ class CoinjarStreamingAdapters {
         .id(Long.toString(event.payload.fill.tid))
         .originalAmount(new BigDecimal(event.payload.fill.size))
         .type(CoinjarAdapters.buySellToOrderType(event.payload.fill.side))
-        .currencyPair(CoinjarAdapters.productToCurrencyPair(event.payload.fill.productId))
+        .instrument(CoinjarAdapters.productToCurrencyPair(event.payload.fill.productId))
         .price(new BigDecimal(event.payload.fill.price))
         .orderId(Long.toString(event.payload.fill.oid))
         .build();

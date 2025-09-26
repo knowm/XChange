@@ -1,0 +1,16 @@
+### Get Asset Info
+GET {{base_url}}/public/Assets
+
+
+### Get Ticker Information (all)
+GET {{base_url}}/public/Ticker
+
+
+### Get Ticker Information (single)
+GET {{base_url}}/public/Ticker?pair=XBTUSDT
+
+
+### Get Tradable Asset Pairs
+GET {{base_url}}/public/AssetPairs
+
+

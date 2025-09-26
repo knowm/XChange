@@ -121,4 +121,27 @@ public interface BinanceFutures {
   @Path("fapi/v1/premiumIndex")
   BinanceFundingRate fundingRate(@QueryParam("symbol") String symbol)
       throws IOException, BinanceException;
+
+  /**
+   * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.<br>
+   * If startTime and endTime are not sent, the most recent klines are returned.
+   *
+   * @param symbol
+   * @param interval
+   * @param limit optional, default 500; max 500.
+   * @param startTime optional
+   * @param endTime optional
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("fapi/v1/klines")
+  List<Object[]> klines(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("interval") String interval,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime)
+      throws IOException, BinanceException;
 }

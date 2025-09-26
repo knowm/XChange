@@ -86,8 +86,8 @@ public class CoinEggAdapters {
   }
 
   public static Trade adaptTrade(CoinEggTrade coinEggTrade, CurrencyPair currencyPair) {
-    return new Trade.Builder()
-        .currencyPair(currencyPair)
+    return Trade.builder()
+        .instrument(currencyPair)
         .id(String.valueOf(coinEggTrade.getTransactionID()))
         .type(coinEggTrade.getOrderType())
         .price(coinEggTrade.getPrice())
@@ -130,8 +130,8 @@ public class CoinEggAdapters {
   // TODO: Make Use Of Adapt Trade
   public static UserTrades adaptTradeHistory(CoinEggTradeView coinEggTradeView) {
     List<UserTrade> trades = new ArrayList<UserTrade>();
-    Trade trade =
-        new Trade.Builder()
+    UserTrade trade =
+        UserTrade.builder()
             // .currencyPair(null)
             .id(String.valueOf(coinEggTradeView.getID()))
             .type(coinEggTradeView.getType() == Type.BUY ? OrderType.ASK : OrderType.BID)
@@ -140,7 +140,7 @@ public class CoinEggAdapters {
             .timestamp(coinEggTradeView.getDateTime())
             .build();
 
-    trades.add((UserTrade) UserTrade.builder().from(trade).build());
+    trades.add(trade);
 
     return new UserTrades(trades, null);
   }

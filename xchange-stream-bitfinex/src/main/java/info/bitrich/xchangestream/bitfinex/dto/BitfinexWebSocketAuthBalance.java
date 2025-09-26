@@ -2,17 +2,18 @@ package info.bitrich.xchangestream.bitfinex.dto;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import org.knowm.xchange.currency.Currency;
 
 public class BitfinexWebSocketAuthBalance {
   private String walletType;
-  private String currency;
+  private Currency currency;
   private BigDecimal balance;
   private BigDecimal unsettledInterest;
   private BigDecimal balanceAvailable;
 
   public BitfinexWebSocketAuthBalance(
       String walletType,
-      String currency,
+      Currency currency,
       BigDecimal balance,
       BigDecimal unsettledInterest,
       BigDecimal balanceAvailable) {
@@ -27,7 +28,7 @@ public class BitfinexWebSocketAuthBalance {
     return walletType;
   }
 
-  public String getCurrency() {
+  public Currency getCurrency() {
     return currency;
   }
 

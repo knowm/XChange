@@ -2,6 +2,7 @@ package org.knowm.xchange.tradeogre.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import org.knowm.xchange.client.ClientConfigCustomizer;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
@@ -29,7 +30,7 @@ public class TradeOgreBaseService extends BaseExchangeService<TradeOgreExchange>
 
     ClientConfigCustomizer clientConfigCustomizer =
         config -> {
-          ClientConfigUtil.addBasicAuthCredentials(config, apiKey, secretKey);
+          config = ClientConfigUtil.addBasicAuthCredentials(config, apiKey, secretKey);
           config.setJacksonObjectMapperFactory(
               new DefaultJacksonObjectMapperFactory() {
                 @Override
@@ -48,10 +49,15 @@ public class TradeOgreBaseService extends BaseExchangeService<TradeOgreExchange>
   }
 
   private String calculateBase64UserPwd(TradeOgreExchange exchange) {
-    String userPwd =
-        exchange.getExchangeSpecification().getApiKey()
-            + ":"
-            + exchange.getExchangeSpecification().getSecretKey();
-    return "Basic " + new String(Base64.getEncoder().encode(userPwd.getBytes()));
+    String apiKey = exchange.getExchangeSpecification().getApiKey();
+    String secretKey = exchange.getExchangeSpecification().getSecretKey();
+
+    if (apiKey == null || secretKey == null) {
+      throw new IllegalArgumentException("API key and secret key must not be null");
+    }
+
+    String userPwd = apiKey + ":" + secretKey;
+    return "Basic "
+        + Base64.getEncoder().encodeToString(userPwd.getBytes(StandardCharsets.ISO_8859_1));
   }
 }

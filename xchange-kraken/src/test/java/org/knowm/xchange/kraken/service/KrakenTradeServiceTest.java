@@ -177,7 +177,7 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
     Map<String, String> requestParams = parseAddOrderRequestBody(requests.get(0));
     assertThat(requestParams.get("nonce")).isLessThan(String.valueOf(System.currentTimeMillis()));
   }
-  
+
   private void stubAddOrderApi() {
     stubFor(
         post(urlPathEqualTo("/0/private/AddOrder"))

@@ -3,11 +3,14 @@ package org.knowm.xchange.dto.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import lombok.Getter;
 
+@Getter
 public final class Fee implements Serializable {
 
   private static final long serialVersionUID = -6235230375777573680L;
 
+  // 0.1% fee eq 0.001 positive
   @JsonProperty("maker_fee")
   private final BigDecimal makerFee;
 
@@ -17,14 +20,6 @@ public final class Fee implements Serializable {
   public Fee(BigDecimal makerFee, BigDecimal takerFee) {
     this.makerFee = makerFee;
     this.takerFee = takerFee;
-  }
-
-  public BigDecimal getMakerFee() {
-    return makerFee;
-  }
-
-  public BigDecimal getTakerFee() {
-    return takerFee;
   }
 
   @Override

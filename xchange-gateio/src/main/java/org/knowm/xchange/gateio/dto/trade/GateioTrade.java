@@ -9,11 +9,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Generated;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"tradeID", "orderNumber", "pair", "type", "rate", "amount", "time_unix"})
 public class GateioTrade {
 

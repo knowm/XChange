@@ -51,7 +51,7 @@ public class CoinjarStreamingAdaptersTest {
         UserTrade.builder()
             .id("9130900")
             .orderId("280117631")
-            .currencyPair(CurrencyPair.BTC_AUD)
+            .instrument(CurrencyPair.BTC_AUD)
             .originalAmount(new BigDecimal("0.01000000"))
             .timestamp(Date.from(ZonedDateTime.parse("2018-08-28T05:16:37.405702Z").toInstant()))
             .price(new BigDecimal("9382.00000000"))

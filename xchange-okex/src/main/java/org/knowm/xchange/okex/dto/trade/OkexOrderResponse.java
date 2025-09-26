@@ -21,4 +21,7 @@ public class OkexOrderResponse {
 
   @JsonProperty("sMsg")
   private String message;
+
+  @JsonProperty("ts")
+  private Long ts;
 }

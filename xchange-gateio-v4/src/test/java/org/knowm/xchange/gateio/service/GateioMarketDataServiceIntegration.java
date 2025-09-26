@@ -6,22 +6,34 @@ import java.io.IOException;
 import java.util.List;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.Test;
-import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.meta.ExchangeHealth;
-import org.knowm.xchange.gateio.GateioExchange;
+import org.knowm.xchange.gateio.GateioIntegrationTestParent;
 
-class GateioMarketDataServiceIntegration {
-
-  GateioExchange exchange = ExchangeFactory.INSTANCE.createExchange(GateioExchange.class);
+class GateioMarketDataServiceIntegration extends GateioIntegrationTestParent {
 
   @Test
-  void exchange_health() {
-    ExchangeHealth actual = exchange.getMarketDataService().getExchangeHealth();
-    assertThat(actual).isEqualTo(ExchangeHealth.ONLINE);
+  void valid_currencies() throws IOException {
+    List<Currency> actual =
+        ((GateioMarketDataService) exchange.getMarketDataService()).getCurrencies();
+    assertThat(actual).isNotEmpty();
+  }
+
+  @Test
+  void valid_single_ticker() throws IOException {
+    Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_USDT);
+
+    assertThat(ticker.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
+    assertThat(ticker.getLast()).isPositive();
+    assertThat(ticker.getBid()).isPositive();
+    assertThat(ticker.getBidSize()).isPositive();
+    assertThat(ticker.getAsk()).isPositive();
+    assertThat(ticker.getAskSize()).isPositive();
+
+    assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
   }
 
   @Test

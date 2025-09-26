@@ -1,21 +1,16 @@
 package info.bitrich.xchangestream.bybit.example;
 
+import static info.bitrich.xchangestream.bybit.example.BaseBybitExchange.connectTestApi;
 import static java.math.RoundingMode.UP;
-import static org.knowm.xchange.bybit.BybitExchange.SPECIFIC_PARAM_ACCOUNT_TYPE;
-import static org.knowm.xchange.bybit.BybitExchange.SPECIFIC_PARAM_TESTNET;
 
-import info.bitrich.xchangestream.bybit.BybitStreamingExchange;
 import info.bitrich.xchangestream.bybit.BybitStreamingTradeService;
 import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.rxjava3.disposables.Disposable;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.dto.BybitCategory;
-import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
@@ -33,7 +28,7 @@ public class BybitStreamTestNetExample {
   // Uses TEST_NET
   public static void main(String[] args) {
     try {
-      withAuth();
+      testNetExample();
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
@@ -45,19 +40,8 @@ public class BybitStreamTestNetExample {
 
   private static final Instrument ETH_SPOT = new CurrencyPair("ETH/USDT");
 
-  private static void withAuth() throws IOException, InterruptedException {
-    ExchangeSpecification exchangeSpecification =
-        new BybitStreamingExchange().getDefaultExchangeSpecification();
-    exchangeSpecification.setApiKey(System.getProperty("test_api_key"));
-    exchangeSpecification.setSecretKey(System.getProperty("test_secret_key"));
-    exchangeSpecification.setExchangeSpecificParametersItem(
-        SPECIFIC_PARAM_ACCOUNT_TYPE, BybitAccountType.UNIFIED);
-    exchangeSpecification.setExchangeSpecificParametersItem(
-        BybitStreamingExchange.EXCHANGE_TYPE, BybitCategory.LINEAR);
-    exchangeSpecification.setExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET, true);
-    StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
-    exchange.connect().blockingAwait();
+  private static void testNetExample() throws IOException, InterruptedException {
+    StreamingExchange exchange = connectTestApi(BybitCategory.LINEAR, true);
     Ticker ticker = (exchange.getMarketDataService().getTicker(DOGE_PERP));
     BigDecimal amount =
         exchange.getExchangeMetaData().getInstruments().get(DOGE_PERP).getMinimumAmount();

@@ -5,18 +5,17 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Map;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
-import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRate;
-import org.knowm.xchange.bybit.dto.account.feerates.BybitFeeRates;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.instrument.Instrument;
 
 @Ignore
@@ -63,15 +62,12 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
     setUp();
     initGetStub("/v5/account/fee-rate", "/getFeeRates.json5");
     Instrument ETH_USDT = new CurrencyPair("ETH/USDT");
-    BybitResult<BybitFeeRates> bybitFeeRatesBybitResult =
-        bybitAccountService.getFeeRates(BybitCategory.SPOT, ETH_USDT);
-    BybitFeeRates feeRates = bybitFeeRatesBybitResult.getResult();
-    assertThat(feeRates.getList()).hasSize(1);
-    BybitFeeRate feeRate = feeRates.getList().get(0);
+    Map<Instrument, Fee> feeMap =
+        bybitAccountService.getDynamicTradingFeesByInstrument(BybitCategory.SPOT.getValue());
+    Fee feeRate = feeMap.get(ETH_USDT);
 
-    assertThat(feeRate.getSymbol()).isEqualTo("ETHUSDT");
-    assertThat(feeRate.getTakerFeeRate()).isEqualTo("0.0006");
-    assertThat(feeRate.getMakerFeeRate()).isEqualTo("0.0001");
+    assertThat(feeRate.getTakerFee()).isEqualTo("0.0006");
+    assertThat(feeRate.getMakerFee()).isEqualTo("0.0001");
   }
 
   @Test
@@ -79,13 +75,13 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
     setUp();
     initPostStub("/v5/position/set-leverage", "/setLeverage.json5");
     try {
-      bybitAccountService.setLeverage(new CurrencyPair("ETH/USDT"), 1d);
+      bybitAccountService.setLeverage(new CurrencyPair("ETH/USDT"), 1);
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException ignored) {
 
     }
     boolean bybitSetLeverageBybitResult =
-        bybitAccountService.setLeverage(new FuturesContract("ETH/USDT/PERP"), 1d);
+        bybitAccountService.setLeverage(new FuturesContract("ETH/USDT/PERP"), 1);
     assertThat(bybitSetLeverageBybitResult).isTrue();
   }
 

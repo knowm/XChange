@@ -37,7 +37,8 @@ public class BinanceUsAccountService extends BinanceAccountService {
   }
 
   @Override
-  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument(String... category)
+      throws IOException {
     return super.getDynamicTradingFeesByInstrument();
   }
 

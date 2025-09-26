@@ -194,9 +194,9 @@ public final class CoinoneAdapters {
   }
 
   private static Trade adaptTrade(CoinoneTradeData trade, CurrencyPair currencyPair) {
-    return new Trade.Builder()
+    return Trade.builder()
         .originalAmount(trade.getQty())
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(trade.getPrice())
         .timestamp(DateUtils.fromMillisUtc(Long.parseLong(trade.getTimestamp()) * 1000))
         .id("")

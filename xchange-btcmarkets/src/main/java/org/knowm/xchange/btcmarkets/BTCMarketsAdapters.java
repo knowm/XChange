@@ -155,7 +155,7 @@ public final class BTCMarketsAdapters {
     return UserTrade.builder()
         .type(type)
         .originalAmount(trade.getVolume())
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(trade.getPrice().abs())
         .timestamp(trade.getCreationTime())
         .id(tradeId)
@@ -175,7 +175,7 @@ public final class BTCMarketsAdapters {
       return UserTrade.builder()
           .type(type)
           .originalAmount(trade.amount)
-          .currencyPair(currencyPair)
+          .instrument(currencyPair)
           .price(trade.price.abs())
           .timestamp(DateUtils.fromISODateString(trade.timestamp))
           .id(tradeId)
@@ -211,7 +211,7 @@ public final class BTCMarketsAdapters {
 
   public static Ticker adaptTicker(CurrencyPair currencyPair, BTCMarketsTicker t) {
     return new Ticker.Builder()
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .last(t.getLastPrice())
         .bid(t.getBestBid())
         .ask(t.getBestAsk())
@@ -244,18 +244,18 @@ public final class BTCMarketsAdapters {
       }
 
       result.add(
-          new FundingRecord(
-              address,
-              transfer.getCreationTime(),
-              Currency.getInstance(transfer.getCurrency()),
-              transfer.getAmount(),
-              Long.toString(transfer.getFundTransferId()),
-              blockchainTransactionHash,
-              fundingrecordType,
-              fundingRecordStatus,
-              null,
-              transfer.getFee(),
-              transfer.getDescription()));
+          FundingRecord.builder()
+              .address(address)
+              .date(transfer.getCreationTime())
+              .currency(Currency.getInstance(transfer.getCurrency()))
+              .amount(transfer.getAmount())
+              .internalId(Long.toString(transfer.getFundTransferId()))
+              .blockchainTransactionHash(blockchainTransactionHash)
+              .type(fundingrecordType)
+              .status(fundingRecordStatus)
+              .fee(transfer.getFee())
+              .description(transfer.getDescription())
+              .build());
     }
     return result;
   }

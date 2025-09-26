@@ -12,13 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Binance user data streams must be established by first requesting a unique "listen key" via
- * authenticated REST API, which is then used to create an obscured WS URI (rather than
- * authenticating the web socket). This class handles the initial request for a listen key, but also
- * the 30-minute keepalive REST calls necessary to keep the socket open. It also allows for the
- * possibility that extended downtime might cause the listen key to expire without being able to
- * renew it. In this case, a new listen key is requested and a caller can be alerted via
- * asynchronous callback to re-establish the socket with the new listen key.
+ * Binance user data streams must be established by first requesting a unique "listen key" via authenticated REST API, which is then used to create an obscured WS URI (rather than authenticating the
+ * web socket). This class handles the initial request for a listen key, but also the 30-minute keepalive REST calls necessary to keep the socket open. It also allows for the possibility that extended
+ * downtime might cause the listen key to expire without being able to renew it. In this case, a new listen key is requested and a caller can be alerted via asynchronous callback to re-establish the
+ * socket with the new listen key.
  *
  * @author Graham Crockford
  */
@@ -27,6 +24,7 @@ class BinanceUserDataChannel implements AutoCloseable {
   private static final Logger LOG = LoggerFactory.getLogger(BinanceUserDataChannel.class);
 
   private final BinanceAuthenticated binance;
+  private final boolean isFuturesEnabled;
   private final String apiKey;
   private final Runnable onApiCall;
   private final Disposable keepAlive;
@@ -35,15 +33,17 @@ class BinanceUserDataChannel implements AutoCloseable {
   private Consumer<String> onChangeListenKey;
 
   /**
-   * Creates the channel, establishing a listen key (immediately available from {@link
-   * #getListenKey()}) and starting timers to ensure the channel is kept alive.
+   * Creates the channel, establishing a listen key (immediately available from {@link #getListenKey()}) and starting timers to ensure the channel is kept alive.
    *
-   * @param binance Access to binance services.
-   * @param apiKey The API key.
-   * @param onApiCall A callback to perform prior to any service calls.
+   * @param binance          Access to binance services.
+   * @param apiKey           The API key.
+   * @param onApiCall        A callback to perform prior to any service calls.
+   * @param isFuturesEnabled Another userDataStream initialization path for futures.
    */
-  BinanceUserDataChannel(BinanceAuthenticated binance, String apiKey, Runnable onApiCall) {
+  BinanceUserDataChannel(
+      BinanceAuthenticated binance, String apiKey, Runnable onApiCall, boolean isFuturesEnabled) {
     this.binance = binance;
+    this.isFuturesEnabled = isFuturesEnabled;
     this.apiKey = apiKey;
     this.onApiCall = onApiCall;
     openChannel();
@@ -61,11 +61,16 @@ class BinanceUserDataChannel implements AutoCloseable {
   }
 
   private void keepAlive() {
-    if (listenKey == null) return;
+    if (listenKey == null) {
+      return;
+    }
     try {
       LOG.debug("Keeping user data channel alive");
       onApiCall.run();
-      binance.keepAliveUserDataStream(apiKey, listenKey);
+      if (isFuturesEnabled) {
+        binance.keepAliveFutureUserDataStream(apiKey, listenKey);
+      } else
+        binance.keepAliveUserDataStream(apiKey, listenKey);
       LOG.debug("User data channel keepalive sent successfully");
     } catch (Exception e) {
       LOG.error("User data channel keepalive failed.", e);
@@ -90,7 +95,11 @@ class BinanceUserDataChannel implements AutoCloseable {
     try {
       LOG.debug("Opening new user data channel");
       onApiCall.run();
-      this.listenKey = binance.startUserDataStream(apiKey).getListenKey();
+      if (isFuturesEnabled) {
+        this.listenKey = binance.startFutureUserDataStream(apiKey).getListenKey();
+      } else {
+        this.listenKey = binance.startUserDataStream(apiKey).getListenKey();
+      }
       LOG.debug("Opened new user data channel");
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -102,7 +111,9 @@ class BinanceUserDataChannel implements AutoCloseable {
    * @throws NoActiveChannelException If no listen key is currently available.
    */
   String getListenKey() throws NoActiveChannelException {
-    if (listenKey == null) throw new NoActiveChannelException();
+    if (listenKey == null) {
+      throw new NoActiveChannelException();
+    }
     return listenKey;
   }
 
@@ -112,8 +123,7 @@ class BinanceUserDataChannel implements AutoCloseable {
   }
 
   /**
-   * Thrown on calls to {@link BinanceUserDataChannel#getListenKey()} if no channel is currently
-   * open.
+   * Thrown on calls to {@link BinanceUserDataChannel#getListenKey()} if no channel is currently open.
    *
    * @author Graham Crockford
    */

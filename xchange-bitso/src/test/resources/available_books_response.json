@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "payload": [
+    {
+      "book": "btc_mxn",
+      "minimum_amount": "0.00001000",
+      "maximum_amount": "100.00000000",
+      "minimum_price": "1.00",
+      "maximum_price": "1000000.00",
+      "minimum_value": "5.00",
+      "maximum_value": "1000000.00",
+      "tick_size": "0.01"
+    },
+    {
+      "book": "eth_mxn",
+      "minimum_amount": "0.00100000",
+      "maximum_amount": "1000.00000000",
+      "minimum_price": "1.00",
+      "maximum_price": "100000.00",
+      "minimum_value": "5.00",
+      "maximum_value": "500000.00",
+      "tick_size": "0.01"
+    }
+  ]
+}

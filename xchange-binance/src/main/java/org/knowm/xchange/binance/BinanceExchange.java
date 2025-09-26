@@ -21,6 +21,7 @@ import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange implements Exchange {
+
   public static String EXCHANGE_TYPE = "Exchange_Type";
   private static final String SPOT_URL = "https://api.binance.com";
   public static final String FUTURES_URL = "https://fapi.binance.com";
@@ -61,7 +62,10 @@ public class BinanceExchange extends BaseExchange implements Exchange {
   @Override
   public ResilienceRegistries getResilienceRegistries() {
     if (RESILIENCE_REGISTRIES == null) {
-      RESILIENCE_REGISTRIES = BinanceResilience.createRegistries();
+      // some workaround, for different resilience registries for spot and futures
+      if (isFuturesEnabled()) {
+        RESILIENCE_REGISTRIES = BinanceResilience.createRegistriesFuture();
+      } else RESILIENCE_REGISTRIES = BinanceResilience.createRegistries();
     }
     return RESILIENCE_REGISTRIES;
   }
@@ -106,10 +110,6 @@ public class BinanceExchange extends BaseExchange implements Exchange {
       BinanceMarketDataServiceRaw marketDataServiceRaw =
           (BinanceMarketDataServiceRaw) marketDataService;
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
-      Map<String, AssetDetail> assetDetailMap = null;
-      if (!usingSandbox() && isAuthenticated()) {
-//        assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
-      }
 
       BinanceExchangeInfo exchangeInfo;
       // get exchange type or SPOT as default
@@ -124,6 +124,10 @@ public class BinanceExchange extends BaseExchange implements Exchange {
           BinanceAdapters.adaptFutureExchangeMetaData(exchangeMetaData, exchangeInfo);
           break;
         default:
+          Map<String, AssetDetail> assetDetailMap = null;
+          if (!usingSandbox() && isAuthenticated()) {
+            assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
+          }
           exchangeInfo = marketDataServiceRaw.getExchangeInfo();
           exchangeMetaData = BinanceAdapters.adaptExchangeMetaData(exchangeInfo, assetDetailMap);
       }
@@ -156,26 +160,31 @@ public class BinanceExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE) != null) {
       switch ((ExchangeType)
           exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE)) {
-        case SPOT:
-          {
-            if (enabledSandbox(exchangeSpecification))
-              exchangeSpecification.setSslUri(SANDBOX_SPOT_URL);
-            break;
+        case SPOT: {
+          if (enabledSandbox(exchangeSpecification)) {
+            exchangeSpecification.setSslUri(SANDBOX_SPOT_URL);
           }
-        case FUTURES:
-          {
-            if (!enabledSandbox(exchangeSpecification))
-              exchangeSpecification.setSslUri(FUTURES_URL);
-            else exchangeSpecification.setSslUri(SANDBOX_FUTURES_URL);
-            break;
+          break;
+        }
+        case FUTURES: {
+          if (!enabledSandbox(exchangeSpecification)) {
+            exchangeSpecification.setSslUri(FUTURES_URL);
+          } else {
+            exchangeSpecification.setSslUri(SANDBOX_FUTURES_URL);
           }
-        case INVERSE:
-          {
-            if (!enabledSandbox(exchangeSpecification))
-              exchangeSpecification.setSslUri(INVERSE_FUTURES_URL);
-            else exchangeSpecification.setSslUri(SANDBOX_INVERSE_FUTURES_URL);
-            break;
+          break;
+        }
+        case INVERSE: {
+          if (!enabledSandbox(exchangeSpecification)) {
+            exchangeSpecification.setSslUri(INVERSE_FUTURES_URL);
+          } else {
+            exchangeSpecification.setSslUri(SANDBOX_INVERSE_FUTURES_URL);
           }
+          break;
+        }
+        case PORTFOLIO_MARGIN:
+          exchangeSpecification.setSslUri(PORTFOLIO_MARGIN_URL);
+          break;
       }
     }
   }

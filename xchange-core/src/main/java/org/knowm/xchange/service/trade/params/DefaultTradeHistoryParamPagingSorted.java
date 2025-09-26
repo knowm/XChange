@@ -1,26 +1,19 @@
 package org.knowm.xchange.service.trade.params;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+@Data
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DefaultTradeHistoryParamPagingSorted extends DefaultTradeHistoryParamPaging
     implements TradeHistoryParamsSorted {
 
+  @Builder.Default
   private Order order = Order.asc;
 
-  public DefaultTradeHistoryParamPagingSorted(Integer pageLength) {
-    super(pageLength);
-  }
-
-  public DefaultTradeHistoryParamPagingSorted(Integer pageLength, Order order) {
-    super(pageLength);
-    this.order = order;
-  }
-
-  @Override
-  public Order getOrder() {
-    return order;
-  }
-
-  @Override
-  public void setOrder(Order order) {
-    this.order = order;
-  }
 }

@@ -3,7 +3,7 @@ package org.knowm.xchange.okcoin.v3.dto.account;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 
-/** https://www.okex.com/docs/en/#futures-query */
+/** https://www.okx.com/docs/en/#futures-query */
 @AllArgsConstructor
 public enum BillType {
   open_long("1"),

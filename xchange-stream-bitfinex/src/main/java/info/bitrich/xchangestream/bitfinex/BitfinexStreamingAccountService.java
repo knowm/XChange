@@ -28,7 +28,7 @@ public class BitfinexStreamingAccountService implements StreamingAccountService 
     String walletId = (String) args[0];
     return getRawAuthenticatedBalances()
         .filter(b -> b.getWalletType().equalsIgnoreCase(walletId))
-        .filter(b -> currency.getCurrencyCode().equals(b.getCurrency()))
+        .filter(b -> currency.equals(b.getCurrency()))
         .filter(
             b -> {
               if (b.getBalanceAvailable() == null) {
@@ -36,7 +36,7 @@ public class BitfinexStreamingAccountService implements StreamingAccountService 
                     "Ignoring uncalculated balance on {}-{}, scheduling calculated fetch",
                     walletId,
                     b.getCurrency());
-                service.scheduleCalculatedBalanceFetch(b.getCurrency());
+                service.scheduleCalculatedBalanceFetch(b.getCurrency().getCurrencyCode());
                 return false;
               }
               return true;

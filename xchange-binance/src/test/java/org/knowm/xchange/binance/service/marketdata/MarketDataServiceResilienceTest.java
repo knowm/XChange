@@ -82,7 +82,7 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
                 BinanceResilience.REQUEST_WEIGHT_RATE_LIMITER,
                 RateLimiterConfig.custom()
                     .limitRefreshPeriod(Duration.ofMinutes(1))
-                    .limitForPeriod(80)
+                    .limitForPeriod(350)
                     .timeoutDuration(Duration.ofMillis(10))
                     .build()));
     MarketDataService service = exchange.getMarketDataService();

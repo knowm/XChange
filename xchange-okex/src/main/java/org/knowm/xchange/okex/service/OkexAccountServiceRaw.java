@@ -12,11 +12,19 @@ import org.knowm.xchange.okex.OkexAuthenticated;
 import org.knowm.xchange.okex.OkexExchange;
 import org.knowm.xchange.okex.dto.OkexException;
 import org.knowm.xchange.okex.dto.OkexResponse;
-import org.knowm.xchange.okex.dto.account.*;
+import org.knowm.xchange.okex.dto.account.OkexAccountConfig;
+import org.knowm.xchange.okex.dto.account.OkexAccountPositionRisk;
 import org.knowm.xchange.okex.dto.account.OkexAssetBalance;
+import org.knowm.xchange.okex.dto.account.OkexBillDetails;
+import org.knowm.xchange.okex.dto.account.OkexChangeMarginRequest;
+import org.knowm.xchange.okex.dto.account.OkexChangeMarginResponse;
 import org.knowm.xchange.okex.dto.account.OkexDepositAddress;
+import org.knowm.xchange.okex.dto.account.OkexSetLeverageRequest;
+import org.knowm.xchange.okex.dto.account.OkexSetLeverageResponse;
 import org.knowm.xchange.okex.dto.account.OkexTradeFee;
 import org.knowm.xchange.okex.dto.account.OkexWalletBalance;
+import org.knowm.xchange.okex.dto.account.OkexWithdrawalRequest;
+import org.knowm.xchange.okex.dto.account.OkexWithdrawalResponse;
 import org.knowm.xchange.okex.dto.account.PiggyBalance;
 import org.knowm.xchange.okex.dto.subaccount.OkexSubAccountDetails;
 import org.knowm.xchange.utils.DateUtils;
@@ -174,7 +182,7 @@ public class OkexAccountServiceRaw extends OkexBaseService {
                               .getExchangeSpecification()
                               .getExchangeSpecificParametersItem(PARAM_SIMULATED),
                       requestPayload))
-          .withRateLimiter(rateLimiter(OkexAuthenticated.positionsPath))
+          .withRateLimiter(rateLimiter(OkexAuthenticated.setLeveragePath))
           .call();
     } catch (OkexException e) {
       throw handleError(e);
@@ -207,7 +215,7 @@ public class OkexAccountServiceRaw extends OkexBaseService {
   }
 
   public OkexResponse<List<OkexTradeFee>> getTradeFee(
-      String instrumentType, String instrumentId, String underlying, String category)
+      String instrumentType, String instrumentId, String underlying, String instFamily)
       throws IOException, OkexException {
     try {
       return decorateApiCall(
@@ -216,7 +224,8 @@ public class OkexAccountServiceRaw extends OkexBaseService {
                       instrumentType,
                       instrumentId,
                       underlying,
-                      category,
+                      instFamily,
+                      "normal",
                       exchange.getExchangeSpecification().getApiKey(),
                       signatureCreator,
                       DateUtils.toUTCISODateString(new Date()),

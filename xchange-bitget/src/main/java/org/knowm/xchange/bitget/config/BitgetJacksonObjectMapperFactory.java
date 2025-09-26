@@ -21,6 +21,9 @@ public class BitgetJacksonObjectMapperFactory extends DefaultJacksonObjectMapper
     // don't fail un unknown properties
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
+    // enable default values for enums
+    objectMapper.enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE);
+
     // enable parsing to Instant
     objectMapper.registerModule(new JavaTimeModule());
   }

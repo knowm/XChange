@@ -226,7 +226,7 @@ final class MatchingEngine {
   }
 
   public List<Trade> publicTrades() {
-    return FluentIterable.from(publicTrades).transform(t -> Trade.Builder.from(t).build()).toList();
+    return new ArrayList<>(publicTrades);
   }
 
   public synchronized List<UserTrade> tradeHistory(String apiKey) {
@@ -271,7 +271,7 @@ final class MatchingEngine {
 
     UserTrade takerTrade =
         UserTrade.builder()
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .id(randomUUID().toString())
             .originalAmount(tradeAmount)
             .price(makerOrder.getLimitPrice())
@@ -293,7 +293,7 @@ final class MatchingEngine {
     OrderType makerType = takerOrder.getType() == OrderType.ASK ? OrderType.BID : OrderType.ASK;
     UserTrade makerTrade =
         UserTrade.builder()
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .id(randomUUID().toString())
             .originalAmount(tradeAmount)
             .price(makerOrder.getLimitPrice())

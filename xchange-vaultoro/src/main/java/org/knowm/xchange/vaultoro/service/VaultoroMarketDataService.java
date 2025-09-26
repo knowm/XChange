@@ -15,13 +15,6 @@ import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroOrder;
 import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroOrderBook;
 import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroTrade;
 
-/**
- * Implementation of the market data service for Bittrex
- *
- * <ul>
- *   <li>Provides access to various market data values
- * </ul>
- */
 public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw
     implements MarketDataService {
 

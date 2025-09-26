@@ -58,10 +58,10 @@ public class CoindirectMarketDataService extends CoindirectMarketDataServiceRaw
           coindirectTrades.data.stream()
               .map(
                   at ->
-                      new Trade.Builder()
+                      Trade.builder()
                           .type(Order.OrderType.BID)
                           .originalAmount(at.volume)
-                          .currencyPair(pair)
+                          .instrument(pair)
                           .price(at.price)
                           .timestamp(new Date(at.time))
                           .id(Long.toString(at.time))

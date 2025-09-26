@@ -61,7 +61,7 @@ public class DVChainAdapters {
           UserTrade.builder()
               .type(orderType)
               .originalAmount(trade.getQuantity())
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(trade.getPrice())
               .timestamp(timestamp)
               .id(trade.getId())
@@ -81,10 +81,10 @@ public class DVChainAdapters {
     BigDecimal price = trade.getPrice();
     Date date = Date.from(trade.getCreatedAt());
     final String tradeId = trade.getId();
-    return new Trade.Builder()
+    return Trade.builder()
         .type(orderType)
         .originalAmount(amount)
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(price)
         .timestamp(date)
         .id(tradeId)

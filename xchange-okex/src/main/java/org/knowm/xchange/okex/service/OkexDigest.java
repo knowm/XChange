@@ -15,7 +15,7 @@ public class OkexDigest extends BaseParamsDigest {
     return secretKeyBase64 == null ? null : new OkexDigest(secretKeyBase64);
   }
 
-  /** https://www.okex.com/docs-v5/en/#rest-api-authentication-signature * */
+  /** <a href="https://www.okx.com/docs-v5/en/#rest-api-authentication-signature">...</a> * */
   @Override
   public String digestParams(RestInvocation restInvocation) {
 

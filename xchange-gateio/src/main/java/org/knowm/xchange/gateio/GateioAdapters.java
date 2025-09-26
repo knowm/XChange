@@ -16,6 +16,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -148,10 +149,10 @@ public final class GateioAdapters {
     OrderType orderType = adaptOrderType(trade.getType());
     Date timestamp = DateUtils.fromMillisUtc(trade.getDate() * 1000);
 
-    return new Trade.Builder()
+    return Trade.builder()
         .type(orderType)
         .originalAmount(trade.getAmount())
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(trade.getPrice())
         .timestamp(timestamp)
         .id(trade.getTradeId())
@@ -217,7 +218,7 @@ public final class GateioAdapters {
     return UserTrade.builder()
         .type(orderType)
         .originalAmount(gateioTrade.getAmount())
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(gateioTrade.getRate())
         .timestamp(timestamp)
         .id(gateioTrade.getTradeID())
@@ -239,7 +240,7 @@ public final class GateioAdapters {
 
       currencyPairs.put(
           currencyPair,
-          new InstrumentMetaData.Builder()
+          InstrumentMetaData.builder()
               .tradingFee(btermarketInfo.getFee())
               .minimumAmount(btermarketInfo.getMinAmount())
               .priceScale(btermarketInfo.getDecimalPlaces())
@@ -290,18 +291,16 @@ public final class GateioAdapters {
         .forEach(
             d -> {
               FundingRecord r =
-                  new FundingRecord(
-                      d.address,
-                      d.getTimestamp(),
-                      Currency.getInstance(d.currency),
-                      d.amount,
-                      d.id,
-                      d.txid,
-                      FundingRecord.Type.DEPOSIT,
-                      status(d.status),
-                      null,
-                      null,
-                      null);
+                  FundingRecord.builder()
+                      .address(d.address)
+                      .date(d.getTimestamp())
+                      .currency(Currency.getInstance(d.currency))
+                      .amount(d.amount)
+                      .internalId(d.id)
+                      .blockchainTransactionHash(d.txid)
+                      .type(Type.DEPOSIT)
+                      .status(status(d.status))
+                      .build();
               result.add(r);
             });
     depositsWithdrawals
@@ -309,18 +308,16 @@ public final class GateioAdapters {
         .forEach(
             w -> {
               FundingRecord r =
-                  new FundingRecord(
-                      w.address,
-                      w.getTimestamp(),
-                      Currency.getInstance(w.currency),
-                      w.amount,
-                      w.id,
-                      w.txid,
-                      FundingRecord.Type.WITHDRAWAL,
-                      status(w.status),
-                      null,
-                      null,
-                      null);
+                  FundingRecord.builder()
+                      .address(w.address)
+                      .date(w.getTimestamp())
+                      .currency(Currency.getInstance(w.currency))
+                      .amount(w.amount)
+                      .internalId(w.id)
+                      .blockchainTransactionHash(w.txid)
+                      .type(Type.WITHDRAWAL)
+                      .status(status(w.status))
+                      .build();
               result.add(r);
             });
 

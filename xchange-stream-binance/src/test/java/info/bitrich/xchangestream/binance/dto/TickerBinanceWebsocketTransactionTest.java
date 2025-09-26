@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import info.bitrich.xchangestream.binance.dto.market.TickerBinanceWebsocketTransaction;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;

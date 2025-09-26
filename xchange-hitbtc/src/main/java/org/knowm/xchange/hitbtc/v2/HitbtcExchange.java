@@ -111,7 +111,7 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
                             new Currency(hitbtcSymbol.getBaseCurrency()),
                             new Currency(hitbtcSymbol.getQuoteCurrency())),
                     hitbtcSymbol ->
-                        new InstrumentMetaData.Builder()
+                        InstrumentMetaData.builder()
                             .amountStepSize(hitbtcSymbol.getQuantityIncrement())
                             .priceScale(hitbtcSymbol.getTickSize().scale())
                             .build()));

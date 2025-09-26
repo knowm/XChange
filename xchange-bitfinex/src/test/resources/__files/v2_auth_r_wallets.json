@@ -1,0 +1,28 @@
+[
+  [
+    "exchange",
+    "USD",
+    14.93278618365196,
+    0,
+    8.93278618365196,
+    "Trading fees for 1964.5904761 POLC (POLC:USD) @ 0.0057 on BFX (0.2%)",
+    null
+  ],
+  [
+    "exchange",
+    "BTC",
+    0.00005612444,
+    0,
+    0.00005612444,
+    "Exchange 0.00053969 BTC for USD @ 27714.0",
+    {
+      "reason": "TRADE",
+      "order_id": 127375550985,
+      "order_id_oppo": 127376742049,
+      "trade_price": "27714.0",
+      "trade_amount": "-0.00053969",
+      "order_cid": 1696472519637,
+      "order_gid": null
+    }
+  ]
+]

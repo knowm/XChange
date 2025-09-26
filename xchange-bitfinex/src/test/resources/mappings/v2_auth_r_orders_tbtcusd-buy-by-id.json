@@ -1,0 +1,20 @@
+{
+  "id" : "b0c233bd-49e6-40d8-b937-67b48afef4c2",
+  "name" : "v2_auth_r_orders_tbtcusd",
+  "request" : {
+    "url" : "/v2/auth/r/orders/tBTCUSD",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"id\":[129312251575,129234528984]}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_auth_r_orders_tbtcusd-buy-by-id.json"
+  },
+  "uuid" : "b0c233bd-49e6-40d8-b937-67b48afef4c2",
+  "persistent" : true,
+  "insertionIndex" : 11
+}

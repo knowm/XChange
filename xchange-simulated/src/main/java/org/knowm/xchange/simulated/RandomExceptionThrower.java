@@ -3,7 +3,7 @@ package org.knowm.xchange.simulated;
 import com.google.common.util.concurrent.RateLimiter;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.Random;
+import java.security.SecureRandom;
 import java.util.concurrent.ThreadLocalRandom;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
@@ -30,7 +30,7 @@ public class RandomExceptionThrower implements SimulatedExchangeOperationListene
   private static final String RATE_LIMIT_EXCEEDED =
       "Rate limit exceeded. Are you gracefully backing off when this happens?";
 
-  private final Random random;
+  private final SecureRandom random;
   private final RateLimiter rateLimiter;
 
   /** Uses a random seed derived from the system clock. */
@@ -44,7 +44,7 @@ public class RandomExceptionThrower implements SimulatedExchangeOperationListene
    * @param seed the random seed.
    */
   public RandomExceptionThrower(long seed) {
-    this.random = new Random(seed);
+    this.random = new SecureRandom();
     this.rateLimiter = RateLimiter.create(5.2); // slightly higher than the published limit
     LOGGER.info(
         "Simulated exchange will fire random transient exceptions, with random seed: {}", seed);

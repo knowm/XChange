@@ -51,6 +51,29 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
   }
 
   @Test
+  void canceled_market_buy_order_details() throws IOException {
+    MarketOrder expected =
+        new MarketOrder.Builder(OrderType.BID, new CurrencyPair("FTR/USDT"))
+            .id("48cd2721-f9b9-45ce-8754-eb46dd0691ea")
+            .userReference(
+                "Canceled: Order had timeInForce of ImmediateOrCancel\nSubmitted via API.")
+            .timestamp(Date.from(Instant.parse("2025-06-04T13:33:02.563Z")))
+            .originalAmount(new BigDecimal("790.00000"))
+            .orderStatus(OrderStatus.CANCELED)
+            .cumulativeAmount(new BigDecimal("388.00000"))
+            .averagePrice(new BigDecimal("0.008"))
+            .build();
+
+    Collection<Order> orders = tradeService.getOrder("48cd2721-f9b9-45ce-8754-eb46dd0691ea");
+    assertThat(orders).hasSize(1);
+    assertThat(orders)
+        .first()
+        .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
+        .usingRecursiveComparison()
+        .isEqualTo(expected);
+  }
+
+  @Test
   void filled_market_sell_order_details() throws IOException {
     MarketOrder expected =
         new MarketOrder.Builder(OrderType.ASK, new CurrencyPair("SOL/USDT"))
@@ -255,17 +278,18 @@ class BitmexTradeServiceTest extends BitmexExchangeWiremock {
     assertThat(userTrades.getUserTrades()).hasSize(2);
 
     UserTrade expected =
-        new UserTrade(
-            OrderType.BID,
-            new BigDecimal("9"),
-            new CurrencyPair("TRUMP/USDT"),
-            new BigDecimal("2.15"),
-            Date.from(Instant.parse("2024-12-13T14:05:13.619Z")),
-            "00000000-006d-1000-0000-000f9656d02e",
-            "5f563ace-005c-49dd-8c44-83fdbdd2fe65",
-            new BigDecimal("0.017415"),
-            Currency.USDT,
-            "63476f42-04d6-494b-84ed-2e0ccb5edb38");
+        UserTrade.builder()
+            .type(OrderType.BID)
+            .originalAmount(new BigDecimal("9"))
+            .instrument(new CurrencyPair("TRUMP/USDT"))
+            .price(new BigDecimal("2.15"))
+            .timestamp(Date.from(Instant.parse("2024-12-13T14:05:13.619Z")))
+            .id("00000000-006d-1000-0000-000f9656d02e")
+            .orderId("5f563ace-005c-49dd-8c44-83fdbdd2fe65")
+            .feeAmount(new BigDecimal("0.017415"))
+            .feeCurrency(Currency.USDT)
+            .orderUserReference("63476f42-04d6-494b-84ed-2e0ccb5edb38")
+            .build();
 
     assertThat(userTrades.getUserTrades())
         .first()

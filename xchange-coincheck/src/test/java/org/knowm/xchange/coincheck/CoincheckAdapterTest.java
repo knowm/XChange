@@ -95,7 +95,7 @@ public class CoincheckAdapterTest {
             .createdAt(new Date(Instant.parse("2022-02-07T16:01:32.000Z").toEpochMilli()))
             .build();
     Trade expected =
-        new Trade.Builder()
+        Trade.builder()
             .id("211288499")
             .originalAmount(new BigDecimal("0.015"))
             .price(new BigDecimal("5053021.0"))

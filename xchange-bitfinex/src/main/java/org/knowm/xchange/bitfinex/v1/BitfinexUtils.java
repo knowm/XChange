@@ -113,7 +113,7 @@ public final class BitfinexUtils {
       case "BTG":
         return "bgold";
       case "BCH":
-        return "bcash";
+        return "bchn";
       case "USDT":
         return "tetheruso";
       default:

@@ -69,9 +69,9 @@ public final class VaultoroAdapters {
     for (VaultoroTrade vaultoroTrade : vaultoroTransactions) {
       Date date = VaultoroUtils.parseDate(vaultoroTrade.getTime());
       trades.add(
-          new Trade.Builder()
+          Trade.builder()
               .timestamp(date)
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(vaultoroTrade.getGoldPrice())
               .originalAmount(vaultoroTrade.getGoldAmount())
               .build());

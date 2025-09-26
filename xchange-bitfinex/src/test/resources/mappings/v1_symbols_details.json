@@ -1,0 +1,15 @@
+{
+  "id" : "4f1ffaee-cc99-4822-ab8c-86a8763c7db6",
+  "name" : "v1_symbols_details",
+  "request" : {
+    "url" : "/v1/symbols_details",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v1_symbols_details.json"
+  },
+  "uuid" : "4f1ffaee-cc99-4822-ab8c-86a8763c7db6",
+  "persistent" : true,
+  "insertionIndex" : 3
+}

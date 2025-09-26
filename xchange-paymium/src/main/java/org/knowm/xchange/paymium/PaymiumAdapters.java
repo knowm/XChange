@@ -105,9 +105,9 @@ public class PaymiumAdapters {
 
     for (PaymiumTrade PaymiumTrade : PaymiumTrades) {
       Trade trade =
-          new Trade.Builder()
+          Trade.builder()
               .originalAmount(PaymiumTrade.getTraded_btc())
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(PaymiumTrade.getPrice())
               .timestamp(new Date(PaymiumTrade.getCreated_at_int()))
               .id(PaymiumTrade.getUuid().toString())

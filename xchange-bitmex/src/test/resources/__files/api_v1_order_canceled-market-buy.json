@@ -1,0 +1,20 @@
+[
+  {
+    "account": 2273415,
+    "avgPx": 0.008,
+    "cumQty": 38800000,
+    "currency": "USDT",
+    "leavesQty": 0,
+    "ordStatus": "Canceled",
+    "ordType": "Market",
+    "orderID": "48cd2721-f9b9-45ce-8754-eb46dd0691ea",
+    "orderQty": 79000000,
+    "side": "Buy",
+    "symbol": "FTR_USDT",
+    "text": "Canceled: Order had timeInForce of ImmediateOrCancel\nSubmitted via API.",
+    "timeInForce": "ImmediateOrCancel",
+    "timestamp": "2025-06-04T13:33:02.563Z",
+    "transactTime": "2025-06-04T13:33:02.563Z",
+    "workingIndicator": false
+  }
+]

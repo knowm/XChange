@@ -9,13 +9,15 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatusResponse;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampTradingFee;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.bitstamp.order.dto.BitstampGenericOrder;
 import org.knowm.xchange.currency.Currency;
@@ -23,6 +25,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -109,7 +112,7 @@ public class BitstampAdapterTest {
     assertThat(trade.getPrice().toString()).isEqualTo("13.14");
     assertThat(trade.getType()).isEqualTo(OrderType.BID);
     assertThat(trade.getOriginalAmount()).isEqualTo(new BigDecimal("23.66362253"));
-    assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(trade.getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
   }
 
   @Test
@@ -133,7 +136,7 @@ public class BitstampAdapterTest {
     assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.BID);
     assertThat(trades.getTrades().get(0).getOriginalAmount())
         .isEqualTo(new BigDecimal("10.11643836"));
-    assertThat(trades.getTrades().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(trades.getTrades().get(0).getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
   }
 
   @Test
@@ -243,5 +246,38 @@ public class BitstampAdapterTest {
     assertThat(genericOrder.getCumulativeAmount()).isEqualTo(new BigDecimal("0.00838324"));
     assertThat(genericOrder.getFee()).isEqualTo(new BigDecimal("0.43692"));
     assertThat(genericOrder.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
+  }
+
+  @Test
+  public void testTradingFeesAdapter() throws IOException {
+    // Read in the JSON from the example resources
+    InputStream is =
+        BitstampAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitstamp/dto/trade/example-trading-fees-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    List<BitstampTradingFee> tradingFees =
+        mapper.readValue(
+            is,
+            mapper.getTypeFactory().constructCollectionType(List.class, BitstampTradingFee.class));
+
+    // Call the adapter method
+    Map<Instrument, Fee> feesMap = BitstampAdapters.adaptTradingFees(tradingFees);
+
+    // Verify the results
+    assertThat(feesMap.size()).isEqualTo(2);
+
+    // Check BTC/USD fees
+    CurrencyPair btcUsd = CurrencyPair.BTC_USD;
+    assertThat(feesMap.containsKey(btcUsd)).isTrue();
+    assertThat(feesMap.get(btcUsd).getMakerFee()).isEqualTo(new BigDecimal("0.0012"));
+    assertThat(feesMap.get(btcUsd).getTakerFee()).isEqualTo(new BigDecimal("0.0020"));
+
+    // Check ETH/USD fees
+    CurrencyPair ethUsd = CurrencyPair.ETH_USD;
+    assertThat(feesMap.containsKey(ethUsd)).isTrue();
+    assertThat(feesMap.get(ethUsd).getMakerFee()).isEqualTo(new BigDecimal("0.0015"));
+    assertThat(feesMap.get(ethUsd).getTakerFee()).isEqualTo(new BigDecimal("0.0025"));
   }
 }

@@ -134,7 +134,7 @@ class Account {
     BigDecimal counterAmount = userTrade.getOriginalAmount().multiply(userTrade.getPrice());
     switch (userTrade.getType()) {
       case ASK:
-        balance(userTrade.getCurrencyPair().getBase())
+        balance(userTrade.getInstrument().getBase())
             .updateAndGet(
                 b ->
                     Balance.Builder.from(b)
@@ -148,7 +148,7 @@ class Account {
                                 : b.getFrozen())
                         .total(b.getTotal().subtract(userTrade.getOriginalAmount()))
                         .build());
-        balance(userTrade.getCurrencyPair().getCounter())
+        balance(userTrade.getInstrument().getCounter())
             .updateAndGet(
                 b ->
                     Balance.Builder.from(b)
@@ -157,14 +157,14 @@ class Account {
                         .build());
         break;
       case BID:
-        balance(userTrade.getCurrencyPair().getBase())
+        balance(userTrade.getInstrument().getBase())
             .updateAndGet(
                 b ->
                     Balance.Builder.from(b)
                         .total(b.getTotal().add(userTrade.getOriginalAmount()))
                         .available(b.getAvailable().add(userTrade.getOriginalAmount()))
                         .build());
-        balance(userTrade.getCurrencyPair().getCounter())
+        balance(userTrade.getInstrument().getCounter())
             .updateAndGet(
                 b ->
                     Balance.Builder.from(b)

@@ -18,16 +18,23 @@ import org.knowm.xchange.binance.dto.account.AssetDividendResponse;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.BinanceCurrencyInfo;
 import org.knowm.xchange.binance.dto.account.BinanceDeposit;
+import org.knowm.xchange.binance.dto.account.BinanceTradeFee;
 import org.knowm.xchange.binance.dto.account.BinanceWithdraw;
 import org.knowm.xchange.binance.dto.account.DepositAddress;
 import org.knowm.xchange.binance.dto.account.TransferHistory;
 import org.knowm.xchange.binance.dto.account.TransferSubUserHistory;
 import org.knowm.xchange.binance.dto.account.WithdrawResponse;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
+import org.knowm.xchange.binance.dto.account.futures.BinanceFutureCommissionRate;
+import org.knowm.xchange.binance.dto.trade.MarginType;
+import org.knowm.xchange.binance.dto.trade.futures.BinanceChangeStatus;
+import org.knowm.xchange.binance.dto.trade.futures.BinanceSetLeverage;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BinanceAccountServiceRaw extends BinanceBaseService {
+
   private List<BinanceCurrencyInfo> currencyInfos;
   private final Lock currencyInfoLock = new ReentrantLock();
 
@@ -55,9 +62,16 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
   }
 
   public BinanceFutureAccountInformation futuresAccount() throws BinanceException, IOException {
+    return futuresAccount(false);
+  }
+
+  public BinanceFutureAccountInformation futuresAccount(boolean useV3) throws BinanceException, IOException {
     return decorateApiCall(
             () ->
-                binanceFutures.futuresAccount(
+                useV3
+                ? binanceFutures.futuresV3Account(
+                        getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator)
+                : binanceFutures.futuresAccount(
                     getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
         .withRetry(retry("futures-account"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 5)
@@ -250,5 +264,79 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
     return getCurrencyInfoCached().stream()
         .filter(info -> currency.equals(info.getCurrency()))
         .findFirst();
+  }
+
+  protected List<BinanceTradeFee> getTradeFee() throws IOException {
+    return decorateApiCall(
+            () ->
+                binance.getTradeFee(
+                    null,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    super.apiKey,
+                    super.signatureCreator))
+        .withRetry(retry("tradeFee"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
+  }
+
+  protected BinanceFutureCommissionRate getCommissionRate(String symbol) throws IOException {
+    return decorateApiCall(
+            () ->
+                binanceFutures.getFutureCommissionRate(
+                    symbol,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    super.apiKey,
+                    super.signatureCreator))
+        .withRetry(retry("commissionRate"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 20)
+        .call();
+  }
+
+  public BinanceChangeStatus setMarginType(
+      Instrument instrument, MarginType marginType) throws IOException {
+    return decorateApiCall(
+            () ->
+                binanceFutures.setMarginType(
+                    BinanceAdapters.toSymbol(instrument, false),
+                    marginType,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
+        .withRetry(retry("setMarginType"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
+  }
+
+  public BinanceChangeStatus setDualSidePosition(
+      boolean dualSidePosition) throws IOException {
+    return decorateApiCall(
+            () ->
+                binanceFutures.setDualSidePosition(
+                    dualSidePosition,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
+        .withRetry(retry("setDualSidePosition"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
+  }
+
+  public BinanceSetLeverage setLeverageRaw(Instrument instrument, int leverage) throws IOException {
+    return decorateApiCall(
+        () ->
+            binanceFutures.setLeverage(
+                BinanceAdapters.toSymbol(instrument, false),
+                leverage,
+                getRecvWindow(),
+                getTimestampFactory(),
+                apiKey,
+                signatureCreator))
+        .withRetry(retry("setLeverage"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
   }
 }

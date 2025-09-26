@@ -67,8 +67,8 @@ public class BitgetAdapters {
   }
 
   public InstrumentMetaData toInstrumentMetaData(BitgetSymbolDto bitgetSymbolDto) {
-    InstrumentMetaData.Builder builder =
-        new InstrumentMetaData.Builder()
+    InstrumentMetaData.InstrumentMetaDataBuilder builder =
+        InstrumentMetaData.builder()
             .tradingFee(bitgetSymbolDto.getTakerFeeRate())
             .minimumAmount(bitgetSymbolDto.getMinTradeAmount())
             .maximumAmount(bitgetSymbolDto.getMaxTradeAmount())
@@ -231,17 +231,17 @@ public class BitgetAdapters {
   }
 
   public UserTrade toUserTrade(BitgetFillDto bitgetFillDto) {
-    return new UserTrade(
-        bitgetFillDto.getOrderSide(),
-        bitgetFillDto.getAssetAmount(),
-        toCurrencyPair(bitgetFillDto.getSymbol()),
-        bitgetFillDto.getPrice(),
-        toDate(bitgetFillDto.getUpdatedAt()),
-        bitgetFillDto.getTradeId(),
-        bitgetFillDto.getOrderId(),
-        bitgetFillDto.getFeeDetail().getTotalFee().abs(),
-        bitgetFillDto.getFeeDetail().getCurrency(),
-        null);
+    return UserTrade.builder()
+        .type(bitgetFillDto.getOrderSide())
+        .originalAmount(bitgetFillDto.getAssetAmount())
+        .instrument(toCurrencyPair(bitgetFillDto.getSymbol()))
+        .price(bitgetFillDto.getPrice())
+        .timestamp(toDate(bitgetFillDto.getUpdatedAt()))
+        .id(bitgetFillDto.getTradeId())
+        .orderId(bitgetFillDto.getOrderId())
+        .feeAmount(bitgetFillDto.getFeeDetail().getTotalFee().abs())
+        .feeCurrency(bitgetFillDto.getFeeDetail().getCurrency())
+        .build();
   }
 
   public String toString(BitgetAccountType bitgetAccountType) {
@@ -253,17 +253,17 @@ public class BitgetAdapters {
   }
 
   public FundingRecord toFundingRecord(BitgetDepositWithdrawRecordDto record) {
-    return new FundingRecord.Builder()
-        .setInternalId(record.getOrderId())
-        .setBlockchainTransactionHash(record.getTradeId())
-        .setCurrency(record.getCurrency())
-        .setType(toFundingRecordType(record))
-        .setAmount(record.getSize())
-        .setFee(record.getFee())
-        .setStatus(record.getStatus())
-        .setAddress(record.getToAddress())
-        .setAddressTag(record.getToAddressTag())
-        .setDate(toDate(record.getUpdatedAt()))
+    return FundingRecord.builder()
+        .internalId(record.getOrderId())
+        .blockchainTransactionHash(record.getTradeId())
+        .currency(record.getCurrency())
+        .type(toFundingRecordType(record))
+        .amount(record.getSize())
+        .fee(record.getFee())
+        .status(record.getStatus())
+        .address(record.getToAddress())
+        .addressTag(record.getToAddressTag())
+        .date(toDate(record.getUpdatedAt()))
         .build();
   }
 

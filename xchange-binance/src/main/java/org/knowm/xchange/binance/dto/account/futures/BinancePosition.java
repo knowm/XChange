@@ -25,6 +25,16 @@ public class BinancePosition {
 
   private final BigDecimal entryPrice;
 
+  private final BigDecimal initialMargin;
+
+  private final BigDecimal isolatedMargin;
+
+  private final BigDecimal isolatedWallet;
+
+  private final BigDecimal maintMargin;
+
+  private final BigDecimal notional;
+
   public BinancePosition(
       @JsonProperty("symbol") String symbol,
       @JsonProperty("unrealizedProfit") BigDecimal unrealizedProfit,
@@ -32,7 +42,12 @@ public class BinancePosition {
       @JsonProperty("isolated") boolean isolated,
       @JsonProperty("positionSide") String positionSide,
       @JsonProperty("positionAmt") BigDecimal positionAmt,
-      @JsonProperty("entryPrice") BigDecimal entryPrice) {
+      @JsonProperty("entryPrice") BigDecimal entryPrice,
+      @JsonProperty("initialMargin") BigDecimal initialMargin,
+      @JsonProperty("isolatedMargin") BigDecimal isolatedMargin,
+      @JsonProperty("isolatedWallet") BigDecimal isolatedWallet,
+      @JsonProperty("maintMargin") BigDecimal maintMargin,
+      @JsonProperty("notional") BigDecimal notional) {
     this.symbol = symbol;
     this.unrealizedProfit = unrealizedProfit;
     this.leverage = leverage;
@@ -40,5 +55,10 @@ public class BinancePosition {
     this.positionSide = positionSide;
     this.positionAmt = positionAmt;
     this.entryPrice = entryPrice;
+    this.initialMargin = initialMargin;
+    this.isolatedMargin = isolatedMargin;
+    this.isolatedWallet = isolatedWallet;
+    this.maintMargin = maintMargin;
+    this.notional = notional;
   }
 }

@@ -119,7 +119,7 @@ public class CoinbaseProAdaptersTest {
     UserTrade trade = trades.getUserTrades().get(0);
 
     assertThat(trade.getId()).isEqualTo("470768");
-    assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.ETH_BTC);
+    assertThat(trade.getInstrument()).isEqualTo(CurrencyPair.ETH_BTC);
     assertThat(trade.getPrice()).isEqualTo("0.05915000");
     assertThat(trade.getOriginalAmount()).isEqualTo("0.01000000");
     assertThat(trade.getOrderId()).isEqualTo("b4b3bbb1-e0e3-4532-9413-23123448ce35");

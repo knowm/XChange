@@ -87,7 +87,7 @@ public class Bl3pAdapters {
     for (Bl3pUserTransactions.Bl3pUserTransaction t : transactions) {
       UserTrade ut =
           UserTrade.builder()
-              .currencyPair(CurrencyPair.BTC_EUR)
+              .instrument(CurrencyPair.BTC_EUR)
               .id(Integer.toString(t.id))
               .orderId(Integer.toString(t.orderId))
               .type(t.type == "credit" ? Order.OrderType.BID : Order.OrderType.ASK)
@@ -110,13 +110,13 @@ public class Bl3pAdapters {
 
     for (Bl3pUserTransactions.Bl3pUserTransaction tx : transactions) {
       list.add(
-          new FundingRecord.Builder()
-              .setAmount(tx.amount.value)
-              .setBalance(tx.balance.value)
-              .setCurrency(Currency.getInstance(tx.amount.currency))
-              .setDate(tx.date)
-              .setFee(tx.fee == null ? null : tx.fee.value)
-              .setType(
+          FundingRecord.builder()
+              .amount(tx.amount.value)
+              .balance(tx.balance.value)
+              .currency(Currency.getInstance(tx.amount.currency))
+              .date(tx.date)
+              .fee(tx.fee == null ? null : tx.fee.value)
+              .type(
                   tx.type == "deposit" ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL)
               .build());
     }

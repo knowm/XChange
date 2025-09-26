@@ -125,7 +125,7 @@ public class AscendexAdapters {
                     .originalAmount(order.getOrderQty())
                     .id(order.getOrderId())
                     .timestamp(order.getLastExecTime())
-                    .currencyPair(
+                    .instrument(
                         CurrencyPairDeserializer.getCurrencyPairFromString(order.getSymbol()))
                     .feeCurrency(new Currency(order.getFeeAsset()))
                     .instrument(
@@ -193,7 +193,7 @@ public class AscendexAdapters {
         ascendexProductDto ->
             currencyPairMetaDataMap.put(
                 CurrencyPairDeserializer.getCurrencyPairFromString(ascendexProductDto.getSymbol()),
-                new InstrumentMetaData.Builder()
+                InstrumentMetaData.builder()
                     .tradingFee(ascendexProductDto.getCommissionReserveRate())
                     .priceScale(ascendexProductDto.getTickSize().scale())
                     .volumeScale(ascendexProductDto.getLotSize().scale())
@@ -223,7 +223,7 @@ public class AscendexAdapters {
         .forEach(
             ascendexMarketTradesData ->
                 trades.add(
-                    new Trade.Builder()
+                    Trade.builder()
                         .price(ascendexMarketTradesData.getPrice())
                         .originalAmount(ascendexMarketTradesData.getQuantity())
                         .timestamp(ascendexMarketTradesData.getTimestamp())

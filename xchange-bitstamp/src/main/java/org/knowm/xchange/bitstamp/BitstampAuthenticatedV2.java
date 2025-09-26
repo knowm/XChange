@@ -20,11 +20,7 @@ import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalFee;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest;
-import org.knowm.xchange.bitstamp.dto.trade.BitstampCancelAllOrdersResponse;
-import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
-import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderCancelResponse;
-import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatusResponse;
-import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
+import org.knowm.xchange.bitstamp.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -660,6 +656,16 @@ public interface BitstampAuthenticatedV2 {
   @POST
   @Path("fees/withdrawal/")
   List<WithdrawalFee> getWithdrawalFees(
+      @HeaderParam("X-Auth") String apiKey,
+      @HeaderParam("X-Auth-Signature") ParamsDigest signer,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,
+      @HeaderParam("X-Auth-Timestamp") SynchronizedValueFactory<String> timeStamp,
+      @HeaderParam("X-Auth-Version") String version)
+      throws BitstampException, IOException;
+
+  @POST
+  @Path("fees/trading/")
+  List<BitstampTradingFee> getTradingFees(
       @HeaderParam("X-Auth") String apiKey,
       @HeaderParam("X-Auth-Signature") ParamsDigest signer,
       @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,

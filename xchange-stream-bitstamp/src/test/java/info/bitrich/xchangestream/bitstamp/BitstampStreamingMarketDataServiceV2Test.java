@@ -119,10 +119,10 @@ public class BitstampStreamingMarketDataServiceV2Test
         .thenReturn(Observable.just(trade));
 
     Trade expected =
-        new Trade.Builder()
+        Trade.builder()
             .type(Order.OrderType.ASK)
             .originalAmount(new BigDecimal("34.390000000000001"))
-            .currencyPair(CurrencyPair.BTC_USD)
+            .instrument(CurrencyPair.BTC_USD)
             .price(new BigDecimal("914.38999999999999"))
             .timestamp(new Date(1484858423000L))
             .id("177827396")

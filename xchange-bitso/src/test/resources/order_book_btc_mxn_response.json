@@ -1,0 +1,511 @@
+{
+  "success": true,
+  "payload": {
+    "updated_at": "2025-06-05T13:32:36+00:00",
+    "sequence": "3191392623",
+    "bids": [
+      {
+        "book": "btc_mxn",
+        "price": "2023000",
+        "amount": "0.00002965"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2020020",
+        "amount": "0.04646"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2020010",
+        "amount": "0.8"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2020000",
+        "amount": "0.00009901"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2019200",
+        "amount": "0.052"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2019090",
+        "amount": "0.0333"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2017790",
+        "amount": "0.05794655"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2017780",
+        "amount": "0.199847"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2017770",
+        "amount": "0.084"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2016190",
+        "amount": "0.169"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2016040",
+        "amount": "0.0333"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2014280",
+        "amount": "0.005"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2010010",
+        "amount": "0.1783"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2010000",
+        "amount": "0.50350249"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2006980",
+        "amount": "0.00344232"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2006460",
+        "amount": "0.00002491"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2006450",
+        "amount": "0.00002491"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2006370",
+        "amount": "0.00002492"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2006040",
+        "amount": "0.00429958"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2006000",
+        "amount": "0.01146560"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2005440",
+        "amount": "0.00009972"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2005390",
+        "amount": "0.00011668"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2005000",
+        "amount": "0.01141924"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2004610",
+        "amount": "0.00005736"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2004080",
+        "amount": "0.00025021"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2003230",
+        "amount": "0.00149758"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2003000",
+        "amount": "0.00062592"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2002960",
+        "amount": "0.02496302"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2002490",
+        "amount": "0.00014981"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2002430",
+        "amount": "0.00014419"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2002150",
+        "amount": "0.02034912"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2002080",
+        "amount": "0.00998961"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2002000",
+        "amount": "0.06243756"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2001970",
+        "amount": "0.00247875"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2001790",
+        "amount": "0.00499552"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2001700",
+        "amount": "0.0119079"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2001500",
+        "amount": "0.00000549"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2001430",
+        "amount": "0.00004997"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2001270",
+        "amount": "0.01998741"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2001050",
+        "amount": "0.00004947"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2001000",
+        "amount": "0.00002499"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2000760",
+        "amount": "0.00000999"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2000740",
+        "amount": "0.679"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2000720",
+        "amount": "0.00159867"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2000660",
+        "amount": "0.00001249"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2000650",
+        "amount": "0.00154949"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2000560",
+        "amount": "0.00002499"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2000440",
+        "amount": "0.00004998"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2000330",
+        "amount": "0.02499584"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2000320",
+        "amount": "0.00036283"
+      }
+    ],
+    "asks": [
+      {
+        "book": "btc_mxn",
+        "price": "2023010",
+        "amount": "0.14390247"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2023200",
+        "amount": "0.84015381"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2023210",
+        "amount": "0.7"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2024360",
+        "amount": "0.052"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2024980",
+        "amount": "0.495"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2024990",
+        "amount": "0.7"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2025000",
+        "amount": "0.04929742"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2025980",
+        "amount": "0.0333"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2028070",
+        "amount": "0.176"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2028120",
+        "amount": "0.0333"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2029990",
+        "amount": "0.00001231"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2030460",
+        "amount": "0.006544"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2031390",
+        "amount": "0.00004836"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2031670",
+        "amount": "0.00004922"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2032370",
+        "amount": "0.00024601"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2033370",
+        "amount": "0.00024589"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2034210",
+        "amount": "0.00024579"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2035000",
+        "amount": "0.0192061"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2035050",
+        "amount": "0.00024569"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2035890",
+        "amount": "0.515"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2037110",
+        "amount": "0.00018753"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2040000",
+        "amount": "0.00270098"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2042590",
+        "amount": "0.00747064"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2044220",
+        "amount": "0.00003033"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2044700",
+        "amount": "0.025"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2045670",
+        "amount": "0.688"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2048000",
+        "amount": "0.01976562"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2048190",
+        "amount": "0.00048823"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2049000",
+        "amount": "0.00064193"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2050000",
+        "amount": "0.56738409"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2050400",
+        "amount": "0.00004058"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2050500",
+        "amount": "0.00521327"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2050800",
+        "amount": "0.0002438"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2051200",
+        "amount": "0.00487519"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2051540",
+        "amount": "0.00014698"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2051760",
+        "amount": "0.000007"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2051780",
+        "amount": "0.00024369"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2052000",
+        "amount": "0.07160404"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2052540",
+        "amount": "0.01816699"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2052570",
+        "amount": "0.01627415"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2052760",
+        "amount": "0.00024357"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2052800",
+        "amount": "0.05"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2052960",
+        "amount": "0.00038968"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2053000",
+        "amount": "0.00017112"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2053150",
+        "amount": "0.00439929"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2053360",
+        "amount": "0.0000487"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2053740",
+        "amount": "0.00048690"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2054240",
+        "amount": "0.00008205"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2054260",
+        "amount": "0.03352722"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "2054740",
+        "amount": "0.00024333"
+      }
+    ]
+  }
+}

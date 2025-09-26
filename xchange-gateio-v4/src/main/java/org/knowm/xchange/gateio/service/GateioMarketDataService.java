@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -101,9 +100,7 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
       List<GateioCurrencyInfo> currencyInfos = getGateioCurrencyInfos();
       return currencyInfos.stream()
           .filter(gateioCurrencyInfo -> !gateioCurrencyInfo.getDelisted())
-          .map(o -> StringUtils.removeEnd(o.getCurrencyWithChain(), "_" + o.getChain()))
-          .distinct()
-          .map(Currency::getInstance)
+          .map(GateioCurrencyInfo::getCurrency)
           .collect(Collectors.toList());
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);

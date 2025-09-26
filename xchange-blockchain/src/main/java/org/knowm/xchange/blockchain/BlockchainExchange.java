@@ -63,7 +63,7 @@ public class BlockchainExchange extends BaseExchange {
     exchangeSpecification.setSslUri("https://api.blockchain.com");
     exchangeSpecification.setHost("www.blockchain.com");
     exchangeSpecification.setPort(80);
-    exchangeSpecification.setExchangeName("Blockchain Exchange");
+    exchangeSpecification.setExchangeName("Blockchain");
     exchangeSpecification.setExchangeDescription("Blockchain Exchange");
     return exchangeSpecification;
   }

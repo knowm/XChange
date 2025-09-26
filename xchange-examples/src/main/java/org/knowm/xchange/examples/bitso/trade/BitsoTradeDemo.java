@@ -2,6 +2,7 @@ package org.knowm.xchange.examples.bitso.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
 import org.knowm.xchange.bitso.service.BitsoTradeServiceRaw;
@@ -69,16 +70,16 @@ public class BitsoTradeDemo {
 
     printRawOpenOrders(tradeService);
 
-    // place a limit buy order
-    BitsoOrder order =
-        tradeService.sellBitsoOrder(new BigDecimal("0.01"), new BigDecimal("5000.00"));
-    System.out.println("BitsoOrder return value: " + order);
+    // place a limit sell order
+    String orderId =
+        tradeService.sellBitsoOrder("btc_mxn", new BigDecimal("0.01"), new BigDecimal("5000.00"));
+    System.out.println("BitsoOrder ID: " + orderId);
 
     printRawOpenOrders(tradeService);
 
     // Cancel the added order
-    boolean cancelResult = tradeService.cancelBitsoOrder(order.getId());
-    System.out.println("Canceling returned " + cancelResult);
+    String[] cancelResult = tradeService.cancelBitsoOrder(orderId);
+    System.out.println("Canceling returned " + Arrays.toString(cancelResult));
 
     printRawOpenOrders(tradeService);
   }

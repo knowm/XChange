@@ -32,7 +32,7 @@ public class UserTradeTest {
         UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -44,7 +44,7 @@ public class UserTradeTest {
 
     assertThat(copy.getType()).isEqualTo(type);
     assertThat(copy.getOriginalAmount()).isEqualTo(originalAmount);
-    assertThat(copy.getCurrencyPair()).isEqualTo(currencyPair);
+    assertThat(copy.getInstrument()).isEqualTo(currencyPair);
     assertThat(copy.getPrice()).isEqualTo(price);
     assertThat(copy.getTimestamp()).isEqualTo(timestamp);
     assertThat(copy.getId()).isEqualTo(id);
@@ -70,7 +70,7 @@ public class UserTradeTest {
         UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -79,11 +79,11 @@ public class UserTradeTest {
             .feeCurrency(feeCurrency)
             .build();
 
-    final UserTrade copy = UserTrade.builder().from(original).build();
+    final UserTrade copy = original.toBuilder().build();
 
     assertThat(copy.getType()).isEqualTo(original.getType());
     assertThat(copy.getOriginalAmount()).isEqualTo(original.getOriginalAmount());
-    assertThat(copy.getCurrencyPair()).isEqualTo(original.getCurrencyPair());
+    assertThat(copy.getInstrument()).isEqualTo(original.getInstrument());
     assertThat(copy.getPrice()).isEqualTo(original.getPrice());
     assertThat(copy.getTimestamp()).isEqualTo(original.getTimestamp());
     assertThat(copy.getId()).isEqualTo(original.getId());
@@ -107,7 +107,7 @@ public class UserTradeTest {
         UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -139,7 +139,7 @@ public class UserTradeTest {
         UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -151,7 +151,7 @@ public class UserTradeTest {
         UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -176,7 +176,7 @@ public class UserTradeTest {
         UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -189,7 +189,7 @@ public class UserTradeTest {
         UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -213,7 +213,7 @@ public class UserTradeTest {
         UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id("FooTradeId")
@@ -226,7 +226,7 @@ public class UserTradeTest {
         UserTrade.builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id("BarTradeId")

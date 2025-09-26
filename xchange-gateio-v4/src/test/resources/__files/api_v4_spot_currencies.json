@@ -1,47 +1,105 @@
 [
   {
     "currency": "BTC",
+    "name": "Bitcoin",
     "delisted": false,
     "withdraw_disabled": false,
     "withdraw_delayed": false,
     "deposit_disabled": false,
     "trade_disabled": false,
-    "chain": "BTC"
-  },
-  {
-    "currency": "BTC_BSC",
-    "delisted": false,
-    "withdraw_disabled": false,
-    "withdraw_delayed": false,
-    "deposit_disabled": false,
-    "trade_disabled": false,
-    "chain": "BSC"
-  },
-  {
-    "currency": "BTC_HT",
-    "delisted": false,
-    "withdraw_disabled": true,
-    "withdraw_delayed": false,
-    "deposit_disabled": true,
-    "trade_disabled": false,
-    "chain": "HT"
+    "fixed_rate": "",
+    "chain": "BTC",
+    "chains": [
+      {
+        "name": "BTC",
+        "addr": "",
+        "withdraw_disabled": false,
+        "withdraw_delayed": false,
+        "deposit_disabled": false
+      },
+      {
+        "name": "BSC",
+        "addr": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
+        "withdraw_disabled": false,
+        "withdraw_delayed": false,
+        "deposit_disabled": false
+      }
+    ]
   },
   {
     "currency": "ETH",
+    "name": "Ethereum",
     "delisted": false,
     "withdraw_disabled": false,
     "withdraw_delayed": false,
     "deposit_disabled": false,
     "trade_disabled": false,
-    "chain": "ETH"
-  },
-  {
-    "currency": "ETH_BSC",
-    "delisted": false,
-    "withdraw_disabled": false,
-    "withdraw_delayed": false,
-    "deposit_disabled": false,
-    "trade_disabled": false,
-    "chain": "BSC"
+    "fixed_rate": "",
+    "chain": "ETH",
+    "chains": [
+      {
+        "name": "ETH",
+        "addr": "",
+        "withdraw_disabled": false,
+        "withdraw_delayed": false,
+        "deposit_disabled": false
+      },
+      {
+        "name": "ARBEVM",
+        "addr": "",
+        "withdraw_disabled": false,
+        "withdraw_delayed": false,
+        "deposit_disabled": false
+      },
+      {
+        "name": "ARBNOVA",
+        "addr": "",
+        "withdraw_disabled": false,
+        "withdraw_delayed": false,
+        "deposit_disabled": false
+      },
+      {
+        "name": "BASEEVM",
+        "addr": "",
+        "withdraw_disabled": false,
+        "withdraw_delayed": false,
+        "deposit_disabled": false
+      },
+      {
+        "name": "BSC",
+        "addr": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+        "withdraw_disabled": false,
+        "withdraw_delayed": false,
+        "deposit_disabled": false
+      },
+      {
+        "name": "LINEAETH",
+        "addr": "",
+        "withdraw_disabled": false,
+        "withdraw_delayed": false,
+        "deposit_disabled": false
+      },
+      {
+        "name": "MANTAETH",
+        "addr": "",
+        "withdraw_disabled": false,
+        "withdraw_delayed": false,
+        "deposit_disabled": false
+      },
+      {
+        "name": "OPETH",
+        "addr": "",
+        "withdraw_disabled": false,
+        "withdraw_delayed": false,
+        "deposit_disabled": false
+      },
+      {
+        "name": "ZKSERA",
+        "addr": "",
+        "withdraw_disabled": false,
+        "withdraw_delayed": false,
+        "deposit_disabled": false
+      }
+    ]
   }
 ]

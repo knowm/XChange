@@ -2,13 +2,11 @@ package org.knowm.xchange.okex;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,7 +14,12 @@ import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.okex.dto.OkexException;
 import org.knowm.xchange.okex.dto.OkexResponse;
-import org.knowm.xchange.okex.dto.marketdata.*;
+import org.knowm.xchange.okex.dto.marketdata.OkexCandleStick;
+import org.knowm.xchange.okex.dto.marketdata.OkexFundingRate;
+import org.knowm.xchange.okex.dto.marketdata.OkexInstrument;
+import org.knowm.xchange.okex.dto.marketdata.OkexOrderbook;
+import org.knowm.xchange.okex.dto.marketdata.OkexTicker;
+import org.knowm.xchange.okex.dto.marketdata.OkexTrade;
 
 @Path("/api/v5")
 @Produces(APPLICATION_JSON)
@@ -46,7 +49,6 @@ public interface Okex {
 
   @GET
   @Path("/market/trades")
-  @Consumes(MediaType.APPLICATION_JSON)
   OkexResponse<List<OkexTrade>> getTrades(
       @QueryParam("instId") String instrument,
       @QueryParam("limit") int limit,
@@ -55,7 +57,6 @@ public interface Okex {
 
   @GET
   @Path("/market/ticker")
-  @Consumes(MediaType.APPLICATION_JSON)
   OkexResponse<List<OkexTicker>> getTicker(
       @QueryParam("instId") String instrument,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
@@ -63,7 +64,6 @@ public interface Okex {
 
   @GET
   @Path("/market/tickers")
-  @Consumes(MediaType.APPLICATION_JSON)
   OkexResponse<List<OkexTicker>> getTickers(
       @QueryParam("instType") String instType,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
@@ -92,6 +92,17 @@ public interface Okex {
   @Path("/public/funding-rate")
   OkexResponse<List<OkexFundingRate>> getFundingRate(
       @QueryParam("instId") String instrument,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
+      throws IOException, OkexException;
+
+  @GET
+  @Path("/market/candles")
+  OkexResponse<List<OkexCandleStick>> getCandles(
+      @QueryParam("instId") String instrument,
+      @QueryParam("after") String after,
+      @QueryParam("before") String before,
+      @QueryParam("bar") String bar,
+      @QueryParam("limit") String limit,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading)
       throws IOException, OkexException;
 }

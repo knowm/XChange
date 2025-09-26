@@ -144,7 +144,7 @@ class BitmexStreamingTradeServiceTest {
             .openOrderSellCost(new BigDecimal("1.734750"))
             .openOrderSellQty(new BigDecimal("9.000000"))
             .crossMargin(true)
-            .timestamp(ZonedDateTime.parse("2025-01-09T11:52:16.827Z[UTC]"))
+            .timestamp(ZonedDateTime.parse("2025-01-09T11:52:16.827Z"))
             .build();
 
     assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
@@ -175,7 +175,7 @@ class BitmexStreamingTradeServiceTest {
             .openOrderBuyCost(new BigDecimal("-0.107287"))
             .openOrderBuyQty(new BigDecimal("0.000100"))
             .riskValue(new BigDecimal("107287"))
-            .timestamp(ZonedDateTime.parse("2025-01-09T11:37:54.817Z[UTC]"))
+            .timestamp(ZonedDateTime.parse("2025-01-09T11:37:54.817Z"))
             .build();
 
     assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
@@ -220,7 +220,7 @@ class BitmexStreamingTradeServiceTest {
             .unrealisedPnl(BigDecimal.ZERO)
             .unrealisedPnlPcnt(BigDecimal.ZERO)
             .unrealisedRoePcnt(BigDecimal.ZERO)
-            .timestamp(ZonedDateTime.parse("2025-01-09T11:38:56.578Z[UTC]"))
+            .timestamp(ZonedDateTime.parse("2025-01-09T11:38:56.578Z"))
             .build();
 
     assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);

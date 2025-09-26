@@ -7,7 +7,6 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.coinex.dto.CoinexException;
 import org.knowm.xchange.coinex.dto.CoinexResponse;
 import org.knowm.xchange.coinex.dto.marketdata.CoinexAllMarketStatisticsV1;
@@ -22,8 +21,8 @@ import org.knowm.xchange.coinex.dto.marketdata.CoinexSingleMarketStatisticsV1;
 public interface Coinex {
 
   @GET
-  @Path("v1/common/asset/config")
-  CoinexResponse<Map<String, CoinexChainInfo>> allChainInfos() throws IOException, CoinexException;
+  @Path("v2/assets/all-deposit-withdraw-config")
+  CoinexResponse<List<CoinexChainInfo>> allChainInfos() throws IOException, CoinexException;
 
   @GET
   @Path("v1/market/ticker/all")

@@ -20,6 +20,7 @@ import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalFee;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampTradingFee;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
@@ -367,6 +368,15 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       return bitstampAuthenticatedV2.getWithdrawalFees(
+          apiKeyForV2Requests, signatureCreatorV2, uuidNonceFactory, timestampFactory, API_VERSION);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public List<BitstampTradingFee> getTradingFees() throws IOException {
+    try {
+      return bitstampAuthenticatedV2.getTradingFees(
           apiKeyForV2Requests, signatureCreatorV2, uuidNonceFactory, timestampFactory, API_VERSION);
     } catch (BitstampException e) {
       throw handleError(e);

@@ -134,10 +134,10 @@ public final class MercadoBitcoinAdapters {
         lastTradeId = tradeId;
       }
       trades.add(
-          new Trade.Builder()
+          Trade.builder()
               .type(toOrderType(tx.getType()))
               .originalAmount(tx.getAmount())
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(tx.getPrice())
               .timestamp(DateUtils.fromMillisUtc(tx.getDate() * 1000L))
               .id(String.valueOf(tradeId))
@@ -218,7 +218,7 @@ public final class MercadoBitcoinAdapters {
         OperationEntry op = f.getValue();
         result.add(
             UserTrade.builder()
-                .currencyPair(pair)
+                .instrument(pair)
                 .id(txId)
                 .orderId(orderId)
                 .price(op.getPrice())

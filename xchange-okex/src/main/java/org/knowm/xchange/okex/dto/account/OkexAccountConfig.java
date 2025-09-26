@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 
-/** https://www.okex.com/docs-v5/en/#rest-api-account-get-account-configuration * */
+/** https://www.okx.com/docs-v5/en/#rest-api-account-get-account-configuration * */
 @Getter
 @NoArgsConstructor
 public class OkexAccountConfig {

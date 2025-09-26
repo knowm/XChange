@@ -129,7 +129,7 @@ public class LatokenExchange extends BaseExchange {
     // Override static meta-data
     pairs.put(
         pair,
-        new InstrumentMetaData.Builder()
+        InstrumentMetaData.builder()
             .tradingFee(pairMetadata.getTradingFee())
             .minimumAmount(pairMetadata.getMinimumAmount())
             .maximumAmount(maxAmount)

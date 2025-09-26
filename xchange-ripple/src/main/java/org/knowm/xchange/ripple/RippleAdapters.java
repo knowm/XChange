@@ -412,18 +412,17 @@ public abstract class RippleAdapters {
 
     final String orderId = Long.toString(trade.getOrderId());
 
-    final RippleUserTrade.Builder builder =
-        (RippleUserTrade.Builder)
-            new RippleUserTrade.Builder()
-                .currencyPair(currencyPair)
-                .feeAmount(transactionFee)
-                .feeCurrency(Currency.XRP)
-                .id(trade.getHash())
-                .orderId(orderId)
-                .price(price.stripTrailingZeros())
-                .timestamp(trade.getTimestamp())
-                .originalAmount(quantity.stripTrailingZeros())
-                .type(type);
+    var builder =
+        RippleUserTrade.builder()
+            .instrument(currencyPair)
+            .feeAmount(transactionFee)
+            .feeCurrency(Currency.XRP)
+            .id(trade.getHash())
+            .orderId(orderId)
+            .price(price.stripTrailingZeros())
+            .timestamp(trade.getTimestamp())
+            .originalAmount(quantity.stripTrailingZeros())
+            .type(type);
     builder.baseTransferFee(baseTransferFee.abs());
     builder.counterTransferFee(counterTransferFee.abs());
     if (base.getCounterparty().length() > 0) {

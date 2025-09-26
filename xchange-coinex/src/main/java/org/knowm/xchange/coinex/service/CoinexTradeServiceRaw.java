@@ -23,6 +23,12 @@ public class CoinexTradeServiceRaw extends CoinexBaseService {
         .getData();
   }
 
+  public CoinexOrder createStopOrder(CoinexOrder coinexOrder) throws IOException {
+    return coinexAuthenticated
+        .createStopOrder(apiKey, exchange.getNonceFactory(), coinexV2ParamsDigest, coinexOrder)
+        .getData();
+  }
+
   public CoinexOrder cancelOrder(Long orderId, Instrument instrument) throws IOException {
     CoinexCancelOrderRequest request =
         CoinexCancelOrderRequest.builder()

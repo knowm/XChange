@@ -3,7 +3,6 @@ package info.bitrich.xchangestream.bybit;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
-import info.bitrich.xchangestream.service.netty.WebSocketClientHandler.WebSocketMessageHandler;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import java.util.ArrayList;
@@ -26,30 +25,46 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
   public static final String TESTNET_AUTH_URI = "wss://stream-testnet.bybit.com/v5/private";
   public static final String DEMO_AUTH_URI = "wss://stream-demo.bybit.com/v5/private";
 
+  // websocket trade
+  public static final String TRADE_URI = "wss://stream.bybit.com/v5/trade";
+  public static final String TESTNET_TRADE_URI = "wss://stream-testnet.bybit.com/v5/trade";
+
   // spot, linear, inverse or option
   public static final String EXCHANGE_TYPE = "Exchange_Type";
 
   private BybitStreamingService streamingService;
   private BybitStreamingMarketDataService streamingMarketDataService;
   private BybitStreamingTradeService streamingTradeService;
-
-  private BybitUserDataStreamingService userDataStreamingService;
+  private BybitUserTradeStreamingService streamingUserTradeService;
+  private BybitUserDataStreamingService streamingUserDataService;
 
   @Override
   protected void initServices() {
     super.initServices();
     this.streamingService = new BybitStreamingService(getApiUrl(), exchangeSpecification);
     if (isApiKeyValid()) {
-      this.userDataStreamingService =
+      this.streamingUserDataService =
           new BybitUserDataStreamingService(getApiUrlWithAuth(), exchangeSpecification);
+      this.streamingUserTradeService = new BybitUserTradeStreamingService(getTradeApiUrlWithAuth(),exchangeSpecification);
     }
     this.streamingMarketDataService = new BybitStreamingMarketDataService(streamingService);
-    this.streamingTradeService = new BybitStreamingTradeService(userDataStreamingService);
+    this.streamingTradeService = new BybitStreamingTradeService(streamingUserDataService,streamingUserTradeService,getResilienceRegistries(), this);
+  }
+
+  private String getTradeApiUrlWithAuth() {
+    if (Boolean.TRUE.equals(
+        exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET))) {
+      return TESTNET_TRADE_URI;
+    } else {
+      return TRADE_URI;
+    }
   }
 
   private boolean isApiKeyValid() {
     return exchangeSpecification.getApiKey() != null
-        && !exchangeSpecification.getApiKey().isEmpty();
+        && !exchangeSpecification.getApiKey().isEmpty()
+        && exchangeSpecification.getSecretKey() != null
+        && !exchangeSpecification.getSecretKey().isEmpty();
   }
 
   private String getApiUrl() {
@@ -89,8 +104,8 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
     List<Completable> completableList = new ArrayList<>();
     completableList.add(streamingService.connect());
     if (isApiKeyValid()) {
-      LOG.info("Connect to BybitStream with auth");
-      completableList.add(userDataStreamingService.connect());
+      completableList.add(streamingUserDataService.connect());
+      completableList.add(streamingUserTradeService.connect());
     }
     return Completable.concat(completableList);
   }
@@ -103,17 +118,21 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
       completableList.add(streamingService.disconnect());
       streamingService = null;
     }
-    if (userDataStreamingService != null) {
-      userDataStreamingService.pingPongDisconnectIfConnected();
-      completableList.add(userDataStreamingService.disconnect());
-      userDataStreamingService = null;
+    if (streamingUserDataService != null) {
+      streamingUserDataService.pingPongDisconnectIfConnected();
+      completableList.add(streamingUserDataService.disconnect());
+      streamingUserDataService = null;
+    }
+    if (streamingUserTradeService != null) {
+      completableList.add(streamingUserTradeService.disconnect());
+      streamingUserTradeService = null;
     }
     return Completable.concat(completableList);
   }
 
   @Override
   public BybitStreamingTradeService getStreamingTradeService() {
-    if (userDataStreamingService != null && userDataStreamingService.isAuthorized()) {
+    if (streamingUserDataService != null && streamingUserDataService.isAuthorized()) {
       return streamingTradeService;
     } else {
       throw new IllegalArgumentException("Authentication required for private streams");
@@ -122,15 +141,19 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
 
   @Override
   public boolean isAlive() {
-    // In normal situation - streamingService is always runs, userDataStreamingService - depends
-    if (streamingService != null && streamingService.isSocketOpen()) {
+    // In a normal situation - streamingService is always runs, userDataStreamingService - depends
+    if (streamingService != null) {
       if (isApiKeyValid()) {
-        return userDataStreamingService != null && userDataStreamingService.isSocketOpen();
+        return streamingService.isSocketOpen()
+            && streamingUserDataService.isSocketOpen()
+            && streamingUserDataService.isAuthorized()
+            && streamingUserTradeService.isSocketOpen()
+            && streamingUserTradeService.isAuthorized();
+      } else {
+        return streamingService.isSocketOpen();
       }
-      return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   @Override
@@ -143,26 +166,13 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
     return streamingMarketDataService;
   }
 
-  /**
-   * Enables the user to listen on channel inactive events and react appropriately.
-   *
-   * @param channelInactiveHandler a WebSocketMessageHandler instance.
-   */
-  public void setChannelInactiveHandler(WebSocketMessageHandler channelInactiveHandler) {
-    streamingService.setChannelInactiveHandler(channelInactiveHandler);
-  }
-
-  public void setUserDataChannelInactiveHandler(WebSocketMessageHandler channelInactiveHandler) {
-    userDataStreamingService.setChannelInactiveHandler(channelInactiveHandler);
-  }
-
   @Override
   public Observable<Throwable> reconnectFailure() {
     return streamingService.subscribeReconnectFailure();
   }
 
   public Observable<Throwable> reconnectFailurePrivateChannel() {
-    return userDataStreamingService.subscribeReconnectFailure();
+    return streamingUserDataService.subscribeReconnectFailure();
   }
 
   @Override
@@ -171,23 +181,19 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
   }
 
   public Observable<State> connectionStateObservablePrivateChannel() {
-    return userDataStreamingService.subscribeConnectionState();
+    return streamingUserDataService.subscribeConnectionState();
+  }
+
+  public Observable<State> connectionStateObservableTradeChannel() {
+    return streamingUserTradeService.subscribeConnectionState();
   }
 
   @Override
   public void resubscribeChannels() {
     streamingService.resubscribeChannels();
-    if (userDataStreamingService != null) {
-      userDataStreamingService.resubscribeChannels();
+    if (streamingUserDataService != null) {
+      streamingUserDataService.resubscribeChannels();
     }
   }
 
-  @Override
-  public Observable<Object> connectionIdle() {
-    return streamingService.subscribeIdle();
-  }
-
-  public Observable<Object> connectionIdlePrivateChannel() {
-    return userDataStreamingService.subscribeIdle();
-  }
 }

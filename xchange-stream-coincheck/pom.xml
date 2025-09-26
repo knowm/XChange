@@ -28,11 +28,6 @@
             <artifactId>xchange-stream-service-netty</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>

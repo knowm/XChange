@@ -40,6 +40,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -104,35 +105,29 @@ public class BlockchainAdapters {
   }
 
   public static FundingRecord toFundingWithdrawal(BlockchainWithdrawal w) {
-    return new FundingRecord(
-        w.getBeneficiary(),
-        null,
-        w.getTimestamp(),
-        w.getCurrency(),
-        w.getAmount(),
-        w.getWithdrawalId(),
-        null,
-        FundingRecord.Type.WITHDRAWAL,
-        BlockchainAdapters.toWithdrawStatus(w.getState()),
-        null,
-        w.getFee(),
-        null);
+      return FundingRecord.builder()
+          .address(w.getBeneficiary())
+          .date(w.getTimestamp())
+          .currency(w.getCurrency())
+          .amount(w.getAmount())
+          .internalId(w.getWithdrawalId())
+          .type(Type.WITHDRAWAL)
+          .status(BlockchainAdapters.toWithdrawStatus(w.getState()))
+          .fee(w.getFee())
+          .build();
   }
 
   public static FundingRecord toFundingDeposit(BlockchainDeposits d) {
-    return new FundingRecord(
-        d.getAddress(),
-        null,
-        d.getTimestamp(),
-        d.getCurrency(),
-        d.getAmount(),
-        d.getDepositId(),
-        d.getTxHash(),
-        FundingRecord.Type.DEPOSIT,
-        BlockchainAdapters.toDepositStatus(d.getState()),
-        null,
-        null,
-        null);
+      return FundingRecord.builder()
+          .address(d.getAddress())
+          .date(d.getTimestamp())
+          .currency(d.getCurrency())
+          .amount(d.getAmount())
+          .internalId(d.getDepositId())
+          .blockchainTransactionHash(d.getTxHash())
+          .type(Type.DEPOSIT)
+          .status(BlockchainAdapters.toDepositStatus(d.getState()))
+          .build();
   }
 
   public static CurrencyPair toCurrencyPairBySymbol(BlockchainSymbol blockchainSymbol) {
@@ -250,7 +245,7 @@ public class BlockchainAdapters {
                     UserTrade.builder()
                         .type(blockchainTrade.getOrderType())
                         .originalAmount(blockchainTrade.getCumQty())
-                        .currencyPair(blockchainTrade.getSymbol())
+                        .instrument(blockchainTrade.getSymbol())
                         .price(blockchainTrade.getPrice())
                         .timestamp(blockchainTrade.getTimestamp())
                         .id(Long.toString(blockchainTrade.getExOrdId()))
@@ -275,7 +270,7 @@ public class BlockchainAdapters {
           BigDecimal.valueOf(Math.pow(10, (entry.getValue().getMaxOrderSizeScale()) * -1));
       BigDecimal maxAmount = entry.getValue().getMaxOrderSize().multiply(maxScale);
       InstrumentMetaData currencyPairMetaData =
-          new InstrumentMetaData.Builder()
+          InstrumentMetaData.builder()
               .volumeScale(entry.getValue().getBaseCurrencyScale())
               .priceScale(entry.getValue().getCounterCurrencyScale())
               .minimumAmount(minAmount)

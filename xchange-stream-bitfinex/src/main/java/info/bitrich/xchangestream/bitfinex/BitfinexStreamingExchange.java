@@ -77,7 +77,6 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification spec = super.getDefaultExchangeSpecification();
-    spec.setShouldLoadRemoteMetaData(false);
 
     return spec;
   }

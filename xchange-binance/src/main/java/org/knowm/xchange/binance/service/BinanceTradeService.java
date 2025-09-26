@@ -1,18 +1,25 @@
 package org.knowm.xchange.binance.service;
 
+import static org.knowm.xchange.binance.BinanceAdapters.getOrderFlag;
+import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.Value;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.trade.*;
+import org.knowm.xchange.binance.dto.trade.BinanceTrade;
+import org.knowm.xchange.binance.dto.trade.BinanceTradeHistoryParams;
+import org.knowm.xchange.binance.dto.trade.OrderType;
+import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.trade.TrailingFlag;
+import org.knowm.xchange.binance.dto.trade.futures.BinanceChangeStatus;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -28,8 +35,24 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.*;
+import org.knowm.xchange.service.trade.params.CancelAllOrders;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
+import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParam;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.Assert;
 
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
@@ -56,10 +79,19 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       } else if (params instanceof OpenOrdersParamCurrencyPair) {
         pair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
       }
-
+      // based on EXCHANGE_TYPE
+      if (pair == null) {
+        switch (exchange.getExchangeSpecification().getExchangeSpecificParametersItem(EXCHANGE_TYPE).toString()) {
+          case "SPOT":
+            return BinanceAdapters.adaptOpenOrders(openOrdersAllProducts(), false);
+          case "FUTURES":
+          case "INVERSE":
+          case "PORTFOLIO_MARGIN":
+            return BinanceAdapters.adaptOpenOrders(openOrdersAllProducts(), true);
+        }
+      }// based on instrument
       return BinanceAdapters.adaptOpenOrders(
           openOrdersAllProducts(pair), pair instanceof FuturesContract);
-
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -109,12 +141,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         tif);
   }
 
-  private <T extends IOrderFlags> Optional<T> getOrderFlag(Order order, Class<T> clazz) {
-    return (Optional<T>)
-        order.getOrderFlags().stream()
-            .filter(flag -> clazz.isAssignableFrom(flag.getClass()))
-            .findFirst();
-  }
+
 
   private String placeOrderAllProducts(
       OrderType type,
@@ -128,75 +155,82 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       throws IOException {
     try {
       String orderId;
-
+      Order.OrderType orderType = order.getType();
       if (order.getInstrument() instanceof FuturesContract) {
+        switch (orderType) {
+          case EXIT_ASK:
+          case EXIT_BID:
+            order.getOrderFlags().add(
+                org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY);
+            break;
+        }
         if (exchange.isPortfolioMarginEnabled()) {
           if (BinanceAdapters.isInverse(order.getInstrument())) {
             orderId =
                 newPortfolioMarginInverseFutureOrder(
-                        order.getInstrument(),
-                        BinanceAdapters.convert(order.getType()),
-                        type,
-                        tif,
-                        order.getOriginalAmount(),
-                        order.hasFlag(
-                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
-                        limitPrice,
-                        order.getUserReference(),
-                        null)
+                    order.getInstrument(),
+                    BinanceAdapters.convert(orderType),
+                    type,
+                    tif,
+                    order.getOriginalAmount(),
+                    order.hasFlag(
+                        org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                    limitPrice,
+                    order.getUserReference(),
+                    null)
                     .getOrderId();
           } else {
             orderId =
                 newPortfolioMarginFutureOrder(
-                        order.getInstrument(),
-                        BinanceAdapters.convert(order.getType()),
-                        type,
-                        tif,
-                        order.getOriginalAmount(),
-                        order.hasFlag(
-                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
-                        limitPrice,
-                        order.getUserReference(),
-                        null)
+                    order.getInstrument(),
+                    BinanceAdapters.convert(orderType),
+                    type,
+                    tif,
+                    order.getOriginalAmount(),
+                    order.hasFlag(
+                        org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                    limitPrice,
+                    order.getUserReference(),
+                    null)
                     .getOrderId();
           }
         } else {
           if (BinanceAdapters.isInverse(order.getInstrument())) {
             orderId =
                 newInverseFutureOrder(
-                        order.getInstrument(),
-                        BinanceAdapters.convert(order.getType()),
-                        type,
-                        tif,
-                        order.getOriginalAmount(),
-                        order.hasFlag(
-                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
-                        limitPrice,
-                        order.getUserReference(),
-                        stopPrice,
-                        false,
-                        null,
-                        callBackRate,
-                        null)
+                    order.getInstrument(),
+                    BinanceAdapters.convert(orderType),
+                    type,
+                    tif,
+                    order.getOriginalAmount(),
+                    order.hasFlag(
+                        org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                    limitPrice,
+                    order.getUserReference(),
+                    stopPrice,
+                    false,
+                    null,
+                    callBackRate,
+                    null)
                     .getOrderId();
 
           } else {
             orderId =
                 newFutureOrder(
-                        order.getInstrument(),
-                        BinanceAdapters.convert(order.getType()),
-                        type,
-                        tif,
-                        order.getOriginalAmount(),
-                        order.hasFlag(
-                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
-                        limitPrice,
-                        order.getUserReference(),
-                        stopPrice,
-                        false,
-                        null,
-                        callBackRate,
-                        null)
+                    order.getInstrument(),
+                    BinanceAdapters.convert(orderType),
+                    type,
+                    tif,
+                    order.getOriginalAmount(),
+                    order.hasFlag(
+                        org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                    limitPrice,
+                    order.getUserReference(),
+                    stopPrice,
+                    false,
+                    null,
+                    callBackRate,
+                    null)
                     .getOrderId();
           }
         }
@@ -204,18 +238,18 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         orderId =
             Long.toString(
                 newOrder(
-                        order.getInstrument(),
-                        BinanceAdapters.convert(order.getType()),
-                        type,
-                        tif,
-                        order.getOriginalAmount(),
-                        quoteOrderQty,
-                        limitPrice,
-                        order.getUserReference(),
-                        stopPrice,
-                        trailingDelta,
-                        null,
-                        null)
+                    order.getInstrument(),
+                    BinanceAdapters.convert(orderType),
+                    type,
+                    tif,
+                    order.getOriginalAmount(),
+                    quoteOrderQty,
+                    limitPrice,
+                    order.getUserReference(),
+                    stopPrice,
+                    trailingDelta,
+                    null,
+                    null)
                     .orderId);
       }
       return orderId;
@@ -260,15 +294,17 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   public boolean cancelOrder(CancelOrderParams params) throws IOException {
     try {
       if (!(params instanceof CancelOrderByInstrument)
-          && !(params instanceof CancelOrderByIdParams)) {
+          && !(params instanceof CancelOrderByIdParams
+          && params instanceof CancelOrderByUserReferenceParams)) {
         throw new ExchangeException(
-            "You need to provide the currency pair and the order id to cancel an order.");
+            "You need to provide the currency pair and the 'order id/user id' to cancel an order.");
       }
       assert params instanceof CancelOrderByInstrument;
       CancelOrderByInstrument paramInstrument = (CancelOrderByInstrument) params;
       CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
+      CancelOrderByUserReferenceParams paramUserReference = (CancelOrderByUserReferenceParams) params;
       cancelOrderAllProducts(
-          paramInstrument.getInstrument(), BinanceAdapters.id(paramId.getOrderId()), null, null);
+          paramInstrument.getInstrument(), BinanceAdapters.id(paramId.getOrderId()), paramUserReference.getUserReference(), null);
 
       return true;
     } catch (BinanceException e) {
@@ -283,7 +319,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public Class[] getRequiredCancelOrderParamClasses() {
-    return new Class[] {CancelOrderByIdParams.class, CancelOrderByInstrument.class};
+    return new Class[]{CancelOrderByIdParams.class, CancelOrderByInstrument.class};
   }
 
   @Override
@@ -380,7 +416,15 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     }
 
     Instrument instrument = ((CancelOrderByInstrument) orderParams).getInstrument();
-
+    if (instrument instanceof FuturesContract) {
+      // no orderId, only retcode and simple message for futures
+      BinanceChangeStatus result = cancelAllOpenOrdersAllFuturesProducts(instrument);
+      if (result.getCode() == 200) {
+        return new ArrayList<>();
+      } else {
+        throw new BinanceException(result.getCode(),result.getMsg());
+      }
+    }
     return cancelAllOpenOrdersAllProducts(instrument).stream()
         .map(binanceCancelledOrder -> Long.toString(binanceCancelledOrder.orderId))
         .collect(Collectors.toList());
@@ -405,6 +449,25 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   @Override
+  public String changeOrder(LimitOrder limitOrder) throws IOException {
+    if (exchange.isFuturesEnabled()) {
+      if ((limitOrder.getId() != null && !limitOrder.getId().isEmpty()) || (limitOrder.getUserReference() != null && !limitOrder.getUserReference().isEmpty())) {
+        Long orderIdLong = BinanceAdapters.id(limitOrder.getId());
+        return modifyOrder(orderIdLong, limitOrder.getUserReference(),
+            limitOrder.getInstrument(), BinanceAdapters.convert(limitOrder.getType()), limitOrder.getOriginalAmount(),
+            limitOrder.getLimitPrice()).getOrderId();
+      } else {
+        throw new ExchangeException("You need to provide the orderId OR userReference to change an order.");
+      }
+    } else {
+      // PortfolioMargin mode and SPOT mode
+      // SPOT not support change order, only cancel and place again
+      cancelOrder(limitOrder.getId());
+      return placeLimitOrder(limitOrder);
+    }
+  }
+
+  @Override
   public Class getRequiredOrderQueryParamClass() {
     return OrderQueryParamInstrument.class;
   }
@@ -415,7 +478,9 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       return new ClientIdFlag(clientId);
     }
 
-    /** Used in fields 'newClientOrderId' */
+    /**
+     * Used in fields 'newClientOrderId'
+     */
     String getClientId();
   }
 

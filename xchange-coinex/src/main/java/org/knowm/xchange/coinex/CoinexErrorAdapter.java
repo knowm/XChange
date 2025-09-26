@@ -10,6 +10,7 @@ import org.knowm.xchange.exceptions.OrderNotValidException;
 @UtilityClass
 public class CoinexErrorAdapter {
 
+  public final int PRICE_DEVIATES_FROM_TRIGGER_PRICE = 619;
   public final int AMOUNT_TOO_SMALL = 3127;
   public final int ORDER_NOT_FOUND = 3600;
   public final int INVALID_MARKET_CODE = 3639;
@@ -20,6 +21,7 @@ public class CoinexErrorAdapter {
       case AMOUNT_TOO_SMALL:
         return new OrderAmountUnderMinimumException(e.getMessage(), e);
 
+      case PRICE_DEVIATES_FROM_TRIGGER_PRICE:
       case ORDER_NOT_FOUND:
         return new OrderNotValidException(e.getMessage(), e);
 

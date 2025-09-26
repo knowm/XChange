@@ -26,13 +26,13 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
-import org.knowm.xchange.bitfinex.v2.dto.account.LedgerEntry;
+import org.knowm.xchange.bitfinex.v2.dto.account.BitfinexLedgerEntry;
+import org.knowm.xchange.bitfinex.v2.dto.account.BitfinexMovement;
+import org.knowm.xchange.bitfinex.v2.dto.account.BitfinexWallet;
 import org.knowm.xchange.bitfinex.v2.dto.account.LedgerRequest;
-import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
 import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsResponse;
 import org.knowm.xchange.bitfinex.v2.dto.account.UpdateCollateralDerivativePositionRequest;
-import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.ExchangeException;
 
@@ -174,7 +174,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
     } else if ("IOT".equalsIgnoreCase(currency)) {
       type = "iota";
     } else if ("BCH".equalsIgnoreCase(currency)) {
-      type = "bab";
+      type = "bchn";
     } else if ("BTG".equalsIgnoreCase(currency)) {
       type = "bgold";
     } else if ("DASH".equalsIgnoreCase(currency)) {
@@ -245,8 +245,8 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         .call();
   }
 
-  public List<LedgerEntry> getLedgerEntries(
-      String currency, Long startTimeMillis, Long endTimeMillis, Long limit, Long category)
+  public List<BitfinexLedgerEntry> getLedgerEntries(
+      String currency, Long startTimeMillis, Long endTimeMillis, Integer limit, Long category)
       throws IOException {
     if (StringUtils.isBlank(currency)) {
       return decorateApiCall(
@@ -279,7 +279,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         .call();
   }
 
-  public List<Movement> getMovementHistory(
+  public List<BitfinexMovement> getMovementHistory(
       String currency, Long startTimeMillis, Long endTimeMillis, Integer limit) throws IOException {
     if (StringUtils.isBlank(currency)) {
       return decorateApiCall(
@@ -313,7 +313,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         .call();
   }
 
-  public List<Wallet> getWallets() throws IOException {
+  public List<BitfinexWallet> getWallets() throws IOException {
     return decorateApiCall(
             () ->
                 bitfinexV2.getWallets(

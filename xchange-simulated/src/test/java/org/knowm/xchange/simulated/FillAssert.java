@@ -6,7 +6,6 @@ package org.knowm.xchange.simulated;
  * <p>Although this class is not final to allow Soft assertions proxy, if you wish to extend it,
  * extend {@link AbstractFillAssert} instead.
  */
-@javax.annotation.Generated(value = "assertj-assertions-generator")
 class FillAssert extends AbstractFillAssert<FillAssert, Fill> {
 
   /**

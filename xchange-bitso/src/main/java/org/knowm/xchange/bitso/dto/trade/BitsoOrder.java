@@ -1,97 +1,63 @@
 package org.knowm.xchange.bitso.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
-import java.util.Date;
-import org.knowm.xchange.bitso.BitsoUtils;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 /**
+ * Bitso Order DTO for API v3
+ *
+ * @see <a href="https://docs.bitso.com/bitso-api/docs/list-open-orders">List Open Orders</a>
  * @author Piotr Ładyżyński
  */
-public final class BitsoOrder {
+@Value
+@Builder
+@Jacksonized
+public class BitsoOrder {
 
-  private final String id;
-  private final String datetime;
+  /** The order book symbol (e.g., "btc_mxn") */
+  private final String book;
 
-  /** 0 - buy (bid); 1 - sell (ask) */
-  private final int type;
+  /** The date and time when the service executed the trade */
+  private final String createdAt;
 
+  /** The order's ID */
+  private final String oid;
+
+  /** The order's client-supplied, unique ID (if any) */
+  private final String originId;
+
+  /** The order's initial major currency amount */
+  private final BigDecimal originalAmount;
+
+  /** The order's initial minor currency amount */
+  private final BigDecimal originalValue;
+
+  /** The order's price */
   private final BigDecimal price;
-  private final BigDecimal amount;
-  private final String errorMessage;
 
-  /**
-   * Constructor
-   *
-   * @param id
-   * @param datetime
-   * @param type
-   * @param price
-   * @param amount
-   */
-  public BitsoOrder(
-      @JsonProperty("id") String id,
-      @JsonProperty("datetime") String datetime,
-      @JsonProperty("type") int type,
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("error") @JsonDeserialize(using = BitsoErrorDeserializer.class)
-          String errorMessage) {
+  /** The order's side. Possible values: buy and sell */
+  private final BitsoOrderSide side;
 
-    this.id = id;
-    this.datetime = datetime;
-    this.type = type;
-    this.price = price;
-    this.amount = amount;
-    this.errorMessage = errorMessage;
-  }
+  /** The order's status. Possible values: queued, open, partially filled */
+  private final BitsoOrderStatus status;
 
-  public String getDatetime() {
+  /** The period a limit order remains active before it is executed or expires */
+  private final String timeInForce;
 
-    return datetime;
-  }
+  /** The order's type. Possible values: market, limit */
+  private final BitsoOrderType type;
 
-  public String getId() {
+  /** The order's unfilled major currency amount */
+  private final BigDecimal unfilledAmount;
 
-    return id;
-  }
+  /** The date and time when the service updated the trade */
+  private final String updatedAt;
 
-  public int getType() {
+  /** The stop price for Stop Orders (optional) */
+  private final BigDecimal stop;
 
-    return type;
-  }
-
-  public BigDecimal getPrice() {
-
-    return price;
-  }
-
-  public BigDecimal getAmount() {
-
-    return amount;
-  }
-
-  @JsonIgnore
-  public Date getTime() {
-
-    return BitsoUtils.parseDate(getDatetime());
-  }
-
-  @JsonIgnore
-  public String getErrorMessage() {
-
-    return errorMessage;
-  }
-
-  @Override
-  public String toString() {
-
-    return errorMessage != null
-        ? errorMessage
-        : String.format(
-            "Order{id=%s, datetime=%s, type=%s, price=%s, amount=%s}",
-            id, datetime, type, price, amount);
-  }
+  /** The date and time when the service triggered a Stop Order (optional) */
+  private final String triggeredAt;
 }

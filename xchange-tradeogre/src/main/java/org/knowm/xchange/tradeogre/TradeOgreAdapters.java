@@ -13,12 +13,16 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.tradeogre.dto.account.TradeOgreBalance;
 import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreOrderBook;
 import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreTicker;
 import org.knowm.xchange.tradeogre.dto.trade.TradeOgreOrder;
+import org.knowm.xchange.tradeogre.dto.trade.TradeOgreTrade;
 
 public class TradeOgreAdapters {
 
@@ -41,7 +45,10 @@ public class TradeOgreAdapters {
 
   public static Ticker adaptTicker(CurrencyPair currencyPair, TradeOgreTicker tradeOgreTicker) {
     return new Ticker.Builder()
-        .quoteVolume(new BigDecimal(tradeOgreTicker.getVolume()))
+        .volume(
+            tradeOgreTicker.getVolume() != null
+                ? new BigDecimal(tradeOgreTicker.getVolume())
+                : null)
         .high(new BigDecimal(tradeOgreTicker.getHigh()))
         .low(new BigDecimal(tradeOgreTicker.getLow()))
         .last(new BigDecimal(tradeOgreTicker.getPrice()))
@@ -103,5 +110,28 @@ public class TradeOgreAdapters {
                         .build())
             .collect(Collectors.toList());
     return new OpenOrders(orders);
+  }
+
+  public static UserTrades adaptTradeHistory(List<TradeOgreTrade> tradeHistory) {
+    List<UserTrade> trades =
+        tradeHistory.stream()
+            .map(
+                tradeOgreTrade ->
+                    UserTrade.builder()
+                        //
+                        // .currencyPair(adaptTradeOgreCurrencyPair(tradeOgreTrade.getMarket()))
+                        .originalAmount(tradeOgreTrade.getQuantity())
+                        .price(tradeOgreTrade.getPrice())
+                        //                        .feeAmount(tradeOgreTrade.getFee())
+                        .feeCurrency(Currency.BTC)
+                        //                        .id(tradeOgreTrade.getUuid())
+                        .type(
+                            tradeOgreTrade.getType().equals("buy")
+                                ? Order.OrderType.BID
+                                : Order.OrderType.ASK)
+                        .timestamp(new Date(tradeOgreTrade.getDate()))
+                        .build())
+            .collect(Collectors.toList());
+    return new UserTrades(trades, Trades.TradeSortType.SortByID);
   }
 }

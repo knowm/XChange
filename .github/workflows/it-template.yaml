@@ -1,0 +1,21 @@
+on:
+  workflow_call:
+    inputs:
+      module-name:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'maven'
+
+      - name: Build with maven
+        run: mvn --projects .,xchange-core,${{ inputs.module-name }} -DskipTests -Dmaven.javadoc.skip -DskipIntegrationTests=false verify

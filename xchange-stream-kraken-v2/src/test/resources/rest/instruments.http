@@ -1,0 +1,23 @@
+### Subscribe Instruments Channel
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "method": "subscribe",
+  "params": {
+    "channel": "instrument"
+  }
+}
+
+
+### Unsubscribe Instruments Channel
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "method": "unsubscribe",
+  "params": {
+    "channel": "instrument"
+  }
+}
+

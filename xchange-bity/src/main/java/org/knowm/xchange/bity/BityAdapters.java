@@ -59,7 +59,7 @@ public final class BityAdapters {
     return UserTrade.builder()
         .type(orderType)
         .originalAmount(amount)
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(price)
         .timestamp(date)
         .id(orderId)

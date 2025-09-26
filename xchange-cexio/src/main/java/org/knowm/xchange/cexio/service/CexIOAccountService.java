@@ -46,7 +46,8 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Accou
   }
 
   @Override
-  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument(String... category)
+      throws IOException {
     Map<CurrencyPair, FeeDetails> dynamicTradingFees = getMyFee();
     return CexIOAdapters.adaptDynamicTradingFees(dynamicTradingFees);
   }

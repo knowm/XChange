@@ -1,109 +1,79 @@
 package org.knowm.xchange.bitso.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
-import java.util.Date;
-import si.mazi.rescu.ExceptionalReturnContentException;
-import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
+import java.time.Instant;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 /**
- * @author Piotr Ładyżyński
+ * @author Piotr Ładyżyński Updated for Bitso API v3
  */
+@Value
+@Jacksonized
+@Builder
 public class BitsoTicker {
 
-  private final BigDecimal last;
-  private final BigDecimal high;
-  private final BigDecimal low;
-  private final BigDecimal vwap;
-  private final BigDecimal volume;
-  private final BigDecimal bid;
-  private final BigDecimal ask;
-  private final Date timestamp;
+  private Boolean success;
 
-  public BitsoTicker(
-      @JsonProperty("last") BigDecimal last,
-      @JsonProperty("high") BigDecimal high,
-      @JsonProperty("low") BigDecimal low,
-      @JsonProperty("vwap") BigDecimal vwap,
-      @JsonProperty("volume") BigDecimal volume,
-      @JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("timestamp") @JsonDeserialize(using = TimestampDeserializer.class)
-          Date timestamp) {
+  private BitsoTickerData payload;
 
-    if (last == null) {
-      throw new ExceptionalReturnContentException("No last in response.");
-    }
-    this.last = last;
-    this.high = high;
-    this.low = low;
-    this.vwap = vwap;
-    this.volume = volume;
-    this.bid = bid;
-    this.ask = ask;
-    this.timestamp = timestamp;
+  @Value
+  @Jacksonized
+  @Builder
+  public static class BitsoTickerData {
+
+    private String book;
+
+    private BigDecimal volume;
+
+    private BigDecimal high;
+
+    private BigDecimal last;
+
+    private BigDecimal low;
+
+    private BigDecimal vwap;
+
+    private BigDecimal ask;
+
+    private BigDecimal bid;
+
+    private Instant createdAt;
+
+    @JsonProperty("change_24")
+    private BigDecimal change24;
+
+    private Object rollingAverageChange;
   }
 
+  // Legacy methods for backwards compatibility
   public BigDecimal getLast() {
-
-    return last;
+    return payload != null ? payload.getLast() : null;
   }
 
   public BigDecimal getHigh() {
-
-    return high;
+    return payload != null ? payload.getHigh() : null;
   }
 
   public BigDecimal getLow() {
-
-    return low;
+    return payload != null ? payload.getLow() : null;
   }
 
   public BigDecimal getVwap() {
-
-    return vwap;
+    return payload != null ? payload.getVwap() : null;
   }
 
   public BigDecimal getVolume() {
-
-    return volume;
+    return payload != null ? payload.getVolume() : null;
   }
 
   public BigDecimal getBid() {
-
-    return bid;
+    return payload != null ? payload.getBid() : null;
   }
 
   public BigDecimal getAsk() {
-
-    return ask;
-  }
-
-  public Date getTimestamp() {
-
-    return timestamp;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BitsoTicker [last="
-        + last
-        + ", high="
-        + high
-        + ", low="
-        + low
-        + ", vwap="
-        + vwap
-        + ", volume="
-        + volume
-        + ", bid="
-        + bid
-        + ", ask="
-        + ask
-        + ", timestamp="
-        + timestamp
-        + "]";
+    return payload != null ? payload.getAsk() : null;
   }
 }

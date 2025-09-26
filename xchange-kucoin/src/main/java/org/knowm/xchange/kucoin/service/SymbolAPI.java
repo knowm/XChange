@@ -11,9 +11,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.kucoin.dto.KucoinException;
 import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
 import org.knowm.xchange.kucoin.dto.response.CurrenciesResponse;
 import org.knowm.xchange.kucoin.dto.response.CurrencyResponseV2;
+import org.knowm.xchange.kucoin.dto.response.KucoinCurrencyResponseV3;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
@@ -42,7 +44,7 @@ public interface SymbolAPI {
    */
   @GET
   @Path("/v2/symbols")
-  KucoinResponse<List<SymbolResponse>> getSymbolsV2() throws IOException;
+  KucoinResponse<List<SymbolResponse>> getSymbolsV2() throws IOException, KucoinException;
 
   /**
    * Get a list of available currencies for trading.
@@ -62,6 +64,17 @@ public interface SymbolAPI {
   @Path("/v2/currencies/{currency}")
   KucoinResponse<CurrencyResponseV2> getCurrencies(@PathParam("currency") String currency)
       throws IOException;
+
+  /**
+   * Get All Currencies.
+   *
+   * Request a currency list via this endpoint. Not all currencies currently can be used for trading.
+   *
+   * @return The available currencies.
+   */
+  @GET
+  @Path("/v3/currencies")
+  KucoinResponse<List<KucoinCurrencyResponseV3>> getAllCurrencies() throws IOException, KucoinException;
 
   /**
    * Get the fiat price of the currencies for the available trading pairs.

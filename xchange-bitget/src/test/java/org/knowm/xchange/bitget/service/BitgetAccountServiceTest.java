@@ -30,15 +30,15 @@ class BitgetAccountServiceTest extends BitgetExchangeWiremock {
                     .build());
 
     FundingRecord expected =
-        new FundingRecord.Builder()
-            .setInternalId("1200126632376020992")
-            .setDate(Date.from(Instant.ofEpochMilli(1721858437064L)))
-            .setAddress("EQAPOcvrl-4fjsw9W5iUBC8np6UtVgE0QPDzLgfsTJh9NYX5")
-            .setBlockchainTransactionHash("scWb5s8OtLL_kSE8rQv5fDvreOGUe82wcV9KXrGNNww=")
-            .setCurrency(Currency.USDT)
-            .setType(Type.DEPOSIT)
-            .setAmount(new BigDecimal("100.00000000"))
-            .setStatus(Status.COMPLETE)
+        FundingRecord.builder()
+            .internalId("1200126632376020992")
+            .date(Date.from(Instant.ofEpochMilli(1721858437064L)))
+            .address("EQAPOcvrl-4fjsw9W5iUBC8np6UtVgE0QPDzLgfsTJh9NYX5")
+            .blockchainTransactionHash("scWb5s8OtLL_kSE8rQv5fDvreOGUe82wcV9KXrGNNww=")
+            .currency(Currency.USDT)
+            .type(Type.DEPOSIT)
+            .amount(new BigDecimal("100.00000000"))
+            .status(Status.COMPLETE)
             .build();
 
     assertThat(actual).hasSize(2);

@@ -49,14 +49,14 @@ class BitmexAccountServiceTest extends BitmexExchangeWiremock {
         accountService.getFundingHistory(new DefaultTradeHistoryParamCurrency(Currency.USDT));
 
     FundingRecord expected =
-        new FundingRecord.Builder()
-            .setInternalId("00000000-0075-1000-0000-000042765f81")
-            .setDate(Date.from(Instant.parse("2024-12-09T00:15:38.647Z")))
-            .setCurrency(Currency.USDT)
-            .setBalance(new BigDecimal("50"))
-            .setType(Type.DEPOSIT)
-            .setStatus(Status.COMPLETE)
-            .setAmount(new BigDecimal("49"))
+        FundingRecord.builder()
+            .internalId("00000000-0075-1000-0000-000042765f81")
+            .date(Date.from(Instant.parse("2024-12-09T00:15:38.647Z")))
+            .currency(Currency.USDT)
+            .balance(new BigDecimal("50"))
+            .type(Type.DEPOSIT)
+            .status(Status.COMPLETE)
+            .amount(new BigDecimal("49"))
             .build();
 
     assertThat(actual).hasSize(6);

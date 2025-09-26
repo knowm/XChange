@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.util.Map;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.ObjectMapperHelper;
@@ -22,8 +21,7 @@ import org.knowm.xchange.utils.jackson.InstrumentMapDeserializer;
  * <p>This class is used only in the API by the classes that merge metadata stored in custom JSON
  * file and online info from the remote exchange.
  */
-@Getter
-@ToString
+@Data
 public class ExchangeMetaData implements Serializable {
 
   private static final long serialVersionUID = -1495610469981534977L;

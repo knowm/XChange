@@ -8,7 +8,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
  * <p>Although this class is not final to allow Soft assertions proxy, if you wish to extend it,
  * extend {@link AbstractUserTradeAssert} instead.
  */
-@javax.annotation.Generated(value = "assertj-assertions-generator")
 class UserTradeAssert extends AbstractUserTradeAssert<UserTradeAssert, UserTrade> {
 
   /**

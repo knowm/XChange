@@ -1,0 +1,16 @@
+{
+  "instrument" : "BTC/PHP",
+  "open" : 5769229.2,
+  "last" : 5803758.7,
+  "bid" : 5803095.5,
+  "ask" : 5944316.4,
+  "high" : 5944316.4,
+  "low" : 5674429.4,
+  "vwap" : null,
+  "volume" : 2.0446395,
+  "quoteVolume" : 11762126.4,
+  "timestamp" : 1747330920249,
+  "bidSize" : 0.0000824,
+  "askSize" : 0.0008186,
+  "percentageChange" : 0.0060
+}

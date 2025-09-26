@@ -259,8 +259,8 @@ public class KrakenAdaptersTest {
     assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD-1");
     assertThat(trade.getPrice()).isEqualTo("32.07562");
     assertThat(trade.getOriginalAmount()).isEqualTo("0.50000000");
-    assertThat(trade.getCurrencyPair().getBase()).isEqualTo(Currency.LTC);
-    assertThat(trade.getCurrencyPair().getCounter()).isEqualTo(Currency.BTC);
+    assertThat(trade.getInstrument().getBase()).isEqualTo(Currency.LTC);
+    assertThat(trade.getInstrument().getCounter()).isEqualTo(Currency.BTC);
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
     assertThat(trade.getFeeAmount()).isEqualTo("0.03208");
     assertThat(trade.getFeeCurrency()).isEqualTo(Currency.BTC);
@@ -278,8 +278,8 @@ public class KrakenAdaptersTest {
     assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD");
     assertThat(trade.getPrice()).isEqualTo("32.07562");
     assertThat(trade.getOriginalAmount()).isEqualTo("0.50000000");
-    assertThat(trade.getCurrencyPair().getBase()).isEqualTo(Currency.getInstance("XICNX"));
-    assertThat(trade.getCurrencyPair().getCounter()).isEqualTo(Currency.BTC);
+    assertThat(trade.getInstrument().getBase()).isEqualTo(Currency.getInstance("XICNX"));
+    assertThat(trade.getInstrument().getCounter()).isEqualTo(Currency.BTC);
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
     assertThat(trade.getFeeAmount()).isEqualTo("0.03208");
     assertThat(trade.getFeeCurrency()).isEqualTo(Currency.BTC);
@@ -317,7 +317,7 @@ public class KrakenAdaptersTest {
 
     List<FundingRecord> records = KrakenAdapters.adaptFundingHistory(ledgerMap);
 
-    assertThat(records.size()).isEqualTo(3);
+    assertThat(records.size()).isEqualTo(5);
     FundingRecord fundingRecord = records.get(1);
     assertThat(fundingRecord).isInstanceOf(FundingRecord.class);
     assertThat(fundingRecord.getType()).isEqualTo(FundingRecord.Type.WITHDRAWAL);

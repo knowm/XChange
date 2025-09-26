@@ -1,5 +1,6 @@
 package org.knowm.xchange.coinex;
 
+import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.Instant;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import lombok.experimental.UtilityClass;
 import org.knowm.xchange.coinex.dto.account.CoinexBalanceInfo;
 import org.knowm.xchange.coinex.dto.account.CoinexMarketType;
 import org.knowm.xchange.coinex.dto.account.CoinexOrder;
+import org.knowm.xchange.coinex.dto.account.CoinexOrder.CoinexOrderType;
 import org.knowm.xchange.coinex.dto.marketdata.CoinexCurrencyPairInfo;
 import org.knowm.xchange.coinex.dto.marketdata.CoinexMarketDepth;
 import org.knowm.xchange.coinex.dto.marketdata.CoinexTickerV1;
@@ -27,6 +29,7 @@ import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.instrument.Instrument;
 
 @UtilityClass
@@ -59,7 +62,7 @@ public class CoinexAdapters {
         .currencyPair((CurrencyPair) marketOrder.getInstrument())
         .marketType(CoinexMarketType.SPOT)
         .side(marketOrder.getType())
-        .type("market")
+        .type(CoinexOrderType.MARKET)
         .clientId(marketOrder.getUserReference())
         .amount(marketOrder.getOriginalAmount())
         .build();
@@ -70,11 +73,33 @@ public class CoinexAdapters {
         .currencyPair((CurrencyPair) limitOrder.getInstrument())
         .marketType(CoinexMarketType.SPOT)
         .side(limitOrder.getType())
-        .type("limit")
+        .type(CoinexOrderType.LIMIT)
         .price(limitOrder.getLimitPrice())
         .clientId(limitOrder.getUserReference())
         .amount(limitOrder.getOriginalAmount())
         .build();
+  }
+
+  public CoinexOrder toCoinexOrder(StopOrder stopOrder) {
+    CoinexOrder.CoinexOrderBuilder builder = CoinexOrder.builder()
+        .currencyPair((CurrencyPair) stopOrder.getInstrument())
+        .marketType(CoinexMarketType.SPOT)
+        .side(stopOrder.getType())
+        .triggerPrice(stopOrder.getStopPrice())
+        .clientId(stopOrder.getUserReference())
+        .amount(stopOrder.getOriginalAmount());
+
+    if (stopOrder.getLimitPrice() != null) {
+      builder
+          .type(CoinexOrderType.LIMIT)
+          .price(stopOrder.getLimitPrice());
+    }
+    else {
+      builder
+          .type(CoinexOrderType.MARKET);
+    }
+
+    return builder.build();
   }
 
   public CurrencyPair toCurrencyPair(String symbol) {
@@ -82,11 +107,13 @@ public class CoinexAdapters {
   }
 
   public InstrumentMetaData toInstrumentMetaData(CoinexCurrencyPairInfo coinexCurrencyPairInfo) {
-    return new InstrumentMetaData.Builder()
+    return InstrumentMetaData.builder()
         .tradingFee(coinexCurrencyPairInfo.getTakerFeeRate())
         .minimumAmount(coinexCurrencyPairInfo.getMinAssetAmount())
         .volumeScale(coinexCurrencyPairInfo.getBaseCurrencyPrecision())
         .priceScale(coinexCurrencyPairInfo.getQuoteCurrencyPrecision())
+        .amountStepSize(BigDecimal.ONE.movePointLeft(coinexCurrencyPairInfo.getBaseCurrencyPrecision()))
+        .priceStepSize(BigDecimal.ONE.movePointLeft(coinexCurrencyPairInfo.getQuoteCurrencyPrecision()))
         .build();
   }
 
@@ -96,10 +123,10 @@ public class CoinexAdapters {
     OrderType orderType = coinexOrder.getSide();
 
     switch (coinexOrder.getType()) {
-      case "market":
+      case MARKET:
         builder = new MarketOrder.Builder(orderType, instrument);
         break;
-      case "limit":
+      case LIMIT:
         builder = new LimitOrder.Builder(orderType, instrument).limitPrice(coinexOrder.getPrice());
         break;
       default:

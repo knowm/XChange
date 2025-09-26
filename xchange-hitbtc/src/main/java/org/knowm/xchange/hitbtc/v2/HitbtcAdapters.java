@@ -170,10 +170,10 @@ public class HitbtcAdapters {
       }
       OrderType orderType = adaptSide(hitbtcTrade.getSide());
       Trade trade =
-          new Trade.Builder()
+          Trade.builder()
               .type(orderType)
               .originalAmount(amount)
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(price)
               .timestamp(timestamp)
               .id(tid)
@@ -234,18 +234,18 @@ public class HitbtcAdapters {
       String clientOrderId = hitbtcOwnTrade.getClientOrderId();
 
       UserTrade trade =
-          new HitbtcUserTrade(
-              type,
-              originalAmount,
-              pair,
-              hitbtcOwnTrade.getPrice(),
-              timestamp,
-              id,
-              orderId,
-              hitbtcOwnTrade.getFee(),
-              pair.getCounter(),
-              clientOrderId);
-
+          HitbtcUserTrade.builder()
+              .type(type)
+              .originalAmount(originalAmount)
+              .instrument(pair)
+              .price(hitbtcOwnTrade.getPrice())
+              .timestamp(timestamp)
+              .id(id)
+              .orderId(orderId)
+              .feeAmount(hitbtcOwnTrade.getFee())
+              .feeCurrency(pair.getCounter())
+              .orderUserReference(clientOrderId)
+              .build();
       trades.add(trade);
     }
 
@@ -301,7 +301,7 @@ public class HitbtcAdapters {
 
         currencyPairs.put(
             pair,
-            new InstrumentMetaData.Builder()
+            InstrumentMetaData.builder()
                 .tradingFee(tradingFee)
                 .minimumAmount(minimumAmount)
                 .maximumAmount(maximumAmount)
@@ -324,17 +324,17 @@ public class HitbtcAdapters {
       description += ", paymentId: " + transaction.getPaymentId();
     }
 
-    return new FundingRecord.Builder()
-        .setAddress(transaction.getAddress())
-        .setCurrency(Currency.getInstance(transaction.getCurrency()))
-        .setAmount(transaction.getAmount())
-        .setType(convertType(transaction.getType()))
-        .setFee(transaction.getFee())
-        .setDescription(description)
-        .setStatus(convertStatus(transaction.getStatus()))
-        .setInternalId(transaction.getId())
-        .setBlockchainTransactionHash(transaction.getHash())
-        .setDate(transaction.getCreatedAt())
+    return FundingRecord.builder()
+        .address(transaction.getAddress())
+        .currency(Currency.getInstance(transaction.getCurrency()))
+        .amount(transaction.getAmount())
+        .type(convertType(transaction.getType()))
+        .fee(transaction.getFee())
+        .description(description)
+        .status(convertStatus(transaction.getStatus()))
+        .internalId(transaction.getId())
+        .blockchainTransactionHash(transaction.getHash())
+        .date(transaction.getCreatedAt())
         .build();
   }
 

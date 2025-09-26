@@ -17,13 +17,26 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.marketdata.CandleStick;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.upbit.dto.account.UpbitBalances;
-import org.knowm.xchange.upbit.dto.marketdata.*;
+import org.knowm.xchange.upbit.dto.marketdata.UpbitCandleStickData;
+import org.knowm.xchange.upbit.dto.marketdata.UpbitMarket;
+import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBook;
+import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBookData;
+import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBooks;
+import org.knowm.xchange.upbit.dto.marketdata.UpbitTicker;
+import org.knowm.xchange.upbit.dto.marketdata.UpbitTickers;
+import org.knowm.xchange.upbit.dto.marketdata.UpbitTrade;
+import org.knowm.xchange.upbit.dto.marketdata.UpbitTrades;
 import org.knowm.xchange.upbit.dto.trade.UpbitOrderResponse;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -106,7 +119,7 @@ public final class UpbitAdapters {
     OrderType orderType = OrderType.BID;
     if (OrderType.ASK.toString().equals(trade.getAskBid())) orderType = OrderType.ASK;
 
-    return new Trade.Builder()
+    return Trade.builder()
         .type(orderType)
         .originalAmount(trade.getTradeVolume())
         .instrument(currencyPair)
@@ -164,7 +177,7 @@ public final class UpbitAdapters {
             .map(UpbitUtils::toCurrencyPair)
             .collect(
                 Collectors.toMap(
-                    Function.identity(), cp -> new InstrumentMetaData.Builder().build()));
+                    Function.identity(), cp -> InstrumentMetaData.builder().build()));
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }
 

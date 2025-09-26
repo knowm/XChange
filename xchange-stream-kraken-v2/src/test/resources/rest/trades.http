@@ -1,0 +1,33 @@
+### Subscribe Public Trades Channel
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "method": "subscribe",
+  "params": {
+    "channel": "trade",
+    "symbol": [
+      "BTC/USDT",
+      "BTC/USD"
+    ],
+    "snapshot": false
+  }
+}
+
+
+### Unsubscribe Public Trades Channel
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "method": "unsubscribe",
+  "params": {
+    "channel": "trade",
+    "symbol": [
+      "BTC/USDT",
+      "BTC/USD"
+    ],
+    "snapshot": true
+  }
+}
+

@@ -54,7 +54,7 @@ public class CexIOExchange extends BaseExchange implements Exchange {
     for (CexIOCurrencyLimits.Pair pair : currencyLimits.getData().getPairs()) {
       CurrencyPair currencyPair = new CurrencyPair(pair.getSymbol1(), pair.getSymbol2());
       InstrumentMetaData metaData =
-          new InstrumentMetaData.Builder()
+          InstrumentMetaData.builder()
               .minimumAmount(pair.getMinLotSize())
               .maximumAmount(pair.getMaxLotSize())
               .build();
@@ -62,7 +62,7 @@ public class CexIOExchange extends BaseExchange implements Exchange {
           currencyPair,
           metaData,
           (oldMetaData, newMetaData) ->
-              new InstrumentMetaData.Builder()
+              InstrumentMetaData.builder()
                   .tradingFee(oldMetaData.getTradingFee())
                   .minimumAmount(newMetaData.getMinimumAmount())
                   .maximumAmount(

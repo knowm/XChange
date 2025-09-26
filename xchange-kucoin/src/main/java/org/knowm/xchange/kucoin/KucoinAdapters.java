@@ -13,16 +13,13 @@ import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.POST_ONLY;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
@@ -42,8 +39,6 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -56,21 +51,18 @@ import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
 import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
-import org.knowm.xchange.kucoin.dto.response.CurrenciesResponse;
 import org.knowm.xchange.kucoin.dto.response.DepositResponse;
 import org.knowm.xchange.kucoin.dto.response.HistOrdersResponse;
+import org.knowm.xchange.kucoin.dto.response.KucoinCurrencyResponseV3;
 import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
-import org.knowm.xchange.kucoin.dto.response.TradeFeeResponse;
 import org.knowm.xchange.kucoin.dto.response.TradeHistoryResponse;
 import org.knowm.xchange.kucoin.dto.response.TradeResponse;
 import org.knowm.xchange.kucoin.dto.response.WithdrawalResponse;
 
 public class KucoinAdapters {
-
-  private static final String TAKER_FEE_RATE = "takerFeeRate";
 
   public static String adaptCurrencyPair(Instrument instrument) {
     return instrument == null
@@ -121,110 +113,42 @@ public class KucoinAdapters {
         .collect(Collectors.toList());
   }
 
-  /**
-   * Imperfect implementation. Kucoin appears to enforce a base <strong>and</strong> quote min
-   * <strong>and max</strong> amount that the XChange API current doesn't take account of.
-   *
-   * @param exchangeMetaData The static exchange metadata.
-   * @param currenciesResponse Kucoin currencies
-   * @param symbolsResponse Kucoin symbols
-   * @param tradeFee Kucoin trade fee (optional)
-   * @return Exchange metadata.
-   */
-  public static ExchangeMetaData adaptMetadata(
-      ExchangeMetaData exchangeMetaData,
-      List<CurrenciesResponse> currenciesResponse,
-      List<SymbolResponse> symbolsResponse,
-      TradeFeeResponse tradeFee)
-      throws IOException {
-
-    Map<Instrument, InstrumentMetaData> currencyPairs = exchangeMetaData.getInstruments();
-    Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
-    Map<String, CurrencyMetaData> stringCurrencyMetaDataMap =
-        adaptCurrencyMetaData(currenciesResponse);
-
-    BigDecimal takerTradingFee = tradeFee != null ? tradeFee.getTakerFeeRate() : null;
-
-    for (SymbolResponse symbol : symbolsResponse) {
-
-      CurrencyPair pair = adaptCurrencyPair(symbol.getSymbol());
-      InstrumentMetaData staticMetaData = exchangeMetaData.getInstruments().get(pair);
-
-      BigDecimal minSize = symbol.getBaseMinSize();
-      BigDecimal maxSize = symbol.getBaseMaxSize();
-      BigDecimal minQuoteSize = symbol.getQuoteMinSize();
-      BigDecimal maxQuoteSize = symbol.getQuoteMaxSize();
-      int baseScale = symbol.getBaseIncrement().stripTrailingZeros().scale();
-      int priceScale = symbol.getQuoteIncrement().stripTrailingZeros().scale();
-      FeeTier[] feeTiers = staticMetaData != null ? staticMetaData.getFeeTiers() : null;
-      Currency feeCurrency = new Currency(symbol.getFeeCurrency());
-
-      currencyPairs.put(
-          pair,
-          new InstrumentMetaData.Builder()
-              .tradingFee(takerTradingFee)
-              .minimumAmount(minSize)
-              .maximumAmount(maxSize)
-              .counterMinimumAmount(minQuoteSize)
-              .counterMaximumAmount(maxQuoteSize)
-              .volumeScale(baseScale)
-              .priceScale(priceScale)
-              .feeTiers(feeTiers)
-              .tradingFeeCurrency(feeCurrency)
-              .marketOrderEnabled(true)
-              .build());
-
-      if (!currencies.containsKey(pair.getBase()))
-        currencies.put(
-            pair.getBase(), stringCurrencyMetaDataMap.get(pair.getBase().getCurrencyCode()));
-      if (!currencies.containsKey(pair.getCounter()))
-        currencies.put(
-            pair.getCounter(), stringCurrencyMetaDataMap.get(pair.getCounter().getCurrencyCode()));
-    }
-
-    return new ExchangeMetaData(
-        currencyPairs,
-        currencies,
-        exchangeMetaData.getPublicRateLimits(),
-        exchangeMetaData.getPrivateRateLimits(),
-        true);
+  public static InstrumentMetaData toInstrumentMetaData(SymbolResponse symbolResponse) {
+    return InstrumentMetaData.builder()
+        .minimumAmount(symbolResponse.getBaseMinSize())
+        .maximumAmount(symbolResponse.getBaseMaxSize())
+        .counterMinimumAmount(symbolResponse.getQuoteMinSize())
+        .counterMaximumAmount(symbolResponse.getQuoteMaxSize())
+        .priceScale(symbolResponse.getPriceIncrement().scale())
+        .priceStepSize(symbolResponse.getPriceIncrement())
+        .volumeScale(symbolResponse.getBaseIncrement().scale())
+        .amountStepSize(symbolResponse.getBaseIncrement())
+        .tradingFeeCurrency(symbolResponse.getFeeCurrency())
+        .marketOrderEnabled(symbolResponse.isEnableTrading())
+        .build();
   }
 
-  static HashMap<String, CurrencyMetaData> adaptCurrencyMetaData(List<CurrenciesResponse> list) {
-    HashMap<String, CurrencyMetaData> stringCurrencyMetaDataMap = new HashMap<>();
-    for (CurrenciesResponse currenciesResponse : list) {
-      BigDecimal precision = currenciesResponse.getPrecision();
-      BigDecimal withdrawalMinFee = null;
-      BigDecimal withdrawalMinSize = null;
-      if (currenciesResponse.getWithdrawalMinFee() != null) {
-        withdrawalMinFee = new BigDecimal(currenciesResponse.getWithdrawalMinFee());
-      }
-      if (currenciesResponse.getWithdrawalMinSize() != null) {
-        withdrawalMinSize = new BigDecimal(currenciesResponse.getWithdrawalMinSize());
-      }
-      WalletHealth walletHealth = getWalletHealth(currenciesResponse);
-      CurrencyMetaData currencyMetaData =
-          new CurrencyMetaData(
-              precision.intValue(), withdrawalMinFee, withdrawalMinSize, walletHealth);
-      stringCurrencyMetaDataMap.put(currenciesResponse.getCurrency(), currencyMetaData);
-    }
-    return stringCurrencyMetaDataMap;
+  public static CurrencyMetaData toCurrencyMetaData(KucoinCurrencyResponseV3 currencyResponseV3) {
+    return CurrencyMetaData.builder()
+        .scale(currencyResponseV3.getPrecision())
+        .walletHealth(toWalletHealth(currencyResponseV3))
+        .build();
   }
 
-  /**
-   * @param currenciesResponse currency response which holds wallet status information
-   * @return WalletHealth
-   */
-  private static WalletHealth getWalletHealth(CurrenciesResponse currenciesResponse) {
-    WalletHealth walletHealth = WalletHealth.ONLINE;
-    if (!currenciesResponse.isWithdrawEnabled() && !currenciesResponse.isDepositEnabled()) {
-      walletHealth = WalletHealth.OFFLINE;
-    } else if (!currenciesResponse.isDepositEnabled()) {
-      walletHealth = WalletHealth.DEPOSITS_DISABLED;
-    } else if (!currenciesResponse.isWithdrawEnabled()) {
-      walletHealth = WalletHealth.WITHDRAWALS_DISABLED;
+  public static WalletHealth toWalletHealth(KucoinCurrencyResponseV3 currencyResponseV3) {
+    if (currencyResponseV3.isDepositEnabled() && currencyResponseV3.isWithdrawEnabled()) {
+      return WalletHealth.ONLINE;
     }
-    return walletHealth;
+    if (!currencyResponseV3.isDepositEnabled() && currencyResponseV3.isWithdrawEnabled()) {
+      return WalletHealth.DEPOSITS_DISABLED;
+    }
+    if (currencyResponseV3.isDepositEnabled() && !currencyResponseV3.isWithdrawEnabled()) {
+      return WalletHealth.WITHDRAWALS_DISABLED;
+    }
+    if (!currencyResponseV3.isDepositEnabled() && !currencyResponseV3.isWithdrawEnabled()) {
+      return WalletHealth.OFFLINE;
+    }
+    return WalletHealth.UNKNOWN;
   }
 
   public static OrderBook adaptOrderBook(Instrument instrument, OrderBookResponse kc) {
@@ -261,11 +185,12 @@ public class KucoinAdapters {
   }
 
   public static Balance adaptBalance(AccountBalancesResponse a) {
-    return new Balance(Currency.getInstance(a.getCurrency()), a.getBalance(), a.getAvailable());
+    return new Balance(
+        Currency.getInstance(a.getCurrency()), a.getBalance(), a.getAvailable(), a.getHolds());
   }
 
   private static Trade adaptTrade(CurrencyPair currencyPair, TradeHistoryResponse trade) {
-    return new Trade.Builder()
+    return Trade.builder()
         .instrument(currencyPair)
         .originalAmount(trade.getSize())
         .price(trade.getPrice())
@@ -338,7 +263,7 @@ public class KucoinAdapters {
 
   public static UserTrade adaptUserTrade(TradeResponse trade) {
     return UserTrade.builder()
-        .currencyPair(adaptCurrencyPair(trade.getSymbol()))
+        .instrument(adaptCurrencyPair(trade.getSymbol()))
         .feeAmount(trade.getFee())
         .feeCurrency(Currency.getInstance(trade.getFeeCurrency()))
         .id(trade.getTradeId())
@@ -353,7 +278,7 @@ public class KucoinAdapters {
   public static UserTrade adaptHistOrder(HistOrdersResponse histOrder) {
     CurrencyPair currencyPair = adaptCurrencyPair(histOrder.getSymbol());
     return UserTrade.builder()
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .feeAmount(histOrder.getFee())
         .feeCurrency(currencyPair.getBase())
         .id(histOrder.getId())
@@ -384,9 +309,22 @@ public class KucoinAdapters {
   }
 
   public static OrderCreateApiRequest adaptMarketOrder(MarketOrder marketOrder) {
-    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(marketOrder))
-        .type("market")
-        .build();
+    OrderCreateApiRequest.OrderCreateApiRequestBuilder builder =
+        ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(marketOrder))
+            .type("market");
+
+    // on buy order amount corresponds to counter currency
+    if (marketOrder.getType() == BID) {
+      builder.size(null);
+      builder.funds(marketOrder.getOriginalAmount());
+    }
+    // on sell order amount corresponds to base currency
+    else if (marketOrder.getType() == ASK) {
+      builder.size(marketOrder.getOriginalAmount());
+      builder.funds(null);
+    }
+
+    return builder.build();
   }
 
   /**
@@ -404,6 +342,12 @@ public class KucoinAdapters {
         request.timeInForce(((TimeInForce) flag).name());
       }
     }
+
+    if (order.getUserReference() != null) {
+      request.clientOid(order.getUserReference());
+      hasClientId = true;
+    }
+
     if (!hasClientId) {
       request.clientOid(UUID.randomUUID().toString());
     }
@@ -425,17 +369,17 @@ public class KucoinAdapters {
   }
 
   public static FundingRecord adaptFundingRecord(WithdrawalResponse wr) {
-    FundingRecord.Builder b = new FundingRecord.Builder();
-    return b.setAddress(wr.getAddress())
-        .setAmount(wr.getAmount())
-        .setCurrency(Currency.getInstance(wr.getCurrency()))
-        .setFee(wr.getFee())
-        .setType(Type.WITHDRAWAL)
-        .setStatus(convertStatus(wr.getStatus()))
-        .setInternalId(wr.getId())
-        .setBlockchainTransactionHash(wr.getWalletTxId())
-        .setDescription(wr.getMemo())
-        .setDate(wr.getCreatedAt())
+    return FundingRecord.builder()
+        .address(wr.getAddress())
+        .amount(wr.getAmount())
+        .currency(Currency.getInstance(wr.getCurrency()))
+        .fee(wr.getFee())
+        .type(Type.WITHDRAWAL)
+        .status(convertStatus(wr.getStatus()))
+        .internalId(wr.getId())
+        .blockchainTransactionHash(wr.getWalletTxId())
+        .description(wr.getMemo())
+        .date(wr.getCreatedAt())
         .build();
   }
 
@@ -457,16 +401,16 @@ public class KucoinAdapters {
   }
 
   public static FundingRecord adaptFundingRecord(DepositResponse dr) {
-    FundingRecord.Builder b = new FundingRecord.Builder();
-    return b.setAddress(dr.getAddress())
-        .setAmount(dr.getAmount())
-        .setCurrency(Currency.getInstance(dr.getCurrency()))
-        .setFee(dr.getFee())
-        .setType(Type.DEPOSIT)
-        .setStatus(convertStatus(dr.getStatus()))
-        .setBlockchainTransactionHash(dr.getWalletTxId())
-        .setDescription(dr.getMemo())
-        .setDate(dr.getCreatedAt())
+    return FundingRecord.builder()
+        .address(dr.getAddress())
+        .amount(dr.getAmount())
+        .currency(Currency.getInstance(dr.getCurrency()))
+        .fee(dr.getFee())
+        .type(Type.DEPOSIT)
+        .status(convertStatus(dr.getStatus()))
+        .blockchainTransactionHash(dr.getWalletTxId())
+        .description(dr.getMemo())
+        .date(dr.getCreatedAt())
         .build();
   }
 }

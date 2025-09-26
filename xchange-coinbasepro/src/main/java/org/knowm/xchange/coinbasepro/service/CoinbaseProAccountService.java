@@ -47,7 +47,8 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   }
 
   @Override
-  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument(String... category)
+      throws IOException {
     CoinbaseProFee fees = getCoinbaseProFees();
 
     Map<Instrument, Fee> tradingFees = new HashMap<>();

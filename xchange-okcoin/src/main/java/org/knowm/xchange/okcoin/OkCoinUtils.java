@@ -21,7 +21,7 @@ public class OkCoinUtils {
   }
 
   public static String getErrorMessage(int errorCode) {
-    // https://www.okex.com/rest_request.html
+    // https://www.okx.com/docs-v5/en/#error-code-rest-api
     switch (errorCode) {
       case (1002):
         return "The transaction amount exceed the balance";

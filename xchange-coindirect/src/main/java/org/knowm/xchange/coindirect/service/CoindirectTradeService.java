@@ -100,7 +100,7 @@ public class CoindirectTradeService extends CoindirectTradeServiceRaw implements
                   return UserTrade.builder()
                       .type(CoindirectAdapters.convert(t.side))
                       .originalAmount(t.executedAmount)
-                      .currencyPair(CoindirectAdapters.toCurrencyPair(t.symbol))
+                      .instrument(CoindirectAdapters.toCurrencyPair(t.symbol))
                       .price(t.executedPrice)
                       .timestamp(t.dateCreated)
                       .id(t.uuid)

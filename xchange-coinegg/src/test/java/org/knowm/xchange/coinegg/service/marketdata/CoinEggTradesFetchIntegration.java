@@ -29,6 +29,6 @@ public class CoinEggTradesFetchIntegration {
     assertThat(trades.getTrades().get(0).getPrice()).isNotNull();
     assertThat(trades.getTrades().get(0).getOriginalAmount()).isNotNull();
     assertThat(trades.getTrades().get(0).getType()).isNotNull();
-    assertThat(trades.getTrades().get(0).getCurrencyPair()).isNotNull();
+    assertThat(trades.getTrades().get(0).getInstrument()).isNotNull();
   }
 }

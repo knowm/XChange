@@ -15,10 +15,10 @@ public class TradesTest {
 
   @Test
   public void TradeIDComparator() {
-    Trade t1 = new Trade.Builder().id("99").build();
-    Trade t2 = new Trade.Builder().id("100").build();
-    Trade t3 = new Trade.Builder().id("abc").build();
-    Trade t4 = new Trade.Builder().id("zzz").build();
+    Trade t1 = Trade.builder().id("99").build();
+    Trade t2 = Trade.builder().id("100").build();
+    Trade t3 = Trade.builder().id("abc").build();
+    Trade t4 = Trade.builder().id("zzz").build();
     Assert.assertTrue(new Trades.TradeIDComparator().compare(t1, t2) < 0);
     Assert.assertTrue(new Trades.TradeIDComparator().compare(t1, t3) < 0);
     Assert.assertTrue(new Trades.TradeIDComparator().compare(t2, t3) < 0);
@@ -34,8 +34,8 @@ public class TradesTest {
   @Test
   public void testSerializeDeserialize() throws IOException {
     Trade t1 =
-        new Trade.Builder()
-            .currencyPair(CurrencyPair.BTC_CAD)
+        Trade.builder()
+            .instrument(CurrencyPair.BTC_CAD)
             .id("BAR")
             .originalAmount(new BigDecimal("0.12"))
             .price(new BigDecimal("0.13"))

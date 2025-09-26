@@ -5,7 +5,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
+import static org.knowm.xchange.bybit.BybitAdapters.adaptLimitOrder;
+import static org.knowm.xchange.bybit.BybitAdapters.adaptMarketOrder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +14,7 @@ import jakarta.ws.rs.core.Response.Status;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.knowm.xchange.bybit.BybitAdapters;
@@ -21,14 +23,14 @@ import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;
-import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
-import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
 import org.knowm.xchange.bybit.dto.trade.details.linear.BybitLinearOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.spot.BybitSpotOrderDetail;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 
 public class BybitTradeServiceRawTest extends BaseWiremockTest {
 
@@ -255,22 +257,10 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
                     .withHeader("Content-Type", "application/json")
                     .withBody(orderPlacementResponse)));
 
+    MarketOrder marketOrder = new MarketOrder(OrderType.BID,BigDecimal.valueOf(0.1),new CurrencyPair("BTC/USDT"));
+    BybitCategory category = BybitAdapters.getCategory(marketOrder.getInstrument());
     BybitResult<BybitOrderResponse> order =
-        bybitAccountServiceRaw.placeOrder(
-            BybitCategory.SPOT,
-            convertToBybitSymbol(new CurrencyPair("BTC/USDT")),
-            BybitAdapters.getSideString(OrderType.BID),
-            BybitOrderType.MARKET,
-            BigDecimal.valueOf(0.1),
-            null,
-            "",
-            null,
-            null,
-            null,
-            null,
-            false,
-            0,
-            BybitTimeInForce.IOC);
+        bybitAccountServiceRaw.placeOrder(adaptMarketOrder(marketOrder,category), category);
 
     ObjectMapper mapper = new ObjectMapper();
     JsonNode responseObject = mapper.readTree(orderPlacementResponse);
@@ -312,22 +302,10 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
                     .withHeader("Content-Type", "application/json")
                     .withBody(orderPlacementResponse)));
 
+    LimitOrder limitOrder = new LimitOrder(OrderType.BID, BigDecimal.valueOf(0.1),new CurrencyPair("BTC/USDT"),"",new Date(),BigDecimal.valueOf(1000));
+    BybitCategory category = BybitAdapters.getCategory(limitOrder.getInstrument());
     BybitResult<BybitOrderResponse> order =
-        bybitAccountServiceRaw.placeOrder(
-            BybitCategory.SPOT,
-            convertToBybitSymbol(new CurrencyPair("BTC/USDT")),
-            BybitAdapters.getSideString(OrderType.BID),
-            BybitOrderType.LIMIT,
-            BigDecimal.valueOf(0.1),
-            BigDecimal.valueOf(1000),
-            "",
-            null,
-            null,
-            null,
-            null,
-            false,
-            0,
-            BybitTimeInForce.GTC);
+        bybitAccountServiceRaw.placeOrder(adaptLimitOrder(limitOrder,category), category);
 
     ObjectMapper mapper = new ObjectMapper();
     JsonNode responseObject = mapper.readTree(orderPlacementResponse);

@@ -1,0 +1,22 @@
+{
+  "code": "0",
+  "data": [
+    {
+      "category": "1",
+      "delivery": "0.0001",
+      "exercise": "",
+      "fiat": [],
+      "instType": "FUTURES",
+      "level": "Lv1",
+      "maker": "-0.0002",
+      "makerU": "-0.0002",
+      "makerUSDC": "-0.0002",
+      "ruleType": "normal",
+      "taker": "-0.0005",
+      "takerU": "-0.0005",
+      "takerUSDC": "-0.0005",
+      "ts": "1747255667641"
+    }
+  ],
+  "msg": ""
+}

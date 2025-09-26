@@ -84,7 +84,7 @@ public class CoinfloorAdaptersTests {
     assertThat(trades.getTrades()).hasSize(58);
 
     Trade trade = trades.getTrades().get(2);
-    assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_GBP);
+    assertThat(trade.getInstrument()).isEqualTo(CurrencyPair.BTC_GBP);
     assertThat(trade.getTimestamp().getTime()).isEqualTo(1489938696000L);
     assertThat(trade.getId()).isEqualTo("1489938696270805");
     assertThat(trade.getPrice()).isEqualTo("827.00");

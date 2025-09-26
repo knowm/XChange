@@ -1,50 +1,29 @@
 package org.knowm.xchange.bitso.dto.account;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.io.IOException;
-import org.knowm.xchange.bitso.dto.BitsoBaseResponse;
-import org.knowm.xchange.bitso.dto.account.BitsoDepositAddress.BitsoDepositAddressDeserializer;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
-@JsonDeserialize(using = BitsoDepositAddressDeserializer.class)
-public class BitsoDepositAddress extends BitsoBaseResponse {
+/**
+ * Bitso Deposit Address DTO
+ *
+ * @deprecated This functionality has been moved to the Bitso Funding API. Use funding API endpoints
+ *     for deposit address operations.
+ */
+@Deprecated
+@Value
+@Builder
+@Jacksonized
+public class BitsoDepositAddress {
 
+  /** The deposit address */
   private final String depositAddress;
 
-  protected BitsoDepositAddress(String error, String depositAddress) {
-
-    super(error);
-    this.depositAddress = depositAddress;
-  }
-
-  public String getDepositAddress() {
-
-    return depositAddress;
-  }
+  /** Error message if any */
+  private final String error;
 
   @Override
   public String toString() {
-
-    return "BitsoDepositAddress [depositAddress=" + depositAddress + "]";
-  }
-
-  static class BitsoDepositAddressDeserializer extends JsonDeserializer<BitsoDepositAddress> {
-
-    @Override
-    public BitsoDepositAddress deserialize(JsonParser jsonParser, DeserializationContext ctxt)
-        throws IOException, JsonProcessingException {
-
-      ObjectCodec oc = jsonParser.getCodec();
-      JsonNode node = oc.readTree(jsonParser);
-      if (node.get("error") != null) {
-        return new BitsoDepositAddress(node.path("error").asText(), "");
-      }
-      return new BitsoDepositAddress(null, node.asText());
-    }
+    return "BitsoDepositAddress [depositAddress=" + depositAddress + ", error=" + error + "]";
   }
 }

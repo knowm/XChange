@@ -79,7 +79,7 @@ public class MercadoBitcoinAdapterTest {
     assertThat(trades.getTrades().get(0).getPrice().toString()).isEqualTo("1015");
     assertThat(trades.getTrades().get(0).getType() == OrderType.BID);
     assertThat(trades.getTrades().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("1"));
-    assertThat(trades.getTrades().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_BRL);
+    assertThat(trades.getTrades().get(0).getInstrument()).isEqualTo(CurrencyPair.BTC_BRL);
   }
 
   @Test

@@ -106,7 +106,7 @@ public class CoinmateAdapters {
     Date timestamp = new Date(data.getTimestamp() * 1000L);
 
     return new Ticker.Builder()
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .last(last)
         .bid(bid)
         .ask(ask)
@@ -155,7 +155,7 @@ public class CoinmateAdapters {
   }
 
   public static Trade adaptTrade(CoinmateTransactionsEntry coinmateEntry) {
-    return new Trade.Builder()
+    return Trade.builder()
         .originalAmount(coinmateEntry.getAmount())
         .instrument(CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()))
         .price(coinmateEntry.getPrice())
@@ -206,7 +206,7 @@ public class CoinmateAdapters {
                     UserTrade.builder()
                         .type(typeToOrderTypeOrNull(entry.getTransactionType()))
                         .originalAmount(entry.getAmount())
-                        .currencyPair(
+                        .instrument(
                             CoinmateUtils.getPair(
                                 entry.getAmountCurrency() + "_" + entry.getPriceCurrency()))
                         .price(entry.getPrice())
@@ -231,7 +231,7 @@ public class CoinmateAdapters {
                     UserTrade.builder()
                         .type(typeToOrderTypeOrNull(entry.getType()))
                         .originalAmount(entry.getAmount())
-                        .currencyPair(CoinmateUtils.getPair(entry.getCurrencyPair()))
+                        .instrument(CoinmateUtils.getPair(entry.getCurrencyPair()))
                         .price(entry.getPrice())
                         .timestamp(new Date(entry.getCreatedTimestamp()))
                         .id(Long.toString(entry.getTransactionId()))
@@ -312,19 +312,19 @@ public class CoinmateAdapters {
       }
 
       FundingRecord funding =
-          new FundingRecord(
-              address,
-              addressTag,
-              new Date(entry.getTimestamp()),
-              Currency.getInstance(entry.getAmountCurrency()),
-              entry.getAmount(),
-              transactionId,
-              externalId,
-              type,
-              status,
-              null,
-              entry.getFee(),
-              description);
+          FundingRecord.builder()
+              .address(address)
+              .addressTag(addressTag)
+              .date(new Date(entry.getTimestamp()))
+              .currency(Currency.getInstance(entry.getAmountCurrency()))
+              .amount(entry.getAmount())
+              .internalId(transactionId)
+              .blockchainTransactionHash(externalId)
+              .type(type)
+              .status(status)
+              .fee(entry.getFee())
+              .description(description)
+              .build();
 
       fundings.add(funding);
     }
@@ -371,19 +371,17 @@ public class CoinmateAdapters {
     }
 
     FundingRecord funding =
-        new FundingRecord(
-            entry.getDestination(),
-            entry.getDestinationTag(),
-            new Date(entry.getTimestamp()),
-            Currency.getInstance(entry.getAmountCurrency()),
-            entry.getAmount(),
-            Long.toString(entry.getId()),
-            null,
-            type,
-            status,
-            null,
-            entry.getFee(),
-            null);
+        FundingRecord.builder()
+            .address(entry.getDestination())
+            .addressTag(entry.getDestinationTag())
+            .date(new Date(entry.getTimestamp()))
+            .currency(Currency.getInstance(entry.getAmountCurrency()))
+            .amount(entry.getAmount())
+            .internalId(Long.toString(entry.getId()))
+            .type(type)
+            .status(status)
+            .fee(entry.getFee())
+            .build();
 
     return Collections.singletonList(funding);
   }

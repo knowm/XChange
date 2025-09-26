@@ -3,7 +3,10 @@ package org.knowm.xchange.binance.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.List;
+import lombok.Builder;
 
+
+@Builder
 public final class BinanceNewOrder {
 
   /** Desired response type for BinanceNewOrder. */

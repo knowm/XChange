@@ -8,8 +8,6 @@ import dto.BybitSubscribeMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
@@ -49,7 +47,6 @@ public class BybitUserDataStreamingService extends JsonNettyStreamingService {
   public BybitUserDataStreamingService(String url, ExchangeSpecification spec) {
     super(url);
     this.spec = spec;
-    // this.setEnableLoggingHandler(true);
   }
 
   @Override
@@ -58,6 +55,7 @@ public class BybitUserDataStreamingService extends JsonNettyStreamingService {
     return conn.andThen(
         (CompletableSource)
             (completable) -> {
+              LOG.info("Connect to BybitUserDataStream with auth");
               login();
               pingPongDisconnectIfConnected();
               pingPongSubscription =
@@ -170,30 +168,6 @@ public class BybitUserDataStreamingService extends JsonNettyStreamingService {
   public void pingPongDisconnectIfConnected() {
     if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
       pingPongSubscription.dispose();
-    }
-  }
-
-  /**
-   * Custom client handler in order to execute an external, user-provided handler on channel events.
-   */
-  class BybitUserDataWebSocketClientHandler extends NettyWebSocketClientHandler {
-
-    public BybitUserDataWebSocketClientHandler(
-        WebSocketClientHandshaker handshake, WebSocketMessageHandler handler) {
-      super(handshake, handler);
-    }
-
-    @Override
-    public void channelActive(ChannelHandlerContext ctx) {
-      super.channelActive(ctx);
-    }
-
-    @Override
-    public void channelInactive(ChannelHandlerContext ctx) {
-      super.channelInactive(ctx);
-      if (channelInactiveHandler != null) {
-        channelInactiveHandler.onMessage("WebSocket Client disconnected!");
-      }
     }
   }
 

@@ -79,7 +79,7 @@ public class ExmoMarketDataServiceRaw extends BaseExmoService {
       // min_quantity or min_amount ???
       currencyPairs.put(
           currencyPair,
-          new InstrumentMetaData.Builder()
+          InstrumentMetaData.builder()
               .tradingFee(tradingFee)
               .minimumAmount(new BigDecimal(data.get("min_quantity")))
               .maximumAmount(new BigDecimal(data.get("max_quantity")))
@@ -125,10 +125,10 @@ public class ExmoMarketDataServiceRaw extends BaseExmoService {
         long unixTimestamp = Long.parseLong(tradeData.get("date").toString());
 
         results.add(
-            new Trade.Builder()
+            Trade.builder()
                 .type(type.equalsIgnoreCase("sell") ? Order.OrderType.ASK : Order.OrderType.BID)
                 .originalAmount(new BigDecimal(quantity))
-                .currencyPair(currencyPair)
+                .instrument(currencyPair)
                 .price(new BigDecimal(price))
                 .timestamp(new Date(unixTimestamp * 1000L))
                 .id(id)

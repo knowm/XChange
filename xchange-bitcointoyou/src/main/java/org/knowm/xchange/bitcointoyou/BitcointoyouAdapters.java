@@ -128,10 +128,10 @@ public final class BitcointoyouAdapters {
         bitcointoyouTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
     Date timestamp = fromRfc3339DateStringQuietly(bitcointoyouTrade.getDate().toString());
 
-    return new Trade.Builder()
+    return Trade.builder()
         .type(type)
         .originalAmount(bitcointoyouTrade.getAmount())
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(bitcointoyouTrade.getPrice())
         .timestamp(timestamp)
         .id(bitcointoyouTrade.getTid().toString())

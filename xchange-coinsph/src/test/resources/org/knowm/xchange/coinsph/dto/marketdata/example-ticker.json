@@ -1,0 +1,23 @@
+{
+  "symbol": "BTCPHP",
+  "priceChange": "34529.5",
+  "priceChangePercent": "0.6",
+  "weightedAvgPrice": "5803758.7",
+  "prevClosePrice": "5769229.2",
+  "lastPrice": "5803758.7",
+  "lastQty": "0.0001",
+  "bidPrice": "5803095.5",
+  "bidQty": "0.0000824",
+  "askPrice": "5944316.4",
+  "askQty": "0.0008186",
+  "openPrice": "5769229.2",
+  "highPrice": "5944316.4",
+  "lowPrice": "5674429.4",
+  "volume": "2.0446395",
+  "quoteVolume": "11762126.4",
+  "openTime": 1747330920000,
+  "closeTime": 1747330920249,
+  "firstId": 12345,
+  "lastId": 12346,
+  "count": 100
+}

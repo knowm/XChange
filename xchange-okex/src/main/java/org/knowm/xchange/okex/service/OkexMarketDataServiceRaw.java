@@ -158,4 +158,17 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
         (String)
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem(PARAM_SIMULATED));
   }
+
+  public OkexResponse<List<OkexCandleStick>> getCandle(
+      String instrument, String after, String before, String bar, String limit)
+      throws OkexException, IOException {
+    return okex.getCandles(
+        instrument,
+        after,
+        before,
+        bar,
+        limit,
+        (String)
+            exchange.getExchangeSpecification().getExchangeSpecificParametersItem(PARAM_SIMULATED));
+  }
 }

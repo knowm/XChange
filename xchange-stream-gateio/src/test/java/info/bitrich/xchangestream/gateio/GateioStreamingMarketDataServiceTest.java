@@ -108,7 +108,7 @@ class GateioStreamingMarketDataServiceTest {
     testObserver.dispose();
 
     Trade expected =
-        new Trade.Builder()
+        Trade.builder()
             .instrument(CurrencyPair.BTC_USDT)
             .id("6064666343")
             .originalAmount(new BigDecimal("0.0003009"))

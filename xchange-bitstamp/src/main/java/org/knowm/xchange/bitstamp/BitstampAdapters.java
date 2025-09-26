@@ -19,6 +19,7 @@ import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatus;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatusResponse;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderTransaction;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampTradingFee;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.bitstamp.order.dto.BitstampGenericOrder;
 import org.knowm.xchange.currency.Currency;
@@ -27,6 +28,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -160,10 +162,10 @@ public final class BitstampAdapters {
         DateUtils.fromMillisUtc(
             tx.getDate()
                 * timeScale); // polled order books provide a timestamp in seconds, stream in ms
-    return new Trade.Builder()
+    return Trade.builder()
         .type(orderType)
         .originalAmount(tx.getAmount())
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(tx.getPrice())
         .timestamp(date)
         .id(tradeId)
@@ -237,7 +239,7 @@ public final class BitstampAdapters {
           UserTrade.builder()
               .type(orderType)
               .originalAmount(t.getBaseAmount().abs())
-              .currencyPair(pair)
+              .instrument(pair)
               .price(t.getPrice().abs())
               .timestamp(t.getDatetime())
               .id(Long.toString(tradeId))
@@ -294,23 +296,45 @@ public final class BitstampAdapters {
           }
         }
 
-        FundingRecord record =
-            new FundingRecord(
-                null,
-                trans.getDatetime(),
-                Currency.getInstance(amount.getKey()),
-                amount.getValue().abs(),
-                String.valueOf(trans.getId()),
-                null,
-                type,
-                FundingRecord.Status.COMPLETE,
-                null,
-                getFeeFromString(trans.getFee()),
-                null);
+        FundingRecord record = FundingRecord.builder()
+            .date(trans.getDatetime())
+            .currency(Currency.getInstance(amount.getKey()))
+            .amount(amount.getValue().abs())
+            .internalId(String.valueOf(trans.getId()))
+            .type(type)
+            .status(FundingRecord.Status.COMPLETE)
+            .fee(getFeeFromString(trans.getFee()))
+            .build();
         fundingRecords.add(record);
       }
     }
     return fundingRecords;
+  }
+
+  public static Map<Instrument, Fee> adaptTradingFees(List<BitstampTradingFee> tradingFees) {
+    Map<Instrument, Fee> result = new HashMap<>();
+    if (tradingFees == null || tradingFees.isEmpty()) {
+      return result;
+    }
+
+    for (BitstampTradingFee tradingFee : tradingFees) {
+      String key = tradingFee.getCurrencyPair();
+      CurrencyPair currencyPair = new CurrencyPair(key);
+
+      if (tradingFee.getFees() == null || tradingFee.getFees().isEmpty()) {
+        throw new IllegalArgumentException(
+            "Trading fee is null or empty for currency pair: " + key);
+      }
+
+      BigDecimal maker = getFeeFromString(tradingFee.getFees().get(0).getMaker());
+      BigDecimal taker = getFeeFromString(tradingFee.getFees().get(0).getTaker());
+
+      Fee fee = new Fee(maker, taker);
+
+      result.put(currencyPair, fee);
+    }
+
+    return result;
   }
 
   private static CurrencyPair adaptCurrencyPair(
@@ -431,7 +455,7 @@ public final class BitstampAdapters {
     String[] minOrderParts = pairInfo.getMinimumOrder().split(" ");
     BigDecimal minOrder = new BigDecimal(minOrderParts[0]);
 
-    return new InstrumentMetaData.Builder()
+    return InstrumentMetaData.builder()
         .counterMinimumAmount(minOrder)
         .priceScale(pairInfo.getCounterDecimals())
         .volumeScale(pairInfo.getBaseDecimals())

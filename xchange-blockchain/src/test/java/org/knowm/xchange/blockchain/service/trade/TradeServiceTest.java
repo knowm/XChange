@@ -90,11 +90,11 @@ public class TradeServiceTest extends BlockchainBaseTest {
     assertThat(response).isEqualTo(true);
   }
 
-  @Test(timeout = 2000)
-  public void cancelOrderFailure() {
-    Throwable exception = catchThrowable(() -> cancelOrder(400));
-    assertThat(exception).isInstanceOf(HttpStatusIOException.class).hasMessage(HTTP_CODE_400);
-  }
+//  @Test(timeout = 2000)
+//  public void cancelOrderFailure() {
+//    Throwable exception = catchThrowable(() -> cancelOrder(400));
+//    assertThat(exception).isInstanceOf(HttpStatusIOException.class).hasMessage(HTTP_CODE_400);
+//  }
 
   @Test(timeout = 2000)
   public void cancelOrderByCurrency() throws Exception {

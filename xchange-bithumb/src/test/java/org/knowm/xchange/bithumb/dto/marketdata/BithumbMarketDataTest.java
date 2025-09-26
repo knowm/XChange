@@ -138,7 +138,7 @@ public class BithumbMarketDataTest {
     // then
     assertThat(trade.getType()).isEqualTo(Order.OrderType.BID);
     assertThat(trade.getOriginalAmount()).isEqualTo(new BigDecimal("1.0"));
-    assertThat(trade.getCurrencyPair()).isEqualTo(new CurrencyPair(Currency.BTC, Currency.KRW));
+    assertThat(trade.getInstrument()).isEqualTo(new CurrencyPair(Currency.BTC, Currency.KRW));
     assertThat(trade.getPrice()).isEqualTo(BigDecimal.valueOf(6779000));
     assertThat(trade.getTimestamp()).isNotNull();
     assertThat(trade.getId()).isNotNull();

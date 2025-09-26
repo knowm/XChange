@@ -12,7 +12,7 @@ public class GateioExchangeTest extends GateioExchangeWiremock {
   @Test
   void metadata_present() {
     InstrumentMetaData expected =
-        new InstrumentMetaData.Builder()
+        InstrumentMetaData.builder()
             .tradingFee(new BigDecimal("0.2"))
             .minimumAmount(new BigDecimal("0.0001"))
             .counterMinimumAmount(BigDecimal.ONE)

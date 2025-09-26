@@ -1,9 +1,8 @@
 package info.bitrich.xchangestream.okex;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import info.bitrich.xchangestream.okex.dto.OkexLoginMessage;
 import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
+import info.bitrich.xchangestream.okex.dto.OkexSubscriptionTopic;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,38 +12,25 @@ import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.okex.dto.OkexInstType;
-import org.knowm.xchange.service.BaseParamsDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class OkexStreamingService extends JsonNettyStreamingService {
 
   private static final Logger LOG = LoggerFactory.getLogger(OkexStreamingService.class);
-  private static final String LOGIN_SIGN_METHOD = "GET";
-  private static final String LOGIN_SIGN_REQUEST_PATH = "/users/self/verify";
 
-  private static final String SUBSCRIBE = "subscribe";
-  private static final String UNSUBSCRIBE = "unsubscribe";
+  protected static final String SUBSCRIBE = "subscribe";
+  protected static final String UNSUBSCRIBE = "unsubscribe";
 
   public static final String TRADES = "trades";
   public static final String ORDERBOOK = "books";
   public static final String ORDERBOOK5 = "books5";
   public static final String FUNDING_RATE = "funding-rate";
   public static final String TICKERS = "tickers";
-  public static final String USERTRADES = "orders";
 
   private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
 
@@ -54,10 +40,6 @@ public class OkexStreamingService extends JsonNettyStreamingService {
 
   private final ExchangeSpecification xSpec;
 
-  private volatile boolean loginDone = false;
-
-  private volatile boolean needToResubscribeChannels = false;
-
   public OkexStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
     super(apiUrl);
     this.xSpec = exchangeSpecification;
@@ -65,59 +47,20 @@ public class OkexStreamingService extends JsonNettyStreamingService {
 
   @Override
   public Completable connect() {
-    loginDone = xSpec.getApiKey() == null;
     Completable conn = super.connect();
     return conn.andThen(
         (CompletableSource)
             (completable) -> {
               try {
-                if (xSpec.getApiKey() != null) {
-                  login();
-                }
-
                 if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
                   pingPongSubscription.dispose();
                 }
-
                 pingPongSubscription = pingPongSrc.subscribe(o -> this.sendMessage("ping"));
                 completable.onComplete();
               } catch (Exception e) {
                 completable.onError(e);
               }
             });
-  }
-
-  @Override
-  public void resubscribeChannels() {
-    needToResubscribeChannels = true;
-    if (loginDone) {
-      super.resubscribeChannels();
-    }
-  }
-
-  public void login() throws JsonProcessingException {
-    Mac mac;
-    try {
-      mac = Mac.getInstance(BaseParamsDigest.HMAC_SHA_256);
-      final SecretKey secretKey =
-          new SecretKeySpec(
-              xSpec.getSecretKey().getBytes(StandardCharsets.UTF_8), BaseParamsDigest.HMAC_SHA_256);
-      mac.init(secretKey);
-    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-      throw new ExchangeException("Invalid API secret", e);
-    }
-    String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
-    String toSign = timestamp + LOGIN_SIGN_METHOD + LOGIN_SIGN_REQUEST_PATH;
-    String sign =
-        Base64.getEncoder().encodeToString(mac.doFinal(toSign.getBytes(StandardCharsets.UTF_8)));
-
-    OkexLoginMessage message = new OkexLoginMessage();
-    String passphrase = xSpec.getExchangeSpecificParametersItem("passphrase").toString();
-    OkexLoginMessage.LoginArg loginArg =
-        new OkexLoginMessage.LoginArg(xSpec.getApiKey(), passphrase, timestamp, sign);
-    message.getArgs().add(loginArg);
-
-    this.sendMessage(objectMapper.writeValueAsString(message));
   }
 
   @Override
@@ -136,19 +79,6 @@ public class OkexStreamingService extends JsonNettyStreamingService {
       LOG.error("Error parsing incoming message to JSON: {}", message);
       return;
     }
-    // Retry after a successful login
-    if (jsonNode.has("event")) {
-      String event = jsonNode.get("event").asText();
-      if ("login".equals(event)) {
-        loginDone = true;
-        if (needToResubscribeChannels) {
-          this.resubscribeChannels();
-          needToResubscribeChannels = false;
-        }
-        return;
-      }
-    }
-
     if (processArrayMessageSeparately() && jsonNode.isArray()) {
       // In case of array - handle every message separately.
       for (JsonNode node : jsonNode) {
@@ -174,33 +104,30 @@ public class OkexStreamingService extends JsonNettyStreamingService {
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
     return objectMapper.writeValueAsString(
-        new OkexSubscribeMessage(SUBSCRIBE, Collections.singletonList(getTopic(channelName))));
+        new OkexSubscribeMessage("",SUBSCRIBE, Collections.singletonList(getTopic(channelName))));
   }
 
   @Override
   public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     return objectMapper.writeValueAsString(
-        new OkexSubscribeMessage(UNSUBSCRIBE, Collections.singletonList(getTopic(channelName))));
+        new OkexSubscribeMessage<>("",UNSUBSCRIBE, Collections.singletonList(getTopic(channelName))));
   }
 
-  private OkexSubscribeMessage.SubscriptionTopic getTopic(String channelName) {
+  private OkexSubscriptionTopic getTopic(String channelName) {
     if (channelName.contains(ORDERBOOK5)) {
-      return new OkexSubscribeMessage.SubscriptionTopic(
+      return new OkexSubscriptionTopic(
           ORDERBOOK5, null, null, channelName.replace(ORDERBOOK5, ""));
     } else if (channelName.contains(ORDERBOOK)) {
-      return new OkexSubscribeMessage.SubscriptionTopic(
+      return new OkexSubscriptionTopic(
           ORDERBOOK, null, null, channelName.replace(ORDERBOOK, ""));
     } else if (channelName.contains(TRADES)) {
-      return new OkexSubscribeMessage.SubscriptionTopic(
+      return new OkexSubscriptionTopic(
           TRADES, null, null, channelName.replace(TRADES, ""));
     } else if (channelName.contains(TICKERS)) {
-      return new OkexSubscribeMessage.SubscriptionTopic(
+      return new OkexSubscriptionTopic(
           TICKERS, null, null, channelName.replace(TICKERS, ""));
-    } else if (channelName.contains(USERTRADES)) {
-      return new OkexSubscribeMessage.SubscriptionTopic(
-          USERTRADES, OkexInstType.ANY, null, channelName.replace(USERTRADES, ""));
     } else if (channelName.contains(FUNDING_RATE)) {
-      return new OkexSubscribeMessage.SubscriptionTopic(
+      return new OkexSubscriptionTopic(
           FUNDING_RATE, null, null, channelName.replace(FUNDING_RATE, ""));
     } else {
       throw new NotYetImplementedForExchangeException(

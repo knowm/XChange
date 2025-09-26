@@ -5,7 +5,7 @@ import static org.knowm.xchange.bybit.BybitExchange.SPECIFIC_PARAM_ACCOUNT_TYPE;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Random;
+import java.security.SecureRandom;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -53,7 +53,7 @@ public class BybitCancelOrderExample {
     BigDecimal price = tickerETH_USDT_PERP.getLow().add(new BigDecimal("50").negate());
     LimitOrder limitSpotOrder =
         new LimitOrder(OrderType.BID, new BigDecimal("0.05"), ETH_USDT, null, null, price);
-    String userReference0 = String.valueOf(new Random().nextLong());
+    String userReference0 = String.valueOf(new SecureRandom().nextLong());
     LimitOrder limitFutureOrder0 =
         new LimitOrder(
             OrderType.BID,
@@ -67,7 +67,7 @@ public class BybitCancelOrderExample {
             null,
             OrderStatus.PENDING_NEW,
             userReference0);
-    String userReference1 = String.valueOf(new Random().nextLong());
+    String userReference1 = String.valueOf(new SecureRandom().nextLong());
     LimitOrder limitFutureOrder1 =
         new LimitOrder(
             OrderType.BID,

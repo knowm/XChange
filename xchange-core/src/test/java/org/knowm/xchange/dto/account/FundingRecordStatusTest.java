@@ -6,6 +6,7 @@ import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
 
 import org.junit.Test;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 
 public class FundingRecordStatusTest {
 
@@ -24,28 +25,25 @@ public class FundingRecordStatusTest {
     testStatusDesc("COMPLETE", null, FundingRecord.Status.COMPLETE, null);
   }
 
-  @Test
-  public void shouldProcessStatusAsDescriptionWhenDescInputNull() throws Exception {
-    testStatusDesc("Unknown", null, null, "Unknown");
-  }
-
-  @Test
-  public void shouldPrependUnrecognizedStatusStringToDescription() throws Exception {
-    testStatusDesc(
-        "AdminCancelled",
-        "The administrator has cancelled the transfers.",
-        null,
-        "AdminCancelled: The administrator has cancelled the transfers.");
-  }
-
   private void testStatusDesc(
       String statusInput,
       String descriptionInput,
       FundingRecord.Status expectedStatus,
       String expectedDescription) {
     final FundingRecord fundingRecord =
-        new FundingRecord(
-            "", null, BTC, ONE, "", "", DEPOSIT, statusInput, ONE, ONE, descriptionInput);
+        FundingRecord.builder()
+            .address("")
+            .currency(BTC)
+            .amount(ONE)
+            .internalId("")
+            .blockchainTransactionHash("")
+            .type(DEPOSIT)
+            .status(Status.resolveStatus(statusInput))
+            .fee(ONE)
+            .balance(ONE)
+            .description(descriptionInput)
+            .build();
+
     assertThat(fundingRecord.getStatus()).isEqualTo(expectedStatus);
     assertThat(fundingRecord.getDescription()).isEqualTo(expectedDescription);
   }

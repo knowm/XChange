@@ -38,18 +38,18 @@ public class BitsoUserTradeHistoryDemo {
     // limit the result to 17 of those types and from those 17 only trades are
     // returned. It is recommended to use the raw service demonstrated below
     // if you want to use this feature.
-    Trades tradesLimitedTo17 = tradeService.getTradeHistory(new DefaultTradeHistoryParamPaging(17));
+    Trades tradesLimitedTo17 = tradeService.getTradeHistory(DefaultTradeHistoryParamPaging.builder().pageLength(17).build());
     System.out.println(tradesLimitedTo17);
   }
 
   private static void raw(BitsoTradeServiceRaw tradeService) throws IOException {
 
-    BitsoUserTransaction[] trades = tradeService.getBitsoUserTransactions(1000L);
+    BitsoUserTransaction[] trades = tradeService.getBitsoUserTrades(1000, null, null);
     for (BitsoUserTransaction trade : trades) {
       System.out.println(trade);
     }
 
-    BitsoUserTransaction[] tradesLimitedTo17 = tradeService.getBitsoUserTransactions(17L);
+    BitsoUserTransaction[] tradesLimitedTo17 = tradeService.getBitsoUserTrades(17, null, null);
     for (BitsoUserTransaction trade : tradesLimitedTo17) {
       System.out.println(trade);
     }

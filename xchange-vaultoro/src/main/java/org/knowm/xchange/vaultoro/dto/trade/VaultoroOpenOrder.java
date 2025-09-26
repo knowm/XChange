@@ -9,10 +9,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"Order_ID", "BTC_Amount", "Gold_Price", "Gold_Amount"})
 public class VaultoroOpenOrder {
 

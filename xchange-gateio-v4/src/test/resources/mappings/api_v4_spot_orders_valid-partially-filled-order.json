@@ -1,0 +1,15 @@
+{
+  "id" : "0c9afb47-af6a-4ee8-83db-c93aaa12df37",
+  "name" : "api_v4_spot_orders_874190804193",
+  "request" : {
+    "url" : "/api/v4/spot/orders/874190804193?currency_pair=FREE_USDT",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v4_spot_orders_valid-partially-filled-order.json"
+  },
+  "uuid" : "0c9afb47-af6a-4ee8-83db-c93aaa12df37",
+  "persistent" : true,
+  "insertionIndex" : 37
+}

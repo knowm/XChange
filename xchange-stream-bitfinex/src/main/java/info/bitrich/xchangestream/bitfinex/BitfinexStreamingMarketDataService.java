@@ -18,7 +18,7 @@ import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.core.Observable;
 import java.util.HashMap;
 import java.util.Map;
-import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -36,19 +36,11 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
     this.service = service;
   }
 
-  private String pairToSymbol(CurrencyPair currencyPair) {
-    return (currencyPair.getCounter() == Currency.USDT)
-        ? ("t" + currencyPair.getBase().getCurrencyCode() + "UST")
-        : ("t"
-            + currencyPair.getBase().getCurrencyCode()
-            + currencyPair.getCounter().getCurrencyCode());
-  }
-
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channelName = "book";
     final String depth = args.length > 0 ? args[0].toString() : "100";
-    String pair = pairToSymbol(currencyPair);
+    String pair = BitfinexAdapters.adaptCurrencyPair(currencyPair);
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
     Observable<BitfinexWebSocketOrderbookTransaction> subscribedChannel =
@@ -74,7 +66,7 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     String channelName = "ticker";
 
-    String pair = pairToSymbol(currencyPair);
+    String pair = BitfinexAdapters.adaptCurrencyPair(currencyPair);
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
     Observable<BitfinexWebSocketTickerTransaction> subscribedChannel =
@@ -90,7 +82,7 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
     String channelName = "trades";
     final String tradeType = args.length > 0 ? args[0].toString() : "te";
 
-    String pair = pairToSymbol(currencyPair);
+    String pair = BitfinexAdapters.adaptCurrencyPair(currencyPair);
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
     Observable<BitfinexWebSocketTradesTransaction> subscribedChannel =

@@ -1,0 +1,20 @@
+{
+  "id" : "709217bd-fbce-4f54-ab98-f88f84e3c041",
+  "name" : "v2_auth_r_positions",
+  "request" : {
+    "url" : "/v2/auth/r/positions",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_auth_r_positions.json"
+  },
+  "uuid" : "709217bd-fbce-4f54-ab98-f88f84e3c041",
+  "persistent" : true,
+  "insertionIndex" : 17
+}

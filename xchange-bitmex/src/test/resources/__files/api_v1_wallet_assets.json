@@ -147,5 +147,39 @@
         "maxFee": 100000000
       }
     ]
+  },
+  {
+    "asset": "FTR",
+    "currency": "FTr",
+    "majorCurrency": "FTR",
+    "name": "Fautor",
+    "currencyType": "Crypto",
+    "scale": 5,
+    "enabled": true,
+    "isMarginCurrency": false,
+    "minDepositAmount": 10000000,
+    "minWithdrawalAmount": 10000000,
+    "maxWithdrawalAmount": 10000000000000,
+    "memoRequired": false,
+    "networks": [
+      {
+        "asset": "avax",
+        "tokenAddress": "0x61f23250451305f6C4426E81C50aE535Edf94A02",
+        "depositEnabled": true,
+        "withdrawalEnabled": true,
+        "withdrawalFee": 2500000,
+        "minFee": 2500000,
+        "maxFee": 2500000
+      },
+      {
+        "asset": "eth",
+        "tokenAddress": "0xD6C7bB8531295e88D364EA67D5D1acC7D3F87454",
+        "depositEnabled": true,
+        "withdrawalEnabled": true,
+        "withdrawalFee": 400000000,
+        "minFee": 400000000,
+        "maxFee": 400000000
+      }
+    ]
   }
 ]

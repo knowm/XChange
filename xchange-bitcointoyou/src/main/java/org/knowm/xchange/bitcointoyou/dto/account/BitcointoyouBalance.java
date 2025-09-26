@@ -6,14 +6,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Generated;
 
 /**
  * @author Danilo Guimaraes
  * @author Jonathas Carrijo
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"success", "oReturn", "error", "date", "timestamp"})
 public class BitcointoyouBalance {
 

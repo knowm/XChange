@@ -17,7 +17,7 @@ public class OpenPositionsTest {
 
     List<OpenPosition> openPositionList = new ArrayList<>();
     OpenPosition openPosition =
-        new OpenPosition.Builder()
+        OpenPosition.builder()
             .instrument(CurrencyPair.BTC_USD)
             .type(OpenPosition.Type.LONG)
             .price(BigDecimal.ONE)
@@ -25,7 +25,7 @@ public class OpenPositionsTest {
             .liquidationPrice(BigDecimal.TEN)
             .build();
     openPositionList.add(openPosition);
-    openPositionList.add(new OpenPosition.Builder().instrument(CurrencyPair.BTC_USD).build());
+    openPositionList.add(OpenPosition.builder().instrument(CurrencyPair.BTC_USD).build());
     openPositionList.add(openPosition);
     OpenPositions openPositions = new OpenPositions(openPositionList);
 

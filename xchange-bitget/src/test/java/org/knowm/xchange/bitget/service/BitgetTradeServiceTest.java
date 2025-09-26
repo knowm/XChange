@@ -115,18 +115,17 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
     assertThat(userTrades.getUserTrades()).hasSize(1);
 
     UserTrade expected =
-        new UserTrade(
-            OrderType.BID,
-            new BigDecimal("0.000246"),
-            BTC_USDT,
-            new BigDecimal("60775.01"),
-            Date.from(Instant.ofEpochMilli(1727902077419L)),
-            "1225475622852575236",
-            "1225475622585147396",
-            new BigDecimal("0.000000246"),
-            Currency.BTC,
-            null);
-
+        UserTrade.builder()
+            .type(OrderType.BID)
+            .originalAmount(new BigDecimal("0.000246"))
+            .instrument(BTC_USDT)
+            .price(new BigDecimal("60775.01"))
+            .timestamp(Date.from(Instant.ofEpochMilli(1727902077419L)))
+            .id("1225475622852575236")
+            .orderId("1225475622585147396")
+            .feeAmount(new BigDecimal("0.000000246"))
+            .feeCurrency(Currency.BTC)
+            .build();
     assertThat(userTrades.getUserTrades()).first().usingRecursiveComparison().isEqualTo(expected);
   }
 }

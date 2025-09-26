@@ -13,7 +13,9 @@ public class BitgetIntegrationTestParent {
 
   @BeforeAll
   static void init() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(BitgetExchange.class);
+    if (exchange == null) {
+      exchange = ExchangeFactory.INSTANCE.createExchange(BitgetExchange.class);
+    }
   }
 
   @BeforeEach

@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance.Balance;
 
 /** Test BitStamp Full Depth JSON parsing */

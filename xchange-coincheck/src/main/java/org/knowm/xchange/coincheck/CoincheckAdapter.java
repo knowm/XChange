@@ -73,7 +73,7 @@ public final class CoincheckAdapter {
   @SneakyThrows
   public static Trade createTrade(CoincheckTrade coincheckTrade) {
     CoincheckPair pair = CoincheckPair.stringToPair(coincheckTrade.getPair());
-    return new Trade.Builder()
+    return Trade.builder()
         .id(Long.toString(coincheckTrade.getId()))
         .instrument(pair.getPair())
         .originalAmount(coincheckTrade.getAmount())

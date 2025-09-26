@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 /* Author: Max Gao (gaamox@tutanota.com) Created: 09-06-2021 */
-/** <a href="https://www.okex.com/docs-v5/en/#rest-api-trade-place-order">...</a> * */
+/** <a href="https://www.okx.com/docs-v5/en/#rest-api-trade-place-order">...</a> * */
 @Builder
 public class OkexOrderRequest {
   @JsonProperty("instId")
@@ -39,4 +39,7 @@ public class OkexOrderRequest {
 
   @JsonProperty("reduceOnly")
   private boolean reducePosition;
+
+  @JsonProperty("tradeQuoteCcy")
+  private String tradeQuoteCcy;
 }

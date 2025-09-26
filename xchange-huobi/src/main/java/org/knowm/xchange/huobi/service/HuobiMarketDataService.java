@@ -86,10 +86,10 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
             .map(t -> t.getData()[0])
             .map(
                 t ->
-                    new Trade.Builder()
+                    Trade.builder()
                         .type(HuobiAdapters.adaptOrderType(t.getDirection()))
                         .originalAmount(t.getAmount())
-                        .currencyPair(currencyPair)
+                        .instrument(currencyPair)
                         .price(t.getPrice())
                         .timestamp(t.getTs())
                         .id(t.getId())

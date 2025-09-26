@@ -1,15 +1,16 @@
 package org.knowm.xchange.bybit.service;
 
 import static org.knowm.xchange.bybit.BybitAdapters.adaptBybitOrderDetails;
+import static org.knowm.xchange.bybit.BybitAdapters.adaptChangeOrder;
+import static org.knowm.xchange.bybit.BybitAdapters.adaptLimitOrder;
+import static org.knowm.xchange.bybit.BybitAdapters.adaptMarketOrder;
 import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
 import static org.knowm.xchange.bybit.BybitAdapters.createBybitExceptionFromResult;
-import static org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode.TWOWAY;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
@@ -20,15 +21,10 @@ import org.knowm.xchange.bybit.dto.trade.BybitCancelAllOrdersParams;
 import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderParams;
 import org.knowm.xchange.bybit.dto.trade.BybitOpenOrdersParam;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
-import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
-import org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetails;
-import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.Order.IOrderFlags;
-import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -50,62 +46,17 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     BybitCategory category = BybitAdapters.getCategory(marketOrder.getInstrument());
-    int positionIdx = getPositionIdx(marketOrder);
-    boolean reduceOnly =
-        marketOrder.getType().equals(OrderType.EXIT_ASK)
-            || marketOrder.getType().equals(OrderType.EXIT_BID);
     BybitResult<BybitOrderResponse> orderResponseBybitResult =
-        placeOrder(
-            category,
-            convertToBybitSymbol(marketOrder.getInstrument()),
-            BybitAdapters.getSideString(marketOrder.getType()),
-            BybitOrderType.MARKET,
-            marketOrder.getOriginalAmount(),
-            null,
-            marketOrder.getUserReference(),
-            null,
-            null,
-            null,
-            null,
-            reduceOnly,
-            positionIdx,
-            BybitTimeInForce.IOC);
+        placeOrder(adaptMarketOrder(marketOrder, category), category);
     return orderResponseBybitResult.getResult().getOrderId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     BybitCategory category = BybitAdapters.getCategory(limitOrder.getInstrument());
-    BybitTimeInForce timeInForce =
-        getOrderFlag(limitOrder, BybitTimeInForce.class).orElse(BybitTimeInForce.GTC);
-    int positionIdx = getPositionIdx(limitOrder);
-    boolean reduceOnly =
-        limitOrder.getType().equals(OrderType.EXIT_ASK)
-            || limitOrder.getType().equals(OrderType.EXIT_BID);
     BybitResult<BybitOrderResponse> orderResponseBybitResult =
-        placeOrder(
-            category,
-            convertToBybitSymbol(limitOrder.getInstrument()),
-            BybitAdapters.getSideString(limitOrder.getType()),
-            BybitOrderType.LIMIT,
-            limitOrder.getOriginalAmount(),
-            limitOrder.getLimitPrice(),
-            limitOrder.getUserReference(),
-            null,
-            null,
-            null,
-            null,
-            reduceOnly,
-            positionIdx,
-            timeInForce);
+        placeOrder(adaptLimitOrder(limitOrder, category), category);
     return orderResponseBybitResult.getResult().getOrderId();
-  }
-
-  private <T extends IOrderFlags> Optional<T> getOrderFlag(Order order, Class<T> clazz) {
-    return (Optional<T>)
-        order.getOrderFlags().stream()
-            .filter(flag -> clazz.isAssignableFrom(flag.getClass()))
-            .findFirst();
   }
 
   @Override
@@ -156,22 +107,7 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
   public String changeOrder(LimitOrder order) throws IOException {
     BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
     BybitResult<BybitOrderResponse> response =
-        amendOrder(
-            category,
-            convertToBybitSymbol(order.getInstrument()),
-            order.getId(),
-            order.getUserReference(),
-            null,
-            order.getOriginalAmount().toString(),
-            order.getLimitPrice().toString(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
+        amendOrder(adaptChangeOrder(order,category),category);
     if (response != null) {
       return response.getResult().getOrderId();
     }
@@ -256,28 +192,5 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
           "Params must be instance of BybitCancelAllOrdersParams");
     }
     return null;
-  }
-
-  private int getPositionIdx(Order order) {
-    BybitHedgeMode hedgeMode =
-        getOrderFlag(order, BybitHedgeMode.class).orElse(BybitHedgeMode.ONEWAY);
-    int positionIdx = 0;
-    if (hedgeMode.equals(TWOWAY)) {
-      positionIdx = 1;
-      switch (order.getType()) {
-        case ASK:
-        case EXIT_ASK:
-          {
-            positionIdx = 2;
-            break;
-          }
-        case BID:
-        case EXIT_BID:
-          {
-            break;
-          }
-      }
-    }
-    return positionIdx;
   }
 }

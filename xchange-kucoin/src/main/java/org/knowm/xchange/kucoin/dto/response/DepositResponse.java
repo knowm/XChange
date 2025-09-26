@@ -3,8 +3,10 @@ package org.knowm.xchange.kucoin.dto.response;
 import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
 
 @Data
+@Jacksonized
 public class DepositResponse {
 
   /** Creation time of the database record */
@@ -15,6 +17,9 @@ public class DepositResponse {
 
   /** Deposit address */
   private String address;
+
+  /** Chain of currency */
+  private String chain;
 
   /** Deposit fee */
   private BigDecimal fee;

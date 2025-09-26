@@ -6,3 +6,9 @@ GET {{api_host}}/api/v1/market/allTickers
 
 ### Get 24hr Stats
 GET {{api_host}}/api/v1/market/stats?symbol=BTC-USDT
+
+### Get All Currencies
+GET {{api_host}}/api/v3/currencies
+
+### Get All Symbols
+GET {{api_host}}/api/v2/symbols

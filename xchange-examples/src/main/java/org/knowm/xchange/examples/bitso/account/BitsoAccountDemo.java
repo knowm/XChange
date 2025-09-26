@@ -3,9 +3,6 @@ package org.knowm.xchange.examples.bitso.account;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitso.dto.account.BitsoBalance;
-import org.knowm.xchange.bitso.dto.account.BitsoDepositAddress;
-import org.knowm.xchange.bitso.service.BitsoAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.bitso.BitsoDemoUtils;
@@ -29,7 +26,6 @@ public class BitsoAccountDemo {
     AccountService accountService = bitso.getAccountService();
 
     generic(accountService);
-    raw((BitsoAccountServiceRaw) accountService);
   }
 
   private static void generic(AccountService accountService) throws IOException {
@@ -38,24 +34,12 @@ public class BitsoAccountDemo {
     AccountInfo wallet = accountService.getAccountInfo();
     System.out.println("Wallet as String: " + wallet.toString());
 
-    String depositAddress = accountService.requestDepositAddress(Currency.BTC);
-    System.out.println("Deposit address: " + depositAddress);
+    // Note: Deposit address functionality is not implemented in Bitso
+    // String depositAddress = accountService.requestDepositAddress(Currency.BTC);
+    // System.out.println("Deposit address: " + depositAddress);
 
     String withdrawResult =
         accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "XXX");
     System.out.println("withdrawResult = " + withdrawResult);
-  }
-
-  private static void raw(BitsoAccountServiceRaw accountService) throws IOException {
-
-    BitsoBalance bitsoBalance = accountService.getBitsoBalance();
-    System.out.println("Bitso balance: " + bitsoBalance);
-
-    BitsoDepositAddress depositAddress = accountService.getBitsoBitcoinDepositAddress();
-    System.out.println("Bitcoin deposit address: " + depositAddress);
-
-    String withdrawResult =
-        accountService.withdrawBitsoFunds(new BigDecimal(1).movePointLeft(4), "XXX");
-    System.out.println("Bitso withdrawal response = " + withdrawResult);
   }
 }

@@ -1,94 +1,47 @@
 package org.knowm.xchange.bitso.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import java.util.List;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 /**
+ * Bitso Balance DTO for API v3
+ *
+ * @see <a href="https://docs.bitso.com/bitso-api/docs/get-account-balance">Get Account Balance</a>
  * @author Matija Mazi
  */
-public final class BitsoBalance {
+@Value
+@Builder
+@Jacksonized
+public class BitsoBalance {
 
-  private final BigDecimal mxnBalance;
+  /** List of currency balances */
+  private final List<CurrencyBalance> balances;
 
-  private final BigDecimal btcBalance;
+  /** Individual currency balance */
+  @Value
+  @Builder
+  @Jacksonized
+  public static class CurrencyBalance {
 
-  private final BigDecimal mxnReserved;
+    /** The currency in which the balances are specified */
+    private final String currency;
 
-  private final BigDecimal btcReserved;
+    /** The total balance for the given currency */
+    private final BigDecimal total;
 
-  private final BigDecimal mxnAvailable;
+    /** The balance locked away in open orders for the given currency */
+    private final BigDecimal locked;
 
-  private final BigDecimal btcAvailable;
+    /** The balance available for use in the given currency */
+    private final BigDecimal available;
 
-  private final BigDecimal fee;
+    /** The currency balance for deposits awaiting confirmation */
+    private final BigDecimal pendingDeposit;
 
-  private final String error;
-
-  public BitsoBalance(
-      @JsonProperty("mxn_balance") BigDecimal mxnBalance,
-      @JsonProperty("btc_balance") BigDecimal btcBalance,
-      @JsonProperty("mxn_reserved") BigDecimal mxnReserved,
-      @JsonProperty("btc_reserved") BigDecimal btcReserved,
-      @JsonProperty("mxn_available") BigDecimal mxnAvailable,
-      @JsonProperty("btc_available") BigDecimal btcAvailable,
-      @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("error") String error) {
-
-    this.mxnBalance = mxnBalance;
-    this.btcBalance = btcBalance;
-    this.mxnReserved = mxnReserved;
-    this.btcReserved = btcReserved;
-    this.mxnAvailable = mxnAvailable;
-    this.btcAvailable = btcAvailable;
-    this.fee = fee;
-    this.error = error;
-  }
-
-  public BigDecimal getMxnBalance() {
-
-    return mxnBalance;
-  }
-
-  public BigDecimal getBtcBalance() {
-
-    return btcBalance;
-  }
-
-  public BigDecimal getMxnReserved() {
-
-    return mxnReserved;
-  }
-
-  public BigDecimal getBtcReserved() {
-
-    return btcReserved;
-  }
-
-  public BigDecimal getMxnAvailable() {
-
-    return mxnAvailable;
-  }
-
-  public BigDecimal getBtcAvailable() {
-
-    return btcAvailable;
-  }
-
-  public BigDecimal getFee() {
-
-    return fee;
-  }
-
-  public String getError() {
-
-    return error;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format(
-        "Balance{mxnBalance=%s, btcBalance=%s, mxnReserved=%s, btcReserved=%s, mxnAvailable=%s, btcAvailable=%s, fee=%s}",
-        mxnBalance, btcBalance, mxnReserved, btcReserved, mxnAvailable, btcAvailable, fee);
+    /** The currency balance for withdrawals awaiting completion */
+    private final BigDecimal pendingWithdrawal;
   }
 }

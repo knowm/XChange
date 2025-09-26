@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.bybit.example;
 
-import static info.bitrich.xchangestream.bybit.example.BaseBybitExchange.connect;
+import static info.bitrich.xchangestream.bybit.example.BaseBybitExchange.connectDemoApi;
 import static java.math.RoundingMode.UP;
 
 import info.bitrich.xchangestream.bybit.BybitStreamingTradeService;
@@ -38,7 +38,7 @@ public class BybitStreamPositionChangeExample {
   static BigDecimal amount;
 
   private static void positionChangeExample() throws IOException {
-    StreamingExchange exchange = connect(BybitCategory.LINEAR, true);
+    StreamingExchange exchange = connectDemoApi(BybitCategory.LINEAR, true);
     ticker = (exchange.getMarketDataService().getTicker(ETH_PERP));
     amount = exchange.getExchangeMetaData().getInstruments().get(ETH_PERP).getMinimumAmount();
     // minimal trade size - 5 USDT
@@ -55,7 +55,7 @@ public class BybitStreamPositionChangeExample {
         "switch mode to one-way, result {}",
         bybitAccountService.switchPositionMode(BybitCategory.LINEAR, null, "USDT", 0));
     //    set leverage to 1.1
-    bybitAccountService.setLeverage(ETH_PERP, 1.1);
+    bybitAccountService.setLeverage(ETH_PERP, 1);
     Disposable positionChangesDisposable =
         ((BybitStreamingTradeService) exchange.getStreamingTradeService())
             .getBybitPositionChanges(BybitCategory.LINEAR)
@@ -73,6 +73,22 @@ public class BybitStreamPositionChangeExample {
                   log.error(error.getMessage());
                 })
             .subscribe(t -> log.info("trade {}", t));
+    Disposable orderChangeDisposable =
+        exchange
+            .getStreamingTradeService()
+            .getOrderChanges(null, BybitCategory.LINEAR)
+            .doOnError(
+                error -> {
+                  log.error(error.getMessage());
+                })
+            .subscribe(
+                o -> {
+                  log.info("Order changes {}", o);
+                  //                  Set<IOrderFlags> orderFlagSet = o.getOrderFlags();
+                  //                  orderFlagSet.stream().filter(f -> f instanceof
+                  // BybitOrderFlag).forEach(f -> log.info("order flag {}",
+                  //                      ((BybitOrderFlag) f).getRejectReason()));
+                });
     try {
       Thread.sleep(1000L);
       MarketOrder marketOrder = new MarketOrder(OrderType.BID, amount, ETH_PERP);
@@ -83,6 +99,7 @@ public class BybitStreamPositionChangeExample {
     }
     positionChangesDisposable.dispose();
     tradesDisposable.dispose();
+    orderChangeDisposable.dispose();
     exchange.disconnect().blockingAwait();
   }
 }

@@ -122,14 +122,14 @@ class GateioAccountServiceTest extends GateioExchangeWiremock {
                 .build());
 
     FundingRecord expected =
-        new FundingRecord.Builder()
-            .setInternalId("40558668441")
-            .setDate(Date.from(Instant.ofEpochMilli(1691510538067L)))
-            .setCurrency(Currency.USDT)
-            .setBalance(new BigDecimal("16.00283141582979715942"))
-            .setType(Type.OTHER_OUTFLOW)
-            .setAmount(new BigDecimal("0.0113918056"))
-            .setDescription("order_fee")
+        FundingRecord.builder()
+            .internalId("40558668441")
+            .date(Date.from(Instant.ofEpochMilli(1691510538067L)))
+            .currency(Currency.USDT)
+            .balance(new BigDecimal("16.00283141582979715942"))
+            .type(Type.OTHER_OUTFLOW)
+            .amount(new BigDecimal("0.0113918056"))
+            .description("order_fee")
             .build();
 
     assertThat(actual).hasSize(2);

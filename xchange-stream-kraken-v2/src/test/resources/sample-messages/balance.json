@@ -1,0 +1,19 @@
+{
+  "channel": "balances",
+  "type": "snapshot",
+  "data": [
+    {
+      "asset": "EUR",
+      "asset_class": "currency",
+      "wallets": [
+        {
+          "type": "spot",
+          "id": "main",
+          "balance": 31.7815
+        }
+      ],
+      "balance": 31.7815
+    }
+  ],
+  "sequence": 1
+}

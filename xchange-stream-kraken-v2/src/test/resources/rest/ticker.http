@@ -1,0 +1,34 @@
+### Subscribe Ticker Channel
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "method": "subscribe",
+  "params": {
+    "channel": "ticker",
+    "symbol": [
+      "BTC/USDT",
+      "BTC/USD"
+    ],
+    "snapshot": true
+  },
+  "req_id": {{$random.integer}}
+}
+
+
+### Unsubscribe Ticker Channel
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "method": "unsubscribe",
+  "params": {
+    "channel": "ticker",
+    "symbol": [
+      "BTC/USDT",
+      "BTC/USD"
+    ],
+    "snapshot": true
+  }
+}
+

@@ -103,9 +103,9 @@ public final class BTCTurkAdapters {
    */
   public static Trade adaptTrade(BTCTurkTrades btcTurkTrade, CurrencyPair currencyPair) {
 
-    return new Trade.Builder()
+    return Trade.builder()
         .originalAmount(btcTurkTrade.getAmount())
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(btcTurkTrade.getPrice())
         .timestamp(btcTurkTrade.getDate())
         .id(btcTurkTrade.getTid().toString())
@@ -209,15 +209,15 @@ public final class BTCTurkAdapters {
       description += ", index: " + transaction.getId();
     }
 
-    return new FundingRecord.Builder()
-        .setInternalId(transaction.getId().toString())
-        .setDate(transaction.getDate())
-        .setType(transaction.getOperation().getType())
-        .setCurrency(transaction.getCurrency())
-        .setAmount(transaction.getAmount())
-        .setFee(transaction.getFee())
-        .setBalance(transaction.getFunds())
-        .setDescription(description)
+    return FundingRecord.builder()
+        .internalId(transaction.getId().toString())
+        .date(transaction.getDate())
+        .type(transaction.getOperation().getType())
+        .currency(transaction.getCurrency())
+        .amount(transaction.getAmount())
+        .fee(transaction.getFee())
+        .balance(transaction.getFunds())
+        .description(description)
         .build();
   }
 

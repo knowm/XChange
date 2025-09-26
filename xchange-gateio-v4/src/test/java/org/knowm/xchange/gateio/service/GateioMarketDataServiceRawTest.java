@@ -8,12 +8,15 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyChain;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo;
+import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyInfo.Chain;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook;
 import org.knowm.xchange.gateio.dto.marketdata.GateioOrderBook.PriceSizeEntry;
@@ -27,19 +30,36 @@ public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
   public void getCurrencies_valid() throws IOException {
     List<GateioCurrencyInfo> actual = gateioMarketDataServiceRaw.getGateioCurrencyInfos();
 
-    assertThat(actual).hasSize(5);
+    assertThat(actual).hasSize(2);
 
     GateioCurrencyInfo actualBtc = actual.get(0);
 
     GateioCurrencyInfo expectedBtc =
         GateioCurrencyInfo.builder()
-            .currencyWithChain("BTC")
+            .currency(Currency.BTC)
             .delisted(false)
             .withdrawDisabled(false)
             .withdrawDelayed(false)
             .depositDisabled(false)
             .tradeDisabled(false)
-            .chain("BTC")
+            .mainChain("BTC")
+            .chains(
+                Stream.of(
+                        Chain.builder()
+                            .name("BTC")
+                            .address("")
+                            .depositDisabled(false)
+                            .withdrawDelayed(false)
+                            .withdrawDisabled(false)
+                            .build(),
+                        Chain.builder()
+                            .name("BSC")
+                            .address("0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c")
+                            .depositDisabled(false)
+                            .withdrawDelayed(false)
+                            .withdrawDisabled(false)
+                            .build())
+                    .collect(Collectors.toList()))
             .build();
 
     assertThat(actualBtc).usingRecursiveComparison().isEqualTo(expectedBtc);

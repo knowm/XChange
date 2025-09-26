@@ -165,7 +165,7 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
                           .originalAmount(
                               IdexExchange.Companion.safeParse(tradeHistoryItem.getAmount()))
                           .price(IdexExchange.Companion.safeParse(tradeHistoryItem.getPrice()))
-                          .currencyPair(currencyPair)
+                          .instrument(currencyPair)
                           .timestamp(new Date(tradeHistoryItem.getTimestamp().longValue() * 1000))
                           .id((tradeHistoryItem.getTransactionHash()))
                           .type(

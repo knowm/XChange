@@ -1,62 +1,74 @@
 package org.knowm.xchange.bitso.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
-import si.mazi.rescu.ExceptionalReturnContentException;
+import java.util.stream.Collectors;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 /**
- * @author Piotr Ładyżyński
+ * @author Piotr Ładyżyński Updated for Bitso API v3
  */
+@Value
+@Builder
+@Jacksonized
 public class BitsoOrderBook {
 
-  private final Long timestamp;
-  private final List<List<BigDecimal>> bids;
-  private final List<List<BigDecimal>> asks;
+  private Boolean success;
 
-  /**
-   * Constructor
-   *
-   * @param timestamp
-   * @param bids
-   * @param asks
-   */
-  public BitsoOrderBook(
-      @JsonProperty("timestamp") Long timestamp,
-      @JsonProperty("bids") List<List<BigDecimal>> bids,
-      @JsonProperty("asks") List<List<BigDecimal>> asks) {
+  private BitsoOrderBookData payload;
 
-    if (asks == null) {
-      throw new ExceptionalReturnContentException("No asks in response.");
-    }
-    this.bids = bids;
-    this.asks = asks;
-    this.timestamp = timestamp;
+  @Value
+  @Jacksonized
+  @Builder
+  public static class BitsoOrderBookData {
+
+    private List<BitsoOrderBookEntry> asks;
+
+    private List<BitsoOrderBookEntry> bids;
+
+    private Instant updatedAt;
+
+    private String sequence;
   }
 
-  /**
-   * @return Timestamp in Unix milliseconds
-   */
-  public Long getTimestamp() {
+  @Value
+  @Jacksonized
+  @Builder
+  public static class BitsoOrderBookEntry {
 
-    return timestamp;
+    private String book;
+
+    private BigDecimal price;
+
+    private BigDecimal amount;
   }
 
-  /** (price, amount) */
+  // Legacy methods for backwards compatibility
   public List<List<BigDecimal>> getBids() {
-
-    return bids;
+    if (payload == null || payload.getBids() == null) {
+      return null;
+    }
+    return payload.getBids().stream()
+        .map(entry -> Arrays.asList(entry.getPrice(), entry.getAmount()))
+        .collect(Collectors.toList());
   }
 
-  /** (price, amount) */
   public List<List<BigDecimal>> getAsks() {
-
-    return asks;
+    if (payload == null || payload.getAsks() == null) {
+      return null;
+    }
+    return payload.getAsks().stream()
+        .map(entry -> Arrays.asList(entry.getPrice(), entry.getAmount()))
+        .collect(Collectors.toList());
   }
 
-  @Override
-  public String toString() {
-
-    return "BitsoOrderBook [timestamp=" + timestamp + ", bids=" + bids + ", asks=" + asks + "]";
+  public Long getTimestamp() {
+    // For backwards compatibility, try to convert updatedAt to timestamp
+    // This is a simplified conversion - in practice you might want to parse the ISO date
+    return payload != null ? payload.getUpdatedAt().toEpochMilli() : null;
   }
 }

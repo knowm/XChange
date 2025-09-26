@@ -41,41 +41,47 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
         != null) {
       switch ((ExchangeType)
           exchange.getExchangeSpecification().getExchangeSpecificParametersItem(EXCHANGE_TYPE)) {
-        case SPOT:
-          {
-            break;
-          }
+        case SPOT: {
+          break;
+        }
         case FUTURES:
-          {
-            futuresSpec = exchange.getExchangeSpecification();
-            binanceFutures =
-                ExchangeRestProxyBuilder.forInterface(
-                        BinanceFuturesAuthenticated.class, futuresSpec)
-                    .build();
-            inverseBinanceFutures = null;
-            break;
-          }
-        case INVERSE:
-          {
-            inverseFuturesSpec = exchange.getExchangeSpecification();
-            inverseBinanceFutures =
-                ExchangeRestProxyBuilder.forInterface(
-                        BinanceFuturesAuthenticated.class, inverseFuturesSpec)
-                    .build();
-            binanceFutures = null;
-            break;
-          }
+        case PORTFOLIO_MARGIN: {
+          futuresSpec = exchange.getExchangeSpecification();
+          binanceFutures =
+              ExchangeRestProxyBuilder.forInterface(
+                      BinanceFuturesAuthenticated.class, futuresSpec)
+                  .build();
+          inverseBinanceFutures = null;
+          break;
+        }
+        case INVERSE: {
+          inverseFuturesSpec = exchange.getExchangeSpecification();
+          inverseBinanceFutures =
+              ExchangeRestProxyBuilder.forInterface(
+                      BinanceFuturesAuthenticated.class, inverseFuturesSpec)
+                  .build();
+          binanceFutures = null;
+          break;
+        }
       }
     }
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.signatureCreator =
-        BinanceHmacDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    if (exchange.getExchangeSpecification().getExchangeSpecificParametersItem("ed25519") != null
+        && exchange.getExchangeSpecification().getExchangeSpecificParametersItem("ed25519").equals(true)) {
+      this.signatureCreator =
+          BinanceED25519Digest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    } else {
+      this.signatureCreator =
+          BinanceHmacDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    }
   }
 
   public Long getRecvWindow() {
     Object obj =
         exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    if (obj == null) return null;
+    if (obj == null) {
+      return null;
+    }
     if (obj instanceof Number) {
       long value = ((Number) obj).longValue();
       if (value < 0 || value > 60000) {

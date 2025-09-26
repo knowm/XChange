@@ -65,6 +65,9 @@ public class OkexOrderDetails {
   @JsonProperty("avgPx")
   private String averageFilledPrice;
 
+  @JsonProperty("lastPx")
+  private String lastPrice;
+
   @JsonProperty("state")
   private String state;
 

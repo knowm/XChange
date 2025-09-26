@@ -1,0 +1,15 @@
+{
+  "id" : "b238944d-18fa-4bcf-a9cd-f0c58836ccc2",
+  "name" : "v1_symbols",
+  "request" : {
+    "url" : "/v1/symbols",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v1_symbols.json"
+  },
+  "uuid" : "b238944d-18fa-4bcf-a9cd-f0c58836ccc2",
+  "persistent" : true,
+  "insertionIndex" : 1
+}

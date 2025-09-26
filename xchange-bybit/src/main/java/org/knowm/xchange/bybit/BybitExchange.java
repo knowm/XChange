@@ -16,6 +16,7 @@ import org.knowm.xchange.bybit.service.BybitMarketDataServiceRaw;
 import org.knowm.xchange.bybit.service.BybitTradeService;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BybitExchange extends BaseExchange implements Exchange {
@@ -25,7 +26,7 @@ public class BybitExchange extends BaseExchange implements Exchange {
   private static final String DEMO_URL = "https://api-demo.bybit.com";
   private static final String TESTNET_URL = "https://api-testnet.bybit.com";
 
-  // enable DEMO mode
+  // enable TEST_NET
   public static final String SPECIFIC_PARAM_TESTNET = "test_net";
 
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
@@ -58,6 +59,7 @@ public class BybitExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeSpecificParametersItem(Exchange.USE_SANDBOX, false);
     exchangeSpecification.setExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET, false);
     exchangeSpecification.getResilience().setRateLimiterEnabled(true);
+    AuthUtils.setApiAndSecretKey(exchangeSpecification, "bybit");
     return exchangeSpecification;
   }
 

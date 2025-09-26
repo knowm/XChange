@@ -11,7 +11,7 @@
     <artifactId>xchange-enigma</artifactId>
 
     <name>XChange Enigma</name>
-    <description>XChange implementation for the Lykke Exchange</description>
+    <description>XChange implementation for the Enigma Exchange</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

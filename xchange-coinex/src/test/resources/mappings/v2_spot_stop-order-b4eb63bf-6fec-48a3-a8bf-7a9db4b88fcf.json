@@ -1,0 +1,22 @@
+{
+  "id": "b4eb63bf-6fec-48a3-a8bf-7a9db4b88fcf",
+  "name": "v2_spot_stop-order",
+  "request": {
+    "url": "/v2/spot/stop-order",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"amount\":1,\"client_id\":\"valid_stop_buy_limit_order\",\"market\":\"BTCUSDT\",\"market_type\":\"SPOT\",\"price\":1,\"trigger_price\":1,\"side\":\"buy\",\"type\":\"limit\"}",
+        "ignoreArrayOrder": true,
+        "ignoreExtraElements": true
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "v2_spot_stop-order-b4eb63bf-6fec-48a3-a8bf-7a9db4b88fcf.json"
+  },
+  "uuid": "b4eb63bf-6fec-48a3-a8bf-7a9db4b88fcf",
+  "persistent": true,
+  "insertionIndex": 5
+}

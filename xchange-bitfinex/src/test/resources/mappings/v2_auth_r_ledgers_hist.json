@@ -1,0 +1,20 @@
+{
+  "id" : "4dc1ead9-6b4f-4221-b018-41b794ee78f9",
+  "name" : "v2_auth_r_ledgers_hist",
+  "request" : {
+    "url" : "/v2/auth/r/ledgers/hist",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"category\":51}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_auth_r_ledgers_hist.json"
+  },
+  "uuid" : "4dc1ead9-6b4f-4221-b018-41b794ee78f9",
+  "persistent" : true,
+  "insertionIndex" : 16
+}

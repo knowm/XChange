@@ -57,7 +57,7 @@ public class BitmexStreamingAdapters {
   }
 
   public Trade toTrade(BitmexTrade bitmexTrade) {
-    return new Trade.Builder()
+    return Trade.builder()
         .type(bitmexTrade.getSide())
         .originalAmount(bitmexTrade.getAssetAmount())
         .instrument(bitmexTrade.getCurrencyPair())

@@ -114,9 +114,9 @@ public class BitbayAdapters {
     for (BitbayTrade bitbayTrade : bitbayTrades) {
 
       Trade trade =
-          new Trade.Builder()
+          Trade.builder()
               .originalAmount(bitbayTrade.getAmount())
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(bitbayTrade.getPrice())
               .timestamp(new Date(bitbayTrade.getDate() * 1000))
               .id(bitbayTrade.getTid())
@@ -211,7 +211,7 @@ public class BitbayAdapters {
     return UserTrade.builder()
         .type(type)
         .originalAmount(bitbayOrder.getAmount())
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(bitbayOrder.getCurrentPrice().divide(bitbayOrder.getStartAmount()))
         .timestamp(date)
         .id(String.valueOf(bitbayOrder.getId()))
@@ -249,7 +249,7 @@ public class BitbayAdapters {
             UserTrade.builder()
                 .type(orderType)
                 .originalAmount(amount)
-                .currencyPair(pair)
+                .instrument(pair)
                 .price(price)
                 .timestamp(timestamp)
                 .build());

@@ -1,0 +1,20 @@
+{
+  "id" : "1b7eedb3-7e32-4a6c-9758-52c23336a192",
+  "name" : "v2_auth_r_trades_hist",
+  "request" : {
+    "url" : "/v2/auth/r/trades/hist?start=0&limit=50",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_auth_r_trades_hist.json"
+  },
+  "uuid" : "1b7eedb3-7e32-4a6c-9758-52c23336a192",
+  "persistent" : true,
+  "insertionIndex" : 13
+}

@@ -1,3 +1,7 @@
+### Get All Deposit and Withdrawal Configuration
+GET {{api_host}}/v2/assets/all-deposit-withdraw-config
+
+
 ### Get Balance in Spot Account
 < {%
   import {gen_sign} from 'sign.js'

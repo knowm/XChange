@@ -1,10 +1,10 @@
 package org.knowm.xchange.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -111,7 +111,7 @@ public class ConcurrencyTest {
   }
 
   public static void updateOrderBook1(OrderBook orderBook, boolean oldWay) {
-    Random rand = new Random(123);
+    SecureRandom rand = new SecureRandom();
     for (int i = 0; i < 10000; i++) {
       OrderBookUpdate orderBookUpdateAsk =
           new OrderBookUpdate(
@@ -142,7 +142,7 @@ public class ConcurrencyTest {
   }
 
   public static void updateOrderBookOld1(OrderBookOld orderBookOld) {
-    Random rand = new Random(123);
+    SecureRandom rand = new SecureRandom();
     for (int i = 0; i < 10000; i++) {
       OrderBookUpdate orderBookUpdateAsk =
           new OrderBookUpdate(
@@ -168,7 +168,7 @@ public class ConcurrencyTest {
   }
 
   private static void updateOrderBook2(OrderBook orderBook, boolean oldWay) {
-    Random rand = new Random(123);
+    SecureRandom rand = new SecureRandom();
     for (int i = 0; i < 10000; i++) {
       LimitOrder bookUpdateAsk =
           new LimitOrder(
@@ -199,7 +199,7 @@ public class ConcurrencyTest {
   }
 
   private static void updateOrderBookOld2(OrderBookOld orderBookOld) {
-    Random rand = new Random(123);
+    SecureRandom rand = new SecureRandom();
     for (int i = 0; i < 10000; i++) {
       LimitOrder bookUpdateAsk =
           new LimitOrder(

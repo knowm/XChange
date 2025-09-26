@@ -1,0 +1,365 @@
+{
+  "currency_pairs" : {
+    "SOL/PHP" : {
+      "priceScale" : 5,
+      "marketOrderEnabled" : false
+    },
+    "BNB/PHP" : {
+      "priceScale" : 5,
+      "marketOrderEnabled" : false
+    },
+    "ADA/PHP" : {
+      "priceScale" : 3,
+      "marketOrderEnabled" : false
+    },
+    "BONK/PHP" : {
+      "priceScale" : 7,
+      "marketOrderEnabled" : false
+    },
+    "USDC/PHP" : {
+      "priceScale" : 5,
+      "marketOrderEnabled" : false
+    },
+    "SLPU/USDT" : {
+      "priceScale" : 6,
+      "marketOrderEnabled" : false
+    },
+    "DOGEU/USDT" : {
+      "priceScale" : 7,
+      "marketOrderEnabled" : false
+    },
+    "BDCU/USDT" : {
+      "priceScale" : 6,
+      "marketOrderEnabled" : false
+    },
+    "KULA/PHP" : {
+      "priceScale" : 3,
+      "marketOrderEnabled" : false
+    },
+    "FORM/PHP" : {
+      "priceScale" : 3,
+      "marketOrderEnabled" : false
+    },
+    "TRX/PHP" : {
+      "priceScale" : 4,
+      "marketOrderEnabled" : false
+    },
+    "BTCU/USDT" : {
+      "priceScale" : 9,
+      "marketOrderEnabled" : false
+    },
+    "LTC/PHP" : {
+      "priceScale" : 4,
+      "marketOrderEnabled" : false
+    },
+    "TRUMP/PHP" : {
+      "priceScale" : 4,
+      "marketOrderEnabled" : false
+    },
+    "AAVE/PHP" : {
+      "priceScale" : 5,
+      "marketOrderEnabled" : false
+    },
+    "SHIB/PHP" : {
+      "priceScale" : 7,
+      "marketOrderEnabled" : false
+    },
+    "UNI/PHP" : {
+      "priceScale" : 4,
+      "marketOrderEnabled" : false
+    },
+    "ETH/PHP" : {
+      "priceScale" : 7,
+      "marketOrderEnabled" : false
+    },
+    "SAND/PHP" : {
+      "priceScale" : 4,
+      "marketOrderEnabled" : false
+    },
+    "BAT/PHP" : {
+      "priceScale" : 3,
+      "marketOrderEnabled" : false
+    },
+    "CBXU/USDT" : {
+      "priceScale" : 5,
+      "marketOrderEnabled" : false
+    },
+    "PEPE/PHP" : {
+      "priceScale" : 7,
+      "marketOrderEnabled" : false
+    },
+    "CARV/PHP" : {
+      "priceScale" : 3,
+      "marketOrderEnabled" : false
+    },
+    "BTC/PHP" : {
+      "priceScale" : 8,
+      "marketOrderEnabled" : false
+    },
+    "ETHU/USDT" : {
+      "priceScale" : 8,
+      "marketOrderEnabled" : false
+    },
+    "XRP/PHP" : {
+      "priceScale" : 4,
+      "marketOrderEnabled" : false
+    },
+    "UNIU/USDT" : {
+      "priceScale" : 6,
+      "marketOrderEnabled" : false
+    },
+    "BCH/PHP" : {
+      "priceScale" : 5,
+      "marketOrderEnabled" : false
+    },
+    "DOGE/PHP" : {
+      "priceScale" : 4,
+      "marketOrderEnabled" : false
+    },
+    "SOLU/USDT" : {
+      "priceScale" : 7,
+      "marketOrderEnabled" : false
+    },
+    "LINKU/USDT" : {
+      "priceScale" : 5,
+      "marketOrderEnabled" : false
+    },
+    "MEME/PHP" : {
+      "priceScale" : 4,
+      "marketOrderEnabled" : false
+    },
+    "1000SATS/PHP" : {
+      "priceScale" : 5,
+      "marketOrderEnabled" : false
+    },
+    "FTN/PHP" : {
+      "priceScale" : 3,
+      "marketOrderEnabled" : false
+    },
+    "USDT/PHP" : {
+      "priceScale" : 5,
+      "marketOrderEnabled" : false
+    }
+  },
+  "currencies" : {
+    "FTN" : {
+      "scale" : 2,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "CBXU" : {
+      "scale" : 0,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "SOLU" : {
+      "scale" : 5,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "SHIB" : {
+      "scale" : 0,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "USDT" : {
+      "scale" : 6,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "DOGE" : {
+      "scale" : 1,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "LINKU" : {
+      "scale" : 2,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "PEPE" : {
+      "scale" : 0,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "AAVE" : {
+      "scale" : 4,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "UNI" : {
+      "scale" : 3,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "1000SATS" : {
+      "scale" : 0,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "MEME" : {
+      "scale" : 0,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "BONK" : {
+      "scale" : 0,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "XRP" : {
+      "scale" : 2,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "PHP" : {
+      "scale" : 7,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "BTCU" : {
+      "scale" : 7,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "TRX" : {
+      "scale" : 1,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "ETHU" : {
+      "scale" : 6,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "UNIU" : {
+      "scale" : 3,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "SAND" : {
+      "scale" : 2,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "FORM" : {
+      "scale" : 2,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "BCH" : {
+      "scale" : 4,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "BDCU" : {
+      "scale" : 1,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "DOGEU" : {
+      "scale" : 2,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "BTC" : {
+      "scale" : 7,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "SOL" : {
+      "scale" : 4,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "BAT" : {
+      "scale" : 1,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "BNB" : {
+      "scale" : 4,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "SLPU" : {
+      "scale" : 0,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "ETH" : {
+      "scale" : 6,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "USDC" : {
+      "scale" : 2,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "LTC" : {
+      "scale" : 3,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "KULA" : {
+      "scale" : 1,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "TRUMP" : {
+      "scale" : 3,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "CARV" : {
+      "scale" : 1,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    },
+    "ADA" : {
+      "scale" : 1,
+      "withdrawal_fee" : null,
+      "min_withdrawal_amount" : null,
+      "wallet_health" : "UNKNOWN"
+    }
+  },
+  "public_rate_limits" : null,
+  "private_rate_limits" : null,
+  "share_rate_limits" : true
+}

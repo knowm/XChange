@@ -216,7 +216,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
                       UserTrade ut =
                           UserTrade.builder()
-                              .currencyPair(p)
+                              .instrument(p)
                               .id(t.getLedgerId())
                               .orderId(o.getOrderId())
                               .originalAmount(amount)
@@ -296,7 +296,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
                       UserTrade ut =
                           UserTrade.builder()
-                              .currencyPair(p)
+                              .instrument(p)
                               .id(t.getLedgerId())
                               .orderId(o.getOrderId())
                               .originalAmount(amount)

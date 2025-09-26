@@ -1,14 +1,33 @@
 package org.knowm.xchange.binance;
 
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
-import org.knowm.xchange.binance.dto.trade.*;
+import org.knowm.xchange.binance.dto.account.futures.BinanceFutureCommissionRate;
+import org.knowm.xchange.binance.dto.account.futures.BinancePosition;
+import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceTrade;
+import org.knowm.xchange.binance.dto.trade.MarginType;
+import org.knowm.xchange.binance.dto.trade.OrderSide;
+import org.knowm.xchange.binance.dto.trade.OrderType;
+import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.trade.futures.BinanceChangeStatus;
 import org.knowm.xchange.binance.dto.trade.futures.BinanceFutureNewOrder;
+import org.knowm.xchange.binance.dto.trade.futures.BinanceSetLeverage;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -48,6 +67,24 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
       throws IOException, BinanceException;
 
   /**
+   * Account Information V3(USER_DATA)
+   *
+   * @param recvWindow optional
+   * @param timestamp
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("fapi/v3/account")
+  BinanceFutureAccountInformation futuresV3Account(
+          @QueryParam("recvWindow") Long recvWindow,
+          @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+          @HeaderParam(X_MBX_APIKEY) String apiKey,
+          @QueryParam(SIGNATURE) ParamsDigest signature)
+          throws IOException, BinanceException;
+
+  /**
    * Send in a new futures order
    *
    * @param symbol
@@ -77,7 +114,7 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
       @FormParam("type") OrderType type,
       @FormParam("timeInForce") TimeInForce timeInForce,
       @FormParam("quantity") BigDecimal quantity,
-      @FormParam("reduceOnly") boolean reduceOnly,
+      @FormParam("reduceOnly") Boolean reduceOnly,
       @FormParam("price") BigDecimal price,
       @FormParam("newClientOrderId") String newClientOrderId,
       @FormParam("stopPrice") BigDecimal stopPrice,
@@ -231,7 +268,7 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
   @Path("fapi/v1/order")
   BinanceCancelledOrder cancelFutureOrder(
       @QueryParam("symbol") String symbol,
-      @QueryParam("orderId") long orderId,
+      @QueryParam("orderId") Long orderId,
       @QueryParam("origClientOrderId") String origClientOrderId,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
@@ -257,7 +294,7 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
   @Path("dapi/v1/order")
   BinanceCancelledOrder cancelInverseFutureOrder(
       @QueryParam("symbol") String symbol,
-      @QueryParam("orderId") long orderId,
+      @QueryParam("orderId") Long orderId,
       @QueryParam("origClientOrderId") String origClientOrderId,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
@@ -283,7 +320,7 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
   @Path("papi/v1/cm/order")
   BinanceCancelledOrder cancelPortfolioMarginInverseFutureOrder(
       @QueryParam("symbol") String symbol,
-      @QueryParam("orderId") long orderId,
+      @QueryParam("orderId") Long orderId,
       @QueryParam("origClientOrderId") String origClientOrderId,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
@@ -309,7 +346,7 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
   @Path("papi/v1/um/order")
   BinanceCancelledOrder cancelPortfolioMarginFutureOrder(
       @QueryParam("symbol") String symbol,
-      @QueryParam("orderId") long orderId,
+      @QueryParam("orderId") Long orderId,
       @QueryParam("origClientOrderId") String origClientOrderId,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
@@ -459,7 +496,7 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
   @Path("fapi/v1/order")
   BinanceOrder futureOrderStatus(
       @QueryParam("symbol") String symbol,
-      @QueryParam("orderId") long orderId,
+      @QueryParam("orderId") Long orderId,
       @QueryParam("origClientOrderId") String origClientOrderId,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
@@ -486,7 +523,7 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
   @Path("dapi/v1/order")
   BinanceOrder futureInverseOrderStatus(
       @QueryParam("symbol") String symbol,
-      @QueryParam("orderId") long orderId,
+      @QueryParam("orderId") Long orderId,
       @QueryParam("origClientOrderId") String origClientOrderId,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
@@ -513,7 +550,7 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
   @Path("/papi/v1/um/order")
   BinanceOrder futurePortfolioMarginOrderStatus(
       @QueryParam("symbol") String symbol,
-      @QueryParam("orderId") long orderId,
+      @QueryParam("orderId") Long orderId,
       @QueryParam("origClientOrderId") String origClientOrderId,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
@@ -540,7 +577,7 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
   @Path("/papi/v1/cm/order")
   BinanceOrder futurePortfolioMarginInverseOrderStatus(
       @QueryParam("symbol") String symbol,
-      @QueryParam("orderId") long orderId,
+      @QueryParam("orderId") Long orderId,
       @QueryParam("origClientOrderId") String origClientOrderId,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
@@ -560,11 +597,205 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
    */
   @DELETE
   @Path("fapi/v1/allOpenOrders")
-  List<BinanceCancelledOrder> cancelAllFutureOpenOrders(
+  BinanceChangeStatus cancelAllFutureOpenOrders(
       @QueryParam("symbol") String symbol,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
+
+  /**
+   * Get User Commission Rate for a Future symbol.
+   *
+   * @param symbol
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("/fapi/v1/commissionRate")
+  BinanceFutureCommissionRate getFutureCommissionRate(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  /**
+   * Order modify function, currently only LIMIT order modification is supported,
+   * modified orders will be reordered in the match queue
+   *
+   * @param orderId optional
+   * @param origClientOrderId optional
+   * @param symbol
+   * @param side
+   * @param quantity
+   * @param price
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @PUT
+  @Path("fapi/v1/order")
+  BinanceFutureNewOrder modifyOrder(
+      @QueryParam("orderId") Long orderId,
+      @QueryParam("origClientOrderId") String origClientOrderId,
+      @QueryParam("symbol") String symbol,
+      @QueryParam("side") OrderSide side,
+      @QueryParam("quantity") BigDecimal quantity,
+      @QueryParam("price") BigDecimal price,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  /**
+   * All Orders (USER_DATA)
+   * @param symbol
+   * @param orderId
+   * @param startTime
+   * @param endTime
+   * @param limit
+   * @param recvWindow
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("fapi/v1/allOrders")
+    List<BinanceOrder> getAllFutureOrders(
+        @QueryParam("symbol") String symbol,
+        @QueryParam("orderId") Long orderId,
+        @QueryParam("startTime") Long startTime,
+        @QueryParam("endTime") Long endTime,
+        @QueryParam("limit") Integer limit,
+        @QueryParam("recvWindow") Long recvWindow,
+        @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
+
+  /**
+   * Change symbol level margin type
+   * @param symbol
+   * @param marginType
+   * @param recvWindow
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @POST
+  @Path("/fapi/v1/marginType")
+  BinanceChangeStatus setMarginType(
+      @FormParam("symbol") String symbol,
+      @FormParam("marginType") MarginType marginType,
+      @FormParam("recvWindow") Long recvWindow,
+      @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  /**
+   * Change user's position mode (Hedge Mode or One-way Mode ) on EVERY symbol
+   * @param dualSidePosition "true": Hedge Mode; "false": One-way Mode
+   * @param recvWindow
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @POST
+  @Path("/fapi/v1/positionSide/dual")
+    BinanceChangeStatus setDualSidePosition(
+        @FormParam("dualSidePosition") boolean dualSidePosition,
+        @FormParam("recvWindow") Long recvWindow,
+        @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+        @HeaderParam(X_MBX_APIKEY) String apiKey,
+        @QueryParam(SIGNATURE) ParamsDigest signature)
+        throws IOException, BinanceException;
+
+  /**
+   *
+   * @param symbol
+   * @param leverage
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @POST
+  @Path("/fapi/v1/leverage")
+  BinanceSetLeverage setLeverage(
+      @FormParam("symbol") String symbol,
+      @FormParam("leverage") int leverage,
+      @FormParam("recvWindow") Long recvWindow,
+      @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  /**
+   * Position Information V2 (USER_DATA)
+   * @param symbol
+   * @param recvWindow
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("/fapi/v2/positionRisk")
+  List<BinancePosition> getFuturesPositionRisk(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  /**
+   * Position Information V3 (USER_DATA)
+   * @param symbol
+   * @param recvWindow
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("/fapi/v3/positionRisk")
+  List<BinancePosition> getFuturesV3PositionRisk(
+          @QueryParam("symbol") String symbol,
+          @QueryParam("recvWindow") Long recvWindow,
+          @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+          @HeaderParam(X_MBX_APIKEY) String apiKey,
+          @QueryParam(SIGNATURE) ParamsDigest signature)
+          throws IOException, BinanceException;
+
 }

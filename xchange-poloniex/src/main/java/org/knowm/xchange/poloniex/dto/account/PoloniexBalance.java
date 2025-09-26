@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
-import javax.annotation.Generated;
 
 /** Created by Roland Schumacher on 12.09.2015. */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"available", "onOrders", "btcValue"})
 public class PoloniexBalance {
   @JsonProperty("available")

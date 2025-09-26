@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.Generated;
 
 /**
  * Public trade Bitcointoyou Exchange representation.
@@ -19,7 +18,6 @@ import javax.annotation.Generated;
  * @author Jonathas Carrijo
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"date", "price", "amount", "tid", "type", "currency"})
 public class BitcointoyouPublicTrade {
 

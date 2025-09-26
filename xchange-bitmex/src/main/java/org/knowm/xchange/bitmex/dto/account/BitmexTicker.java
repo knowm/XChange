@@ -345,6 +345,9 @@ public class BitmexTicker {
     @JsonProperty("Unlisted")
     UNLISTED,
 
+    @JsonProperty("Delisted")
+    DELISTED,
+
     @JsonProperty("Expired")
     EXPIRED,
 
@@ -353,6 +356,9 @@ public class BitmexTicker {
 
     @JsonProperty("Cleared")
     CLEARED,
+
+    @JsonEnumDefaultValue
+    UNKNOWN,
   }
 
   @Data

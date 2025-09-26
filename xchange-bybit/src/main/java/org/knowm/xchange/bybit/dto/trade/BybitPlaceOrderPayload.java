@@ -37,7 +37,7 @@ public class BybitPlaceOrderPayload {
     this.symbol = symbol;
     this.side = side.getValue();
     this.orderType = orderType.getValue();
-    this.qty = qty.toString();
+    this.qty = qty.toPlainString();
     this.orderLinkId = orderLinkId;
   }
 
@@ -54,11 +54,11 @@ public class BybitPlaceOrderPayload {
     this.symbol = symbol;
     this.side = side.getValue();
     this.orderType = orderType.getValue();
-    this.qty = qty.toString();
+    this.qty = qty.toPlainString();
     this.orderLinkId = orderLinkId;
     this.positionIdx = positionIdx;
     if (price != null) {
-      this.price = price.toString();
+      this.price = price.toPlainString();
     }
   }
 
@@ -74,9 +74,9 @@ public class BybitPlaceOrderPayload {
     this.symbol = symbol;
     this.side = side.getValue();
     this.orderType = orderType.getValue();
-    this.qty = qty.toString();
+    this.qty = qty.toPlainString();
     this.orderLinkId = orderLinkId;
-    this.price = price.toString();
+    this.price = price.toPlainString();
   }
 
   public BybitPlaceOrderPayload(
@@ -95,12 +95,12 @@ public class BybitPlaceOrderPayload {
     this.symbol = symbol;
     this.side = side.getValue();
     this.orderType = orderType.getValue();
-    this.qty = qty.toString();
+    this.qty = qty.toPlainString();
     this.orderLinkId = orderLinkId;
-    this.price = price.toString();
-    this.stopLoss = stopLoss.toString();
+    this.price = price.toPlainString();
+    this.stopLoss = stopLoss.toPlainString();
     this.slTriggerBy = slTriggerBy.getValue();
-    this.slLimitPrice = slLimitPrice.toString();
+    this.slLimitPrice = slLimitPrice.toPlainString();
     this.slOrderType = slOrderType.getValue();
   }
 }

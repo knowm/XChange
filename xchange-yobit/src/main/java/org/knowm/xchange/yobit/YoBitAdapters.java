@@ -71,7 +71,7 @@ public class YoBitAdapters {
       Integer priceScale = value.getDecimal_places();
       currencyPairs.put(
           pair,
-          new InstrumentMetaData.Builder()
+          InstrumentMetaData.builder()
               .tradingFee(value.getFee())
               .minimumAmount(minSize)
               .priceScale(priceScale)
@@ -127,10 +127,10 @@ public class YoBitAdapters {
       OrderType type = trade.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
 
       Trade t =
-          new Trade.Builder()
+          Trade.builder()
               .type(type)
               .originalAmount(trade.getAmount())
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(trade.getPrice())
               .timestamp(parseDate(trade.getTimestamp()))
               .id(String.valueOf(trade.getTid()))
@@ -247,7 +247,7 @@ public class YoBitAdapters {
     return UserTrade.builder()
         .type(adaptType(type))
         .originalAmount(new BigDecimal(amount))
-        .currencyPair(adaptCurrencyPair(pair))
+        .instrument(adaptCurrencyPair(pair))
         .price(new BigDecimal(rate))
         .timestamp(time)
         .id(id)

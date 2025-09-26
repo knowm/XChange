@@ -61,9 +61,9 @@ public class BybitAccountServiceRaw extends BybitBaseService {
     return bybitFeeRatesResult;
   }
 
-  BybitResult<Object> setLeverageRaw(BybitCategory category, String symbol, double leverage)
+  BybitResult<Object> setLeverageRaw(BybitCategory category, String symbol, int leverage)
       throws IOException {
-    String leverageString = Double.toString(leverage);
+    String leverageString = Integer.toString(leverage);
     BybitSetLeveragePayload payload =
         new BybitSetLeveragePayload(category.getValue(), symbol, leverageString, leverageString);
     RateLimiter rateLimiter = null;

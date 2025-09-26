@@ -71,7 +71,7 @@ public class CoinbaseAdapterTest {
         UserTrade.builder()
             .type(OrderType.BID)
             .originalAmount(originalAmount)
-            .currencyPair(CurrencyPair.BTC_USD)
+            .instrument(CurrencyPair.BTC_USD)
             .price(price)
             .timestamp(DateUtils.fromISO8601DateString("2014-02-06T18:12:38-08:00"))
             .id("52f4411767c71baf9000003f")

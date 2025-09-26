@@ -5,8 +5,8 @@ import static org.junit.Assume.assumeNotNull;
 
 import java.io.IOException;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitstamp.BitstampExchange;
@@ -19,7 +19,7 @@ public class BitstampTradeServiceIntegration {
   private String username = null;
   private BitstampTradeService bitstampTradeService;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     assumeNotNull(apiKey, secretKey, username);
     ExchangeSpecification specification =

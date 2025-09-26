@@ -1,12 +1,16 @@
 package info.bitrich.xchangestream.bitfinex;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import info.bitrich.xchangestream.bitfinex.config.Config;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexAuthRequestStatus;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuth;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
+import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketPosition;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketUnSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
@@ -69,6 +73,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
       PublishSubject.create();
   private final PublishSubject<BitfinexWebSocketAuthTrade> subjectTrade = PublishSubject.create();
   private final PublishSubject<BitfinexWebSocketAuthOrder> subjectOrder = PublishSubject.create();
+  private final PublishSubject<BitfinexWebSocketPosition> subjectPosition = PublishSubject.create();
   private final PublishSubject<BitfinexWebSocketAuthBalance> subjectBalance =
       PublishSubject.create();
 
@@ -202,7 +207,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
     }
   }
 
-  private void processAuthenticatedMessage(JsonNode message) {
+  private void processAuthenticatedMessage(JsonNode message) throws JsonProcessingException {
     String type = message.get(1).asText();
     JsonNode object = message.get(2);
     switch (type) {
@@ -214,6 +219,21 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
         BitfinexWebSocketAuthTrade trade = BitfinexStreamingAdapters.adaptTrade(object);
         if (trade != null) subjectTrade.onNext(trade);
         break;
+        
+      // position snapshot
+      case "ps":
+        var positions = Config.getInstance().getObjectMapper().treeToValue(object, new TypeReference<List<BitfinexWebSocketPosition>>() {});
+        positions.forEach(subjectPosition::onNext);
+        break;
+
+      // position changes
+      case "pn":
+      case "pu":
+      case "pc":
+        var position = Config.getInstance().getObjectMapper().treeToValue(object, BitfinexWebSocketPosition.class);
+        subjectPosition.onNext(position);
+        break;
+
       case "os":
         BitfinexStreamingAdapters.adaptOrders(object).forEach(subjectOrder::onNext);
         break;
@@ -319,6 +339,10 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
 
   Observable<BitfinexWebSocketAuthOrder> getAuthenticatedOrders() {
     return subjectOrder.share();
+  }
+
+  Observable<BitfinexWebSocketPosition> getAuthenticatedPositions() {
+    return subjectPosition.share();
   }
 
   Observable<BitfinexWebSocketAuthPreTrade> getAuthenticatedPreTrades() {

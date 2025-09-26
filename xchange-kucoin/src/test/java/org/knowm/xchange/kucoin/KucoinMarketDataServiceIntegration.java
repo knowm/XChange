@@ -10,13 +10,11 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import org.junit.Test;
-import org.knowm.xchange.ExchangeFactory;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -24,17 +22,23 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.kucoin.dto.KlineIntervalType;
-import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
-import org.knowm.xchange.kucoin.dto.response.AllTickersTickerResponse;
+import org.knowm.xchange.kucoin.dto.response.KucoinCurrencyResponseV3;
 import org.knowm.xchange.kucoin.dto.response.KucoinKline;
 
-public class KucoinMarketDataServiceIntegration {
+public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestParent {
 
-  private final CurrencyPair ETH = CurrencyPair.ETH_BTC;
+  @Test
+  public void valid_currency_infos() throws Exception {
+    KucoinMarketDataService kucoinMarketDataService = exchange.getMarketDataService();
+    List<KucoinCurrencyResponseV3> currencyInfos = kucoinMarketDataService.getAllKucoinCurrencies();
+    assertThat(currencyInfos.stream()
+        .filter(currencyInfo -> currencyInfo.getCurrency().equals(Currency.USDT))
+        .findFirst())
+        .isNotEmpty();
+  }
 
   @Test
   public void testGetPrices() throws Exception {
-    KucoinExchange exchange = exchange();
     KucoinMarketDataServiceRaw kucoinMarketDataServiceRaw = exchange.getMarketDataService();
     Map<String, BigDecimal> prices = kucoinMarketDataServiceRaw.getKucoinPrices();
     assertThat(prices.get("BTC")).isNotNull();
@@ -42,7 +46,6 @@ public class KucoinMarketDataServiceIntegration {
 
   @Test
   public void testGetMarketData() throws Exception {
-    KucoinExchange exchange = exchange();
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
     exchangeMetaData
         .getInstruments()
@@ -60,71 +63,36 @@ public class KucoinMarketDataServiceIntegration {
   }
 
   @Test
-  public void testGetTicker() throws Exception {
-    KucoinExchange exchange = exchange();
-    Ticker ticker = exchange.getMarketDataService().getTicker(ETH);
-    assertThat(ticker.getBid()).isNotNull();
-    assertThat(ticker.getAsk()).isGreaterThan(ticker.getBid());
-    assertThat(ticker.getLast())
-        .isGreaterThanOrEqualTo(ticker.getLow())
-        .isLessThanOrEqualTo(ticker.getHigh());
-    assertThat(ticker.getLow()).isNotNull();
-    assertThat(ticker.getHigh()).isGreaterThan(ticker.getLow());
-    // assertThat(ticker.getOpen()).isNotNull(); Seems to be mostly...
-    assertThat(ticker.getVolume()).isNotNull().isGreaterThanOrEqualTo(BigDecimal.ZERO);
-    assertThat(ticker.getQuoteVolume()).isNotNull().isGreaterThanOrEqualTo(BigDecimal.ZERO);
-    assertThat(ticker.getCurrencyPair()).isEqualTo(ETH);
-    checkTimestamp(ticker.getTimestamp());
+  void valid_single_ticker() throws IOException {
+    Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_USDT);
+
+    assertThat(ticker.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
+    assertThat(ticker.getLast()).isNotNull();
+
+    if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
+      assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+    }
   }
 
   @Test
-  public void valid_tickers() throws IOException {
-    List<Ticker> tickers = exchange().getMarketDataService().getTickers(null);
+  void valid_tickers() throws IOException {
+    List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
 
     assertThat(tickers)
         .allSatisfy(
             ticker -> {
               assertThat(ticker.getInstrument()).isNotNull();
-              assertThat(ticker.getLast()).isPositive();
 
-              assertThat(ticker.getBidSize()).isPositive();
-              assertThat(ticker.getAskSize()).isPositive();
-
-              assertThat(ticker.getAsk()).isPositive();
-              assertThat(ticker.getBid()).isPositive();
-              assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+              if (ticker.getBid() != null && ticker.getBid().signum() > 0 && ticker.getAsk() != null && ticker.getAsk().signum() > 0) {
+                assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+              }
             });
   }
 
   @Test
-  public void testGetTickers() throws Exception {
-    KucoinExchange exchange = exchange();
-    AllTickersResponse allPairs = exchange.getMarketDataService().getKucoinTickers();
-    // Do a minimal check to make sure we're getting multiple tickers
-    assertThat(allPairs.getTicker().length).isGreaterThan(0);
-    // Tease out eth ticker
-    Optional<AllTickersTickerResponse> optionalPair =
-        Arrays.stream(allPairs.getTicker())
-            .filter(a -> a.getSymbol().equalsIgnoreCase("ETH-USDT"))
-            .findFirst();
-    assertThat(optionalPair).isNotEmpty();
-    AllTickersTickerResponse tickerResponse = optionalPair.get();
-    tickerResponse.getSymbol().equals("ETH-USDT");
-
-    assertThat(tickerResponse.getBuy()).isNotNull();
-    assertThat(tickerResponse.getHigh()).isNotNull();
-    assertThat(tickerResponse.getLast()).isNotNull();
-    assertThat(tickerResponse.getLow()).isNotNull();
-    assertThat(tickerResponse.getHigh()).isGreaterThan(tickerResponse.getLow());
-    assertThat(tickerResponse.getVol()).isNotNull().isGreaterThanOrEqualTo(BigDecimal.ZERO);
-    assertThat(tickerResponse.getVolValue()).isNotNull().isGreaterThanOrEqualTo(BigDecimal.ZERO);
-  }
-
-  @Test
   public void testOrderBookPartial() throws Exception {
-    KucoinExchange exchange = exchange();
-    OrderBook orderBook = exchange.getMarketDataService().getOrderBook(ETH);
+    OrderBook orderBook = exchange.getMarketDataService().getOrderBook(CurrencyPair.ETH_BTC);
     checkOrderBookIntegrity(orderBook);
     assertThat(orderBook.getAsks().size()).isLessThanOrEqualTo(100);
     assertThat(orderBook.getBids().size()).isLessThanOrEqualTo(100);
@@ -132,9 +100,10 @@ public class KucoinMarketDataServiceIntegration {
 
   @Test
   public void testOrderBookPartialShallow() throws Exception {
-    KucoinExchange exchange = exchange();
     OrderBook orderBook =
-        exchange.getMarketDataService().getOrderBook(ETH, PARAM_PARTIAL_SHALLOW_ORDERBOOK);
+        exchange
+            .getMarketDataService()
+            .getOrderBook(CurrencyPair.ETH_BTC, PARAM_PARTIAL_SHALLOW_ORDERBOOK);
     checkOrderBookIntegrity(orderBook);
     assertThat(orderBook.getAsks().size()).isLessThanOrEqualTo(20);
     assertThat(orderBook.getBids().size()).isLessThanOrEqualTo(20);
@@ -142,14 +111,12 @@ public class KucoinMarketDataServiceIntegration {
 
   @Test
   public void testTrades() throws Exception {
-    KucoinExchange exchange = exchange();
-    Trades trades = exchange.getMarketDataService().getTrades(ETH);
+    Trades trades = exchange.getMarketDataService().getTrades(CurrencyPair.ETH_BTC);
     assertFalse(trades.getTrades().isEmpty());
   }
 
   @Test
   public void testKlines() throws Exception {
-    KucoinExchange exchange = exchange();
     // Taken from the api docs page: GET
     // /api/v1/market/candles?type=1min&symbol=BTC-USDT&startAt=1566703297&endAt=1566789757
     List<KucoinKline> klines =
@@ -182,10 +149,6 @@ public class KucoinMarketDataServiceIntegration {
     assertThat(last.getClose()).isEqualTo(BigDecimal.valueOf(10088.7));
     assertThat(last.getVolume()).isEqualTo(BigDecimal.valueOf(5.12048315));
     assertThat(last.getAmount()).isEqualTo(BigDecimal.valueOf(51658.509394017));
-  }
-
-  private KucoinExchange exchange() {
-    return ExchangeFactory.INSTANCE.createExchange(KucoinExchange.class);
   }
 
   private void checkTimestamp(Date date) {

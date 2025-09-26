@@ -1,15 +1,12 @@
 package org.knowm.xchange.tradeogre;
 
-import jakarta.ws.rs.FormParam;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 import org.knowm.xchange.tradeogre.dto.account.TradeOgreBalance;
 import org.knowm.xchange.tradeogre.dto.account.TradeOgreBalances;
 import org.knowm.xchange.tradeogre.dto.trade.TradeOgreOrder;
+import org.knowm.xchange.tradeogre.dto.trade.TradeOgreTrade;
 import org.knowm.xchange.tradeogre.dto.trade.TradeOgreTradeResponse;
 
 @Path("")
@@ -52,7 +49,13 @@ public interface TradeOgreAuthenticated extends TradeOgre {
 
   @POST
   @Path("account/orders")
-  Collection<TradeOgreOrder> getOrders(
+  List<TradeOgreOrder> getOrders(
       @HeaderParam("Authorization") String base64UserPwd, @FormParam("market") String market)
+      throws IOException;
+
+  @GET
+  @Path("/history/{market}")
+  List<TradeOgreTrade> getTradeHistory(
+      @HeaderParam("Authorization") String base64UserPwd, @PathParam("market") String market)
       throws IOException;
 }

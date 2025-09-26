@@ -23,6 +23,9 @@ public class WithdrawalResponse {
   /** Currency */
   private String currency;
 
+  /** The chain of currency / */
+  private String chain;
+
   /** Withdrawal amount */
   private BigDecimal amount;
 

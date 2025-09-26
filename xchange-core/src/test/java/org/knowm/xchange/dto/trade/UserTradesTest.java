@@ -6,7 +6,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -20,14 +22,14 @@ public class UserTradesTest {
     userTradeList.add(
         UserTrade.builder()
             .timestamp(Date.from(Instant.now()))
-            .currencyPair(CurrencyPair.BTC_USD)
+            .instrument(CurrencyPair.BTC_USD)
             .price(BigDecimal.ONE)
             .originalAmount(BigDecimal.ONE)
             .build());
     userTradeList.add(
         UserTrade.builder()
             .timestamp(Date.from(Instant.now()))
-            .currencyPair(CurrencyPair.BTC_USD)
+            .instrument(CurrencyPair.BTC_USD)
             .id("id")
             .price(BigDecimal.ONE)
             .originalAmount(BigDecimal.ONE)
@@ -35,7 +37,7 @@ public class UserTradesTest {
     userTradeList.add(
         UserTrade.builder()
             .timestamp(Date.from(Instant.now()))
-            .currencyPair(CurrencyPair.BTC_USD)
+            .instrument(CurrencyPair.BTC_USD)
             .id("id")
             .instrument(CurrencyPair.BTC_USD)
             .price(BigDecimal.ONE)

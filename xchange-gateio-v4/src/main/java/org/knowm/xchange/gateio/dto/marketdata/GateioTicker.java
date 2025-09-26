@@ -25,8 +25,14 @@ public class GateioTicker {
   @JsonProperty("lowest_ask")
   BigDecimal lowestAsk;
 
+  @JsonProperty("lowest_size")
+  BigDecimal lowestAskSize;
+
   @JsonProperty("highest_bid")
   BigDecimal highestBid;
+
+  @JsonProperty("highest_size")
+  BigDecimal highestBidSize;
 
   @JsonProperty("change_percentage")
   BigDecimal changePercentage24h;

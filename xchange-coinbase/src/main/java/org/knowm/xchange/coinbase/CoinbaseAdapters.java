@@ -60,7 +60,7 @@ public final class CoinbaseAdapters {
     return UserTrade.builder()
         .type(orderType)
         .originalAmount(transaction.getAmount().getAmount())
-        .currencyPair(
+        .instrument(
             new CurrencyPair(
                 transaction.getAmount().getCurrency(), transaction.getTotal().getCurrency()))
         .price(
@@ -104,7 +104,7 @@ public final class CoinbaseAdapters {
     return UserTrade.builder()
         .type(orderType)
         .originalAmount(originalAmount)
-        .currencyPair(new CurrencyPair(tradableIdentifier, transactionCurrency))
+        .instrument(new CurrencyPair(tradableIdentifier, transactionCurrency))
         .price(price)
         .timestamp(timestamp)
         .id(id)

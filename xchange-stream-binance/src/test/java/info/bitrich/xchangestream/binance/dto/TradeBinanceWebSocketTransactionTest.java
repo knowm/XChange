@@ -6,6 +6,8 @@ import static org.junit.Assert.assertEquals;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import info.bitrich.xchangestream.binance.dto.market.BinanceRawTrade;
+import info.bitrich.xchangestream.binance.dto.market.TradeBinanceWebsocketTransaction;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.BeforeClass;

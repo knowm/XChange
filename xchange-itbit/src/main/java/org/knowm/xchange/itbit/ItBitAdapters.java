@@ -120,9 +120,9 @@ public final class ItBitAdapters {
     Date date = DateUtils.fromISODateString(timestamp);
     final String matchNumber = String.valueOf(trade.getMatchNumber());
 
-    return new Trade.Builder()
+    return Trade.builder()
         .originalAmount(trade.getAmount())
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(trade.getPrice())
         .timestamp(date)
         .id(matchNumber)
@@ -261,7 +261,7 @@ public final class ItBitAdapters {
           UserTrade.builder()
               .type(orderType)
               .originalAmount(totalQuantity)
-              .currencyPair(currencyPair)
+              .instrument(currencyPair)
               .price(volumeWeightedAveragePrice)
               .timestamp(itBitTrade.getTimestamp())
               .id(orderId) // itbit doesn't have trade ids, so we use the order id instead
@@ -352,18 +352,16 @@ public final class ItBitAdapters {
 
       Currency currency = adaptCcy(itBitFunding.currency);
 
-      return new FundingRecord(
-          itBitFunding.destinationAddress,
-          date,
-          currency,
-          itBitFunding.amount,
-          itBitFunding.withdrawalId,
-          itBitFunding.txnHash,
-          type,
-          status,
-          null,
-          null,
-          null);
+      return FundingRecord.builder()
+          .address(itBitFunding.destinationAddress)
+          .date(date)
+          .currency(currency)
+          .amount(itBitFunding.amount)
+          .internalId(itBitFunding.withdrawalId)
+          .blockchainTransactionHash(itBitFunding.txnHash)
+          .type(type)
+          .status(status)
+          .build();
     } catch (ParseException e) {
       throw new IllegalStateException("Cannot parse " + itBitFunding, e);
     }

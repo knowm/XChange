@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /* Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
-/** <a href="https://www.okex.com/docs-v5/en/#rest-api-public-data-get-instruments">...</a> * */
+/** <a href="https://www.okx.com/docs-v5/en/#rest-api-public-data-get-instruments">...</a> * */
 @Getter
 @NoArgsConstructor
 public class OkexInstrument {

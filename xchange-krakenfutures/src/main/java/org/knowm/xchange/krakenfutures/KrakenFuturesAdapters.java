@@ -8,7 +8,11 @@ import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -16,19 +20,47 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.*;
-import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.OpenPosition;
+import org.knowm.xchange.dto.account.OpenPositions;
+import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.marketdata.FundingRate;
+import org.knowm.xchange.dto.marketdata.FundingRates;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.krakenfutures.dto.account.KrakenFuturesAccountInfo;
 import org.knowm.xchange.krakenfutures.dto.account.KrakenFuturesAccounts;
-import org.knowm.xchange.krakenfutures.dto.marketData.*;
-import org.knowm.xchange.krakenfutures.dto.trade.*;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesInstrument;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesInstruments;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesOrderBook;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesPublicFill;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesPublicFills;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesTicker;
+import org.knowm.xchange.krakenfutures.dto.marketData.KrakenFuturesTickers;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesFill;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesFills;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOpenOrder;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOpenOrders;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOpenPosition;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOpenPositions;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOrderFlags;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOrderSide;
 import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOrderStatus;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOrderType;
+import org.knowm.xchange.krakenfutures.dto.trade.KrakenFuturesOrdersStatusesResponse;
 
 /**
  * @author Jean-Christophe Laruelle
@@ -216,7 +248,7 @@ public class KrakenFuturesAdapters {
       if (instrument.getSymbol().contains(MULTI_COLLATERAL_PRODUCTS)) {
         instruments.put(
             adaptInstrument(instrument.getSymbol()),
-            new InstrumentMetaData.Builder()
+            InstrumentMetaData.builder()
                 .volumeScale(instrument.getVolumeScale())
                 .priceScale(instrument.getTickSize().scale())
                 .priceStepSize(instrument.getTickSize())
@@ -263,7 +295,7 @@ public class KrakenFuturesAdapters {
 
     for (KrakenFuturesPublicFill fill : krakenFuturesTrades.getFills()) {
       trades.add(
-          new Trade.Builder()
+          Trade.builder()
               .id(fill.getTradeId())
               .type(adaptOrderType(fill.getSide()))
               .price(fill.getPrice())
@@ -351,7 +383,7 @@ public class KrakenFuturesAdapters {
         .forEach(
             krakenFuturesOpenPosition ->
                 openPositions.add(
-                    new OpenPosition.Builder()
+                    OpenPosition.builder()
                         .instrument(adaptInstrument(krakenFuturesOpenPosition.getSymbol()))
                         .type(
                             (krakenFuturesOpenPosition.getSide().equals("long"))

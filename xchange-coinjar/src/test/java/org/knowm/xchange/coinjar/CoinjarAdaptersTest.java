@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.knowm.xchange.coinjar.dto.CoinjarOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.UserTrade;
 
 public class CoinjarAdaptersTest {
@@ -65,7 +66,8 @@ public class CoinjarAdaptersTest {
         UserTrade.builder()
             .id("3267")
             .orderId("3267")
-            .currencyPair(CurrencyPair.BTC_AUD)
+            .type(OrderType.BID)
+            .instrument(CurrencyPair.BTC_AUD)
             .originalAmount(new BigDecimal("0.04000000"))
             .timestamp(Date.from(ZonedDateTime.parse("2017-10-12T15:39:27.000+11:00").toInstant()))
             .price(new BigDecimal("6203.00000000"))

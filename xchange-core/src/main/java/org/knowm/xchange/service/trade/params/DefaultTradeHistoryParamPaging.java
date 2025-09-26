@@ -1,51 +1,22 @@
 package org.knowm.xchange.service.trade.params;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
 /** Common implementation of {@link TradeHistoryParamPaging} interface */
+@Data
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DefaultTradeHistoryParamPaging implements TradeHistoryParamPaging {
 
   private Integer pageLength;
 
   /** 0-based page number */
-  private Integer pageNumber;
+  @Builder.Default
+  private Integer pageNumber = 0;
 
-  public DefaultTradeHistoryParamPaging() {}
-
-  public DefaultTradeHistoryParamPaging(Integer pageLength) {
-    this(pageLength, 0);
-  }
-
-  /**
-   * @param pageNumber 0-based page number
-   */
-  public DefaultTradeHistoryParamPaging(Integer pageLength, Integer pageNumber) {
-
-    this.pageLength = pageLength;
-    this.pageNumber = pageNumber;
-  }
-
-  @Override
-  public Integer getPageLength() {
-
-    return pageLength;
-  }
-
-  @Override
-  public void setPageLength(Integer pageLength) {
-
-    this.pageLength = pageLength;
-  }
-
-  /** 0-based page number */
-  @Override
-  public Integer getPageNumber() {
-
-    return pageNumber;
-  }
-
-  /** 0-based page number */
-  @Override
-  public void setPageNumber(Integer pageNumber) {
-
-    this.pageNumber = pageNumber;
-  }
 }

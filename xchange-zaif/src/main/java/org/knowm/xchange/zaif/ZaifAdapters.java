@@ -49,7 +49,7 @@ public class ZaifAdapters {
   public static ExchangeMetaData adaptMetadata(List<ZaifMarket> markets) {
     Map<Instrument, InstrumentMetaData> pairMeta = new HashMap<>();
     for (ZaifMarket zaifMarket : markets) {
-      pairMeta.put(zaifMarket.getName(), new InstrumentMetaData.Builder().build());
+      pairMeta.put(zaifMarket.getName(), InstrumentMetaData.builder().build());
     }
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }

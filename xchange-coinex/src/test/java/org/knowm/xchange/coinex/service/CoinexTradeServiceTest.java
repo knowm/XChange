@@ -3,10 +3,13 @@ package org.knowm.xchange.coinex.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coinex.CoinexExchangeWiremock;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
@@ -44,4 +47,63 @@ class CoinexTradeServiceTest extends CoinexExchangeWiremock {
             new DefaultCancelOrderByInstrumentAndIdParams(CurrencyPair.BTC_USDT, "136215219959"));
     assertThat(actual).isTrue();
   }
+
+  @Test
+  void place_stop_buy_limit_order() throws IOException {
+    StopOrder stopOrder =
+        new StopOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+            .userReference("valid_stop_buy_limit_order")
+            .stopPrice(BigDecimal.ONE)
+            .originalAmount(BigDecimal.ONE)
+            .limitPrice(BigDecimal.ONE)
+            .build();
+
+    String actual = tradeService.placeStopOrder(stopOrder);
+
+    assertThat(actual).isEqualTo("155261952040");
+  }
+
+  @Test
+  void place_stop_buy_market_order() throws IOException {
+    StopOrder stopOrder =
+        new StopOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
+            .userReference("valid_stop_buy_market_order")
+            .stopPrice(BigDecimal.ONE)
+            .originalAmount(BigDecimal.ONE)
+            .build();
+
+    String actual = tradeService.placeStopOrder(stopOrder);
+
+    assertThat(actual).isEqualTo("155262133674");
+  }
+
+  @Test
+  void place_stop_sell_limit_order() throws IOException {
+    StopOrder stopOrder =
+        new StopOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
+            .userReference("valid_stop_sell_limit_order")
+            .stopPrice(BigDecimal.ONE)
+            .originalAmount(BigDecimal.ONE)
+            .limitPrice(BigDecimal.ONE)
+            .build();
+
+    String actual = tradeService.placeStopOrder(stopOrder);
+
+    assertThat(actual).isEqualTo("155262192688");
+  }
+
+  @Test
+  void place_stop_sell_market_order() throws IOException {
+    StopOrder stopOrder =
+        new StopOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
+            .userReference("valid_stop_sell_market_order")
+            .stopPrice(BigDecimal.ONE)
+            .originalAmount(BigDecimal.ONE)
+            .build();
+
+    String actual = tradeService.placeStopOrder(stopOrder);
+
+    assertThat(actual).isEqualTo("155262200343");
+  }
+
 }

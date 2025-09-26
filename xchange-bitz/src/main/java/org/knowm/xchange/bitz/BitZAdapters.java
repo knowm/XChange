@@ -50,8 +50,8 @@ public class BitZAdapters {
   }
 
   public static Trade adaptTrade(BitZPublicTrade trade, CurrencyPair pair) {
-    return new Trade.Builder()
-        .currencyPair(pair)
+    return Trade.builder()
+        .instrument(pair)
         .id(String.valueOf(trade.hashCode()))
         .price(trade.getPrice())
         .originalAmount(trade.getVolume())

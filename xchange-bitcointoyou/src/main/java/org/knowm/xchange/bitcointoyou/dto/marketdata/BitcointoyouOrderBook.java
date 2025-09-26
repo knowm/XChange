@@ -11,14 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.Generated;
 
 /**
  * @author Jonathas Carrijo
  * @author Danilo Guimaraes
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"asks", "bids"})
 public class BitcointoyouOrderBook {
 

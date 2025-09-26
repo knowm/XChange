@@ -1,0 +1,63 @@
+{
+  "code": "0",
+  "data": [
+    {
+      "category": "1",
+      "delivery": "",
+      "exercise": "",
+      "fiat": [
+        {
+          "ccy": "AED",
+          "maker": "-0.0005",
+          "taker": "-0.0007"
+        },
+        {
+          "ccy": "AUD",
+          "maker": "-0.0005",
+          "taker": "-0.0007"
+        },
+        {
+          "ccy": "HKD",
+          "maker": "-0.0005",
+          "taker": "-0.0007"
+        },
+        {
+          "ccy": "SGD",
+          "maker": "-0.0005",
+          "taker": "-0.0007"
+        },
+        {
+          "ccy": "EUR",
+          "maker": "-0.0005",
+          "taker": "-0.0007"
+        },
+        {
+          "ccy": "USD",
+          "maker": "-0.0005",
+          "taker": "-0.0007"
+        },
+        {
+          "ccy": "TRY",
+          "maker": "-0.0005",
+          "taker": "-0.0007"
+        },
+        {
+          "ccy": "BRL",
+          "maker": "-0.0005",
+          "taker": "-0.0007"
+        }
+      ],
+      "instType": "SPOT",
+      "level": "Lv1",
+      "maker": "-0.0008",
+      "makerU": "",
+      "makerUSDC": "-0.0005",
+      "ruleType": "normal",
+      "taker": "-0.001",
+      "takerU": "",
+      "takerUSDC": "-0.0007",
+      "ts": "1747163820489"
+    }
+  ],
+  "msg": ""
+}

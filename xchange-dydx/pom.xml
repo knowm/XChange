@@ -23,10 +23,6 @@
                     <artifactId>j2objc-annotations</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>jakarta.ws.rs</groupId>
-                    <artifactId>jakarta.ws.rs-api</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>io.vavr</groupId>
                     <artifactId>vavr-match</artifactId>
                 </exclusion>

@@ -73,6 +73,7 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair BTC_XAUR = new CurrencyPair(Currency.BTC, Currency.XAUR);
   public static final CurrencyPair BTC_IOC = new CurrencyPair(Currency.BTC, Currency.IOC);
   public static final CurrencyPair BTC_ZMW = new CurrencyPair(Currency.BTC, Currency.ZMW);
+  public static final CurrencyPair BTC_FDUSD = new CurrencyPair(Currency.BTC, Currency.FDUSD);
   public static final CurrencyPair BTC_TRY = new CurrencyPair(Currency.BTC, Currency.TRY);
   public static final CurrencyPair ETH_TRY = new CurrencyPair(Currency.ETH, Currency.TRY);
 
@@ -102,6 +103,7 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair ETH_AUD = new CurrencyPair(Currency.ETH, Currency.AUD);
   public static final CurrencyPair ETH_NZD = new CurrencyPair(Currency.ETH, Currency.NZD);
   public static final CurrencyPair ETH_CZK = new CurrencyPair(Currency.ETH, Currency.CZK);
+  public static final CurrencyPair ETH_FDUSD = new CurrencyPair(Currency.ETH, Currency.FDUSD);
 
   public static final CurrencyPair XAUR_BTC = new CurrencyPair(Currency.XAUR, Currency.BTC);
 
@@ -320,6 +322,7 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   // Tether Pairs
   public static final CurrencyPair BTC_USDT = new CurrencyPair(Currency.BTC, Currency.USDT);
   public static final CurrencyPair DASH_USDT = new CurrencyPair(Currency.DASH, Currency.USDT);
+  public static final CurrencyPair FDUSD_USDT = new CurrencyPair(Currency.FDUSD, Currency.USDT);
 
   // UAH pairs
   public static final CurrencyPair BTC_UAH = new CurrencyPair(Currency.BTC, Currency.UAH);

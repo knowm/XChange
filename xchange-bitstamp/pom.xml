@@ -22,8 +22,13 @@
         <url>http://knowm.org/open-source/xchange/</url>
     </organization>
 
-    <!-- Parent provides default configuration for dependencies -->
     <dependencies>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.knowm.xchange</groupId>

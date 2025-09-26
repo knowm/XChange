@@ -6,6 +6,7 @@ import static info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransac
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import info.bitrich.xchangestream.binance.dto.market.KlineBinanceWebSocketTransaction;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;

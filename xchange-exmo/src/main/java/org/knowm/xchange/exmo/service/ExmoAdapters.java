@@ -27,7 +27,7 @@ public class ExmoAdapters {
     return UserTrade.builder()
         .type(type)
         .originalAmount(amount)
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(price)
         .timestamp(date)
         .id(tradeId)

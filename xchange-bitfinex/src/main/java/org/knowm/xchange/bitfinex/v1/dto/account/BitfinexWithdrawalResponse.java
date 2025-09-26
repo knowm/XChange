@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Generated;
 
 /**
  * Bitfinex withdrawal response mapping class
@@ -16,7 +15,6 @@ import javax.annotation.Generated;
  * @author Ondrej Novotny <ondrej.novotny@onlab.cz>
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"status", "message", "withdrawal_id"})
 public class BitfinexWithdrawalResponse {
 

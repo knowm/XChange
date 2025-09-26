@@ -213,7 +213,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                 .id(tradeId) // The tradeId should be the key of the map, postxid can be null and is
                 // not unique as required for a tradeId
                 .orderId(dto.ordertxid)
-                .currencyPair(currencyPair)
+                .instrument(currencyPair)
                 .timestamp(dto.time == null ? null : new Date((long) (dto.time * 1000L)))
                 .type(KrakenAdapters.adaptOrderType(KrakenType.fromString(dto.type)))
                 .price(dto.price)

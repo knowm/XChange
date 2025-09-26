@@ -1,20 +1,36 @@
 package info.bitrich.xchangestream.okex;
 
-import static info.bitrich.xchangestream.okex.OkexStreamingService.*;
+import static info.bitrich.xchangestream.okex.OkexStreamingService.FUNDING_RATE;
+import static info.bitrich.xchangestream.okex.OkexStreamingService.ORDERBOOK;
+import static info.bitrich.xchangestream.okex.OkexStreamingService.ORDERBOOK5;
+import static info.bitrich.xchangestream.okex.OkexStreamingService.TICKERS;
+import static info.bitrich.xchangestream.okex.OkexStreamingService.TRADES;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.marketdata.FundingRate;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.OkexAdapters;
-import org.knowm.xchange.okex.dto.marketdata.*;
+import org.knowm.xchange.okex.dto.marketdata.OkexFundingRate;
+import org.knowm.xchange.okex.dto.marketdata.OkexOrderbook;
+import org.knowm.xchange.okex.dto.marketdata.OkexTicker;
+import org.knowm.xchange.okex.dto.marketdata.OkexTrade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,13 +39,16 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
   private static final Logger LOG = LoggerFactory.getLogger(OkexStreamingMarketDataService.class);
 
   private final OkexStreamingService service;
+  private final ExchangeMetaData exchangeMetaData;
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private final Map<Instrument, PublishSubject<List<OrderBookUpdate>>>
       orderBookUpdatesSubscriptions;
 
-  public OkexStreamingMarketDataService(OkexStreamingService service) {
+  public OkexStreamingMarketDataService(
+      OkexStreamingService service, ExchangeMetaData exchangeMetaData) {
     this.service = service;
+    this.exchangeMetaData = exchangeMetaData;
     this.orderBookUpdatesSubscriptions = new ConcurrentHashMap<>();
   }
 
@@ -68,7 +87,8 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                       jsonNode.get("data"),
                       mapper.getTypeFactory().constructCollectionType(List.class, OkexTrade.class));
               return Observable.fromIterable(
-                  OkexAdapters.adaptTrades(okexTradeList, instrument).getTrades());
+                  OkexAdapters.adaptTrades(okexTradeList, instrument, exchangeMetaData)
+                      .getTrades());
             });
   }
 
@@ -112,44 +132,33 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                           .getTypeFactory()
                           .constructCollectionType(List.class, OkexOrderbook.class));
               if ("snapshot".equalsIgnoreCase(action)) {
-                OrderBook orderBook = OkexAdapters.adaptOrderBook(okexOrderbooks, instrument);
+                OrderBook orderBook =
+                    OkexAdapters.adaptOrderBook(okexOrderbooks, instrument, exchangeMetaData);
                 orderBookMap.put(instId, orderBook);
                 return Observable.just(orderBook);
               } else if ("update".equalsIgnoreCase(action)) {
                 OrderBook orderBook = orderBookMap.getOrDefault(instId, null);
                 if (orderBook == null) {
-                  LOG.error(String.format("Failed to get orderBook, instId=%s.", instId));
+                  LOG.error("Failed to get orderBook, instId={}.", instId);
                   return Observable.fromIterable(new LinkedList<>());
                 }
                 Date timestamp = new Timestamp(Long.parseLong(okexOrderbooks.get(0).getTs()));
-                okexOrderbooks
-                    .get(0)
-                    .getAsks()
-                    .forEach(
-                        okexPublicOrder ->
-                            orderBook.update(
-                                OkexAdapters.adaptLimitOrder(
-                                    okexPublicOrder, instrument, Order.OrderType.ASK, timestamp)));
-                okexOrderbooks
-                    .get(0)
-                    .getBids()
-                    .forEach(
-                        okexPublicOrder ->
-                            orderBook.update(
-                                OkexAdapters.adaptLimitOrder(
-                                    okexPublicOrder, instrument, Order.OrderType.BID, timestamp)));
+                BigDecimal contractValue =
+                    exchangeMetaData.getInstruments().get(instrument).getContractValue();
+                List<OrderBookUpdate> orderBookUpdates =
+                    OkexAdapters.adaptOrderBookUpdates(
+                        instrument,
+                        okexOrderbooks.get(0).getAsks(),
+                        okexOrderbooks.get(0).getBids(),
+                        contractValue,
+                        timestamp);
+                orderBookUpdates.forEach(orderBook::update);
                 if (orderBookUpdatesSubscriptions.get(instrument) != null) {
-                  orderBookUpdatesSubscriptions(
-                      instrument,
-                      okexOrderbooks.get(0).getAsks(),
-                      okexOrderbooks.get(0).getBids(),
-                      timestamp);
+                  orderBookUpdatesSubscriptions(instrument, orderBookUpdates);
                 }
                 return Observable.just(orderBook);
-
               } else {
-                LOG.error(
-                    String.format("Unexpected books action=%s, message=%s", action, jsonNode));
+                LOG.error("Unexpected books action={}, message={}", action, jsonNode);
                 return Observable.fromIterable(new LinkedList<>());
               }
             });
@@ -162,30 +171,7 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
   }
 
   private void orderBookUpdatesSubscriptions(
-      Instrument instrument, List<OkexPublicOrder> asks, List<OkexPublicOrder> bids, Date date) {
-    List<OrderBookUpdate> orderBookUpdates = new ArrayList<>();
-    for (OkexPublicOrder ask : asks) {
-      OrderBookUpdate o =
-          new OrderBookUpdate(
-              Order.OrderType.ASK,
-              ask.getVolume(),
-              instrument,
-              ask.getPrice(),
-              date,
-              ask.getVolume());
-      orderBookUpdates.add(o);
-    }
-    for (OkexPublicOrder bid : bids) {
-      OrderBookUpdate o =
-          new OrderBookUpdate(
-              Order.OrderType.BID,
-              bid.getVolume(),
-              instrument,
-              bid.getPrice(),
-              date,
-              bid.getVolume());
-      orderBookUpdates.add(o);
-    }
+      Instrument instrument, List<OrderBookUpdate> orderBookUpdates) {
     orderBookUpdatesSubscriptions.get(instrument).onNext(orderBookUpdates);
   }
 }

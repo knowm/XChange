@@ -32,6 +32,8 @@ import org.knowm.xchange.instrument.Instrument;
 @UtilityClass
 public class GateioAdapters {
 
+  public final BigDecimal PARTIALLY_FILLED_SCALE = new BigDecimal("0.1");
+
   public String toString(Instrument instrument) {
     if (instrument == null) {
       return null;
@@ -75,7 +77,7 @@ public class GateioAdapters {
 
   public InstrumentMetaData toInstrumentMetaData(
       GateioCurrencyPairDetails gateioCurrencyPairDetails) {
-    return new InstrumentMetaData.Builder()
+    return InstrumentMetaData.builder()
         .tradingFee(gateioCurrencyPairDetails.getFee())
         .minimumAmount(gateioCurrencyPairDetails.getMinAssetAmount())
         .counterMinimumAmount(gateioCurrencyPairDetails.getMinQuoteAmount())
@@ -95,18 +97,29 @@ public class GateioAdapters {
     }
   }
 
-  public OrderStatus toOrderStatus(String gateioOrderStatus) {
-    switch (gateioOrderStatus) {
+  public OrderStatus toOrderStatus(GateioOrder gateioOrder) {
+    switch (gateioOrder.getStatus()) {
       case "open":
         return OrderStatus.OPEN;
-      case "filled":
+
       case "closed":
+        // if more than `PARTIALLY_FILLED_SCALE` left to fill -> set to `PARTIALLY_FILLED`
+        if (gateioOrder.getAmountLeftToFill().compareTo(gateioOrder.getAmount().multiply(PARTIALLY_FILLED_SCALE)) > 0) {
+          return OrderStatus.PARTIALLY_FILLED;
+        }
+        else {
+          return OrderStatus.FILLED;
+        }
+
+      case "filled":
         return OrderStatus.FILLED;
+
       case "cancelled":
       case "stp":
         return OrderStatus.CANCELED;
+
       default:
-        throw new IllegalArgumentException("Can't map " + gateioOrderStatus);
+        throw new IllegalArgumentException("Can't map " + gateioOrder.getStatus());
     }
   }
 
@@ -152,9 +165,9 @@ public class GateioAdapters {
     }
 
     // if filled then calculate amounts
-    OrderStatus status = toOrderStatus(gateioOrder.getStatus());
+    OrderStatus status = toOrderStatus(gateioOrder);
 
-    if (status == OrderStatus.FILLED) {
+    if (status == OrderStatus.FILLED || status == OrderStatus.PARTIALLY_FILLED) {
       if (orderType == OrderType.BID) {
         builder.cumulativeAmount(gateioOrder.getFilledTotalQuote());
       } else if (orderType == OrderType.ASK) {
@@ -180,18 +193,19 @@ public class GateioAdapters {
   }
 
   public UserTrade toUserTrade(GateioUserTradeRaw gateioUserTradeRaw) {
-    return new GateioUserTrade(
-        gateioUserTradeRaw.getSide(),
-        gateioUserTradeRaw.getAmount(),
-        gateioUserTradeRaw.getCurrencyPair(),
-        gateioUserTradeRaw.getPrice(),
-        Date.from(gateioUserTradeRaw.getTimeMs()),
-        String.valueOf(gateioUserTradeRaw.getId()),
-        String.valueOf(gateioUserTradeRaw.getOrderId()),
-        gateioUserTradeRaw.getFee(),
-        gateioUserTradeRaw.getFeeCurrency(),
-        gateioUserTradeRaw.getRemark(),
-        gateioUserTradeRaw.getRole());
+    return GateioUserTrade.builder()
+        .type(gateioUserTradeRaw.getSide())
+        .originalAmount(gateioUserTradeRaw.getAmount())
+        .instrument(gateioUserTradeRaw.getCurrencyPair())
+        .price(gateioUserTradeRaw.getPrice())
+        .timestamp(Date.from(gateioUserTradeRaw.getTimeMs()))
+        .id(String.valueOf(gateioUserTradeRaw.getId()))
+        .orderId(String.valueOf(gateioUserTradeRaw.getOrderId()))
+        .feeAmount(gateioUserTradeRaw.getFee())
+        .feeCurrency(gateioUserTradeRaw.getFeeCurrency())
+        .orderUserReference(gateioUserTradeRaw.getRemark())
+        .role(gateioUserTradeRaw.getRole())
+        .build();
   }
 
   public GateioWithdrawalRequest toGateioWithdrawalRequest(GateioWithdrawFundsParams p) {
@@ -210,7 +224,9 @@ public class GateioAdapters {
         .instrument(gateioTicker.getCurrencyPair())
         .last(gateioTicker.getLastPrice())
         .bid(gateioTicker.getHighestBid())
+        .bidSize(gateioTicker.getHighestBidSize())
         .ask(gateioTicker.getLowestAsk())
+        .askSize(gateioTicker.getLowestAskSize())
         .high(gateioTicker.getMaxPrice24h())
         .low(gateioTicker.getMinPrice24h())
         .volume(gateioTicker.getAssetVolume())
@@ -220,14 +236,14 @@ public class GateioAdapters {
   }
 
   public FundingRecord toFundingRecords(GateioAccountBookRecord gateioAccountBookRecord) {
-    return new FundingRecord.Builder()
-        .setInternalId(gateioAccountBookRecord.getId())
-        .setDate(Date.from(gateioAccountBookRecord.getTimestamp()))
-        .setCurrency(gateioAccountBookRecord.getCurrency())
-        .setBalance(gateioAccountBookRecord.getBalance())
-        .setType(gateioAccountBookRecord.getType())
-        .setAmount(gateioAccountBookRecord.getChange().abs())
-        .setDescription(gateioAccountBookRecord.getTypeDescription())
+    return FundingRecord.builder()
+        .internalId(gateioAccountBookRecord.getId())
+        .date(Date.from(gateioAccountBookRecord.getTimestamp()))
+        .currency(gateioAccountBookRecord.getCurrency())
+        .balance(gateioAccountBookRecord.getBalance())
+        .type(gateioAccountBookRecord.getType())
+        .amount(gateioAccountBookRecord.getChange().abs())
+        .description(gateioAccountBookRecord.getTypeDescription())
         .build();
   }
 }

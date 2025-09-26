@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import lombok.Getter;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -12,6 +13,7 @@ import org.knowm.xchange.instrument.Instrument;
  * Use to specify subscriptions during the connect phase For instancing, use builder @link {@link
  * ProductSubscriptionBuilder}
  */
+@Getter
 public class ProductSubscription {
   private final List<Instrument> orderBook;
   private final List<Instrument> trades;
@@ -35,34 +37,6 @@ public class ProductSubscription {
     List<T> result = new ArrayList<>();
     collection.forEach(result::add);
     return Collections.unmodifiableList(result);
-  }
-
-  public List<Instrument> getOrderBook() {
-    return orderBook;
-  }
-
-  public List<Instrument> getTrades() {
-    return trades;
-  }
-
-  public List<Instrument> getTicker() {
-    return ticker;
-  }
-
-  public List<Instrument> getOrders() {
-    return orders;
-  }
-
-  public List<Instrument> getFundingRates() {
-    return fundingRates;
-  }
-
-  public List<Instrument> getUserTrades() {
-    return userTrades;
-  }
-
-  public List<Currency> getBalances() {
-    return balances;
   }
 
   public boolean isEmpty() {

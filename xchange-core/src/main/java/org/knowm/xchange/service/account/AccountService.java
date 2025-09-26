@@ -212,6 +212,8 @@ public interface AccountService extends BaseService {
    * fees by recent volume traded. Some exchanges will provide the current fees per currency via a
    * single API request, while others require more logic to compute by hand.
    *
+   * @param category Optional arguments - instrument category. Exchange-specific (SPOT, SWAP,
+   *     etc...)
    * @return map between currency pairs and their fees at the time of invocation.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the
    *     request or response
@@ -221,7 +223,19 @@ public interface AccountService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
+  default Map<Instrument, Fee> getDynamicTradingFeesByInstrument(String... category)
+      throws IOException {
     throw new NotYetImplementedForExchangeException("getDynamicTradingFeesByInstrument");
+  }
+
+  /**
+   * Change user's initial leverage of specific symbol market.
+   * @param instrument symbol to change leverage
+   * @param leverage leverage
+   * @return true, if success
+   */
+  default boolean setLeverage(Instrument instrument, int leverage)
+      throws IOException {
+    throw new NotYetImplementedForExchangeException("setLeverage");
   }
 }

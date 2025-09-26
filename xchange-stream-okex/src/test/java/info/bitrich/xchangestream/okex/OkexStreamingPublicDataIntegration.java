@@ -5,6 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.rxjava3.disposables.Disposable;
+import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,8 @@ public class OkexStreamingPublicDataIntegration {
 
   private StreamingExchange exchange;
   private final Instrument currencyPair = CurrencyPair.BTC_USDT;
-  private final Instrument instrument = new FuturesContract("BTC/USDT/SWAP");
+  private final Instrument instrumentETH = new FuturesContract("ETH/USDT/SWAP");
+  private final Instrument instrumentSHIB = new FuturesContract("SHIB/USDT/SWAP");
 
   @Before
   public void setUp() {
@@ -38,11 +40,11 @@ public class OkexStreamingPublicDataIntegration {
     Disposable dis2 =
         exchange
             .getStreamingMarketDataService()
-            .getTrades(instrument)
+            .getTrades(instrumentETH)
             .subscribe(
                 trade -> {
                   System.out.println(trade);
-                  assertThat(trade.getInstrument()).isEqualTo(instrument);
+                  assertThat(trade.getInstrument()).isEqualTo(instrumentETH);
                 });
     TimeUnit.SECONDS.sleep(3);
     dis.dispose();
@@ -59,7 +61,7 @@ public class OkexStreamingPublicDataIntegration {
     Disposable dis2 =
         exchange
             .getStreamingMarketDataService()
-            .getTicker(instrument)
+            .getTicker(instrumentETH)
             .subscribe(System.out::println);
     TimeUnit.SECONDS.sleep(3);
     dis.dispose();
@@ -71,7 +73,7 @@ public class OkexStreamingPublicDataIntegration {
     Disposable dis =
         exchange
             .getStreamingMarketDataService()
-            .getFundingRate(instrument)
+            .getFundingRate(instrumentETH)
             .subscribe(System.out::println);
     TimeUnit.SECONDS.sleep(3);
     dis.dispose();
@@ -85,7 +87,7 @@ public class OkexStreamingPublicDataIntegration {
             .getOrderBook(currencyPair)
             .subscribe(
                 orderBook -> {
-                  System.out.println(orderBook);
+                  //                  System.out.println(orderBook);
                   assertThat(orderBook.getBids().get(0).getLimitPrice())
                       .isLessThan(orderBook.getAsks().get(0).getLimitPrice());
                   assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(currencyPair);
@@ -93,16 +95,43 @@ public class OkexStreamingPublicDataIntegration {
     Disposable dis2 =
         exchange
             .getStreamingMarketDataService()
-            .getOrderBook(instrument)
+            .getOrderBook(instrumentSHIB)
             .subscribe(
                 orderBook -> {
-                  System.out.println(orderBook);
+                  //                  System.out.println(orderBook);
                   assertThat(orderBook.getBids().get(0).getLimitPrice())
                       .isLessThan(orderBook.getAsks().get(0).getLimitPrice());
-                  assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(instrument);
+                  assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(instrumentSHIB);
+                  // Min SHIB 100000
+                  assertThat(
+                          orderBook
+                                  .getBids()
+                                  .get(0)
+                                  .getOriginalAmount()
+                                  .compareTo(new BigDecimal(100000))
+                              >= 0)
+                      .isTrue();
+                });
+    Disposable dis3 =
+        exchange
+            .getStreamingMarketDataService()
+            .getOrderBookUpdates(instrumentSHIB)
+            .subscribe(
+                orderBookUpdate -> {
+                  System.out.println("orderBookUpdate " + orderBookUpdate);
+                  // Min SHIB 100000
+                  assertThat(
+                          orderBookUpdate
+                                  .get(0)
+                                  .getLimitOrder()
+                                  .getOriginalAmount()
+                                  .compareTo(new BigDecimal(100000))
+                              >= 0)
+                      .isTrue();
                 });
     TimeUnit.SECONDS.sleep(3);
     dis.dispose();
     dis2.dispose();
+    dis3.dispose();
   }
 }

@@ -75,7 +75,7 @@ public class BybitExchangeTest extends BaseWiremockTest {
     for (int i = 0; i <= 2; i++) {
       exception =
           catchThrowable(
-              () -> bybitAccountService.setLeverage(new FuturesContract("ETH/USDT/PERP"), 1d));
+              () -> bybitAccountService.setLeverage(new FuturesContract("ETH/USDT/PERP"), 1));
     }
     assertThat(exception).isInstanceOf(RequestNotPermitted.class);
   }

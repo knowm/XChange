@@ -1,6 +1,10 @@
 package info.bitrich.xchangestream.krakenfutures;
 
-import info.bitrich.xchangestream.krakenfutures.dto.*;
+import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingFillsDeltaResponse;
+import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingOrderBookDeltaResponse;
+import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingOrderBookSnapshotResponse;
+import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingTickerResponse;
+import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesStreamingTradeResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +79,7 @@ public class KrakenFuturesStreamingAdapters {
   }
 
   public static Trade adaptTrade(KrakenFuturesStreamingTradeResponse trade) {
-    return new Trade.Builder()
+    return Trade.builder()
         .price(trade.getPrice())
         .instrument(KrakenFuturesAdapters.adaptInstrument(trade.getProduct_id()))
         .timestamp(trade.getTime())

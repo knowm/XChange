@@ -68,7 +68,7 @@ public class BTCMarketsStreamingAdapters {
   public static Trade adaptTradeMessageToTrade(BTCMarketsWebSocketTradeMessage message)
       throws InvalidFormatException {
 
-    return new Trade.Builder()
+    return Trade.builder()
         .instrument(adaptMarketIdToCurrencyPair(message.getMarketId()))
         .id(message.getTradeId())
         .price(message.getPrice())

@@ -156,7 +156,7 @@ public class OkexTradeServiceRaw extends OkexBaseService {
     }
   }
 
-  /** <a href="https://www.okex.com/docs-v5/en/#rest-api-trade-place-order">...</a> */
+  /** <a href="https://www.okx.com/docs-v5/en/#rest-api-trade-place-order">...</a> */
   public OkexResponse<List<OkexOrderResponse>> placeOkexOrder(OkexOrderRequest order)
       throws IOException {
     try {
@@ -182,7 +182,7 @@ public class OkexTradeServiceRaw extends OkexBaseService {
     }
   }
 
-  /** <a href="https://www.okex.com/docs-v5/en/#rest-api-trade-place-multiple-orders">...</a> */
+  /** <a href="https://www.okx.com/docs-v5/en/#rest-api-trade-place-multiple-orders">...</a> */
   public OkexResponse<List<OkexOrderResponse>> placeOkexOrder(List<OkexOrderRequest> orders)
       throws IOException {
     try {
@@ -208,7 +208,7 @@ public class OkexTradeServiceRaw extends OkexBaseService {
     }
   }
 
-  /** <a href="https://www.okex.com/docs-v5/en/#rest-api-trade-cancel-order">...</a> */
+  /** <a href="https://www.okx.com/docs-v5/en/#rest-api-trade-cancel-order">...</a> */
   public OkexResponse<List<OkexOrderResponse>> cancelOkexOrder(OkexCancelOrderRequest order)
       throws IOException {
     try {
@@ -234,7 +234,7 @@ public class OkexTradeServiceRaw extends OkexBaseService {
     }
   }
 
-  /** <a href="https://www.okex.com/docs-v5/en/#rest-api-trade-cancel-multiple-orders">...</a> */
+  /** <a href="https://www.okx.com/docs-v5/en/#rest-api-trade-cancel-multiple-orders">...</a> */
   public OkexResponse<List<OkexOrderResponse>> cancelOkexOrder(List<OkexCancelOrderRequest> orders)
       throws IOException {
     try {
@@ -260,7 +260,7 @@ public class OkexTradeServiceRaw extends OkexBaseService {
     }
   }
 
-  /** <a href="https://www.okex.com/docs-v5/en/#rest-api-trade-amend-order">...</a> */
+  /** <a href="https://www.okx.com/docs-v5/en/#rest-api-trade-amend-order">...</a> */
   public OkexResponse<List<OkexOrderResponse>> amendOkexOrder(OkexAmendOrderRequest order)
       throws IOException {
     try {
@@ -286,7 +286,7 @@ public class OkexTradeServiceRaw extends OkexBaseService {
     }
   }
 
-  /** <a href="https://www.okex.com/docs-v5/en/#rest-api-trade-amend-multiple-orders">...</a> */
+  /** <a href="https://www.okx.com/docs-v5/en/#rest-api-trade-amend-multiple-orders">...</a> */
   public OkexResponse<List<OkexOrderResponse>> amendOkexOrder(List<OkexAmendOrderRequest> orders)
       throws IOException {
     try {

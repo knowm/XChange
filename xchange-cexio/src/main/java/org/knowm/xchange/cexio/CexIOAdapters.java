@@ -58,10 +58,10 @@ public class CexIOAdapters {
     BigDecimal price = trade.getPrice();
     Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000L);
     OrderType type = trade.getType().equals(ORDER_TYPE_BUY) ? OrderType.BID : OrderType.ASK;
-    return new Trade.Builder()
+    return Trade.builder()
         .type(type)
         .originalAmount(amount)
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .price(price)
         .timestamp(date)
         .id(String.valueOf(trade.getTid()))
@@ -241,7 +241,7 @@ public class CexIOAdapters {
       return UserTrade.builder()
           .type(orderType)
           .originalAmount(originalAmount)
-          .currencyPair(currencyPair)
+          .instrument(currencyPair)
           .price(price)
           .timestamp(timestamp)
           .id(id)

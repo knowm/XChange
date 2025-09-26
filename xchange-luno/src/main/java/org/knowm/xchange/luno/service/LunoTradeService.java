@@ -178,7 +178,7 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
           UserTrade.builder()
               .type(t.buy ? OrderType.BID : OrderType.ASK)
               .originalAmount(t.volume)
-              .currencyPair(pair)
+              .instrument(pair)
               .price(t.price)
               .timestamp(t.getTimestamp())
               .id(tradeId)

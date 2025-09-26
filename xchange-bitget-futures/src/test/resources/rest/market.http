@@ -1,0 +1,11 @@
+### Get Ticker
+GET {{api_host}}/api/v2/mix/market/ticker?productType=USDT-FUTURES&symbol=BTCUSDT
+
+### Get All Tickers
+GET {{api_host}}/api/v2/mix/market/tickers?productType=USDT-FUTURES
+
+
+### Get Contract Config
+GET {{api_host}}/api/v2/mix/market/contracts?productType=USDT-FUTURES
+
+

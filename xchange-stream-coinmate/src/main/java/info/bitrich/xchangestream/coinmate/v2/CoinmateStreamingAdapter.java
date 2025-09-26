@@ -37,7 +37,7 @@ public class CoinmateStreamingAdapter {
                           ? Order.OrderType.ASK
                           : Order.OrderType.BID)
                   .originalAmount(BigDecimal.valueOf(coinmateWebSocketUserTrade.getAmount()))
-                  .currencyPair(currencyPair)
+                  .instrument(currencyPair)
                   .price(BigDecimal.valueOf(coinmateWebSocketUserTrade.getPrice()))
                   .timestamp(
                       Date.from(Instant.ofEpochMilli(coinmateWebSocketUserTrade.getTimestamp())))

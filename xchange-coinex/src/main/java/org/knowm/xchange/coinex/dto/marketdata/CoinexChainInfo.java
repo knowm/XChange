@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
@@ -16,30 +17,78 @@ import org.knowm.xchange.currency.Currency;
 public class CoinexChainInfo {
 
   @JsonProperty("asset")
-  @JsonDeserialize(converter = StringToCurrencyConverter.class)
-  private Currency currency;
+  CoinexAsset asset;
 
-  @JsonProperty("chain")
-  private String chainName;
+  @JsonProperty("chains")
+  List<CoinexChain> chains;
 
-  @JsonProperty("withdrawal_precision")
-  private Integer withdrawalPrecision;
+  @Data
+  @Builder
+  @Jacksonized
+  public static class CoinexAsset {
 
-  @JsonProperty("can_deposit")
-  private Boolean depositEnabled;
+    @JsonProperty("ccy")
+    @JsonDeserialize(converter = StringToCurrencyConverter.class)
+    private Currency currency;
 
-  @JsonProperty("can_withdraw")
-  private Boolean withdrawEnabled;
+    @JsonProperty("deposit_enabled")
+    private Boolean depositEnabled;
 
-  @JsonProperty("deposit_least_amount")
-  private BigDecimal minDepositAmount;
+    @JsonProperty("withdraw_enabled")
+    private Boolean withdrawEnabled;
 
-  @JsonProperty("withdraw_least_amount")
-  private BigDecimal minWitdrawAmount;
+    @JsonProperty("inter_transfer_enabled")
+    private Boolean transferEnabled;
 
-  @JsonProperty("withdraw_tx_fee")
-  private BigDecimal witdrawFeeAmount;
+    @JsonProperty("is_st")
+    private Boolean isSt;
+  }
 
-  @JsonProperty("explorer_asset_url")
-  private URI explorerAssetUrl;
+  @Data
+  @Builder
+  @Jacksonized
+  public static class CoinexChain {
+
+    @JsonProperty("chain")
+    private String name;
+
+    @JsonProperty("min_deposit_amount")
+    private BigDecimal minDepositAmount;
+
+    @JsonProperty("min_withdraw_amount")
+    private BigDecimal minWitdrawAmount;
+
+    @JsonProperty("deposit_enabled")
+    private Boolean depositEnabled;
+
+    @JsonProperty("withdraw_enabled")
+    private Boolean withdrawEnabled;
+
+    @JsonProperty("deposit_delay_minutes")
+    private BigDecimal depositDelayMinutes;
+
+    @JsonProperty("safe_confirmations")
+    private Integer safeConfirmations;
+
+    @JsonProperty("irreversible_confirmations")
+    private Integer irreversibleConfirmations;
+
+    @JsonProperty("deflation_rate")
+    private BigDecimal deflationRate;
+
+    @JsonProperty("withdrawal_fee")
+    private BigDecimal withdrawalFee;
+
+    @JsonProperty("withdrawal_precision")
+    private Integer withdrawalPrecision;
+
+    @JsonProperty("memo")
+    private String memo;
+
+    @JsonProperty("is_memo_required_for_deposit")
+    private Boolean isMemoRequiredForDeposit;
+
+    @JsonProperty("explorer_asset_url")
+    private URI explorerAssetUrl;
+  }
 }

@@ -1,0 +1,41 @@
+### Get Websockets Token
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{rest_base_url}}/private/GetWebSocketsToken
+API-Key: {{api_key}}
+API-Sign: {{sign}}
+Content-Type: application/json
+
+{
+  "nonce": {{nonceValue}}
+}
+
+> {% client.global.set("websocket-token", response.body.result.token); %}
+
+
+### Subscribe Balances Channel
+WEBSOCKET {{base_auth_url}}
+Content-Type: application/json
+
+{
+  "method": "subscribe",
+  "params": {
+    "channel": "balances",
+    "token": "{{websocket-token}}"
+  }
+}
+
+### Unsubscribe Balances Channel
+WEBSOCKET {{base_url}}
+Content-Type: application/json
+
+{
+  "method": "unsubscribe",
+  "params": {
+    "channel": "balances",
+    "token": "{{websocket-token}}"
+  }
+}
+

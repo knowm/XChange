@@ -1,0 +1,12 @@
+{
+  "channel": "status",
+  "type": "update",
+  "data": [
+    {
+      "version": "2.0.10",
+      "system": "online",
+      "api_version": "v2",
+      "connection_id": 10686724941062004662
+    }
+  ]
+}

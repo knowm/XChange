@@ -225,7 +225,7 @@ public class KrakenStreamingAdapters {
       return null;
     }
     Iterator<JsonNode> iterator = arrayNode.iterator();
-    return new Trade.Builder()
+    return Trade.builder()
         .price(nextNodeAsDecimal(iterator))
         .originalAmount(nextNodeAsDecimal(iterator))
         .timestamp(nextNodeAsDate(iterator))
