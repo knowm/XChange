@@ -29,12 +29,6 @@
         </license>
     </licenses>
 
-    <developers>
-        <developer>
-            <name>Tim Molter</name>
-        </developer>
-    </developers>
-
     <modules>
         <module>xchange-ascendex</module>
         <module>xchange-bibox</module>
@@ -166,16 +160,10 @@
 
     <distributionManagement>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/yanyasha228/XChange</url>
         </repository>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <downloadUrl>https://oss.sonatype.org/content/groups/public/org/knowm/xchange</downloadUrl>
     </distributionManagement>
 
     <properties>
