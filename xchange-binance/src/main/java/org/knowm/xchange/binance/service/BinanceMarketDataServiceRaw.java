@@ -121,26 +121,6 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
         .collect(Collectors.toList());
   }
 
-  public List<BinanceKline> klines(
-      Instrument pair, KlineInterval interval, Integer limit, Long startTime, Long endTime)
-      throws IOException {
-    List<Object[]> raw =
-        decorateApiCall(
-            () ->
-                (pair instanceof FuturesContract) ?
-                    binanceFutures.klines(
-                        BinanceAdapters.toSymbol(pair), interval.code(), limit, startTime, endTime)
-
-                    :
-                        binance.klines(
-                            BinanceAdapters.toSymbol(pair), interval.code(), limit, startTime, endTime))
-            .withRetry(retry("klines"))
-            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
-            .call();
-    return raw.stream()
-        .map(obj -> new BinanceKline(pair, interval, obj))
-        .collect(Collectors.toList());
-  }
 
   public List<BinanceTicker24h> ticker24hAllProducts(boolean isFutures) throws IOException {
     if (isFutures) {
