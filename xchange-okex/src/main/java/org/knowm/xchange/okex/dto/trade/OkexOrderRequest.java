@@ -42,4 +42,7 @@ public class OkexOrderRequest {
 
   @JsonProperty("tradeQuoteCcy")
   private String tradeQuoteCcy;
+
+  public OkexOrderRequest() {
+  }
 }
