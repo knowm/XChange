@@ -32,6 +32,7 @@ import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinmate.CoinmateAuthenticated;
 import org.knowm.xchange.coinmate.dto.account.AmountType;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
+import org.knowm.xchange.coinmate.dto.account.CoinmateCurrencies;
 import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import org.knowm.xchange.coinmate.dto.account.CoinmateTradingFeesResponse;
 import org.knowm.xchange.coinmate.dto.account.CoinmateTradingFeesResponseData;
@@ -93,6 +94,19 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
     throwExceptionIfError(response);
 
     return response.getData();
+  }
+
+  public CoinmateCurrencies getCoinmateCurrencies() throws IOException {
+    CoinmateCurrencies currencies =
+        coinmateAuthenticated.getCurrencies(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory());
+
+    throwExceptionIfError(currencies);
+
+    return currencies;
   }
 
   public Long coinmateWithdrawVirtualCurrency(

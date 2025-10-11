@@ -1,0 +1,19 @@
+{
+  "id" : "dbef588a-150e-4267-beaa-031579894cb8",
+  "name" : "0_private_depositmethods",
+  "request" : {
+    "url" : "/0/private/DepositMethods",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "matches" : "asset=USDT&nonce=.*",
+      "caseInsensitive" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "0_private_depositmethods-dbef588a-150e-4267-beaa-031579894cb8.json"
+  },
+  "uuid" : "dbef588a-150e-4267-beaa-031579894cb8",
+  "persistent" : true,
+  "insertionIndex" : 7
+}

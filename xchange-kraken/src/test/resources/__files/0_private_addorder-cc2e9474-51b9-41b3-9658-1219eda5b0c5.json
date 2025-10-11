@@ -1,0 +1,11 @@
+{
+  "error": [],
+  "result": {
+    "txid": [
+      "O6OP4A-ZRX3T-RBODCB"
+    ],
+    "descr": {
+      "order": "buy 0.00010 XBTUSDT @ limit 10000.5"
+    }
+  }
+}

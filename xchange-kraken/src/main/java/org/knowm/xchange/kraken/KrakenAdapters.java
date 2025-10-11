@@ -43,9 +43,11 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
+import org.knowm.xchange.kraken.dto.account.KrakenExtendedBalance;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
 import org.knowm.xchange.kraken.dto.account.KrakenVolumeFee;
+import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
@@ -104,8 +106,8 @@ public class KrakenAdapters {
         .forEach(
             krakenOpenPosition ->
                 openPositionsList.add(
-                    new OpenPosition.Builder()
-                        .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
+                    OpenPosition.builder()
+                        .instrument(KrakenAdapters.adaptCurrencyPair(krakenOpenPosition.getAssetPair()))
                         .type(
                             krakenOpenPosition.getType() == KrakenType.BUY
                                 ? OpenPosition.Type.LONG
@@ -245,21 +247,33 @@ public class KrakenAdapters {
         .build();
   }
 
-  public static Wallet adaptWallet(Map<String, BigDecimal> krakenWallet) {
+  public static Wallet toWallet(Map<String, KrakenExtendedBalance> krakenExtendedBalancePositions, String walletId) {
+    var balances = krakenExtendedBalancePositions.entrySet().stream()
+        .map(e -> toBalance(e.getKey(), e.getValue()))
+        .collect(Collectors.toList());
 
-    List<Balance> balances = new ArrayList<>(krakenWallet.size());
-    for (Entry<String, BigDecimal> balancePair : krakenWallet.entrySet()) {
-      Currency currency;
-      try {
-        currency = adaptCurrency(balancePair.getKey());
-      } catch (Exception e) {
-        currency = Currency.getInstance(balancePair.getKey());
-      }
+    return new Wallet.Builder()
+        .id(walletId)
+        .balances(balances)
+        .build();
+  }
 
-      Balance balance = new Balance(currency, balancePair.getValue());
-      balances.add(balance);
+  public static Balance toBalance(String krakenCurrencyCode, KrakenExtendedBalance krakenExtendedBalance) {
+    var builder = Balance.builder()
+        .currency(adaptCurrency(krakenCurrencyCode))
+        .total(krakenExtendedBalance.getBalance());
+
+    if (krakenExtendedBalance.getCredit() != null) {
+      builder.borrowed(krakenExtendedBalance.getCredit());
     }
-    return Wallet.Builder.from(balances).build();
+    if (krakenExtendedBalance.getCreditUsed() != null) {
+      builder.loaned(krakenExtendedBalance.getCreditUsed());
+    }
+    if (krakenExtendedBalance.getHoldTrade() != null) {
+      builder.frozen(krakenExtendedBalance.getHoldTrade());
+    }
+
+    return builder.build();
   }
 
   public static Set<CurrencyPair> adaptCurrencyPairs(Collection<String> krakenCurrencyPairs) {
@@ -547,6 +561,24 @@ public class KrakenAdapters {
         return OrderStatus.CANCELED;
       case EXPIRED:
         return OrderStatus.EXPIRED;
+      default:
+        return null;
+    }
+  }
+
+  public static LedgerType toLedgerType(FundingRecord.Type fundingRecordType) {
+    if (fundingRecordType == null) {
+      return null;
+    }
+
+    switch (fundingRecordType) {
+      case DEPOSIT:
+        return LedgerType.DEPOSIT;
+      case WITHDRAWAL:
+        return LedgerType.WITHDRAWAL;
+      case INTERNAL_WITHDRAWAL:
+      case INTERNAL_DEPOSIT:
+        return LedgerType.TRANSFER;
       default:
         return null;
     }

@@ -14,20 +14,19 @@ import org.knowm.xchange.kraken.dto.account.LedgerType.LedgerTypeDeserializer;
 
 @JsonDeserialize(using = LedgerTypeDeserializer.class)
 public enum LedgerType {
+  TRADE,
   DEPOSIT,
   WITHDRAWAL,
-  SETTLED,
-  TRADE,
-  MARGIN,
-  CREDIT,
-  STAKING,
-  ROLLOVER,
   TRANSFER,
+  MARGIN,
   ADJUSTMENT,
+  ROLLOVER,
+  CREDIT,
+  SETTLED,
+  STAKING,
+  DIVIDEND,
   SALE,
-  SPEND,
-  REWARD,
-  RECEIVE;
+  NFT_REBATE;
 
   private static final Map<String, LedgerType> fromString = new HashMap<>();
 

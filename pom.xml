@@ -75,6 +75,7 @@
         <module>xchange-coinone</module>
         <module>xchange-coinsph</module>
         <module>xchange-core</module>
+        <module>xchange-dase</module>
         <module>xchange-deribit</module>
         <module>xchange-dvchain</module>
         <module>xchange-dydx</module>
@@ -164,27 +165,13 @@
         <url>https://travis-ci.org/github/knowm/XChange</url>
     </ciManagement>
 
-    <distributionManagement>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <downloadUrl>https://oss.sonatype.org/content/groups/public/org/knowm/xchange</downloadUrl>
-    </distributionManagement>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <skipIntegrationTests>true</skipIntegrationTests>
         <version.assertj>3.27.3</version.assertj>
-        <version.commons.lang3>3.18.0</version.commons.lang3>
+        <version.commons.lang3>3.19.0</version.commons.lang3>
         <version.crypto>5.0.0</version.crypto>
         <version.fasterxml>2.19.1</version.fasterxml>
         <version.github.mmazi>3.1</version.github.mmazi>
@@ -411,14 +398,15 @@
 
     <repositories>
         <repository>
+            <name>Central Portal Snapshots</name>
+            <id>central-portal-snapshots</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
             <releases>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </releases>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-            <id>sonatype-oss-public</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
             <id>maven_central</id>
@@ -473,7 +461,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.0</version>
+                <version>3.14.1</version>
                 <configuration>
                     <release>${version.java}</release>
                     <showDeprecation>true</showDeprecation>
@@ -507,7 +495,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.5.3</version>
+                <version>3.5.4</version>
                 <configuration>
                     <skipTests>${skipIntegrationTests}</skipTests>
                     <includes>
@@ -526,7 +514,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.11.3</version>
+                <version>3.12.0</version>
                 <configuration>
                     <quiet>true</quiet>
                     <doclint>none</doclint>
@@ -550,7 +538,16 @@
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.9.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -567,7 +564,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.3</version>
+                <version>3.5.4</version>
             </plugin>
         </plugins>
     </build>
@@ -608,7 +605,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.11.3</version>
+                        <version>3.12.0</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>

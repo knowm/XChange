@@ -1,0 +1,18 @@
+{
+  "error": [],
+  "result": [
+    {
+      "method": "USDT - Avalanche C-Chain (Unified)",
+      "limit": false,
+      "fee": "0.00",
+      "gen-address": true,
+      "minimum": "5.00"
+    },
+    {
+      "method": "USDT - Ethereum (Unified)",
+      "limit": false,
+      "gen-address": true,
+      "minimum": "7.11"
+    }
+  ]
+}

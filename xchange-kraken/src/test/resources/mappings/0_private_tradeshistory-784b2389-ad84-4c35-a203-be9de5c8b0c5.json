@@ -1,0 +1,21 @@
+{
+  "id": "784b2389-ad84-4c35-a203-be9de5c8b0c5",
+  "name": "0_private_tradeshistory",
+  "request": {
+    "url": "/0/private/TradesHistory",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "matches": "trades=false&nonce=.*",
+        "caseInsensitive": false
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "0_private_tradeshistory-784b2389-ad84-4c35-a203-be9de5c8b0c5.json"
+  },
+  "uuid": "784b2389-ad84-4c35-a203-be9de5c8b0c5",
+  "persistent": true,
+  "insertionIndex": 12
+}

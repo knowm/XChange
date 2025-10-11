@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 
 /** Test KrakenDepth JSON parsing */

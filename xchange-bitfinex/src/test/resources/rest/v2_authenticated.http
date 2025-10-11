@@ -1,0 +1,190 @@
+### Retrieve Positions
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+
+POST {{api_v2}}/auth/r/positions
+accept: application/json
+bfx-nonce: {{nonce}}
+bfx-apikey: {{api_key}}
+bfx-signature: {{signature}}
+Content-Type: application/json
+
+{}
+
+
+### Wallets
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+
+POST {{api_v2}}/auth/r/wallets
+accept: application/json
+bfx-nonce: {{nonce}}
+bfx-apikey: {{api_key}}
+bfx-signature: {{signature}}
+Content-Type: application/json
+
+{}
+
+
+### Ledgers
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+
+POST {{api_v2}}/auth/r/ledgers/hist
+accept: application/json
+bfx-nonce: {{nonce}}
+bfx-apikey: {{api_key}}
+bfx-signature: {{signature}}
+Content-Type: application/json
+
+{
+  "limit": 1000,
+  "category": 51
+}
+
+
+### Movements
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+
+POST {{api_v2}}/auth/r/movements/hist
+accept: application/json
+bfx-nonce: {{nonce}}
+bfx-apikey: {{api_key}}
+bfx-signature: {{signature}}
+Content-Type: application/json
+
+{}
+
+
+### Retrieve Active Orders
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+
+POST {{api_v2}}/auth/r/orders
+accept: application/json
+bfx-nonce: {{nonce}}
+bfx-apikey: {{api_key}}
+bfx-signature: {{signature}}
+Content-Type: application/json
+
+{}
+
+
+### Retrieve Active Orders (by symbol)
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+
+POST {{api_v2}}/auth/r/orders/tBTCUSD
+accept: application/json
+bfx-nonce: {{nonce}}
+bfx-apikey: {{api_key}}
+bfx-signature: {{signature}}
+Content-Type: application/json
+
+{
+  "id": [129136592506]
+}
+
+
+### Trades
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+
+POST {{api_v2}}/auth/r/trades/hist
+accept: application/json
+bfx-nonce: {{nonce}}
+bfx-apikey: {{api_key}}
+bfx-signature: {{signature}}
+Content-Type: application/json
+
+{}
+
+
+### Trades (by symbol)
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+
+POST {{api_v2}}/auth/r/trades/tLIFIII:UST/hist
+accept: application/json
+bfx-nonce: {{nonce}}
+bfx-apikey: {{api_key}}
+bfx-signature: {{signature}}
+Content-Type: application/json
+
+{}
+
+
+### Orders History
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+
+POST {{api_v2}}/auth/r/orders/hist
+accept: application/json
+bfx-nonce: {{nonce}}
+bfx-apikey: {{api_key}}
+bfx-signature: {{signature}}
+Content-Type: application/json
+
+{
+  "id": null,
+  "limit": "2"
+}
+
+
+### Orders History (by symbol)
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+
+POST {{api_v2}}/auth/r/orders/tPOLC:USD/hist
+accept: application/json
+bfx-nonce: {{nonce}}
+bfx-apikey: {{api_key}}
+bfx-signature: {{signature}}
+Content-Type: application/json
+
+{
+  "id": null,
+  "limit": "2"
+}
+
+
+### Submit Order
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+
+POST {{api_v2}}/auth/w/order/submit
+accept: application/json
+bfx-nonce: {{nonce}}
+bfx-apikey: {{api_key}}
+bfx-signature: {{signature}}
+Content-Type: application/json
+
+{
+  "type": "EXCHANGE MARKET",
+  "symbol": "tPOLC:USD",
+  "amount": "100"
+}
+

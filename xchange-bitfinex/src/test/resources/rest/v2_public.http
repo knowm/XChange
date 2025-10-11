@@ -1,0 +1,39 @@
+### Market information for each trading pair
+GET {{api_v2}}/conf/pub:info:pair
+
+### Fetch a list of valid exchange trading pairs
+GET {{api_v2}}/conf/pub:list:pair:exchange
+
+
+### Fetch a list of all currencies available on the platform
+GET {{api_v2}}/conf/pub:list:currency
+
+### Maps symbols to their verbose friendly name (e.g. BTC -> Bitcoin)
+GET {{api_v2}}/conf/pub:map:currency:label
+
+### Map symbols to their API symbols (e.g. DSH -> DASH)
+GET {{api_v2}}/conf/pub:map:currency:sym
+
+### Maps derivatives symbols to their underlying currency (e.g. BTCF0 -> BTC)
+GET {{api_v2}}/conf/pub:map:currency:undl
+
+### Symbols to the underlying network/protocol they operate on (e.g. BAT -> ETH)
+GET {{api_v2}}/conf/pub:map:currency:pool
+
+### Maps symbols to their recognised block explorer URLs (e.g. ETH -> https://etherscan.io)
+GET {{api_v2}}/conf/pub:map:currency:explorer
+
+### Wallet status for each currency
+GET {{api_v2}}/conf/pub:info:tx:status
+
+###
+GET {{api_v2}}/conf/pub:map:tx:method
+
+###
+GET {{api_v2}}/conf/pub:map:currency:tx:fee
+
+### Platform Status
+GET {{api_v2}}/platform/status
+
+### Tickers
+GET {{api_v2}}/tickers?symbols=ALL

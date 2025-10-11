@@ -1,0 +1,32 @@
+{
+  "id" : "273b0158-c9b0-4c49-80e6-d158c659de8f",
+  "name" : "v2_conf_pubmapcurrencypool",
+  "request" : {
+    "url" : "/v2/conf/pub:map:currency:pool",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_conf_pubmapcurrencypool.json",
+    "headers" : {
+      "Date" : "Tue, 10 Oct 2023 19:17:52 GMT",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Vary" : "Accept-Encoding",
+      "X-Frame-Options" : "sameorigin",
+      "X-XSS-Protection" : "1; mode=block",
+      "Referrer-Policy" : "same-origin",
+      "X-Download-Options" : "noopen",
+      "X-Content-Type-Options" : "nosniff",
+      "Strict-Transport-Security" : "max-age=31536000; includeSubdomains;",
+      "X-Permitted-Cross-Domain-Policies" : "none",
+      "CF-Cache-Status" : "HIT",
+      "Age" : "184",
+      "Last-Modified" : "Tue, 10 Oct 2023 19:14:48 GMT",
+      "Server" : "cloudflare",
+      "CF-RAY" : "814134ba5d1422af-CDG"
+    }
+  },
+  "uuid" : "273b0158-c9b0-4c49-80e6-d158c659de8f",
+  "persistent" : true,
+  "insertionIndex" : 15
+}

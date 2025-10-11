@@ -1,0 +1,20 @@
+{
+  "id" : "b69cfdd3-a4a6-4b19-a8f4-16f47398a4be",
+  "name" : "v2_auth_r_orders_hist",
+  "request" : {
+    "url" : "/v2/auth/r/orders/hist",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"id\":[129183574940,129194763959],\"start\":1698000000.000000000,\"end\":1698770975.000000000,\"limit\":2}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_auth_r_orders_hist-sell-by-id.json"
+  },
+  "uuid" : "b69cfdd3-a4a6-4b19-a8f4-16f47398a4be",
+  "persistent" : true,
+  "insertionIndex" : 10
+}

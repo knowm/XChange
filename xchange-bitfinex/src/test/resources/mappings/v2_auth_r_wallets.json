@@ -1,0 +1,20 @@
+{
+  "id" : "f060eead-77fb-41e5-9f8c-13429d081d3f",
+  "name" : "v2_auth_r_wallets",
+  "request" : {
+    "url" : "/v2/auth/r/wallets",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_auth_r_wallets.json"
+  },
+  "uuid" : "f060eead-77fb-41e5-9f8c-13429d081d3f",
+  "persistent" : true,
+  "insertionIndex" : 8
+}

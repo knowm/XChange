@@ -1,0 +1,21 @@
+{
+  "orders": [
+    {
+      "id": "6ed3004f-d595-4663-940c-a47a7d6e7fb8",
+      "portfolio_id": "233becb9-7214-4538-9807-21892e087b05",
+      "market": "BTC-EUR",
+      "type": "limit",
+      "side": "buy",
+      "price": "61435.2",
+      "size": "0.12963471",
+      "filled": "0.00000000",
+      "filled_cost": "0",
+      "filled_price": "0",
+      "status": "open",
+      "created_at": 1751622235746.853,
+      "client_id": "7f6a2a7d-0d6d-4e8a-8e2d-1b4a5f5b8a2c"
+    }
+  ]
+}
+
+

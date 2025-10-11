@@ -6,9 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
@@ -16,9 +15,6 @@ import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenWebsocketTokenResult;
 
 public class KrakenAccountJSONTest {
-
-  @Before
-  public void setUp() throws Exception {}
 
   @Test
   public void testBalanceUnmarshal() throws IOException {
@@ -31,7 +27,7 @@ public class KrakenAccountJSONTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenBalanceResult krakenBalance = mapper.readValue(is, KrakenBalanceResult.class);
-    Assert.assertEquals(3, krakenBalance.getResult().size());
+    Assertions.assertEquals(3, krakenBalance.getResult().size());
     assertThat(krakenBalance.getResult().get("ZUSD")).isNull();
     assertThat(krakenBalance.getResult().get("ZEUR")).isEqualTo("1.0539");
   }

@@ -5,7 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USD;
 
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.dto.marketdata.OrderBook;

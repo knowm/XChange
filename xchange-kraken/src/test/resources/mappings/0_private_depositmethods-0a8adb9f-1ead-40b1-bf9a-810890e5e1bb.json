@@ -1,0 +1,19 @@
+{
+  "id" : "0a8adb9f-1ead-40b1-bf9a-810890e5e1bb",
+  "name" : "0_private_depositmethods",
+  "request" : {
+    "url" : "/0/private/DepositMethods",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "matches" : "asset=TRX&nonce=.*",
+      "caseInsensitive" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "0_private_depositmethods-0a8adb9f-1ead-40b1-bf9a-810890e5e1bb.json"
+  },
+  "uuid" : "0a8adb9f-1ead-40b1-bf9a-810890e5e1bb",
+  "persistent" : true,
+  "insertionIndex" : 6
+}

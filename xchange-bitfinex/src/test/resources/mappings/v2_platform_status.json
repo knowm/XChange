@@ -1,0 +1,15 @@
+{
+  "id" : "adffd8aa-b35c-4e46-9a8a-bb80b715f76f",
+  "name" : "v2_platform_status",
+  "request" : {
+    "url" : "/v2/platform/status",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_platform_status.json"
+  },
+  "uuid" : "adffd8aa-b35c-4e46-9a8a-bb80b715f76f",
+  "persistent" : true,
+  "insertionIndex" : 7
+}

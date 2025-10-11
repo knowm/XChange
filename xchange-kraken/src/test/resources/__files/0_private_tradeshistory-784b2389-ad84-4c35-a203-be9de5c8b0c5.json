@@ -1,0 +1,80 @@
+{
+  "error": [],
+  "result": {
+    "count": 4,
+    "trades": {
+      "T7FJQW-EBPSX-R5RK3J": {
+        "ordertxid": "OP2S3K-2SEPL-XTZNO4",
+        "postxid": "TKH2SE-M7IF5-CFI7LT",
+        "pair": "XBTUSDT",
+        "aclass": "forex",
+        "time": 1756994672.591762,
+        "type": "buy",
+        "ordertype": "limit",
+        "price": "110153.60000",
+        "cost": "5.50768",
+        "fee": "0.01377",
+        "vol": "0.00005000",
+        "margin": "0.00000",
+        "leverage": "0",
+        "misc": "",
+        "trade_id": 9803761,
+        "maker": true
+      },
+      "TAGKDK-PVBGJ-RZ4N35": {
+        "ordertxid": "O7XYLB-A7U77-GE4DLL",
+        "postxid": "TKH2SE-M7IF5-CFI7LT",
+        "pair": "XBTUSDT",
+        "aclass": "forex",
+        "time": 1756935237.276006,
+        "type": "buy",
+        "ordertype": "market",
+        "price": "111993.30000",
+        "cost": "15.00000",
+        "fee": "0.06000",
+        "vol": "0.00013394",
+        "margin": "0.00000",
+        "leverage": "0",
+        "misc": "",
+        "trade_id": 9802290,
+        "maker": false
+      },
+      "TO5YFV-E6NHJ-3OA7IH": {
+        "ordertxid": "OQU7LS-QRCVQ-UKLVZP",
+        "postxid": "TKH2SE-M7IF5-CFI7LT",
+        "pair": "ETHUSDT",
+        "aclass": "forex",
+        "time": 1756935178.128587,
+        "type": "buy",
+        "ordertype": "market",
+        "price": "4462.53000",
+        "cost": "15.00000",
+        "fee": "0.06000",
+        "vol": "0.00336132",
+        "margin": "0.00000",
+        "leverage": "0",
+        "misc": "",
+        "trade_id": 5612036,
+        "maker": false
+      },
+      "TSVZ66-RESHM-IDZGCE": {
+        "ordertxid": "OWOK44-SHXXH-YKVNFP",
+        "postxid": "TKH2SE-M7IF5-CFI7LT",
+        "pair": "ETHUSDT",
+        "aclass": "forex",
+        "time": 1756935121.565366,
+        "type": "buy",
+        "ordertype": "limit",
+        "price": "4467.87000",
+        "cost": "8.93574",
+        "fee": "0.03574",
+        "vol": "0.00200000",
+        "margin": "0.00000",
+        "leverage": "0",
+        "misc": "",
+        "trade_id": 5612033,
+        "maker": false
+      }
+    }
+  }
+}

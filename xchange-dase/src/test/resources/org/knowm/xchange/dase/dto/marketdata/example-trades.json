@@ -1,0 +1,8 @@
+{
+  "trades": [
+    { "time": 1756368820484.53, "id": "1", "price": "18.51", "size": "0.10", "maker_side": "sell" },
+    { "time": 1756368821484.53, "id": "2", "price": "18.50", "size": "0.20", "maker_side": "buy" }
+  ]
+}
+
+

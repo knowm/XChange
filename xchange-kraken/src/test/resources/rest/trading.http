@@ -1,0 +1,36 @@
+### Add Order
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{base_url}}/private/AddOrder
+API-Key: {{api_key}}
+API-Sign: {{sign}}
+Content-Type: application/json
+
+{
+  "nonce": {{nonceValue}},
+  "ordertype": "limit",
+  "type": "buy",
+  "volume": "0.00005",
+  "pair": "XBTUSDT",
+  "price": "100000"
+}
+
+
+### Cancel Order
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{base_url}}/private/CancelOrder
+API-Key: {{api_key}}
+API-Sign: {{sign}}
+Content-Type: application/json
+
+{
+  "nonce": {{nonceValue}},
+  "txid": "O4ENPT-P6KIT-NMXFE2"
+}
+
+

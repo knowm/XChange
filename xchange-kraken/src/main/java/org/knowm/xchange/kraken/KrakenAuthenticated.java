@@ -10,6 +10,8 @@ import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
+import org.knowm.xchange.kraken.dto.KrakenResult;
+import org.knowm.xchange.kraken.dto.account.KrakenExtendedBalance;
 import org.knowm.xchange.kraken.dto.account.results.DepositStatusResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
@@ -63,6 +65,15 @@ public interface KrakenAuthenticated extends Kraken {
   KrakenTradeBalanceInfoResult tradeBalance(
       @FormParam("aclass") String assetClass,
       @FormParam("asset") String asset,
+      @HeaderParam("API-Key") String apiKey,
+      @HeaderParam("API-Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws IOException;
+
+  @POST
+  @Path("private/BalanceEx")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  KrakenResult<Map<String, KrakenExtendedBalance>> balanceEx(
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)

@@ -2,12 +2,13 @@ package org.knowm.xchange.bitfinex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.knowm.xchange.bitfinex.BitfinexErrorAdapter;
 import org.knowm.xchange.bitfinex.BitfinexExchange;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.service.trade.params.BitfinexFundingHistoryParams;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
 import org.knowm.xchange.client.ResilienceRegistries;
@@ -15,9 +16,18 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
+import org.knowm.xchange.service.trade.params.MoneroWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.knowm.xchange.utils.DateUtils;
 
 public class BitfinexAccountService extends BitfinexAccountServiceRaw implements AccountService {
@@ -35,8 +45,11 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-
-    return new AccountInfo(BitfinexAdapters.adaptWallets(getBitfinexAccountInfo()));
+    try {
+      return BitfinexAdapters.toAccountInfo(getWallets());
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
+    }
   }
 
   /**
@@ -140,7 +153,7 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    return new BitfinexFundingHistoryParams(null, null, null, null);
+    return BitfinexFundingHistoryParams.builder().build();
   }
 
   @Override
@@ -171,6 +184,20 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
         }
       }
 
+      // if filtered by category, call ledgers endpoint
+      if (params instanceof HistoryParamsFundingType) {
+        Type fundingRecordType = ((HistoryParamsFundingType) params).getType();
+        var category = BitfinexAdapters.toCategory(fundingRecordType);
+
+        if (category != null) {
+          return getLedgerEntries(currency, startTime, endTime, limit, category)
+              .stream()
+              .map(BitfinexAdapters::toFundingRecord)
+              .filter(fundingRecord -> fundingRecord.getType() == fundingRecordType)
+              .collect(Collectors.toList());
+        }
+      }
+
       return BitfinexAdapters.adaptFundingHistory(
           getMovementHistory(currency, startTime, endTime, limit));
     } catch (BitfinexException e) {
@@ -190,39 +217,4 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     }
   }
 
-  public static class BitfinexFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan
-      implements TradeHistoryParamCurrency, TradeHistoryParamLimit {
-
-    private Integer limit;
-    private Currency currency;
-
-    public BitfinexFundingHistoryParams(
-        final Date startTime, final Date endTime, final Integer limit, final Currency currency) {
-
-      super(startTime, endTime);
-
-      this.limit = limit;
-      this.currency = currency;
-    }
-
-    @Override
-    public Currency getCurrency() {
-      return this.currency;
-    }
-
-    @Override
-    public void setCurrency(Currency currency) {
-      this.currency = currency;
-    }
-
-    @Override
-    public Integer getLimit() {
-      return this.limit;
-    }
-
-    @Override
-    public void setLimit(Integer limit) {
-      this.limit = limit;
-    }
-  }
 }

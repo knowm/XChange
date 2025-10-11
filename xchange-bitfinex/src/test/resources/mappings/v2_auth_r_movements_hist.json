@@ -1,0 +1,20 @@
+{
+  "id" : "8d89896d-d5cd-4b67-891e-d435eb68367d",
+  "name" : "v2_auth_r_movements_hist",
+  "request" : {
+    "url" : "/v2/auth/r/movements/hist",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_auth_r_movements_hist.json"
+  },
+  "uuid" : "8d89896d-d5cd-4b67-891e-d435eb68367d",
+  "persistent" : true,
+  "insertionIndex" : 15
+}

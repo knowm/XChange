@@ -1,0 +1,98 @@
+{
+  "error": false,
+  "errorMessage": null,
+  "data": [
+    {
+      "currency": "BTC",
+      "currencyName": "Bitcoin",
+      "depositEnabled": true,
+      "withdrawEnabled": true,
+      "precision": 8,
+      "networks": [
+        {
+          "network": "BTC",
+          "deposit": {
+            "enabled": true,
+            "fixFee": 0,
+            "percentageFee": 0,
+            "minAmount": 0.0001,
+            "minConfirmations": 2
+          },
+          "withdraw": {
+            "enabled": true,
+            "requiresTag": false,
+            "fee": [
+              {
+                "fixFee": 0.00002,
+                "percentageFee": 0,
+                "variant": "HIGH"
+              },
+              {
+                "fixFee": 0.00001,
+                "percentageFee": 0,
+                "variant": "LOW"
+              }
+            ],
+            "minAmount": 0.00001,
+            "max24hLimit": 100
+          }
+        },
+        {
+          "network": "BTC_LIGHTNING",
+          "deposit": {
+            "enabled": true,
+            "fixFee": 0,
+            "percentageFee": 0,
+            "minAmount": 1.0E-7,
+            "maxAmount": 0.03,
+            "minConfirmations": 2
+          },
+          "withdraw": {
+            "enabled": true,
+            "requiresTag": false,
+            "fee": [
+              {
+                "fixFee": 0,
+                "percentageFee": 0
+              }
+            ],
+            "minAmount": 1.0E-7,
+            "max24hLimit": 1
+          }
+        }
+      ]
+    },
+    {
+      "currency": "XRP",
+      "currencyName": "Ripple",
+      "depositEnabled": true,
+      "withdrawEnabled": true,
+      "precision": 8,
+      "networks": [
+        {
+          "network": "XRP",
+          "deposit": {
+            "enabled": true,
+            "fixFee": 0,
+            "percentageFee": 0,
+            "minAmount": 0,
+            "minConfirmations": 1
+          },
+          "withdraw": {
+            "enabled": true,
+            "requiresTag": true,
+            "fee": [
+              {
+                "fixFee": 0.02,
+                "percentageFee": 0
+              }
+            ],
+            "minAmount": 20,
+            "max24hLimit": 50000
+          }
+        }
+      ]
+    }
+  ]
+}
+

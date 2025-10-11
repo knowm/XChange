@@ -441,8 +441,8 @@ public class OkexAdapters {
       CurrencyPair pair = (CurrencyPair) instrument;
       String base = pair.getBase().getCurrencyCode();
       String counter = pair.getCounter().getCurrencyCode();
-      // Normalize stablecoin quotes
-      if ("USDT".equals(counter) || "USDC".equals(counter)) {
+      // Adapt for USDC after delist: https://www.okx.com/docs-v5/log_en/#2025-08-20-unified-usd-orderbook-revamp
+      if ("USDC".equals(counter)) {
         counter = "USD";
       }
 
@@ -647,7 +647,7 @@ public class OkexAdapters {
     positions.forEach(
         okexPosition ->
             openPositions.add(
-                new OpenPosition.Builder()
+                OpenPosition.builder()
                     .instrument(adaptOkexInstrumentId(okexPosition.getInstrumentId()))
                     .liquidationPrice(okexPosition.getLiquidationPrice())
                     .price(okexPosition.getAverageOpenPrice())

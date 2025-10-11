@@ -3,6 +3,7 @@ package org.knowm.xchange.bitfinex.v2;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,11 +11,10 @@ import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
-import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
+import org.knowm.xchange.bitfinex.v2.dto.account.BitfinexMovement;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.utils.DateUtils;
 
 public class BitfinexAdaptersTest {
 
@@ -30,7 +30,7 @@ public class BitfinexAdaptersTest {
   @Test
   public void adaptCurrencyPair() {
     final List<String> currencyPairStrings =
-        Arrays.asList("tBTCUSD", "tETHUSD", "tETHBTC", "tDUSK:USD", "tTKN:USD");
+        Arrays.asList("tBTCUSD", "tETHUSD", "tETHBTC", "tDUSK:USD", "tTKN:USD", "tUSTUSD");
     final List<CurrencyPair> currencyPairs =
         currencyPairStrings.stream()
             .map(BitfinexAdapters::adaptCurrencyPair)
@@ -41,22 +41,23 @@ public class BitfinexAdaptersTest {
             CurrencyPair.ETH_USD,
             CurrencyPair.ETH_BTC,
             new CurrencyPair("DUSK/USD"),
-            new CurrencyPair("TKN/USD")),
+            new CurrencyPair("TKN/USD"),
+            new CurrencyPair("USDT/USD")),
         currencyPairs);
   }
 
   @Test
   public void adaptFundingHistory() {
-    List<Movement> movements =
+    List<BitfinexMovement> bitfinexMovements =
         Arrays.asList(
-            new Movement(
+            new BitfinexMovement(
                 "13105603",
-                "ETH",
+                Currency.ETH,
                 "",
                 null,
                 null,
-                DateUtils.fromMillisUtc(1569348774000L),
-                DateUtils.fromMillisUtc(1569348774000L),
+                Instant.ofEpochMilli(1569348774000L),
+                Instant.ofEpochMilli(1569348774000L),
                 null,
                 null,
                 "COMPLETED",
@@ -72,14 +73,14 @@ public class BitfinexAdaptersTest {
                 null,
                 "TRANSACTION_ID",
                 null),
-            new Movement(
+            new BitfinexMovement(
                 "13293039",
-                "ETH",
+                Currency.ETH,
                 "ETHEREUM",
                 null,
                 null,
-                DateUtils.fromMillisUtc(1574175052000L),
-                DateUtils.fromMillisUtc(1574181326000L),
+                Instant.ofEpochMilli(1574175052000L),
+                Instant.ofEpochMilli(1574181326000L),
                 null,
                 null,
                 "CANCELED",
@@ -96,7 +97,7 @@ public class BitfinexAdaptersTest {
                 "TRANSACTION_ID",
                 null));
 
-    List<FundingRecord> fundingRecords = BitfinexAdapters.adaptFundingHistory(movements);
+    List<FundingRecord> fundingRecords = BitfinexAdapters.adaptFundingHistory(bitfinexMovements);
     assertThat(fundingRecords).hasSize(2);
     assertThat(fundingRecords.get(0).getAddress()).isEqualTo("DESTINATION_ADDRESS");
     assertThat(fundingRecords.get(0).getAddressTag()).isNull();

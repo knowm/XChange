@@ -7,7 +7,7 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;

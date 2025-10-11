@@ -1,0 +1,21 @@
+{
+  "id": "fc66b745-798e-43ca-879f-60e838277c8a",
+  "name": "0_private_cancelorder",
+  "request": {
+    "url": "/0/private/CancelOrder",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "matches": "nonce=.*&txid=OKXYTQ-BJLS2-HYJD7R",
+        "caseInsensitive": false
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "0_private_cancelorder-fc66b745-798e-43ca-879f-60e838277c8a.json"
+  },
+  "uuid": "fc66b745-798e-43ca-879f-60e838277c8a",
+  "persistent": true,
+  "insertionIndex": 17
+}

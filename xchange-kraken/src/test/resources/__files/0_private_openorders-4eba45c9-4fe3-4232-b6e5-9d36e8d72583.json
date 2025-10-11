@@ -1,0 +1,63 @@
+{
+  "error": [],
+  "result": {
+    "open": {
+      "OKXYTQ-BJLS2-HYJD7R": {
+        "refid": null,
+        "userref": 0,
+        "status": "open",
+        "opentm": 1756934300.624681,
+        "starttm": 0,
+        "expiretm": 0,
+        "descr": {
+          "pair": "ETHUSDT",
+          "aclass": "forex",
+          "type": "buy",
+          "ordertype": "limit",
+          "price": "4065.54",
+          "price2": "0",
+          "leverage": "none",
+          "order": "buy 0.00200000 ETHUSDT @ limit 4065.54",
+          "close": ""
+        },
+        "vol": "0.00200000",
+        "vol_exec": "0.00000000",
+        "cost": "0.00000",
+        "fee": "0.00000",
+        "price": "0.00000",
+        "stopprice": "0.00000",
+        "limitprice": "0.00000",
+        "misc": "",
+        "oflags": "fciq"
+      },
+      "OP2S3K-2SEPL-XTZNO4": {
+        "refid": null,
+        "userref": 0,
+        "status": "open",
+        "opentm": 1756933721.393681,
+        "starttm": 0,
+        "expiretm": 0,
+        "descr": {
+          "pair": "XBTUSDT",
+          "aclass": "forex",
+          "type": "buy",
+          "ordertype": "limit",
+          "price": "110153.6",
+          "price2": "0",
+          "leverage": "none",
+          "order": "buy 0.00005000 XBTUSDT @ limit 110153.6",
+          "close": ""
+        },
+        "vol": "0.00005000",
+        "vol_exec": "0.00000000",
+        "cost": "0.00000",
+        "fee": "0.00000",
+        "price": "0.00000",
+        "stopprice": "0.00000",
+        "limitprice": "0.00000",
+        "misc": "",
+        "oflags": "fciq"
+      }
+    }
+  }
+}

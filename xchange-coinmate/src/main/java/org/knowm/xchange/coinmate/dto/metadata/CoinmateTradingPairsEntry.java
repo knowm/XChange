@@ -2,7 +2,9 @@ package org.knowm.xchange.coinmate.dto.metadata;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class CoinmateTradingPairsEntry {
 
   @JsonProperty("name")
@@ -52,71 +54,5 @@ public class CoinmateTradingPairsEntry {
     this.tradesWebSocketChannelId = tradesWebSocketChannelId;
     this.orderBookWebSocketChannelId = orderBookWebSocketChannelId;
     this.tradeStatisticsWebSocketChannelId = tradeStatisticsWebSocketChannelId;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public String getBaseCurrency() {
-    return baseCurrency;
-  }
-
-  public String getCounterCurrency() {
-    return counterCurrency;
-  }
-
-  public int getPriceScale() {
-    return priceScale;
-  }
-
-  public int getVolumeScale() {
-    return volumeScale;
-  }
-
-  public double getMinAmount() {
-    return minAmount;
-  }
-
-  public String getTradesWebSocketChannelId() {
-    return tradesWebSocketChannelId;
-  }
-
-  public String getOrderBookWebSocketChannelId() {
-    return orderBookWebSocketChannelId;
-  }
-
-  public String getTradeStatisticsWebSocketChannelId() {
-    return tradeStatisticsWebSocketChannelId;
-  }
-
-  @Override
-  public String toString() {
-    return "CoinmateTradingPairs{"
-        + "name='"
-        + name
-        + '\''
-        + ", baseCurrency='"
-        + baseCurrency
-        + '\''
-        + ", counterCurrency='"
-        + counterCurrency
-        + '\''
-        + ", priceScale="
-        + priceScale
-        + ", volumeScale="
-        + volumeScale
-        + ", minAmount="
-        + minAmount
-        + ", tradesWebSocketChannelId='"
-        + tradesWebSocketChannelId
-        + '\''
-        + ", orderBookWebSocketChannelId='"
-        + orderBookWebSocketChannelId
-        + '\''
-        + ", tradeStatisticsWebSocketChannelId='"
-        + tradeStatisticsWebSocketChannelId
-        + '\''
-        + '}';
   }
 }

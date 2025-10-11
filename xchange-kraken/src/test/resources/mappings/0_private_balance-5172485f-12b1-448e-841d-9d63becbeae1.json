@@ -1,0 +1,19 @@
+{
+  "id" : "5172485f-12b1-448e-841d-9d63becbeae1",
+  "name" : "0_private_balance",
+  "request" : {
+    "url" : "/0/private/Balance",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "matches" : "nonce=.*",
+      "caseInsensitive" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "0_private_balance-5172485f-12b1-448e-841d-9d63becbeae1.json"
+  },
+  "uuid" : "5172485f-12b1-448e-841d-9d63becbeae1",
+  "persistent" : true,
+  "insertionIndex" : 1
+}

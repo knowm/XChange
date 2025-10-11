@@ -3,7 +3,7 @@ package org.knowm.xchange.kraken;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;

@@ -1,0 +1,21 @@
+{
+  "id": "226b85aa-71f6-4fbc-98d3-98408e12bac2",
+  "name": "0_private_addorder",
+  "request": {
+    "url": "/0/private/AddOrder",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "matches": "pair=XBTUSDT&type=sell&ordertype=limit&price=130000.5&volume=0.00005&position=0&close=%7B%7D&nonce=.*",
+        "caseInsensitive": false
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "0_private_addorder-226b85aa-71f6-4fbc-98d3-98408e12bac2.json"
+  },
+  "uuid": "226b85aa-71f6-4fbc-98d3-98408e12bac2",
+  "persistent": true,
+  "insertionIndex": 14
+}

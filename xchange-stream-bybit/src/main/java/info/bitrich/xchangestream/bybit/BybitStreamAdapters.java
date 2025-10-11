@@ -141,14 +141,14 @@ public class BybitStreamAdapters {
       if (!position.getLiqPrice().isEmpty()) {
         liqPrice = new BigDecimal(position.getLiqPrice());
       }
-      OpenPosition openPosition =
-          new OpenPosition(
-              convertBybitSymbolToInstrument(position.getSymbol(), position.getCategory()),
-              type,
-              new BigDecimal(position.getSize()),
-              new BigDecimal(position.getEntryPrice()),
-              liqPrice,
-              new BigDecimal(position.getUnrealisedPnl()));
+      OpenPosition openPosition = OpenPosition.builder()
+          .instrument(convertBybitSymbolToInstrument(position.getSymbol(), position.getCategory()))
+          .type(type)
+          .size(new BigDecimal(position.getSize()))
+          .price(new BigDecimal(position.getEntryPrice()))
+          .liquidationPrice(liqPrice)
+          .unRealisedPnl(new BigDecimal(position.getUnrealisedPnl()))
+          .build();
       openPositions.getOpenPositions().add(openPosition);
     }
     return openPositions;
@@ -183,39 +183,40 @@ public class BybitStreamAdapters {
         sessionAvgPrice = new BigDecimal(position.getSessionAvgPrice());
       }
       BybitComplexPositionChanges positionChanges =
-          new BybitComplexPositionChanges(
-              convertBybitSymbolToInstrument(position.getSymbol(), position.getCategory()),
-              type,
-              new BigDecimal(position.getSize()),
-              new BigDecimal(position.getEntryPrice()),
-              liqPrice,
-              new BigDecimal(position.getUnrealisedPnl()),
-              position.getPositionIdx(),
-              position.getTradeMode(),
-              position.getRiskId(),
-              position.getRiskLimitValue(),
-              new BigDecimal(position.getMarkPrice()),
-              new BigDecimal(position.getPositionBalance()),
-              position.getAutoAddMargin(),
-              new BigDecimal(position.getPositionMM()),
-              new BigDecimal(position.getPositionIM()),
-              bustPrice,
-              new BigDecimal(position.getPositionValue()),
-              new BigDecimal(position.getLeverage()),
-              new BigDecimal(position.getTakeProfit()),
-              new BigDecimal(position.getStopLoss()),
-              new BigDecimal(position.getTrailingStop()),
-              new BigDecimal(position.getCurRealisedPnl()),
-              new BigDecimal(position.getCumRealisedPnl()),
-              sessionAvgPrice,
-              position.getPositionStatus(),
-              position.getAdlRankIndicator(),
-              position.isReduceOnly(),
-              position.getMmrSysUpdatedTime(),
-              position.getLeverageSysUpdatedTime(),
-              new Date(Long.parseLong(position.getCreatedTime())),
-              new Date(Long.parseLong(position.getUpdatedTime())),
-              position.getSeq());
+          BybitComplexPositionChanges.builder()
+              .instrument(convertBybitSymbolToInstrument(position.getSymbol(), position.getCategory()))
+              .type(type)
+              .size(new BigDecimal(position.getSize()))
+              .price(new BigDecimal(position.getEntryPrice()))
+              .liquidationPrice(liqPrice)
+              .unRealisedPnl(new BigDecimal(position.getUnrealisedPnl()))
+              .positionIdx(position.getPositionIdx())
+              .tradeMode(position.getTradeMode())
+              .riskId(position.getRiskId())
+              .riskLimitValue(position.getRiskLimitValue())
+              .markPrice(new BigDecimal(position.getMarkPrice()))
+              .positionBalance(new BigDecimal(position.getPositionBalance()))
+              .autoAddMargin(position.getAutoAddMargin())
+              .positionMM(new BigDecimal(position.getPositionMM()))
+              .positionIM(new BigDecimal(position.getPositionIM()))
+              .bustPrice(bustPrice)
+              .positionValue(new BigDecimal(position.getPositionValue()))
+              .leverage(new BigDecimal(position.getLeverage()))
+              .takeProfit(new BigDecimal(position.getTakeProfit()))
+              .stopLoss(new BigDecimal(position.getStopLoss()))
+              .trailingStop(new BigDecimal(position.getTrailingStop()))
+              .curRealisedPnl(new BigDecimal(position.getCurRealisedPnl()))
+              .cumRealisedPnl(new BigDecimal(position.getCumRealisedPnl()))
+              .sessionAvgPrice(sessionAvgPrice)
+              .positionStatus(position.getPositionStatus())
+              .adlRankIndicator(position.getAdlRankIndicator())
+              .isReduceOnly(position.isReduceOnly())
+              .mmrSysUpdatedTime(position.getMmrSysUpdatedTime())
+              .leverageSysUpdatedTime(position.getLeverageSysUpdatedTime())
+              .createdTime(new Date(Long.parseLong(position.getCreatedTime())))
+              .updatedTime(new Date(Long.parseLong(position.getUpdatedTime())))
+              .seq(position.getSeq())
+              .build();
       result.add(positionChanges);
     }
     return result;

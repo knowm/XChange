@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCandle;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCurrencyChain;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCurrencyMapping;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCurrencyPairInfo;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexFundingOrder;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexFundingRawOrder;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicFundingTrade;
@@ -113,6 +116,27 @@ public interface Bitfinex {
       @PathParam("precision") BookPrecision precision,
       @QueryParam("len") Integer len)
       throws IOException, BitfinexExceptionV2;
+
+  @GET
+  @Path("conf/pub:list:currency")
+  List<List<String>> allCurrencies() throws IOException, BitfinexExceptionV2;
+
+  @GET
+  @Path("conf/pub:map:currency:undl")
+  List<List<BitfinexCurrencyMapping>> currencyDerivativesMappings() throws IOException, BitfinexExceptionV2;
+
+  @GET
+  @Path("conf/pub:list:pair:exchange")
+  List<List<String>> allCurrencyPairs() throws IOException, BitfinexExceptionV2;
+
+  @GET
+  @Path("conf/pub:info:pair")
+  List<List<BitfinexCurrencyPairInfo>> allCurrencyPairInfos() throws IOException, BitfinexExceptionV2;
+
+
+  @GET
+  @Path("conf/pub:map:currency:pool")
+  List<List<BitfinexCurrencyChain>> allChains() throws IOException, BitfinexExceptionV2;
 
   @GET
   @Path("book/{symbol}/R0")

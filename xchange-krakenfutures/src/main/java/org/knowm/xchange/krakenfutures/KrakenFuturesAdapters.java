@@ -383,7 +383,7 @@ public class KrakenFuturesAdapters {
         .forEach(
             krakenFuturesOpenPosition ->
                 openPositions.add(
-                    new OpenPosition.Builder()
+                    OpenPosition.builder()
                         .instrument(adaptInstrument(krakenFuturesOpenPosition.getSymbol()))
                         .type(
                             (krakenFuturesOpenPosition.getSide().equals("long"))

@@ -1,0 +1,57 @@
+[
+  [
+    10014228001,
+    "UST",
+    "funding",
+    1756331397000,
+    null,
+    6,
+    6,
+    null,
+    "Transfer of 6.0 UST from wallet Trading to Deposit on wallet funding"
+  ],
+  [
+    10014228000,
+    "UST",
+    "margin",
+    1756331397000,
+    null,
+    -6,
+    0,
+    null,
+    "Transfer of 6.0 UST from wallet Trading to Deposit on wallet margin"
+  ],
+  [
+    10014227675,
+    "UST",
+    "exchange",
+    1756331360000,
+    null,
+    -6,
+    263.70493408,
+    null,
+    "Transfer of 6.0 UST from wallet Exchange to Trading on wallet exchange"
+  ],
+  [
+    10014161968,
+    "UST",
+    "exchange",
+    1756327229000,
+    null,
+    5,
+    269.70493408,
+    null,
+    "Transfer of 5.0 UST from wallet Exchange to Exchange SA(acc1->acc2) on wallet exchange"
+  ],
+  [
+    10014158562,
+    "UST",
+    "exchange",
+    1756327113000,
+    null,
+    -5,
+    264.70493408,
+    null,
+    "Transfer of 5.0 UST from wallet Exchange to Exchange SA(acc2->acc1) on wallet exchange"
+  ]
+]

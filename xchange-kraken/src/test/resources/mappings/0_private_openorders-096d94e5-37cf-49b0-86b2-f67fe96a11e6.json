@@ -1,0 +1,21 @@
+{
+  "id": "096d94e5-37cf-49b0-86b2-f67fe96a11e6",
+  "name": "0_private_openorders",
+  "request": {
+    "url": "/0/private/OpenOrders",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "matches": "trades=false&nonce=.*",
+        "caseInsensitive": false
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "0_private_openorders-096d94e5-37cf-49b0-86b2-f67fe96a11e6.json"
+  },
+  "uuid": "096d94e5-37cf-49b0-86b2-f67fe96a11e6",
+  "persistent": true,
+  "insertionIndex": 10
+}

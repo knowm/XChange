@@ -13,16 +13,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -35,7 +34,6 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
-import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
@@ -54,7 +52,7 @@ import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.Krake
 
 public class KrakenAdaptersTest {
 
-  @BeforeClass
+  @BeforeAll
   public static void before() throws IOException {
 
     KrakenUtils.clearAssets();
@@ -122,7 +120,6 @@ public class KrakenAdaptersTest {
         KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
     assertThat(pairs).hasSize(75);
     assertThat(pairs.contains(CurrencyPair.BTC_USD)).isTrue();
-    System.out.println("pairs = " + pairs);
   }
 
   @Test
@@ -143,7 +140,7 @@ public class KrakenAdaptersTest {
             CurrencyPair.BTC_USD,
             krakenTrades.getResult().getLast());
 
-    Assert.assertEquals(14, trades.getTrades().size());
+    Assertions.assertEquals(14, trades.getTrades().size());
     assertThat(trades.getTrades().get(0).getPrice()).isEqualTo("1023.82219");
     assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.ASK);
     assertThat(trades.getTrades().get(0).getTimestamp()).isEqualTo(new Date(1385579841777L));
@@ -175,27 +172,6 @@ public class KrakenAdaptersTest {
     assertThat(order.getLimitPrice()).isEqualTo(new BigDecimal("530.75513"));
     assertThat(order.getOriginalAmount()).isEqualTo("0.248");
     assertThat(order.getTimestamp()).isEqualTo(new Date(1391825343000L));
-  }
-
-  @Test
-  public void testAdaptBalance() throws IOException {
-
-    // Read in the JSON from the example resources
-    InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream(
-            "/org/knowm/xchange/kraken/dto/account/example-balance-data.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    KrakenBalanceResult krakenBalance = mapper.readValue(is, KrakenBalanceResult.class);
-
-    Wallet wallet = KrakenAdapters.adaptWallet(krakenBalance.getResult());
-
-    assertThat(wallet.getBalance(Currency.EUR).getTotal()).isEqualTo(new BigDecimal("1.0539"));
-    assertThat(wallet.getBalance(Currency.BTC).getTotal())
-        .isEqualTo(new BigDecimal("0.4888583300"));
-    assertThat(wallet.getBalance(Currency.getInstance("XTSTCUR")).getTotal())
-        .isEqualTo(new BigDecimal("10.123"));
   }
 
   @Test
@@ -317,7 +293,7 @@ public class KrakenAdaptersTest {
 
     List<FundingRecord> records = KrakenAdapters.adaptFundingHistory(ledgerMap);
 
-    assertThat(records.size()).isEqualTo(3);
+    assertThat(records.size()).isEqualTo(5);
     FundingRecord fundingRecord = records.get(1);
     assertThat(fundingRecord).isInstanceOf(FundingRecord.class);
     assertThat(fundingRecord.getType()).isEqualTo(FundingRecord.Type.WITHDRAWAL);

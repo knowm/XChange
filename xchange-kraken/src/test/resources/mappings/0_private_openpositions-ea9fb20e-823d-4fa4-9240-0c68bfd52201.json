@@ -1,0 +1,21 @@
+{
+  "id": "ea9fb20e-823d-4fa4-9240-0c68bfd52201",
+  "name": "0_private_openpositions",
+  "request": {
+    "url": "/0/private/OpenPositions",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "matches": "docalcs=false&nonce=.*",
+        "caseInsensitive": false
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "0_private_openpositions-ea9fb20e-823d-4fa4-9240-0c68bfd52201.json"
+  },
+  "uuid": "ea9fb20e-823d-4fa4-9240-0c68bfd52201",
+  "persistent": true,
+  "insertionIndex": 18
+}

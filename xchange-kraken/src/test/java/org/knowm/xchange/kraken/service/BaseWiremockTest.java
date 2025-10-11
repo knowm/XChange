@@ -1,13 +1,8 @@
 package org.knowm.xchange.kraken.service;
 
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.google.common.collect.ImmutableMap;
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
-import org.junit.Rule;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -18,19 +13,15 @@ import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 
 public class BaseWiremockTest {
 
-  @Rule public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
-
-  private final ObjectMapper objectMapper = new ObjectMapper();
-
-  public Exchange createExchange() {
+  public Exchange createExchange(int port) {
     KrakenUtils.setKrakenAssets(ASSETS);
     KrakenUtils.setKrakenAssetPairs(ASSET_PAIRS);
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(KrakenExchange.class);
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
     specification.setHost("localhost");
-    specification.setSslUri("http://localhost:" + wireMockRule.port());
-    specification.setPort(wireMockRule.port());
+    specification.setSslUri("http://localhost:" + port);
+    specification.setPort(port);
     specification.setShouldLoadRemoteMetaData(false);
     exchange.applySpecification(specification);
     return exchange;

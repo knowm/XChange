@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderDescription;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;

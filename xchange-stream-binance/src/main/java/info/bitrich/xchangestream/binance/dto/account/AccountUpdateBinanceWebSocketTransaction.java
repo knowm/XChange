@@ -105,7 +105,7 @@ public class AccountUpdateBinanceWebSocketTransaction extends BaseBinanceWebSock
     }
 
     public OpenPosition toOpenPosition(boolean isFuture) {
-      return new OpenPosition.Builder()
+      return OpenPosition.builder()
           .instrument(adaptSymbol(symbol, isFuture))
           .price(entryPrice)
           .size(positionAmount.abs())

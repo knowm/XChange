@@ -155,6 +155,7 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
     }
   }
 
+  @Override
   public Observable<OpenPosition> getPositionChanges(Instrument instrument) {
     if (exchange.isFuturesEnabled() || exchange.isPortfolioMarginEnabled()) {
       boolean isFutures = instrument instanceof FuturesContract;
@@ -166,7 +167,7 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
               .filter(f -> f.getInstrument().equals(instrument))
               .findFirst().orElseGet(() ->
                   // return zero position
-                  new OpenPosition.Builder().instrument(instrument)
+                  OpenPosition.builder().instrument(instrument)
                       .size(BigDecimal.ZERO)
                       .build()));
     } else {

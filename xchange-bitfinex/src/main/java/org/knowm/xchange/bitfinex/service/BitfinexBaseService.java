@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitfinex.service;
 
 import org.knowm.xchange.bitfinex.BitfinexExchange;
+import org.knowm.xchange.bitfinex.config.BitfinexJacksonObjectMapperFactory;
 import org.knowm.xchange.bitfinex.v1.BitfinexAuthenticated;
 import org.knowm.xchange.bitfinex.v1.BitfinexDigest;
 import org.knowm.xchange.bitfinex.v2.BitfinexHmacSignature;
@@ -21,30 +22,23 @@ public class BitfinexBaseService extends BaseResilientExchangeService<BitfinexEx
   protected final org.knowm.xchange.bitfinex.v2.BitfinexAuthenticated bitfinexV2;
   protected final BitfinexHmacSignature signatureV2;
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
+
   public BitfinexBaseService(BitfinexExchange exchange, ResilienceRegistries resilienceRegistries) {
 
     super(exchange, resilienceRegistries);
 
-    this.bitfinex =
-        ExchangeRestProxyBuilder.forInterface(
-                BitfinexAuthenticated.class, exchange.getExchangeSpecification())
-            .build();
-    this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.signatureCreator =
-        BitfinexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-    this.payloadCreator = new BitfinexPayloadDigest();
+    bitfinex = ExchangeRestProxyBuilder
+        .forInterface(BitfinexAuthenticated.class, exchange.getExchangeSpecification())
+        .clientConfigCustomizer(clientConfig -> clientConfig.setJacksonObjectMapperFactory(new BitfinexJacksonObjectMapperFactory()))
+        .build();
+    apiKey = exchange.getExchangeSpecification().getApiKey();
+    signatureCreator = BitfinexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    payloadCreator = new BitfinexPayloadDigest();
 
-    this.bitfinexV2 =
-        ExchangeRestProxyBuilder.forInterface(
-                org.knowm.xchange.bitfinex.v2.BitfinexAuthenticated.class,
-                exchange.getExchangeSpecification())
-            .build();
-    this.signatureV2 =
-        BitfinexHmacSignature.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    bitfinexV2 = ExchangeRestProxyBuilder
+        .forInterface(org.knowm.xchange.bitfinex.v2.BitfinexAuthenticated.class, exchange.getExchangeSpecification())
+        .clientConfigCustomizer(clientConfig -> clientConfig.setJacksonObjectMapperFactory(new BitfinexJacksonObjectMapperFactory()))
+        .build();
+    signatureV2 = BitfinexHmacSignature.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 }

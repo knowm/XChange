@@ -1,0 +1,28 @@
+{
+  "markets": [
+    {
+      "market": "ADA-EUR",
+      "description": "Cardano/Euro",
+      "base": "ADA",
+      "size_precision": 8,
+      "quote": "EUR",
+      "price_precision": 6,
+      "market_order_price_slippage": "0.075",
+      "min_order_size": "5",
+      "min_funds": "5"
+    },
+    {
+      "market": "BTC-CZK",
+      "description": "Bitcoin/CZK",
+      "base": "BTC",
+      "size_precision": 8,
+      "quote": "CZK",
+      "price_precision": 2,
+      "market_order_price_slippage": "0.15",
+      "min_order_size": "0.00001",
+      "min_funds": "100"
+    }
+  ]
+}
+
+

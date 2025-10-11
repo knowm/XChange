@@ -87,6 +87,7 @@ public class OkexStreamingTradeService implements StreamingTradeService {
             });
   }
 
+  @Override
   public Observable<OpenPosition> getPositionChanges(Instrument instrument) {
     String channelUniqueId = USER_POSITION_CHANGES + OkexAdapters.adaptInstrument(instrument);
     return privateStreamingService.subscribeChannel(channelUniqueId)

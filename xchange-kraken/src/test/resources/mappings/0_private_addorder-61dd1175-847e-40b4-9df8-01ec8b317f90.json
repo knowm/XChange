@@ -1,0 +1,21 @@
+{
+  "id": "61dd1175-847e-40b4-9df8-01ec8b317f90",
+  "name": "0_private_addorder",
+  "request": {
+    "url": "/0/private/AddOrder",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "matches": "pair=XBTUSDT&type=buy&ordertype=market&volume=0.00005&position=0&close=%7B%7D&nonce=.*",
+        "caseInsensitive": false
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "0_private_addorder-61dd1175-847e-40b4-9df8-01ec8b317f90.json"
+  },
+  "uuid": "61dd1175-847e-40b4-9df8-01ec8b317f90",
+  "persistent": true,
+  "insertionIndex": 15
+}

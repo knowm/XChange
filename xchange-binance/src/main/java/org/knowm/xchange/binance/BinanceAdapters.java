@@ -1,23 +1,5 @@
 package org.knowm.xchange.binance;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
@@ -44,24 +26,24 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.marketdata.CandleStick;
-import org.knowm.xchange.dto.marketdata.CandleStickData;
-import org.knowm.xchange.dto.marketdata.FundingRate;
-import org.knowm.xchange.dto.marketdata.FundingRates;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.instrument.Instrument;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class BinanceAdapters {
   private static final DateTimeFormatter DATE_TIME_FMT =
@@ -259,6 +241,11 @@ public class BinanceAdapters {
 
   public static Ticker toTicker(BinanceTicker24h binanceTicker24h, boolean isFuture) {
     Instrument instrument = adaptSymbol(binanceTicker24h.getSymbol(), isFuture);
+
+    if (instrument == null) {
+        return null;
+    }
+
     return new Ticker.Builder()
         .instrument(instrument)
         .open(binanceTicker24h.getOpenPrice())
@@ -395,7 +382,7 @@ public class BinanceAdapters {
     for (BinancePosition position : binancePositions) {
       if (position.getPositionAmt().abs().compareTo(BigDecimal.ZERO) > 0) {
         openPositions.add(
-            new OpenPosition.Builder()
+            OpenPosition.builder()
                 .size(position.getPositionAmt().abs())
                 .type(
                     (position.getPositionAmt().compareTo(BigDecimal.ZERO) > 0)

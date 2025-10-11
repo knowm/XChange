@@ -1,0 +1,95 @@
+package info.bitrich.xchangestream.bitfinex;
+
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
+
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.observers.TestObserver;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.dto.account.OpenPosition;
+import org.knowm.xchange.dto.trade.UserTrade;
+
+@Slf4j
+public class BitfinexStreamingTradeServiceIntegration extends BitfinexStreamingExchangeIT {
+
+  @BeforeAll
+  public static void credentialsPresent() {
+    // skip if there are no credentials
+    assumeThat(exchange.getExchangeSpecification().getApiKey()).isNotEmpty();
+    assumeThat(exchange.getExchangeSpecification().getSecretKey()).isNotEmpty();
+  }
+
+  @Test
+  void user_trades_all() {
+    Observable<UserTrade> observable = exchange.getStreamingTradeService().getUserTrades();
+
+    TestObserver<UserTrade> testObserver = observable.test();
+
+    List<UserTrade> userTrades =
+        testObserver
+            .awaitDone(5, TimeUnit.SECONDS)
+            .awaitCount(1)
+            .values();
+
+    testObserver.dispose();
+
+    log.info("Received usertrades: {}", userTrades);
+
+    assumeThat(userTrades).overridingErrorMessage("No trades happened").isNotEmpty();
+
+    assertThat(userTrades.get(0).getInstrument()).isNotNull();
+    assertThat(userTrades.get(0).getId()).isNotNull();
+    assertThat(userTrades.get(0).getOrderId()).isNotNull();
+  }
+
+  @Test
+  void user_trades_single_instrument() {
+    Observable<UserTrade> observable = exchange.getStreamingTradeService().getUserTrades(BTC_USDT);
+
+    TestObserver<UserTrade> testObserver = observable.test();
+
+    List<UserTrade> userTrades =
+        testObserver
+            .awaitDone(5, TimeUnit.SECONDS)
+            .awaitCount(1)
+            .values();
+
+    testObserver.dispose();
+
+    log.info("Received usertrades: {}", userTrades);
+
+    assumeThat(userTrades).overridingErrorMessage("No trades happened").isNotEmpty();
+
+    assertThat(userTrades.get(0).getInstrument()).isEqualTo(BTC_USDT);
+    assertThat(userTrades.get(0).getId()).isNotNull();
+    assertThat(userTrades.get(0).getOrderId()).isNotNull();
+  }
+
+  @Test
+  void position_changes() {
+    Observable<OpenPosition> observable = exchange.getStreamingTradeService().getPositionChanges(null);
+
+    TestObserver<OpenPosition> testObserver = observable.test();
+
+    List<OpenPosition> positionChanges =
+        testObserver
+            .awaitDone(5, TimeUnit.SECONDS)
+            .awaitCount(1)
+            .values();
+
+    testObserver.dispose();
+
+    log.info("Received positions: {}", positionChanges);
+
+    assumeThat(positionChanges).overridingErrorMessage("Received nothing").isNotEmpty();
+
+    assertThat(positionChanges.get(0).getInstrument()).isNotNull();
+  }
+
+}

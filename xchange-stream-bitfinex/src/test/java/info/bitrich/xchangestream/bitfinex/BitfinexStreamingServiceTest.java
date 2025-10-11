@@ -11,15 +11,16 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
 import io.reactivex.rxjava3.observers.TestObserver;
 import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.Currency;
 
 public class BitfinexStreamingServiceTest {
 
   private BitfinexStreamingService service;
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     service = new BitfinexStreamingService(BitfinexStreamingExchange.API_URI, null);
   }
@@ -119,11 +120,11 @@ public class BitfinexStreamingServiceTest {
 
     BitfinexWebSocketAuthBalance expected =
         new BitfinexWebSocketAuthBalance(
-            "exchange", "ETH", new BigDecimal("0.38772"), BigDecimal.ZERO, null);
+            "exchange", Currency.ETH, new BigDecimal("0.38772"), BigDecimal.ZERO, null);
 
     BitfinexWebSocketAuthBalance expected1 =
         new BitfinexWebSocketAuthBalance(
-            "exchange", "USD", new BigDecimal("69.4747619"), BigDecimal.ZERO, null);
+            "exchange", Currency.USD, new BigDecimal("69.4747619"), BigDecimal.ZERO, null);
     test.assertNoErrors();
     test.assertValueCount(2);
     assertThat(test.values()).contains(expected);
@@ -140,7 +141,7 @@ public class BitfinexStreamingServiceTest {
 
     BitfinexWebSocketAuthBalance balance =
         new BitfinexWebSocketAuthBalance(
-            "exchange", "USD", new BigDecimal("78.5441867"), BigDecimal.ZERO, null);
+            "exchange", Currency.USD, new BigDecimal("78.5441867"), BigDecimal.ZERO, null);
 
     test.assertValue(balance);
   }

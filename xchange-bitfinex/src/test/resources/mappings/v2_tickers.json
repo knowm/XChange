@@ -1,0 +1,15 @@
+{
+  "id" : "937ceb9d-ddc6-4c96-9f34-a79f73e94afb",
+  "name" : "v2_tickers",
+  "request" : {
+    "url" : "/v2/tickers?symbols=ALL",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_tickers.json"
+  },
+  "uuid" : "937ceb9d-ddc6-4c96-9f34-a79f73e94afb",
+  "persistent" : true,
+  "insertionIndex" : 2
+}

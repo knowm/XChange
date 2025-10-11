@@ -1,0 +1,15 @@
+{
+  "id" : "cab70bea-e771-45c8-8699-465d9d301675",
+  "name" : "v2_conf_pubinfopair",
+  "request" : {
+    "url" : "/v2/conf/pub:info:pair",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_conf_pubinfopair.json"
+  },
+  "uuid" : "cab70bea-e771-45c8-8699-465d9d301675",
+  "persistent" : true,
+  "insertionIndex" : 9
+}

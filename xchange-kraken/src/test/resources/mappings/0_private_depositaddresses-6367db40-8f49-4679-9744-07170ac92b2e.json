@@ -1,0 +1,19 @@
+{
+  "id" : "6367db40-8f49-4679-9744-07170ac92b2e",
+  "name" : "0_private_depositaddresses",
+  "request" : {
+    "url" : "/0/private/DepositAddresses",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "matches" : "asset=TRX&method=Tron&nonce=.*",
+      "caseInsensitive" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "0_private_depositaddresses-6367db40-8f49-4679-9744-07170ac92b2e.json"
+  },
+  "uuid" : "6367db40-8f49-4679-9744-07170ac92b2e",
+  "persistent" : true,
+  "insertionIndex" : 5
+}

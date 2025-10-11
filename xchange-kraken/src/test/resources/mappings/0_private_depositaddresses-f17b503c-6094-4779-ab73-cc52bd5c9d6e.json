@@ -1,0 +1,19 @@
+{
+  "id" : "f17b503c-6094-4779-ab73-cc52bd5c9d6e",
+  "name" : "0_private_depositaddresses",
+  "request" : {
+    "url" : "/0/private/DepositAddresses",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "matches" : "asset=XRP&method=Ripple\\+XRP&nonce=.*",
+      "caseInsensitive" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "0_private_depositaddresses-f17b503c-6094-4779-ab73-cc52bd5c9d6e.json"
+  },
+  "uuid" : "f17b503c-6094-4779-ab73-cc52bd5c9d6e",
+  "persistent" : true,
+  "insertionIndex" : 11
+}

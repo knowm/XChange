@@ -2,20 +2,29 @@ package org.knowm.xchange.bitfinex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.knowm.xchange.bitfinex.BitfinexErrorAdapter;
 import org.knowm.xchange.bitfinex.BitfinexExchange;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.service.trade.params.BitfinexOpenOrdersParams;
+import org.knowm.xchange.bitfinex.service.trade.params.BitfinexOrderQueryParams;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexReplaceOrderRequest;
-import org.knowm.xchange.bitfinex.v2.dto.trade.Trade;
+import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
+import org.knowm.xchange.bitfinex.v2.dto.trade.BitfinexOrderDetails;
+import org.knowm.xchange.bitfinex.v2.dto.trade.BitfinexTrade;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -54,30 +63,37 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    CurrencyPair currencyPair = null;
+    List<Long> ids = null;
+    if (params instanceof BitfinexOpenOrdersParams) {
+      BitfinexOpenOrdersParams bitfinexOpenOrdersParams = (BitfinexOpenOrdersParams) params;
+      currencyPair = bitfinexOpenOrdersParams.getCurrencyPair();
+      ids = bitfinexOpenOrdersParams.getIds();
+    }
     try {
-      BitfinexOrderStatusResponse[] activeOrders = getBitfinexOpenOrders();
 
-      if (activeOrders.length <= 0) {
-        return noOpenOrders;
-      } else {
-        return filterOrders(BitfinexAdapters.adaptOrders(activeOrders), params);
-      }
-    } catch (BitfinexException e) {
+      List<BitfinexOrderDetails> bitfinexOrderDetails = getBitfinexActiveOrdersV2(currencyPair, ids);
+
+      List<LimitOrder> limitOrders = bitfinexOrderDetails.stream()
+          .map(BitfinexAdapters::toLimitOrder)
+          .collect(Collectors.toList());
+
+      return new OpenOrders(limitOrders);
+
+    } catch (BitfinexExceptionV2 e) {
       throw BitfinexErrorAdapter.adapt(e);
     }
   }
 
-  /** Bitfinex API does not provide filtering option. So we should filter orders ourselves */
-  @SuppressWarnings("unchecked")
-  private OpenOrders filterOrders(OpenOrders rawOpenOrders, OpenOrdersParams params) {
-    if (params == null) {
-      return rawOpenOrders;
-    }
+  @Override
+  public OpenPositions getOpenPositions() throws IOException {
+    var positions = getBitfinexActivePositionsV2().stream()
+        .map(BitfinexAdapters::toOpenPosition)
+        .collect(Collectors.toList());
 
-    List<LimitOrder> openOrdersList = rawOpenOrders.getOpenOrders();
-    openOrdersList.removeIf(openOrder -> !params.accept(openOrder));
-
-    return new OpenOrders(openOrdersList, (List<Order>) rawOpenOrders.getHiddenOrders());
+    return OpenPositions.builder()
+        .openPositions(positions)
+        .build();
   }
 
   @Override
@@ -219,8 +235,8 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
         sort = tradeHistoryParamsSorted.getOrder() == TradeHistoryParamsSorted.Order.asc ? 1L : -1L;
       }
 
-      final List<Trade> trades = getBitfinexTradesV2(symbol, startTime, endTime, limit, sort);
-      return BitfinexAdapters.adaptTradeHistoryV2(trades);
+      final List<BitfinexTrade> bitfinexTrades = getBitfinexTradesV2(symbol, startTime, endTime, limit, sort);
+      return BitfinexAdapters.adaptTradeHistoryV2(bitfinexTrades);
     } catch (BitfinexException e) {
       throw BitfinexErrorAdapter.adapt(e);
     }
@@ -233,25 +249,45 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+  public BitfinexOpenOrdersParams createOpenOrdersParams() {
+    return BitfinexOpenOrdersParams.builder().build();
+  }
+
+
+  @Override
+  public Class getRequiredOrderQueryParamClass() {
+    return BitfinexOrderQueryParams.class;
   }
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    try {
-      List<Order> openOrders = new ArrayList<>();
+    // parse parameters
+    CurrencyPair currencyPair = null;
+    Instant from = null;
+    Instant to = null;
+    Long limit = null;
+    if (orderQueryParams.length > 0 && orderQueryParams[0] instanceof BitfinexOrderQueryParams) {
+      BitfinexOrderQueryParams bitfinexOrderQueryParams = (BitfinexOrderQueryParams) orderQueryParams[0];
+      currencyPair = bitfinexOrderQueryParams.getCurrencyPair();
+      from = bitfinexOrderQueryParams.getFrom();
+      to = bitfinexOrderQueryParams.getTo();
+      limit = bitfinexOrderQueryParams.getLimit();
+    }
 
-      for (OrderQueryParams orderParam : orderQueryParams) {
-        BitfinexOrderStatusResponse orderStatus = getBitfinexOrderStatus(orderParam.getOrderId());
-        BitfinexOrderStatusResponse[] orderStatuses = new BitfinexOrderStatusResponse[1];
-        if (orderStatus != null) {
-          orderStatuses[0] = orderStatus;
-          OpenOrders orders = BitfinexAdapters.adaptOrders(orderStatuses);
-          openOrders.add(orders.getOpenOrders().get(0));
-        }
-      }
-      return openOrders;
+    List<Long> ids = Arrays.stream(orderQueryParams)
+        .map(OrderQueryParams::getOrderId)
+        .map(Long::parseLong)
+        .collect(Collectors.toList());
+
+    try {
+      List<BitfinexOrderDetails> inactiveOrderDetails = getBitfinexOrdersHistory(currencyPair, ids, from, to, limit);
+
+      List<BitfinexOrderDetails> bitfinexOrderDetails = getBitfinexActiveOrdersV2(currencyPair, ids);
+
+      return Stream.concat(inactiveOrderDetails.stream(), bitfinexOrderDetails.stream())
+          .map(BitfinexAdapters::toOrder)
+          .collect(Collectors.toList());
+
     } catch (BitfinexException e) {
       throw BitfinexErrorAdapter.adapt(e);
     }

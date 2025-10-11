@@ -1,0 +1,15 @@
+{
+  "id" : "1368c77b-d136-415b-9f9b-5a32cf672146",
+  "name" : "v2_conf_publistpairexchange",
+  "request" : {
+    "url" : "/v2/conf/pub:list:pair:exchange",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_conf_publistpairexchange.json"
+  },
+  "uuid" : "1368c77b-d136-415b-9f9b-5a32cf672146",
+  "persistent" : true,
+  "insertionIndex" : 10
+}

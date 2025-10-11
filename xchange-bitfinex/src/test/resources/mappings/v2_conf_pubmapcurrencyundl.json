@@ -1,0 +1,15 @@
+{
+  "id" : "30bfbed4-dbbd-4e6d-ab0b-bf63bca5fbc6",
+  "name" : "v2_conf_pubmapcurrencyundl",
+  "request" : {
+    "url" : "/v2/conf/pub:map:currency:undl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v2_conf_pubmapcurrencyundl.json"
+  },
+  "uuid" : "30bfbed4-dbbd-4e6d-ab0b-bf63bca5fbc6",
+  "persistent" : true,
+  "insertionIndex" : 20
+}

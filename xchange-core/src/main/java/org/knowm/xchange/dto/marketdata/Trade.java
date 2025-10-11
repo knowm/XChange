@@ -14,7 +14,7 @@ import org.knowm.xchange.instrument.Instrument;
 
 /** Data object representing a Trade */
 @Data
-@SuperBuilder(toBuilder = true)
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Trade implements Serializable {
