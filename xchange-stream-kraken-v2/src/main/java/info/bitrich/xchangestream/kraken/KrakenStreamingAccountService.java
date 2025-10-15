@@ -8,6 +8,9 @@ import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class KrakenStreamingAccountService implements StreamingAccountService {
 
   private final KrakenStreamingService service;
@@ -26,4 +29,15 @@ public class KrakenStreamingAccountService implements StreamingAccountService {
         .map(KrakenStreamingAdapters::toBalance);
   }
 
+  @Override
+  public Observable<Set<Balance>> getBalancesChanges(Object... args) {
+    return service
+            .subscribeChannel(ChannelType.BALANCES.getValue())
+            .map(KrakenBalancesMessage.class::cast)
+            .map(message ->
+                    message.getData().stream()
+                      .map(KrakenStreamingAdapters::toBalance)
+                      .collect(Collectors.toSet())
+            );
+  }
 }
