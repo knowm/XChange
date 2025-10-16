@@ -26,7 +26,7 @@ public interface StreamingAccountService {
    * <p><strong>Immediately throws</strong> {@link ExchangeSecurityException} if called without
    * authentication details
    *
-   * @param currency Currency to monitor.
+   * @param currency Currency to monitor. When 'null', monitors all currency balances.
    * @return {@link Observable} that emits {@link Balance} when exchange sends the update.
    */
   default Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
