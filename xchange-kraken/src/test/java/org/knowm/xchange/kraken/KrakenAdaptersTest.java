@@ -20,6 +20,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -32,8 +33,10 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.kraken.dto.account.KrakenExtendedBalance;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
+import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
@@ -377,5 +380,101 @@ public class KrakenAdaptersTest {
         .isEqualByComparingTo(new BigDecimal(0.5).movePointLeft(2));
     assertThat(adaptedFeeTiers[2].fee.getTakerFee())
         .isEqualByComparingTo(new BigDecimal(0.75).movePointLeft(2));
+  }
+
+  @Test
+  public void testToBalance_WithCurrencySuffix() {
+    // Test that toBalance handles currency codes with suffixes (e.g., .F for Earn subscriptions)
+    KrakenExtendedBalance extendedBalance =
+        KrakenExtendedBalance.builder()
+            .balance(new BigDecimal("10.5"))
+            .holdTrade(new BigDecimal("0.5"))
+            .build();
+
+    // Test with .F suffix (Earn subscription currency)
+    Balance balance = KrakenAdapters.toBalance("AAVE.F", extendedBalance);
+
+    assertThat(balance.getCurrency().getCurrencyCode()).isEqualTo("AAVE.F");
+    assertThat(balance.getTotal()).isEqualByComparingTo(new BigDecimal("10.5"));
+    assertThat(balance.getFrozen()).isEqualByComparingTo(new BigDecimal("0.5"));
+  }
+
+  @Test
+  public void testToBalance_WithKnownCurrency() {
+    // Test that toBalance still works with known currencies
+    KrakenExtendedBalance extendedBalance =
+        KrakenExtendedBalance.builder().balance(new BigDecimal("1.5")).build();
+
+    Balance balance = KrakenAdapters.toBalance("XXBT", extendedBalance);
+
+    assertThat(balance.getCurrency()).isEqualTo(Currency.BTC);
+    assertThat(balance.getTotal()).isEqualByComparingTo(new BigDecimal("1.5"));
+  }
+
+  @Test
+  public void testAdaptFundingHistory_WithCurrencySuffix() {
+    // Test that adaptFundingHistory handles currency codes with suffixes (e.g., .F for Earn
+    // subscriptions)
+    Map<String, KrakenLedger> ledgerMap = new java.util.HashMap<>();
+    KrakenLedger ledger =
+        new KrakenLedger(
+            "ref123",
+            System.currentTimeMillis() / 1000.0,
+            LedgerType.DEPOSIT,
+            "currency",
+            "XTZ.F", // Currency code with .F suffix
+            new BigDecimal("10.5"),
+            new BigDecimal("0.1"),
+            new BigDecimal("100.0"));
+
+    ledgerMap.put("ledger1", ledger);
+
+    List<FundingRecord> records = KrakenAdapters.adaptFundingHistory(ledgerMap);
+
+    assertThat(records).hasSize(1);
+    FundingRecord record = records.get(0);
+    assertThat(record.getCurrency().getCurrencyCode()).isEqualTo("XTZ.F");
+    assertThat(record.getAmount()).isEqualByComparingTo(new BigDecimal("10.5"));
+    assertThat(record.getFee()).isEqualByComparingTo(new BigDecimal("0.1"));
+    assertThat(record.getBalance()).isEqualByComparingTo(new BigDecimal("100.0"));
+    assertThat(record.getType()).isEqualTo(FundingRecord.Type.DEPOSIT);
+  }
+
+  @Test
+  public void testAdaptCurrency_WithKnownCurrency() {
+    // Test that adaptCurrency works with known currencies from Kraken assets
+    Currency currency = KrakenAdapters.adaptCurrency("XXBT");
+
+    assertThat(currency).isEqualTo(Currency.BTC);
+  }
+
+  @Test
+  public void testAdaptCurrency_WithCurrencySuffix() {
+    // Test that adaptCurrency handles currency codes with suffixes (e.g., .F for Earn
+    // subscriptions)
+    // This should use the fallback mechanism
+    Currency currency = KrakenAdapters.adaptCurrency("XTZ.F");
+
+    assertThat(currency).isNotNull();
+    assertThat(currency.getCurrencyCode()).isEqualTo("XTZ.F");
+  }
+
+  @Test
+  public void testAdaptCurrency_WithOtherSuffix() {
+    // Test that adaptCurrency handles other potential suffixes
+    Currency currency = KrakenAdapters.adaptCurrency("AAVE.X");
+
+    assertThat(currency).isNotNull();
+    assertThat(currency.getCurrencyCode()).isEqualTo("AAVE.X");
+  }
+
+  @Test
+  public void testAdaptCurrency_WithUnknownCurrency() {
+    // Test that adaptCurrency doesn't throw exception for unknown currencies
+    // It should create a Currency instance with the provided code
+    Currency currency = KrakenAdapters.adaptCurrency("UNKNOWN123");
+
+    assertThat(currency).isNotNull();
+    assertThat(currency.getCurrencyCode()).isEqualTo("UNKNOWN123");
   }
 }

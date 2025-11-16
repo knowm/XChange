@@ -40,6 +40,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
@@ -260,10 +261,9 @@ public class KrakenAdapters {
 
   public static Balance toBalance(
       String krakenCurrencyCode, KrakenExtendedBalance krakenExtendedBalance) {
-    var builder =
-        Balance.builder()
-            .currency(adaptCurrency(krakenCurrencyCode))
-            .total(krakenExtendedBalance.getBalance());
+    final Currency currency = adaptCurrency(krakenCurrencyCode);
+
+    var builder = Balance.builder().currency(currency).total(krakenExtendedBalance.getBalance());
 
     if (krakenExtendedBalance.getCredit() != null) {
       builder.borrowed(krakenExtendedBalance.getCredit());
@@ -291,7 +291,14 @@ public class KrakenAdapters {
   }
 
   public static Currency adaptCurrency(String krakenCurrencyCode) {
-    return KrakenUtils.translateKrakenCurrencyCode(krakenCurrencyCode);
+    try {
+      // Try standard mapping
+      return KrakenUtils.translateKrakenCurrencyCode(krakenCurrencyCode);
+    } catch (ExchangeException e) {
+      // Fallback: create currency with full code including any suffix
+      // This handles .F (earn), and any future suffixes Kraken might add
+      return Currency.getInstance(krakenCurrencyCode);
+    }
   }
 
   public static CurrencyPair adaptCurrencyPair(String krakenCurrencyPair) {
@@ -508,8 +515,7 @@ public class KrakenAdapters {
     return InstrumentMetaData.builder()
         .tradingFee(tradingFee)
         .feeTiers(adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()))
-        .tradingFeeCurrency(
-            KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()))
+        .tradingFeeCurrency(adaptCurrency(krakenPair.getFeeVolumeCurrency()))
         .minimumAmount(minimumAmount)
         .priceScale(krakenPair.getPairScale())
         .priceStepSize(krakenPair.getTickSize())
