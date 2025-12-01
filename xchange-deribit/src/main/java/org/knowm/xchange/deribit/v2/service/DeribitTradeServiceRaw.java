@@ -6,15 +6,16 @@ import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.Kind;
+import org.knowm.xchange.deribit.v2.dto.account.DeribitPosition;
 import org.knowm.xchange.deribit.v2.dto.trade.AdvancedOptions;
-import org.knowm.xchange.deribit.v2.dto.trade.Order;
+import org.knowm.xchange.deribit.v2.dto.trade.DeribitOrder;
+import org.knowm.xchange.deribit.v2.dto.trade.DeribitUserTrades;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderPlacement;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderType;
 import org.knowm.xchange.deribit.v2.dto.trade.SettlementType;
 import org.knowm.xchange.deribit.v2.dto.trade.TimeInForce;
 import org.knowm.xchange.deribit.v2.dto.trade.Trigger;
 import org.knowm.xchange.deribit.v2.dto.trade.UserSettlements;
-import org.knowm.xchange.deribit.v2.dto.trade.UserTrades;
 
 public class DeribitTradeServiceRaw extends DeribitBaseService {
 
@@ -54,7 +55,7 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
             trigger,
             advanced,
             mmp,
-            deribitAuth)
+            deribitDigest)
         .getResult();
   }
 
@@ -90,7 +91,7 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
             trigger,
             advanced,
             mmp,
-            deribitAuth)
+            deribitDigest)
         .getResult();
   }
 
@@ -116,37 +117,37 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
             triggerPrice,
             advanced,
             mmp,
-            deribitAuth)
+            deribitDigest)
         .getResult();
   }
 
-  public Order cancel(String orderId) throws IOException {
-    return deribitAuthenticated.cancel(orderId, deribitAuth).getResult();
+  public DeribitOrder cancel(String orderId) throws IOException {
+    return deribitAuthenticated.cancel(orderId, deribitDigest).getResult();
   }
 
   public Integer cancelByLabel(String label) throws IOException {
-    return deribitAuthenticated.cancelByLabel(label, deribitAuth).getResult();
+    return deribitAuthenticated.cancelByLabel(label, deribitDigest).getResult();
   }
 
   public Integer cancelAll() throws IOException {
-    return deribitAuthenticated.cancelAll(deribitAuth).getResult();
+    return deribitAuthenticated.cancelAll(deribitDigest).getResult();
   }
 
-  public List<Order> getOpenOrdersByCurrency(String currency, Kind kind, String type)
+  public List<DeribitOrder> getOpenOrdersByCurrency(String currency, Kind kind, String type)
       throws IOException {
     return deribitAuthenticated
-        .getOpenOrdersByCurrency(currency, kind, type, deribitAuth)
+        .getOpenOrdersByCurrency(currency, kind, type, deribitDigest)
         .getResult();
   }
 
-  public List<Order> getOpenOrdersByInstrument(String instrumentName, String type)
+  public List<DeribitOrder> getOpenOrdersByInstrument(String instrumentName, String type)
       throws IOException {
     return deribitAuthenticated
-        .getOpenOrdersByInstrument(instrumentName, type, deribitAuth)
+        .getOpenOrdersByInstrument(instrumentName, type, deribitDigest)
         .getResult();
   }
 
-  public UserTrades getUserTradesByCurrency(
+  public DeribitUserTrades getUserTradesByCurrency(
       String currency,
       Kind kind,
       String startId,
@@ -157,11 +158,11 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
       throws IOException {
     return deribitAuthenticated
         .getUserTradesByCurrency(
-            currency, kind, startId, endId, count, includeOld, sorting, deribitAuth)
+            currency, kind, startId, endId, count, includeOld, sorting, deribitDigest)
         .getResult();
   }
 
-  public UserTrades getUserTradesByCurrencyAndTime(
+  public DeribitUserTrades getUserTradesByCurrencyAndTime(
       String currency,
       Kind kind,
       Date startTimestamp,
@@ -179,11 +180,11 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
             count,
             includeOld,
             sorting,
-            deribitAuth)
+            deribitDigest)
         .getResult();
   }
 
-  public UserTrades getUserTradesByInstrument(
+  public DeribitUserTrades getUserTradesByInstrument(
       String instrumentName,
       Integer startSeq,
       Integer endSeq,
@@ -193,11 +194,11 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
       throws IOException {
     return deribitAuthenticated
         .getUserTradesByInstrument(
-            instrumentName, startSeq, endSeq, count, includeOld, sorting, deribitAuth)
+            instrumentName, startSeq, endSeq, count, includeOld, sorting, deribitDigest)
         .getResult();
   }
 
-  public UserTrades getUserTradesByInstrumentAndTime(
+  public DeribitUserTrades getUserTradesByInstrumentAndTime(
       String instrumentName,
       Date startTimestamp,
       Date endTimestamp,
@@ -213,7 +214,7 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
             count,
             includeOld,
             sorting,
-            deribitAuth)
+            deribitDigest)
         .getResult();
   }
 
@@ -221,11 +222,11 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
       String instrumentName, SettlementType type, Integer count, String continuation)
       throws IOException {
     return deribitAuthenticated
-        .getSettlementHistoryByInstrument(instrumentName, type, count, continuation, deribitAuth)
+        .getSettlementHistoryByInstrument(instrumentName, type, count, continuation, deribitDigest)
         .getResult();
   }
 
-  public List<Order> getOrderHistoryByCurrency(
+  public List<DeribitOrder> getOrderHistoryByCurrency(
       String currency,
       Kind kind,
       Integer count,
@@ -235,11 +236,11 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
       throws IOException {
     return deribitAuthenticated
         .getOrderHistoryByCurrency(
-            currency, kind, count, offset, includeOld, includeUnfilled, deribitAuth)
+            currency, kind, count, offset, includeOld, includeUnfilled, deribitDigest)
         .getResult();
   }
 
-  public List<Order> getOrderHistoryByInstrument(
+  public List<DeribitOrder> getOrderHistoryByInstrument(
       String instrumentName,
       Integer count,
       Integer offset,
@@ -248,11 +249,16 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
       throws IOException {
     return deribitAuthenticated
         .getOrderHistoryByInstrument(
-            instrumentName, count, offset, includeOld, includeUnfilled, deribitAuth)
+            instrumentName, count, offset, includeOld, includeUnfilled, deribitDigest)
         .getResult();
   }
 
-  public Order getOrderState(String orderId) throws IOException {
-    return deribitAuthenticated.getOrderState(orderId, deribitAuth).getResult();
+  public DeribitOrder getOrderState(String orderId) throws IOException {
+    return deribitAuthenticated.getOrderState(orderId, deribitDigest).getResult();
   }
+
+  public List<DeribitPosition> getPositions(String currency, Kind kind) throws IOException {
+    return deribitAuthenticated.getPositions(currency, kind, deribitDigest).getResult();
+  }
+
 }

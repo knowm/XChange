@@ -1,0 +1,16 @@
+### Get currencies
+GET {{api_v2}}/public/get_currencies
+
+
+### Get instruments
+GET {{api_v2}}/public/get_instruments
+
+
+### Get ticker
+GET {{api_v2}}/public/ticker?instrument_name=BTC_USDT
+
+
+### Get last trades by instrument
+GET {{api_v2}}/public/get_last_trades_by_instrument?instrument_name=BTC_USDT
+
+

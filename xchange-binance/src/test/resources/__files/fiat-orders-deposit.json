@@ -1,0 +1,30 @@
+{
+  "code": "000000",
+  "message": "success",
+  "data": [
+    {
+      "orderNo": "7d76d611-0568-4f43-afb6-24cac7767365",
+      "fiatCurrency": "EUR",
+      "indicatedAmount": "100.00",
+      "amount": "100.00",
+      "totalFee": "0.00",
+      "method": "BankAccount",
+      "status": "Successful",
+      "createTime": 1626144956000,
+      "updateTime": 1626400907000
+    },
+    {
+      "orderNo": "8e87e722-1679-5g54-bgc7-35dbd8878476",
+      "fiatCurrency": "USD",
+      "indicatedAmount": "50.00",
+      "amount": "50.00",
+      "totalFee": "1.00",
+      "method": "Credit Card",
+      "status": "Processing",
+      "createTime": 1626145000000,
+      "updateTime": 1626145000000
+    }
+  ],
+  "total": 2,
+  "success": true
+}

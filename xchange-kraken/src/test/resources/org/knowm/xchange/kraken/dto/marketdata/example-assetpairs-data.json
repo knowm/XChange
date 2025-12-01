@@ -5494,7 +5494,9 @@
       ],
       "fee_volume_currency": "ZUSD",
       "margin_call": 80,
-      "margin_stop": 40
+      "margin_stop": 40,
+      "ordermin": "0.00005",
+      "costmin": "1"
     },
     "XXBTZCAD.d": {
       "altname": "XBTCAD.d",
@@ -6103,7 +6105,8 @@
       "fee_volume_currency": "ZUSD",
       "margin_call": 80,
       "margin_stop": 40,
-      "ordermin": "0.002"
+      "ordermin": "0.002",
+      "costmin": "0.5"
     },
     "XXBTZUSD.d": {
       "altname": "XBTUSD.d",

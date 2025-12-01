@@ -1,0 +1,15 @@
+{
+  "id" : "6bdadb69-7119-4b3d-b994-ffdc6a541023",
+  "name" : "api_v2_private_get_positions",
+  "request" : {
+    "url" : "/api/v2/private/get_positions",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_private_get_positions-6bdadb69-7119-4b3d-b994-ffdc6a541023.json"
+  },
+  "uuid" : "6bdadb69-7119-4b3d-b994-ffdc6a541023",
+  "persistent" : true,
+  "insertionIndex" : 7
+}

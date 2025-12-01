@@ -21,8 +21,13 @@ import org.knowm.xchange.binance.dto.ExchangeType;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceCurrencyInfo;
 import org.knowm.xchange.binance.dto.account.BinanceCurrencyInfo.Network;
+import org.knowm.xchange.binance.dto.account.BinanceFlexiblePosition;
+import org.knowm.xchange.binance.dto.account.BinanceFlexiblePositionResponse;
 import org.knowm.xchange.binance.dto.account.BinanceFundingHistoryParams;
+import org.knowm.xchange.binance.dto.account.BinanceLockedPosition;
+import org.knowm.xchange.binance.dto.account.BinanceLockedPositionResponse;
 import org.knowm.xchange.binance.dto.account.BinanceMasterAccountTransferHistoryParams;
+import org.knowm.xchange.binance.dto.account.BinanceSimpleAccount;
 import org.knowm.xchange.binance.dto.account.BinanceSubAccountTransferHistoryParams;
 import org.knowm.xchange.binance.dto.account.BinanceTradeFee;
 import org.knowm.xchange.binance.dto.account.DepositAddress;
@@ -107,6 +112,34 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         return Status.COMPLETE;
       default:
         throw new RuntimeException("Unknown binance deposit status: " + status);
+    }
+  }
+
+  /**
+   * Maps fiat order status to FundingRecord.Status. Status values: Processing, Failed, Successful,
+   * Finished, Refunding, Refunded, Refund Failed, Order Partial credit Stopped, Expired
+   */
+  private static FundingRecord.Status fiatOrderStatus(String status) {
+    if (status == null) {
+      return Status.FAILED;
+    }
+    switch (status) {
+      case "Processing":
+      case "Refunding":
+      case "Order Partial credit Stopped":
+        return Status.PROCESSING;
+      case "Successful":
+      case "Finished":
+        return Status.COMPLETE;
+      case "Failed":
+      case "Refund Failed":
+      case "Expired":
+        return Status.FAILED;
+      case "Refunded":
+        return Status.CANCELLED;
+      default:
+        Status resolved = Status.resolveStatus(status);
+        return resolved != null ? resolved : Status.FAILED;
     }
   }
 
@@ -476,6 +509,41 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                             .build()));
       }
 
+      // Fetch fiat deposit/withdrawal history
+      if (deposits) {
+        super.getFiatOrders("0", startTime, endTime, page, limit)
+            .forEach(
+                f ->
+                    result.add(
+                        FundingRecord.builder()
+                            .internalId(f.getOrderNo())
+                            .date(new Date(f.getCreateTime()))
+                            .currency(Currency.getInstance(f.getFiatCurrency()))
+                            .amount(f.getAmount())
+                            .fee(f.getTotalFee())
+                            .type(Type.DEPOSIT)
+                            .status(fiatOrderStatus(f.getStatus()))
+                            .description(f.getMethod())
+                            .build()));
+      }
+
+      if (withdrawals) {
+        super.getFiatOrders("1", startTime, endTime, page, limit)
+            .forEach(
+                f ->
+                    result.add(
+                        FundingRecord.builder()
+                            .internalId(f.getOrderNo())
+                            .date(new Date(f.getCreateTime()))
+                            .currency(Currency.getInstance(f.getFiatCurrency()))
+                            .amount(f.getAmount())
+                            .fee(f.getTotalFee())
+                            .type(Type.WITHDRAWAL)
+                            .status(fiatOrderStatus(f.getStatus()))
+                            .description(f.getMethod())
+                            .build()));
+      }
+
       return result;
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
@@ -487,5 +555,35 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     if (instrument instanceof FuturesContract) {
       return setLeverageRaw(instrument, leverage).leverage == leverage;
     } else return false;
+  }
+
+  public BinanceSimpleAccount getSimpleAccount() throws IOException {
+    try {
+      return super.getSimpleAccount();
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
+  }
+
+  public List<BinanceFlexiblePosition> getFlexiblePositions(
+      String asset, String productId, Long current, Long size) throws IOException {
+    try {
+      BinanceFlexiblePositionResponse response =
+          super.getFlexiblePositionsRaw(asset, productId, current, size);
+      return response != null ? response.getData() : List.of();
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
+  }
+
+  public List<BinanceLockedPosition> getLockedPositions(
+      String asset, Long positionId, String projectId, Long current, Long size) throws IOException {
+    try {
+      BinanceLockedPositionResponse response =
+          super.getLockedPositionsRaw(asset, positionId, projectId, current, size);
+      return response != null ? response.getData() : List.of();
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
   }
 }

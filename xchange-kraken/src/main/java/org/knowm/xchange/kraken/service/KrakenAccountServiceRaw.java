@@ -17,6 +17,8 @@ import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.account.DepostitStatus;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositMethods;
+import org.knowm.xchange.kraken.dto.account.KrakenEarnAllocations;
+import org.knowm.xchange.kraken.dto.account.KrakenEarnAllocationsRequest;
 import org.knowm.xchange.kraken.dto.account.KrakenExtendedBalance;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
@@ -29,6 +31,7 @@ import org.knowm.xchange.kraken.dto.account.WithdrawStatus;
 import org.knowm.xchange.kraken.dto.account.results.DepositStatusResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenEarnAllocationsResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
@@ -381,5 +384,21 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
             .getExchangeSpecification()
             .getExchangeSpecificParameters()
             .getOrDefault("cacheDepositMethods", false);
+  }
+
+  public KrakenEarnAllocations getEarnAllocations(
+      Boolean ascending, String convertedAsset, Boolean hideZeroAllocations) throws IOException {
+    KrakenEarnAllocationsRequest request =
+        KrakenEarnAllocationsRequest.builder()
+            .nonce(exchange.getNonceFactory().createValue())
+            .ascending(ascending)
+            .convertedAsset(convertedAsset)
+            .hideZeroAllocations(hideZeroAllocations)
+            .build();
+
+    KrakenEarnAllocationsResult result =
+        kraken.getEarnAllocations(
+            exchange.getExchangeSpecification().getApiKey(), signatureCreator, request);
+    return checkResult(result);
   }
 }

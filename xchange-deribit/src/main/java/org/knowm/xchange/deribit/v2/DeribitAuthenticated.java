@@ -9,20 +9,27 @@ import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import org.knowm.xchange.deribit.v2.dto.DeribitDataListResponse;
 import org.knowm.xchange.deribit.v2.dto.DeribitException;
 import org.knowm.xchange.deribit.v2.dto.DeribitResponse;
 import org.knowm.xchange.deribit.v2.dto.Kind;
-import org.knowm.xchange.deribit.v2.dto.account.AccountSummary;
-import org.knowm.xchange.deribit.v2.dto.account.Position;
+import org.knowm.xchange.deribit.v2.dto.account.DeribitAccountSummary;
+import org.knowm.xchange.deribit.v2.dto.account.DeribitAccountSummaryList;
+import org.knowm.xchange.deribit.v2.dto.account.DeribitDeposit;
+import org.knowm.xchange.deribit.v2.dto.account.DeribitLogListResponse;
+import org.knowm.xchange.deribit.v2.dto.account.DeribitPosition;
+import org.knowm.xchange.deribit.v2.dto.account.DeribitTransactionLog;
+import org.knowm.xchange.deribit.v2.dto.account.DeribitTransfer;
+import org.knowm.xchange.deribit.v2.dto.account.DeribitWithdrawal;
 import org.knowm.xchange.deribit.v2.dto.trade.AdvancedOptions;
-import org.knowm.xchange.deribit.v2.dto.trade.Order;
+import org.knowm.xchange.deribit.v2.dto.trade.DeribitOrder;
+import org.knowm.xchange.deribit.v2.dto.trade.DeribitUserTrades;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderPlacement;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderType;
 import org.knowm.xchange.deribit.v2.dto.trade.SettlementType;
 import org.knowm.xchange.deribit.v2.dto.trade.TimeInForce;
 import org.knowm.xchange.deribit.v2.dto.trade.Trigger;
 import org.knowm.xchange.deribit.v2.dto.trade.UserSettlements;
-import org.knowm.xchange.deribit.v2.dto.trade.UserTrades;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/api/v2/private")
@@ -38,8 +45,18 @@ public interface DeribitAuthenticated {
    */
   @GET
   @Path("get_account_summary")
-  DeribitResponse<AccountSummary> getAccountSummary(
+  DeribitResponse<DeribitAccountSummary> getAccountSummary(
       @QueryParam("currency") String currency,
+      @QueryParam("extended") Boolean extended,
+      @HeaderParam("Authorization") ParamsDigest auth)
+      throws DeribitException, IOException;
+
+  /**
+   * Retrieves a per-currency list of user account summaries
+   */
+  @GET
+  @Path("get_account_summaries")
+  DeribitResponse<DeribitAccountSummaryList> getAccountSummaries(
       @QueryParam("extended") Boolean extended,
       @HeaderParam("Authorization") ParamsDigest auth)
       throws DeribitException, IOException;
@@ -153,7 +170,7 @@ public interface DeribitAuthenticated {
    */
   @GET
   @Path("cancel")
-  DeribitResponse<Order> cancel(
+  DeribitResponse<DeribitOrder> cancel(
       @QueryParam("order_id") String orderId, @HeaderParam("Authorization") ParamsDigest auth)
       throws DeribitException, IOException;
 
@@ -194,7 +211,7 @@ public interface DeribitAuthenticated {
    */
   @GET
   @Path("get_open_orders_by_currency")
-  DeribitResponse<List<Order>> getOpenOrdersByCurrency(
+  DeribitResponse<List<DeribitOrder>> getOpenOrdersByCurrency(
       @QueryParam("currency") String currency,
       @QueryParam("kind") Kind kind,
       @QueryParam("type") String type,
@@ -212,7 +229,7 @@ public interface DeribitAuthenticated {
    */
   @GET
   @Path("get_open_orders_by_instrument")
-  DeribitResponse<List<Order>> getOpenOrdersByInstrument(
+  DeribitResponse<List<DeribitOrder>> getOpenOrdersByInstrument(
       @QueryParam("instrument_name") String instrumentName,
       @QueryParam("type") String type,
       @HeaderParam("Authorization") ParamsDigest auth)
@@ -227,7 +244,7 @@ public interface DeribitAuthenticated {
    */
   @GET
   @Path("get_user_trades_by_currency")
-  DeribitResponse<UserTrades> getUserTradesByCurrency(
+  DeribitResponse<DeribitUserTrades> getUserTradesByCurrency(
       @QueryParam("currency") String currency,
       @QueryParam("kind") Kind kind,
       @QueryParam("start_id") String startId,
@@ -247,7 +264,7 @@ public interface DeribitAuthenticated {
    */
   @GET
   @Path("get_user_trades_by_currency")
-  DeribitResponse<UserTrades> getUserTradesByCurrencyAndTime(
+  DeribitResponse<DeribitUserTrades> getUserTradesByCurrencyAndTime(
       @QueryParam("currency") String currency,
       @QueryParam("kind") Kind kind,
       @QueryParam("start_timestamp") long startTimestamp,
@@ -273,7 +290,7 @@ public interface DeribitAuthenticated {
    */
   @GET
   @Path("get_user_trades_by_instrument")
-  DeribitResponse<UserTrades> getUserTradesByInstrument(
+  DeribitResponse<DeribitUserTrades> getUserTradesByInstrument(
       @QueryParam("instrument_name") String instrumentName,
       @QueryParam("start_seq") Integer startSeq,
       @QueryParam("end_seq") Integer endSeq,
@@ -299,7 +316,7 @@ public interface DeribitAuthenticated {
    */
   @GET
   @Path("get_user_trades_by_instrument_and_time")
-  DeribitResponse<UserTrades> getUserTradesByInstrumentAndTime(
+  DeribitResponse<DeribitUserTrades> getUserTradesByInstrumentAndTime(
       @QueryParam("instrument_name") String instrumentName,
       @QueryParam("start_timestamp") long startTimestamp,
       @QueryParam("end_timestamp") long endTimestamp,
@@ -318,7 +335,7 @@ public interface DeribitAuthenticated {
    */
   @GET
   @Path("get_positions")
-  DeribitResponse<List<Position>> getPositions(
+  DeribitResponse<List<DeribitPosition>> getPositions(
       @QueryParam("currency") String currency,
       @QueryParam("kind") Kind kind,
       @HeaderParam("Authorization") ParamsDigest auth)
@@ -352,7 +369,7 @@ public interface DeribitAuthenticated {
    */
   @GET
   @Path("get_order_history_by_instrument")
-  DeribitResponse<List<Order>> getOrderHistoryByCurrency(
+  DeribitResponse<List<DeribitOrder>> getOrderHistoryByCurrency(
       @QueryParam("currency") String currency,
       @QueryParam("kind") Kind kind,
       @QueryParam("count") Integer count,
@@ -375,7 +392,7 @@ public interface DeribitAuthenticated {
    */
   @GET
   @Path("get_order_history_by_instrument")
-  DeribitResponse<List<Order>> getOrderHistoryByInstrument(
+  DeribitResponse<List<DeribitOrder>> getOrderHistoryByInstrument(
       @QueryParam("instrument_name") String instrumentName,
       @QueryParam("count") Integer count,
       @QueryParam("offset") Integer offset,
@@ -391,7 +408,46 @@ public interface DeribitAuthenticated {
    */
   @GET
   @Path("get_order_state")
-  DeribitResponse<Order> getOrderState(
+  DeribitResponse<DeribitOrder> getOrderState(
       @QueryParam("order_id") String orderId, @HeaderParam("Authorization") ParamsDigest auth)
       throws DeribitException, IOException;
+
+  @GET
+  @Path("get_deposits")
+  DeribitResponse<DeribitDataListResponse<DeribitDeposit>> getDeposits(
+      @QueryParam("currency") String currency,
+      @QueryParam("count") Integer count,
+      @QueryParam("offset") Long offset,
+      @HeaderParam("Authorization") ParamsDigest auth)
+      throws DeribitException, IOException;
+
+  @GET
+  @Path("get_transfers")
+  DeribitResponse<DeribitDataListResponse<DeribitTransfer>> getTransfers(
+      @QueryParam("currency") String currency,
+      @QueryParam("count") Integer count,
+      @QueryParam("offset") Long offset,
+      @HeaderParam("Authorization") ParamsDigest auth)
+      throws DeribitException, IOException;
+
+  @GET
+  @Path("get_withdrawals")
+  DeribitResponse<DeribitDataListResponse<DeribitWithdrawal>> getWithdrawals(
+      @QueryParam("currency") String currency,
+      @QueryParam("count") Integer count,
+      @QueryParam("offset") Long offset,
+      @HeaderParam("Authorization") ParamsDigest auth)
+      throws DeribitException, IOException;
+
+  @GET
+  @Path("get_transaction_log")
+  DeribitResponse<DeribitLogListResponse<DeribitTransactionLog>> getTransactionLogs(
+      @QueryParam("currency") String currency,
+      @QueryParam("start_timestamp") long startTimestamp,
+      @QueryParam("end_timestamp") long endTimestamp,
+      @QueryParam("count") Integer count,
+      @HeaderParam("Authorization") ParamsDigest auth)
+      throws DeribitException, IOException;
+
+
 }

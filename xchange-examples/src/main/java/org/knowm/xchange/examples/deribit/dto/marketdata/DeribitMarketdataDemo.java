@@ -62,7 +62,7 @@ public class DeribitMarketdataDemo {
     System.out.println(currencies);
 
     List<DeribitInstrument> instruments =
-        service.getDeribitInstruments(currency, Kind.future, false);
+        service.getDeribitInstruments(currency, Kind.FUTURES, false);
     System.out.println(instruments);
 
     List<DeribitSummary> summaries = service.getSummaryByInstrument(instrumentName);

@@ -1,0 +1,40 @@
+### Get deposits
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v2}}/private/get_deposits?currency=USDT
+Authorization: {{auth_header}}
+Accept: application/json
+
+
+### Get transfers
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v2}}/private/get_transfers?currency=USDT
+Authorization: {{auth_header}}
+Accept: application/json
+
+
+### Get withdrawals
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v2}}/private/get_withdrawals?currency=USDT
+Authorization: {{auth_header}}
+Accept: application/json
+
+
+### Get positions
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v2}}/private/get_positions
+Authorization: {{auth_header}}
+Accept: application/json
+
+

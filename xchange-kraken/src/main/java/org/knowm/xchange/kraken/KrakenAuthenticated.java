@@ -11,11 +11,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 import org.knowm.xchange.kraken.dto.KrakenResult;
+import org.knowm.xchange.kraken.dto.account.KrakenEarnAllocationsRequest;
 import org.knowm.xchange.kraken.dto.account.KrakenExtendedBalance;
 import org.knowm.xchange.kraken.dto.account.results.DepositStatusResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenDepositMethodsResults;
+import org.knowm.xchange.kraken.dto.account.results.KrakenEarnAllocationsResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
@@ -339,5 +341,15 @@ public interface KrakenAuthenticated extends Kraken {
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws IOException;
+
+  @POST
+  @Path("private/Earn/Allocations")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  KrakenEarnAllocationsResult getEarnAllocations(
+      @HeaderParam("API-Key") String apiKey,
+      @HeaderParam("API-Sign") ParamsDigest signer,
+      KrakenEarnAllocationsRequest request)
       throws IOException;
 }

@@ -1,0 +1,15 @@
+{
+  "id" : "45a8da71-eee4-4657-b6ef-25708781c5ac",
+  "name" : "api_v2_private_get_deposits",
+  "request" : {
+    "url" : "/api/v2/private/get_deposits?currency=USDT",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_private_get_deposits-45a8da71-eee4-4657-b6ef-25708781c5ac.json"
+  },
+  "uuid" : "45a8da71-eee4-4657-b6ef-25708781c5ac",
+  "persistent" : true,
+  "insertionIndex" : 1
+}

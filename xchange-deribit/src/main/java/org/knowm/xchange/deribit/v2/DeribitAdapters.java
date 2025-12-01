@@ -1,30 +1,34 @@
 package org.knowm.xchange.deribit.v2;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.dto.DeribitError;
 import org.knowm.xchange.deribit.v2.dto.DeribitException;
-import org.knowm.xchange.deribit.v2.dto.Direction;
-import org.knowm.xchange.deribit.v2.dto.account.AccountSummary;
-import org.knowm.xchange.deribit.v2.dto.account.Position;
+import org.knowm.xchange.deribit.v2.dto.Kind;
+import org.knowm.xchange.deribit.v2.dto.account.DeribitAccountSummary;
+import org.knowm.xchange.deribit.v2.dto.account.DeribitPosition;
+import org.knowm.xchange.deribit.v2.dto.account.DeribitTransactionLog;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitCurrency;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitInstrument;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTicker;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrade;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrades;
+import org.knowm.xchange.deribit.v2.dto.trade.DeribitOrder;
+import org.knowm.xchange.deribit.v2.dto.trade.DeribitUserTrade;
+import org.knowm.xchange.deribit.v2.dto.trade.DeribitUserTrades;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderState;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderType;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -32,7 +36,11 @@ import org.knowm.xchange.derivative.OptionsContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Fee;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.OpenPosition;
+import org.knowm.xchange.dto.account.OpenPosition.MarginMode;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -49,46 +57,21 @@ import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 
+@UtilityClass
 public class DeribitAdapters {
-  private static final String IMPLIED_COUNTER = "USD";
-  private static final String PERPETUAL = "PERPETUAL";
-  private static final int CURRENCY_SCALE = 8;
-  private static final ThreadLocal<DateFormat> DATE_PARSER =
-      ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy", Locale.US));
 
-  public static String adaptInstrumentName(Instrument instrument) {
-    if (instrument instanceof FuturesContract) {
-      return adaptInstrumentName((FuturesContract) instrument);
-    } else if (instrument instanceof OptionsContract) {
-      return adaptInstrumentName((OptionsContract) instrument);
-    }
-    throw new IllegalArgumentException("Unsupported instrument '" + instrument.toString() + "'");
+  public final Map<String, Instrument> SYMBOL_TO_INSTRUMENT = new HashMap<>();
+  private final Map<Instrument, String> INSTRUMENT_TO_SYMBOL = new HashMap<>();
+
+  public void putSymbolMapping(String symbol, Instrument instrument) {
+    SYMBOL_TO_INSTRUMENT.put(symbol, instrument);
+    INSTRUMENT_TO_SYMBOL.put(instrument, symbol);
   }
 
-  public static String adaptInstrumentName(FuturesContract future) {
-    return future.getCurrencyPair().getBase()
-        + (future.getCurrencyPair().getCounter() == Currency.USDC ? "_USDC" : "")
-        + "-"
-        + (future.getPrompt() == null ? PERPETUAL : (future.getPrompt()));
-  }
 
-  public static String adaptInstrumentName(OptionsContract option) {
-    String[] parts = option.toString().split("/");
-    if (parts.length != 5) {
-      throw new IllegalArgumentException("Could not adapt instrument name from '" + option + "'");
-    }
-    return option.getCurrencyPair().getBase()
-        + "-"
-        + formatDate(option.getExpireDate())
-        + "-"
-        + parts[3]
-        + "-"
-        + parts[4];
-  }
-
-  public static Ticker adaptTicker(DeribitTicker deribitTicker) {
+  public Ticker adaptTicker(DeribitTicker deribitTicker) {
     return new Ticker.Builder()
-        .instrument(adaptInstrument(deribitTicker.getInstrumentName()))
+        .instrument(toInstrument(deribitTicker.getInstrumentName()))
         .open(deribitTicker.getOpenInterest())
         .last(deribitTicker.getLastPrice())
         .bid(deribitTicker.getBestBidPrice())
@@ -98,39 +81,39 @@ public class DeribitAdapters {
         .volume(deribitTicker.getStats().getVolume())
         .bidSize(deribitTicker.getBestBidAmount())
         .askSize(deribitTicker.getBestAskAmount())
-        .timestamp(deribitTicker.getTimestamp())
+        .timestamp(toDate(deribitTicker.getTimestamp()))
         .build();
   }
 
-  public static OrderBook adaptOrderBook(DeribitOrderBook deribitOrderBook) {
-    Instrument instrument = adaptInstrument(deribitOrderBook.getInstrumentName());
+  public OrderBook adaptOrderBook(DeribitOrderBook deribitOrderBook) {
+    Instrument instrument = toInstrument(deribitOrderBook.getInstrumentName());
     List<LimitOrder> bids =
         adaptOrdersList(deribitOrderBook.getBids(), Order.OrderType.BID, instrument);
     List<LimitOrder> asks =
         adaptOrdersList(deribitOrderBook.getAsks(), Order.OrderType.ASK, instrument);
-    return new OrderBook(deribitOrderBook.getTimestamp(), asks, bids);
+    return new OrderBook(toDate(deribitOrderBook.getTimestamp()), asks, bids);
   }
 
   /** convert orders map (price -> amount) to a list of limit orders */
-  private static List<LimitOrder> adaptOrdersList(
+  private List<LimitOrder> adaptOrdersList(
       TreeMap<BigDecimal, BigDecimal> map, Order.OrderType type, Instrument instrument) {
     return map.entrySet().stream()
         .map(e -> new LimitOrder(type, e.getValue(), instrument, null, null, e.getKey()))
         .collect(Collectors.toList());
   }
 
-  public static Trade adaptTrade(DeribitTrade deribitTrade, Instrument instrument) {
+  public Trade adaptTrade(DeribitTrade deribitTrade, Instrument instrument) {
     return Trade.builder()
-        .type(adapt(deribitTrade.getDirection()))
+        .type(deribitTrade.getOrderSide())
         .originalAmount(deribitTrade.getAmount())
         .instrument(instrument)
         .price(deribitTrade.getPrice())
-        .timestamp(deribitTrade.getTimestamp())
+        .timestamp(toDate(deribitTrade.getTimestamp()))
         .id(deribitTrade.getTradeId())
         .build();
   }
 
-  public static Trades adaptTrades(DeribitTrades deribitTrades, Instrument instrument) {
+  public Trades adaptTrades(DeribitTrades deribitTrades, Instrument instrument) {
 
     return new Trades(
         deribitTrades.getTrades().stream()
@@ -138,12 +121,11 @@ public class DeribitAdapters {
             .collect(Collectors.toList()));
   }
 
-  public static OpenOrders adaptOpenOrders(
-      List<org.knowm.xchange.deribit.v2.dto.trade.Order> orders) {
+  public OpenOrders adaptOpenOrders(List<DeribitOrder> deribitOrders) {
     List<LimitOrder> limitOrders = new ArrayList<>();
     List<Order> otherOrders = new ArrayList<>();
 
-    orders.forEach(
+    deribitOrders.forEach(
         o -> {
           Order order = DeribitAdapters.adaptOrder(o);
           if (order instanceof LimitOrder) {
@@ -156,42 +138,31 @@ public class DeribitAdapters {
     return new OpenOrders(limitOrders, otherOrders);
   }
 
-  public static Order adaptOrder(org.knowm.xchange.deribit.v2.dto.trade.Order order) {
-    Order.OrderType type = adapt(order.getDirection());
-    Instrument instrument = adaptInstrument(order.getInstrumentName());
+  public Order adaptOrder(DeribitOrder deribitOrder) {
+    Order.OrderType type = deribitOrder.getOrderSide();
+    Instrument instrument = toInstrument(deribitOrder.getInstrumentName());
     Order.Builder builder;
-    if (order.getOrderType().equals(OrderType.market)) {
+    if (deribitOrder.getOrderType().equals(OrderType.market)) {
       builder = new MarketOrder.Builder(type, instrument);
-    } else if (order.getOrderType().equals(OrderType.limit)) {
-      builder = new LimitOrder.Builder(type, instrument).limitPrice(order.getPrice());
+    } else if (deribitOrder.getOrderType().equals(OrderType.limit)) {
+      builder = new LimitOrder.Builder(type, instrument).limitPrice(deribitOrder.getPrice());
     } else {
-      throw new ExchangeException("Unsupported order type: \"" + order.getOrderType() + "\"");
+      throw new ExchangeException("Unsupported deribitOrder type: \"" + deribitOrder.getOrderType() + "\"");
     }
     builder
-        .orderStatus(adaptOrderStatus(order.getOrderState()))
-        .id(order.getOrderId())
-        .userReference(order.getLabel())
-        .timestamp(new Date(order.getCreationTimestamp()))
-        .averagePrice(order.getAveragePrice())
-        .originalAmount(order.getAmount())
-        .cumulativeAmount(order.getFilledAmount())
-        .fee(order.getCommission());
+        .orderStatus(adaptOrderStatus(deribitOrder.getOrderState()))
+        .id(deribitOrder.getOrderId())
+        .userReference(deribitOrder.getLabel())
+        .timestamp(toDate(deribitOrder.getCreatedAt()))
+        .averagePrice(deribitOrder.getAveragePrice())
+        .originalAmount(deribitOrder.getAmount())
+        .cumulativeAmount(deribitOrder.getFilledAmount())
+        .fee(deribitOrder.getCommission());
 
     return builder.build();
   }
 
-  public static Order.OrderType adapt(Direction direction) {
-    switch (direction) {
-      case buy:
-        return Order.OrderType.BID;
-      case sell:
-        return Order.OrderType.ASK;
-      default:
-        throw new RuntimeException("Not supported order direction: " + direction);
-    }
-  }
-
-  public static Order.OrderStatus adaptOrderStatus(OrderState state) {
+  public Order.OrderStatus adaptOrderStatus(OrderState state) {
     switch (state) {
       case open:
       case untriggered:
@@ -209,18 +180,18 @@ public class DeribitAdapters {
   }
 
   /** Parse errors from HTTP exceptions */
-  public static ExchangeException adapt(DeribitException ex) {
+  public ExchangeException adapt(DeribitException ex) {
 
     DeribitError error = ex.getError();
 
     if (error != null
         && error.getClass().equals(DeribitError.class)
-        && isNotEmpty(error.getMessage())) {
+        && StringUtils.isNotEmpty(error.getMessage())) {
 
       int code = error.getCode();
       String msg = error.getMessage();
       String data = error.getData().toString();
-      if (isNotEmpty(data)) {
+      if (StringUtils.isNotEmpty(data)) {
         msg += " - " + data;
       }
 
@@ -234,99 +205,28 @@ public class DeribitAdapters {
     return new ExchangeException("Operation failed without any error message", ex);
   }
 
-  public static Balance adapt(AccountSummary as) {
-    return new Balance(
-        Currency.getInstance(as.getCurrency()), as.getBalance(), as.getAvailableFunds());
+  public Balance adapt(DeribitAccountSummary deribitAccountSummary) {
+    return new Balance(deribitAccountSummary.getCurrency(), deribitAccountSummary.getBalance(), deribitAccountSummary.getAvailableFunds());
   }
 
-  public static OpenPosition adapt(Position p) {
+  public OpenPosition adapt(DeribitPosition deribitPosition) {
+    var size = deribitPosition.getSizeCurrency() != null ? deribitPosition.getSizeCurrency() : deribitPosition.getSize();
     return OpenPosition.builder()
-        .instrument(adaptInstrument(p.getInstrumentName()))
-        .size(p.getSize())
-        .price(p.getMarkPrice())
+        .instrument(toInstrument(deribitPosition.getInstrumentName()))
+        .type(deribitPosition.getPositionType())
+        .size(size)
+        .marginMode(MarginMode.CROSS)
+        .price(deribitPosition.getMarkPrice())
+        .liquidationPrice(deribitPosition.getEstimatedLiquidationPrice())
+        .unRealisedPnl(deribitPosition.getFloatingProfitLoss())
         .build();
   }
 
-  public static CurrencyMetaData adaptMeta(DeribitCurrency currency) {
-    return new CurrencyMetaData(CURRENCY_SCALE, currency.getWithdrawalFee());
+  public CurrencyMetaData adaptMeta(DeribitCurrency currency) {
+    return new CurrencyMetaData(currency.getDecimals(), currency.getWithdrawalFee());
   }
 
-  public static FuturesContract adaptFuturesContract(DeribitInstrument instrument) {
-    CurrencyPair currencyPair =
-        new CurrencyPair(instrument.getBaseCurrency(), instrument.getQuoteCurrency());
-    String expireDate = PERPETUAL;
-
-    if (!PERPETUAL.equalsIgnoreCase(instrument.getSettlementPeriod())) {
-      expireDate = instrument.getExpirationTimestamp().toString();
-    }
-    return new FuturesContract(currencyPair, expireDate);
-  }
-
-  public static OptionsContract adaptOptionsContract(DeribitInstrument instrument) {
-    CurrencyPair currencyPair = new CurrencyPair(instrument.getBaseCurrency(), IMPLIED_COUNTER);
-    Date expireDate = instrument.getExpirationTimestamp();
-
-    String[] parts = instrument.getInstrumentName().split("-");
-    if (parts.length != 4) {
-      throw new IllegalArgumentException(
-          "Could not parse options contract from '" + instrument.getInstrumentName() + "'");
-    }
-    BigDecimal strike = new BigDecimal(parts[2]);
-    OptionsContract.OptionType type = OptionsContract.OptionType.fromString(parts[3]);
-    return new OptionsContract.Builder()
-        .currencyPair(currencyPair)
-        .expireDate(expireDate)
-        .strike(strike)
-        .type(type)
-        .build();
-  }
-
-  public static Instrument adaptInstrument(String instrumentName) {
-    String[] parts = instrumentName.split("-");
-    if (parts.length == 2) {
-      DeribitInstrument future = new DeribitInstrument();
-      if (parts[0].contains("_")) {
-        String[] subParts = parts[0].split("_");
-        future.setBaseCurrency(subParts[0]);
-        future.setQuoteCurrency(subParts[1]);
-      } else {
-        future.setBaseCurrency(parts[0]);
-        future.setQuoteCurrency(IMPLIED_COUNTER);
-      }
-      if (PERPETUAL.equalsIgnoreCase(parts[1])) {
-        future.setSettlementPeriod(PERPETUAL);
-      } else {
-        try {
-          future.setExpirationTimestamp(parseDate(parts[1]).getTime());
-        } catch (ParseException e) {
-          throw new IllegalArgumentException(
-              "Could not adapt instrument from name '" + instrumentName + "'");
-        }
-      }
-      return adaptFuturesContract(future);
-    } else if (parts.length >= 3 && PERPETUAL.equalsIgnoreCase(parts[2])) {
-      DeribitInstrument future = new DeribitInstrument();
-      future.setBaseCurrency(parts[0]);
-      future.setQuoteCurrency(parts[1]);
-      future.setSettlementPeriod(PERPETUAL);
-      return adaptFuturesContract(future);
-    } else if (parts.length == 4) {
-      DeribitInstrument option = new DeribitInstrument();
-      option.setBaseCurrency(parts[0]);
-      try {
-        option.setExpirationTimestamp(parseDate(parts[1]).getTime());
-      } catch (ParseException e) {
-        throw new IllegalArgumentException(
-            "Could not adapt instrument from name '" + instrumentName + "'");
-      }
-      option.setInstrumentName(instrumentName);
-      return adaptOptionsContract(option);
-    }
-    throw new IllegalArgumentException(
-        "Could not adapt instrument from name '" + instrumentName + "'");
-  }
-
-  public static InstrumentMetaData adaptMeta(DeribitInstrument instrument) {
+  public InstrumentMetaData adaptMeta(DeribitInstrument instrument) {
     FeeTier[] feeTiers = {
       new FeeTier(
           BigDecimal.ZERO,
@@ -342,42 +242,103 @@ public class DeribitAdapters {
         .build();
   }
 
-  public static UserTrades adaptUserTrades(
-      org.knowm.xchange.deribit.v2.dto.trade.UserTrades userTrades) {
+  public UserTrades adaptUserTrades(DeribitUserTrades deribitUserTrades) {
     return new UserTrades(
-        userTrades.getTrades().stream()
+        deribitUserTrades.getTrades().stream()
             .map(DeribitAdapters::adaptUserTrade)
             .collect(Collectors.toList()),
         Trades.TradeSortType.SortByTimestamp);
   }
 
-  private static UserTrade adaptUserTrade(org.knowm.xchange.deribit.v2.dto.trade.Trade trade) {
-    return UserTrade.builder()
-        .type(adapt(trade.getDirection()))
-        .originalAmount(trade.getAmount())
-        .instrument(adaptInstrument(trade.getInstrumentName()))
-        .price(trade.getPrice())
-        .timestamp(trade.getTimestamp())
-        .id(trade.getTradeId())
-        .orderId(trade.getOrderId())
-        .feeAmount(trade.getFee())
-        .feeCurrency(new Currency(trade.getFeeCurrency()))
-        .orderUserReference(trade.getLabel())
+  public String toString(Instrument instrument) {
+    return INSTRUMENT_TO_SYMBOL.get(instrument);
+  }
+
+  public Instrument toInstrument(String symbol) {
+    return SYMBOL_TO_INSTRUMENT.get(symbol);
+  }
+
+  public Currency toCurrency(DeribitCurrency deribitCurrency) {
+    return Currency.getInstance(deribitCurrency.getCurrency());
+  }
+
+  public Instrument toInstrument(DeribitInstrument deribitInstrument) {
+    if (deribitInstrument == null) {
+      return null;
+    }
+
+    var currencyPair = new CurrencyPair(deribitInstrument.getBaseCurrency(), deribitInstrument.getCounterCurrency());
+    if (deribitInstrument.getKind() == Kind.SPOT) {
+      return currencyPair;
+    }
+
+    if (deribitInstrument.getKind() == Kind.FUTURES) {
+      var prompt = deribitInstrument.getInstrumentName().split("-")[1];
+      return new FuturesContract(currencyPair, prompt);
+    }
+
+    if (deribitInstrument.getKind() == Kind.OPTIONS) {
+      return new OptionsContract(currencyPair, deribitInstrument.getExpirationTimestamp(), deribitInstrument.getStrike(), deribitInstrument.getOptionType());
+    }
+
+    return null;
+  }
+
+  public FundingRecord toFundingRecord(DeribitTransactionLog deribitTransactionLog) {
+    return FundingRecord.builder()
+        .address(deribitTransactionLog.getAddress())
+        .addressTag(deribitTransactionLog.getAddressTag())
+        .date(toDate(deribitTransactionLog.getTimestamp()))
+        .currency(deribitTransactionLog.getCurrency())
+        .amount(Optional.ofNullable(deribitTransactionLog.getAmount()).orElse(deribitTransactionLog.getChange()))
+        .internalId(deribitTransactionLog.getId())
+        .blockchainTransactionHash(deribitTransactionLog.getBlockchainTransactionHash())
+        .type(toFundingRecordType(deribitTransactionLog))
+        .status(Status.COMPLETE)
+        .balance(deribitTransactionLog.getBalance())
         .build();
   }
 
-  private static Date parseDate(String source) throws ParseException {
-    if (!Character.isDigit(source.charAt(1))) {
-      source = '0' + source;
+  private Type toFundingRecordType(DeribitTransactionLog deribitTransactionLog) {
+    if (deribitTransactionLog == null || deribitTransactionLog.getTransactionType() == null) {
+      return null;
     }
-    return DATE_PARSER.get().parse(source);
+
+    switch (deribitTransactionLog.getTransactionType()) {
+      case TRADE:
+        return Type.TRADE;
+      case DEPOSIT:
+        return Type.DEPOSIT;
+      case WITHDRAWAL:
+        return Type.WITHDRAWAL;
+      case TRANSFER:
+        return Type.INTERNAL_SUB_ACCOUNT_TRANSFER;
+      default:
+        if (deribitTransactionLog.getChange() != null) {
+          return deribitTransactionLog.getChange().signum() > 0 ? Type.OTHER_INFLOW : Type.OTHER_OUTFLOW;
+        }
+    }
+    return null;
+
   }
 
-  private static String formatDate(Date date) {
-    String str = DATE_PARSER.get().format(date).toUpperCase();
-    if (str.charAt(0) == '0') {
-      str = str.substring(1);
-    }
-    return str;
+  private UserTrade adaptUserTrade(DeribitUserTrade deribitDeribitUserTrade) {
+    return UserTrade.builder()
+        .type(deribitDeribitUserTrade.getOrderSide())
+        .originalAmount(deribitDeribitUserTrade.getAmount())
+        .instrument(toInstrument(deribitDeribitUserTrade.getInstrumentName()))
+        .price(deribitDeribitUserTrade.getPrice())
+        .timestamp(toDate(deribitDeribitUserTrade.getTimestamp()))
+        .id(deribitDeribitUserTrade.getTradeId())
+        .orderId(deribitDeribitUserTrade.getOrderId())
+        .feeAmount(deribitDeribitUserTrade.getFee())
+        .feeCurrency(deribitDeribitUserTrade.getFeeCurrency())
+        .orderUserReference(deribitDeribitUserTrade.getLabel())
+        .build();
   }
+
+  public Date toDate(Instant instant) {
+    return Optional.ofNullable(instant).map(Date::from).orElse(null);
+  }
+
 }

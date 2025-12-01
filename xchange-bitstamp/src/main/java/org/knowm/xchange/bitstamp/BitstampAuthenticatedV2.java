@@ -2,11 +2,13 @@ package org.knowm.xchange.bitstamp;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -15,6 +17,10 @@ import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.BitstampTransferBalanceResponse;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnSettingRequest;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnSubscribeRequest;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnSubscription;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnTransaction;
 import org.knowm.xchange.bitstamp.dto.account.BitstampRippleDepositAddress;
 import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
@@ -671,6 +677,66 @@ public interface BitstampAuthenticatedV2 {
       @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,
       @HeaderParam("X-Auth-Timestamp") SynchronizedValueFactory<String> timeStamp,
       @HeaderParam("X-Auth-Version") String version)
+      throws BitstampException, IOException;
+
+  @GET
+  @Path("earn/subscriptions/")
+  List<BitstampEarnSubscription> getEarnSubscriptions(
+      @HeaderParam("X-Auth") String apiKey,
+      @HeaderParam("X-Auth-Signature") ParamsDigest signer,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,
+      @HeaderParam("X-Auth-Timestamp") SynchronizedValueFactory<String> timeStamp,
+      @HeaderParam("X-Auth-Version") String version)
+      throws BitstampException, IOException;
+
+  @GET
+  @Path("earn/transactions/")
+  List<BitstampEarnTransaction> getEarnTransactions(
+      @HeaderParam("X-Auth") String apiKey,
+      @HeaderParam("X-Auth-Signature") ParamsDigest signer,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,
+      @HeaderParam("X-Auth-Timestamp") SynchronizedValueFactory<String> timeStamp,
+      @HeaderParam("X-Auth-Version") String version,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("offset") Integer offset,
+      @QueryParam("currency") String currency,
+      @QueryParam("quote_currency") String quoteCurrency)
+      throws BitstampException, IOException;
+
+  @POST
+  @Path("earn/subscribe/")
+  @Consumes(MediaType.APPLICATION_JSON)
+  void subscribeToEarn(
+      @HeaderParam("X-Auth") String apiKey,
+      @HeaderParam("X-Auth-Signature") ParamsDigest signer,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,
+      @HeaderParam("X-Auth-Timestamp") SynchronizedValueFactory<String> timeStamp,
+      @HeaderParam("X-Auth-Version") String version,
+      BitstampEarnSubscribeRequest request)
+      throws BitstampException, IOException;
+
+  @POST
+  @Path("earn/unsubscribe/")
+  @Consumes(MediaType.APPLICATION_JSON)
+  void unsubscribeFromEarn(
+      @HeaderParam("X-Auth") String apiKey,
+      @HeaderParam("X-Auth-Signature") ParamsDigest signer,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,
+      @HeaderParam("X-Auth-Timestamp") SynchronizedValueFactory<String> timeStamp,
+      @HeaderParam("X-Auth-Version") String version,
+      BitstampEarnSubscribeRequest request)
+      throws BitstampException, IOException;
+
+  @POST
+  @Path("earn/subscriptions/setting/")
+  @Consumes(MediaType.APPLICATION_JSON)
+  void manageEarnSubscriptionSetting(
+      @HeaderParam("X-Auth") String apiKey,
+      @HeaderParam("X-Auth-Signature") ParamsDigest signer,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<String> nonce,
+      @HeaderParam("X-Auth-Timestamp") SynchronizedValueFactory<String> timeStamp,
+      @HeaderParam("X-Auth-Version") String version,
+      BitstampEarnSettingRequest request)
       throws BitstampException, IOException;
 
   @POST

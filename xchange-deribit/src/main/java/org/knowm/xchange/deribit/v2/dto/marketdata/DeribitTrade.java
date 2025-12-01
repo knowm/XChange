@@ -1,13 +1,13 @@
 package org.knowm.xchange.deribit.v2.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.Instant;
 import lombok.Data;
-import org.knowm.xchange.deribit.v2.dto.Direction;
+import org.knowm.xchange.deribit.v2.config.converter.StringToOrderTypeConverter;
+import org.knowm.xchange.dto.Order;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class DeribitTrade {
 
@@ -21,7 +21,7 @@ public class DeribitTrade {
 
   /** The timestamp of the trade */
   @JsonProperty("timestamp")
-  private long timestamp;
+  private Instant timestamp;
 
   /**
    * Direction of the "tick" (0 = Plus Tick, 1 = Zero-Plus Tick, 2 = Minus Tick, 3 = Zero-Minus
@@ -56,7 +56,8 @@ public class DeribitTrade {
 
   /** direction, buy or sell */
   @JsonProperty("direction")
-  private Direction direction;
+  @JsonDeserialize(converter = StringToOrderTypeConverter.class)
+  private Order.OrderType orderSide;
 
   /**
    * Trade amount. For perpetual and futures - in USD units, for options it is amount of
@@ -65,7 +66,4 @@ public class DeribitTrade {
   @JsonProperty("amount")
   private BigDecimal amount;
 
-  public Date getTimestamp() {
-    return new Date(timestamp);
-  }
 }

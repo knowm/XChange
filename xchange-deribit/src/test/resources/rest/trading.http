@@ -1,0 +1,30 @@
+### Get user trades by currency
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v2}}/private/get_user_trades_by_currency?currency=USDT
+Authorization: {{auth_header}}
+Accept: application/json
+
+
+### Get open orders
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v2}}/private/get_open_orders
+Authorization: {{auth_header}}
+Accept: application/json
+
+
+### Get order details
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v2}}/private/get_order_state?order_id=XRP_USDC-6476595958
+Authorization: {{auth_header}}
+Accept: application/json
+
+

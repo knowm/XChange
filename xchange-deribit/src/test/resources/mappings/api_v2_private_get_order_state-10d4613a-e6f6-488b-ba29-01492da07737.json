@@ -1,0 +1,15 @@
+{
+  "id": "10d4613a-e6f6-488b-ba29-01492da07737",
+  "name": "api_v2_private_get_order_state",
+  "request": {
+    "url": "/api/v2/private/get_order_state?order_id=USDC_USDT-6470719424",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v2_private_get_order_state-10d4613a-e6f6-488b-ba29-01492da07737.json"
+  },
+  "uuid": "10d4613a-e6f6-488b-ba29-01492da07737",
+  "persistent": true,
+  "insertionIndex": 10
+}

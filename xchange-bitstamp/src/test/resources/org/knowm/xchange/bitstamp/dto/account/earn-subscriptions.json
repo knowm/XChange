@@ -1,0 +1,26 @@
+[
+  {
+    "currency": "ETH",
+    "type": "STAKING",
+    "term": "FLEXIBLE",
+    "estimated_annual_yield": "4.5",
+    "distribution_period": "DAILY",
+    "activation_period": "IMMEDIATE",
+    "minimum_subscription_amount": "0.1",
+    "amount": "10.5",
+    "available_amount": "10.5",
+    "amount_earned": "0.25"
+  },
+  {
+    "currency": "BTC",
+    "type": "LENDING",
+    "term": "FIXED",
+    "estimated_annual_yield": "3.2",
+    "distribution_period": "WEEKLY",
+    "activation_period": "1_DAY",
+    "minimum_subscription_amount": "0.01",
+    "amount": "1.5",
+    "available_amount": "1.5",
+    "amount_earned": "0.05"
+  }
+]

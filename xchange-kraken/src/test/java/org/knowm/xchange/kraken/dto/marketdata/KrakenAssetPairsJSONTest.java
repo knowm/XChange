@@ -47,6 +47,7 @@ public class KrakenAssetPairsJSONTest {
             .marginCall(new BigDecimal(80))
             .marginStop(new BigDecimal(40))
             .orderMin(new BigDecimal("0.002"))
+            .costMin(new BigDecimal("0.5"))
             .build();
   }
 
@@ -93,6 +94,7 @@ public class KrakenAssetPairsJSONTest {
         .isEqualTo(expectedAssetPairInfo.getVolumeMultiplier());
     assertThat(krakenAssetPairInfo.getFees().size()).isEqualTo(9);
     assertThat(krakenAssetPairInfo.getOrderMin()).isEqualTo(expectedAssetPairInfo.getOrderMin());
+    assertThat(krakenAssetPairInfo.getCostMin()).isEqualTo(expectedAssetPairInfo.getCostMin());
 
     KrakenFee deserializedFee = krakenAssetPairInfo.getFees().get(0);
     KrakenFee expectedFee = expectedAssetPairInfo.getFees().get(0);

@@ -1,0 +1,31 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "label": "bfa2eaeb-7586-4552-9525-c0c7b4bc5df2",
+    "price": 1.0105,
+    "amount": 2.0,
+    "user_id": 427962,
+    "direction": "buy",
+    "time_in_force": "good_til_cancelled",
+    "instrument_name": "USDC_USDT",
+    "web": true,
+    "api": false,
+    "order_id": "USDC_USDT-6470719424",
+    "mmp": false,
+    "creation_timestamp": 1763854715497,
+    "order_type": "market",
+    "replaced": false,
+    "order_state": "filled",
+    "post_only": false,
+    "filled_amount": 2.0,
+    "last_update_timestamp": 1763854715497,
+    "average_price": 1.0008,
+    "contracts": 2.0,
+    "is_rebalance": false,
+    "risk_reducing": false
+  },
+  "usIn": 1763911297286078,
+  "usOut": 1763911297287651,
+  "usDiff": 1573,
+  "testnet": false
+}

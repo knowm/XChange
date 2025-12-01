@@ -8,6 +8,7 @@ import org.knowm.xchange.deribit.v2.dto.Kind;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitCurrency;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitInstrument;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitPlatformStatus;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitSummary;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTicker;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrades;
@@ -37,6 +38,10 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseService {
   public DeribitOrderBook getDeribitOrderBook(String instrumentName, Integer depth)
       throws IOException {
     return deribit.getOrderBook(instrumentName, depth).getResult();
+  }
+
+  public DeribitPlatformStatus getDeribitPlatformStatus() throws IOException {
+    return deribit.getPlatformStatus().getResult();
   }
 
   public List<List<BigDecimal>> getHistoricalVolatility(String currency) throws IOException {

@@ -1,38 +1,44 @@
 package org.knowm.xchange.deribit.v2;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.dto.DeribitException;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
+import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.instrument.Instrument;
 
 public class DeribitExceptionIntegration {
   private static Exchange exchange;
   private static DeribitMarketDataService deribitMarketDataService;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() {
     exchange = ExchangeFactory.INSTANCE.createExchange(DeribitExchange.class);
     exchange.applySpecification(((DeribitExchange) exchange).getSandboxExchangeSpecification());
     deribitMarketDataService = (DeribitMarketDataService) exchange.getMarketDataService();
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void getTickerThrowsExceptionTest() throws Exception {
     Instrument pair = new CurrencyPair("?", "?");
-    deribitMarketDataService.getTicker(pair);
+    assertThatExceptionOfType(CurrencyPairNotValidException.class)
+        .isThrownBy(() -> deribitMarketDataService.getTicker(pair));
   }
 
-  @Test(expected = DeribitException.class)
+  @Test
   public void getDeribitTickerThrowsExceptionTest() throws Exception {
-    deribitMarketDataService.getDeribitTicker("?");
+    assertThatExceptionOfType(DeribitException.class)
+        .isThrownBy(() -> deribitMarketDataService.getDeribitTicker("?"));
   }
 
-  @Test(expected = DeribitException.class)
+  @Test
   public void getDeribitInstrumentsThrowsIllegalArgumentExceptionTest() throws Exception {
-    deribitMarketDataService.getDeribitInstruments("BTC-PERPETUAAAAL", null, null);
+    assertThatExceptionOfType(DeribitException.class)
+        .isThrownBy(() -> deribitMarketDataService.getDeribitInstruments("BTC-PERPETUAAAAL", null, null));
   }
 }

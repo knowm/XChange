@@ -1,0 +1,15 @@
+{
+  "id": "62837bab-b49c-4246-b0e5-4f122d3e64da",
+  "name": "api_v2_private_get_transaction_log",
+  "request": {
+    "url": "/api/v2/private/get_transaction_log?currency=USDT&start_timestamp=0&end_timestamp=1763942244002",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v2_private_get_transaction_log-62837bab-b49c-4246-b0e5-4f122d3e64da.json"
+  },
+  "uuid": "62837bab-b49c-4246-b0e5-4f122d3e64da",
+  "persistent": true,
+  "insertionIndex": 11
+}

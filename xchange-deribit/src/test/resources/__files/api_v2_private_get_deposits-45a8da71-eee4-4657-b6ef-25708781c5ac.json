@@ -1,0 +1,24 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "count": 1,
+    "data": [
+      {
+        "state": "completed",
+        "address": "0x1c5a37bc3670026367d38108777c94e5fdaf7a7c",
+        "currency": "USDT",
+        "amount": 49.54,
+        "note": "",
+        "transaction_id": "0xa5aee397bc7d0005519f8cd24b29779b0637dfa298567a8a5b8b38ac14293e03",
+        "updated_timestamp": 1763333239145,
+        "source_address": "0x9642b23ed1e01df1092b92641051881a322f5d4e",
+        "received_timestamp": 1763333235280,
+        "clearance_state": "success"
+      }
+    ]
+  },
+  "usIn": 1763590667170137,
+  "usOut": 1763590667172119,
+  "usDiff": 1982,
+  "testnet": false
+}

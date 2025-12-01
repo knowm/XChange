@@ -1,0 +1,15 @@
+{
+  "id" : "0e3375bd-4898-4a87-9686-189207df9aa2",
+  "name" : "api_v2_public_get_currencies",
+  "request" : {
+    "url" : "/api/v2/public/get_currencies",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_public_get_currencies-0e3375bd-4898-4a87-9686-189207df9aa2.json"
+  },
+  "uuid" : "0e3375bd-4898-4a87-9686-189207df9aa2",
+  "persistent" : true,
+  "insertionIndex" : 3
+}

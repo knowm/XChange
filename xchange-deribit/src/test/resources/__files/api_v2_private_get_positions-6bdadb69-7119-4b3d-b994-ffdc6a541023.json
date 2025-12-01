@@ -1,0 +1,31 @@
+{
+  "jsonrpc": "2.0",
+  "result": [
+    {
+      "size": 8.529536,
+      "kind": "future",
+      "maintenance_margin": 0.085295403,
+      "initial_margin": 0.170590763,
+      "open_orders_margin": 0.0,
+      "direction": "buy",
+      "index_price": 85277.31,
+      "instrument_name": "BTC_USDC-PERPETUAL",
+      "settlement_price": 84542.94,
+      "mark_price": 85295.36,
+      "interest_value": 34917929.48095641,
+      "delta": 0.0001,
+      "average_price": 85235.5,
+      "leverage": 50,
+      "floating_profit_loss": 0.005986,
+      "realized_profit_loss": 0.0,
+      "total_profit_loss": 0.005986,
+      "realized_funding": 0.0,
+      "size_currency": 0.0001,
+      "estimated_liquidation_price": 1904.376197
+    }
+  ],
+  "usIn": 1763860574281683,
+  "usOut": 1763860574291366,
+  "usDiff": 9683,
+  "testnet": false
+}

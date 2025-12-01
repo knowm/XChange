@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.BaseExchange;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitCurrency;
@@ -17,7 +16,7 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
-public class DeribitExchange extends BaseExchange implements Exchange {
+public class DeribitExchange extends BaseExchange {
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -72,16 +71,20 @@ public class DeribitExchange extends BaseExchange implements Exchange {
     for (DeribitCurrency deribitCurrency : activeDeribitCurrencies) {
       currencies.put(
           new Currency(deribitCurrency.getCurrency()), DeribitAdapters.adaptMeta(deribitCurrency));
+    }
 
       List<DeribitInstrument> deribitInstruments =
           ((DeribitMarketDataServiceRaw) marketDataService)
-              .getDeribitInstruments(deribitCurrency.getCurrency(), null, null);
+              .getDeribitInstruments(null, null, null);
 
-      for (DeribitInstrument deribitInstrument : deribitInstruments) {
-        instruments.put(
-            DeribitAdapters.adaptFuturesContract(deribitInstrument),
-            DeribitAdapters.adaptMeta(deribitInstrument));
+    for (DeribitInstrument deribitInstrument : deribitInstruments) {
+      var instrument = DeribitAdapters.toInstrument(deribitInstrument);
+
+      if (instrument != null) {
+        DeribitAdapters.putSymbolMapping(deribitInstrument.getInstrumentName(), instrument);
+        instruments.put(instrument, DeribitAdapters.adaptMeta(deribitInstrument));
       }
+
     }
   }
 }

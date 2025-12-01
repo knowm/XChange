@@ -7,12 +7,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.DeribitAdapters;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.Kind;
 import org.knowm.xchange.deribit.v2.dto.trade.AdvancedOptions;
+import org.knowm.xchange.deribit.v2.dto.trade.DeribitOrder;
+import org.knowm.xchange.deribit.v2.dto.trade.DeribitUserTrades;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderFlags;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderPlacement;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderState;
@@ -32,8 +35,8 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.InstrumentParam;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
@@ -58,22 +61,21 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    List<org.knowm.xchange.deribit.v2.dto.trade.Order> openOrders;
+    List<DeribitOrder> openDeribitOrders;
 
     if (params instanceof OpenOrdersParamCurrencyPair) {
       OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
       CurrencyPair pair = pairParams.getCurrencyPair();
-      openOrders = super.getOpenOrdersByCurrency(pair.getBase().getCurrencyCode(), null, null);
+      openDeribitOrders = getOpenOrdersByCurrency(pair.getBase().getCurrencyCode(), null, null);
     } else if (params instanceof OpenOrdersParamInstrument) {
       OpenOrdersParamInstrument instrumentParams = (OpenOrdersParamInstrument) params;
       Instrument instrument = instrumentParams.getInstrument();
-      openOrders =
-          super.getOpenOrdersByInstrument(DeribitAdapters.adaptInstrumentName(instrument), null);
+      openDeribitOrders = getOpenOrdersByInstrument(DeribitAdapters.toString(instrument), null);
     } else {
-      openOrders = openOrders();
+      openDeribitOrders = openOrders();
     }
 
-    return DeribitAdapters.adaptOpenOrders(openOrders);
+    return DeribitAdapters.adaptOpenOrders(openDeribitOrders);
   }
 
   @Override
@@ -81,18 +83,21 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
     return new DefaultOpenOrdersParamInstrument();
   }
 
-  private List<org.knowm.xchange.deribit.v2.dto.trade.Order> openOrders() throws IOException {
-    List<org.knowm.xchange.deribit.v2.dto.trade.Order> openOrders = new ArrayList<>();
+  private List<DeribitOrder> openOrders() throws IOException {
+    List<DeribitOrder> openDeribitOrders = new ArrayList<>();
     for (Currency c : ((DeribitAccountService) exchange.getAccountService()).currencies()) {
-      openOrders.addAll(super.getOpenOrdersByCurrency(c.getCurrencyCode(), null, null));
+      openDeribitOrders.addAll(super.getOpenOrdersByCurrency(c.getCurrencyCode(), null, null));
     }
-    return openOrders;
+    return openDeribitOrders;
   }
 
   @Override
   public OpenPositions getOpenPositions() throws IOException {
-    return new OpenPositions(
-        ((DeribitAccountService) exchange.getAccountService()).openPositions());
+    var positions = getPositions(null, null).stream()
+        .map(DeribitAdapters::adapt)
+        .collect(Collectors.toList());
+
+    return new OpenPositions(positions);
   }
 
   @Override
@@ -108,7 +113,7 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
   private String placeOrder(
       OrderType type, Order order, BigDecimal price, Trigger trigger, BigDecimal triggerPrice)
       throws IOException {
-    String instrumentName = DeribitAdapters.adaptInstrumentName(order.getInstrument());
+    String instrumentName = DeribitAdapters.toString(order.getInstrument());
     BigDecimal amount = order.getOriginalAmount();
     String label = order.getUserReference();
     TimeInForce timeInForce = findOrderFlagValue(order, TimeInForce.class);
@@ -224,20 +229,17 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     String instrumentName = null;
-    if (params instanceof TradeHistoryParamInstrument) {
-      Instrument instrument = ((TradeHistoryParamInstrument) params).getInstrument();
+    if (params instanceof InstrumentParam) {
+      Instrument instrument = ((InstrumentParam) params).getInstrument();
       if (instrument != null) {
-        instrumentName = DeribitAdapters.adaptInstrumentName(instrument);
+        instrumentName = DeribitAdapters.toString(instrument);
       }
     }
 
     String currency = null;
     Kind kind = null; // not implemented
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-      if (currencyPair != null) {
-        currency = currencyPair.getBase().getCurrencyCode();
-      }
+    if (params instanceof TradeHistoryParamCurrency) {
+      currency = ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode();
     }
 
     Date startTime = null;
@@ -273,15 +275,15 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
       includeOld = ((DeribitTradeHistoryParamsOld) params).isIncludeOld();
     }
 
-    org.knowm.xchange.deribit.v2.dto.trade.UserTrades userTrades = null;
+    DeribitUserTrades deribitUserTrades = null;
 
     if (startTime != null && endTime != null) {
       if (instrumentName != null) {
-        userTrades =
+        deribitUserTrades =
             super.getUserTradesByInstrumentAndTime(
                 instrumentName, startTime, endTime, limit, includeOld, sorting);
       } else if (currency != null) {
-        userTrades =
+        deribitUserTrades =
             super.getUserTradesByCurrencyAndTime(
                 currency, kind, startTime, endTime, limit, includeOld, sorting);
       }
@@ -290,21 +292,21 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
         Integer startSeq = startId != null ? Integer.valueOf(startId) : null;
         Integer endSeq = endId != null ? Integer.valueOf(endId) : null;
 
-        userTrades =
+        deribitUserTrades =
             super.getUserTradesByInstrument(
                 instrumentName, startSeq, endSeq, limit, includeOld, sorting);
       } else if (currency != null) {
-        userTrades =
+        deribitUserTrades =
             super.getUserTradesByCurrency(
                 currency, kind, startId, endId, limit, includeOld, sorting);
       }
     }
 
-    if (userTrades == null) {
+    if (deribitUserTrades == null) {
       throw new ExchangeException("You should specify either instrument or currency pair");
     }
 
-    return DeribitAdapters.adaptUserTrades(userTrades);
+    return DeribitAdapters.adaptUserTrades(deribitUserTrades);
   }
 
   @Override
@@ -316,5 +318,14 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     return getOrder(
         Arrays.stream(orderQueryParams).map(OrderQueryParams::getOrderId).toArray(String[]::new));
+  }
+
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
+    var orders = new ArrayList<Order>();
+    for (String orderId : orderIds) {
+      orders.add(DeribitAdapters.adaptOrder(getOrderState(orderId)));
+    }
+    return orders;
   }
 }

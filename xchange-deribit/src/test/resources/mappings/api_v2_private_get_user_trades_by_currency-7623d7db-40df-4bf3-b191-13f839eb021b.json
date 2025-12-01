@@ -1,0 +1,15 @@
+{
+  "id" : "7623d7db-40df-4bf3-b191-13f839eb021b",
+  "name" : "api_v2_private_get_user_trades_by_currency",
+  "request" : {
+    "url" : "/api/v2/private/get_user_trades_by_currency?currency=USDT",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_private_get_user_trades_by_currency-7623d7db-40df-4bf3-b191-13f839eb021b.json"
+  },
+  "uuid" : "7623d7db-40df-4bf3-b191-13f839eb021b",
+  "persistent" : true,
+  "insertionIndex" : 6
+}

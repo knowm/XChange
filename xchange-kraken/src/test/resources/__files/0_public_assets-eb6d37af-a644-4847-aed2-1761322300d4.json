@@ -10,6 +10,13 @@
       "status": "enabled",
       "margin_rate": "0.02"
     },
+    "USDT.M": {
+      "aclass": "currency",
+      "altname": "USDT.M",
+      "decimals": 8,
+      "display_decimals": 4,
+      "status": "enabled"
+    },
     "XETH": {
       "aclass": "currency",
       "altname": "ETH",

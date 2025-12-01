@@ -3,7 +3,7 @@ package org.knowm.xchange.deribit.v2.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.Instant;
 import lombok.Data;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -108,7 +108,7 @@ public class DeribitTicker {
 
   /** The timestamp (seconds since the Unix epoch, with millisecond precision) */
   @JsonProperty("timestamp")
-  private long timestamp;
+  private Instant timestamp;
 
   /** Name of the underlying future, or index_price (options only) */
   @JsonProperty("underlying_index")
@@ -118,7 +118,4 @@ public class DeribitTicker {
   @JsonProperty("underlying_price")
   private BigDecimal underlyingPrice;
 
-  public Date getTimestamp() {
-    return new Date(timestamp);
-  }
 }

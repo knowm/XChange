@@ -15,6 +15,12 @@ import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.BitstampTransferBalanceResponse;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnSettingRequest;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnSubscribeRequest;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnSubscription;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnTerm;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnTransaction;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnType;
 import org.knowm.xchange.bitstamp.dto.account.BitstampRippleDepositAddress;
 import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
@@ -586,6 +592,102 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
               comment);
 
       return checkAndReturnWithdrawal(response);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public List<BitstampEarnSubscription> getEarnSubscriptions() throws IOException {
+    try {
+      return bitstampAuthenticatedV2.getEarnSubscriptions(
+          apiKeyForV2Requests, signatureCreatorV2, uuidNonceFactory, timestampFactory, API_VERSION);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  /**
+   * Get Earn transaction history.
+   *
+   * <p><strong>Note:</strong> Query parameters are currently not supported due to Bitstamp API
+   * signature validation requirements. All parameters are ignored and the endpoint is called
+   * without query parameters.
+   *
+   * @param limit Maximum number of transactions to return (ignored - not supported)
+   * @param offset Number of transactions to skip (ignored - not supported)
+   * @param currency Optional currency filter (ignored - not supported)
+   * @param quoteCurrency Optional quote currency for value calculation (ignored - not supported)
+   * @return List of Earn transactions
+   * @throws IOException if the request fails
+   */
+  public List<BitstampEarnTransaction> getEarnTransactions(
+      Integer limit, Integer offset, String currency, String quoteCurrency) throws IOException {
+    try {
+      // Query parameters cause signature validation failures - always call without them
+      return bitstampAuthenticatedV2.getEarnTransactions(
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          null, // limit ignored
+          null, // offset ignored
+          null, // currency ignored
+          null); // quoteCurrency ignored
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public void subscribeToEarn(
+      String currency, BitstampEarnType earnType, BitstampEarnTerm earnTerm, BigDecimal amount)
+      throws IOException {
+    try {
+      BitstampEarnSubscribeRequest request =
+          new BitstampEarnSubscribeRequest(currency, earnType, earnTerm, amount);
+      bitstampAuthenticatedV2.subscribeToEarn(
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          request);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public void unsubscribeFromEarn(
+      String currency, BitstampEarnType earnType, BitstampEarnTerm earnTerm, BigDecimal amount)
+      throws IOException {
+    try {
+      BitstampEarnSubscribeRequest request =
+          new BitstampEarnSubscribeRequest(currency, earnType, earnTerm, amount);
+      bitstampAuthenticatedV2.unsubscribeFromEarn(
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          request);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public void manageEarnSubscriptionSetting(
+      BitstampEarnSettingRequest.Setting setting, String currency, BitstampEarnType earnType)
+      throws IOException {
+    try {
+      BitstampEarnSettingRequest request =
+          new BitstampEarnSettingRequest(setting, currency, earnType);
+      bitstampAuthenticatedV2.manageEarnSubscriptionSetting(
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          request);
     } catch (BitstampException e) {
       throw handleError(e);
     }

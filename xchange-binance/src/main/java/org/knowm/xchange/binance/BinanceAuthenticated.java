@@ -21,6 +21,10 @@ import org.knowm.xchange.binance.dto.account.AssetDividendResponse;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.BinanceCurrencyInfo;
 import org.knowm.xchange.binance.dto.account.BinanceDeposit;
+import org.knowm.xchange.binance.dto.account.BinanceFiatOrdersResponse;
+import org.knowm.xchange.binance.dto.account.BinanceFlexiblePositionResponse;
+import org.knowm.xchange.binance.dto.account.BinanceLockedPositionResponse;
+import org.knowm.xchange.binance.dto.account.BinanceSimpleAccount;
 import org.knowm.xchange.binance.dto.account.BinanceTradeFee;
 import org.knowm.xchange.binance.dto.account.BinanceWithdraw;
 import org.knowm.xchange.binance.dto.account.DepositAddress;
@@ -486,6 +490,36 @@ public interface BinanceAuthenticated extends Binance {
       throws IOException, BinanceException;
 
   /**
+   * Fetch fiat deposit/withdraw history.
+   *
+   * @param transactionType 0-deposit, 1-withdraw
+   * @param beginTime optional
+   * @param endTime optional
+   * @param page optional, default 1
+   * @param rows optional, default 100, max 500
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("/sapi/v1/fiat/orders")
+  BinanceFiatOrdersResponse fiatOrders(
+      @QueryParam("transactionType") String transactionType,
+      @QueryParam("beginTime") Long beginTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("page") Integer page,
+      @QueryParam("rows") Integer rows,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  /**
    * Fetch deposit address.
    *
    * @param coin
@@ -631,4 +665,90 @@ public interface BinanceAuthenticated extends Binance {
   @DELETE
   @Path("/fapi/v1/listenKey")
   Map<?, ?> closeFutureUserDataStream() throws IOException, BinanceException;
+
+  /**
+   * Get Simple Earn account summary.
+   *
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   * @see <a href="https://binance-docs.github.io/apidocs/spot/en/#simple-account-user_data">Simple
+   *     Account - Spot API docs</a>
+   */
+  @GET
+  @Path("/sapi/v1/simple-earn/account")
+  BinanceSimpleAccount simpleAccount(
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  /**
+   * Get Flexible Product Position.
+   *
+   * @param asset optional
+   * @param productId optional
+   * @param current optional, currently querying the page. Start from 1. Default:1
+   * @param size optional, Default:10, Max:100
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   * @see <a
+   *     href="https://binance-docs.github.io/apidocs/spot/en/#get-flexible-product-position-user_data">Get
+   *     Flexible Product Position - Spot API docs</a>
+   */
+  @GET
+  @Path("/sapi/v1/simple-earn/flexible/position")
+  BinanceFlexiblePositionResponse flexiblePosition(
+      @QueryParam("asset") String asset,
+      @QueryParam("productId") String productId,
+      @QueryParam("current") Long current,
+      @QueryParam("size") Long size,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  /**
+   * Get Locked Product Position.
+   *
+   * @param asset optional
+   * @param positionId optional
+   * @param projectId optional
+   * @param current optional, currently querying the page. Start from 1. Default:1
+   * @param size optional, Default:10, Max:100
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   * @see <a
+   *     href="https://binance-docs.github.io/apidocs/spot/en/#get-locked-product-position-user_data">Get
+   *     Locked Product Position - Spot API docs</a>
+   */
+  @GET
+  @Path("/sapi/v1/simple-earn/locked/position")
+  BinanceLockedPositionResponse lockedPosition(
+      @QueryParam("asset") String asset,
+      @QueryParam("positionId") Long positionId,
+      @QueryParam("projectId") String projectId,
+      @QueryParam("current") Long current,
+      @QueryParam("size") Long size,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
 }

@@ -1,0 +1,15 @@
+{
+  "id" : "4640ddb2-1155-4fca-8ec3-ec71acb3a270",
+  "name" : "api_v2_public_get_instruments",
+  "request" : {
+    "url" : "/api/v2/public/get_instruments",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_public_get_instruments-4640ddb2-1155-4fca-8ec3-ec71acb3a270.json"
+  },
+  "uuid" : "4640ddb2-1155-4fca-8ec3-ec71acb3a270",
+  "persistent" : true,
+  "insertionIndex" : 2
+}

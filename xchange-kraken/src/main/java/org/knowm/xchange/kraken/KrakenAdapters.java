@@ -511,6 +511,7 @@ public class KrakenAdapters {
         .tradingFeeCurrency(
             KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()))
         .minimumAmount(minimumAmount)
+        .counterMinimumAmount(krakenPair.getCostMin())
         .priceScale(krakenPair.getPairScale())
         .priceStepSize(krakenPair.getTickSize())
         .volumeScale(krakenPair.getVolumeLotScale())

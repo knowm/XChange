@@ -1,0 +1,15 @@
+{
+  "id": "e086bb42-233e-4122-9fc5-faf2a89a3e28",
+  "name": "api_v2_private_get_withdrawals",
+  "request": {
+    "url": "/api/v2/private/get_withdrawals?currency=USDT",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v2_private_get_withdrawals-e086bb42-233e-4122-9fc5-faf2a89a3e28.json"
+  },
+  "uuid": "e086bb42-233e-4122-9fc5-faf2a89a3e28",
+  "persistent": true,
+  "insertionIndex": 5
+}

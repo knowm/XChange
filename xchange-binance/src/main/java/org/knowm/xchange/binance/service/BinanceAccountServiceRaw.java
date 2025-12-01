@@ -18,6 +18,11 @@ import org.knowm.xchange.binance.dto.account.AssetDividendResponse;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.BinanceCurrencyInfo;
 import org.knowm.xchange.binance.dto.account.BinanceDeposit;
+import org.knowm.xchange.binance.dto.account.BinanceFiatOrder;
+import org.knowm.xchange.binance.dto.account.BinanceFiatOrdersResponse;
+import org.knowm.xchange.binance.dto.account.BinanceFlexiblePositionResponse;
+import org.knowm.xchange.binance.dto.account.BinanceLockedPositionResponse;
+import org.knowm.xchange.binance.dto.account.BinanceSimpleAccount;
 import org.knowm.xchange.binance.dto.account.BinanceTradeFee;
 import org.knowm.xchange.binance.dto.account.BinanceWithdraw;
 import org.knowm.xchange.binance.dto.account.DepositAddress;
@@ -247,6 +252,28 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         .call();
   }
 
+  public List<BinanceFiatOrder> getFiatOrders(
+      String transactionType, Long beginTime, Long endTime, Integer page, Integer rows)
+      throws BinanceException, IOException {
+    BinanceFiatOrdersResponse response =
+        decorateApiCall(
+                () ->
+                    binance.fiatOrders(
+                        transactionType,
+                        beginTime,
+                        endTime,
+                        page,
+                        rows,
+                        getRecvWindow(),
+                        getTimestampFactory(),
+                        super.apiKey,
+                        super.signatureCreator))
+            .withRetry(retry("fiatOrders"))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+    return response != null ? response.getData() : List.of();
+  }
+
   protected List<BinanceCurrencyInfo> getCurrencyInfoCached() throws IOException {
     currencyInfoLock.lock();
     try {
@@ -337,6 +364,55 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
                     signatureCreator))
         .withRetry(retry("setLeverage"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
+  }
+
+  public BinanceSimpleAccount getSimpleAccount() throws BinanceException, IOException {
+    return decorateApiCall(
+            () ->
+                binance.simpleAccount(
+                    getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator))
+        .withRetry(retry("simpleAccount"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 150)
+        .call();
+  }
+
+  protected BinanceFlexiblePositionResponse getFlexiblePositionsRaw(
+      String asset, String productId, Long current, Long size)
+      throws BinanceException, IOException {
+    return decorateApiCall(
+            () ->
+                binance.flexiblePosition(
+                    asset,
+                    productId,
+                    current,
+                    size,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
+        .withRetry(retry("flexiblePosition"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 150)
+        .call();
+  }
+
+  protected BinanceLockedPositionResponse getLockedPositionsRaw(
+      String asset, Long positionId, String projectId, Long current, Long size)
+      throws BinanceException, IOException {
+    return decorateApiCall(
+            () ->
+                binance.lockedPosition(
+                    asset,
+                    positionId,
+                    projectId,
+                    current,
+                    size,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
+        .withRetry(retry("lockedPosition"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), 150)
         .call();
   }
 }

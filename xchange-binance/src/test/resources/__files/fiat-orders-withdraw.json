@@ -1,0 +1,30 @@
+{
+  "code": "000000",
+  "message": "success",
+  "data": [
+    {
+      "orderNo": "9f98f833-2780-6h65-chd8-46ece9989587",
+      "fiatCurrency": "GBP",
+      "indicatedAmount": "75.00",
+      "amount": "75.00",
+      "totalFee": "2.50",
+      "method": "BankAccount",
+      "status": "Finished",
+      "createTime": 1626145100000,
+      "updateTime": 1626401000000
+    },
+    {
+      "orderNo": "0a09a944-3891-7i76-die9-57fdf0090698",
+      "fiatCurrency": "EUR",
+      "indicatedAmount": "200.00",
+      "amount": "195.00",
+      "totalFee": "5.00",
+      "method": "Online Banking",
+      "status": "Failed",
+      "createTime": 1626145200000,
+      "updateTime": 1626145300000
+    }
+  ],
+  "total": 2,
+  "success": true
+}

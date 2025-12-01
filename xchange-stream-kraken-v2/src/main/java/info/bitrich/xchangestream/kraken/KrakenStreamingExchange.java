@@ -1,11 +1,6 @@
 package info.bitrich.xchangestream.kraken;
 
-import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.core.StreamingAccountService;
-import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.core.StreamingTradeService;
-import info.bitrich.xchangestream.kraken.config.Config;
+import info.bitrich.xchangestream.core.*;
 import io.reactivex.rxjava3.core.Completable;
 import lombok.Getter;
 import org.knowm.xchange.BaseExchange;
@@ -22,9 +17,9 @@ public class KrakenStreamingExchange extends BaseExchange implements StreamingEx
 
   @Override
   public Completable connect(ProductSubscription... args) {
-    krakenStreamingService = new KrakenStreamingService(Config.V2_PUBLIC_WS_URL);
+    krakenStreamingService = new KrakenStreamingService(exchangeSpecification.getOverrideWebsocketApiUri());
     krakenPrivateStreamingService =
-        new KrakenPrivateStreamingService(Config.V2_PRIVATE_WS_URL, this);
+        new KrakenPrivateStreamingService((String) exchangeSpecification.getParameter("V2_PRIVATE_WS_URL"), this);
 
     streamingTradeService = new KrakenStreamingTradeService(krakenPrivateStreamingService);
     streamingAccountService = new KrakenStreamingAccountService(krakenPrivateStreamingService);
@@ -43,6 +38,8 @@ public class KrakenStreamingExchange extends BaseExchange implements StreamingEx
     var specification = new ExchangeSpecification(getClass());
     specification.setExchangeName("Kraken");
     specification.setSslUri("https://api.kraken.com");
+    specification.setOverrideWebsocketApiUri("wss://ws.kraken.com/v2");
+    specification.setExchangeSpecificParametersItem("V2_PRIVATE_WS_URL", "wss://ws-auth.kraken.com/v2");
     specification.setShouldLoadRemoteMetaData(false);
     return specification;
   }

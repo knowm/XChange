@@ -1,20 +1,26 @@
 package org.knowm.xchange.deribit.v2.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 
+@JsonTypeInfo(use = Id.NONE)
 public enum TimeInForce implements IOrderFlags {
-  good_til_cancelled,
-  good_til_day,
-  fill_or_kill,
-  immediate_or_cancel;
+  @JsonProperty("good_til_cancelled")
+  GOOD_TILL_CANCELLED,
 
-  @JsonCreator
-  public static TimeInForce parseTimeInForce(String s) {
-    try {
-      return TimeInForce.valueOf(s);
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Unable to parse time_in_force: \"" + s + "\"");
-    }
-  }
+  @JsonProperty("good_til_day")
+  GOOD_TILL_DAY,
+
+  @JsonProperty("fill_or_kill")
+  FILL_OR_KILL,
+
+  @JsonProperty("immediate_or_cancel")
+  IMMEDIATE_OR_CANCEL,
+
+  @JsonEnumDefaultValue
+  UNKNOWN
+
 }

@@ -5,6 +5,10 @@
       "balance": "60.90852000",
       "hold_trade": "13.63876000"
     },
+    "USDT.M": {
+      "balance": "1.82794255",
+      "hold_trade": "0.00000000"
+    },
     "XETH": {
       "balance": "0.0053613200",
       "hold_trade": "0.0020000000"
@@ -12,6 +16,10 @@
     "XXBT": {
       "balance": "0.0001339400",
       "hold_trade": "0.0000500000"
+    },
+    "AMBRx.T": {
+      "balance": "1.00000",
+      "hold_trade": "0.00000"
     }
   }
 }

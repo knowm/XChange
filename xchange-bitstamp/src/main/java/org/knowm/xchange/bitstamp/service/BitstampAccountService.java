@@ -10,6 +10,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.BitstampUtils;
 import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnSettingRequest;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnTerm;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnTransaction;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnType;
 import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.currency.Currency;
@@ -166,5 +170,82 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   public Map<Instrument, Fee> getDynamicTradingFeesByInstrument(String... category)
       throws IOException {
     return BitstampAdapters.adaptTradingFees(getTradingFees());
+  }
+
+  /**
+   * Get Earn transaction history.
+   *
+   * <p><strong>Note:</strong> Query parameters (limit, offset, currency, quoteCurrency) are
+   * currently not supported due to Bitstamp API signature validation requirements for authenticated
+   * GET requests. All parameters are ignored and the endpoint is called without query parameters.
+   * For filtering and pagination, use {@link #getEarnTransactions()} and filter the results
+   * client-side.
+   *
+   * @param limit Maximum number of transactions to return (ignored - not supported)
+   * @param offset Number of transactions to skip (ignored - not supported)
+   * @param currency Optional currency filter (ignored - not supported)
+   * @param quoteCurrency Optional quote currency for value calculation (ignored - not supported)
+   * @return List of Earn transactions
+   * @throws IOException if the request fails
+   */
+  public List<BitstampEarnTransaction> getEarnTransactions(
+      Integer limit, Integer offset, Currency currency, Currency quoteCurrency) throws IOException {
+    String currencyCode = currency != null ? currency.getCurrencyCode() : null;
+    String quoteCurrencyCode = quoteCurrency != null ? quoteCurrency.getCurrencyCode() : null;
+    return getEarnTransactions(limit, offset, currencyCode, quoteCurrencyCode);
+  }
+
+  /**
+   * Get Earn transaction history.
+   *
+   * @return List of Earn transactions
+   * @throws IOException if the request fails
+   */
+  public List<BitstampEarnTransaction> getEarnTransactions() throws IOException {
+    return getEarnTransactions(null, null, (Currency) null, (Currency) null);
+  }
+
+  /**
+   * Subscribe to an Earn product.
+   *
+   * @param currency The currency to subscribe to
+   * @param earnType The earn type: "STAKING" or "LENDING"
+   * @param earnTerm The earn term: "FLEXIBLE" or "FIXED"
+   * @param amount The amount to subscribe
+   * @throws IOException if the request fails
+   */
+  public void subscribeToEarn(
+      Currency currency, BitstampEarnType earnType, BitstampEarnTerm earnTerm, BigDecimal amount)
+      throws IOException {
+    super.subscribeToEarn(currency.getCurrencyCode(), earnType, earnTerm, amount);
+  }
+
+  /**
+   * Unsubscribe from an Earn product.
+   *
+   * @param currency The currency to unsubscribe from
+   * @param earnType The earn type: "STAKING" or "LENDING"
+   * @param earnTerm The earn term: "FLEXIBLE" or "FIXED"
+   * @param amount The amount to unsubscribe
+   * @throws IOException if the request fails
+   */
+  public void unsubscribeFromEarn(
+      Currency currency, BitstampEarnType earnType, BitstampEarnTerm earnTerm, BigDecimal amount)
+      throws IOException {
+    super.unsubscribeFromEarn(currency.getCurrencyCode(), earnType, earnTerm, amount);
+  }
+
+  /**
+   * Manage Earn subscription settings (opt in/opt out).
+   *
+   * @param setting The setting: "OPT_IN" or "OPT_OUT"
+   * @param currency The currency
+   * @param earnType The earn type: "STAKING" or "LENDING"
+   * @throws IOException if the request fails
+   */
+  public void manageEarnSubscriptionSetting(
+      BitstampEarnSettingRequest.Setting setting, Currency currency, BitstampEarnType earnType)
+      throws IOException {
+    super.manageEarnSubscriptionSetting(setting, currency.getCurrencyCode(), earnType);
   }
 }
