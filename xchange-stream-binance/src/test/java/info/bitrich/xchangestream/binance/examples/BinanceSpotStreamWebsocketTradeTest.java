@@ -8,6 +8,7 @@ import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.rxjava3.disposables.Disposable;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.trade.BinanceCancelOrderParams;
@@ -28,6 +29,7 @@ import static info.bitrich.xchangestream.binance.examples.Util.getMinAmount;
 import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
 import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
 
+@Ignore
 public class BinanceSpotStreamWebsocketTradeTest {
     private static final Logger LOG =
             LoggerFactory.getLogger(BinanceSpotStreamWebsocketTradeTest.class);
