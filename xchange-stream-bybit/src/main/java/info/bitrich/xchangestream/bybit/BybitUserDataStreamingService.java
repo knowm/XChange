@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.bybit;
 
+import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import dto.BybitSubscribeMessage;
@@ -26,7 +28,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -47,7 +48,7 @@ public class BybitUserDataStreamingService extends JsonNettyStreamingService {
   @Setter private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
   public BybitUserDataStreamingService(String url, ExchangeSpecification spec) {
-      super(url,65536, Duration.ofSeconds(1), Duration.ofMillis(500), 15);
+    super(url);
     this.spec = spec;
   }
 

@@ -17,6 +17,7 @@ import org.knowm.xchange.kucoin.dto.response.ApplyWithdrawResponse;
 import org.knowm.xchange.kucoin.dto.response.DepositAddressResponse;
 import org.knowm.xchange.kucoin.dto.response.DepositResponse;
 import org.knowm.xchange.kucoin.dto.response.InternalTransferResponse;
+import org.knowm.xchange.kucoin.dto.response.KucoinEarnHoldingsResponse;
 import org.knowm.xchange.kucoin.dto.response.Pagination;
 import org.knowm.xchange.kucoin.dto.response.WithdrawalResponse;
 
@@ -209,6 +210,32 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
     return decorateApiCall(
             () ->
                 depositAPI.getDepositAddresses(apiKey, digest, nonceFactory, passphrase, currency))
+        .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+        .call()
+        .getData();
+  }
+
+  public KucoinEarnHoldingsResponse getEarnHoldings(
+      String currency,
+      String productId,
+      String productCategory,
+      Integer currentPage,
+      Integer pageSize)
+      throws IOException {
+    checkAuthenticated();
+    return decorateApiCall(
+            () ->
+                accountApi.getEarnHoldings(
+                    apiKey,
+                    digest,
+                    nonceFactory,
+                    passphrase,
+                    currency,
+                    productId,
+                    productCategory,
+                    currentPage,
+                    pageSize))
+        .withRetry(retry("getEarnHoldings"))
         .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
         .call()
         .getData();

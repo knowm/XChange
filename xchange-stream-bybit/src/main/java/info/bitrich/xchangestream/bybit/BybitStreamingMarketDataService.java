@@ -1,7 +1,5 @@
 package info.bitrich.xchangestream.bybit;
 
-import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import dto.marketdata.BybitOrderbook;
@@ -11,14 +9,6 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
@@ -26,6 +16,13 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
 
 public class BybitStreamingMarketDataService implements StreamingMarketDataService {
 
@@ -46,10 +43,16 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
   }
 
   /**
-   * Linear & inverse: Level 1 data, push frequency: 10ms Level 50 data, push frequency: 20ms Level
-   * 200 data, push frequency: 100ms Level 500 data, push frequency: 100ms Spot: Level 1 data, push
-   * frequency: 10ms Level 50 data, push frequency: 20ms Level 200 data, push frequency: 200ms
-   *
+   * Linear & inverse:
+   * Level 1 data, push frequency: 10ms
+   * Level 50 data, push frequency: 20ms
+   * Level 200 data, push frequency: 100ms
+   * Level 1000 data, push frequency: 300ms
+   * Spot:
+   * Level 1 data, push frequency: 10ms
+   * Level 50 data, push frequency: 20ms
+   * Level 200 data, push frequency: 200ms
+   * Level 1000 data, push frequency: 300ms
    * @param args - orderbook depth
    */
   @Override

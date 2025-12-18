@@ -19,6 +19,7 @@ import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
 import org.knowm.xchange.kucoin.dto.response.AccountLedgersResponse;
 import org.knowm.xchange.kucoin.dto.response.AccountResponse;
 import org.knowm.xchange.kucoin.dto.response.InternalTransferResponse;
+import org.knowm.xchange.kucoin.dto.response.KucoinEarnHoldingsResponse;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.Pagination;
 import si.mazi.rescu.ParamsDigest;
@@ -112,4 +113,31 @@ public interface AccountAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @PathParam("accountId") String accountId)
       throws IOException;
+
+  /**
+   * Get account holdings for earn products.
+   *
+   * @param currency The code of the currency (optional)
+   * @param productId Product ID (optional)
+   * @param productCategory Product category: DEMAND, ACTIVITY, STAKING, KCS_STAKING, ETH2
+   *     (optional)
+   * @param currentPage Current request page (optional, default: 1)
+   * @param pageSize Number of results per request, minimum 10, maximum 500 (optional, default: 15)
+   * @return The earn holdings
+   * @throws IOException on socket errors.
+   * @throws KucoinException when errors are returned from the exchange.
+   */
+  @GET
+  @Path("v1/earn/hold-assets")
+  KucoinResponse<KucoinEarnHoldingsResponse> getEarnHoldings(
+      @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
+      @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
+      @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @QueryParam("currency") String currency,
+      @QueryParam("productId") String productId,
+      @QueryParam("productCategory") String productCategory,
+      @QueryParam("currentPage") Integer currentPage,
+      @QueryParam("pageSize") Integer pageSize)
+      throws IOException, KucoinException;
 }

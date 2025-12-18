@@ -34,6 +34,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
+import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
@@ -377,5 +378,88 @@ public class KrakenAdaptersTest {
         .isEqualByComparingTo(new BigDecimal(0.5).movePointLeft(2));
     assertThat(adaptedFeeTiers[2].fee.getTakerFee())
         .isEqualByComparingTo(new BigDecimal(0.75).movePointLeft(2));
+  }
+
+  @Test
+  public void testAdaptFundingHistory_WithReceiveLedgerType() {
+    // Test that adaptFundingHistory handles RECEIVE ledger type
+    Map<String, KrakenLedger> ledgerMap = new java.util.HashMap<>();
+    KrakenLedger ledger =
+        new KrakenLedger(
+            "ref123",
+            System.currentTimeMillis() / 1000.0,
+            LedgerType.RECEIVE,
+            "currency",
+            "XXBT", // Kraken currency code for BTC
+            new BigDecimal("1.5"),
+            BigDecimal.ZERO,
+            new BigDecimal("100.0"));
+
+    ledgerMap.put("ledger1", ledger);
+
+    List<FundingRecord> records = KrakenAdapters.adaptFundingHistory(ledgerMap);
+
+    assertThat(records).hasSize(1);
+    FundingRecord record = records.get(0);
+    assertThat(record.getType()).isEqualTo(FundingRecord.Type.DEPOSIT);
+    assertThat(record.getAmount()).isEqualByComparingTo(new BigDecimal("1.5"));
+  }
+
+  @Test
+  public void testAdaptFundingHistory_WithSpendLedgerType() {
+    // Test that adaptFundingHistory handles SPEND ledger type
+    Map<String, KrakenLedger> ledgerMap = new java.util.HashMap<>();
+    KrakenLedger ledger =
+        new KrakenLedger(
+            "ref456",
+            System.currentTimeMillis() / 1000.0,
+            LedgerType.SPEND,
+            "currency",
+            "XETH", // Kraken currency code for ETH
+            new BigDecimal("-0.5"),
+            new BigDecimal("0.01"),
+            new BigDecimal("50.0"));
+
+    ledgerMap.put("ledger2", ledger);
+
+    List<FundingRecord> records = KrakenAdapters.adaptFundingHistory(ledgerMap);
+
+    assertThat(records).hasSize(1);
+    FundingRecord record = records.get(0);
+    assertThat(record.getType()).isEqualTo(FundingRecord.Type.WITHDRAWAL);
+    assertThat(record.getAmount()).isEqualByComparingTo(new BigDecimal("0.5"));
+  }
+
+  @Test
+  public void testAdaptFundingHistory_WithRewardLedgerType() {
+    // Test that adaptFundingHistory handles REWARD ledger type
+    Map<String, KrakenLedger> ledgerMap = new java.util.HashMap<>();
+    KrakenLedger ledger =
+        new KrakenLedger(
+            "ref789",
+            System.currentTimeMillis() / 1000.0,
+            LedgerType.REWARD,
+            "currency",
+            "USDT",
+            new BigDecimal("10.0"),
+            BigDecimal.ZERO,
+            new BigDecimal("1000.0"));
+
+    ledgerMap.put("ledger3", ledger);
+
+    List<FundingRecord> records = KrakenAdapters.adaptFundingHistory(ledgerMap);
+
+    assertThat(records).hasSize(1);
+    FundingRecord record = records.get(0);
+    assertThat(record.getType()).isEqualTo(FundingRecord.Type.AIRDROP);
+    assertThat(record.getAmount()).isEqualByComparingTo(new BigDecimal("10.0"));
+  }
+
+  @Test
+  public void testLedgerType_FromString() {
+    // Test that all new ledger types can be deserialized from strings
+    assertThat(LedgerType.fromString("receive")).isEqualTo(LedgerType.RECEIVE);
+    assertThat(LedgerType.fromString("spend")).isEqualTo(LedgerType.SPEND);
+    assertThat(LedgerType.fromString("reward")).isEqualTo(LedgerType.REWARD);
   }
 }

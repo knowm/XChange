@@ -110,6 +110,40 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
       return getBitstampBitcoinCashDepositAddress().getDepositAddress();
     } else if (currency.equals(Currency.ETH)) {
       return getBitstampEthereumDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.USDT)) {
+      return getBitstampUsdtDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.XLM)) {
+      return getBitstampXlmDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.DOGE)) {
+      return getBitstampDogeDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.getInstance("RLUSD"))) {
+      return getBitstampRlusdDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.getInstance("EURC"))) {
+      return getBitstampEurcDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.getInstance("SUSHI"))) {
+      return getBitstampSushiDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.getInstance("SHIB"))) {
+      return getBitstampShibDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.getInstance("BONK"))) {
+      return getBitstampBonkDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.ETC)) {
+      return getBitstampEtcDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.getInstance("PENGU"))) {
+      return getBitstampPenguDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.getInstance("YFI"))) {
+      return getBitstampYfiDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.getInstance("SUI"))) {
+      return getBitstampSuiDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.LINK)) {
+      return getBitstampLinkDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.getInstance("LDO"))) {
+      return getBitstampLdoDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.getInstance("FARTCOIN"))) {
+      return getBitstampFartcoinDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.getInstance("PEPE"))) {
+      return getBitstampPepeDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.USDC)) {
+      return getBitstampUsdcDepositAddress().getDepositAddress();
     } else {
       throw new IllegalStateException("Unsupported currency " + currency);
     }
@@ -127,6 +161,40 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
       return getBitstampBitcoinCashDepositAddress();
     } else if (currency.equals(Currency.ETH)) {
       return getBitstampEthereumDepositAddress();
+    } else if (currency.equals(Currency.USDT)) {
+      return getBitstampUsdtDepositAddress();
+    } else if (currency.equals(Currency.XLM)) {
+      return getBitstampXlmDepositAddress();
+    } else if (currency.equals(Currency.DOGE)) {
+      return getBitstampDogeDepositAddress();
+    } else if (currency.equals(Currency.getInstance("RLUSD"))) {
+      return getBitstampRlusdDepositAddress();
+    } else if (currency.equals(Currency.getInstance("EURC"))) {
+      return getBitstampEurcDepositAddress();
+    } else if (currency.equals(Currency.getInstance("SUSHI"))) {
+      return getBitstampSushiDepositAddress();
+    } else if (currency.equals(Currency.getInstance("SHIB"))) {
+      return getBitstampShibDepositAddress();
+    } else if (currency.equals(Currency.getInstance("BONK"))) {
+      return getBitstampBonkDepositAddress();
+    } else if (currency.equals(Currency.ETC)) {
+      return getBitstampEtcDepositAddress();
+    } else if (currency.equals(Currency.getInstance("PENGU"))) {
+      return getBitstampPenguDepositAddress();
+    } else if (currency.equals(Currency.getInstance("YFI"))) {
+      return getBitstampYfiDepositAddress();
+    } else if (currency.equals(Currency.getInstance("SUI"))) {
+      return getBitstampSuiDepositAddress();
+    } else if (currency.equals(Currency.LINK)) {
+      return getBitstampLinkDepositAddress();
+    } else if (currency.equals(Currency.getInstance("LDO"))) {
+      return getBitstampLdoDepositAddress();
+    } else if (currency.equals(Currency.getInstance("FARTCOIN"))) {
+      return getBitstampFartcoinDepositAddress();
+    } else if (currency.equals(Currency.getInstance("PEPE"))) {
+      return getBitstampPepeDepositAddress();
+    } else if (currency.equals(Currency.USDC)) {
+      return getBitstampUsdcDepositAddress();
     } else {
       throw new IllegalStateException("Unsupported currency " + currency);
     }

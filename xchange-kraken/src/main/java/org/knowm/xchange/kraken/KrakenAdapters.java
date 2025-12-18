@@ -530,8 +530,7 @@ public class KrakenAdapters {
         final Currency currency = adaptCurrency(krakenLedger.getAsset());
         if (currency != null) {
           final Date timestamp = new Date((long) (krakenLedger.getUnixTime() * 1000L));
-          final FundingRecord.Type type =
-              FundingRecord.Type.fromString(krakenLedger.getLedgerType().name());
+          final FundingRecord.Type type = toFundingRecordType(krakenLedger.getLedgerType());
           if (type != null) {
             final String internalId = krakenLedger.getRefId(); // or ledgerEntry.getKey()?
             FundingRecord fundingRecordEntry =
@@ -540,7 +539,7 @@ public class KrakenAdapters {
                     .currency(currency)
                     .amount(krakenLedger.getTransactionAmount())
                     .internalId(internalId)
-                    .type(FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()))
+                    .type(type)
                     .status(Status.COMPLETE)
                     .balance(krakenLedger.getBalance())
                     .fee(krakenLedger.getFee())
@@ -567,6 +566,31 @@ public class KrakenAdapters {
         return OrderStatus.EXPIRED;
       default:
         return null;
+    }
+  }
+
+  private static FundingRecord.Type toFundingRecordType(LedgerType ledgerType) {
+    if (ledgerType == null) {
+      return null;
+    }
+    switch (ledgerType) {
+      case DEPOSIT:
+        return FundingRecord.Type.DEPOSIT;
+      case WITHDRAWAL:
+        return FundingRecord.Type.WITHDRAWAL;
+      case RECEIVE:
+        return FundingRecord.Type.DEPOSIT; // RECEIVE is an inflow, map to DEPOSIT
+      case SPEND:
+        return FundingRecord.Type.WITHDRAWAL; // SPEND is an outflow, map to WITHDRAWAL
+      case REWARD:
+        return FundingRecord.Type.AIRDROP; // REWARD is an inflow, map to AIRDROP
+      case TRANSFER:
+        return FundingRecord.Type.INTERNAL_WALLET_TRANSFER;
+      case TRADE:
+        return FundingRecord.Type.TRADE;
+      default:
+        // Try to map by name for other types
+        return FundingRecord.Type.fromString(ledgerType.name());
     }
   }
 

@@ -33,7 +33,7 @@ public class BinanceExchange extends BaseExchange implements Exchange {
   public static final String SANDBOX_FUTURES_URL = "https://testnet.binancefuture.com";
   public static final String SANDBOX_INVERSE_FUTURES_URL = "https://testnet.binancefuture.com";
 
-  protected static ResilienceRegistries RESILIENCE_REGISTRIES;
+  protected ResilienceRegistries RESILIENCE_REGISTRIES;
   protected SynchronizedValueFactory<Long> timestampFactory;
 
   @Override
@@ -56,7 +56,7 @@ public class BinanceExchange extends BaseExchange implements Exchange {
         "Binance uses timestamp/recvwindow rather than a nonce");
   }
 
-  public static void resetResilienceRegistries() {
+  public void resetResilienceRegistries() {
     RESILIENCE_REGISTRIES = null;
   }
 

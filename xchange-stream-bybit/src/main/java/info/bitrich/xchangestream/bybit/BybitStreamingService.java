@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
@@ -35,13 +34,13 @@ public class BybitStreamingService extends JsonNettyStreamingService {
     @Setter
     private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
-  public BybitStreamingService(String apiUrl, ExchangeSpecification spec) {
-      super(apiUrl,65536, Duration.ofSeconds(1), Duration.ofMillis(500), 15);
-    this.exchange_type =
-        ((BybitCategory) spec.getExchangeSpecificParametersItem(EXCHANGE_TYPE)).getValue();
-    this.spec = spec;
-    //    this.setEnableLoggingHandler(true);
-  }
+    public BybitStreamingService(String apiUrl, ExchangeSpecification spec) {
+        super(apiUrl);
+        this.exchange_type =
+                ((BybitCategory) spec.getExchangeSpecificParametersItem(EXCHANGE_TYPE)).getValue();
+        this.spec = spec;
+        //    this.setEnableLoggingHandler(true);
+    }
 
     @Override
     public Completable connect() {

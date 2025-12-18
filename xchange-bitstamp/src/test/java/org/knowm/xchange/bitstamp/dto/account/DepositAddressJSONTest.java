@@ -41,4 +41,68 @@ public class DepositAddressJSONTest {
     assertThat(address.getError()).isNullOrEmpty();
     assertThat(address.getDepositAddress()).isNotBlank();
   }
+
+  @Test
+  public void testUsdtDepositResponse() throws IOException {
+    final BitstampDepositAddress address =
+        unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-usdt-deposit-response.json");
+    assertThat(address.getError()).isNullOrEmpty();
+    assertThat(address.getDepositAddress()).isNotBlank();
+  }
+
+  @Test
+  public void testXlmDepositResponse() throws IOException {
+    final BitstampDepositAddress address =
+        unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-xlm-deposit-response.json");
+    assertThat(address.getError()).isNullOrEmpty();
+    assertThat(address.getDepositAddress()).isNotBlank();
+  }
+
+  @Test
+  public void testDogeDepositResponse() throws IOException {
+    final BitstampDepositAddress address =
+        unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-doge-deposit-response.json");
+    assertThat(address.getError()).isNullOrEmpty();
+    assertThat(address.getDepositAddress()).isNotBlank();
+  }
+
+  @Test
+  public void testUsdcDepositResponse() throws IOException {
+    final BitstampDepositAddress address =
+        unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-usdc-deposit-response.json");
+    assertThat(address.getError()).isNullOrEmpty();
+    assertThat(address.getDepositAddress()).isNotBlank();
+  }
+
+  @Test
+  public void testLinkDepositResponse() throws IOException {
+    final BitstampDepositAddress address =
+        unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-link-deposit-response.json");
+    assertThat(address.getError()).isNullOrEmpty();
+    assertThat(address.getDepositAddress()).isNotBlank();
+  }
+
+  @Test
+  public void testShibDepositResponse() throws IOException {
+    final BitstampDepositAddress address =
+        unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-shib-deposit-response.json");
+    assertThat(address.getError()).isNullOrEmpty();
+    assertThat(address.getDepositAddress()).isNotBlank();
+  }
+
+  @Test
+  public void testEtcDepositResponse() throws IOException {
+    final BitstampDepositAddress address =
+        unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-etc-deposit-response.json");
+    assertThat(address.getError()).isNullOrEmpty();
+    assertThat(address.getDepositAddress()).isNotBlank();
+  }
+
+  @Test
+  public void testSuiDepositResponse() throws IOException {
+    final BitstampDepositAddress address =
+        unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-sui-deposit-response.json");
+    assertThat(address.getError()).isNullOrEmpty();
+    assertThat(address.getDepositAddress()).isNotBlank();
+  }
 }

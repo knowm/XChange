@@ -304,6 +304,346 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     }
   }
 
+  public BitstampDepositAddress getBitstampUsdtDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getUsdtDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Usdt deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampXlmDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getXlmDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Xlm deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampDogeDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getDogeDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Doge deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampRlusdDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getRlusdDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Rlusd deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampEurcDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getEurcDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Eurc deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampSushiDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getSushiDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Sushi deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampShibDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getShibDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Shib deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampBonkDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getBonkDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Bonk deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampEtcDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getEtcDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Etc deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampPenguDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getPenguDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Pengu deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampYfiDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getYfiDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Yfi deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampSuiDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getSuiDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Sui deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampLinkDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getLinkDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Link deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampLdoDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getLdoDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Ldo deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampFartcoinDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getFartcoinDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Fartcoin deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampPepeDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getPepeDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Pepe deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampUsdcDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getUsdcDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION);
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Usdc deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
   /** Ripple IOU deposit address */
   public BitstampRippleDepositAddress getRippleDepositAddress() throws IOException {
 

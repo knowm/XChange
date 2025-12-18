@@ -26,7 +26,10 @@ public enum LedgerType {
   STAKING,
   DIVIDEND,
   SALE,
-  NFT_REBATE;
+  NFT_REBATE,
+  RECEIVE,
+  SPEND,
+  REWARD;
 
   private static final Map<String, LedgerType> fromString = new HashMap<>();
 

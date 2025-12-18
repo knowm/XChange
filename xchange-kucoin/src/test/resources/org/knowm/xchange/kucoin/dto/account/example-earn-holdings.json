@@ -1,0 +1,47 @@
+{
+  "code": "200000",
+  "data": {
+    "totalNum": 2,
+    "totalPage": 1,
+    "currentPage": 1,
+    "pageSize": 15,
+    "items": [
+      {
+        "orderId": "2767291",
+        "productId": "2611",
+        "productCategory": "KCS_STAKING",
+        "productType": "DEMAND",
+        "currency": "KCS",
+        "incomeCurrency": "KCS",
+        "returnRate": "0.03471727",
+        "holdAmount": "1.5",
+        "redeemedAmount": "0.05",
+        "redeemingAmount": "0",
+        "lockStartTime": 1701252000000,
+        "lockEndTime": null,
+        "purchaseTime": 1729257513000,
+        "redeemPeriod": 3,
+        "status": "HOLDING",
+        "earlyRedeemSupported": 0
+      },
+      {
+        "orderId": "2767292",
+        "productId": "2172",
+        "productCategory": "DEMAND",
+        "productType": "DEMAND",
+        "currency": "BTC",
+        "incomeCurrency": "BTC",
+        "returnRate": "0.00047208",
+        "holdAmount": "0.1",
+        "redeemedAmount": "0.001",
+        "redeemingAmount": "0",
+        "lockStartTime": 1644807600000,
+        "lockEndTime": null,
+        "purchaseTime": 1644807600000,
+        "redeemPeriod": 0,
+        "status": "HOLDING",
+        "earlyRedeemSupported": 0
+      }
+    ]
+  }
+}

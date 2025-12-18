@@ -199,13 +199,14 @@ public class BinanceUserTradeStreamingService extends JsonNettyStreamingService 
           if (params.getOrderId() != null && !params.getOrderId().isEmpty()) {
             orderId = Long.valueOf(params.getOrderId());
           }
-          BinanceWebsocketOrderCancelPayload cancelOrderPayload =
-              BinanceWebsocketOrderCancelPayload.builder()
-                  .symbol(BinanceAdapters.toSymbol(params.getInstrument()))
-                  .orderId(orderId)
-                  .origClientOrderId(params.getUserReference())
-                  .timestamp(System.currentTimeMillis())
-                  .build();
+            BinanceWebsocketOrderCancelPayload cancelOrderPayload =
+                    BinanceWebsocketOrderCancelPayload.builder()
+                            .symbol(BinanceAdapters.toSymbol(params.getInstrument()))
+                            .orderId(orderId)
+                            .origClientOrderId(params.getUserReference())
+                            .newClientOrderId(params.getUserReference())
+                            .timestamp(System.currentTimeMillis())
+                            .build();
           BinanceWebsocketPayload<BinanceWebsocketOrderCancelPayload> payload =
               new BinanceWebsocketPayload<>(channelName, method, cancelOrderPayload);
           return objectMapper.writeValueAsString(payload);

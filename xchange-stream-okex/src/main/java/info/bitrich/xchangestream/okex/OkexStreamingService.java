@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
@@ -43,7 +42,7 @@ public class OkexStreamingService extends JsonNettyStreamingService {
   private final ExchangeSpecification xSpec;
 
   public OkexStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
-    super(apiUrl,65536, Duration.ofSeconds(1), Duration.ofMillis(500), 15);
+    super(apiUrl);
     this.xSpec = exchangeSpecification;
   }
 
