@@ -16,6 +16,7 @@ import org.knowm.xchange.deribit.v2.dto.account.DeribitAuthentication;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitCurrency;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitInstrument;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitPlatformStatus;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitSummary;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTicker;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrades;
@@ -23,6 +24,10 @@ import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrades;
 @Path("/api/v2/public")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Deribit {
+
+  @GET
+  @Path("status")
+  DeribitResponse<DeribitPlatformStatus> getPlatformStatus() throws DeribitException, IOException;
 
   /**
    * @param currency required, the currency symbol

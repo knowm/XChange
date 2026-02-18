@@ -13,12 +13,8 @@ import lombok.Data;
 @Data
 public final class Config {
 
-  public static final Set<String> PRIVATE_CHANNELS = Set.of(ChannelType.BALANCES.getValue(), ChannelType.USER_TRADES.getValue());
-
-
-  public static final String V2_PUBLIC_WS_URL = "wss://ws.kraken.com/v2";
-  public static final String V2_PRIVATE_WS_URL = "wss://ws-auth.kraken.com/v2";
-
+  public static final Set<String> PRIVATE_CHANNELS =
+      Set.of(ChannelType.BALANCES.getValue(), ChannelType.USER_TRADES.getValue());
   private ObjectMapper objectMapper;
   private Clock clock;
 

@@ -1,0 +1,65 @@
+{
+  "jsonrpc": "2.0",
+  "result": [
+    {
+      "decimals": 6,
+      "currency": "USDT",
+      "min_withdrawal_fee": 2.0,
+      "withdrawal_fee": 2.0,
+      "coin_type": "USDT",
+      "withdrawal_priorities": [],
+      "apr": 0.0,
+      "network_fee": 1.6e-5,
+      "network_currency": "ETH",
+      "min_confirmations": 1,
+      "currency_long": "Tether",
+      "in_cross_collateral_pool": true
+    },
+    {
+      "decimals": 6,
+      "currency": "ETH",
+      "min_withdrawal_fee": 0.001,
+      "withdrawal_fee": 0.001,
+      "coin_type": "ETH",
+      "withdrawal_priorities": [],
+      "apr": 0.0,
+      "network_fee": 9.0e-6,
+      "network_currency": "ETH",
+      "min_confirmations": 50,
+      "currency_long": "Ethereum",
+      "in_cross_collateral_pool": true
+    },
+    {
+      "decimals": 8,
+      "currency": "BTC",
+      "min_withdrawal_fee": 1.0e-5,
+      "withdrawal_fee": 1.0e-5,
+      "coin_type": "BTC",
+      "withdrawal_priorities": [],
+      "apr": 0.0,
+      "network_fee": 3.07e-6,
+      "network_currency": "BTC",
+      "min_confirmations": 1,
+      "currency_long": "Bitcoin",
+      "in_cross_collateral_pool": true
+    },
+    {
+      "decimals": 6,
+      "currency": "XRP",
+      "apr": 0.0,
+      "network_fee": 1.5e-5,
+      "withdrawal_fee": 0.0001,
+      "min_withdrawal_fee": 0.0001,
+      "network_currency": "XRP",
+      "coin_type": "XRP",
+      "withdrawal_priorities": [],
+      "min_confirmations": 1,
+      "currency_long": "XRP",
+      "in_cross_collateral_pool": false
+    }
+  ],
+  "usIn": 1763590666506818,
+  "usOut": 1763590666506963,
+  "usDiff": 145,
+  "testnet": false
+}

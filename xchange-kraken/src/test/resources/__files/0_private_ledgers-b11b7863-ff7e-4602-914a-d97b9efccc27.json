@@ -1,0 +1,41 @@
+{
+  "error": [],
+  "result": {
+    "count": 153,
+    "ledger": {
+      "L2344R-JVEUJ-SBYX5H": {
+        "aclass": "currency",
+        "amount": "0.0020000000",
+        "asset": "XETH",
+        "balance": "0.0020000000",
+        "fee": "0.0000000000",
+        "refid": "TSVZ66-RESHM-IDZGCE",
+        "time": 1756935121.565366,
+        "type": "trade",
+        "subtype": "tradespot"
+      },
+      "LQG5AJ-KK5J5-NK7XCW": {
+        "aclass": "currency",
+        "amount": "0.00000000",
+        "asset": "USDT",
+        "balance": "16.78194975",
+        "fee": "0.00171000",
+        "refid": "TPEMMT-EQABG-FTLK4T",
+        "time": 1757190257.60705,
+        "type": "rollover",
+        "subtype": ""
+      },
+      "LPA5MH-ACZSQ-3MVKL7": {
+        "aclass": "currency",
+        "amount": "100.00000000",
+        "asset": "USDT",
+        "balance": "100.00000000",
+        "fee": "0.00000000",
+        "refid": "FTJ4ZXN-YRWqyo1No6Wqt3vzBVgNMf",
+        "time": 1756825878.456741,
+        "type": "deposit",
+        "subtype": ""
+      }
+    }
+  }
+}

@@ -219,10 +219,13 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
         BitfinexWebSocketAuthTrade trade = BitfinexStreamingAdapters.adaptTrade(object);
         if (trade != null) subjectTrade.onNext(trade);
         break;
-        
+
       // position snapshot
       case "ps":
-        var positions = Config.getInstance().getObjectMapper().treeToValue(object, new TypeReference<List<BitfinexWebSocketPosition>>() {});
+        var positions =
+            Config.getInstance()
+                .getObjectMapper()
+                .treeToValue(object, new TypeReference<List<BitfinexWebSocketPosition>>() {});
         positions.forEach(subjectPosition::onNext);
         break;
 
@@ -230,7 +233,10 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
       case "pn":
       case "pu":
       case "pc":
-        var position = Config.getInstance().getObjectMapper().treeToValue(object, BitfinexWebSocketPosition.class);
+        var position =
+            Config.getInstance()
+                .getObjectMapper()
+                .treeToValue(object, BitfinexWebSocketPosition.class);
         subjectPosition.onNext(position);
         break;
 

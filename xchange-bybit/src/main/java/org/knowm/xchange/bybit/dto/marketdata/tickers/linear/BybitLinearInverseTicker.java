@@ -1,16 +1,21 @@
 package org.knowm.xchange.bybit.dto.marketdata.tickers.linear;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
+import lombok.EqualsAndHashCode;
 import lombok.Value;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
 
+@EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @Jacksonized
 @Value
+@JsonInclude(Include.NON_NULL)
 public class BybitLinearInverseTicker extends BybitTicker {
 
   @JsonProperty("indexPrice")
@@ -54,4 +59,10 @@ public class BybitLinearInverseTicker extends BybitTicker {
 
   @JsonProperty("deliveryTime")
   Date deliveryTime;
+
+  @JsonProperty("fundingIntervalHour")
+  Integer fundingIntervalHour;
+
+  @JsonProperty("fundingCap")
+  String fundingCap;
 }

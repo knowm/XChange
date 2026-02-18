@@ -31,10 +31,10 @@ class BitfinexStreamingTradeServiceTest {
     BitfinexAdapters.putCurrencyMapping("USTF0", "USDT");
   }
 
-
   @BeforeEach
   public void setUp() {
-    bitfinexStreamingService = new BitfinexStreamingService(BitfinexStreamingExchange.API_URI, null);
+    bitfinexStreamingService =
+        new BitfinexStreamingService(BitfinexStreamingExchange.API_URI, null);
     bitfinexStreamingService.setApiKey("a");
     bitfinexStreamingTradeService = new BitfinexStreamingTradeService(bitfinexStreamingService);
   }
@@ -48,20 +48,19 @@ class BitfinexStreamingTradeServiceTest {
     var test = bitfinexStreamingTradeService.getPositionChanges(null).test();
     bitfinexStreamingService.handleMessage(jsonNode);
 
-    var expected = OpenPosition.builder()
-        .id("185023623")
-        .instrument(new FuturesContract(CurrencyPair.BTC_USDT, "PERP"))
-        .type(Type.LONG)
-        .marginMode(MarginMode.CROSS)
-        .size(new BigDecimal("0.000040"))
-        .price(new BigDecimal("108470"))
-        .liquidationPrice(new BigDecimal("54504.81225"))
-        .unRealisedPnl(new BigDecimal("0.028"))
-        .build();
+    var expected =
+        OpenPosition.builder()
+            .id("185023623")
+            .instrument(new FuturesContract(CurrencyPair.BTC_USDT, "PERP"))
+            .type(Type.LONG)
+            .marginMode(MarginMode.CROSS)
+            .size(new BigDecimal("0.000040"))
+            .price(new BigDecimal("108470"))
+            .liquidationPrice(new BigDecimal("54504.81225"))
+            .unRealisedPnl(new BigDecimal("0.028"))
+            .build();
 
     assertThat(test.values()).hasSize(1);
     assertThat(test.values()).first().usingRecursiveComparison().isEqualTo(expected);
   }
-
-
 }

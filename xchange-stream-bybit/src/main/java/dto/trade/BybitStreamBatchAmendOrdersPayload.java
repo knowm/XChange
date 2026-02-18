@@ -10,25 +10,25 @@ import org.knowm.xchange.bybit.dto.BybitCategory;
 @Getter
 @Setter
 public class BybitStreamBatchAmendOrdersPayload {
-  BybitCategory category;
-  List<BybitStreamBatchAmendOrderPayload> request;
+  private final BybitCategory category;
+  private final List<BybitStreamBatchAmendOrderPayload> request;
 
   @AllArgsConstructor
   @Getter
   public static class BybitStreamBatchAmendOrderPayload {
-    String symbol;
-    String orderId;
-    String orderLinkId;
-    String triggerPrice;
-    String qty;
-    String price;
-    String tpslMode;
-    String takeProfit;
-    String stopLoss;
-    String tpTriggerBy;
-    String slTriggerBy;
-    String triggerBy;
-    String tpLimitPrice;
-    String slLimitPrice;
+    private final String symbol;
+    private final String orderId;
+    private final String orderLinkId;
+    private final String triggerPrice;
+    private final String qty;
+    private final String price;
+    private final String tpslMode;
+    private final String takeProfit;
+    private final String stopLoss;
+    private final String tpTriggerBy;
+    private final String slTriggerBy;
+    private final String triggerBy;
+    private final String tpLimitPrice;
+    private final String slLimitPrice;
   }
 }

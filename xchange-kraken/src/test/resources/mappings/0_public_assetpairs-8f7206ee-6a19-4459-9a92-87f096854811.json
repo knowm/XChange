@@ -1,0 +1,15 @@
+{
+  "id" : "8f7206ee-6a19-4459-9a92-87f096854811",
+  "name" : "0_public_assetpairs",
+  "request" : {
+    "url" : "/0/public/AssetPairs",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "0_public_assetpairs-8f7206ee-6a19-4459-9a92-87f096854811.json"
+  },
+  "uuid" : "8f7206ee-6a19-4459-9a92-87f096854811",
+  "persistent" : true,
+  "insertionIndex" : 4
+}

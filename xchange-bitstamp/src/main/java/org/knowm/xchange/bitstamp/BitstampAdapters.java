@@ -296,15 +296,16 @@ public final class BitstampAdapters {
           }
         }
 
-        FundingRecord record = FundingRecord.builder()
-            .date(trans.getDatetime())
-            .currency(Currency.getInstance(amount.getKey()))
-            .amount(amount.getValue().abs())
-            .internalId(String.valueOf(trans.getId()))
-            .type(type)
-            .status(FundingRecord.Status.COMPLETE)
-            .fee(getFeeFromString(trans.getFee()))
-            .build();
+        FundingRecord record =
+            FundingRecord.builder()
+                .date(trans.getDatetime())
+                .currency(Currency.getInstance(amount.getKey()))
+                .amount(amount.getValue().abs())
+                .internalId(String.valueOf(trans.getId()))
+                .type(type)
+                .status(FundingRecord.Status.COMPLETE)
+                .fee(getFeeFromString(trans.getFee()))
+                .build();
         fundingRecords.add(record);
       }
     }

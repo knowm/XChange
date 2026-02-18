@@ -1,0 +1,34 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "order": {
+      "label": "c1d14121-c076-4c13-974b-c80cda36e09a",
+      "price": 1.8,
+      "amount": 1.0,
+      "user_id": 427962,
+      "direction": "buy",
+      "time_in_force": "good_til_cancelled",
+      "instrument_name": "XRP_USDC",
+      "web": false,
+      "api": true,
+      "order_id": "XRP_USDC-6476518126",
+      "mmp": false,
+      "creation_timestamp": 1763900124797,
+      "order_type": "limit",
+      "replaced": false,
+      "order_state": "open",
+      "post_only": false,
+      "filled_amount": 0.0,
+      "last_update_timestamp": 1763900124797,
+      "average_price": 0.0,
+      "contracts": 1.0,
+      "is_rebalance": false,
+      "risk_reducing": false
+    },
+    "trades": []
+  },
+  "usIn": 1763900124794905,
+  "usOut": 1763900124798439,
+  "usDiff": 3534,
+  "testnet": false
+}

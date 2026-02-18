@@ -10,5 +10,4 @@ public class BinanceWebsocketPayload<T> {
   String id;
   String method;
   T params;
-
 }

@@ -14,7 +14,6 @@ import org.knowm.xchange.bitfinex.config.converter.StringToOrderStatusConverter;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 
-
 @Data
 @Builder
 @Jacksonized
@@ -52,7 +51,7 @@ public class BitfinexOrderDetails {
   /** Previous order type */
   private OrderType previousType;
 
-  /** Epoch timestamp for TIF (Time-In-Force) **/
+  /** Epoch timestamp for TIF (Time-In-Force) * */
   private Instant timeInForceTimestamp;
 
   private Object placeHolder11;
@@ -93,16 +92,17 @@ public class BitfinexOrderDetails {
   private Object placeHolder26;
   private Object placeHolder27;
 
-  /** Indicates origin of action: BFX, API>BFX **/
+  /** Indicates origin of action: BFX, API>BFX * */
   private String routing;
 
   private Object placeHolder29;
   private Object placeHolder30;
 
-
-  /** Additional meta information about the order ( $F7 = IS_POST_ONLY (0 if false, 1 if true), $F33 = Leverage (int), aff_code: "aff_code_here") **/
+  /**
+   * Additional meta information about the order ( $F7 = IS_POST_ONLY (0 if false, 1 if true), $F33
+   * = Leverage (int), aff_code: "aff_code_here") *
+   */
   private Object meta;
-
 
   public enum OrderType {
     LIMIT,
@@ -142,5 +142,4 @@ public class BitfinexOrderDetails {
     @JsonProperty("EXCHANGE IOC")
     EXCHANGE_IOC;
   }
-
 }

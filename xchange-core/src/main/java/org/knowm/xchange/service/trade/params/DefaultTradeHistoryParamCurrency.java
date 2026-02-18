@@ -13,5 +13,4 @@ import org.knowm.xchange.currency.Currency;
 public class DefaultTradeHistoryParamCurrency implements TradeHistoryParamCurrency {
 
   private Currency currency;
-
 }

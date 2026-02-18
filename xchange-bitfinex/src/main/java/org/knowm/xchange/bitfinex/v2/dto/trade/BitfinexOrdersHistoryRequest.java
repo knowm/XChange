@@ -26,5 +26,4 @@ public class BitfinexOrdersHistoryRequest {
 
   @JsonProperty("limit")
   Long limit;
-
 }

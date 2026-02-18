@@ -13,7 +13,5 @@ import lombok.experimental.SuperBuilder;
 public class DefaultTradeHistoryParamPagingSorted extends DefaultTradeHistoryParamPaging
     implements TradeHistoryParamsSorted {
 
-  @Builder.Default
-  private Order order = Order.asc;
-
+  @Builder.Default private Order order = Order.asc;
 }

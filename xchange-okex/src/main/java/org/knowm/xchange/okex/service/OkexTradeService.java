@@ -191,7 +191,8 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
   @Override
   public String changeOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
-    OkexResponse<List<OkexOrderResponse>> okexResponse = amendOkexOrder(OkexAdapters.adaptAmendOrder(limitOrder, exchange.getExchangeMetaData()));
+    OkexResponse<List<OkexOrderResponse>> okexResponse =
+        amendOkexOrder(OkexAdapters.adaptAmendOrder(limitOrder, exchange.getExchangeMetaData()));
     if (okexResponse.isSuccess()) return okexResponse.getData().get(0).getOrderId();
     else
       throw new OkexException(

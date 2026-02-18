@@ -27,6 +27,10 @@ public class AscendexProductDto {
 
   private final BigDecimal lotSize;
 
+  private final BigDecimal minQty;
+
+  private final BigDecimal maxQty;
+
   public AscendexProductDto(
       @JsonProperty("symbol") String symbol,
       @JsonProperty("baseAsset") String baseAsset,
@@ -38,7 +42,9 @@ public class AscendexProductDto {
       @JsonProperty("commissionType") AscendexProductCommissionType commissionType,
       @JsonProperty("commissionReserveRate") BigDecimal commissionReserveRate,
       @JsonProperty("tickSize") BigDecimal tickSize,
-      @JsonProperty("lotSize") BigDecimal lotSize) {
+      @JsonProperty("lotSize") BigDecimal lotSize,
+      @JsonProperty("minQty") BigDecimal minQty,
+      @JsonProperty("maxQty") BigDecimal maxQty) {
     this.symbol = symbol;
     this.baseAsset = baseAsset;
     this.quoteAsset = quoteAsset;
@@ -50,6 +56,8 @@ public class AscendexProductDto {
     this.commissionReserveRate = commissionReserveRate;
     this.tickSize = tickSize;
     this.lotSize = lotSize;
+    this.minQty = minQty;
+    this.maxQty = maxQty;
   }
 
   public String getSymbol() {
@@ -96,6 +104,14 @@ public class AscendexProductDto {
     return lotSize;
   }
 
+  public BigDecimal getMinQty() {
+    return minQty;
+  }
+
+  public BigDecimal getMaxQty() {
+    return maxQty;
+  }
+
   @Override
   public String toString() {
     return "AscendexProductDto{"
@@ -124,6 +140,10 @@ public class AscendexProductDto {
         + tickSize
         + ", lotSize="
         + lotSize
+        + ", minQty="
+        + minQty
+        + ", maxQty="
+        + maxQty
         + '}';
   }
 

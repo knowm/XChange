@@ -35,5 +35,4 @@ public class CurrencyMetaData implements Serializable {
   public CurrencyMetaData(Integer scale, BigDecimal withdrawalFee, BigDecimal minWithdrawalAmount) {
     this(scale, withdrawalFee, minWithdrawalAmount, WalletHealth.UNKNOWN);
   }
-
 }

@@ -15,11 +15,9 @@ import org.knowm.xchange.dto.trade.UserTrade;
 @NoArgsConstructor
 public class RippleUserTrade extends UserTrade {
 
-  @Builder.Default
-  private String baseCounterparty = "";
+  @Builder.Default private String baseCounterparty = "";
 
-  @Builder.Default
-  private String counterCounterparty = "";
+  @Builder.Default private String counterCounterparty = "";
 
   private BigDecimal baseTransferFee;
   private BigDecimal counterTransferFee;
@@ -31,5 +29,4 @@ public class RippleUserTrade extends UserTrade {
   public Currency getCounterTransferFeeCurrency() {
     return getInstrument().getCounter();
   }
-
 }

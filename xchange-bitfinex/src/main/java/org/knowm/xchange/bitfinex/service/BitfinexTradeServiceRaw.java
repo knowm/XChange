@@ -587,7 +587,8 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
         .call();
   }
 
-  public List<BitfinexOrderDetails> getBitfinexActiveOrdersV2(CurrencyPair currencyPair, List<Long> ids) throws IOException {
+  public List<BitfinexOrderDetails> getBitfinexActiveOrdersV2(
+      CurrencyPair currencyPair, List<Long> ids) throws IOException {
     String symbol = BitfinexUtils.toPairString(currencyPair);
     return decorateApiCall(
             () -> {
@@ -597,8 +598,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                     apiKey,
                     signatureV2,
                     BitfinexOpenOrdersRequest.builder().ids(ids).build());
-              }
-              else {
+              } else {
                 return bitfinexV2.getActiveOrdersBySymbol(
                     exchange.getNonceFactory(),
                     apiKey,
@@ -611,22 +611,29 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
         .call();
   }
 
-
-  public List<BitfinexOrderDetails> getBitfinexOrdersHistory(CurrencyPair currencyPair, List<Long> ids, Instant start, Instant end, Long limit) throws IOException {
+  public List<BitfinexOrderDetails> getBitfinexOrdersHistory(
+      CurrencyPair currencyPair, List<Long> ids, Instant start, Instant end, Long limit)
+      throws IOException {
     String symbol = BitfinexUtils.toPairString(currencyPair);
     return decorateApiCall(
             () -> {
               if (symbol == null) {
-                return bitfinexV2.getOrdersHistory(exchange.getNonceFactory(), apiKey, signatureV2,
+                return bitfinexV2.getOrdersHistory(
+                    exchange.getNonceFactory(),
+                    apiKey,
+                    signatureV2,
                     org.knowm.xchange.bitfinex.v2.dto.trade.BitfinexOrdersHistoryRequest.builder()
                         .ids(ids)
                         .from(start)
                         .to(end)
                         .limit(limit)
                         .build());
-              }
-              else {
-                return bitfinexV2.getOrdersHistoryBySymbol(exchange.getNonceFactory(), apiKey, signatureV2, symbol,
+              } else {
+                return bitfinexV2.getOrdersHistoryBySymbol(
+                    exchange.getNonceFactory(),
+                    apiKey,
+                    signatureV2,
+                    symbol,
                     org.knowm.xchange.bitfinex.v2.dto.trade.BitfinexOrdersHistoryRequest.builder()
                         .ids(ids)
                         .from(start)

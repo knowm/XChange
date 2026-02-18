@@ -32,6 +32,7 @@ import org.knowm.xchange.dto.account.Wallet.WalletFeature;
 import org.knowm.xchange.dto.marketdata.CandleStick;
 import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.FundingRate;
+import org.knowm.xchange.dto.marketdata.FundingRate.FundingRateInterval;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -136,8 +137,7 @@ public class OkexAdapters {
   private static Order adaptOrderChange(
       OkexOrderDetails okexOrder, ExchangeMetaData exchangeMetaData) {
     Instrument instrument = adaptOkexInstrumentId(okexOrder.getInstrumentId());
-    OrderType orderType =
-        "buy".equals(okexOrder.getSide()) ? OrderType.BID : OrderType.ASK;
+    OrderType orderType = "buy".equals(okexOrder.getSide()) ? OrderType.BID : OrderType.ASK;
     Order order;
     if (okexOrder.getOrderType().equals(OkexOrderType.market.name())) {
       order =
@@ -172,14 +172,14 @@ public class OkexAdapters {
                       exchangeMetaData.getInstruments().get(instrument).getContractValue()))
               .cumulativeAmount(
                   convertContractSizeToVolume(
-                      // Accumulated or Filled ?
-                      new BigDecimal(okexOrder.getLastFilledQuantity()),
+                      new BigDecimal(okexOrder.getAccumulatedFill()),
                       instrument,
                       exchangeMetaData.getInstruments().get(instrument).getContractValue()))
               .id(okexOrder.getOrderId())
               .timestamp(new Date(Long.parseLong(okexOrder.getUpdateTime())))
               .limitPrice(
-                  okexOrder.getLastFilledPrice().isEmpty() || okexOrder.getLastFilledPrice().equals("0")
+                  okexOrder.getLastFilledPrice().isEmpty()
+                          || okexOrder.getLastFilledPrice().equals("0")
                       ? new BigDecimal(okexOrder.getPrice())
                       : new BigDecimal(okexOrder.getLastFilledPrice()))
               .averagePrice(new BigDecimal(okexOrder.getAverageFilledPrice()))
@@ -255,8 +255,9 @@ public class OkexAdapters {
     return (order.getInstrument() instanceof FuturesContract)
         ? order
             .getOriginalAmount()
-            .divide(metaData.getContractValue(),20, RoundingMode.HALF_DOWN)
-            .stripTrailingZeros().toPlainString()
+            .divide(metaData.getContractValue(), 20, RoundingMode.HALF_DOWN)
+            .stripTrailingZeros()
+            .toPlainString()
         : order.getOriginalAmount().toString();
   }
 
@@ -300,7 +301,7 @@ public class OkexAdapters {
   }
 
   private static String getSide(Order order) {
-    String side= "";
+    String side = "";
     switch (order.getType()) {
       case BID:
         side = "buy";
@@ -441,7 +442,8 @@ public class OkexAdapters {
       CurrencyPair pair = (CurrencyPair) instrument;
       String base = pair.getBase().getCurrencyCode();
       String counter = pair.getCounter().getCurrencyCode();
-      // Adapt for USDC after delist: https://www.okx.com/docs-v5/log_en/#2025-08-20-unified-usd-orderbook-revamp
+      // Adapt for USDC after delist:
+      // https://www.okx.com/docs-v5/log_en/#2025-08-20-unified-usd-orderbook-revamp
       if ("USDC".equals(counter)) {
         counter = "USD";
       }
@@ -682,18 +684,59 @@ public class OkexAdapters {
   }
 
   public static FundingRate adaptFundingRate(List<OkexFundingRate> okexFundingRate) {
+    int interval =
+        ((int)
+                (okexFundingRate.get(0).getNextFundingTime().getTime()
+                    - okexFundingRate.get(0).getFundingTime().getTime())
+            / 3600000);
+    BigDecimal fundingRate = okexFundingRate.get(0).getFundingRate();
+    FundingRateInterval rateInterval = FundingRateInterval.H8;
+    BigDecimal fundingRate1h = BigDecimal.ZERO;
+    switch (interval) {
+      case 1:
+        {
+          rateInterval = FundingRateInterval.H1;
+          fundingRate1h = fundingRate;
+          break;
+        }
+      case 2:
+        {
+          rateInterval = FundingRateInterval.H2;
+          fundingRate1h =
+              fundingRate.divide(
+                  BigDecimal.valueOf(2), fundingRate.scale(), RoundingMode.HALF_EVEN);
+          break;
+        }
+      case 4:
+        {
+          rateInterval = FundingRateInterval.H4;
+          fundingRate1h =
+              fundingRate.divide(
+                  BigDecimal.valueOf(4), fundingRate.scale(), RoundingMode.HALF_EVEN);
+          break;
+        }
+      case 6:
+        {
+          rateInterval = FundingRateInterval.H6;
+          fundingRate1h =
+              fundingRate.divide(
+                  BigDecimal.valueOf(6), fundingRate.scale(), RoundingMode.HALF_EVEN);
+          break;
+        }
+      case 8:
+        {
+          fundingRate1h =
+              fundingRate.divide(
+                  BigDecimal.valueOf(8), fundingRate.scale(), RoundingMode.HALF_EVEN);
+          break;
+        }
+    }
     return new FundingRate.Builder()
         .instrument(adaptOkexInstrumentId(okexFundingRate.get(0).getInstId()))
-        .fundingRate8h(okexFundingRate.get(0).getFundingRate())
-        .fundingRate1h(
-            okexFundingRate
-                .get(0)
-                .getFundingRate()
-                .divide(
-                    BigDecimal.valueOf(8),
-                    okexFundingRate.get(0).getFundingRate().scale(),
-                    RoundingMode.HALF_EVEN))
+        .fundingRate(fundingRate)
+        .fundingRate1h(fundingRate1h)
         .fundingRateDate(okexFundingRate.get(0).getFundingTime())
+        .fundingRateInterval(rateInterval)
         .build();
   }
 
@@ -701,8 +744,7 @@ public class OkexAdapters {
       List<OkexAccountPositionRisk> accountPositionRiskData) {
     BigDecimal totalPositionValueInUsd = BigDecimal.ZERO;
 
-    for (PositionData positionData :
-        accountPositionRiskData.get(0).getPositionData()) {
+    for (PositionData positionData : accountPositionRiskData.get(0).getPositionData()) {
       totalPositionValueInUsd = totalPositionValueInUsd.add(positionData.getNotionalUsdValue());
     }
 
@@ -790,15 +832,13 @@ public class OkexAdapters {
     for (OkexPublicOrder ask : asks) {
       BigDecimal volume = convertContractSizeToVolume(ask.getVolume(), instrument, contractValue);
       OrderBookUpdate o =
-          new OrderBookUpdate(
-              OrderType.ASK, volume, instrument, ask.getPrice(), date, volume);
+          new OrderBookUpdate(OrderType.ASK, volume, instrument, ask.getPrice(), date, volume);
       orderBookUpdates.add(o);
     }
     for (OkexPublicOrder bid : bids) {
       BigDecimal volume = convertContractSizeToVolume(bid.getVolume(), instrument, contractValue);
       OrderBookUpdate o =
-          new OrderBookUpdate(
-              OrderType.BID, volume, instrument, bid.getPrice(), date, volume);
+          new OrderBookUpdate(OrderType.BID, volume, instrument, bid.getPrice(), date, volume);
       orderBookUpdates.add(o);
     }
     return orderBookUpdates;

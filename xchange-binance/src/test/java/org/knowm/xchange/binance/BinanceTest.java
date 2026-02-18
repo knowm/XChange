@@ -1,6 +1,5 @@
 package org.knowm.xchange.binance;
 
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.knowm.xchange.Exchange.USE_SANDBOX;
 import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
@@ -146,7 +145,7 @@ public class BinanceTest {
     logger.info(
         "CancelOrder: "
             + binanceExchange
-            .getTradeService()
-            .cancelOrder(new BinanceCancelOrderParams(instrument, orderId,"")));
+                .getTradeService()
+                .cancelOrder(new BinanceCancelOrderParams(instrument, orderId, "")));
   }
 }

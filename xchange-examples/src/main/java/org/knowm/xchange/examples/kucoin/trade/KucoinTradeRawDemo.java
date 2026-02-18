@@ -209,8 +209,8 @@ public class KucoinTradeRawDemo {
 
     OrderCreateApiRequest limitOrder =
         OrderCreateApiRequest.builder()
-            .size(AMOUNT)
-            .price(PRICE)
+            .size(AMOUNT.toPlainString())
+            .price(PRICE.toPlainString())
             .side("sell")
             .symbol(SYMBOL)
             .type("limit")

@@ -16,7 +16,7 @@ public class BinanceDemoUtils {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class);
     ExchangeSpecification binanceSpec = exchange.getDefaultExchangeSpecification();
-// The most convenient way. Can store all keys in .ssh folder
+    // The most convenient way. Can store all keys in .ssh folder
     AuthUtils.setApiAndSecretKey(binanceSpec, "binance-demo-futures");
     binanceSpec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
     binanceSpec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);

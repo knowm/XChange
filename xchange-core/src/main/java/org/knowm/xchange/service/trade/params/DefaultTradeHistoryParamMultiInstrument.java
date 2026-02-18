@@ -14,7 +14,5 @@ import org.knowm.xchange.instrument.Instrument;
 @NoArgsConstructor
 public class DefaultTradeHistoryParamMultiInstrument implements TradeHistoryParamMultiInstrument {
 
-  @Builder.Default
-  private Collection<Instrument> instruments = Collections.emptySet();
-
+  @Builder.Default private Collection<Instrument> instruments = Collections.emptySet();
 }

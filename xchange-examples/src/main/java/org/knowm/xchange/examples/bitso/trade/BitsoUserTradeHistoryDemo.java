@@ -38,7 +38,9 @@ public class BitsoUserTradeHistoryDemo {
     // limit the result to 17 of those types and from those 17 only trades are
     // returned. It is recommended to use the raw service demonstrated below
     // if you want to use this feature.
-    Trades tradesLimitedTo17 = tradeService.getTradeHistory(DefaultTradeHistoryParamPaging.builder().pageLength(17).build());
+    Trades tradesLimitedTo17 =
+        tradeService.getTradeHistory(
+            DefaultTradeHistoryParamPaging.builder().pageLength(17).build());
     System.out.println(tradesLimitedTo17);
   }
 

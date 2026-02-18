@@ -51,7 +51,6 @@ public class KrakenTradeMessage extends KrakenDataMessage<Payload> {
 
     @JsonProperty("timestamp")
     private Instant createdAt;
-
   }
 
   public enum KrakenOrderType {
@@ -60,8 +59,5 @@ public class KrakenTradeMessage extends KrakenDataMessage<Payload> {
 
     @JsonProperty("market")
     MARKET,
-
   }
-
-
 }

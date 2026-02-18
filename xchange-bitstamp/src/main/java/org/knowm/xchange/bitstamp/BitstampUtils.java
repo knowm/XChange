@@ -22,11 +22,16 @@ public final class BitstampUtils {
           .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
           .toFormatter();
 
+  // ISO 8601 format with timezone (e.g., "2025-11-15T02:09:13+00:00")
+  private static final DateTimeFormatter ISO_8601_FORMATTER =
+      DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+
   /** private Constructor */
   private BitstampUtils() {}
 
   /**
-   * Format a date String for Bitstamp
+   * Format a date String for Bitstamp. Supports both the legacy format ("yyyy-MM-dd HH:mm:ss") and
+   * ISO 8601 format with timezone ("yyyy-MM-dd'T'HH:mm:ssXXX").
    *
    * @param dateString A {@code String} whose beginning should be parsed.
    * @return A {@link Date}
@@ -36,13 +41,23 @@ public final class BitstampUtils {
       if (dateString == null) {
         return null;
       }
-      final Instant instant =
-          LocalDateTime.parse(dateString, BITSTAMP_DATE_TIME_PATTERN)
-              .atZone(BITSTAMP_DATE_TIME_ZONE_ID)
-              .toInstant();
+
+      Instant instant;
+
+      // Try ISO 8601 format first (with 'T' separator and timezone)
+      if (dateString.contains("T")) {
+        instant = Instant.from(ISO_8601_FORMATTER.parse(dateString));
+      } else {
+        // Try legacy format (space separator, no timezone)
+        instant =
+            LocalDateTime.parse(dateString, BITSTAMP_DATE_TIME_PATTERN)
+                .atZone(BITSTAMP_DATE_TIME_ZONE_ID)
+                .toInstant();
+      }
+
       return Date.from(instant);
     } catch (DateTimeParseException e) {
-      throw new ExchangeException("Illegal date/time format", e);
+      throw new ExchangeException("Illegal date/time format: " + dateString, e);
     }
   }
 }

@@ -55,5 +55,4 @@ class KrakenStreamingMarketDataServiceIntegration extends KrakenStreamingExchang
     assertThat(trades.get(0)).hasNoNullFieldsOrPropertiesExcept("makerOrderId", "takerOrderId");
     assertThat(trades.get(0).getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
   }
-
 }

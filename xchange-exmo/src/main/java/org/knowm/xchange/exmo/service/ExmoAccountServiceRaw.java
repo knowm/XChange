@@ -71,7 +71,10 @@ public class ExmoAccountServiceRaw extends BaseExmoService {
               .currency(Currency.getInstance(curr))
               .amount(new BigDecimal(amount).abs())
               .blockchainTransactionHash(txid)
-              .type(type.equalsIgnoreCase("deposit") ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL)
+              .type(
+                  type.equalsIgnoreCase("deposit")
+                      ? FundingRecord.Type.DEPOSIT
+                      : FundingRecord.Type.WITHDRAWAL)
               .status(statusEnum)
               .description(description)
               .build();

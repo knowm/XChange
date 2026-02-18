@@ -41,7 +41,20 @@ public class BitstampUtilsTest {
 
     assertThatThrownBy(() -> BitstampUtils.parseDate(strDateWithInvalidFormat))
         .isInstanceOf(ExchangeException.class)
-        .hasMessage("Illegal date/time format");
+        .hasMessage("Illegal date/time format: " + strDateWithInvalidFormat);
+  }
+
+  @Test
+  public void testParseDateWithIso8601Format() {
+    final String strDateIso8601 = "2025-11-15T02:09:13+00:00";
+
+    // strDateIso8601 converted at https://www.epochconverter.com
+    final long epochMillis = 1763172553000L;
+
+    final Date convertedDate = BitstampUtils.parseDate(strDateIso8601);
+
+    assertThat(convertedDate).isNotNull();
+    assertThat(convertedDate.getTime()).isEqualTo(epochMillis);
   }
 
   @Test

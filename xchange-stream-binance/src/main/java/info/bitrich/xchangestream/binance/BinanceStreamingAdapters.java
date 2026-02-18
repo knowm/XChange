@@ -85,7 +85,8 @@ public class BinanceStreamingAdapters {
         .origClientOrderId(limitOrder.getUserReference())
         .price(limitOrder.getLimitPrice())
         .quantity(limitOrder.getOriginalAmount())
-        .timestamp(System.currentTimeMillis()).build();
+        .timestamp(System.currentTimeMillis())
+        .build();
   }
 
   public static BinanceWebsocketPlaceOrderPayload adaptPlaceOrder(Order order) {
@@ -97,29 +98,36 @@ public class BinanceStreamingAdapters {
           reduceOnly = true;
           break;
       }
-      BinanceWebsocketPlaceOrderPayload payload = null;
-      if (order instanceof LimitOrder) {
-        TimeInForce tif = BinanceAdapters.getOrderFlag(order, TimeInForce.class).orElse(TimeInForce.GTC);
-        payload = BinanceWebsocketPlaceOrderPayload.builder().type(OrderType.LIMIT).symbol(BinanceAdapters.toSymbol(order.getInstrument()))
-            .side(BinanceAdapters.convert(order.getType()))
-            .reduceOnly(reduceOnly)
-            .quantity(order.getOriginalAmount())
-            .price(((LimitOrder) order).getLimitPrice())
-            .timestamp(System.currentTimeMillis())
-            .timeInForce(tif)
-            .newClientOrderId(order.getUserReference()).build();
-        return payload;
-      } else if (order instanceof MarketOrder) {
-        payload = BinanceWebsocketPlaceOrderPayload.builder().type(OrderType.MARKET).symbol(BinanceAdapters.toSymbol(order.getInstrument()))
-            .side(BinanceAdapters.convert(order.getType()))
-            .reduceOnly(reduceOnly)
-            .quantity(order.getOriginalAmount())
-            .timestamp(System.currentTimeMillis())
-            .newClientOrderId(order.getUserReference()).build();
-      }
-      return payload;
     }
-    return null;
+    BinanceWebsocketPlaceOrderPayload payload = null;
+    if (order instanceof LimitOrder) {
+      TimeInForce tif =
+          BinanceAdapters.getOrderFlag(order, TimeInForce.class).orElse(TimeInForce.GTC);
+      payload =
+          BinanceWebsocketPlaceOrderPayload.builder()
+              .type(OrderType.LIMIT)
+              .symbol(BinanceAdapters.toSymbol(order.getInstrument()))
+              .side(BinanceAdapters.convert(order.getType()))
+              .reduceOnly(reduceOnly ? true : null) // dont send if false(for spot)
+              .quantity(order.getOriginalAmount())
+              .price(((LimitOrder) order).getLimitPrice())
+              .timestamp(System.currentTimeMillis())
+              .timeInForce(tif)
+              .newClientOrderId(order.getUserReference())
+              .build();
+      return payload;
+    } else if (order instanceof MarketOrder) {
+      payload =
+          BinanceWebsocketPlaceOrderPayload.builder()
+              .type(OrderType.MARKET)
+              .symbol(BinanceAdapters.toSymbol(order.getInstrument()))
+              .side(BinanceAdapters.convert(order.getType()))
+              .reduceOnly(reduceOnly ? true : null) // dont send if false(for spot)
+              .quantity(order.getOriginalAmount())
+              .timestamp(System.currentTimeMillis())
+              .newClientOrderId(order.getUserReference())
+              .build();
+    }
+    return payload;
   }
-
 }

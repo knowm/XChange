@@ -8,7 +8,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** Demonstrate requesting Ticker at CoinEgg */
+/** Demonstrate requesting Ticker */
 public class CoinoneOrderBookDemo {
 
   public static void main(String[] args) throws IOException {

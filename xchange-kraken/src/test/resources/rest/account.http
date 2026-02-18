@@ -1,0 +1,106 @@
+### Get Account Balance
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{base_url}}/private/Balance
+API-Key: {{api_key}}
+API-Sign: {{sign}}
+Content-Type: application/json
+
+{
+  "nonce": {{nonceValue}}
+}
+
+
+### Get Extended Balance
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{base_url}}/private/BalanceEx
+API-Key: {{api_key}}
+API-Sign: {{sign}}
+Content-Type: application/json
+
+{
+  "nonce": {{nonceValue}}
+}
+
+
+### Get Trade Balance
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{base_url}}/private/TradeBalance
+API-Key: {{api_key}}
+API-Sign: {{sign}}
+Content-Type: application/json
+
+{
+  "nonce": {{nonceValue}}
+}
+
+
+### Get Open Orders
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{base_url}}/private/OpenOrders
+API-Key: {{api_key}}
+API-Sign: {{sign}}
+Content-Type: application/json
+
+{
+  "nonce": {{nonceValue}}
+}
+
+
+### Get Trades History
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{base_url}}/private/TradesHistory
+API-Key: {{api_key}}
+API-Sign: {{sign}}
+Content-Type: application/json
+
+{
+  "nonce": {{nonceValue}}
+}
+
+
+### Get Open Positions
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{base_url}}/private/OpenPositions
+API-Key: {{api_key}}
+API-Sign: {{sign}}
+Content-Type: application/json
+
+{
+  "nonce": {{nonceValue}}
+}
+
+
+### Get Ledgers Info
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{base_url}}/private/Ledgers
+API-Key: {{api_key}}
+API-Sign: {{sign}}
+Content-Type: application/json
+
+{
+  "nonce": {{nonceValue}},
+  "type": "deposit"
+}
+
+

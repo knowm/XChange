@@ -4,12 +4,9 @@ import com.fasterxml.jackson.databind.util.StdConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.dto.Order.OrderStatus;
 
-/**
- * Converts string to {@code OrderStatus}
- */
+/** Converts string to {@code OrderStatus} */
 @Slf4j
 public class StringToOrderStatusConverter extends StdConverter<String, OrderStatus> {
-
 
   @Override
   public OrderStatus convert(String value) {

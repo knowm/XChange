@@ -1,0 +1,42 @@
+{
+  "rows": [
+    {
+      "totalAmount": "75.46000000",
+      "tierAnnualPercentageRate": {
+        "0-5BTC": 0.05,
+        "5-10BTC": 0.03
+      },
+      "latestAnnualPercentageRate": "0.02599895",
+      "yesterdayAirdropPercentageRate": "0.02599895",
+      "asset": "USDT",
+      "airDropAsset": "BETH",
+      "canRedeem": true,
+      "collateralAmount": "232.23123213",
+      "productId": "USDT001",
+      "yesterdayRealTimeRewards": "0.10293829",
+      "cumulativeBonusRewards": "0.22759183",
+      "cumulativeRealTimeRewards": "0.22759183",
+      "cumulativeTotalRewards": "0.45459183",
+      "autoSubscribe": true
+    },
+    {
+      "totalAmount": "0.50000000",
+      "tierAnnualPercentageRate": {
+        "0-5BTC": 0.05
+      },
+      "latestAnnualPercentageRate": "0.05000000",
+      "yesterdayAirdropPercentageRate": "0.05000000",
+      "asset": "BTC",
+      "airDropAsset": null,
+      "canRedeem": true,
+      "collateralAmount": null,
+      "productId": "BTC001",
+      "yesterdayRealTimeRewards": "0.00006849",
+      "cumulativeBonusRewards": "0.00000000",
+      "cumulativeRealTimeRewards": "0.00013699",
+      "cumulativeTotalRewards": "0.00013699",
+      "autoSubscribe": false
+    }
+  ],
+  "total": 2
+}

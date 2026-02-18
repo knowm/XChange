@@ -43,4 +43,10 @@ public class BybitComplexPositionChanges extends OpenPosition {
   private Date updatedTime;
   private long seq;
 
+  public BigDecimal getPositionValue() {
+    if (getSize().compareTo(BigDecimal.ZERO) != 0 && getPrice().compareTo(BigDecimal.ZERO) != 0) {
+      return getSize().multiply(getPrice());
+    }
+    return BigDecimal.ZERO;
+  }
 }

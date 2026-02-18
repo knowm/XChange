@@ -16,7 +16,5 @@ public class DefaultTradeHistoryParamPaging implements TradeHistoryParamPaging {
   private Integer pageLength;
 
   /** 0-based page number */
-  @Builder.Default
-  private Integer pageNumber = 0;
-
+  @Builder.Default private Integer pageNumber = 0;
 }

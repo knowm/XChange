@@ -27,9 +27,7 @@ public class KrakenStreamingTradeServiceIntegration extends KrakenStreamingExcha
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    List<UserTrade> userTrades = testObserver
-        .awaitCount(1)
-        .values();
+    List<UserTrade> userTrades = testObserver.awaitCount(1).values();
 
     testObserver.dispose();
 
@@ -41,6 +39,4 @@ public class KrakenStreamingTradeServiceIntegration extends KrakenStreamingExcha
     assertThat(userTrades.get(0).getId()).isNotNull();
     assertThat(userTrades.get(0).getOrderId()).isNotNull();
   }
-
-
 }

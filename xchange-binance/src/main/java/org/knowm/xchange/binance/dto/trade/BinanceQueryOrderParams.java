@@ -17,5 +17,4 @@ public class BinanceQueryOrderParams implements OrderQueryParamInstrument {
     this.instrument = instrument;
     this.orderId = orderId;
   }
-
 }

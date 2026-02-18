@@ -1,11 +1,15 @@
 package info.bitrich.xchangestream.binance;
 
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_CONNECTION_TIMEOUT;
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_IDLE_TIMEOUT;
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATION;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
-import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.rxjava3.core.Observable;
+import java.time.Duration;
+import org.knowm.xchange.ExchangeSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,13 +17,19 @@ public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceUserDataStreamingService.class);
 
-  public static BinanceUserDataStreamingService create(String baseUri, String listenKey) {
+  public static BinanceUserDataStreamingService create(
+      String baseUri, String listenKey, ExchangeSpecification exchangeSpecification) {
 
-    return new BinanceUserDataStreamingService(baseUri + "ws/" + listenKey);
+    return new BinanceUserDataStreamingService(baseUri + "ws/" + listenKey, exchangeSpecification);
   }
 
-  private BinanceUserDataStreamingService(String url) {
-    super(url, Integer.MAX_VALUE);
+  private BinanceUserDataStreamingService(String url, ExchangeSpecification exchangeSpecification) {
+    super(
+        url,
+        65536,
+        (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT),
+        (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_RETRY_DURATION),
+        (Integer) exchangeSpecification.getExchangeSpecificParametersItem(WS_IDLE_TIMEOUT));
   }
 
   public Observable<JsonNode> subscribeChannel(BinanceWebSocketTypes eventType) {
@@ -56,11 +66,6 @@ public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
   public String getUnsubscribeMessage(String channelName, Object... args) {
     // No op. Disconnecting from the web socket will cancel subscriptions.
     return null;
-  }
-
-  @Override
-  protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
-    return WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler.INSTANCE;
   }
 
   @Override

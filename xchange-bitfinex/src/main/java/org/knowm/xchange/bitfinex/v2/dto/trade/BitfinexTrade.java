@@ -54,7 +54,6 @@ public class BitfinexTrade {
   @JsonDeserialize(converter = StringToCurrencyConverter.class)
   private Currency feeCurrency;
 
-
   public enum OrderType {
     LIMIT,
 
@@ -93,5 +92,4 @@ public class BitfinexTrade {
     @JsonProperty("EXCHANGE IOC")
     EXCHANGE_IOC;
   }
-
 }

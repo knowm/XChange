@@ -38,5 +38,4 @@ public class BitfinexLedgerEntry {
 
   /** Description of ledger transaction */
   private String description;
-
 }

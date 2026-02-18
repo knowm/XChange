@@ -1,0 +1,28 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "count": 1,
+    "data": [
+      {
+        "id": 451337,
+        "priority": 1.0,
+        "state": "confirmed",
+        "address": "2eaPDZw9FoGKNKbPjtAYzyv4HrA3JN2dKVYgknoS1rWm",
+        "currency": "USDT",
+        "completed": 0,
+        "amount": 0.09952953,
+        "note": "",
+        "transaction_id": null,
+        "updated_timestamp": 1763859427687,
+        "fee": 4.7047e-4,
+        "created_timestamp": 1763859396917,
+        "clearance_state": "in_progress",
+        "confirmed_timestamp": 1763859427687
+      }
+    ]
+  },
+  "usIn": 1763859563972266,
+  "usOut": 1763859563974038,
+  "usDiff": 1772,
+  "testnet": false
+}

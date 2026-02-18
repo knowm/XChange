@@ -76,30 +76,38 @@ public class BitfinexExchange extends BaseExchange {
       BitfinexAdapters.putCurrencyMapping("UST", "USDT");
 
       // put derivatives currency mappings
-      dataService.currencyDerivativesMappings().forEach(bitfinexCurrencyMapping -> {
-        BitfinexAdapters.putCurrencyMapping(bitfinexCurrencyMapping.getSource(), bitfinexCurrencyMapping.getTarget());
-      });
+      dataService
+          .currencyDerivativesMappings()
+          .forEach(
+              bitfinexCurrencyMapping -> {
+                BitfinexAdapters.putCurrencyMapping(
+                    bitfinexCurrencyMapping.getSource(), bitfinexCurrencyMapping.getTarget());
+              });
 
       List<BitfinexCurrencyPairInfo> currencyPairInfos = dataService.allCurrencyPairInfos();
 
       Map<Instrument, InstrumentMetaData> instruments = new HashMap<>();
       Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
-      currencyPairInfos.forEach(bitfinexCurrencyPairInfo -> {
-        instruments.put(bitfinexCurrencyPairInfo.getCurrencyPair(),
-            InstrumentMetaData.builder()
-                .minimumAmount(bitfinexCurrencyPairInfo.getInfo().getMinAssetAmount())
-                .maximumAmount(bitfinexCurrencyPairInfo.getInfo().getMaxAssetAmount())
-                .priceScale(8)
-                .volumeScale(8)
-                .marketOrderEnabled(true)
-                .build());
+      currencyPairInfos.forEach(
+          bitfinexCurrencyPairInfo -> {
+            instruments.put(
+                bitfinexCurrencyPairInfo.getCurrencyPair(),
+                InstrumentMetaData.builder()
+                    .minimumAmount(bitfinexCurrencyPairInfo.getInfo().getMinAssetAmount())
+                    .maximumAmount(bitfinexCurrencyPairInfo.getInfo().getMaxAssetAmount())
+                    .priceScale(8)
+                    .volumeScale(8)
+                    .marketOrderEnabled(true)
+                    .build());
 
-        currencies.put(bitfinexCurrencyPairInfo.getCurrencyPair().getBase(),
-            new CurrencyMetaData(8, null));
-        currencies.put(bitfinexCurrencyPairInfo.getCurrencyPair().getCounter(),
-            new CurrencyMetaData(8, null));
-      });
+            currencies.put(
+                bitfinexCurrencyPairInfo.getCurrencyPair().getBase(),
+                new CurrencyMetaData(8, null));
+            currencies.put(
+                bitfinexCurrencyPairInfo.getCurrencyPair().getCounter(),
+                new CurrencyMetaData(8, null));
+          });
 
       exchangeMetaData = new ExchangeMetaData(instruments, currencies, null, null, null);
 

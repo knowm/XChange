@@ -44,7 +44,5 @@ public class KrakenControlMessage extends KrakenMessage {
     @JsonProperty("symbol")
     @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
     private CurrencyPair currencyPair;
-
   }
-
 }

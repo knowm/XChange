@@ -104,10 +104,12 @@ public class GateioAdapters {
 
       case "closed":
         // if more than `PARTIALLY_FILLED_SCALE` left to fill -> set to `PARTIALLY_FILLED`
-        if (gateioOrder.getAmountLeftToFill().compareTo(gateioOrder.getAmount().multiply(PARTIALLY_FILLED_SCALE)) > 0) {
+        if (gateioOrder
+                .getAmountLeftToFill()
+                .compareTo(gateioOrder.getAmount().multiply(PARTIALLY_FILLED_SCALE))
+            > 0) {
           return OrderStatus.PARTIALLY_FILLED;
-        }
-        else {
+        } else {
           return OrderStatus.FILLED;
         }
 

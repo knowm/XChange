@@ -25,7 +25,6 @@ public class KrakenSubscribeMessage extends KrakenMessage {
     return Method.SUBSCRIBE;
   }
 
-
   @Data
   @Builder
   @Jacksonized
@@ -36,14 +35,11 @@ public class KrakenSubscribeMessage extends KrakenMessage {
     @JsonProperty("token")
     private String token;
 
-    @JsonIgnore
-    private CurrencyPair currencyPair;
+    @JsonIgnore private CurrencyPair currencyPair;
 
     @JsonProperty("symbol")
     public List<CurrencyPair> getSymbol() {
       return currencyPair == null ? Collections.emptyList() : List.of(currencyPair);
     }
-
   }
-
 }

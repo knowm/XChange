@@ -1,9 +1,12 @@
 package info.bitrich.xchangestream.bybit;
 
+import static info.bitrich.xchangestream.bybit.BybitStreamAdapters.adaptFundingRateInterval;
 import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
+import dto.BybitResponse;
 import dto.marketdata.BybitOrderbook;
 import dto.marketdata.BybitPublicOrder;
 import dto.trade.BybitTrade;
@@ -12,14 +15,18 @@ import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.FundingRate;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -39,6 +46,8 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
   private final Map<String, OrderBook> orderBookMap = new HashMap<>();
   private final Map<Instrument, PublishSubject<List<OrderBookUpdate>>>
       orderBookUpdatesSubscriptions;
+
+  private final Map<String, FundingRate> fundingRateMap = new HashMap<>();
 
   public BybitStreamingMarketDataService(BybitStreamingService streamingService) {
     this.streamingService = streamingService;
@@ -74,7 +83,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
                   orderBookMap.put(channelUniqueId, orderBook);
                   return orderBook;
                 } else if (type.equalsIgnoreCase("delta")) {
-                  return applyDeltaSnapshot(
+                  return applyOrderBookDeltaSnapshot(
                       channelUniqueId, instrument, bybitOrderBooks, orderBookUpdateIdPrev);
                 }
                 return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
@@ -95,14 +104,14 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
         .filter(orderBook -> !orderBook.getBids().isEmpty() && !orderBook.getAsks().isEmpty());
   }
 
-  private OrderBook applyDeltaSnapshot(
+  private OrderBook applyOrderBookDeltaSnapshot(
       String channelUniqueId,
       Instrument instrument,
       BybitOrderbook bybitOrderBookUpdate,
       AtomicLong orderBookUpdateIdPrev) {
     OrderBook orderBook = orderBookMap.getOrDefault(channelUniqueId, null);
     if (orderBook == null) {
-      LOG.debug("Failed to get orderBook, channelUniqueId= {}", channelUniqueId);
+      LOG.error("Failed to get orderBook, channelUniqueId= {}", channelUniqueId);
       return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
     }
     if (orderBookUpdateIdPrev.incrementAndGet() == bybitOrderBookUpdate.getData().getU()) {
@@ -112,7 +121,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
           bybitOrderBookUpdate.getData().getSeq());
       List<BybitPublicOrder> asks = bybitOrderBookUpdate.getData().getAsk();
       List<BybitPublicOrder> bids = bybitOrderBookUpdate.getData().getBid();
-      Date timestamp = new Date(Long.parseLong(bybitOrderBookUpdate.getTs()));
+      Date timestamp = new Date(bybitOrderBookUpdate.getCts());
       asks.forEach(
           bybitPublicOrder ->
               orderBook.update(
@@ -188,5 +197,65 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
               return Observable.fromIterable(
                   BybitStreamAdapters.adaptTrades(bybitTradeList, instrument).getTrades());
             });
+  }
+
+  @Override
+  public Observable<FundingRate> getFundingRate(Instrument instrument, Object... args) {
+    String channelUniqueId = TICKER + convertToBybitSymbol(instrument);
+    return streamingService
+        .subscribeChannel(channelUniqueId)
+        .map(
+            jsonNode -> {
+              BybitResponse<BybitLinearInverseTicker> bybitTicker =
+                  mapper.treeToValue(jsonNode, new TypeReference<>() {});
+              String type = bybitTicker.getType();
+              if (type.equalsIgnoreCase("snapshot")) {
+                FundingRate fundingRate =
+                    BybitStreamAdapters.adaptFundingRate(bybitTicker.getData());
+                fundingRateMap.put(channelUniqueId, fundingRate);
+                return fundingRate;
+              } else if (type.equalsIgnoreCase("delta")) {
+                return applyFundingRateDelta(channelUniqueId, bybitTicker.getData());
+              }
+              return new FundingRate();
+            })
+        .filter(pred -> pred.getFundingRate() != null);
+  }
+
+  private FundingRate applyFundingRateDelta(
+      String channelUniqueId, BybitLinearInverseTicker bybitTicker) {
+    FundingRate fundingRate = fundingRateMap.getOrDefault(channelUniqueId, null);
+    if (fundingRate != null) {
+      boolean returnNew = false;
+      if (bybitTicker.getFundingRate() != null) {
+        fundingRate.setFundingRate(bybitTicker.getFundingRate());
+        returnNew = true;
+      }
+      if (bybitTicker.getNextFundingTime() != null) {
+        fundingRate.setFundingRateDate(bybitTicker.getNextFundingTime());
+        returnNew = true;
+      }
+      if (bybitTicker.getFundingIntervalHour() != null) {
+        fundingRate.setFundingRateInterval(
+            adaptFundingRateInterval(bybitTicker.getFundingIntervalHour()));
+        returnNew = true;
+      }
+      if (returnNew) {
+        fundingRate.setFundingRate1h(
+            fundingRate
+                .getFundingRate()
+                .divide(
+                    BigDecimal.valueOf(fundingRate.getFundingRateInterval().getHours()),
+                    fundingRate.getFundingRate().scale(),
+                    RoundingMode.HALF_EVEN));
+        fundingRate.setFundingRateEffectiveInMinutes(
+            TimeUnit.MILLISECONDS.toMinutes(
+                fundingRate.getFundingRateDate().getTime() - System.currentTimeMillis()));
+        return fundingRate;
+      } else return new FundingRate();
+    } else {
+      LOG.error("Failed to get fundingRate, channelUniqueId= {}", channelUniqueId);
+      return new FundingRate();
+    }
   }
 }

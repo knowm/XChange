@@ -1,0 +1,19 @@
+{
+  "id" : "7b4d8285-f4a8-407d-86f3-52acee51c8db",
+  "name" : "0_private_balanceex",
+  "request" : {
+    "url" : "/0/private/BalanceEx",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "matches" : "nonce=.*",
+      "caseInsensitive" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "0_private_balanceex-7b4d8285-f4a8-407d-86f3-52acee51c8db.json"
+  },
+  "uuid" : "7b4d8285-f4a8-407d-86f3-52acee51c8db",
+  "persistent" : true,
+  "insertionIndex" : 12
+}

@@ -13,5 +13,4 @@ import org.knowm.xchange.dto.trade.UserTrade;
 public class HitbtcUserTrade extends UserTrade {
 
   private String clientOrderId;
-
 }

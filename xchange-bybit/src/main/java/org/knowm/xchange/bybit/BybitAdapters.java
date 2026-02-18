@@ -166,7 +166,6 @@ public class BybitAdapters {
   }
 
   public static CurrencyPair guessSymbol(String symbol) {
-    // SPOT Only
     for (String quoteCurrency : QUOTE_CURRENCIES) {
       if (symbol.endsWith(quoteCurrency)) {
         int splitIndex = symbol.lastIndexOf(quoteCurrency);
@@ -239,6 +238,7 @@ public class BybitAdapters {
         .tradingFee(instrumentInfo.getDeliveryFeeRate())
         .volumeScale(instrumentInfo.getLotSizeFilter().getQtyStep().scale())
         .amountStepSize(instrumentInfo.getLotSizeFilter().getQtyStep())
+        .counterMinimumAmount(instrumentInfo.getLotSizeFilter().getMinNotionalValue())
         .build();
   }
 
@@ -456,45 +456,61 @@ public class BybitAdapters {
     return null;
   }
 
-  public static BybitPlaceOrderPayload adaptMarketOrder(MarketOrder marketOrder,  BybitCategory category) {
+  public static BybitPlaceOrderPayload adaptMarketOrder(
+      MarketOrder marketOrder, BybitCategory category) {
     int positionIdx = getPositionIdx(marketOrder);
     boolean reduceOnly =
         marketOrder.getType().equals(OrderType.EXIT_ASK)
             || marketOrder.getType().equals(OrderType.EXIT_BID);
     BybitPlaceOrderPayload payload =
         new BybitPlaceOrderPayload(
-            category,  convertToBybitSymbol(marketOrder.getInstrument()),BybitAdapters.getSideString(marketOrder.getType()), BybitOrderType.MARKET, marketOrder.getOriginalAmount(),
-            marketOrder.getUserReference(), positionIdx, null);
+            category,
+            convertToBybitSymbol(marketOrder.getInstrument()),
+            BybitAdapters.getSideString(marketOrder.getType()),
+            BybitOrderType.MARKET,
+            marketOrder.getOriginalAmount(),
+            marketOrder.getUserReference(),
+            positionIdx,
+            null);
 
     if (reduceOnly) {
       payload.setReduceOnly("true");
     }
-      payload.setTimeInForce(BybitTimeInForce.IOC.getValue());
+    payload.setTimeInForce(BybitTimeInForce.IOC.getValue());
     return payload;
   }
 
-  public static BybitPlaceOrderPayload adaptLimitOrder(LimitOrder limitOrder,  BybitCategory category) {
+  public static BybitPlaceOrderPayload adaptLimitOrder(
+      LimitOrder limitOrder, BybitCategory category) {
     BybitTimeInForce timeInForce =
         getOrderFlag(limitOrder, BybitTimeInForce.class).orElse(BybitTimeInForce.GTC);
     int positionIdx = BybitAdapters.getPositionIdx(limitOrder);
     boolean reduceOnly =
         limitOrder.getType().equals(OrderType.EXIT_ASK)
             || limitOrder.getType().equals(OrderType.EXIT_BID);
-    BybitPlaceOrderPayload payload = new BybitPlaceOrderPayload(
-        category,  convertToBybitSymbol(limitOrder.getInstrument()),BybitAdapters.getSideString(limitOrder.getType()), BybitOrderType.LIMIT, limitOrder.getOriginalAmount(),
-        limitOrder.getUserReference(), positionIdx, limitOrder.getLimitPrice());
+    BybitPlaceOrderPayload payload =
+        new BybitPlaceOrderPayload(
+            category,
+            convertToBybitSymbol(limitOrder.getInstrument()),
+            BybitAdapters.getSideString(limitOrder.getType()),
+            BybitOrderType.LIMIT,
+            limitOrder.getOriginalAmount(),
+            limitOrder.getUserReference(),
+            positionIdx,
+            limitOrder.getLimitPrice());
     // stopLoss, slTriggerBy, slLimitPrice and slOrderType - not realized yet
-//    if (stopLoss != null && slTriggerBy != null && slLimitPrice != null && slOrderType != null) {
-//      payload.setStopLoss(stopLoss.toString());
-//      payload.setSlTriggerBy(slTriggerBy.getValue());
-//      payload.setSlLimitPrice(slLimitPrice.toString());
-//      payload.setSlOrderType(slOrderType.getValue());
-//      if (slOrderType.equals(MARKET)) {
-//        payload.setTpslMode(FULL.getValue());
-//      } else {
-//        payload.setTpslMode(PARTIAL.getValue());
-//      }
-//    }
+    //    if (stopLoss != null && slTriggerBy != null && slLimitPrice != null && slOrderType !=
+    // null) {
+    //      payload.setStopLoss(stopLoss.toString());
+    //      payload.setSlTriggerBy(slTriggerBy.getValue());
+    //      payload.setSlLimitPrice(slLimitPrice.toString());
+    //      payload.setSlOrderType(slOrderType.getValue());
+    //      if (slOrderType.equals(MARKET)) {
+    //        payload.setTpslMode(FULL.getValue());
+    //      } else {
+    //        payload.setTpslMode(PARTIAL.getValue());
+    //      }
+    //    }
     if (reduceOnly) {
       payload.setReduceOnly("true");
     }
@@ -511,15 +527,15 @@ public class BybitAdapters {
       switch (order.getType()) {
         case ASK:
         case EXIT_ASK:
-        {
-          positionIdx = 2;
-          break;
-        }
+          {
+            positionIdx = 2;
+            break;
+          }
         case BID:
         case EXIT_BID:
-        {
-          break;
-        }
+          {
+            break;
+          }
       }
     }
     return positionIdx;
@@ -532,23 +548,24 @@ public class BybitAdapters {
             .findFirst();
   }
 
-  public static BybitAmendOrderPayload adaptChangeOrder(LimitOrder order,  BybitCategory category) {
+  public static BybitAmendOrderPayload adaptChangeOrder(LimitOrder order, BybitCategory category) {
     return new BybitAmendOrderPayload(
-            category,
-            convertToBybitSymbol(order.getInstrument()),
-            order.getId(),
-            order.getUserReference(),
-            null,
-            order.getOriginalAmount().toPlainString(),
-            order.getLimitPrice().toPlainString(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
+        category,
+        convertToBybitSymbol(order.getInstrument()),
+        order.getId(),
+        order.getUserReference(),
+        null,
+        // conditional
+        order.getOriginalAmount() == null ? null : order.getOriginalAmount().toPlainString(),
+        // conditional
+        order.getLimitPrice() == null ? null : order.getLimitPrice().toPlainString(),
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null);
   }
-
 }

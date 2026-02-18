@@ -48,7 +48,7 @@ public class BybitStreamAdaptersTest {
 
     OrderBook orderBook =
         adaptOrderBook(bybitOrderbookSnapshot, new FuturesContract("BTC/USDT/PERP"));
-    assertThat(orderBook.getTimeStamp().getTime()).isEqualTo(1672304484978L);
+    assertThat(orderBook.getTimeStamp().getTime()).isEqualTo(1672304484976L);
 
     assertThat(orderBook.getBids().get(0).getLimitPrice()).isEqualTo(new BigDecimal("16493.50"));
     assertThat(orderBook.getBids().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("0.006"));

@@ -20,8 +20,7 @@ public class BitfinexAccountFeesResponse {
         withdraw.entrySet().stream() // Sting needs to be adapted (i.e., DSH -> DASH)
             .collect(
                 Collectors.toMap(
-                    entry -> BitfinexAdapters.toCurrency(entry.getKey()),
-                    Entry::getValue));
+                    entry -> BitfinexAdapters.toCurrency(entry.getKey()), Entry::getValue));
   }
 
   public Map<Currency, BigDecimal> getWithdraw() {

@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.bitfinex;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -51,6 +50,4 @@ public class BitfinexStreamingMarketDataServiceIntegration extends BitfinexStrea
       assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
     }
   }
-
-
 }

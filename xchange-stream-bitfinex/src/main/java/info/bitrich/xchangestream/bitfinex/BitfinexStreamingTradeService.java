@@ -40,11 +40,9 @@ public class BitfinexStreamingTradeService implements StreamingTradeService {
     return getOrderChanges().filter(o -> currencyPair.equals(o.getCurrencyPair()));
   }
 
-
   @Override
   public Observable<OpenPosition> getPositionChanges(Instrument instrument) {
-    return getRawAuthenticatedPositions()
-        .map(BitfinexStreamingAdapters::toOpenPosition);
+    return getRawAuthenticatedPositions().map(BitfinexStreamingAdapters::toOpenPosition);
   }
 
   /**
@@ -58,8 +56,7 @@ public class BitfinexStreamingTradeService implements StreamingTradeService {
         .map(BitfinexStreamingAdapters::adaptUserTrade)
         .doOnNext(
             t -> {
-              service.scheduleCalculatedBalanceFetch(
-                  t.getInstrument().getBase().getCurrencyCode());
+              service.scheduleCalculatedBalanceFetch(t.getInstrument().getBase().getCurrencyCode());
               service.scheduleCalculatedBalanceFetch(
                   t.getInstrument().getCounter().getCurrencyCode());
             });

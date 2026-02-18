@@ -106,4 +106,17 @@ public class BybitBaseService extends BaseResilientExchangeService<BybitExchange
     }
     return null;
   }
+
+  public RateLimiter getBatchCancelOrderRateLimiter(BybitCategory category) {
+    switch (category) {
+      case LINEAR:
+      case INVERSE:
+        return rateLimiter(ORDER_CANCEL_LINEAR_AND_INVERSE_RATE_LIMITER);
+      case SPOT:
+        return rateLimiter(ORDER_CANCEL_SPOT_RATE_LIMITER);
+      case OPTION:
+        return rateLimiter(ORDER_CANCEL_OPTION_LIMITER);
+    }
+    return null;
+  }
 }

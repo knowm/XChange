@@ -38,7 +38,8 @@ public class OkexRateLimiterTest {
   static org.knowm.xchange.okex.service.OkexAccountService okexAccountService;
 
   // it seems rate limiter needs full rework
-  // for example 20 req per 2 seconds - look like not less than 100 ms between any req(based on server receive time)
+  // for example 20 req per 2 seconds - look like not less than 100 ms between any req(based on
+  // server receive time)
   public static void main(String[] args) throws InterruptedException {
     Properties properties = new Properties();
     try {
@@ -55,18 +56,25 @@ public class OkexRateLimiterTest {
     spec.setProxyHost("127.0.0.1");
     spec.setProxyPort(1079);
     exchange = ExchangeFactory.INSTANCE.createExchange(spec);
-    okexAccountService = (org.knowm.xchange.okex.service.OkexAccountService) exchange.getAccountService();
-    instruments = exchange.getExchangeMetaData().getInstruments().keySet().stream().filter(f -> f instanceof FuturesContract)
-        .limit(instrumentListSize).collect(Collectors.toList());
-//    Thread.sleep(1000L);
+    okexAccountService =
+        (org.knowm.xchange.okex.service.OkexAccountService) exchange.getAccountService();
+    instruments =
+        exchange.getExchangeMetaData().getInstruments().keySet().stream()
+            .filter(f -> f instanceof FuturesContract)
+            .limit(instrumentListSize)
+            .collect(Collectors.toList());
+    //    Thread.sleep(1000L);
     amendOrder();
-//    setLeverage();
+    //    setLeverage();
   }
+
   static long lastRequestTime = 0;
+
   public static void amendOrder() {
     try {
       Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
-      InstrumentMetaData instrumentMetaData = exchange.getExchangeMetaData().getInstruments().get(instrument);
+      InstrumentMetaData instrumentMetaData =
+          exchange.getExchangeMetaData().getInstruments().get(instrument);
       BigDecimal size = instrumentMetaData.getMinimumAmount();
       BigDecimal price = ticker.getLow();
       String userReference = RandomStringUtils.randomAlphanumeric(20);
@@ -81,21 +89,25 @@ public class OkexRateLimiterTest {
                       .userReference(userReference)
                       .build());
       ExecutorService pool = Executors.newFixedThreadPool(4);
-      for(int i=0;i<25;i++) {
+      for (int i = 0; i < 25; i++) {
         int finalI = i;
-        if(new Date().getTime() - lastRequestTime > 100) {
-          pool.execute(() -> {
-            try {
-              lastRequestTime =  new Date().getTime();
-              exchange.getTradeService().changeOrder(new LimitOrder.Builder(Order.OrderType.BID, instrument)
-                  .limitPrice(price.add(new BigDecimal(finalI)))
-                  .originalAmount(size)
-                  .id(orderId)
-                  .build());
-            } catch (IOException e) {
-              throw new RuntimeException(e);
-            }
-          });
+        if (new Date().getTime() - lastRequestTime > 100) {
+          pool.execute(
+              () -> {
+                try {
+                  lastRequestTime = new Date().getTime();
+                  exchange
+                      .getTradeService()
+                      .changeOrder(
+                          new LimitOrder.Builder(Order.OrderType.BID, instrument)
+                              .limitPrice(price.add(new BigDecimal(finalI)))
+                              .originalAmount(size)
+                              .id(orderId)
+                              .build());
+                } catch (IOException e) {
+                  throw new RuntimeException(e);
+                }
+              });
         } else Thread.sleep(10);
       }
       Thread.sleep(1000);
@@ -112,10 +124,11 @@ public class OkexRateLimiterTest {
       int delay = 0;
       for (Instrument instrument : instruments) {
         int finalDelay = delay;
-        tasks.add(() -> {
-          Thread.sleep(finalDelay);
-          return okexAccountService.setLeverage(instrument, 1);
-        });
+        tasks.add(
+            () -> {
+              Thread.sleep(finalDelay);
+              return okexAccountService.setLeverage(instrument, 1);
+            });
         delay += 100;
       }
       List<Future<Boolean>> invokeAll;

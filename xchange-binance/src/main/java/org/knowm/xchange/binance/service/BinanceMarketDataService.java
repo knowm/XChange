@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.knowm.xchange.binance.BinanceAdapters;
@@ -16,11 +17,7 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.FundingRate;
-import org.knowm.xchange.dto.marketdata.FundingRates;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.ExchangeHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -88,6 +85,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
       return ticker24hAllProducts(isFutures).stream()
           .filter(BinanceTicker24h::isValid)
           .map(binanceTicker24h -> BinanceAdapters.toTicker(binanceTicker24h, isFutures))
+          .filter(Objects::nonNull)
           .collect(Collectors.toList());
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);

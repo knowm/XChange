@@ -24,13 +24,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class KrakenStreamingMarketDataServiceTest {
 
-  @Mock
-  KrakenStreamingService krakenStreamingService;
+  @Mock KrakenStreamingService krakenStreamingService;
 
   KrakenStreamingMarketDataService krakenStreamingMarketDataService;
 
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
-
 
   @BeforeEach
   public void init() {
@@ -64,20 +62,11 @@ class KrakenStreamingMarketDataServiceTest {
 
     assertThat(actual).hasSize(1);
 
-    assertThat(actual).first()
-        .usingRecursiveComparison()
-        .isEqualTo(expected);
-
+    assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
   }
-
-
 
   private KrakenMessage readMessage(String resourceName) throws IOException {
     return objectMapper.readValue(
-        getClass().getClassLoader().getResourceAsStream(resourceName),
-        KrakenMessage.class);
+        getClass().getClassLoader().getResourceAsStream(resourceName), KrakenMessage.class);
   }
-
-
-
 }

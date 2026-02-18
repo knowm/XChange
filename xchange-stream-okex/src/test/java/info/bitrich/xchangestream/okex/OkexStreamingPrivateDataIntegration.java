@@ -87,28 +87,34 @@ public class OkexStreamingPrivateDataIntegration {
   @Test
   public void checkStreamMarketOrder() throws InterruptedException, IOException {
     List<Disposable> disposables = new ArrayList<>();
-    InstrumentMetaData instrumentMetaData = exchange.getExchangeMetaData().getInstruments().get(instrument);
+    InstrumentMetaData instrumentMetaData =
+        exchange.getExchangeMetaData().getInstruments().get(instrument);
     BigDecimal size = instrumentMetaData.getMinimumAmount();
-    disposables.add(exchange
-        .getStreamingTradeService().getOrderChanges(instrument)
-        .subscribe(orderChange -> {
-          LOG.info("Order change: {}", orderChange);
-          assertThat(orderChange.getInstrument()).isEqualTo(instrument);
-          assertThat(orderChange.getType()).isEqualTo(Order.OrderType.BID);
-          if (orderChange.getCumulativeAmount().compareTo(BigDecimal.ZERO) > 0) {
-            assertThat(orderChange.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
-            assertEquals(0, orderChange.getCumulativeAmount().compareTo(size));
-          }
-        }));
-    disposables.add(((OkexStreamingExchange) exchange)
-        .getStreamingTradeService()
-        .getPositionChanges(instrument)
-        .subscribe(positionChange -> {
-          LOG.info("Position change: {}", positionChange);
-          assertThat(positionChange.getInstrument()).isEqualTo(instrument);
-          assertThat(positionChange.getType()).isEqualTo(Type.LONG);
-          assertTrue(positionChange.getSize().compareTo(size) >= 0);
-        }));
+    disposables.add(
+        exchange
+            .getStreamingTradeService()
+            .getOrderChanges(instrument)
+            .subscribe(
+                orderChange -> {
+                  LOG.info("Order change: {}", orderChange);
+                  assertThat(orderChange.getInstrument()).isEqualTo(instrument);
+                  assertThat(orderChange.getType()).isEqualTo(Order.OrderType.BID);
+                  if (orderChange.getCumulativeAmount().compareTo(BigDecimal.ZERO) > 0) {
+                    assertThat(orderChange.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
+                    assertEquals(0, orderChange.getCumulativeAmount().compareTo(size));
+                  }
+                }));
+    disposables.add(
+        ((OkexStreamingExchange) exchange)
+            .getStreamingTradeService()
+            .getPositionChanges(instrument)
+            .subscribe(
+                positionChange -> {
+                  LOG.info("Position change: {}", positionChange);
+                  assertThat(positionChange.getInstrument()).isEqualTo(instrument);
+                  assertThat(positionChange.getType()).isEqualTo(Type.LONG);
+                  assertTrue(positionChange.getSize().compareTo(size) >= 0);
+                }));
 
     TimeUnit.SECONDS.sleep(3);
     String bidOrderId =
@@ -126,27 +132,33 @@ public class OkexStreamingPrivateDataIntegration {
   public void checkStreamLimitOrder() throws InterruptedException, IOException {
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
     BigDecimal price = ticker.getLast();
-    InstrumentMetaData instrumentMetaData = exchange.getExchangeMetaData().getInstruments().get(instrument);
+    InstrumentMetaData instrumentMetaData =
+        exchange.getExchangeMetaData().getInstruments().get(instrument);
     BigDecimal size = instrumentMetaData.getMinimumAmount();
     List<Disposable> disposables = new ArrayList<>();
-    disposables.add(exchange
-        .getStreamingTradeService().getOrderChanges(instrument)
-        .subscribe(orderChange -> {
-          LOG.info("Order change: {}", orderChange);
-          assertThat(orderChange.getInstrument()).isEqualTo(instrument);
-          assertThat(orderChange.getType()).isEqualTo(Order.OrderType.BID);
-          if (orderChange.getCumulativeAmount().compareTo(BigDecimal.ZERO) > 0) {
-            assertThat(orderChange.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
-          }
-        }));
-    disposables.add(((OkexStreamingExchange) exchange)
-        .getStreamingTradeService()
-        .getPositionChanges(instrument)
-        .subscribe(positionChange -> {
-          LOG.info("Position change: {}", positionChange);
-          assertThat(positionChange.getInstrument()).isEqualTo(instrument);
-          assertThat(positionChange.getType()).isEqualTo(Type.LONG);
-        }));
+    disposables.add(
+        exchange
+            .getStreamingTradeService()
+            .getOrderChanges(instrument)
+            .subscribe(
+                orderChange -> {
+                  LOG.info("Order change: {}", orderChange);
+                  assertThat(orderChange.getInstrument()).isEqualTo(instrument);
+                  assertThat(orderChange.getType()).isEqualTo(Order.OrderType.BID);
+                  if (orderChange.getCumulativeAmount().compareTo(BigDecimal.ZERO) > 0) {
+                    assertThat(orderChange.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
+                  }
+                }));
+    disposables.add(
+        ((OkexStreamingExchange) exchange)
+            .getStreamingTradeService()
+            .getPositionChanges(instrument)
+            .subscribe(
+                positionChange -> {
+                  LOG.info("Position change: {}", positionChange);
+                  assertThat(positionChange.getInstrument()).isEqualTo(instrument);
+                  assertThat(positionChange.getType()).isEqualTo(Type.LONG);
+                }));
 
     TimeUnit.SECONDS.sleep(3);
     String bidOrderId =

@@ -16,15 +16,25 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
-AGP-PC\AliGökalp
+孟义人
+小田謙太郎
+陈晔
+=
 Aaron Jang
 AbstractBike
 Achterhoeker
+Adam from WALCZAK.IT
 Adam Netočný
 Adam Walczak
-Adam from WALCZAK.IT
+AGP-PC\AliGökalp
+ahmetoz
+ajdev
+akuloff
 Alejandro Reyero
+aleks-azen
+aleksazen@gmail.com
 Aleksey Baryshnikov
+alessandro luppi
 Alex
 Alex Dupre
 Alex Nugent
@@ -33,10 +43,15 @@ Alexander Krist
 Alexey Kopylov
 Alexey Syrtsev
 Alexey Z
+alfio
+alimac87
 Alin Breaban
 Allen Day
+alobarev
 Alvin Singh
+alwinc
 Amjad
+amjad1210
 Anatoliy Sablin
 Andraž
 Andre Reiter
@@ -46,52 +61,93 @@ Andreas Joelsson
 Andrew Gurinovich
 Andrew Lalis
 Anthony Tsang
+anton
 Anton.Malyshkin
+anw
+apaygh
 Arran Duff
 Arsentii Nerushev
 Arthurm1
 Artur
 Artur M
+artvel
+b00lean
 Baffo32
 Bartosz Milczarek
 Bashar Saleh
-BenTrapani
+belerweb
 Benedict Wong
 Benedikt Bünz
 Benjamin Trapani
+BenTrapani
+bharris
+bidlako
 Bilgin Ibryam
+bobeagle
+bolo
+bolobox
+boppleton
 Boppleton Industries
 Boris Aksenov
+brilliantnut
+bronko
+bronoman
+brox
 Bruno Volpato
 Bryan
 Bryan Hernandez
-CDP
+bryantharris
+cacofish
+cacofishadct
+caleb
 Caleb Allen
 Carbo Kuo
 Carlos Lopez-Camey
+cd2357
+CDP
+cduplessis3
 Celebrate-future
+charvam
 Chris Cannell
 Chris Rico
 Christiaan
 Christian Strässle
 Claus235
+coinlover75
+conspyrosy
 Cray Imperative
 Cristian Lucaci
 Cryptonit Exchange
+cymp
+cyril
 Cyril
+cyrus
+d.skalenko
 Damiano Derin
+dani_devoneko
 Daniel
 Daniel Cohen
 Daniela Hajnikova
+danielgarciaperez
 Danilo Guimarães
 Dany Pageau
+datbui
 Dave Seyb
 David FRANCOIS
 David Jirovec
 David Kreutzer
+david-yam
+daz
+denis
 Denis
 Dennis Ruhe
+dependabot-preview[bot]
+dependabot[bot]
+desinerlee
+deveth0
 Devin Smith
+dhenry
+dimecoin
 Djihad BENGATI
 Dmitri Ess
 Dmitri Karpovich
@@ -99,30 +155,48 @@ Dmitry Fedorenko
 Dmitry Pisklov
 Dmitry Sklyadnev
 Dolezal Zdenek
+dominum018
 Donald Jackson
+doublesharp
+douggie
 Douggie
+dovamir
+dozd
 DrawFun
 Dynamikey
+dyorgio
+earce
+emendamus
 Enrique Gonzalez
 Eric Anderson
 Erick
 Erick Arce
 Erland Lewin
 Eugene Schava
+evdubs
+evRusin
 EzBar
 Ezer Bar-Aviv
+ezhik97
 Fabian
 Fabien André
 Facundo Velazquez
 Felipe Micaroni Lalli
+fenwulf
 Ferdi-135
 Filip Ocelka
+firepol
 Flemingjp
 Foat Akhmadeev
+fozerol
 Frank Kaiser
+gaamox@tutanota.com
+garciapd
+Gary Rowe
+geck64
+Genadi Ivanov
 GENERAL BYTES
 GENiALi
-Gary Rowe
 George Soultos
 Gianluigi
 Giedrius
@@ -131,38 +205,55 @@ Giedrius Kokšta
 Gilbert Kimutai
 Giridhar Nandigam
 GlassOfWhiskey
+glebreutov
+gmorpheme
+godoorsun
 Gokalp Peker
+gpwclark
 Graham Crockford
 Greg
 Gregor Gaertner
+Grégory ELHAIMER
 Guang YANG
 Guillaume Labbé-Morissette
 Guillaume Morissette
 Guillaume Toison
 HairyFotr
 Han Changsoo
+hardsky
+harvey.yue
+hbwhyte
+henry
 Henry Wong
 Herman Korolevskyi
 Herman Ofenböck
+herman.korolevsky
+hkscfreak
+huguanrui
+hurricup
+hwiceberg
 Hypeon
 Ian W
 Ignacio Larranaga
 Igor Velichkevich
 Igor.Velichkevich
 Ilya Smirnov
+interwater
 Iury V. Vinogradov
+Ivan S.
+Ivan Solomonoff
+ivan.kosianenko
 Ivelin Velkov
 Ivo Galic
-JH
-JJag
-JK
 Jack McKenzie
+Jakub Čech
 Jakub Kalicki
 Jakub Minarovič
-Jakub Čech
+jakubkalicki
 James
 James Edwards
 James Fleming
+jamespedwards42
 Jan Akerman
 Jan Handrich
 Jan Vojt
@@ -170,17 +261,29 @@ Jan X Marek
 Jan-Terje Sørensen
 Janosch Gräf
 Jaroslaw Wisniewski
+jasonliu119
 JasonnnW3000
-Jean-Baptiste DUSSEAUT
+jchoinski
+jclaruelle
+jcuypers
 Jean-Baptiste Dusseaut
+Jean-Baptiste DUSSEAUT
 Jean-Pierre Froud
+jecker
+JH
 Jianzhong Chen
 Jim Northrup
+JJag
+JK
+jkolenko
+jlochman
+jmcklondonuk
 Joakim Johansson
 Joe Zhou
 Johan Lindkvist
 Johannes Zweng
 John Bergqvist
+johndemic
 Jonathan Heusser
 Jonathan Leitschuh
 Jonathan Tse
@@ -193,6 +296,7 @@ Julian Liebl
 Juliusz Choinski
 Jure Grabnar
 Justin Ramsey
+kaiserfr
 Kaixiang
 Kaixiang Wang
 KaixiangWang
@@ -200,37 +304,64 @@ Kalle Rosenbaum
 Kamalakannan R
 Kamil Żbikowski
 Karel Hovorka
+karelhovorka
 Karol Pysniak
+karol.pysniak@turbineam.com
 Karsten Nilsen
 Ken Fehling
 Kenneth Jorgensen
 Keshav Sirohi
+kevin
 Kevin Britz
 Kevin Gates
 Kevin Jannis
+kevin tan
+kevinstl
+kevintan
 Khye
 Khye Ean Low
+kisapmata
+kkyovsky
 Kolozsy Gábor
 Konstantin Alexandrov
 Konstantin Indjov
 Konstantin Tenman
 Kopylov Oleksii
+kpysniak
+kristjangrm
 Krystian Nowak
 Krzysiek
 Krzysztof Cieślak
+kubacech
+kubasienki
+kyr7
 Lang Christian-Gabriel
+lapoor
+lazy_p@163.com
+lazyp
 Lee Cooper
+leeyazhou
+leon
 Leonardo Flores
 Leone Lisboa Magevski
 Leonid Shamis
+Leon·Lan
+lichunmao
 LifeIsGoodMF
 Livio Tinnirello
+llacina
 Low Khye Ean
 Luca Forni
 Luca Rosellini
-Lukas Zaoralek
 Lukáš Krejza
+Lukas Zaoralek
+lukasz.drygala
+lukaszaoralek
+lvxiao
+m4g4
 Macarse
+maghteriton
+makarid
 Makarid
 Manuel Polo
 Marc Deveaux
@@ -242,48 +373,82 @@ Martin Jones
 Martin Kubliniak
 Martin Stachon
 Martin Zdarsky
+martinkyov
 Marvin W
 Massimiliano Gerardi
 Matej Spiller Muys
 Math Vadash
 Mathijs Vogelzang
 Matija Mazi
+matija.mazi@gmail.com
+matt pearson
 Matt Read
 Matt Vadash
 Matt Whitlock
 Matthew Downey
 Matthew Peacock
+matze-see
+mautomic
+Mavym246
 Max Guo
 Maxim Fefilov
 Maxim Feofilov
 MaximFeofilov
+mazi
+mdeverdelhan
 Mehmet Fatih Gultekin
+mengyiren
+mert güner
 Mert Güner
 MertGorates
 MertGuner
+mfarid
+mharris021
 Micah Lerner
 Michael Lagace
 Michael Lagacé
+michaelscheung
+midnightcoder
 Miha Vidmar
+miho
 Mike Gerlyand
 Mikelle
 Mikhail Wall
+mikhail.petrov
+mikhw
+milczu
 Mindaugas Rolius
 Miron Balcerzak
 Miso Oprendek
 Mladen Markov
+mnapier
+moardm
 Moritz Habegger
+moritzhabegger
+mrmx
 Muffon
+mw
+nado04@gmail.com
+nakedpony
 Nathan King
 Nibaru
 Nicolas Pinot
+nicostouch
 Niels
 Niels Draaisma
+nihiluis
 Nikita Belenkiy
 Niko Schmuck
+nimrood
+nodarret
 Norbert Gogiel
 Norbert Sándor
+npomfret
+nxtpool@gmail.com
+o
 ObsessiveOrange
+octoberfestuser
+odaken
 Oleg Danilov
 Oleg Khomenko
 Oliver Drotleff
@@ -292,20 +457,30 @@ Pablo Lopez
 Pan, Xinyang
 Panchen
 Paolo Rendano
+paul
+pavel
 Pavel Chertalev
 Pavel Niedoba
 Pavlo Pastushok
-Pawel Piechowiak
 Paweł Jendrusik
+Pawel Piechowiak
+pchertalev
+perlboy
 Peter Keeler
 Peter N. Steinmetz
 Petr Sigl
 Piero Ottuzzi
 Pierre Leandre
+piotr
 Piotr Ladyzynski
 Piotr Ładyżyński
+pipixi
+pnkwpk
+pozheg
 Premek
 Premysl Vyhnal
+procyon
+pw4work
 Rachid
 RadeK
 Radovan Panák
@@ -314,63 +489,102 @@ Rafal Krupinski
 Rafał Krupiński
 Raphael Voellmy
 Raphael Vullriede
+rastooo
+renasse
 Richard Flint
+rizer1980
 Robert Felker
+Robert Fiser
 Roberto Santacroce Martins
 Roei Bar Aviv
+roeiba
 Roger Peyer
 Roman Belkov
 Roman Shterenzon
 Ronald Bultman
+rpanak-generalbytes
+rRajivramachandran
 Rudy Godoy
 Ryan Fox
 Ryan Sundberg
 Saeid Rastak
 Sascha
 Sascha Zieger
+scuevas-bc
+seanrobb
 Sebastiaan van Erk
 Sebastian Emler
 Sébastien Koch
+sebastienkoch
+semihunaldi
+senecaso
 Sergey Belyakov
 Sergey Lukashevich
 Sergey Tselovalnikov
 Sergii Pogodin
 Sergio Rodriguez
+sikerdebaard
 Sikerdebaard
+simonkeliuotis
+sirilicious
+sizmestiev
+skipster
+sm1l3
 Snailz
+Sohnoun
+sowhynot
 Spyros Stylianou
+stachon
 Stefan-Fritzsche
 Stéfanie Loiseleur
 Stéphane Traumat
+stephane-coulomb
 Steven te Brinke
+stevenuray
+straumat
 Stuart Low
+suchac
 Sumedha Saxena
+swiesend
+sydowma
 Sylvain
 T Savo
-TM Lee
 Tangjun He
+taoruifu
+tbosman
 The Gitter Badger
+theluckysuccess
 Themis Vassiliadis
 Theofanis Pantelides
 Thomas Diesler
 Thomas Muhm
 Tiger Fok
 Tillerino
+tim
 Tim Molter
 Tim Ross
+timmolter
+TM Lee
+tobakk
 Tobias
 Tomas Cere
 Tomas Klus
 Tomáš Procházka
 Tong Yang
 Tony Skulk
+tonykwok1992
+tplansky
 Travis Bullock
 Travis Collins
 Travis Savo
 Treer Zoltán
+trix
+trix13
 TrojaNFlash
+ts-00
 U-TORA\cristian.lucaci
 Ujjwal Kabra
+undecaf
 Uwe
 Vadims Grusas
 Valentin
@@ -378,13 +592,26 @@ Valentin Stavetski
 Vassilis Papavassiliou
 Vassilis Ppapavassiliou
 Vasyl Parasyna
+vasylp3
+veken0m
 Victor Didenko
 Victor Mezrin
 Viktor Szathmáry
 Viktor.Zakalyuzhnyy
+vitaha93
+vitalii
+vlad
+vulicevic
+w0lph
+walec51
+water0126
 Werner Vos
+will
 Wojciech Langiewicz
+wvr
+ww3456
 Wyatt Endres
+yalevokhin
 YANG MING
 Yang Yang
 Ye Chen
@@ -397,215 +624,5 @@ Yuki INOUE
 Yuriy
 Zach Holmes
 Zdenek Dolezal
-Zorge.R
-ahmetoz
-ajdev
-akuloff
-aleks-azen
-aleksazen@gmail.com
-alessandro luppi
-alfio
-alimac87
-alobarev
-alwinc
-amjad1210
-anton
-anw
-apaygh
-artvel
-b00lean
-belerweb
-bharris
-bobeagle
-bolo
-bolobox
-boppleton
-brilliantnut
-bronko
-bronoman
-brox
-bryantharris
-cacofish
-cacofishadct
-caleb
-cd2357
-cduplessis3
-charvam
-coinlover75
-conspyrosy
-cymp
-cyril
-cyrus
-d.skalenko
-dani_devoneko
-danielgarciaperez
-datbui
-david-yam
-daz
-denis
-dependabot-preview[bot]
-dependabot[bot]
-desinerlee
-deveth0
-dhenry
-dimecoin
-doublesharp
-douggie
-dovamir
-dozd
-dyorgio
-earce
-emendamus
-evRusin
-evdubs
-ezhik97
-fenwulf
-firepol
-fozerol
-gaamox@tutanota.com
-garciapd
-geck64
-glebreutov
-gmorpheme
-godoorsun
-gpwclark
-hardsky
-harvey.yue
-hbwhyte
-henry
-herman.korolevsky
-hkscfreak
-huguanrui
-hurricup
-hwiceberg
-interwater
-ivan.kosianenko
-jakubkalicki
-jamespedwards42
-jasonliu119
-jchoinski
-jclaruelle
-jcuypers
-jecker
-jkolenko
-jlochman
-jmcklondonuk
-johndemic
-kaiserfr
-karelhovorka
-karol.pysniak@turbineam.com
-kevin
-kevinstl
-kisapmata
-kkyovsky
-kpysniak
-kristjangrm
-kubacech
-kubasienki
-kyr7
-lapoor
-lazy_p@163.com
-lazyp
-leeyazhou
-lichunmao
-llacina
-lukasz.drygala
-lukaszaoralek
-lvxiao
-m4g4
-maghteriton
-makarid
-martinkyov
-matija.mazi@gmail.com
-matt pearson
-matze-see
-mautomic
-mazi
-mdeverdelhan
-mert güner
-mfarid
-mharris021
-michaelscheung
-midnightcoder
-miho
-mikhail.petrov
-mikhw
-milczu
-mnapier
-moardm
-moritzhabegger
-mrmx
-mw
-nado04@gmail.com
-nakedpony
-nicostouch
-nihiluis
-nimrood
-nodarret
-npomfret
-nxtpool@gmail.com
-o
-octoberfestuser
-odaken
-paul
-pavel
-pchertalev
-perlboy
-piotr
-pipixi
-pnkwpk
-pozheg
-procyon
-pw4work
-rRajivramachandran
-rastooo
-renasse
-rizer1980
-roeiba
-rpanak-generalbytes
-scuevas-bc
-seanrobb
-sebastienkoch
-semihunaldi
-senecaso
-sikerdebaard
-simonkeliuotis
-sirilicious
-sizmestiev
-skipster
-sm1l3
-sowhynot
-stachon
-stephane-coulomb
-stevenuray
-straumat
-suchac
-swiesend
-sydowma
-taoruifu
-tbosman
-theluckysuccess
-tim
-timmolter
-tobakk
-tonykwok1992
-trix
-trix13
-ts-00
-undecaf
-vasylp3
-veken0m
-vitaha93
-vitalii
-vlad
-vulicevic
-w0lph
-walec51
-water0126
-will
-wvr
-ww3456
-yalevokhin
 zholmes
-陈晔
-小田謙太郎
+Zorge.R

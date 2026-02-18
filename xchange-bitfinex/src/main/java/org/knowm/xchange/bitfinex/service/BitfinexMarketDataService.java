@@ -278,7 +278,6 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
     }
   }
 
-
   public List<Currency> getCurrencies() throws IOException {
     try {
       return allCurrencies();
@@ -291,9 +290,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
   public List<Instrument> getInstruments() throws IOException {
     try {
 
-      return allCurrencyPairs().stream()
-          .map(Instrument.class::cast)
-          .collect(Collectors.toList());
+      return allCurrencyPairs().stream().map(Instrument.class::cast).collect(Collectors.toList());
     } catch (BitfinexException e) {
       throw BitfinexErrorAdapter.adapt(e);
     }

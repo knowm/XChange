@@ -18,7 +18,6 @@ public class KrakenStatusMessage extends KrakenDataMessage<Payload> {
     return null;
   }
 
-
   @Data
   @Builder
   @Jacksonized
@@ -34,7 +33,6 @@ public class KrakenStatusMessage extends KrakenDataMessage<Payload> {
 
     @JsonProperty("connection_id")
     private String connectionId;
-
   }
 
   public enum Status {
@@ -50,7 +48,4 @@ public class KrakenStatusMessage extends KrakenDataMessage<Payload> {
     @JsonProperty("post_only")
     POST_ONLY,
   }
-
-
-
 }

@@ -24,7 +24,6 @@ public class OkexResponse<V> {
     this.data = data;
   }
 
-
   public boolean isSuccess() {
     return "0".equals(code);
   }

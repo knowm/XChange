@@ -1,0 +1,36 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "count": 2,
+    "data": [
+      {
+        "id": 4177189,
+        "type": "subaccount",
+        "state": "confirmed",
+        "currency": "USDT",
+        "amount": 5.0,
+        "direction": "income",
+        "note": "",
+        "updated_timestamp": 1763594539474,
+        "other_side": "detection221_1",
+        "created_timestamp": 1763594539474
+      },
+      {
+        "id": 4176793,
+        "type": "subaccount",
+        "state": "confirmed",
+        "currency": "USDT",
+        "amount": 5.0,
+        "direction": "payment",
+        "note": "",
+        "updated_timestamp": 1763592535283,
+        "other_side": "detection221_1",
+        "created_timestamp": 1763592535283
+      }
+    ]
+  },
+  "usIn": 1763595304914273,
+  "usOut": 1763595304923990,
+  "usDiff": 9717,
+  "testnet": false
+}

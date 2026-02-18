@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.bitfinex;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
@@ -31,11 +30,7 @@ public class BitfinexStreamingTradeServiceIntegration extends BitfinexStreamingE
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    List<UserTrade> userTrades =
-        testObserver
-            .awaitDone(5, TimeUnit.SECONDS)
-            .awaitCount(1)
-            .values();
+    List<UserTrade> userTrades = testObserver.awaitDone(5, TimeUnit.SECONDS).awaitCount(1).values();
 
     testObserver.dispose();
 
@@ -54,11 +49,7 @@ public class BitfinexStreamingTradeServiceIntegration extends BitfinexStreamingE
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    List<UserTrade> userTrades =
-        testObserver
-            .awaitDone(5, TimeUnit.SECONDS)
-            .awaitCount(1)
-            .values();
+    List<UserTrade> userTrades = testObserver.awaitDone(5, TimeUnit.SECONDS).awaitCount(1).values();
 
     testObserver.dispose();
 
@@ -73,15 +64,13 @@ public class BitfinexStreamingTradeServiceIntegration extends BitfinexStreamingE
 
   @Test
   void position_changes() {
-    Observable<OpenPosition> observable = exchange.getStreamingTradeService().getPositionChanges(null);
+    Observable<OpenPosition> observable =
+        exchange.getStreamingTradeService().getPositionChanges(null);
 
     TestObserver<OpenPosition> testObserver = observable.test();
 
     List<OpenPosition> positionChanges =
-        testObserver
-            .awaitDone(5, TimeUnit.SECONDS)
-            .awaitCount(1)
-            .values();
+        testObserver.awaitDone(5, TimeUnit.SECONDS).awaitCount(1).values();
 
     testObserver.dispose();
 
@@ -91,5 +80,4 @@ public class BitfinexStreamingTradeServiceIntegration extends BitfinexStreamingE
 
     assertThat(positionChanges.get(0).getInstrument()).isNotNull();
   }
-
 }

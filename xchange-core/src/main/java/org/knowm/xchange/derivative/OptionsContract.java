@@ -2,7 +2,6 @@ package org.knowm.xchange.derivative;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -14,8 +13,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 
-public class OptionsContract extends Instrument
-    implements Derivative, Comparable<OptionsContract>, Serializable {
+public class OptionsContract extends Instrument implements Derivative, Comparable<OptionsContract> {
 
   private static final long serialVersionUID = 4546376909031640294L;
 
@@ -53,7 +51,7 @@ public class OptionsContract extends Instrument
 
   private final OptionType type;
 
-  private OptionsContract(
+  public OptionsContract(
       CurrencyPair currencyPair, Date expireDate, BigDecimal strike, OptionType type) {
     this.currencyPair = currencyPair;
     this.expireDate = expireDate;

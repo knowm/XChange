@@ -26,15 +26,19 @@ public class BybitStreamOrderResponse {
   @Getter
   @Builder
   @Jacksonized
-  public static  class Header {
+  public static class Header {
     @JsonProperty("Traceid")
     private final String traceId;
+
     @JsonProperty("Timenow")
     private final String timeNow;
+
     @JsonProperty("X-Bapi-Limit")
     private final String xBapiLimit;
+
     @JsonProperty("X-Bapi-Limit-Status")
     private final String xBapiLimitStatus;
+
     @JsonProperty("X-Bapi-Limit-Reset-Timestamp")
     private final String xBapiLimitResetTimestamp;
   }
@@ -42,16 +46,18 @@ public class BybitStreamOrderResponse {
   @Getter
   @Builder
   @Jacksonized
-  public static  class RetExtInfo {
+  public static class RetExtInfo {
     @JsonProperty("list")
     private final List<RetExtInfoList> list;
   }
+
   @Getter
   @Builder
   @Jacksonized
-  public static  class RetExtInfoList {
+  public static class RetExtInfoList {
     @JsonProperty("code")
     private final String code;
+
     @JsonProperty("msg")
     private final String msg;
   }

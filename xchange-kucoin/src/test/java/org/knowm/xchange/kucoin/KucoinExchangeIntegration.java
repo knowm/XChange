@@ -17,5 +17,4 @@ class KucoinExchangeIntegration extends KucoinIntegrationTestParent {
     assertThat(exchangeMetaData.getInstruments()).containsKey(CurrencyPair.BTC_USDT);
     assertThat(exchangeMetaData.getCurrencies()).containsKey(Currency.BTC);
   }
-
 }

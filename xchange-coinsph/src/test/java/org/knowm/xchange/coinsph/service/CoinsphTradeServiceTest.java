@@ -345,7 +345,7 @@ public class CoinsphTradeServiceTest {
     List<CoinsphUserTrade> mockTrades = getCoinsphUserTrades();
 
     when(coinsphAuthenticated.getMyTrades(
-        anyString(), any(), any(), eq("BTCPHP"), any(), any(), any(), any(), any(), anyLong()))
+            anyString(), any(), any(), eq("BTCPHP"), any(), any(), any(), any(), any(), anyLong()))
         .thenReturn(mockTrades);
 
     // Create trade history params
@@ -364,12 +364,12 @@ public class CoinsphTradeServiceTest {
     TradeHistoryParams params = new CoinsphTradeHistoryParams();
 
     // when
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-        () -> tradeService.getTradeHistory(params)
-    );
+    IllegalArgumentException exception =
+        assertThrows(IllegalArgumentException.class, () -> tradeService.getTradeHistory(params));
 
     // then
-    assertThat(exception.getMessage()).contains("TradeHistoryParams must include either CurrencyPair or Instrument for Coins.ph");
+    assertThat(exception.getMessage())
+        .contains("TradeHistoryParams must include either CurrencyPair or Instrument for Coins.ph");
   }
 
   private static List<CoinsphUserTrade> getCoinsphUserTrades() {
@@ -389,7 +389,7 @@ public class CoinsphTradeServiceTest {
             true, // isBuyer
             false, // isMaker
             true // isBestMatch
-        );
+            );
     mockTrades.add(trade1);
 
     CoinsphUserTrade trade2 =
@@ -406,7 +406,7 @@ public class CoinsphTradeServiceTest {
             false, // isBuyer
             true, // isMaker
             true // isBestMatch
-        );
+            );
     mockTrades.add(trade2);
     return mockTrades;
   }

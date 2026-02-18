@@ -14,5 +14,4 @@ import lombok.NoArgsConstructor;
 public class OpenPositions implements Serializable {
 
   private List<OpenPosition> openPositions;
-
 }

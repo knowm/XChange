@@ -92,6 +92,7 @@ public class AscendexAssetDto {
     NoTrading,
     NoWithdraw,
     InternalTrading,
-    NoTransaction
+    NoTransaction,
+    Delisted
   }
 }

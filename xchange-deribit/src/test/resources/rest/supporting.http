@@ -1,0 +1,12 @@
+### Get Server Time
+GET {{api_v2}}/public/get_time
+
+
+### Get Server Status
+GET {{api_v2}}/public/status
+
+
+### Get API Version
+GET {{api_v2}}/public/test
+
+

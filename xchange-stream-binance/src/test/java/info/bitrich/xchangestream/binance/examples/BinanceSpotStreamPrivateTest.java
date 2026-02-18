@@ -49,63 +49,71 @@ public class BinanceSpotStreamPrivateTest {
 
   @Test
   public void getOrderAndPositionChanges() throws IOException, InterruptedException {
-      ProductSubscription subscription =
-          ProductSubscription.create()
-              // workaround to connect to userDataStream
-              .addUserTrades(instrument)
-              .build();
+    ProductSubscription subscription =
+        ProductSubscription.create()
+            // workaround to connect to userDataStream
+            .addUserTrades(instrument)
+            .build();
 
-      exchange.connect(subscription).blockingAwait();
+    exchange.connect(subscription).blockingAwait();
 
-      Disposable orderChangesDisposable =
-          exchange
-              .getStreamingTradeService().getOrderChanges(instrument)
-              .subscribe(orderChanges -> {
-                if (logOutput) {
-                  LOG.info("OrderChanges subscribe: {}", orderChanges);
-                }
-                assertThat(orderChanges.getInstrument().equals(instrument)).isTrue();
-                assertThat(orderChanges.getType().equals(OrderType.BID)).isTrue();
-              });
-      Disposable userTradeLiteDisposable =
-          exchange
-              .getStreamingTradeService().getUserTrades(instrument)
-              .subscribe(trade -> {
-                if (logOutput) {
-                  LOG.info("trade lite subscribe: {}", trade);
-                }
-                assertThat(trade.getInstrument().equals(instrument)).isTrue();
-                assertThat(trade.getType().equals(OrderType.BID)).isTrue();
-              });
-      Disposable balanceChangeDisposable =
-          binanceStreamingExchange.getStreamingAccountService()
-              .getBalanceChanges()
-              .subscribe(balanceChange -> {
-                    if (logOutput) {
-                      LOG.info("balanceChange subscribe: {}", balanceChange);
-                    }
+    Disposable orderChangesDisposable =
+        exchange
+            .getStreamingTradeService()
+            .getOrderChanges(instrument)
+            .subscribe(
+                orderChanges -> {
+                  if (logOutput) {
+                    LOG.info("OrderChanges subscribe: {}", orderChanges);
                   }
-              );
-      Thread.sleep(3000);
-      Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
-      BigDecimal amount = new BigDecimal("0.01");
-      // place limit order
-      String orderId =
-          exchange
-              .getTradeService()
-              .placeLimitOrder(
-                  new LimitOrder.Builder(OrderType.BID, instrument)
-                      .limitPrice(ticker.getLast())
-                      .originalAmount(amount)
-                      .build());
-      // place market order
-      String marketOrderId = exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(
-          OrderType.BID, instrument).originalAmount(amount).build());
+                  assertThat(orderChanges.getInstrument().equals(instrument)).isTrue();
+                  assertThat(orderChanges.getType().equals(OrderType.BID)).isTrue();
+                });
+    Disposable userTradeLiteDisposable =
+        exchange
+            .getStreamingTradeService()
+            .getUserTrades(instrument)
+            .subscribe(
+                trade -> {
+                  if (logOutput) {
+                    LOG.info("trade lite subscribe: {}", trade);
+                  }
+                  assertThat(trade.getInstrument().equals(instrument)).isTrue();
+                  assertThat(trade.getType().equals(OrderType.BID)).isTrue();
+                });
+    Disposable balanceChangeDisposable =
+        binanceStreamingExchange
+            .getStreamingAccountService()
+            .getBalanceChanges()
+            .subscribe(
+                balanceChange -> {
+                  if (logOutput) {
+                    LOG.info("balanceChange subscribe: {}", balanceChange);
+                  }
+                });
+    Thread.sleep(3000);
+    Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
+    BigDecimal amount = new BigDecimal("0.01");
+    // place limit order
+    String orderId =
+        exchange
+            .getTradeService()
+            .placeLimitOrder(
+                new LimitOrder.Builder(OrderType.BID, instrument)
+                    .limitPrice(ticker.getLast())
+                    .originalAmount(amount)
+                    .build());
+    // place market order
+    String marketOrderId =
+        exchange
+            .getTradeService()
+            .placeMarketOrder(
+                new MarketOrder.Builder(OrderType.BID, instrument).originalAmount(amount).build());
 
-      Thread.sleep(20000);
-      orderChangesDisposable.dispose();
-      userTradeLiteDisposable.dispose();
-      balanceChangeDisposable.dispose();
+    Thread.sleep(20000);
+    orderChangesDisposable.dispose();
+    userTradeLiteDisposable.dispose();
+    balanceChangeDisposable.dispose();
     exchange.disconnect().blockingAwait();
   }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.FundingRate;
+import org.knowm.xchange.dto.marketdata.FundingRate.FundingRateInterval;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -70,11 +71,12 @@ public class KrakenFuturesStreamingAdapters {
     return new FundingRate.Builder()
         .instrument(KrakenFuturesAdapters.adaptInstrument(tickerResponse.getProduct_id()))
         .fundingRate1h(tickerResponse.getRelative_funding_rate())
-        .fundingRate8h(
+        .fundingRate(
             (tickerResponse.getRelative_funding_rate() == null)
                 ? null
                 : tickerResponse.getRelative_funding_rate().multiply(BigDecimal.valueOf(8)))
         .fundingRateDate(tickerResponse.getNextFundingRateTime())
+        .fundingRateInterval(FundingRateInterval.H8)
         .build();
   }
 

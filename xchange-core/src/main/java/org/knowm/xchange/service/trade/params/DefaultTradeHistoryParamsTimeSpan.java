@@ -15,5 +15,4 @@ public class DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamsTime
 
   private Date endTime;
   private Date startTime;
-
 }

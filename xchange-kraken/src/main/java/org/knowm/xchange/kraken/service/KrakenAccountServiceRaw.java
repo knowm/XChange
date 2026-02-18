@@ -17,6 +17,9 @@ import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.account.DepostitStatus;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositMethods;
+import org.knowm.xchange.kraken.dto.account.KrakenEarnAllocations;
+import org.knowm.xchange.kraken.dto.account.KrakenEarnAllocationsRequest;
+import org.knowm.xchange.kraken.dto.account.KrakenExtendedBalance;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
@@ -28,6 +31,7 @@ import org.knowm.xchange.kraken.dto.account.WithdrawStatus;
 import org.knowm.xchange.kraken.dto.account.results.DepositStatusResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
+import org.knowm.xchange.kraken.dto.account.results.KrakenEarnAllocationsResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
@@ -67,6 +71,16 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
 
     KrakenBalanceResult balanceResult =
         kraken.balance(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory());
+    return checkResult(balanceResult);
+  }
+
+  public Map<String, KrakenExtendedBalance> getKrakenExtendedBalance() throws IOException {
+
+    var balanceResult =
+        kraken.balanceEx(
             exchange.getExchangeSpecification().getApiKey(),
             signatureCreator,
             exchange.getNonceFactory());
@@ -265,8 +279,19 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    * @throws IOException
    */
   public Map<String, KrakenLedger> getKrakenPartialLedgerInfo(
-      LedgerType ledgerType, String startTime, String endTime, Long offset, Currency... assets)
+      LedgerType ledgerType, Date start, Date end, Long offset, Currency... assets)
       throws IOException {
+
+    String startTime = null;
+    String endTime = null;
+
+    if (start != null) {
+      startTime = String.valueOf(DateUtils.toUnixTime(start));
+    }
+    if (end != null) {
+      endTime = String.valueOf(DateUtils.toUnixTime(end));
+    }
+
     String ledgerTypeString = (ledgerType == null) ? "all" : ledgerType.toString().toLowerCase();
     KrakenLedgerResult ledgerResult =
         kraken.ledgers(
@@ -299,28 +324,18 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
       LedgerType ledgerType, Date start, Date end, Long offset, Currency... assets)
       throws IOException {
 
-    String startTime = null;
-    String endTime = null;
-    long longOffset = 0;
+    Map<String, KrakenLedger> fullLedgerMap =
+        getKrakenPartialLedgerInfo(ledgerType, start, end, offset, assets);
+    Map<String, KrakenLedger> lastLedgerMap = fullLedgerMap;
 
-    if (start != null) {
-      startTime = String.valueOf(DateUtils.toUnixTime(start));
-    }
-    if (end != null) {
-      endTime = String.valueOf(DateUtils.toUnixTime(end));
-    }
+    long longOffset = 0;
     if (offset != null) {
       longOffset = offset;
     }
 
-    Map<String, KrakenLedger> fullLedgerMap =
-        getKrakenPartialLedgerInfo(ledgerType, startTime, endTime, offset, assets);
-    Map<String, KrakenLedger> lastLedgerMap = fullLedgerMap;
-
     while (!lastLedgerMap.isEmpty()) {
       longOffset += lastLedgerMap.size();
-      lastLedgerMap =
-          getKrakenPartialLedgerInfo(ledgerType, startTime, endTime, longOffset, assets);
+      lastLedgerMap = getKrakenPartialLedgerInfo(ledgerType, start, end, longOffset, assets);
       if (lastLedgerMap.size() == 1 && fullLedgerMap.keySet().containsAll(lastLedgerMap.keySet())) {
         break;
       }
@@ -369,5 +384,21 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
             .getExchangeSpecification()
             .getExchangeSpecificParameters()
             .getOrDefault("cacheDepositMethods", false);
+  }
+
+  public KrakenEarnAllocations getEarnAllocations(
+      Boolean ascending, String convertedAsset, Boolean hideZeroAllocations) throws IOException {
+    KrakenEarnAllocationsRequest request =
+        KrakenEarnAllocationsRequest.builder()
+            .nonce(exchange.getNonceFactory().createValue())
+            .ascending(ascending)
+            .convertedAsset(convertedAsset)
+            .hideZeroAllocations(hideZeroAllocations)
+            .build();
+
+    KrakenEarnAllocationsResult result =
+        kraken.getEarnAllocations(
+            exchange.getExchangeSpecification().getApiKey(), signatureCreator, request);
+    return checkResult(result);
   }
 }

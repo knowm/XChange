@@ -1,0 +1,32 @@
+### Get Deposit Methods
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{base_url}}/private/DepositMethods
+API-Key: {{api_key}}
+API-Sign: {{sign}}
+Content-Type: application/json
+
+{
+  "nonce": {{nonceValue}},
+  "asset": "USDT"
+}
+
+
+### Get Withdrawal Methods
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+POST {{base_url}}/private/WithdrawMethods
+API-Key: {{api_key}}
+API-Sign: {{sign}}
+Content-Type: application/json
+
+{
+  "nonce": {{nonceValue}},
+  "asset": "ETH"
+}
+
+

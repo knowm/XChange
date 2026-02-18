@@ -44,13 +44,16 @@ public class KucoinCurrencyResponseV3 {
   private List<Chain> chains;
 
   public boolean isDepositEnabled() {
-    return chains != null && !chains.isEmpty() && chains.stream().anyMatch(Chain::getIsDepositEnabled);
+    return chains != null
+        && !chains.isEmpty()
+        && chains.stream().anyMatch(Chain::getIsDepositEnabled);
   }
 
   public boolean isWithdrawEnabled() {
-    return chains != null && !chains.isEmpty() && chains.stream().anyMatch(Chain::getIsWithdrawEnabled);
+    return chains != null
+        && !chains.isEmpty()
+        && chains.stream().anyMatch(Chain::getIsWithdrawEnabled);
   }
-
 
   @Data
   @Builder
@@ -101,6 +104,5 @@ public class KucoinCurrencyResponseV3 {
 
     @JsonProperty("needTag")
     private Boolean needTag;
-
   }
 }

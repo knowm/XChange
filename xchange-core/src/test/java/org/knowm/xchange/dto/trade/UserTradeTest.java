@@ -55,44 +55,6 @@ public class UserTradeTest {
   }
 
   @Test
-  public void testBuilderFrom() {
-    final OrderType type = OrderType.ASK;
-    final BigDecimal originalAmount = new BigDecimal("100.501");
-    final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
-    final BigDecimal price = new BigDecimal("250.34");
-    final Date timestamp = new Date();
-    final String id = "id";
-    final String orderId = "OrderId";
-    final BigDecimal feeAmount = new BigDecimal("0");
-    final Currency feeCurrency = Currency.BTC;
-
-    final UserTrade original =
-        UserTrade.builder()
-            .type(type)
-            .originalAmount(originalAmount)
-            .instrument(currencyPair)
-            .price(price)
-            .timestamp(timestamp)
-            .id(id)
-            .orderId(orderId)
-            .feeAmount(feeAmount)
-            .feeCurrency(feeCurrency)
-            .build();
-
-    final UserTrade copy = original.toBuilder().build();
-
-    assertThat(copy.getType()).isEqualTo(original.getType());
-    assertThat(copy.getOriginalAmount()).isEqualTo(original.getOriginalAmount());
-    assertThat(copy.getInstrument()).isEqualTo(original.getInstrument());
-    assertThat(copy.getPrice()).isEqualTo(original.getPrice());
-    assertThat(copy.getTimestamp()).isEqualTo(original.getTimestamp());
-    assertThat(copy.getId()).isEqualTo(original.getId());
-    assertThat(copy.getOrderId()).isEqualTo(original.getOrderId());
-    assertThat(copy.getFeeAmount()).isEqualTo(original.getFeeAmount());
-    assertThat(copy.getFeeCurrency()).isEqualTo(original.getFeeCurrency());
-  }
-
-  @Test
   public void testSerializeDeserialize() throws IOException {
     final OrderType type = OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");

@@ -16,9 +16,7 @@ public final class Config {
     nonceFactory = new CurrentTimeIncrementalNonceFactory(TimeUnit.MILLISECONDS);
   }
 
-
   public static Config getInstance() {
     return instance;
   }
-
 }

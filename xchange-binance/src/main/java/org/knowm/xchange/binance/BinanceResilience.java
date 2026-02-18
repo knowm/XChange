@@ -7,13 +7,14 @@ import org.knowm.xchange.client.ResilienceRegistries;
 public final class BinanceResilience {
 
   public static final String REQUEST_WEIGHT_RATE_LIMITER = "requestWeight";
+  public static final String ORDERS_PER_10_SECONDS_RATE_LIMITER = "ordersPer10Seconds";
 
   // Spot specified
   public static final String ORDERS_PER_SECOND_RATE_LIMITER = "ordersPerSecond";
+  public static final String ORDERS_PER_DAY_RATE_LIMITER = "ordersPerDay";
   public static final String RAW_REQUESTS_RATE_LIMITER = "rawRequests";
 
   // Futures specified
-  public static final String ORDERS_PER_10_SECONDS_RATE_LIMITER = "ordersPer10Seconds";
   public static final String ORDERS_PER_MINUTE_RATE_LIMITER = "ordersPerMINUTE";
 
   private BinanceResilience() {}
@@ -40,6 +41,22 @@ public final class BinanceResilience {
     registries
         .rateLimiters()
         .rateLimiter(
+            ORDERS_PER_10_SECONDS_RATE_LIMITER,
+            RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
+                .limitRefreshPeriod(Duration.ofSeconds(10))
+                .limitForPeriod(100)
+                .build());
+    registries
+        .rateLimiters()
+        .rateLimiter(
+            ORDERS_PER_DAY_RATE_LIMITER,
+            RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
+                .limitRefreshPeriod(Duration.ofSeconds(1))
+                .limitForPeriod(200000)
+                .build());
+    registries
+        .rateLimiters()
+        .rateLimiter(
             RAW_REQUESTS_RATE_LIMITER,
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .timeoutDuration(Duration.ZERO)
@@ -62,14 +79,16 @@ public final class BinanceResilience {
                 .build());
     registries
         .rateLimiters()
-        .rateLimiter(ORDERS_PER_10_SECONDS_RATE_LIMITER,
+        .rateLimiter(
+            ORDERS_PER_10_SECONDS_RATE_LIMITER,
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .limitRefreshPeriod(Duration.ofSeconds(10))
                 .limitForPeriod(300)
                 .build());
     registries
         .rateLimiters()
-        .rateLimiter(ORDERS_PER_MINUTE_RATE_LIMITER,
+        .rateLimiter(
+            ORDERS_PER_MINUTE_RATE_LIMITER,
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .limitRefreshPeriod(Duration.ofMinutes(1))
                 .limitForPeriod(1200)
@@ -89,8 +108,8 @@ public final class BinanceResilience {
         .rateLimiter(
             RAW_REQUESTS_RATE_LIMITER,
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
-                .timeoutDuration(Duration.ofSeconds(1))
-                .limitRefreshPeriod(Duration.ofSeconds(1))
+                .timeoutDuration(Duration.ZERO)
+                .limitRefreshPeriod(Duration.ofMinutes(5))
                 .limitForPeriod(Integer.MAX_VALUE)
                 .build());
     return registries;

@@ -25,5 +25,4 @@ public interface KrakenAuthenticated {
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
       throws IOException;
-
 }

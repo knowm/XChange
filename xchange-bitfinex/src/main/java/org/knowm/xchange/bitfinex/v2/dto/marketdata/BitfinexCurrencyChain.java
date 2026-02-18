@@ -18,5 +18,4 @@ public class BitfinexCurrencyChain {
   Currency currency;
 
   String chainName;
-
 }

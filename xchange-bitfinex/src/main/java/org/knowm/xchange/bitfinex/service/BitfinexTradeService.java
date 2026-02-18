@@ -72,11 +72,13 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
     }
     try {
 
-      List<BitfinexOrderDetails> bitfinexOrderDetails = getBitfinexActiveOrdersV2(currencyPair, ids);
+      List<BitfinexOrderDetails> bitfinexOrderDetails =
+          getBitfinexActiveOrdersV2(currencyPair, ids);
 
-      List<LimitOrder> limitOrders = bitfinexOrderDetails.stream()
-          .map(BitfinexAdapters::toLimitOrder)
-          .collect(Collectors.toList());
+      List<LimitOrder> limitOrders =
+          bitfinexOrderDetails.stream()
+              .map(BitfinexAdapters::toLimitOrder)
+              .collect(Collectors.toList());
 
       return new OpenOrders(limitOrders);
 
@@ -87,13 +89,12 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
 
   @Override
   public OpenPositions getOpenPositions() throws IOException {
-    var positions = getBitfinexActivePositionsV2().stream()
-        .map(BitfinexAdapters::toOpenPosition)
-        .collect(Collectors.toList());
+    var positions =
+        getBitfinexActivePositionsV2().stream()
+            .map(BitfinexAdapters::toOpenPosition)
+            .collect(Collectors.toList());
 
-    return OpenPositions.builder()
-        .openPositions(positions)
-        .build();
+    return OpenPositions.builder().openPositions(positions).build();
   }
 
   @Override
@@ -235,7 +236,8 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
         sort = tradeHistoryParamsSorted.getOrder() == TradeHistoryParamsSorted.Order.asc ? 1L : -1L;
       }
 
-      final List<BitfinexTrade> bitfinexTrades = getBitfinexTradesV2(symbol, startTime, endTime, limit, sort);
+      final List<BitfinexTrade> bitfinexTrades =
+          getBitfinexTradesV2(symbol, startTime, endTime, limit, sort);
       return BitfinexAdapters.adaptTradeHistoryV2(bitfinexTrades);
     } catch (BitfinexException e) {
       throw BitfinexErrorAdapter.adapt(e);
@@ -253,7 +255,6 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
     return BitfinexOpenOrdersParams.builder().build();
   }
 
-
   @Override
   public Class getRequiredOrderQueryParamClass() {
     return BitfinexOrderQueryParams.class;
@@ -267,22 +268,26 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
     Instant to = null;
     Long limit = null;
     if (orderQueryParams.length > 0 && orderQueryParams[0] instanceof BitfinexOrderQueryParams) {
-      BitfinexOrderQueryParams bitfinexOrderQueryParams = (BitfinexOrderQueryParams) orderQueryParams[0];
+      BitfinexOrderQueryParams bitfinexOrderQueryParams =
+          (BitfinexOrderQueryParams) orderQueryParams[0];
       currencyPair = bitfinexOrderQueryParams.getCurrencyPair();
       from = bitfinexOrderQueryParams.getFrom();
       to = bitfinexOrderQueryParams.getTo();
       limit = bitfinexOrderQueryParams.getLimit();
     }
 
-    List<Long> ids = Arrays.stream(orderQueryParams)
-        .map(OrderQueryParams::getOrderId)
-        .map(Long::parseLong)
-        .collect(Collectors.toList());
+    List<Long> ids =
+        Arrays.stream(orderQueryParams)
+            .map(OrderQueryParams::getOrderId)
+            .map(Long::parseLong)
+            .collect(Collectors.toList());
 
     try {
-      List<BitfinexOrderDetails> inactiveOrderDetails = getBitfinexOrdersHistory(currencyPair, ids, from, to, limit);
+      List<BitfinexOrderDetails> inactiveOrderDetails =
+          getBitfinexOrdersHistory(currencyPair, ids, from, to, limit);
 
-      List<BitfinexOrderDetails> bitfinexOrderDetails = getBitfinexActiveOrdersV2(currencyPair, ids);
+      List<BitfinexOrderDetails> bitfinexOrderDetails =
+          getBitfinexActiveOrdersV2(currencyPair, ids);
 
       return Stream.concat(inactiveOrderDetails.stream(), bitfinexOrderDetails.stream())
           .map(BitfinexAdapters::toOrder)

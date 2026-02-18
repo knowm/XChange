@@ -3,8 +3,7 @@ package info.bitrich.xchangestream.binance.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
-public class
-BaseBinanceWebSocketTransaction {
+public class BaseBinanceWebSocketTransaction {
   public enum BinanceWebSocketTypes {
     DEPTH_UPDATE("depthUpdate"),
     TICKER_24_HR("24hrTicker"),

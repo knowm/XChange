@@ -28,8 +28,8 @@ public class BitfinexPosition {
   private PositionStatus status;
 
   /**
-   * Size of the position. Positive values means a long position, negative values means a
-   * short position.
+   * Size of the position. Positive values means a long position, negative values means a short
+   * position.
    */
   private BigDecimal amount;
 
@@ -85,8 +85,7 @@ public class BitfinexPosition {
   public Type getType() {
     if (amount.signum() >= 0) {
       return Type.LONG;
-    }
-    else {
+    } else {
       return Type.SHORT;
     }
   }
@@ -117,7 +116,5 @@ public class BitfinexPosition {
 
     @JsonEnumDefaultValue
     UNKNOWN
-
   }
-
 }

@@ -58,7 +58,5 @@ public class KrakenBalancesMessage extends KrakenDataMessage<Payload> {
 
     @JsonProperty("wallet_id")
     private String walletId;
-
   }
-
 }

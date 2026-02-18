@@ -14,7 +14,7 @@ import org.knowm.xchange.instrument.Instrument;
 
 /** Data object representing a Trade */
 @Data
-@SuperBuilder(toBuilder = true)
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Trade implements Serializable {
@@ -43,7 +43,6 @@ public class Trade implements Serializable {
 
   protected String takerOrderId;
 
-
   /**
    * @deprecated CurrencyPair is a subtype of Instrument - this method will throw an exception if
    *     the order was for a derivative
@@ -61,6 +60,4 @@ public class Trade implements Serializable {
     }
     return (CurrencyPair) instrument;
   }
-
-
 }

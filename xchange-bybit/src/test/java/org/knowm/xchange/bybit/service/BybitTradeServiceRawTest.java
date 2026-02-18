@@ -257,10 +257,11 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
                     .withHeader("Content-Type", "application/json")
                     .withBody(orderPlacementResponse)));
 
-    MarketOrder marketOrder = new MarketOrder(OrderType.BID,BigDecimal.valueOf(0.1),new CurrencyPair("BTC/USDT"));
+    MarketOrder marketOrder =
+        new MarketOrder(OrderType.BID, BigDecimal.valueOf(0.1), new CurrencyPair("BTC/USDT"));
     BybitCategory category = BybitAdapters.getCategory(marketOrder.getInstrument());
     BybitResult<BybitOrderResponse> order =
-        bybitAccountServiceRaw.placeOrder(adaptMarketOrder(marketOrder,category), category);
+        bybitAccountServiceRaw.placeOrder(adaptMarketOrder(marketOrder, category), category);
 
     ObjectMapper mapper = new ObjectMapper();
     JsonNode responseObject = mapper.readTree(orderPlacementResponse);
@@ -302,10 +303,17 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
                     .withHeader("Content-Type", "application/json")
                     .withBody(orderPlacementResponse)));
 
-    LimitOrder limitOrder = new LimitOrder(OrderType.BID, BigDecimal.valueOf(0.1),new CurrencyPair("BTC/USDT"),"",new Date(),BigDecimal.valueOf(1000));
+    LimitOrder limitOrder =
+        new LimitOrder(
+            OrderType.BID,
+            BigDecimal.valueOf(0.1),
+            new CurrencyPair("BTC/USDT"),
+            "",
+            new Date(),
+            BigDecimal.valueOf(1000));
     BybitCategory category = BybitAdapters.getCategory(limitOrder.getInstrument());
     BybitResult<BybitOrderResponse> order =
-        bybitAccountServiceRaw.placeOrder(adaptLimitOrder(limitOrder,category), category);
+        bybitAccountServiceRaw.placeOrder(adaptLimitOrder(limitOrder, category), category);
 
     ObjectMapper mapper = new ObjectMapper();
     JsonNode responseObject = mapper.readTree(orderPlacementResponse);

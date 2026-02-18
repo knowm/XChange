@@ -83,5 +83,4 @@ public class InstrumentMetaData implements Serializable {
     this.marketOrderEnabled = marketOrderEnabled;
     this.contractValue = contractValue;
   }
-
 }

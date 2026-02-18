@@ -45,9 +45,8 @@ class BitmexTradeServiceRawTest extends BitmexExchangeWiremock {
     assertThat(positions)
         .first()
         .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
-            .usingComparatorForType(
-                    Comparator.comparing(ChronoZonedDateTime::toInstant),
-                    ZonedDateTime.class)
+        .usingComparatorForType(
+            Comparator.comparing(ChronoZonedDateTime::toInstant), ZonedDateTime.class)
         .usingRecursiveComparison()
         .isEqualTo(expected);
   }

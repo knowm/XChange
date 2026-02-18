@@ -96,7 +96,8 @@ public class CoinsphTradeService extends CoinsphTradeServiceRaw implements Trade
   }
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException, CoinsphException {
+  public UserTrades getTradeHistory(TradeHistoryParams params)
+      throws IOException, CoinsphException {
     // Mandatory param: either currencyPair or instrument
     String symbol = null;
     if (params instanceof TradeHistoryParamCurrencyPair) {

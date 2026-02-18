@@ -26,7 +26,7 @@ public class CoinbaseProExchange extends BaseExchange {
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
   /** Adjust host parameters depending on exchange specific parameters */
-  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+  protected void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       final boolean useSandbox =

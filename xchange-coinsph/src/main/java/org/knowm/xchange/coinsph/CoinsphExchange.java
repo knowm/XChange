@@ -197,7 +197,7 @@ public class CoinsphExchange extends BaseExchange implements Exchange {
   }
 
   /** Adjust host parameters depending on exchange specific parameters */
-  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+  protected void concludeHostParams(ExchangeSpecification exchangeSpecification) {
     if (Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
       exchangeSpecification.setSslUri(SANDBOX_URL);
       // Update host if necessary for sandbox

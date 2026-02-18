@@ -12,7 +12,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 @NoArgsConstructor
 public class GateioUserTrade extends UserTrade {
 
-  /** Trade role **/
+  /** Trade role * */
   private Role role;
-
 }

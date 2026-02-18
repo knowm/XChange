@@ -18,7 +18,8 @@ public class BitfinexMarketDataServiceIntegration extends BitfinexIntegrationTes
 
   @Test
   public void exchange_health() {
-    assertThat(exchange.getMarketDataService().getExchangeHealth()).isEqualTo(ExchangeHealth.ONLINE);
+    assertThat(exchange.getMarketDataService().getExchangeHealth())
+        .isEqualTo(ExchangeHealth.ONLINE);
   }
 
   @Test
@@ -39,25 +40,25 @@ public class BitfinexMarketDataServiceIntegration extends BitfinexIntegrationTes
     assertThat(instruments).contains(CurrencyPair.BTC_USDT, CurrencyPair.ETH_USDT);
   }
 
-
   @Test
   public void valid_tickers() throws IOException {
     List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
 
-    assertThat(tickers).allSatisfy(ticker -> {
-      assertThat(ticker.getInstrument()).isNotNull();
-      assertThat(ticker.getLast()).isNotNegative();
+    assertThat(tickers)
+        .allSatisfy(
+            ticker -> {
+              assertThat(ticker.getInstrument()).isNotNull();
+              assertThat(ticker.getLast()).isNotNegative();
 
-      assertThat(ticker.getBidSize()).isNotNegative();
-      assertThat(ticker.getAskSize()).isNotNegative();
+              assertThat(ticker.getBidSize()).isNotNegative();
+              assertThat(ticker.getAskSize()).isNotNegative();
 
-      assertThat(ticker.getAsk()).isNotNegative();
-      assertThat(ticker.getBid()).isNotNegative();
-      assertThat(ticker.getBid()).isLessThanOrEqualTo(ticker.getAsk());
-    });
+              assertThat(ticker.getAsk()).isNotNegative();
+              assertThat(ticker.getBid()).isNotNegative();
+              assertThat(ticker.getBid()).isLessThanOrEqualTo(ticker.getAsk());
+            });
   }
-
 
   @Test
   void valid_single_ticker() throws IOException {
@@ -69,9 +70,7 @@ public class BitfinexMarketDataServiceIntegration extends BitfinexIntegrationTes
     if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
       assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
     }
-
   }
-
 
   @Test
   void valid_orderbook() throws IOException {
@@ -80,19 +79,21 @@ public class BitfinexMarketDataServiceIntegration extends BitfinexIntegrationTes
     assertThat(orderBook.getBids()).isNotEmpty();
     assertThat(orderBook.getAsks()).isNotEmpty();
 
-    assertThat(orderBook.getAsks().get(0).getLimitPrice()).isGreaterThan(orderBook.getBids().get(0).getLimitPrice());
+    assertThat(orderBook.getAsks().get(0).getLimitPrice())
+        .isGreaterThan(orderBook.getBids().get(0).getLimitPrice());
 
-    assertThat(orderBook.getBids()).allSatisfy(limitOrder -> {
-      assertThat(limitOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
-      assertThat(limitOrder.getType()).isEqualTo(OrderType.BID);
-    });
+    assertThat(orderBook.getBids())
+        .allSatisfy(
+            limitOrder -> {
+              assertThat(limitOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
+              assertThat(limitOrder.getType()).isEqualTo(OrderType.BID);
+            });
 
-    assertThat(orderBook.getAsks()).allSatisfy(limitOrder -> {
-      assertThat(limitOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
-      assertThat(limitOrder.getType()).isEqualTo(OrderType.ASK);
-    });
-
+    assertThat(orderBook.getAsks())
+        .allSatisfy(
+            limitOrder -> {
+              assertThat(limitOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
+              assertThat(limitOrder.getType()).isEqualTo(OrderType.ASK);
+            });
   }
-
-
 }

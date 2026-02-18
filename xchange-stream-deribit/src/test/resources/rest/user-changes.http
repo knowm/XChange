@@ -1,0 +1,27 @@
+### Subscribe Ticker Channel
+WEBSOCKET {{api_v2}}
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "public/auth",
+  "params": {
+    "grant_type": "client_credentials",
+    "client_id": "{{api_key}}",
+    "client_secret": "{{api_secret}}"
+  }
+}
+
+=== wait-for-server
+
+{
+  "jsonrpc": "2.0",
+  "method": "public/subscribe",
+  "params": {
+    "channels": [
+      "user.changes.BTC_USDC-PERPETUAL.100ms"
+    ]
+  }
+}
+
+

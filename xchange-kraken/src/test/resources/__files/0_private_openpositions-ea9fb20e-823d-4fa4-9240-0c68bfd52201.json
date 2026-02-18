@@ -1,0 +1,41 @@
+{
+  "error": [],
+  "result": {
+    "TPEMMT-EQABG-FTLK4T": {
+      "ordertxid": "ORESL5-VQ63G-QL3M5B",
+      "posstatus": "open",
+      "pair": "ETHUSDT",
+      "class": "forex",
+      "time": 1757175856.276205,
+      "type": "sell",
+      "ordertype": "market",
+      "cost": "8.48544",
+      "fee": "0.03564",
+      "vol": "0.00200000",
+      "vol_closed": "0.00000000",
+      "margin": "0.84854",
+      "terms": "0.0200% per 4 hours",
+      "rollovertm": "1757190256",
+      "misc": "",
+      "oflags": ""
+    },
+    "TS3FY4-PAZT6-E4TLCB": {
+      "ordertxid": "O6WVA4-LI5QL-GPHYKL",
+      "posstatus": "open",
+      "pair": "XBTUSDT",
+      "class": "forex",
+      "time": 1757175747.583491,
+      "type": "buy",
+      "ordertype": "market",
+      "cost": "5.51000",
+      "fee": "0.02314",
+      "vol": "0.00005000",
+      "vol_closed": "0.00000000",
+      "margin": "0.55100",
+      "terms": "0.0200% per 4 hours",
+      "rollovertm": "1757190147",
+      "misc": "",
+      "oflags": ""
+    }
+  }
+}

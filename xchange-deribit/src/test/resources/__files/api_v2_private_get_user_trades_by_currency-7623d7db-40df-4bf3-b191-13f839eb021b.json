@@ -1,0 +1,39 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "trades": [
+      {
+        "timestamp": 1763854715497,
+        "state": "filled",
+        "price": 1.0008,
+        "amount": 2.0,
+        "user_id": 427962,
+        "direction": "buy",
+        "index_price": 1.0004,
+        "instrument_name": "USDC_USDT",
+        "trade_seq": 551464,
+        "api": false,
+        "mark_price": 1.0004,
+        "order_id": "USDC_USDT-6470719424",
+        "matching_id": null,
+        "tick_direction": 0,
+        "profit_loss": null,
+        "mmp": false,
+        "order_type": "market",
+        "trade_id": "USDC_USDT-21102496",
+        "post_only": false,
+        "self_trade": false,
+        "contracts": 2.0,
+        "fee_currency": "USDC",
+        "fee": 0.0,
+        "risk_reducing": false,
+        "liquidity": "T"
+      }
+    ],
+    "has_more": false
+  },
+  "usIn": 1763855766805532,
+  "usOut": 1763855766806589,
+  "usDiff": 1057,
+  "testnet": false
+}

@@ -222,7 +222,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
 
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    return kucoinCreateOrder(KucoinAdapters.adaptStopOrder(stopOrder)).getOrderId();
+    return kucoinCreateStopOrder(KucoinAdapters.adaptStopOrder(stopOrder)).getOrderId();
   }
 
   private OpenOrders convertOpenOrders(Collection<OrderResponse> orders, OpenOrdersParams params) {

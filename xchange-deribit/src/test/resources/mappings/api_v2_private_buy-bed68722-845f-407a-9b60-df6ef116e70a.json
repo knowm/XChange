@@ -1,0 +1,15 @@
+{
+  "id": "bed68722-845f-407a-9b60-df6ef116e70a",
+  "name": "api_v2_private_buy",
+  "request": {
+    "url": "/api/v2/private/buy?instrument_name=XRP_USDC&amount=1&type=limit&label=c1d14121-c076-4c13-974b-c80cda36e09a&price=1.8",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v2_private_buy-bed68722-845f-407a-9b60-df6ef116e70a.json"
+  },
+  "uuid": "bed68722-845f-407a-9b60-df6ef116e70a",
+  "persistent": true,
+  "insertionIndex": 9
+}

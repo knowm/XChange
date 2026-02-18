@@ -23,6 +23,7 @@ public class BitfinexWallet {
   /** Currency (e.g. USD, ...) */
   @JsonDeserialize(converter = StringToCurrencyConverter.class)
   private Currency currency;
+
   /** Wallet balance */
   private BigDecimal balance;
 
@@ -38,7 +39,6 @@ public class BitfinexWallet {
   /** If the last change was a trade, this object will show the trade details */
   private Object tradeDetails;
 
-
   public enum Type {
     @JsonEnumDefaultValue
     @JsonProperty("exchange")
@@ -52,7 +52,5 @@ public class BitfinexWallet {
 
     @JsonProperty("contribution")
     CONTRIBUTION
-
   }
-
 }

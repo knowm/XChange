@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderType;
 import org.knowm.xchange.kraken.dto.trade.KrakenType;

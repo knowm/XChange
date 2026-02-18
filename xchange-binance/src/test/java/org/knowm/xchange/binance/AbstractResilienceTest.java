@@ -3,7 +3,6 @@ package org.knowm.xchange.binance;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import org.junit.Before;
 import org.junit.Rule;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -13,11 +12,6 @@ public class AbstractResilienceTest {
   @Rule public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
 
   public static int READ_TIMEOUT_MS = 1000;
-
-  @Before
-  public void resertResilienceRegistries() {
-    BinanceExchange.resetResilienceRegistries();
-  }
 
   protected BinanceExchange createExchangeWithRetryEnabled() {
     return createExchange(true, false);

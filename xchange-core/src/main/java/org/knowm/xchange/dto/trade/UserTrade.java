@@ -10,7 +10,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 
 /** Data object representing a user trade */
 @Data
-@SuperBuilder(toBuilder = true)
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserTrade extends Trade {
@@ -28,5 +28,4 @@ public class UserTrade extends Trade {
 
   /** The order reference id which has been added by the user on the order creation */
   private String orderUserReference;
-
 }

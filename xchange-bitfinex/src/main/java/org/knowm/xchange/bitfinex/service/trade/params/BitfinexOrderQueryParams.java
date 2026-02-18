@@ -19,5 +19,4 @@ public class BitfinexOrderQueryParams implements OrderQueryParamCurrencyPair {
   private Instant to;
 
   private Long limit;
-
 }

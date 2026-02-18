@@ -10,5 +10,4 @@ public class OkexSubscribeMessage<T> {
   private final String id;
   private final String op;
   private final List<T> args;
-
 }

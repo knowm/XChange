@@ -9,6 +9,7 @@ import java.util.Date;
 import lombok.Getter;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.dto.marketdata.FundingRate;
+import org.knowm.xchange.dto.marketdata.FundingRate.FundingRateInterval;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
@@ -37,11 +38,52 @@ public class FundingRateWebsocketTransaction extends ProductBinanceWebSocketTran
     this.nextFundingTime = nextFundingTime;
   }
 
-  public FundingRate toFundingRate() {
+  public FundingRate toFundingRate(int fundingRateInterval) {
+    FundingRateInterval rateInterval = FundingRateInterval.H8;
+    BigDecimal fundingRate1h = BigDecimal.ZERO;
+    switch (fundingRateInterval) {
+      case 1:
+        {
+          rateInterval = FundingRateInterval.H1;
+          fundingRate1h = fundingRate;
+          break;
+        }
+      case 2:
+        {
+          rateInterval = FundingRateInterval.H2;
+          fundingRate1h =
+              fundingRate.divide(
+                  BigDecimal.valueOf(2), fundingRate.scale(), RoundingMode.HALF_EVEN);
+          break;
+        }
+      case 4:
+        {
+          rateInterval = FundingRateInterval.H4;
+          fundingRate1h =
+              fundingRate.divide(
+                  BigDecimal.valueOf(4), fundingRate.scale(), RoundingMode.HALF_EVEN);
+          break;
+        }
+      case 6:
+        {
+          rateInterval = FundingRateInterval.H6;
+          fundingRate1h =
+              fundingRate.divide(
+                  BigDecimal.valueOf(6), fundingRate.scale(), RoundingMode.HALF_EVEN);
+          break;
+        }
+      case 8:
+        {
+          fundingRate1h =
+              fundingRate.divide(
+                  BigDecimal.valueOf(8), fundingRate.scale(), RoundingMode.HALF_EVEN);
+          break;
+        }
+    }
     return new FundingRate.Builder()
-        .fundingRate8h(fundingRate)
-        .fundingRate1h(
-            fundingRate.divide(BigDecimal.valueOf(8), fundingRate.scale(), RoundingMode.HALF_EVEN))
+        .fundingRateInterval(rateInterval)
+        .fundingRate(fundingRate)
+        .fundingRate1h(fundingRate1h)
         .fundingRateDate(nextFundingTime)
         .instrument(BinanceAdapters.adaptSymbol(symbol, true))
         .build();

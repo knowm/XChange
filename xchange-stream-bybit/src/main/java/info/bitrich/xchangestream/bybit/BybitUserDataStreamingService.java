@@ -1,5 +1,8 @@
 package info.bitrich.xchangestream.bybit;
 
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_CONNECTION_TIMEOUT;
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_IDLE_TIMEOUT;
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATION;
 import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,6 +20,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -45,7 +49,12 @@ public class BybitUserDataStreamingService extends JsonNettyStreamingService {
   @Setter private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
   public BybitUserDataStreamingService(String url, ExchangeSpecification spec) {
-    super(url);
+    super(
+        url,
+        65536,
+        (Duration) spec.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT),
+        (Duration) spec.getExchangeSpecificParametersItem(WS_RETRY_DURATION),
+        (Integer) spec.getExchangeSpecificParametersItem(WS_IDLE_TIMEOUT));
     this.spec = spec;
   }
 
@@ -136,6 +145,7 @@ public class BybitUserDataStreamingService extends JsonNettyStreamingService {
         case "auth":
           {
             isAuthorized = true;
+            LOG.info("Successfully authenticated to data URI");
             resubscribeChannelsAfterLogin();
             break;
           }

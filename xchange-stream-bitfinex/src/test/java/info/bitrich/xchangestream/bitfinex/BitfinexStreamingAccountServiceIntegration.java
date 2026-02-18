@@ -29,18 +29,12 @@ public class BitfinexStreamingAccountServiceIntegration extends BitfinexStreamin
 
     TestObserver<Balance> testObserver = observable.test();
 
-    List<Balance> balances =
-        testObserver
-            .awaitDone(5, TimeUnit.SECONDS)
-            .awaitCount(1)
-            .values();
+    List<Balance> balances = testObserver.awaitDone(5, TimeUnit.SECONDS).awaitCount(1).values();
 
     testObserver.dispose();
 
     log.info("Received balances: {}", balances);
 
     assumeThat(balances).overridingErrorMessage("Received nothing").isNotEmpty();
-
   }
-
 }

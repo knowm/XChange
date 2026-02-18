@@ -21,6 +21,4 @@ class KrakenStreamingAccountServiceIntegration extends KrakenStreamingExchangeIT
     assumeThat(balances).overridingErrorMessage("Received nothing").isNotEmpty();
     assertThat(balances).first().hasNoNullFieldsOrPropertiesExcept("timestamp");
   }
-
-
 }

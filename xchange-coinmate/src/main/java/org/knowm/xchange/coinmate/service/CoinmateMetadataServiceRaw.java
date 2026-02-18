@@ -4,6 +4,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinmate.Coinmate;
+import org.knowm.xchange.coinmate.dto.metadata.CoinmateTradingPairs;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 
 public class CoinmateMetadataServiceRaw extends CoinmateBaseService {
@@ -20,5 +21,13 @@ public class CoinmateMetadataServiceRaw extends CoinmateBaseService {
     ExchangeMetaData metaData = coinmate.getMetadata();
 
     return metaData;
+  }
+
+  public CoinmateTradingPairs getCoinmateTradingPairs() throws IOException {
+    CoinmateTradingPairs tradingPairs = coinmate.getTradingPairs();
+
+    throwExceptionIfError(tradingPairs);
+
+    return tradingPairs;
   }
 }

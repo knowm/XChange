@@ -10,6 +10,7 @@ import java.util.List;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRate;
+import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRateInfo;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
@@ -121,6 +122,15 @@ public interface BinanceFutures {
   @Path("fapi/v1/premiumIndex")
   BinanceFundingRate fundingRate(@QueryParam("symbol") String symbol)
       throws IOException, BinanceException;
+
+  /**
+   * @return BinanceFundingRateInfo
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("fapi/v1/fundingInfo")
+  List<BinanceFundingRateInfo> fundingRateInfo() throws IOException, BinanceException;
 
   /**
    * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.<br>

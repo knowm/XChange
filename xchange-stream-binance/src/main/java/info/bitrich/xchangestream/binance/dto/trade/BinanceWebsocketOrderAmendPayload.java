@@ -7,9 +7,7 @@ import lombok.Getter;
 import lombok.ToString;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
 
-/**
- * DTO for order amend/cancel/replace endpoint as per issue description.
- */
+/** DTO for order amend/cancel/replace endpoint as per issue description. */
 @Getter
 @ToString
 @Builder

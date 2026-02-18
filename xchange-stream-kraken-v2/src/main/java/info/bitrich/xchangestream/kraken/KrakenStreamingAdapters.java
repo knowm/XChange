@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.kraken;
 
-
 import info.bitrich.xchangestream.kraken.dto.request.KrakenSubscribeMessage;
 import info.bitrich.xchangestream.kraken.dto.request.KrakenUnsubscribeMessage;
 import info.bitrich.xchangestream.kraken.dto.request.KrakenUnsubscribeMessage.Params;
@@ -68,10 +67,11 @@ public class KrakenStreamingAdapters {
 
   public KrakenSubscribeMessage toSubscribeMessage(String channelName, CurrencyPair currencyPair) {
     return KrakenSubscribeMessage.builder()
-        .params(KrakenSubscribeMessage.Params.builder()
-            .channel(channelName)
-            .currencyPair(currencyPair)
-            .build())
+        .params(
+            KrakenSubscribeMessage.Params.builder()
+                .channel(channelName)
+                .currencyPair(currencyPair)
+                .build())
         .build();
   }
 
@@ -81,10 +81,7 @@ public class KrakenStreamingAdapters {
     var currencyPair = splitted.length > 1 ? new CurrencyPair(splitted[1]) : null;
 
     return KrakenUnsubscribeMessage.builder()
-        .params(Params.builder()
-            .channel(channelName)
-            .currencyPair(currencyPair)
-            .build())
+        .params(Params.builder().channel(channelName).currencyPair(currencyPair).build())
         .build();
   }
 
@@ -118,6 +115,4 @@ public class KrakenStreamingAdapters {
   public Date toDate(Instant instant) {
     return Optional.ofNullable(instant).map(Date::from).orElse(null);
   }
-
-
 }

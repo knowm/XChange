@@ -33,7 +33,8 @@ public class BitsoFundingAdapters {
         .currency(Currency.getInstance(BitsoAdapters.fromBitsoCurrency(funding.getCurrency())))
         .amount(funding.getAmount())
         .internalId(funding.getFundingId())
-        .blockchainTransactionHash(getIfExists(funding.getDetails(), "tx_hash", funding.getTxHash()))
+        .blockchainTransactionHash(
+            getIfExists(funding.getDetails(), "tx_hash", funding.getTxHash()))
         .type(FundingRecord.Type.DEPOSIT)
         .status(adaptFundingStatus(funding.getStatus().name().toLowerCase()))
         .fee(funding.getFee())
@@ -44,12 +45,14 @@ public class BitsoFundingAdapters {
   /** Convert BitsoWithdrawal to FundingRecord */
   public static FundingRecord adaptFundingRecord(BitsoWithdrawal withdrawal) {
     return FundingRecord.builder()
-        .address(getIfExists(withdrawal.getDetails(), "receiving_address", withdrawal.getWithdrawalId()))
+        .address(
+            getIfExists(withdrawal.getDetails(), "receiving_address", withdrawal.getWithdrawalId()))
         .date(withdrawal.getCreatedAt())
         .currency(Currency.getInstance(BitsoAdapters.fromBitsoCurrency(withdrawal.getCurrency())))
         .amount(withdrawal.getAmount())
         .internalId(withdrawal.getWithdrawalId())
-        .blockchainTransactionHash(getIfExists(withdrawal.getDetails(), "tx_hash", withdrawal.getTxHash()))
+        .blockchainTransactionHash(
+            getIfExists(withdrawal.getDetails(), "tx_hash", withdrawal.getTxHash()))
         .type(FundingRecord.Type.WITHDRAWAL)
         .status(adaptFundingStatus(withdrawal.getStatus()))
         .fee(withdrawal.getFee())

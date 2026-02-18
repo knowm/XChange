@@ -3,21 +3,21 @@ package org.knowm.xchange.examples.coinone.marketdata;
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.coinegg.CoinEggExchange;
+import org.knowm.xchange.coinone.CoinoneExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** Demonstrate requesting Ticker at CoinEgg */
+/** Demonstrate requesting Ticker */
 public class CoinoneTickerDemo {
 
   public static void main(String[] args) throws IOException {
 
     // Create Default BitZ Instance
-    Exchange coinEgg = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class);
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinoneExchange.class);
 
     // Get The Public Market Data Service
-    MarketDataService marketDataService = coinEgg.getMarketDataService();
+    MarketDataService marketDataService = exchange.getMarketDataService();
 
     // Currency Pair To Get Ticker Of
     CurrencyPair pair = new CurrencyPair(Currency.ETH, Currency.KRW);

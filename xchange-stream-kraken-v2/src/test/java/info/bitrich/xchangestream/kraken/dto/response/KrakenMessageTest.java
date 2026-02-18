@@ -12,16 +12,25 @@ class KrakenMessageTest {
   void render() throws Exception {
     ObjectMapper om = Config.getInstance().getObjectMapper();
 
-    assertThat(om.readValue(getClass().getResource("/sample-messages/status.json"), KrakenMessage.class))
+    assertThat(
+            om.readValue(
+                getClass().getResource("/sample-messages/status.json"), KrakenMessage.class))
         .isInstanceOf(KrakenStatusMessage.class);
-    assertThat(om.readValue(getClass().getResource("/sample-messages/method.json"), KrakenMessage.class))
+    assertThat(
+            om.readValue(
+                getClass().getResource("/sample-messages/method.json"), KrakenMessage.class))
         .isInstanceOf(KrakenControlMessage.class);
-    assertThat(om.readValue(getClass().getResource("/sample-messages/heartbeat.json"), KrakenMessage.class))
+    assertThat(
+            om.readValue(
+                getClass().getResource("/sample-messages/heartbeat.json"), KrakenMessage.class))
         .isInstanceOf(KrakenHeartbeatMessage.class);
-    assertThat(om.readValue(getClass().getResource("/sample-messages/trade.json"), KrakenMessage.class))
+    assertThat(
+            om.readValue(
+                getClass().getResource("/sample-messages/trade.json"), KrakenMessage.class))
         .isInstanceOf(KrakenTradeMessage.class);
-    assertThat(om.readValue(getClass().getResource("/sample-messages/usertrade.json"), KrakenMessage.class))
+    assertThat(
+            om.readValue(
+                getClass().getResource("/sample-messages/usertrade.json"), KrakenMessage.class))
         .isInstanceOf(KrakenExecutionsMessage.class);
   }
-
 }

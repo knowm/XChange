@@ -44,9 +44,7 @@ public class BinanceMarketDataDemo {
     tickers.forEach(
         t ->
             System.out.println(
-                t.getSymbol()
-                    + " => "
-                    + String.format("%+.2f%%", t.getPriceChangePercent())));
+                t.getSymbol() + " => " + String.format("%+.2f%%", t.getPriceChangePercent())));
     System.out.println("raw out end");
   }
 

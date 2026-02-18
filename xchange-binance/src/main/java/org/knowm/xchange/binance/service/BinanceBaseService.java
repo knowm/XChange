@@ -41,33 +41,39 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
         != null) {
       switch ((ExchangeType)
           exchange.getExchangeSpecification().getExchangeSpecificParametersItem(EXCHANGE_TYPE)) {
-        case SPOT: {
-          break;
-        }
+        case SPOT:
+          {
+            break;
+          }
         case FUTURES:
-        case PORTFOLIO_MARGIN: {
-          futuresSpec = exchange.getExchangeSpecification();
-          binanceFutures =
-              ExchangeRestProxyBuilder.forInterface(
-                      BinanceFuturesAuthenticated.class, futuresSpec)
-                  .build();
-          inverseBinanceFutures = null;
-          break;
-        }
-        case INVERSE: {
-          inverseFuturesSpec = exchange.getExchangeSpecification();
-          inverseBinanceFutures =
-              ExchangeRestProxyBuilder.forInterface(
-                      BinanceFuturesAuthenticated.class, inverseFuturesSpec)
-                  .build();
-          binanceFutures = null;
-          break;
-        }
+        case PORTFOLIO_MARGIN:
+          {
+            futuresSpec = exchange.getExchangeSpecification();
+            binanceFutures =
+                ExchangeRestProxyBuilder.forInterface(
+                        BinanceFuturesAuthenticated.class, futuresSpec)
+                    .build();
+            inverseBinanceFutures = null;
+            break;
+          }
+        case INVERSE:
+          {
+            inverseFuturesSpec = exchange.getExchangeSpecification();
+            inverseBinanceFutures =
+                ExchangeRestProxyBuilder.forInterface(
+                        BinanceFuturesAuthenticated.class, inverseFuturesSpec)
+                    .build();
+            binanceFutures = null;
+            break;
+          }
       }
     }
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     if (exchange.getExchangeSpecification().getExchangeSpecificParametersItem("ed25519") != null
-        && exchange.getExchangeSpecification().getExchangeSpecificParametersItem("ed25519").equals(true)) {
+        && exchange
+            .getExchangeSpecification()
+            .getExchangeSpecificParametersItem("ed25519")
+            .equals(true)) {
       this.signatureCreator =
           BinanceED25519Digest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     } else {

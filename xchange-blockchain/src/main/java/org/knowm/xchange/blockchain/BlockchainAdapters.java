@@ -105,29 +105,29 @@ public class BlockchainAdapters {
   }
 
   public static FundingRecord toFundingWithdrawal(BlockchainWithdrawal w) {
-      return FundingRecord.builder()
-          .address(w.getBeneficiary())
-          .date(w.getTimestamp())
-          .currency(w.getCurrency())
-          .amount(w.getAmount())
-          .internalId(w.getWithdrawalId())
-          .type(Type.WITHDRAWAL)
-          .status(BlockchainAdapters.toWithdrawStatus(w.getState()))
-          .fee(w.getFee())
-          .build();
+    return FundingRecord.builder()
+        .address(w.getBeneficiary())
+        .date(w.getTimestamp())
+        .currency(w.getCurrency())
+        .amount(w.getAmount())
+        .internalId(w.getWithdrawalId())
+        .type(Type.WITHDRAWAL)
+        .status(BlockchainAdapters.toWithdrawStatus(w.getState()))
+        .fee(w.getFee())
+        .build();
   }
 
   public static FundingRecord toFundingDeposit(BlockchainDeposits d) {
-      return FundingRecord.builder()
-          .address(d.getAddress())
-          .date(d.getTimestamp())
-          .currency(d.getCurrency())
-          .amount(d.getAmount())
-          .internalId(d.getDepositId())
-          .blockchainTransactionHash(d.getTxHash())
-          .type(Type.DEPOSIT)
-          .status(BlockchainAdapters.toDepositStatus(d.getState()))
-          .build();
+    return FundingRecord.builder()
+        .address(d.getAddress())
+        .date(d.getTimestamp())
+        .currency(d.getCurrency())
+        .amount(d.getAmount())
+        .internalId(d.getDepositId())
+        .blockchainTransactionHash(d.getTxHash())
+        .type(Type.DEPOSIT)
+        .status(BlockchainAdapters.toDepositStatus(d.getState()))
+        .build();
   }
 
   public static CurrencyPair toCurrencyPairBySymbol(BlockchainSymbol blockchainSymbol) {

@@ -25,5 +25,4 @@ public class KrakenStreamingAccountService implements StreamingAccountService {
         .filter(payload -> currency == null || payload.getCurrency().equals(currency))
         .map(KrakenStreamingAdapters::toBalance);
   }
-
 }

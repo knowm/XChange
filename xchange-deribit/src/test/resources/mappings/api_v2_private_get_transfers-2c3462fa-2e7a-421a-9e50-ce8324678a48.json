@@ -1,0 +1,15 @@
+{
+  "id" : "2c3462fa-2e7a-421a-9e50-ce8324678a48",
+  "name" : "api_v2_private_get_transfers",
+  "request" : {
+    "url" : "/api/v2/private/get_transfers?currency=USDT",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "api_v2_private_get_transfers-2c3462fa-2e7a-421a-9e50-ce8324678a48.json"
+  },
+  "uuid" : "2c3462fa-2e7a-421a-9e50-ce8324678a48",
+  "persistent" : true,
+  "insertionIndex" : 4
+}

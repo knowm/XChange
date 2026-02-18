@@ -13,5 +13,4 @@ import org.knowm.xchange.instrument.Instrument;
 public class DefaultTradeHistoryParamInstrument implements TradeHistoryParamInstrument {
 
   private Instrument instrument;
-
 }

@@ -24,9 +24,8 @@ class KucoinMarketDataServiceRawIntegration extends KucoinIntegrationTestParent 
               assertThat(symbol.getCurrencyPair()).isNotNull();
               assertThat(symbol.getBaseCurrency()).isNotNull();
               assertThat(symbol.getQuoteCurrency()).isNotNull();
-              assertThat(symbol.getCurrencyPair()).isEqualTo(new CurrencyPair(symbol.getBaseCurrency(), symbol.getQuoteCurrency()));
+              assertThat(symbol.getCurrencyPair())
+                  .isEqualTo(new CurrencyPair(symbol.getBaseCurrency(), symbol.getQuoteCurrency()));
             });
-
   }
-
 }

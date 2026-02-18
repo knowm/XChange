@@ -51,7 +51,9 @@ public class SymbolResponse {
   private BigDecimal minFunds;
 
   @JsonCreator
-  public SymbolResponse(@JsonProperty("baseCurrency") String baseCurrency, @JsonProperty("quoteCurrency") String quoteCurrency) {
+  public SymbolResponse(
+      @JsonProperty("baseCurrency") String baseCurrency,
+      @JsonProperty("quoteCurrency") String quoteCurrency) {
     this.baseCurrency = Currency.getInstance(baseCurrency);
     this.quoteCurrency = Currency.getInstance(quoteCurrency);
     this.currencyPair = new CurrencyPair(this.baseCurrency, this.quoteCurrency);

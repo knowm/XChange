@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.binance.dto.trade;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.NoArgsConstructor;
 import lombok.Value;

@@ -3,7 +3,6 @@ package org.knowm.xchange.blockchain.service.trade;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.END_TIME;
-import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.HTTP_CODE_400;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.MARKET_ORDER_ID;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.NEW_ORDER_LIMIT_JSON;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.NEW_ORDER_MARKET_JSON;
@@ -42,7 +41,6 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import si.mazi.rescu.HttpStatusIOException;
 
 public class TradeServiceTest extends BlockchainBaseTest {
   private TradeService service;
@@ -90,11 +88,11 @@ public class TradeServiceTest extends BlockchainBaseTest {
     assertThat(response).isEqualTo(true);
   }
 
-//  @Test(timeout = 2000)
-//  public void cancelOrderFailure() {
-//    Throwable exception = catchThrowable(() -> cancelOrder(400));
-//    assertThat(exception).isInstanceOf(HttpStatusIOException.class).hasMessage(HTTP_CODE_400);
-//  }
+  //  @Test(timeout = 2000)
+  //  public void cancelOrderFailure() {
+  //    Throwable exception = catchThrowable(() -> cancelOrder(400));
+  //    assertThat(exception).isInstanceOf(HttpStatusIOException.class).hasMessage(HTTP_CODE_400);
+  //  }
 
   @Test(timeout = 2000)
   public void cancelOrderByCurrency() throws Exception {

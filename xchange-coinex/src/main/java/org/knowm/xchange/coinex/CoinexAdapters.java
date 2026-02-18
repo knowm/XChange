@@ -81,22 +81,19 @@ public class CoinexAdapters {
   }
 
   public CoinexOrder toCoinexOrder(StopOrder stopOrder) {
-    CoinexOrder.CoinexOrderBuilder builder = CoinexOrder.builder()
-        .currencyPair((CurrencyPair) stopOrder.getInstrument())
-        .marketType(CoinexMarketType.SPOT)
-        .side(stopOrder.getType())
-        .triggerPrice(stopOrder.getStopPrice())
-        .clientId(stopOrder.getUserReference())
-        .amount(stopOrder.getOriginalAmount());
+    CoinexOrder.CoinexOrderBuilder builder =
+        CoinexOrder.builder()
+            .currencyPair((CurrencyPair) stopOrder.getInstrument())
+            .marketType(CoinexMarketType.SPOT)
+            .side(stopOrder.getType())
+            .triggerPrice(stopOrder.getStopPrice())
+            .clientId(stopOrder.getUserReference())
+            .amount(stopOrder.getOriginalAmount());
 
     if (stopOrder.getLimitPrice() != null) {
-      builder
-          .type(CoinexOrderType.LIMIT)
-          .price(stopOrder.getLimitPrice());
-    }
-    else {
-      builder
-          .type(CoinexOrderType.MARKET);
+      builder.type(CoinexOrderType.LIMIT).price(stopOrder.getLimitPrice());
+    } else {
+      builder.type(CoinexOrderType.MARKET);
     }
 
     return builder.build();
@@ -112,8 +109,10 @@ public class CoinexAdapters {
         .minimumAmount(coinexCurrencyPairInfo.getMinAssetAmount())
         .volumeScale(coinexCurrencyPairInfo.getBaseCurrencyPrecision())
         .priceScale(coinexCurrencyPairInfo.getQuoteCurrencyPrecision())
-        .amountStepSize(BigDecimal.ONE.movePointLeft(coinexCurrencyPairInfo.getBaseCurrencyPrecision()))
-        .priceStepSize(BigDecimal.ONE.movePointLeft(coinexCurrencyPairInfo.getQuoteCurrencyPrecision()))
+        .amountStepSize(
+            BigDecimal.ONE.movePointLeft(coinexCurrencyPairInfo.getBaseCurrencyPrecision()))
+        .priceStepSize(
+            BigDecimal.ONE.movePointLeft(coinexCurrencyPairInfo.getQuoteCurrencyPrecision()))
         .build();
   }
 

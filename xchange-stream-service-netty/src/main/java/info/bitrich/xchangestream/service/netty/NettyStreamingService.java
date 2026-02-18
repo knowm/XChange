@@ -61,9 +61,9 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
-  protected static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ofSeconds(10);
-  protected static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
-  protected static final int DEFAULT_IDLE_TIMEOUT = 15;
+  public static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ofSeconds(10);
+  public static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
+  public static final int DEFAULT_IDLE_TIMEOUT = 15;
 
   @Getter
   protected class Subscription {

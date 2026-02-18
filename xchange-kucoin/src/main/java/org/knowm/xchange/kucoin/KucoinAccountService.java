@@ -22,6 +22,7 @@ import org.knowm.xchange.kucoin.dto.request.ApplyWithdrawApiRequest;
 import org.knowm.xchange.kucoin.dto.request.CreateDepositAddressApiRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
 import org.knowm.xchange.kucoin.dto.response.DepositAddressResponse;
+import org.knowm.xchange.kucoin.dto.response.KucoinEarnHoldingsResponse;
 import org.knowm.xchange.kucoin.service.params.KucoinWithdrawFundsParams;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
@@ -173,6 +174,20 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
 
       return createDepositAddress(request);
 
+    } catch (KucoinException e) {
+      throw KucoinErrorAdapter.adapt(e);
+    }
+  }
+
+  public KucoinEarnHoldingsResponse getEarnHoldings(
+      String currency,
+      String productId,
+      String productCategory,
+      Integer currentPage,
+      Integer pageSize)
+      throws IOException {
+    try {
+      return super.getEarnHoldings(currency, productId, productCategory, currentPage, pageSize);
     } catch (KucoinException e) {
       throw KucoinErrorAdapter.adapt(e);
     }

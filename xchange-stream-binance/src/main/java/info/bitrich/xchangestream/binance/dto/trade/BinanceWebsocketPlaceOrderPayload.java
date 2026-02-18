@@ -13,8 +13,8 @@ import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
 
 /**
- * DTO representing Binance Futures new order request parameters.
- * Fields map 1:1 to Binance API docs. Optional fields may be null and are omitted from JSON.
+ * DTO representing Binance Futures new order request parameters. Fields map 1:1 to Binance API
+ * docs. Optional fields may be null and are omitted from JSON.
  */
 @Getter
 @ToString
@@ -44,12 +44,13 @@ public class BinanceWebsocketPlaceOrderPayload {
   private final PriceMatch priceMatch; // ENUM NO
   private final SelfTradePreventionMode selfTradePreventionMode; // ENUM NO
   private final Long goodTillDate; // LONG NO
-  @Setter
-  private Long recvWindow; // LONG NO
-  @Setter
-  private Long timestamp; // LONG YES
+  @Setter private Long recvWindow; // LONG NO
+  @Setter private Long timestamp; // LONG YES
 
-  public enum WorkingType { MARK_PRICE, CONTRACT_PRICE }
+  public enum WorkingType {
+    MARK_PRICE,
+    CONTRACT_PRICE
+  }
 
   public enum PriceMatch {
     OPPONENT,
@@ -62,7 +63,12 @@ public class BinanceWebsocketPlaceOrderPayload {
     QUEUE_20
   }
 
-  public enum SelfTradePreventionMode { NONE, EXPIRE_TAKER, EXPIRE_MAKER, EXPIRE_BOTH }
+  public enum SelfTradePreventionMode {
+    NONE,
+    EXPIRE_TAKER,
+    EXPIRE_MAKER,
+    EXPIRE_BOTH
+  }
 
   public BinanceWebsocketPlaceOrderPayload(
       @JsonProperty("symbol") String symbol,

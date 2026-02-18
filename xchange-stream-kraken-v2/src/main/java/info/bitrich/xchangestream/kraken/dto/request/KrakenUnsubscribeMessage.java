@@ -32,8 +32,7 @@ public class KrakenUnsubscribeMessage extends KrakenMessage {
     @JsonProperty("channel")
     private String channel;
 
-    @JsonIgnore
-    private CurrencyPair currencyPair;
+    @JsonIgnore private CurrencyPair currencyPair;
 
     @JsonProperty("token")
     private String token;
@@ -42,7 +41,5 @@ public class KrakenUnsubscribeMessage extends KrakenMessage {
     public List<CurrencyPair> getSymbol() {
       return currencyPair == null ? Collections.emptyList() : List.of(currencyPair);
     }
-
   }
-
 }

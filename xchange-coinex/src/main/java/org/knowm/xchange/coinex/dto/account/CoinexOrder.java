@@ -118,5 +118,4 @@ public class CoinexOrder {
     @JsonProperty("fok")
     FILL_OR_KILL
   }
-
 }

@@ -1,16 +1,18 @@
 package info.bitrich.xchangestream.binance;
 
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_CONNECTION_TIMEOUT;
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_IDLE_TIMEOUT;
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATION;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.google.common.collect.Sets;
 import info.bitrich.xchangestream.binance.dto.BinanceWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
-import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
+import org.knowm.xchange.ExchangeSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,8 +46,14 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
   public BinanceStreamingService(
       String baseUri,
       ProductSubscription productSubscription,
-      KlineSubscription klineSubscription) {
-    super(baseUri, Integer.MAX_VALUE);
+      KlineSubscription klineSubscription,
+      ExchangeSpecification exchangeSpecification) {
+    super(
+        baseUri,
+        65536,
+        (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT),
+        (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_RETRY_DURATION),
+        (Integer) exchangeSpecification.getExchangeSpecificParametersItem(WS_IDLE_TIMEOUT));
     this.productSubscription = productSubscription;
     this.klineSubscription = klineSubscription;
   }
@@ -190,11 +199,6 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
     }
     // If Live Subscription is disabled, Subscriptions are made upon connection - no messages are
     // sent.
-  }
-
-  @Override
-  protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
-    return WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler.INSTANCE;
   }
 
   /**

@@ -8,8 +8,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 
 public class Util {
   static String printOrderBookShortInfo(OrderBook orderBook) {
-    return String.format("orderBook subscribe: askDepth=%s ask=%s askSize=%s bidDepth=%s. bid=%s, bidSize=%s",
-    orderBook.getAsks().size(),
+    return String.format(
+        "orderBook subscribe: askDepth=%s ask=%s askSize=%s bidDepth=%s. bid=%s, bidSize=%s",
+        orderBook.getAsks().size(),
         orderBook.getAsks().get(0).getLimitPrice(),
         orderBook.getAsks().get(0).getRemainingAmount(),
         orderBook.getBids().size(),
@@ -17,17 +18,12 @@ public class Util {
         orderBook.getBids().get(0).getRemainingAmount());
   }
 
-  static BigDecimal getMinAmount(BigDecimal usdtMin, BigDecimal amount, Ticker ticker, int volumeScale) {
+  static BigDecimal getMinAmount(
+      BigDecimal usdtMin, BigDecimal amount, Ticker ticker, int volumeScale) {
     // minimal trade size - 5 USDT
     if (amount.multiply(ticker.getLast()).compareTo(usdtMin) <= 0) {
-      amount =
-          new BigDecimal("5")
-              .divide(
-                  ticker.getLast(),
-                  volumeScale,
-                  UP);
+      amount = new BigDecimal("6").divide(ticker.getLast(), volumeScale, UP);
     }
     return amount;
   }
-
 }

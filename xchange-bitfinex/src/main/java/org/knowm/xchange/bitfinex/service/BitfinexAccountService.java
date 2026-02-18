@@ -190,8 +190,7 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
         var category = BitfinexAdapters.toCategory(fundingRecordType);
 
         if (category != null) {
-          return getLedgerEntries(currency, startTime, endTime, limit, category)
-              .stream()
+          return getLedgerEntries(currency, startTime, endTime, limit, category).stream()
               .map(BitfinexAdapters::toFundingRecord)
               .filter(fundingRecord -> fundingRecord.getType() == fundingRecordType)
               .collect(Collectors.toList());
@@ -216,5 +215,4 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
       throw BitfinexErrorAdapter.adapt(e);
     }
   }
-
 }

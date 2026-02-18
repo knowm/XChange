@@ -41,14 +41,21 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
   @Override
   protected void initServices() {
     super.initServices();
+    applyWebsocketTimeouts(exchangeSpecification);
     this.streamingService = new BybitStreamingService(getApiUrl(), exchangeSpecification);
+    applyStreamingSpecification(exchangeSpecification, streamingService);
     if (isApiKeyValid()) {
       this.streamingUserDataService =
           new BybitUserDataStreamingService(getApiUrlWithAuth(), exchangeSpecification);
-      this.streamingUserTradeService = new BybitUserTradeStreamingService(getTradeApiUrlWithAuth(),exchangeSpecification);
+      applyStreamingSpecification(exchangeSpecification, streamingUserDataService);
+      this.streamingUserTradeService =
+          new BybitUserTradeStreamingService(getTradeApiUrlWithAuth(), exchangeSpecification);
+      applyStreamingSpecification(exchangeSpecification, streamingUserTradeService);
     }
     this.streamingMarketDataService = new BybitStreamingMarketDataService(streamingService);
-    this.streamingTradeService = new BybitStreamingTradeService(streamingUserDataService,streamingUserTradeService,getResilienceRegistries(), this);
+    this.streamingTradeService =
+        new BybitStreamingTradeService(
+            streamingUserDataService, streamingUserTradeService, getResilienceRegistries(), this);
   }
 
   private String getTradeApiUrlWithAuth() {
@@ -69,8 +76,7 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
 
   private String getApiUrl() {
     String apiUrl;
-    if (Boolean.TRUE.equals(
-        exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET))) {
+    if (Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
       apiUrl = TESTNET_URI;
     } else {
       apiUrl = URI;
@@ -195,5 +201,4 @@ public class BybitStreamingExchange extends BybitExchange implements StreamingEx
       streamingUserDataService.resubscribeChannels();
     }
   }
-
 }

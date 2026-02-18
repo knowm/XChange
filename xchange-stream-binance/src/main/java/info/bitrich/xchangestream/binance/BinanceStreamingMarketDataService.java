@@ -39,6 +39,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -48,6 +49,7 @@ import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceBookTicker;
+import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRateInfo;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
@@ -95,6 +97,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   private final Map<Instrument, Observable<DepthBinanceWebSocketTransaction>>
       orderBookRawUpdatesSubscriptions;
   private Observable<List<BinanceTicker24h>> allRollingWindowTickerSubscriptions;
+  private Map<Instrument, Integer> fundingRateInfoMap;
+  private Disposable fundingRateInfoUpdate;
 
   /**
    * A scheduler for initialisation of binance order book snapshots, which is delegated to a
@@ -136,6 +140,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     this.orderBookUpdatesSubscriptions = new ConcurrentHashMap<>();
     this.orderBookRawUpdatesSubscriptions = new ConcurrentHashMap<>();
     this.klineSubscriptions = new ConcurrentHashMap<>();
+    this.fundingRateInfoMap = new ConcurrentHashMap<>();
   }
 
   @Override
@@ -188,6 +193,14 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   @Override
   public Observable<FundingRate> getFundingRate(Instrument instrument, Object... args) {
+    // init update info for funding rate interval
+    synchronized (this) {
+      if (fundingRateInfoUpdate == null) {
+        fundingRateInfoUpdate =
+            Observable.interval(10, 10, TimeUnit.MINUTES).subscribe(x -> updateFundingRateInfo());
+        updateFundingRateInfo();
+      }
+    }
     return service
         .subscribeChannel(
             channelFromCurrency(instrument, BinanceSubscriptionType.FUNDING_RATES.getType()))
@@ -197,7 +210,22 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                     it, FUNDING_RATE_TYPE, "funding rate"))
         .map(BinanceWebsocketTransaction::getData)
         .filter(data -> BinanceAdapters.adaptSymbol(data.getSymbol(), true).equals(instrument))
-        .map(FundingRateWebsocketTransaction::toFundingRate);
+        .map(
+            transaction ->
+                transaction.toFundingRate((fundingRateInfoMap.getOrDefault(instrument, 8))));
+  }
+
+  private void updateFundingRateInfo() {
+    try {
+      fundingRateInfoMap =
+          marketDataService.getBinanceFundingRateInfo().stream()
+              .collect(
+                  Collectors.toMap(
+                      BinanceFundingRateInfo::getInstrument,
+                      BinanceFundingRateInfo::getFundingIntervalHours));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private Observable<OrderBook> initOrderBookIfAbsent(Instrument instrument) {
@@ -372,6 +400,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     productSubscription.getTicker().forEach(this::initTickerSubscription);
     productSubscription.getOrderBook().forEach(this::initRawOrderBookUpdatesSubscription);
     productSubscription.getTrades().forEach(this::initTradeSubscription);
+    productSubscription.getFundingRates().forEach(this::initTradeSubscription);
   }
 
   private void initKlineSubscription(Instrument instrument, Set<KlineInterval> klineIntervals) {

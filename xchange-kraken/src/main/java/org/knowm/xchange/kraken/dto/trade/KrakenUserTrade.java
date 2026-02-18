@@ -14,5 +14,4 @@ import org.knowm.xchange.dto.trade.UserTrade;
 public class KrakenUserTrade extends UserTrade {
 
   private BigDecimal cost;
-
 }

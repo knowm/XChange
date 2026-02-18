@@ -46,7 +46,7 @@ public class KrakenFuturesExchange extends BaseExchange implements Exchange {
             ((KrakenFuturesMarketDataServiceRaw) marketDataService).getKrakenFuturesInstruments());
   }
 
-  private void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+  protected void concludeHostParams(ExchangeSpecification exchangeSpecification) {
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       if (Boolean.TRUE.equals(
           exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {

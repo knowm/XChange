@@ -70,7 +70,7 @@ public class KrakenFuturesPublicDataIntegration {
             fundingRate -> {
               assertThat(fundingRate.getFundingRateEffectiveInMinutes()).isLessThan(61);
               assertThat(fundingRate.getFundingRate1h()).isNotNull();
-              assertThat(fundingRate.getFundingRate8h()).isNotNull();
+              assertThat(fundingRate.getFundingRate()).isNotNull();
               assertThat(fundingRate.getFundingRateDate()).isNotNull();
             });
   }
@@ -82,7 +82,7 @@ public class KrakenFuturesPublicDataIntegration {
     assertThat(fundingRate.getInstrument().toString()).isEqualTo("PF_XBT/USD/PERP");
     assertThat(fundingRate.getFundingRateEffectiveInMinutes()).isLessThan(61);
     assertThat(fundingRate.getFundingRate1h()).isNotNull();
-    assertThat(fundingRate.getFundingRate8h()).isNotNull();
+    assertThat(fundingRate.getFundingRate()).isNotNull();
     assertThat(fundingRate.getFundingRateDate()).isNotNull();
     System.out.println(fundingRate);
   }

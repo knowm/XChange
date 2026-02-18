@@ -43,9 +43,11 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
+import org.knowm.xchange.kraken.dto.account.KrakenExtendedBalance;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
 import org.knowm.xchange.kraken.dto.account.KrakenVolumeFee;
+import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
@@ -105,7 +107,8 @@ public class KrakenAdapters {
             krakenOpenPosition ->
                 openPositionsList.add(
                     OpenPosition.builder()
-                        .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
+                        .instrument(
+                            KrakenAdapters.adaptCurrencyPair(krakenOpenPosition.getAssetPair()))
                         .type(
                             krakenOpenPosition.getType() == KrakenType.BUY
                                 ? OpenPosition.Type.LONG
@@ -245,21 +248,34 @@ public class KrakenAdapters {
         .build();
   }
 
-  public static Wallet adaptWallet(Map<String, BigDecimal> krakenWallet) {
+  public static Wallet toWallet(
+      Map<String, KrakenExtendedBalance> krakenExtendedBalancePositions, String walletId) {
+    var balances =
+        krakenExtendedBalancePositions.entrySet().stream()
+            .map(e -> toBalance(e.getKey(), e.getValue()))
+            .collect(Collectors.toList());
 
-    List<Balance> balances = new ArrayList<>(krakenWallet.size());
-    for (Entry<String, BigDecimal> balancePair : krakenWallet.entrySet()) {
-      Currency currency;
-      try {
-        currency = adaptCurrency(balancePair.getKey());
-      } catch (Exception e) {
-        currency = Currency.getInstance(balancePair.getKey());
-      }
+    return new Wallet.Builder().id(walletId).balances(balances).build();
+  }
 
-      Balance balance = new Balance(currency, balancePair.getValue());
-      balances.add(balance);
+  public static Balance toBalance(
+      String krakenCurrencyCode, KrakenExtendedBalance krakenExtendedBalance) {
+    var builder =
+        Balance.builder()
+            .currency(adaptCurrency(krakenCurrencyCode))
+            .total(krakenExtendedBalance.getBalance());
+
+    if (krakenExtendedBalance.getCredit() != null) {
+      builder.borrowed(krakenExtendedBalance.getCredit());
     }
-    return Wallet.Builder.from(balances).build();
+    if (krakenExtendedBalance.getCreditUsed() != null) {
+      builder.loaned(krakenExtendedBalance.getCreditUsed());
+    }
+    if (krakenExtendedBalance.getHoldTrade() != null) {
+      builder.frozen(krakenExtendedBalance.getHoldTrade());
+    }
+
+    return builder.build();
   }
 
   public static Set<CurrencyPair> adaptCurrencyPairs(Collection<String> krakenCurrencyPairs) {
@@ -474,32 +490,34 @@ public class KrakenAdapters {
   }
 
   private static InstrumentMetaData adaptPair(
-          KrakenAssetPair krakenPair, InstrumentMetaData originalMeta) {
+      KrakenAssetPair krakenPair, InstrumentMetaData originalMeta) {
     // Normalize order minimum into base units
-    BigDecimal minimumAmount = krakenPair.getOrderMin()
-            .multiply(krakenPair.getVolumeMultiplier());
+    BigDecimal minimumAmount = krakenPair.getOrderMin().multiply(krakenPair.getVolumeMultiplier());
     // effective step size in base units
     // stepSize = lot_multiplier × 10^(-lot_decimals)
-    BigDecimal volumeStepSize = BigDecimal.ONE
+    BigDecimal volumeStepSize =
+        BigDecimal.ONE
             .divide(BigDecimal.TEN.pow(krakenPair.getVolumeLotScale()))
             .multiply(krakenPair.getVolumeMultiplier());
     // --- Trading fee: first tier as default ---
-    BigDecimal tradingFee = krakenPair.getFees().isEmpty()
+    BigDecimal tradingFee =
+        krakenPair.getFees().isEmpty()
             ? BigDecimal.ZERO
             : krakenPair.getFees().get(0).getPercentFee().divide(BigDecimal.valueOf(100));
 
     return InstrumentMetaData.builder()
-            .tradingFee(tradingFee)
-            .feeTiers(adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()))
-            .tradingFeeCurrency(
-                    KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()))
-            .minimumAmount(minimumAmount)
-            .priceScale(krakenPair.getPairScale())
-            .priceStepSize(krakenPair.getTickSize())
-            .volumeScale(krakenPair.getVolumeLotScale())
-            .amountStepSize(volumeStepSize)
-            .marketOrderEnabled(true)
-            .build();
+        .tradingFee(tradingFee)
+        .feeTiers(adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()))
+        .tradingFeeCurrency(
+            KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()))
+        .minimumAmount(minimumAmount)
+        .counterMinimumAmount(krakenPair.getCostMin())
+        .priceScale(krakenPair.getPairScale())
+        .priceStepSize(krakenPair.getTickSize())
+        .volumeScale(krakenPair.getVolumeLotScale())
+        .amountStepSize(volumeStepSize)
+        .marketOrderEnabled(true)
+        .build();
   }
 
   public static List<FundingRecord> adaptFundingHistory(
@@ -512,8 +530,7 @@ public class KrakenAdapters {
         final Currency currency = adaptCurrency(krakenLedger.getAsset());
         if (currency != null) {
           final Date timestamp = new Date((long) (krakenLedger.getUnixTime() * 1000L));
-          final FundingRecord.Type type =
-              FundingRecord.Type.fromString(krakenLedger.getLedgerType().name());
+          final FundingRecord.Type type = toFundingRecordType(krakenLedger.getLedgerType());
           if (type != null) {
             final String internalId = krakenLedger.getRefId(); // or ledgerEntry.getKey()?
             FundingRecord fundingRecordEntry =
@@ -522,7 +539,7 @@ public class KrakenAdapters {
                     .currency(currency)
                     .amount(krakenLedger.getTransactionAmount())
                     .internalId(internalId)
-                    .type(FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()))
+                    .type(type)
                     .status(Status.COMPLETE)
                     .balance(krakenLedger.getBalance())
                     .fee(krakenLedger.getFee())
@@ -547,6 +564,49 @@ public class KrakenAdapters {
         return OrderStatus.CANCELED;
       case EXPIRED:
         return OrderStatus.EXPIRED;
+      default:
+        return null;
+    }
+  }
+
+  private static FundingRecord.Type toFundingRecordType(LedgerType ledgerType) {
+    if (ledgerType == null) {
+      return null;
+    }
+    switch (ledgerType) {
+      case DEPOSIT:
+        return FundingRecord.Type.DEPOSIT;
+      case WITHDRAWAL:
+        return FundingRecord.Type.WITHDRAWAL;
+      case RECEIVE:
+        return FundingRecord.Type.DEPOSIT; // RECEIVE is an inflow, map to DEPOSIT
+      case SPEND:
+        return FundingRecord.Type.WITHDRAWAL; // SPEND is an outflow, map to WITHDRAWAL
+      case REWARD:
+        return FundingRecord.Type.AIRDROP; // REWARD is an inflow, map to AIRDROP
+      case TRANSFER:
+        return FundingRecord.Type.INTERNAL_WALLET_TRANSFER;
+      case TRADE:
+        return FundingRecord.Type.TRADE;
+      default:
+        // Try to map by name for other types
+        return FundingRecord.Type.fromString(ledgerType.name());
+    }
+  }
+
+  public static LedgerType toLedgerType(FundingRecord.Type fundingRecordType) {
+    if (fundingRecordType == null) {
+      return null;
+    }
+
+    switch (fundingRecordType) {
+      case DEPOSIT:
+        return LedgerType.DEPOSIT;
+      case WITHDRAWAL:
+        return LedgerType.WITHDRAWAL;
+      case INTERNAL_WITHDRAWAL:
+      case INTERNAL_DEPOSIT:
+        return LedgerType.TRANSFER;
       default:
         return null;
     }

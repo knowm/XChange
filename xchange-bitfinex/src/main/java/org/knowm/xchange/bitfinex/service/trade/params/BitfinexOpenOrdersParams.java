@@ -10,5 +10,4 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 public class BitfinexOpenOrdersParams extends DefaultOpenOrdersParamCurrencyPair {
 
   private List<Long> ids;
-
 }

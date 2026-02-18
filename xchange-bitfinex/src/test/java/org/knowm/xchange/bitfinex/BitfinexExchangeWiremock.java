@@ -9,9 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 
-/**
- * Sets up the wiremock for exchange
- */
+/** Sets up the wiremock for exchange */
 public abstract class BitfinexExchangeWiremock {
 
   protected static BitfinexExchange exchange;
@@ -20,7 +18,6 @@ public abstract class BitfinexExchangeWiremock {
 
   private static WireMockServer wireMockServer;
 
-
   @BeforeAll
   public static void initExchange() {
     wireMockServer = new WireMockServer(options().dynamicPort());
@@ -28,8 +25,8 @@ public abstract class BitfinexExchangeWiremock {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(BitfinexExchange.class);
     exSpec.setSslUri("http://localhost:" + wireMockServer.port());
-//    exSpec.setApiKey("a");
-//    exSpec.setSecretKey("b");
+    //    exSpec.setApiKey("a");
+    //    exSpec.setSecretKey("b");
 
     if (IS_RECORDING) {
       // use default url and record the requests
@@ -38,16 +35,11 @@ public abstract class BitfinexExchangeWiremock {
               .forTarget("https://api.bitfinex.com")
               .matchRequestBodyWithEqualToJson()
               .extractTextBodiesOver(1L)
-              .chooseBodyMatchTypeAutomatically()
-      );
-
+              .chooseBodyMatchTypeAutomatically());
     }
 
     exchange = (BitfinexExchange) ExchangeFactory.INSTANCE.createExchange(exSpec);
-
-
   }
-
 
   @AfterAll
   public static void stop() {
@@ -56,6 +48,4 @@ public abstract class BitfinexExchangeWiremock {
     }
     wireMockServer.stop();
   }
-
-
 }

@@ -15,5 +15,4 @@ public class KrakenWebsocketToken {
 
   @JsonProperty("expires")
   private Integer expiresInSeconds;
-
 }

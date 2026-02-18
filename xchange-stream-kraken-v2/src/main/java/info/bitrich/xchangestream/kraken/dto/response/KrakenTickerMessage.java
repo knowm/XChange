@@ -66,7 +66,5 @@ public class KrakenTickerMessage extends KrakenDataMessage<Payload> {
 
     @JsonProperty("change_pct")
     private BigDecimal changePercentage24h;
-
   }
-
 }

@@ -292,7 +292,7 @@ public class KucoinAdapters {
   public static OrderCreateApiRequest adaptLimitOrder(LimitOrder limitOrder) {
     return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(limitOrder))
         .type("limit")
-        .price(limitOrder.getLimitPrice())
+        .price(limitOrder.getLimitPrice().toPlainString())
         .postOnly(limitOrder.hasFlag(POST_ONLY))
         .hidden(limitOrder.hasFlag(HIDDEN))
         .iceberg(limitOrder.hasFlag(ICEBERG))
@@ -302,9 +302,9 @@ public class KucoinAdapters {
   public static OrderCreateApiRequest adaptStopOrder(StopOrder stopOrder) {
     return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(stopOrder))
         .type(stopOrder.getLimitPrice() == null ? "market" : "limit")
-        .price(stopOrder.getLimitPrice())
+        .price(stopOrder.getLimitPrice().toPlainString())
         .stop(stopOrder.getType().equals(ASK) ? "loss" : "entry")
-        .stopPrice(stopOrder.getStopPrice())
+        .stopPrice(stopOrder.getStopPrice().toPlainString())
         .build();
   }
 
@@ -316,11 +316,11 @@ public class KucoinAdapters {
     // on buy order amount corresponds to counter currency
     if (marketOrder.getType() == BID) {
       builder.size(null);
-      builder.funds(marketOrder.getOriginalAmount());
+      builder.funds(marketOrder.getOriginalAmount().toPlainString());
     }
     // on sell order amount corresponds to base currency
     else if (marketOrder.getType() == ASK) {
-      builder.size(marketOrder.getOriginalAmount());
+      builder.size(marketOrder.getOriginalAmount().toPlainString());
       builder.funds(null);
     }
 
@@ -353,7 +353,7 @@ public class KucoinAdapters {
     }
     return request
         .symbol(adaptCurrencyPair((CurrencyPair) order.getInstrument()))
-        .size(order.getOriginalAmount())
+        .size(order.getOriginalAmount().toPlainString())
         .side(adaptSide(order.getType()));
   }
 

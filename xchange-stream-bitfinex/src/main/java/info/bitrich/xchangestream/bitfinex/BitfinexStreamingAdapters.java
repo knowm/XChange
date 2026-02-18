@@ -282,9 +282,7 @@ class BitfinexStreamingAdapters {
 
   Balance adaptBalance(BitfinexWebSocketAuthBalance authBalance) {
     return new Balance(
-        authBalance.getCurrency(),
-        authBalance.getBalance(),
-        authBalance.getBalanceAvailable());
+        authBalance.getCurrency(), authBalance.getBalance(), authBalance.getBalanceAvailable());
   }
 
   public OpenPosition toOpenPosition(BitfinexWebSocketPosition bitfinexPosition) {
@@ -301,5 +299,4 @@ class BitfinexStreamingAdapters {
         .updatedAt(bitfinexPosition.getUpdatedAt())
         .build();
   }
-
 }

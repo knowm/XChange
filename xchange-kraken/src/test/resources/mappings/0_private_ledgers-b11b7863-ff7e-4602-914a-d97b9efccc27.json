@@ -1,0 +1,21 @@
+{
+  "id": "b11b7863-ff7e-4602-914a-d97b9efccc27",
+  "name": "0_private_ledgers",
+  "request": {
+    "url": "/0/private/Ledgers",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "matches": "type=all&nonce=.*",
+        "caseInsensitive": false
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "0_private_ledgers-b11b7863-ff7e-4602-914a-d97b9efccc27.json"
+  },
+  "uuid": "b11b7863-ff7e-4602-914a-d97b9efccc27",
+  "persistent": true,
+  "insertionIndex": 19
+}

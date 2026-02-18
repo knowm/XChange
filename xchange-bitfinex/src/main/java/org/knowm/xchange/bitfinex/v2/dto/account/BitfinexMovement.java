@@ -69,5 +69,4 @@ public class BitfinexMovement {
   String transactionId;
 
   String withdrawTransactionNote;
-
 }

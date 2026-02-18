@@ -49,7 +49,8 @@ public class BybitTradeServiceRaw extends BybitBaseService {
     return bybitOrder;
   }
 
-  BybitResult<BybitOrderResponse> amendOrder(BybitAmendOrderPayload payload,  BybitCategory category) throws IOException {
+  BybitResult<BybitOrderResponse> amendOrder(BybitAmendOrderPayload payload, BybitCategory category)
+      throws IOException {
     RateLimiter rateLimiter = getAmendOrderRateLimiter(category);
     BybitResult<BybitOrderResponse> amendOrder =
         decorateApiCall(
@@ -65,7 +66,8 @@ public class BybitTradeServiceRaw extends BybitBaseService {
     return amendOrder;
   }
 
-  BybitResult<BybitOrderResponse> placeOrder(BybitPlaceOrderPayload payload,BybitCategory category) throws IOException {
+  BybitResult<BybitOrderResponse> placeOrder(BybitPlaceOrderPayload payload, BybitCategory category)
+      throws IOException {
     BybitResult<BybitOrderResponse> placeOrder =
         decorateApiCall(
                 () ->
@@ -114,5 +116,4 @@ public class BybitTradeServiceRaw extends BybitBaseService {
     }
     return response;
   }
-
 }

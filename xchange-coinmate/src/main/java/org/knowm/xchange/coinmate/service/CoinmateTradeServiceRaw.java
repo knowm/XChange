@@ -207,15 +207,21 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
+  /**
+   * Creates a limit buy order.
+   *
+   * @param stopPrice DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   * @param trailing DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   */
   public CoinmateTradeResponse buyCoinmateLimit(
       BigDecimal amount,
       BigDecimal price,
       String currencyPair,
-      BigDecimal stopPrice,
+      @Deprecated BigDecimal stopPrice,
       Integer hidden,
       Integer postOnly,
       Integer immediateOrCancel,
-      Integer trailing,
+      @Deprecated Integer trailing,
       String clientOrderId)
       throws IOException {
     CoinmateTradeResponse response =
@@ -239,15 +245,21 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
+  /**
+   * Creates a limit sell order.
+   *
+   * @param stopPrice DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   * @param trailing DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   */
   public CoinmateTradeResponse sellCoinmateLimit(
       BigDecimal amount,
       BigDecimal price,
       String currencyPair,
-      BigDecimal stopPrice,
+      @Deprecated BigDecimal stopPrice,
       Integer hidden,
       Integer postOnly,
       Integer immediateOrCancel,
-      Integer trailing,
+      @Deprecated Integer trailing,
       String clientOrderId)
       throws IOException {
     CoinmateTradeResponse response =
@@ -271,16 +283,22 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
+  /**
+   * Replaces an existing order with a new limit buy order.
+   *
+   * @param stopPrice DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   * @param trailing DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   */
   public CoinmateReplaceResponse coinmateReplaceByBuyLimit(
       String orderId,
       BigDecimal amount,
       BigDecimal price,
       String currencyPair,
-      BigDecimal stopPrice,
+      @Deprecated BigDecimal stopPrice,
       Integer hidden,
       Integer postOnly,
       Integer immediateOrCancel,
-      Integer trailing,
+      @Deprecated Integer trailing,
       String clientOrderId)
       throws IOException {
     CoinmateReplaceResponse response =
@@ -305,16 +323,22 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
+  /**
+   * Replaces an existing order with a new limit sell order.
+   *
+   * @param stopPrice DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   * @param trailing DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   */
   public CoinmateReplaceResponse coinmateReplaceBySellLimit(
       String orderId,
       BigDecimal amount,
       BigDecimal price,
       String currencyPair,
-      BigDecimal stopPrice,
+      @Deprecated BigDecimal stopPrice,
       Integer hidden,
       Integer postOnly,
       Integer immediateOrCancel,
-      Integer trailing,
+      @Deprecated Integer trailing,
       String clientOrderId)
       throws IOException {
     CoinmateReplaceResponse response =

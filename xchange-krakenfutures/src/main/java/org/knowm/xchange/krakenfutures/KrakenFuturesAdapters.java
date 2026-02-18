@@ -26,6 +26,7 @@ import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.FundingRate;
+import org.knowm.xchange.dto.marketdata.FundingRate.FundingRateInterval;
 import org.knowm.xchange.dto.marketdata.FundingRates;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -329,13 +330,14 @@ public class KrakenFuturesAdapters {
             .divide(krakenFuturesTicker.getMarkPrice(), 8, RoundingMode.HALF_EVEN);
     return new FundingRate.Builder()
         .fundingRate1h(relative1hFundingRate)
-        .fundingRate8h(relative1hFundingRate.multiply(BigDecimal.valueOf(8)))
+        .fundingRate(relative1hFundingRate.multiply(BigDecimal.valueOf(8)))
         .fundingRateDate(
             Date.from(
                 now.plus(60 - now.get(ChronoField.MINUTE_OF_HOUR), ChronoUnit.MINUTES)
                     .toInstant(ZoneOffset.UTC)))
         .fundingRateEffectiveInMinutes(60 - LocalTime.now().getMinute())
         .instrument(adaptInstrument(krakenFuturesTicker.getSymbol()))
+        .fundingRateInterval(FundingRateInterval.H8)
         .build();
   }
 

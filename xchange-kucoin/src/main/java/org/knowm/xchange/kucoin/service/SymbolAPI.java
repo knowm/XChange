@@ -68,13 +68,15 @@ public interface SymbolAPI {
   /**
    * Get All Currencies.
    *
-   * Request a currency list via this endpoint. Not all currencies currently can be used for trading.
+   * <p>Request a currency list via this endpoint. Not all currencies currently can be used for
+   * trading.
    *
    * @return The available currencies.
    */
   @GET
   @Path("/v3/currencies")
-  KucoinResponse<List<KucoinCurrencyResponseV3>> getAllCurrencies() throws IOException, KucoinException;
+  KucoinResponse<List<KucoinCurrencyResponseV3>> getAllCurrencies()
+      throws IOException, KucoinException;
 
   /**
    * Get the fiat price of the currencies for the available trading pairs.

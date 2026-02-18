@@ -111,19 +111,13 @@ public class KrakenExecutionsMessage extends KrakenDataMessage<Payload> {
     @JsonIgnore
     public Currency getFeeCurrency() {
       if (krakenFees != null) {
-        return krakenFees.stream()
-            .map(KrakenFee::getCurrency)
-            .findFirst()
-            .orElse(null);
+        return krakenFees.stream().map(KrakenFee::getCurrency).findFirst().orElse(null);
       }
       return null;
     }
-
   }
 
-
   public enum KrakenExecutionType {
-
     @JsonProperty("pending_new")
     PENDING_NEW,
 
@@ -153,7 +147,6 @@ public class KrakenExecutionsMessage extends KrakenDataMessage<Payload> {
 
     @JsonProperty("status")
     STATUS
-
   }
 
   @Data
@@ -199,7 +192,6 @@ public class KrakenExecutionsMessage extends KrakenDataMessage<Payload> {
 
     @JsonProperty("settle-position")
     SETTLE_POSITION,
-
   }
 
   public enum KrakenOrderStatus {
@@ -221,5 +213,4 @@ public class KrakenExecutionsMessage extends KrakenDataMessage<Payload> {
     @JsonProperty("expired")
     EXPIRED
   }
-
 }

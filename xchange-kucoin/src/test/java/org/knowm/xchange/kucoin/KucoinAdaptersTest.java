@@ -15,7 +15,7 @@ class KucoinAdaptersTest {
   void adapt_market_buy_order() {
     OrderCreateApiRequest expected =
         OrderCreateApiRequest.builder()
-            .funds(new BigDecimal("15"))
+            .funds(new BigDecimal("15").toPlainString())
             .clientOid("abc")
             .side("buy")
             .symbol("BTC-USDT")
@@ -37,7 +37,7 @@ class KucoinAdaptersTest {
   void adapt_market_sell_order() {
     OrderCreateApiRequest expected =
         OrderCreateApiRequest.builder()
-            .size(new BigDecimal("0.002"))
+            .size(new BigDecimal("0.002").toPlainString())
             .clientOid("abc")
             .side("sell")
             .symbol("BTC-USDT")

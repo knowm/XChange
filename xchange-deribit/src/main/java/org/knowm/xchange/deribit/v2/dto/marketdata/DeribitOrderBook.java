@@ -1,14 +1,12 @@
 package org.knowm.xchange.deribit.v2.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.TreeMap;
 import lombok.Data;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class DeribitOrderBook {
 
@@ -25,7 +23,7 @@ public class DeribitOrderBook {
 
   /** The timestamp (seconds since the Unix epoch, with millisecond precision) */
   @JsonProperty("timestamp")
-  private long timestamp;
+  private Instant timestamp;
 
   @JsonProperty("stats")
   private DeribitStats stats;
@@ -138,10 +136,6 @@ public class DeribitOrderBook {
   @JsonProperty("asks")
   public void setAsks(List<List<BigDecimal>> asks) {
     convertOrders(asks, this.asks);
-  }
-
-  public Date getTimestamp() {
-    return new Date(timestamp);
   }
 
   private static void convertOrders(

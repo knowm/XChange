@@ -16,12 +16,12 @@ import lombok.experimental.SuperBuilder;
     visible = true,
     defaultImpl = KrakenControlMessage.class)
 @JsonSubTypes({
-    @Type(value = KrakenBalancesMessage.class, name = "balances"),
-    @Type(value = KrakenExecutionsMessage.class, name = "executions"),
-    @Type(value = KrakenHeartbeatMessage.class, name = "heartbeat"),
-    @Type(value = KrakenStatusMessage.class, name = "status"),
-    @Type(value = KrakenTickerMessage.class, name = "ticker"),
-    @Type(value = KrakenTradeMessage.class, name = "trade"),
+  @Type(value = KrakenBalancesMessage.class, name = "balances"),
+  @Type(value = KrakenExecutionsMessage.class, name = "executions"),
+  @Type(value = KrakenHeartbeatMessage.class, name = "heartbeat"),
+  @Type(value = KrakenStatusMessage.class, name = "status"),
+  @Type(value = KrakenTickerMessage.class, name = "ticker"),
+  @Type(value = KrakenTradeMessage.class, name = "trade"),
 })
 @Data
 @SuperBuilder(toBuilder = true)
@@ -33,11 +33,9 @@ public abstract class KrakenMessage {
   @JsonProperty("type")
   private KrakenMessageType type;
 
-
   public String getChannelId() {
     return channel;
   }
-
 
   public enum KrakenMessageType {
     @JsonProperty("update")
@@ -46,5 +44,4 @@ public abstract class KrakenMessage {
     @JsonProperty("snapshot")
     SNAPSHOT
   }
-
 }

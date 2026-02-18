@@ -16,5 +16,4 @@ public class BitfinexOpenOrdersRequest {
 
   @JsonProperty("id")
   List<Long> ids;
-
 }

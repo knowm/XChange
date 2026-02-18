@@ -89,10 +89,10 @@ public class FundingRecord implements Serializable {
      */
     OTHER_OUTFLOW(false),
 
-    /** Used for transfers between sub-accounts **/
+    /** Used for transfers between sub-accounts * */
     INTERNAL_WALLET_TRANSFER(false),
 
-    /** Used for transfers between sub-accounts **/
+    /** Used for transfers between sub-accounts * */
     INTERNAL_SUB_ACCOUNT_TRANSFER(false),
 
     /** Used for transfers between exchanges accounts */
@@ -107,13 +107,13 @@ public class FundingRecord implements Serializable {
     /** Used for realised profits from derivatives */
     REALISED_PROFIT(true),
 
-    /** Used for ledger movements while trading **/
+    /** Used for ledger movements while trading * */
     TRADE(false),
 
-    /** Used for trading fees **/
+    /** Used for trading fees * */
     ORDER_FEE(false),
 
-    /** Used for withdrawal fees **/
+    /** Used for withdrawal fees * */
     WITHDRAWAL_FEE(false);
 
     private static final Map<String, Type> fromString = new HashMap<>();
@@ -201,5 +201,4 @@ public class FundingRecord implements Serializable {
       return fromString.get(str.toUpperCase());
     }
   }
-
 }

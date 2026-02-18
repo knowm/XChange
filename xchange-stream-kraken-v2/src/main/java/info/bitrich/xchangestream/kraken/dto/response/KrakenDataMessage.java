@@ -12,7 +12,6 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class KrakenDataMessage<T> extends KrakenMessage {
 
-
   @JsonProperty("data")
   private List<T> data;
 
@@ -26,6 +25,4 @@ public class KrakenDataMessage<T> extends KrakenMessage {
     }
     return null;
   }
-
-
 }

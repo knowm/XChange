@@ -15,5 +15,4 @@ public class KrakenResult<V> {
 
   @JsonProperty("error")
   private final String[] error;
-
 }

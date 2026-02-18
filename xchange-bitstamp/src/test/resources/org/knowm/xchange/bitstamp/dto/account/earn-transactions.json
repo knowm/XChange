@@ -1,0 +1,29 @@
+[
+  {
+    "datetime": "2025-11-15T02:09:13+00:00",
+    "type": "REWARD_RECEIVED",
+    "amount": "0.00353037",
+    "currency": "SUI",
+    "value": "0.01",
+    "quote_currency": "USD",
+    "status": "COMPLETED"
+  },
+  {
+    "datetime": "2025-11-15T02:08:30+00:00",
+    "type": "REWARD_RECEIVED",
+    "amount": "0.00011206",
+    "currency": "LTC",
+    "value": "0.01",
+    "quote_currency": "USD",
+    "status": "COMPLETED"
+  },
+  {
+    "datetime": "2025-11-15T01:30:00+00:00",
+    "type": "SUBSCRIBE",
+    "amount": "10.5",
+    "currency": "ETH",
+    "value": "25000.00",
+    "quote_currency": "USD",
+    "status": "COMPLETED"
+  }
+]

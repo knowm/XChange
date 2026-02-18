@@ -1,6 +1,0 @@
-Livecoin Exchange API specification
-================================
-
-API Documentation
----------------------------
-https://www.livecoin.net/api/public

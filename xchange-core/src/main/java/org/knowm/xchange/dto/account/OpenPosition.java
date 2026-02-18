@@ -11,8 +11,8 @@ import org.knowm.xchange.instrument.Instrument;
 
 @Data
 @SuperBuilder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class OpenPosition implements Serializable {
 
   private String id;
@@ -43,7 +43,6 @@ public class OpenPosition implements Serializable {
   /** Timestamp of update */
   private Instant updatedAt;
 
-
   public enum Type {
     LONG,
     SHORT
@@ -53,5 +52,4 @@ public class OpenPosition implements Serializable {
     CROSS,
     ISOLATED
   }
-
 }

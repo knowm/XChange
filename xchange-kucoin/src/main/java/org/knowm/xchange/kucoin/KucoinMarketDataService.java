@@ -64,5 +64,4 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     return KucoinAdapters.adaptTrades(currencyPair, getKucoinTrades(currencyPair));
   }
-
 }

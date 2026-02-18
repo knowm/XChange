@@ -1,0 +1,45 @@
+### Subscribe Ticker Channel
+WEBSOCKET {{api_v2}}
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "public/subscribe",
+  "params": {
+    "channels": [
+      "ticker.BTC-PERPETUAL.100ms"
+    ]
+  }
+}
+
+
+### Subscribe Order Book Channel
+WEBSOCKET {{api_v2}}
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "public/subscribe",
+  "params": {
+    "channels": [
+      "book.BTC-PERPETUAL.none.10.100ms"
+    ]
+  }
+}
+
+
+### Subscribe Trades Channel
+WEBSOCKET {{api_v2}}
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "public/subscribe",
+  "params": {
+    "channels": [
+      "trades.BTC-PERPETUAL.100ms"
+    ]
+  }
+}
+
+

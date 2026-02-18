@@ -162,7 +162,8 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
         gateioTradeService.getOrder(
             new DefaultQueryOrderParamInstrument(new CurrencyPair("FREE/USDT"), "874190804193"));
     assertThat(orders).hasSize(1);
-    assertThat(orders).first()
+    assertThat(orders)
+        .first()
         .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
         .usingRecursiveComparison()
         .isEqualTo(expected);

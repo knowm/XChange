@@ -176,8 +176,7 @@ public final class UpbitAdapters {
             .map(UpbitMarket::getMarket)
             .map(UpbitUtils::toCurrencyPair)
             .collect(
-                Collectors.toMap(
-                    Function.identity(), cp -> InstrumentMetaData.builder().build()));
+                Collectors.toMap(Function.identity(), cp -> InstrumentMetaData.builder().build()));
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }
 

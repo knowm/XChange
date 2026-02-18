@@ -1,0 +1,15 @@
+{
+  "id": "9692d132-4ef8-4467-b16f-f877f105ba7b",
+  "name": "api_v2_private_get_open_orders_by_instrument",
+  "request": {
+    "url": "/api/v2/private/get_open_orders_by_instrument?instrument_name=XRP_USDC",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v2_private_get_open_orders_by_instrument-9692d132-4ef8-4467-b16f-f877f105ba7b.json"
+  },
+  "uuid": "9692d132-4ef8-4467-b16f-f877f105ba7b",
+  "persistent": true,
+  "insertionIndex": 8
+}

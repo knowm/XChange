@@ -1,0 +1,19 @@
+{
+  "id" : "3016e39d-0bc9-4756-b2bf-63cb37814b7e",
+  "name" : "0_private_tradebalance",
+  "request" : {
+    "url" : "/0/private/TradeBalance",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "matches" : "nonce=.*",
+      "caseInsensitive" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "0_private_tradebalance-3016e39d-0bc9-4756-b2bf-63cb37814b7e.json"
+  },
+  "uuid" : "3016e39d-0bc9-4756-b2bf-63cb37814b7e",
+  "persistent" : true,
+  "insertionIndex" : 2
+}

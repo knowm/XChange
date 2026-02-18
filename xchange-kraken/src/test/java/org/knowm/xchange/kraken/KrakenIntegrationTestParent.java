@@ -2,8 +2,8 @@ package org.knowm.xchange.kraken;
 
 import static org.assertj.core.api.Assumptions.assumeThat;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.dto.meta.ExchangeHealth;
 
@@ -11,14 +11,14 @@ public class KrakenIntegrationTestParent {
 
   protected static KrakenExchange exchange;
 
-  @BeforeClass
+  @BeforeAll
   public static void init() {
     if (exchange == null) {
       exchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class);
     }
   }
 
-  @Before
+  @BeforeEach
   public void exchange_online() {
     // skip if offline
     assumeThat(exchange.getMarketDataService().getExchangeHealth())

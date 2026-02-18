@@ -34,7 +34,7 @@ public class BinanceED25519Digest implements ParamsDigest {
       signer = new Ed25519Signer();
       signer.init(true, keyPrivate);
     } catch (IOException e) {
-      LOG.error("",e);
+      LOG.error("", e);
     }
   }
 
@@ -76,10 +76,9 @@ public class BinanceED25519Digest implements ParamsDigest {
       signer.update(payloadBytes, 0, payloadBytes.length);
       byte[] printBase64Binary = signer.generateSignature();
       return new String(Base64.getEncoder().encode(printBase64Binary));
-    } catch (CryptoException e ) {
-      LOG.error("",e);
+    } catch (CryptoException e) {
+      LOG.error("", e);
     }
     return null;
   }
-
 }

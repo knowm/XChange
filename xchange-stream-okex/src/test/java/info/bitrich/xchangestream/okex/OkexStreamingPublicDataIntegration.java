@@ -1,14 +1,19 @@
 package info.bitrich.xchangestream.okex;
 
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_CONNECTION_TIMEOUT;
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_IDLE_TIMEOUT;
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATION;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.rxjava3.disposables.Disposable;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.instrument.Instrument;
@@ -22,7 +27,11 @@ public class OkexStreamingPublicDataIntegration {
 
   @Before
   public void setUp() {
-    exchange = StreamingExchangeFactory.INSTANCE.createExchange(OkexStreamingExchange.class);
+    ExchangeSpecification spec = new OkexStreamingExchange().getDefaultExchangeSpecification();
+    spec.setExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT, Duration.ofSeconds(5));
+    spec.setExchangeSpecificParametersItem(WS_RETRY_DURATION, Duration.ofSeconds(10));
+    spec.setExchangeSpecificParametersItem(WS_IDLE_TIMEOUT, 15);
+    exchange = StreamingExchangeFactory.INSTANCE.createExchange(spec);
     exchange.connect().blockingAwait();
   }
 

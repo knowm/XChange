@@ -31,9 +31,10 @@ public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestPar
   public void valid_currency_infos() throws Exception {
     KucoinMarketDataService kucoinMarketDataService = exchange.getMarketDataService();
     List<KucoinCurrencyResponseV3> currencyInfos = kucoinMarketDataService.getAllKucoinCurrencies();
-    assertThat(currencyInfos.stream()
-        .filter(currencyInfo -> currencyInfo.getCurrency().equals(Currency.USDT))
-        .findFirst())
+    assertThat(
+            currencyInfos.stream()
+                .filter(currencyInfo -> currencyInfo.getCurrency().equals(Currency.USDT))
+                .findFirst())
         .isNotEmpty();
   }
 
@@ -84,7 +85,10 @@ public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestPar
             ticker -> {
               assertThat(ticker.getInstrument()).isNotNull();
 
-              if (ticker.getBid() != null && ticker.getBid().signum() > 0 && ticker.getAsk() != null && ticker.getAsk().signum() > 0) {
+              if (ticker.getBid() != null
+                  && ticker.getBid().signum() > 0
+                  && ticker.getAsk() != null
+                  && ticker.getAsk().signum() > 0) {
                 assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
               }
             });

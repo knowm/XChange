@@ -114,6 +114,13 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
         () -> orderApi.createOrder(apiKey, digest, nonceFactory, passphrase, opsRequest));
   }
 
+  public OrderCreateResponse kucoinCreateStopOrder(OrderCreateApiRequest opsRequest)
+      throws IOException {
+    checkAuthenticated();
+    return classifyingExceptions(
+        () -> orderApi.createStopOrder(apiKey, digest, nonceFactory, passphrase, opsRequest));
+  }
+
   public List<OrderResponse> getKucoinRecentOrders() throws IOException {
     this.checkAuthenticated();
     return classifyingExceptions(

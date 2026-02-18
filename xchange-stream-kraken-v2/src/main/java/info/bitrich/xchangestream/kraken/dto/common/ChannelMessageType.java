@@ -8,5 +8,4 @@ public enum ChannelMessageType {
 
   @JsonProperty("update")
   UPDATE,
-
 }

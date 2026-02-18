@@ -1,167 +1,110 @@
 package org.knowm.xchange.kraken.service;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Test;
-import org.knowm.xchange.Exchange;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Date;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.AddressWithTag;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.exceptions.DepositAddressAmbiguousException;
+import org.knowm.xchange.kraken.KrakenExchangeWiremock;
+import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.account.params.DefaultRequestDepositAddressParams;
 
-@Slf4j
-public class KrakenAccountServiceTest extends BaseWiremockTest {
+public class KrakenAccountServiceTest extends KrakenExchangeWiremock {
 
-  private KrakenAccountService classUnderTest;
-  private Exchange exchange;
+  AccountService accountService = exchange.getAccountService();
 
-  @Before
-  public void setup() {
-    exchange = createExchange();
-    classUnderTest = (KrakenAccountService) exchange.getAccountService();
+  @Test
+  void funding_history() throws IOException {
+    var actual = accountService.getFundingHistory(null);
+
+    assertThat(actual).hasSize(2);
+
+    var expected =
+        FundingRecord.builder()
+            .type(Type.DEPOSIT)
+            .status(Status.COMPLETE)
+            .currency(Currency.USDT)
+            .balance(new BigDecimal("100"))
+            .amount(new BigDecimal("100"))
+            .fee(BigDecimal.ZERO)
+            .internalId("FTJ4ZXN-YRWqyo1No6Wqt3vzBVgNMf")
+            .date(Date.from(Instant.parse("2025-09-02T15:11:18.456Z")))
+            .build();
+
+    assertThat(actual.get(1))
+        .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
+        .usingRecursiveComparison()
+        .isEqualTo(expected);
   }
 
   @Test
-  @SneakyThrows
-  public void testRequestDepositAddressUnknownCurrency() {
-    stubFor(
-        post(urlPathEqualTo("/0/private/DepositMethods"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        loadFile(
-                            "/org/knowm/xchange/kraken/dto/account/example-deposit-methods-trx.json"))));
+  void valid_balances() throws IOException {
+    AccountInfo accountInfo = accountService.getAccountInfo();
 
-    stubFor(
-        post(urlPathEqualTo("/0/private/DepositAddresses"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        loadFile(
-                            "/org/knowm/xchange/kraken/dto/account/example-deposit-addresses-trx.json"))));
+    var expectedBTC =
+        new Balance.Builder()
+            .currency(Currency.BTC)
+            .total(new BigDecimal("0.0001339400"))
+            .frozen(new BigDecimal("0.00005"))
+            .build();
 
+    var actualBTC = accountInfo.getWallet("spot").getBalance(Currency.BTC);
+
+    assertThat(actualBTC.getTotal()).isEqualTo(expectedBTC.getTotal());
+    assertThat(actualBTC.getAvailable()).isEqualTo(expectedBTC.getAvailable());
+    assertThat(actualBTC.getCurrency()).isEqualTo(expectedBTC.getCurrency());
+
+    assertThat(actualBTC)
+        .usingComparatorForType(BigDecimal::compareTo, BigDecimal.class)
+        .usingRecursiveComparison()
+        .isEqualTo(expectedBTC);
+  }
+
+  @Test
+  public void testRequestDepositAddress() throws IOException {
     DefaultRequestDepositAddressParams params =
         DefaultRequestDepositAddressParams.builder().currency(Currency.TRX).build();
 
-    String address = classUnderTest.requestDepositAddress(params);
+    String address = accountService.requestDepositAddress(params);
 
     assertThat(address).isEqualTo("TYAnp8VW1aq5Jbtxgoai7BDo3jKSRe6VNR");
   }
 
   @Test
-  @SneakyThrows
-  public void testRequestDepositAddressKnownCurrency() {
-    stubFor(
-        post(urlPathEqualTo("/0/private/DepositAddresses"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        loadFile(
-                            "/org/knowm/xchange/kraken/dto/account/example-deposit-addresses.json"))));
-
-    DefaultRequestDepositAddressParams params =
-        DefaultRequestDepositAddressParams.builder().currency(Currency.BTC).build();
-
-    String address = classUnderTest.requestDepositAddress(params);
-
-    assertThat(address).isEqualTo("testBtcAddress");
-  }
-
-  @Test
-  @SneakyThrows
   public void testRequestDepositAddressUnknownCurrencyMultipleMethods() {
-    stubFor(
-        post(urlPathEqualTo("/0/private/DepositMethods"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        loadFile(
-                            "/org/knowm/xchange/kraken/dto/account/example-deposit-methods-usdt.json"))));
+    var params = DefaultRequestDepositAddressParams.builder().currency(Currency.USDT).build();
 
-    assertThatThrownBy(
-            () -> {
-              DefaultRequestDepositAddressParams params =
-                  DefaultRequestDepositAddressParams.builder().currency(Currency.USDT).build();
-
-              classUnderTest.requestDepositAddress(params);
-            })
-        .isInstanceOf(DepositAddressAmbiguousException.class);
+    assertThatExceptionOfType(DepositAddressAmbiguousException.class)
+        .isThrownBy(() -> accountService.requestDepositAddress(params));
   }
 
   @Test
-  @SneakyThrows
-  public void testRequestDepositAddressUnknownCurrencyMultipleMethodsWithNetwork() {
-    stubFor(
-        post(urlPathEqualTo("/0/private/DepositMethods"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        loadFile(
-                            "/org/knowm/xchange/kraken/dto/account/example-deposit-methods-xrp.json"))));
-
-    stubFor(
-        post(urlPathEqualTo("/0/private/DepositAddresses"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        loadFile(
-                            "/org/knowm/xchange/kraken/dto/account/example-deposit-addresses-xrp.json"))));
-
+  public void testRequestDepositAddressCurrencyWithNetwork() throws IOException {
     DefaultRequestDepositAddressParams params =
         DefaultRequestDepositAddressParams.builder().currency(Currency.XRP).build();
 
-    AddressWithTag address = classUnderTest.requestDepositAddressData(params);
+    AddressWithTag address = accountService.requestDepositAddressData(params);
 
     assertThat(address.getAddress()).isEqualTo("testXrpAddress");
     assertThat(address.getAddressTag()).isEqualTo("123");
   }
 
   @Test
-  @SneakyThrows
-  public void testRequestDepositMethodCaching() {
-    stubFor(
-        post(urlPathEqualTo("/0/private/DepositMethods"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        loadFile(
-                            "/org/knowm/xchange/kraken/dto/account/example-deposit-methods-trx.json"))));
-
-    stubFor(
-        post(urlPathEqualTo("/0/private/DepositAddresses"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        loadFile(
-                            "/org/knowm/xchange/kraken/dto/account/example-deposit-addresses-trx.json"))));
-
+  public void testRequestDepositMethodCaching() throws IOException {
+    // cache enabled
     exchange
         .getExchangeSpecification()
         .setExchangeSpecificParametersItem("cacheDepositMethods", true);
@@ -169,45 +112,21 @@ public class KrakenAccountServiceTest extends BaseWiremockTest {
     DefaultRequestDepositAddressParams params =
         DefaultRequestDepositAddressParams.builder().currency(Currency.TRX).build();
 
-    classUnderTest.requestDepositAddress(params);
-    classUnderTest.requestDepositAddress(params);
+    wireMockServer.resetRequests();
+    accountService.requestDepositAddress(params);
+    accountService.requestDepositAddress(params);
 
-    verify(1, postRequestedFor(urlEqualTo("/0/private/DepositMethods")));
-  }
+    wireMockServer.verify(1, postRequestedFor(urlEqualTo("/0/private/DepositMethods")));
 
-  @Test
-  @SneakyThrows
-  public void testRequestDepositMethodNoCache() {
-    stubFor(
-        post(urlPathEqualTo("/0/private/DepositMethods"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        loadFile(
-                            "/org/knowm/xchange/kraken/dto/account/example-deposit-methods-trx.json"))));
-
-    stubFor(
-        post(urlPathEqualTo("/0/private/DepositAddresses"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        loadFile(
-                            "/org/knowm/xchange/kraken/dto/account/example-deposit-addresses-trx.json"))));
-
-    DefaultRequestDepositAddressParams params =
-        DefaultRequestDepositAddressParams.builder().currency(Currency.TRX).build();
-
+    // cache disabled
     exchange
         .getExchangeSpecification()
         .setExchangeSpecificParametersItem("cacheDepositMethods", false);
 
-    classUnderTest.requestDepositAddress(params);
-    classUnderTest.requestDepositAddress(params);
+    wireMockServer.resetRequests();
+    accountService.requestDepositAddress(params);
+    accountService.requestDepositAddress(params);
 
-    verify(2, postRequestedFor(urlEqualTo("/0/private/DepositMethods")));
+    wireMockServer.verify(2, postRequestedFor(urlEqualTo("/0/private/DepositMethods")));
   }
 }

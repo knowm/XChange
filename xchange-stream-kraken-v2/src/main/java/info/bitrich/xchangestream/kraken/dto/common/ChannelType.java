@@ -13,8 +13,7 @@ public enum ChannelType {
   BALANCES("balances"),
   USER_TRADES("executions");
 
-  @JsonValue
-  private final String value;
+  @JsonValue private final String value;
 
   public String toString() {
     return value;

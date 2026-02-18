@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.okex;
 
-
 import static info.bitrich.xchangestream.okex.OkexPrivateStreamingService.CANCEL_ORDER;
 import static info.bitrich.xchangestream.okex.OkexPrivateStreamingService.CHANGE_ORDER;
 import static info.bitrich.xchangestream.okex.OkexPrivateStreamingService.PLACE_ORDER;
@@ -39,7 +38,9 @@ public class OkexStreamingTradeService implements StreamingTradeService {
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
   public OkexStreamingTradeService(
-      OkexPrivateStreamingService privateStreamingService, ExchangeMetaData exchangeMetaData, ResilienceRegistries resilienceRegistries) {
+      OkexPrivateStreamingService privateStreamingService,
+      ExchangeMetaData exchangeMetaData,
+      ResilienceRegistries resilienceRegistries) {
     this.privateStreamingService = privateStreamingService;
     this.exchangeMetaData = exchangeMetaData;
     this.resilienceRegistries = resilienceRegistries;
@@ -90,7 +91,8 @@ public class OkexStreamingTradeService implements StreamingTradeService {
   @Override
   public Observable<OpenPosition> getPositionChanges(Instrument instrument) {
     String channelUniqueId = USER_POSITION_CHANGES + OkexAdapters.adaptInstrument(instrument);
-    return privateStreamingService.subscribeChannel(channelUniqueId)
+    return privateStreamingService
+        .subscribeChannel(channelUniqueId)
         .filter(message -> message.has("data"))
         .flatMap(
             jsonNode -> {
@@ -101,23 +103,35 @@ public class OkexStreamingTradeService implements StreamingTradeService {
                           .getTypeFactory()
                           .constructCollectionType(List.class, OkexPosition.class));
               return Observable.fromIterable(
-                  OkexAdapters.adaptOpenPositions(okexPositions, exchangeMetaData).getOpenPositions());
+                  OkexAdapters.adaptOpenPositions(okexPositions, exchangeMetaData)
+                      .getOpenPositions());
             });
   }
 
   public Single<Integer> placeLimitOrder(LimitOrder order) {
     if (privateStreamingService.isLoginDone()) {
-      Observable<Integer> observable = privateStreamingService.subscribeChannel(String.valueOf(System.nanoTime()), PLACE_ORDER, order).flatMap(node -> {
-        TypeReference<OkexResponse<List<OkexOrderResponse>>> typeReference = new TypeReference<>() {
-        };
-        OkexResponse<List<OkexOrderResponse>> response = mapper.treeToValue(node, typeReference);
-        if (response.getCode().equals("0")) {
-          return Observable.just(0);
-        } else {
-          return Observable.just(Integer.parseInt(response.getData().get(0).getCode()));
-        }
-      });
-      return observable.firstOrError().compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter(OkexAuthenticated.placeOrderPath)));
+      Observable<Integer> observable =
+          privateStreamingService
+              .subscribeChannel(String.valueOf(System.nanoTime()), PLACE_ORDER, order)
+              .flatMap(
+                  node -> {
+                    TypeReference<OkexResponse<List<OkexOrderResponse>>> typeReference =
+                        new TypeReference<>() {};
+                    OkexResponse<List<OkexOrderResponse>> response =
+                        mapper.treeToValue(node, typeReference);
+                    if (response.getCode().equals("0")) {
+                      return Observable.just(0);
+                    } else {
+                      return Observable.just(Integer.parseInt(response.getData().get(0).getCode()));
+                    }
+                  });
+      return observable
+          .firstOrError()
+          .compose(
+              RateLimiterOperator.of(
+                  resilienceRegistries
+                      .rateLimiters()
+                      .rateLimiter(OkexAuthenticated.placeOrderPath)));
     } else {
       throw new UnsupportedOperationException("privateStreamingService not authorized");
     }
@@ -125,17 +139,28 @@ public class OkexStreamingTradeService implements StreamingTradeService {
 
   public Single<Integer> placeMarketOrder(MarketOrder order) {
     if (privateStreamingService.isLoginDone()) {
-      Observable<Integer> observable = privateStreamingService.subscribeChannel(String.valueOf(System.nanoTime()), PLACE_ORDER, order).flatMap(node -> {
-        TypeReference<OkexResponse<List<OkexOrderResponse>>> typeReference = new TypeReference<>() {
-        };
-        OkexResponse<List<OkexOrderResponse>> response = mapper.treeToValue(node, typeReference);
-        if (response.getCode().equals("0")) {
-          return Observable.just(0);
-        } else {
-          return Observable.just(Integer.parseInt(response.getData().get(0).getCode()));
-        }
-      });
-      return observable.firstOrError().compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter(OkexAuthenticated.placeOrderPath)));
+      Observable<Integer> observable =
+          privateStreamingService
+              .subscribeChannel(String.valueOf(System.nanoTime()), PLACE_ORDER, order)
+              .flatMap(
+                  node -> {
+                    TypeReference<OkexResponse<List<OkexOrderResponse>>> typeReference =
+                        new TypeReference<>() {};
+                    OkexResponse<List<OkexOrderResponse>> response =
+                        mapper.treeToValue(node, typeReference);
+                    if (response.getCode().equals("0")) {
+                      return Observable.just(0);
+                    } else {
+                      return Observable.just(Integer.parseInt(response.getData().get(0).getCode()));
+                    }
+                  });
+      return observable
+          .firstOrError()
+          .compose(
+              RateLimiterOperator.of(
+                  resilienceRegistries
+                      .rateLimiters()
+                      .rateLimiter(OkexAuthenticated.placeOrderPath)));
     } else {
       throw new UnsupportedOperationException("privateStreamingService not authorized");
     }
@@ -143,17 +168,28 @@ public class OkexStreamingTradeService implements StreamingTradeService {
 
   public Single<Integer> changeOrder(LimitOrder order) {
     if (privateStreamingService.isLoginDone()) {
-      Observable<Integer> observable = privateStreamingService.subscribeChannel(String.valueOf(System.nanoTime()), CHANGE_ORDER, order).flatMap(node -> {
-        TypeReference<OkexResponse<List<OkexOrderResponse>>> typeReference = new TypeReference<>() {
-        };
-        OkexResponse<List<OkexOrderResponse>> response = mapper.treeToValue(node, typeReference);
-        if (response.getCode().equals("0")) {
-          return Observable.just(0);
-        } else {
-          return Observable.just(Integer.parseInt(response.getData().get(0).getCode()));
-        }
-      });
-      return observable.firstOrError().compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter(OkexAuthenticated.amendOrderPath)));
+      Observable<Integer> observable =
+          privateStreamingService
+              .subscribeChannel(String.valueOf(System.nanoTime()), CHANGE_ORDER, order)
+              .flatMap(
+                  node -> {
+                    TypeReference<OkexResponse<List<OkexOrderResponse>>> typeReference =
+                        new TypeReference<>() {};
+                    OkexResponse<List<OkexOrderResponse>> response =
+                        mapper.treeToValue(node, typeReference);
+                    if (response.getCode().equals("0")) {
+                      return Observable.just(0);
+                    } else {
+                      return Observable.just(Integer.parseInt(response.getData().get(0).getCode()));
+                    }
+                  });
+      return observable
+          .firstOrError()
+          .compose(
+              RateLimiterOperator.of(
+                  resilienceRegistries
+                      .rateLimiters()
+                      .rateLimiter(OkexAuthenticated.amendOrderPath)));
     } else {
       throw new UnsupportedOperationException("privateStreamingService not authorized");
     }
@@ -161,22 +197,30 @@ public class OkexStreamingTradeService implements StreamingTradeService {
 
   public Single<Integer> cancelOrder(CancelOrderParams params) {
     if (privateStreamingService.isLoginDone()) {
-      Observable<Integer> observable = privateStreamingService.subscribeChannel(String.valueOf(System.nanoTime()), CANCEL_ORDER, params).flatMap(node -> {
-        TypeReference<OkexResponse<List<OkexOrderResponse>>> typeReference = new TypeReference<>() {
-        };
-        OkexResponse<List<OkexOrderResponse>> response = mapper.treeToValue(node, typeReference);
-        if (response.getCode().equals("0")) {
-          return Observable.just(0);
-        } else {
-          return Observable.just(Integer.parseInt(response.getData().get(0).getCode()));
-        }
-      });
-      return observable.firstOrError().compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter(OkexAuthenticated.cancelOrderPath)));
+      Observable<Integer> observable =
+          privateStreamingService
+              .subscribeChannel(String.valueOf(System.nanoTime()), CANCEL_ORDER, params)
+              .flatMap(
+                  node -> {
+                    TypeReference<OkexResponse<List<OkexOrderResponse>>> typeReference =
+                        new TypeReference<>() {};
+                    OkexResponse<List<OkexOrderResponse>> response =
+                        mapper.treeToValue(node, typeReference);
+                    if (response.getCode().equals("0")) {
+                      return Observable.just(0);
+                    } else {
+                      return Observable.just(Integer.parseInt(response.getData().get(0).getCode()));
+                    }
+                  });
+      return observable
+          .firstOrError()
+          .compose(
+              RateLimiterOperator.of(
+                  resilienceRegistries
+                      .rateLimiters()
+                      .rateLimiter(OkexAuthenticated.cancelOrderPath)));
     } else {
       throw new UnsupportedOperationException("privateStreamingService not authorized");
     }
   }
-
-
-
 }

@@ -31,7 +31,8 @@ import org.slf4j.LoggerFactory;
 @Ignore
 public class BinanceFutureStreamWebsocketTradeTest {
 
-  private static final Logger LOG = LoggerFactory.getLogger(BinanceFutureStreamWebsocketTradeTest.class);
+  private static final Logger LOG =
+      LoggerFactory.getLogger(BinanceFutureStreamWebsocketTradeTest.class);
   private static StreamingExchange exchange;
   BinanceFutureStreamingExchange binanceFutureStreamingExchange;
   private static final Instrument instrument = new FuturesContract("ETH/USDT/PERP");
@@ -41,7 +42,7 @@ public class BinanceFutureStreamWebsocketTradeTest {
   @Before
   public void setUp() {
     ExchangeSpecification spec = new ExchangeSpecification(BinanceFutureStreamingExchange.class);
-//  futures websocket trade not work on test net, main net only
+    //  futures websocket trade not work on test net, main net only
     AuthUtils.setApiAndSecretKey(spec, "binance-main-ed25519"); // apikey and ed2519 private key
     spec.setExchangeSpecificParametersItem("ed25519", true);
     spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);
@@ -59,58 +60,88 @@ public class BinanceFutureStreamWebsocketTradeTest {
             .addTicker(instrument2)
             .build();
     exchange.connect(subscription).blockingAwait();
-    //wait for authorization
+    // wait for authorization
     while (!exchange.isAlive()) {
       Thread.sleep(100L);
     }
-    BinanceStreamingTradeService binanceStreamingTradeService = ((BinanceStreamingTradeService) exchange.getStreamingTradeService());
-    BigDecimal minAmount = exchange.getExchangeMetaData().getInstruments().get(instrument2).getMinimumAmount();
+    BinanceStreamingTradeService binanceStreamingTradeService =
+        ((BinanceStreamingTradeService) exchange.getStreamingTradeService());
+    BigDecimal minAmount =
+        exchange.getExchangeMetaData().getInstruments().get(instrument2).getMinimumAmount();
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument2);
     BigDecimal minAmountUsdt = new BigDecimal("5");
-    minAmount = getMinAmount(minAmountUsdt, minAmount, ticker, exchange.getExchangeMetaData().getInstruments().get(instrument2).getVolumeScale());
+    minAmount =
+        getMinAmount(
+            minAmountUsdt,
+            minAmount,
+            ticker,
+            exchange.getExchangeMetaData().getInstruments().get(instrument2).getVolumeScale());
     String limitOrderUserId = RandomStringUtils.randomAlphanumeric(20);
-    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, instrument2).originalAmount(minAmount).limitPrice(ticker.getLow()).userReference(limitOrderUserId).build();
-    Disposable limitOrderDisposable = binanceStreamingTradeService.placeLimitOrder(limitOrder)
-        .subscribe(result -> {
-              if (logOutput) {
-                LOG.info("placeLimitOrder result: {}", result.toString());
-              }
-            },
-            throwable -> LOG.error("placeLimitOrder error", throwable));
+    LimitOrder limitOrder =
+        new LimitOrder.Builder(OrderType.BID, instrument2)
+            .originalAmount(minAmount)
+            .limitPrice(ticker.getLow())
+            .userReference(limitOrderUserId)
+            .build();
+    Disposable limitOrderDisposable =
+        binanceStreamingTradeService
+            .placeLimitOrder(limitOrder)
+            .subscribe(
+                result -> {
+                  if (logOutput) {
+                    LOG.info("placeLimitOrder result: {}", result.toString());
+                  }
+                },
+                throwable -> LOG.error("placeLimitOrder error", throwable));
     Thread.sleep(1000);
 
-    LimitOrder changeOrder = new LimitOrder.Builder(OrderType.BID, instrument2).originalAmount(minAmount).limitPrice(ticker.getLow().add(BigDecimal.ONE.negate())).userReference(limitOrderUserId)
-        .build();
-    Disposable changeOrderDisposable = binanceStreamingTradeService.changeOrder(changeOrder)
-        .subscribe(result ->
-            {
-              if (logOutput) {
-                LOG.info("changeOrder result: {}", result.toString());
-              }
-            },
-            throwable -> LOG.error("changeOrder error", throwable));
+    LimitOrder changeOrder =
+        new LimitOrder.Builder(OrderType.BID, instrument2)
+            .originalAmount(minAmount)
+            .limitPrice(ticker.getLow().add(BigDecimal.ONE.negate()))
+            .userReference(limitOrderUserId)
+            .build();
+    Disposable changeOrderDisposable =
+        binanceStreamingTradeService
+            .changeOrder(changeOrder)
+            .subscribe(
+                result -> {
+                  if (logOutput) {
+                    LOG.info("changeOrder result: {}", result.toString());
+                  }
+                },
+                throwable -> LOG.error("changeOrder error", throwable));
     Thread.sleep(1000);
     LOG.info("changeOrder disposed: {}", changeOrderDisposable.isDisposed());
 
-    Disposable cancelOrderDisposable = binanceStreamingTradeService.cancelOrder(new BinanceCancelOrderParams(instrument2, null, limitOrderUserId))
-        .subscribe(result ->
-            {
-              if (logOutput) {
-                LOG.info("cancelOrder result: {}", result.toString());
-              }
-            },
-            throwable -> LOG.error("cancelOrder error", throwable));
+    Disposable cancelOrderDisposable =
+        binanceStreamingTradeService
+            .cancelOrder(new BinanceCancelOrderParams(instrument2, null, limitOrderUserId))
+            .subscribe(
+                result -> {
+                  if (logOutput) {
+                    LOG.info("cancelOrder result: {}", result.toString());
+                  }
+                },
+                throwable -> LOG.error("cancelOrder error", throwable));
     Thread.sleep(1000);
 
     String marketOrderUserId = RandomStringUtils.randomAlphanumeric(20);
-    MarketOrder marketOrder = new MarketOrder.Builder(OrderType.ASK, instrument2).originalAmount(minAmount).userReference(marketOrderUserId).build();
-    Disposable marketOrderDisposable = binanceStreamingTradeService.placeMarketOrder(marketOrder)
-        .doOnError(error -> LOG.error("placeMarketOrder error", error))
-        .subscribe(result ->
-        {
-          if (logOutput) {
-            LOG.info("placeMarketOrder result: {}", result.toString());}
-        });
+    MarketOrder marketOrder =
+        new MarketOrder.Builder(OrderType.ASK, instrument2)
+            .originalAmount(minAmount)
+            .userReference(marketOrderUserId)
+            .build();
+    Disposable marketOrderDisposable =
+        binanceStreamingTradeService
+            .placeMarketOrder(marketOrder)
+            .doOnError(error -> LOG.error("placeMarketOrder error", error))
+            .subscribe(
+                result -> {
+                  if (logOutput) {
+                    LOG.info("placeMarketOrder result: {}", result.toString());
+                  }
+                });
     Thread.sleep(1000);
   }
 }

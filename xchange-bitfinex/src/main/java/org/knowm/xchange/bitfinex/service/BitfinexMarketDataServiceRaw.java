@@ -356,35 +356,32 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
         .call();
   }
 
-
   public List<BitfinexCurrencyChain> allChains() throws IOException {
     List<List<BitfinexCurrencyChain>> list =
         decorateApiCall(bitfinexV2::allChains)
-        .withRetry(retry("market-allChains"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+            .withRetry(retry("market-allChains"))
+            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+            .call();
 
     return list.isEmpty() ? Collections.emptyList() : list.get(0);
   }
-
 
   public List<BitfinexCurrencyMapping> currencyDerivativesMappings() throws IOException {
     List<List<BitfinexCurrencyMapping>> list =
         decorateApiCall(bitfinexV2::currencyDerivativesMappings)
-        .withRetry(retry("market-currencyDerivativesMappings"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+            .withRetry(retry("market-currencyDerivativesMappings"))
+            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+            .call();
 
     return list.isEmpty() ? Collections.emptyList() : list.get(0);
   }
 
-
   public List<Currency> allCurrencies() throws IOException {
     List<List<String>> list =
         decorateApiCall(bitfinexV2::allCurrencies)
-        .withRetry(retry("market-allCurrencies"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+            .withRetry(retry("market-allCurrencies"))
+            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+            .call();
 
     if (list.isEmpty()) {
       return Collections.emptyList();
@@ -396,13 +393,12 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
         .collect(Collectors.toList());
   }
 
-
   public List<CurrencyPair> allCurrencyPairs() throws IOException {
     List<List<String>> list =
         decorateApiCall(bitfinexV2::allCurrencyPairs)
-        .withRetry(retry("market-allCurrencyPairInfos"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+            .withRetry(retry("market-allCurrencyPairInfos"))
+            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+            .call();
 
     if (list.isEmpty()) {
       return Collections.emptyList();
@@ -413,15 +409,13 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
         .collect(Collectors.toList());
   }
 
-
   public List<BitfinexCurrencyPairInfo> allCurrencyPairInfos() throws IOException {
     List<List<BitfinexCurrencyPairInfo>> list =
         decorateApiCall(bitfinexV2::allCurrencyPairInfos)
-        .withRetry(retry("market-allCurrencyPairInfos"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+            .withRetry(retry("market-allCurrencyPairInfos"))
+            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+            .call();
 
     return list.isEmpty() ? Collections.emptyList() : list.get(0);
   }
-
 }

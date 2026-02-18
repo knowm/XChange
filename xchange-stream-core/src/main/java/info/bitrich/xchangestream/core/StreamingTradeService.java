@@ -81,5 +81,4 @@ public interface StreamingTradeService {
   default Observable<OpenPosition> getPositionChanges(Instrument instrument) {
     throw new NotYetImplementedForExchangeException("getPositionChanges");
   }
-
 }

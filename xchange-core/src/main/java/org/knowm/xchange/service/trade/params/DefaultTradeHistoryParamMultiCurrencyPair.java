@@ -12,9 +12,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DefaultTradeHistoryParamMultiCurrencyPair implements TradeHistoryParamMultiCurrencyPair {
+public class DefaultTradeHistoryParamMultiCurrencyPair
+    implements TradeHistoryParamMultiCurrencyPair {
 
-  @Builder.Default
-  private Collection<CurrencyPair> currencyPairs = Collections.emptySet();
-
+  @Builder.Default private Collection<CurrencyPair> currencyPairs = Collections.emptySet();
 }

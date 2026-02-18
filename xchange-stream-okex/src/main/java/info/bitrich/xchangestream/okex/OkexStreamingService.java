@@ -1,5 +1,9 @@
 package info.bitrich.xchangestream.okex;
 
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_CONNECTION_TIMEOUT;
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_IDLE_TIMEOUT;
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATION;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
 import info.bitrich.xchangestream.okex.dto.OkexSubscriptionTopic;
@@ -12,6 +16,7 @@ import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.ExchangeSpecification;
@@ -41,7 +46,12 @@ public class OkexStreamingService extends JsonNettyStreamingService {
   private final ExchangeSpecification xSpec;
 
   public OkexStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
-    super(apiUrl);
+    super(
+        apiUrl,
+        65536,
+        (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT),
+        (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_RETRY_DURATION),
+        (Integer) exchangeSpecification.getExchangeSpecificParametersItem(WS_IDLE_TIMEOUT));
     this.xSpec = exchangeSpecification;
   }
 
@@ -104,28 +114,25 @@ public class OkexStreamingService extends JsonNettyStreamingService {
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
     return objectMapper.writeValueAsString(
-        new OkexSubscribeMessage("",SUBSCRIBE, Collections.singletonList(getTopic(channelName))));
+        new OkexSubscribeMessage("", SUBSCRIBE, Collections.singletonList(getTopic(channelName))));
   }
 
   @Override
   public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     return objectMapper.writeValueAsString(
-        new OkexSubscribeMessage<>("",UNSUBSCRIBE, Collections.singletonList(getTopic(channelName))));
+        new OkexSubscribeMessage<>(
+            "", UNSUBSCRIBE, Collections.singletonList(getTopic(channelName))));
   }
 
   private OkexSubscriptionTopic getTopic(String channelName) {
     if (channelName.contains(ORDERBOOK5)) {
-      return new OkexSubscriptionTopic(
-          ORDERBOOK5, null, null, channelName.replace(ORDERBOOK5, ""));
+      return new OkexSubscriptionTopic(ORDERBOOK5, null, null, channelName.replace(ORDERBOOK5, ""));
     } else if (channelName.contains(ORDERBOOK)) {
-      return new OkexSubscriptionTopic(
-          ORDERBOOK, null, null, channelName.replace(ORDERBOOK, ""));
+      return new OkexSubscriptionTopic(ORDERBOOK, null, null, channelName.replace(ORDERBOOK, ""));
     } else if (channelName.contains(TRADES)) {
-      return new OkexSubscriptionTopic(
-          TRADES, null, null, channelName.replace(TRADES, ""));
+      return new OkexSubscriptionTopic(TRADES, null, null, channelName.replace(TRADES, ""));
     } else if (channelName.contains(TICKERS)) {
-      return new OkexSubscriptionTopic(
-          TICKERS, null, null, channelName.replace(TICKERS, ""));
+      return new OkexSubscriptionTopic(TICKERS, null, null, channelName.replace(TICKERS, ""));
     } else if (channelName.contains(FUNDING_RATE)) {
       return new OkexSubscriptionTopic(
           FUNDING_RATE, null, null, channelName.replace(FUNDING_RATE, ""));

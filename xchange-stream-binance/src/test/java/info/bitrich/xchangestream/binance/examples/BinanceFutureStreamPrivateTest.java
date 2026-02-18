@@ -38,7 +38,6 @@ public class BinanceFutureStreamPrivateTest {
   private static final Instrument instrument2 = new FuturesContract("SOL/USDT/PERP");
   private static final boolean logOutput = true;
 
-
   @Before
   public void setUp() {
     ExchangeSpecification spec = new ExchangeSpecification(BinanceFutureStreamingExchange.class);
@@ -63,44 +62,51 @@ public class BinanceFutureStreamPrivateTest {
 
       Disposable orderChangesDisposable =
           exchange
-              .getStreamingTradeService().getOrderChanges(instrument)
-              .subscribe(orderChanges -> {
-                if (logOutput) {
-                  LOG.info("OrderChanges subscribe: {}", orderChanges);
-                }
-                assertThat(orderChanges.getInstrument().equals(instrument)).isTrue();
-                assertThat(orderChanges.getType().equals(OrderType.ASK)).isTrue();
-              });
+              .getStreamingTradeService()
+              .getOrderChanges(instrument)
+              .subscribe(
+                  orderChanges -> {
+                    if (logOutput) {
+                      LOG.info("OrderChanges subscribe: {}", orderChanges);
+                    }
+                    assertThat(orderChanges.getInstrument().equals(instrument)).isTrue();
+                    assertThat(orderChanges.getType().equals(OrderType.ASK)).isTrue();
+                  });
       Disposable userTradeLiteDisposable =
           exchange
-              .getStreamingTradeService().getUserTrades(instrument)
-              .subscribe(trade -> {
-                if (logOutput) {
-                  LOG.info("trade lite subscribe: {}", trade);
-                }
-                assertThat(trade.getInstrument().equals(instrument)).isTrue();
-                assertThat(trade.getType().equals(OrderType.ASK)).isTrue();
-              });
+              .getStreamingTradeService()
+              .getUserTrades(instrument)
+              .subscribe(
+                  trade -> {
+                    if (logOutput) {
+                      LOG.info("trade lite subscribe: {}", trade);
+                    }
+                    assertThat(trade.getInstrument().equals(instrument)).isTrue();
+                    assertThat(trade.getType().equals(OrderType.ASK)).isTrue();
+                  });
       Disposable positionChangeDisposable =
-          binanceFutureStreamingExchange.getStreamingTradeService()
+          binanceFutureStreamingExchange
+              .getStreamingTradeService()
               .getPositionChanges(instrument)
-              .subscribe(positionChange -> {
-                if (logOutput) {
-                  LOG.info("positionChange subscribe: {}", positionChange);
-                }
+              .subscribe(
+                  positionChange -> {
+                    if (logOutput) {
+                      LOG.info("positionChange subscribe: {}", positionChange);
+                    }
                     assertThat(positionChange.getInstrument().equals(instrument)).isTrue();
                     assertThat(positionChange.getType().equals(Type.SHORT)).isTrue();
-                  }
-              );
+                  });
       Disposable positionChange2Disposable =
-          binanceFutureStreamingExchange.getStreamingTradeService()
+          binanceFutureStreamingExchange
+              .getStreamingTradeService()
               .getPositionChanges(instrument2)
-              .subscribe(positionChange2 -> {
-                if (logOutput) {
-                  LOG.info("positionChange2 subscribe: {}", positionChange2);
-                }
-                Assert.assertEquals(BigDecimal.ZERO, positionChange2.getSize());
-              });
+              .subscribe(
+                  positionChange2 -> {
+                    if (logOutput) {
+                      LOG.info("positionChange2 subscribe: {}", positionChange2);
+                    }
+                    Assert.assertEquals(BigDecimal.ZERO, positionChange2.getSize());
+                  });
       Thread.sleep(3000);
       Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
       BigDecimal amount = new BigDecimal("0.01");
@@ -114,8 +120,13 @@ public class BinanceFutureStreamPrivateTest {
                       .originalAmount(amount)
                       .build());
       // place market order
-      String marketOrderId = exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(
-          OrderType.ASK, instrument).originalAmount(amount).build());
+      String marketOrderId =
+          exchange
+              .getTradeService()
+              .placeMarketOrder(
+                  new MarketOrder.Builder(OrderType.ASK, instrument)
+                      .originalAmount(amount)
+                      .build());
 
       Thread.sleep(20000);
       orderChangesDisposable.dispose();
@@ -129,6 +140,5 @@ public class BinanceFutureStreamPrivateTest {
   }
 
   @Test
-  public void getOrderAndPositionChangesPortfolioMarginMode() throws IOException {
-  }
+  public void getOrderAndPositionChangesPortfolioMarginMode() throws IOException {}
 }

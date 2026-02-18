@@ -1,0 +1,15 @@
+{
+  "id" : "eb6d37af-a644-4847-aed2-1761322300d4",
+  "name" : "0_public_assets",
+  "request" : {
+    "url" : "/0/public/Assets",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "0_public_assets-eb6d37af-a644-4847-aed2-1761322300d4.json"
+  },
+  "uuid" : "eb6d37af-a644-4847-aed2-1761322300d4",
+  "persistent" : true,
+  "insertionIndex" : 3
+}

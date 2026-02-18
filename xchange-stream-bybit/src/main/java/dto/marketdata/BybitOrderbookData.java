@@ -17,7 +17,7 @@ public class BybitOrderbookData {
   // You can use this field to compare different levels orderbook data, and for the smaller seq,
   // then it means the data is generated earlier.
   // in docs says than it is Integer, but in fact, we get in response bigger numbers
-  private final Long seq;
+  private final long seq;
 
   @ConstructorProperties({"s", "b", "a", "u", "seq"})
   public BybitOrderbookData(

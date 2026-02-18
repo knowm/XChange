@@ -124,15 +124,16 @@ public class BitgetStreamingAdapters {
         .timestamp(BitgetAdapters.toDate(bitgetFillData.getUpdatedAt()))
         .id(bitgetFillData.getTradeId())
         .orderId(bitgetFillData.getOrderId())
-        .feeAmount(bitgetFillData.getFeeDetails().stream()
-            .map(FeeDetail::getTotalFee)
-            .map(BigDecimal::abs)
-            .reduce(BigDecimal.ZERO, BigDecimal::add))
-        .feeCurrency(bitgetFillData.getFeeDetails().stream()
-            .map(FeeDetail::getCurrency)
-            .findFirst()
-            .orElse(null))
+        .feeAmount(
+            bitgetFillData.getFeeDetails().stream()
+                .map(FeeDetail::getTotalFee)
+                .map(BigDecimal::abs)
+                .reduce(BigDecimal.ZERO, BigDecimal::add))
+        .feeCurrency(
+            bitgetFillData.getFeeDetails().stream()
+                .map(FeeDetail::getCurrency)
+                .findFirst()
+                .orElse(null))
         .build();
-
   }
 }

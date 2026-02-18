@@ -28,7 +28,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
 
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
-  private void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+  protected void concludeHostParams(ExchangeSpecification exchangeSpecification) {
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       if (Boolean.TRUE.equals(
           exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
@@ -88,13 +88,19 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   public void remoteInit() throws IOException, ExchangeException {
     List<SymbolResponse> symbols = getMarketDataService().getKucoinSymbolsV2();
 
-    Map<Instrument, InstrumentMetaData> instruments = symbols.stream()
-        .collect(Collectors.toMap(SymbolResponse::getCurrencyPair, KucoinAdapters::toInstrumentMetaData));
+    Map<Instrument, InstrumentMetaData> instruments =
+        symbols.stream()
+            .collect(
+                Collectors.toMap(
+                    SymbolResponse::getCurrencyPair, KucoinAdapters::toInstrumentMetaData));
 
     List<KucoinCurrencyResponseV3> currencies = getMarketDataService().getAllKucoinCurrencies();
 
-    Map<Currency, CurrencyMetaData> currencyMetaData = currencies.stream()
-        .collect(Collectors.toMap(KucoinCurrencyResponseV3::getCurrency, KucoinAdapters::toCurrencyMetaData));
+    Map<Currency, CurrencyMetaData> currencyMetaData =
+        currencies.stream()
+            .collect(
+                Collectors.toMap(
+                    KucoinCurrencyResponseV3::getCurrency, KucoinAdapters::toCurrencyMetaData));
 
     exchangeMetaData.setInstruments(instruments);
     exchangeMetaData.setCurrencies(currencyMetaData);

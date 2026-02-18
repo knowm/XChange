@@ -1,5 +1,7 @@
 package org.knowm.xchange.kraken.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.ws.rs.FormParam;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -42,7 +44,34 @@ public class KrakenDigest extends BaseParamsDigest {
       throw new RuntimeException(
           "Illegal algorithm for post body digest. Check the implementation.");
     }
-    sha256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes());
+
+    // Get nonce - try FormParam first, then extract from JSON body if not available
+    String nonce;
+    Object nonceParam = restInvocation.getParamValue(FormParam.class, "nonce");
+    if (nonceParam != null) {
+      nonce = nonceParam.toString();
+    } else {
+      // For JSON requests, extract nonce from request body
+      try {
+        String requestBody = restInvocation.getRequestBody();
+        if (requestBody != null && requestBody.contains("nonce")) {
+          ObjectMapper mapper = new ObjectMapper();
+          JsonNode jsonNode = mapper.readTree(requestBody);
+          JsonNode nonceNode = jsonNode.get("nonce");
+          if (nonceNode != null) {
+            nonce = nonceNode.asText();
+          } else {
+            throw new RuntimeException("Nonce not found in request body");
+          }
+        } else {
+          throw new RuntimeException("Nonce not found in request");
+        }
+      } catch (Exception e) {
+        throw new RuntimeException("Failed to extract nonce from request: " + e.getMessage(), e);
+      }
+    }
+
+    sha256.update(nonce.getBytes());
     sha256.update(restInvocation.getRequestBody().getBytes());
 
     Mac mac512 = getMac();

@@ -1,5 +1,8 @@
 package info.bitrich.xchangestream.okex;
 
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_CONNECTION_TIMEOUT;
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_IDLE_TIMEOUT;
+import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATION;
 import static info.bitrich.xchangestream.okex.OkexStreamingService.SUBSCRIBE;
 import static info.bitrich.xchangestream.okex.OkexStreamingService.UNSUBSCRIBE;
 
@@ -17,6 +20,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -50,8 +54,7 @@ public class OkexPrivateStreamingService extends JsonNettyStreamingService {
   public static final String CANCEL_ORDER = "cancel-order";
   private static final String LOGIN_SIGN_METHOD = "GET";
   private static final String LOGIN_SIGN_REQUEST_PATH = "/users/self/verify";
-  @Getter
-  private volatile boolean loginDone = false;
+  @Getter private volatile boolean loginDone = false;
   private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
   private Disposable pingPongSubscription;
   private final ExchangeSpecification exchangeSpecification;
@@ -59,8 +62,15 @@ public class OkexPrivateStreamingService extends JsonNettyStreamingService {
   private final OkexExchange okexExchange;
 
   public OkexPrivateStreamingService(
-      String privateApiUrl, ExchangeSpecification exchangeSpecification, OkexExchange okexExchange) {
-    super(privateApiUrl);
+      String privateApiUrl,
+      ExchangeSpecification exchangeSpecification,
+      OkexExchange okexExchange) {
+    super(
+        privateApiUrl,
+        65536,
+        (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT),
+        (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_RETRY_DURATION),
+        (Integer) exchangeSpecification.getExchangeSpecificParametersItem(WS_IDLE_TIMEOUT));
     this.exchangeSpecification = exchangeSpecification;
     this.okexExchange = okexExchange;
   }
@@ -125,7 +135,10 @@ public class OkexPrivateStreamingService extends JsonNettyStreamingService {
     } else {
       if ((channelName.contains(USER_POSITION_CHANGES))) {
         return new OkexSubscriptionTopic(
-            USER_POSITION_CHANGES, OkexInstType.ANY, null, channelName.replace(USER_POSITION_CHANGES, ""));
+            USER_POSITION_CHANGES,
+            OkexInstType.ANY,
+            null,
+            channelName.replace(USER_POSITION_CHANGES, ""));
       } else {
         return null;
       }
@@ -148,6 +161,7 @@ public class OkexPrivateStreamingService extends JsonNettyStreamingService {
     } catch (IOException e) {
       if ("pong".equals(message)) {
         // ping pong message
+        LOG.debug("Received pong message: {}", message);
         return;
       }
       LOG.error("Error parsing incoming message to JSON: {}", message);
@@ -185,7 +199,8 @@ public class OkexPrivateStreamingService extends JsonNettyStreamingService {
       if (message.has("arg")) {
         if (message.get("arg").has("channel") && message.get("arg").has("instId")) {
           channelName =
-              message.get("arg").get("channel").asText() + message.get("arg").get("instId").asText();
+              message.get("arg").get("channel").asText()
+                  + message.get("arg").get("instId").asText();
         }
       }
     }
@@ -197,38 +212,54 @@ public class OkexPrivateStreamingService extends JsonNettyStreamingService {
     if (args != null && args.length > 0) {
       String method = args[0].toString();
       switch (method) {
-        case PLACE_ORDER: {
-          OkexOrderRequest orderPayload;
-          if(args[1] instanceof LimitOrder) {
-            LimitOrder limitOrder = (LimitOrder) args[1];
-            orderPayload = OkexAdapters.adaptOrder(limitOrder, okexExchange.getExchangeMetaData(), okexExchange.accountLevel);
-          } else {
-            MarketOrder marketOrder = (MarketOrder) args[1];
-            orderPayload = OkexAdapters.adaptOrder(marketOrder, okexExchange.getExchangeMetaData(), okexExchange.accountLevel);
+        case PLACE_ORDER:
+          {
+            OkexOrderRequest orderPayload;
+            if (args[1] instanceof LimitOrder) {
+              LimitOrder limitOrder = (LimitOrder) args[1];
+              orderPayload =
+                  OkexAdapters.adaptOrder(
+                      limitOrder, okexExchange.getExchangeMetaData(), okexExchange.accountLevel);
+            } else {
+              MarketOrder marketOrder = (MarketOrder) args[1];
+              orderPayload =
+                  OkexAdapters.adaptOrder(
+                      marketOrder, okexExchange.getExchangeMetaData(), okexExchange.accountLevel);
+            }
+            OkexSubscribeMessage<OkexOrderRequest> payload =
+                new OkexSubscribeMessage<>(
+                    channelName, PLACE_ORDER, Collections.singletonList(orderPayload));
+            return objectMapper.writeValueAsString(payload);
           }
-            OkexSubscribeMessage<OkexOrderRequest> payload = new OkexSubscribeMessage<>(channelName, PLACE_ORDER, Collections.singletonList(orderPayload));
-          return objectMapper.writeValueAsString(payload);
-        }
-        case CHANGE_ORDER: {
-          LimitOrder limitOrder = (LimitOrder) args[1];
-          OkexAmendOrderRequest orderChangePayload = OkexAdapters.adaptAmendOrder(limitOrder, okexExchange.getExchangeMetaData());
-          OkexSubscribeMessage<OkexAmendOrderRequest> payload = new OkexSubscribeMessage<>(channelName, CHANGE_ORDER, Collections.singletonList(orderChangePayload));
-          return objectMapper.writeValueAsString(payload);
-        }
-        case CANCEL_ORDER: {
-          OkexCancelOrderParams params = (OkexCancelOrderParams) args[1];
-          OkexCancelOrderRequest orderChangePayload = OkexCancelOrderRequest.builder()
-              .instrumentId(OkexAdapters.adaptInstrument(params.instrument))
-              .orderId(params.orderId)
-              .clientOrderId(params.getUserReference())
-              .build();
-          OkexSubscribeMessage<OkexCancelOrderRequest> payload = new OkexSubscribeMessage<>(channelName, CANCEL_ORDER, Collections.singletonList(orderChangePayload));
-          return objectMapper.writeValueAsString(payload);
-        }
+        case CHANGE_ORDER:
+          {
+            LimitOrder limitOrder = (LimitOrder) args[1];
+            OkexAmendOrderRequest orderChangePayload =
+                OkexAdapters.adaptAmendOrder(limitOrder, okexExchange.getExchangeMetaData());
+            OkexSubscribeMessage<OkexAmendOrderRequest> payload =
+                new OkexSubscribeMessage<>(
+                    channelName, CHANGE_ORDER, Collections.singletonList(orderChangePayload));
+            return objectMapper.writeValueAsString(payload);
+          }
+        case CANCEL_ORDER:
+          {
+            OkexCancelOrderParams params = (OkexCancelOrderParams) args[1];
+            OkexCancelOrderRequest orderChangePayload =
+                OkexCancelOrderRequest.builder()
+                    .instrumentId(OkexAdapters.adaptInstrument(params.instrument))
+                    .orderId(params.orderId)
+                    .clientOrderId(params.getUserReference())
+                    .build();
+            OkexSubscribeMessage<OkexCancelOrderRequest> payload =
+                new OkexSubscribeMessage<>(
+                    channelName, CANCEL_ORDER, Collections.singletonList(orderChangePayload));
+            return objectMapper.writeValueAsString(payload);
+          }
       }
     }
     return objectMapper.writeValueAsString(
-        new OkexSubscribeMessage<>("", SUBSCRIBE, Collections.singletonList(getTopic(channelName))));
+        new OkexSubscribeMessage<>(
+            "", SUBSCRIBE, Collections.singletonList(getTopic(channelName))));
   }
 
   @Override
@@ -236,7 +267,8 @@ public class OkexPrivateStreamingService extends JsonNettyStreamingService {
     OkexSubscriptionTopic subscriptionTopic = getTopic(channelName);
     if (subscriptionTopic != null) {
       return objectMapper.writeValueAsString(
-          new OkexSubscribeMessage<>("", UNSUBSCRIBE, Collections.singletonList(subscriptionTopic)));
+          new OkexSubscribeMessage<>(
+              "", UNSUBSCRIBE, Collections.singletonList(subscriptionTopic)));
     }
     return null;
   }

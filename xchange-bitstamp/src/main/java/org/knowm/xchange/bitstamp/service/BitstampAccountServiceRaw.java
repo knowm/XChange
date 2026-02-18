@@ -15,6 +15,12 @@ import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.BitstampTransferBalanceResponse;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnSettingRequest;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnSubscribeRequest;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnSubscription;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnTerm;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnTransaction;
+import org.knowm.xchange.bitstamp.dto.account.BitstampEarnType;
 import org.knowm.xchange.bitstamp.dto.account.BitstampRippleDepositAddress;
 import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
@@ -218,84 +224,172 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     }
   }
 
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
   public BitstampDepositAddress getBitstampBitcoinDepositAddress() throws IOException {
-
-    try {
-      final BitstampDepositAddress bitcoinDepositAddress =
-          bitstampAuthenticatedV2.getBitcoinDepositAddress(
-              apiKeyForV2Requests,
-              signatureCreatorV2,
-              uuidNonceFactory,
-              timestampFactory,
-              API_VERSION);
-      if (bitcoinDepositAddress.getError() != null) {
-        throw new ExchangeException(
-            "Requesting Bitcoin deposit address failed: " + bitcoinDepositAddress.getError());
-      }
-      return bitcoinDepositAddress;
-    } catch (BitstampException e) {
-      throw handleError(e);
-    }
+    return getDepositAddress("btc", getDefaultNetwork("btc"));
   }
 
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
   public BitstampDepositAddress getBitstampBitcoinCashDepositAddress() throws IOException {
-
-    try {
-      final BitstampDepositAddress response =
-          bitstampAuthenticatedV2.getBitcoinCashDepositAddress(
-              apiKeyForV2Requests,
-              signatureCreatorV2,
-              uuidNonceFactory,
-              timestampFactory,
-              API_VERSION);
-      if (response.getError() != null) {
-        throw new ExchangeException(
-            "Requesting Bitcoin deposit address failed: " + response.getError());
-      }
-      return response;
-    } catch (BitstampException e) {
-      throw handleError(e);
-    }
+    return getDepositAddress("bch", getDefaultNetwork("bch"));
   }
 
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
   public BitstampDepositAddress getBitstampLitecoinDepositAddress() throws IOException {
-
-    try {
-      final BitstampDepositAddress response =
-          bitstampAuthenticatedV2.getLitecoinDepositAddress(
-              apiKeyForV2Requests,
-              signatureCreatorV2,
-              uuidNonceFactory,
-              timestampFactory,
-              API_VERSION);
-      if (response.getError() != null) {
-        throw new ExchangeException(
-            "Requesting Bitcoin deposit address failed: " + response.getError());
-      }
-      return response;
-    } catch (BitstampException e) {
-      throw handleError(e);
-    }
+    return getDepositAddress("ltc", getDefaultNetwork("ltc"));
   }
 
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
   public BitstampDepositAddress getBitstampEthereumDepositAddress() throws IOException {
+    return getDepositAddress("eth", getDefaultNetwork("eth"));
+  }
 
-    try {
-      final BitstampDepositAddress response =
-          bitstampAuthenticatedV2.getEthereumDepositAddress(
-              apiKeyForV2Requests,
-              signatureCreatorV2,
-              uuidNonceFactory,
-              timestampFactory,
-              API_VERSION);
-      if (response.getError() != null) {
-        throw new ExchangeException(
-            "Requesting Bitcoin deposit address failed: " + response.getError());
-      }
-      return response;
-    } catch (BitstampException e) {
-      throw handleError(e);
-    }
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampUsdtDepositAddress() throws IOException {
+    return getDepositAddress("usdt", getDefaultNetwork("usdt"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampXlmDepositAddress() throws IOException {
+    return getDepositAddress("xlm", getDefaultNetwork("xlm"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampDogeDepositAddress() throws IOException {
+    return getDepositAddress("doge", getDefaultNetwork("doge"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampRlusdDepositAddress() throws IOException {
+    return getDepositAddress("rlusd", getDefaultNetwork("rlusd"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampEurcDepositAddress() throws IOException {
+    return getDepositAddress("eurc", getDefaultNetwork("eurc"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampSushiDepositAddress() throws IOException {
+    return getDepositAddress("sushi", getDefaultNetwork("sushi"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampShibDepositAddress() throws IOException {
+    return getDepositAddress("shib", getDefaultNetwork("shib"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampBonkDepositAddress() throws IOException {
+    return getDepositAddress("bonk", getDefaultNetwork("bonk"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampEtcDepositAddress() throws IOException {
+    return getDepositAddress("etc", getDefaultNetwork("etc"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampPenguDepositAddress() throws IOException {
+    return getDepositAddress("pengu", getDefaultNetwork("pengu"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampYfiDepositAddress() throws IOException {
+    return getDepositAddress("yfi", getDefaultNetwork("yfi"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampSuiDepositAddress() throws IOException {
+    return getDepositAddress("sui", getDefaultNetwork("sui"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampLinkDepositAddress() throws IOException {
+    return getDepositAddress("link", getDefaultNetwork("link"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampLdoDepositAddress() throws IOException {
+    return getDepositAddress("ldo", getDefaultNetwork("ldo"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampFartcoinDepositAddress() throws IOException {
+    return getDepositAddress("fartcoin", getDefaultNetwork("fartcoin"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampPepeDepositAddress() throws IOException {
+    return getDepositAddress("pepe", getDefaultNetwork("pepe"));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String, String)} instead.
+   */
+  @Deprecated
+  public BitstampDepositAddress getBitstampUsdcDepositAddress() throws IOException {
+    return getDepositAddress("usdc", getDefaultNetwork("usdc"));
   }
 
   /** Ripple IOU deposit address */
@@ -310,6 +404,76 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     return bitstampAuthenticatedV2.getXRPDepositAddress(
         apiKeyForV2Requests, signatureCreatorV2, uuidNonceFactory, timestampFactory, API_VERSION);
+  }
+
+  /**
+   * Get deposit address for a specific currency and network using the new multi-chain API.
+   *
+   * @param currency Currency code (e.g., "btc", "eth", "usdt")
+   * @param network Network name (e.g., "bitcoin", "ethereum", "polygon")
+   * @return Deposit address response
+   * @throws IOException if the request fails
+   */
+  public BitstampDepositAddress getDepositAddress(String currency, String network)
+      throws IOException {
+    try {
+      BitstampDepositAddress response =
+          bitstampAuthenticatedV2.getDepositAddress(
+              apiKeyForV2Requests,
+              signatureCreatorV2,
+              uuidNonceFactory,
+              timestampFactory,
+              API_VERSION,
+              currency.toLowerCase(),
+              network);
+      if (response.getError() != null) {
+        throw new ExchangeException("Requesting deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  /**
+   * Get default network for a currency (used for backward compatibility with old single-address
+   * methods).
+   */
+  private static String getDefaultNetwork(String currency) {
+    String lower = currency.toLowerCase();
+    if ("btc".equals(lower)) {
+      return "bitcoin";
+    } else if ("bch".equals(lower)) {
+      return "bitcoin-cash";
+    } else if ("ltc".equals(lower)) {
+      return "litecoin";
+    } else if ("eth".equals(lower)) {
+      return "ethereum";
+    } else if ("etc".equals(lower)) {
+      return "ethereum-classic";
+    } else if ("xlm".equals(lower)) {
+      return "stellar";
+    } else if ("doge".equals(lower)) {
+      return "doge";
+    } else if ("sui".equals(lower)) {
+      return "sui";
+    } else if ("usdt".equals(lower)
+        || "usdc".equals(lower)
+        || "rlusd".equals(lower)
+        || "eurc".equals(lower)
+        || "sushi".equals(lower)
+        || "shib".equals(lower)
+        || "bonk".equals(lower)
+        || "pengu".equals(lower)
+        || "yfi".equals(lower)
+        || "link".equals(lower)
+        || "ldo".equals(lower)
+        || "fartcoin".equals(lower)
+        || "pepe".equals(lower)) {
+      return "ethereum";
+    } else {
+      return "ethereum"; // Default fallback
+    }
   }
 
   /**
@@ -586,6 +750,102 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
               comment);
 
       return checkAndReturnWithdrawal(response);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public List<BitstampEarnSubscription> getEarnSubscriptions() throws IOException {
+    try {
+      return bitstampAuthenticatedV2.getEarnSubscriptions(
+          apiKeyForV2Requests, signatureCreatorV2, uuidNonceFactory, timestampFactory, API_VERSION);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  /**
+   * Get Earn transaction history.
+   *
+   * <p><strong>Note:</strong> Query parameters are currently not supported due to Bitstamp API
+   * signature validation requirements. All parameters are ignored and the endpoint is called
+   * without query parameters.
+   *
+   * @param limit Maximum number of transactions to return (ignored - not supported)
+   * @param offset Number of transactions to skip (ignored - not supported)
+   * @param currency Optional currency filter (ignored - not supported)
+   * @param quoteCurrency Optional quote currency for value calculation (ignored - not supported)
+   * @return List of Earn transactions
+   * @throws IOException if the request fails
+   */
+  public List<BitstampEarnTransaction> getEarnTransactions(
+      Integer limit, Integer offset, String currency, String quoteCurrency) throws IOException {
+    try {
+      // Query parameters cause signature validation failures - always call without them
+      return bitstampAuthenticatedV2.getEarnTransactions(
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          null, // limit ignored
+          null, // offset ignored
+          null, // currency ignored
+          null); // quoteCurrency ignored
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public void subscribeToEarn(
+      String currency, BitstampEarnType earnType, BitstampEarnTerm earnTerm, BigDecimal amount)
+      throws IOException {
+    try {
+      BitstampEarnSubscribeRequest request =
+          new BitstampEarnSubscribeRequest(currency, earnType, earnTerm, amount);
+      bitstampAuthenticatedV2.subscribeToEarn(
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          request);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public void unsubscribeFromEarn(
+      String currency, BitstampEarnType earnType, BitstampEarnTerm earnTerm, BigDecimal amount)
+      throws IOException {
+    try {
+      BitstampEarnSubscribeRequest request =
+          new BitstampEarnSubscribeRequest(currency, earnType, earnTerm, amount);
+      bitstampAuthenticatedV2.unsubscribeFromEarn(
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          request);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public void manageEarnSubscriptionSetting(
+      BitstampEarnSettingRequest.Setting setting, String currency, BitstampEarnType earnType)
+      throws IOException {
+    try {
+      BitstampEarnSettingRequest request =
+          new BitstampEarnSettingRequest(setting, currency, earnType);
+      bitstampAuthenticatedV2.manageEarnSubscriptionSetting(
+          apiKeyForV2Requests,
+          signatureCreatorV2,
+          uuidNonceFactory,
+          timestampFactory,
+          API_VERSION,
+          request);
     } catch (BitstampException e) {
       throw handleError(e);
     }

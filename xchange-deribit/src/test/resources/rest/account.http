@@ -1,0 +1,40 @@
+### Get account summaries
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v2}}/private/get_account_summaries?extended=false
+Authorization: {{auth_header}}
+Accept: application/json
+
+
+### Get account summary
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v2}}/private/get_account_summary?currency=XRP&extended=false
+Authorization: {{auth_header}}
+Accept: application/json
+
+
+### Get user positions
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v2}}/private/get_positions
+Authorization: {{auth_header}}
+Accept: application/json
+
+
+### Get transaction log
+< {%
+  import {gen_sign} from 'sign.js'
+  gen_sign(request);
+%}
+GET {{api_v2}}/private/get_transaction_log?currency=SOL&start_timestamp=0&end_timestamp=1763914577763
+Authorization: {{auth_header}}
+Accept: application/json
+
+

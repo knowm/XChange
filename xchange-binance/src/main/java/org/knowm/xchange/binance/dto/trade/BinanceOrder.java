@@ -15,19 +15,30 @@ public final class BinanceOrder {
   public final BigDecimal origQty;
   public final BigDecimal executedQty;
   // spot and futures(margin mode)
-  public  BigDecimal cumulativeQuoteQty;
+  public BigDecimal cumulativeQuoteQty;
   // futures (classic mode)
-  public  BigDecimal averagePrice;
+  public BigDecimal averagePrice;
   public final OrderStatus status;
   public final TimeInForce timeInForce;
   public final OrderType type;
   public final OrderSide side;
-  public  BigDecimal stopPrice;
-  public  BigDecimal icebergQty;
+  public BigDecimal stopPrice;
+  public BigDecimal icebergQty;
   public final long time;
 
-  public BinanceOrder(String symbol, long orderId, String clientOrderId, BigDecimal price, BigDecimal origQty, BigDecimal executedQty, BigDecimal averagePrice, OrderStatus status,
-      TimeInForce timeInForce, OrderType type, OrderSide side, long time) {
+  public BinanceOrder(
+      String symbol,
+      long orderId,
+      String clientOrderId,
+      BigDecimal price,
+      BigDecimal origQty,
+      BigDecimal executedQty,
+      BigDecimal averagePrice,
+      OrderStatus status,
+      TimeInForce timeInForce,
+      OrderType type,
+      OrderSide side,
+      long time) {
     this.symbol = symbol;
     this.orderId = orderId;
     this.clientOrderId = clientOrderId;

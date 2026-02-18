@@ -107,7 +107,7 @@ public class BybitTradeService extends BybitTradeServiceRaw implements TradeServ
   public String changeOrder(LimitOrder order) throws IOException {
     BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
     BybitResult<BybitOrderResponse> response =
-        amendOrder(adaptChangeOrder(order,category),category);
+        amendOrder(adaptChangeOrder(order, category), category);
     if (response != null) {
       return response.getResult().getOrderId();
     }

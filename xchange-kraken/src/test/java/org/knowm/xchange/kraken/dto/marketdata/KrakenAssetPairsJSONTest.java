@@ -9,15 +9,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 
 public class KrakenAssetPairsJSONTest {
 
   private KrakenAssetPair expectedAssetPairInfo;
 
-  @Before
+  @BeforeEach
   public void before() {
 
     List<KrakenFee> fees = new ArrayList<>();
@@ -47,6 +47,7 @@ public class KrakenAssetPairsJSONTest {
             .marginCall(new BigDecimal(80))
             .marginStop(new BigDecimal(40))
             .orderMin(new BigDecimal("0.002"))
+            .costMin(new BigDecimal("0.5"))
             .build();
   }
 
@@ -93,6 +94,7 @@ public class KrakenAssetPairsJSONTest {
         .isEqualTo(expectedAssetPairInfo.getVolumeMultiplier());
     assertThat(krakenAssetPairInfo.getFees().size()).isEqualTo(9);
     assertThat(krakenAssetPairInfo.getOrderMin()).isEqualTo(expectedAssetPairInfo.getOrderMin());
+    assertThat(krakenAssetPairInfo.getCostMin()).isEqualTo(expectedAssetPairInfo.getCostMin());
 
     KrakenFee deserializedFee = krakenAssetPairInfo.getFees().get(0);
     KrakenFee expectedFee = expectedAssetPairInfo.getFees().get(0);

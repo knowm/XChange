@@ -72,7 +72,7 @@ public class BinanceFutureTest {
     logger.info("Ticker: " + ticker);
     assertThat(ticker.getInstrument()).isEqualTo(instrument);
     // Get Tickers
-    List<Ticker> tickers= binanceExchange.getMarketDataService().getTickers(null);
+    List<Ticker> tickers = binanceExchange.getMarketDataService().getTickers(null);
     logger.info("Tickers: " + tickers);
     // Get OrderBook
     OrderBook orderBook = binanceExchange.getMarketDataService().getOrderBook(instrument);
@@ -91,7 +91,8 @@ public class BinanceFutureTest {
 
   @Test
   public void binanceFutureAccountService() throws IOException {
-    BinanceAccountService binanceAccountService = ((BinanceAccountService)binanceExchange.getAccountService());
+    BinanceAccountService binanceAccountService =
+        ((BinanceAccountService) binanceExchange.getAccountService());
     Fee fee = binanceAccountService.getCommissionRateByInstrument(instrument);
     logger.info("fee: {}", fee);
     AccountInfo accountInfo = binanceExchange.getAccountService().getAccountInfo();
@@ -130,14 +131,16 @@ public class BinanceFutureTest {
                     .userReference(userReference)
                     .build());
     // Change order price
-    String newPriceOrderId
-        = binanceExchange.getTradeService().changeOrder(
-        new LimitOrder.Builder(Order.OrderType.BID, instrument)
-            .limitPrice(BigDecimal.valueOf(1010))
-            .flags(orderFlags)
-            .originalAmount(BigDecimal.ONE)
-            .id(orderId.toString())
-            .build());
+    String newPriceOrderId =
+        binanceExchange
+            .getTradeService()
+            .changeOrder(
+                new LimitOrder.Builder(Order.OrderType.BID, instrument)
+                    .limitPrice(BigDecimal.valueOf(1010))
+                    .flags(orderFlags)
+                    .originalAmount(BigDecimal.ONE)
+                    .id(orderId.toString())
+                    .build());
 
     // Get OpenOrders
     List<LimitOrder> openOrders =
@@ -147,14 +150,15 @@ public class BinanceFutureTest {
             .getOpenOrders();
     logger.info("OpenOrders: " + openOrders);
     assertThat(
-        openOrders.stream().anyMatch(openOrder -> openOrder.getInstrument().equals(instrument)))
+            openOrders.stream().anyMatch(openOrder -> openOrder.getInstrument().equals(instrument)))
         .isTrue();
 
     // Get all instruments OpenOrders
-    List<LimitOrder> allOpenOrders =binanceExchange
-        .getTradeService()
-        .getOpenOrders(new DefaultOpenOrdersParamInstrument(null))
-        .getOpenOrders();
+    List<LimitOrder> allOpenOrders =
+        binanceExchange
+            .getTradeService()
+            .getOpenOrders(new DefaultOpenOrdersParamInstrument(null))
+            .getOpenOrders();
     logger.info("All OpenOrders: " + allOpenOrders);
 
     // Get order
@@ -165,25 +169,29 @@ public class BinanceFutureTest {
     logger.info("GetOrder: " + order);
     assertThat(order.stream().anyMatch(order1 -> order1.getInstrument().equals(instrument)))
         .isTrue();
-    order.forEach(order1 -> {
-      if (order1 instanceof LimitOrder) {
-        assertThat(((LimitOrder) order1).getLimitPrice().compareTo(new BigDecimal("1010")) == 0).isTrue();
-      }
-    });
+    order.forEach(
+        order1 -> {
+          if (order1 instanceof LimitOrder) {
+            assertThat(((LimitOrder) order1).getLimitPrice().compareTo(new BigDecimal("1010")) == 0)
+                .isTrue();
+          }
+        });
     // Cancel LimitOrder
     logger.info(
         "CancelOrder: "
             + binanceExchange
-            .getTradeService()
-            .cancelOrder(new BinanceCancelOrderParams(instrument, orderId,userReference)));
+                .getTradeService()
+                .cancelOrder(new BinanceCancelOrderParams(instrument, orderId, userReference)));
     // Cancel all orders
-//    logger.info(
-//        "CancelAllOrder: "
-//            +
-//            binanceExchange.getTradeService().cancelAllOrders(new DefaultCancelAllOrdersByInstrument(instrument)));
+    //    logger.info(
+    //        "CancelAllOrder: "
+    //            +
+    //            binanceExchange.getTradeService().cancelAllOrders(new
+    // DefaultCancelAllOrdersByInstrument(instrument)));
 
     // set Leverage
-    boolean isChanged = ((BinanceAccountService) binanceExchange.getAccountService()).setLeverage(instrument, 10);
+    boolean isChanged =
+        ((BinanceAccountService) binanceExchange.getAccountService()).setLeverage(instrument, 10);
     logger.info("Leverage changed: {}", isChanged);
   }
 }

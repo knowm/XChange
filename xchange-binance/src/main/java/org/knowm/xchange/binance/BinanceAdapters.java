@@ -7,15 +7,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
@@ -44,23 +36,12 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.marketdata.CandleStick;
-import org.knowm.xchange.dto.marketdata.CandleStickData;
-import org.knowm.xchange.dto.marketdata.FundingRate;
-import org.knowm.xchange.dto.marketdata.FundingRates;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.instrument.Instrument;
 
 public class BinanceAdapters {
@@ -245,8 +226,10 @@ public class BinanceAdapters {
     if (order.averagePrice != null && order.averagePrice.compareTo(BigDecimal.ZERO) != 0) {
       builder.averagePrice(order.averagePrice);
     }
-    if (order.executedQty != null && order.cumulativeQuoteQty != null &&
-        order.executedQty.signum() != 0 && order.cumulativeQuoteQty.signum() != 0) {
+    if (order.executedQty != null
+        && order.cumulativeQuoteQty != null
+        && order.executedQty.signum() != 0
+        && order.cumulativeQuoteQty.signum() != 0) {
       builder.averagePrice(
           order.cumulativeQuoteQty.divide(order.executedQty, MathContext.DECIMAL32));
     }
@@ -259,6 +242,11 @@ public class BinanceAdapters {
 
   public static Ticker toTicker(BinanceTicker24h binanceTicker24h, boolean isFuture) {
     Instrument instrument = adaptSymbol(binanceTicker24h.getSymbol(), isFuture);
+
+    if (instrument == null) {
+      return null;
+    }
+
     return new Ticker.Builder()
         .instrument(instrument)
         .open(binanceTicker24h.getOpenPrice())
@@ -484,7 +472,9 @@ public class BinanceAdapters {
 
     for (Symbol futureSymbol : futureSymbols) {
       if (futureSymbol.getStatus().equals("TRADING")) { // Symbols which are trading
-        if (futureSymbol.getContractType().equals("PERPETUAL")) { // leave only perpetual contractType for now
+        if (futureSymbol
+            .getContractType()
+            .equals("PERPETUAL")) { // leave only perpetual contractType for now
           int pairPrecision = 8;
           int amountPrecision = 8;
 
@@ -500,7 +490,8 @@ public class BinanceAdapters {
 
           Instrument currentCurrencyPair =
               new FuturesContract(
-                  new CurrencyPair(futureSymbol.getBaseAsset() + "/" + futureSymbol.getQuoteAsset()),
+                  new CurrencyPair(
+                      futureSymbol.getBaseAsset() + "/" + futureSymbol.getQuoteAsset()),
                   "PERP");
 
           for (Filter filter : futureSymbol.getFilters()) {
@@ -684,7 +675,7 @@ public class BinanceAdapters {
                     BigDecimal.valueOf(8),
                     binanceFundingRate.getLastFundingRate().scale(),
                     RoundingMode.HALF_EVEN))
-        .fundingRate8h(binanceFundingRate.getLastFundingRate())
+        .fundingRate(binanceFundingRate.getLastFundingRate())
         .instrument(binanceFundingRate.getInstrument())
         .fundingRateDate(binanceFundingRate.getNextFundingTime())
         .fundingRateEffectiveInMinutes(

@@ -60,17 +60,18 @@ public class BinanceSpotStreamPublicTest {
     klineSet.add(d1);
     klineMap.put(instrument, klineSet);
     KlineSubscription klineSubscription = new KlineSubscription(klineMap);
-    ProductSubscription subscription =
-        ProductSubscription.create().build();
+    ProductSubscription subscription = ProductSubscription.create().build();
     binanceStreamingExchange.connect(klineSubscription, subscription).blockingAwait();
-    Disposable kLineDisposable = binanceStreamingExchange.
-        getStreamingMarketDataService()
-        .getKlines(instrument, m1)
-        .subscribe(kLines -> {
-          if (logOutput) {
-            LOG.info("kLines subscribe: {}", kLines);
-          }
-        });
+    Disposable kLineDisposable =
+        binanceStreamingExchange
+            .getStreamingMarketDataService()
+            .getKlines(instrument, m1)
+            .subscribe(
+                kLines -> {
+                  if (logOutput) {
+                    LOG.info("kLines subscribe: {}", kLines);
+                  }
+                });
     Thread.sleep(3000);
     kLineDisposable.dispose();
     exchange.disconnect().blockingAwait();
@@ -94,46 +95,61 @@ public class BinanceSpotStreamPublicTest {
     assertThat(instrumentMetaData.getPriceScale()).isNotNull();
     assertThat(instrumentMetaData.getMinimumAmount()).isNotNull();
 
-    disposables.add(exchange
-        .getStreamingMarketDataService().getOrderBook(instrument)
-        .subscribe(orderBook -> {
-          if (logOutput) {
-            LOG.info(printOrderBookShortInfo(orderBook));
-          }
-          assertThat(orderBook.getBids().get(0).getLimitPrice())
-              .isLessThan(orderBook.getAsks().get(0).getLimitPrice());
-          assertThat(orderBook.getAsks().get(0).getLimitPrice().compareTo(orderBook.getBids().get(0).getLimitPrice()) > 0).isTrue();
-
-        }));
-    disposables.add(exchange
-        .getStreamingMarketDataService().getOrderBookUpdates(instrument)
-        .subscribe(orderBookUpdates -> {
-          if (logOutput) {
-            LOG.info("orderBookUpdates subscribe: {}", orderBookUpdates);
-          }
-
-        }));
-    disposables.add(exchange
-        .getStreamingMarketDataService().getTicker(instrument)
-        .subscribe(ticker -> {
-          if (logOutput) {
-            LOG.info("ticker subscribe: {}", ticker);
-          }
-          assertThat(ticker.getInstrument().equals(instrument)).isTrue();
-          assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
-
-        }));
-    disposables.add(exchange
-        .getStreamingMarketDataService().getTrades(instrument)
-        .subscribe(trade -> {
-          if (logOutput) {
-            LOG.info("trades subscribe: {}", trade);
-          }
-          assertThat(trade.getInstrument().equals(instrument)).isTrue();
-        }));
+    disposables.add(
+        exchange
+            .getStreamingMarketDataService()
+            .getOrderBook(instrument)
+            .subscribe(
+                orderBook -> {
+                  if (logOutput) {
+                    LOG.info(printOrderBookShortInfo(orderBook));
+                  }
+                  assertThat(orderBook.getBids().get(0).getLimitPrice())
+                      .isLessThan(orderBook.getAsks().get(0).getLimitPrice());
+                  assertThat(
+                          orderBook
+                                  .getAsks()
+                                  .get(0)
+                                  .getLimitPrice()
+                                  .compareTo(orderBook.getBids().get(0).getLimitPrice())
+                              > 0)
+                      .isTrue();
+                }));
+    disposables.add(
+        exchange
+            .getStreamingMarketDataService()
+            .getOrderBookUpdates(instrument)
+            .subscribe(
+                orderBookUpdates -> {
+                  if (logOutput) {
+                    LOG.info("orderBookUpdates subscribe: {}", orderBookUpdates);
+                  }
+                }));
+    disposables.add(
+        exchange
+            .getStreamingMarketDataService()
+            .getTicker(instrument)
+            .subscribe(
+                ticker -> {
+                  if (logOutput) {
+                    LOG.info("ticker subscribe: {}", ticker);
+                  }
+                  assertThat(ticker.getInstrument().equals(instrument)).isTrue();
+                  assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+                }));
+    disposables.add(
+        exchange
+            .getStreamingMarketDataService()
+            .getTrades(instrument)
+            .subscribe(
+                trade -> {
+                  if (logOutput) {
+                    LOG.info("trades subscribe: {}", trade);
+                  }
+                  assertThat(trade.getInstrument().equals(instrument)).isTrue();
+                }));
     Thread.sleep(3000);
     disposables.forEach(Disposable::dispose);
     exchange.disconnect().blockingAwait();
   }
-
 }

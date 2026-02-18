@@ -14,5 +14,4 @@ public class BitfinexCurrencyMapping {
   private String source;
 
   private String target;
-
 }

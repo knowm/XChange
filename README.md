@@ -5,6 +5,8 @@
 
 XChange is a Java library providing a simple and consistent API for interacting with 60+ Bitcoin and other cryptocurrency exchanges, providing a consistent interface for trading and accessing market data.
 
+A big thanks to all the [contributors](CONTRIBUTORS) who have helped make XChange what it is today! ❤️
+
 ## Important!
 
 The world of Bitcoin changes quickly and XChange is no exception. For the latest bugfixes and features you should use the [snapshot jars](https://oss.sonatype.org/content/groups/public/org/knowm/xchange/) or build yourself from the `develop` branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/knowm/XChange/issues).
@@ -17,16 +19,19 @@ Basic usage is very simple: Create an `Exchange` instance, get the appropriate s
 
 ## Integration status
 
-| Exchange        | Status                                                                                                                                                                 |
-|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| bitfinex        | [![status](https://github.com/knowm/XChange/actions/workflows/bitfinex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/bitfinex.yml)               |
-| bitget          | [![status](https://github.com/knowm/XChange/actions/workflows/bitget.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/bitget.yml)                   |
-| bitmex          | [![status](https://github.com/knowm/XChange/actions/workflows/bitmex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/bitmex.yaml)                  |
-| coinex          | [![status](https://github.com/knowm/XChange/actions/workflows/coinex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/coinex.yaml)                  |
-| gate.io         | [![status](https://github.com/knowm/XChange/actions/workflows/gateio-v4.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/gateio-v4.yaml)            |
-| mexc            | [![status](https://github.com/knowm/XChange/actions/workflows/mexc.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/mexc.yaml)                      |
-| stream-bitfinex | [![status](https://github.com/knowm/XChange/actions/workflows/stream-bitfinex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/stream-bitfinex.yml) |
-| kraken-ws-v2    | [![status](https://github.com/knowm/XChange/actions/workflows/kraken-ws-v2.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/kraken-ws-v2.yaml)      |
+| Exchange         | Status                                                                                                                                                                    |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| bitfinex         | [![status](https://github.com/knowm/XChange/actions/workflows/bitfinex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/bitfinex.yml)                  |
+| bitget           | [![status](https://github.com/knowm/XChange/actions/workflows/bitget.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/bitget.yml)                      |
+| bitmex           | [![status](https://github.com/knowm/XChange/actions/workflows/bitmex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/bitmex.yaml)                     |
+| coinex           | [![status](https://github.com/knowm/XChange/actions/workflows/coinex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/coinex.yaml)                     |
+| deribit          | [![status](https://github.com/knowm/XChange/actions/workflows/deribit.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/deribit.yaml)                   |
+| gate.io          | [![status](https://github.com/knowm/XChange/actions/workflows/gateio-v4.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/gateio-v4.yaml)               |
+| kraken           | [![status](https://github.com/knowm/XChange/actions/workflows/kraken.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/kraken.yaml)                     |
+| mexc             | [![status](https://github.com/knowm/XChange/actions/workflows/mexc.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/mexc.yaml)                         |
+| stream-bitfinex  | [![status](https://github.com/knowm/XChange/actions/workflows/stream-bitfinex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/stream-bitfinex.yml)    |
+| stream-deribit   | [![status](https://github.com/knowm/XChange/actions/workflows/stream-deribit.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/stream-deribit.yml)      |
+| stream-kraken-v2 | [![status](https://github.com/knowm/XChange/actions/workflows/stream-kraken-v2.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/stream-kraken-v2.yaml) |
 
 ## REST API
 #### Public Market Data
@@ -161,12 +166,12 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-core</artifactId>
-  <version>5.2.2</version>
+  <version>5.2.4</version>
 </dependency>
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-XYZ</artifactId>
-  <version>5.2.2</version>
+  <version>5.2.4</version>
 </dependency>
 ```
 
@@ -176,7 +181,7 @@ If it is available for your exchange, you may also want to use the streaming API
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-stream-XYZ</artifactId>
-  <version>5.2.2</version>
+  <version>5.2.4</version>
 </dependency>
 ```
 
@@ -184,15 +189,21 @@ For snapshots, add the following repository to your pom.xml file.
 
 ```xml
 <repository>
-  <id>sonatype-oss-snapshot</id>
-  <snapshots/>
-  <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    <name>Central Portal Snapshots</name>
+    <id>central-portal-snapshots</id>
+    <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+    <releases>
+        <enabled>false</enabled>
+    </releases>
+    <snapshots>
+        <enabled>true</enabled>
+    </snapshots>
 </repository>
 ```
 
 The current snapshot version is:
 
-    5.2.3-SNAPSHOT
+    5.2.5-SNAPSHOT
 
 ## Building with Maven
 
@@ -217,3 +228,15 @@ Please report any bugs or submit feature requests to [XChange's Github issue tra
 If you'd like to submit a new implementation for another exchange, please take a look at [New Implementation Best Practices](https://github.com/knowm/XChange/wiki/New-Implementation-Best-Practices) first, as there are lots of time-saving tips!
 
 For more information such as a contributor list and a list of known projects depending on XChange, visit the [Main Project Wiki](https://github.com/knowm/XChange/wiki).
+
+---
+## Maintained by Knowm Inc.
+
+**XChange** is an open-source project sponsored and maintained by the team at [Knowm Inc.](https://knowm.com), a company dedicated to neuromorphic computing and machine learning research since 2015.
+
+Our team also powers [AI Receptionist](https://ai-receptionist.com/), an AI-driven automated phone system for small businesses. We leverage the same high-performance, resilient technical architecture and design principles used in XChange to ensure AI Receptionist never misses a call.
+
+Learn more about our research at [Knowm.org](https://knowm.org).
+
+**Connect with the Lead Developer:**
+[Tim Molter on LinkedIn](https://www.linkedin.com/in/tmolter/) | [Tim Molter on X (Twitter)](https://x.com/TimMolter)

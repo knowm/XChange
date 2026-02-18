@@ -1,5 +1,9 @@
 package info.bitrich.xchangestream.core;
 
+import static info.bitrich.xchangestream.service.netty.NettyStreamingService.DEFAULT_CONNECTION_TIMEOUT;
+import static info.bitrich.xchangestream.service.netty.NettyStreamingService.DEFAULT_IDLE_TIMEOUT;
+import static info.bitrich.xchangestream.service.netty.NettyStreamingService.DEFAULT_RETRY_DURATION;
+
 import info.bitrich.xchangestream.service.ConnectableService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.service.netty.NettyStreamingService;
@@ -16,6 +20,9 @@ public interface StreamingExchange extends Exchange {
   String SOCKS_PROXY_PORT = "SOCKS_Proxy_Port";
   String AUTO_RECONNECT = "Auto_Reconnect";
   String L3_ORDERBOOK = "L3_Orderbook";
+  String WS_CONNECTION_TIMEOUT = "WS_Connection_Timeout";
+  String WS_RETRY_DURATION = "WS_Retry_Duration";
+  String WS_IDLE_TIMEOUT = "WS_Idle_Timeout";
 
   /**
    * Connects to the WebSocket API of the exchange.
@@ -119,6 +126,20 @@ public interface StreamingExchange extends Exchange {
    * @param compressedMessages Defaults to false
    */
   void useCompressedMessages(boolean compressedMessages);
+
+  default void applyWebsocketTimeouts(ExchangeSpecification exchangeSpec) {
+    // set by default if not specified
+    if (exchangeSpec.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT) == null) {
+      exchangeSpec.setExchangeSpecificParametersItem(
+          WS_CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
+    }
+    if (exchangeSpec.getExchangeSpecificParametersItem(WS_RETRY_DURATION) == null) {
+      exchangeSpec.setExchangeSpecificParametersItem(WS_RETRY_DURATION, DEFAULT_RETRY_DURATION);
+    }
+    if (exchangeSpec.getExchangeSpecificParametersItem(WS_IDLE_TIMEOUT) == null) {
+      exchangeSpec.setExchangeSpecificParametersItem(WS_IDLE_TIMEOUT, DEFAULT_IDLE_TIMEOUT);
+    }
+  }
 
   default void applyStreamingSpecification(
       ExchangeSpecification exchangeSpec, NettyStreamingService<?> streamingService) {

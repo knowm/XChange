@@ -56,7 +56,10 @@ class BitmexMarketDataServiceIntegration extends BitmexIntegrationTestParent {
               assertThat(ticker.getInstrument()).isNotNull();
               assertThat(ticker.getLast()).isNotNull();
 
-              if (ticker.getBid() != null && ticker.getAsk() != null && ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
+              if (ticker.getBid() != null
+                  && ticker.getAsk() != null
+                  && ticker.getBid().signum() > 0
+                  && ticker.getAsk().signum() > 0) {
                 assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
               }
             });

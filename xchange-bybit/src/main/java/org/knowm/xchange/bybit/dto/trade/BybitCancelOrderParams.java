@@ -1,11 +1,13 @@
 package org.knowm.xchange.bybit.dto.trade;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 
 @Getter
+@NoArgsConstructor(force = true)
 public class BybitCancelOrderParams extends DefaultCancelOrderByInstrumentAndIdParams
     implements CancelOrderByUserReferenceParams {
 

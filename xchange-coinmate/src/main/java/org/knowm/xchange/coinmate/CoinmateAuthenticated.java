@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.coinmate.dto.account.AmountType;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
+import org.knowm.xchange.coinmate.dto.account.CoinmateCurrencies;
 import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import org.knowm.xchange.coinmate.dto.account.CoinmateTradingFeesResponse;
 import org.knowm.xchange.coinmate.dto.account.FeePriority;
@@ -81,6 +82,15 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("currencyPair") String currencyPair)
+      throws IOException;
+
+  @POST
+  @Path("currencies")
+  CoinmateCurrencies getCurrencies(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
       throws IOException;
 
   // trade
@@ -150,6 +160,12 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("orderId") String orderId)
       throws IOException;
 
+  /**
+   * Creates a limit buy order.
+   *
+   * @param stopPrice DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   * @param trailing DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   */
   @POST
   @Path("buyLimit")
   CoinmateTradeResponse buyLimit(
@@ -160,14 +176,20 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("amount") BigDecimal amount,
       @FormParam("price") BigDecimal price,
       @FormParam("currencyPair") String currencyPair,
-      @FormParam("stopPrice") BigDecimal stopPrice,
+      @Deprecated @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
       @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
-      @FormParam("trailing") Integer trailing,
+      @Deprecated @FormParam("trailing") Integer trailing,
       @FormParam("clientOrderId") String clientOrderId)
       throws IOException;
 
+  /**
+   * Creates a limit sell order.
+   *
+   * @param stopPrice DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   * @param trailing DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   */
   @POST
   @Path("sellLimit")
   CoinmateTradeResponse sellLimit(
@@ -178,11 +200,11 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("amount") BigDecimal amount,
       @FormParam("price") BigDecimal price,
       @FormParam("currencyPair") String currencyPair,
-      @FormParam("stopPrice") BigDecimal stopPrice,
+      @Deprecated @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
       @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
-      @FormParam("trailing") Integer trailing,
+      @Deprecated @FormParam("trailing") Integer trailing,
       @FormParam("clientOrderId") String clientOrderId)
       throws IOException;
 
@@ -498,6 +520,12 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("transactionId") Long transactionId)
       throws IOException;
 
+  /**
+   * Replaces an existing order with a new limit buy order.
+   *
+   * @param stopPrice DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   * @param trailing DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   */
   @POST
   @Path("replaceByBuyLimit")
   CoinmateReplaceResponse replaceByBuyLimit(
@@ -509,14 +537,20 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("price") BigDecimal price,
       @FormParam("currencyPair") String currencyPair,
       @FormParam("orderIdToBeReplaced") String orderIdToBeReplaced,
-      @FormParam("stopPrice") BigDecimal stopPrice,
+      @Deprecated @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
       @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
-      @FormParam("trailing") Integer trailing,
+      @Deprecated @FormParam("trailing") Integer trailing,
       @FormParam("clientOrderId") String clientOrderId)
       throws IOException;
 
+  /**
+   * Replaces an existing order with a new limit sell order.
+   *
+   * @param stopPrice DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   * @param trailing DEPRECATED: Disabled by Coinmate API as of 2025-02-27.
+   */
   @POST
   @Path("replaceBySellLimit")
   CoinmateReplaceResponse replaceBySellLimit(
@@ -528,11 +562,11 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("price") BigDecimal price,
       @FormParam("currencyPair") String currencyPair,
       @FormParam("orderIdToBeReplaced") String orderIdToBeReplaced,
-      @FormParam("stopPrice") BigDecimal stopPrice,
+      @Deprecated @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
       @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
-      @FormParam("trailing") Integer trailing,
+      @Deprecated @FormParam("trailing") Integer trailing,
       @FormParam("clientOrderId") String clientOrderId)
       throws IOException;
 

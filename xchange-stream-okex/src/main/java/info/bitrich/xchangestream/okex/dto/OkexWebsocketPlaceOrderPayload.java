@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 /**
  * Payload for placing an order via OKX WebSocket private channel.
  *
- * Note: OKX API expects strings for most numeric values (price, size, etc.).
- * Optional fields are serialized only when non-null.
+ * <p>Note: OKX API expects strings for most numeric values (price, size, etc.). Optional fields are
+ * serialized only when non-null.
  */
 @Data
 @Builder
@@ -44,11 +44,17 @@ public class OkexWebsocketPlaceOrderPayload {
   @JsonProperty("side")
   private String side;
 
-  /** Position side (conditional). net (default), or required long/short in long/short mode. FUTURES/SWAP only. */
+  /**
+   * Position side (conditional). net (default), or required long/short in long/short mode.
+   * FUTURES/SWAP only.
+   */
   @JsonProperty("posSide")
   private String posSide;
 
-  /** Order type (required). market, limit, post_only, fok, ioc, optimal_limit_ioc, mmp, mmp_and_post_only. */
+  /**
+   * Order type (required). market, limit, post_only, fok, ioc, optimal_limit_ioc, mmp,
+   * mmp_and_post_only.
+   */
   @JsonProperty("ordType")
   private String ordType;
 
@@ -56,7 +62,9 @@ public class OkexWebsocketPlaceOrderPayload {
   @JsonProperty("sz")
   private String sz;
 
-  /** Order price (conditional). Applicable to limit/post_only/fok/ioc/mmp/mmp_and_post_only orders. */
+  /**
+   * Order price (conditional). Applicable to limit/post_only/fok/ioc/mmp/mmp_and_post_only orders.
+   */
   @JsonProperty("px")
   private String px;
 

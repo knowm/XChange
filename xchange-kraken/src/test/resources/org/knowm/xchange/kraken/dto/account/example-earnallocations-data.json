@@ -1,0 +1,112 @@
+{
+  "error": [],
+  "result": {
+    "converted_asset": "USD",
+    "total_allocated": "1000.50",
+    "total_rewarded": "5.25",
+    "items": [
+      {
+        "native_asset": "BTC",
+        "strategy_id": "strategy-1",
+        "amount_allocated": {
+          "total": {
+            "native": "0.1",
+            "converted": "5000.00"
+          },
+          "pending": {
+            "native": "0.01",
+            "converted": "500.00"
+          },
+          "bonding": {
+            "native": "0.05",
+            "converted": "2500.00",
+            "allocation_count": 1,
+            "allocations": [
+              {
+                "native": "0.05",
+                "converted": "2500.00",
+                "created_at": 1609459200000,
+                "expires": 1612137600000
+              }
+            ]
+          },
+          "unbonding": {
+            "native": "0.02",
+            "converted": "1000.00",
+            "allocation_count": 1,
+            "allocations": [
+              {
+                "native": "0.02",
+                "converted": "1000.00",
+                "created_at": 1609459200000,
+                "expires": 1612137600000
+              }
+            ]
+          },
+          "exit_queue": {
+            "native": "0.02",
+            "converted": "1000.00",
+            "allocation_count": 1,
+            "allocations": [
+              {
+                "native": "0.02",
+                "converted": "1000.00",
+                "created_at": 1609459200000,
+                "expires": 1612137600000
+              }
+            ]
+          }
+        },
+        "total_rewarded": {
+          "native": "0.001",
+          "converted": "50.00"
+        },
+        "payout": {
+          "accumulated_reward": {
+            "native": "0.0005",
+            "converted": "25.00"
+          },
+          "estimated_reward": {
+            "native": "0.0005",
+            "converted": "25.00"
+          },
+          "period_start": 1609459200000,
+          "period_end": 1612137600000
+        }
+      },
+      {
+        "native_asset": "ETH",
+        "strategy_id": "strategy-2",
+        "amount_allocated": {
+          "total": {
+            "native": "1.5",
+            "converted": "3000.00"
+          },
+          "pending": {
+            "native": "0.1",
+            "converted": "200.00"
+          },
+          "bonding": null,
+          "unbonding": null,
+          "exit_queue": null
+        },
+        "total_rewarded": {
+          "native": "0.015",
+          "converted": "30.00"
+        },
+        "payout": {
+          "accumulated_reward": {
+            "native": "0.01",
+            "converted": "20.00"
+          },
+          "estimated_reward": {
+            "native": "0.005",
+            "converted": "10.00"
+          },
+          "period_start": 1609459200000,
+          "period_end": 1612137600000
+        }
+      }
+    ]
+  }
+}

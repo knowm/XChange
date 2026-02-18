@@ -41,7 +41,6 @@ public class KrakenStreamingService extends NettyStreamingService<KrakenMessage>
     return WebSocketClientCompressionAllowClientNoContextHandler.INSTANCE;
   }
 
-
   @Override
   public String getSubscriptionUniqueId(String channelName, Object... args) {
     CurrencyPair currencyPair = ArrayUtils.getElement(0, args, CurrencyPair.class, null);
@@ -49,7 +48,8 @@ public class KrakenStreamingService extends NettyStreamingService<KrakenMessage>
   }
 
   @Override
-  public String getUnsubscribeMessage(String subscriptionUniqueId, Object... args) throws IOException {
+  public String getUnsubscribeMessage(String subscriptionUniqueId, Object... args)
+      throws IOException {
     var message = KrakenStreamingAdapters.toUnsubscribeMessage(subscriptionUniqueId);
     return objectMapper.writeValueAsString(message);
   }
@@ -62,21 +62,20 @@ public class KrakenStreamingService extends NettyStreamingService<KrakenMessage>
       KrakenMessage krakenMessage = objectMapper.readValue(message, KrakenMessage.class);
 
       // if there are several data entries split them and process separately
-      if (krakenMessage instanceof KrakenDataMessage && ((KrakenDataMessage) krakenMessage).getData() != null
+      if (krakenMessage instanceof KrakenDataMessage
+          && ((KrakenDataMessage) krakenMessage).getData() != null
           && ((KrakenDataMessage) krakenMessage).getData().size() > 1) {
 
         KrakenDataMessage krakenDataMessage = (KrakenDataMessage) krakenMessage;
 
         for (int i = 0; i < krakenDataMessage.getData().size(); i++) {
           var currentDataEntry = krakenDataMessage.getData().get(i);
-          var copiedDataMessage = krakenDataMessage.toBuilder()
-              .data(List.of(currentDataEntry))
-              .build();
+          var copiedDataMessage =
+              krakenDataMessage.toBuilder().data(List.of(currentDataEntry)).build();
           handleMessage(copiedDataMessage);
         }
 
-      }
-      else {
+      } else {
         handleMessage(krakenMessage);
       }
 
@@ -84,7 +83,5 @@ public class KrakenStreamingService extends NettyStreamingService<KrakenMessage>
       log.error("Error parsing incoming message to JSON: {}", message);
       log.error(e.getMessage(), e);
     }
-
   }
-
 }

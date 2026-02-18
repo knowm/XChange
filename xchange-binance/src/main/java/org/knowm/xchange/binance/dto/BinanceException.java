@@ -9,8 +9,7 @@ import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class BinanceException extends HttpStatusExceptionSupport implements HttpResponseAware {
 
-  @Getter
-  private final int code;
+  @Getter private final int code;
 
   private Map<String, List<String>> headers;
 

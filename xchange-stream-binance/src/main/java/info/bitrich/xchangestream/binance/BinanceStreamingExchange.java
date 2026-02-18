@@ -10,6 +10,8 @@ import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,10 +30,11 @@ import org.slf4j.LoggerFactory;
 public class BinanceStreamingExchange extends BinanceExchange implements StreamingExchange {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceStreamingExchange.class);
-  private static final String WS_API_BASE_URI = "wss://stream.binance.com:9443/";
-  private static final String WS_TRADE_API_BASE_URI = WS_API_BASE_URI;
-  private static final String WS_SANDBOX_API_BASE_URI = "wss://stream.testnet.binance.vision:9443/";
-  private static final String WS_SANDBOX_TRADE_API_BASE_URI = "wss://ws-api.testnet.binance.vision/ws-api/v3";
+  private static final String WS_API_BASE_URI = "wss://stream.binance.com/";
+  private static final String WS_TRADE_API_BASE_URI = "wss://ws-api.binance.com:443/ws-api/v3";
+  private static final String WS_SANDBOX_API_BASE_URI = "wss://stream.testnet.binance.vision/";
+  private static final String WS_SANDBOX_TRADE_API_BASE_URI =
+      "wss://ws-api.testnet.binance.vision/ws-api/v3";
   public static final String USE_HIGHER_UPDATE_FREQUENCY = "Binance_Orderbook_Use_Higher_Frequency";
   public static final String USE_REALTIME_BOOK_TICKER = "Binance_Ticker_Use_Realtime";
   public static final String FETCH_ORDER_BOOK_LIMIT = "Binance_Fetch_Order_Book_Limit";
@@ -49,7 +52,6 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   private String orderBookUpdateFrequencyParameter = "";
   private int oderBookFetchLimitParameter = 1000;
   private boolean realtimeOrderBookTicker;
-
 
   @Override
   protected void initServices() {
@@ -69,6 +71,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     if (fetchOrderBookLimit instanceof Integer) {
       oderBookFetchLimitParameter = (int) fetchOrderBookLimit;
     }
+    applyWebsocketTimeouts(getExchangeSpecification());
   }
 
   public Completable connect(KlineSubscription klineSubscription, ProductSubscription... args) {
@@ -147,7 +150,9 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             realtimeOrderBookTicker,
             oderBookFetchLimitParameter);
     streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService);
-    streamingTradeService = new BinanceStreamingTradeService(this,userDataStreamingService, userTradeStreamingService, getResilienceRegistries());
+    streamingTradeService =
+        new BinanceStreamingTradeService(
+            this, userDataStreamingService, userTradeStreamingService, getResilienceRegistries());
 
     return Completable.concat(completables)
         .doOnComplete(
@@ -158,7 +163,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   private Completable createAndConnectUserDataService(String listenKey) {
     userDataStreamingService =
-        BinanceUserDataStreamingService.create(getStreamingBaseUri(), listenKey);
+        BinanceUserDataStreamingService.create(
+            getStreamingBaseUri(), listenKey, exchangeSpecification);
     applyStreamingSpecification(getExchangeSpecification(), userDataStreamingService);
     return userDataStreamingService
         .connect()
@@ -184,7 +190,11 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   private Completable createAndConnectUserTradeService() {
     userTradeStreamingService =
-        new BinanceUserTradeStreamingService(getTradeStreamingBaseUri(), exchangeSpecification.getApiKey(),exchangeSpecification.getSecretKey());
+        new BinanceUserTradeStreamingService(
+            getTradeStreamingBaseUri(),
+            exchangeSpecification.getApiKey(),
+            exchangeSpecification.getSecretKey(),
+            getExchangeSpecification());
     applyStreamingSpecification(getExchangeSpecification(), userTradeStreamingService);
     return userTradeStreamingService.connect();
   }
@@ -210,13 +220,16 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   @Override
   public boolean isAlive() {
-    if(exchangeSpecification.getApiKey() != null) {
-      if(streamingService!= null)
-      return streamingService.isSocketOpen() &&  userDataStreamingService.isSocketOpen() &&
-          userTradeStreamingService.isSocketOpen() && userTradeStreamingService.isAuthorized();
+    if (exchangeSpecification.getApiKey() != null) {
+      if (streamingService != null)
+        return streamingService.isSocketOpen()
+            && userDataStreamingService.isSocketOpen()
+            && userTradeStreamingService.isSocketOpen()
+            && userTradeStreamingService.isAuthorized();
       else
-        return userDataStreamingService.isSocketOpen() &&
-            userTradeStreamingService.isSocketOpen() && userTradeStreamingService.isAuthorized();
+        return userDataStreamingService.isSocketOpen()
+            && userTradeStreamingService.isSocketOpen()
+            && userTradeStreamingService.isAuthorized();
     } else {
       return streamingService != null && streamingService.isSocketOpen();
     }
@@ -262,13 +275,16 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   protected BinanceStreamingService createStreamingService(
       ProductSubscription subscription, KlineSubscription klineSubscription) {
+    // new chinese pair, like 币安人生usdt, need urlEncode
     String path =
         getStreamingBaseUri()
             + "stream?streams="
-            + buildSubscriptionStreams(subscription, klineSubscription);
+            + URLEncoder.encode(
+                buildSubscriptionStreams(subscription, klineSubscription), StandardCharsets.UTF_8);
 
     BinanceStreamingService streamingService =
-        new BinanceStreamingService(path, subscription, klineSubscription);
+        new BinanceStreamingService(
+            path, subscription, klineSubscription, getExchangeSpecification());
     applyStreamingSpecification(getExchangeSpecification(), streamingService);
     return streamingService;
   }

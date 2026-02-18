@@ -86,17 +86,17 @@ import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 public class BitfinexAdapters {
 
   public final long CATEGORY_TRANSFER = 51L;
-  private static final Pattern WALLET_TRANSFER_PATTERN = Pattern.compile(("transfer of .* from wallet .* to .* on wallet .*"));
-  private static final Pattern SUB_ACCOUNT_TRANSFER_PATTERN = Pattern.compile(("transfer of .* from .* to exchange sa\\(.*\\).*"));
+  private static final Pattern WALLET_TRANSFER_PATTERN =
+      Pattern.compile(("transfer of .* from wallet .* to .* on wallet .*"));
+  private static final Pattern SUB_ACCOUNT_TRANSFER_PATTERN =
+      Pattern.compile(("transfer of .* from .* to exchange sa\\(.*\\).*"));
   private static final Pattern WITHDRAWAL_PATTERN = Pattern.compile((".* withdrawal .*"));
-
-
 
   private final ObjectMapper mapper = new ObjectMapper();
 
   private final AtomicBoolean warnedStopLimit = new AtomicBoolean();
 
-  private final Map<String, String > STRING_TO_CURRENCY = new HashMap<>();
+  private final Map<String, String> STRING_TO_CURRENCY = new HashMap<>();
 
   public void putCurrencyMapping(String exchangeCurrencyId, String commonCurrencyId) {
     STRING_TO_CURRENCY.put(exchangeCurrencyId, commonCurrencyId);
@@ -145,8 +145,7 @@ public class BitfinexAdapters {
       // avoid infinite loop e.g. FET -> FET
       if (newValue.equals(currentValue)) {
         return currentValue;
-      }
-      else {
+      } else {
         currentValue = newValue;
       }
     }
@@ -154,9 +153,10 @@ public class BitfinexAdapters {
     return currentValue;
   }
 
-
   public CurrencyPair toXChangeCurrencyPair(CurrencyPair currencyPair) {
-    return new CurrencyPair(toCurrency(currencyPair.getBase().getCurrencyCode()), toCurrency(currencyPair.getCounter().getCurrencyCode()));
+    return new CurrencyPair(
+        toCurrency(currencyPair.getBase().getCurrencyCode()),
+        toCurrency(currencyPair.getCounter().getCurrencyCode()));
   }
 
   public String adaptOrderType(OrderType type) {
@@ -636,12 +636,14 @@ public class BitfinexAdapters {
     List<UserTrade> pastTrades = new ArrayList<>(bitfinexTrades.size());
 
     for (org.knowm.xchange.bitfinex.v2.dto.trade.BitfinexTrade bitfinexTrade : bitfinexTrades) {
-      OrderType orderType = bitfinexTrade.getExecAmount().signum() >= 0 ? OrderType.BID : OrderType.ASK;
+      OrderType orderType =
+          bitfinexTrade.getExecAmount().signum() >= 0 ? OrderType.BID : OrderType.ASK;
       BigDecimal amount =
           bitfinexTrade.getExecAmount().signum() == -1
               ? bitfinexTrade.getExecAmount().negate()
               : bitfinexTrade.getExecAmount();
-      final BigDecimal fee = bitfinexTrade.getFee() != null ? bitfinexTrade.getFee().negate() : null;
+      final BigDecimal fee =
+          bitfinexTrade.getFee() != null ? bitfinexTrade.getFee().negate() : null;
       pastTrades.add(
           UserTrade.builder()
               .type(orderType)
@@ -716,7 +718,8 @@ public class BitfinexAdapters {
               ? FundingRecord.Type.WITHDRAWAL
               : FundingRecord.Type.DEPOSIT;
 
-      FundingRecord.Status status = FundingRecord.Status.resolveStatus(bitfinexMovement.getStatus());
+      FundingRecord.Status status =
+          FundingRecord.Status.resolveStatus(bitfinexMovement.getStatus());
       if (status == null
           && bitfinexMovement
               .getStatus()
@@ -942,23 +945,21 @@ public class BitfinexAdapters {
         .toArray(org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[]::new);
   }
 
-
   public AccountInfo toAccountInfo(List<BitfinexWallet> bitfinexWallet) {
-    Map<BitfinexWallet.Type, List<Balance>> balancesByWalletType = bitfinexWallet.stream()
-        .collect(Collectors.groupingBy(
-            BitfinexWallet::getWalletType,
-            Collectors.mapping(BitfinexAdapters::toBalance, Collectors.toList())));
+    Map<BitfinexWallet.Type, List<Balance>> balancesByWalletType =
+        bitfinexWallet.stream()
+            .collect(
+                Collectors.groupingBy(
+                    BitfinexWallet::getWalletType,
+                    Collectors.mapping(BitfinexAdapters::toBalance, Collectors.toList())));
 
     List<Wallet> wallets = new ArrayList<>();
-    balancesByWalletType.forEach((key, value) -> wallets.add(Builder
-        .from(value)
-        .id(key.toString().toLowerCase(Locale.ROOT))
-        .build())
-    );
+    balancesByWalletType.forEach(
+        (key, value) ->
+            wallets.add(Builder.from(value).id(key.toString().toLowerCase(Locale.ROOT)).build()));
 
     return new AccountInfo(wallets);
   }
-
 
   public Currency toCurrency(String bitfinexCurrency) {
     return Currency.getInstance(adaptBitfinexCurrency(bitfinexCurrency));
@@ -972,9 +973,9 @@ public class BitfinexAdapters {
         .build();
   }
 
-
   public LimitOrder toLimitOrder(BitfinexOrderDetails bitfinexOrderDetails) {
-    OrderType orderType = bitfinexOrderDetails.getAmount().signum() > 0 ? OrderType.BID : OrderType.ASK;
+    OrderType orderType =
+        bitfinexOrderDetails.getAmount().signum() > 0 ? OrderType.BID : OrderType.ASK;
     return new LimitOrder.Builder(orderType, bitfinexOrderDetails.getCurrencyPair())
         .id(String.valueOf(bitfinexOrderDetails.getId()))
         .userReference(String.valueOf(bitfinexOrderDetails.getClientOrderId()))
@@ -987,9 +988,9 @@ public class BitfinexAdapters {
         .build();
   }
 
-
   public Order toOrder(BitfinexOrderDetails bitfinexOrderDetails) {
-    OrderType orderType = bitfinexOrderDetails.getAmountOrig().signum() > 0 ? OrderType.BID : OrderType.ASK;
+    OrderType orderType =
+        bitfinexOrderDetails.getAmountOrig().signum() > 0 ? OrderType.BID : OrderType.ASK;
     Order.Builder builder;
     switch (bitfinexOrderDetails.getType()) {
       case EXCHANGE_MARKET:
@@ -998,27 +999,27 @@ public class BitfinexAdapters {
         break;
       case EXCHANGE_LIMIT:
       case LIMIT:
-        builder = new LimitOrder.Builder(orderType, bitfinexOrderDetails.getCurrencyPair())
-            .limitPrice(bitfinexOrderDetails.getPrice());
+        builder =
+            new LimitOrder.Builder(orderType, bitfinexOrderDetails.getCurrencyPair())
+                .limitPrice(bitfinexOrderDetails.getPrice());
         break;
       default:
         throw new IllegalArgumentException("Can't map " + bitfinexOrderDetails.getType());
     }
 
     if (bitfinexOrderDetails.getStatus() == OrderStatus.FILLED) {
-      // in filled orders original amount always corresponds to asset amount, thus buy orders have to be mapped differently
+      // in filled orders original amount always corresponds to asset amount, thus buy orders have
+      // to be mapped differently
       if (orderType == OrderType.BID) {
-        BigDecimal filledAmount = bitfinexOrderDetails.getAmountOrig().multiply(
-            bitfinexOrderDetails.getPriceAvg()).abs();
+        BigDecimal filledAmount =
+            bitfinexOrderDetails.getAmountOrig().multiply(bitfinexOrderDetails.getPriceAvg()).abs();
         builder.originalAmount(filledAmount);
         builder.cumulativeAmount(filledAmount);
-      }
-      else {
+      } else {
         builder.originalAmount(bitfinexOrderDetails.getAmountOrig().abs());
         builder.cumulativeAmount(bitfinexOrderDetails.getAmountOrig().abs());
       }
-    }
-    else {
+    } else {
       builder.originalAmount(bitfinexOrderDetails.getAmountOrig().abs());
       builder.cumulativeAmount(BigDecimal.ZERO);
     }
@@ -1031,7 +1032,6 @@ public class BitfinexAdapters {
         .averagePrice(bitfinexOrderDetails.getPriceAvg())
         .build();
   }
-
 
   public FundingRecord toFundingRecord(BitfinexLedgerEntry bitfinexLedgerEntry) {
     return FundingRecord.builder()
@@ -1076,7 +1076,6 @@ public class BitfinexAdapters {
     return null;
   }
 
-
   public Long toCategory(Type fundingRecordType) {
     switch (fundingRecordType) {
       case INTERNAL_SUB_ACCOUNT_TRANSFER:
@@ -1086,7 +1085,6 @@ public class BitfinexAdapters {
         return null;
     }
   }
-
 
   public OpenPosition toOpenPosition(BitfinexPosition bitfinexPosition) {
     return OpenPosition.builder()
@@ -1102,5 +1100,4 @@ public class BitfinexAdapters {
         .updatedAt(bitfinexPosition.getUpdatedAt())
         .build();
   }
-
 }

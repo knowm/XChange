@@ -21,7 +21,8 @@ public final class KrakenDigest extends BaseParamsDigest {
 
   public static KrakenDigest createInstance(String secretKeyBase64) {
     if (secretKeyBase64 != null) {
-      return new KrakenDigest(Base64.getDecoder().decode(secretKeyBase64.getBytes(StandardCharsets.UTF_8)));
+      return new KrakenDigest(
+          Base64.getDecoder().decode(secretKeyBase64.getBytes(StandardCharsets.UTF_8)));
     }
 
     return null;
@@ -33,7 +34,11 @@ public final class KrakenDigest extends BaseParamsDigest {
 
     MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
 
-    sha256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes(StandardCharsets.UTF_8));
+    sha256.update(
+        restInvocation
+            .getParamValue(FormParam.class, "nonce")
+            .toString()
+            .getBytes(StandardCharsets.UTF_8));
     sha256.update(restInvocation.getRequestBody().getBytes(StandardCharsets.UTF_8));
 
     Mac mac512 = getMac();

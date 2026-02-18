@@ -105,5 +105,4 @@ class CoinexTradeServiceTest extends CoinexExchangeWiremock {
 
     assertThat(actual).isEqualTo("155262200343");
   }
-
 }

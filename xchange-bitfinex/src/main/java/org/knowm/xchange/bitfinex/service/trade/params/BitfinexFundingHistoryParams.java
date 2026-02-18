@@ -22,5 +22,4 @@ public class BitfinexFundingHistoryParams extends DefaultTradeHistoryParamsTimeS
   private Currency currency;
 
   private FundingRecord.Type type;
-
 }

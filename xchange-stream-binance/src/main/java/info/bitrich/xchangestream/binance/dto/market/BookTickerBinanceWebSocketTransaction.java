@@ -23,5 +23,4 @@ public class BookTickerBinanceWebSocketTransaction extends BaseBinanceWebSocketT
     ticker = new BinanceBookTicker(bidPrice, bidQty, askPrice, askQty, symbol);
     ticker.setUpdateId(updateId);
   }
-
 }
