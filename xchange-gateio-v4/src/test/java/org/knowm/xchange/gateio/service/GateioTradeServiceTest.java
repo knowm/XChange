@@ -36,7 +36,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   void place_order_not_enough_balance() {
     MarketOrder marketOrder =
         new MarketOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
-            .userReference("t-balance-test")
+            .userReference("balance-test")
             .originalAmount(BigDecimal.valueOf(100))
             .build();
 
@@ -48,7 +48,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   void valid_market_buy_order() throws IOException {
     MarketOrder marketOrder =
         new MarketOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
-            .userReference("t-valid-market-buy-order")
+            .userReference("valid-market-buy-order")
             .originalAmount(BigDecimal.valueOf(20))
             .build();
 
@@ -60,7 +60,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   void valid_market_sell_order() throws IOException {
     MarketOrder marketOrder =
         new MarketOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
-            .userReference("t-valid-market-sell-order")
+            .userReference("valid-market-sell-order")
             .originalAmount(new BigDecimal("0.0007"))
             .build();
 
@@ -72,7 +72,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   void valid_limit_sell_order() throws IOException {
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
-            .userReference("t-valid-limit-sell-order")
+            .userReference("valid-limit-sell-order")
             .originalAmount(new BigDecimal("0.00068"))
             .limitPrice(new BigDecimal("29240.7"))
             .build();
@@ -93,7 +93,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   void valid_limit_buy_order() throws IOException {
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
-            .userReference("t-valid-limit-buy-order")
+            .userReference("valid-limit-buy-order")
             .originalAmount(new BigDecimal("0.00068"))
             .limitPrice(new BigDecimal("10000.7"))
             .build();

@@ -1,0 +1,11 @@
+{
+  "name": "api_v4_wallet_fee",
+  "request": {
+    "url": "/api/v4/wallet/fee",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v4_spot_fee.json"
+  }
+}

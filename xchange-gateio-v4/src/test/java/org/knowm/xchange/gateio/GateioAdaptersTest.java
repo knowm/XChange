@@ -22,7 +22,7 @@ class GateioAdaptersTest {
 
   @Test
   void testToCandleStickDataSpotFutures() throws IOException {
-    try (InputStream is = getClass().getResourceAsStream("futures_candlesticks.json")) {
+    try (InputStream is = getClass().getResourceAsStream("/__files/api_v4_futures_candlesticks.json")) {
       Assertions.assertNotNull(is);
       GateioFuturesCandlestick[] candlesticks = ObjectMapperHelper.readValue(new String(is.readAllBytes()), GateioFuturesCandlestick[].class);
 
@@ -36,14 +36,14 @@ class GateioAdaptersTest {
       assertThat(candleStickData.getCandleSticks().get(0).getHigh()).isEqualTo(new BigDecimal("110"));
       assertThat(candleStickData.getCandleSticks().get(0).getLow()).isEqualTo(new BigDecimal("90"));
       assertThat(candleStickData.getCandleSticks().get(0).getClose()).isEqualTo(new BigDecimal("105"));
-      assertThat(candleStickData.getCandleSticks().get(0).getVolume()).isEqualTo(new BigDecimal("10"));
+      assertThat(candleStickData.getCandleSticks().get(0).getVolume()).isEqualTo(new BigDecimal("0.001"));
       assertThat(candleStickData.getCandleSticks().get(0).getQuotaVolume()).isEqualTo(new BigDecimal("1000"));
     }
   }
 
   @Test
   void testToCandleStickDataSpotSpot() throws IOException {
-    try (InputStream is = getClass().getResourceAsStream("spot_candlesticks.json")) {
+    try (InputStream is = getClass().getResourceAsStream("/__files/api_v4_spot_candlesticks.json")) {
       Assertions.assertNotNull(is);
       GateioSpotCandlestick[] candlesticks = ObjectMapperHelper.readValue(new String(is.readAllBytes()), GateioSpotCandlestick[].class);
 
@@ -64,7 +64,7 @@ class GateioAdaptersTest {
 
   @Test
   void testInstrumentToInstrumentMetaData() throws IOException {
-    try (InputStream is = getClass().getResourceAsStream("instrument_details.json")) {
+    try (InputStream is = getClass().getResourceAsStream("/__files/api_v4_instrument_details.json")) {
       Assertions.assertNotNull(is);
       GateioInstrumentDetails[] detailsArray = ObjectMapperHelper.readValue(new String(is.readAllBytes()), GateioInstrumentDetails[].class);
       GateioInstrumentDetails details = detailsArray[0];

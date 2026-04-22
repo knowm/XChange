@@ -4,12 +4,17 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.account.*;
+import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderResponse;
+import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderRequest;
+import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
+import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderResponse;
 import org.knowm.xchange.gateio.dto.trade.GateioUserTradeRaw;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Path("api/v4")
 @Produces(MediaType.APPLICATION_JSON)
@@ -43,6 +48,25 @@ public interface GateioV4Authenticated {
       throws IOException, GateioException;
 
   @GET
+  @Path("/wallet/fee")
+  GateioSpotFee getSpotFee(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @QueryParam("currency_pair") String currencyPair)
+      throws IOException, GateioException;
+
+  @GET
+  @Path("futures/{settle}/fee")
+  Map<String, GateioFuturesFee> getFuturesFee(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @PathParam("settle") String settle,
+      @QueryParam("contract") String contract)
+      throws IOException, GateioException;
+
+  @GET
   @Path("spot/account_book")
   List<GateioAccountBookRecord> getAccountBookRecords(
       @HeaderParam("KEY") String apiKey,
@@ -58,7 +82,7 @@ public interface GateioV4Authenticated {
 
   @GET
   @Path("spot/orders")
-  List<GateioOrder> listOrders(
+  List<GateioSpotOrderResponse> listOrders(
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
@@ -68,7 +92,28 @@ public interface GateioV4Authenticated {
 
   @GET
   @Path("spot/orders/{order_id}")
-  GateioOrder getOrder(
+  GateioSpotOrderResponse getOrder(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @PathParam("order_id") String orderId,
+      @QueryParam("currency_pair") String currencyPair)
+      throws IOException, GateioException;
+
+  @GET
+  @Path("futures/{settle}/orders/{order_id}")
+  GateioFuturesOrderResponse getFuturesOrder(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @HeaderParam("x-gate-exptime") Long expirationTime,
+      @PathParam("settle") String settle,
+      @PathParam("order_id") String orderId)
+      throws IOException, GateioException;
+
+  @DELETE
+  @Path("spot/orders/{order_id}")
+  GateioSpotOrderResponse cancelOrder(
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
@@ -77,23 +122,61 @@ public interface GateioV4Authenticated {
       throws IOException, GateioException;
 
   @DELETE
+  @Path("futures/{settle}/orders/{order_id}")
+  GateioFuturesOrderResponse cancelFuturesOrder(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @HeaderParam("x-gate-exptime") Long expirationTime,
+      @PathParam("settle") String settle,
+      @PathParam("order_id") String orderId)
+      throws IOException, GateioException;
+
+  @PATCH
   @Path("spot/orders/{order_id}")
-  GateioOrder cancelOrder(
+  @Consumes(MediaType.APPLICATION_JSON)
+  GateioSpotOrderResponse amendOrder(
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
       @PathParam("order_id") String orderId,
-      @QueryParam("currency_pair") String currencyPair)
+      @QueryParam("currency_pair") String currencyPair,
+      Map<String, Object> request)
+      throws IOException, GateioException;
+
+  @PUT
+  @Path("futures/{settle}/orders/{order_id}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  GateioFuturesOrderResponse amendFuturesOrder(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @HeaderParam("x-gate-exptime") Long expirationTime,
+      @PathParam("settle") String settle,
+      @PathParam("order_id") String orderId,
+      Map<String, Object> request)
       throws IOException, GateioException;
 
   @POST
   @Path("spot/orders")
   @Consumes(MediaType.APPLICATION_JSON)
-  GateioOrder createOrder(
+  GateioSpotOrderResponse createOrder(
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
-      GateioOrder gateioOrder)
+      GateioSpotOrderRequest gateioOrder)
+      throws IOException, GateioException;
+
+  @POST
+  @Path("futures/{settle}/orders")
+  @Consumes(MediaType.APPLICATION_JSON)
+  GateioFuturesOrderResponse createFuturesOrder(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @HeaderParam("x-gate-exptime") Long expirationTime,
+      @PathParam("settle") String settle,
+      GateioFuturesOrderRequest gateioFuturesOrder)
       throws IOException, GateioException;
 
   @GET

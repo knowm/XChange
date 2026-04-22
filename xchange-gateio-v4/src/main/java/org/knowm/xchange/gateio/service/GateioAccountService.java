@@ -1,16 +1,18 @@
 package org.knowm.xchange.gateio.service;
 
+import lombok.Setter;
 import org.apache.commons.lang3.Validate;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
+import org.knowm.xchange.gateio.dto.account.GateioFuturesFee;
+import org.knowm.xchange.gateio.dto.account.GateioSpotFee;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
@@ -21,7 +23,10 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class GateioAccountService extends GateioAccountServiceRaw implements AccountService {
@@ -104,4 +109,30 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
       return true;
     } else throw new UnsupportedOperationException("Leverage is not supported for spot instruments");
   }
+
+  @Override
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument(String... category)
+      throws IOException {
+    try {
+      Map<Instrument, Fee> fees = new HashMap<>();
+      if (exchange.isFuturesEnabled()) {
+        Map<String, GateioFuturesFee> futuresFees = getFuturesFee("usdt", null);
+        futuresFees.forEach((contract, fee) -> {
+          fees.put(
+              GateioAdapters.fromGateioInstrument(contract, true),
+              new Fee(fee.getMakerFee(), fee.getTakerFee()));
+        });
+      } else {
+        GateioSpotFee spotFee = getSpotFee(null);
+        exchange.getExchangeMetaData().getInstruments().keySet().forEach(instrument -> {
+          fees.put(instrument,
+              new Fee(spotFee.getMakerFee(), spotFee.getTakerFee()));
+        });
+      }
+      return fees;
+    } catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
+  }
+
 }

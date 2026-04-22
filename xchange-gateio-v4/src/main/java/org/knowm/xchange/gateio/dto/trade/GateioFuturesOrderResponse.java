@@ -1,0 +1,108 @@
+package org.knowm.xchange.gateio.dto.trade;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.gateio.config.converter.DoubleToInstantConverter;
+
+@Data
+@Builder
+@Jacksonized
+public class GateioFuturesOrderResponse {
+
+  @JsonProperty("id")
+  Long id;
+
+  @JsonProperty("create_time")
+  @JsonDeserialize(converter = DoubleToInstantConverter.class)
+  Instant createTime;
+
+  @JsonProperty("finish_time")
+  @JsonDeserialize(converter = DoubleToInstantConverter.class)
+  Instant finishTime;
+
+  @JsonProperty("finish_as")
+  String finishAs;
+
+  @JsonProperty("status")
+  String status;
+
+  @JsonProperty("contract")
+  String contract;
+
+  @JsonProperty("size")
+  BigDecimal size;
+
+  @JsonProperty("iceberg")
+  BigDecimal iceberg;
+
+  @JsonProperty("price")
+  BigDecimal price;
+
+  @JsonProperty("close")
+  Boolean close;
+
+  @JsonProperty("is_close")
+  Boolean isClose;
+
+  @JsonProperty("reduce_only")
+  Boolean reduceOnly;
+
+  @JsonProperty("is_reduce_only")
+  Boolean isReduceOnly;
+
+  @JsonProperty("type")
+  String type;
+
+  @JsonProperty("tif")
+  String timeInForce;
+
+  @JsonProperty("left")
+  BigDecimal left;
+
+  @JsonProperty("filled_total")
+  BigDecimal filledTotal;
+
+  @JsonProperty("avg_deal_price")
+  BigDecimal avgDealPrice;
+
+  @JsonProperty("fill_price")
+  BigDecimal fillPrice;
+
+  @JsonProperty("text")
+  String text;
+
+  @JsonProperty("user")
+  String user;
+
+  @JsonProperty("tkfr")
+  BigDecimal takerFeeRate;
+
+  @JsonProperty("mkfr")
+  BigDecimal makerFeeRate;
+
+  @JsonProperty("refu")
+  BigDecimal referralRebate;
+
+  @JsonProperty("auto_size")
+  String autoSize;
+
+  @JsonProperty("stp_id")
+  Long stpId;
+
+  @JsonProperty("stp_act")
+  String stpAct;
+
+  @JsonProperty("amend_text")
+  String amendText;
+
+  @JsonProperty("biz_info")
+  String bizInfo;
+
+}

@@ -23,6 +23,12 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     return gateio.getTickers(GateioAdapters.toGateioInstrument(instrument));
   }
 
+  public List<GateioFuturesTicker> getGateioFuturesTickers(Instrument instrument)
+      throws IOException {
+    String settle = "usdt";
+    return gateio.getFuturesTickers(settle, GateioAdapters.toGateioInstrument(instrument));
+  }
+
   public List<GateioCurrencyInfo> getGateioCurrencyInfos() throws IOException {
     return gateio.getCurrencies();
   }

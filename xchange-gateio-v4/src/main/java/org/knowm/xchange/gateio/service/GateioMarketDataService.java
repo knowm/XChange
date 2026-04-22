@@ -33,8 +33,7 @@ import java.util.stream.Collectors;
 
 public class GateioMarketDataService extends GateioMarketDataServiceRaw
     implements MarketDataService {
-  @Setter
-  private Map<Instrument, InstrumentMetaData> instrumentMetaDataMap;
+
   public GateioMarketDataService(GateioExchange exchange) {
     super(exchange);
   }
@@ -65,10 +64,16 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
   public Ticker getTicker(Instrument instrument, Object... args) throws IOException {
     Objects.requireNonNull(instrument);
     try {
-      List<GateioTicker> tickers = getGateioTickers(instrument);
-      Validate.validState(tickers.size() == 1);
-
-      return GateioAdapters.toTicker(tickers.get(0));
+      if (exchange.isFuturesEnabled()) {
+        List<GateioFuturesTicker> tickers = getGateioFuturesTickers(instrument);
+        Validate.validState(tickers.size() == 1);
+        return GateioAdapters.toTickerFutures(
+            tickers.get(0), exchange.getExchangeMetaData().getInstruments().get(instrument).getContractValue());
+      } else {
+        List<GateioTicker> tickers = getGateioTickers(instrument);
+        Validate.validState(tickers.size() == 1);
+        return GateioAdapters.toTickerSpot(tickers.get(0));
+      }
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
@@ -77,9 +82,24 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
     try {
-      List<GateioTicker> tickers = getGateioTickers(null);
-
-      return tickers.stream().map(GateioAdapters::toTicker).collect(Collectors.toList());
+      if (exchange.isFuturesEnabled()) {
+        List<GateioFuturesTicker> tickers = getGateioFuturesTickers(null);
+        return tickers.stream()
+            .map(
+                d ->
+                    GateioAdapters.toTickerFutures(
+                        d,
+                        exchange.getExchangeMetaData().getInstruments()
+                            .get(GateioAdapters.fromGateioInstrument(d.getContract(), true))
+                            .getContractValue()))
+            .collect(Collectors.toList());
+      } else {
+        List<GateioTicker> tickers = getGateioTickers(null);
+        return tickers.stream()
+            .map(
+                GateioAdapters::toTickerSpot)
+            .collect(Collectors.toList());
+      }
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
@@ -201,7 +221,7 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
     try {
       if (instrument instanceof FuturesContract) {
         List<GateioFuturesCandlestick> gateiFuturesCandlesticks = getGateioFuturesCandlesticks(instrument, limit, from, to, interval);
-        return GateioAdapters.toCandleStickDataFutures(gateiFuturesCandlesticks, instrument, instrumentMetaDataMap.get(instrument).getContractValue());
+        return GateioAdapters.toCandleStickDataFutures(gateiFuturesCandlesticks, instrument, exchange.getExchangeMetaData().getInstruments().get(instrument).getContractValue());
       } else {
         List<GateioSpotCandlestick> gateioSpotCandlesticks = getGateioSpotCandlesticks(instrument, limit, from, to, interval);
         return GateioAdapters.toCandleStickDataSpot(gateioSpotCandlesticks, instrument);

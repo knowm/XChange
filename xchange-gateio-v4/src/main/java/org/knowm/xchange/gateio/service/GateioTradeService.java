@@ -3,12 +3,19 @@ package org.knowm.xchange.gateio.service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import jakarta.ws.rs.NotSupportedException;
+import lombok.Setter;
 import org.apache.commons.lang3.Validate;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -18,7 +25,10 @@ import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.GateioException;
-import org.knowm.xchange.gateio.dto.account.GateioOrder;
+import org.knowm.xchange.gateio.dto.trade.GateioCancelOrderParams;
+import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderResponse;
+import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
+import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderResponse;
 import org.knowm.xchange.gateio.service.params.GateioTradeHistoryParams;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
@@ -51,8 +61,13 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     try {
-      GateioOrder order = createOrder(GateioAdapters.toGateioOrder(marketOrder));
-      return order.getId();
+      if (marketOrder.getInstrument() instanceof FuturesContract) {
+        GateioFuturesOrderResponse order = createFuturesOrder(GateioAdapters.toGateioFuturesOrder(marketOrder, exchange.getExchangeMetaData().getInstruments().get(marketOrder.getInstrument()).getContractValue()));
+        return String.valueOf(order.getId());
+      } else {
+        GateioSpotOrderResponse order = createOrder(GateioAdapters.toGateioSpotOrderRequest(marketOrder));
+        return order.getId();
+      }
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
@@ -61,8 +76,14 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     try {
-      GateioOrder order = createOrder(GateioAdapters.toGateioOrder(limitOrder));
-      return order.getId();
+      if (limitOrder.getInstrument() instanceof FuturesContract) {
+        GateioFuturesOrderResponse order = createFuturesOrder(GateioAdapters.toGateioFuturesOrder(limitOrder
+            , exchange.getExchangeMetaData().getInstruments().get(limitOrder.getInstrument()).getContractValue()));
+        return String.valueOf(order.getId());
+      } else {
+        GateioSpotOrderResponse order = createOrder(GateioAdapters.toGateioSpotOrderRequest(limitOrder));
+        return order.getId();
+      }
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
@@ -77,17 +98,30 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
     OrderQueryParamInstrument params = (OrderQueryParamInstrument) orderQueryParams[0];
 
     try {
-      GateioOrder gateioOrder = getOrder(params.getOrderId(), params.getInstrument());
-      return Collections.singletonList(GateioAdapters.toOrder(gateioOrder));
+      if (params.getInstrument() instanceof FuturesContract) {
+        GateioFuturesOrderResponse gateioOrder = getFuturesOrder(params.getOrderId(), params.getInstrument());
+        return Collections.singletonList(GateioAdapters.toOrder(gateioOrder));
+      } else {
+        GateioSpotOrderResponse gateioOrder = getOrder(params.getOrderId(), params.getInstrument());
+        return Collections.singletonList(GateioAdapters.toOrder(gateioOrder));
+      }
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
   }
 
+  /**
+   * it's possbile to use UserReferenceId(text in Gateio) as orderId
+   */
   public Order cancelOrder(String orderId, Instrument instrument) throws IOException {
     try {
-      GateioOrder gateioOrder = cancelOrderRaw(orderId, instrument);
-      return GateioAdapters.toOrder(gateioOrder);
+      if (instrument instanceof FuturesContract) {
+        GateioFuturesOrderResponse gateioOrder = cancelFuturesOrderRaw(orderId, instrument);
+        return GateioAdapters.toOrder(gateioOrder);
+      } else {
+        GateioSpotOrderResponse gateioOrder = cancelOrderRaw(orderId, instrument);
+        return GateioAdapters.toOrder(gateioOrder);
+      }
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
@@ -95,13 +129,51 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    Validate.isInstanceOf(DefaultCancelOrderByInstrumentAndIdParams.class, orderParams);
-    DefaultCancelOrderByInstrumentAndIdParams params =
-        (DefaultCancelOrderByInstrumentAndIdParams) orderParams;
-
     try {
-      Order order = cancelOrder(params.getOrderId(), params.getInstrument());
-      return order.getStatus() == OrderStatus.CANCELED;
+      String id = "";
+      Instrument instrument = null;
+      if (orderParams instanceof DefaultCancelOrderByInstrumentAndIdParams) {
+        DefaultCancelOrderByInstrumentAndIdParams params =
+            (DefaultCancelOrderByInstrumentAndIdParams) orderParams;
+        id = params.getOrderId();
+        instrument = params.getInstrument();
+      } else {
+        if (orderParams instanceof GateioCancelOrderParams) {
+          GateioCancelOrderParams params = (GateioCancelOrderParams) orderParams;
+          instrument = params.getInstrument();
+          if (params.getUserReference() != null) {
+            id = params.getUserReference();
+          } else if (params.getOrderId() != null) {
+            id = params.getOrderId();
+          }
+        }
+      }
+      if (!id.isEmpty() && instrument != null) {
+        Order order = cancelOrder(id, instrument);
+        return order.getStatus() == OrderStatus.CANCELED;
+      } else throw new NotSupportedException("id or instrument is empty");
+    } catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
+  }
+
+  @Override
+  public String changeOrder(LimitOrder limitOrder) throws IOException {
+    try {
+      Map<String, Object> request = new HashMap<>();
+      request.put("amount", limitOrder.getOriginalAmount());
+      request.put("price", limitOrder.getLimitPrice());
+      String id;
+      if (limitOrder.getUserReference() != null) {
+        id = limitOrder.getUserReference();
+      } else id = limitOrder.getId();
+      if (limitOrder.getInstrument() instanceof FuturesContract) {
+        GateioFuturesOrderResponse response = amendFuturesOrder(id, limitOrder.getInstrument(), request);
+        return String.valueOf(response.getId());
+      } else {
+        GateioSpotOrderResponse response = amendSpotOrder(id, limitOrder.getInstrument(), request);
+        return response.getId();
+      }
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
@@ -122,7 +194,7 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
 
   @Override
   public Class[] getRequiredCancelOrderParamClasses() {
-    return new Class[] {DefaultCancelOrderByInstrumentAndIdParams.class};
+    return new Class[]{DefaultCancelOrderByInstrumentAndIdParams.class};
   }
 
   @Override

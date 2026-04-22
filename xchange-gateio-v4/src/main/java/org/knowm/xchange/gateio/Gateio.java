@@ -50,6 +50,12 @@ public interface Gateio {
       throws IOException, GateioException;
 
   @GET
+  @Path("futures/{settle}/tickers")
+  List<GateioFuturesTicker> getFuturesTickers(
+      @PathParam("settle") String settle, @QueryParam("contract") String contract)
+      throws IOException, GateioException;
+
+  @GET
   @Path("spot/candlesticks")
   List<GateioSpotCandlestick> getSpotCandlesticks(
       @QueryParam("currency_pair") String currencyPair,

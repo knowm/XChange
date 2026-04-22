@@ -1,0 +1,18 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/api/v4/futures/usdt/tickers",
+    "queryParameters": {
+      "contract": {
+        "equalTo": "BTC_USDT"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v4_futures_ticker.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

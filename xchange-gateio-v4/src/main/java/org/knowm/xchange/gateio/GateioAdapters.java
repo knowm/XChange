@@ -2,6 +2,7 @@ package org.knowm.xchange.gateio;
 
 import lombok.experimental.UtilityClass;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -15,20 +16,17 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.gateio.dto.account.GateioAccountBookRecord;
-import org.knowm.xchange.gateio.dto.account.GateioOrder;
+import org.knowm.xchange.gateio.dto.trade.*;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 import org.knowm.xchange.gateio.dto.marketdata.*;
-import org.knowm.xchange.gateio.dto.trade.GateioUserTrade;
-import org.knowm.xchange.gateio.dto.trade.GateioUserTradeRaw;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @UtilityClass
@@ -45,6 +43,21 @@ public class GateioAdapters {
               instrument.getBase().getCurrencyCode(), instrument.getCounter().getCurrencyCode())
           .toUpperCase(Locale.ROOT);
     }
+  }
+
+  public static Instrument fromGateioInstrument(String gateIoInstrument, boolean isFuture) {
+    String xchangeInstrument = gateIoInstrument.replace("_", "/");
+    if (isFuture) {
+      if (!xchangeInstrument.contains("/")) {
+        // for futures, it might be just "BTC" or "BTC_USDT"
+        return new FuturesContract(xchangeInstrument + "/USDT/PERP");
+      }
+      return new FuturesContract(new CurrencyPair(xchangeInstrument), "PERP");
+    }
+    if (!xchangeInstrument.contains("/")) {
+      return null;
+    }
+    return new CurrencyPair(xchangeInstrument);
   }
 
   public OrderBook toOrderBook(GateioOrderBook gateioOrderBook, Instrument instrument) {
@@ -115,22 +128,21 @@ public class GateioAdapters {
     }
   }
 
-  public OrderStatus toOrderStatus(GateioOrder gateioOrder) {
-    switch (gateioOrder.getStatus()) {
+  public OrderStatus toOrderStatus(GateioSpotOrderResponse gateioSpotOrderResponse) {
+    switch (gateioSpotOrderResponse.getStatus()) {
       case "open":
         return OrderStatus.OPEN;
 
       case "closed":
         // if more than `PARTIALLY_FILLED_SCALE` left to fill -> set to `PARTIALLY_FILLED`
-        if (gateioOrder
-                .getAmountLeftToFill()
-                .compareTo(gateioOrder.getAmount().multiply(PARTIALLY_FILLED_SCALE))
+        if (gateioSpotOrderResponse
+            .getAmountLeftToFill()
+            .compareTo(gateioSpotOrderResponse.getAmount().multiply(PARTIALLY_FILLED_SCALE))
             > 0) {
           return OrderStatus.PARTIALLY_FILLED;
         } else {
           return OrderStatus.FILLED;
         }
-
       case "filled":
         return OrderStatus.FILLED;
 
@@ -139,36 +151,101 @@ public class GateioAdapters {
         return OrderStatus.CANCELED;
 
       default:
-        throw new IllegalArgumentException("Can't map " + gateioOrder.getStatus());
+        throw new IllegalArgumentException("Can't map " + gateioSpotOrderResponse.getStatus());
     }
   }
 
-  public GateioOrder toGateioOrder(MarketOrder marketOrder) {
-    return GateioOrder.builder()
-        .currencyPair((CurrencyPair) marketOrder.getInstrument())
-        .side(marketOrder.getType())
-        .clientOrderId(marketOrder.getUserReference())
-        .account("spot")
-        .type("market")
-        .timeInForce("ioc")
-        .amount(marketOrder.getOriginalAmount())
-        .build();
+  public OrderStatus toOrderStatusFutures(GateioFuturesOrderResponse gateioFuturesOrderResponse) {
+
+    switch (gateioFuturesOrderResponse.getStatus()) {
+      case "open":
+        return OrderStatus.OPEN;
+
+      case "finished":
+        switch (gateioFuturesOrderResponse.getFinishAs()) {
+          case "filled":
+            return OrderStatus.FILLED;
+          case "cancelled":
+            return OrderStatus.CANCELED;
+        }
+
+      default:
+        throw new IllegalArgumentException("Can't map " + gateioFuturesOrderResponse.getStatus());
+    }
   }
 
-  public GateioOrder toGateioOrder(LimitOrder limitOrder) {
-    return GateioOrder.builder()
-        .currencyPair((CurrencyPair) limitOrder.getInstrument())
+  public GateioSpotOrderRequest toGateioSpotOrderRequest(MarketOrder marketOrder) {
+    GateioSpotOrderRequest.GateioSpotOrderRequestBuilder builder = GateioSpotOrderRequest.builder()
+        .currencyPair(marketOrder.getInstrument())
+        .side(marketOrder.getType())
+        .clientOrderId(marketOrder.getUserReference() != null ? "t-" + marketOrder.getUserReference() : null)
+        .type("market")
+        .timeInForce("ioc")
+        .amount(marketOrder.getOriginalAmount());
+    builder.account("spot");
+    return builder.build();
+  }
+
+  public GateioSpotOrderRequest toGateioSpotOrderRequest(LimitOrder limitOrder) {
+    GateioSpotOrderRequest.GateioSpotOrderRequestBuilder builder = GateioSpotOrderRequest.builder()
+        .currencyPair(limitOrder.getInstrument())
         .side(limitOrder.getType())
-        .clientOrderId(limitOrder.getUserReference())
-        .account("spot")
+        .clientOrderId(limitOrder.getUserReference() != null ? "t-" + limitOrder.getUserReference() : null)
         .type("limit")
         .timeInForce("gtc")
         .price(limitOrder.getLimitPrice())
-        .amount(limitOrder.getOriginalAmount())
+        .amount(limitOrder.getOriginalAmount());
+    builder.account("spot");
+    return builder.build();
+  }
+
+  public GateioFuturesOrderRequest toGateioFuturesOrder(MarketOrder marketOrder, BigDecimal contractValue) {
+    BigDecimal size = convertVolumeToContractSize(marketOrder.getOriginalAmount(), contractValue);
+    return GateioFuturesOrderRequest.builder()
+        .contract(toGateioInstrument(marketOrder.getInstrument()))
+        .size(marketOrder.getType() == OrderType.BID ? size : size.negate())
+        .price(BigDecimal.ZERO)
+        .text(marketOrder.getUserReference() != null ? "t-" + marketOrder.getUserReference() : null)
+        .timeInForce("ioc") // a price of 0 with tif as ioc represents a market order.
         .build();
   }
 
-  public Order toOrder(GateioOrder gateioOrder) {
+
+  public GateioFuturesOrderRequest toGateioFuturesOrder(LimitOrder limitOrder, BigDecimal contractValue) {
+    var builder = GateioFuturesOrderRequest.builder();
+    if (limitOrder.getOrderFlags() != null) {
+      Set<Order.IOrderFlags> flags = limitOrder.getOrderFlags();
+      for (var flag : flags)
+        if (flag instanceof GateioOrderFlags)
+          builder.timeInForce(((GateioOrderFlags) flag).timeInForce.name().toLowerCase());
+    }
+    BigDecimal size = convertVolumeToContractSize(limitOrder.getOriginalAmount(), contractValue);
+    return builder.contract(toGateioInstrument(limitOrder.getInstrument())).
+        size(limitOrder.getType() == OrderType.BID ? size : size.negate()).
+        price(limitOrder.getLimitPrice()).
+        text(limitOrder.getUserReference() != null ? "t-" + limitOrder.getUserReference() : null).
+        build();
+  }
+
+
+  public Order toOrder(GateioFuturesOrderResponse gateioFutureOrderResponse) {
+    OrderType orderType = gateioFutureOrderResponse.getSize().signum() > 0 ? OrderType.BID : OrderType.ASK;
+    BigDecimal amount = gateioFutureOrderResponse.getSize().abs();
+
+    return new LimitOrder.Builder(orderType, fromGateioInstrument(gateioFutureOrderResponse.getContract(), true))
+        .id(String.valueOf(gateioFutureOrderResponse.getId()))
+        .userReference(gateioFutureOrderResponse.getText())
+        .originalAmount(amount)
+        .limitPrice(gateioFutureOrderResponse.getPrice())
+        .cumulativeAmount(amount.subtract(gateioFutureOrderResponse.getLeft()))
+        .orderStatus(toOrderStatusFutures(gateioFutureOrderResponse))
+        .timestamp(gateioFutureOrderResponse.getCreateTime() != null ? Date.from(gateioFutureOrderResponse.getCreateTime()) : null)
+        .averagePrice(gateioFutureOrderResponse.getAvgDealPrice())
+        .build();
+  }
+
+
+  public Order toOrder(GateioSpotOrderResponse gateioOrder) {
     Order.Builder builder;
     Instrument instrument = gateioOrder.getCurrencyPair();
     OrderType orderType = gateioOrder.getSide();
@@ -239,9 +316,9 @@ public class GateioAdapters {
         .build();
   }
 
-  public Ticker toTicker(GateioTicker gateioTicker) {
+  public Ticker toTickerSpot(GateioTicker gateioTicker) {
     return new Ticker.Builder()
-        .instrument(gateioTicker.getCurrencyPair())
+        .instrument(fromGateioInstrument(gateioTicker.getCurrencyPair(), false))
         .last(gateioTicker.getLastPrice())
         .bid(gateioTicker.getHighestBid())
         .bidSize(gateioTicker.getHighestBidSize())
@@ -251,6 +328,22 @@ public class GateioAdapters {
         .low(gateioTicker.getMinPrice24h())
         .volume(gateioTicker.getAssetVolume())
         .quoteVolume(gateioTicker.getQuoteVolume())
+        .percentageChange(gateioTicker.getChangePercentage24h())
+        .build();
+  }
+
+  public Ticker toTickerFutures(GateioFuturesTicker gateioTicker, BigDecimal contractValue) {
+    return new Ticker.Builder()
+        .instrument(fromGateioInstrument(gateioTicker.getContract(), true))
+        .last(gateioTicker.getLastPrice())
+        .bid(gateioTicker.getHighestBid())
+        .bidSize(gateioTicker.getHighestBidSize())
+        .ask(gateioTicker.getLowestAsk())
+        .askSize(gateioTicker.getLowestAskSize())
+        .high(gateioTicker.getHigh24h())
+        .low(gateioTicker.getLow24h())
+        .volume(convertContractSizeToVolume(gateioTicker.getVolume24h(), contractValue))
+        .quoteVolume(gateioTicker.getVolume24hQuote())
         .percentageChange(gateioTicker.getChangePercentage24h())
         .build();
   }
@@ -316,6 +409,12 @@ public class GateioAdapters {
   private static BigDecimal convertContractSizeToVolume(
       BigDecimal size, BigDecimal contractValue) {
     return size.multiply(contractValue).stripTrailingZeros();
+  }
+
+  private static BigDecimal convertVolumeToContractSize(
+      BigDecimal size, BigDecimal contractValue) {
+    return size.divide(contractValue, 20, RoundingMode.HALF_DOWN)
+        .stripTrailingZeros();
   }
 
 }

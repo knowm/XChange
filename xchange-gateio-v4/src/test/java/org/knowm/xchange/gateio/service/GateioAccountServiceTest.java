@@ -135,4 +135,14 @@ class GateioAccountServiceTest extends GateioExchangeWiremock {
     assertThat(actual).hasSize(2);
     assertThat(actual).first().usingRecursiveComparison().isEqualTo(expected);
   }
+
+  @Test
+  void get_dynamic_trading_fees_by_instrument() throws IOException {
+    java.util.Map<org.knowm.xchange.instrument.Instrument, org.knowm.xchange.dto.account.Fee> fees =
+        gateioAccountService.getDynamicTradingFeesByInstrument();
+    assertThat(fees).isNotEmpty();
+    org.knowm.xchange.dto.account.Fee fee = fees.values().iterator().next();
+    assertThat(fee.getMakerFee()).isEqualTo(new java.math.BigDecimal("0.002"));
+    assertThat(fee.getTakerFee()).isEqualTo(new java.math.BigDecimal("0.002"));
+  }
 }

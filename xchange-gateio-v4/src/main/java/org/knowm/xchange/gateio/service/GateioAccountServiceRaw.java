@@ -15,6 +15,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class GateioAccountServiceRaw extends GateioBaseService {
@@ -49,6 +50,16 @@ public class GateioAccountServiceRaw extends GateioBaseService {
     String currencyCode = currency == null ? null : currency.getCurrencyCode();
     return gateioV4Authenticated.getSpotAccounts(
         apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currencyCode);
+  }
+
+  public GateioSpotFee getSpotFee(String currencyPair) throws IOException {
+    return gateioV4Authenticated.getSpotFee(
+        apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currencyPair);
+  }
+
+  public Map<String, GateioFuturesFee> getFuturesFee(String settle, String contract) throws IOException {
+    return gateioV4Authenticated.getFuturesFee(
+        apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, settle, contract);
   }
 
   public List<GateioWithdrawalRecord> getWithdrawals(GateioWithdrawalsParams params)
