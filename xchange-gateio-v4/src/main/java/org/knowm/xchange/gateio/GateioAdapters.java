@@ -16,9 +16,9 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.gateio.dto.account.GateioAccountBookRecord;
-import org.knowm.xchange.gateio.dto.trade.*;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
 import org.knowm.xchange.gateio.dto.marketdata.*;
+import org.knowm.xchange.gateio.dto.trade.*;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -26,7 +26,10 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.Instant;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @UtilityClass
@@ -178,7 +181,7 @@ public class GateioAdapters {
     GateioSpotOrderRequest.GateioSpotOrderRequestBuilder builder = GateioSpotOrderRequest.builder()
         .currencyPair(marketOrder.getInstrument())
         .side(marketOrder.getType())
-        .clientOrderId(marketOrder.getUserReference() != null ? "t-" + marketOrder.getUserReference() : null)
+        .clientOrderId(marketOrder.getUserReference() != null ? marketOrder.getUserReference() : null)
         .type("market")
         .timeInForce("ioc")
         .amount(marketOrder.getOriginalAmount());
@@ -190,7 +193,7 @@ public class GateioAdapters {
     GateioSpotOrderRequest.GateioSpotOrderRequestBuilder builder = GateioSpotOrderRequest.builder()
         .currencyPair(limitOrder.getInstrument())
         .side(limitOrder.getType())
-        .clientOrderId(limitOrder.getUserReference() != null ? "t-" + limitOrder.getUserReference() : null)
+        .clientOrderId(limitOrder.getUserReference() != null ? limitOrder.getUserReference() : null)
         .type("limit")
         .timeInForce("gtc")
         .price(limitOrder.getLimitPrice())
@@ -205,7 +208,7 @@ public class GateioAdapters {
         .contract(toGateioInstrument(marketOrder.getInstrument()))
         .size(marketOrder.getType() == OrderType.BID ? size : size.negate())
         .price(BigDecimal.ZERO)
-        .text(marketOrder.getUserReference() != null ? "t-" + marketOrder.getUserReference() : null)
+        .text(marketOrder.getUserReference() != null ? marketOrder.getUserReference() : null)
         .timeInForce("ioc") // a price of 0 with tif as ioc represents a market order.
         .build();
   }
@@ -223,7 +226,7 @@ public class GateioAdapters {
     return builder.contract(toGateioInstrument(limitOrder.getInstrument())).
         size(limitOrder.getType() == OrderType.BID ? size : size.negate()).
         price(limitOrder.getLimitPrice()).
-        text(limitOrder.getUserReference() != null ? "t-" + limitOrder.getUserReference() : null).
+        text(limitOrder.getUserReference() != null ? limitOrder.getUserReference() : null).
         build();
   }
 

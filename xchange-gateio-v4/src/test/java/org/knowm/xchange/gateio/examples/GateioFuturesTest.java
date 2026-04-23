@@ -19,7 +19,6 @@ import org.knowm.xchange.gateio.dto.trade.GateioOrderFlags;
 import org.knowm.xchange.gateio.dto.trade.GateioTimeInForce;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
-import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParamWithLimit;
 import org.knowm.xchange.utils.AuthUtils;
 
@@ -28,7 +27,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.gateio.GateioExchange.EXCHANGE_TYPE;
@@ -50,17 +48,17 @@ public class GateioFuturesTest {
   public void order() throws IOException {
     MarketOrder marketOrder = new MarketOrder(Order.OrderType.ASK, new BigDecimal("0.001"), instrument);
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
-    String userReference = String.valueOf(System.currentTimeMillis());
+    String userReference = "t-" + String.valueOf(System.currentTimeMillis());
     LimitOrder limitOrder = new LimitOrder.Builder(Order.OrderType.BID, instrument).limitPrice(ticker.getLow()).originalAmount(new BigDecimal("0.001"))
         .userReference(userReference).build();
     limitOrder.addOrderFlag(new GateioOrderFlags(GateioTimeInForce.POC));
     String marketOrderId = exchange.getTradeService().placeMarketOrder(marketOrder);
     String limitOrderId = exchange.getTradeService().placeLimitOrder(limitOrder);
     LimitOrder limitOrder1 = new LimitOrder.Builder(Order.OrderType.BID, instrument).limitPrice(ticker.getLow().add(BigDecimal.ONE)).originalAmount(new BigDecimal("0.001"))
-        .userReference("t-" + userReference).build();
+        .userReference(userReference).build();
     exchange.getTradeService().changeOrder(limitOrder1);
 //    DefaultCancelOrderByInstrumentAndIdParams params = new DefaultCancelOrderByInstrumentAndIdParams(instrument, limitOrderId);
-    GateioCancelOrderParams params = new GateioCancelOrderParams(null, instrument, "t-" + userReference);
+    GateioCancelOrderParams params = new GateioCancelOrderParams(null, instrument, userReference);
     exchange.getTradeService().cancelOrder(params);
   }
 

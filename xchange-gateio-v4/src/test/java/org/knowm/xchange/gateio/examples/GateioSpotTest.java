@@ -3,7 +3,6 @@ package org.knowm.xchange.gateio.examples;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -53,6 +52,8 @@ public class GateioSpotTest {
     limitOrder.addOrderFlag(new GateioOrderFlags(GateioTimeInForce.POC));
     String marketOrderId = exchange.getTradeService().placeMarketOrder(marketOrder);
     String limitOrderId = exchange.getTradeService().placeLimitOrder(limitOrder);
+    CandleStickDataParams params = new DefaultCandleStickParam(new Date(System.currentTimeMillis() - 86400000 * 4), new Date(), 86400);
+    CandleStickData candleStickData = exchange.getMarketDataService().getCandleStickData(currencyPair, params);
   }
 
   @Test

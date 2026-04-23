@@ -1,20 +1,14 @@
 package org.knowm.xchange.gateio.service;
 
-import lombok.Setter;
 import org.apache.commons.lang3.Validate;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.account.*;
-import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.GateioException;
-import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
-import org.knowm.xchange.gateio.dto.account.GateioFuturesFee;
-import org.knowm.xchange.gateio.dto.account.GateioSpotFee;
-import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
-import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
+import org.knowm.xchange.gateio.dto.account.*;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
@@ -26,13 +20,12 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class GateioAccountService extends GateioAccountServiceRaw implements AccountService {
 
-  public GateioAccountService(GateioExchange exchange) {
-    super(exchange);
+  public GateioAccountService(GateioExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   @Override

@@ -66,6 +66,16 @@ public interface Gateio {
       throws IOException, GateioException;
 
   @GET
+  @Path("futures/{settle}/funding_rate")
+  List<GateioFundingRateHistory> getFundingRateHistory(
+      @PathParam("settle") String settle,
+      @QueryParam("contract") String contract,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("from") Long from,
+      @QueryParam("to") Long to)
+      throws IOException, GateioException;
+
+  @GET
   @Path("futures/{settle}/candlesticks")
   List<GateioFuturesCandlestick> getFuturesCandlesticks(
       @PathParam("settle") String settle,

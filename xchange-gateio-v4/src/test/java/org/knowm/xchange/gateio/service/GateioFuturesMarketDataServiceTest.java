@@ -1,12 +1,5 @@
 package org.knowm.xchange.gateio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Date;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -15,7 +8,15 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.GateioExchangeType;
+import org.knowm.xchange.gateio.dto.marketdata.GateioFundingRateHistory;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GateioFuturesMarketDataServiceTest extends GateioExchangeWiremock {
 
@@ -58,5 +59,17 @@ public class GateioFuturesMarketDataServiceTest extends GateioExchangeWiremock {
     assertThat(actual.getCandleSticks().get(0).getClose()).isEqualTo(new BigDecimal("105"));
     assertThat(actual.getCandleSticks().get(0).getVolume()).isEqualByComparingTo(new BigDecimal("0.001"));
     assertThat(actual.getCandleSticks().get(0).getTimestamp()).isEqualTo(Instant.ofEpochSecond(1600000000L));
+  }
+
+  @Test
+  void getFundingRateHistory_valid() throws IOException {
+    List<GateioFundingRateHistory> actual = gateioMarketDataService.getFundingRateHistory(
+        btcUsdt, null, null, null);
+
+    assertThat(actual).hasSize(2);
+    assertThat(actual.get(0).getRate()).isEqualTo("0.0001");
+    assertThat(actual.get(0).getTimestamp()).isEqualTo(1684100000L);
+    assertThat(actual.get(1).getRate()).isEqualTo("0.0002");
+    assertThat(actual.get(1).getTimestamp()).isEqualTo(1684103600L);
   }
 }

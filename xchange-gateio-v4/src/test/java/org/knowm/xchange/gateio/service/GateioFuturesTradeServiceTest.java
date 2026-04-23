@@ -1,15 +1,7 @@
 package org.knowm.xchange.gateio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -22,6 +14,13 @@ import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.GateioExchangeType;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GateioFuturesTradeServiceTest extends GateioExchangeWiremock {
 
@@ -53,7 +52,7 @@ public class GateioFuturesTradeServiceTest extends GateioExchangeWiremock {
     LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, btcUsdtPerp)
         .limitPrice(new BigDecimal("50000"))
         .originalAmount(BigDecimal.ONE)
-        .userReference("futures-limit-order")
+        .userReference("t-futures-limit-order")
         .build();
 
     String orderId = gateioTradeService.placeLimitOrder(limitOrder);
@@ -65,7 +64,7 @@ public class GateioFuturesTradeServiceTest extends GateioExchangeWiremock {
   void place_futures_market_order() throws IOException {
     MarketOrder marketOrder = new MarketOrder.Builder(OrderType.ASK, btcUsdtPerp)
         .originalAmount(BigDecimal.ONE)
-        .userReference("futures-market-order")
+        .userReference("t-futures-market-order")
         .build();
 
     String orderId = gateioTradeService.placeMarketOrder(marketOrder);

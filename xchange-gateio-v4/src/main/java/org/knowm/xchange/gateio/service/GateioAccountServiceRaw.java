@@ -1,5 +1,6 @@
 package org.knowm.xchange.gateio.service;
 
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
@@ -18,10 +19,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static org.knowm.xchange.gateio.GateioResilience.DYNAMIC_TRADING_FEE_RATE_LIMITER;
+import static org.knowm.xchange.gateio.GateioResilience.LEVERAGE_RATE_LIMITER;
+
 public class GateioAccountServiceRaw extends GateioBaseService {
 
-  public GateioAccountServiceRaw(GateioExchange exchange) {
-    super(exchange);
+  public GateioAccountServiceRaw(GateioExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   public GateioDepositAddress getDepositAddress(Currency currency) throws IOException {
@@ -53,13 +57,21 @@ public class GateioAccountServiceRaw extends GateioBaseService {
   }
 
   public GateioSpotFee getSpotFee(String currencyPair) throws IOException {
-    return gateioV4Authenticated.getSpotFee(
-        apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currencyPair);
+    return decorateApiCall(
+        () ->
+            gateioV4Authenticated.getSpotFee(
+                apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currencyPair))
+        .withRateLimiter(rateLimiter(DYNAMIC_TRADING_FEE_RATE_LIMITER))
+        .call();
   }
 
   public Map<String, GateioFuturesFee> getFuturesFee(String settle, String contract) throws IOException {
-    return gateioV4Authenticated.getFuturesFee(
-        apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, settle, contract);
+    return decorateApiCall(
+        () ->
+            gateioV4Authenticated.getFuturesFee(
+                apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, settle, contract))
+        .withRateLimiter(rateLimiter(DYNAMIC_TRADING_FEE_RATE_LIMITER))
+        .call();
   }
 
   public List<GateioWithdrawalRecord> getWithdrawals(GateioWithdrawalsParams params)
@@ -167,15 +179,20 @@ public class GateioAccountServiceRaw extends GateioBaseService {
 
   public void setLeverage(String settle, String contract, String leverage) throws IOException {
     try {
-      GateioPositionLeverageUpdate positionLeverageUpdate =
-          gateioV4Authenticated.updatePositionLeverage(
-              apiKey,
-              exchange.getNonceFactory(),
-              gateioV4ParamsDigest,
-              settle,
-              contract,
-              leverage);
-      Objects.requireNonNull(positionLeverageUpdate);
+      decorateApiCall(
+          () -> {
+            GateioPositionLeverageUpdate positionLeverageUpdate =
+                gateioV4Authenticated.updatePositionLeverage(
+                    apiKey,
+                    exchange.getNonceFactory(),
+                    gateioV4ParamsDigest,
+                    settle,
+                    contract,
+                    leverage);
+            Objects.requireNonNull(positionLeverageUpdate);
+            return null;
+          }).withRateLimiter(rateLimiter(LEVERAGE_RATE_LIMITER))
+          .call();
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }

@@ -1,7 +1,7 @@
 package org.knowm.xchange.gateio.service;
 
-import lombok.Setter;
 import org.apache.commons.lang3.Validate;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -34,8 +34,8 @@ import java.util.stream.Collectors;
 public class GateioMarketDataService extends GateioMarketDataServiceRaw
     implements MarketDataService {
 
-  public GateioMarketDataService(GateioExchange exchange) {
-    super(exchange);
+  public GateioMarketDataService(GateioExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   @Override
@@ -231,6 +231,9 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
     }
   }
 
+  public List<GateioFundingRateHistory> getFundingRateHistory(Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
+    return getGateioFundingRateHistory(instrument, startTime, endTime, limit);
+  }
   private String adaptInterval(long periodInSecs) {
     if (periodInSecs == 10) return "10s";
     if (periodInSecs == 60) return "1m";

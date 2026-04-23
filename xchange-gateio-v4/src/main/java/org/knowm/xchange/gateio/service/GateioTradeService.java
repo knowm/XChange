@@ -1,33 +1,19 @@
 package org.knowm.xchange.gateio.service;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import jakarta.ws.rs.NotSupportedException;
-import lombok.Setter;
 import org.apache.commons.lang3.Validate;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.InstrumentMetaData;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.trade.GateioCancelOrderParams;
 import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderResponse;
-import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
 import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderResponse;
 import org.knowm.xchange.gateio.service.params.GateioTradeHistoryParams;
 import org.knowm.xchange.instrument.Instrument;
@@ -40,10 +26,14 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
+
 public class GateioTradeService extends GateioTradeServiceRaw implements TradeService {
 
-  public GateioTradeService(GateioExchange exchange) {
-    super(exchange);
+  public GateioTradeService(GateioExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   @Override

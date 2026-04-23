@@ -1,25 +1,24 @@
 package org.knowm.xchange.gateio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Map;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.config.Config;
 import org.knowm.xchange.gateio.dto.GateioExchangeType;
 import org.knowm.xchange.instrument.Instrument;
 import si.mazi.rescu.CustomRestProxyFactoryImpl;
+
+import java.io.IOException;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GateioFuturesAccountServiceTest {
 
@@ -55,5 +54,12 @@ public class GateioFuturesAccountServiceTest {
     Fee fee = fees.values().iterator().next();
     assertThat(fee.getMakerFee()).isNotNull();
     assertThat(fee.getTakerFee()).isNotNull();
+  }
+
+  @Test
+  void set_leverage() throws IOException {
+    GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
+    boolean success = gateioAccountService.setLeverage(new FuturesContract("BTC/USDT/USDT"), 10);
+    assertThat(success).isTrue();
   }
 }
