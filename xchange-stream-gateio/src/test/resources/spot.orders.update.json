@@ -1,0 +1,33 @@
+{
+  "time": 1690498746,
+  "time_ms": 1690498746773,
+  "channel": "spot.orders",
+  "event": "update",
+  "result": {
+    "id": "373824296029",
+    "text": "t-valid-limit-sell-order",
+    "create_time_ms": 1690498746773,
+    "update_time_ms": 1690498746773,
+    "status": "open",
+    "currency_pair": "BTC_USDT",
+    "type": "limit",
+    "account": "spot",
+    "side": "sell",
+    "amount": "0.00068",
+    "price": "29240.7",
+    "time_in_force": "gtc",
+    "iceberg": "0",
+    "left": "0.00068",
+    "filled_total": "0",
+    "fee": "0",
+    "fee_currency": "USDT",
+    "point_fee": "0",
+    "gt_fee": "0",
+    "gt_maker_fee": "0",
+    "gt_taker_fee": "0",
+    "gt_discount": false,
+    "rebated_fee": "0",
+    "rebated_fee_currency": "BTC",
+    "finish_as": "open"
+  }
+}

@@ -8,33 +8,24 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.Data;
 
 import java.time.Clock;
-import java.util.Arrays;
 import java.util.List;
 
 @Data
-public final class Config {
-
+public class ConfigFutures {
   public static final String V4_URL = "wss://api.gateio.ws/ws/v4/";
-  public static final String V4_FUTURES_URL = "wss://fx-ws.gateio.ws/v4/ws/usdt";
-  public static final String SPOT_ORDERBOOK_CHANNEL = "spot.order_book";
-  public static final String SPOT_TRADES_CHANNEL = "spot.trades";
+
   public static final String FUTURES_TRADES_CHANNEL = "futures.trades";
-  public static final String SPOT_TICKERS_CHANNEL = "spot.tickers";
-  public static final String SPOT_BALANCES_CHANNEL = "spot.balances";
-  public static final String SPOT_USER_TRADES_CHANNEL = "spot.usertrades";
-  public static final String SPOT_USER_ORDERS_CHANNEL = "spot.orders";
-  public static final String FUTURES_USER_ORDERS_CHANNEL = "futures.orders";
   public static final List<String> PRIVATE_CHANNELS =
-      Arrays.asList(SPOT_BALANCES_CHANNEL, SPOT_USER_TRADES_CHANNEL, SPOT_USER_ORDERS_CHANNEL, FUTURES_USER_ORDERS_CHANNEL);
+      List.of();
 
   public static final String CHANNEL_NAME_DELIMITER = "-";
 
   private ObjectMapper objectMapper;
   private Clock clock;
 
-  private static Config instance = new Config();
+  private static ConfigFutures instance = new ConfigFutures();
 
-  private Config() {
+  private ConfigFutures() {
     clock = Clock.systemDefaultZone();
 
     objectMapper = new ObjectMapper();
@@ -53,7 +44,7 @@ public final class Config {
     objectMapper.registerModule(new JavaTimeModule());
   }
 
-  public static Config getInstance() {
+  public static ConfigFutures getInstance() {
     return instance;
   }
 }

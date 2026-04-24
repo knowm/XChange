@@ -1,0 +1,17 @@
+{
+  "channel": "futures.trades",
+  "event": "update",
+  "time": 1541503698,
+  "time_ms": 1541503698123,
+  "result": [
+    {
+      "size": "-108",
+      "id": 27753479,
+      "create_time": 1545136464,
+      "create_time_ms": 1545136464123,
+      "price": "96.4",
+      "contract": "BTC_USDT",
+      "is_internal": true
+    }
+  ]
+}

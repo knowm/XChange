@@ -1,10 +1,6 @@
 package info.bitrich.xchangestream.gateio;
 
-import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.core.StreamingAccountService;
-import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.core.StreamingTradeService;
+import info.bitrich.xchangestream.core.*;
 import info.bitrich.xchangestream.gateio.config.Config;
 import io.reactivex.rxjava3.core.Completable;
 import org.knowm.xchange.ExchangeSpecification;
@@ -17,7 +13,17 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
   private StreamingTradeService streamingTradeService;
   private StreamingAccountService streamingAccountService;
 
-  public GateioStreamingExchange() {}
+  public GateioStreamingExchange() {
+  }
+
+  @Override
+  protected void initServices() {
+    super.initServices();
+    if (isFuturesEnabled())
+      exchangeSpecification.setSslUri(Config.V4_FUTURES_URL);
+    else
+      exchangeSpecification.setSslUri(Config.V4_URL);
+  }
 
   @Override
   public Completable connect(ProductSubscription... args) {
@@ -73,7 +79,7 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification specification = super.getDefaultExchangeSpecification();
     specification.setShouldLoadRemoteMetaData(false);
-    specification.setSslUri(Config.V4_URL);
+
     return specification;
   }
 }

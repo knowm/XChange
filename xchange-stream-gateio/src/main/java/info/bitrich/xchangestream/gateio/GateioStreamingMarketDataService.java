@@ -4,19 +4,23 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
+import info.bitrich.xchangestream.gateio.dto.response.trade.GateioFuturesTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
 import io.reactivex.rxjava3.core.Observable;
-import java.time.Duration;
 import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.instrument.Instrument;
+
+import java.time.Duration;
 
 public class GateioStreamingMarketDataService implements StreamingMarketDataService {
 
   public static final int MAX_DEPTH_DEFAULT = 5;
-  public static final int UPDATE_INTERVAL_DEFAULT = 100;
+  public static final Duration UPDATE_INTERVAL_DEFAULT = Duration.ofMillis(100);
   private final GateioStreamingService service;
 
   public GateioStreamingMarketDataService(GateioStreamingService service) {
@@ -47,6 +51,32 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
         .subscribeChannel(Config.SPOT_TICKERS_CHANNEL, currencyPair)
         .map(GateioTickerNotification.class::cast)
         .map(GateioStreamingAdapters::toTicker);
+  }
+
+  @Override
+  public Observable<Trade> getTrades(Instrument instrument, Object... args) {
+    if (instrument instanceof FuturesContract) {
+      return service
+          .subscribeChannel(
+              Config.FUTURES_TRADES_CHANNEL, ((FuturesContract) instrument).getCurrencyPair())
+          .map(GateioFuturesTradeNotification.class::cast)
+          .flatMapIterable(GateioFuturesTradeNotification::getResult)
+          .map(payload -> {
+            Trade trade = GateioStreamingAdapters.toTradeFutures(payload);
+            return Trade.builder()
+                .type(trade.getType())
+                .originalAmount(trade.getOriginalAmount())
+                .instrument(instrument)
+                .price(trade.getPrice())
+                .timestamp(trade.getTimestamp())
+                .id(trade.getId())
+                .build();
+          });
+    }
+    if (instrument instanceof CurrencyPair) {
+      return getTrades((CurrencyPair) instrument, args);
+    }
+    throw new IllegalArgumentException("Instrument type not supported: " + instrument.getClass());
   }
 
   @Override

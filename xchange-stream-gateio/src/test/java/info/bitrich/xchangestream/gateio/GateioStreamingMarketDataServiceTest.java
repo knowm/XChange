@@ -1,29 +1,33 @@
 package info.bitrich.xchangestream.gateio;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.observers.TestObserver;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.instrument.Instrument;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class GateioStreamingMarketDataServiceTest {
@@ -118,6 +122,50 @@ class GateioStreamingMarketDataServiceTest {
             .build();
 
     assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+  }
+
+  @Test
+  void getTradesInstrumentCurrencyPair() throws Exception {
+    GateioWsNotification notification = readNotification("spot.trades.update.json");
+    when(gateioStreamingService.subscribeChannel(eq("spot.trades"), eq(CurrencyPair.BTC_USDT)))
+        .thenReturn(Observable.just(notification));
+
+    Observable<Trade> observable =
+        gateioStreamingMarketDataService.getTrades((Instrument) CurrencyPair.BTC_USDT);
+
+    TestObserver<Trade> testObserver = observable.test();
+
+    Trade actual = testObserver.awaitCount(1).values().get(0);
+
+    testObserver.dispose();
+
+    assertThat(actual.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
+  }
+
+  @Test
+  void getTradesUnsupportedInstrument() {
+    Instrument unsupported = org.mockito.Mockito.mock(Instrument.class);
+    assertThatThrownBy(() -> gateioStreamingMarketDataService.getTrades(unsupported))
+        .isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  void futuresTrades() throws Exception {
+    GateioWsNotification notification = readNotification("futures.trades.update.json");
+    FuturesContract futuresContract = new FuturesContract(CurrencyPair.BTC_USDT, "PERP");
+    when(gateioStreamingService.subscribeChannel(eq("futures.trades"), eq(CurrencyPair.BTC_USDT)))
+        .thenReturn(Observable.just(notification));
+
+    Observable<Trade> observable =
+        gateioStreamingMarketDataService.getTrades(futuresContract);
+
+    TestObserver<Trade> testObserver = observable.test();
+
+    Trade actual = testObserver.awaitCount(1).values().get(0);
+
+    testObserver.dispose();
+
+    assertThat(actual.getInstrument()).isEqualTo(futuresContract);
   }
 
   private GateioWsNotification readNotification(String resourceName) throws IOException {

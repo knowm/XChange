@@ -2,14 +2,14 @@ package org.knowm.xchange.gateio.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import java.math.BigDecimal;
-import java.time.Instant;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.gateio.config.converter.DoubleToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
+
+import java.math.BigDecimal;
+import java.time.Instant;
 
 @Data
 @Builder
@@ -34,6 +34,7 @@ public class GateioFuturesOrderResponse {
   String status;
 
   @JsonProperty("contract")
+  @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
   String contract;
 
   @JsonProperty("size")

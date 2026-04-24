@@ -7,10 +7,7 @@ import info.bitrich.xchangestream.gateio.config.IdGenerator;
 import info.bitrich.xchangestream.gateio.dto.Event;
 import info.bitrich.xchangestream.gateio.dto.request.GateioWsRequest;
 import info.bitrich.xchangestream.gateio.dto.request.GateioWsRequest.AuthInfo;
-import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairLevelIntervalPayload;
-import info.bitrich.xchangestream.gateio.dto.request.payload.CurrencyPairPayload;
-import info.bitrich.xchangestream.gateio.dto.request.payload.EmptyPayload;
-import info.bitrich.xchangestream.gateio.dto.request.payload.StringPayload;
+import info.bitrich.xchangestream.gateio.dto.request.payload.*;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
@@ -19,16 +16,18 @@ import info.bitrich.xchangestream.service.netty.NettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.rxjava3.core.Observable;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.Validate;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.Validate;
-import org.knowm.xchange.currency.CurrencyPair;
 
 @Slf4j
 public class GateioStreamingService extends NettyStreamingService<GateioWsNotification> {
@@ -53,15 +52,16 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
 
   @Override
   protected String getChannelNameFromMessage(GateioWsNotification message) {
+
     return message.getUniqueChannelName();
   }
 
   @Override
   public String getSubscriptionUniqueId(String channelName, Object... args) {
-    final CurrencyPair currencyPair =
-        (args.length > 0 && args[0] instanceof CurrencyPair) ? ((CurrencyPair) args[0]) : null;
+    final Instrument instrument =
+        (args.length > 0 && args[0] instanceof Instrument) ? ((Instrument) args[0]) : null;
 
-    return String.format("%s%s%s", channelName, Config.CHANNEL_NAME_DELIMITER, currencyPair);
+    return String.format("%s%s%s", channelName, Config.CHANNEL_NAME_DELIMITER, instrument);
   }
 
   @Override
@@ -112,12 +112,20 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
 
       // channels require only currency pair in payload
       case Config.SPOT_TICKERS_CHANNEL:
-      case Config.SPOT_TRADES_CHANNEL:
-        {
-          CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
-          Objects.requireNonNull(currencyPair);
+      case Config.SPOT_TRADES_CHANNEL: {
+        CurrencyPair instrument = (CurrencyPair) ArrayUtils.get(args, 0);
+        Objects.requireNonNull(instrument);
 
-          payload = CurrencyPairPayload.builder().currencyPair(currencyPair).build();
+        payload = CurrencyPairPayload.builder().currencyPair(instrument).build();
+        break;
+      }
+      case Config.FUTURES_USER_ORDERS_CHANNEL:
+      case Config.FUTURES_TRADES_CHANNEL:
+        {
+          Instrument instrument = (Instrument) ArrayUtils.get(args, 0);
+          Objects.requireNonNull(instrument);
+
+          payload = InstrumentPayload.builder().instrument(instrument).build();
           break;
         }
 
