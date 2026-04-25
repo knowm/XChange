@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.io.IOException;
@@ -60,7 +61,10 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
   public String getSubscriptionUniqueId(String channelName, Object... args) {
     final Instrument instrument =
         (args.length > 0 && args[0] instanceof Instrument) ? ((Instrument) args[0]) : null;
-
+    if (instrument instanceof FuturesContract) {
+      CurrencyPair currencyPair = new CurrencyPair(instrument.getBase(), instrument.getCounter());
+      return String.format("%s%s%s", channelName, Config.CHANNEL_NAME_DELIMITER, currencyPair);
+    } else
     return String.format("%s%s%s", channelName, Config.CHANNEL_NAME_DELIMITER, instrument);
   }
 
@@ -130,19 +134,30 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
         }
 
       // channel requires currency pair, level, interval in payload
-      case Config.SPOT_ORDERBOOK_CHANNEL:
-        {
-          CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
-          Integer orderBookLevel = (Integer) ArrayUtils.get(args, 1);
-          Duration updateSpeed = (Duration) ArrayUtils.get(args, 2);
-          Validate.noNullElements(new Object[] {currencyPair, orderBookLevel, updateSpeed});
+      case Config.SPOT_ORDERBOOK_CHANNEL: {
+        CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
+        Integer orderBookLevel = (Integer) ArrayUtils.get(args, 1);
+        Duration updateSpeed = (Duration) ArrayUtils.get(args, 2);
+        Validate.noNullElements(new Object[]{currencyPair, orderBookLevel, updateSpeed});
 
-          payload =
-              CurrencyPairLevelIntervalPayload.builder()
-                  .currencyPair(currencyPair)
-                  .orderBookLevel(orderBookLevel)
-                  .updateSpeed(updateSpeed)
-                  .build();
+        payload =
+            CurrencyPairLevelIntervalPayload.builder()
+                .currencyPair(currencyPair)
+                .orderBookLevel(orderBookLevel)
+                .updateSpeed(updateSpeed)
+                .build();
+        break;
+      }
+      case Config.FUTURES_ORDERBOOK_CHANNEL: {
+        Instrument instrument = (Instrument) ArrayUtils.get(args, 0);
+        CurrencyPair currencyPair = new CurrencyPair(instrument.getBase(), instrument.getCounter());
+        Integer orderBookLevel = (Integer) ArrayUtils.get(args, 1);
+        Validate.noNullElements(new Object[]{instrument, orderBookLevel});
+        payload = OrderBookV2RequestPayload.builder()
+            .instrument(currencyPair)
+            .orderBookLevel(orderBookLevel)
+            .build();
+        //payload = "ob." +instrument.getBase()+"_"+instrument.getCounter()+"."+orderBookLevel.toString();
           break;
         }
 

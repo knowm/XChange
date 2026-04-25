@@ -10,6 +10,7 @@ import info.bitrich.xchangestream.gateio.dto.Event;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderFuturesNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderNotification;
+import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookFuturesNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioFuturesTradeNotification;
@@ -30,6 +31,7 @@ import java.time.Instant;
     @Type(value = GateioFuturesTradeNotification.class, name = Config.FUTURES_TRADES_CHANNEL),
     @Type(value = GateioTickerNotification.class, name = Config.SPOT_TICKERS_CHANNEL),
     @Type(value = GateioOrderBookNotification.class, name = Config.SPOT_ORDERBOOK_CHANNEL),
+    @Type(value = GateioOrderBookFuturesNotification.class, name = Config.FUTURES_ORDERBOOK_CHANNEL),
     @Type(value = GateioMultipleSpotBalanceNotification.class, name = Config.SPOT_BALANCES_CHANNEL),
     @Type(value = GateioMultipleUserTradeNotification.class, name = Config.SPOT_USER_TRADES_CHANNEL),
     @Type(value = GateioSingleOrderNotification.class, name = Config.SPOT_USER_ORDERS_CHANNEL),

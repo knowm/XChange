@@ -3,8 +3,10 @@ package info.bitrich.xchangestream.gateio;
 import info.bitrich.xchangestream.gateio.dto.response.balance.BalancePayload;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioSingleSpotBalanceNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderNotification;
+import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookFuturesNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.OrderBookPayload;
+import info.bitrich.xchangestream.gateio.dto.response.orderbook.OrderBookV2FuturesResponse;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.TickerPayload;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
@@ -106,6 +108,36 @@ public class GateioStreamingAdapters {
 
   public OrderBook toOrderBook(GateioOrderBookNotification notification) {
     OrderBookPayload orderBookPayload = notification.getResult();
+
+    Stream<LimitOrder> asks =
+        orderBookPayload.getAsks().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.ASK,
+                        priceSizeEntry.getSize(),
+                        orderBookPayload.getCurrencyPair(),
+                        null,
+                        null,
+                        priceSizeEntry.getPrice()));
+
+    Stream<LimitOrder> bids =
+        orderBookPayload.getBids().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.BID,
+                        priceSizeEntry.getSize(),
+                        orderBookPayload.getCurrencyPair(),
+                        null,
+                        null,
+                        priceSizeEntry.getPrice()));
+
+    return new OrderBook(Date.from(orderBookPayload.getTimestamp()), asks, bids);
+  }
+
+  public OrderBook toOrderBookFutures(GateioOrderBookFuturesNotification notification) {
+    OrderBookV2FuturesResponse orderBookPayload = notification.getResult();
 
     Stream<LimitOrder> asks =
         orderBookPayload.getAsks().stream()

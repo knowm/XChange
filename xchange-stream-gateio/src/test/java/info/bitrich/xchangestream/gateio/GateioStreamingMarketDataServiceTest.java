@@ -168,6 +168,36 @@ class GateioStreamingMarketDataServiceTest {
     assertThat(actual.getInstrument()).isEqualTo(futuresContract);
   }
 
+  @Test
+  void futuresOrderBook() throws Exception {
+    GateioWsNotification snapshot = readNotification("futures.obu.snapshot.json");
+    GateioWsNotification update = readNotification("futures.obu.update.json");
+    FuturesContract futuresContract = new FuturesContract(CurrencyPair.BTC_USDT, "PERP");
+    when(gateioStreamingService.subscribeChannel(
+        eq("futures.obu"), eq(futuresContract), eq(10), eq(Duration.ofMillis(100))))
+        .thenReturn(Observable.just(snapshot, update));
+
+    Observable<OrderBook> observable =
+        gateioStreamingMarketDataService.getOrderBook(
+            futuresContract, 10, Duration.ofMillis(100));
+
+    TestObserver<OrderBook> testObserver = observable.test();
+
+    testObserver.awaitCount(2);
+    OrderBook actual = testObserver.values().get(1);
+
+    testObserver.dispose();
+
+    assertThat(actual.getTimeStamp()).isEqualTo(Date.from(Instant.ofEpochMilli(1743673027017L)));
+    assertThat(actual.getBids()).hasSize(5);
+    assertThat(actual.getAsks()).hasSize(1);
+    assertThat(actual.getBids().get(0).getLimitPrice()).isEqualByComparingTo("83705.9");
+    assertThat(actual.getBids().get(0).getOriginalAmount()).isEqualByComparingTo("30166");
+    assertThat(actual.getBids().get(1).getLimitPrice()).isEqualByComparingTo("83702.2");
+    assertThat(actual.getBids().get(1).getOriginalAmount()).isEqualByComparingTo("62");
+    assertThat(actual.getBids().get(4).getLimitPrice()).isEqualByComparingTo("83685");
+  }
+
   private GateioWsNotification readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(
         getClass().getClassLoader().getResourceAsStream(resourceName), GateioWsNotification.class);
