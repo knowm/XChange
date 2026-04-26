@@ -23,6 +23,7 @@ import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTickers;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.option.BybitOptionTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.spot.BybitSpotTicker;
+import org.knowm.xchange.bybit.dto.marketdata.BybitOrderbook;
 
 public class BybitMarketDataServiceRawTest extends BaseWiremockTest {
 
@@ -40,6 +41,10 @@ public class BybitMarketDataServiceRawTest extends BaseWiremockTest {
 
   private void initInstrumentsInfoStub(String responseBody) throws IOException {
     initGetStub("/v5/market/instruments-info", responseBody);
+  }
+
+  private void initOrderbookStub(String responseBody) throws IOException {
+    initGetStub("/v5/market/orderbook", responseBody);
   }
 
   @Test
@@ -256,5 +261,24 @@ public class BybitMarketDataServiceRawTest extends BaseWiremockTest {
     assertThat(actualTicker.getTurnover24h()).isEqualTo(new BigDecimal("243765620.65899866"));
     assertThat(actualTicker.getVolume24h()).isEqualTo(new BigDecimal("11801.27771"));
     assertThat(actualTicker.getUsdIndexPrice()).isEqualTo(new BigDecimal("20784.12009279"));
+  }
+
+  @Test
+  public void testGetSpotOrderbook() throws Exception {
+    initOrderbookStub("/getOrderbookSpot.json5");
+
+    BybitOrderbook orderbook =
+        marketDataServiceRaw.getOrderbook(BybitCategory.SPOT, "BTCUSDT", 100).getResult();
+
+    assertThat(orderbook.getSymbol()).isEqualTo("BTCUSDT");
+    assertThat(orderbook.getTimestamp()).isEqualTo(1716863719031L);
+    assertThat(orderbook.getUpdateId()).isEqualTo(230704L);
+    assertThat(orderbook.getCrossSequence()).isEqualTo(1432604333L);
+    assertThat(orderbook.getBids()).hasSize(2);
+    assertThat(orderbook.getAsks()).hasSize(2);
+    assertThat(orderbook.getBids().get(new BigDecimal("65485.47"))).isEqualTo(new BigDecimal("47.081829"));
+    assertThat(orderbook.getBids().get(new BigDecimal("65484.00"))).isEqualTo(new BigDecimal("10.0"));
+    assertThat(orderbook.getAsks().get(new BigDecimal("65557.7"))).isEqualTo(new BigDecimal("16.606555"));
+    assertThat(orderbook.getAsks().get(new BigDecimal("65558.0"))).isEqualTo(new BigDecimal("5.0"));
   }
 }
