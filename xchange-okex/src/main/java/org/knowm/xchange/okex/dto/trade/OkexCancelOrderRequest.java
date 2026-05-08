@@ -9,6 +9,9 @@ public class OkexCancelOrderRequest {
   @JsonProperty("instId")
   private String instrumentId;
 
+  @JsonProperty("instIdCode")
+  private String instIdCode;
+
   @JsonProperty("ordId")
   private String orderId;
 

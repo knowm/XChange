@@ -43,6 +43,7 @@ public class OkexAdapters {
   private static final String TRADING_WALLET_ID = "trading";
   private static final String FOUNDING_WALLET_ID = "founding";
   private static final String FUTURES_WALLET_ID = "futures";
+  static final Map<Instrument, Long> instrumentToInstrumentIdMap = new HashMap<>();
 
   public static UserTrades adaptUserTrades(
       List<OkexOrderDetails> okexTradeHistory, ExchangeMetaData exchangeMetaData) {
@@ -180,6 +181,7 @@ public class OkexAdapters {
       LimitOrder order, ExchangeMetaData exchangeMetaData) {
     return OkexAmendOrderRequest.builder()
         .instrumentId(adaptInstrument(order.getInstrument()))
+        .instIdCode(instrumentToInstrumentIdMap.get(order.getInstrument()).toString())
         .orderId(order.getId())
         .clientOrderId(order.getUserReference())
         .amendedAmount(convertVolumeToContractSize(order, exchangeMetaData))
@@ -244,6 +246,7 @@ public class OkexAdapters {
       LimitOrder order, ExchangeMetaData exchangeMetaData, String accountLevel) {
     return OkexOrderRequest.builder()
         .instrumentId(adaptInstrument(order.getInstrument()))
+        .instIdCode(instrumentToInstrumentIdMap.get(order.getInstrument()).toString())
         .tradeMode(adaptTradeMode(order.getInstrument(), accountLevel))
         .side(getSide(order))
         .posSide(null) // PosSide should come as a input from an extended LimitOrder class to
@@ -848,5 +851,9 @@ public class OkexAdapters {
       orderBookUpdates.add(o);
     }
     return orderBookUpdates;
+  }
+
+  public static String instrumentToInstrumentCode(Instrument instrument) {
+    return instrumentToInstrumentIdMap.get(instrument).toString();
   }
 }

@@ -9,6 +9,9 @@ public class OkexAmendOrderRequest {
   @JsonProperty("instId")
   private String instrumentId;
 
+  @JsonProperty("instIdCode")
+  private String instIdCode;
+
   @JsonProperty("cxlOnFail")
   private boolean cancelOnFail;
 
