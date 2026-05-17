@@ -270,7 +270,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.2.7.Final</version>
+                <version>4.2.13.Final</version>
             </dependency>
 
             <!-- for streaming-->
