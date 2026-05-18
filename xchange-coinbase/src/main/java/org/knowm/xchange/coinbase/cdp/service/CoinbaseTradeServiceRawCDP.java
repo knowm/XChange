@@ -1,8 +1,9 @@
-package org.knowm.xchange.coinbase.v2.service;
+package org.knowm.xchange.coinbase.cdp.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coinbase.v2.service.CoinbaseTradeHistoryParams;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseBuyData.CoinbaseBuy;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseSellData.CoinbaseSell;
@@ -16,9 +17,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
-class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
+class CoinbaseTradeServiceRawCDP extends CoinbaseBaseServiceCDP {
 
-  protected CoinbaseTradeServiceRaw(Exchange exchange) {
+  protected CoinbaseTradeServiceRawCDP(Exchange exchange) {
     super(exchange);
   }
 
@@ -82,9 +83,9 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
     final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     String start = params.getStartDatetime().toString();
     String end = params.getEndDateTime().toString();
-    final CoinbaseAdvancedTradeOrderFillsResponse fills = coinbaseV3.getFills(Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, null
-            , null, start, end, params.getLimit(), params.getCursor());
-    return fills.getFills();
+    return coinbaseV3.getFills(
+                    signatureCreator2, null, null, start, end, params.getLimit(), params.getCursor())
+            .getFills();
   }
 
   /**
@@ -95,12 +96,10 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
    */
   public CoinbaseAdvancedTradeOrderFillsResponse getAdvancedTradeOrderFillsRow(CoinbaseTradeHistoryParams params)
           throws IOException {
-    final String apiKey = exchange.getExchangeSpecification().getApiKey();
-    final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     String start = params.getStartDatetime().toString();
     String end = params.getEndDateTime().toString();
-    return coinbaseV3.getFills(Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2,
-            timestamp, null, null, start, end, params.getLimit(), params.getCursor());
+    return coinbaseV3.getFills(
+            signatureCreator2, null, null, start, end, params.getLimit(), params.getCursor());
   }
 
   /**
@@ -111,9 +110,8 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
   public CoinbaseAdvancedTradeAccountsResponse getAdvancedTradeAccounts() throws IOException {
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
     final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
-    final CoinbaseAdvancedTradeAccountsResponse accounts = coinbaseV3.getAccounts(Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2,
-            timestamp, null, null);
-    return accounts;
+      return coinbaseV3.getAccounts(
+              signatureCreator2, null, null);
   }
 
   /**
