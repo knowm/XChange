@@ -609,6 +609,7 @@ public class OkexAdapters {
                 .completed(!okexCandleStick.getConfirm().equals("0"))
                 .build());
       }
+      candleStickList.sort(Comparator.comparing(CandleStick::getTimestamp));
       candleStickData = new CandleStickData(instrument, candleStickList);
     }
     return candleStickData;
