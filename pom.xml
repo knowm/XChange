@@ -169,7 +169,8 @@
         <version.bouncycastle>1.84</version.bouncycastle>
         <version.commons.lang3>3.20.0</version.commons.lang3>
         <version.crypto>5.0.0</version.crypto>
-        <version.fasterxml>2.19.1</version.fasterxml>
+        <version.fasterxml>2.21.3</version.fasterxml>
+        <version.fasterxml.annotations>2.21</version.fasterxml.annotations>
         <version.github.mmazi>3.1</version.github.mmazi>
 
         <version.java>11</version.java>
@@ -206,7 +207,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${version.fasterxml}</version>
+                <version>${version.fasterxml.annotations}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
