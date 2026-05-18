@@ -3,14 +3,18 @@ package org.knowm.xchange.bybit.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bybit.dto.marketdata.BybitFundingRateHistory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BybitMarketDataServiceTest extends BaseWiremockTest {
@@ -49,7 +53,7 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
   public void testGetTickerWithSpotArg() throws Exception {
     initGetStub("/v5/market/tickers", "/getTickerSpot.json5");
 
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
+    Ticker ticker = marketDataService.getTicker((Instrument) CurrencyPair.BTC_USD);
 
     assertThat(ticker.getInstrument().toString()).isEqualTo("BTC/USD");
     assertThat(ticker.getOpen()).isEqualTo(new BigDecimal("20393.48"));
@@ -78,5 +82,18 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
     assertThat(orderBook.getBids().get(0).getLimitPrice()).isEqualTo(new BigDecimal("65485.47"));
     assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
     assertThat(orderBook.getAsks().get(0).getLimitPrice()).isEqualTo(new BigDecimal("65557.7"));
+  }
+
+  @Test
+  public void testGetFundingRateHistory() throws Exception {
+    initGetStub("/v5/market/funding/history", "/getFundingRateHistory.json5");
+
+    List<BybitFundingRateHistory> fundingRateHistory = ((BybitMarketDataService) marketDataService).getFundingRateHistory(new FuturesContract("ETH/USDT/PERP"),
+        null, null, null);
+
+    assertThat(fundingRateHistory.get(0).getInstrument().toString()).isEqualTo("ETH/USDT/PERP");
+    assertThat(fundingRateHistory.get(0).getFundingRate()).isEqualTo(new BigDecimal("0.0001"));
+    assertThat(fundingRateHistory.get(0).getFundingRateTimestamp()).isEqualTo(Instant.ofEpochMilli(1672051897447L));
+
   }
 }

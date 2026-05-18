@@ -16,6 +16,7 @@ public final class BinanceResilience {
 
   // Futures specified
   public static final String ORDERS_PER_MINUTE_RATE_LIMITER = "ordersPerMINUTE";
+  public static final String FUNDING_RATE_AND_INFO_RATE_LIMITER = "fundingRateAndInfo";
 
   private BinanceResilience() {}
 
@@ -68,6 +69,14 @@ public final class BinanceResilience {
 
   public static ResilienceRegistries createRegistriesFuture() {
     ResilienceRegistries registries = new ResilienceRegistries();
+    registries
+        .rateLimiters()
+        .rateLimiter(
+            FUNDING_RATE_AND_INFO_RATE_LIMITER,
+            RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
+                .limitRefreshPeriod(Duration.ofMinutes(5))
+                .limitForPeriod(500)
+                .build());
     registries
         .rateLimiters()
         .rateLimiter(
